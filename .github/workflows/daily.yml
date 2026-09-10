@@ -10,7 +10,7 @@ name: daily-update
 on:
   schedule:
     - cron: "0 23 * * *"   # UTC 23:00 = 北京时间次日 07:00
-  workflow_dispatch          # 支持手动触发（Actions 页面点 Run workflow）
+  workflow_dispatch:         # 支持手动触发（Actions 页面点 Run workflow）
   push:
     branches: [ main ]       # 每次推送直接部署站点（不跑抓取，避免更新循环）
 
