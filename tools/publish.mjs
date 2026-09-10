@@ -1,0 +1,99 @@
+#!/usr/bin/env node
+/* 词阅 WordLens —— 发布：滚动瘦身 + 快照备份 + SW 版本推进 + 孤儿图清理
+ *
+ * 用法： node tools/publish.mjs [--days 30] [--per-cat 25]
+ *
+ * 瘦身只作用于抓取库（data-articles-extra.js）：
+ *   - 超过 --days 天的文章删除（新闻类内容过期即贬值）
+ *   - 每个栏目最多保留 --per-cat 篇（按日期取最新）
+ * data.js 内置文章与归档文件不受影响。
+ */
+import fs from "node:fs";
+import path from "node:path";
+import vm from "node:vm";
+
+const ROOT = path.resolve(import.meta.dirname, "..");
+const arg = (name, dflt) => {
+  const i = process.argv.indexOf("--" + name);
+  return i > 0 ? +process.argv[i + 1] : dflt;
+};
+const KEEP_DAYS = arg("days", 30);
+const PER_CAT = arg("per-cat", 25);
+
+const ASSETS = path.join(ROOT, "assets");
+const EXTRA = path.join(ASSETS, "data-articles-extra.js");
+const COVERS = path.join(ASSETS, "data-covers.js");
+const EXAMPLES = path.join(ASSETS, "data-examples.js");
+const SW = path.join(ROOT, "sw.js");
+
+/* ---------- 1. 快照备份（当日覆盖） ---------- */
+const day = new Date().toISOString().slice(0, 10);
+const bakDir = path.join(ROOT, ".bak", "daily", day);
+fs.mkdirSync(bakDir, { recursive: true });
+for (const f of [EXTRA, COVERS, EXAMPLES, SW]) {
+  if (fs.existsSync(f)) fs.copyFileSync(f, path.join(bakDir, path.basename(f)));
+}
+console.log(`快照 → .bak/daily/${day}/`);
+
+/* ---------- 2. 瘦身 ---------- */
+const src = fs.readFileSync(EXTRA, "utf8");
+const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
+if (!m) { console.error("extra 文件结构异常"); process.exit(2); }
+const list = JSON.parse(m[1]);
+const DAY = 86400000;
+const cutoff = Date.now() - KEEP_DAYS * DAY;
+
+const dated = list.filter(a => { const t = new Date(a.date || 0).getTime(); return Number.isFinite(t) && t >= cutoff; });
+const expired = list.length - dated.length;
+
+/* 每类取最新的 N 篇（date 降序），多余的淘汰 */
+const byCat = new Map();
+for (const a of dated) {
+  if (!byCat.has(a.cat)) byCat.set(a.cat, []);
+  byCat.get(a.cat).push(a);
+}
+const kept = [], overQuota = [];
+for (const [cat, arr] of byCat) {
+  arr.sort((x, y) => new Date(y.date) - new Date(x.date));
+  kept.push(...arr.slice(0, PER_CAT));
+  overQuota.push(...arr.slice(PER_CAT));
+}
+const dropped = expired + overQuota.length;
+const dist = {};
+kept.forEach(a => dist[a.cat] = (dist[a.cat] || 0) + 1);
+console.log(`瘦身：${list.length} → ${kept.length} 篇（过期 ${expired} · 超配额 ${overQuota.length}）分布 ${JSON.stringify(dist)}`);
+
+if (dropped) {
+  const head = src.slice(0, m.index).replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`);
+  fs.writeFileSync(EXTRA, head + "const ARTICLES_EXTRA = " + JSON.stringify(kept, null, 2) + m[2] + src.slice(m.index + m[0].length));
+}
+
+/* ---------- 3. 清理不再被引用的封面图 ---------- */
+const ctx = vm.createContext({ console, window: { addEventListener() {} } });
+vm.runInContext("var window=globalThis;", ctx);
+for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-articles-extra.js", "data-articles-archive.js"]) {
+  vm.runInContext(fs.readFileSync(path.join(ASSETS, f), "utf8"), ctx, { filename: f });
+}
+const ARTICLES = vm.runInContext("ARTICLES", ctx);
+const used = new Set();
+for (const a of ARTICLES) {
+  if (a.coverImg) used.add(path.basename(a.coverImg));
+  for (const p of a.paras || []) if (p.img) used.add(path.basename(p.img));
+}
+const coversDir = path.join(ASSETS, "covers");
+let orphan = 0;
+if (fs.existsSync(coversDir)) {
+  for (const f of fs.readdirSync(coversDir)) {
+    if (!used.has(f)) { fs.unlinkSync(path.join(coversDir, f)); orphan++; }
+  }
+}
+console.log(`孤儿封面清理：删除 ${orphan} 张不再引用的图`);
+
+/* ---------- 4. SW 缓存版本 +1（有数据变动才推进） ---------- */
+const swSrc = fs.readFileSync(SW, "utf8");
+const v = swSrc.match(/wordlens-v(\d+)/);
+if (v && (dropped || orphan)) {
+  fs.writeFileSync(SW, swSrc.replace(/wordlens-v\d+/, `wordlens-v${+v[1] + 1}`));
+  console.log(`SW 缓存 → wordlens-v${+v[1] + 1}`);
+}
+console.log("发布完成");

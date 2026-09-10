@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>WordLens 行为复验</title>
+<link rel="stylesheet" href="../assets/styles.css">
+</head>
+<body>
+<div class="phone"><div class="screen" id="screen"></div></div>
+<pre id="out" style="position:fixed;left:0;top:0;z-index:99;background:#000;color:#0f0;font:11px/1.5 monospace;padding:8px;max-width:100%;white-space:pre-wrap">running</pre>
+
+<script src="../assets/data.js"></script>
+<script src="../assets/data-words-bulk-a.js"></script>
+<script src="../assets/data-words-full.js"></script>
+<script src="../assets/data-articles-extra.js"></script>
+<script src="../assets/data-covers.js"></script>
+<script>
+/* 先挂错误收集器，再看 app.js 有没有抛错 */
+window.__errs = [];
+window.onerror = (m, s, l) => { window.__errs.push(m + " @" + (s || "").split("/").pop() + ":" + l); };
+</script>
+<script src="../assets/app.js"></script>
+<script>
+/* app.js 已经跑完一次 render()，这里直接在同一个文档里驱动它。
+   用 ?v=read&a=1 之类的参数控制初始页面。 */
+const out = document.getElementById("out");
+const lines = [];
+const show = () => { out.textContent = "RESULT\n" + lines.join("\n") + "\nEND"; };
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const q = s => document.querySelector(s);
+const qa = s => [...document.querySelectorAll(s)];
+const hit = s => { const el = q(s); if (el) el.click(); return !!el; };
+const body = () => document.getElementById("screen").innerText;
+const has = s => body().includes(s);
+
+(async () => {
+  const params = new URLSearchParams(location.search);
+  const where = params.get("v") || "home";
+  if (params.get("quiet")) out.style.display = "none";
+
+  /* 截图专用：切主题（?theme=dark） */
+  if (params.get("theme")) { S.theme = params.get("theme"); render(); }
+
+  /* 截图专用：把某个浮层留在页面上（此时跳过行为断言，免得又把浮层关掉） */
+  const shotOnly = !!params.get("sheet");
+  if (params.get("sheet") === "word") { hit("#read-body .kw"); await wait(200); }
+  if (params.get("sheet") === "sort") { hit('[data-act="filter"]'); await wait(200); }
+
+  /* 截图专用：直接落到指定文章（v=one&id=...） */
+  if (params.get("id")) {
+    const art = ARTICLES.find(a => a.id === params.get("id"));
+    if (art) { activeArticle = art; view = { name: "read" }; S.showCn = true; render(); }
+    lines.push("已打开 " + params.get("id"));
+  }
+
+  /* 截图专用：直接落到某个词的词卡 / 查词浮层（?word=comprehensive[&flip=1]，配 v=study|sheet） */
+  if (params.get("word")) {
+    const w = params.get("word");
+    const i = WORDS.findIndex(x => x.word === w);
+    lines.push("词库中 " + w + " 的位置 = " + i);
+    if (i >= 0) {
+      queue = null; qPos = i;
+      flipped = !!params.get("flip");
+      if (where === "sheet") {
+        view = { name: "home" }; render();
+        q(".phone").insertAdjacentHTML("beforeend", renderSheet(w));
+      } else {
+        view = { name: "study" }; render();
+      }
+    }
+  }
+
+  if (where === "read" && !shotOnly) {
+    /* ---- A. 阅读页查词 → 返回 ---- */
+    lines.push("A1 进入阅读页 = " + !!q(".read-top"));
+    lines.push("A2 可点生词 = " + hit("#read-body .kw"));
+    await wait(150);
+    lines.push("A3 查词浮层已打开 = " + !!q(".sheet"));
+    lines.push("A4 浮层按钮数（应为 3） = " + qa(".sheet-btns button").length);
+    lines.push("A5 含「标为已认识」 = " + /标为已认识/.test((q(".sheet") || {}).textContent || ""));
+    hit('[data-act="go-back"]');
+    await wait(250);
+    lines.push("A6 返回后已离开阅读页 = " + !q(".read-top"));
+    lines.push("A7 返回后浮层残留（应为 false） = " + !!q(".sheet, .sheet-mask"));
+  }
+
+  if (where === "discover" && !shotOnly) {
+    /* ---- B. 排序面板 ---- */
+    lines.push("B1 首屏含分类网格 = " + !!q(".cat-grid"));
+    lines.push("B2 点开排序面板 = " + (hit('[data-act="filter"]') && !!q(".sort-opt")));
+    lines.push("B3 面板选项数（应为 3） = " + qa(".sort-opt").length);
+    hit('[data-act="set-sort"][data-sort="words"]');
+    await wait(250);
+    lines.push("B4 面板已关闭 = " + !q(".sheet"));
+    lines.push("B5 页面已按生词排序 = " + has("按生词最多"));
+    lines.push("B6 排序按钮进入激活态 = " + !!q('[data-act="filter"].active'));
+    const nums = qa(".cat-section .article .meta").map(e => (e.textContent.match(/生词 (\d+)/) || [])[1]).filter(Boolean).map(Number);
+    let mono = true;
+    for (let i = 1; i < nums.length; i++) if (nums[i] > nums[i - 1]) mono = false;
+    lines.push("B7 生词数自上而下递减（前5：" + nums.slice(0, 5).join(",") + "） = " + mono);
+
+    /* ---- C. 搜索 ---- */
+    hit('[data-act="set-sort"][data-sort="new"]');
+    hit('[data-cat="全部"]');
+    const inp = q("#q");
+    inp.value = "Vogue";
+    inp.dispatchEvent(new Event("input", { bubbles: true }));
+    await wait(250);
+    lines.push("C1 出现「相关文章」 = " + has("相关文章"));
+    lines.push("C2 命中文章卡片数 = " + qa(".cat-section .article").length);
+    const inp2 = q("#q");
+    inp2.value = "zzz不存在zzz";
+    inp2.dispatchEvent(new Event("input", { bubbles: true }));
+    await wait(250);
+    lines.push("C3 无结果有明确空态 = " + has("没有找到"));
+
+    /* 截图专用：断言跑完把搜索清掉，回到干净的发现页首屏（?clean=1） */
+    if (params.get("clean")) {
+      const inp3 = q("#q");
+      inp3.value = "";
+      inp3.dispatchEvent(new Event("input", { bubbles: true }));
+      await wait(300);
+      /* 截图专用：顺带切到指定排序（?sort=words），用于量「一次渲染多少张封面」 */
+      if (params.get("sort")) { sortBy = params.get("sort"); render(); await wait(200); }
+    }
+  }
+
+  if (where === "home") {
+    lines.push("D1 今日目标为 20 = " + has("0 / 20"));
+    lines.push("D2 倒计时非写死 47 天 = " + !has("还有 47 天"));
+    const m = body().match(/还有 (\d+) 天/);
+    lines.push("D3 倒计时天数 = " + (m ? m[1] : "未匹配"));
+    lines.push("D4 不再有写死的 1,240 = " + !has("1,240"));
+    lines.push("D5 连续天数显示为真实值 = " + has("今天还没开始"));
+    hit('[data-tab="me"]');
+    await wait(200);
+    lines.push("D6 「我的」用近 7 天口径 = " + has("近 7 天"));
+    lines.push("D7 不再写「近 30 天」 = " + !has("近 30 天"));
+    lines.push("D8 不再有写死的 340 分钟 = " + !has("340"));
+    lines.push("D9 柱状图 7 根 = " + qa(".bars .bar").length);
+    lines.push("D10 不再有写死的「李同学」 = " + !has("李同学"));
+    lines.push("D11 无写死的 480 分目标 = " + !has("480 分"));
+    /* 无障碍：可聚焦控件带 role/aria */
+    const roleBtns = qa('[role="button"]').length;
+    lines.push("D12 带 role=button 的控件数（应 > 0） = " + roleBtns);
+    lines.push("D13 页面存在 aria 属性 = " + qa("[aria-label],[aria-pressed],[aria-selected]").length);
+  }
+
+  if (where === "text") {
+    /* ---- E. 正文乱码复验：逐篇打开，扫描「渲染后的正文」而不是数据源 ---- */
+    const ids = [
+      "bz-serbian-sci-fi-epic-sanctuary-starring-the-han",
+      "fs-safe-word-the-best-jewelry-launches-of-septemb",
+      "fs-all-of-the-beauty-looks-from-practical-magic-2",
+      "et-telekom-srbija-s-content-head-on-blueprint-for",
+      "his-stealing-candy-from-children-splash-proof-urin",
+      "his-thieves-broke-into-a-french-museum-and-made-of"
+    ];
+    const BAD = /&lt;[es]:\d+&gt;|<[es]:\d+>|blogherads|pmcCnx|defineSlot|setSubAdUnitPath|switchToHarmonyPlayer|isEventAdScheduledTime|t\.co\/|pic\.twitter|https?:\/\/\S+\.(js|css)/;
+    S.showCn = true;
+    for (const id of ids) {
+      const art = ARTICLES.find(a => a.id === id);
+      if (!art) { lines.push("E? 找不到文章 " + id); continue; }
+      activeArticle = art; view = { name: "read" }; render();
+      await wait(120);
+      const txt = body();
+      const bad = txt.match(BAD);
+      const paras = qa("#read-body .para").length;
+      const imgs = qa("#read-body .para-img").length;
+      const emptyCn = qa("#read-body .para .cn").filter(e => !e.textContent.trim()).length;
+      lines.push("E " + id.slice(0, 30).padEnd(30) + " 乱码=" + (bad ? "有→" + bad[0] : "无") +
+        " 段落=" + paras + " 配图=" + imgs + " 空译文=" + emptyCn);
+    }
+    /* 全量扫一遍：67 篇里任何一篇渲染后都不该出现令牌 */
+    let scanned = 0, dirty = 0;
+    for (const art of ARTICLES) {
+      activeArticle = art; view = { name: "read" }; render();
+      const txt = body();
+      if (BAD.test(txt)) { dirty++; lines.push("E!! " + art.id); }
+      scanned++;
+    }
+    lines.push("E 全量扫描 " + scanned + " 篇，仍有乱码的 = " + dirty);
+  }
+
+  lines.push("ERRORS 运行期报错数（应为 0） = " + window.__errs.length + (window.__errs.length ? " :: " + window.__errs.join(" | ") : ""));
+  lines.push("DONE");
+  show();
+})().catch(e => { lines.push("!! 异常: " + e.message); show(); });
+</script>
+</body>
+</html>

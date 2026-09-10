@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light" data-page-node-id="CJUgfx87eRjDADwnTPcCyz">
+<head data-page-node-id="7PTwd1Rle7EJ0JqsLH5eDz">
+<meta charset="UTF-8" data-page-node-id="OA7ondEazxy5a6YKtYWaeB">
+<!-- 去掉 maximum-scale=1：禁止缩放会让低视力用户无法放大正文（WCAG 1.4.4） -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="WcptSByTg1mTIJLmHW7fVi">
+<meta name="theme-color" content="#6C5CE7" data-page-node-id="1VzJLKciBsZ6xSTneTdtAS">
+<meta name="description" content="词阅 WordLens —— 四级核心词记忆 + 英文原刊双语阅读" data-page-node-id="UrolQCln9gX0HD64THATQW">
+<meta name="apple-mobile-web-app-capable" content="yes" data-page-node-id="stIBGlgAD1sIuCYfs6R2y2">
+<title>词阅 WordLens · 四级背词 + 双语阅读</title>
+<link rel="manifest" href="manifest.webmanifest" data-page-node-id="DPiYALaZCc1UsYucEK17wP">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml" data-page-node-id="fuermaE1fuPQh8HBfaLID0">
+<link rel="icon" href="assets/icons/icon-192.png" sizes="192x192" type="image/png" data-page-node-id="tWuNgnEPKOax7Rfi2UHElV">
+<link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" data-page-node-id="Gcn1LyzBWC8goBcHGCCZ3B">
+<!-- 自托管拉丁字体：中文正文走系统字体，只有 DM Sans / Inter Tight 的拉丁字形从这里加载 -->
+<link rel="stylesheet" href="assets/fonts.css" data-page-node-id="FvnNqUT8gSCXmgEIKiWlaN">
+<link rel="stylesheet" href="assets/styles.css" data-page-node-id="bGA7QVcirteGyfR8jpWepy">
+</head>
+<body data-page-node-id="tnErgtDX3IW9rlWQoeNMvR">
+  <div class="phone" data-page-node-id="WfpQLm1DhGL2KjgOsCYpYL">
+    <div class="screen" id="screen" data-page-node-id="RdiOny7TeRKf636b5iFSBP"></div>
+  </div>
+  <div class="tip" data-page-node-id="QDdaQiqkvOBUijy1Xk2bX0">
+    词阅 WordLens · 可运行原型<br data-page-node-id="wtuhbIQW9ht9YDo15Y1hsI">
+    空格 = 翻卡　1 / 2 / 3 = 不认识 / 模糊 / 认识
+  </div>
+
+  <!-- 导入备份用的隐藏文件选择框 -->
+  <input type="file" id="file-in" accept="application/json,.json" hidden data-page-node-id="XEPd0oNGAOfgzrCBoucZ3W">
+
+  <!-- defer：1.7MB 数据不再阻塞 HTML 解析；按书写顺序在 DOM 就绪后执行，
+       app.js 依赖的全局（ARTICLES / WORDS / KEYWORDS / COVER_MAP）依旧可见 -->
+  <script defer src="assets/data.js"></script>
+  <script defer src="assets/data-words-bulk-a.js"></script>
+  <script defer src="assets/data-words-full.js"></script>
+  <script defer src="assets/data-articles-extra.js"></script>
+  <script defer src="assets/data-articles-archive.js"></script>
+  <script defer src="assets/data-covers.js"></script>
+  <!-- 真实例句：从文章库抽取，只补 WORDS 里没有例句的词（必须在 app.js 之前） -->
+  <script defer src="assets/data-examples.js"></script>
+  <script defer src="assets/app.js"></script>
+</body>
+</html>
