@@ -11,6 +11,8 @@ on:
   schedule:
     - cron: "0 23 * * *"   # UTC 23:00 = 北京时间次日 07:00
   workflow_dispatch          # 支持手动触发（Actions 页面点 Run workflow）
+  push:
+    branches: [ main ]       # 每次推送直接部署站点（不跑抓取，避免更新循环）
 
 permissions:
   contents: write            # 推送数据提交
@@ -23,6 +25,7 @@ concurrency:
 
 jobs:
   update:
+    if: github.event_name != 'push'   # 抓取更新只在定时/手动时跑
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +46,8 @@ jobs:
 
   deploy:
     needs: update
+    # push 事件：update 被跳过，直接部署当前内容；定时/手动事件：update 成功才部署
+    if: ${{ !cancelled() && (github.event_name == 'push' || needs.update.result == 'success') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages
