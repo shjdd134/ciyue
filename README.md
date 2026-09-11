@@ -8,7 +8,7 @@
 
 - **翻卡记词**：中英互译、发音、词根词缀、真实例句；会 / 模糊 / 不会三档作答
 - **FSRS 间隔重复**：按记忆曲线安排复习，错词自动进入队列
-- **原刊精读**：逐句点读、逐句对照译文、整段显译、生词一键收藏
+- **原刊精读**：逐句点读、逐句对照译文、整段显译、生词一键收藏；正文**任意单词可点查释义**（学习词弹完整卡可入生词本，词库外词弹轻量释义卡）
 - **六个栏目**：时尚 / 足球 / 时政 / 历史 / AI / 寓言
 - **本地优先**：学习进度只存在浏览器本地，可导出 / 导入备份
 - **三套配色**：深色 / 浅色 / 纸质
@@ -41,7 +41,7 @@
 
 | 数据 | 来源 | 许可 |
 | --- | --- | --- |
-| 词频、音标、词形变化、考纲标签 | [ECDICT](https://github.com/skywind3000/ECDICT) | MIT |
+| 词频、音标、词形变化、考纲标签、点词释义 | [ECDICT](https://github.com/skywind3000/ECDICT) | MIT |
 | 真题词频（核心词筛选依据） | [liut969/CET](https://github.com/liut969/CET) | 作者免费公开 |
 | 试卷词频（真题高频标记依据） | [exam-data/CETVocabulary](https://github.com/exam-data/CETVocabulary) | 数据 CC BY-NC-SA 4.0 / 代码 MIT |
 | 中学分级词库（基础层） | [KyleBing/english-vocabulary](https://github.com/KyleBing/english-vocabulary) | 作者声明供学习使用 |
@@ -70,8 +70,10 @@ assets/          前端资源（HTML/CSS/JS + 数据）
   data.js          词库与文章主数据
   data-examples.js 单词例句库（自动生成）
   data-ecdict.js   ECDICT 词元数据（自动生成）
+  data-tapdict.js  点词翻译层：阅读页任意单词查义（自动生成）
 tools/           数据管线与回归测试（Node，无依赖）
   build-examples.mjs  生成例句库
+  build-tapdict.mjs   生成点词翻译层
   ingest.mjs          RSS 抓取 + 翻译
   qc.mjs              内容质检
   smoke.js / nav-test.js / audit.js  回归测试

@@ -520,6 +520,15 @@ body {
 .kw:hover { background: var(--brand-soft); }
 .kw.on { background: var(--brand); color: #fff; }
 
+/* 点词层普通词（非学习词）：无持久标色，只在按压/悬停时给反馈 */
+.tw {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 0 1px;
+  transition: background .15s;
+}
+.tw:hover, .tw:active { background: var(--brand-soft); }
+
 .toolbar {
   display: flex;
   background: var(--card);
@@ -852,6 +861,7 @@ body {
 .sheet .w { font-family: var(--font-en); font-weight: 700; font-size: 24px; }
 .sheet .ph { font-family: var(--font-en); font-size: 13px; color: var(--text-3); }
 .sheet .df { font-size: 15px; line-height: 22px; }
+.sheet .df.pre { white-space: pre-line; }   /* 点词轻量卡：ECDICT 释义按义项分行 */
 .sheet .rt { font-size: 12px; color: var(--text-2); line-height: 19px; }
 
 .sheet-btns { display: flex; gap: 8px; }

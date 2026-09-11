@@ -230,20 +230,66 @@ function buildTrie(words) {
 }
 const KW_TRIE = buildTrie(KEYWORDS);
 
-/* 在英文段落里把命中关键词的 token 包成 <span class="kw" data-word="...">
- * 严格"完整词"匹配：必须整段 token 完全等于一个 KEYWORDS 条目才算命中。
- * 这样避免 'rod' 被误命中 'Rodriguez'、'a' 命中 'April' / 'an' 等。 */
+/* 点词翻译层（data-tapdict.js，构建产物）：全库高频词的释义 + 猜不回的词形还原表。
+ * 学习词不在 TAPDICT 里（走 WORDS 完整查词卡），但 TAP_REVERSE 的原形可以指向学习词。 */
+const TAP = typeof TAPDICT === "undefined" ? null : TAPDICT;
+const TAPR = typeof TAP_REVERSE === "undefined" ? null : TAP_REVERSE;
+
+/* 词形还原候选（剥后缀）。⚠️ 与 tools/build-tapdict.mjs 的 lemmaCands() 逐字对应：
+ * 构建期按「规则还原得到」跳过反向表条目，两处不同步会漏词或错配 */
+function lemmaCands(t) {
+  const out = new Set();
+  const add = x => { if (x && x.length > 1) out.add(x); };
+  const dd = x => { const y = x.replace(/(.)\1$/, "$1"); add(y); return y; };
+  if (t.endsWith("'s")) add(t.slice(0, -2));
+  if (/ies$/.test(t) && t.length > 4) add(t.slice(0, -3) + "y");
+  if (/(ch|sh|x|z|s)es$/.test(t) && t.length > 5) add(t.slice(0, -2));
+  if (/ied$/.test(t) && t.length > 5) add(t.slice(0, -3) + "y");
+  if (/ed$/.test(t) && t.length > 4) { add(t.slice(0, -1)); add(t.slice(0, -2)); dd(t.slice(0, -2)); dd(t.slice(0, -1)); }
+  if (/ing$/.test(t) && t.length > 5) { add(t.slice(0, -3)); add(t.slice(0, -3) + "e"); dd(t.slice(0, -3)); }
+  if (/s$/.test(t) && t.length > 3) add(t.slice(0, -1));
+  out.delete(t);
+  return [...out];
+}
+
+const kwOf = w => {           // 词在 KEYWORDS（学习词）里则返回词本身，否则 null
+  let node = KW_TRIE;
+  for (let i = 0; i < w.length; i++) { node = node[w[i]]; if (!node) return null; }
+  return node.$ || null;
+};
+
+/* 任意 token → 查词目标：三段式 {学习词 kw} / {点词层 w} / null（专有名词等不包）。
+ * 顺序固定：学习词 Trie → 反向词形表 → 后缀规则还原出的学习词 → 点词层直接命中 → 规则还原的点词层词。
+ * 还原出的学习词必须先于点词层直接命中：performing 在 ECDICT 有独立词条（n.表演），
+ * 但用户点它要回到的是学习词 perform 的完整卡。 */
+function resolveToken(low) {
+  const k = kwOf(low);
+  if (k) return { kw: k };
+  if (TAPR && TAPR[low]) {
+    const l = TAPR[low];
+    return kwOf(l) ? { kw: l } : { w: l };
+  }
+  const cands = lemmaCands(low);
+  for (const c of cands) { if (kwOf(c)) return { kw: c }; }
+  if (TAP && TAP[low]) return { w: low };
+  for (const c of cands) { if (TAP && TAP[c]) return { w: c }; }
+  return null;
+}
+
+/* 在英文段落里把可查词的 token 包成 span（data-act="lookup"）：
+ * - 学习词（含变形，如 performing→perform）：紫色 .kw，点开完整查词卡（可入生词本/复习）
+ * - 点词层普通词：.tw 无持久标色，点开轻量释义卡
+ * - 专有名词 / 词库未收录：保持纯文本
+ * 匹配含所有格（Japan's 整体归到 japan），避免 's 断在 span 外。 */
 function highlightEn(text) {
-  return text.replace(/[A-Za-z]+/g, m => {
-    const low = m.toLowerCase();
-    let node = KW_TRIE;
-    for (let i = 0; i < low.length; i++) {
-      node = node[low[i]];
-      if (!node) return m;
+  return text.replace(/[A-Za-z]+(?:'[A-Za-z]+)?/g, m => {
+    const r = resolveToken(m.toLowerCase());
+    if (!r) return m;
+    if (r.kw) {
+      const k = r.kw;
+      return `<span class="kw${S.known.includes(k) ? ' known' : ''}" data-act="lookup" data-word="${k}">${m}</span>`;
     }
-    if (!node.$) return m;
-    const k = node.$;
-    return `<span class="kw${S.known.includes(k) ? ' known' : ''}" data-act="lookup" data-word="${k}">${m}</span>`;
+    return `<span class="tw" data-act="lookup" data-word="${r.w}">${m}</span>`;
   });
 }
 
@@ -1272,7 +1318,7 @@ function renderRead() {
           <span class="mark">${esc(srcName(a))}</span>
           <div class="play" data-act="read-all">${svg("speaker", 18)}</div>
         </div>
-        ${S.showCn ? "" : `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点生词查释义</div>`}
+        ${S.showCn ? "" : `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>`}
       </div>
 
       <div class="read-body" id="read-body">${paras}</div>
@@ -1405,7 +1451,7 @@ function resetSheet() {
 /* ---------------- 查词浮层 ---------------- */
 function renderSheet(word) {
   const w = WORDS.find(x => x.word === word);
-  if (!w) return "";
+  if (!w) return renderTapSheet(word);   // 词库外单词走轻量卡
   return `
     <div class="sheet-mask" data-act="close-sheet"></div>
     <div class="sheet">
@@ -1429,6 +1475,28 @@ function renderSheet(word) {
         <button class="b" data-act="add-review" data-word="${w.word}">加入复习</button>
         <button class="c" data-act="mark-known" data-word="${w.word}" aria-pressed="${S.known.includes(w.word)}">${S.known.includes(w.word) ? "已认识 ✓" : "标为已认识"}</button>
       </div>
+    </div>`;
+}
+
+/* 词库外单词的轻量查词卡：只有释义与发音。
+ * 刻意不给生词本/复习/已认识按钮——FSRS 复习队列建立在 4082 学习词上，
+ * 任意词混入会破坏学习流（2026-09-11 拍板口径） */
+function renderTapSheet(word) {
+  const t = TAP && TAP[word];
+  if (!t) return "";
+  return `
+    <div class="sheet-mask" data-act="close-sheet"></div>
+    <div class="sheet" role="dialog" aria-label="查词 ${esc(word)}">
+      <div class="grip"></div>
+      <div class="row between">
+        <div class="col" style="gap:3px">
+          <div class="w">${esc(word)}</div>
+          ${t.p ? `<span class="ph">${esc(t.p)}</span>` : ""}
+        </div>
+        <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
+      </div>
+      <div class="df pre">${esc(t.d)}</div>
+      <div class="rt">词库外单词 · 仅供查询，不进入背词与复习队列</div>
     </div>`;
 }
 

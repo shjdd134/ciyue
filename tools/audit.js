@@ -85,7 +85,7 @@ vm.createContext(sandbox);
 for (const f of [
   'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
-  'assets/data-examples.js', 'assets/data-ecdict.js'
+  'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js'
 ]) {
   const p = path.join(base, f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, 'utf8'), sandbox, { filename: f });
@@ -94,6 +94,7 @@ for (const f of [
    必须显式提升到全局，否则 app.js 里 EC 取不到、词形匹配退化成「猜」的版本
    —— see 找不到 saw、good 找不到 best，例句标色会整段失效。 */
 vm.runInContext('var WORD_META = window.WORD_META;', sandbox);
+vm.runInContext('var TAPDICT = window.TAPDICT, TAP_REVERSE = window.TAP_REVERSE;', sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = e => vm.runInContext(e, sandbox);
@@ -554,6 +555,32 @@ ok(`学习路径先基础后核心（核心层从第 ${firstCore} 位开始，�
 
 /* 每日目标：28 词/天是按 99 天备考期反推的，改数字前先重算排期 */
 ok(`每日目标为 28（实为 ${ctx('DAILY_GOAL')}）`, ctx('DAILY_GOAL') === 28);
+
+/* ---------------- [P] 点词翻译层（data-tapdict.js，build-tapdict.mjs 生成） ---------------- */
+console.log('\n[P] 点词翻译层');
+const tapKeys = ctx('Object.keys(TAPDICT)');
+const revMap = ctx('Object.keys(TAP_REVERSE).map(k => [k, TAP_REVERSE[k]])');
+ok(`点词层规模在 3–6 万（实为 ${tapKeys.length}）`, tapKeys.length >= 30000 && tapKeys.length <= 60000);
+ok(`反向词形表 0 < 规模 < 1 万（实为 ${revMap.length}）`, revMap.length > 0 && revMap.length < 10000);
+const tapNoD = ctx(`Object.keys(TAPDICT).filter(w => !TAPDICT[w].d).length`);
+ok(`每条都有中文释义（缺 ${tapNoD}）`, tapNoD === 0);
+const tapOverlap = tapKeys.filter(w => wordsLower.includes(w));
+ok(`不重复收录学习词（重 ${tapOverlap.length}${tapOverlap.length ? '：' + tapOverlap.slice(0, 5).join(',') : ''}）`, tapOverlap.length === 0);
+const wordSet = new Set([...wordsLower, ...tapKeys]);
+const revBad = revMap.filter(([f, l]) => !wordSet.has(l) || !/^[a-z][a-z'-]*$/.test(f));
+ok(`反向表原形全部有效（坏 ${revBad.length}${revBad.length ? '：' + JSON.stringify(revBad.slice(0, 3)) : ''}）`, revBad.length === 0);
+/* 词形还原三段式抽查：变形→学习词 / 不规则变形→点词层原形 / 专有名词不包 */
+ok(`performing 还原到学习词 perform`, ctx('resolveToken("performing") && resolveToken("performing").kw') === 'perform');
+ok(`went 还原到 go（不规则）`, (() => { const r = ctx('resolveToken("went")'); return r && (r.w || r.kw) === 'go'; })());
+ok(`mice 还原到 mouse（不规则复数）`, (() => { const r = ctx('resolveToken("mice")'); return r && (r.w || r.kw) === 'mouse'; })());
+ok(`took 还原到 take（不规则过去式）`, (() => { const r = ctx('resolveToken("took")'); return r && (r.w || r.kw) === 'take'; })());
+ok(`aches 不被 exchange 杂条目抢注（还原到 ache）`, (() => { const r = ctx('resolveToken("aches")'); return r && (r.w || r.kw) === 'ache'; })());
+ok(`新闻词 verdict 可点查`, !!ctx('TAPDICT.verdict'));
+ok(`专有名词保持纯文本`, ctx('resolveToken("rodriguez")') === null);
+ok(`highlightEn 输出两类 span`, (() => {
+  const html = ctx(`highlightEn("The verdict came. Teacher smiled.")`);
+  return html.includes('class="tw"') && html.includes('class="kw"');
+})());
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

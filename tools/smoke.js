@@ -42,6 +42,15 @@ for (const f of ['assets/data-articles-archive.js', 'assets/data-examples.js']) 
   const fp = path.join(base, f);
   if (fs.existsSync(fp)) vm.runInContext(fs.readFileSync(fp, 'utf8'), sandbox);
 }
+/* 点词翻译层（可选）：存在就加载，验证与词库/文章链共存；按加载链须在 app.js 之前 */
+const tapFile = path.join(base, 'assets/data-tapdict.js');
+let TAPDICT = {}, TAP_REVERSE = {};
+if (fs.existsSync(tapFile)) {
+  vm.runInContext(fs.readFileSync(tapFile, 'utf8'), sandbox);
+  vm.runInContext('var TAPDICT = window.TAPDICT, TAP_REVERSE = window.TAP_REVERSE;', sandbox);
+  TAPDICT = vm.runInContext('TAPDICT', sandbox);
+  TAP_REVERSE = vm.runInContext('TAP_REVERSE', sandbox);
+}
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox);
 
 // data.js 里 const 声明在同一个 context 的顶层词法作用域中，可被后续脚本读到
@@ -62,6 +71,8 @@ const stats = {
   articlesByCat: {},
   missingFields: [],
   KEYWORDS_count: sandbox.KEYWORDS.length,
+  TAPDICT_size: Object.keys(TAPDICT).length,
+  TAP_REVERSE_size: Object.keys(TAP_REVERSE).length,
   /* 内容新鲜度与配图覆盖 */
   datedOldest: '',
   datedNewest: '',

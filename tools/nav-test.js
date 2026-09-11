@@ -45,13 +45,14 @@ vm.createContext(sandbox);
 for (const f of [
   'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
-  'assets/data-examples.js', 'assets/data-ecdict.js'
+  'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js'
 ]) {
   const p = path.join(base, f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, 'utf8'), sandbox, { filename: f });
 }
 /* 沙箱的 window 是替身对象，词形表要显式提升到全局才能被 app.js 取到 */
 vm.runInContext('var WORD_META = window.WORD_META;', sandbox);
+vm.runInContext('var TAPDICT = window.TAPDICT, TAP_REVERSE = window.TAP_REVERSE;', sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = expr => vm.runInContext(expr, sandbox);
