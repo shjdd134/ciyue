@@ -1638,11 +1638,14 @@ document.addEventListener("keydown", e => {
       activeArticle = ARTICLES[idx] || ARTICLES[0];
       view = { name: "read" };
     } else if (v === "me") view = { name: "me" };
+    else if (v === "study") view = { name: "study" };
     const c = p.get("cat");
     if (c && CATEGORIES.includes(c)) catFilter = c;
     const t = p.get("theme");
     if (t === "paper" || t === "night") S.readTheme = t;
     else if (t === "default") S.readTheme = "";
+    /* 深浅色也允许从链接带入（分享/预览暗色界面不用先点一下切换） */
+    if (t === "dark" || t === "light") S.theme = t;
     if (p.get("end")) requestAnimationFrame(() => {
       const el = $("#screen .view");
       if (el) el.scrollTop = el.scrollHeight;
