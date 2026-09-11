@@ -88,7 +88,10 @@ const save = () => localStorage.setItem(STORE, JSON.stringify(S));
 
 /* ---------------- 真实学习统计 ----------------
  * 页面上所有数字都从下面这几个函数算出来，没有任何写死的「基准值」。 */
-const DAILY_GOAL = 20;                 // 每日目标新词数
+/* 28 不是拍脑袋：4,064 词（基础 2,067 + 核心 1,997）按「已会约 1,880」估，
+ * 待学约 2,350 词；距考试 99 天里扣掉摸底 4 天与考前 9 天纯复习，86 个学习日 → 27.3 词/天。
+ * 撑不住就别硬撑，去「我的 → 学习起点」重测把起点往前挪，比断卡强。 */
+const DAILY_GOAL = 28;                 // 每日目标新词数
 const EXAM_DATE = "2026-12-19";        // 下一次四级笔试（12 月第三个周六）
 const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 const todayKey = () => ymd(new Date());
@@ -288,6 +291,21 @@ const EC_F = w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) 
 const TIER_HI = 1500, TIER_MID = 2500;
 const tierOf = w => { const f = EC_F(w); return f <= TIER_HI ? "高频" : f <= TIER_MID ? "中频" : "低频"; };
 
+/* ---------------- 词表分层 ----------------
+ * 原来只有一层「四级核心」：核心库 1,997 词里 84% 其实是中学词，它默认你已经掌握了
+ * 高中词汇 —— 对高考 70 分起步的人这个前提不成立。更麻烦的是，核心库按「语料词频
+ * f ≤ 2500」筛，lecture / campus / vocabulary / outline 这类校园与考试场景词天然
+ * 低频，被整片滤掉（实测缺 2,067 个中学词，其中 332 个是真题高频）。
+ * 于是补一层「中学基础」放在核心层之前：先补地基，再盖楼。
+ *   · layer 0 基础层 = (初中 ∪ 高中) − 核心库，见 assets/data-words-mid.js
+ *   · layer 1 核心层 = 原四级核心库
+ * 排序第一关键字是层而不是词频 —— 否则两层会被词频搅在一起，学习路径就不再是梯道。
+ * hf / cv 是真题高频标记（真题表出现次数 / 试卷词频），基础层内凭它提前。 */
+const LAYER_MID = "中学基础";
+const layerOf = w => (w.list === LAYER_MID ? 0 : 1);
+const LAYER_NAME = ["基础层", "核心层"];
+const isSprint = w => !!(w.hf || w.cv);
+
 /* 「中学已学词」判定：词频 + 牛津3000 + 柯林斯星级 三者交叉。
  * 刻意不用 ECDICT 的考纲标签（t 字段）—— 它是「覆盖关系」而非「学历关系」，
  * compensate(f=5037) / compulsory(f=12735) 都挂着 gk 标签，显然不是高中词汇。
@@ -298,21 +316,48 @@ const isBasic = w => {
   return e.f <= TIER_HI && (e.o === 1 || (e.c || 0) >= 4);
 };
 
-WORDS.sort((a, b) => EC_F(a) - EC_F(b));
+/* 分层排序：先层、后词频；基础层内「真题高频」提前 —— 这些词考试真的会考到，
+ * 哪怕它们在日常语料里不显眼（lecture / campus / budget / agriculture 都是）。 */
+const cmpNum = (a, b) => a < b ? -1 : a > b ? 1 : 0;
+const sortWords = (arr, mid) => arr.sort((x, y) => {
+  if (mid) {                                   // 基础层：真题高频优先，再按语料词频爬坡
+    const s = cmpNum(isSprint(y) ? 1 : 0, isSprint(x) ? 1 : 0);
+    if (s) return s;
+  }
+  return cmpNum(EC_F(x), EC_F(y));
+});
+const MID_WORDS = sortWords(WORDS.filter(w => layerOf(w) === 0), true);
+const CORE_WORDS = sortWords(WORDS.filter(w => layerOf(w) === 1), false);
 
 /* 同档内确定性打散：词频相邻的词常常同源同族（american / british / african /
  * european 全挤在一起），连着背容易串味，一屏 20 词里也会扎堆好几个同首字母。
  * 用 FNV-1a 哈希对单词本身做组内重排 —— 确定性算法，每次加载顺序完全一致，
- * 不会让学习进度对不上。 */
+ * 不会让学习进度对不上。
+ * 分层后必须「层内打散」：跨层打散会把核心层的词甩进基础段，梯度就断了。 */
 const fnv = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
 const UNIT = 20;                    // 与每日目标对齐：一个单元正好是一天的量
-for (let i = 0; i < WORDS.length; i += UNIT) {
-  const seg = WORDS.slice(i, i + UNIT).sort((a, b) => fnv(a.word) - fnv(b.word));
-  for (let j = 0; j < seg.length; j++) WORDS[i + j] = seg[j];
+function shuffleUnits(arr) {
+  for (let i = 0; i < arr.length; i += UNIT) {
+    const seg = arr.slice(i, i + UNIT).sort((a, b) => fnv(a.word) - fnv(b.word));
+    for (let j = 0; j < seg.length; j++) arr[i + j] = seg[j];
+  }
+  return arr;
 }
+shuffleUnits(MID_WORDS);
+shuffleUnits(CORE_WORDS);
+WORDS.length = 0;
+for (const w of MID_WORDS) WORDS.push(w);
+for (const w of CORE_WORDS) WORDS.push(w);
+const MID_END = MID_WORDS.length;          // 基础层的结束位置（学习路径上的分界点）
+/* 词库指纹：词表结构一变（加层、增删词），旧的摸底起点就失效了，必须重测 */
+const VOCAB_SIG = `${WORDS.length}-${MID_END}`;
 
 /* 中学已学词另存一份，供「快速筛掉已会词」队列使用 */
 const BASIC_WORDS = WORDS.filter(isBasic);
+
+/* 词表结构变了（这次是新增基础层、词库从 1,997 → 4,064），旧摸底记下的 startIdx
+ * 指的是老数组的下标，落在新数组上是完全另一个词 —— 不能沿用，直接作废重测。 */
+if (S.probe && S.probe.done && S.probe.sig !== VOCAB_SIG) S.probe = null;
 
 /* 单词索引：错词本 / 生词本里存的是字符串，取词对象别再 O(n) 地 find */
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
@@ -632,6 +677,16 @@ const articleCard = a => {
 };
 
 /* ---------------- 页面：首页 ---------------- */
+/* 分层进度：词库分「中学基础 → 四级核心」两层，这里按层统计已学量。
+ * 用 Set 而不是 includes —— studied 上千条时 O(n²) 会明显卡住渲染。 */
+function layerProgress(n) {
+  const s = new Set(S.studied);
+  const arr = n === 0 ? MID_WORDS : CORE_WORDS;
+  let k = 0;
+  for (const w of arr) if (s.has(w.word)) k++;
+  return { done: k, total: arr.length, pct: Math.round(k / arr.length * 100) };
+}
+
 function renderHome() {
   const done = doneToday();
   const rest = Math.max(0, DAILY_GOAL - done);
@@ -661,7 +716,7 @@ function renderHome() {
           ${ring(pct())}
           <div class="col grow" style="gap:5px">
             <div style="font-family:var(--font-num);font-weight:700;font-size:26px">${done} / ${DAILY_GOAL}</div>
-            <div class="muted">四级核心词 · 今日目标</div>
+            <div class="muted">${LAYER_NAME[startIdx() < MID_END ? 0 : 1]} · 今日目标</div>
             <div class="muted-2">${rest > 0 ? `今日还剩 ${rest} 个新词` : "今日任务已完成 🎉"}</div>
           </div>
         </div>
@@ -671,6 +726,25 @@ function renderHome() {
           <div class="stat good"><div class="n">${masteredRate()}%</div><div class="l">掌握率</div></div>
         </div>
         <button class="btn-primary" data-act="start-study">${svg("play", 18)} 开始今日背词</button>
+      </div>
+
+      <div class="card col" style="gap:12px">
+        <div class="row between">
+          <span class="h2">词表进度</span>
+          <span class="muted-2">先补高中欠账 · 再攻四级词</span>
+        </div>
+        ${[0, 1].map(n => {
+          const p = layerProgress(n);
+          return `<div class="col" style="gap:6px">
+            <div class="row between">
+              <span class="muted">${LAYER_NAME[n]}</span>
+              <span class="muted-2" style="font-family:var(--font-num)">${p.done.toLocaleString()} / ${p.total.toLocaleString()} · ${p.pct}%</span>
+            </div>
+            <div style="height:6px;border-radius:3px;background:var(--brand-soft);overflow:hidden">
+              <div style="width:${Math.max(1, p.pct)}%;height:100%;background:var(--brand);border-radius:3px"></div>
+            </div>
+          </div>`;
+        }).join("")}
       </div>
 
       ${pv ? `
@@ -683,7 +757,7 @@ function renderHome() {
           </span>
         </div>
         <div class="muted-2">已跳过前 ${si.toLocaleString()} 个已会词，从「${esc(firstNew)}」开始学。</div>
-        <button class="go-btn" data-act="quick-sieve" style="width:100%">快筛中学已会词 · ${BASIC_WORDS.length}</button>
+        <button class="go-btn" data-act="quick-sieve" style="width:100%">快筛基础层已会词 · ${BASIC_WORDS.length}</button>
       </div>` : `
       <div class="card row between" style="gap:12px">
         <div class="col" style="gap:3px">
@@ -855,11 +929,21 @@ function renderStudy() {
         <div style="width:3px;background:var(--brand);border-radius:2px;align-self:stretch"></div>
         <div style="font-size:12px;line-height:19px;color:var(--text-2)">${esc(w.mnemonic)}</div>
       </div>` : ""}
-      ${(!w.example && !w.mnemonic) ? `<div class="row" style="justify-content:center"><span class="muted-2">基础词库 · 暂未提供例句</span></div>` : ""}
+      ${(!w.example && w.collocation) ? `<div class="example-box">
+        <div class="row" style="gap:6px">
+          ${svg("book", 12)}
+          <span class="chip" style="padding:2px 8px;font-size:10px">搭配</span>
+        </div>
+        <div class="en">${hlWord(w.collocation, w.word)}</div>
+        ${w.collocationCn ? `<div class="cn">${esc(w.collocationCn)}</div>` : ""}
+      </div>` : ""}
+      ${(!w.example && !w.collocation && !w.mnemonic) ? `<div class="row" style="justify-content:center"><span class="muted-2">该词暂未提供例句</span></div>` : ""}
     </div>`;
 
   /* 正面：只给词 + 音标 + 词性（回忆线索），不剧透释义与例句 */
-  const frontChip = `四级核心 · ${tier}词`;
+  const frontChip = layerOf(w) === 0
+    ? `中学基础 · ${w.src || "高中"}${isSprint(w) ? " · 真题高频" : ""}`
+    : `四级核心 · ${tier}词`;
 
   return `
     ${statusbar()}
@@ -1185,8 +1269,10 @@ function renderMe() {
       </div>
       <div class="muted-2" style="font-size:11.5px;line-height:18px">
         个人学习项目，仅供学习交流，不作商业用途。<br>
-        四级核心词库：按「语料词频 + 历年真题高频」从四级大纲筛出的约 2000 词；词频与音标来自 ECDICT（MIT）。<br>
-        真题词频：liut969/CET《英语四级真题高频词汇》（近 5 年 30 套真题统计）。<br>
+        词库分两层：中学基础 ${MID_WORDS.length.toLocaleString()} 词（初中 + 高中，补高中欠账）→ 四级核心 ${CORE_WORDS.length.toLocaleString()} 词。<br>
+        四级核心：按「语料词频 + 历年真题高频」从四级大纲筛出的约 2000 词；词频与音标来自 ECDICT（MIT）。<br>
+        中学基础：KyleBing/english-vocabulary 分级词库；其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。<br>
+        真题词频：liut969/CET《英语四级真题高频词汇》（近 5 年 30 套真题统计）· exam-data/CETVocabulary（约 200 套试卷词频，CC BY-NC-SA 4.0）。<br>
         单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章。<br>
         阅读文章均为外刊公开内容摘要，版权归原媒体所有，正文可一键跳转原文。
       </div>
@@ -1552,7 +1638,7 @@ document.addEventListener("click", e => {
     case "probe-reset":
       probePicked = new Set(); render(); break;
     case "probe-skip":
-      S.probe = { done: true, at: todayKey(), known: [], startIdx: 0, skipped: true };
+      S.probe = { done: true, at: todayKey(), known: [], startIdx: 0, skipped: true, sig: VOCAB_SIG };
       save(); resetNav();
       view = { name: "study" }; flipped = false; answered = null; render();
       toast("已从最常用的词开始"); break;
@@ -1561,7 +1647,7 @@ document.addEventListener("click", e => {
       /* 勾出来的词直接进熟词表：文章里也不再高亮，一举两得 */
       for (const w of picked) if (!S.known.includes(w)) S.known.push(w);
       const si = probeStartOf(probePicked);
-      S.probe = { done: true, at: todayKey(), known: picked, startIdx: si, skipped: false };
+      S.probe = { done: true, at: todayKey(), known: picked, startIdx: si, skipped: false, sig: VOCAB_SIG };
       save(); resetNav();
       view = { name: "study" }; flipped = false; answered = null; render();
       toast(si > 0 ? `起点已定位 · 前面 ${si} 个已会词跳过` : "起点已定位 · 从最常用的词开始");
@@ -1571,11 +1657,11 @@ document.addEventListener("click", e => {
       probePicked = new Set((S.probe && S.probe.known) || []);
       resetNav(); view = { name: "probe" }; render(); break;
     case "quick-sieve":
-      /* 中学已学词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度 */
+      /* 已会词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度 */
       resetNav();
-      setQueue(BASIC_WORDS, "基础词快筛", true);
+      setQueue(BASIC_WORDS, "已会词快筛", true);
       view = { name: "study" }; render();
-      toast(`筛掉 ${BASIC_WORDS.length} 个中学已会词`); break;
+      toast(`快筛 ${BASIC_WORDS.length} 个你可能已会的词`); break;
     case "go-home":
       resetNav(); view = { name: "home" }; render(); break;
     case "go-discover":

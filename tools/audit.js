@@ -83,7 +83,7 @@ sandbox.window.window = sandbox.window;
 vm.createContext(sandbox);
 
 for (const f of [
-  'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js',
+  'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
   'assets/data-examples.js', 'assets/data-ecdict.js'
 ]) {
@@ -169,7 +169,7 @@ ok('回收触发的 popstate 被吞掉、视图没被改坏', ctx('view.name') =
  * D. 学习数据必须是真实计算
  * =================================================================== */
 console.log('\n[D] 学习数据全部真实计算');
-eq('每日目标独立于词库总量', ctx('DAILY_GOAL'), 20);
+eq('每日目标独立于词库总量', ctx('DAILY_GOAL'), 28);
 eq('初始今日已学为 0', ctx('doneToday()'), 0);
 eq('初始连续天数为 0', ctx('streakDays()'), 0);
 eq('初始掌握率为 0', ctx('masteredRate()'), 0);
@@ -427,15 +427,25 @@ console.log('\n[M] 学习顺序与起点定位');
 
 // M1 词频爬坡：跨「每日单元」边界必须严格递增
 //    （单元内为降低字母聚集做了哈希打散，所以只在段边界上验证单调性）
+//    分层后这条只在**层内**成立：基础层的尾巴（lecture f≈3500）本来就比核心层的
+//    开头（abandon f≈1500）生僻，层边界上出现一次回退是设计使然 —— 先补地基再盖楼。
 const fOf = ctx('WORDS.map(w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || null; })');
-let crossBad = 0, crossN = 0;
+const MID_END_N = ctx('MID_END');
+/* 学习路径上两处「有意的分段」：核心层的起点、以及基础层里真题高频块与普通块的交界。
+ * 段与段之间难度本来就会重新起跳（真题高频块是整段提前的），
+ * 且单元打散以 20 为一格、块长未必是 20 的整数倍，所以交界前后各放宽一个单元。 */
+const sprintEnd = ctx('MID_WORDS.filter(w=>w.hf||w.cv).length');
+const SEG = [sprintEnd, MID_END_N];
+const nearSeg = i => SEG.some(s => Math.abs(i - s) <= 20);
+let crossBad = 0, crossN = 0, segJump = 0;
 for (let i = 20; i < 1200; i += 20) {
   const prev = fOf[i - 1], cur = fOf[i];
   if (prev == null || cur == null) continue;
   crossN++;
-  if (cur < prev) crossBad++;
+  if (cur < prev) { nearSeg(i) ? segJump++ : crossBad++; }
 }
-ok(`跨单元难度严格递增（${crossN} 个边界，回退 ${crossBad} 个）`, crossBad === 0 && crossN > 40);
+ok(`段内跨单元难度严格递增（${crossN} 个边界，回退 ${crossBad} 个，分段起跳 ${segJump} 处属预期）`,
+   crossBad === 0 && crossN > 40);
 
 const head30 = ctx('WORDS.slice(0,30).map(w=>w.word)');
 /* the / and 按语料词频排在首位是正确的（对零基础用户，最常用的就该先学）；
@@ -497,15 +507,18 @@ click({ act: 'answer', v: 'yes' });
 eq('快筛不占今日新词额度', ctx('S.daily.count'), dailyBefore);
 ok('快筛里的词进了熟词表', ctx('S.known.includes(queue[0].word)') === true);
 
-/* ================= [N] 四级核心词库构成 =================
- * 词库由「CET4 完整考纲」4454 词缩为 ~2000 个核心词，口径见 tools/build-core-vocab.mjs。
- * 这一段守住三件事：规模不再膨胀回去、功能词不再混进来、真题暴露的缺口词确实补上了。 */
-console.log('\n[N] 四级核心词库构成');
+/* ================= [N] 四级核心层构成 =================
+ * 核心层由「CET4 完整考纲」4454 词缩为 ~2000 词，口径见 tools/build-core-vocab.mjs。
+ * 这一段守住三件事：规模不再膨胀回去、功能词不再混进来、真题暴露的缺口词确实补上了。
+ * 注意断言只针对核心层 —— 词库加进基础层后 WORDS 是两层的合集，
+ * 直接对全集断言会把「规模」「词频结构」这两条守门条件稀释掉。 */
+console.log('\n[N] 四级核心层构成');
 
-const N_WORDS = ctx('WORDS.length');
-ok(`词库规模在 1800–2100 之间（实为 ${N_WORDS}）`, N_WORDS >= 1800 && N_WORDS <= 2100);
+const CORE = ctx('CORE_WORDS');
+const N_WORDS = CORE.length;
+ok(`核心层规模在 1800–2100 之间（实为 ${N_WORDS}）`, N_WORDS >= 1800 && N_WORDS <= 2100);
 
-const wordsLower = ctx('WORDS.map(w=>w.word.toLowerCase())');
+const wordsLower = ctx('WORDS.map(w=>w.word.toLowerCase())');   // 功能词要对全集查
 const FUNC = ['the', 'of', 'to', 'in', 'and', 'that', 'with', 'for', 'is', 'are', 'was', 'were', 'you', 'they', 'this', 'have'];
 ok('不含纯功能词', !wordsLower.some(w => FUNC.includes(w)));
 
@@ -518,18 +531,62 @@ const noDef = ctx('WORDS.filter(w=>!w.def||!w.def.trim()).map(w=>w.word)');
 ok(`每个词都有释义（缺 ${noDef.length}）`, noDef.length === 0);
 
 const noPh = ctx('WORDS.filter(w=>!w.phonetic).length');
-ok(`音标覆盖 ≥ 99%（缺 ${noPh} 词）`, noPh / N_WORDS <= 0.01);
+ok(`音标覆盖 ≥ 99%（缺 ${noPh} 词）`, noPh / ctx('WORDS.length') <= 0.01);
 
-const exCover = ctx('WORDS.filter(w=>w.example).length') / N_WORDS;
-ok(`例句覆盖 ≥ 95%（实为 ${(exCover * 100).toFixed(1)}%）`, exCover >= 0.95);
+/* 例句 + 搭配一起看：基础层有大量词源词典只给了短语、凑不出完整句，
+   这些落在 collocation 上（见 build-words-mid.mjs 的 5b 段），不是缺内容 */
+const exCover = ctx('WORDS.filter(w=>w.example).length') / ctx('WORDS.length');
+const anyCover = ctx('WORDS.filter(w=>w.example||w.collocation).length') / ctx('WORDS.length');
+ok(`例句或搭配覆盖 ≥ 96%（例句 ${(exCover * 100).toFixed(1)}% · 合计 ${(anyCover * 100).toFixed(1)}%）`, anyCover >= 0.96);
 
 /* 早期 bulk-a 那批挂着「CET4 高频」，但其中 47% 的 ECDICT 词频 > 2500，标签是错的 */
 const badTag = ctx(`WORDS.filter(w=>/CET4 高频/.test(w.source||'')).length`);
 ok(`不再有写错的「CET4 高频」标签（剩 ${badTag} 条）`, badTag === 0);
 
-/* 词频结构：核心词库里 f≤2500 的应占九成上下，剩下的是真题补缺与手工精编 */
-const overF = ctx('WORDS.filter(w=>{const e=EC&&EC[w.word.toLowerCase()];return !e||!e.f||e.f>2500}).length');
-ok(`f>2500 的词占比 ≤ 10%（${overF} 词 / ${N_WORDS}）`, overF / N_WORDS <= 0.1);
+/* 词频结构：核心层里 f≤2500 的应占九成上下，剩下的是真题补缺与手工精编 */
+const overF = CORE.filter(w => {
+  const e = ctx('EC') && ctx('EC')[w.word.toLowerCase()];
+  return !e || !e.f || e.f > 2500;
+}).length;
+ok(`核心层 f>2500 的词占比 ≤ 10%（${overF} 词 / ${N_WORDS}）`, overF / N_WORDS <= 0.1);
+
+/* ================= [O] 中学基础层构成 =================
+ * 基础层补的是核心层「默认你已经会中学词」这个不成立的前提：
+ * 实测核心库缺 2,000+ 个中学词，且集中在 lecture / campus / vocabulary 这类
+ * 校园与考试场景词 —— 它们在通用新闻语料里天然低频，被 f≤2500 口径整片滤掉。 */
+console.log('\n[O] 中学基础层构成');
+
+const MID = ctx('MID_WORDS');
+ok(`基础层规模在 1800–2400 之间（实为 ${MID.length}）`, MID.length >= 1800 && MID.length <= 2400);
+ok(`全库 = 基础 ${MID.length} + 核心 ${CORE.length}（实为 ${ctx('WORDS.length')}）`,
+   MID.length + CORE.length === ctx('WORDS.length'));
+
+/* 两层不能有交集：基础层的定义就是「中学词 − 核心库」 */
+const dup = ctx(`(()=>{const a=new Set(WORDS.map(w=>w.word.toLowerCase()));const s=new Set();const d=[];
+  for(const w of WORDS){const k=w.word.toLowerCase();if(s.has(k))d.push(k);s.add(k);}return d})()`);
+ok(`两层无重复词（重 ${dup.length}${dup.length ? '：' + dup.slice(0, 6).join(',') : ''}）`, dup.length === 0);
+
+/* 基础层必须带层标记与来源标记，否则前端分不了层 */
+const noList = MID.filter(w => w.list !== '中学基础').length;
+ok(`基础层每条都有 list="中学基础"（缺 ${noList}）`, noList === 0);
+const noSrc = MID.filter(w => w.src !== '初中' && w.src !== '高中').length;
+ok(`基础层每条都有来源 src（缺 ${noSrc}）`, noSrc === 0);
+
+/* 真题高频标记：这批词是基础层里最该先过的 */
+const sprint = MID.filter(w => w.hf || w.cv).length;
+ok(`基础层带真题高频标记 ≥ 300 个（实为 ${sprint}）`, sprint >= 300);
+
+/* 核心库当年系统性漏掉的那批校园/考试场景词，必须真的回到库里了 */
+const SCENE = ['lecture', 'campus', 'vocabulary', 'period', 'party', 'pattern', 'translate', 'medium', 'phrase', 'award'];
+const missScene = SCENE.filter(w => !wordsLower.includes(w));
+ok(`校园/考试场景词已补回（缺 ${missScene.length}：${missScene.join(',') || '无'}）`, missScene.length === 0);
+
+/* 排序第一关键字是层：基础层必须整段排在核心层之前 */
+const firstCore = ctx('WORDS.findIndex(w=>w.list!=="中学基础")');
+ok(`学习路径先基础后核心（核心层从第 ${firstCore} 位开始，基础层 ${MID.length} 词）`, firstCore === MID.length);
+
+/* 每日目标：28 词/天是按 99 天备考期反推的，改数字前先重算排期 */
+ok(`每日目标为 28（实为 ${ctx('DAILY_GOAL')}）`, ctx('DAILY_GOAL') === 28);
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

@@ -43,7 +43,7 @@ sandbox.window.window = sandbox.window;
 vm.createContext(sandbox);
 
 for (const f of [
-  'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js',
+  'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
   'assets/data-examples.js', 'assets/data-ecdict.js'
 ]) {

@@ -31,6 +31,7 @@ const base = path.resolve(__dirname, '..');
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/data.js'), 'utf8'), sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/data-words-bulk-a.js'), 'utf8'), sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/data-words-full.js'), 'utf8'), sandbox);
+vm.runInContext(fs.readFileSync(path.join(base, 'assets/data-words-mid.js'), 'utf8'), sandbox);
 
 // 抓取文章（可选）：存在就加载，验证合并逻辑
 const extraFile = path.join(base, 'assets/data-articles-extra.js');

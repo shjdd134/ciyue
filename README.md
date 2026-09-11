@@ -19,7 +19,14 @@
 
 ### 单词语料
 
-词库为**约 2000 个四级核心词**，从四级大纲（4454 词）按三条并集筛出，口径见 `tools/build-core-vocab.mjs`：
+词库分**两层**，共 4,064 词。分层的起因：四级核心库默认你已经掌握中学词汇，而这个前提对不少用户并不成立 —— 实测核心库缺 2,000+ 个中学词，且集中在 `lecture` / `campus` / `vocabulary` / `period` 这类校园与考试场景词（它们在通用新闻语料里天然低频，被「语料词频」这道筛子整片滤掉）。
+
+| 层 | 规模 | 口径 | 脚本 |
+| --- | --- | --- | --- |
+| **基础层**（先学） | 2,067 | (初中 ∪ 高中词库) − 核心层 − 纯功能词 | `tools/build-words-mid.mjs` |
+| **核心层**（后学） | 1,997 | 见下 | `tools/build-core-vocab.mjs` |
+
+核心层从四级大纲（4454 词）按三条并集筛出：
 
 | 口径 | 说明 |
 | --- | --- |
@@ -29,10 +36,14 @@
 
 已剔除纯功能词（the / of / to …）。另用真题表反查并补回了原词库缺失的常用词（people / part / pay 这类约 80 词）。
 
+基础层里 332 个词带**真题高频**标记（真题表出现次数 / 试卷词频），在基础层内优先排 —— 它们考试真的会考到。
+
 | 数据 | 来源 | 许可 |
 | --- | --- | --- |
 | 词频、音标、词形变化、考纲标签 | [ECDICT](https://github.com/skywind3000/ECDICT) | MIT |
 | 真题词频（核心词筛选依据） | [liut969/CET](https://github.com/liut969/CET) | 作者免费公开 |
+| 试卷词频（真题高频标记依据） | [exam-data/CETVocabulary](https://github.com/exam-data/CETVocabulary) | 数据 CC BY-NC-SA 4.0 / 代码 MIT |
+| 中学分级词库（基础层） | [KyleBing/english-vocabulary](https://github.com/KyleBing/english-vocabulary) | 作者声明供学习使用 |
 | 单词例句与中文对照 | [KyleBing/english-vocabulary](https://github.com/KyleBing/english-vocabulary) | 作者声明供学习使用 |
 | 双语例句补充 | [Tatoeba](https://tatoeba.org)（经 manythings.org 打包） | CC-BY 2.0 |
 | 兜底例句 | 本项目文章库的原刊原句 | 见下 |
