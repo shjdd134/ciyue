@@ -352,18 +352,21 @@ body {
   perspective: 1400px;
   width: 100%;
 }
-.flip-anim .flip-inner {
-  transition: transform .5s cubic-bezier(.4, .2, .2, 1);
-}
-.flip-anim {
-  transition: height .45s cubic-bezier(.4, .2, .2, 1);
-}
 .flip-inner {
   position: relative;
   height: 100%;
   transition: transform .5s cubic-bezier(.4, .2, .2, 1);
   transform-style: preserve-3d;
 }
+
+/* ---------- 背词页：固定卡片框 ----------
+   卡片框用 flex 撑满中间全部剩余空间（比内容自适应大得多），
+   翻转后卡片被「卡」在这个框内：背面内容超出时在卡片内部滚动，
+   进度条 / 作答按钮 / 底栏全部固定不动，页面不再整体滚动。 */
+.study-view { overflow-y: auto; }
+.study-view > * { flex: none; }              /* 进度条/按钮等固定，不被压缩 */
+.study-view > .flip { flex: 1 1 auto; min-height: 320px; }
+.study-view .face { height: 100%; }
 .flip.flipped .flip-inner { transform: rotateY(180deg); }
 .face {
   background: var(--card);

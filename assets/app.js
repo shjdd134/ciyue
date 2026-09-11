@@ -705,7 +705,7 @@ function renderStudy() {
 
   return `
     ${statusbar()}
-    <div class="view">
+    <div class="view study-view">
       <div class="row" style="gap:12px">
         <span class="icon-btn" data-act="go-home">${svg("close", 16)}</span>
         <div class="row grow" style="gap:10px">
@@ -1338,15 +1338,11 @@ function render() {
 function fixFlipHeight() {
   const flip = $("#flip");
   if (!flip) return;
+  /* 背词页 = 固定卡片框布局：高度全部交给 flex 撑满中间区域，
+     翻转后卡片被卡在框内，背面内容在卡内滚动（.face.back 自带 overflow） */
+  flip.style.height = "";
   const face = flipped ? $(".face.back", flip) : $(".face:not(.back)", flip);
-  if (!face) return;
-  const view = $(".view");
-  const viewH = view ? view.clientHeight : 560;
-  /* 翻转后背面内容若超出可视区，限制卡片高度并让背面内部滚动，
-     避免页面整体滚动、用户找不到卡片下半部分 */
-  const minH = flipped ? Math.max(360, viewH - 16) : viewH;
-  flip.style.height = Math.min(face.scrollHeight, minH) + "px";
-  face.scrollTop = 0;
+  if (face) face.scrollTop = 0;
 }
 
 /* ---------------- 事件 ---------------- */
@@ -1411,13 +1407,7 @@ document.addEventListener("click", e => {
       e.stopPropagation(); speak(t.dataset.word); break;
     case "flip":
       if (e.target.closest("[data-act='speak']")) break;
-      flipped = !flipped; render();
-      requestAnimationFrame(() => {
-        const flip = $("#flip");
-        if (flip) flip.classList.add("flip-anim");
-        fixFlipHeight();
-      });
-      break;
+      flipped = !flipped; render(); break;
     case "mark": {
       const w = curWord().word;
       const i = S.notebook.indexOf(w);
@@ -1645,6 +1635,8 @@ document.addEventListener("keydown", e => {
       view = { name: "read" };
     } else if (v === "me") view = { name: "me" };
     else if (v === "study") view = { name: "study" };
+    /* 背词页直接以翻面状态打开（预览/截图验证背面布局用） */
+    if (v === "study" && p.get("flip")) requestAnimationFrame(() => { flipped = true; render(); });
     const c = p.get("cat");
     if (c && CATEGORIES.includes(c)) catFilter = c;
     const t = p.get("theme");
