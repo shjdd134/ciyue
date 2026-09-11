@@ -85,11 +85,16 @@ vm.createContext(sandbox);
 for (const f of [
   'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
-  'assets/data-examples.js', 'assets/app.js'
+  'assets/data-examples.js', 'assets/data-ecdict.js'
 ]) {
   const p = path.join(base, f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, 'utf8'), sandbox, { filename: f });
 }
+/* 浏览器里 data-ecdict.js 把词形表挂在 window 上；沙箱的 window 只是替身对象，
+   必须显式提升到全局，否则 app.js 里 EC 取不到、词形匹配退化成「猜」的版本
+   —— see 找不到 saw、good 找不到 best，例句标色会整段失效。 */
+vm.runInContext('var WORD_META = window.WORD_META;', sandbox);
+vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = e => vm.runInContext(e, sandbox);
 const click = ds => handlers.click({ target: { closest: () => grow(ds) }, stopPropagation: noop });

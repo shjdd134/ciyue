@@ -3,6 +3,9 @@
 .tmp/
 *.log
 
+# 例句源数据缓存（44MB）；重新拉取命令见 tools/build-examples.mjs 顶部注释
+tools/.examples-cache/
+
 # 本地密钥，绝不入库
 tools/.deepl-key
 tools/.ecdict-blob.json

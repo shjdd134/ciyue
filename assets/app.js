@@ -1064,6 +1064,15 @@ function renderMe() {
         <span class="h3">危险操作</span>
         <span class="link danger" data-act="ask-reset" role="button" tabindex="0">清空全部进度</span>
       </div>
+
+      <div class="row between" style="margin-top:10px">
+        <span class="h3">关于</span>
+      </div>
+      <div class="muted-2" style="font-size:11.5px;line-height:18px">
+        个人学习项目，仅供学习交流，不作商业用途。<br>
+        单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章；词库与音标：ECDICT（MIT）。<br>
+        阅读文章均为外刊公开内容摘要，版权归原媒体所有，正文可一键跳转原文。
+      </div>
       <div style="height:6px"></div>
     </div>`;
 }

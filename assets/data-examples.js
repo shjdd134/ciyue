@@ -1,6523 +1,4010 @@
-/* 词阅 WordLens —— 真实例句（自动生成，请勿手改；运行 node tools/build-examples.mjs 重新生成）
+/* 词阅 WordLens —— 单词例句库（自动生成，请勿手改；node tools/build-examples.mjs 重新生成）
  *
- * 来源：文章库里 1628 段真实报道原文 + 逐句译文。逐句翻译的副产品是第 N 个英文句子
- * 对得上第 N 个中文句子（实测 95.7% 段落完全对齐，对不齐的整段放弃），于是
- * 「英文原句 + 它在同一篇文章里的译文」就是成对的真实例句——没有一句是机器造的。
+ * 三级来源，按优先级取第一条命中的：
+ *   ① 分级词典词库  github.com/KyleBing/english-vocabulary —— 词典级例句 + 准确中文
+ *   ② Tatoeba 双语语料  tatoeba.org（CC-BY 2.0）—— 英中人工句对
+ *   ③ 原刊文章抽句 —— 本项目文章库的历史兜底（真实报道原文）
  *
- * 共 1300 条，只用来填补没有例句的词；人工撰写的例句永远优先，不会被覆盖。
+ * 本文件共 3983 条（词典 3554 / Tatoeba 373 / 原刊 56），
+ * 只填补没有例句的词；词库自带 / 人工撰写的例句永远优先，不会被覆盖。
  */
 const WORD_EXAMPLES = {
-  "pull": {
-    "en": "But the Gunners were full value for their win -- even if they needed David Raya to pull off a fine save from substitute Estevão at the death to hold on.",
-    "cn": "但阿森纳的胜利实至名归——尽管他们需要替补出场的埃斯特旺最后一刻的射门被拉亚神扑化解，才能保住胜利。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "punch": {
-    "en": "The corner comes in and Steward punches it clear.",
-    "cn": "拐角进来了，管家把拳头打得很清楚。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "purchase": {
-    "en": "In 1907, he and his wife, Aline, purchased and developed a hilltop estate in Cagnes-sur-Mer dotted with olive, orange and fig trees.",
-    "cn": "1907年，他和妻子艾琳（Aline）在滨海卡涅（Cagnes-sur-Mer）购买并开发了一处山顶地产，其间点缀着橄榄树、橘子树和无花果树。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "purely": {
-    "en": "Fabricating an object purely for play is exceptionally rare across the animal kingdom.",
-    "cn": "在动物王国里，纯粹为了玩耍而制造物品是非常罕见的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "quality": {
-    "en": "Fernandes believes the quality of the Spurs squad can raise his own level of performance, too.",
-    "cn": "费尔南德斯相信热刺的阵容也能提高他自己的表现水平。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "qualify": {
-    "en": "In the Premier League last season, 96 qualifying players put up better per-minute attacking numbers.",
-    "cn": "上赛季英超有 96 名符合资格球员的每分钟进攻数据比他更高。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "puzzle": {
-    "en": "The perpetrators are found out and locked away, and you've had a very enjoyable experience helping to solve the puzzles.”",
-    "cn": "罪犯被发现并被关起来，你在帮助解决谜题的过程中获得了非常愉快的体验。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "publish": {
-    "en": "To coincide with the exhibition, the British Museum is also publishing a range of books for readers of all ages.",
-    "cn": "为了配合这次展览，大英博物馆还为各个年龄段的读者出版了一系列书籍。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "put": {
-    "en": "In the Premier League last season, 96 qualifying players put up better per-minute attacking numbers.",
-    "cn": "上赛季英超有 96 名符合资格球员的每分钟进攻数据比他更高。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "pursuit": {
-    "en": "In Silicon Valley, devotees have gathered at peptide parties to drink, dance and inject themselves with these chemicals—all in pursuit of sharper minds and more sculpted bodies.",
-    "cn": "在硅谷，奉献者聚集在多肽派对上喝酒、跳舞和注射这些化学物质--所有这些都是为了追求更敏锐的头脑和更精致的身体。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "pursue": {
-    "en": "Arsenal pursued a deal for Rogers for much of the summer but never believed he was worth £117 million.",
-    "cn": "阿森纳整个夏天都在追逐罗杰斯，但始终认为他不值 1.17 亿英镑。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "purpose": {
-    "en": "To view this content, choose 'Accept and continue' to allow Google reCAPTCHA and its required purposes.",
-    "cn": "要查看此内容，请选择“接受并继续”以允许谷歌reCAPTCHA及其所需目的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "purity": {
-    "en": "There’s little to no research proving these molecules are safe or effective and no assurance from the FDA about their identity, purity or strength.",
-    "cn": "几乎没有研究证明这些分子是安全或有效的，FDA也不能保证它们的特性、纯度或强度。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "push": {
-    "en": "Martin Zubimendi may push to leave Arsenal in January after losing his starting sport under Mikel Arteta.",
-    "cn": "马丁·祖比门迪可能会在一月份离开阿森纳，因为他在阿尔特塔手下失去了首发位置。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "quarter": {
-    "en": "Rangers turn their attention to a huge double-header against Celtic, with the sides first meeting in the League Cup quarter-finals before renewing hostilities in the Scottish Premiership at Parkhead.",
-    "cn": "流浪者将注意力转向对凯尔特人的巨大双头，双方在联赛杯四分之一决赛中首次会面，然后在Parkhead的苏格兰超级联赛中再次发生敌对行动。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "publication": {
-    "en": "“There’s something to be said about the mystery novel being something you can escape into,” publisher David Brawn told All Things Considered in 2020, on the 100th anniversary of the publication of Christie’s first book.",
-    "cn": "2020年，在佳士得第一本书出版100周年之际，出版商大卫·布朗对《万物思虑》（All Things Considered）说：“悬疑小说是一种你可以逃避的东西。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "project": {
-    "en": "For Fernandes, it was his conversations with head coach Roberto De Zerbi which persuaded him the north London project was for him.",
-    "cn": "对于费尔南德斯来说，是他和主教练罗伯托·德泽比的谈话说服了他北伦敦的计划是适合他的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "promise": {
-    "en": "Name your problem, and you can probably find a peptide—with a cryptic moniker like BPC-157 or GHK-Cu—that promises to help.",
-    "cn": "说出您的问题，您可能会发现一种多肽-具有BPC-157或GHK-Cu等神秘绰号-有望提供帮助。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "promising": {
-    "en": "Today, they’re sold via polished websites with a medical gloss, with each peptide promising to deliver a remarkable benefit, such as weight loss, younger-looking skin or muscle repair.",
-    "cn": "如今，它们通过带有医学光泽的抛光网站出售，每种肽都有望带来显着的好处，例如减肥、年轻的皮肤或肌肉修复。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "promote": {
-    "en": "And, this isn't a promoted side accidentally stumbling into three clean sheets.",
-    "cn": "而且，这不是一支升班马不小心三次失球的球队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "prompt": {
-    "en": "In this way, it functioned as a visual prompt and a mnemonic device, inviting its audience to engage with the drama of 1066 in a uniquely immersive way.",
-    "cn": "通过这种方式，它起到了视觉提示和记忆装置的作用，邀请观众以一种独特的沉浸式方式参与到1066年的戏剧中。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "proof": {
-    "en": "The proof was produced by a group of agents, using an OpenAI next-generation model significantly more capable than GPT-6 Astra.",
-    "cn": "证据是由一组代理使用比GPT-6 Astra更强大的OpenAI下一代模型制作的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "property": {
-    "en": "At the time, all property in England legally belonged to the king, who granted lesser lords the right to lease land to tenants “in return for certain services and restrictions on their freedom,” Prescott says.",
-    "cn": "当时，英格兰的所有财产在法律上都属于国王，国王授予较小的领主向租户出租土地的权利，“以换取某些服务和对其自由的限制”，普雷斯科特说。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "propose": {
-    "en": "Balogun has been in the headlines again over the past few weeks after his proposed move from Monaco to Everton collapsed late on Deadline Day.",
-    "cn": "Balogun在截止日期当天晚些时候从摩纳哥搬到埃弗顿的提议崩溃后，过去几周再次成为头条新闻。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "provided": {
-    "en": "This page contains HistoryExtra content provided by Google reCAPTCHA.",
-    "cn": "此页面包含谷歌reCAPTCHA提供的额外内容。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "provide": {
-    "en": "Our top tipster Lewis Jones, aka Jones Knows, provides his analysis and betting insight across the weekend Premier League action.",
-    "cn": "我们的顶级线人刘易斯·琼斯，又名琼斯知道，提供他的分析和投注洞察整个周末英超联赛的行动。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "prove": {
-    "en": "The Bayeux Tapestry exhibition is already proving to be one of the most popular in the museum’s history.",
-    "cn": "贝叶挂毯展览已经被证明是博物馆历史上最受欢迎的展览之一。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "public": {
-    "en": "Its Chicago stop, which opened to the public over Labor Day weekend, runs through January.",
-    "cn": "芝加哥站在劳动节周末向公众开放，一直持续到1月。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "protest": {
-    "en": "“That poor administration helped trigger the revolt,” which ultimately evolved from a protest against unfair taxes into a broader push for a more equitable society.",
-    "cn": "“那个糟糕的政府帮助引发了叛乱”，最终从对不公平税收的抗议演变为对更公平社会的更广泛推动。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "protect": {
-    "en": "During World War II, h ospital ships were protected under international humanitarian law.",
-    "cn": "在第二次世界大战期间，战舰受到国际人道主义法的保护。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "protein": {
-    "en": "Simply put, peptides are short chains of amino acids—the building blocks of proteins—that carry specific instructions to specific cells.",
-    "cn": "简而言之，肽是氨基酸的短链（蛋白质的组成部分），可向特定细胞传递特定的指令。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "raise": {
-    "en": "Fernandes believes the quality of the Spurs squad can raise his own level of performance, too.",
-    "cn": "费尔南德斯相信热刺的阵容也能提高他自己的表现水平。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "range": {
-    "en": "The insurgents’ demands ranged from the abolition of serfdom to the redistribution of the church’s riches.",
-    "cn": "叛乱分子的要求从废除农奴制到重新分配教会的财富不等。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rank": {
-    "en": "They listed the soldier’s rank, the village they came from, their caste, any injuries, and if they died.",
-    "cn": "他们列出了士兵的军衔，他们来自的村庄，他们的种姓，是否受伤，是否死亡。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "rare": {
-    "en": "Fabricating an object purely for play is exceptionally rare across the animal kingdom.",
-    "cn": "在动物王国里，纯粹为了玩耍而制造物品是非常罕见的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "rarely": {
-    "en": "This secretive and rarely seen creature, called the nabarlek, is endangered, put at risk by shifting fire regimes and introduced predators.",
-    "cn": "这种神秘而罕见的生物，被称为纳巴莱克，是濒临灭绝的，由于火灾制度的改变和掠食者的引入而处于危险之中。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "rate": {
-    "en": "For non-penalty xG plus xA, a rate of 0.5 per 90 minutes is a decent rule of thumb for above-average production.",
-    "cn": "对于非点球的预期进球加助攻，每 90 分钟 0.5 是一个不错的「高于平均水准」的参考线。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "rather": {
-    "en": "That makes it the first time we really see what his squad, rather than his preferred XI, has to offer.",
-    "cn": "这使我们第一次真正看到他的阵容，而不是他的首选XI ，所提供的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "ratio": {
-    "en": "In their last 16 league games where they've enjoyed less than 45 per cent of the ball and started the match bigger than 2/1, they've conceded just nine goals, losing just two of those games, with those matches averaging a lowly 1.7 goals per game ratio.",
-    "cn": "在过去的16场联赛中，他们的控球率低于45%，开局比分大于2比1，他们只丢了9个球，只输了2场，这些比赛的场均进球率只有1.7个。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "ray": {
-    "en": "The vessel is well preserved, with ceramic tiles still lining its bathrooms, fans still hanging from its ceilings and teak tables still “intact, clean and perfectly aligned with each other” on the bridge deck, Cesare Balzi wrote for X-Ray Mag in 2018.",
-    "cn": "切萨雷·巴尔齐（Cesare Balzi）在2018年的《X-Ray Mag》杂志上写道，这艘船保存完好，浴室里仍然铺着瓷砖，风扇仍然悬挂在天花板上，柚木桌子仍然“完好无损，干净整洁，彼此完美对齐”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "really": {
-    "en": "These types of wingers had never really existed before, but now they were more important than anyone else.",
-    "cn": "这种类型的边锋以前几乎不存在，但现在他们成了场上最重要的角色。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "reality": {
-    "en": "Spanning a massive, 21,000-square-foot space, “ Serial Killer: The Exhibition ” brings together more than 2,000 items that confront myth with true crime’s gruesome reality.",
-    "cn": "“连环杀手：展览”占地21,000平方英尺，汇集了2,000多件物品，将神话与真实犯罪的可怕现实相结合。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "real": {
-    "en": "Its equations assume that fluids are smooth and continuous, while in the real world, of course, they are made of atoms and molecules.",
-    "cn": "它的方程假设流体是光滑和连续的，而在现实世界中，它们当然是由原子和分子组成的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "ready": {
-    "en": "I smile before jesting, and Pochettino just laughs and says he's ready.",
-    "cn": "我在开玩笑之前微笑，波切蒂诺只是笑着说他已经准备好了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "reading": {
-    "en": "The four stolen works were Portrait of Madame Stephen Pichon (1895), Coco Reading (1905), Madame Colonna Romano (1910) and Young Woman at the Well (1886).",
-    "cn": "被盗的四幅作品分别是《斯蒂芬·皮雄夫人的肖像》（1895年）、《可可·雷丁》（1905年）、《科隆娜·罗马诺夫人》（1910年）和《井边的年轻女子》（1886年）。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "reader": {
-    "en": "To coincide with the exhibition, the British Museum is also publishing a range of books for readers of all ages.",
-    "cn": "为了配合这次展览，大英博物馆还为各个年龄段的读者出版了一系列书籍。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "read": {
-    "en": "This is your chance to show how much Scouting means to you,” read a message accompanying the insert.",
-    "cn": "这是你展示童军运动对你有多重要的机会。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "reach": {
-    "en": "Curators are hosting talks and special events throughout the exhibition run, while a programme of activities for schools and families ensures the Tapestry’s story reaches the widest possible audience.",
-    "cn": "策展人在整个展览期间举办讲座和特别活动，同时为学校和家庭举办活动，确保挂毯的故事尽可能多地吸引观众。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "queen": {
-    "en": "Together, they uncover how these formative experiences helped shape the woman who would become a formidable queen.",
-    "cn": "他们一起揭示了这些形成性的经历如何帮助塑造了这位将成为令人敬畏的女王的女人。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "question": {
-    "en": "If this award helps spark more curiosity about this sort of question, then that’s a pretty wonderful outcome.”",
-    "cn": "如果这个奖项有助于激发人们对这类问题的好奇心，那么这是一个非常好的结果。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "quick": {
-    "en": "Authorities attribute the robbers’ bungle to the museum’s security system and the quick response of local police.",
-    "cn": "当局将劫匪的失误归咎于博物馆的安全系统和当地警方的快速反应。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "quickly": {
-    "en": "Their mother attempted to make a ball too but quickly abandoned the task.",
-    "cn": "他们的母亲也想做一个球，但很快就放弃了这项任务。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "quit": {
-    "en": "She may have quit, in part, because she had previously consumed an ounce of a margarita, which seemed to lower her dexterity, the authors write in the paper.",
-    "cn": "作者在论文中写道，她戒烟的部分原因可能是她之前喝过一盎司的玛格丽塔酒，这似乎降低了她的灵活性。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "race": {
-    "en": "The substitute raced onto Ryan Naderi's flick-on from Ivor Pandur's long ball before lifting a delightful lob over the goalkeeper to send Ibrox wild after a drab 90 minutes.",
-    "cn": "替补队员从Ivor Pandur的长球中冲上Ryan Naderi的轻弹，然后在守门员身上举起一个令人愉快的球，在单调的90分钟后将Ibrox送到野外。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "raid": {
-    "en": "The Tower of London has protected England’s capital since it was first built in the 1070s, withstanding medieval sieges and World War II bombing raids alike.",
-    "cn": "伦敦塔自1070年代首次建成以来一直保护着英格兰的首都，经受住了中世纪的围攻和第二次世界大战的轰炸。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rage": {
-    "en": "Brentford have been all the rage with the betting markets over the first three games with the belief that Keith Andrews has improved them over the summer, although a few fingers were burnt, my included, with their lacklustre showing in the 1-1 with Sunderland last weekend.",
-    "cn": "在前三场比赛中，布伦特福德一直在博彩市场上大放异彩，他们相信基思·安德鲁斯在整个夏天都改善了他们的表现，尽管上周末他们在1-1桑德兰的比赛中表现平平，但也有一些人受到了伤害，包括我的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "radio": {
-    "en": "“One thing that this exhibition, myself included, is totally against is anything glorifying or glamorizing” serial killers, Bill Kimberlin, a true-crime researcher and collector, tells WGN Radio 720 ’s Wendy Snyder.",
-    "cn": "连环杀手比尔·金伯利林（Bill Kimberlin）是真正的犯罪研究者和收藏家，他告诉WGN Radio 720的温迪·斯奈德（Wendy Snyder）：“这个展览，包括我自己在内，完全反对任何美化或美化”的连环杀手。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "radar": {
-    "en": "Liverpool have placed AS Roma midfielder Manu Koné on their radar as they consider potential January reinforcements.",
-    "cn": "利物浦已经把罗马中场马努·科内放在了他们的雷达上，因为他们考虑了1月份的潜在增援。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "progress": {
-    "en": "\"We have a lot of players that can take the ball there and progress the ball much better than we did in the past,\" Arteta explained.",
-    "cn": "“我们有很多球员可以把球带到那里，比过去更好地推进球，”Arteta解释说。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "portrait": {
-    "en": "The four stolen works were Portrait of Madame Stephen Pichon (1895), Coco Reading (1905), Madame Colonna Romano (1910) and Young Woman at the Well (1886).",
-    "cn": "被盗的四幅作品分别是《斯蒂芬·皮雄夫人的肖像》（1895年）、《可可·雷丁》（1905年）、《科隆娜·罗马诺夫人》（1910年）和《井边的年轻女子》（1886年）。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "portuguese": {
-    "en": "\"I believe that I can be a much better player than I was last season,\" said the 22-year-old Portuguese, who recorded three goals and four assists in the Premier League for the Hammers.",
-    "cn": "“我相信我可以成为一个比上赛季更好的球员，”这位22岁的葡萄牙人说，他在英超联赛中为铁锤帮贡献了3个进球和4次助攻。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "position": {
-    "en": "They are shown pillaging, feasting and fortifying their position.",
-    "cn": "他们掠夺，盛宴和巩固他们的地位。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "positive": {
-    "en": "These results came back with positive news for conservation: The elusive nabarlek had been found.",
-    "cn": "这些结果为自然保护带来了积极的消息：难以捉摸的纳巴莱克被发现了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "possess": {
-    "en": "For all of the emphasis on pressing and possessing, this shift was the defining feature of the 21st century version of the sport.",
-    "cn": "无论外界如何强调逼抢和控球，这种转变都是 21 世纪足球的标志性特征。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "possession": {
-    "en": "The game barely slowed from a relentless pace as Arsenal dominated possession, but Chelsea counterattacked with speed and purpose.",
-    "cn": "阿森纳占据控球优势，但切尔西以速度和目的性极强的反击相抗衡，场面几乎没有节奏放缓的时刻。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "possibility": {
-    "en": "Everton have played down the possibility of a move for free agent Anthony Martial.",
-    "cn": "埃弗顿淡化了引进自由球员马夏尔的可能性。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "possible": {
-    "en": "While there is no direct association between the eggshells and skeletal remains, the authors note in the study, it’s possible they could belong to the same species.",
-    "cn": "作者在研究中指出，虽然蛋壳和骨骼遗骸之间没有直接联系，但它们可能属于同一物种。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "possibly": {
-    "en": "That mound contained the bones of a calf—possibly a graveside sacrifice.",
-    "cn": "那个土堆里有小牛的骨头--可能是墓边的祭品。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "post": {
-    "en": "But Kai Havertz equalised with a low drive in the 25th minute that snuck inside Emiliano Martínez's near post.",
-    "cn": "但凯·哈弗茨在第 25 分钟的一记低射，皮球从埃米利亚诺·马丁内斯的近角钻入网窝，扳平比分。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "practical": {
-    "en": "In the animal world, researchers often focus on tool use for a practical purpose, study co-author Nessie O’Neil, a biologist at Miami University in Ohio, writes on her blog.",
-    "cn": "研究报告的合著者、俄亥俄州迈阿密大学的生物学家尼西·奥尼尔在她的博客上写道，在动物世界，研究人员经常把重点放在实用的工具使用上。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "powerful": {
-    "en": "He is shipwrecked and captured by a local nobleman there, and then is transferred into the hands of the powerful Duke William of Normandy.",
-    "cn": "他遭遇海难，被当地的一个贵族抓获，然后被转移到强大的诺曼底公爵威廉的手中。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "power": {
-    "en": "Explosive athleticism, beguiling footwork, cannon-powered finishing, and lots of dribbling leading directly to goals.",
-    "cn": "惊人的运动能力、华丽的脚下功夫、炮弹般的射门，加上大量突破直接转化为进球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "pound": {
-    "en": "Pygmy raccoons, also called Cozumel raccoons, weigh between six and nine pounds, around the same as a newborn human baby.",
-    "cn": "侏儒浣熊，也叫科苏梅尔浣熊，体重在6到9磅之间，和一个新生的人类婴儿差不多。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "potential": {
-    "en": "Liverpool have placed AS Roma midfielder Manu Koné on their radar as they consider potential January reinforcements.",
-    "cn": "利物浦已经把罗马中场马努·科内放在了他们的雷达上，因为他们考虑了1月份的潜在增援。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "plus": {
-    "en": "For non-penalty xG plus xA, a rate of 0.5 per 90 minutes is a decent rule of thumb for above-average production.",
-    "cn": "对于非点球的预期进球加助攻，每 90 分钟 0.5 是一个不错的「高于平均水准」的参考线。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "point": {
-    "en": "Hull arrive at Stamford Bridge with seven points from three games and three consecutive clean sheets.",
-    "cn": "赫尔三场比赛积7分，连续三场零封，来到斯坦福桥。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "poison": {
-    "en": "After the country house, visitors will walk through a dispensary filled with various poisons that feature in Christie’s novels and learn about her work as a pharmacy dispenser during World War I.",
-    "cn": "在乡村别墅之后，游客将穿过一个药房，里面摆满了克里斯蒂小说中出现的各种毒药，并了解她在第一次世界大战期间作为药房配药员的工作。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "police": {
-    "en": "Authorities attribute the robbers’ bungle to the museum’s security system and the quick response of local police.",
-    "cn": "当局将劫匪的失误归咎于博物馆的安全系统和当地警方的快速反应。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "policy": {
-    "en": "As Dan Jones, author of Summer of Blood: England’s First Revolution, tells Smithsonian, after 1381, it became “if not impossible, then highly inadvisable, to ignore the effects of policy on ordinary people.”",
-    "cn": "正如《血之夏：英格兰的第一次革命》一书的作者丹·琼斯（Dan Jones）告诉史密森尼，1381年后，“如果不是不可能的话，那么忽视政策对普通人的影响是非常不明智的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "polish": {
-    "en": "In time, a tightly fitted row of single-peaked teeth came into view, Dąbrowski tells Roman Skiba of the Polish Press Agency (PAP).",
-    "cn": "Dąbrowski告诉波兰新闻社（PAP）的Roman Skiba ，随着时间的推移，一排紧密贴合的单峰牙齿出现在视野中。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "population": {
-    "en": "The population is gradually growing, but the species is still considered vulnerable by the International Union for Conservation of Nature and endangered under the Endangered Species Act.",
-    "cn": "人口正在逐渐增长，但该物种仍被国际自然保护联盟视为脆弱物种，并根据《濒危物种法》濒临灭绝。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "popular": {
-    "en": "The Bayeux Tapestry exhibition is already proving to be one of the most popular in the museum’s history.",
-    "cn": "贝叶挂毯展览已经被证明是博物馆历史上最受欢迎的展览之一。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "poor": {
-    "en": "His goal owed something to poor goalkeeping from Martinez, but it was still reward for his ingenuity.",
-    "cn": "马丁内斯的失误对他这一球有所帮助，但这粒进球仍是哈弗茨创造力的回报。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "politics": {
-    "en": "At the time, he was asked about his role in getting the Balogun suspension suspended, and he admitted the \"politics and manipulation\" did overshadow the game against Belgium.",
-    "cn": "当时，他被问及他在暂停Balogun停赛中的作用，他承认“政治和操纵”确实掩盖了对比利时的比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "politician": {
-    "en": "Titled The Uprising, the movie stars Andrew Garfield as the Ploughman, a fictionalized everyman who takes up arms against the corrupt politicians advising England’s 14-year-old king, Richard II.",
-    "cn": "这部名为《起义》（The Uprising）的电影由安德鲁·加菲尔德（Andrew Garfield）饰演犁人（Ploughman），这是一个虚构的普通人，他拿起武器对抗为英格兰14岁的国王理查二世（Richard II）提供",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "political": {
-    "en": "Although the rebellion failed to achieve any of its stated goals, it inspired subsequent “large-scale popular uprisings with a political aim,” Prescott says.",
-    "cn": "普雷斯科特说，尽管叛乱未能实现其任何既定目标，但它激发了随后的“有政治目的的大规模民众起义”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "private": {
-    "en": "Billed as the world’s largest private collection of serial killer artifacts, the exhibition toured Europe before arriving stateside, where it made its first stop in Atlanta.",
-    "cn": "该展览被誉为世界上最大的连环杀手文物私人收藏，在抵达美国之前在欧洲巡回展出，并在亚特兰大首次停留。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "prize": {
-    "en": "The recipients of the Ig Nobel Chemistry Prize, however, conducted research concerning much smaller individuals: cockroaches.",
-    "cn": "然而，Ig诺贝尔化学奖的获得者对更小的个体进行了研究：蟑螂。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "probability": {
-    "en": "So every time a winger gets the ball and turns it into a shot instead of a cross, that player is, on average, increasing your probability of scoring a goal by 233% to 900%.",
-    "cn": "所以每当边锋拿球选择射门而非传中，平均来说，你进球的概率提升了 233% 到 900%。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "probably": {
-    "en": "Name your problem, and you can probably find a peptide—with a cryptic moniker like BPC-157 or GHK-Cu—that promises to help.",
-    "cn": "说出您的问题，您可能会发现一种多肽-具有BPC-157或GHK-Cu等神秘绰号-有望提供帮助。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "production": {
-    "en": "And it's not even clear that the production -- you know, the part where you turn your play into goals -- drove any kind of premium.",
-    "cn": "而且尚不清楚他们的产出——也就是把表现转化为进球的部分——是否真的带来任何溢价。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "primarily": {
-    "en": "Chelsea were without their first-choice midfield at the Emirates -- primarily because Enzo Fernández was offloaded in a £125 million transfer to Manchester City on deadline day, but also because of an injury to Moisés Caicedo.",
-    "cn": "切尔西在酋长球场缺少主力中场——主要是因为恩佐·费尔南德斯在转会截止日以 1.25 亿英镑卖给了曼城，同时也因为凯塞多受伤。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "product": {
-    "en": "Enough teams have spent lots of money on these highlight-reel-but-no-end-product wingers over the past three seasons that it has to mean something.",
-    "cn": "过去三个赛季，已经有足够多的球队在这些「集锦精彩但产量不佳」的边锋身上砸下重金，这一定有意义。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "process": {
-    "en": "Tzolis played a simple ball in from the left flank that Havertz dummied, completely flummoxing Chelsea defender Wesley Fofana in the process.",
-    "cn": "佐利斯从左路送出一脚简单的传球，哈弗茨机敏一漏，让切尔西后卫福法纳彻底被晃。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "procedure": {
-    "en": "The pioneer raccoon’s sister was the first to learn the procedure and make her own balls.",
-    "cn": "这只浣熊的妹妹是第一个学习这个过程并自己做球的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "problem": {
-    "en": "The problem, though, is that even the best crossers are incredibly inefficient.",
-    "cn": "问题是，即便是最顶级的传中高手，效率也低得惊人。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "produce": {
-    "en": "He meets a Bouanani cross from the right and nods towards goal but Jacob Chapman produces a super stop.",
-    "cn": "他接到布阿纳尼从右路传中的球，头球攻门，但雅各布·查普曼做出了精彩扑救。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "priest": {
-    "en": "“I didn’t want to tell [this story] through the names we remember,” like rebel leader Wat Tyler (played by Cosmo Jarvis ) and his comrade, the bombastic priest John Ball (Jamie Bell), Greengrass says in a director’s statement.",
-    "cn": "Greengrass在一份导演声明中说：“我不想通过我们记住的名字来讲述[这个故事] ，”就像叛军领导人Wat Tyler （由Cosmo Jarvis扮演）和他的同志，夸张的牧师John Ball （Jamie Bell）。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "price": {
-    "en": "Tickets range in price from £25 to £33, through a tiered pricing structure based on the day and time of visit.",
-    "cn": "门票价格从25英镑到33英镑不等，根据参观日期和时间分层定价。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "premier": {
-    "en": "Every Premier League club has been given at least 60 hours between their Christmas and New Year fixtures.",
-    "cn": "每家英超俱乐部在圣诞和新年赛程之间至少有60个小时的休息时间。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "prefer": {
-    "en": "That makes it the first time we really see what his squad, rather than his preferred XI, has to offer.",
-    "cn": "这使我们第一次真正看到他的阵容，而不是他的首选XI ，所提供的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "predict": {
-    "en": "It's a fascinating match-up and the way the market is predicting attack to outgun defence with the expected goals line almost at 3.25 based on the odds I'd be wanting to row against that at the prices and give Hull more a chance than the 11/1 away win suggests.",
-    "cn": "这是一场令人着迷的比赛，市场预测进攻比防守多，预期进球数几乎是3.25，基于赔率，我想以价格来反对，给赫尔城更多的机会，而不是11/1的客场胜利。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "precise": {
-    "en": "It was most likely made in England by English embroiderers, and while we do not have a precise date for when the Bayeux Tapestry was created, the academic consensus is that it must have been produced very soon after the events it depicts.",
-    "cn": "它很可能是由英国的刺绣工在英格兰制作的，虽然我们没有确切的日期来确定贝叶挂毯是什么时候制作的，但学术界的共识是，它一定是在它描绘的事件发生后不久制作的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "presence": {
-    "en": "So, to confirm their discovery, the team took multiple steps, using both camera trap imagery and genetic analysis to rule out the presence of these other creatures.",
-    "cn": "因此，为了证实他们的发现，研究小组采取了多个步骤，使用相机陷阱图像和基因分析来排除这些其他生物的存在。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "previously": {
-    "en": "But it previously did seem like teams had begun to realise that dribbling skill isn't worth much on its own.",
-    "cn": "但以前，球队确实开始意识到，单靠过人技巧本身价值有限。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "prevent": {
-    "en": "Underwear buried to test soil quality and urinals scientifically designed to prevent splashing were among the projects honoured as the Ig Nobel prizes again put a spotlight on the quirky side of science.",
-    "cn": "埋葬以测试土壤质量的内衣和科学设计以防止飞溅的小便池是获得荣誉的项目之一，因为搞笑诺贝尔奖再次将焦点放在科学的古怪方面。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "pretty": {
-    "en": "If this award helps spark more curiosity about this sort of question, then that’s a pretty wonderful outcome.”",
-    "cn": "如果这个奖项有助于激发人们对这类问题的好奇心，那么这是一个非常好的结果。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "pressure": {
-    "en": "Pressure is on Michael Carrick and suddenly, this week already feels season-defining.",
-    "cn": "迈克尔·卡里克（Michael Carrick）承受着压力，突然之间，本周已经感觉到了赛季的定义。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "president": {
-    "en": "There's managing at the World Cup, then there's managing at a home World Cup for a nation whose President rather enjoys the spotlight.",
-    "cn": "在世界杯上进行管理，然后在一个主场世界杯上为一个总统更喜欢聚光灯的国家进行管理。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "preserve": {
-    "en": "The vessel is well preserved, with ceramic tiles still lining its bathrooms, fans still hanging from its ceilings and teak tables still “intact, clean and perfectly aligned with each other” on the bridge deck, Cesare Balzi wrote for X-Ray Mag in 2018.",
-    "cn": "切萨雷·巴尔齐（Cesare Balzi）在2018年的《X-Ray Mag》杂志上写道，这艘船保存完好，浴室里仍然铺着瓷砖，风扇仍然悬挂在天花板上，柚木桌子仍然“完好无损，干净整洁，彼此完美对齐”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "present": {
-    "en": "The exhibition not only presents the Bayeux Tapestry in its entirety, but also sets it within the wider context of 11th-century England and Normandy.",
-    "cn": "这次展览不仅完整地展示了贝叶挂毯，还将其置于11世纪英格兰和诺曼底的更广泛背景下。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "press": {
-    "en": "For all of the emphasis on pressing and possessing, this shift was the defining feature of the 21st century version of the sport.",
-    "cn": "无论外界如何强调逼抢和控球，这种转变都是 21 世纪足球的标志性特征。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "river": {
-    "en": "Kendry Páez is not currently part of Chelsea 's first-team plans following the early termination of his loan spell at River Plate last month.",
-    "cn": "Kendry Páez上个月在River Plate的租借期提前结束后，目前不属于切尔西的一线队计划。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "robber": {
-    "en": "“The police intervention and the museum’s alarms caused the robbers to rush and steal only 4 of the 12 works from the Renoir Museum.”",
-    "cn": "警察的介入和博物馆的警报使得劫匪们冲了过去，只偷走了雷诺阿博物馆12件作品中的4件。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "rock": {
-    "en": "The short-eared rock-wallaby can easily be dismissed with images, because it doesn’t look the same as the nabarlek.",
-    "cn": "短耳岩袋鼠很容易被图片所忽视，因为它看起来和纳巴莱克不一样。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "role": {
-    "en": "At the time, he was asked about his role in getting the Balogun suspension suspended, and he admitted the \"politics and manipulation\" did overshadow the game against Belgium.",
-    "cn": "当时，他被问及他在暂停Balogun停赛中的作用，他承认“政治和操纵”确实掩盖了对比利时的比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "roll": {
-    "en": "Before then – since at least the late 1720s – it was rolled out only for antiquarian and guest visitors.",
-    "cn": "在此之前，至少从18世纪20年代末开始，它只对古董商和游客开放。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "roman": {
-    "en": "The site is known for a Roman-era cemetery that dates back to the fourth or fifth century C.E.",
-    "cn": "该遗址以罗马时代的墓地而闻名，其历史可追溯到公元四或五世纪。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "round": {
-    "en": "Chelsea play Leeds in the EFL Cup third round on Wednesday before hosting Hull in the league next weekend.",
-    "cn": "切尔西将在周三的英联杯中迎战利兹，随后下周末在联赛主场对阵赫尔城。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "roughly": {
-    "en": "Then, to make sure that the photographed wallabies were indeed nabarlek rather than the roughly identical monjon, researchers collected scat samples from the site to analyze their DNA.",
-    "cn": "然后，为了确保拍摄到的小袋鼠确实是纳巴莱克而不是大致相同的獴，研究人员从现场收集了粪便样本来分析它们的DNA。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "rough": {
-    "en": "On its strong hind legs, it hops around rocky outcrops, cliffs and crevices, using the rough pads on its feet to grip sheer rock.",
-    "cn": "它用强壮的后腿在露出地面的岩石、悬崖和裂缝间跳跃，用脚上粗糙的脚垫抓住陡峭的岩石。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "rotate": {
-    "en": "Given the nature of the two opponents, you would imagine Carrick will be thinking of rotating on Thursday.",
-    "cn": "鉴于两名对手的性质，你可以想象卡里克将在周四考虑轮换。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "rival": {
-    "en": "It will be tougher against rivals Manchester City on Sunday - but so will his team selection.",
-    "cn": "周日对阵对手曼城的比赛将更加艰难，但他的阵容选择也将更加艰难。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "rose": {
-    "en": "I wanted him to stand for all the ordinary people who actually rose up and paid the price for it.”",
-    "cn": "我希望他能代表所有真正站起来为此付出代价的普通人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rope": {
-    "en": "Each was drilled through at the root, and their arrangement suggests they were once strung together on a now-decayed rope.",
-    "cn": "每个人都在根部钻孔，他们的安排表明他们曾经被一根现在腐烂的绳子串在一起。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "root": {
-    "en": "Each was drilled through at the root, and their arrangement suggests they were once strung together on a now-decayed rope.",
-    "cn": "每个人都在根部钻孔，他们的安排表明他们曾经被一根现在腐烂的绳子串在一起。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "room": {
-    "en": "There was Donald Trump - there was always going to be - and the changing-room team talk.",
-    "cn": "唐纳德·特朗普（Donald Trump）-总是会有-和更衣室团队的谈话。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "roof": {
-    "en": "“Nowhere in the world are you going to see an exhibit like this with artifacts from so many serial killers under one roof.”",
-    "cn": "“世界上没有任何地方会在一个屋檐下看到这样的展览，里面有这么多连环杀手的文物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rot": {
-    "en": "This suggests the giant creatures incubated their eggs using a technique shared by modern crocodiles—using piles of rotting vegetation for heat.",
-    "cn": "这表明巨型生物使用现代鳄鱼共用的技术孵化卵子-使用成堆的腐烂植被来加热。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "risk": {
-    "en": "At the top of the table, most clubs moved toward a style that prioritised control and limited risks.",
-    "cn": "在积分榜顶端，大多数俱乐部转向了强调控球、限制风险的风格。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "retain": {
-    "en": "The 29-year-old signed a new deal until 2027 earlier this year, with Rangers retaining the option to extend that by a further 12 months.",
-    "cn": "今年早些时候，这位29岁的球员与流浪者队签订了一份到2027年的新合同，流浪者队保留了再延长12个月的选择权。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "return": {
-    "en": "Manchester United made a winning return to the Champions League as they beat Sabah FC in style with a 4-0 victory at Old Trafford.",
-    "cn": "曼联在老特拉福德球场以4-0大胜沙巴队，成功重返欧冠赛场。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "reveal": {
-    "en": "It is revealing because the World Cup has reinforced his appetite to keep learning and evolving.",
-    "cn": "这很有启发性，因为世界杯增强了他不断学习和发展的胃口。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "revenge": {
-    "en": "Once inside the fortress, the insurgents exacted revenge on their enemies, dragging some of the kingdom’s most powerful men out to an execution block and chopping off their heads.",
-    "cn": "一旦进入堡垒，叛乱分子就向他们的敌人进行报复，将一些王国最强大的人拖到处决区并砍下他们的头。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "review": {
-    "en": "Paper Talk is a review of the sports headlines from the national newspapers, every Monday to Friday, live on Sky Sports News from 10.30pm.",
-    "cn": "Paper Talk是每周一至周五晚上10:30在天空体育新闻直播的全国性报纸的体育头条评论。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "revolt": {
-    "en": "Greengrass first learned about the Peasants’ Revolt as a schoolchild.",
-    "cn": "格林格拉斯从小就开始了解农民起义。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "revolution": {
-    "en": "As Dan Jones, author of Summer of Blood: England’s First Revolution, tells Smithsonian, after 1381, it became “if not impossible, then highly inadvisable, to ignore the effects of policy on ordinary people.”",
-    "cn": "正如《血之夏：英格兰的第一次革命》一书的作者丹·琼斯（Dan Jones）告诉史密森尼，1381年后，“如果不是不可能的话，那么忽视政策对普通人的影响是非常不明智的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "reward": {
-    "en": "His goal owed something to poor goalkeeping from Martinez, but it was still reward for his ingenuity.",
-    "cn": "马丁内斯的失误对他这一球有所帮助，但这粒进球仍是哈弗茨创造力的回报。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "right": {
-    "en": "He meets a Bouanani cross from the right and nods towards goal but Jacob Chapman produces a super stop.",
-    "cn": "他接到布阿纳尼从右路传中的球，头球攻门，但雅各布·查普曼做出了精彩扑救。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "rise": {
-    "en": "From the second of two subsequent corners, Muharemovic rises highest at the back post to nod the opener back inside the opposite corner.",
-    "cn": "从接下来的两个角落中的第二个角落，穆哈雷莫维奇在后柱上升得最高，向对角内的揭幕战点头。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "rich": {
-    "en": "The insurgents’ demands ranged from the abolition of serfdom to the redistribution of the church’s riches.",
-    "cn": "叛乱分子的要求从废除农奴制到重新分配教会的财富不等。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rice": {
-    "en": "It's never been a question,\" added Declan Rice, speaking to Sky Sports.",
-    "cn": "这从来都不是一个问题，”Declan Rice在接受天空体育采访时补充道。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "row": {
-    "en": "In time, a tightly fitted row of single-peaked teeth came into view, Dąbrowski tells Roman Skiba of the Polish Press Agency (PAP).",
-    "cn": "Dąbrowski告诉波兰新闻社（PAP）的Roman Skiba ，随着时间的推移，一排紧密贴合的单峰牙齿出现在视野中。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "same": {
-    "en": "The short-eared rock-wallaby can easily be dismissed with images, because it doesn’t look the same as the nabarlek.",
-    "cn": "短耳岩袋鼠很容易被图片所忽视，因为它看起来和纳巴莱克不一样。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "sample": {
-    "en": "The sample size is small but there seems more aggression and pressing about Brentford this season with a rise in their high turnovers per 90 of 3.1 and 6.2 more fouls committed per 90.",
-    "cn": "样本规模很小，但本赛季布伦特福德似乎更具侵略性和压力，他们每90分钟的最高失误增加了3.1次，每90分钟的犯规增加了6.2次。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "sand": {
-    "en": "“Buried in sand, soil, or vegetation, the nest would stay humid or damp enough for the eggs to survive,” says Zelenitsky.",
-    "cn": "Zelenitsky说：“巢穴被埋在沙子、土壤或植被中，会保持潮湿或潮湿，足以让卵子存活下来。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "saturday": {
-    "en": "\"I spoke with the Mister and he was the key for this decision,\" Fernandes told Sky Sports ahead of the Saturday Night Football clash with Everton.",
-    "cn": "“我和先生谈过了，他是这个决定的关键，”费尔南德斯在周六晚与埃弗顿的比赛前告诉天空体育。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "save": {
-    "en": "Mike Penders is called into action twice in a matter of seconds to deny Muharemovic and Aaronson with a superb double save.",
-    "cn": "Mike Penders在几秒钟内两次被要求采取行动，以拒绝Muharemovic和Aaronson的精彩双扑救。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "scene": {
-    "en": "The Latin captions above the scenes are terse, offering little more than names and places.",
-    "cn": "场景上方的拉丁文字幕很简洁，除了名字和地点之外，几乎没有别的说明。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "scare": {
-    "en": "\"I didn't feel like we were shaking or scared, we tried to play, for the whole 90 minutes we did that.",
-    "cn": "“我不觉得我们在颤抖或害怕，我们努力比赛，整整90分钟我们都在这样做。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "scale": {
-    "en": "Although the rebellion failed to achieve any of its stated goals, it inspired subsequent “large-scale popular uprisings with a political aim,” Prescott says.",
-    "cn": "普雷斯科特说，尽管叛乱未能实现其任何既定目标，但它激发了随后的“有政治目的的大规模民众起义”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "say": {
-    "en": "In the study, “we’ve shown that animals kiss and when it could have evolved in the primates,” she says.",
-    "cn": "她说：“在这项研究中，我们已经证明了动物接吻以及它何时可以在灵长类动物中进化。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "saw": {
-    "en": "Alonso's 3-5-2 system saw Josh Acheampong, Maxence Lacroix and Wesley Fofana start in the back three -- with Pedro Neto and Jorrel Hato as wing-backs.",
-    "cn": "阿隆索排出的 3-5-2 阵型中，约书亚·阿查姆庞、拉克鲁瓦和福法纳组成三中卫，佩德罗·内托和哈托担任翼卫。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "scar": {
-    "en": "\"I didn't feel like we were shaking or scared, we tried to play, for the whole 90 minutes we did that.",
-    "cn": "“我不觉得我们在颤抖或害怕，我们努力比赛，整整90分钟我们都在这样做。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "runner": {
-    "en": "The goal, Odegaard's fourth in five games this season, ensured a winning start for last season's runners-up in this competition but wasteful finishing made it harder than it should have been.",
-    "cn": "这个进球是厄德高本赛季五场比赛中的第四个进球，确保了上赛季亚军在这场比赛中的胜利开局，但浪费的成绩使比赛变得更加艰难。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "run": {
-    "en": "Its Chicago stop, which opened to the public over Labor Day weekend, runs through January.",
-    "cn": "芝加哥站在劳动节周末向公众开放，一直持续到1月。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rumour": {
-    "en": "Tottenham transfer news, rumours and gossip: Live updates and latest on deals, signings, loans and contracts",
-    "cn": "热刺转会新闻，谣言和八卦：实时更新和最新的交易，签约，贷款和合同",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "rule": {
-    "en": "The Egypt international was later denied his first goal with the ball ruled out of play before Hogh sent it back in for him to score.",
-    "cn": "这位埃及国脚后来被拒绝了他的第一个进球，球被排除在外，然后霍格将球送回给他进球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "rush": {
-    "en": "“The police intervention and the museum’s alarms caused the robbers to rush and steal only 4 of the 12 works from the Renoir Museum.”",
-    "cn": "警察的介入和博物馆的警报使得劫匪们冲了过去，只偷走了雷诺阿博物馆12件作品中的4件。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "royal": {
-    "en": "Looking at fossilized titanosaur eggs found in southern Argentina’s Chorrillo Formation, a study published in the journal Royal Society Open Science today offers a new understanding of how dinosaurs survived and reproduced so far from the equator.",
-    "cn": "通过观察在阿根廷南部Chorrillo地层中发现的泰坦龙蛋化石，今天发表在《皇家学会开放科学》杂志上的一项研究为恐龙如何在远离赤道的地方生存和繁殖提供了新的认识。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "saint": {
-    "en": "A strong stop from the Saints goalkeeper, turning the ball past as Celtic push for an early opener.",
-    "cn": "圣徒守门员强有力的一站，在凯尔特人推动早期揭幕战时，将球转过身去。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "safe": {
-    "en": "There’s little to no research proving these molecules are safe or effective and no assurance from the FDA about their identity, purity or strength.",
-    "cn": "几乎没有研究证明这些分子是安全或有效的，FDA也不能保证它们的特性、纯度或强度。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sacrifice": {
-    "en": "That mound contained the bones of a calf—possibly a graveside sacrifice.",
-    "cn": "那个土堆里有小牛的骨头--可能是墓边的祭品。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "pluck": {
-    "en": "In January, however, one young raccoon was seen bypassing the food scraps, instead plucking a receipt from a waste bin.",
-    "cn": "然而，今年1月，人们看到一只小浣熊绕过食物残渣，而是从垃圾箱里拿出一张收据。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "result": {
-    "en": "\"I don't know the amount of chances and situations we generated but the performance doesn't reflect the result.",
-    "cn": "“我不知道我们创造了多少机会和情况，但表现并不能反映结果。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "restrict": {
-    "en": "Though his mobility was restricted, Renoir painted there until his death, in 1919.",
-    "cn": "尽管行动不便，雷诺阿仍在那里作画，直到1919年去世。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "refuge": {
-    "en": "This finding suggests that the marine mammals may be seeking refuge on artificial reefs like the Po as their natural habitat is increasingly threatened by human activities.",
-    "cn": "这一发现表明，海洋哺乳动物可能正在Po等人工珊瑚礁上寻求庇护，因为它们的自然栖息地越来越受到人类活动的威胁。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "regard": {
-    "en": "The Navier-Stokes problem, a famous theoretical math problem regarding the movement of fluids, has stumped mathematicians for almost 200 years.",
-    "cn": "纳维-斯托克斯问题是一个关于流体运动的著名理论数学问题，困扰了数学家近200年。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "regarding": {
-    "en": "The Navier-Stokes problem, a famous theoretical math problem regarding the movement of fluids, has stumped mathematicians for almost 200 years.",
-    "cn": "纳维-斯托克斯问题是一个关于流体运动的著名理论数学问题，困扰了数学家近200年。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "region": {
-    "en": "Both lie in a remote region where the nabarlek had not been documented for 50 years.",
-    "cn": "它们都位于一个偏远的地区，在那里，纳巴勒克已经有50年没有文献记载了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "register": {
-    "en": "In the basement of Lahore Museum in Pakistan were 34 black, leather-bound registers gathering dust.",
-    "cn": "在巴基斯坦拉合尔博物馆（Lahore Museum）的地下室里，有34本黑色皮革装订的登记簿落满了灰尘。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "regulate": {
-    "en": "Experts say the peptide craze is part of a broader phenomenon, as patients look beyond the regulated health system to address problems that doctors have struggled to treat",
-    "cn": "专家表示，多肽热是一种更广泛现象的一部分，因为患者将目光投向了受监管的卫生系统之外，以解决医生难以治疗的问题",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "regulation": {
-    "en": "“We’re seeing a new rival or parallel health system emerge,” says Daniel Carpenter, chair of the government department at Harvard University and an expert in FDA regulation, “built on self-diagnosis and easy access to a wide range of treatments.”",
-    "cn": "哈佛大学政府部门主席、FDA监管专家丹尼尔·卡彭特（Daniel Carpenter）说：“我们正在看到一个新的竞争对手或平行的卫生系统出现，它建立在自我诊断和容易获得各种治疗的基础上。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "reign": {
-    "en": "Want to know more about Elizabeth I and her remarkable reign?",
-    "cn": "想知道更多关于伊丽莎白一世和她卓越的统治吗？",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "reliable": {
-    "en": "As part of his HistoryExtra Academy series on the embroidery, Dr David Musgrove examines the history of the tapestry, the story it tells, who made it and whether it's reliable as a historical source…",
-    "cn": "作为他关于刺绣的历史系列的一部分，大卫·马斯格罗夫博士研究了挂毯的历史，它讲述的故事，它的制造者，以及它作为历史来源是否可靠…",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "relevant": {
-    "en": "\"We just want to make sure that we give ourselves a chance to be relevant domestically again in terms of winning trophies, and Sunday gives us a chance to take a step towards that.\"",
-    "cn": "“我们只是想确保我们给自己一个在国内赢得奖杯的机会，周日给了我们一个朝着这个目标迈出一步的机会。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "release": {
-    "en": "Tickets are being released in phases, with the next batch available to book from 21 October 2026.",
-    "cn": "门票将分阶段发售，下一批门票将于2026年10月21日开始接受预订。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "relationship": {
-    "en": "\"He's got that edge and different relationships around him as well and that helps,\" said the Gunners boss.",
-    "cn": "“他周围有这种优势和不同的关系，这很有帮助，”枪手主帅说。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "relate": {
-    "en": "This boom is even more visible online: As of May, peptide-related hashtags had generated more than 130,000 Instagram posts and 230 million TikTok views.",
-    "cn": "这种热潮在网上更加明显：截至5月，与多肽相关的标签已经产生了超过13万个Instagram帖子和2.3亿次TikTok浏览量。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "reinforce": {
-    "en": "It is revealing because the World Cup has reinforced his appetite to keep learning and evolving.",
-    "cn": "这很有启发性，因为世界杯增强了他不断学习和发展的胃口。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "reliance": {
-    "en": "Arsenal's set-piece prowess is well documented, to the extent that they have been criticised for an over-reliance on dead-ball situations to win tight games.",
-    "cn": "阿森纳的定位球能力人尽皆知，甚至有人批评他们过分依赖定位球来赢下胶着比赛。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "rebel": {
-    "en": "On a June day in 1381, however, rebels breached the Tower for the first and only time in its history.",
-    "cn": "然而，在1381年6月的一天，叛乱分子在其历史上第一次也是唯一一次突破了这座塔。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "rebellion": {
-    "en": "Paul Greengrass’ new film stars Andrew Garfield as a fictionalized, unnamed farmer who leads a rebellion against unfair taxes and the system of serfdom",
-    "cn": "保罗·格林格拉斯（Paul Greengrass）的新电影明星安德鲁·加菲尔德（Andrew Garfield）是一个虚构的、未透露姓名的农民，他领导了一场反对不公平税收和农奴制度的叛乱",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "receipt": {
-    "en": "In January, however, one young raccoon was seen bypassing the food scraps, instead plucking a receipt from a waste bin.",
-    "cn": "然而，今年1月，人们看到一只小浣熊绕过食物残渣，而是从垃圾箱里拿出一张收据。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "receive": {
-    "en": "Would you like to receive offers from our publisher, Immediate Media, and carefully selected partners?",
-    "cn": "您想收到我们的出版商、即时媒体和精心挑选的合作伙伴的报价吗？",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "recent": {
-    "en": "The Renoir Museum burglary joins a growing roster of recent art thefts in Europe.",
-    "cn": "雷诺阿博物馆的盗窃案是欧洲近年来不断增多的艺术品盗窃案之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "recently": {
-    "en": "The former Manchester United striker, 30, most recently played in Mexico for Monterrey.",
-    "cn": "这位30岁的前曼联前锋最近在墨西哥的蒙特雷队踢球。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "record": {
-    "en": "Arsenal had 26 shots in total - their most on record (since 2003/04) in the competition.",
-    "cn": "阿森纳总共投篮26次，这是他们在比赛中最多的纪录（自2003/04赛季以来）。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "reflection": {
-    "en": "His reflections on the World Cup seem like as good a place to get going.",
-    "cn": "他对世界杯的思考似乎是一个很好的去处。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "reflect": {
-    "en": "\"I don't know the amount of chances and situations we generated but the performance doesn't reflect the result.",
-    "cn": "“我不知道我们创造了多少机会和情况，但表现并不能反映结果。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "reference": {
-    "en": "Christos Tzolis is likely to be one of those players Arteta is referencing.",
-    "cn": "Christos Tzolis很可能是Arteta提到的球员之一。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "reel": {
-    "en": "Enough teams have spent lots of money on these highlight-reel-but-no-end-product wingers over the past three seasons that it has to mean something.",
-    "cn": "过去三个赛季，已经有足够多的球队在这些「集锦精彩但产量不佳」的边锋身上砸下重金，这一定有意义。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "red": {
-    "en": "They were required to be painted white with green bands and red crosses and illuminated at night.",
-    "cn": "他们被要求被漆成白色，带有绿色条带和红色十字架，并在夜间照明。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "recover": {
-    "en": "Before the two abandoned paintings were recovered, the mayor’s office had valued the thieves’ haul at some $10 million, reports Agence France-Presse.",
-    "cn": "据法新社报道，在这两幅被遗弃的画作被找回之前，市长办公室估计窃贼的赃款约为1000万美元。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "research": {
-    "en": "The research highlights how dinosaurs adapted to environmental conditions, says Zelenitsky to the CBC.",
-    "cn": "Zelenitsky向加拿大广播公司表示，这项研究突出了恐龙如何适应环境条件。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "researcher": {
-    "en": "The style of the ax, which was chipped from use, led researchers to date the grave to around 2900 B.C.E.",
-    "cn": "斧头的风格从使用中被削弱，导致研究人员将坟墓的年代定在公元前2900年左右。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "resemble": {
-    "en": "The nabarlek looks nearly identical to the monjon (another small rock-wallaby that shares its range), and its genes very closely resemble those of the short-eared rock-wallaby.",
-    "cn": "纳巴勒克看起来几乎和獴（另一种分布范围相同的小岩袋鼠）一模一样，它的基因也和短耳岩袋鼠非常相似。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "resolution": {
-    "en": "Between June 2022 and September 2024, they made 32 scientific dives to the Po, which they studied using high-resolution sonar surveys and 3D photography.",
-    "cn": "在2022年6月至2024年9月期间，他们对Po进行了32次科学潜水，他们使用高分辨率声纳调查和3D摄影进行了研究。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "resource": {
-    "en": "It’s usually harder for such large animals to find the resources needed to survive and reproduce in such a climate.",
-    "cn": "这种大型动物通常很难找到在这种气候下生存和繁殖所需的资源。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "restore": {
-    "en": "It will be more challenging against City's attack but Carrick and his players go into that with confidence restored.",
-    "cn": "面对曼城的进攻会更有挑战性，但卡里克和他的球员们会恢复信心。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "rest": {
-    "en": "Discovered by divers in 2005, it rests on a gently inclined shelf less than a mile off the coast.",
-    "cn": "它由潜水员于2005年发现，坐落在离海岸不到一英里的平缓倾斜的架子上。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "responsible": {
-    "en": "Vitaly Janelt has been responsible for a lot of that upsurge, making 10 fouls in four games and being booked in all three Premier League games.",
-    "cn": "维塔利·贾内尔特对这场热潮负有很大的责任，他在四场比赛中犯规10次，并且在三场英超比赛中都吃到了黄牌。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "requirement": {
-    "en": "However, Sky Sports News reported during the summer transfer window that the Scotland international has been made surplus to requirements at Ibrox.",
-    "cn": "然而，天空体育在夏季转会窗口报道，苏格兰国脚已经超出了伊布罗克斯的需求。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "require": {
-    "en": "To view this content, choose 'Accept and continue' to allow Google reCAPTCHA and its required purposes.",
-    "cn": "要查看此内容，请选择“接受并继续”以允许谷歌reCAPTCHA及其所需目的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "request": {
-    "en": "The flat presentation in London, requested by the French state, is designed to minimise stress on the fabric.",
-    "cn": "应法国政府的要求，在伦敦的平面展示是为了尽量减少对织物的压力。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "remove": {
-    "en": "Navier-Stokes might seem like a wildly theoretical consideration, far removed from the daily life of the average person.",
-    "cn": "纳维-斯托克斯似乎是一种疯狂的理论考虑，与普通人的日常生活相去甚远。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "remote": {
-    "en": "Both lie in a remote region where the nabarlek had not been documented for 50 years.",
-    "cn": "它们都位于一个偏远的地区，在那里，纳巴勒克已经有50年没有文献记载了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "remember": {
-    "en": "Amandeep Madra remembers his father telling him, almost in passing, that his uncle (Amandeep’s great uncle) had served with the British during the First World War.",
-    "cn": "阿曼迪普·马德拉（Amandeep Madra）记得父亲几乎是顺带地告诉他，他的叔叔（阿曼迪普的叔祖父）曾在第一次世界大战期间与英国人一起服役。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "renew": {
-    "en": "Rangers turn their attention to a huge double-header against Celtic, with the sides first meeting in the League Cup quarter-finals before renewing hostilities in the Scottish Premiership at Parkhead.",
-    "cn": "流浪者将注意力转向对凯尔特人的巨大双头，双方在联赛杯四分之一决赛中首次会面，然后在Parkhead的苏格兰超级联赛中再次发生敌对行动。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "remains": {
-    "en": "While there is no direct association between the eggshells and skeletal remains, the authors note in the study, it’s possible they could belong to the same species.",
-    "cn": "作者在研究中指出，虽然蛋壳和骨骼遗骸之间没有直接联系，但它们可能属于同一物种。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "remain": {
-    "en": "Alonso was handed another clear indication of where his side remain lacking - but for now, chaos isn't serving them too badly.",
-    "cn": "阿隆索得到了另一个明确的迹象，表明他的球队仍然缺乏-但目前，混乱并没有为他们服务得太糟糕。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "remarkable": {
-    "en": "Want to know more about Elizabeth I and her remarkable reign?",
-    "cn": "想知道更多关于伊丽莎白一世和她卓越的统治吗？",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "restriction": {
-    "en": "Despite financial restrictions that appear to be imposed within the club, you can't hide from the fact they have the highest net spend of any Premier League side since 2022.",
-    "cn": "尽管俱乐部内部似乎施加了财务限制，但自2022年以来，他们的净支出一直是英超联赛中最高的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "repeat": {
-    "en": "Morgan Rogers -- who signed for Chelsea in a £117 million deal after repeated links with a move to Arsenal -- struck inside 77 seconds to put the visitors in front.",
-    "cn": "此前曾与阿森纳频繁传出转会绯闻的摩根·罗杰斯，以 1.17 亿英镑转会切尔西，开场仅 77 秒便率先破门。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "reproduce": {
-    "en": "It’s usually harder for such large animals to find the resources needed to survive and reproduce in such a climate.",
-    "cn": "这种大型动物通常很难找到在这种气候下生存和繁殖所需的资源。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "representative": {
-    "en": "It also follows consultation with the Football Supporters' Association and representatives from club Fan Advisory Boards.",
-    "cn": "这也是在与足球支持者协会和俱乐部球迷顾问委员会的代表进行磋商之后做出的决定。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "repair": {
-    "en": "By linking up various amino acids in sequence, the body produces peptides that carry out a wide range of functions, including immune support, tissue repair and appetite control.",
-    "cn": "通过按顺序连接各种氨基酸，人体产生具有多种功能的肽，包括免疫支持、组织修复和食欲控制。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "report": {
-    "en": "However, Sky Sports News reported during the summer transfer window that the Scotland international has been made surplus to requirements at Ibrox.",
-    "cn": "然而，天空体育在夏季转会窗口报道，苏格兰国脚已经超出了伊布罗克斯的需求。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "replace": {
-    "en": "The nabarlek is the only wallaby that can continually replace its molar teeth throughout its life, rather like a shark.",
-    "cn": "纳巴莱克是唯一一种可以在一生中不断更换臼齿的小袋鼠，就像鲨鱼一样。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "repeatedly": {
-    "en": "She then carried the slip of paper to a bowl of water, dunked it repeatedly, and rolled it between her front paws and against the sand until it formed a compact, gritty ball.",
-    "cn": "然后，她把纸条拿到一碗水里，反复浸泡，用前爪在沙子上滚来滚去，直到它变成一个致密的沙砾球。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "reporter": {
-    "en": "“Attacking the Renoir Museum is attacking a part of the history and heritage of Cagnes-sur-Mer,” Masson told reporters, per BBC News ’ Michael Sheils McNamee and Tiffany Wertheimer.",
-    "cn": "“攻击雷诺阿博物馆就是攻击滨海卡涅的一部分历史和遗产，”马森告诉记者，据BBC新闻的迈克尔·谢尔斯·麦克纳米和蒂凡尼·韦特海默报道。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "plenty": {
-    "en": "The scooped pass to release Ben White for the golden chance somehow spurned by Piero Hincapie was one of many examples of his ingenuity against the massed ranks of Napoli players but there were plenty of others.",
-    "cn": "皮耶罗·辛卡皮（Piero Hincapie）以某种方式拒绝了释放本·怀特（Ben White）的黄金机会，这是他对那不勒斯球员群体的聪明才智的众多例子之一，但还有很多其他例子。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "might": {
-    "en": "Navier-Stokes might seem like a wildly theoretical consideration, far removed from the daily life of the average person.",
-    "cn": "纳维-斯托克斯似乎是一种疯狂的理论考虑，与普通人的日常生活相去甚远。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "mile": {
-    "en": "Discovered by divers in 2005, it rests on a gently inclined shelf less than a mile off the coast.",
-    "cn": "它由潜水员于2005年发现，坐落在离海岸不到一英里的平缓倾斜的架子上。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "military": {
-    "en": "Curiously, they then head off together on a military adventure in Brittany, which Harold seems to enthusiastically take part in.",
-    "cn": "奇怪的是，他们随后一起前往布列塔尼进行军事冒险，哈罗德似乎热情地参加了这次冒险。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "milk": {
-    "en": "In a 2016 study, scientists found that milk proteins from a species of cockroach that gives live birth carry three times as much energy as milk proteins from cows.",
-    "cn": "在2016年的一项研究中，科学家们发现，一种活产蟑螂的乳蛋白所携带的能量是奶牛乳蛋白的三倍。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "million": {
-    "en": "Arsenal pursued a deal for Rogers for much of the summer but never believed he was worth £117 million.",
-    "cn": "阿森纳整个夏天都在追逐罗杰斯，但始终认为他不值 1.17 亿英镑。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "mind": {
-    "en": "They can only blame themselves for that problem, mind you.",
-    "cn": "请注意，他们只能把这个问题归咎于自己。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "minister": {
-    "en": "Edda Ciano, the daughter of Italian dictator Benito Mussolini and the wife of Italian foreign minister Galeazzo Ciano, was among the survivors.",
-    "cn": "埃达·奇亚诺（Edda Ciano）是意大利独裁者贝尼托·墨索里尼（Benito Mussolini）的女儿，也是意大利外交部长加莱阿佐·奇亚诺（Galeazzo Ciano）的妻子",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "missing": {
-    "en": "The missing art was on loan to the Renoir Museum and belongs to the Musée d’Orsay, in Paris.",
-    "cn": "这幅失踪的艺术品是租借给雷诺阿博物馆的，属于巴黎的mussame d 'Orsay。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "miss": {
-    "en": "The missing art was on loan to the Renoir Museum and belongs to the Musée d’Orsay, in Paris.",
-    "cn": "这幅失踪的艺术品是租借给雷诺阿博物馆的，属于巴黎的mussame d 'Orsay。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "minute": {
-    "en": "Among players with at least 900 minutes of game time, 53 different Premier League players got there last year.",
-    "cn": "而在出场 900 分钟以上的球员中，去年有 53 名英超球员达到了这一数字。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "meet": {
-    "en": "This was also a meeting of two sides with a 100% record from their opening two games.",
-    "cn": "这场比赛也是前两轮联赛均取得全胜的两支球队之间的对决。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "meeting": {
-    "en": "This was also a meeting of two sides with a 100% record from their opening two games.",
-    "cn": "这场比赛也是前两轮联赛均取得全胜的两支球队之间的对决。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "member": {
-    "en": "Members of a group learn to make or use these items by observing others.",
-    "cn": "一个小组的成员通过观察其他人来学习制作或使用这些物品。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "mental": {
-    "en": "There was a time when the Blues used to dominate Arsenal physically -- and possibly psychologically, with ex-Arsenal boss Arsene Wenger having to fend off questions about a mental block against their London rivals.",
-    "cn": "曾经有一段时间，切尔西在身体上——甚至可能在心理上——对阿森纳形成压制，前阿森纳主帅温格甚至不得不反复回应外界关于他心结的提问。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "menu": {
-    "en": "Peptides seem like they’re everywhere: on social media, on medical spa menus and beyond.",
-    "cn": "多肽似乎无处不在：社交媒体、医疗水疗菜单等。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "microscope": {
-    "en": "Zelenitsky and her colleagues then took a closer look at the pores on the eggshells using microscopes and micro-CT scanners.",
-    "cn": "然后，Zelenitsky和她的同事们使用显微镜和微型CT扫描仪仔细观察了蛋壳上的毛孔。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "metric": {
-    "en": "Odegaard only scored once for Arsenal during an injury-hit 2025/26 campaign but now his stats are up across a range of other attacking metrics, too.",
-    "cn": "在一场受伤的2025/26赛季中，厄德高只为阿森纳得分一次，但现在他的统计数据也在一系列其他攻击指标上都有所上升。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "metre": {
-    "en": "This astonishing artwork is 68.3 metres long and half a metre high.",
-    "cn": "这幅惊人的艺术品长68.3米，高半米。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "method": {
-    "en": "A notebook from Arthur Conan Doyle detailing Detective Sherlock Holmes ’ mystery-solving methods, as well as crime writer Dorothy L.",
-    "cn": "阿瑟·柯南·道尔的一本笔记本详细描述了侦探夏洛克·福尔摩斯的破案方法，以及犯罪作家多萝西·L。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "middle": {
-    "en": "But the Arsenal attack down both flanks and through the middle looked extremely dangerous at the Stadio Diego Armando Maradona.",
-    "cn": "但是阿森纳在迭戈·阿曼多·马拉多纳体育场的侧翼和中间进攻看起来非常危险。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "message": {
-    "en": "This is your chance to show how much Scouting means to you,” read a message accompanying the insert.",
-    "cn": "这是你展示童军运动对你有多重要的机会。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "metal": {
-    "en": "“The metal sheets provide a hard substrate for marine life to grow on,” lead author Simone Modugno, a marine biologist with the Institute for Research, Development and Experimentation on the Environment and Territory, tells BBC Wildlife magazine ’s Helen Pilcher.",
-    "cn": "“金属板为海洋生物的生长提供了坚硬的基础，”环境与领土研究、开发和实验研究所的海洋生物学家Simone Modugno告诉英国广播公司野生动物杂志的海伦·皮尔彻。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "mediterranean": {
-    "en": "Mediterranean monk seals spend most of their time in water, but they waddle onto land periodically to rest and give birth.",
-    "cn": "地中海僧海豹大部分时间都在水中度过，但它们会定期徘徊在陆地上休息和分娩。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "mount": {
-    "en": "As yet, these peptides are “completely untested and unregulated,” says Deborah Doroshow, an oncologist and historian at Mount Sinai in New York.",
-    "cn": "到目前为止，这些肽“完全未经测试和不受管制”，纽约西奈山的肿瘤学家和历史学家Deborah Doroshow说。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "move": {
-    "en": "The way we moved the ball, the aggression and the chances we created, we should have done so much better.",
-    "cn": "我们移动球的方式，我们创造的侵略性和机会，我们应该做得更好。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "movie": {
-    "en": "Titled The Uprising, the movie stars Andrew Garfield as the Ploughman, a fictionalized everyman who takes up arms against the corrupt politicians advising England’s 14-year-old king, Richard II.",
-    "cn": "这部名为《起义》（The Uprising）的电影由安德鲁·加菲尔德（Andrew Garfield）饰演犁人（Ploughman），这是一个虚构的普通人，他拿起武器对抗为英格兰14岁的国王理查二世（Richard II）提供",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "much": {
-    "en": "The way we moved the ball, the aggression and the chances we created, we should have done so much better.",
-    "cn": "我们移动球的方式，我们创造的侵略性和机会，我们应该做得更好。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "multiple": {
-    "en": "So, to confirm their discovery, the team took multiple steps, using both camera trap imagery and genetic analysis to rule out the presence of these other creatures.",
-    "cn": "因此，为了证实他们的发现，研究小组采取了多个步骤，使用相机陷阱图像和基因分析来排除这些其他生物的存在。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "must": {
-    "en": "There were times during the tournament when life must have felt a little wild, I suggest.",
-    "cn": "我建议，在比赛期间，生活一定感觉有点狂野。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "museum": {
-    "en": "In 1960, Renoir’s son Claude sold the estate to the village of Cagnes, which turned it into a museum.",
-    "cn": "1960年，雷诺阿的儿子克劳德将庄园卖给了卡涅斯村，并将其改建为博物馆。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "muscle": {
-    "en": "Today, they’re sold via polished websites with a medical gloss, with each peptide promising to deliver a remarkable benefit, such as weight loss, younger-looking skin or muscle repair.",
-    "cn": "如今，它们通过带有医学光泽的抛光网站出售，每种肽都有望带来显着的好处，例如减肥、年轻的皮肤或肌肉修复。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "murder": {
-    "en": "Murder on the Orient Express became a Hollywood blockbuster in 2017, and Death on the Nile followed in 2022.",
-    "cn": "2017年，《东方快车谋杀案》成为好莱坞大片，2022年，《尼罗河上的惨案》紧随其后。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "mister": {
-    "en": "\"I spoke with the Mister and he was the key for this decision,\" Fernandes told Sky Sports ahead of the Saturday Night Football clash with Everton.",
-    "cn": "“我和先生谈过了，他是这个决定的关键，”费尔南德斯在周六晚与埃弗顿的比赛前告诉天空体育。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "motion": {
-    "en": "First, they set out five cameras that operated at night, triggered by the motion of nearby animals.",
-    "cn": "首先，他们设置了五台夜间运行的摄像机，由附近动物的动作触发。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "mostly": {
-    "en": "And then Mbaye played only 900 mostly sub minutes for the best team in the world.",
-    "cn": "而姆巴耶在世界上最好的球队只踢了大约 900 分钟，大多是替补时间。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "mix": {
-    "en": "Having finished 10th last season, 33 points behind the Gunners, Chelsea have done a remarkable job in the summer to put themselves back in the title mix.",
-    "cn": "上赛季只拿到第 10 名、落后阿森纳 33 分的切尔西，在今夏完成了一项了不起的工作，让自己重新回到争冠行列。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "model": {
-    "en": "The proof was produced by a group of agents, using an OpenAI next-generation model significantly more capable than GPT-6 Astra.",
-    "cn": "证据是由一组代理使用比GPT-6 Astra更强大的OpenAI下一代模型制作的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "modern": {
-    "en": "This suggests the giant creatures incubated their eggs using a technique shared by modern crocodiles—using piles of rotting vegetation for heat.",
-    "cn": "这表明巨型生物使用现代鳄鱼共用的技术孵化卵子-使用成堆的腐烂植被来加热。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "molecule": {
-    "en": "Its equations assume that fluids are smooth and continuous, while in the real world, of course, they are made of atoms and molecules.",
-    "cn": "它的方程假设流体是光滑和连续的，而在现实世界中，它们当然是由原子和分子组成的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "moment": {
-    "en": "But it was another substitute who provided the decisive moment as Miovski produced a composed finish to ensure Rangers' momentum under McInnes continues.",
-    "cn": "但这是另一位替补球员提供了决定性的时刻，因为Miovski创造了一个沉着的结局，以确保流浪者队在麦金尼斯的带领下继续保持势头。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "monday": {
-    "en": "Paper Talk is a review of the sports headlines from the national newspapers, every Monday to Friday, live on Sky Sports News from 10.30pm.",
-    "cn": "Paper Talk是每周一至周五晚上10:30在天空体育新闻直播的全国性报纸的体育头条评论。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "money": {
-    "en": "England had been at war with France for nearly five decades, and officials needed more money to pay for the kingdom’s armies and defenses.",
-    "cn": "英格兰与法国交战了近五十年，官员们需要更多的钱来支付王国的军队和国防费用。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "most": {
-    "en": "Elizabeth I is one of history's most iconic monarchs, but her path to the throne was anything but secure.",
-    "cn": "伊丽莎白一世是历史上最具标志性的君主之一，但她登上王位的道路却并不安全。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "morning": {
-    "en": "The burglars entered Cagnes-sur-Mer’s Renoir Museum, housed in the estate where the famed Impressionist spent the last decade of his life, before sunrise this morning.",
-    "cn": "在今天早晨日出之前，窃贼进入了梅尔河畔卡涅的雷诺阿博物馆，该博物馆位于著名印象派画家雷诺阿度过生命最后十年的地方。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "more": {
-    "en": "These types of wingers had never really existed before, but now they were more important than anyone else.",
-    "cn": "这种类型的边锋以前几乎不存在，但现在他们成了场上最重要的角色。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "mother": {
-    "en": "Their mother attempted to make a ball too but quickly abandoned the task.",
-    "cn": "他们的母亲也想做一个球，但很快就放弃了这项任务。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "month": {
-    "en": "The 29-year-old signed a new deal until 2027 earlier this year, with Rangers retaining the option to extend that by a further 12 months.",
-    "cn": "今年早些时候，这位29岁的球员与流浪者队签订了一份到2027年的新合同，流浪者队保留了再延长12个月的选择权。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "moon": {
-    "en": "Two depict variations of clowns and skulls, while the third is a coastal landscape with a low-hanging moon and red trees beside open water.",
-    "cn": "两幅描绘了小丑和头骨的变体，而第三幅是沿海景观，在开阔的水域旁边有一个低垂的月亮和红色的树木。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "medicine": {
-    "en": "Speaking of bodily fluids, research on nose-blowing won the Ig Nobel Medicine Prize.",
-    "cn": "说到体液，关于流鼻涕的研究获得了Ig诺贝尔医学奖。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "medical": {
-    "en": "Peptides seem like they’re everywhere: on social media, on medical spa menus and beyond.",
-    "cn": "多肽似乎无处不在：社交媒体、医疗水疗菜单等。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "lose": {
-    "en": "Martin Zubimendi may push to leave Arsenal in January after losing his starting sport under Mikel Arteta.",
-    "cn": "马丁·祖比门迪可能会在一月份离开阿森纳，因为他在阿尔特塔手下失去了首发位置。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "loss": {
-    "en": "GLP-1 drugs, medications that are self-injected to support weight loss and lower blood sugar, helped peptides become mainstream.",
-    "cn": "GLP-1药物是自我注射以支持减肥和降低血糖的药物，帮助肽成为主流。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "lot": {
-    "en": "When scouting a player, there's a lot of noise behind the conversion of shots into goals and passes into goals.",
-    "cn": "在球探评估球员时，射门转化为进球、传球转化为进球的过程充满干扰。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "love": {
-    "en": "That's the Martin we know and we love, he's our captain.",
-    "cn": "这就是我们认识和喜爱的马丁，他是我们的队长。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "lovely": {
-    "en": "The 7/4 for him to make two or more fouls is a lovely slice of value.",
-    "cn": "对于他来说，7/4的两次或两次以上的犯规是一个可爱的价值。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "low": {
-    "en": "But Kai Havertz equalised with a low drive in the 25th minute that snuck inside Emiliano Martínez's near post.",
-    "cn": "但凯·哈弗茨在第 25 分钟的一记低射，皮球从埃米利亚诺·马丁内斯的近角钻入网窝，扳平比分。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "lower": {
-    "en": "GLP-1 drugs, medications that are self-injected to support weight loss and lower blood sugar, helped peptides become mainstream.",
-    "cn": "GLP-1药物是自我注射以支持减肥和降低血糖的药物，帮助肽成为主流。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "luck": {
-    "en": "Yes, their expected goals numbers suggest they've ridden their luck to some degree - but this has been an impressive display of defensive organisation, which isn't a new trait.",
-    "cn": "是的，他们的预期进球数表明他们在某种程度上依靠了运气——但这是一个令人印象深刻的防守组织展示，这并不是一个新特点。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "main": {
-    "en": "\"We've still got a bit to go, but we're getting results and that's the main thing.\"",
-    "cn": "“我们还有一段路要走，但我们正在取得成果，这是最重要的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "mail": {
-    "en": "Robert Reisz, a paleontologist at the University of Toronto who was not involved in the study, tells Ivan Semeniuk at the Globe and Mail that the study provides new insight on the dinosaurs' reproductive strategies.",
-    "cn": "多伦多大学的古生物学家Robert Reisz没有参与这项研究，他告诉《环球邮报》的Ivan Semeniuk ，这项研究为恐龙的生殖策略提供了新的见解。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "machine": {
-    "en": "They are a well-oiled machine without the ball.",
-    "cn": "他们是一个没有球的运转良好的机器。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "magazine": {
-    "en": "Potter tells Smithsonian magazine that this unique trait may be linked to its diet of tough shrubs and grasses.",
-    "cn": "波特告诉《史密森尼》杂志，这种独特的特征可能与它以坚韧的灌木和草为食有关。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "mainland": {
-    "en": "Mainland raccoons, on the other hand, typically weigh between 15 and 40 pounds.",
-    "cn": "另一方面，大陆浣熊的体重通常在15到40磅之间。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "lord": {
-    "en": "At the time, all property in England legally belonged to the king, who granted lesser lords the right to lease land to tenants “in return for certain services and restrictions on their freedom,” Prescott says.",
-    "cn": "当时，英格兰的所有财产在法律上都属于国王，国王授予较小的领主向租户出租土地的权利，“以换取某些服务和对其自由的限制”，普雷斯科特说。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "list": {
-    "en": "They listed the soldier’s rank, the village they came from, their caste, any injuries, and if they died.",
-    "cn": "他们列出了士兵的军衔，他们来自的村庄，他们的种姓，是否受伤，是否死亡。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "literature": {
-    "en": "“ Agatha Christie: A World of Mystery,” opening next month at the British Library, in London, includes never-before-seen artifacts from the rollicking life of literature’s “Queen of Crime.”",
-    "cn": "《阿加莎·克里斯蒂：神秘的世界》（Agatha Christie: A World of Mystery）将于下月在伦敦的大英图书馆（British Library）开幕，展出了这位文学“犯罪女王”欢乐生活中从未见过的文物。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "little": {
-    "en": "The Latin captions above the scenes are terse, offering little more than names and places.",
-    "cn": "场景上方的拉丁文字幕很简洁，除了名字和地点之外，几乎没有别的说明。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "live": {
-    "en": "Tottenham transfer news, rumours and gossip: Live updates and latest on deals, signings, loans and contracts",
-    "cn": "热刺转会新闻，谣言和八卦：实时更新和最新的交易，签约，贷款和合同",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "loaf": {
-    "en": "The second-smallest rock-wallaby in the world is about as long as a loaf of bread.",
-    "cn": "世界上第二小的岩袋鼠只有一块面包那么长。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "loan": {
-    "en": "Kendry Páez is not currently part of Chelsea 's first-team plans following the early termination of his loan spell at River Plate last month.",
-    "cn": "Kendry Páez上个月在River Plate的租借期提前结束后，目前不属于切尔西的一线队计划。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "look": {
-    "en": "Depending on where you look and when, crosses get turned into goals somewhere between 1% and 3% of the time.",
-    "cn": "无论你参考哪个数据、哪段时间，传中转化为进球的比例都只有 1% 到 3%。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "long": {
-    "en": "David Martindale has pledged he won't be stepping back into the Livingston dugout long-term.",
-    "cn": "大卫·马丁代尔（David Martindale）承诺，他不会长期退回利文斯顿防空洞。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "lock": {
-    "en": "The perpetrators are found out and locked away, and you've had a very enjoyable experience helping to solve the puzzles.”",
-    "cn": "罪犯被发现并被关起来，你在帮助解决谜题的过程中获得了非常愉快的体验。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "location": {
-    "en": "“However, within this broad distribution, the number of locations where the species has been recorded is small,” Potter tells Smithsonian magazine.",
-    "cn": "“然而，在这个广泛的分布中，物种被记录的地点很少，”波特告诉史密森尼杂志。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "locate": {
-    "en": "When the museum sent a printout, he located his father’s village.",
-    "cn": "当博物馆寄来打印件时，他找到了父亲的村庄。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "local": {
-    "en": "Researchers were curious to know how the wreckage was affecting the local marine ecosystem.",
-    "cn": "研究人员想知道残骸是如何影响当地海洋生态系统的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "log": {
-    "en": "Yet as O’Neil logged 64 hours of field observations, the activity transformed into a family pastime.",
-    "cn": "然而，随着奥尼尔记录了64个小时的实地观察，这项活动变成了一项家庭消遣。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "maintain": {
-    "en": "It was a result that maintained their perfect start to the Premier League season.",
-    "cn": "这场胜利让他们继续保持本赛季英超的完美开局。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "mate": {
-    "en": "Arteta also highlighted how fresh combinations with team-mates are playing a part.",
-    "cn": "Arteta还强调了与队友的新组合是如何发挥作用的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "material": {
-    "en": "Material culture describes physical objects and resources such as tools, clothing, toys and furniture that a group creates, uses and leaves behind to define its way of life.",
-    "cn": "物质文化描述了一个群体创造、使用和留下的物理对象和资源，如工具、服装、玩具和家具，以定义其生活方式。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "mathematical": {
-    "en": "Because of the longstanding interest in these equations, Navier-Stokes, officially called the Navier-Stokes existence and smoothness problem, is one of seven mathematical problems with a $1 million award offered for each solution—they’re known collectively as the Millennium Prize Problems.",
-    "cn": "由于长期以来对这些方程的兴趣，纳维-斯托克斯问题，正式名称为纳维-斯托克斯存在性和平滑性问题，是七个数学问题之一，每个解决方案都有100万美元的奖金——它们被统称为千年奖问题。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "mathematics": {
-    "en": "At the turn of the 21st century, the Clay Mathematics Institute decided that it would award $1 million to whoever solved it.",
-    "cn": "在21世纪之交，克莱数学研究所决定给解决这个问题的人奖励100万美元。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "matter": {
-    "en": "It is Atletico Madrid away next in Europe but there are bigger matters to attend to before that.",
-    "cn": "接下来在欧洲的比赛是马德里竞技，但在那之前还有更重要的事情要做。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "mature": {
-    "en": "Fewer than 200 mature individuals roam the island in the Caribbean Sea, off the east coast of the Yucatán Peninsula.",
-    "cn": "不到200只成年个体在Yucatán半岛东海岸的加勒比海岛屿上游荡。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "maximum": {
-    "en": "Arsenal join Manchester City as the only two sides to take maximum points from their first three league games.",
-    "cn": "阿森纳与曼城成为前 3 轮 联赛仅有的两支全取 9 分的球队。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "may": {
-    "en": "Potter tells Smithsonian magazine that this unique trait may be linked to its diet of tough shrubs and grasses.",
-    "cn": "波特告诉《史密森尼》杂志，这种独特的特征可能与它以坚韧的灌木和草为食有关。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "maybe": {
-    "en": "One club maybe a bit further down the line than the other but I think it's something that could develop.",
-    "cn": "一个俱乐部可能比另一个走得更远，但我认为这是可以发展的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "mayor": {
-    "en": "Before the two abandoned paintings were recovered, the mayor’s office had valued the thieves’ haul at some $10 million, reports Agence France-Presse.",
-    "cn": "据法新社报道，在这两幅被遗弃的画作被找回之前，市长办公室估计窃贼的赃款约为1000万美元。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "mean": {
-    "en": "Although Johnson is a winger, technically, he's more of a wide centre-forward, meaning he just makes runs to the back post.",
-    "cn": "虽然约翰逊名义上是边锋，但严格说更像是一个边路中锋，他只是不断跑向远端门柱。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "match": {
-    "en": "There are two festive midweek rounds of Premier League fixtures when every match will be broadcast live on Sky Sports.",
-    "cn": "英超联赛周中有两轮喜庆的比赛，每场比赛都将在天空体育进行直播。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "means": {
-    "en": "“Their eggshells were very porous, which means if the eggs were left out in the open, they would lose water, dry out, and the embryos would die,” Zelenitsky explains to CNN.",
-    "cn": "Zelenitsky向美国有线电视新闻网解释说：“它们的蛋壳非常多孔，这意味着如果卵子被放在外面，它们会失去水分，变干，胚胎就会死亡。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "meaning": {
-    "en": "Although Johnson is a winger, technically, he's more of a wide centre-forward, meaning he just makes runs to the back post.",
-    "cn": "虽然约翰逊名义上是边锋，但严格说更像是一个边路中锋，他只是不断跑向远端门柱。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "many": {
-    "en": "Then for 20 to 25 minutes we were guilty of so many bad decisions, but we found a way to win.",
-    "cn": "然后在20到25分钟的时间里，我们做出了很多糟糕的决定，但我们找到了获胜的方法。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "manager": {
-    "en": "They have appointed a top-class manager in Xabi Alonso and recruited well with goalkeeper Martinez, defender Maxence Lacroix and forward Rogers.",
-    "cn": "他们任命了哈维·阿隆索这位顶级主帅，并在门将马丁内斯、后卫拉克鲁瓦以及前锋罗杰斯的位置上引援得当。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "manage": {
-    "en": "He now has four in five games this season, a stunning turnaround having only managed one in 36 last term.",
-    "cn": "他现在本赛季五场比赛中有四场比赛，这是一个惊人的转机，上赛季只有36场比赛中的一场。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "man": {
-    "en": "That weekend's Super Sunday sees Chelsea vs Newcastle at 2pm, then Man City vs Tottenham at 4.30pm.",
-    "cn": "那个周末的“超级星期天”是下午2点切尔西vs纽卡斯尔，下午4点半曼城vs热刺。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "male": {
-    "en": "In the burial mound’s deeper layers, researchers found a nearly complete adult male skeleton, fragments of two separate adult skulls, amber beads that might have been jewelry, a cutting tool made of flint and an ax of greenish serpentinite.",
-    "cn": "在坟丘的深层，研究人员发现了一个几乎完整的成年男性骨骼，两个独立的成年头骨的碎片，可能是珠宝的琥珀珠，一个由燧石制成的切割工具和一把绿色蛇纹石斧头。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "make": {
-    "en": "We're making good steps but we'd like to be able to win a bit more comfortably and at more ease.",
-    "cn": "我们正在迈出良好的步伐，但我们希望能够更舒适、更轻松地赢得比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "majority": {
-    "en": "Chelsea's majority owners, Clearlake Capital, are closing in on an agreement to buy out co-owners Todd Boehly and Mark Walter.",
-    "cn": "切尔西的大股东明湖资本（Clearlake Capital）即将达成一项协议，收购共同所有者托德·伯利（Todd Boehly）和马克·沃尔特（Mark Walter）的全部股权。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "major": {
-    "en": "Inclusion is a major focus of next year’s offerings.",
-    "cn": "包容性是明年产品的主要焦点。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "march": {
-    "en": "The ship, called the Po, was evacuating wounded Italian soldiers from Albania’s Vlora Bay on the night of March 14, 1941, when it was struck by a torpedo from a British Swordfish bomber.",
-    "cn": "这艘名为Po的船于1941年3月14日晚上从阿尔巴尼亚的Vlora湾撤离受伤的意大利士兵，当时它被英国箭鱼轰炸机的鱼雷击中。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "mass": {
-    "en": "This unprecedented act of violence took place at the height of the Peasants’ Revolt, a mass uprising sparked by the imposition of a poll tax —the third of its kind in four years.",
-    "cn": "这种前所未有的暴力行为发生在农民起义的高峰期，这是四年来第三次征收人头税引发的大规模起义。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "market": {
-    "en": "The general consensus is that United's business in the transfer market has left them short, with a squad that is unable to cope with three games per week due to an over-reliance on the same names.",
-    "cn": "普遍的共识是曼联在转会市场的业务使他们短缺，由于过度依赖相同的名字，球队每周无法应付三场比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "mark": {
-    "en": "Chelsea's majority owners, Clearlake Capital, are closing in on an agreement to buy out co-owners Todd Boehly and Mark Walter.",
-    "cn": "切尔西的大股东明湖资本（Clearlake Capital）即将达成一项协议，收购共同所有者托德·伯利（Todd Boehly）和马克·沃尔特（Mark Walter）的全部股权。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "marine": {
-    "en": "Researchers were curious to know how the wreckage was affecting the local marine ecosystem.",
-    "cn": "研究人员想知道残骸是如何影响当地海洋生态系统的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "margin": {
-    "en": "The Gunners should have won by a bigger margin but missed a succession of chances before Odegaard crashed a low shot in off the post from the edge of the box following intricate build-up.",
-    "cn": "枪手本应以更大的优势获胜，但错过了一系列机会，然后厄德高在错综复杂的积累后从禁区边缘击中了低射门。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "myself": {
-    "en": "“One thing that this exhibition, myself included, is totally against is anything glorifying or glamorizing” serial killers, Bill Kimberlin, a true-crime researcher and collector, tells WGN Radio 720 ’s Wendy Snyder.",
-    "cn": "连环杀手比尔·金伯利林（Bill Kimberlin）是真正的犯罪研究者和收藏家，他告诉WGN Radio 720的温迪·斯奈德（Wendy Snyder）：“这个展览，包括我自己在内，完全反对任何美化或美化”的连环杀手。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "mysterious": {
-    "en": "“He said it was mysterious, just like he is,” Conti says.",
-    "cn": "“他说这很神秘，就像他一样，”Conti说。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "mystery": {
-    "en": "“A World of Mystery” will take visitors on an immersive tour of Christie’s life, which began in 1890 in Devon, England.",
-    "cn": "“神秘的世界”将带领游客沉浸在克里斯蒂的生活中，他从1890年开始在英格兰德文郡生活。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "original": {
-    "en": "Its collection comprises photographs and letters, 13 original paintings, and about 40 sculptures.",
-    "cn": "它的藏品包括照片和信件，13幅原画和大约40件雕塑。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "ornament": {
-    "en": "“Although the string or cord connecting them has not survived, there is no doubt that this was an ornament made by human hands.”",
-    "cn": "“虽然连接它们的绳子或绳索没有存活下来，但毫无疑问，这是人手制作的装饰品。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "other": {
-    "en": "One club maybe a bit further down the line than the other but I think it's something that could develop.",
-    "cn": "一个俱乐部可能比另一个走得更远，但我认为这是可以发展的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "otherwise": {
-    "en": "Arsenal, the current Premier League champions, can currently argue otherwise and point to a run that now extends to 10 unbeaten league games against Chelsea.",
-    "cn": "作为现任英超冠军，阿森纳完全有理由反驳——对切尔西的联赛不败纪录已经扩大到了 10 场。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "ounce": {
-    "en": "She may have quit, in part, because she had previously consumed an ounce of a margarita, which seemed to lower her dexterity, the authors write in the paper.",
-    "cn": "作者在论文中写道，她戒烟的部分原因可能是她之前喝过一盎司的玛格丽塔酒，这似乎降低了她的灵活性。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "our": {
-    "en": "Would you like to receive offers from our publisher, Immediate Media, and carefully selected partners?",
-    "cn": "您想收到我们的出版商、即时媒体和精心挑选的合作伙伴的报价吗？",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "ours": {
-    "en": "His, though, has been rather busier than ours.",
-    "cn": "不过，他比我们更忙。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "ourselves": {
-    "en": "\"The way we competed, attitude, courage, the way we imposed ourselves on the game, the quality we showed to break them down, which is very difficult to do.",
-    "cn": "“我们的竞争方式，态度，勇气，我们在比赛中强加给自己的方式，我们展示的打破他们的质量，这是非常困难的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "over": {
-    "en": "Amandeep was born and grew up in Britain in the 1970s, his parents having come over in the postwar years.",
-    "cn": "阿曼迪普上世纪70年代在英国出生和长大，他的父母在战后的岁月里来到英国。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "outskirt": {
-    "en": "Throughout the 1970s, Gacy—who worked as a birthday party clown alternately named Pogo and Patches— killed at least 33 teenage boys and young men after luring them to his home on the outskirts of the city, where he buried the remains of 29 of his victims in his basement’s crawl space.",
-    "cn": "在整个20世纪70年代，Gacy曾担任生日派对小丑，交替命名为Pogo和Patches ，他将至少33名十几岁的男孩和年轻人引诱到他位于城市郊区的家中，在那里他将29名受害者的遗体埋葬在地下室的爬行空间中。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "outside": {
-    "en": "“What’s in the package may not actually be what is on the outside of the label,” Doroshow adds.",
-    "cn": "Doroshow补充道：“包装中的东西实际上可能不是标签外面的东西。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "outline": {
-    "en": "Just before wrapping up their work on the Roman graves, the researchers spotted the circular outline of a barrow—an ancient burial mound—Dąbrowski says in a statement from Wrocław Medical University.",
-    "cn": "在结束他们对罗马坟墓的工作之前，研究人员在弗罗茨瓦夫医科大学的一份声明中发现了一个古老的坟丘Dąbrowski的圆形轮廓。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "outstanding": {
-    "en": "James is outstanding in midfield, but the Chelsea captain is even better at right back, so it is likely that he will return to that position when Alonso has a full quota of midfield options.",
-    "cn": "詹姆斯踢中场也很出色，但他踢右后卫更强，所以当中场人员齐整时，他很可能会回到右后卫位置。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "organize": {
-    "en": "Organized by the company Improbable Research, the spoof awards were designed to “honor achievements so surprising that they make people laugh, then think,” per their website.",
-    "cn": "这些欺骗性奖项由Improbable Research公司组织，旨在“表彰令人惊讶的成就，让人们发笑，然后思考”，根据他们的网站。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "only": {
-    "en": "He now has four in five games this season, a stunning turnaround having only managed one in 36 last term.",
-    "cn": "他现在本赛季五场比赛中有四场比赛，这是一个惊人的转机，上赛季只有36场比赛中的一场。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "onto": {
-    "en": "Mediterranean monk seals spend most of their time in water, but they waddle onto land periodically to rest and give birth.",
-    "cn": "地中海僧海豹大部分时间都在水中度过，但它们会定期徘徊在陆地上休息和分娩。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "open": {
-    "en": "Holmes of The Devil in the White City infamy—anchors a new exhibition, now open in Chicago.",
-    "cn": "因《白城恶魔》而臭名昭著的福尔摩斯——是芝加哥正在举办的新展览的核心人物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "opening": {
-    "en": "When the 2026/27 Premier League fixture list came out, United were deemed to have had the statistically easiest opening six games.",
-    "cn": "当2026/27赛季英超联赛名单公布时，曼联被认为是统计上最容易开启六场比赛的球队。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "operate": {
-    "en": "First, they set out five cameras that operated at night, triggered by the motion of nearby animals.",
-    "cn": "首先，他们设置了五台夜间运行的摄像机，由附近动物的动作触发。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "opponent": {
-    "en": "Given the nature of the two opponents, you would imagine Carrick will be thinking of rotating on Thursday.",
-    "cn": "鉴于两名对手的性质，你可以想象卡里克将在周四考虑轮换。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "opportunity": {
-    "en": "Running for 10 months, the exhibition offers a once-in-a-generation opportunity for audiences to see the Tapestry in the British capital.",
-    "cn": "为期10个月的展览为观众提供了一个千载难逢的机会，让他们在英国首都看到挂毯。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "opposite": {
-    "en": "From the second of two subsequent corners, Muharemovic rises highest at the back post to nod the opener back inside the opposite corner.",
-    "cn": "从接下来的两个角落中的第二个角落，穆哈雷莫维奇在后柱上升得最高，向对角内的揭幕战点头。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "ordinary": {
-    "en": "I wanted him to stand for all the ordinary people who actually rose up and paid the price for it.”",
-    "cn": "我希望他能代表所有真正站起来为此付出代价的普通人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "order": {
-    "en": "\"When that happens, [Odegaard] needs to take different heights and angles and positions in order to disorganise the opponent and he's done that really well.\"",
-    "cn": "“当这种情况发生时，[Odegaard]需要采取不同的高度、角度和姿势来扰乱对手，他做得非常好。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "orange": {
-    "en": "In 1907, he and his wife, Aline, purchased and developed a hilltop estate in Cagnes-sur-Mer dotted with olive, orange and fig trees.",
-    "cn": "1907年，他和妻子艾琳（Aline）在滨海卡涅（Cagnes-sur-Mer）购买并开发了一处山顶地产，其间点缀着橄榄树、橘子树和无花果树。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "option": {
-    "en": "James is outstanding in midfield, but the Chelsea captain is even better at right back, so it is likely that he will return to that position when Alonso has a full quota of midfield options.",
-    "cn": "詹姆斯踢中场也很出色，但他踢右后卫更强，所以当中场人员齐整时，他很可能会回到右后卫位置。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "pint": {
-    "en": "These pint-size, critically endangered mammals—which reside only in Cozumel—are known for sifting through trash cans to scavenge for leftovers.",
-    "cn": "这些只生活在科苏梅尔的极度濒危的小型哺乳动物以在垃圾桶里搜寻剩饭剩菜而闻名。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "pioneer": {
-    "en": "The pioneer raccoon’s sister was the first to learn the procedure and make her own balls.",
-    "cn": "这只浣熊的妹妹是第一个学习这个过程并自己做球的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "pitch": {
-    "en": "He also ended the game having had more touches, made more passes and created more chances than anyone else on the pitch.",
-    "cn": "他还在比赛结束时获得了更多的接触，获得了更多的传球，并创造了比球场上任何其他人更多的机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "place": {
-    "en": "Gary Neville has criticised Chelsea for being \"all over the place\" defensively in the 2-1 defeat to Arsenal.",
-    "cn": "加里·内维尔批评切尔西在 1-2 输给阿森纳的比赛中防守端「乱成一团」。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "plan": {
-    "en": "Chelsea's plan was to replace Enzo with Monaco's Lamine Camara, but a deal for the Senegal international collapsed late on deadline day.",
-    "cn": "切尔西原本计划用摩纳哥的卡马拉替代恩佐，但这位塞内加尔国脚的交易在转会截止日临近时告吹。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "please": {
-    "en": "\"I couldn't be more pleased with my players for their perseverance and sheer will to keep going.",
-    "cn": "“我对我的球员的毅力和继续前进的纯粹意愿感到非常满意。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "player": {
-    "en": "Among players with at least 900 minutes of game time, 53 different Premier League players got there last year.",
-    "cn": "而在出场 900 分钟以上的球员中，去年有 53 名英超球员达到了这一数字。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "play": {
-    "en": "Chelsea play Leeds in the EFL Cup third round on Wednesday before hosting Hull in the league next weekend.",
-    "cn": "切尔西将在周三的英联杯中迎战利兹，随后下周末在联赛主场对阵赫尔城。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "plant": {
-    "en": "“That titanosaurs laid eggs at such high latitudes is inherently interesting, especially since the evidence points to mound incubation by plant decay as the main source of heat for these animals,” he says.",
-    "cn": "他说：“泰坦龙在如此高的纬度下产卵本身就很有趣，特别是因为有证据表明，植物腐烂造成的土丘孵化是这些动物的主要热源。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "platform": {
-    "en": "This kind of “do your own research” theory of medicine is hardly new, but today, there’s more of a platform than ever to cultivate this demand and serve it at scale.",
-    "cn": "这种“自己做研究”的医学理论并不是什么新鲜事，但今天，培养这种需求并大规模服务的平台比以往任何时候都多。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "phone": {
-    "en": "“My jaw hit the floor when I got the phone call” about the award, Matilda Brindle, an evolutionary biologist at the University of Oxford in England who worked on the research, tells Nature ’s Chris Simms.",
-    "cn": "英国牛津大学的进化生物学家玛蒂尔达·布林德尔（Matilda Brindle）告诉《自然》杂志的克里斯·西姆斯（Chris Simms），“当我接到关于该奖项的电话时，我的下巴掉在地板上”。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "phenomenon": {
-    "en": "Experts say the peptide craze is part of a broader phenomenon, as patients look beyond the regulated health system to address problems that doctors have struggled to treat",
-    "cn": "专家表示，多肽热是一种更广泛现象的一部分，因为患者将目光投向了受监管的卫生系统之外，以解决医生难以治疗的问题",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "phase": {
-    "en": "Tickets are being released in phases, with the next batch available to book from 21 October 2026.",
-    "cn": "门票将分阶段发售，下一批门票将于2026年10月21日开始接受预订。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "photograph": {
-    "en": "Its collection comprises photographs and letters, 13 original paintings, and about 40 sculptures.",
-    "cn": "它的藏品包括照片和信件，13幅原画和大约40件雕塑。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "owner": {
-    "en": "Leicester City are heading towards financial 'Armageddon' without fresh capital and improved results, says their prospective new owner Talksport",
-    "cn": "莱斯特城未来的新东家Talksport表示，在没有新资本和改善业绩的情况下，莱斯特城正走向财务“末日”",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "own": {
-    "en": "But it previously did seem like teams had begun to realise that dribbling skill isn't worth much on its own.",
-    "cn": "但以前，球队确实开始意识到，单靠过人技巧本身价值有限。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "physical": {
-    "en": "Material culture describes physical objects and resources such as tools, clothing, toys and furniture that a group creates, uses and leaves behind to define its way of life.",
-    "cn": "物质文化描述了一个群体创造、使用和留下的物理对象和资源，如工具、服装、玩具和家具，以定义其生活方式。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "piece": {
-    "en": "Arsenal's set-piece prowess is well documented, to the extent that they have been criticised for an over-reliance on dead-ball situations to win tight games.",
-    "cn": "阿森纳的定位球能力人尽皆知，甚至有人批评他们过分依赖定位球来赢下胶着比赛。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "picture": {
-    "en": "Teenagers and retirees alike broadcast before-and-after pictures and trade their “ stacks,” or custom combinations of peptides, like recipes.",
-    "cn": "青少年和退休人员都会播放之前和之后的图片，并交换他们的“堆栈”，或肽的定制组合，如食谱。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "pick": {
-    "en": "\"We recognise Celtic are a good team who have been the main title winners and the team that's picked up more trophies than any other club in recent years.",
-    "cn": "“我们认识到凯尔特人是一支优秀的球队，他们是主要的冠军得主，也是近年来获得奖杯最多的球队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "physician": {
-    "en": "According to a recent survey of over 500 physicians, nearly half said a patient had disclosed using an experimental peptide in the past year.",
-    "cn": "根据最近对500多名医生的调查，近一半的患者表示在过去一年中曾使用实验肽进行披露。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "one": {
-    "en": "Elizabeth I is one of history's most iconic monarchs, but her path to the throne was anything but secure.",
-    "cn": "伊丽莎白一世是历史上最具标志性的君主之一，但她登上王位的道路却并不安全。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "nest": {
-    "en": "“They clearly spent time in higher latitude areas, but until now it wasn’t known whether they were also nesting there.”",
-    "cn": "“他们显然在高纬度地区度过了一段时间，但直到现在还不知道他们是否也在那里筑巢。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "net": {
-    "en": "Excluding penalties, he has found the back of the net 11 times for Everton over that stretch.",
-    "cn": "扣除点球，他在埃弗顿这段时间的英超进球只有 11 个。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "never": {
-    "en": "\"Last year, to have two shoulder injuries like he did, then a MCL injury he did, it's never easy.",
-    "cn": "“去年，像他一样有两个肩膀受伤，然后是他的MCL受伤，这从来都不容易。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "new": {
-    "en": "Every Premier League club has been given at least 60 hours between their Christmas and New Year fixtures.",
-    "cn": "每家英超俱乐部在圣诞和新年赛程之间至少有60个小时的休息时间。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "news": {
-    "en": "Follow Sky Sports on WhatsApp for the latest sports news, videos, features, analysis and much more",
-    "cn": "在WhatsApp上关注天空体育，获取最新的体育新闻、视频、功能、分析等",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "next": {
-    "en": "Maybe Chelsea will need to actually recruit more players as they move on through the next year or two with Alonso.",
-    "cn": "也许切尔西真的需要在阿隆索麾下继续前行的一两年里，再引进更多球员。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "noise": {
-    "en": "When scouting a player, there's a lot of noise behind the conversion of shots into goals and passes into goals.",
-    "cn": "在球探评估球员时，射门转化为进球、传球转化为进球的过程充满干扰。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "nod": {
-    "en": "It was still uncertain that Chelsea had finally sealed their progress when Valentin Barco blasted them 5-3 up from close range from another Rogers assist, but they could finally rest easy in added time - and extinguish Leeds' commendable never-say-die attitude - when Welbeck nodded Barco's wildly mishit effort beyond Zetterer.",
-    "cn": "当瓦伦丁·巴科（Valentin Barco）从另一位罗杰斯（Rogers）助手的近距离以5比3击败他们时，切尔西最终是否已经封锁了他们的进步仍不确定，但当韦尔贝克（Welbeck）点头点头时，他们终于可以在额外的时间内轻松休息，并消除利兹（Leeds）值得称赞的永不言败的态度。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "nobody": {
-    "en": "\"Nobody was asking for it, all of a sudden their players came into the game.",
-    "cn": "“没有人要求它，突然他们的球员进入了比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "noble": {
-    "en": "Then Edward dies, and Harold is declared king by the English nobles.",
-    "cn": "后来爱德华去世，哈罗德被英国贵族宣布为国王。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "ninth": {
-    "en": "Take a deeper look into specialist positions and you find they are ninth in right-back depth and 18th at left-back, a position that is constantly being discussed due to Luke Shaw's injury history.",
-    "cn": "深入研究专家位置，您会发现他们在右后卫深度排名第九，在左后卫排名第18 ，由于Luke Shaw的伤病史，这一位置不断被讨论。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "nine": {
-    "en": "Pygmy raccoons, also called Cozumel raccoons, weigh between six and nine pounds, around the same as a newborn human baby.",
-    "cn": "侏儒浣熊，也叫科苏梅尔浣熊，体重在6到9磅之间，和一个新生的人类婴儿差不多。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "night": {
-    "en": "They were required to be painted white with green bands and red crosses and illuminated at night.",
-    "cn": "他们被要求被漆成白色，带有绿色条带和红色十字架，并在夜间照明。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "nitrogen": {
-    "en": "They’ll also analyze genetic material in the skulls and teeth to determine genders and species, and attempt to discern the teeth owners’ diets through analysis of wear patterns and levels of strontium, carbon and nitrogen isotopes in the enamel.",
-    "cn": "他们还将分析头骨和牙齿中的遗传物质，以确定性别和物种，并试图通过分析牙釉质中的磨损模式和锶、碳和氮同位素水平来辨别牙齿主人的饮食。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "name": {
-    "en": "Instead, he wanted to focus on “someone history never named at all: a farmer, the first man to raise his hand in Essex.",
-    "cn": "相反，他想专注于“一个从未命名过的历史人物：一个农民，第一个在埃塞克斯举手的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "nation": {
-    "en": "There's managing at the World Cup, then there's managing at a home World Cup for a nation whose President rather enjoys the spotlight.",
-    "cn": "在世界杯上进行管理，然后在一个主场世界杯上为一个总统更喜欢聚光灯的国家进行管理。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "national": {
-    "en": "The necklace is a unique archaeological find, Gralak tells National Geographic Poland ’s Joanna Lamparska.",
-    "cn": "Gralak告诉国家地理波兰的Joanna Lamparska ，这条项链是一个独特的考古发现。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "natural": {
-    "en": "This finding suggests that the marine mammals may be seeking refuge on artificial reefs like the Po as their natural habitat is increasingly threatened by human activities.",
-    "cn": "这一发现表明，海洋哺乳动物可能正在Po等人工珊瑚礁上寻求庇护，因为它们的自然栖息地越来越受到人类活动的威胁。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "nature": {
-    "en": "The population is gradually growing, but the species is still considered vulnerable by the International Union for Conservation of Nature and endangered under the Endangered Species Act.",
-    "cn": "人口正在逐渐增长，但该物种仍被国际自然保护联盟视为脆弱物种，并根据《濒危物种法》濒临灭绝。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "need": {
-    "en": "Maybe Chelsea will need to actually recruit more players as they move on through the next year or two with Alonso.",
-    "cn": "也许切尔西真的需要在阿隆索麾下继续前行的一两年里，再引进更多球员。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "necklace": {
-    "en": "The necklace is a unique archaeological find, Gralak tells National Geographic Poland ’s Joanna Lamparska.",
-    "cn": "Gralak告诉国家地理波兰的Joanna Lamparska ，这条项链是一个独特的考古发现。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "neck": {
-    "en": "Titanosaurs belonged to a group of long-necked and four-legged dinosaurs called sauropods.",
-    "cn": "泰坦龙属于一群长颈和四条腿的恐龙，称为蜥脚类恐龙。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "nearly": {
-    "en": "They had been there largely undisturbed for nearly 100 years, until Amandeep Madra contacted them.",
-    "cn": "在Amandeep Madra联系他们之前，他们在那里生活了将近100年。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "nearby": {
-    "en": "Other researchers, working around the same time in the nearby village of Iwiny, separately unearthed a high-status funerary site filled with beads, axes and flint tools.",
-    "cn": "其他研究人员大约在同一时间在附近的Iwiny村工作，分别发掘了一个高地位的葬礼遗址，里面装满了珠子、斧头和燧石工具。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "near": {
-    "en": "The grave was discovered at an archaeological site near Żórawina, in southern Poland.",
-    "cn": "这座坟墓是在波兰南部Żórawina附近的一个考古遗址发现的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "normally": {
-    "en": "The embroidery is normally housed at the Bayeux Tapestry Museum in Normandy, but a historic agreement was reached with the French government for the artefact to be loaned to the UK while its home museum undergoes renovation.",
-    "cn": "这幅刺绣作品通常存放在诺曼底的贝叶挂毯博物馆，但与法国政府达成了一项历史性协议，在其本国博物馆进行翻修时，这幅艺术品将被借给英国。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "obvious": {
-    "en": "They will almost certainly sign another midfielder when the window reopens in January, but until then, Alonso has to get his midfield working despite not having an obvious answer to the problem.",
-    "cn": "他们几乎肯定会在 1 月转会窗重新开启时再签一名中场，但在那之前，阿隆索必须找到一个解决方案，让中场运转起来。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "obviously": {
-    "en": "\"We've got our part to play in that and I felt that if we can capitalise on good play and good opportunities, which we didn't do last night and we didn't do against Motherwell (also won 1-0) obviously, if we can get ourselves in front, give the crowd something to get behind, then I think the strength of our club can be shown.",
-    "cn": "“我们已经做好了自己的工作，我觉得如果我们能利用好比赛和机会，这是我们昨晚没有做到的，我们在对阵马瑟韦尔的比赛中也没有做到（我们也以1比0获胜），如果我们能领先，给观众一些支持，那么我认为我们俱乐部的实力可以展示出来。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "occasion": {
-    "en": "The scale of the embroidery suggests that it was designed for a large audience, but the lighting in medieval buildings would have been dim, and the Tapestry may have been displayed only on special occasions, as was recorded in the 1476 inventory.",
-    "cn": "刺绣的规模表明，它是为大量观众设计的，但中世纪建筑的照明可能会很昏暗，而且挂毯可能只在特殊场合展示，正如1476年库存中所记录的那样。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "occasional": {
-    "en": "“The structure may provide an occasional nursery area for coastal fish, support cephalopod reproduction and function as a temporary resting site for severely endangered marine mammals,” the researchers write in the paper.",
-    "cn": "研究人员在论文中写道：“该结构可能为沿海鱼类提供偶尔的育苗区，支持头足类繁殖，并作为严重濒危海洋哺乳动物的临时休息场所。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "ocean": {
-    "en": "An estimated 444 to 600 mature Mediterranean monk seals remain in the Mediterranean Sea and small areas of the Atlantic Ocean near northwest Africa.",
-    "cn": "估计有444至600只成熟的地中海僧海豹留在地中海和非洲西北部附近的大西洋小区域。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "october": {
-    "en": "Broadcast selections for November and early December will be announced before October 19.",
-    "cn": "11月和12月初的选播名单将在19日之前公布。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "odd": {
-    "en": "It's a fascinating match-up and the way the market is predicting attack to outgun defence with the expected goals line almost at 3.25 based on the odds I'd be wanting to row against that at the prices and give Hull more a chance than the 11/1 away win suggests.",
-    "cn": "这是一场令人着迷的比赛，市场预测进攻比防守多，预期进球数几乎是3.25，基于赔率，我想以价格来反对，给赫尔城更多的机会，而不是11/1的客场胜利。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "old": {
-    "en": "Derek McInnes wants Rangers to \"bring the crowd with us\" in Sunday's Old Firm clash at Ibrox.",
-    "cn": "德里克·麦金尼斯希望流浪者队在周日在伊布罗克斯与老公司的比赛中“把观众带到我们身边”。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "oil": {
-    "en": "They are a well-oiled machine without the ball.",
-    "cn": "他们是一个没有球的运转良好的机器。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "often": {
-    "en": "In the animal world, researchers often focus on tool use for a practical purpose, study co-author Nessie O’Neil, a biologist at Miami University in Ohio, writes on her blog.",
-    "cn": "研究报告的合著者、俄亥俄州迈阿密大学的生物学家尼西·奥尼尔在她的博客上写道，在动物世界，研究人员经常把重点放在实用的工具使用上。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "observe": {
-    "en": "In total, the researchers observed 151 species, ranging from common fish to invertebrates and mammals.",
-    "cn": "研究人员总共观察了151种物种，从普通鱼类到无脊椎动物和哺乳动物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "official": {
-    "en": "England had been at war with France for nearly five decades, and officials needed more money to pay for the kingdom’s armies and defenses.",
-    "cn": "英格兰与法国交战了近五十年，官员们需要更多的钱来支付王国的军队和国防费用。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "offer": {
-    "en": "Running for 10 months, the exhibition offers a once-in-a-generation opportunity for audiences to see the Tapestry in the British capital.",
-    "cn": "为期10个月的展览为观众提供了一个千载难逢的机会，让他们在英国首都看到挂毯。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "observation": {
-    "en": "Yet as O’Neil logged 64 hours of field observations, the activity transformed into a family pastime.",
-    "cn": "然而，随着奥尼尔记录了64个小时的实地观察，这项活动变成了一项家庭消遣。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "november": {
-    "en": "Broadcast selections for November and early December will be announced before October 19.",
-    "cn": "11月和12月初的选播名单将在19日之前公布。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "novel": {
-    "en": "Running mostly from left to right, it tells the story in the style of a graphic novel across a central frieze, with short Latin captions.",
-    "cn": "它主要从左到右，用图画小说的风格在中间的楣边讲述故事，配上简短的拉丁文字说明。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "notice": {
-    "en": "Sky Sports will show 29 matches between December 26 and January 7; The Premier League announced the festive fixtures early as it \"gives supporters more than three months' notice to plan and make travel arrangements\"",
-    "cn": "天空体育将在12月26日至1月7日期间播出29场比赛；英超提前公布了节日赛程，因为它“给了球迷三个多月的时间来计划和安排旅行”。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "nothing": {
-    "en": "His team would feed him the ball, he'd keep beating his man, and then the cross would inevitably lead to nothing.",
-    "cn": "队友不断给他喂球，他一次次过掉对手，最后这脚传中却总是毫无结果。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "now": {
-    "en": "“They clearly spent time in higher latitude areas, but until now it wasn’t known whether they were also nesting there.”",
-    "cn": "“他们显然在高纬度地区度过了一段时间，但直到现在还不知道他们是否也在那里筑巢。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "notebook": {
-    "en": "A notebook from Arthur Conan Doyle detailing Detective Sherlock Holmes ’ mystery-solving methods, as well as crime writer Dorothy L.",
-    "cn": "阿瑟·柯南·道尔的一本笔记本详细描述了侦探夏洛克·福尔摩斯的破案方法，以及犯罪作家多萝西·L。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "not": {
-    "en": "Souttar was left out of the club's pre-season trip to Spain and has not featured under new boss McInnes.",
-    "cn": "苏塔没有参加俱乐部季前赛的西班牙之旅，也没有在新主帅麦金尼斯的带领下出场。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "nose": {
-    "en": "Speaking of bodily fluids, research on nose-blowing won the Ig Nobel Medicine Prize.",
-    "cn": "说到体液，关于流鼻涕的研究获得了Ig诺贝尔医学奖。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "northwest": {
-    "en": "An estimated 444 to 600 mature Mediterranean monk seals remain in the Mediterranean Sea and small areas of the Atlantic Ocean near northwest Africa.",
-    "cn": "估计有444至600只成熟的地中海僧海豹留在地中海和非洲西北部附近的大西洋小区域。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "northern": {
-    "en": "On paper, the nabarlek’s range includes parts of northern and northwestern Australia.",
-    "cn": "理论上，纳巴莱克的活动范围包括澳大利亚北部和西北部的部分地区。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "north": {
-    "en": "For Fernandes, it was his conversations with head coach Roberto De Zerbi which persuaded him the north London project was for him.",
-    "cn": "对于费尔南德斯来说，是他和主教练罗伯托·德泽比的谈话说服了他北伦敦的计划是适合他的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "note": {
-    "en": "Study co-author Michelle Szydlowski, an anthrozoologist at Miami University, notes that the ball-building behavior makes sense with raccoon biology.",
-    "cn": "该研究的合著者、迈阿密大学的人类动物学家米歇尔·希德洛夫斯基（Michelle Szydlowski）指出，浣熊造球的行为在生物学上是有道理的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "once": {
-    "en": "But Martinez and Lacroix both had an off day at the Emirates as Chelsea's defensive frailties once again highlighted their big weakness.",
-    "cn": "但马丁内斯和拉克鲁瓦在酋长球场双双不在状态，切尔西防线的问题再次暴露无遗。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "nowadays": {
-    "en": "There are so many links between these two sides nowadays.",
-    "cn": "如今这两支球队之间的关联已经多到数不清。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "object": {
-    "en": "Today, the museum displays original furniture and objects that belonged to the Impressionist, including his easel and wheelchair.",
-    "cn": "今天，博物馆展示了属于印象派的原始家具和物品，包括他的画架和轮椅。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "nowhere": {
-    "en": "“Nowhere in the world are you going to see an exhibit like this with artifacts from so many serial killers under one roof.”",
-    "cn": "“世界上没有任何地方会在一个屋檐下看到这样的展览，里面有这么多连环杀手的文物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "nursery": {
-    "en": "“The structure may provide an occasional nursery area for coastal fish, support cephalopod reproduction and function as a temporary resting site for severely endangered marine mammals,” the researchers write in the paper.",
-    "cn": "研究人员在论文中写道：“该结构可能为沿海鱼类提供偶尔的育苗区，支持头足类繁殖，并作为严重濒危海洋哺乳动物的临时休息场所。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "number": {
-    "en": "“However, within this broad distribution, the number of locations where the species has been recorded is small,” Potter tells Smithsonian magazine.",
-    "cn": "“然而，在这个广泛的分布中，物种被记录的地点很少，”波特告诉史密森尼杂志。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "trip": {
-    "en": "Souttar was left out of the club's pre-season trip to Spain and has not featured under new boss McInnes.",
-    "cn": "苏塔没有参加俱乐部季前赛的西班牙之旅，也没有在新主帅麦金尼斯的带领下出场。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "troop": {
-    "en": "A sculpture of a Girl Scout and a small exhibit, installed at Muskogee’s Three Rivers Museum, commemorate the troop and the tradition’s humble beginnings.",
-    "cn": "在马斯科吉的三河博物馆（Three Rivers Museum），有一座女童子军的雕塑和一个小型展览，纪念这支部队和这一传统的卑微起源。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "true": {
-    "en": "Spanning a massive, 21,000-square-foot space, “ Serial Killer: The Exhibition ” brings together more than 2,000 items that confront myth with true crime’s gruesome reality.",
-    "cn": "“连环杀手：展览”占地21,000平方英尺，汇集了2,000多件物品，将神话与真实犯罪的可怕现实相结合。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "tuesday": {
-    "en": "The first takes place between Tuesday December 29 and Wednesday December 30.",
-    "cn": "第一次是在12月29日星期二到12月30日星期三之间。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "try": {
-    "en": "\"There's been a lot of frustration over a period of time at the club and it's up to us to try and show that we're going to deliver something a bit different.",
-    "cn": "“一段时间以来，俱乐部经历了很多挫折，这取决于我们的努力，并表明我们将提供一些不同的东西。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "trust": {
-    "en": "Working with the University of Greenwich in the UK, it took Amandeep some years to gain their trust, permission and pull the money together in order for the museum to eventually photograph every single one of the 26,000 pages.",
-    "cn": "阿曼迪普与英国格林威治大学（University of Greenwich）合作，花了数年时间才获得他们的信任、许可，并筹集了资金，最终博物馆才能拍摄2.6万页的每一页。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "tree": {
-    "en": "Two depict variations of clowns and skulls, while the third is a coastal landscape with a low-hanging moon and red trees beside open water.",
-    "cn": "两幅描绘了小丑和头骨的变体，而第三幅是沿海景观，在开阔的水域旁边有一个低垂的月亮和红色的树木。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "treatment": {
-    "en": "“We’re seeing a new rival or parallel health system emerge,” says Daniel Carpenter, chair of the government department at Harvard University and an expert in FDA regulation, “built on self-diagnosis and easy access to a wide range of treatments.”",
-    "cn": "哈佛大学政府部门主席、FDA监管专家丹尼尔·卡彭特（Daniel Carpenter）说：“我们正在看到一个新的竞争对手或平行的卫生系统出现，它建立在自我诊断和容易获得各种治疗的基础上。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "trade": {
-    "en": "Teenagers and retirees alike broadcast before-and-after pictures and trade their “ stacks,” or custom combinations of peptides, like recipes.",
-    "cn": "青少年和退休人员都会播放之前和之后的图片，并交换他们的“堆栈”，或肽的定制组合，如食谱。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "tradition": {
-    "en": "A sculpture of a Girl Scout and a small exhibit, installed at Muskogee’s Three Rivers Museum, commemorate the troop and the tradition’s humble beginnings.",
-    "cn": "在马斯科吉的三河博物馆（Three Rivers Museum），有一座女童子军的雕塑和一个小型展览，纪念这支部队和这一传统的卑微起源。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "train": {
-    "en": "The novelist was describing an eventful trip on the luxurious Orient Express, the 20th-century passenger train that ran between Paris and Istanbul.",
-    "cn": "这位小说家正在描述乘坐豪华的东方快车（Orient Express）的一次多事之旅，这列火车是20世纪在巴黎和伊斯坦布尔之间行驶的客运列车。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "transfer": {
-    "en": "Crystal Palace transfers, latest news, rumours and gossip: Live updates, goals and highlights",
-    "cn": "水晶宫转会，最新消息，谣言和八卦：实时更新，进球和亮点",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "transform": {
-    "en": "The findings suggest that the Po has transformed into an artificial reef, providing habitat and shelter for a diverse range of marine life.",
-    "cn": "研究结果表明，Po已经变成了一个人工珊瑚礁，为各种海洋生物提供了栖息地和庇护所。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "transformation": {
-    "en": "Experts say the peptide boom offers a window into a larger transformation in American health care: a shift from a market driven by diagnoses to one driven by demand, in which medicine is increasingly viewed as a consumer good—an Amazon-like product delivered to your doorstep.",
-    "cn": "专家表示，多肽繁荣为美国医疗保健行业的更大转型提供了一个窗口：从由诊断驱动的市场转向由需求驱动的市场，在这个市场中，医药越来越被视为一种消费品--一种类似亚马逊的产品，送货上门。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "treat": {
-    "en": "The first one was insulin: In the 1920s, scientists isolated the peptide from animal pancreases and began using it to treat Type 1 diabetes.",
-    "cn": "第一种是胰岛素：20世纪20年代，科学家从动物胰腺中分离出这种肽，并开始将其用于治疗1型糖尿病。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "treasure": {
-    "en": "One of the medieval world’s greatest surviving treasures is now on display in London.",
-    "cn": "中世纪世界现存最伟大的宝藏之一现在正在伦敦展出。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "travel": {
-    "en": "Sky Sports will show 29 matches between December 26 and January 7; The Premier League announced the festive fixtures early as it \"gives supporters more than three months' notice to plan and make travel arrangements\"",
-    "cn": "天空体育将在12月26日至1月7日期间播出29场比赛；英超提前公布了节日赛程，因为它“给了球迷三个多月的时间来计划和安排旅行”。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "translation": {
-    "en": "Although Robert Ressler, an FBI investigator, is largely credited with having coined the term \"serial killer,\" Ernst Gennat of the Berlin Criminal Police used the German translation, \" serienm&ouml;rder,\" in a 1930 article.",
-    "cn": "尽管联邦调查局调查员罗伯特·雷斯勒（Robert Ressler）在很大程度上创造了“连环杀手”一词，但柏林刑事警察局的恩斯特·根纳特（Ernst Gennat）在1930年的一篇文章中使用了德语翻译“serienmörder”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "translate": {
-    "en": "He talks about the importance of the smallest details, the difficulty of getting every decision right and the challenge of translating his ideas to a group of players who spend far less time together than a club side.",
-    "cn": "他谈到了最小细节的重要性，做出正确决定的难度，以及将他的想法转化为一群在一起的时间远远少于俱乐部球员的球员所面临的挑战。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "transport": {
-    "en": "In the final section, visitors will be transported to London’s 1950s West End and examine how the novelist adapted her stories for the stage.",
-    "cn": "在展览的最后一部分，参观者将被带到20世纪50年代的伦敦西区，并研究这位小说家是如何将她的故事改编成舞台的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "turbulent": {
-    "en": "In this first episode of our four-part Sunday Series on the 16th-century royal, Rachel Dinning is joined by historian Nicola Tallis to explore Elizabeth’s turbulent early years – from the execution of her mother, Anne Boleyn, to the political and personal dangers she faced as she navigated childhood, illegitimacy, and the treacherous Tudor succession.",
-    "cn": "在我们关于16世纪王室的四集周日系列节目的第一集中，雷切尔·丁宁和历史学家尼古拉·塔利斯一起探索了伊丽莎白动荡的早年——从她母亲安妮·博林的处决，到她在童年时期面临的政治和个人危险，私生子，以及都铎王朝的危险继承。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "turn": {
-    "en": "Depending on where you look and when, crosses get turned into goals somewhere between 1% and 3% of the time.",
-    "cn": "无论你参考哪个数据、哪段时间，传中转化为进球的比例都只有 1% 到 3%。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "understand": {
-    "en": "Alongside the Tapestry itself, visitors can explore a range of digital elements designed to enhance understanding and engagement.",
-    "cn": "除了挂毯本身，游客还可以探索一系列旨在增强理解和参与的数字元素。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "understanding": {
-    "en": "Alongside the Tapestry itself, visitors can explore a range of digital elements designed to enhance understanding and engagement.",
-    "cn": "除了挂毯本身，游客还可以探索一系列旨在增强理解和参与的数字元素。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "undertaking": {
-    "en": "Winning work highlighted during the 36th annual award ceremony included hilarious research on the aerodynamics of nose blowing, gently stepping on venomous snakes, confirming that teenagers do indeed smell worse than babies and other side-splitting scientific undertakings.",
-    "cn": "第36届年度颁奖典礼上突出的获奖作品包括关于吹鼻子的空气动力学的热闹研究，轻轻踩在毒蛇身上，证实青少年确实比婴儿更难闻，以及其他侧面分裂的科学事业。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "unfair": {
-    "en": "Paul Greengrass’ new film stars Andrew Garfield as a fictionalized, unnamed farmer who leads a rebellion against unfair taxes and the system of serfdom",
-    "cn": "保罗·格林格拉斯（Paul Greengrass）的新电影明星安德鲁·加菲尔德（Andrew Garfield）是一个虚构的、未透露姓名的农民，他领导了一场反对不公平税收和农奴制度的叛乱",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "unit": {
-    "en": "According to Transfermarkt, United actually have the second biggest squad in the Premier League.",
-    "cn": "根据Transfermarkt的说法，曼联实际上拥有英超联赛中第二大阵容。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "unite": {
-    "en": "According to Transfermarkt, United actually have the second biggest squad in the Premier League.",
-    "cn": "根据Transfermarkt的说法，曼联实际上拥有英超联赛中第二大阵容。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "unlikely": {
-    "en": "It is unlikely to be displayed the way it was in Bayeux again.",
-    "cn": "它不太可能像在巴叶那样再次被展示。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "university": {
-    "en": "“These questions are lighthouses,” Terence Tao, a mathematician at the University of California, Los Angeles, tells the New York Times ’ Cade Metz.",
-    "cn": "“这些问题是灯塔，”加州大学洛杉矶分校的数学家特伦斯·陶告诉《纽约时报》的凯德·梅斯。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "turning": {
-    "en": "A strong stop from the Saints goalkeeper, turning the ball past as Celtic push for an early opener.",
-    "cn": "圣徒守门员强有力的一站，在凯尔特人推动早期揭幕战时，将球转过身去。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "twenty": {
-    "en": "Twenty-six years later, a solution may have finally come to light—but it wasn’t a mathematician who came up with it.",
-    "cn": "26年后，一个解决方案可能终于浮出水面——但提出它的不是数学家。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "twice": {
-    "en": "Mike Penders is called into action twice in a matter of seconds to deny Muharemovic and Aaronson with a superb double save.",
-    "cn": "Mike Penders在几秒钟内两次被要求采取行动，以拒绝Muharemovic和Aaronson的精彩双扑救。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "twist": {
-    "en": "He twists and turns on the edge of the box before his effort is palmed away.",
-    "cn": "他扭动着盒子的边缘，然后他的努力就消失了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "two": {
-    "en": "Arsenal join Manchester City as the only two sides to take maximum points from their first three league games.",
-    "cn": "阿森纳与曼城成为前 3 轮 联赛仅有的两支全取 9 分的球队。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "type": {
-    "en": "The first one was insulin: In the 1920s, scientists isolated the peptide from animal pancreases and began using it to treat Type 1 diabetes.",
-    "cn": "第一种是胰岛素：20世纪20年代，科学家从动物胰腺中分离出这种肽，并开始将其用于治疗1型糖尿病。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "undergo": {
-    "en": "Rangers summer signing Daisuke Yokota - who was ruled out of the St Mirren game through injury - is also set to undergo surgery and the Japanese winger is also facing a lengthy period out.",
-    "cn": "流浪者队夏季签约横田大辅-因受伤被排除在圣米伦比赛之外-也将接受手术，这位日本边锋也面临着漫长的时期。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "under": {
-    "en": "During World War II, h ospital ships were protected under international humanitarian law.",
-    "cn": "在第二次世界大战期间，战舰受到国际人道主义法的保护。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "uncover": {
-    "en": "Together, they uncover how these formative experiences helped shape the woman who would become a formidable queen.",
-    "cn": "他们一起揭示了这些形成性的经历如何帮助塑造了这位将成为令人敬畏的女王的女人。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "uncle": {
-    "en": "There he found the name of his great uncle, Bishen Singh, son of Jatti.",
-    "cn": "在那里，他找到了他的叔祖父，贾蒂的儿子毕申·辛格的名字。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "uncertain": {
-    "en": "It was still uncertain that Chelsea had finally sealed their progress when Valentin Barco blasted them 5-3 up from close range from another Rogers assist, but they could finally rest easy in added time - and extinguish Leeds' commendable never-say-die attitude - when Welbeck nodded Barco's wildly mishit effort beyond Zetterer.",
-    "cn": "当瓦伦丁·巴科（Valentin Barco）从另一位罗杰斯（Rogers）助手的近距离以5比3击败他们时，切尔西最终是否已经封锁了他们的进步仍不确定，但当韦尔贝克（Welbeck）点头点头时，他们终于可以在额外的时间内轻松休息，并消除利兹（Leeds）值得称赞的永不言败的态度。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "unable": {
-    "en": "Spurs' players have been unable to turn that perception into more than one point so far.",
-    "cn": "到目前为止，热刺的球员们还无法将这种感觉转化为一分以上。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "ultimately": {
-    "en": "“That poor administration helped trigger the revolt,” which ultimately evolved from a protest against unfair taxes into a broader push for a more equitable society.",
-    "cn": "“那个糟糕的政府帮助引发了叛乱”，最终从对不公平税收的抗议演变为对更公平社会的更广泛推动。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "ultimate": {
-    "en": "If so, the end panels might have shown William being crowned king of England, as that was the ultimate consequence of the Conquest.",
-    "cn": "如果是这样，最后的镶板可能显示威廉被加冕为英格兰国王，因为这是征服的最终结果。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "tower": {
-    "en": "On a June day in 1381, however, rebels breached the Tower for the first and only time in its history.",
-    "cn": "然而，在1381年6月的一天，叛乱分子在其历史上第一次也是唯一一次突破了这座塔。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "them": {
-    "en": "\"We played with confidence, there was not even a chance for them, then the referee decided to give a penalty.",
-    "cn": "“我们充满信心地踢球，他们甚至没有机会，然后裁判决定点球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "themselves": {
-    "en": "They worked together as a three, they knew how to position themselves, they were great in the air, they knew how to push up and when to drop deeper.",
-    "cn": "他们三人配合默契，知道如何站位，高空球能力出色，懂得何时上压、何时回收。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "then": {
-    "en": "Before then – since at least the late 1720s – it was rolled out only for antiquarian and guest visitors.",
-    "cn": "在此之前，至少从18世纪20年代末开始，它只对古董商和游客开放。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "theoretical": {
-    "en": "Since then, mathematicians have been investigating whether these equations work in all situations or whether they allow for a theoretical case in which a small part of the fluid moves infinitely quickly and the solution breaks down—or “blows up.”",
-    "cn": "从那时起，数学家们一直在研究这些方程是否适用于所有情况，或者它们是否允许一种理论情况，在这种情况下，一小部分流体无限快速地运动，溶液就会破裂或“爆炸”。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "theory": {
-    "en": "This kind of “do your own research” theory of medicine is hardly new, but today, there’s more of a platform than ever to cultivate this demand and serve it at scale.",
-    "cn": "这种“自己做研究”的医学理论并不是什么新鲜事，但今天，培养这种需求并大规模服务的平台比以往任何时候都多。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "there": {
-    "en": "\"We played with confidence, there was not even a chance for them, then the referee decided to give a penalty.",
-    "cn": "“我们充满信心地踢球，他们甚至没有机会，然后裁判决定点球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "these": {
-    "en": "A few years ago, these drugs belonged to the world of bodybuilder message boards and the dark web.",
-    "cn": "几年前，这些药物属于健美留言板和暗网的世界。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "they": {
-    "en": "Countless film adaptations of her work were made throughout the 20th century, and they’re still coming.",
-    "cn": "整个20世纪，根据她的作品改编的电影不计其数，而且还在不断出现。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "thing": {
-    "en": "\"We've still got a bit to go, but we're getting results and that's the main thing.\"",
-    "cn": "“我们还有一段路要走，但我们正在取得成果，这是最重要的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "think": {
-    "en": "\"I think they can finish second -- third is the absolute lowest I can see Chelsea finishing,\" Neville added.",
-    "cn": "内维尔补充道：「我认为他们能拿到亚军，第三将是切尔西能拿到的最低名次。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "thousand": {
-    "en": "There were thousands of names in the registers, mostly written in dark ink.",
-    "cn": "登记簿上有成千上万的名字，大多是用深色墨水写的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "though": {
-    "en": "Gacy was sentenced to death in 1980, though he spent the next 14 years appealing his sentence.",
-    "cn": "盖西于1980年被判处死刑，尽管他花了接下来的14年时间对他的判决提出上诉。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "those": {
-    "en": "And among those, just five hit the 0.5 benchmark in the season before they moved: Barcola, Outtara, Madueke, Mbaye, and Johnson.",
-    "cn": "其中只有 5 人达到了 0.5 的门槛——他们是巴尔科拉、奥塔拉、马杜埃凯、姆巴耶和约翰逊。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "third": {
-    "en": "\"I think they can finish second -- third is the absolute lowest I can see Chelsea finishing,\" Neville added.",
-    "cn": "内维尔补充道：「我认为他们能拿到亚军，第三将是切尔西能拿到的最低名次。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "this": {
-    "en": "Don't be fooled by this result -- Chelsea are back among the Premier League title contenders.",
-    "cn": "不要被这场比赛的结果欺骗——切尔西已经重新回到争冠行列。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "thread": {
-    "en": "The Arsenal captain oozed class and confidence, demanding the ball then finding the gaps in Napoli's defence and threading passes forward.",
-    "cn": "阿森纳队长渗出班级和自信，要求球然后找到那不勒斯的防守和线程向前传球的差距。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "their": {
-    "en": "Martin Odegaard's superb strike gave Arsenal a deserved 1-0 victory over Napoli in their Champions League opener.",
-    "cn": "马丁·厄德高（Martin Odegaard）出色的罢工让阿森纳在冠军联赛揭幕战中以1比0战胜了那不勒斯。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "ten": {
-    "en": "Here are the projects that won the ten categories of the 2026 Ig Nobel Prizes.",
-    "cn": "以下是获得2026年搞笑诺贝尔奖十大奖项的项目。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "tense": {
-    "en": "A new film by Paul Greengrass, a veteran director of tense action films including Captain Phillips and The Bourne Ultimatum, reimagines the Peasants’ Revolt from the perspectives of those who participated in it.",
-    "cn": "保罗·格林格拉斯（Paul Greengrass）是包括《菲利普斯船长》（Captain Phillips）和《伯恩最后通牒》（The Bourne Ultimatum）在内的紧张动作电影的资深导演，他拍摄的一部新电影从参与者的角度重新构想了农民起义。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "tenth": {
-    "en": "Within four years, it would become the setting of Christie’s most famous novel: the tenth installment in her Hercule Poirot series, Murder on the Orient Express.",
-    "cn": "四年之内，这里成为了克里斯蒂最著名的小说：她的赫尔克里·波洛系列的第十部《东方快车谋杀案》的背景。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "that": {
-    "en": "\"He's got that edge and different relationships around him as well and that helps,\" said the Gunners boss.",
-    "cn": "“他周围有这种优势和不同的关系，这很有帮助，”枪手主帅说。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "than": {
-    "en": "Only Everton and Liverpool have placed less emphasis on investment in their backline than the Red Devils since 2022.",
-    "cn": "自2022年以来，只有埃弗顿和利物浦比红魔更不重视投资。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "territory": {
-    "en": "For instance, in the Victoria River District, a pastoral area in the Northern Territory of Australia, the nabarlek hasn’t been seen for 170 years—so researchers assume that there, it is locally extinct.",
-    "cn": "例如，在维多利亚河地区，澳大利亚北部的一个牧区，已经有170年没有看到纳巴莱克了，所以研究人员认为，在那里，它已经在当地灭绝了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "term": {
-    "en": "David Martindale has pledged he won't be stepping back into the Livingston dugout long-term.",
-    "cn": "大卫·马丁代尔（David Martindale）承诺，他不会长期退回利文斯顿防空洞。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "test": {
-    "en": "The Blues found themselves two goals behind when Brenden Aaronson struck after 47 minutes to add to Tarik Muharemovic's opener, and it appeared Xabi Alonso's first real cup test would end in disappointment - despite the half-time introduction of Cole Palmer, Morgan Rogers, Pedro Neto and Reece James.",
-    "cn": "布兰登·亚伦森（Brenden Aaronson）在47分钟后击中塔里克·穆哈雷莫维奇（Tarik Muharemovic）的揭幕战后，蓝军发现自己落后了两个进球，尽管科尔·帕尔默（Cole Palmer）、摩根·罗杰斯（Morgan Rogers）、佩德罗·内托（Pedro Neto）和里斯·詹姆斯（Reece James）中场休息，但似乎萨比·阿隆索",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "threat": {
-    "en": "\"He definitely offers a different kind of threat, that is the beauty of it really, we know what Ben gives us and there are not many who can give us what he gives us.",
-    "cn": "“他绝对提供了一种不同的威胁，这就是它的美妙之处，我们知道本给了我们什么，没有几个人能给我们他给我们的。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "threaten": {
-    "en": "“It’s also reassuring, as it indicates that this threatened wallaby is persisting …",
-    "cn": "“这也令人放心，因为这表明这种受到威胁的小袋鼠正在持续存在…",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "three": {
-    "en": "Hull arrive at Stamford Bridge with seven points from three games and three consecutive clean sheets.",
-    "cn": "赫尔三场比赛积7分，连续三场零封，来到斯坦福桥。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "today": {
-    "en": "Today, the 443-foot-long shipwreck lies within the Karaburun-Sazan Marine Protected Area, submerged about 108 to 121 feet deep.",
-    "cn": "今天，这艘443英尺长的沉船位于Karaburun-Sazan海洋保护区内，水深约108至121英尺。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "together": {
-    "en": "\"When you put together a team that hardly plays together, it is difficult to play at this level when [Leeds] are intense.\"",
-    "cn": "“当你组建一支几乎无法一起比赛的球队时，当[利兹]非常激烈时，很难在这个级别上比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "too": {
-    "en": "They hope, too, to discover whether the additional skulls belonged to people who were intentionally decapitated.",
-    "cn": "他们也希望发现额外的头骨是否属于被故意斩首的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "tool": {
-    "en": "Other researchers, working around the same time in the nearby village of Iwiny, separately unearthed a high-status funerary site filled with beads, axes and flint tools.",
-    "cn": "其他研究人员大约在同一时间在附近的Iwiny村工作，分别发掘了一个高地位的葬礼遗址，里面装满了珠子、斧头和燧石工具。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "towards": {
-    "en": "Leicester City are heading towards financial 'Armageddon' without fresh capital and improved results, says their prospective new owner Talksport",
-    "cn": "莱斯特城未来的新东家Talksport表示，在没有新资本和改善业绩的情况下，莱斯特城正走向财务“末日”",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "tour": {
-    "en": "“A World of Mystery” will take visitors on an immersive tour of Christie’s life, which began in 1890 in Devon, England.",
-    "cn": "“神秘的世界”将带领游客沉浸在克里斯蒂的生活中，他从1890年开始在英格兰德文郡生活。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "tough": {
-    "en": "It should have been much bigger - in a really tough environment, a really tough opponent.",
-    "cn": "它应该更大-在一个非常艰难的环境中，一个非常艰难的对手。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "touch": {
-    "en": "He also ended the game having had more touches, made more passes and created more chances than anyone else on the pitch.",
-    "cn": "他还在比赛结束时获得了更多的接触，获得了更多的传球，并创造了比球场上任何其他人更多的机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "total": {
-    "en": "In total, the researchers observed 151 species, ranging from common fish to invertebrates and mammals.",
-    "cn": "研究人员总共观察了151种物种，从普通鱼类到无脊椎动物和哺乳动物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "top": {
-    "en": "At the top of the table, most clubs moved toward a style that prioritised control and limited risks.",
-    "cn": "在积分榜顶端，大多数俱乐部转向了强调控球、限制风险的风格。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "title": {
-    "en": "Despite that frailty, former Manchester United defender Neville still believes Chelsea can challenge for the title.",
-    "cn": "尽管防线脆弱，前曼联后卫内维尔依然认为切尔西具备争冠实力。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "thursday": {
-    "en": "The other takes place between Tuesday January 5 and Thursday January 7.",
-    "cn": "另一个时间是1月5日星期二到1月7日星期四。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "ticket": {
-    "en": "Tickets range in price from £25 to £33, through a tiered pricing structure based on the day and time of visit.",
-    "cn": "门票价格从25英镑到33英镑不等，根据参观日期和时间分层定价。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "through": {
-    "en": "Chelsea took the lead early on at the Premier League champions on Sunday through Morgan Rogers.",
-    "cn": "周日做客英超卫冕冠军的比赛中，切尔西凭借摩根·罗杰斯的闪击早早取得领先。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "throughout": {
-    "en": "Countless film adaptations of her work were made throughout the 20th century, and they’re still coming.",
-    "cn": "整个20世纪，根据她的作品改编的电影不计其数，而且还在不断出现。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "tie": {
-    "en": "With a Europa League tie and an Old Firm cup and league double coming up, Martin O'Neill made five changes as Kasper Hogh returned from injury and Sam Johnstone took over in goal.",
-    "cn": "随着欧罗巴联赛平局和老公司杯和联赛双打的到来，马丁·奥尼尔（Martin O'Neill）做出了五项改变，卡斯珀·霍格（Kasper Hogh）因伤复出，萨姆·约翰斯通（Sam Johnstone）接",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "tissue": {
-    "en": "By linking up various amino acids in sequence, the body produces peptides that carry out a wide range of functions, including immune support, tissue repair and appetite control.",
-    "cn": "通过按顺序连接各种氨基酸，人体产生具有多种功能的肽，包括免疫支持、组织修复和食欲控制。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "tip": {
-    "en": "The 255 egg fragments at the center of the discovery were uncovered in 2020 and 2024 in the Chorrillo Formation, a rock formation on the southern tip of Argentina.",
-    "cn": "发现中心的255个鸡蛋碎片于2020年和2024年在阿根廷南端的一个岩层Chorrillo地层中被发现。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "time": {
-    "en": "The Germany international's dummy gave Ødegaard the space and time to fire home Arsenal's crucial second goal.",
-    "cn": "这位德国国脚的一漏，给厄德高赢得了空间和时间，让他打进了阿森纳关键的第二球。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "until": {
-    "en": "They had been there largely undisturbed for nearly 100 years, until Amandeep Madra contacted them.",
-    "cn": "在Amandeep Madra联系他们之前，他们在那里生活了将近100年。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "white": {
-    "en": "Holmes of The Devil in the White City infamy—anchors a new exhibition, now open in Chicago.",
-    "cn": "因《白城恶魔》而臭名昭著的福尔摩斯——是芝加哥正在举办的新展览的核心人物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "who": {
-    "en": "They hope, too, to discover whether the additional skulls belonged to people who were intentionally decapitated.",
-    "cn": "他们也希望发现额外的头骨是否属于被故意斩首的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "whoever": {
-    "en": "At the turn of the 21st century, the Clay Mathematics Institute decided that it would award $1 million to whoever solved it.",
-    "cn": "在21世纪之交，克莱数学研究所决定给解决这个问题的人奖励100万美元。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "whole": {
-    "en": "It had to be connected to scoring because, well, that's the whole point of the game.",
-    "cn": "它必须与进球挂钩，因为说到底，这就是比赛的全部意义。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "whom": {
-    "en": "But the feat has also sparked a controversy: While the Navier-Stokes problem may have been solved by A.I., the achievement has become contentious because of a possible association with the work of two human researchers—one of whom is employed by OpenAI’s rival company Anthropic.",
-    "cn": "但这一成就也引发了争议：虽然纳维-斯托克斯问题可能是由人工智能解决的，但这一成就引发了争议，因为它可能与两名人类研究人员的工作有关，其中一名研究人员受雇于OpenAI的竞争对手Anthropic公司。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "why": {
-    "en": "\"Collectively, as a team, we have done a lot of the right things and that is why were are excited about what the season will bring.",
-    "cn": "“作为一个团队，我们做了很多正确的事情，这就是为什么我们对新赛季的到来感到兴奋。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "wide": {
-    "en": "It used to be: get chalk on your heels, stay wide, wait for a pass, dribble past your full-back, and cross the ball into the big striker in the box.",
-    "cn": "从前，边锋的任务是这样的：在鞋底沾满草粉之后，留在边路，等待传球，突破对面的边后卫，然后把球传中给禁区里的高中锋。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "winner": {
-    "en": "When you get a late winner, it illustrates the strength, fitness and character of the team.",
-    "cn": "当你得到一个迟到的获胜者时，它说明了团队的力量、健康和品格。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "wing": {
-    "en": "Alonso's 3-5-2 system saw Josh Acheampong, Maxence Lacroix and Wesley Fofana start in the back three -- with Pedro Neto and Jorrel Hato as wing-backs.",
-    "cn": "阿隆索排出的 3-5-2 阵型中，约书亚·阿查姆庞、拉克鲁瓦和福法纳组成三中卫，佩德罗·内托和哈托担任翼卫。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "window": {
-    "en": "Barcelona are looking to sell Frenkie de Jong when the January transfer window opens.",
-    "cn": "巴塞罗那希望在1月转会窗口打开时出售Frenkie de Jong。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "win": {
-    "en": "We're making good steps but we'd like to be able to win a bit more comfortably and at more ease.",
-    "cn": "我们正在迈出良好的步伐，但我们希望能够更舒适、更轻松地赢得比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "will": {
-    "en": "\"I couldn't be more pleased with my players for their perseverance and sheer will to keep going.",
-    "cn": "“我对我的球员的毅力和继续前进的纯粹意愿感到非常满意。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "wild": {
-    "en": "There were times during the tournament when life must have felt a little wild, I suggest.",
-    "cn": "我建议，在比赛期间，生活一定感觉有点狂野。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "wife": {
-    "en": "Edda Ciano, the daughter of Italian dictator Benito Mussolini and the wife of Italian foreign minister Galeazzo Ciano, was among the survivors.",
-    "cn": "埃达·奇亚诺（Edda Ciano）是意大利独裁者贝尼托·墨索里尼（Benito Mussolini）的女儿，也是意大利外交部长加莱阿佐·奇亚诺（Galeazzo Ciano）的妻子",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "widow": {
-    "en": "Lesser-known featured Chicago killers include Richard Speck; the satanic Ripper Crew cult; and Tillie Klimek, known as Chicago’s “Black Widow,” who claimed to have had precognitive dreams of the deaths of her husbands, whom, in reality, she poisoned.",
-    "cn": "鲜为人知的芝加哥杀手包括理查德·斯佩克（Richard Speck）、撒旦式的开膛手船员邪教（Ripper Crew cult）和被称为芝加哥“黑寡妇”的蒂莉·克莱梅克（Tillie Klimek），她声称自己曾梦到丈夫的死亡，而实际上，她的丈夫是被毒死的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "willing": {
-    "en": "Havertz might never have entirely convinced as a centre-forward -- which is partly why Chelsea were willing to move him out and Arsenal signed Viktor Gyökeres last summer.",
-    "cn": "哈弗茨从未能彻底证明自己是一名合格的中锋——这也是切尔西愿意将他放走、阿森纳去年夏天签下维克托·约克雷斯的原因之一。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "wednesday": {
-    "en": "Henrik Pedersen proving the critics wrong as Sheffield Wednesday surge out of the blocks",
-    "cn": "亨里克·彼得森证明了那些批评的人是错的，谢菲尔德星期三队在比赛中突飞猛冲",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "week": {
-    "en": "Pressure is on Michael Carrick and suddenly, this week already feels season-defining.",
-    "cn": "迈克尔·卡里克（Michael Carrick）承受着压力，突然之间，本周已经感觉到了赛季的定义。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "weekend": {
-    "en": "That weekend's Super Sunday sees Chelsea vs Newcastle at 2pm, then Man City vs Tottenham at 4.30pm.",
-    "cn": "那个周末的“超级星期天”是下午2点切尔西vs纽卡斯尔，下午4点半曼城vs热刺。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "weigh": {
-    "en": "Adults could weigh up to 75 tonnes—over eight times bigger than a Tyrannosaurus rex and 12 times as heavy as an elephant.",
-    "cn": "成年人的体重可达75吨，是霸王龙的8倍多，是大象的12倍重。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "well": {
-    "en": "Perhaps Chicago’s most well-known serial killer, Gacy features prominently in the exhibition.",
-    "cn": "也许是芝加哥最著名的连环杀手，盖西在展览中占据突出地位。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "well-known": {
-    "en": "Perhaps Chicago’s most well-known serial killer, Gacy features prominently in the exhibition.",
-    "cn": "也许是芝加哥最著名的连环杀手，盖西在展览中占据突出地位。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "which": {
-    "en": "The style of the ax, which was chipped from use, led researchers to date the grave to around 2900 B.C.E.",
-    "cn": "斧头的风格从使用中被削弱，导致研究人员将坟墓的年代定在公元前2900年左右。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "whether": {
-    "en": "The ending is abrupt and many people have pondered on whether the tapestry was not actually finished, or has lost its final frames at some point over the centuries.",
-    "cn": "结局很突然，许多人都在想，这幅挂毯到底是没有完成，还是几个世纪以来的某个时候失去了最后的画框。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "where": {
-    "en": "Alonso was handed another clear indication of where his side remain lacking - but for now, chaos isn't serving them too badly.",
-    "cn": "阿隆索得到了另一个明确的迹象，表明他的球队仍然缺乏-但目前，混乱并没有为他们服务得太糟糕。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "when": {
-    "en": "In the study, “we’ve shown that animals kiss and when it could have evolved in the primates,” she says.",
-    "cn": "她说：“在这项研究中，我们已经证明了动物接吻以及它何时可以在灵长类动物中进化。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "while": {
-    "en": "While it may only be September, he's not wrong.",
-    "cn": "虽然可能只有9月，但他没有错。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "whatever": {
-    "en": "“They were equipped with an electric knife or a metal saw—whatever you prefer to call it—and they cut through the bolts holding the frames of Renoir’s works in place,” Bryan Masson, the mayor of Cagnes-sur-Mer, told reporters, per ABC News ’ Kevin Shalvey.",
-    "cn": "据ABC新闻的凯文·沙维报道，滨海卡涅市长布莱恩·马森告诉记者：“他们配备了一把电动刀或一把金属锯——不管你喜欢怎么称呼它——他们把雷诺阿作品框架固定的螺栓切断了。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "what": {
-    "en": "“What’s in the package may not actually be what is on the outside of the label,” Doroshow adds.",
-    "cn": "Doroshow补充道：“包装中的东西实际上可能不是标签外面的东西。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "western": {
-    "en": "But in a small spot of hope for the marsupial, Australian conservationists and the Dambimangari Aboriginal Corporation recently captured the species on camera at two sites in Western Australia where it had not been scientifically recorded before.",
-    "cn": "但有袋动物的一线希望在于，澳大利亚自然资源保护主义者和丹比曼加里原住民公司最近在西澳大利亚州的两个地点用相机捕捉到了这个物种，在此之前，它们没有被科学记录过。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "west": {
-    "en": "And the season before wasn't too different: his 75 take-ons ranked fourth behind Doku, West Ham's Mohammed Kudus, and Liverpool's Salah.",
-    "cn": "前一个赛季也差不多：他的 75 次成功突破排名第四，仅次于多库、西汉姆的库杜斯和利物浦的萨拉赫。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "wrap": {
-    "en": "Just before wrapping up their work on the Roman graves, the researchers spotted the circular outline of a barrow—an ancient burial mound—Dąbrowski says in a statement from Wrocław Medical University.",
-    "cn": "在结束他们对罗马坟墓的工作之前，研究人员在弗罗茨瓦夫医科大学的一份声明中发现了一个古老的坟丘Dąbrowski的圆形轮廓。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "wreck": {
-    "en": "Now, more than eight decades later, the wreck is teeming with marine life, researchers report in a paper published July 26 in the journal Frontiers in Ocean Sustainability.",
-    "cn": "研究人员在7月26日发表在《海洋可持续发展前沿》（Frontiers in Ocean Sustainability）杂志上的一篇论文中报告说，现在，80多年过去了，沉船上充满了海洋生物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "wrist": {
-    "en": "After those two, there is England veteran Jordan Henderson, now 36, who is still sidelined with the broken wrist suffered when falling over an advertising board at the World Cup.",
-    "cn": "除了他们两人之外，还有 36 岁的英格兰老将亨德森，他因在世界杯期间撞到广告牌手腕骨折，目前仍在养伤。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "writer": {
-    "en": "Sara Hashemi is a science writer and fact-checker currently based in New York City.",
-    "cn": "Sara Hashemi是一位科学作家和事实核查员，目前居住在纽约市。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "wrong": {
-    "en": "Henrik Pedersen proving the critics wrong as Sheffield Wednesday surge out of the blocks",
-    "cn": "亨里克·彼得森证明了那些批评的人是错的，谢菲尔德星期三队在比赛中突飞猛冲",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "year": {
-    "en": "Amandeep was born and grew up in Britain in the 1970s, his parents having come over in the postwar years.",
-    "cn": "阿曼迪普上世纪70年代在英国出生和长大，他的父母在战后的岁月里来到英国。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "yes": {
-    "en": "Yes, I realise I sound like your grandpa right now.",
-    "cn": "是的，我知道我现在听起来像你的爷爷。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "wound": {
-    "en": "The ship, called the Po, was evacuating wounded Italian soldiers from Albania’s Vlora Bay on the night of March 14, 1941, when it was struck by a torpedo from a British Swordfish bomber.",
-    "cn": "这艘名为Po的船于1941年3月14日晚上从阿尔巴尼亚的Vlora湾撤离受伤的意大利士兵，当时它被英国箭鱼轰炸机的鱼雷击中。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "yourself": {
-    "en": "Heading to the British Museum to see the Bayeux Tapestry for yourself?",
-    "cn": "想亲自去大英博物馆看贝叶挂毯吗？",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "your": {
-    "en": "And it's not even clear that the production -- you know, the part where you turn your play into goals -- drove any kind of premium.",
-    "cn": "而且尚不清楚他们的产出——也就是把表现转化为进球的部分——是否真的带来任何溢价。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "young": {
-    "en": "Its dental charms came from large mammals, like wolves, deer, young bears or maybe even humans, Dąbrowski tells PAP.",
-    "cn": "Dąbrowski告诉PAP ，它的牙齿魅力来自大型哺乳动物，如狼、鹿、小熊甚至人类。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "you": {
-    "en": "When you get a late winner, it illustrates the strength, fitness and character of the team.",
-    "cn": "当你得到一个迟到的获胜者时，它说明了团队的力量、健康和品格。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "would": {
-    "en": "He has deliberately given him some space because he knows it would have been a difficult situation.",
-    "cn": "他故意给他一些空间，因为他知道这将是一个困难的局面。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "woman": {
-    "en": "Caroline d’Amat, Cagnes-sur-Mer’s deputy mayor, tells CNN ’s Jack Guy and Saskya Vandoorne that Madame Colonna Romano is worth more than $2.3 million, while Young Woman is worth about $230,000.",
-    "cn": "滨海卡涅斯副市长卡洛琳·达马特告诉CNN的杰克·盖伊和萨斯基亚·凡多恩，科隆娜·罗马诺夫人的身价超过230万美元，而年轻女子的身价约为23万美元。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "withstand": {
-    "en": "The Tower of London has protected England’s capital since it was first built in the 1070s, withstanding medieval sieges and World War II bombing raids alike.",
-    "cn": "伦敦塔自1070年代首次建成以来一直保护着英格兰的首都，经受住了中世纪的围攻和第二次世界大战的轰炸。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "without": {
-    "en": "Rangers had to cope without captain and striker Lawrence Shankland, who missed out through injury, with Ryan Naderi starting in his place.",
-    "cn": "流浪者不得不在没有队长和前锋劳伦斯·尚克兰德的情况下应对，劳伦斯·尚克兰德因伤缺席比赛，瑞安·纳德里（Ryan Naderi）开始取代他。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "with": {
-    "en": "But the hosts struck back with strikes from Kai Havertz and Martin Ødegaard -- and could have scored more.",
-    "cn": "但主队凭借凯·哈弗茨和马丁·厄德高的进球反超比分——他们本可以进更多球。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "wise": {
-    "en": "But performance-wise, it has been a lot of things we are looking for.",
-    "cn": "但在性能方面，我们一直在寻找很多东西。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "within": {
-    "en": "Today, the 443-foot-long shipwreck lies within the Karaburun-Sazan Marine Protected Area, submerged about 108 to 121 feet deep.",
-    "cn": "今天，这艘443英尺长的沉船位于Karaburun-Sazan海洋保护区内，水深约108至121英尺。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "woollen": {
-    "en": "Strictly speaking, the Tapestry is an embroidery – because the woollen threads of its design are stitched onto the linen backing cloth rather than being woven as one.",
-    "cn": "严格来说，挂毯是一种刺绣，因为其设计的羊毛线是缝在亚麻底布上的，而不是织成一体的。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "worth": {
-    "en": "This spring, thieves stole $10 million worth of paintings by Renoir, Henri Matisse and Paul Cézanne from an Italian museum.",
-    "cn": "今年春天，窃贼从一家意大利博物馆偷走了价值1000万美元的雷诺阿（Renoir）、亨利·马蒂斯（Henri Matisse）和保罗·卡萨姆（Paul csamzanne）的画作。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "worse": {
-    "en": "Winning work highlighted during the 36th annual award ceremony included hilarious research on the aerodynamics of nose blowing, gently stepping on venomous snakes, confirming that teenagers do indeed smell worse than babies and other side-splitting scientific undertakings.",
-    "cn": "第36届年度颁奖典礼上突出的获奖作品包括关于吹鼻子的空气动力学的热闹研究，轻轻踩在毒蛇身上，证实青少年确实比婴儿更难闻，以及其他侧面分裂的科学事业。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "world": {
-    "en": "A few years ago, these drugs belonged to the world of bodybuilder message boards and the dark web.",
-    "cn": "几年前，这些药物属于健美留言板和暗网的世界。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "worker": {
-    "en": "The Po quickly began taking on water and sank within about ten minutes, killing 23 of the 240 people aboard, including three Italian Red Cross workers.",
-    "cn": "Po很快开始进水，并在大约十分钟内沉没，造成船上240人中的23人死亡，其中包括三名意大利红十字会工作人员。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "work": {
-    "en": "Wealthier individuals were also more likely to lie at work and cheat during games.",
-    "cn": "较富有的人也更有可能在工作中撒谎，在游戏中作弊。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "word": {
-    "en": "Unsurprisingly, Pochettino chooses his words carefully, focusing on the support and backing Trump gave the side.",
-    "cn": "不出所料，波切蒂诺谨慎地选择了他的话，专注于特朗普的支持和支持。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "tell": {
-    "en": "Its dental charms came from large mammals, like wolves, deer, young bears or maybe even humans, Dąbrowski tells PAP.",
-    "cn": "Dąbrowski告诉PAP ，它的牙齿魅力来自大型哺乳动物，如狼、鹿、小熊甚至人类。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "valley": {
-    "en": "In Silicon Valley, devotees have gathered at peptide parties to drink, dance and inject themselves with these chemicals—all in pursuit of sharper minds and more sculpted bodies.",
-    "cn": "在硅谷，奉献者聚集在多肽派对上喝酒、跳舞和注射这些化学物质--所有这些都是为了追求更敏锐的头脑和更精致的身体。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "value": {
-    "en": "The 7/4 for him to make two or more fouls is a lovely slice of value.",
-    "cn": "对于他来说，7/4的两次或两次以上的犯规是一个可爱的价值。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "various": {
-    "en": "But within the last few years, peptides have become a much broader phenomenon, not just taken for self-optimization but for treating chronic pain and various other conditions.",
-    "cn": "但在过去几年中，多肽已成为一种更广泛的现象，不仅用于自我优化，还用于治疗慢性疼痛和各种其他疾病。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "veteran": {
-    "en": "It is believed they were compiled for postwar pensions and other veterans’ benefits.",
-    "cn": "据信，这些数据是为战后养老金和其他退伍军人福利编制的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "vessel": {
-    "en": "Scientists also spotted squid egg clusters attached to the vessel.",
-    "cn": "科学家们还发现了附着在船上的鱿鱼卵簇。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "very": {
-    "en": "\"That's great that a lot of very different players got in those situations.",
-    "cn": "“在这种情况下，很多不同的球员都得到了很好的表现。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "verify": {
-    "en": "And once scientists have detected a wallaby that fits the animal’s description, verifying that it’s the target species is no easy task, either.",
-    "cn": "一旦科学家发现了符合动物描述的小袋鼠，验证它是目标物种也不是一件容易的事。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "unusually": {
-    "en": "Oliver Glanser's record against Unai Emery is an unusually strong tactical head-to-head that is more than just a cute statistic.",
-    "cn": "奥利弗·格兰瑟对阵乌奈·埃梅里的记录是一场异常强大的肉搏战，而不仅仅是一个可爱的数据。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "upon": {
-    "en": "Lavia would be the most obvious partner for Caicedo, but the Belgium international has had such an injury-hit time at Chelsea that the 22-year-old cannot yet be relied upon to be a first-choice starter.",
-    "cn": "拉维亚本该是凯塞多最明显的搭档，但这位比利时国脚在切尔西饱受伤病困扰，年仅 22 岁的他还不能被视为可靠的首发。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "usually": {
-    "en": "Champions usually concede fewer than a goal a game, so Chelsea are totally off course right now by letting them in at a rate of more than two a game.",
-    "cn": "冠军球队通常每场比赛的丢球不超过一球，切尔西如今以每场两球以上的失球速度完全偏离了轨道。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "used": {
-    "en": "It used to be: get chalk on your heels, stay wide, wait for a pass, dribble past your full-back, and cross the ball into the big striker in the box.",
-    "cn": "从前，边锋的任务是这样的：在鞋底沾满草粉之后，留在边路，等待传球，突破对面的边后卫，然后把球传中给禁区里的高中锋。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "use": {
-    "en": "Scientists, in turn, have developed synthetic copies or modified cousins of these peptides to use as medications.",
-    "cn": "反过来，科学家们开发了这些肽的合成拷贝或修饰表亲，用作药物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "wake": {
-    "en": "Prophetic words from Gary Neville in the wake of Manchester United's 2-2 draw with Everton.",
-    "cn": "加里·内维尔（Gary Neville）在曼联2-2战平埃弗顿之后的预言。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "walk": {
-    "en": "This has led some historians to suggest that the Tapestry was designed to be accompanied by a guide, who would have narrated the story to viewers as they walked along.",
-    "cn": "这使得一些历史学家提出，挂毯的设计是由一个导游陪同的，他会在观众走过的时候向他们讲述故事。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "wall": {
-    "en": "But it takes its name from the French tapisserie, meaning ‘wall hanging’.",
-    "cn": "但它的名字来自法语tapisserie，意思是“挂在墙上”。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "want": {
-    "en": "Derek McInnes wants Rangers to \"bring the crowd with us\" in Sunday's Old Firm clash at Ibrox.",
-    "cn": "德里克·麦金尼斯希望流浪者队在周日在伊布罗克斯与老公司的比赛中“把观众带到我们身边”。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "war": {
-    "en": "The registers had been put together by the Punjab government in 1919–20 after the war.",
-    "cn": "这些登记簿是旁遮普政府在战后的1919年至1920年间整理的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "warm": {
-    "en": "Mauricio Pochettino has always been good company - warm, engaging and likeable.",
-    "cn": "Mauricio Pochettino一直是好伙伴--热情、迷人、可爱。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "waste": {
-    "en": "Report as Martin Odegaard's goal ensures a 1-0 win for Arsenal in their Champions League league-phase opener against Napoli; Mikel Arteta's side dominated but wasted chances through Bukayo Saka, Mikel Merino and others before Odegaard's winner",
-    "cn": "报告为Martin Odegaard的进球确保了阿森纳在对阵那不勒斯的欧冠联赛阶段揭幕战中1-0获胜；Mikel Arteta的球队在Odegaard的冠军之前通过Bukayo Saka ，Mikel Merino和其他人占据主导地位但浪费了机会",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "wealthy": {
-    "en": "The tax was “an unevenly distributed one,” asking more of the lower classes than the wealthy, and it was “very badly administered,” Andrew Prescott, a historian at the University of Glasgow, tells Smithsonian magazine.",
-    "cn": "格拉斯哥大学(University of Glasgow)历史学家安德鲁·普雷斯科特(Andrew Prescott)告诉《史密森尼》(Smithsonian)杂志，这项税收“分配不均”，对下层阶级的要求高于对富人的要求，而且“管理非常糟糕”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "wealth": {
-    "en": "“The general pattern seems to be that with wealth and rising power, you become less engaged with the needs of others and less burdened by the needs of social relationships,” study co-author Paul Piff, a social psychologist at the University of California, Irvine, tells the Guardian ’s Ian Sample.",
-    "cn": "研究报告的共同作者、加州大学欧文分校的社会心理学家保罗·皮夫（Paul Piff）告诉《卫报》的伊恩·样本（Ian Sample）：“一般的模式似乎是，随着财富和权力的不断崛起，你对他人的需求的参与度降低，而对社会关系的需求的负担减轻。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "weakness": {
-    "en": "But Martinez and Lacroix both had an off day at the Emirates as Chelsea's defensive frailties once again highlighted their big weakness.",
-    "cn": "但马丁内斯和拉克鲁瓦在酋长球场双双不在状态，切尔西防线的问题再次暴露无遗。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "weak": {
-    "en": "Chelsea are back, but they're still weak at the back.",
-    "cn": "切尔西已经卷土重来，但防线依旧脆弱。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "way": {
-    "en": "Then for 20 to 25 minutes we were guilty of so many bad decisions, but we found a way to win.",
-    "cn": "然后在20到25分钟的时间里，我们做出了很多糟糕的决定，但我们找到了获胜的方法。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "water": {
-    "en": "The Po quickly began taking on water and sank within about ten minutes, killing 23 of the 240 people aboard, including three Italian Red Cross workers.",
-    "cn": "Po很快开始进水，并在大约十分钟内沉没，造成船上240人中的23人死亡，其中包括三名意大利红十字会工作人员。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "watch": {
-    "en": "The team watched the siblings play “soccer” with each other and their mother, and in one instance, with two juvenile Cozumel dwarf coatis.",
-    "cn": "研究小组观察了这对兄弟姐妹和它们的母亲一起踢“足球”，有一次，他们还和两只科苏梅尔矮长鼻浣熊幼崽一起踢足球。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "violence": {
-    "en": "This unprecedented act of violence took place at the height of the Peasants’ Revolt, a mass uprising sparked by the imposition of a poll tax —the third of its kind in four years.",
-    "cn": "这种前所未有的暴力行为发生在农民起义的高峰期，这是四年来第三次征收人头税引发的大规模起义。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "village": {
-    "en": "In 1960, Renoir’s son Claude sold the estate to the village of Cagnes, which turned it into a museum.",
-    "cn": "1960年，雷诺阿的儿子克劳德将庄园卖给了卡涅斯村，并将其改建为博物馆。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "view": {
-    "en": "As you survey the Tapestry, imagine how it might have been viewed in the 11th century.",
-    "cn": "当你审视这幅挂毯时，想象一下在11世纪人们是如何看待它的。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "video": {
-    "en": "Follow Sky Sports on WhatsApp for the latest sports news, videos, features, analysis and much more",
-    "cn": "在WhatsApp上关注天空体育，获取最新的体育新闻、视频、功能、分析等",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "victory": {
-    "en": "Martin Odegaard's superb strike gave Arsenal a deserved 1-0 victory over Napoli in their Champions League opener.",
-    "cn": "马丁·厄德高（Martin Odegaard）出色的罢工让阿森纳在冠军联赛揭幕战中以1比0战胜了那不勒斯。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "victorious": {
-    "en": "Former Manchester City playmaker Kevin De Bruyne appeared well placed to equalise when put through for a rare Napoli chance in the final few minutes, but wasted the chance by opting to cross, ensuring Arsenal could celebrate a victorious start to their European campaign and a fifth straight win of the season in all competitions.",
-    "cn": "前曼城组织者凯文·德布鲁因（Kevin De Bruyne）在最后几分钟获得罕见的那不勒斯机会时，似乎处于很好的平衡位置，但由于选择交叉而浪费了这个机会，确保阿森纳能够庆祝他们的欧洲战役的胜利开局以及本赛季在所有比赛中的连续第五场胜利。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "victim": {
-    "en": "Throughout the 1970s, Gacy—who worked as a birthday party clown alternately named Pogo and Patches— killed at least 33 teenage boys and young men after luring them to his home on the outskirts of the city, where he buried the remains of 29 of his victims in his basement’s crawl space.",
-    "cn": "在整个20世纪70年代，Gacy曾担任生日派对小丑，交替命名为Pogo和Patches ，他将至少33名十几岁的男孩和年轻人引诱到他位于城市郊区的家中，在那里他将29名受害者的遗体埋葬在地下室的爬行空间中。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "wear": {
-    "en": "They’ll also analyze genetic material in the skulls and teeth to determine genders and species, and attempt to discern the teeth owners’ diets through analysis of wear patterns and levels of strontium, carbon and nitrogen isotopes in the enamel.",
-    "cn": "他们还将分析头骨和牙齿中的遗传物质，以确定性别和物种，并试图通过分析牙釉质中的磨损模式和锶、碳和氮同位素水平来辨别牙齿主人的饮食。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "visible": {
-    "en": "This boom is even more visible online: As of May, peptide-related hashtags had generated more than 130,000 Instagram posts and 230 million TikTok views.",
-    "cn": "这种热潮在网上更加明显：截至5月，与多肽相关的标签已经产生了超过13万个Instagram帖子和2.3亿次TikTok浏览量。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "visual": {
-    "en": "In this way, it functioned as a visual prompt and a mnemonic device, inviting its audience to engage with the drama of 1066 in a uniquely immersive way.",
-    "cn": "通过这种方式，它起到了视觉提示和记忆装置的作用，邀请观众以一种独特的沉浸式方式参与到1066年的戏剧中。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "visitor": {
-    "en": "After 77 seconds here, the Blues looked like they had made the right call as Rogers fired the visitors ahead.",
-    "cn": "开场 77 秒之后，罗杰斯为客队先拔头筹，蓝军看上去做出了正确选择。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "visit": {
-    "en": "More than 500,000 visitors worldwide have visited the installation.",
-    "cn": "全球已有超过50万名参观者参观了该装置。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sky": {
-    "en": "There are two festive midweek rounds of Premier League fixtures when every match will be broadcast live on Sky Sports.",
-    "cn": "英超联赛周中有两轮喜庆的比赛，每场比赛都将在天空体育进行直播。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "smile": {
-    "en": "I smile before jesting, and Pochettino just laughs and says he's ready.",
-    "cn": "我在开玩笑之前微笑，波切蒂诺只是笑着说他已经准备好了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "small": {
-    "en": "The nabarlek looks nearly identical to the monjon (another small rock-wallaby that shares its range), and its genes very closely resemble those of the short-eared rock-wallaby.",
-    "cn": "纳巴勒克看起来几乎和獴（另一种分布范围相同的小岩袋鼠）一模一样，它的基因也和短耳岩袋鼠非常相似。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "skill": {
-    "en": "What Ronaldo and Messi did -- and made everyone else realise -- is that you could take those same winger skills, the speed and technical brilliance, and turn it into something even better.",
-    "cn": "C 罗和梅西所做的事情——也让所有人认识到——是同样的边锋技术、速度和天赋，可以演化成更可怕的东西。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "slip": {
-    "en": "She then carried the slip of paper to a bowl of water, dunked it repeatedly, and rolled it between her front paws and against the sand until it formed a compact, gritty ball.",
-    "cn": "然后，她把纸条拿到一碗水里，反复浸泡，用前爪在沙子上滚来滚去，直到它变成一个致密的沙砾球。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "slow": {
-    "en": "The game barely slowed from a relentless pace as Arsenal dominated possession, but Chelsea counterattacked with speed and purpose.",
-    "cn": "阿森纳占据控球优势，但切尔西以速度和目的性极强的反击相抗衡，场面几乎没有节奏放缓的时刻。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "significant": {
-    "en": "Then a few weeks later, another significant headline - Pochettino had, a little surprisingly perhaps, signed for four more years with the USA.",
-    "cn": "然后几周后，另一个重要的头条新闻-波切蒂诺与美国签订了四年的合同，也许有点令人惊讶。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "similar": {
-    "en": "They looked through the resulting photos to determine that the short-eared rock-wallaby is not found at the sites, assuring them that its similar-looking DNA would not be confused with that of the nabarlek.",
-    "cn": "他们查看了结果照片，确定短耳岩小袋鼠没有出现在这些地点，并向他们保证，短耳岩小袋鼠的相似DNA不会与纳巴莱克的DNA混淆。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "simple": {
-    "en": "Tzolis played a simple ball in from the left flank that Havertz dummied, completely flummoxing Chelsea defender Wesley Fofana in the process.",
-    "cn": "佐利斯从左路送出一脚简单的传球，哈弗茨机敏一漏，让切尔西后卫福法纳彻底被晃。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "simply": {
-    "en": "Simply put, peptides are short chains of amino acids—the building blocks of proteins—that carry specific instructions to specific cells.",
-    "cn": "简而言之，肽是氨基酸的短链（蛋白质的组成部分），可向特定细胞传递特定的指令。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "since": {
-    "en": "Only Everton and Liverpool have placed less emphasis on investment in their backline than the Red Devils since 2022.",
-    "cn": "自2022年以来，只有埃弗顿和利物浦比红魔更不重视投资。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "size": {
-    "en": "These pint-size, critically endangered mammals—which reside only in Cozumel—are known for sifting through trash cans to scavenge for leftovers.",
-    "cn": "这些只生活在科苏梅尔的极度濒危的小型哺乳动物以在垃圾桶里搜寻剩饭剩菜而闻名。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "six": {
-    "en": "Twenty-six years later, a solution may have finally come to light—but it wasn’t a mathematician who came up with it.",
-    "cn": "26年后，一个解决方案可能终于浮出水面——但提出它的不是数学家。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "situation": {
-    "en": "He has deliberately given him some space because he knows it would have been a difficult situation.",
-    "cn": "他故意给他一些空间，因为他知道这将是一个困难的局面。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "sit": {
-    "en": "They date back to about 68 million years ago, when the site, sitting at between 55 degrees and 60 degrees south latitude, had a climate comparable to New York City today, Zelenitsky tells Emily Chung at the Canadian Broadcasting Corporation.",
-    "cn": "他们可以追溯到大约6800万年前，当时该遗址位于南纬55度至60度之间，气候与今天的纽约市相当，Zelenitsky告诉加拿大广播公司的Emily Chung。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "single": {
-    "en": "At the British Museum, for the first time in decades – possibly in its history – the Tapestry is being displayed in a single length, lying flat, providing the most intimate perspective since it was first put on permanent public display in 1842.",
-    "cn": "在大英博物馆，这是几十年来——可能是它的历史上——第一次以单一的长度平放，提供了自1842年首次永久公开展出以来最亲密的视角。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "site": {
-    "en": "The site is known for a Roman-era cemetery that dates back to the fourth or fifth century C.E.",
-    "cn": "该遗址以罗马时代的墓地而闻名，其历史可追溯到公元四或五世纪。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "smooth": {
-    "en": "So, in its simplest terms, the problem is a yes or no question—to solve it, one must either prove that the equations always result in smooth solutions or find one specific situation where they don’t.",
-    "cn": "所以，用最简单的术语来说，这个问题是一个“是”或“否”的问题——要解决它，你必须要么证明这些方程总是得到平滑的解，要么找到一个它们不是平滑解的特定情况。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "son": {
-    "en": "There he found the name of his great uncle, Bishen Singh, son of Jatti.",
-    "cn": "在那里，他找到了他的叔祖父，贾蒂的儿子毕申·辛格的名字。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "soon": {
-    "en": "Soon, the researchers will use radiocarbon dating to figure out the skeleton’s exact age.",
-    "cn": "很快，研究人员将使用放射性碳年代测定来确定骨骼的确切年龄。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sort": {
-    "en": "I look at the sort of best back three probably that I ever saw which was the Juventus and Italy back three with Andrea Barzagli, Leonardo Bonucci and Giorgio Chiellini -- three real giants.",
-    "cn": "我想到我见过的最佳三中卫组合——尤文图斯和意大利队的巴尔扎利、博努奇和基耶利尼——三个真正的高塔。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "sound": {
-    "en": "Yes, I realise I sound like your grandpa right now.",
-    "cn": "是的，我知道我现在听起来像你的爷爷。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "spanish": {
-    "en": "Chelsea and Madrid are reportedly interested in the Spanish international, 27.",
-    "cn": "据报道，切尔西和马德里对这名27岁的西班牙国脚很感兴趣。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "something": {
-    "en": "There was Trump, FIFA and Folarin Balogun's suspension of his suspension, and along the way, Pochettino became something of a fashion icon.",
-    "cn": "特朗普、国际足联和Folarin Balogun暂停了他的停赛，一路上，波切蒂诺成为了一个时尚偶像。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "space": {
-    "en": "The Germany international's dummy gave Ødegaard the space and time to fire home Arsenal's crucial second goal.",
-    "cn": "这位德国国脚的一漏，给厄德高赢得了空间和时间，让他打进了阿森纳关键的第二球。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "southern": {
-    "en": "The grave was discovered at an archaeological site near Żórawina, in southern Poland.",
-    "cn": "这座坟墓是在波兰南部Żórawina附近的一个考古遗址发现的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "south": {
-    "en": "“We know their bones have turned up in places as far south as Antarctica and southern Argentina, and as far north as Mongolia and Texas,” says Darla Zelenitsky, a study co-author and paleontologist at the University of Calgary in Canada, to Katie Hunt at CNN.",
-    "cn": "加拿大卡尔加里大学的研究合著者和古生物学家Darla Zelenitsky对CNN的Katie Hunt说：“我们知道他们的骨头出现在南极洲和阿根廷南部，以及蒙古和德克萨斯州的北部。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "source": {
-    "en": "As part of his HistoryExtra Academy series on the embroidery, Dr David Musgrove examines the history of the tapestry, the story it tells, who made it and whether it's reliable as a historical source…",
-    "cn": "作为他关于刺绣的历史系列的一部分，大卫·马斯格罗夫博士研究了挂毯的历史，它讲述的故事，它的制造者，以及它作为历史来源是否可靠…",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "someone": {
-    "en": "Instead, he wanted to focus on “someone history never named at all: a farmer, the first man to raise his hand in Essex.",
-    "cn": "相反，他想专注于“一个从未命名过的历史人物：一个农民，第一个在埃塞克斯举手的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "somehow": {
-    "en": "The scooped pass to release Ben White for the golden chance somehow spurned by Piero Hincapie was one of many examples of his ingenuity against the massed ranks of Napoli players but there were plenty of others.",
-    "cn": "皮耶罗·辛卡皮（Piero Hincapie）以某种方式拒绝了释放本·怀特（Ben White）的黄金机会，这是他对那不勒斯球员群体的聪明才智的众多例子之一，但还有很多其他例子。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "social": {
-    "en": "“The general pattern seems to be that with wealth and rising power, you become less engaged with the needs of others and less burdened by the needs of social relationships,” study co-author Paul Piff, a social psychologist at the University of California, Irvine, tells the Guardian ’s Ian Sample.",
-    "cn": "研究报告的共同作者、加州大学欧文分校的社会心理学家保罗·皮夫（Paul Piff）告诉《卫报》的伊恩·样本（Ian Sample）：“一般的模式似乎是，随着财富和权力的不断崛起，你对他人的需求的参与度降低，而对社会关系的需求的负担减轻。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "soccer": {
-    "en": "The team watched the siblings play “soccer” with each other and their mother, and in one instance, with two juvenile Cozumel dwarf coatis.",
-    "cn": "研究小组观察了这对兄弟姐妹和它们的母亲一起踢“足球”，有一次，他们还和两只科苏梅尔矮长鼻浣熊幼崽一起踢足球。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "society": {
-    "en": "Looking at fossilized titanosaur eggs found in southern Argentina’s Chorrillo Formation, a study published in the journal Royal Society Open Science today offers a new understanding of how dinosaurs survived and reproduced so far from the equator.",
-    "cn": "通过观察在阿根廷南部Chorrillo地层中发现的泰坦龙蛋化石，今天发表在《皇家学会开放科学》杂志上的一项研究为恐龙如何在远离赤道的地方生存和繁殖提供了新的认识。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "soft": {
-    "en": "Known for soft-focus portraits of women and girls, like Coco Reading and A Girl With a Watering Can (1876), the artist left Paris for the warmer climate of southern France at the advice of doctors treating his rheumatoid arthritis.",
-    "cn": "这位艺术家以柔和的女性和女孩肖像而闻名，如《读书的可可》和《拿水壶的女孩》（1876），他听从医生的建议，离开巴黎前往气候温暖的法国南部，治疗他的风湿性关节炎。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "some": {
-    "en": "Some of Gacy’s paintings featured in the exhibition, on show for the first time, come from people who knew him personally.",
-    "cn": "展览中首次展出的盖西的一些画作来自认识他的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "solve": {
-    "en": "In their absence, Xabi Alonso paired Reece James with Romeo Lavia, but even when Caicedo returns to fitness, the Chelsea manager has a puzzle to solve before settling on his best midfield two.",
-    "cn": "在两人缺阵的情况下，阿隆索让里斯·詹姆斯和拉维亚搭档，但即便凯塞多伤愈复出，主帅也要面对如何确定中场双后腰的问题。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "solution": {
-    "en": "We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of the deepest problems at the frontier of mathematics.",
-    "cn": "我们正在分享一个解决纳维-斯托克斯千年奖问题的方法，这是数学前沿最深奥的问题之一。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "solid": {
-    "en": "They don't look solid, they look like they're a little bit all over the place.",
-    "cn": "他们现在看上去一点也不稳当，给人感觉乱成一团。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "soil": {
-    "en": "“Buried in sand, soil, or vegetation, the nest would stay humid or damp enough for the eggs to survive,” says Zelenitsky.",
-    "cn": "Zelenitsky说：“巢穴被埋在沙子、土壤或植被中，会保持潮湿或潮湿，足以让卵子存活下来。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "spark": {
-    "en": "But the feat has also sparked a controversy: While the Navier-Stokes problem may have been solved by A.I., the achievement has become contentious because of a possible association with the work of two human researchers—one of whom is employed by OpenAI’s rival company Anthropic.",
-    "cn": "但这一成就也引发了争议：虽然纳维-斯托克斯问题可能是由人工智能解决的，但这一成就引发了争议，因为它可能与两名人类研究人员的工作有关，其中一名研究人员受雇于OpenAI的竞争对手Anthropic公司。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "sign": {
-    "en": "When Rogers signed with Chelsea, he declared he was joining the biggest team in London.",
-    "cn": "罗杰斯加盟切尔西时曾说，他加盟的是伦敦最大的球队。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "seek": {
-    "en": "Richarlison is seeking to terminate his contract at Tottenham after being left out of their Premier League squad.",
-    "cn": "在被排除在英超大名单之外后，理查利森正在寻求终止他在热刺的合同。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "seem": {
-    "en": "Premier League teams seem like they've forgotten what their wingers are supposed to do.",
-    "cn": "但英超球队似乎已经忘了他们的边锋本该做什么。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "selection": {
-    "en": "It will be tougher against rivals Manchester City on Sunday - but so will his team selection.",
-    "cn": "周日对阵对手曼城的比赛将更加艰难，但他的阵容选择也将更加艰难。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "self": {
-    "en": "But within the last few years, peptides have become a much broader phenomenon, not just taken for self-optimization but for treating chronic pain and various other conditions.",
-    "cn": "但在过去几年中，多肽已成为一种更广泛的现象，不仅用于自我优化，还用于治疗慢性疼痛和各种其他疾病。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sell": {
-    "en": "Barcelona are looking to sell Frenkie de Jong when the January transfer window opens.",
-    "cn": "巴塞罗那希望在1月转会窗口打开时出售Frenkie de Jong。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "send": {
-    "en": "His shot comes in but Steward sends it out for a corner.",
-    "cn": "他的投篮进来了，但Steward将其发送到角落。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "senior": {
-    "en": "“This is very exciting and great news for the species,” Larissa Potter, a senior field ecologist with the Australian Wildlife Conservancy, says in a statement.",
-    "cn": "澳大利亚野生动物保护协会的资深野外生态学家拉里萨·波特在一份声明中说：“这对这个物种来说是非常令人兴奋和伟大的消息。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "sense": {
-    "en": "The bubonic plague contributed to a growing sense of dissatisfaction in the country in the mid-14th century.",
-    "cn": "在14世纪中叶，腺鼠疫导致了该国日益增长的不满情绪。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "serve": {
-    "en": "Anecdotally, he knew a record had been kept of every man that served in the First World War from Punjab, where his family were from.",
-    "cn": "有趣的是，他知道有一份记录保存着每一个在第一次世界大战中服役的人都来自旁遮普，他的家人来自那里。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "series": {
-    "en": "Within four years, it would become the setting of Christie’s most famous novel: the tenth installment in her Hercule Poirot series, Murder on the Orient Express.",
-    "cn": "四年之内，这里成为了克里斯蒂最著名的小说：她的赫尔克里·波洛系列的第十部《东方快车谋杀案》的背景。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "september": {
-    "en": "The Bayeux Tapestry exhibition opened at the Sainsbury Exhibitions Gallery at the British Museum on 10 September 2026 and will run until 11 July 2027.",
-    "cn": "贝叶挂毯展览于2026年9月10日在大英博物馆的塞恩斯伯里展览馆开幕，将持续到2027年7月11日。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "separately": {
-    "en": "It is some 68m long and is composed of several panels that were produced separately and then eventually sewn together to form one long whole.",
-    "cn": "它长约68米，由几块面板组成，这些面板分别生产，然后最终缝合在一起形成一个长整体。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "separate": {
-    "en": "In the burial mound’s deeper layers, researchers found a nearly complete adult male skeleton, fragments of two separate adult skulls, amber beads that might have been jewelry, a cutting tool made of flint and an ax of greenish serpentinite.",
-    "cn": "在坟丘的深层，研究人员发现了一个几乎完整的成年男性骨骼，两个独立的成年头骨的碎片，可能是珠宝的琥珀珠，一个由燧石制成的切割工具和一把绿色蛇纹石斧头。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sentence": {
-    "en": "Gacy was sentenced to death in 1980, though he spent the next 14 years appealing his sentence.",
-    "cn": "盖西于1980年被判处死刑，尽管他花了接下来的14年时间对他的判决提出上诉。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "set": {
-    "en": "McAlear beats McGregor and sets up Steven, but his effort is straight at Celtic keeper Johnstone.",
-    "cn": "McAlear击败了McGregor并设置了Steven ，但他的努力是直接在凯尔特人守门员Johnstone。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "see": {
-    "en": "They’ll see the typescript of Christie’s unpublished short story “ The House of Beauty,” which she wrote at age 18.",
-    "cn": "他们将看到克里斯蒂未发表的短篇小说《美丽之家》（the House of Beauty）的打字稿，这是她18岁时写的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "secure": {
-    "en": "Report as Celtic beat St Johnstone 1-0 at McDiarmid Park; Mika Baur scores his first Hoops goal to secure the victory; Martin O'Neill's side have won all six of their Scottish Premiership games this season",
-    "cn": "报道称，凯尔特人在麦克迪尔米德公园以1比0击败圣约翰斯通；米卡·鲍尔打进了他的第一个篮球进球，以确保胜利；马丁·奥尼尔的球队本赛季赢得了苏格兰超级联赛的所有六场比赛",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "school": {
-    "en": "Curators are hosting talks and special events throughout the exhibition run, while a programme of activities for schools and families ensures the Tapestry’s story reaches the widest possible audience.",
-    "cn": "策展人在整个展览期间举办讲座和特别活动，同时为学校和家庭举办活动，确保挂毯的故事尽可能多地吸引观众。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "science": {
-    "en": "Sara Hashemi is a science writer and fact-checker currently based in New York City.",
-    "cn": "Sara Hashemi是一位科学作家和事实核查员，目前居住在纽约市。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "scientific": {
-    "en": "Between June 2022 and September 2024, they made 32 scientific dives to the Po, which they studied using high-resolution sonar surveys and 3D photography.",
-    "cn": "在2022年6月至2024年9月期间，他们对Po进行了32次科学潜水，他们使用高分辨率声纳调查和3D摄影进行了研究。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "scientist": {
-    "en": "Scientists, in turn, have developed synthetic copies or modified cousins of these peptides to use as medications.",
-    "cn": "反过来，科学家们开发了这些肽的合成拷贝或修饰表亲，用作药物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "score": {
-    "en": "But the hosts struck back with strikes from Kai Havertz and Martin Ødegaard -- and could have scored more.",
-    "cn": "但主队凭借凯·哈弗茨和马丁·厄德高的进球反超比分——他们本可以进更多球。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "screen": {
-    "en": "“This exhibition will take visitors back to Christie’s childhood and explore her journey to becoming an iconic writer, while celebrating how adaptations of her novels for stage and screen continue to enthrall audiences today, over 50 years after her death.”",
-    "cn": "“这次展览将带参观者回到克里斯蒂的童年，探索她成为一名标志性作家的历程，同时庆祝她的小说被改编成舞台和银幕，在她去世50多年后的今天，如何继续吸引观众。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "sea": {
-    "en": "Fewer than 200 mature individuals roam the island in the Caribbean Sea, off the east coast of the Yucatán Peninsula.",
-    "cn": "不到200只成年个体在Yucatán半岛东海岸的加勒比海岛屿上游荡。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "section": {
-    "en": "In the final section, visitors will be transported to London’s 1950s West End and examine how the novelist adapted her stories for the stage.",
-    "cn": "在展览的最后一部分，参观者将被带到20世纪50年代的伦敦西区，并研究这位小说家是如何将她的故事改编成舞台的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "second": {
-    "en": "After 77 seconds here, the Blues looked like they had made the right call as Rogers fired the visitors ahead.",
-    "cn": "开场 77 秒之后，罗杰斯为客队先拔头筹，蓝军看上去做出了正确选择。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "season": {
-    "en": "Sesko scored after coming off the bench against Everton and looked sharp here in his first start of the season.",
-    "cn": "在对阵埃弗顿的比赛中，塞斯科替补出场，他在本赛季的第一次首发中表现出色。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "search": {
-    "en": "Chelsea mustered little in search of an equaliser before David Raya was forced into a fine late save from substitute Estêvão.",
-    "cn": "切尔西没有组织起像样的反扑，倒是替补出场的埃斯特旺在最后阶段的射门迫使大卫·拉亚做出精彩扑救。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "seal": {
-    "en": "Additionally, researchers observed a rare Mediterranean monk seal resting in the vessel—the first sighting of the endangered species in Vlora Bay since 1996.",
-    "cn": "此外，研究人员观察到一只罕见的地中海僧海豹在船上休息，这是自1996年以来首次在Vlora湾发现这种濒危物种。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "setting": {
-    "en": "In the first of five sections, library-goers will explore the quintessential setting of many of Christie’s works, the English country house, and get a glimpse of a developing writer.",
-    "cn": "在五个部分的第一部分，图书馆的读者将探索克里斯蒂许多作品的典型背景，英国乡村别墅，并瞥见一个发展中的作家。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "settle": {
-    "en": "In their absence, Xabi Alonso paired Reece James with Romeo Lavia, but even when Caicedo returns to fitness, the Chelsea manager has a puzzle to solve before settling on his best midfield two.",
-    "cn": "在两人缺阵的情况下，阿隆索让里斯·詹姆斯和拉维亚搭档，但即便凯塞多伤愈复出，主帅也要面对如何确定中场双后腰的问题。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "ship": {
-    "en": "The ships cross the Channel and the Norman army establishes itself on English soil.",
-    "cn": "船队越过英吉利海峡，诺曼军队在英国领土上建立了自己的军队。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "shoot": {
-    "en": "A comet shoots through the sky, which is deemed to be a bad omen for Harold.",
-    "cn": "一颗彗星划过天空，这被认为是哈罗德的不祥之兆。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "short": {
-    "en": "They’ll see the typescript of Christie’s unpublished short story “ The House of Beauty,” which she wrote at age 18.",
-    "cn": "他们将看到克里斯蒂未发表的短篇小说《美丽之家》（the House of Beauty）的打字稿，这是她18岁时写的。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "shot": {
-    "en": "Arsenal had 26 shots in total - their most on record (since 2003/04) in the competition.",
-    "cn": "阿森纳总共投篮26次，这是他们在比赛中最多的纪录（自2003/04赛季以来）。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "should": {
-    "en": "It should have been much bigger - in a really tough environment, a really tough opponent.",
-    "cn": "它应该更大-在一个非常艰难的环境中，一个非常艰难的对手。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "shoulder": {
-    "en": "\"Last year, to have two shoulder injuries like he did, then a MCL injury he did, it's never easy.",
-    "cn": "“去年，像他一样有两个肩膀受伤，然后是他的MCL受伤，这从来都不容易。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "sight": {
-    "en": "It is still early in the season, but Arteta will be encouraged by the sight of his coaching coming to the fore in open play.",
-    "cn": "赛季才刚刚开始，但阿尔特塔看到球队在运动战中也能展现自己的战术思路，应该会感到欣慰。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "side": {
-    "en": "Unsurprisingly, Pochettino chooses his words carefully, focusing on the support and backing Trump gave the side.",
-    "cn": "不出所料，波切蒂诺谨慎地选择了他的话，专注于特朗普的支持和支持。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "show": {
-    "en": "Some of Gacy’s paintings featured in the exhibition, on show for the first time, come from people who knew him personally.",
-    "cn": "展览中首次展出的盖西的一些画作来自认识他的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "shift": {
-    "en": "This secretive and rarely seen creature, called the nabarlek, is endangered, put at risk by shifting fire regimes and introduced predators.",
-    "cn": "这种神秘而罕见的生物，被称为纳巴莱克，是濒临灭绝的，由于火灾制度的改变和掠食者的引入而处于危险之中。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "shame": {
-    "en": "It was a shame because we missed so many big chances.",
-    "cn": "太可惜了，因为我们错过了这么多大好机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "several": {
-    "en": "It is some 68m long and is composed of several panels that were produced separately and then eventually sewn together to form one long whole.",
-    "cn": "它长约68米，由几块面板组成，这些面板分别生产，然后最终缝合在一起形成一个长整体。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "seven": {
-    "en": "They have conceded seven goals in three league games this season, and that is way too many for a team with title ambitions.",
-    "cn": "本赛季前 3 轮 联赛他们已经丢了 7 球，这对一支志在夺冠的球队来说实在太多。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "share": {
-    "en": "We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of the deepest problems at the frontier of mathematics.",
-    "cn": "我们正在分享一个解决纳维-斯托克斯千年奖问题的方法，这是数学前沿最深奥的问题之一。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "shelter": {
-    "en": "The findings suggest that the Po has transformed into an artificial reef, providing habitat and shelter for a diverse range of marine life.",
-    "cn": "研究结果表明，Po已经变成了一个人工珊瑚礁，为各种海洋生物提供了栖息地和庇护所。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sheet": {
-    "en": "And, this isn't a promoted side accidentally stumbling into three clean sheets.",
-    "cn": "而且，这不是一支升班马不小心三次失球的球队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "shape": {
-    "en": "In Bayeux between 1983 and 2025, it was shown in a U-shaped case.",
-    "cn": "在1983年至2025年的巴叶，它被展示在一个u形的盒子里。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "she": {
-    "en": "Nicola Tallis explores Elizabeth I’s early years to reveal how her formative experiences influenced the monarch she later became",
-    "cn": "尼古拉·塔利斯探索了伊丽莎白一世的早年生活，揭示了她的成长经历是如何影响她后来成为君主的",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "sharp": {
-    "en": "Sesko scored after coming off the bench against Everton and looked sharp here in his first start of the season.",
-    "cn": "在对阵埃弗顿的比赛中，塞斯科替补出场，他在本赛季的第一次首发中表现出色。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "speak": {
-    "en": "\"You can feel when you speak with him, the energy, the passion about football.",
-    "cn": "“当你和他交谈时，你能感受到他对足球的能量和激情。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "sum": {
-    "en": "The state of winger play in 2026 is best summed up by Manchester City's move for Iliman Ndiaye.",
-    "cn": "2026 年边锋生态的最好写照，就是曼城签下伊利曼·恩迪亚耶。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "summer": {
-    "en": "The summer signing has four assists to his name already, with three of those coming for Odegaard goals, including the winner in Naples.",
-    "cn": "夏季签约已经有四次助攻，其中三次是Odegaard进球，包括那不勒斯的冠军。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "sunday": {
-    "en": "Chelsea took the lead early on at the Premier League champions on Sunday through Morgan Rogers.",
-    "cn": "周日做客英超卫冕冠军的比赛中，切尔西凭借摩根·罗杰斯的闪击早早取得领先。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "sunrise": {
-    "en": "The burglars entered Cagnes-sur-Mer’s Renoir Museum, housed in the estate where the famed Impressionist spent the last decade of his life, before sunrise this morning.",
-    "cn": "在今天早晨日出之前，窃贼进入了梅尔河畔卡涅的雷诺阿博物馆，该博物馆位于著名印象派画家雷诺阿度过生命最后十年的地方。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "super": {
-    "en": "A triple header on Sky Sports then follows on Super Sunday on December 27, with Frank Lampard taking on Chelsea as Coventry boss at 2pm.",
-    "cn": "天空体育将在12月27日的超级星期日上演三场头球，兰帕德将在下午2点作为考文垂主帅迎战切尔西。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "surprising": {
-    "en": "Organized by the company Improbable Research, the spoof awards were designed to “honor achievements so surprising that they make people laugh, then think,” per their website.",
-    "cn": "这些欺骗性奖项由Improbable Research公司组织，旨在“表彰令人惊讶的成就，让人们发笑，然后思考”，根据他们的网站。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "surprise": {
-    "en": "“It shouldn’t be surprising that raccoons are where we’re seeing this, just because they’re so tactile; they see with their hands,” she tells New Scientist ’s Matt von Hippel.",
-    "cn": "“浣熊出现在我们看到的地方并不奇怪，因为它们有很强的触觉；他们用手看东西，”她告诉《新科学家》的马特·冯·希佩尔。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "surgery": {
-    "en": "Rangers summer signing Daisuke Yokota - who was ruled out of the St Mirren game through injury - is also set to undergo surgery and the Japanese winger is also facing a lengthy period out.",
-    "cn": "流浪者队夏季签约横田大辅-因受伤被排除在圣米伦比赛之外-也将接受手术，这位日本边锋也面临着漫长的时期。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "surface": {
-    "en": "They found that sponges, sea squirts, mussels, oysters and algae covered most of the vessel’s surface, while amberjacks, sea bass, wrasse, scorpionfish, goby and other species of fish floated in and around the ship.",
-    "cn": "他们发现，海绵、海鞘、贻贝、牡蛎和藻类覆盖了船舶的大部分表面，而琥珀杰克鱼、海鲈、皱纹鱼、蝎子鱼、高比鱼和其他鱼类则漂浮在船内和周围。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "suppose": {
-    "en": "Premier League teams seem like they've forgotten what their wingers are supposed to do.",
-    "cn": "但英超球队似乎已经忘了他们的边锋本该做什么。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "support": {
-    "en": "Next, a constructed dig site will evoke Christie’s time spent photographing and supporting the work of archaeologists in the Middle East.",
-    "cn": "接下来，一个已建成的挖掘地点将唤起克里斯蒂拍摄和支持中东考古学家工作的时间。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "sure": {
-    "en": "The task for Alonso is clear -- tighten up at the back to make sure Chelsea push for the title.",
-    "cn": "阿隆索的任务很明确——必须加强防守，才能让切尔西真正具备争冠实力。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "surprisingly": {
-    "en": "Millions of years ago, during the late Cretaceous, some of the largest dinosaurs ever were laying eggs in surprisingly cold places.",
-    "cn": "数百万年前，在白垩纪晚期，一些有史以来最大的恐龙在出奇寒冷的地方产卵。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "study": {
-    "en": "An older study—with more alarming findings—won the Ig Nobel Economics Prize.",
-    "cn": "一项具有更令人担忧的发现的较早研究获得了搞笑诺贝尔经济学奖。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "style": {
-    "en": "Manchester United made a winning return to the Champions League as they beat Sabah FC in style with a 4-0 victory at Old Trafford.",
-    "cn": "曼联在老特拉福德球场以4-0大胜沙巴队，成功重返欧冠赛场。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "subsequent": {
-    "en": "Havertz's deft flick midway through the second half almost led to another, as Bukayo Saka's subsequent shot was brilliantly turned behind by Martinez.",
-    "cn": "下半场中段，哈弗茨又一次轻巧的一蹭险些制造进球，布卡约·萨卡随后的射门被马丁内斯神扑化解。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "substitute": {
-    "en": "Chelsea mustered little in search of an equaliser before David Raya was forced into a fine late save from substitute Estêvão.",
-    "cn": "切尔西没有组织起像样的反扑，倒是替补出场的埃斯特旺在最后阶段的射门迫使大卫·拉亚做出精彩扑救。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "suffer": {
-    "en": "After those two, there is England veteran Jordan Henderson, now 36, who is still sidelined with the broken wrist suffered when falling over an advertising board at the World Cup.",
-    "cn": "除了他们两人之外，还有 36 岁的英格兰老将亨德森，他因在世界杯期间撞到广告牌手腕骨折，目前仍在养伤。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "suddenly": {
-    "en": "A Palmer penalty turned the game on its head suddenly after Pep Chavarria was caught by Dan James, but it was Rogers who inspired the comeback, making four of Chelsea's six goals.",
-    "cn": "佩普·查瓦里亚（Pep Chavarria）被丹·詹姆斯（Dan James）抓住后，帕尔默（Palmer）的点球突然扭转了局面，但正是罗杰斯（Rogers）激发了复出，在切尔西的六个进球中",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "sudden": {
-    "en": "\"Nobody was asking for it, all of a sudden their players came into the game.",
-    "cn": "“没有人要求它，突然他们的球员进入了比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "suggest": {
-    "en": "This has led some historians to suggest that the Tapestry was designed to be accompanied by a guide, who would have narrated the story to viewers as they walked along.",
-    "cn": "这使得一些历史学家提出，挂毯的设计是由一个导游陪同的，他会在观众走过的时候向他们讲述故事。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "such": {
-    "en": "OpenAI claims to have found one such “blowup” scenario, involving a vortex of fluid that spirals inward and becomes stretched out, like spaghetti.",
-    "cn": "OpenAI声称已经发现了一个这样的“爆炸”场景，包括一个向内螺旋并伸展的流体漩涡，就像意大利面一样。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "succession": {
-    "en": "The Gunners should have won by a bigger margin but missed a succession of chances before Odegaard crashed a low shot in off the post from the edge of the box following intricate build-up.",
-    "cn": "枪手本应以更大的优势获胜，但错过了一系列机会，然后厄德高在错综复杂的积累后从禁区边缘击中了低射门。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "take": {
-    "en": "The defending champions did take the lead after the break as Baur tapped in from Haissem Hassan's cross.",
-    "cn": "休息后，卫冕冠军确实取得了领先，鲍尔从海塞姆·哈桑的十字架上踢了进来。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "tale": {
-    "en": "Its ambiguous storytelling and sparse Latin captions leave much open to interpretation, making every visit a chance to discover new perspectives on this epic tale of conquest and change.",
-    "cn": "它模棱两可的故事叙述和稀疏的拉丁字幕留下了很多可供解释的空间，使每次访问都有机会发现这个征服和变革的史诗故事的新视角。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "talk": {
-    "en": "There was Donald Trump - there was always going to be - and the changing-room team talk.",
-    "cn": "唐纳德·特朗普（Donald Trump）-总是会有-和更衣室团队的谈话。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "tap": {
-    "en": "The defending champions did take the lead after the break as Baur tapped in from Haissem Hassan's cross.",
-    "cn": "休息后，卫冕冠军确实取得了领先，鲍尔从海塞姆·哈桑的十字架上踢了进来。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "target": {
-    "en": "Sunderland and Aston Villa summer striker target Kevin Viveros, is set to sign a new contract with Brazilian club Athletico Paranaense.",
-    "cn": "桑德兰和阿斯顿维拉的夏季射手凯文·维维罗斯将与巴西帕拉纳斯竞技俱乐部签订一份新合同。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "task": {
-    "en": "The task for Alonso is clear -- tighten up at the back to make sure Chelsea push for the title.",
-    "cn": "阿隆索的任务很明确——必须加强防守，才能让切尔西真正具备争冠实力。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "tax": {
-    "en": "It is over 1000 days since United competed in a Champions League game but this, their 300th in Europe's premier club competition, was not too taxing for Carrick's men.",
-    "cn": "曼联已经1000多天没有参加欧冠比赛了，但这是他们在欧洲顶级俱乐部比赛中的第300场比赛，对卡里克的队员来说并不是太繁重。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "teenager": {
-    "en": "Chelsea goalkeeper Emiliano Martinez is ex-Arsenal, winger Noni Madueke left Stamford Bridge to join Arsenal, and Declan Rice was released by the Blues as a teenager.",
-    "cn": "切尔西门将马丁内斯是前阿森纳球员，边锋马杜埃凯从斯坦福桥转投阿森纳，赖斯则在少年时期就被切尔西放弃。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "team": {
-    "en": "His team would feed him the ball, he'd keep beating his man, and then the cross would inevitably lead to nothing.",
-    "cn": "队友不断给他喂球，他一次次过掉对手，最后这脚传中却总是毫无结果。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "technical": {
-    "en": "What Ronaldo and Messi did -- and made everyone else realise -- is that you could take those same winger skills, the speed and technical brilliance, and turn it into something even better.",
-    "cn": "C 罗和梅西所做的事情——也让所有人认识到——是同样的边锋技术、速度和天赋，可以演化成更可怕的东西。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "swear": {
-    "en": "The tapestry does not explain precisely what the nature of the oath is, but other Norman-inclined sources tell us that Harold was swearing to be William’s man in England and to uphold his bid to be king on Edward’s death.",
-    "cn": "挂毯上并没有准确地解释誓言的性质，但其他倾向于诺曼的资料告诉我们，哈罗德在英格兰发誓要做威廉的人，并在爱德华死后坚持他的王位。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "survive": {
-    "en": "One of the medieval world’s greatest surviving treasures is now on display in London.",
-    "cn": "中世纪世界现存最伟大的宝藏之一现在正在伦敦展出。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "survey": {
-    "en": "As you survey the Tapestry, imagine how it might have been viewed in the 11th century.",
-    "cn": "当你审视这幅挂毯时，想象一下在11世纪人们是如何看待它的。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "struggle": {
-    "en": "It looked for all the world that Derek McInnes' side were set to be frustrated after struggling to break down a resolute St Mirren side who packed a punch of their own.",
-    "cn": "它寻找德里克·麦金尼斯（Derek McInnes）的一方在努力打破一个坚定的圣米伦（St Mirren）方面之后会感到沮丧。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "table": {
-    "en": "The Premiership newcomers were unbeaten at McDiarmid Park this season and had chances to take something, but the champions held on to stay five points clear of second-placed Rangers at the top of the table.",
-    "cn": "英超新人本赛季在麦克迪尔米德公园保持不败，并有机会取得一些成绩，但冠军们保持着五分的优势，远离排名第二的流浪者队。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "system": {
-    "en": "On Tuesday, OpenAI, the developer of ChatGPT, announced in a blog post that an “internal OpenAI system” had just found a solution to the longstanding puzzle.",
-    "cn": "周二，ChatGPT的开发者OpenAI在一篇博客文章中宣布，一个“内部OpenAI系统”刚刚找到了解决这个长期难题的方法。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "spring": {
-    "en": "This spring, thieves stole $10 million worth of paintings by Renoir, Henri Matisse and Paul Cézanne from an Italian museum.",
-    "cn": "今年春天，窃贼从一家意大利博物馆偷走了价值1000万美元的雷诺阿（Renoir）、亨利·马蒂斯（Henri Matisse）和保罗·卡萨姆（Paul csamzanne）的画作。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "spur": {
-    "en": "Fernandes made his feelings for De Zerbi clear to the Spurs boss himself when the deal was done.",
-    "cn": "在交易完成后，费尔南德斯向热刺主帅表达了他对德泽比的感情。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "stadium": {
-    "en": "LONDON -- Martin Ødegaard's 50th-minute strike ensured Arsenal came from behind to beat Chelsea 2-1 at Emirates Stadium on Sunday.",
-    "cn": "伦敦——马丁·厄德高在第 50 分钟的劲射，确保阿森纳在周日酋长球场以 2-1 逆转击败切尔西。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "staff": {
-    "en": "For Pochettino, the biggest takeaway is how much he and his coaching staff, including his long-term lieutenant Jesus Perez, have learned.",
-    "cn": "对于Pochettino来说，最大的收获是他和他的教练组，包括他的长期副手Jesus Perez ，学到了多少东西。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "start": {
-    "en": "The other is the gulf in quality between the starting XI and the team after changes are made.",
-    "cn": "另一个是变更后首发XI和球队之间的质量差距。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "star": {
-    "en": "Fernandes starred again and the sight of him combining with the equally intelligent Youri Tielemans for United's second was encouraging.",
-    "cn": "费尔南德斯再次成为主力，他和同样聪明的蒂勒曼斯一起打进了曼联的第二个进球，这令人鼓舞。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "stand": {
-    "en": "Celtic have the ball in the net but it won't stand.",
-    "cn": "凯尔特人有球在网中，但它不会站立。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "stage": {
-    "en": "With the departure of Salah from England and Messi and Ronaldo from the international stage, perhaps it's fitting.",
-    "cn": "随着萨拉赫离开英格兰，梅西和 C 罗退出国际舞台，这种情况也在情理之中。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "spot": {
-    "en": "Scientists also spotted squid egg clusters attached to the vessel.",
-    "cn": "科学家们还发现了附着在船上的鱿鱼卵簇。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "sport": {
-    "en": "A triple header on Sky Sports then follows on Super Sunday on December 27, with Frank Lampard taking on Chelsea as Coventry boss at 2pm.",
-    "cn": "天空体育将在12月27日的超级星期日上演三场头球，兰帕德将在下午2点作为考文垂主帅迎战切尔西。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "special": {
-    "en": "The scale of the embroidery suggests that it was designed for a large audience, but the lighting in medieval buildings would have been dim, and the Tapestry may have been displayed only on special occasions, as was recorded in the 1476 inventory.",
-    "cn": "刺绣的规模表明，它是为大量观众设计的，但中世纪建筑的照明可能会很昏暗，而且挂毯可能只在特殊场合展示，正如1476年库存中所记录的那样。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "specialist": {
-    "en": "Take a deeper look into specialist positions and you find they are ninth in right-back depth and 18th at left-back, a position that is constantly being discussed due to Luke Shaw's injury history.",
-    "cn": "深入研究专家位置，您会发现他们在右后卫深度排名第九，在左后卫排名第18 ，由于Luke Shaw的伤病史，这一位置不断被讨论。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "specialize": {
-    "en": "“These are all original,” exhibition consultant John Borowski, a filmmaker and an author who specializes in serial killer histories, tells Fox 32 Chicago ’s Leslie Moreno.",
-    "cn": "“这些都是原创的，”电影制片人兼作家约翰·博罗夫斯基（John Borowski）告诉福克斯32芝加哥的莱斯利·莫雷诺（Leslie Moreno）。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "specially": {
-    "en": "For the first time, the Tapestry is being displayed flat and in one continuous length inside a specially constructed showcase, allowing visitors to appreciate its full scale and intricate detail as never before.",
-    "cn": "这是挂毯第一次在一个特别建造的展柜里以一个连续的长度平面展示，让游客前所未有地欣赏它的完整尺寸和复杂的细节。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "specific": {
-    "en": "So, in its simplest terms, the problem is a yes or no question—to solve it, one must either prove that the equations always result in smooth solutions or find one specific situation where they don’t.",
-    "cn": "所以，用最简单的术语来说，这个问题是一个“是”或“否”的问题——要解决它，你必须要么证明这些方程总是得到平滑的解，要么找到一个它们不是平滑解的特定情况。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "speed": {
-    "en": "Speed, physicality, ability to play on the last line and run in behind.",
-    "cn": "速度，身体素质，在最后一条线上的能力，以及在后面奔跑的能力。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "spell": {
-    "en": "We'll have spells, they'll have spells, it's just the way it is.",
-    "cn": "我们有咒语，他们也有咒语，事情就是这样。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "spend": {
-    "en": "Yet, said spending still hasn't built a unit that has genuine competition for places.",
-    "cn": "然而，他说，支出仍然没有建立一个真正有竞争力的单位。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "sponge": {
-    "en": "Chimpanzees are known to extract insects with sticks, for example, and dolphins forage with the help of sea sponges.",
-    "cn": "例如，黑猩猩用棍棒提取昆虫，海豚在海绵的帮助下觅食。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "splash": {
-    "en": "Underwear buried to test soil quality and urinals scientifically designed to prevent splashing were among the projects honoured as the Ig Nobel prizes again put a spotlight on the quirky side of science.",
-    "cn": "埋葬以测试土壤质量的内衣和科学设计以防止飞溅的小便池是获得荣誉的项目之一，因为搞笑诺贝尔奖再次将焦点放在科学的古怪方面。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "state": {
-    "en": "The flat presentation in London, requested by the French state, is designed to minimise stress on the fabric.",
-    "cn": "应法国政府的要求，在伦敦的平面展示是为了尽量减少对织物的压力。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "statement": {
-    "en": "“Her impact on crime fiction as a genre has been immense,” exhibition curator Lucy Rowland says in a statement from the library.",
-    "cn": "“她对犯罪小说的影响是巨大的，”展览策展人露西·罗兰在图书馆的一份声明中说。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "stop": {
-    "en": "\"I think if the 50,000 can be utilised and we can have the strength of performance in the team that will help the team, it will be difficult to stop.",
-    "cn": "“我认为，如果这5万名球员能够得到充分利用，并且我们能够在球队中发挥作用，这将有助于球队，这将很难停止。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "story": {
-    "en": "This story starts some 200 years ago, when Claude-Louis Navier and George Gabriel Stokes wrote equations to describe how fluids move.",
-    "cn": "这个故事始于大约200年前，当时克劳德-路易斯·纳维尔和乔治·加布里埃尔·斯托克斯写了一些方程来描述流体的运动。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "straight": {
-    "en": "McAlear beats McGregor and sets up Steven, but his effort is straight at Celtic keeper Johnstone.",
-    "cn": "McAlear击败了McGregor并设置了Steven ，但他的努力是直接在凯尔特人守门员Johnstone。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "strategy": {
-    "en": "Robert Reisz, a paleontologist at the University of Toronto who was not involved in the study, tells Ivan Semeniuk at the Globe and Mail that the study provides new insight on the dinosaurs' reproductive strategies.",
-    "cn": "多伦多大学的古生物学家Robert Reisz没有参与这项研究，他告诉《环球邮报》的Ivan Semeniuk ，这项研究为恐龙的生殖策略提供了新的见解。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "strong": {
-    "en": "Oliver Glanser's record against Unai Emery is an unusually strong tactical head-to-head that is more than just a cute statistic.",
-    "cn": "奥利弗·格兰瑟对阵乌奈·埃梅里的记录是一场异常强大的肉搏战，而不仅仅是一个可爱的数据。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "stroke": {
-    "en": "Pedro Neto hit the post on the stroke of halftime.",
-    "cn": "佩德罗·内托在上半场读秒阶段击中门柱。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "string": {
-    "en": "“Although the string or cord connecting them has not survived, there is no doubt that this was an ornament made by human hands.”",
-    "cn": "“虽然连接它们的绳子或绳索没有存活下来，但毫无疑问，这是人手制作的装饰品。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "strike": {
-    "en": "LONDON -- Martin Ødegaard's 50th-minute strike ensured Arsenal came from behind to beat Chelsea 2-1 at Emirates Stadium on Sunday.",
-    "cn": "伦敦——马丁·厄德高在第 50 分钟的劲射，确保阿森纳在周日酋长球场以 2-1 逆转击败切尔西。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "stretch": {
-    "en": "Excluding penalties, he has found the back of the net 11 times for Everton over that stretch.",
-    "cn": "扣除点球，他在埃弗顿这段时间的英超进球只有 11 个。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "strength": {
-    "en": "\"I think if the 50,000 can be utilised and we can have the strength of performance in the team that will help the team, it will be difficult to stop.",
-    "cn": "“我认为，如果这5万名球员能够得到充分利用，并且我们能够在球队中发挥作用，这将有助于球队，这将很难停止。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "strictly": {
-    "en": "Strictly speaking, the Tapestry is an embroidery – because the woollen threads of its design are stitched onto the linen backing cloth rather than being woven as one.",
-    "cn": "严格来说，挂毯是一种刺绣，因为其设计的羊毛线是缝在亚麻底布上的，而不是织成一体的。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "stone": {
-    "en": "Gralak says that Stone Age burial mounds typically belonged to patriarchs.",
-    "cn": "格拉拉克说，石器时代的古墓通常属于族长。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "stay": {
-    "en": "We don’t know what they talk about, but it’s presumably discussing his stay in Normandy.",
-    "cn": "我们不知道他们谈了些什么，但大概是在讨论他在诺曼底的逗留。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "step": {
-    "en": "\"We just want to make sure that we give ourselves a chance to be relevant domestically again in terms of winning trophies, and Sunday gives us a chance to take a step towards that.\"",
-    "cn": "“我们只是想确保我们给自己一个在国内赢得奖杯的机会，周日给了我们一个朝着这个目标迈出一步的机会。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "stick": {
-    "en": "Chimpanzees are known to extract insects with sticks, for example, and dolphins forage with the help of sea sponges.",
-    "cn": "例如，黑猩猩用棍棒提取昆虫，海豚在海绵的帮助下觅食。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "steward": {
-    "en": "Hogh lays the ball off to Hassan but his curling effort is pushed past by Steward.",
-    "cn": "Hogh将球交给了Hassan ，但他的冰壶努力被Steward推倒了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "still": {
-    "en": "Despite that frailty, former Manchester United defender Neville still believes Chelsea can challenge for the title.",
-    "cn": "尽管防线脆弱，前曼联后卫内维尔依然认为切尔西具备争冠实力。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "commit": {
-    "en": "The sample size is small but there seems more aggression and pressing about Brentford this season with a rise in their high turnovers per 90 of 3.1 and 6.2 more fouls committed per 90.",
-    "cn": "样本规模很小，但本赛季布伦特福德似乎更具侵略性和压力，他们每90分钟的最高失误增加了3.1次，每90分钟的犯规增加了6.2次。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "company": {
-    "en": "Mauricio Pochettino has always been good company - warm, engaging and likeable.",
-    "cn": "Mauricio Pochettino一直是好伙伴--热情、迷人、可爱。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "comparison": {
-    "en": "He says the closest comparison is a necklace unearthed in Wojkowice, composed of just four teeth and dating to the Bronze Age.",
-    "cn": "他说，最接近的比较是在Wojkowice出土的项链，仅由四颗牙齿组成，可追溯到青铜时代。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "compete": {
-    "en": "\"The way we competed, attitude, courage, the way we imposed ourselves on the game, the quality we showed to break them down, which is very difficult to do.",
-    "cn": "“我们的竞争方式，态度，勇气，我们在比赛中强加给自己的方式，我们展示的打破他们的质量，这是非常困难的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "compose": {
-    "en": "He says the closest comparison is a necklace unearthed in Wojkowice, composed of just four teeth and dating to the Bronze Age.",
-    "cn": "他说，最接近的比较是在Wojkowice出土的项链，仅由四颗牙齿组成，可追溯到青铜时代。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "complete": {
-    "en": "He's the only player on the list who didn't complete at least one take-on per 90 minutes.",
-    "cn": "他是这份名单中唯一一个场均成功突破不到一次的球员。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "compile": {
-    "en": "It is believed they were compiled for postwar pensions and other veterans’ benefits.",
-    "cn": "据信，这些数据是为战后养老金和其他退伍军人福利编制的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "competition": {
-    "en": "Yet, said spending still hasn't built a unit that has genuine competition for places.",
-    "cn": "然而，他说，支出仍然没有建立一个真正有竞争力的单位。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "completely": {
-    "en": "As yet, these peptides are “completely untested and unregulated,” says Deborah Doroshow, an oncologist and historian at Mount Sinai in New York.",
-    "cn": "到目前为止，这些肽“完全未经测试和不受管制”，纽约西奈山的肿瘤学家和历史学家Deborah Doroshow说。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "coach": {
-    "en": "It is still early in the season, but Arteta will be encouraged by the sight of his coaching coming to the fore in open play.",
-    "cn": "赛季才刚刚开始，但阿尔特塔看到球队在运动战中也能展现自己的战术思路，应该会感到欣慰。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "coast": {
-    "en": "In 1941, enemy fire sank an Italian hospital ship off the coast of Albania.",
-    "cn": "1941年，一艘意大利医院船在阿尔巴尼亚海岸附近沉没。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "coin": {
-    "en": "Although Robert Ressler, an FBI investigator, is largely credited with having coined the term \"serial killer,\" Ernst Gennat of the Berlin Criminal Police used the German translation, \" serienm&ouml;rder,\" in a 1930 article.",
-    "cn": "尽管联邦调查局调查员罗伯特·雷斯勒（Robert Ressler）在很大程度上创造了“连环杀手”一词，但柏林刑事警察局的恩斯特·根纳特（Ernst Gennat）在1930年的一篇文章中使用了德语翻译“serienmörder”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "cold": {
-    "en": "Millions of years ago, during the late Cretaceous, some of the largest dinosaurs ever were laying eggs in surprisingly cold places.",
-    "cn": "数百万年前，在白垩纪晚期，一些有史以来最大的恐龙在出奇寒冷的地方产卵。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "collapse": {
-    "en": "Chelsea's plan was to replace Enzo with Monaco's Lamine Camara, but a deal for the Senegal international collapsed late on deadline day.",
-    "cn": "切尔西原本计划用摩纳哥的卡马拉替代恩佐，但这位塞内加尔国脚的交易在转会截止日临近时告吹。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "colleague": {
-    "en": "Zelenitsky and her colleagues then took a closer look at the pores on the eggshells using microscopes and micro-CT scanners.",
-    "cn": "然后，Zelenitsky和她的同事们使用显微镜和微型CT扫描仪仔细观察了蛋壳上的毛孔。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "collect": {
-    "en": "He had been blinded by sandstorms in Iraq; as a boy, Amandeep’s father had accompanied his uncle to Rupar in Ambala, in undivided India, to collect his army pension.",
-    "cn": "他在伊拉克被沙尘暴弄瞎了眼睛；当阿曼迪普还是个孩子的时候，他的父亲曾陪同叔叔去印度未分裂的安巴拉的鲁帕尔领取他的军队养老金。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "collection": {
-    "en": "The funky jewelry may have been a collection of hunting trophies or a gift.",
-    "cn": "时髦的珠宝可能是一系列狩猎奖杯或礼物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "comfortable": {
-    "en": "In a miss that would prove costly, the forward had time to pick his spot, but his effort was too close to the Rangers goalkeeper, who made a comfortable save.",
-    "cn": "在一场代价高昂的失误中，前锋有时间选择自己的位置，但他的努力与流浪者队的守门员过于接近，后者进行了舒适的扑救。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "come": {
-    "en": "By day, the species stays hidden from predators, and by night, it comes out to feed.",
-    "cn": "白天，这个物种隐藏起来躲避捕食者，晚上，它出来觅食。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "combine": {
-    "en": "Fernandes starred again and the sight of him combining with the equally intelligent Youri Tielemans for United's second was encouraging.",
-    "cn": "费尔南德斯再次成为主力，他和同样聪明的蒂勒曼斯一起打进了曼联的第二个进球，这令人鼓舞。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "combination": {
-    "en": "Arteta also highlighted how fresh combinations with team-mates are playing a part.",
-    "cn": "Arteta还强调了与队友的新组合是如何发挥作用的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "conquest": {
-    "en": "If so, the end panels might have shown William being crowned king of England, as that was the ultimate consequence of the Conquest.",
-    "cn": "如果是这样，最后的镶板可能显示威廉被加冕为英格兰国王，因为这是征服的最终结果。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "conservation": {
-    "en": "These results came back with positive news for conservation: The elusive nabarlek had been found.",
-    "cn": "这些结果为自然保护带来了积极的消息：难以捉摸的纳巴莱克被发现了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "consider": {
-    "en": "“There’s something to be said about the mystery novel being something you can escape into,” publisher David Brawn told All Things Considered in 2020, on the 100th anniversary of the publication of Christie’s first book.",
-    "cn": "2020年，在佳士得第一本书出版100周年之际，出版商大卫·布朗对《万物思虑》（All Things Considered）说：“悬疑小说是一种你可以逃避的东西。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "considerable": {
-    "en": "Then we get to the battle of Hastings itself, which is portrayed in considerable detail.",
-    "cn": "接下来是黑斯廷斯战役，书中对其进行了相当详细的描述。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "content": {
-    "en": "This page contains HistoryExtra content provided by Google reCAPTCHA.",
-    "cn": "此页面包含谷歌reCAPTCHA提供的额外内容。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "construct": {
-    "en": "Next, a constructed dig site will evoke Christie’s time spent photographing and supporting the work of archaeologists in the Middle East.",
-    "cn": "接下来，一个已建成的挖掘地点将唤起克里斯蒂拍摄和支持中东考古学家工作的时间。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "contain": {
-    "en": "The problem, though, is that the 17-minute video contains almost every goal that Ndiaye has scored in the Premier League over the past two seasons.",
-    "cn": "然而问题在于，这段 17 分钟的集锦几乎涵盖了他过去两个赛季在英超的全部进球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "comrade": {
-    "en": "“I didn’t want to tell [this story] through the names we remember,” like rebel leader Wat Tyler (played by Cosmo Jarvis ) and his comrade, the bombastic priest John Ball (Jamie Bell), Greengrass says in a director’s statement.",
-    "cn": "Greengrass在一份导演声明中说：“我不想通过我们记住的名字来讲述[这个故事] ，”就像叛军领导人Wat Tyler （由Cosmo Jarvis扮演）和他的同志，夸张的牧师John Ball （Jamie Bell）。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "concern": {
-    "en": "The recipients of the Ig Nobel Chemistry Prize, however, conducted research concerning much smaller individuals: cockroaches.",
-    "cn": "然而，Ig诺贝尔化学奖的获得者对更小的个体进行了研究：蟑螂。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "condemn": {
-    "en": "But Arsenal hung on, condemning Xabi Alonso to his first defeat as Blues boss.",
-    "cn": "阿森纳顶住了压力，让哈维·阿隆索尝到了执教切尔西以来的首场失利。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "condition": {
-    "en": "The research highlights how dinosaurs adapted to environmental conditions, says Zelenitsky to the CBC.",
-    "cn": "Zelenitsky向加拿大广播公司表示，这项研究突出了恐龙如何适应环境条件。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "confidence": {
-    "en": "It will be more challenging against City's attack but Carrick and his players go into that with confidence restored.",
-    "cn": "面对曼城的进攻会更有挑战性，但卡里克和他的球员们会恢复信心。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "conference": {
-    "en": "\"First of all he needs to be available and last year he missed so many games through injuries,\" said Arteta when asked in his post-match press conference about Odegaard's improvement.",
-    "cn": "“首先，他需要有空，去年他因伤缺席了很多比赛，”Arteta在赛后新闻发布会上被问及Odegaard的改进时说道。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "club": {
-    "en": "It also follows consultation with the Football Supporters' Association and representatives from club Fan Advisory Boards.",
-    "cn": "这也是在与足球支持者协会和俱乐部球迷顾问委员会的代表进行磋商之后做出的决定。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "central": {
-    "en": "Running mostly from left to right, it tells the story in the style of a graphic novel across a central frieze, with short Latin captions.",
-    "cn": "它主要从左到右，用图画小说的风格在中间的楣边讲述故事，配上简短的拉丁文字说明。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "centre": {
-    "en": "Havertz might never have entirely convinced as a centre-forward -- which is partly why Chelsea were willing to move him out and Arsenal signed Viktor Gyökeres last summer.",
-    "cn": "哈弗茨从未能彻底证明自己是一名合格的中锋——这也是切尔西愿意将他放走、阿森纳去年夏天签下维克托·约克雷斯的原因之一。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "century": {
-    "en": "The bubonic plague contributed to a growing sense of dissatisfaction in the country in the mid-14th century.",
-    "cn": "在14世纪中叶，腺鼠疫导致了该国日益增长的不满情绪。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "certain": {
-    "en": "He looks certain to score but Johnstone palms over.",
-    "cn": "他看起来肯定会得分，但约翰斯通手掌在身上。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "certainly": {
-    "en": "“It’s certainly one of my proudest life achievements.”",
-    "cn": "“这无疑是我一生中最自豪的成就之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "champion": {
-    "en": "Odegaard was the match-winner again for Arsenal on Wednesday, thumping in the only goal of the game in the Champions League victory at Napoli.",
-    "cn": "周三，厄德高再次成为阿森纳的取胜功臣，在那不勒斯的冠军联赛胜利中击败了比赛的唯一进球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "chance": {
-    "en": "Pandur comes up on top in a one-on-one as Fraser spurns the chance of the game.",
-    "cn": "Pandur在一对一的比赛中名列前茅，因为Fraser拒绝了比赛的机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "change": {
-    "en": "The other is the gulf in quality between the starting XI and the team after changes are made.",
-    "cn": "另一个是变更后首发XI和球队之间的质量差距。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "cheat": {
-    "en": "Wealthier individuals were also more likely to lie at work and cheat during games.",
-    "cn": "较富有的人也更有可能在工作中撒谎，在游戏中作弊。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "chase": {
-    "en": "She began batting and chasing her creation across the ground.",
-    "cn": "她开始在地上击球和追逐她的创作。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "characteristic": {
-    "en": "The find may be linked to the Corded Ware culture, named for the twisted-rope impressions that are characteristic of its ceramic pottery.",
-    "cn": "这一发现可能与Corded Ware文化有关，Corded Ware文化以陶瓷陶器特有的扭绳印记命名。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "channel": {
-    "en": "The ships cross the Channel and the Norman army establishes itself on English soil.",
-    "cn": "船队越过英吉利海峡，诺曼军队在英国领土上建立了自己的军队。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "carriage": {
-    "en": "An Orient Express -inspired train carriage will then highlight Christie’s penchant for “closed circle” mysteries and detail her globe-trotting adventures, including surfing in Hawaii.",
-    "cn": "然后，一节以东方快车为灵感的火车车厢将突出克里斯蒂对“封闭圈子”之谜的嗜好，并详细介绍她的环球旅行经历，包括在夏威夷冲浪。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "carry": {
-    "en": "In a 2016 study, scientists found that milk proteins from a species of cockroach that gives live birth carry three times as much energy as milk proteins from cows.",
-    "cn": "在2016年的一项研究中，科学家们发现，一种活产蟑螂的乳蛋白所携带的能量是奶牛乳蛋白的三倍。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "case": {
-    "en": "In Bayeux between 1983 and 2025, it was shown in a U-shaped case.",
-    "cn": "在1983年至2025年的巴叶，它被展示在一个u形的盒子里。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "celebrate": {
-    "en": "Former Manchester City playmaker Kevin De Bruyne appeared well placed to equalise when put through for a rare Napoli chance in the final few minutes, but wasted the chance by opting to cross, ensuring Arsenal could celebrate a victorious start to their European campaign and a fifth straight win of the season in all competitions.",
-    "cn": "前曼城组织者凯文·德布鲁因（Kevin De Bruyne）在最后几分钟获得罕见的那不勒斯机会时，似乎处于很好的平衡位置，但由于选择交叉而浪费了这个机会，确保阿森纳能够庆祝他们的欧洲战役的胜利开局以及本赛季在所有比赛中的连续第五场胜利。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "cent": {
-    "en": "In their last 16 league games where they've enjoyed less than 45 per cent of the ball and started the match bigger than 2/1, they've conceded just nine goals, losing just two of those games, with those matches averaging a lowly 1.7 goals per game ratio.",
-    "cn": "在过去的16场联赛中，他们的控球率低于45%，开局比分大于2比1，他们只丢了9个球，只输了2场，这些比赛的场均进球率只有1.7个。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "cathedral": {
-    "en": "It was first documented in a 1476 inventory of the treasures of Bayeux Cathedral, and it’s been in Bayeux ever since, bar a couple of brief sojourns elsewhere.",
-    "cn": "它最早被记录在1476年巴叶大教堂的宝藏清单中，从那以后它就一直在巴叶，除了在其他地方短暂停留过几次。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "catch": {
-    "en": "Catch up on the latest news with the Paper Talk podcast.",
-    "cn": "通过Paper Talk播客了解最新消息。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "castle": {
-    "en": "The exhibition dedicates displays to other local killers, including Holmes, who, as one of America’s first serial killers, used his “ Murder Castle ” hotel to claim victims’ lives during the 1893 Chicago World’s Fair.",
-    "cn": "该展览致力于展示其他当地杀手，包括福尔摩斯，他作为美国最早的连环杀手之一，在1893年芝加哥世界博览会期间使用他的“谋杀城堡”酒店夺走了受害者的生命。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "class": {
-    "en": "The Arsenal captain oozed class and confidence, demanding the ball then finding the gaps in Napoli's defence and threading passes forward.",
-    "cn": "阿森纳队长渗出班级和自信，要求球然后找到那不勒斯的防守和线程向前传球的差距。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "clean": {
-    "en": "\"I think it was kind of what we set out to achieve, good performance, individually and collectively throughout the game, the boys that started, the boys that came on pitch, clean sheet, goals, exciting football.",
-    "cn": "“我认为这是我们想要达到的目标，在整场比赛中，无论是个人还是集体，都表现出色，小伙子们首发，小伙子们上场，零失球，进球，令人兴奋的足球。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "clear": {
-    "en": "Fernandes made his feelings for De Zerbi clear to the Spurs boss himself when the deal was done.",
-    "cn": "在交易完成后，费尔南德斯向热刺主帅表达了他对德泽比的感情。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "close": {
-    "en": "The Tapestry’s borders are filled with animals, fables and mischievous details that invite close inspection.",
-    "cn": "挂毯的边缘布满了动物、寓言和恶作剧的细节，需要仔细观察。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "climate": {
-    "en": "They date back to about 68 million years ago, when the site, sitting at between 55 degrees and 60 degrees south latitude, had a climate comparable to New York City today, Zelenitsky tells Emily Chung at the Canadian Broadcasting Corporation.",
-    "cn": "他们可以追溯到大约6800万年前，当时该遗址位于南纬55度至60度之间，气候与今天的纽约市相当，Zelenitsky告诉加拿大广播公司的Emily Chung。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "cliff": {
-    "en": "On its strong hind legs, it hops around rocky outcrops, cliffs and crevices, using the rough pads on its feet to grip sheer rock.",
-    "cn": "它用强壮的后腿在露出地面的岩石、悬崖和裂缝间跳跃，用脚上粗糙的脚垫抓住陡峭的岩石。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "city": {
-    "en": "The state of winger play in 2026 is best summed up by Manchester City's move for Iliman Ndiaye.",
-    "cn": "2026 年边锋生态的最好写照，就是曼城签下伊利曼·恩迪亚耶。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "childhood": {
-    "en": "“This exhibition will take visitors back to Christie’s childhood and explore her journey to becoming an iconic writer, while celebrating how adaptations of her novels for stage and screen continue to enthrall audiences today, over 50 years after her death.”",
-    "cn": "“这次展览将带参观者回到克里斯蒂的童年，探索她成为一名标志性作家的历程，同时庆祝她的小说被改编成舞台和银幕，在她去世50多年后的今天，如何继续吸引观众。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "chief": {
-    "en": "US Open chief Craig Tiley has vowed to keep same day and night format despite Ben Shelton beating Carlos Alcaraz at 3.33am local time.",
-    "cn": "尽管本·谢尔顿在当地时间凌晨3点33分击败卡洛斯·阿尔卡拉兹，但美网公开赛主席克雷格·泰利誓言将保持同样的昼夜赛制。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "circle": {
-    "en": "An Orient Express -inspired train carriage will then highlight Christie’s penchant for “closed circle” mysteries and detail her globe-trotting adventures, including surfing in Hawaii.",
-    "cn": "然后，一节以东方快车为灵感的火车车厢将突出克里斯蒂对“封闭圈子”之谜的嗜好，并详细介绍她的环球旅行经历，包括在夏威夷冲浪。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "chop": {
-    "en": "Once inside the fortress, the insurgents exacted revenge on their enemies, dragging some of the kingdom’s most powerful men out to an execution block and chopping off their heads.",
-    "cn": "一旦进入堡垒，叛乱分子就向他们的敌人进行报复，将一些王国最强大的人拖到处决区并砍下他们的头。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "choice": {
-    "en": "Chelsea were without their first-choice midfield at the Emirates -- primarily because Enzo Fernández was offloaded in a £125 million transfer to Manchester City on deadline day, but also because of an injury to Moisés Caicedo.",
-    "cn": "切尔西在酋长球场缺少主力中场——主要是因为恩佐·费尔南德斯在转会截止日以 1.25 亿英镑卖给了曼城，同时也因为凯塞多受伤。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "continue": {
-    "en": "But it was another substitute who provided the decisive moment as Miovski produced a composed finish to ensure Rangers' momentum under McInnes continues.",
-    "cn": "但这是另一位替补球员提供了决定性的时刻，因为Miovski创造了一个沉着的结局，以确保流浪者队在麦金尼斯的带领下继续保持势头。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "continuous": {
-    "en": "For the first time, the Tapestry is being displayed flat and in one continuous length inside a specially constructed showcase, allowing visitors to appreciate its full scale and intricate detail as never before.",
-    "cn": "这是挂毯第一次在一个特别建造的展柜里以一个连续的长度平面展示，让游客前所未有地欣赏它的完整尺寸和复杂的细节。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "departure": {
-    "en": "With the departure of Salah from England and Messi and Ronaldo from the international stage, perhaps it's fitting.",
-    "cn": "随着萨拉赫离开英格兰，梅西和 C 罗退出国际舞台，这种情况也在情理之中。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "depth": {
-    "en": "They rank highest with their depth in forward areas.",
-    "cn": "它们在前方区域的深度排名最高。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "describe": {
-    "en": "This story starts some 200 years ago, when Claude-Louis Navier and George Gabriel Stokes wrote equations to describe how fluids move.",
-    "cn": "这个故事始于大约200年前，当时克劳德-路易斯·纳维尔和乔治·加布里埃尔·斯托克斯写了一些方程来描述流体的运动。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "description": {
-    "en": "And once scientists have detected a wallaby that fits the animal’s description, verifying that it’s the target species is no easy task, either.",
-    "cn": "一旦科学家发现了符合动物描述的小袋鼠，验证它是目标物种也不是一件容易的事。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "design": {
-    "en": "Key highlights include the Junius 11 manuscript, which influenced the Tapestry’s design.",
-    "cn": "关键亮点包括影响挂毯设计的Junius 11手稿。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "develop": {
-    "en": "In the first of five sections, library-goers will explore the quintessential setting of many of Christie’s works, the English country house, and get a glimpse of a developing writer.",
-    "cn": "在五个部分的第一部分，图书馆的读者将探索克里斯蒂许多作品的典型背景，英国乡村别墅，并瞥见一个发展中的作家。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "determine": {
-    "en": "They looked through the resulting photos to determine that the short-eared rock-wallaby is not found at the sites, assuring them that its similar-looking DNA would not be confused with that of the nabarlek.",
-    "cn": "他们查看了结果照片，确定短耳岩小袋鼠没有出现在这些地点，并向他们保证，短耳岩小袋鼠的相似DNA不会与纳巴莱克的DNA混淆。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "detail": {
-    "en": "The Tapestry’s borders are filled with animals, fables and mischievous details that invite close inspection.",
-    "cn": "挂毯的边缘布满了动物、寓言和恶作剧的细节，需要仔细观察。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "deny": {
-    "en": "The on-loan keeper produced a huge save to deny Joel Cotterill - on his first St Johnstone start - as the hosts enjoyed the best of the chances.",
-    "cn": "这位租借守门员做出了巨大的挽救，否认了Joel Cotterill -在他的第一次圣约翰斯通开始时-因为房东们享受到了最好的机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "despite": {
-    "en": "Despite the uncertainty around them, peptides have garnered a cult following.",
-    "cn": "尽管存在不确定性，但多肽已经赢得了狂热的追随者。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "development": {
-    "en": "“The metal sheets provide a hard substrate for marine life to grow on,” lead author Simone Modugno, a marine biologist with the Institute for Research, Development and Experimentation on the Environment and Territory, tells BBC Wildlife magazine ’s Helen Pilcher.",
-    "cn": "“金属板为海洋生物的生长提供了坚硬的基础，”环境与领土研究、开发和实验研究所的海洋生物学家Simone Modugno告诉英国广播公司野生动物杂志的海伦·皮尔彻。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "decision": {
-    "en": "With Marcus Rashford also available, and Cunha getting a confidence-boosting goal, there are some interesting decisions ahead for the United boss.",
-    "cn": "拉什福德也可以上场，库尼亚也取得了一个提升信心的进球，曼联主帅将面临一些有趣的决定。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "declare": {
-    "en": "When Rogers signed with Chelsea, he declared he was joining the biggest team in London.",
-    "cn": "罗杰斯加盟切尔西时曾说，他加盟的是伦敦最大的球队。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "defence": {
-    "en": "Mika Baur scored his first Celtic goal as they extended the winning start to their latest Scottish Premiership title defence to six games.",
-    "cn": "米卡·鲍尔（Mika Baur）打进了他的第一个凯尔特人进球，因为他们将获胜的开局扩展到他们最新的苏格兰超级联赛冠军防守，",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "demand": {
-    "en": "Experts say the peptide boom offers a window into a larger transformation in American health care: a shift from a market driven by diagnoses to one driven by demand, in which medicine is increasingly viewed as a consumer good—an Amazon-like product delivered to your doorstep.",
-    "cn": "专家表示，多肽繁荣为美国医疗保健行业的更大转型提供了一个窗口：从由诊断驱动的市场转向由需求驱动的市场，在这个市场中，医药越来越被视为一种消费品--一种类似亚马逊的产品，送货上门。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "degree": {
-    "en": "Yes, their expected goals numbers suggest they've ridden their luck to some degree - but this has been an impressive display of defensive organisation, which isn't a new trait.",
-    "cn": "是的，他们的预期进球数表明他们在某种程度上依靠了运气——但这是一个令人印象深刻的防守组织展示，这并不是一个新特点。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "definitely": {
-    "en": "\"He definitely offers a different kind of threat, that is the beauty of it really, we know what Ben gives us and there are not many who can give us what he gives us.",
-    "cn": "“他绝对提供了一种不同的威胁，这就是它的美妙之处，我们知道本给了我们什么，没有几个人能给我们他给我们的。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "devise": {
-    "en": "Displays spotlight personal belongings, investigative evidence, authentic artworks and other “murderabilia” that offer an uncanny peek into the lives of roughly 150 killers from dozens of countries who devised and committed unthinkable crimes.",
-    "cn": "展示聚光灯下的个人物品、调查证据、真实的艺术品和其他“谋杀品”，让人们惊奇地窥见来自数十个国家的大约150名凶手的生活，这些凶手策划并犯下了不可思议的罪行。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "disclose": {
-    "en": "According to a recent survey of over 500 physicians, nearly half said a patient had disclosed using an experimental peptide in the past year.",
-    "cn": "根据最近对500多名医生的调查，近一半的患者表示在过去一年中曾使用实验肽进行披露。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "discover": {
-    "en": "Its ambiguous storytelling and sparse Latin captions leave much open to interpretation, making every visit a chance to discover new perspectives on this epic tale of conquest and change.",
-    "cn": "它模棱两可的故事叙述和稀疏的拉丁字幕留下了很多可供解释的空间，使每次访问都有机会发现这个征服和变革的史诗故事的新视角。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "discovery": {
-    "en": "This jolly discovery has a poignant undertone.",
-    "cn": "这一令人愉快的发现暗含着辛酸的意味。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "discuss": {
-    "en": "We don’t know what they talk about, but it’s presumably discussing his stay in Normandy.",
-    "cn": "我们不知道他们谈了些什么，但大概是在讨论他在诺曼底的逗留。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "discussion": {
-    "en": "The action actually starts a couple of years before the set-piece battle of Hastings, with a discussion between England’s King, Edward the Confessor, and his leading noble (who was also his brother-in-law), Harold Godwinson.",
-    "cn": "故事发生在黑斯廷斯战役前几年，英国国王忏悔者爱德华和他的贵族领袖（也是他的姐夫）哈罗德·戈德温森之间的讨论。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "disappear": {
-    "en": "Most of the dominance disappeared as soon as the ball left the winger's foot.",
-    "cn": "球一旦离开边锋的脚下，那种统治力就消失了。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "die": {
-    "en": "Then Edward dies, and Harold is declared king by the English nobles.",
-    "cn": "后来爱德华去世，哈罗德被英国贵族宣布为国王。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "difference": {
-    "en": "With goal difference a potentially significant factor in the league phase of this Champions League format, this was a fine night's work on their return.",
-    "cn": "在欧冠赛制的联赛阶段，净胜球是一个潜在的重要因素，这对他们的回归来说是一个美好的夜晚。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "different": {
-    "en": "\"That's great that a lot of very different players got in those situations.",
-    "cn": "“在这种情况下，很多不同的球员都得到了很好的表现。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "difficulty": {
-    "en": "He talks about the importance of the smallest details, the difficulty of getting every decision right and the challenge of translating his ideas to a group of players who spend far less time together than a club side.",
-    "cn": "他谈到了最小细节的重要性，做出正确决定的难度，以及将他的想法转化为一群在一起的时间远远少于俱乐部球员的球员所面临的挑战。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "director": {
-    "en": "A new film by Paul Greengrass, a veteran director of tense action films including Captain Phillips and The Bourne Ultimatum, reimagines the Peasants’ Revolt from the perspectives of those who participated in it.",
-    "cn": "保罗·格林格拉斯（Paul Greengrass）是包括《菲利普斯船长》（Captain Phillips）和《伯恩最后通牒》（The Bourne Ultimatum）在内的紧张动作电影的资深导演，他拍摄的一部新电影从参与者的角度重新构想了农民起义。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "directly": {
-    "en": "Explosive athleticism, beguiling footwork, cannon-powered finishing, and lots of dribbling leading directly to goals.",
-    "cn": "惊人的运动能力、华丽的脚下功夫、炮弹般的射门，加上大量突破直接转化为进球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "direction": {
-    "en": "I'm as positive as I have been for three, four, five years about Chelsea, because I think they're going in the right direction.",
-    "cn": "我对切尔西的态度比过去三、四、五年都要积极，因为我认为他们正在走在正确的方向上。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "difficult": {
-    "en": "\"When you put together a team that hardly plays together, it is difficult to play at this level when [Leeds] are intense.\"",
-    "cn": "“当你组建一支几乎无法一起比赛的球队时，当[利兹]非常激烈时，很难在这个级别上比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "digital": {
-    "en": "Rachel Dinning is digital editor (engagement and video) at HistoryExtra",
-    "cn": "雷切尔·丁宁是HistoryExtra的数字编辑（参与和视频）",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "care": {
-    "en": "Why don't Premier League clubs care about goals anymore?",
-    "cn": "为什么英超球队不再在乎进球数据？",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "december": {
-    "en": "The first takes place between Tuesday December 29 and Wednesday December 30.",
-    "cn": "第一次是在12月29日星期二到12月30日星期三之间。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "costly": {
-    "en": "In a miss that would prove costly, the forward had time to pick his spot, but his effort was too close to the Rangers goalkeeper, who made a comfortable save.",
-    "cn": "在一场代价高昂的失误中，前锋有时间选择自己的位置，但他的努力与流浪者队的守门员过于接近，后者进行了舒适的扑救。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "could": {
-    "en": "Nottingham Forest could revive their interest in Tottenham midfielder Lucas Bergvall in January.",
-    "cn": "诺丁汉森林可能会在一月份恢复他们对托特纳姆热刺中场球员卢卡斯·伯格瓦尔的兴趣。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "country": {
-    "en": "After the country house, visitors will walk through a dispensary filled with various poisons that feature in Christie’s novels and learn about her work as a pharmacy dispenser during World War I.",
-    "cn": "在乡村别墅之后，游客将穿过一个药房，里面摆满了克里斯蒂小说中出现的各种毒药，并了解她在第一次世界大战期间作为药房配药员的工作。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "couple": {
-    "en": "It was first documented in a 1476 inventory of the treasures of Bayeux Cathedral, and it’s been in Bayeux ever since, bar a couple of brief sojourns elsewhere.",
-    "cn": "它最早被记录在1476年巴叶大教堂的宝藏清单中，从那以后它就一直在巴叶，除了在其他地方短暂停留过几次。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "course": {
-    "en": "The upshot of course is that King Harold is slain, with the defeated Englishmen being shown fleeing the field in the last scene of the tapestry.",
-    "cn": "当然，结局是哈罗德国王被杀，战败的英国人在挂毯的最后一幕逃离战场。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "cover": {
-    "en": "They found that sponges, sea squirts, mussels, oysters and algae covered most of the vessel’s surface, while amberjacks, sea bass, wrasse, scorpionfish, goby and other species of fish floated in and around the ship.",
-    "cn": "他们发现，海绵、海鞘、贻贝、牡蛎和藻类覆盖了船舶的大部分表面，而琥珀杰克鱼、海鲈、皱纹鱼、蝎子鱼、高比鱼和其他鱼类则漂浮在船内和周围。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "creature": {
-    "en": "Above and below the action are borders populated by animals, birds, mythical creatures, decorative devices and mini scenes that may or may not relate to the main narrative.",
-    "cn": "行动的上方和下方是由动物、鸟类、神话生物、装饰装置和迷你场景组成的边界，这些场景可能与主要叙事有关，也可能与主要叙事无关。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "create": {
-    "en": "However, the balance of that squad is what creates the problem.",
-    "cn": "然而，该阵容的平衡是造成问题的原因。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "cost": {
-    "en": "The company used around 10,000 artificial intelligence “agents,” or bots, that worked largely autonomously on the Navier-Stokes equations for 88 hours, using computational power that likely cost millions of dollars.",
-    "cn": "该公司使用了大约1万个人工智能“代理”或机器人，它们在很大程度上自主地在纳维-斯托克斯方程上工作了88个小时，使用的计算能力可能耗资数百万美元。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "crash": {
-    "en": "The former Tottenham boss guided the USA team to the last 16 of the World Cup, where the host nation's dreams of victory came to a crashing halt against Belgium, but that barely tells the story of an extraordinary few weeks for the Argentine.",
-    "cn": "这位前托特纳姆热刺主帅带领美国队参加了世界杯的最后16场比赛，东道国的胜利梦想在对阵比利时的比赛中戛然而止，但这几乎没有讲述阿根廷人非凡的几周的故事。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "crack": {
-    "en": "He knows how to crack Emery's tactical plan as Glasner's teams are extremely comfortable allowing the opponent possession before attacking the spaces created when the opponent overcommits.",
-    "cn": "他知道如何破解埃梅里的战术计划，因为格拉斯纳的球队在进攻对手过度投入时创造的空间之前，总是让对手拥有控球权。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "crew": {
-    "en": "Lesser-known featured Chicago killers include Richard Speck; the satanic Ripper Crew cult; and Tillie Klimek, known as Chicago’s “Black Widow,” who claimed to have had precognitive dreams of the deaths of her husbands, whom, in reality, she poisoned.",
-    "cn": "鲜为人知的芝加哥杀手包括理查德·斯佩克（Richard Speck）、撒旦式的开膛手船员邪教（Ripper Crew cult）和被称为芝加哥“黑寡妇”的蒂莉·克莱梅克（Tillie Klimek），她声称自己曾梦到丈夫的死亡，而实际上，她的丈夫是被毒死的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "contrast": {
-    "en": "The Żórawina necklace, by contrast, dates back several thousand years earlier, to Poland’s Middle Neolithic period, or the New Stone Age, per the statement.",
-    "cn": "相比之下，Żórawina项链可以追溯到几千年前，根据声明，可以追溯到波兰的新石器时代中期，或新石器时代。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "contribute": {
-    "en": "\"Martin is contributing goals,\" said Mikel Arteta after the game.",
-    "cn": "“马丁正在贡献进球，”米克尔·阿尔特塔在比赛结束后说。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "control": {
-    "en": "Not for the first time in Alonso's short reign however, chaos once again reigned over control as Leeds continued to create chances before Dominic Calvert-Lewin pulled them back to within a goal with 15 minutes to go.",
-    "cn": "然而，在阿隆索短暂的统治期间，混乱再次统治了控制权，因为利兹在多米尼克·卡尔弗特-莱温（Dominic Calvert-Lewin）将他们拉回15分钟内的目标之前继续创造机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "conversation": {
-    "en": "The upshot of that conversation is that Harold sets off on a ship to France.",
-    "cn": "谈话的结果是哈罗德乘船去了法国。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "convert": {
-    "en": "The average shot is converted about 10% of the time.",
-    "cn": "平均每脚射门大约 10% 能转化为进球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "correct": {
-    "en": "Week 3 @SkySportsPL Predictions & Best Bet results: Leif Davis to score or assist 4/1 ❌ Brentford/Brentford 9/4 ❌ Aston Villa to win 17/20 ❌ P+L -3 Season P+L +3.47 5/10 correct results 2/10 correct scores pic.twitter.com/3tM4kQYwOK",
-    "cn": "第三周@SkySportsPL预测和最佳投注结果：莱夫·戴维斯得分或助攻4/1❌布伦特福德/布伦特福德9/4❌阿斯顿维拉获胜17/20❌P+L -3赛季P+L +3.47 5/10正确结果2/10正确分数pic.twitter.com/3tM4kQYwOK",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "corporation": {
-    "en": "But in a small spot of hope for the marsupial, Australian conservationists and the Dambimangari Aboriginal Corporation recently captured the species on camera at two sites in Western Australia where it had not been scientifically recorded before.",
-    "cn": "但有袋动物的一线希望在于，澳大利亚自然资源保护主义者和丹比曼加里原住民公司最近在西澳大利亚州的两个地点用相机捕捉到了这个物种，在此之前，它们没有被科学记录过。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "corner": {
-    "en": "His shot comes in but Steward sends it out for a corner.",
-    "cn": "他的投篮进来了，但Steward将其发送到角落。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "cord": {
-    "en": "The find may be linked to the Corded Ware culture, named for the twisted-rope impressions that are characteristic of its ceramic pottery.",
-    "cn": "这一发现可能与Corded Ware文化有关，Corded Ware文化以陶瓷陶器特有的扭绳印记命名。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "copy": {
-    "en": "Christie is the best-selling novelist of all time: Her books have sold at least one billion copies in English and a billion more in other languages.",
-    "cn": "克里斯蒂是有史以来最畅销的小说家：她的英文书销量至少10亿本，其他语言的书销量也超过10亿本。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "cope": {
-    "en": "Rangers had to cope without captain and striker Lawrence Shankland, who missed out through injury, with Ryan Naderi starting in his place.",
-    "cn": "流浪者不得不在没有队长和前锋劳伦斯·尚克兰德的情况下应对，劳伦斯·尚克兰德因伤缺席比赛，瑞安·纳德里（Ryan Naderi）开始取代他。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "crime": {
-    "en": "“Her impact on crime fiction as a genre has been immense,” exhibition curator Lucy Rowland says in a statement from the library.",
-    "cn": "“她对犯罪小说的影响是巨大的，”展览策展人露西·罗兰在图书馆的一份声明中说。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "criminal": {
-    "en": "In last year’s infamous Louvre heist, scootering criminals fled with French crown jewels.",
-    "cn": "在去年臭名昭著的卢浮宫抢劫案中，犯罪分子骑着摩托车带着法国皇冠珠宝逃跑。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "cut": {
-    "en": "“They were equipped with an electric knife or a metal saw—whatever you prefer to call it—and they cut through the bolts holding the frames of Renoir’s works in place,” Bryan Masson, the mayor of Cagnes-sur-Mer, told reporters, per ABC News ’ Kevin Shalvey.",
-    "cn": "据ABC新闻的凯文·沙维报道，滨海卡涅市长布莱恩·马森告诉记者：“他们配备了一把电动刀或一把金属锯——不管你喜欢怎么称呼它——他们把雷诺阿作品框架固定的螺栓切断了。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "danger": {
-    "en": "In this first episode of our four-part Sunday Series on the 16th-century royal, Rachel Dinning is joined by historian Nicola Tallis to explore Elizabeth’s turbulent early years – from the execution of her mother, Anne Boleyn, to the political and personal dangers she faced as she navigated childhood, illegitimacy, and the treacherous Tudor succession.",
-    "cn": "在我们关于16世纪王室的四集周日系列节目的第一集中，雷切尔·丁宁和历史学家尼古拉·塔利斯一起探索了伊丽莎白动荡的早年——从她母亲安妮·博林的处决，到她在童年时期面临的政治和个人危险，私生子，以及都铎王朝的危险继承。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "dangerous": {
-    "en": "But the Arsenal attack down both flanks and through the middle looked extremely dangerous at the Stadio Diego Armando Maradona.",
-    "cn": "但是阿森纳在迭戈·阿曼多·马拉多纳体育场的侧翼和中间进攻看起来非常危险。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "dark": {
-    "en": "There were thousands of names in the registers, mostly written in dark ink.",
-    "cn": "登记簿上有成千上万的名字，大多是用深色墨水写的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "date": {
-    "en": "Soon, the researchers will use radiocarbon dating to figure out the skeleton’s exact age.",
-    "cn": "很快，研究人员将使用放射性碳年代测定来确定骨骼的确切年龄。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "decay": {
-    "en": "“That titanosaurs laid eggs at such high latitudes is inherently interesting, especially since the evidence points to mound incubation by plant decay as the main source of heat for these animals,” he says.",
-    "cn": "他说：“泰坦龙在如此高的纬度下产卵本身就很有趣，特别是因为有证据表明，植物腐烂造成的土丘孵化是这些动物的主要热源。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "decade": {
-    "en": "Now, more than eight decades later, the wreck is teeming with marine life, researchers report in a paper published July 26 in the journal Frontiers in Ocean Sustainability.",
-    "cn": "研究人员在7月26日发表在《海洋可持续发展前沿》（Frontiers in Ocean Sustainability）杂志上的一篇论文中报告说，现在，80多年过去了，沉船上充满了海洋生物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "death": {
-    "en": "Murder on the Orient Express became a Hollywood blockbuster in 2017, and Death on the Nile followed in 2022.",
-    "cn": "2017年，《东方快车谋杀案》成为好莱坞大片，2022年，《尼罗河上的惨案》紧随其后。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "deal": {
-    "en": "Morgan Rogers -- who signed for Chelsea in a £117 million deal after repeated links with a move to Arsenal -- struck inside 77 seconds to put the visitors in front.",
-    "cn": "此前曾与阿森纳频繁传出转会绯闻的摩根·罗杰斯，以 1.17 亿英镑转会切尔西，开场仅 77 秒便率先破门。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "day": {
-    "en": "By day, the species stays hidden from predators, and by night, it comes out to feed.",
-    "cn": "白天，这个物种隐藏起来躲避捕食者，晚上，它出来觅食。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "crown": {
-    "en": "In last year’s infamous Louvre heist, scootering criminals fled with French crown jewels.",
-    "cn": "在去年臭名昭著的卢浮宫抢劫案中，犯罪分子骑着摩托车带着法国皇冠珠宝逃跑。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "crowd": {
-    "en": "The crowd were great, with the atmosphere [pushing the players on].",
-    "cn": "人群很棒，气氛[推动球员前进]。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "cross": {
-    "en": "A brilliant cross into the box from Tounekti is headed past by Diabate.",
-    "cn": "一个来自Tounekti的辉煌十字架被Diabate带到了盒子里。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "crisis": {
-    "en": "During the Covid-19 pandemic, he saw parallels between the ongoing crisis and the Black Death, which killed an estimated 30 to 50 percent of England’s population just a few decades before the uprising.",
-    "cn": "在新冠肺炎疫情期间，他看到了持续的危机与黑死病之间的相似之处，黑死病在起义前几十年杀死了估计30%至50%的英格兰人口。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "curl": {
-    "en": "Hogh lays the ball off to Hassan but his curling effort is pushed past by Steward.",
-    "cn": "Hogh将球交给了Hassan ，但他的冰壶努力被Steward推倒了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "crystal": {
-    "en": "Crystal Palace transfers, latest news, rumours and gossip: Live updates, goals and highlights",
-    "cn": "水晶宫转会，最新消息，谣言和八卦：实时更新，进球和亮点",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "cup": {
-    "en": "His reflections on the World Cup seem like as good a place to get going.",
-    "cn": "他对世界杯的思考似乎是一个很好的去处。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "appear": {
-    "en": "Despite financial restrictions that appear to be imposed within the club, you can't hide from the fact they have the highest net spend of any Premier League side since 2022.",
-    "cn": "尽管俱乐部内部似乎施加了财务限制，但自2022年以来，他们的净支出一直是英超联赛中最高的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "appearance": {
-    "en": "That hit followed his clinching strike against Chelsea in the Premier League on Sunday and takes his total to four goals in five appearances this season across all competitions.",
-    "cn": "这一打击是在他周日在英超联赛对阵切尔西的比赛中取得进球之后，并在本赛季的所有比赛中五次出场，他的总进球数达到四球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "appoint": {
-    "en": "They have appointed a top-class manager in Xabi Alonso and recruited well with goalkeeper Martinez, defender Maxence Lacroix and forward Rogers.",
-    "cn": "他们任命了哈维·阿隆索这位顶级主帅，并在门将马丁内斯、后卫拉克鲁瓦以及前锋罗杰斯的位置上引援得当。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "argue": {
-    "en": "Arsenal, the current Premier League champions, can currently argue otherwise and point to a run that now extends to 10 unbeaten league games against Chelsea.",
-    "cn": "作为现任英超冠军，阿森纳完全有理由反驳——对切尔西的联赛不败纪录已经扩大到了 10 场。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "area": {
-    "en": "“And they have not been recorded from some areas for a long time.”",
-    "cn": "“有些地区很长时间没有记录了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "approve": {
-    "en": "By contrast, many peptides available for purchase online are experimental chemicals: They are not approved by the Food and Drug Administration and are openly sold with disclaimers, such as “for research use only.”",
-    "cn": "相比之下，许多在线购买的肽是实验性化学品：它们未经美国食品和药物管理局批准，并公开出售免责声明，例如“仅供研究使用”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "analyse": {
-    "en": "Manchester United return to the Champions League on Thursday night to face Azerbaijan side Sabah; with a Manchester derby three days later, Michael Carrick may need to utilise his squad; Sky Sports' Callum Bishop analyses if the squad is ready to compete on all fronts",
-    "cn": "曼联周四晚上重返欧洲冠军联赛，面对阿塞拜疆方面的沙巴；三天后，迈克尔·卡里克可能需要利用他的阵容；天空体育的卡勒姆·毕晓普（Callum Bishop）分析了球队是否准备好在各个方面进行比赛",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "analysis": {
-    "en": "Our top tipster Lewis Jones, aka Jones Knows, provides his analysis and betting insight across the weekend Premier League action.",
-    "cn": "我们的顶级线人刘易斯·琼斯，又名琼斯知道，提供他的分析和投注洞察整个周末英超联赛的行动。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "anchor": {
-    "en": "On the night the Po sank, however, its lights had intentionally been kept off to avoid drawing attention to other ships anchored in the bay.",
-    "cn": "然而，在Po沉没的那天晚上，它的灯被故意关闭，以避免引起停泊在海湾的其他船只的注意。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "ancient": {
-    "en": "And this wasn’t ancient history, it was inside my own father’s lifetime,” Amandeep told me.",
-    "cn": "这不是古老的历史，这是我父亲一生的经历，”阿曼迪普告诉我。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "angle": {
-    "en": "\"When that happens, [Odegaard] needs to take different heights and angles and positions in order to disorganise the opponent and he's done that really well.\"",
-    "cn": "“当这种情况发生时，[Odegaard]需要采取不同的高度、角度和姿势来扰乱对手，他做得非常好。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "animal": {
-    "en": "Above and below the action are borders populated by animals, birds, mythical creatures, decorative devices and mini scenes that may or may not relate to the main narrative.",
-    "cn": "行动的上方和下方是由动物、鸟类、神话生物、装饰装置和迷你场景组成的边界，这些场景可能与主要叙事有关，也可能与主要叙事无关。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "any": {
-    "en": "\"We recognise Celtic are a good team who have been the main title winners and the team that's picked up more trophies than any other club in recent years.",
-    "cn": "“我们认识到凯尔特人是一支优秀的球队，他们是主要的冠军得主，也是近年来获得奖杯最多的球队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "anxiety": {
-    "en": "The anxiety from the Light Blues legions, which has been prevalent in some games in Govan, resurfaced on Wednesday night as the home side struggled in the second half of the Scottish Premiership clash against St Mirren after missing a host of chances before the break.",
-    "cn": "在苏格兰联赛对阵圣米伦的比赛中，主队在中场休息前错过了很多机会，下半场比赛中表现不佳，在戈文的一些比赛中，蓝军军团的焦虑情绪再次浮现。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "answer": {
-    "en": "They will almost certainly sign another midfielder when the window reopens in January, but until then, Alonso has to get his midfield working despite not having an obvious answer to the problem.",
-    "cn": "他们几乎肯定会在 1 月转会窗重新开启时再签一名中场，但在那之前，阿隆索必须找到一个解决方案，让中场运转起来。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "another": {
-    "en": "Harold then goes back to England and has another meeting with Edward the Confessor.",
-    "cn": "哈罗德随后回到英格兰，与忏悔者爱德华再次会面。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "announce": {
-    "en": "On Tuesday, OpenAI, the developer of ChatGPT, announced in a blog post that an “internal OpenAI system” had just found a solution to the longstanding puzzle.",
-    "cn": "周二，ChatGPT的开发者OpenAI在一篇博客文章中宣布，一个“内部OpenAI系统”刚刚找到了解决这个长期难题的方法。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "among": {
-    "en": "Don't be fooled by this result -- Chelsea are back among the Premier League title contenders.",
-    "cn": "不要被这场比赛的结果欺骗——切尔西已经重新回到争冠行列。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "around": {
-    "en": "Despite the uncertainty around them, peptides have garnered a cult following.",
-    "cn": "尽管存在不确定性，但多肽已经赢得了狂热的追随者。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "atmosphere": {
-    "en": "The crowd were great, with the atmosphere [pushing the players on].",
-    "cn": "人群很棒，气氛[推动球员前进]。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "attack": {
-    "en": "Odegaard only scored once for Arsenal during an injury-hit 2025/26 campaign but now his stats are up across a range of other attacking metrics, too.",
-    "cn": "在一场受伤的2025/26赛季中，厄德高只为阿森纳得分一次，但现在他的统计数据也在一系列其他攻击指标上都有所上升。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "attend": {
-    "en": "It is Atletico Madrid away next in Europe but there are bigger matters to attend to before that.",
-    "cn": "接下来在欧洲的比赛是马德里竞技，但在那之前还有更重要的事情要做。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "attention": {
-    "en": "On the night the Po sank, however, its lights had intentionally been kept off to avoid drawing attention to other ships anchored in the bay.",
-    "cn": "然而，在Po沉没的那天晚上，它的灯被故意关闭，以避免引起停泊在海湾的其他船只的注意。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "authority": {
-    "en": "Only Rangers fans are allowed in the 50,000-capacity Ibrox for the League Cup quarter-final against Celtic at the order of the authorities amid a ticket allocation spat between the two Glasgow giants.",
-    "cn": "联赛杯1 / 4决赛对阵凯尔特人的比赛中，只有流浪者队的球迷才可以进入可容纳5万人的伊布罗克斯球场观看比赛。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "author": {
-    "en": "Study co-author Michelle Szydlowski, an anthrozoologist at Miami University, notes that the ball-building behavior makes sense with raccoon biology.",
-    "cn": "该研究的合著者、迈阿密大学的人类动物学家米歇尔·希德洛夫斯基（Michelle Szydlowski）指出，浣熊造球的行为在生物学上是有道理的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "australia": {
-    "en": "On paper, the nabarlek’s range includes parts of northern and northwestern Australia.",
-    "cn": "理论上，纳巴莱克的活动范围包括澳大利亚北部和西北部的部分地区。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "august": {
-    "en": "Now, in a study published on 25 August in the journal Wild, researchers report that this playful habit was not an isolated quirk but a skill passed among members of a pygmy raccoon family.",
-    "cn": "现在，在8月25日发表在《野生》杂志上的一项研究中，研究人员报告说，这种顽皮的习惯并不是一个孤立的怪癖，而是侏儒浣熊家族成员之间传递的一种技能。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "australian": {
-    "en": "“This is very exciting and great news for the species,” Larissa Potter, a senior field ecologist with the Australian Wildlife Conservancy, says in a statement.",
-    "cn": "澳大利亚野生动物保护协会的资深野外生态学家拉里萨·波特在一份声明中说：“这对这个物种来说是非常令人兴奋和伟大的消息。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "army": {
-    "en": "He had been blinded by sandstorms in Iraq; as a boy, Amandeep’s father had accompanied his uncle to Rupar in Ambala, in undivided India, to collect his army pension.",
-    "cn": "他在伊拉克被沙尘暴弄瞎了眼睛；当阿曼迪普还是个孩子的时候，他的父亲曾陪同叔叔去印度未分裂的安巴拉的鲁帕尔领取他的军队养老金。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "arrangement": {
-    "en": "England's top-flight have announced the festive fixtures more than three months in advance as it \"gives supporters notice to plan and make travel arrangements for a particularly busy time of the year\".",
-    "cn": "英格兰顶级联赛提前三个多月宣布了节日赛程，因为这“给了球迷一个通知，让他们在一年中特别繁忙的时候计划和安排旅行”。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "arrival": {
-    "en": "Here’s what you need to know about the real history behind The Uprising ahead of the film’s arrival in theaters across the United States on September 10.",
-    "cn": "以下是电影于9月10日抵达美国各地影院之前，您需要了解的《起义》背后的真实历史。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "arrive": {
-    "en": "Billed as the world’s largest private collection of serial killer artifacts, the exhibition toured Europe before arriving stateside, where it made its first stop in Atlanta.",
-    "cn": "该展览被誉为世界上最大的连环杀手文物私人收藏，在抵达美国之前在欧洲巡回展出，并在亚特兰大首次停留。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "art": {
-    "en": "In France’s latest art heist, two thieves broke into Pierre-Auguste Renoir ’s house and stole four of his paintings.",
-    "cn": "在法国最近的艺术品盗窃案中，两名小偷闯入皮埃尔-奥古斯特·雷诺阿的家中，偷走了他的四幅画。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "artificial": {
-    "en": "The company used around 10,000 artificial intelligence “agents,” or bots, that worked largely autonomously on the Navier-Stokes equations for 88 hours, using computational power that likely cost millions of dollars.",
-    "cn": "该公司使用了大约1万个人工智能“代理”或机器人，它们在很大程度上自主地在纳维-斯托克斯方程上工作了88个小时，使用的计算能力可能耗资数百万美元。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "artist": {
-    "en": "Renoir, born in France in 1841, was one of Impressionism’s founding artists.",
-    "cn": "雷诺阿1841年出生于法国，是印象派的奠基人之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "assume": {
-    "en": "For instance, in the Victoria River District, a pastoral area in the Northern Territory of Australia, the nabarlek hasn’t been seen for 170 years—so researchers assume that there, it is locally extinct.",
-    "cn": "例如，在维多利亚河地区，澳大利亚北部的一个牧区，已经有170年没有看到纳巴莱克了，所以研究人员认为，在那里，它已经在当地灭绝了。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "assist": {
-    "en": "Include his three assists and that adds up to 0.25 non-penalty goals plus assists per 90 minutes with the Toffees.",
-    "cn": "加上 3 个助攻，他在埃弗顿的场均非点球进球加助攻也只有 0.25。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "astonish": {
-    "en": "This astonishing artwork is 68.3 metres long and half a metre high.",
-    "cn": "这幅惊人的艺术品长68.3米，高半米。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "ask": {
-    "en": "One of the first full registers Amandeep asked for was for Ambala, his family’s district.",
-    "cn": "阿曼迪普要求的第一批完整的选民之一是他家所在的安巴拉区。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "america": {
-    "en": "The exhibition dedicates displays to other local killers, including Holmes, who, as one of America’s first serial killers, used his “ Murder Castle ” hotel to claim victims’ lives during the 1893 Chicago World’s Fair.",
-    "cn": "该展览致力于展示其他当地杀手，包括福尔摩斯，他作为美国最早的连环杀手之一，在1893年芝加哥世界博览会期间使用他的“谋杀城堡”酒店夺走了受害者的生命。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "account": {
-    "en": "Expected goals and assists does a much better job of showing just how dangerous a player was around the goal, since they take into account every shot and every pass a player makes.",
-    "cn": "预期进球和预期助攻更能反映球员在禁区附近的威胁，因为它考虑了球员的每一次射门和传球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "achieve": {
-    "en": "\"I think it was kind of what we set out to achieve, good performance, individually and collectively throughout the game, the boys that started, the boys that came on pitch, clean sheet, goals, exciting football.",
-    "cn": "“我认为这是我们想要达到的目标，在整场比赛中，无论是个人还是集体，都表现出色，小伙子们首发，小伙子们上场，零失球，进球，令人兴奋的足球。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "achievement": {
-    "en": "“It’s certainly one of my proudest life achievements.”",
-    "cn": "“这无疑是我一生中最自豪的成就之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "across": {
-    "en": "But it was Havertz who made the most telling impact, just over three years on from his £67.5 million move across London.",
-    "cn": "但真正产生决定性影响的，是三年前以 6750 万英镑跨越伦敦的哈弗茨。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "action": {
-    "en": "The action actually starts a couple of years before the set-piece battle of Hastings, with a discussion between England’s King, Edward the Confessor, and his leading noble (who was also his brother-in-law), Harold Godwinson.",
-    "cn": "故事发生在黑斯廷斯战役前几年，英国国王忏悔者爱德华和他的贵族领袖（也是他的姐夫）哈罗德·戈德温森之间的讨论。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "add": {
-    "en": "Include his three assists and that adds up to 0.25 non-penalty goals plus assists per 90 minutes with the Toffees.",
-    "cn": "加上 3 个助攻，他在埃弗顿的场均非点球进球加助攻也只有 0.25。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "adapt": {
-    "en": "It's been jaw dropping the way they have adapted their game to this level of football.",
-    "cn": "他们让自己的比赛适应这种水平的足球的方式令人惊叹。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "actually": {
-    "en": "“Something everyone had heard of, but no one had actually seen.”",
-    "cn": "“每个人都听说过，但没有人真正见过。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "actual": {
-    "en": "Among the actual wingers who got consistent playing time, we're left with three -- out of 19 -- who were able to dribble past their defender and turn it into above-average production.",
-    "cn": "在真正有稳定出场时间的边锋中，19 人里只有 3 人能够突破对手并转化为高于平均水准的产出。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "ability": {
-    "en": "Speed, physicality, ability to play on the last line and run in behind.",
-    "cn": "速度，身体素质，在最后一条线上的能力，以及在后面奔跑的能力。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "able": {
-    "en": "Dorgu enjoyed himself at left-back with Luke Shaw missing from the squad but he was able to play as a de facto winger given United's superiority.",
-    "cn": "在卢克·肖缺阵的情况下，多古在左后卫的位置上表现得很好，但鉴于曼联的优势，他能够胜任边锋的位置。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "about": {
-    "en": "I'm as positive as I have been for three, four, five years about Chelsea, because I think they're going in the right direction.",
-    "cn": "我对切尔西的态度比过去三、四、五年都要积极，因为我认为他们正在走在正确的方向上。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "above": {
-    "en": "Among the actual wingers who got consistent playing time, we're left with three -- out of 19 -- who were able to dribble past their defender and turn it into above-average production.",
-    "cn": "在真正有稳定出场时间的边锋中，19 人里只有 3 人能够突破对手并转化为高于平均水准的产出。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "absence": {
-    "en": "Many believe Chelsea could push Arsenal the closest this season, given an absence of European football and Alonso's encouraging early returns.",
-    "cn": "很多人认为切尔西是本赛季最有可能挑战阿森纳的球队，因为蓝军没有欧战任务，而阿隆索的开局令人鼓舞。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "academic": {
-    "en": "It was most likely made in England by English embroiderers, and while we do not have a precise date for when the Bayeux Tapestry was created, the academic consensus is that it must have been produced very soon after the events it depicts.",
-    "cn": "它很可能是由英国的刺绣工在英格兰制作的，虽然我们没有确切的日期来确定贝叶挂毯是什么时候制作的，但学术界的共识是，它一定是在它描绘的事件发生后不久制作的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "accidental": {
-    "en": "“From the very first look, it was clear that this could not have been accidental,” Dąbrowski says in the statement, per TVP World ’s Maria Kamińska.",
-    "cn": "根据TVP World的Maria Kamińska的说法，Dąbrowski在声明中说：“从第一眼看来，这显然不是偶然的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "administration": {
-    "en": "By contrast, many peptides available for purchase online are experimental chemicals: They are not approved by the Food and Drug Administration and are openly sold with disclaimers, such as “for research use only.”",
-    "cn": "相比之下，许多在线购买的肽是实验性化学品：它们未经美国食品和药物管理局批准，并公开出售免责声明，例如“仅供研究使用”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "admire": {
-    "en": "It’s a once-in-a-lifetime opportunity – or, really, once in a millennium: the chance to admire the Bayeux Tapestry in the land of its creation.",
-    "cn": "这是一个千载难逢的机会，或者说，千载难逢：有机会在贝叶挂毯的诞生地欣赏它。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "aim": {
-    "en": "She had many identities and passions, which the exhibition aims to illuminate.",
-    "cn": "她有许多身份和激情，这次展览旨在阐明这些。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "air": {
-    "en": "They worked together as a three, they knew how to position themselves, they were great in the air, they knew how to push up and when to drop deeper.",
-    "cn": "他们三人配合默契，知道如何站位，高空球能力出色，懂得何时上压、何时回收。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "alarm": {
-    "en": "An older study—with more alarming findings—won the Ig Nobel Economics Prize.",
-    "cn": "一项具有更令人担忧的发现的较早研究获得了搞笑诺贝尔经济学奖。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "alive": {
-    "en": "Amandeep’s mother was tearful at seeing the names written down, but also knowing her husband, Amandeep’s father, was no longer alive to see it.",
-    "cn": "阿曼迪普的母亲看到写在上面的名字时泪流满面，但也知道她的丈夫，阿曼迪普的父亲，已经不在人世了。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "all": {
-    "en": "Gary Neville has criticised Chelsea for being \"all over the place\" defensively in the 2-1 defeat to Arsenal.",
-    "cn": "加里·内维尔批评切尔西在 1-2 输给阿森纳的比赛中防守端「乱成一团」。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "allow": {
-    "en": "He knows how to crack Emery's tactical plan as Glasner's teams are extremely comfortable allowing the opponent possession before attacking the spaces created when the opponent overcommits.",
-    "cn": "他知道如何破解埃梅里的战术计划，因为格拉斯纳的球队在进攻对手过度投入时创造的空间之前，总是让对手拥有控球权。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "almost": {
-    "en": "The problem, though, is that the 17-minute video contains almost every goal that Ndiaye has scored in the Premier League over the past two seasons.",
-    "cn": "然而问题在于，这段 17 分钟的集锦几乎涵盖了他过去两个赛季在英超的全部进球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "along": {
-    "en": "There was Trump, FIFA and Folarin Balogun's suspension of his suspension, and along the way, Pochettino became something of a fashion icon.",
-    "cn": "特朗普、国际足联和Folarin Balogun暂停了他的停赛，一路上，波切蒂诺成为了一个时尚偶像。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "ambition": {
-    "en": "They have conceded seven goals in three league games this season, and that is way too many for a team with title ambitions.",
-    "cn": "本赛季前 3 轮 联赛他们已经丢了 7 球，这对一支志在夺冠的球队来说实在太多。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "ahead": {
-    "en": "With Marcus Rashford also available, and Cunha getting a confidence-boosting goal, there are some interesting decisions ahead for the United boss.",
-    "cn": "拉什福德也可以上场，库尼亚也取得了一个提升信心的进球，曼联主帅将面临一些有趣的决定。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "also": {
-    "en": "“It’s also reassuring, as it indicates that this threatened wallaby is persisting …",
-    "cn": "“这也令人放心，因为这表明这种受到威胁的小袋鼠正在持续存在…",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "already": {
-    "en": "The summer signing has four assists to his name already, with three of those coming for Odegaard goals, including the winner in Naples.",
-    "cn": "夏季签约已经有四次助攻，其中三次是Odegaard进球，包括那不勒斯的冠军。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "although": {
-    "en": "Although far from their convincing best, the Hoops did enough to close out their 13th win in a row in total stretching back to the closing weeks of last season.",
-    "cn": "虽然远非他们令人信服的最佳成绩，但篮筐队已经做了足够的努力，在上赛季的最后几周结束了连续第13场胜利。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "agreement": {
-    "en": "The embroidery is normally housed at the Bayeux Tapestry Museum in Normandy, but a historic agreement was reached with the French government for the artefact to be loaned to the UK while its home museum undergoes renovation.",
-    "cn": "这幅刺绣作品通常存放在诺曼底的贝叶挂毯博物馆，但与法国政府达成了一项历史性协议，在其本国博物馆进行翻修时，这幅艺术品将被借给英国。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "advice": {
-    "en": "Known for soft-focus portraits of women and girls, like Coco Reading and A Girl With a Watering Can (1876), the artist left Paris for the warmer climate of southern France at the advice of doctors treating his rheumatoid arthritis.",
-    "cn": "这位艺术家以柔和的女性和女孩肖像而闻名，如《读书的可可》和《拿水壶的女孩》（1876），他听从医生的建议，离开巴黎前往气候温暖的法国南部，治疗他的风湿性关节炎。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "adventure": {
-    "en": "Curiously, they then head off together on a military adventure in Brittany, which Harold seems to enthusiastically take part in.",
-    "cn": "奇怪的是，他们随后一起前往布列塔尼进行军事冒险，哈罗德似乎热情地参加了这次冒险。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "advance": {
-    "en": "Arteta put Odegaard's freedom to advance into more threatening positions down to the skills of his team-mates in open play, which the Arsenal head coach suggested had been missing previously.",
-    "cn": "Arteta将Odegaard晋级到更具威胁性的位置的自由归功于他的队友在公开比赛中的技能，阿森纳主教练认为以前缺少这些技能。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "adult": {
-    "en": "Adults could weigh up to 75 tonnes—over eight times bigger than a Tyrannosaurus rex and 12 times as heavy as an elephant.",
-    "cn": "成年人的体重可达75吨，是霸王龙的8倍多，是大象的12倍重。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "ago": {
-    "en": "If you said that to me a year ago, I couldn't see where this project was going.",
-    "cn": "如果是一年前有人这么说，我完全看不出它要走向何方。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "agent": {
-    "en": "Everton have played down the possibility of a move for free agent Anthony Martial.",
-    "cn": "埃弗顿淡化了引进自由球员马夏尔的可能性。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "age": {
-    "en": "Gralak says that Stone Age burial mounds typically belonged to patriarchs.",
-    "cn": "格拉拉克说，石器时代的古墓通常属于族长。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "against": {
-    "en": "Up against Adam Scott, who draws over two fouls per game, and Justin Kluivert who was fouled three times at Newcastle, he's going to be in the firing line for fouls.",
-    "cn": "面对场均犯规超过两次的亚当·斯科特和在纽卡斯尔被犯规三次的贾斯汀·克鲁伊维特，他将在犯规的火线上。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "after": {
-    "en": "Richarlison is seeking to terminate his contract at Tottenham after being left out of their Premier League squad.",
-    "cn": "在被排除在英超大名单之外后，理查利森正在寻求终止他在热刺的合同。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "again": {
-    "en": "Odegaard was the match-winner again for Arsenal on Wednesday, thumping in the only goal of the game in the Champions League victory at Napoli.",
-    "cn": "周三，厄德高再次成为阿森纳的取胜功臣，在那不勒斯的冠军联赛胜利中击败了比赛的唯一进球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "average": {
-    "en": "The average shot is converted about 10% of the time.",
-    "cn": "平均每脚射门大约 10% 能转化为进球。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "bread": {
-    "en": "The second-smallest rock-wallaby in the world is about as long as a loaf of bread.",
-    "cn": "世界上第二小的岩袋鼠只有一块面包那么长。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "break": {
-    "en": "At the very least, when you're a Premier League team and you see a winger breaking that threshold, you should give the player a deeper look.",
-    "cn": "至少，作为一支英超球队，当你看到一名边锋达到这一门槛时，应该认真考察这名球员。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "breath": {
-    "en": "Three of those assists - for Palmer's second, Neto's strike and the first of two for Danny Welbeck - came as Chelsea netted three times more in 12 minutes, including Welbeck's fourth which should have given them breathing space when he fired through Michael Zetterer's legs.",
-    "cn": "其中三次助攻-帕尔默的第二次助攻，内托的罢工和丹尼·韦尔贝克的两次助攻中的第一次助攻-切尔西在12分钟内获得了三倍以上的成绩，其中包括韦尔贝克的第四次助攻，当他射穿迈克尔·泽特勒的腿时，应该给他们喘息的空间。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "breathe": {
-    "en": "Three of those assists - for Palmer's second, Neto's strike and the first of two for Danny Welbeck - came as Chelsea netted three times more in 12 minutes, including Welbeck's fourth which should have given them breathing space when he fired through Michael Zetterer's legs.",
-    "cn": "其中三次助攻-帕尔默的第二次助攻，内托的罢工和丹尼·韦尔贝克的两次助攻中的第一次助攻-切尔西在12分钟内获得了三倍以上的成绩，其中包括韦尔贝克的第四次助攻，当他射穿迈克尔·泽特勒的腿时，应该给他们喘息的空间。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "bridge": {
-    "en": "Chelsea goalkeeper Emiliano Martinez is ex-Arsenal, winger Noni Madueke left Stamford Bridge to join Arsenal, and Declan Rice was released by the Blues as a teenager.",
-    "cn": "切尔西门将马丁内斯是前阿森纳球员，边锋马杜埃凯从斯坦福桥转投阿森纳，赖斯则在少年时期就被切尔西放弃。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "brilliant": {
-    "en": "A brilliant cross into the box from Tounekti is headed past by Diabate.",
-    "cn": "一个来自Tounekti的辉煌十字架被Diabate带到了盒子里。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "bring": {
-    "en": "\"Collectively, as a team, we have done a lot of the right things and that is why were are excited about what the season will bring.",
-    "cn": "“作为一个团队，我们做了很多正确的事情，这就是为什么我们对新赛季的到来感到兴奋。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "british": {
-    "en": "The Bayeux Tapestry is being displayed in the UK as part of a landmark exhibition at the British Museum in London.",
-    "cn": "贝叶挂毯作为伦敦大英博物馆标志性展览的一部分正在英国展出。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "bone": {
-    "en": "“We know their bones have turned up in places as far south as Antarctica and southern Argentina, and as far north as Mongolia and Texas,” says Darla Zelenitsky, a study co-author and paleontologist at the University of Calgary in Canada, to Katie Hunt at CNN.",
-    "cn": "加拿大卡尔加里大学的研究合著者和古生物学家Darla Zelenitsky对CNN的Katie Hunt说：“我们知道他们的骨头出现在南极洲和阿根廷南部，以及蒙古和德克萨斯州的北部。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "book": {
-    "en": "Vitaly Janelt has been responsible for a lot of that upsurge, making 10 fouls in four games and being booked in all three Premier League games.",
-    "cn": "维塔利·贾内尔特对这场热潮负有很大的责任，他在四场比赛中犯规10次，并且在三场英超比赛中都吃到了黄牌。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "born": {
-    "en": "The 26-year-old, French-born, Senegalese international is one of the best dribblers in the Premier League, if not the world.",
-    "cn": "这位 26 岁、法籍塞内加尔国脚，是英超乃至全世界最顶尖的突破手之一。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "boss": {
-    "en": "But Arsenal hung on, condemning Xabi Alonso to his first defeat as Blues boss.",
-    "cn": "阿森纳顶住了压力，让哈维·阿隆索尝到了执教切尔西以来的首场失利。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "both": {
-    "en": "Chelsea, who finished 10th last season, have no European football to contend with in this campaign and had won both games before Sunday's London derby.",
-    "cn": "切尔西上赛季仅获第 10，本赛季没有欧战任务，在周日这场伦敦德比之前两场比赛全胜。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "box": {
-    "en": "His goal, brilliantly taken from the edge of the box after a 29-pass build-up, proved crucial.",
-    "cn": "在经历了29次积累之后，他的进球从盒子的边缘出色地被证明是至关重要的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "bound": {
-    "en": "In the basement of Lahore Museum in Pakistan were 34 black, leather-bound registers gathering dust.",
-    "cn": "在巴基斯坦拉合尔博物馆（Lahore Museum）的地下室里，有34本黑色皮革装订的登记簿落满了灰尘。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "call": {
-    "en": "Titanosaurs belonged to a group of long-necked and four-legged dinosaurs called sauropods.",
-    "cn": "泰坦龙属于一群长颈和四条腿的恐龙，称为蜥脚类恐龙。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "campaign": {
-    "en": "Chelsea, who finished 10th last season, have no European football to contend with in this campaign and had won both games before Sunday's London derby.",
-    "cn": "切尔西上赛季仅获第 10，本赛季没有欧战任务，在周日这场伦敦德比之前两场比赛全胜。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "can": {
-    "en": "The nabarlek is the only wallaby that can continually replace its molar teeth throughout its life, rather like a shark.",
-    "cn": "纳巴莱克是唯一一种可以在一生中不断更换臼齿的小袋鼠，就像鲨鱼一样。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "captain": {
-    "en": "That's the Martin we know and we love, he's our captain.",
-    "cn": "这就是我们认识和喜爱的马丁，他是我们的队长。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "candy": {
-    "en": "In 2012, researchers reported that higher-class individuals are more likely to engage in unethical behaviors, like taking candy meant for children.",
-    "cn": "2012年，研究人员报告说，高阶层的人更有可能从事不道德的行为，比如吃儿童糖果。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "canvas": {
-    "en": "While on death row, he became a prolific painter and made more than $30,000 selling his canvases, which often featured clowns and skulls, the Los Angeles Times ’ Stephen Braun reported in 1994, the year Gacy was executed.",
-    "cn": "《洛杉矶时报》的斯蒂芬·布劳恩（Stephen Braun）在1994年报道说，在死囚区，他成为一名多产的画家，卖掉画布赚了3万多$ ，画布上经常有小丑和头骨。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "building": {
-    "en": "William hears of Harold’s accession and immediately starts building a fleet.",
-    "cn": "威廉听到哈罗德即位的消息，立即开始组建舰队。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "build": {
-    "en": "His goal, brilliantly taken from the edge of the box after a 29-pass build-up, proved crucial.",
-    "cn": "在经历了29次积累之后，他的进球从盒子的边缘出色地被证明是至关重要的。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "body": {
-    "en": "\"The back three, when I watch them, it's almost like their legs aren't connected to their hips and the hips aren't connected to their bodies,\" he said on his Sky Sports podcast.",
-    "cn": "他在自己的天空体育播客中说：「看这三中卫比赛，几乎感觉他们的腿和髋关节、髋关节和躯干是断开的。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "busy": {
-    "en": "England's top-flight have announced the festive fixtures more than three months in advance as it \"gives supporters notice to plan and make travel arrangements for a particularly busy time of the year\".",
-    "cn": "英格兰顶级联赛提前三个多月宣布了节日赛程，因为这“给了球迷一个通知，让他们在一年中特别繁忙的时候计划和安排旅行”。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "business": {
-    "en": "The general consensus is that United's business in the transfer market has left them short, with a squad that is unable to cope with three games per week due to an over-reliance on the same names.",
-    "cn": "普遍的共识是曼联在转会市场的业务使他们短缺，由于过度依赖相同的名字，球队每周无法应付三场比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "base": {
-    "en": "Getting Evens through the BuildABet function for under 1.5 first-half goals paired with under 3.5 total goals looks a shrewd play based on Hull's ability to make games so difficult no matter who the opponent are.",
-    "cn": "通过BuildABet功能，上半场进球数在1.5个以下，总进球数在3.5个以下，这看起来是一种精明的发挥，因为赫尔城无论对手是谁，都能让比赛变得如此困难。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "bat": {
-    "en": "She began batting and chasing her creation across the ground.",
-    "cn": "她开始在地上击球和追逐她的创作。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "battle": {
-    "en": "Then we get to the battle of Hastings itself, which is portrayed in considerable detail.",
-    "cn": "接下来是黑斯廷斯战役，书中对其进行了相当详细的描述。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "because": {
-    "en": "It had to be connected to scoring because, well, that's the whole point of the game.",
-    "cn": "它必须与进球挂钩，因为说到底，这就是比赛的全部意义。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "beat": {
-    "en": "As they produced another reminder that they are the team to beat this season.",
-    "cn": "他们用这场比赛再次提醒所有人，本赛季他们才是最该被击败的球队。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "bay": {
-    "en": "Additionally, researchers observed a rare Mediterranean monk seal resting in the vessel—the first sighting of the endangered species in Vlora Bay since 1996.",
-    "cn": "此外，研究人员观察到一只罕见的地中海僧海豹在船上休息，这是自1996年以来首次在Vlora湾发现这种濒危物种。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "become": {
-    "en": "OpenAI claims to have found one such “blowup” scenario, involving a vortex of fluid that spirals inward and becomes stretched out, like spaghetti.",
-    "cn": "OpenAI声称已经发现了一个这样的“爆炸”场景，包括一个向内螺旋并伸展的流体漩涡，就像意大利面一样。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "await": {
-    "en": "While the world eagerly awaits who will earn those prizes this year, some researchers are currently celebrating the winners of playful—yet still scholarly—parody awards: the Ig Nobel Prizes, which were announced on September 3.",
-    "cn": "虽然全世界都在热切地等待今年谁将获得这些奖项，但一些研究人员目前正在庆祝9月3日宣布的搞笑但仍然是学术模仿奖的获奖者：搞笑诺贝尔奖。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "award": {
-    "en": "You’re probably familiar with the Nobel Prizes, some of the most prestigious awards.",
-    "cn": "您可能熟悉诺贝尔奖，这是一些最负盛名的奖项。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "away": {
-    "en": "He twists and turns on the edge of the box before his effort is palmed away.",
-    "cn": "他扭动着盒子的边缘，然后他的努力就消失了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "back": {
-    "en": "Hogh headed it back into Hassan to smash in, but it had gone out of play before he sent it in.",
-    "cn": "霍格把它送回哈桑那里砸了进去，但在他把它送进去之前，它已经失灵了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "ball": {
-    "en": "Naderi flicks on a long ball into Miovski's path, who's then one-on-one with Chapman.",
-    "cn": "Naderi在Miovski的路径上弹了一个长球，然后与Chapman一对一。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "badly": {
-    "en": "The tax was “an unevenly distributed one,” asking more of the lower classes than the wealthy, and it was “very badly administered,” Andrew Prescott, a historian at the University of Glasgow, tells Smithsonian magazine.",
-    "cn": "格拉斯哥大学(University of Glasgow)历史学家安德鲁·普雷斯科特(Andrew Prescott)告诉《史密森尼》(Smithsonian)杂志，这项税收“分配不均”，对下层阶级的要求高于对富人的要求，而且“管理非常糟糕”。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "bad": {
-    "en": "A comet shoots through the sky, which is deemed to be a bad omen for Harold.",
-    "cn": "一颗彗星划过天空，这被认为是哈罗德的不祥之兆。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "bee": {
-    "en": "The Bayeux Tapestry is being displayed in the UK as part of a landmark exhibition at the British Museum in London.",
-    "cn": "贝叶挂毯作为伦敦大英博物馆标志性展览的一部分正在英国展出。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "billion": {
-    "en": "Christie is the best-selling novelist of all time: Her books have sold at least one billion copies in English and a billion more in other languages.",
-    "cn": "克里斯蒂是有史以来最畅销的小说家：她的英文书销量至少10亿本，其他语言的书销量也超过10亿本。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "bit": {
-    "en": "They don't look solid, they look like they're a little bit all over the place.",
-    "cn": "他们现在看上去一点也不稳当，给人感觉乱成一团。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "black": {
-    "en": "During the Covid-19 pandemic, he saw parallels between the ongoing crisis and the Black Death, which killed an estimated 30 to 50 percent of England’s population just a few decades before the uprising.",
-    "cn": "在新冠肺炎疫情期间，他看到了持续的危机与黑死病之间的相似之处，黑死病在起义前几十年杀死了估计30%至50%的英格兰人口。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "blame": {
-    "en": "They can only blame themselves for that problem, mind you.",
-    "cn": "请注意，他们只能把这个问题归咎于自己。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "blue": {
-    "en": "There was a time when the Blues used to dominate Arsenal physically -- and possibly psychologically, with ex-Arsenal boss Arsene Wenger having to fend off questions about a mental block against their London rivals.",
-    "cn": "曾经有一段时间，切尔西在身体上——甚至可能在心理上——对阿森纳形成压制，前阿森纳主帅温格甚至不得不反复回应外界关于他心结的提问。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "blow": {
-    "en": "He isn't the only expensive winger who dribbles past defenders for fun, blows up YouTube, and fails to turn it into goals, though.",
-    "cn": "但他不是唯一一个身价昂贵、过人如麻、却在 YouTube 上爆红却无法将机会转化为进球的边锋。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "block": {
-    "en": "Odegaard's goal, fired in following a quick one-two with substitute Christos Tzolis, finally broke the deadlock but Noni Madueke, another substitute, missed a one-on-one chance with Tzolis's follow-up blocked on the line, leaving Arsenal to suffer a late scare.",
-    "cn": "厄德高的目标是与替补球员克里斯托斯·佐利斯（Christos Tzolis）进行快速一对二的比赛，最终打破了僵局，但另一名替补球员诺尼·马杜埃克（Noni Madueke）错过了一对一的机会，佐利斯的后续行动被挡在了线上，使阿森纳遭受了晚些时候的恐慌。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "big": {
-    "en": "If we ignore the four wingers who moved from outside of Europe's Big Five top leagues, then we're left with 19 players.",
-    "cn": "如果忽略从欧洲五大联赛之外加盟的四名边锋，剩下 19 人。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "blaze": {
-    "en": "Arsenal attempted 26 shots, their most on record in a Champions League game, worth a whopping 4.05 expected goals but Mikel Merino and Bukayo Saka spurned their best chances of the first half before Piero Hincapie blazed over from close range in the second.",
-    "cn": "阿森纳尝试了26次投篮，这是他们在欧冠比赛中最多的一次投篮，价值高达4.05个预期进球，但米克尔·梅里诺和布卡约·萨卡在第二场比赛中从近距离击败皮耶罗·辛卡皮之前，拒绝了他们上半场的最佳机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "believe": {
-    "en": "Many believe Chelsea could push Arsenal the closest this season, given an absence of European football and Alonso's encouraging early returns.",
-    "cn": "很多人认为切尔西是本赛季最有可能挑战阿森纳的球队，因为蓝军没有欧战任务，而阿隆索的开局令人鼓舞。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "belief": {
-    "en": "Brentford have been all the rage with the betting markets over the first three games with the belief that Keith Andrews has improved them over the summer, although a few fingers were burnt, my included, with their lacklustre showing in the 1-1 with Sunderland last weekend.",
-    "cn": "在前三场比赛中，布伦特福德一直在博彩市场上大放异彩，他们相信基思·安德鲁斯在整个夏天都改善了他们的表现，尽管上周末他们在1-1桑德兰的比赛中表现平平，但也有一些人受到了伤害，包括我的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "being": {
-    "en": "So many dominant games from wingers ended up being exercises in frustration.",
-    "cn": "所以很多边锋即便统治了比赛，最终也只能无功而返。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "behind": {
-    "en": "And the season before wasn't too different: his 75 take-ons ranked fourth behind Doku, West Ham's Mohammed Kudus, and Liverpool's Salah.",
-    "cn": "前一个赛季也差不多：他的 75 次成功突破排名第四，仅次于多库、西汉姆的库杜斯和利物浦的萨拉赫。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "behavior": {
-    "en": "In 2012, researchers reported that higher-class individuals are more likely to engage in unethical behaviors, like taking candy meant for children.",
-    "cn": "2012年，研究人员报告说，高阶层的人更有可能从事不道德的行为，比如吃儿童糖果。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "before": {
-    "en": "Hogh headed it back into Hassan to smash in, but it had gone out of play before he sent it in.",
-    "cn": "霍格把它送回哈桑那里砸了进去，但在他把它送进去之前，它已经失灵了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "belong": {
-    "en": "Today, the museum displays original furniture and objects that belonged to the Impressionist, including his easel and wheelchair.",
-    "cn": "今天，博物馆展示了属于印象派的原始家具和物品，包括他的画架和轮椅。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "between": {
-    "en": "There will be further releases into 2027 for dates between January and July 2027.",
-    "cn": "在2027年1月到7月之间还会有更多的电影上映。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "better": {
-    "en": "\"We have a lot of players that can take the ball there and progress the ball much better than we did in the past,\" Arteta explained.",
-    "cn": "“我们有很多球员可以把球带到那里，比过去更好地推进球，”Arteta解释说。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "bet": {
-    "en": "This Glasner hold over Emery isn't factored enough into the match pricing so the draw no bet on Forest at 5/4 with Sky Bet is a touch generous.",
-    "cn": "格拉斯纳对埃梅里的控制并没有充分考虑到比赛的定价，所以天空博彩以5/4的赔率赌福里斯特的平局是相当慷慨的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "best": {
-    "en": "The 26-year-old, French-born, Senegalese international is one of the best dribblers in the Premier League, if not the world.",
-    "cn": "这位 26 岁、法籍塞内加尔国脚，是英超乃至全世界最顶尖的突破手之一。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "hook": {
-    "en": "Diabate's effort for the hosts is hooked off the line by Donovan.",
-    "cn": "Diabate为房东所做的努力被Donovan迷住了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "hope": {
-    "en": "Former Rangers midfielder McInnes, looking forward to his first Old Firm game as boss, is hoping for positivity from the Gers supporters.",
-    "cn": "前流浪者队中场麦金尼斯期待着他作为主教练的第一场老东家比赛，他希望从热刺的支持者那里得到积极的态度。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "hospital": {
-    "en": "In 1941, enemy fire sank an Italian hospital ship off the coast of Albania.",
-    "cn": "1941年，一艘意大利医院船在阿尔巴尼亚海岸附近沉没。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "host": {
-    "en": "The on-loan keeper produced a huge save to deny Joel Cotterill - on his first St Johnstone start - as the hosts enjoyed the best of the chances.",
-    "cn": "这位租借守门员做出了巨大的挽救，否认了Joel Cotterill -在他的第一次圣约翰斯通开始时-因为房东们享受到了最好的机会。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "how": {
-    "en": "Nicola Tallis explores Elizabeth I’s early years to reveal how her formative experiences influenced the monarch she later became",
-    "cn": "尼古拉·塔利斯探索了伊丽莎白一世的早年生活，揭示了她的成长经历是如何影响她后来成为君主的",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "house": {
-    "en": "In France’s latest art heist, two thieves broke into Pierre-Auguste Renoir ’s house and stole four of his paintings.",
-    "cn": "在法国最近的艺术品盗窃案中，两名小偷闯入皮埃尔-奥古斯特·雷诺阿的家中，偷走了他的四幅画。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "hour": {
-    "en": "For an hour I was really pleased with the performance.",
-    "cn": "有一个小时，我对表演非常满意。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "however": {
-    "en": "However, the balance of that squad is what creates the problem.",
-    "cn": "然而，该阵容的平衡是造成问题的原因。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "her": {
-    "en": "For 30 years, Conti kept three paintings Gacy had given her face down in a closet.",
-    "cn": "30年来，孔蒂一直把盖西给她的三幅画放在壁橱里。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "here": {
-    "en": "Here are the projects that won the ten categories of the 2026 Ig Nobel Prizes.",
-    "cn": "以下是获得2026年搞笑诺贝尔奖十大奖项的项目。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "him": {
-    "en": "Harold’s time in Normandy ends with him making an oath to William on holy relics.",
-    "cn": "哈罗德在诺曼底的时光以他对着圣物向威廉宣誓结束",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "home": {
-    "en": "But Ødegaard made the decisive contribution, with Christos Tzolis passing infield from the left, Havertz dummying the ball brilliantly and the Arsenal captain free to smash home the winner.",
-    "cn": "但厄德高做出了决定性贡献——克里斯托斯·佐利斯从左路传向禁区，哈弗茨机敏一漏，阿森纳队长顺势大力抽射打入制胜球。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "holy": {
-    "en": "Harold’s time in Normandy ends with him making an oath to William on holy relics.",
-    "cn": "哈罗德在诺曼底的时光以他对着圣物向威廉宣誓结束",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "hold": {
-    "en": "This Glasner hold over Emery isn't factored enough into the match pricing so the draw no bet on Forest at 5/4 with Sky Bet is a touch generous.",
-    "cn": "格拉斯纳对埃梅里的控制并没有充分考虑到比赛的定价，所以天空博彩以5/4的赔率赌福里斯特的平局是相当慷慨的。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "history": {
-    "en": "And this wasn’t ancient history, it was inside my own father’s lifetime,” Amandeep told me.",
-    "cn": "这不是古老的历史，这是我父亲一生的经历，”阿曼迪普告诉我。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "his": {
-    "en": "But it was Havertz who made the most telling impact, just over three years on from his £67.5 million move across London.",
-    "cn": "但真正产生决定性影响的，是三年前以 6750 万英镑跨越伦敦的哈弗茨。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "himself": {
-    "en": "Dorgu enjoyed himself at left-back with Luke Shaw missing from the squad but he was able to play as a de facto winger given United's superiority.",
-    "cn": "在卢克·肖缺阵的情况下，多古在左后卫的位置上表现得很好，但鉴于曼联的优势，他能够胜任边锋的位置。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "hit": {
-    "en": "And among those, just five hit the 0.5 benchmark in the season before they moved: Barcola, Outtara, Madueke, Mbaye, and Johnson.",
-    "cn": "其中只有 5 人达到了 0.5 的门槛——他们是巴尔科拉、奥塔拉、马杜埃凯、姆巴耶和约翰逊。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "important": {
-    "en": "And the hunter was someone important, Dąbrowski tells PAP, like a family clan leader.",
-    "cn": "Dąbrowski告诉PAP ，猎人是一个重要的人物，就像一个家族领袖。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "impress": {
-    "en": "The Italian's style of football also impressed Fernandes.",
-    "cn": "意大利人的足球风格也给费尔南德斯留下了深刻的印象。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "impressive": {
-    "en": "Martin Odegaard is a player transformed at the start of this season - and Arsenal boss Mikel Arteta puts his captain's impressive form down to fitness and new positioning.",
-    "cn": "马丁·厄德高（Martin Odegaard）是本赛季开始时转型的球员，主帅米克尔·阿尔特塔将队长的出色表现归功于健身和新定位。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "improvement": {
-    "en": "\"First of all he needs to be available and last year he missed so many games through injuries,\" said Arteta when asked in his post-match press conference about Odegaard's improvement.",
-    "cn": "“首先，他需要有空，去年他因伤缺席了很多比赛，”Arteta在赛后新闻发布会上被问及Odegaard的改进时说道。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "incline": {
-    "en": "The tapestry does not explain precisely what the nature of the oath is, but other Norman-inclined sources tell us that Harold was swearing to be William’s man in England and to uphold his bid to be king on Edward’s death.",
-    "cn": "挂毯上并没有准确地解释誓言的性质，但其他倾向于诺曼的资料告诉我们，哈罗德在英格兰发誓要做威廉的人，并在爱德华死后坚持他的王位。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "include": {
-    "en": "Key highlights include the Junius 11 manuscript, which influenced the Tapestry’s design.",
-    "cn": "关键亮点包括影响挂毯设计的Junius 11手稿。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "indication": {
-    "en": "OpenAI’s breakthrough is the latest indication that A.I.",
-    "cn": "OpenAI的突破是人工智能的最新迹象",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "indeed": {
-    "en": "Then, to make sure that the photographed wallabies were indeed nabarlek rather than the roughly identical monjon, researchers collected scat samples from the site to analyze their DNA.",
-    "cn": "然后，为了确保拍摄到的小袋鼠确实是纳巴莱克而不是大致相同的獴，研究人员从现场收集了粪便样本来分析它们的DNA。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "increase": {
-    "en": "So every time a winger gets the ball and turns it into a shot instead of a cross, that player is, on average, increasing your probability of scoring a goal by 233% to 900%.",
-    "cn": "所以每当边锋拿球选择射门而非传中，平均来说，你进球的概率提升了 233% 到 900%。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "hunt": {
-    "en": "The funky jewelry may have been a collection of hunting trophies or a gift.",
-    "cn": "时髦的珠宝可能是一系列狩猎奖杯或礼物。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "husband": {
-    "en": "Amandeep’s mother was tearful at seeing the names written down, but also knowing her husband, Amandeep’s father, was no longer alive to see it.",
-    "cn": "阿曼迪普的母亲看到写在上面的名字时泪流满面，但也知道她的丈夫，阿曼迪普的父亲，已经不在人世了。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "idea": {
-    "en": "“This year’s award winners took seemingly far-fetched ideas and turned them into legitimate research projects,” Carly Anne York, an animal behaviorist and physiologist at Lenoir-Rhyne University, tells CNN ’s Jack Guy.",
-    "cn": "Lenoir-Rhyne大学的动物行为学家和生理学家卡莉·安妮·约克（Carly Anne York）告诉美国有线电视新闻网（CNN）的杰克·盖伊（Jack Guy）：“今年的获奖者把看似牵强附会的想法变成了合法的研究项目。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "ignore": {
-    "en": "If we ignore the four wingers who moved from outside of Europe's Big Five top leagues, then we're left with 19 players.",
-    "cn": "如果忽略从欧洲五大联赛之外加盟的四名边锋，剩下 19 人。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "impact": {
-    "en": "They knew they weren't starting and they were ready to make an impact.",
-    "cn": "他们知道自己还没有开始，他们已经准备好产生影响。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "immediately": {
-    "en": "William hears of Harold’s accession and immediately starts building a fleet.",
-    "cn": "威廉听到哈罗德即位的消息，立即开始组建舰队。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "greek": {
-    "en": "Greek outfit Aris Thessaloniki are in talks to sign Rangers defender John Souttar.",
-    "cn": "希腊球队Aris Thessaloniki正在洽谈签下流浪者后卫John Souttar。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "group": {
-    "en": "Members of a group learn to make or use these items by observing others.",
-    "cn": "一个小组的成员通过观察其他人来学习制作或使用这些物品。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "grow": {
-    "en": "The Renoir Museum burglary joins a growing roster of recent art thefts in Europe.",
-    "cn": "雷诺阿博物馆的盗窃案是欧洲近年来不断增多的艺术品盗窃案之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "habit": {
-    "en": "Now, in a study published on 25 August in the journal Wild, researchers report that this playful habit was not an isolated quirk but a skill passed among members of a pygmy raccoon family.",
-    "cn": "现在，在8月25日发表在《野生》杂志上的一项研究中，研究人员报告说，这种顽皮的习惯并不是一个孤立的怪癖，而是侏儒浣熊家族成员之间传递的一种技能。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "guide": {
-    "en": "The former Tottenham boss guided the USA team to the last 16 of the World Cup, where the host nation's dreams of victory came to a crashing halt against Belgium, but that barely tells the story of an extraordinary few weeks for the Argentine.",
-    "cn": "这位前托特纳姆热刺主帅带领美国队参加了世界杯的最后16场比赛，东道国的胜利梦想在对阵比利时的比赛中戛然而止，但这几乎没有讲述阿根廷人非凡的几周的故事。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "great": {
-    "en": "Was it instead intended to be draped along the walls of a great hall?",
-    "cn": "它是打算挂在大厅的墙上吗？",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "government": {
-    "en": "The registers had been put together by the Punjab government in 1919–20 after the war.",
-    "cn": "这些登记簿是旁遮普政府在战后的1919年至1920年间整理的。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "grave": {
-    "en": "Excavations in Poland have unearthed a 5,000-year-old grave, complete with a man’s skeleton, two other skulls, amber beads, a flint knife, a stone ax and a necklace made of 42 sharp teeth.",
-    "cn": "波兰的挖掘工作发现了一座5000年前的坟墓，其中包括一具男子骨骼、另外两具头骨、琥珀珠、一把火石刀、一把石斧和一条由42颗锋利的牙齿制成的项链。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "half": {
-    "en": "In that 16-game run they've conceded just two first-half goals.",
-    "cn": "在这16场比赛中，他们上半场只丢了两个球。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "have": {
-    "en": "Spurs' players have been unable to turn that perception into more than one point so far.",
-    "cn": "到目前为止，热刺的球员们还无法将这种感觉转化为一分以上。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "head": {
-    "en": "Heading to the British Museum to see the Bayeux Tapestry for yourself?",
-    "cn": "想亲自去大英博物馆看贝叶挂毯吗？",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "heading": {
-    "en": "Rangers host Celtic at Ibrox in Sunday's League Cup quarter-final in manager Derek McInnes' first Old Firm as manager; there will be no away fans after SPFL ruling; Celtic have won all six league games heading into clash while Rangers have four consecutive Premiership wins after poor start",
-    "cn": "周日联赛杯四分之一决赛，流浪者队将在伊布罗克斯主场迎战凯尔特人队，这是德里克·麦金尼斯执教的第一个老东家；苏格兰足球联盟裁决后将不会有客场球迷；凯尔特人已经赢得了联赛前的六场比赛，而流浪者则在开局不佳的情况下取得了联赛的四连胜",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "headline": {
-    "en": "Then a few weeks later, another significant headline - Pochettino had, a little surprisingly perhaps, signed for four more years with the USA.",
-    "cn": "然后几周后，另一个重要的头条新闻-波切蒂诺与美国签订了四年的合同，也许有点令人惊讶。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "height": {
-    "en": "\"He can start to go by different heights in the team, especially in the attacking phase, and when we get him into those positions he's a really dangerous player.\"",
-    "cn": "“他可以开始在球队中达到不同的高度，特别是在进攻阶段，当我们让他进入这些位置时，他是一个非常危险的球员。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "happen": {
-    "en": "We need to keep giving him the ball and letting things happen.\"",
-    "cn": "我们需要继续给他球，让事情发生。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "hang": {
-    "en": "But it takes its name from the French tapisserie, meaning ‘wall hanging’.",
-    "cn": "但它的名字来自法语tapisserie，意思是“挂在墙上”。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "happy": {
-    "en": "\"The first day of the pre-season, I met him and he was very happy.",
-    "cn": "“季前赛的第一天，我见到了他，他很高兴。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "hand": {
-    "en": "Mainland raccoons, on the other hand, typically weigh between 15 and 40 pounds.",
-    "cn": "另一方面，大陆浣熊的体重通常在15到40磅之间。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "hammer": {
-    "en": "\"I believe that I can be a much better player than I was last season,\" said the 22-year-old Portuguese, who recorded three goals and four assists in the Premier League for the Hammers.",
-    "cn": "“我相信我可以成为一个比上赛季更好的球员，”这位22岁的葡萄牙人说，他在英超联赛中为铁锤帮贡献了3个进球和4次助攻。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "hall": {
-    "en": "Lewis Hall' s new Newcastle United contract will not include a release clause.",
-    "cn": "刘易斯·霍尔（Lewis Hall）的新纽卡斯尔联队合同将不包括解除条款。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "land": {
-    "en": "It’s a once-in-a-lifetime opportunity – or, really, once in a millennium: the chance to admire the Bayeux Tapestry in the land of its creation.",
-    "cn": "这是一个千载难逢的机会，或者说，千载难逢：有机会在贝叶挂毯的诞生地欣赏它。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "last": {
-    "en": "Arsenal conceded just 27 goals in 38 league games on their way to the title last season.",
-    "cn": "阿森纳上赛季以 38 场仅丢 27 球的防守赢得了联赛冠军。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "later": {
-    "en": "“At 5:53 a.m., just five minutes later, our municipal police were on the scene.”",
-    "cn": "“早上5点53分，仅仅5分钟后，我们市警察就到了现场。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "late": {
-    "en": "Balogun has been in the headlines again over the past few weeks after his proposed move from Monaco to Everton collapsed late on Deadline Day.",
-    "cn": "Balogun在截止日期当天晚些时候从摩纳哥搬到埃弗顿的提议崩溃后，过去几周再次成为头条新闻。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "laugh": {
-    "en": "Rogers haunts Arsenal, but Havertz has the last laugh.",
-    "cn": "罗杰斯让阿森纳心惊胆战，但哈弗茨才是笑到最后的人。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "lay": {
-    "en": "Christie fans will soon be able to lay eyes on rare letters like this one, as well as some of her notebooks, photos, other personal belongings and manuscript drafts.",
-    "cn": "克里斯蒂的粉丝很快就能看到像这封这样的罕见信件，以及她的一些笔记本、照片、其他私人物品和手稿草稿。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "keep": {
-    "en": "US Open chief Craig Tiley has vowed to keep same day and night format despite Ben Shelton beating Carlos Alcaraz at 3.33am local time.",
-    "cn": "尽管本·谢尔顿在当地时间凌晨3点33分击败卡洛斯·阿尔卡拉兹，但美网公开赛主席克雷格·泰利誓言将保持同样的昼夜赛制。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "keeper": {
-    "en": "The St Mirren 'keeper rushes out and is beaten with a cute dink.",
-    "cn": "圣米伦（St Mirren）的守门员冲了出去，被一个可爱的丁克殴打。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "key": {
-    "en": "David Musgrove reveals everything you need to know about the British Museum’s landmark Bayeux Tapestry exhibition, including details of tickets, how the embroidery is being displayed, and the key scenes you should look out for",
-    "cn": "大卫·马斯格罗夫向你揭示了大英博物馆标志性的贝叶挂毯展览的一切，包括门票的细节，刺绣是如何展示的，以及你应该注意的关键场景",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "kick": {
-    "en": "There will be seven Premier League matches on Boxing Day this year, with Hull City vs Liverpool - kicking off at 5.30pm - and Newcastle vs Man City - kicking off at 8pm - featuring as a live Sky Sports double header.",
-    "cn": "今年节礼日将有七场英超比赛，赫尔城vs利物浦，下午5:30开球，纽卡斯尔vs曼城，晚上8点开球，这是天空体育直播的两场比赛。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "kind": {
-    "en": "“All good mystery novels end up with some kind of happy ending.",
-    "cn": "“所有优秀的推理小说都以某种大团圆结局告终。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "king": {
-    "en": "The upshot of course is that King Harold is slain, with the defeated Englishmen being shown fleeing the field in the last scene of the tapestry.",
-    "cn": "当然，结局是哈罗德国王被杀，战败的英国人在挂毯的最后一幕逃离战场。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "know": {
-    "en": "Here’s what you need to know about the real history behind The Uprising ahead of the film’s arrival in theaters across the United States on September 10.",
-    "cn": "以下是电影于9月10日抵达美国各地影院之前，您需要了解的《起义》背后的真实历史。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "knife": {
-    "en": "Excavations in Poland have unearthed a 5,000-year-old grave, complete with a man’s skeleton, two other skulls, amber beads, a flint knife, a stone ax and a necklace made of 42 sharp teeth.",
-    "cn": "波兰的挖掘工作发现了一座5000年前的坟墓，其中包括一具男子骨骼、另外两具头骨、琥珀珠、一把火石刀、一把石斧和一条由42颗锋利的牙齿制成的项链。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "library": {
-    "en": "“ Agatha Christie: A World of Mystery,” opening next month at the British Library, in London, includes never-before-seen artifacts from the rollicking life of literature’s “Queen of Crime.”",
-    "cn": "《阿加莎·克里斯蒂：神秘的世界》（Agatha Christie: A World of Mystery）将于下月在伦敦的大英图书馆（British Library）开幕，展出了这位文学“犯罪女王”欢乐生活中从未见过的文物。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "lieutenant": {
-    "en": "For Pochettino, the biggest takeaway is how much he and his coaching staff, including his long-term lieutenant Jesus Perez, have learned.",
-    "cn": "对于Pochettino来说，最大的收获是他和他的教练组，包括他的长期副手Jesus Perez ，学到了多少东西。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "life": {
-    "en": "Rachel Dinning rounds up essential reading from the HistoryExtra archive that explores Elizabeth's early life, rise to power, and the legacy that made her one of England’s most iconic monarchs.",
-    "cn": "雷切尔·丁宁从HistoryExtra的档案中收集了一些重要的读物，这些读物探索了伊丽莎白的早期生活，掌权的过程，以及使她成为英格兰最具代表性的君主之一的遗产。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "lift": {
-    "en": "The substitute raced onto Ryan Naderi's flick-on from Ivor Pandur's long ball before lifting a delightful lob over the goalkeeper to send Ibrox wild after a drab 90 minutes.",
-    "cn": "替补队员从Ivor Pandur的长球中冲上Ryan Naderi的轻弹，然后在守门员身上举起一个令人愉快的球，在单调的90分钟后将Ibrox送到野外。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "light": {
-    "en": "The anxiety from the Light Blues legions, which has been prevalent in some games in Govan, resurfaced on Wednesday night as the home side struggled in the second half of the Scottish Premiership clash against St Mirren after missing a host of chances before the break.",
-    "cn": "在苏格兰联赛对阵圣米伦的比赛中，主队在中场休息前错过了很多机会，下半场比赛中表现不佳，在戈文的一些比赛中，蓝军军团的焦虑情绪再次浮现。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "line": {
-    "en": "Diabate's effort for the hosts is hooked off the line by Donovan.",
-    "cn": "Diabate为房东所做的努力被Donovan迷住了。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "likely": {
-    "en": "Christos Tzolis is likely to be one of those players Arteta is referencing.",
-    "cn": "Christos Tzolis很可能是Arteta提到的球员之一。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "like": {
-    "en": "And the hunter was someone important, Dąbrowski tells PAP, like a family clan leader.",
-    "cn": "Dąbrowski告诉PAP ，猎人是一个重要的人物，就像一个家族领袖。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "level": {
-    "en": "It's been jaw dropping the way they have adapted their game to this level of football.",
-    "cn": "他们让自己的比赛适应这种水平的足球的方式令人惊叹。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "least": {
-    "en": "He's the only player on the list who didn't complete at least one take-on per 90 minutes.",
-    "cn": "他是这份名单中唯一一个场均成功突破不到一次的球员。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "learned": {
-    "en": "Greengrass first learned about the Peasants’ Revolt as a schoolchild.",
-    "cn": "格林格拉斯从小就开始了解农民起义。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "leading": {
-    "en": "This account of the events leading up to and during the Norman conquest of 1066 was probably made in England in the 1070s – and its arrival at the British Museum, where it’s on display until 11 July 2027, marks probably the first time since that it’s crossed the Channel.",
-    "cn": "这本关于1066年诺曼征服之前和期间发生的事件的记载可能是在20世纪70年代的英国制作的，它被送到大英博物馆，在那里展出到2027年7月11日，这可能是它第一次横渡英吉利海峡。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "lead": {
-    "en": "It did for Barcola, who leads all players with 0.8 xG plus xA.",
-    "cn": "巴尔科拉做到了这一点，他的预期进球加助攻以 0.8 排名榜首。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "league": {
-    "en": "Arsenal conceded just 27 goals in 38 league games on their way to the title last season.",
-    "cn": "阿森纳上赛季以 38 场仅丢 27 球的防守赢得了联赛冠军。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "keen": {
-    "en": "The £85m midfielder was wanted by a list of clubs after impressing for West Ham last season, with Man Utd keen on a deal but ultimately unable to go head-to-head with Spurs on the fee.",
-    "cn": "这位身价8500万英镑的中场球员在上赛季对西汉姆联队表现出色后，曾被多家俱乐部看上，曼联希望与他达成交易，但最终无法在转会费上与热刺展开正面交锋。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "leave": {
-    "en": "Odegaard's goal, fired in following a quick one-two with substitute Christos Tzolis, finally broke the deadlock but Noni Madueke, another substitute, missed a one-on-one chance with Tzolis's follow-up blocked on the line, leaving Arsenal to suffer a late scare.",
-    "cn": "厄德高的目标是与替补球员克里斯托斯·佐利斯（Christos Tzolis）进行快速一对二的比赛，最终打破了僵局，但另一名替补球员诺尼·马杜埃克（Noni Madueke）错过了一对一的机会，佐利斯的后续行动被挡在了线上，使阿森纳遭受了晚些时候的恐慌。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "left": {
-    "en": "Most of the dominance disappeared as soon as the ball left the winger's foot.",
-    "cn": "球一旦离开边锋的脚下，那种统治力就消失了。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "letter": {
-    "en": "Christie fans will soon be able to lay eyes on rare letters like this one, as well as some of her notebooks, photos, other personal belongings and manuscript drafts.",
-    "cn": "克里斯蒂的粉丝很快就能看到像这封这样的罕见信件，以及她的一些笔记本、照片、其他私人物品和手稿草稿。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "let": {
-    "en": "We need to keep giving him the ball and letting things happen.\"",
-    "cn": "我们需要继续给他球，让事情发生。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "leg": {
-    "en": "\"The back three, when I watch them, it's almost like their legs aren't connected to their hips and the hips aren't connected to their bodies,\" he said on his Sky Sports podcast.",
-    "cn": "他在自己的天空体育播客中说：「看这三中卫比赛，几乎感觉他们的腿和髋关节、髋关节和躯干是断开的。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "length": {
-    "en": "As you walk the length of the Tapestry, look out for its most famous episodes: King Edward the Confessor ’s deathbed scene; Harold Godwinson ’s fateful oath to William; the appearance of Halley’s Comet as an omen; the mustering of Norman ships; and the climactic battle of Hastings, where Harold is slain.",
-    "cn": "当你走在挂毯上时，要注意它最著名的几集：忏悔者爱德华国王的临终场景；哈罗德·戈德温森对威廉的致命誓言；哈雷彗星的出现是一种预兆；诺曼船只的集结；以及黑斯廷斯战役的高潮哈罗德被杀",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "just": {
-    "en": "“At 5:53 a.m., just five minutes later, our municipal police were on the scene.”",
-    "cn": "“早上5点53分，仅仅5分钟后，我们市警察就到了现场。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "installation": {
-    "en": "More than 500,000 visitors worldwide have visited the installation.",
-    "cn": "全球已有超过50万名参观者参观了该装置。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "instead": {
-    "en": "Was it instead intended to be draped along the walls of a great hall?",
-    "cn": "它是打算挂在大厅的墙上吗？",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "interest": {
-    "en": "Nottingham Forest could revive their interest in Tottenham midfielder Lucas Bergvall in January.",
-    "cn": "诺丁汉森林可能会在一月份恢复他们对托特纳姆热刺中场球员卢卡斯·伯格瓦尔的兴趣。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "inspire": {
-    "en": "A Palmer penalty turned the game on its head suddenly after Pep Chavarria was caught by Dan James, but it was Rogers who inspired the comeback, making four of Chelsea's six goals.",
-    "cn": "佩普·查瓦里亚（Pep Chavarria）被丹·詹姆斯（Dan James）抓住后，帕尔默（Palmer）的点球突然扭转了局面，但正是罗杰斯（Rogers）激发了复出，在切尔西的六个进球中",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "insist": {
-    "en": "He insisted Xabi Alonso should focus on reinforcements at the back.",
-    "cn": "他坚称哈维·阿隆索应当把补强后防作为首要任务。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "inefficient": {
-    "en": "The problem, though, is that even the best crossers are incredibly inefficient.",
-    "cn": "问题是，即便是最顶级的传中高手，效率也低得惊人。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "injury": {
-    "en": "Odegaard, uninhibited by injuries, looks a different player.",
-    "cn": "厄德高不受伤病的束缚，看起来是不同的球员。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "international": {
-    "en": "Chelsea and Madrid are reportedly interested in the Spanish international, 27.",
-    "cn": "据报道，切尔西和马德里对这名27岁的西班牙国脚很感兴趣。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "january": {
-    "en": "There will be further releases into 2027 for dates between January and July 2027.",
-    "cn": "在2027年1月到7月之间还会有更多的电影上映。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "jaw": {
-    "en": "“My jaw hit the floor when I got the phone call” about the award, Matilda Brindle, an evolutionary biologist at the University of Oxford in England who worked on the research, tells Nature ’s Chris Simms.",
-    "cn": "英国牛津大学的进化生物学家玛蒂尔达·布林德尔（Matilda Brindle）告诉《自然》杂志的克里斯·西姆斯（Chris Simms），“当我接到关于该奖项的电话时，我的下巴掉在地板上”。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "job": {
-    "en": "Having finished 10th last season, 33 points behind the Gunners, Chelsea have done a remarkable job in the summer to put themselves back in the title mix.",
-    "cn": "上赛季只拿到第 10 名、落后阿森纳 33 分的切尔西，在今夏完成了一项了不起的工作，让自己重新回到争冠行列。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "join": {
-    "en": "Spurs may have failed to win any of their first three Premier League games this season, but summer signing Matheus Fernandes is convinced he has joined a squad set to start fighting for trophies.",
-    "cn": "热刺本赛季的前三场英超比赛可能一场都没赢，但是夏天签下的费尔南德斯相信他已经加入了一支为奖杯而战的球队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "jolly": {
-    "en": "This jolly discovery has a poignant undertone.",
-    "cn": "这一令人愉快的发现暗含着辛酸的意味。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "july": {
-    "en": "The Bayeux Tapestry exhibition opened at the Sainsbury Exhibitions Gallery at the British Museum on 10 September 2026 and will run until 11 July 2027.",
-    "cn": "贝叶挂毯展览于2026年9月10日在大英博物馆的塞恩斯伯里展览馆开幕，将持续到2027年7月11日。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "joy": {
-    "en": "The Azerbaijani side started brightly but Matheus Cunha converted Patrick Dorgu's 27th-minute cross and, although Joy-Lance Mickels should have levelled, two goals late in the first half from Bruno Fernandes and Benjamin Sesko put United in total control.",
-    "cn": "阿塞拜疆队开局不错，但库尼亚在第27分钟接应了多尔古的传中，尽管米克尔斯本可以扳平比分，但上半场后半段布鲁诺·费尔南德斯和本杰明·塞斯科的两粒进球让曼联完全控制了比分。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "its": {
-    "en": "David Musgrove and Michael Lewis reveal the 10 things you simply must do when experiencing the world’s most famous embroidery in all its glory",
-    "cn": "大卫·马斯格罗夫和迈克尔·刘易斯揭示了在体验世界上最著名的刺绣的荣耀时，你必须做的10件事",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "introduction": {
-    "en": "The Blues found themselves two goals behind when Brenden Aaronson struck after 47 minutes to add to Tarik Muharemovic's opener, and it appeared Xabi Alonso's first real cup test would end in disappointment - despite the half-time introduction of Cole Palmer, Morgan Rogers, Pedro Neto and Reece James.",
-    "cn": "布兰登·亚伦森（Brenden Aaronson）在47分钟后击中塔里克·穆哈雷莫维奇（Tarik Muharemovic）的揭幕战后，蓝军发现自己落后了两个进球，尽管科尔·帕尔默（Cole Palmer）、摩根·罗杰斯（Morgan Rogers）、佩德罗·内托（Pedro Neto）和里斯·詹姆斯（Reece James）中场休息，但似乎萨比·阿隆索",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "introduce": {
-    "en": "Palmer, Rogers, James and Neto are introduced for Estevao, Jamie Gittens, Malo Gusto and 16-year-old debutant Reggie Watson.",
-    "cn": "为Estevao、Jamie Gittens、Malo Gusto和16岁的Reggie Watson介绍Palmer、Rogers、James和Neto。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "into": {
-    "en": "Naderi flicks on a long ball into Miovski's path, who's then one-on-one with Chapman.",
-    "cn": "Naderi在Miovski的路径上弹了一个长球，然后与Chapman一对一。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "interview": {
-    "en": "Mauricio Pochettino speaks to Sky Sports News' Gail Davis in an exclusive interview; ex-Tottenham and Chelsea boss reveals hope of returning to Premier League in future; last month, the Argentine signed a new four-year deal to continue as the manager of the USA men's team",
-    "cn": "毛里西奥·波切蒂诺（Mauricio Pochettino）在接受天空体育新闻（Sky Sports News）的盖尔·戴维斯（Gail Davis）独家采访时表示；前托特纳姆热刺和切尔西主帅透露了未来重返英超联赛的希望；上个月，阿根廷人签署了一份新的四年合同，继续担任美国男子队的经理",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "intimate": {
-    "en": "At the British Museum, for the first time in decades – possibly in its history – the Tapestry is being displayed in a single length, lying flat, providing the most intimate perspective since it was first put on permanent public display in 1842.",
-    "cn": "在大英博物馆，这是几十年来——可能是它的历史上——第一次以单一的长度平放，提供了自1842年首次永久公开展出以来最亲密的视角。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "italian": {
-    "en": "The Italian's style of football also impressed Fernandes.",
-    "cn": "意大利人的足球风格也给费尔南德斯留下了深刻的印象。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "investigate": {
-    "en": "Since then, mathematicians have been investigating whether these equations work in all situations or whether they allow for a theoretical case in which a small part of the fluid moves infinitely quickly and the solution breaks down—or “blows up.”",
-    "cn": "从那时起，数学家们一直在研究这些方程是否适用于所有情况，或者它们是否允许一种理论情况，在这种情况下，一小部分流体无限快速地运动，溶液就会破裂或“爆炸”。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "good": {
-    "en": "“All good mystery novels end up with some kind of happy ending.",
-    "cn": "“所有优秀的推理小说都以某种大团圆结局告终。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "equation": {
-    "en": "Because of the longstanding interest in these equations, Navier-Stokes, officially called the Navier-Stokes existence and smoothness problem, is one of seven mathematical problems with a $1 million award offered for each solution—they’re known collectively as the Millennium Prize Problems.",
-    "cn": "由于长期以来对这些方程的兴趣，纳维-斯托克斯问题，正式名称为纳维-斯托克斯存在性和平滑性问题，是七个数学问题之一，每个解决方案都有100万美元的奖金——它们被统称为千年奖问题。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "especially": {
-    "en": "\"He can start to go by different heights in the team, especially in the attacking phase, and when we get him into those positions he's a really dangerous player.\"",
-    "cn": "“他可以开始在球队中达到不同的高度，特别是在进攻阶段，当我们让他进入这些位置时，他是一个非常危险的球员。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "europe": {
-    "en": "It is over 1000 days since United competed in a Champions League game but this, their 300th in Europe's premier club competition, was not too taxing for Carrick's men.",
-    "cn": "曼联已经1000多天没有参加欧冠比赛了，但这是他们在欧洲顶级俱乐部比赛中的第300场比赛，对卡里克的队员来说并不是太繁重。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "everyone": {
-    "en": "“Something everyone had heard of, but no one had actually seen.”",
-    "cn": "“每个人都听说过，但没有人真正见过。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "every": {
-    "en": "Anecdotally, he knew a record had been kept of every man that served in the First World War from Punjab, where his family were from.",
-    "cn": "有趣的是，他知道有一份记录保存着每一个在第一次世界大战中服役的人都来自旁遮普，他的家人来自那里。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "ever": {
-    "en": "If there was ever a goal to sum up a game, this was it.",
-    "cn": "如果有一个目标来总结一场比赛，那就是它。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "eventually": {
-    "en": "“If these eggshells belong to colossosaurians, the hatchlings had to have had plenty of nutritious food resources in that environment to start packing on the tonnes to eventually reach their colossal body sizes,” Zelenitsky tells CNN.",
-    "cn": "Zelenitsky告诉美国有线电视新闻网（CNN）：“如果这些蛋壳属于巨龙，那么幼崽必须在那种环境中拥有大量营养丰富的食物资源，才能开始积累大量食物，最终达到巨大的体型。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "event": {
-    "en": "Objects from the British Museum’s own collection and other significant loans from across the UK and Europe are displayed, offering fresh perspectives on the people and events depicted in the embroidery.",
-    "cn": "展品包括大英博物馆自己收藏的物品，以及从英国和欧洲各地借来的其他重要物品，为刺绣中描绘的人物和事件提供了新的视角。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "even": {
-    "en": "In fact, among the seven players who went for over €60 million, four of them -- Sávio, Ndiaye, Kudus, and Elanga -- didn't even get to 0.4 xG plus xA.",
-    "cn": "事实上，在转会费超过 6000 万欧元的 7 名球员中，有 4 人——萨维奥、恩迪亚耶、库杜斯和埃兰加——甚至没能达到 0.4 的预期进球加助攻。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "european": {
-    "en": "They've got City next week and European games starting in midweek.\"",
-    "cn": "他们下周有曼城，欧洲比赛将在周中开始。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "everything": {
-    "en": "David Musgrove reveals everything you need to know about the British Museum’s landmark Bayeux Tapestry exhibition, including details of tickets, how the embroidery is being displayed, and the key scenes you should look out for",
-    "cn": "大卫·马斯格罗夫向你揭示了大英博物馆标志性的贝叶挂毯展览的一切，包括门票的细节，刺绣是如何展示的，以及你应该注意的关键场景",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "environment": {
-    "en": "Still, they found a way to “not only reproduce or nest in the lower latitude environments but also in these higher-latitude environments, which are usually more challenging.\"",
-    "cn": "尽管如此，他们还是找到了一种方法，“不仅可以在低纬度环境中繁殖或筑巢，还可以在这些通常更具挑战性的高纬度环境中繁殖或筑巢。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "end": {
-    "en": "So many dominant games from wingers ended up being exercises in frustration.",
-    "cn": "所以很多边锋即便统治了比赛，最终也只能无功而返。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "ending": {
-    "en": "The ending is abrupt and many people have pondered on whether the tapestry was not actually finished, or has lost its final frames at some point over the centuries.",
-    "cn": "结局很突然，许多人都在想，这幅挂毯到底是没有完成，还是几个世纪以来的某个时候失去了最后的画框。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "energy": {
-    "en": "\"You can feel when you speak with him, the energy, the passion about football.",
-    "cn": "“当你和他交谈时，你能感受到他对足球的能量和激情。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "england": {
-    "en": "Harold then goes back to England and has another meeting with Edward the Confessor.",
-    "cn": "哈罗德随后回到英格兰，与忏悔者爱德华再次会面。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "enthusiastic": {
-    "en": "Having had a few weeks to reset away from the spotlight, there were enthusiastic hugs all round for the Sky Sports News team as we all swapped summer stories.",
-    "cn": "在离开聚光灯几周后，天空体育新闻团队充满了热情的拥抱，因为我们都交换了夏天的故事。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "enough": {
-    "en": "This has gone on for long enough that it's not just some random quirk.",
-    "cn": "这种情况已经持续了足够长的时间，绝不只是偶然。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "expect": {
-    "en": "An expected goals total of 4.05 showed they should have got far more for their efforts.",
-    "cn": "预期目标总数为4.05 ，这表明他们的努力应该得到更多。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "expensive": {
-    "en": "He isn't the only expensive winger who dribbles past defenders for fun, blows up YouTube, and fails to turn it into goals, though.",
-    "cn": "但他不是唯一一个身价昂贵、过人如麻、却在 YouTube 上爆红却无法将机会转化为进球的边锋。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "experience": {
-    "en": "\"If you look at the squad, it's a big team with big players, important players, players with experience, players with a lot of quality.",
-    "cn": "“如果你看看这支球队，你会发现这是一支拥有大牌球员、重要球员、有经验的球员、有实力的球员的强队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "explain": {
-    "en": "“Their eggshells were very porous, which means if the eggs were left out in the open, they would lose water, dry out, and the embryos would die,” Zelenitsky explains to CNN.",
-    "cn": "Zelenitsky向美国有线电视新闻网解释说：“它们的蛋壳非常多孔，这意味着如果卵子被放在外面，它们会失去水分，变干，胚胎就会死亡。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "explore": {
-    "en": "Rachel Dinning rounds up essential reading from the HistoryExtra archive that explores Elizabeth's early life, rise to power, and the legacy that made her one of England’s most iconic monarchs.",
-    "cn": "雷切尔·丁宁从HistoryExtra的档案中收集了一些重要的读物，这些读物探索了伊丽莎白的早期生活，掌权的过程，以及使她成为英格兰最具代表性的君主之一的遗产。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "extra": {
-    "en": "Glasner is unbeaten in seven meeting with Emery, winning five and what gives this angle extra robustness is across the last five league meetings Glasner's team are creating 2.47 expected goals per 90.",
-    "cn": "格拉斯纳在与埃默里的七次交锋中保持不败，赢了五场，在过去的五次联赛中，格拉斯纳的球队每90分钟创造2.47个预期进球，这让这个角度更加坚固。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "express": {
-    "en": "The novelist was describing an eventful trip on the luxurious Orient Express, the 20th-century passenger train that ran between Paris and Istanbul.",
-    "cn": "这位小说家正在描述乘坐豪华的东方快车（Orient Express）的一次多事之旅，这列火车是20世纪在巴黎和伊斯坦布尔之间行驶的客运列车。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "exist": {
-    "en": "His now-City teammate Jérémy Doku exists in his own ball-carrying world, but Ndiaye ranked second behind him in completed take-ons last season, per the stats app Futi.",
-    "cn": "他如今的曼城队友多库在持球推进方面独成一档，而根据数据应用 Futi 的统计，恩迪亚耶上赛季成功突破数仅次于多库。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "exhibition": {
-    "en": "She had many identities and passions, which the exhibition aims to illuminate.",
-    "cn": "她有许多身份和激情，这次展览旨在阐明这些。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "execute": {
-    "en": "While on death row, he became a prolific painter and made more than $30,000 selling his canvases, which often featured clowns and skulls, the Los Angeles Times ’ Stephen Braun reported in 1994, the year Gacy was executed.",
-    "cn": "《洛杉矶时报》的斯蒂芬·布劳恩（Stephen Braun）在1994年报道说，在死囚区，他成为一名多产的画家，卖掉画布赚了3万多$ ，画布上经常有小丑和头骨。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "eye": {
-    "en": "Michael Carrick made changes in the second half with the points secure but there was still time for Lisandro Martinez to smash home from close range after some flashy play from Joshua Zirkzee, who produced an eye-catching cameo.",
-    "cn": "迈克尔·卡里克在下半场做出了一些改变，确保了积分，但在约书亚·齐克切的精彩发挥后，马丁内斯仍然有时间近距离破门，齐克切也有一个引人注目的客串。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "draw": {
-    "en": "Prophetic words from Gary Neville in the wake of Manchester United's 2-2 draw with Everton.",
-    "cn": "加里·内维尔（Gary Neville）在曼联2-2战平埃弗顿之后的预言。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "drop": {
-    "en": "Halfway through, they have dropped more points than they have gained.",
-    "cn": "中途，他们的得分比他们获得的要多。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "during": {
-    "en": "The part that Amandeep and the University of Greenwich team of researchers were looking at was the subset of the register of those who died during the war.",
-    "cn": "阿曼迪普和格林尼治大学的研究小组所关注的部分是战争期间死亡人员登记册的一部分。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "dramatic": {
-    "en": "Bojan Miovski's cute dink in stoppage time sealed a dramatic 1-0 victory for Rangers over St Mirren and extended their winning run to four games in the Scottish Premiership.",
-    "cn": "博扬·米奥夫斯基（Bojan Miovski）在停赛时间的可爱表演使流浪者队以1比0击败圣米伦队，并将他们在苏格兰超级联赛中的胜利延长至四场比赛。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "district": {
-    "en": "One of the first full registers Amandeep asked for was for Ambala, his family’s district.",
-    "cn": "阿曼迪普要求的第一批完整的选民之一是他家所在的安巴拉区。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "document": {
-    "en": "The Bayeux Tapestry is one of the most famous and recognisable historic documents in the world, telling the story of the Norman Conquest of England in 1066, with a focus on the battle of Hastings and the showdown between William of Normandy and King Harold II.",
-    "cn": "贝叶挂毯是世界上最著名和最知名的历史文献之一，讲述了1066年诺曼征服英格兰的故事，重点讲述了黑斯廷斯战役以及诺曼底的威廉和国王哈罗德二世之间的对决。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "dozen": {
-    "en": "Displays spotlight personal belongings, investigative evidence, authentic artworks and other “murderabilia” that offer an uncanny peek into the lives of roughly 150 killers from dozens of countries who devised and committed unthinkable crimes.",
-    "cn": "展示聚光灯下的个人物品、调查证据、真实的艺术品和其他“谋杀品”，让人们惊奇地窥见来自数十个国家的大约150名凶手的生活，这些凶手策划并犯下了不可思议的罪行。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "down": {
-    "en": "For 30 years, Conti kept three paintings Gacy had given her face down in a closet.",
-    "cn": "30年来，孔蒂一直把盖西给她的三幅画放在壁橱里。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "double": {
-    "en": "With a Europa League tie and an Old Firm cup and league double coming up, Martin O'Neill made five changes as Kasper Hogh returned from injury and Sam Johnstone took over in goal.",
-    "cn": "随着欧罗巴联赛平局和老公司杯和联赛双打的到来，马丁·奥尼尔（Martin O'Neill）做出了五项改变，卡斯珀·霍格（Kasper Hogh）因伤复出，萨姆·约翰斯通（Sam Johnstone）接",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "each": {
-    "en": "As they battled for titles each year under Jurgen Klopp and Pep Guardiola, Liverpool and Manchester City's rosters were filled with wide players who created lots of goals and won lots of games.",
-    "cn": "在克洛普和瓜迪奥拉的带领下，利物浦和曼城年年争冠，他们的阵容里都是能创造大量进球、能赢下比赛的边路球员。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "easily": {
-    "en": "St Mirren could easily have taken all three points, having created the clearest chance of the game when Fraser Taylor was sent through one-on-one with Pandur.",
-    "cn": "当弗雷泽·泰勒（Fraser Taylor）与潘杜尔（Pandur）进行一对一的比赛时，圣米伦（St Mirren）本可以轻松拿下这三分，创造了比赛中最明显的机会",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "eighth": {
-    "en": "However, they rank eighth in midfield and 10th in defence.",
-    "cn": "然而，他们在中场排名第八，在防守方面排名第十。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "egg": {
-    "en": "The researchers still don’t know what species of titanosaur the eggs belonged to, but teeth also found at the site belonged to colossosaurian titanosaurs.",
-    "cn": "研究人员仍然不知道这些卵属于哪种泰坦龙，但在现场发现的牙齿也属于巨型泰坦龙。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "effort": {
-    "en": "An expected goals total of 4.05 showed they should have got far more for their efforts.",
-    "cn": "预期目标总数为4.05 ，这表明他们的努力应该得到更多。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "editor": {
-    "en": "Rachel Dinning is digital editor (engagement and video) at HistoryExtra",
-    "cn": "雷切尔·丁宁是HistoryExtra的数字编辑（参与和视频）",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "edge": {
-    "en": "He first gets down to a Gassama strike from the edge of the area.",
-    "cn": "他首先从该地区的边缘开始加萨马罢工。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "link": {
-    "en": "A harrowing curation of artifacts linked to the world’s most notorious serial killers—including the “Killer Clown” John Wayne Gacy and H.H.",
-    "cn": "一系列与世界上最臭名昭著的连环杀手有关的文物，包括“杀手小丑”约翰·韦恩·盖西（John Wayne Gacy）和H.H.",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "fact": {
-    "en": "In fact, among the seven players who went for over €60 million, four of them -- Sávio, Ndiaye, Kudus, and Elanga -- didn't even get to 0.4 xG plus xA.",
-    "cn": "事实上，在转会费超过 6000 万欧元的 7 名球员中，有 4 人——萨维奥、恩迪亚耶、库杜斯和埃兰加——甚至没能达到 0.4 的预期进球加助攻。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "fresh": {
-    "en": "Objects from the British Museum’s own collection and other significant loans from across the UK and Europe are displayed, offering fresh perspectives on the people and events depicted in the embroidery.",
-    "cn": "展品包括大英博物馆自己收藏的物品，以及从英国和欧洲各地借来的其他重要物品，为刺绣中描绘的人物和事件提供了新的视角。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "friday": {
-    "en": "And in the weekend in between, Sky Sports will be showing Leeds vs Everton on Friday Night Football on New Year's Day, then Bournemouth vs Aston Villa on January 3 for Saturday Night Football at 5.30pm.",
-    "cn": "在这期间的周末，天空体育将在新年当天播放利兹对埃弗顿的周五晚间足球比赛，然后在1月3日下午5:30播放伯恩茅斯对阿斯顿维拉的周六晚间足球比赛。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "from": {
-    "en": "Former Rangers midfielder McInnes, looking forward to his first Old Firm game as boss, is hoping for positivity from the Gers supporters.",
-    "cn": "前流浪者队中场麦金尼斯期待着他作为主教练的第一场老东家比赛，他希望从热刺的支持者那里得到积极的态度。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "function": {
-    "en": "Getting Evens through the BuildABet function for under 1.5 first-half goals paired with under 3.5 total goals looks a shrewd play based on Hull's ability to make games so difficult no matter who the opponent are.",
-    "cn": "通过BuildABet功能，上半场进球数在1.5个以下，总进球数在3.5个以下，这看起来是一种精明的发挥，因为赫尔城无论对手是谁，都能让比赛变得如此困难。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "full": {
-    "en": "But the Gunners were full value for their win -- even if they needed David Raya to pull off a fine save from substitute Estevão at the death to hold on.",
-    "cn": "但阿森纳的胜利实至名归——尽管他们需要替补出场的埃斯特旺最后一刻的射门被拉亚神扑化解，才能保住胜利。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "freedom": {
-    "en": "Arteta put Odegaard's freedom to advance into more threatening positions down to the skills of his team-mates in open play, which the Arsenal head coach suggested had been missing previously.",
-    "cn": "Arteta将Odegaard晋级到更具威胁性的位置的自由归功于他的队友在公开比赛中的技能，阿森纳主教练认为以前缺少这些技能。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "front": {
-    "en": "\"We've got our part to play in that and I felt that if we can capitalise on good play and good opportunities, which we didn't do last night and we didn't do against Motherwell (also won 1-0) obviously, if we can get ourselves in front, give the crowd something to get behind, then I think the strength of our club can be shown.",
-    "cn": "“我们已经做好了自己的工作，我觉得如果我们能利用好比赛和机会，这是我们昨晚没有做到的，我们在对阵马瑟韦尔的比赛中也没有做到（我们也以1比0获胜），如果我们能领先，给观众一些支持，那么我认为我们俱乐部的实力可以展示出来。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "free": {
-    "en": "Children under 16 go free if accompanied by paying adults.",
-    "cn": "16岁以下的儿童在付费成人陪同下免费。",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "france": {
-    "en": "The upshot of that conversation is that Harold sets off on a ship to France.",
-    "cn": "谈话的结果是哈罗德乘船去了法国。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "forest": {
-    "en": "That match is then followed by Manchester United vs Nottingham Forest at 4.30pm, then Crystal Palace vs Arsenal at 7pm.",
-    "cn": "这场比赛之后是下午4:30的曼联对阵诺丁汉森林，然后是晚上7点的水晶宫对阵阿森纳。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "form": {
-    "en": "Martin Odegaard is a player transformed at the start of this season - and Arsenal boss Mikel Arteta puts his captain's impressive form down to fitness and new positioning.",
-    "cn": "马丁·厄德高（Martin Odegaard）是本赛季开始时转型的球员，主帅米克尔·阿尔特塔将队长的出色表现归功于健身和新定位。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "formation": {
-    "en": "The 255 egg fragments at the center of the discovery were uncovered in 2020 and 2024 in the Chorrillo Formation, a rock formation on the southern tip of Argentina.",
-    "cn": "发现中心的255个鸡蛋碎片于2020年和2024年在阿根廷南端的一个岩层Chorrillo地层中被发现。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "former": {
-    "en": "The former Manchester United striker, 30, most recently played in Mexico for Monterrey.",
-    "cn": "这位30岁的前曼联前锋最近在墨西哥的蒙特雷队踢球。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "fox": {
-    "en": "“These are all original,” exhibition consultant John Borowski, a filmmaker and an author who specializes in serial killer histories, tells Fox 32 Chicago ’s Leslie Moreno.",
-    "cn": "“这些都是原创的，”电影制片人兼作家约翰·博罗夫斯基（John Borowski）告诉福克斯32芝加哥的莱斯利·莫雷诺（Leslie Moreno）。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "fourth": {
-    "en": "The goal, Odegaard's fourth in five games this season, ensured a winning start for last season's runners-up in this competition but wasteful finishing made it harder than it should have been.",
-    "cn": "这个进球是厄德高本赛季五场比赛中的第四个进球，确保了上赛季亚军在这场比赛中的胜利开局，但浪费的成绩使比赛变得更加艰难。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "found": {
-    "en": "Renoir, born in France in 1841, was one of Impressionism’s founding artists.",
-    "cn": "雷诺阿1841年出生于法国，是印象派的奠基人之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "forward": {
-    "en": "They rank highest with their depth in forward areas.",
-    "cn": "它们在前方区域的深度排名最高。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "four": {
-    "en": "\"Four wins out of four; I think it's six out of seven.",
-    "cn": "“四场四胜；我认为是七场六胜。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "get": {
-    "en": "But they have to get better in defence to push Arsenal all the way.",
-    "cn": "但他们必须在防守端有所提升，才能真正威胁到阿森纳。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "giant": {
-    "en": "I look at the sort of best back three probably that I ever saw which was the Juventus and Italy back three with Andrea Barzagli, Leonardo Bonucci and Giorgio Chiellini -- three real giants.",
-    "cn": "我想到我见过的最佳三中卫组合——尤文图斯和意大利队的巴尔扎利、博努奇和基耶利尼——三个真正的高塔。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "give": {
-    "en": "At the very least, when you're a Premier League team and you see a winger breaking that threshold, you should give the player a deeper look.",
-    "cn": "至少，作为一支英超球队，当你看到一名边锋达到这一门槛时，应该认真考察这名球员。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "goal": {
-    "en": "Bournemouth transfers, latest news, rumours and gossip: Live updates, goals and highlights",
-    "cn": "伯恩茅斯转会，最新消息，谣言和八卦：实时更新，进球和亮点",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "glory": {
-    "en": "David Musgrove and Michael Lewis reveal the 10 things you simply must do when experiencing the world’s most famous embroidery in all its glory",
-    "cn": "大卫·马斯格罗夫和迈克尔·刘易斯揭示了在体验世界上最著名的刺绣的荣耀时，你必须做的10件事",
-    "src": "HistoryExtra · 2026-09-10"
-  },
-  "game": {
-    "en": "When the 2026/27 Premier League fixture list came out, United were deemed to have had the statistically easiest opening six games.",
-    "cn": "当2026/27赛季英超联赛名单公布时，曼联被认为是统计上最容易开启六场比赛的球队。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "future": {
-    "en": "Mauricio Pochettino speaks to Sky Sports News' Gail Davis in an exclusive interview; ex-Tottenham and Chelsea boss reveals hope of returning to Premier League in future; last month, the Argentine signed a new four-year deal to continue as the manager of the USA men's team",
-    "cn": "毛里西奥·波切蒂诺（Mauricio Pochettino）在接受天空体育新闻（Sky Sports News）的盖尔·戴维斯（Gail Davis）独家采访时表示；前托特纳姆热刺和切尔西主帅透露了未来重返英超联赛的希望；上个月，阿根廷人签署了一份新的四年合同，继续担任美国男子队的经理",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "further": {
-    "en": "Liverpool have plans to sign another midfielder next summer, which would push Argentina international Alexis Mac Allister further down the pecking order at Anfield.",
-    "cn": "利物浦计划明年夏天签下另一名中场球员，这将使阿根廷国脚亚历克西斯·麦克·阿利斯特在安菲尔德的排名进一步下降。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "gain": {
-    "en": "Halfway through, they have dropped more points than they have gained.",
-    "cn": "中途，他们的得分比他们获得的要多。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "father": {
-    "en": "When the museum sent a printout, he located his father’s village.",
-    "cn": "当博物馆寄来打印件时，他找到了父亲的村庄。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "feast": {
-    "en": "They are shown pillaging, feasting and fortifying their position.",
-    "cn": "他们掠夺，盛宴和巩固他们的地位。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "fee": {
-    "en": "But then Madueke's fee ranks 10th and Outtara's 17th.",
-    "cn": "但马杜埃凯的转会费只能排在第 10，奥塔拉甚至只排第 17。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "few": {
-    "en": "Having had a few weeks to reset away from the spotlight, there were enthusiastic hugs all round for the Sky Sports News team as we all swapped summer stories.",
-    "cn": "在离开聚光灯几周后，天空体育新闻团队充满了热情的拥抱，因为我们都交换了夏天的故事。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "fetch": {
-    "en": "“This year’s award winners took seemingly far-fetched ideas and turned them into legitimate research projects,” Carly Anne York, an animal behaviorist and physiologist at Lenoir-Rhyne University, tells CNN ’s Jack Guy.",
-    "cn": "Lenoir-Rhyne大学的动物行为学家和生理学家卡莉·安妮·约克（Carly Anne York）告诉美国有线电视新闻网（CNN）的杰克·盖伊（Jack Guy）：“今年的获奖者把看似牵强附会的想法变成了合法的研究项目。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "fellow": {
-    "en": "Greengrass follows the Ploughman and his fellow insurgents as they make their way to London for a climactic face-to-face meeting with the young monarch.",
-    "cn": "Greengrass跟随Ploughman和他的叛乱分子同伴前往伦敦，与年轻的君主面对面会面。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "feel": {
-    "en": "He just needs to get a back three that feels solid.",
-    "cn": "他只是需要找到一套让人放心的三中卫组合。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "feedback": {
-    "en": "Sayers ’ feedback on some of Christie’s work, will also be on display.",
-    "cn": "塞耶斯对佳士得部分作品的反馈也将展出。",
-    "src": "Smithsonian Magazine · 2026-09-10"
-  },
-  "fast": {
-    "en": "Martin Odegaard scored his fourth goal in five games this season with the winner in Arsenal's 1-0 Champions League victory at Napoli on Wednesday; Gunners captain only scored once in 2025/26 but higher position and fitness have facilitated fast start to the new campaign",
-    "cn": "马丁·厄德高（Martin Odegaard）本赛季五场比赛中的第四个进球，赢得了阿森纳周三在那不勒斯1-0冠军联赛的胜利；枪手队长在2025/26赛季只进了一球，但更高的位置和体能有助于快速开始新赛季",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "fail": {
-    "en": "Spurs may have failed to win any of their first three Premier League games this season, but summer signing Matheus Fernandes is convinced he has joined a squad set to start fighting for trophies.",
-    "cn": "热刺本赛季的前三场英超比赛可能一场都没赢，但是夏天签下的费尔南德斯相信他已经加入了一支为奖杯而战的球队。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "fan": {
-    "en": "Only Rangers fans are allowed in the 50,000-capacity Ibrox for the League Cup quarter-final against Celtic at the order of the authorities amid a ticket allocation spat between the two Glasgow giants.",
-    "cn": "联赛杯1 / 4决赛对阵凯尔特人的比赛中，只有流浪者队的球迷才可以进入可容纳5万人的伊布罗克斯球场观看比赛。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "famous": {
-    "en": "The Bayeux Tapestry tells one of the most famous stories in British history – that of the Norman Conquest of England in 1066, particularly the battle of Hastings, which took place on 14 October 1066.",
-    "cn": "贝叶挂毯讲述了英国历史上最著名的故事之一——1066年诺曼人征服英格兰的故事，尤其是1066年10月14日发生的黑斯廷斯战役。",
-    "src": "HistoryExtra · 2026-09-09"
-  },
-  "far": {
-    "en": "That is demonstrated by Odegaard's touches in the opposition box going up from 2.5 per 90 minutes last season to 4.3 per 90 minutes so far this term.",
-    "cn": "Odegaard在反对派禁区中的触动从上赛季的每90分钟2.5次上升到本赛季到目前为止的每90分钟4.3次，就证明了这一点。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "football": {
-    "en": "And in the weekend in between, Sky Sports will be showing Leeds vs Everton on Friday Night Football on New Year's Day, then Bournemouth vs Aston Villa on January 3 for Saturday Night Football at 5.30pm.",
-    "cn": "在这期间的周末，天空体育将在新年当天播放利兹对埃弗顿的周五晚间足球比赛，然后在1月3日下午5:30播放伯恩茅斯对阿斯顿维拉的周六晚间足球比赛。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "food": {
-    "en": "“If these eggshells belong to colossosaurians, the hatchlings had to have had plenty of nutritious food resources in that environment to start packing on the tonnes to eventually reach their colossal body sizes,” Zelenitsky tells CNN.",
-    "cn": "Zelenitsky告诉美国有线电视新闻网（CNN）：“如果这些蛋壳属于巨龙，那么幼崽必须在那种环境中拥有大量营养丰富的食物资源，才能开始积累大量食物，最终达到巨大的体型。",
-    "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "follow": {
-    "en": "That match is then followed by Manchester United vs Nottingham Forest at 4.30pm, then Crystal Palace vs Arsenal at 7pm.",
-    "cn": "这场比赛之后是下午4:30的曼联对阵诺丁汉森林，然后是晚上7点的水晶宫对阵阿森纳。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "focus": {
-    "en": "He insisted Xabi Alonso should focus on reinforcements at the back.",
-    "cn": "他坚称哈维·阿隆索应当把补强后防作为首要任务。",
-    "src": "ESPN · Mark White · 2026-09-07"
-  },
-  "finally": {
-    "en": "An incredible second-half comeback including six goals in 41 minutes saw Chelsea finally blow away Leeds 6-3 in one of the all-time Carabao Cup classics at Stamford Bridge.",
-    "cn": "令人难以置信的下半场复出，包括在41分钟内的6个进球，切尔西终于在斯坦福桥的历史卡拉宝杯经典之一中以6比3击败了利兹队。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "final": {
-    "en": "Rangers host Celtic at Ibrox in Sunday's League Cup quarter-final in manager Derek McInnes' first Old Firm as manager; there will be no away fans after SPFL ruling; Celtic have won all six league games heading into clash while Rangers have four consecutive Premiership wins after poor start",
-    "cn": "周日联赛杯四分之一决赛，流浪者队将在伊布罗克斯主场迎战凯尔特人队，这是德里克·麦金尼斯执教的第一个老东家；苏格兰足球联盟裁决后将不会有客场球迷；凯尔特人已经赢得了联赛前的六场比赛，而流浪者则在开局不佳的情况下取得了联赛的四连胜",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "figure": {
-    "en": "And Liverpool shipped 41 when winning the league 12 months earlier -- the highest figure since Manchester United were last crowned champions in 2013 after giving up 43.",
-    "cn": "而利物浦在前一个赛季夺冠时丢了 41 球——那是自 2013 年曼联以 43 球夺冠以来冠军球队的最高丢球数。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "fight": {
-    "en": "Tottenham searching for first goal and first win of the Premier League season but £85m Matheus Fernandes says the squad with \"a lot of quality\" is aiming to fight for trophies; watch Tottenham vs Everton live on Sky from 5pm on Saturday; kick-off 5.30pm",
-    "cn": "托特纳姆热刺正在寻找英超赛季的首球和首胜，但身价8500万英镑的马修斯·费尔南德斯表示，这支“实力很强”的球队的目标是为奖杯而战；从周六下午5点开始在天空电视台观看热刺对埃弗顿的直播；开球5.30点",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "fill": {
-    "en": "As they battled for titles each year under Jurgen Klopp and Pep Guardiola, Liverpool and Manchester City's rosters were filled with wide players who created lots of goals and won lots of games.",
-    "cn": "在克洛普和瓜迪奥拉的带领下，利物浦和曼城年年争冠，他们的阵容里都是能创造大量进球、能赢下比赛的边路球员。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "fine": {
-    "en": "With goal difference a potentially significant factor in the league phase of this Champions League format, this was a fine night's work on their return.",
-    "cn": "在欧冠赛制的联赛阶段，净胜球是一个潜在的重要因素，这对他们的回归来说是一个美好的夜晚。",
-    "src": "Sky Sports · 2026-09-08"
-  },
-  "five": {
-    "en": "O'Neill's men are now five points clear of second-placed Rangers, who they also face in their next Premiership match a week on Sunday, live on Sky Sports.",
-    "cn": "奥尼尔的球员现在比排名第二的流浪者队落后5分，他们也在周日的下一场英超比赛中面对天空体育。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "first": {
-    "en": "The Egypt international was later denied his first goal with the ball ruled out of play before Hogh sent it back in for him to score.",
-    "cn": "这位埃及国脚后来被拒绝了他的第一个进球，球被排除在外，然后霍格将球送回给他进球。",
-    "src": "Sky Sports · 2026-09-09"
-  },
-  "fire": {
-    "en": "Up against Adam Scott, who draws over two fouls per game, and Justin Kluivert who was fouled three times at Newcastle, he's going to be in the firing line for fouls.",
-    "cn": "面对场均犯规超过两次的亚当·斯科特和在纽卡斯尔被犯规三次的贾斯汀·克鲁伊维特，他将在犯规的火线上。",
-    "src": "Sky Sports · 2026-09-10"
-  },
-  "finish": {
-    "en": "But showing his team-mates how to finish was only one part of his performance.",
-    "cn": "但向队友展示如何完成比赛只是他表现的一部分。",
-    "src": "Sky Sports · 2026-09-09"
-  }
+"puff": {"en":"George puffed and panted and he tried to keep up.","cn":"乔治喘着粗气想跟上。","src":"六级词库"},
+"pull": {"en":"Mom! Davey’s pulling my hair!","cn":"妈妈! 戴维拽我的头发！","src":"四级词库"},
+"pulse": {"en":"She felt the blood pulsing through her veins .","cn":"她觉得血液冲击着自己的血管。","src":"四级词库"},
+"pump": {"en":"We were able to pump clean water from several of the wells.","cn":"我们能从几口井里抽出干净的水来。","src":"高中词库"},
+"punch": {"en":"He punched me and knocked my teeth out.","cn":"他朝我一拳，打落了我的牙齿。","src":"四级词库"},
+"punctual": {"en":"She’s always very punctual for appointments.","cn":"她一向准时赴约。","src":"四级词库"},
+"punish": {"en":"He promised to punish severely any officials found guilty of electoral fraud.","cn":"他承诺要严惩任何在选举中有欺诈行为的官员。","src":"四级词库"},
+"pupil": {"en":"About 20 pupils study music here.","cn":"大约20名小学生在这里学习音乐。","src":"四级词库"},
+"puppet": {"en":"When the invasion occurred he seized power and ruled the country as a puppet of the occupiers.","cn":"他趁入侵之时夺取了政权，作为占领者的傀儡统治着这个国家。","src":"考研词库"},
+"purchase": {"en":"You can purchase insurance online.","cn":"你可以在网上买保险。","src":"四级词库"},
+"pure": {"en":"Our beef patties are 100% pure .","cn":"我们的牛肉饼是100%的纯牛肉。","src":"四级词库"},
+"purely": {"en":"The building was closed purely on the grounds of safety.","cn":"那座大楼被关闭完全是出于安全考虑。","src":"托福词库"},
+"quart": {"en":"The quarrelsome general quarreled about a quarter quart of oil in the headquarters.","cn":"好争持的将军正在司令部为四分之一夸脱油而争持。","src":"六级词库"},
+"quarrel": {"en":"I had a terrible quarrel with my other brothers.","cn":"我和其他几个兄弟大吵了一架。","src":"四级词库"},
+"quantity": {"en":"Your work has improved in quantity and quality this term.","cn":"这学期你的作业在完成数量和质量上都有提高。","src":"四级词库"},
+"quality": {"en":"Much of the land was of poor quality.","cn":"很多地的土质很差。","src":"四级词库"},
+"qualify": {"en":"Free school lunches are given to children who qualify.","cn":"符合条件的儿童可获得免费的学生午餐。","src":"四级词库"},
+"puzzle": {"en":"What puzzles me is why his books are so popular.","cn":"令我不解的是，他的书为什么如此受欢迎。","src":"四级词库"},
+"publish": {"en":"They are publishing the dictionary on CD-ROM.","cn":"那部词典他们将以光盘版的形式推出。","src":"四级词库"},
+"put": {"en":"Where did you put the programmes?","cn":"你把节目单放在哪里了？","src":"四级词库"},
+"pursuit": {"en":"In Silicon Valley, devotees have gathered at peptide parties to drink, dance and inject themselves with these chemicals—all in pursuit of sharper minds and more sculpted bodies.","cn":"在硅谷，奉献者聚集在多肽派对上喝酒、跳舞和注射这些化学物质--所有这些都是为了追求更敏锐的头脑和更精致的身体。","src":"Smithsonian Magazine · 2026-09-09"},
+"pursue": {"en":"Students should pursue their own interests , as well as do their school work.","cn":"除了完成课业之外，学生也应该追求自己的兴趣。","src":"四级词库"},
+"purse": {"en":"Julie opened her handbag and took out her purse.","cn":"朱莉打开手袋，拿出钱包。","src":"四级词库"},
+"purpose": {"en":"Nick had no particular purpose in mind when he started.","cn":"尼克开始的时候头脑中并没有明确的目标。","src":"四级词库"},
+"purple": {"en":"His face turned purple with rage.","cn":"他气得脸色发紫。","src":"四级词库"},
+"purity": {"en":"There’s little to no research proving these molecules are safe or effective and no assurance from the FDA about their identity, purity or strength.","cn":"几乎没有研究证明这些分子是安全或有效的，FDA也不能保证它们的特性、纯度或强度。","src":"Smithsonian Magazine · 2026-09-09"},
+"push": {"en":"I promised to push him on the swings for as long as he wanted.","cn":"我答应他想在秋千上荡多久我就推多久。","src":"四级词库"},
+"quarter": {"en":"It’s about a page and a quarter.","cn":"大概是一又四分之一页。","src":"四级词库"},
+"publication": {"en":"The guide is being translated into several languages for publication near Christmas.","cn":"这本指南正被翻译成好几种语言，准备在圣诞节前后出版。","src":"四级词库"},
+"psychological": {"en":"Sleep disorders are a serious psychological problem .","cn":"睡眠障碍是严重的心理疾病。","src":"四级词库"},
+"project": {"en":"The company projected an annual growth rate of 3%.","cn":"该公司预计每年的增长率为3%。","src":"四级词库"},
+"prominent": {"en":"The World Cup will have a prominent place on the agenda.","cn":"世界杯赛将占据议程表的重要位置。","src":"四级词库"},
+"promise": {"en":"If you make a promise, you should keep it.","cn":"如果你许下一个诺言，你就应该遵守它。","src":"四级词库"},
+"promising": {"en":"He is a promising student.","cn":"他是一位有前途的学生。","src":"Tatoeba 语料"},
+"promote": {"en":"You don't have to sacrifice environmental protection to promote economic growth.","cn":"你们没有必要牺牲环保来促进经济增长。","src":"四级词库"},
+"prompt": {"en":"Prompt action must be taken.","cn":"必须立即采取行动。","src":"四级词库"},
+"pronoun": {"en":"Now if we could only figure out the pronoun problem.","cn":"现在我们可以解决这个代词问题了。","src":"四级词库"},
+"pronounce": {"en":"How do you pronounce your name?","cn":"你的名字怎么念？","src":"四级词库"},
+"pronunciation": {"en":"She gave the word its French pronunciation.","cn":"她给出了这个单词的法语发音。","src":"四级词库"},
+"proof": {"en":"Their defences are proof against most weapons.","cn":"他们的防卫工事可以抵挡大多数武器的攻击。","src":"四级词库"},
+"proper": {"en":"The proper name for Matthew’s condition is hyperkinetic syndrome.","cn":"马修的病的恰当名称是多动症。","src":"四级词库"},
+"properly": {"en":"Parents should teach their children to behave properly in public.","cn":"家长应该教导子女在公共场合要有规有矩。","src":"高中词库"},
+"property": {"en":"The hotel is not responsible for any loss or damage to guests’ personal property .","cn":"宾馆对住客个人财物的丢失和损坏概不负责。","src":"四级词库"},
+"proportion": {"en":"A large proportion of the dolphins in that area will eventually die.","cn":"那个地区的很大一部分海豚最终都会死去。","src":"四级词库"},
+"proportional": {"en":"The fee charged by the realtor is directly proportional to the price of the property.","cn":"房产代理人收取的费用和房产价格是成正比的。","src":"四级词库"},
+"proposal": {"en":"The president is to put forward new proposals for resolving the country's constitutional crisis.","cn":"总统将提出解决国家宪法危机的新议案。","src":"四级词库"},
+"propose": {"en":"He proposed to his girlfriend over a public-address system.","cn":"他在有线广播系统上向女友求婚。","src":"考研词库"},
+"provision": {"en":"He made provisions for his wife and his children in his will.","cn":"在遗嘱里他为妻子和孩子都做好了安排。","src":"四级词库"},
+"province": {"en":"Computers were once the exclusive province of scientists and mathematicians.","cn":"计算机一度为科学家和数学家专用。","src":"六级词库"},
+"provided": {"en":"He can come with us, provided he pays for his own meals.","cn":"只要他付自己的饭钱，就可以跟我们一起来。","src":"四级词库"},
+"provide": {"en":"Tea and biscuits will be provided.","cn":"有茶水和饼干供应。","src":"四级词库"},
+"prove": {"en":"You’re wrong, and I can prove it.","cn":"你错了，我可以证明。","src":"四级词库"},
+"proud": {"en":"Seth was the proud owner of a new sports car.","cn":"赛思因为有了新跑车而扬扬得意。","src":"四级词库"},
+"public": {"en":"Public opinion is gradually shifting in favor of the imprisoned men.","cn":"舆论渐渐倾向于同情入狱的男子。","src":"四级词库"},
+"protest": {"en":"“That poor administration helped trigger the revolt,” which ultimately evolved from a protest against unfair taxes into a broader push for a more equitable society.","cn":"“那个糟糕的政府帮助引发了叛乱”，最终从对不公平税收的抗议演变为对更公平社会的更广泛推动。","src":"Smithsonian Magazine · 2026-09-09"},
+"protective": {"en":"Sunscreen provides a protective layer against the sun’s harmful rays.","cn":"防晒霜提供了一层抵挡阳光中有害光线的防护层。","src":"四级词库"},
+"protection": {"en":"He did not think he needed their protection.","cn":"他认为他不需要他们的保护。","src":"Tatoeba 语料"},
+"protect": {"en":"Are we doing enough to protect the environment?","cn":"我们在保护环境方面做得够吗？","src":"四级词库"},
+"prospect": {"en":"He had prospected for minerals everywhere from the Gobi Desert to the Transvaal.","cn":"他在世界各地探过矿，从戈壁沙漠到德兰士瓦。","src":"四级词库"},
+"protein": {"en":"So, what happens, this is another view of a sodium channel, so this is actually looking a little bit more at the protein structure .","cn":"那么，这里发生了什么，这是钠离子通道的另一张图片，在这种蛋白质结构中，它看起来更复杂一点。","src":"四级词库"},
+"prohibit": {"en":"Smoking is strictly prohibited inside the factory.","cn":"厂区严禁吸烟。","src":"四级词库"},
+"quarterly": {"en":"It makes no difference whether dividends are paid quarterly or annually.","cn":"红利是按季度还是按年度支付没有区别。","src":"六级词库"},
+"queer": {"en":"Hank was beginning to feel a little queer.","cn":"汉克开始感觉有点不对头。","src":"六级词库"},
+"rainbow": {"en":"Did you see the rainbow this morning?","cn":"你见到今天早上的彩虹了吗？","src":"Tatoeba 语料"},
+"rainy": {"en":"I hate rainy weather .","cn":"我讨厌雨天。","src":"四级词库"},
+"raise": {"en":"Raise your hand if you know the right answer.","cn":"知道正确答案的话，请举手。","src":"四级词库"},
+"range": {"en":"They range in price from $3 to $15.","cn":"它们的价格在$3到$15之间变化。","src":"四级词库"},
+"rank": {"en":"There were several pairs of riding boots ranked neatly in the hall.","cn":"门厅里整齐地摆放着几双马靴。","src":"四级词库"},
+"rapid": {"en":"The patient made a rapid recovery.","cn":"病人迅速康复。","src":"四级词库"},
+"rapidly": {"en":"The disease was spreading more rapidly than expected.","cn":"疾病的蔓延比预期的要快。","src":"托福词库"},
+"rare": {"en":"I only saw Helen on the rare occasions when I went into her shop.","cn":"我只有偶尔去海伦店里时才会见到她。","src":"六级词库"},
+"rarely": {"en":"We rarely see someone go after the health area.","cn":"我们很少见到有人在健康领域做文章。","src":"四级词库"},
+"rat": {"en":"This was demonstrated in a laboratory experiment with rats.","cn":"这点通过在实验室中用老鼠做试验得到证明。","src":"四级词库"},
+"rate": {"en":"The unemployment rate in Japan was 3.4 percent in September of 2015.","cn":"在2015年9月日本的失业率为3.4％。","src":"Tatoeba 语料"},
+"rather": {"en":"I grew up in rather unusual circumstances.","cn":"我在相当不寻常的环境中长大。","src":"四级词库"},
+"ratio": {"en":"The adult to child ratio is one to six.","cn":"成人与儿童之比是1比6。","src":"四级词库"},
+"rational": {"en":"Parents need to be fully informed so they can make a rational decision.","cn":"父母需要充分了解情况，这样才可以作出合理的决定。","src":"四级词库"},
+"raw": {"en":"Cabbage can be eaten raw.","cn":"洋白菜可以生吃。","src":"四级词库"},
+"ray": {"en":"The room darkened as a cloud hid the sun’s rays.","cn":"一朵云挡住了阳光，房间暗了下来。","src":"四级词库"},
+"really": {"en":"She seems unfriendly at first, but she’s really very nice.","cn":"一开始她似乎并不友善，但其实她人很好。","src":"初中词库"},
+"realize": {"en":"It took us a while to realize the extent of the tragedy.","cn":"我们过了一段时间才意识到这场悲剧有多严重。","src":"四级词库"},
+"reality": {"en":"The paperless office may one day become a reality .","cn":"无纸化办公室有一天可能会成为现实。","src":"四级词库"},
+"real": {"en":"We need to tackle the real problems of unemployment and poverty.","cn":"我们需要解决失业和贫穷这两个实际问题。","src":"四级词库"},
+"ready": {"en":"Why does it take you so long to get ready to go out?","cn":"你外出怎么要准备那么长时间？","src":"四级词库"},
+"rain": {"en":"There will be heavy rain in most parts of the country.","cn":"全国大部分地区将有大雨。","src":"四级词库"},
+"reading": {"en":"Reading is taught using a combination of several methods.","cn":"综合运用多种方法进行阅读教学。","src":"四级词库"},
+"reader": {"en":"The book will appeal to young readers.","cn":"这本书会吸引年轻读者。","src":"四级词库"},
+"read": {"en":"Read the instructions carefully before you start.","cn":"开始前要仔细阅读说明。","src":"四级词库"},
+"reaction": {"en":"What was Jeff’s reaction when you told him about the job?","cn":"你告诉杰夫这个工作时，他是什么反应？","src":"四级词库"},
+"react": {"en":"He reacted angrily to the suggestion that he had lied.","cn":"说他撒谎，他非常生气。","src":"四级词库"},
+"reach": {"en":"Chelsea could reach the final of the European Cup.","cn":"切尔西队会进入欧洲杯决赛。","src":"四级词库"},
+"readily": {"en":"The information is readily accessible on the Internet.","cn":"这些信息在因特网上一查就能找到。","src":"四级词库"},
+"queen": {"en":"Together, they uncover how these formative experiences helped shape the woman who would become a formidable queen.","cn":"他们一起揭示了这些形成性的经历如何帮助塑造了这位将成为令人敬畏的女王的女人。","src":"HistoryExtra · 2026-09-09"},
+"rail": {"en":"Passengers want a better rail service .","cn":"乘客希望有更好的铁路服务。","src":"四级词库"},
+"question": {"en":"I’m afraid I can’t answer that question.","cn":"我恐怕无法回答那个问题。","src":"四级词库"},
+"queue": {"en":"You’ll have to join the queue.","cn":"你得排队。","src":"四级词库"},
+"quick": {"en":"That was quick! I thought you’d be another hour.","cn":"很快啊！我以为你还要一个小时呢。","src":"四级词库"},
+"quicken": {"en":"Companies are finding it hard to cope with the quickening pace of technological change.","cn":"各家公司都发现科技的日新月异让他们难以应付。","src":"六级词库"},
+"quickly": {"en":"We need to get this finished as quickly as possible.","cn":"我们必须尽快完成此事。","src":"托福词库"},
+"quiet": {"en":"We’ll have to be quiet so as not to wake the baby.","cn":"我们得安静点，免得吵醒宝宝。","src":"四级词库"},
+"quilt": {"en":"Quilting a bed cover can be laborious.","cn":"缝制一个床罩会很费力的。","src":"托福词库"},
+"quit": {"en":"The landlord gave them notice to quit the premises within seven days.","cn":"房东通知他们七天之内搬出去。","src":"四级词库"},
+"quite": {"en":"Well, actually it requires quite a bit of work and research.","cn":"呃，实际上这需要相当多的工作和研究。","src":"四级词库"},
+"quotation": {"en":"The following quotation is taken from a nineteenth century travel diary.","cn":"下文引自19世纪的一篇旅行日记。","src":"四级词库"},
+"quote": {"en":"A military spokesman was quoted as saying that the border area is now safe.","cn":"报道引述军方一位发言人的话，说边境地区现在很安全。","src":"四级词库"},
+"rabbit": {"en":"At this time, a robust rabbit said: \"No, or eat me !","cn":"这时，一只健壮的兔子又说：“不，还是先吃我吧！","src":"四级词库"},
+"race": {"en":"The women's race was won by the only American in the field, Patti Sue Plumer.","cn":"女子赛跑被田赛场上惟一的一名美国人帕蒂·休·普卢默赢得了。","src":"四级词库"},
+"racial": {"en":"This part of the community needs to be protected from racial prejudice .","cn":"需保护社区里的这一部分人，使其免受种族偏见的伤害。","src":"四级词库"},
+"rack": {"en":"His already infirm body was racked by high fever.","cn":"他已经很孱弱的身体受到高烧的折磨。","src":"四级词库"},
+"raid": {"en":"The Tower of London has protected England’s capital since it was first built in the 1070s, withstanding medieval sieges and World War II bombing raids alike.","cn":"伦敦塔自1070年代首次建成以来一直保护着英格兰的首都，经受住了中世纪的围攻和第二次世界大战的轰炸。","src":"Smithsonian Magazine · 2026-09-09"},
+"rage": {"en":"He was red-cheeked with rage.","cn":"他因盛怒而满脸通红。","src":"考研词库"},
+"rag": {"en":"He wiped his boots dry with an old rag.","cn":"他用一块旧布把他的靴子擦干。","src":"四级词库"},
+"radius": {"en":"The shock of the explosion was felt over a radius of forty miles.","cn":"爆炸引起的剧烈震动在方圆40英里内都能感觉得到。","src":"四级词库"},
+"radium": {"en":"The scientists who discovered radium did not know that it would kill them.","cn":"那些发现了镭元素的科学家，并不知道这种元素会让他们丧命。","src":"高中词库"},
+"radish": {"en":"There are many different kinds of kimchi - some made with cabbage, others made with cucumber or radish.","cn":"泡菜有非常多不同的种类，一些是由白菜做成的，一些是由黄瓜或者萝卜做成的。","src":"托福词库"},
+"railroad": {"en":"The supplies were sent on the railroad.","cn":"补给经由铁路运送。","src":"四级词库"},
+"radio": {"en":"The officer radioed for advice.","cn":"那名军官发电请求指示。","src":"初中词库"},
+"radiation": {"en":"An accident at the power station could result in large amounts of radiation being released.","cn":"发电站事故会造成大量核辐射泄漏。","src":"四级词库"},
+"radiate": {"en":"He radiated calm confidence.","cn":"他身上散发着沉稳自信的气质。","src":"六级词库"},
+"radar": {"en":"We could see the plane quite clearly on the radar screen.","cn":"我们在雷达屏幕上可清晰地看到飞机。","src":"四级词库"},
+"racket": {"en":"Which of these rackets is yours?","cn":"這些球拍中哪一支是你的？","src":"Tatoeba 语料"},
+"progress": {"en":"We made good progress despite the snow.","cn":"尽管下雪，我们的行程还是很顺利。","src":"四级词库"},
+"program": {"en":"Any large high-speed computer can be programmed to learn.","cn":"任何大型高速计算机都可以通过编程获得学习能力。","src":"六级词库"},
+"porter": {"en":"Our taxi pulled up at Old Delhi station and a porter sprinted to the door.","cn":"我们的出租车停在老德里车站，一个搬运工疾步跑向车门。","src":"四级词库"},
+"portion": {"en":"Do you have any children’s portions?","cn":"你们有儿童餐吗？","src":"四级词库"},
+"portrait": {"en":"She’s been commissioned to paint Jackson’s portrait .","cn":"她已受托为杰克逊画肖像。","src":"四级词库"},
+"portuguese": {"en":"\"I believe that I can be a much better player than I was last season,\" said the 22-year-old Portuguese, who recorded three goals and four assists in the Premier League for the Hammers.","cn":"“我相信我可以成为一个比上赛季更好的球员，”这位22岁的葡萄牙人说，他在英超联赛中为铁锤帮贡献了3个进球和4次助攻。","src":"Sky Sports · 2026-09-10"},
+"position": {"en":"Frankie shifted his position so that his knees would not become cramped.","cn":"弗朗基换了个姿势，这样他的膝盖就不会老蜷着动弹不得。","src":"四级词库"},
+"positive": {"en":"It’s been a difficult time but, on the positive side , I feel physically fine.","cn":"日子过得不容易，不过从好的方面看，我的身体状况还不错。","src":"四级词库"},
+"possess": {"en":"He no longer possessed the power to frighten her.","cn":"他再也吓不倒她了。","src":"四级词库"},
+"possession": {"en":"The finance company now has possession of the house.","cn":"这家金融公司目前拥有这所房子。","src":"四级词库"},
+"possibility": {"en":"The study raises the possibility that dieting is bad for your health.","cn":"那项研究指出节食有可能损害健康。","src":"四级词库"},
+"possible": {"en":"Even if it were technically possible , we do not have the money to do it.","cn":"即使技术上可行，我们也没有钱去做。","src":"四级词库"},
+"possibly": {"en":"This last task is possibly the most difficult.","cn":"这最后一项任务也许是最难的。","src":"四级词库"},
+"post": {"en":"Unfortunately they were unable to find a suitable person to fill the post .","cn":"遗憾的是他们找不到一个合适的人选填补空缺。","src":"高中词库"},
+"postage": {"en":"How much is the postage for a postcard?","cn":"寄一张明信片的邮资是多少？","src":"四级词库"},
+"postman": {"en":"The old man often stands here to watch out for the postman.","cn":"老人常常站在这儿等邮递员。","src":"四级词库"},
+"practice": {"en":"With a little more practice you should be able to pass your test.","cn":"稍微再练一练，你应该能通过考试了。","src":"四级词库"},
+"practically": {"en":"He'd known the old man practically all his life.","cn":"他几乎从小就认识那位老人。","src":"四级词库"},
+"practical": {"en":"Candidates should have training and practical experience in basic electronics.","cn":"应征者应该具备基础电子学方面的培训和实践经验。","src":"四级词库"},
+"powerful": {"en":"He was one of the most powerful men in Bohemia.","cn":"他是波希米亚最有权势的人物之一。","src":"四级词库"},
+"power": {"en":"They seized power in a military coup.","cn":"他们在一场军事政变中夺取了政权。","src":"四级词库"},
+"powder": {"en":"The paint is supplied in powder form .","cn":"这种涂料以粉末状供应。","src":"四级词库"},
+"poverty": {"en":"We need an effective strategy to fight poverty .","cn":"我们需要制定一个有效的对策来与贫困作斗争。","src":"四级词库"},
+"pound": {"en":"Moira weighs about 130 pounds .","cn":"莫伊拉的体重约为130磅。","src":"四级词库"},
+"potential": {"en":"The company has identified 60 potential customers.","cn":"该公司已确定了60位潜在的客户。","src":"四级词库"},
+"potato": {"en":"I shouldn't have eaten the whole bag of potato chips.","cn":"我不该把一整包薯片都吃完的。","src":"Tatoeba 语料"},
+"pot": {"en":"Pot the cuttings individually.","cn":"将这些剪枝一个个的装盆。","src":"高中词库"},
+"postpone": {"en":"The match had to be postponed until next week.","cn":"比赛不得不推迟到下周举行。","src":"四级词库"},
+"pour": {"en":"She poured coffee for everyone.","cn":"她为每个人都倒了咖啡。","src":"四级词库"},
+"practise": {"en":"They moved the furniture back to practise their dance routine.","cn":"他们把家具往后挪以便练习舞蹈动作。","src":"四级词库"},
+"porridge": {"en":"We go for a run together in the morning then have porridge for breakfast.","cn":"早上起来我们会一起跑步，早餐一起吃麦片粥。","src":"初中词库"},
+"porch": {"en":"He was standing on the porch, waving as we drove away.","cn":"我们开车离开的时候，他站在走廊上向我们挥手。","src":"六级词库"},
+"plug": {"en":"We used mud to plug up the holes in the roof.","cn":"我们用泥堵住了房顶上的漏洞。","src":"高中词库"},
+"plunge": {"en":"At least 50 people died when a bus plunged into a river.","cn":"一辆公共汽车冲进了河里，至少有50人死亡。","src":"四级词库"},
+"plural": {"en":"\"Data\" is the Latin plural form of \"datum.\"","cn":"“”是“”的拉丁语复数形式。","src":"四级词库"},
+"plus": {"en":"Daytime temperatures barely reached plus 5˚.","cn":"白天的气温仅零上5度。","src":"四级词库"},
+"pocket": {"en":"Luke came in with his hands in his pockets.","cn":"卢克走了进来，双手插在口袋里。","src":"四级词库"},
+"poem": {"en":"After climbing Mt. Fuji, I got the inspiration for a poem.","cn":"攀登富士山後，我得到了一首詩的靈感。","src":"Tatoeba 语料"},
+"poet": {"en":"He was a painter and poet.","cn":"他是一位画家兼诗人。","src":"四级词库"},
+"poetry": {"en":"He reads a lot of poetry.","cn":"他大量阅读诗歌。","src":"四级词库"},
+"point": {"en":"There are three important points we must bear in mind.","cn":"有三个要点我们必须记住。","src":"四级词库"},
+"poison": {"en":"Belladonna and red arsenic are deadly poisons .","cn":"颠茄和雄黄都是致命的毒物。","src":"四级词库"},
+"poisonous": {"en":"She was bitten on the ankle by a poisonous snake .","cn":"她被毒蛇咬了脚踝。","src":"四级词库"},
+"police": {"en":"Police surrounded the courthouse.","cn":"警察围在法院大楼四周。","src":"四级词库"},
+"policeman": {"en":"I think he must be a policeman, he keeps fishing for information.","cn":"我想他肯定是警察，他不断地转弯抹角地打听消息。","src":"四级词库"},
+"policy": {"en":"Although the government refuses to admit it, its economic policy is in ruins.","cn":"尽管政府拒绝承认，它的经济政策还是失败了。","src":"Tatoeba 语料"},
+"polish": {"en":"Your essay is good, you just need to polish it a bit.","cn":"你的文章不错，只要稍加润色就可以了。","src":"四级词库"},
+"population": {"en":"Nearly 70 percent of the population still live in the countryside.","cn":"人口中差不多有70%仍住在乡村。","src":"四级词库"},
+"popular": {"en":"Coffee is probably the most popular drink in the world.","cn":"咖啡很可能是世界上最受欢迎的饮料。","src":"四级词库"},
+"pop": {"en":"The window opened and a dog's head popped out.","cn":"窗子打开了，冷不防一只狗探出头来。","src":"六级词库"},
+"poor": {"en":"Her family were so poor they couldn’t afford to buy her new clothes.","cn":"她家穷得甚至买不起新衣服给她。","src":"四级词库"},
+"pool": {"en":"They have a nice pool in their backyard.","cn":"他们后院有个漂亮的游泳池。","src":"四级词库"},
+"pork": {"en":"Beef is usually more expensive than pork.","cn":"牛肉通常比豬肉貴。","src":"Tatoeba 语料"},
+"pollution": {"en":"California’s tough anti-pollution laws","cn":"加利福尼亚州严厉的反污染法","src":"四级词库"},
+"pollute": {"en":"The factory pollutes the air and water.","cn":"那家工厂污染了空气和水。","src":"四级词库"},
+"politics": {"en":"Politics have always interested Anita.","cn":"阿妮塔一直对政治感兴趣。","src":"四级词库"},
+"politician": {"en":"A slip of the tongue is sometimes fatal to a politician.","cn":"有时候口误对政治家来说是致命的。","src":"Tatoeba 语料"},
+"political": {"en":"All other political parties there have been completely banned.","cn":"那里的其他所有政党都已经完全被取缔了。","src":"四级词库"},
+"polite": {"en":"It’s not polite to talk with your mouth full.","cn":"满嘴食物时讲话是不礼貌的。","src":"四级词库"},
+"pond": {"en":"This went on until one day when I was fishing with a friend of mine at a nearby pond.","cn":"这样持续了一段时间，直到有一天，当我在我的一个朋友在附近的一个池塘钓鱼。","src":"四级词库"},
+"praise": {"en":"It’s important to give children plenty of praise and encouragement.","cn":"对小孩子多加表扬和鼓励是很重要的。","src":"四级词库"},
+"pray": {"en":"They went to the mosque to pray.","cn":"他们去清真寺祷告。","src":"四级词库"},
+"prayer": {"en":"Our thoughts and prayers are with you at this difficult time.","cn":"在这艰难时期我们时刻思念你，为你祈祷。","src":"四级词库"},
+"primary": {"en":"Our primary concern is to provide the refugees with food and health care.","cn":"我们的头等大事是向难民提供食品和医疗。","src":"四级词库"},
+"prime": {"en":"Our prime concern is providing jobs for all young school leavers.","cn":"我们的头等大事是为所有的年轻毕业生提供工作。","src":"四级词库"},
+"prince": {"en":"Prince William is second in line to the English throne.","cn":"威廉王子是英国王位第二顺位继承人","src":"Tatoeba 语料"},
+"princess": {"en":"Once upon a time, there was a beautiful princess.","cn":"从前有个美丽的公主。","src":"Tatoeba 语料"},
+"principal": {"en":"His principal reason for making the journey was to visit his family.","cn":"他那次旅程的首要目的是探访家人。","src":"四级词库"},
+"principle": {"en":"The general principle is that education should be available to all children up to the age of 16.","cn":"总的原则是，16 岁以下儿童都应该能接受教育。","src":"四级词库"},
+"print": {"en":"Over five million copies of the paper are printed every day.","cn":"这份报纸每日印量超过五百万。","src":"四级词库"},
+"prior": {"en":"Changes may not be made without the prior approval of the council.","cn":"未经委员会事先同意，不得作出改变。","src":"四级词库"},
+"prison": {"en":"The two men were arrested only a week after they were released from prison .","cn":"那两名男子从监狱获释后仅仅一周就被捕了。","src":"四级词库"},
+"prisoner": {"en":"Relationships between the staff and the prisoners are good.","cn":"狱警和犯人相处良好。","src":"四级词库"},
+"private": {"en":"They objected to any form of private property .","cn":"他们反对任何形式的私有财产。","src":"四级词库"},
+"privilege": {"en":"He had no special privileges and was treated just like every other prisoner.","cn":"他不享受特权，待遇和任何其他犯人一样。","src":"四级词库"},
+"prize": {"en":"In this month’s competition you could win a prize worth £3,000.","cn":"在本月的竞赛中您可以赢得价值3,000英镑的奖品。","src":"四级词库"},
+"probability": {"en":"You must decide whether, on the balance of probabilities , he committed the crime.","cn":"你们一定要权衡正反两方面的可能性，然后再裁定他是否犯罪。","src":"四级词库"},
+"probable": {"en":"The probable cause of the fire was faulty wiring.","cn":"起火的原因很可能是电路故障。","src":"四级词库"},
+"probably": {"en":"The White House probably won't make this plan public until July.","cn":"白宫可能要到7月份才会公布这项计划。","src":"高中词库"},
+"profit": {"en":"Because we need to give profit to the capital, otherwise we get no capital.","cn":"因为我们需要为了资本来获得利益，否则就得不到资本。","src":"四级词库"},
+"professor": {"en":"We were laughing about that absent-minded professor.","cn":"我们都在笑那个心不在焉的教授。","src":"四级词库"},
+"professional": {"en":"This business plan looks very professional.","cn":"这个商业计划看上去很有专业水平。","src":"四级词库"},
+"profession": {"en":"Harper was a teacher by profession.","cn":"哈珀的职业是教师。","src":"四级词库"},
+"productive": {"en":"Most of us are more productive in the morning.","cn":"我们大多数人在早上更有效率。","src":"四级词库"},
+"production": {"en":"That model won't go into production before late 2007.","cn":"那种型号要到2007年底才会投入生产。","src":"四级词库"},
+"primarily": {"en":"The advertisement is aimed primarily at children.","cn":"这则广告的对象主要是儿童。","src":"四级词库"},
+"product": {"en":"The London factory assembles the finished product .","cn":"伦敦工厂组装成品。","src":"四级词库"},
+"proclaim": {"en":"The President proclaimed the republic’s independence.","cn":"总统宣布共和国独立。","src":"六级词库"},
+"procession": {"en":"They marched in procession to the Capitol building.","cn":"他们列队向国会大厦行进。","src":"四级词库"},
+"process": {"en":"Repetition can help the learning process.","cn":"重复对学习过程会有帮助。","src":"四级词库"},
+"proceed": {"en":"Before proceeding further, we must define our terms.","cn":"我们必须先定义术语，然后再往下展开。","src":"四级词库"},
+"procedure": {"en":"You may injure yourself if you don't follow safety procedures.","cn":"如果你不按照安全手续来的话，你可能会受伤的。","src":"Tatoeba 语料"},
+"problem": {"en":"She was older than me, but that wasn’t really a problem.","cn":"她比我年长，不过那不算什么问题。","src":"四级词库"},
+"produce": {"en":"As a policy, it did not produce the desired effect .","cn":"作为一项政策，它并未产生预期的效果。","src":"四级词库"},
+"priest": {"en":"He had trained to be a Catholic priest.","cn":"他接受培训成了一名天主教神父。","src":"四级词库"},
+"pride": {"en":"She felt a glow of pride when her name was announced for the prize.","cn":"宣布她获奖时她感到非常自豪。","src":"四级词库"},
+"price": {"en":"They may pay a high price for their few years of glory.","cn":"为了短短几年的辉煌，他们也许要付出高昂的代价。","src":"四级词库"},
+"preparation": {"en":"This dish is good for dinner parties because much of the preparation can be done ahead of time.","cn":"这道菜适合宴会，因为很多准备工作可以事先做好。","src":"四级词库"},
+"premier": {"en":"Every Premier League club has been given at least 60 hours between their Christmas and New Year fixtures.","cn":"每家英超俱乐部在圣诞和新年赛程之间至少有60个小时的休息时间。","src":"Sky Sports · 2026-09-10"},
+"prejudice": {"en":"It takes a long time to overcome these kinds of prejudices.","cn":"战胜这些偏见需要假以时日。","src":"四级词库"},
+"preference": {"en":"Parents may be able to express a preference as to the school their child will attend.","cn":"家长也许可以表明愿意让孩子就读哪所学校。","src":"四级词库"},
+"preferable": {"en":"For this dish, fresh herbs and garlic are preferable.","cn":"做这道菜，用新鲜香草和大蒜更好。","src":"四级词库"},
+"prepare": {"en":"The prosecution wanted more time to prepare their case.","cn":"原告想要有更多的时间来准备诉讼。","src":"四级词库"},
+"prefer": {"en":"Employees said they would prefer more flexible working hours.","cn":"员工们说他们希望有更具弹性的工作时间。","src":"高中词库"},
+"predict": {"en":"As Liz had predicted , the rumours were soon forgotten.","cn":"正如利兹所预料的，流言很快就被淡忘了。","src":"四级词库"},
+"precision": {"en":"The limit of its precision is analyzed theoretically, via simulation, and experimentally.","cn":"经由模拟， 和实验式地，它的精密的界限理论上被分析。","src":"四级词库"},
+"precise": {"en":"It was difficult to get precise information.","cn":"很难得到确切的消息。","src":"四级词库"},
+"precious": {"en":"Time is the most precious thing in the world.","cn":"时间是世界上最宝贵的东西。","src":"Tatoeba 语料"},
+"preceding": {"en":"As we saw in the preceding chapter, groups can be powerful agents of socialization.","cn":"如我们在前一章所见，团组可以是社会化的有力动因。","src":"四级词库"},
+"precaution": {"en":"Vets took precautions to prevent the spread of the disease.","cn":"兽医们为防止疾病蔓延采取了预防措施。","src":"四级词库"},
+"reap": {"en":"You'll soon begin to reap the benefits of being fitter.","cn":"你很快就会获得身体更健康带来的好处。","src":"六级词库"},
+"preposition": {"en":"There is nothing in the rules of grammar to suggest that ending a sentence with a preposition is wrong.","cn":"在语法规则中没有哪一条表明以介词结束一个句子是错误的。","src":"四级词库"},
+"presence": {"en":"Your presence is requested at the club meeting on Friday.","cn":"敬请出席于周五举行的俱乐部会议。","src":"四级词库"},
+"previously": {"en":"Guyana's railways were previously owned by private companies.","cn":"圭亚那的铁路先前为私营公司所拥有。","src":"四级词库"},
+"previous": {"en":"She has a teenage daughter from a previous marriage.","cn":"她有个出自前一次婚姻的十几岁的女儿。","src":"四级词库"},
+"prevent": {"en":"Wrap small ornaments in paper to prevent them being damaged.","cn":"把小饰品用纸包上以免损坏。","src":"四级词库"},
+"prevail": {"en":"A similar situation prevails in Canada.","cn":"同样的情况在加拿大也普遍存在。","src":"四级词库"},
+"pretty": {"en":"Maria looks much prettier with her hair cut short.","cn":"玛丽亚把头发剪短好看多了。","src":"四级词库"},
+"pretend": {"en":"To pretend ignorance of the situation would be irresponsible.","cn":"装作不知情是不负责任的做法。","src":"四级词库"},
+"prescribe": {"en":"What punishment does the law prescribe for this crime?","cn":"法律规定这种罪行应受何处罚？","src":"四级词库"},
+"pressure": {"en":"They are putting pressure on people to vote yes.","cn":"他们正在向民众施加压力，要求他们投赞成票。","src":"四级词库"},
+"president": {"en":"Abraham Lincoln, the 16th president of the United States, was born in a log cabin in Kentucky.","cn":"伯拉罕·林肯，美国第16任总统，生于肯塔基州的一个简陋的小屋里。","src":"Tatoeba 语料"},
+"preserve": {"en":"We must encourage the planting of new trees and preserve our existing woodlands.","cn":"我们必须鼓励栽种新树木，同时也要保护现有的林地。","src":"四级词库"},
+"presently": {"en":"The doctor will be here presently.","cn":"医生一会儿就到。","src":"四级词库"},
+"present": {"en":"She was presented with an award .","cn":"她被授予一个奖项。","src":"六级词库"},
+"press": {"en":"Manville kept his back pressed flat against the wall.","cn":"曼维尔后背紧紧地贴在墙上。","src":"四级词库"},
+"rear": {"en":"Knock at the rear entrance.","cn":"敲后门。","src":"四级词库"},
+"reason": {"en":"She has reason to feel guilty.","cn":"她有理由感到内疚。","src":"四级词库"},
+"river": {"en":"Children should keep away from the river. It's dangerous.","cn":"儿童应该远离河流。有危险。","src":"Tatoeba 语料"},
+"road": {"en":"Many accidents resulted from the icy conditions of the road.","cn":"道路结冰导致了很多起事故。","src":"Tatoeba 语料"},
+"roar": {"en":"He let out a roar of laughter .","cn":"他放声大笑。","src":"托福词库"},
+"roast": {"en":"We caught a rabbit and roasted it over an open fire.","cn":"我们捉到一只兔子，放在火上烧烤。","src":"四级词库"},
+"rob": {"en":"They killed four policemen while robbing a bank.","cn":"他们抢劫一家银行的时候杀了4名警察。","src":"四级词库"},
+"robber": {"en":"“The police intervention and the museum’s alarms caused the robbers to rush and steal only 4 of the 12 works from the Renoir Museum.”","cn":"警察的介入和博物馆的警报使得劫匪们冲了过去，只偷走了雷诺阿博物馆12件作品中的4件。","src":"Smithsonian Magazine · 2026-09-08"},
+"robbery": {"en":"Police are investigating a series of bank robberies in South Wales.","cn":"警方正在调查发生在南威尔士的连环银行抢劫案。","src":"六级词库"},
+"robot": {"en":"How could I be a robot? Robots can't dream.","cn":"我怎么可能是机器人呢？机器人不会做梦。","src":"Tatoeba 语料"},
+"rock": {"en":"The stadium has hosted numerous rock concerts .","cn":"这个体育场举行过许多场摇滚乐音乐会。","src":"高中词库"},
+"rocket": {"en":"Interest rates rocketed up.","cn":"利率飞涨。","src":"四级词库"},
+"role": {"en":"Until now scientists had very little clear evidence about the drug's role in preventing more serious effects of infection.","cn":"到目前为止，科学家们几乎没有该药物在防止更严重的感染后果的功能的明确证据。","src":"高中词库"},
+"roll": {"en":"There was silence as the cameras started to roll.","cn":"摄影机开始转动，大家安静了下来。","src":"四级词库"},
+"roller": {"en":"The boats are taken down to the sea on rollers.","cn":"船只用滚柱移到海里。","src":"六级词库"},
+"roman": {"en":"When they conquered Britain, the Romans brought this custom with them.","cn":"当古罗马人征服不列颠时，他们把这一习俗也带了过去。","src":"四级词库"},
+"round": {"en":"Graham glanced round, startled by the voice behind him.","cn":"格雷厄姆听到背后的声音一惊，回头扫了一眼。","src":"高中词库"},
+"roughly": {"en":"Asia is roughly four times the size of Europe.","cn":"亚洲的大小约四倍于欧洲。","src":"Tatoeba 语料"},
+"rough": {"en":"We were bumping over the rough ground .","cn":"我们在崎岖的地面上颠簸而行。","src":"四级词库"},
+"rotten": {"en":"Some of the wood was completely rotten.","cn":"有些木头完全腐烂了。","src":"四级词库"},
+"rotation": {"en":"The blades spin at 100 rotations per minute.","cn":"叶片每分钟转100圈。","src":"四级词库"},
+"rotate": {"en":"The Earth rotates on its axis once every 24 hours.","cn":"地球每24小时绕地轴自转一周。","src":"四级词库"},
+"rival": {"en":"He is, in effect, my rival.","cn":"实际上他是我的竞争对手。","src":"四级词库"},
+"rose": {"en":"A large bouquet of roses arrived on her desk.","cn":"一大束玫瑰送到了她的桌子上。","src":"高中词库"},
+"rope": {"en":"They tied a rope around my waist and pulled me up.","cn":"他们在我腰间系了一根粗绳子，把我拉了上去。","src":"四级词库"},
+"root": {"en":"These plants produce a number of thin roots.","cn":"这些植物会长出一些细根。","src":"高中词库"},
+"room": {"en":"Here’s your key - room 348.","cn":"这是你的钥匙——348号房间。","src":"高中词库"},
+"roof": {"en":"They finally found the cat up on the roof.","cn":"他们最后在屋顶上找到了那只猫。","src":"高中词库"},
+"romantic": {"en":"Like many New Yorkers, he had a romantic image of country life.","cn":"像许多纽约人一样，他对乡村生活也有一种不切实际的美好幻想。","src":"六级词库"},
+"rot": {"en":"The trees were cut and left to rot .","cn":"树被砍伐后任其腐烂。","src":"六级词库"},
+"rouse": {"en":"His banging roused the neighbours.","cn":"他重重的关门声把邻居都吵醒了。","src":"四级词库"},
+"risk": {"en":"It was a risk, sending a letter to my house.","cn":"将信寄到我家是冒险。","src":"高中词库"},
+"ripen": {"en":"The apples were ripening on the trees.","cn":"树上的苹果都熟了。","src":"高中词库"},
+"retain": {"en":"You have the right to retain possession of the goods.","cn":"你有权保留这些物品。","src":"四级词库"},
+"retell": {"en":"Lucilla often asks her sisters to retell the story.","cn":"陆希拉经常叫她的姐姐们重讲那个故事。","src":"高中词库"},
+"retire": {"en":"At the age when most people retire, he is ready to face a new career.","cn":"在大多数人退休的年纪，他准备要面对一项新事业。","src":"四级词库"},
+"retreat": {"en":"They were attacked and forced to retreat.","cn":"他们受到攻击，被迫撤退。","src":"四级词库"},
+"return": {"en":"It was forty five minutes before she returned.","cn":"过了45分钟她才回来。","src":"高中词库"},
+"reveal": {"en":"He may be prosecuted for revealing secrets about the security agency.","cn":"他可能因泄露安全部门的机密而被起诉。","src":"四级词库"},
+"revenge": {"en":"The attackers were said to be taking revenge on the 14-year-old, claiming he was a school bully.","cn":"攻击者被称是在报复一名14岁男孩，称他是学校一霸。","src":"四级词库"},
+"reverse": {"en":"The wrong attitude will have exactly the reverse effect.","cn":"这种错误的态度会得到恰好相反的结果。","src":"四级词库"},
+"review": {"en":"The team manager’s position will be reviewed at the end of the season.","cn":"球队主教练的人选将在赛季末重新考虑。","src":"四级词库"},
+"revise": {"en":"The college has revised its plans because of local objections.","cn":"由于地方上的反对，学院已经修改了计划。","src":"四级词库"},
+"revolt": {"en":"He was revolted by the smell.","cn":"那气味让他恶心。","src":"四级词库"},
+"revolution": {"en":"The revolution has brought about many changes.","cn":"这场革命已经带来了很多改变。","src":"Tatoeba 语料"},
+"revolutionary": {"en":"The new cancer drug is a revolutionary breakthrough.","cn":"这种抗癌新药是一个革命性突破。","src":"四级词库"},
+"reward": {"en":"The school has a system of rewards and punishments to encourage good behaviour.","cn":"学校有奖惩制度以鼓励良好行为。","src":"四级词库"},
+"rhythm": {"en":"Drums are basic to African rhythm.","cn":"非洲音乐节奏少不了鼓。","src":"四级词库"},
+"rib": {"en":"She was taken to hospital with a broken arm and ribs.","cn":"她胳膊和肋骨断了，被送进医院。","src":"四级词库"},
+"ribbon": {"en":"The ribbon was cut and the new station was officially open.","cn":"剪彩后，新车站正式开始运营。","src":"四级词库"},
+"ripe": {"en":"Those tomatoes aren’t ripe yet.","cn":"那些番茄还没熟。","src":"四级词库"},
+"ring": {"en":"After at least eight rings, an ancient-sounding maid answered the phone.","cn":"电话至少八声后，一位听上去很老的女仆接了。","src":"高中词库"},
+"right": {"en":"His ideas have now been proved right .","cn":"他的观点现已证明是对的。","src":"高中词库"},
+"rifle": {"en":"They shot him at point blank range with an automatic rifle.","cn":"他们用一支自动步枪在近距离射程内射中了他。","src":"四级词库"},
+"rise": {"en":"She watched the steady rise and fall of his chest.","cn":"她看着他的胸膛均匀地一起一伏。","src":"高中词库"},
+"ridiculous": {"en":"I’d look ridiculous in a dress like that.","cn":"我穿那样的裙子会显得很可笑。","src":"四级词库"},
+"rider": {"en":"She is a very good and experienced rider.","cn":"她是一个有经验的优秀骑手。","src":"托福词库"},
+"ride": {"en":"She learned to ride when she was seven.","cn":"她七岁时学会了骑马。","src":"高中词库"},
+"rid": {"en":"The proposals are an attempt to rid the country of political corruption.","cn":"这些提议是使该国摆脱政治腐败的一种尝试。","src":"四级词库"},
+"rich": {"en":"This is a system in which the rich are taken care of and the poor are left to suffer.","cn":"这是个富人受关照，而穷人遭罪的制度。","src":"高中词库"},
+"rice": {"en":"Serve with plain boiled rice .","cn":"配白米饭一起上桌。","src":"高中词库"},
+"ridge": {"en":"We made our way carefully along the ridge.","cn":"我们沿着山脊小心前行。","src":"四级词库"},
+"route": {"en":"Whichever route you take, you will get there in time.","cn":"不管你选哪条路，你都能按时到那里。","src":"Tatoeba 语料"},
+"routine": {"en":"You mustn’t worry. These are just routine enquiries.","cn":"你不必担心，这只是例行的询问。","src":"四级词库"},
+"row": {"en":"He had just had a row with his wife.","cn":"他刚刚和妻子吵了一架。","src":"六级词库"},
+"salt": {"en":"This might need some salt and pepper.","cn":"这里面也许要加点盐和胡椒粉。","src":"高中词库"},
+"salute": {"en":"The two soldiers saluted Lieutenant Cecil.","cn":"那两名士兵向塞西尔中尉行了礼。","src":"六级词库"},
+"same": {"en":"Her perfume has always had the same effect on me.","cn":"她身上的香水给我的感觉一如既往。","src":"高中词库"},
+"sample": {"en":"They took a blood sample to test for hepatitis.","cn":"他们取了血样做肝炎化验。","src":"四级词库"},
+"sand": {"en":"I have sand in my shoe.","cn":"我的鞋里有沙子。","src":"高中词库"},
+"sandwich": {"en":"Carefully split the sponge ring, then sandwich the two halves together with whipped cream.","cn":"小心地切开海绵蛋糕圈，然后在两半中间夹上生奶油。","src":"六级词库"},
+"sandy": {"en":"The soil is quite sandy.","cn":"这种土壤沙很多。","src":"托福词库"},
+"satellite": {"en":"It's gravity that makes satellites move around the Earth.","cn":"让卫星环绕地球的是重力。","src":"Tatoeba 语料"},
+"satisfaction": {"en":"She got great satisfaction from helping people to learn.","cn":"她在帮助人们学习的过程中得到很大的满足。","src":"六级词库"},
+"satisfactory": {"en":"His progress this term has been satisfactory.","cn":"他这学期的进步令人满意。","src":"四级词库"},
+"satisfy": {"en":"Nothing I did would ever satisfy my father.","cn":"我做什么都不能让父亲满意。","src":"高中词库"},
+"saturday": {"en":"The festivities begin Saturday.","cn":"庆祝活动从星期六开始。","src":"高中词库"},
+"sauce": {"en":"His shirt was stained with sauce.","cn":"他的衬衫被酱汁弄脏了。","src":"Tatoeba 语料"},
+"saucer": {"en":"Rae's coffee cup clattered against the saucer as she picked it up.","cn":"蕾把咖啡杯拿起来的时候杯子碰响了茶碟。","src":"高中词库"},
+"sausage": {"en":"Have you ever seen sausage being made?","cn":"你见过灌肠的做法吗？","src":"Tatoeba 语料"},
+"save": {"en":"Everyone is being encouraged to save energy.","cn":"每个人都被鼓励节约能源。","src":"四级词库"},
+"scenery": {"en":"The best part of the trip was the fantastic scenery.","cn":"此次旅行最精彩之处就是那美妙绝伦的风景。","src":"四级词库"},
+"scene": {"en":"He photographed a wide range of street scenes.","cn":"他拍下了丰富多彩的街景。","src":"高中词库"},
+"scatter": {"en":"The sound of gunfire made the crowd scatter in all directions.","cn":"枪声使人群四散奔逃。","src":"四级词库"},
+"scarf": {"en":"He reached up to loosen the scarf around his neck.","cn":"他伸出手松开围在脖子上的围巾。","src":"高中词库"},
+"scare": {"en":"Loud noises can scare animals or birds.","cn":"噪声太大会惊吓到鸟兽。","src":"四级词库"},
+"scarcely": {"en":"He had scarcely sat down when there was a knock at the door.","cn":"他刚坐下就有人敲门。","src":"四级词库"},
+"sale": {"en":"The entire sales staff has worked around the clock for a week.","cn":"全体销售人员通宵达旦地工作了一周。","src":"Tatoeba 语料"},
+"scarce": {"en":"There was fierce competition for the scarce resources .","cn":"对这些紧缺资源的争夺非常激烈。","src":"四级词库"},
+"scan": {"en":"She scanned his face, looking for signs of what he was thinking.","cn":"她端详着他的脸，想知道他在想些什么。","src":"四级词库"},
+"scale": {"en":"A structural survey revealed the full scale of the damage.","cn":"结构检验揭示了实际受损程度。","src":"四级词库"},
+"say": {"en":"I always said I would buy a motorbike when I had enough money.","cn":"我一直说等我有了足够的钱就买一辆摩托车。","src":"四级词库"},
+"saw": {"en":"She was in the back yard sawing logs.","cn":"她在后院锯木头。","src":"四级词库"},
+"saving": {"en":"Buying a house had taken all their savings.","cn":"买房子花掉了他们所有的积蓄。","src":"四级词库"},
+"scar": {"en":"His hands were badly scarred by the fire.","cn":"他的双手被那次大火烧得疤痕累累。","src":"六级词库"},
+"salary": {"en":"The average salary for a teacher is $39,000 a year.","cn":"教师的平均工资是39,000美元一年。","src":"四级词库"},
+"salad": {"en":"Would you like some salad with your pasta?","cn":"你的意大利面要配些色拉吗？","src":"四级词库"},
+"sake": {"en":"He moved to the seaside for the sake of his health.","cn":"他为了健康而迁居海滨。","src":"四级词库"},
+"runner": {"en":"The runner jumped over the hole in the ground.","cn":"那个赛跑运动员跃过了地面上的洞。","src":"Tatoeba 语料"},
+"run": {"en":"Many people belong to a pension scheme run by their employers.","cn":"许多人参加了由雇主管理的养老金计划。","src":"高中词库"},
+"rumour": {"en":"His name has come up in the rumour mill as a possible director for the project.","cn":"有谣传说他可能出任这个项目的主管。","src":"四级词库"},
+"ruler": {"en":"Draw a line with a ruler.","cn":"用尺子画线。","src":"Tatoeba 语料"},
+"rule": {"en":"The judge ruled that she should have custody of the children.","cn":"法官判定孩子的监护权归她。","src":"六级词库"},
+"rush": {"en":"Mo rushed off down the corridor.","cn":"莫匆匆走过走廊。","src":"四级词库"},
+"ruin": {"en":"All this mud’s going to ruin my shoes.","cn":"这泥巴会把我的鞋弄坏。","src":"四级词库"},
+"rude": {"en":"I didn’t mean to be rude, but I had to leave early.","cn":"我并不想显得无礼，但我不得不早走。","src":"四级词库"},
+"rub": {"en":"You’ll have to rub harder if you want to get it clean.","cn":"如果你想把它弄干净，就得更使劲地擦。","src":"四级词库"},
+"royal": {"en":"Looking at fossilized titanosaur eggs found in southern Argentina’s Chorrillo Formation, a study published in the journal Royal Society Open Science today offers a new understanding of how dinosaurs survived and reproduced so far from the equator.","cn":"通过观察在阿根廷南部Chorrillo地层中发现的泰坦龙蛋化石，今天发表在《皇家学会开放科学》杂志上的一项研究为恐龙如何在远离赤道的地方生存和繁殖提供了新的认识。","src":"Smithsonian Magazine · 2026-09-09"},
+"rug": {"en":"The old lady was seated in her chair at the window, a rug over her knees.","cn":"这位老妇人坐在靠窗的椅子上，膝上盖着一块小毛毯。","src":"四级词库"},
+"resume": {"en":"The rebels have resumed hostilities against government troops.","cn":"叛乱分子继续与政府军发生冲突。","src":"四级词库"},
+"russian": {"en":"Three-quarters of Russians live in cities.","cn":"四分之三的俄罗斯人住在城市里。","src":"托福词库"},
+"saint": {"en":"Statues of saints lined the walls of the church.","cn":"教堂的墙边立着一排圣徒像。","src":"四级词库"},
+"sailor": {"en":"We were both experienced sailors.","cn":"我们两个都是经验丰富的水手。","src":"四级词库"},
+"sail": {"en":"She always wanted to sail around the world .","cn":"她一直想要乘船环游世界。","src":"高中词库"},
+"safety": {"en":"For your own safety , please do not smoke inside the plane.","cn":"为了您自身的安全，请不要在飞机上吸烟。","src":"高中词库"},
+"safely": {"en":"I think we can safely assume that she will pass the exam.","cn":"我想我们可以确信她会通过考试。","src":"托福词库"},
+"safe": {"en":"She doesn’t feel safe in the house on her own.","cn":"她独自一人在家感到不安全。","src":"高中词库"},
+"rust": {"en":"The gate was old and badly rusted.","cn":"大门很旧，锈得厉害。","src":"四级词库"},
+"sadly": {"en":"\"He used to love me,\" she answered sadly.","cn":"他以前愛我，她傷心地回答。","src":"Tatoeba 语料"},
+"saddle": {"en":"Why don't we saddle a couple of horses and go for a ride?","cn":"为什么我们不给几匹马配上鞍骑着转转？","src":"四级词库"},
+"sad": {"en":"Sorry to hear the sad news .","cn":"听到这令人伤心的消息我很难过。","src":"高中词库"},
+"sacrifice": {"en":"The priest sacrificed a chicken.","cn":"牧师献祭了一只鸡。","src":"四级词库"},
+"sacred": {"en":"Certain animals were considered sacred.","cn":"有些动物被认为是神圣的。","src":"六级词库"},
+"sack": {"en":"She claimed she’d been threatened with the sack.","cn":"她称自己受到过解雇的威胁。","src":"四级词库"},
+"sadness": {"en":"Do you know what sadness feels like?","cn":"你知道悲伤的滋味么？","src":"Tatoeba 语料"},
+"pluck": {"en":"He finally plucked up enough courage to ask her out.","cn":"他终于鼓起勇气约她出去。","src":"六级词库"},
+"result": {"en":"How would you cope with unemployment and the resulting loss of income?","cn":"你会如何应付失业及由此造成的收入损失？","src":"四级词库"},
+"restrict": {"en":"The new law restricts the sale of hand guns.","cn":"新法规限制手枪的销售。","src":"四级词库"},
+"refuge": {"en":"This finding suggests that the marine mammals may be seeking refuge on artificial reefs like the Po as their natural habitat is increasingly threatened by human activities.","cn":"这一发现表明，海洋哺乳动物可能正在Po等人工珊瑚礁上寻求庇护，因为它们的自然栖息地越来越受到人类活动的威胁。","src":"Smithsonian Magazine · 2026-09-09"},
+"refusal": {"en":"Her country suffered through her refusal to accept change.","cn":"她的国家因为她拒绝接受变革而受了害。","src":"四级词库"},
+"refuse": {"en":"She asked him to leave, but he refused.","cn":"她叫他走，但他不肯。","src":"四级词库"},
+"refute": {"en":"It was the kind of rumour that it is impossible to refute.","cn":"这是那种不可能推翻的谣言。","src":"六级词库"},
+"regard": {"en":"He was regarded as the most successful president of modern times.","cn":"他被看成是近代最成功的总统。","src":"四级词库"},
+"regarding": {"en":"Regarding your recent inquiry, I have enclosed a copy of our new brochure.","cn":"关于你最近的咨询，我随信附上一本我们最新的手册。","src":"四级词库"},
+"regardless": {"en":"Despite her recent surgery she has been carrying on regardless.","cn":"尽管她最近动了手术，她却一直在不顾一切地继续工作。","src":"四级词库"},
+"region": {"en":"Both lie in a remote region where the nabarlek had not been documented for 50 years.","cn":"它们都位于一个偏远的地区，在那里，纳巴勒克已经有50年没有文献记载了。","src":"Smithsonian Magazine · 2026-09-10"},
+"register": {"en":"The tanker is registered in Rotterdam.","cn":"这艘油轮是在鹿特丹登记的。","src":"四级词库"},
+"regret": {"en":"We regret any inconvenience caused to our customers.","cn":"我们对于给顾客造成的不便表示歉意。","src":"四级词库"},
+"regular": {"en":"Trains will run at regular intervals from 11 am to 4 pm.","cn":"火车从上午11点到下午4点每隔一定时间开行。","src":"四级词库"},
+"regularly": {"en":"We meet regularly, once a month.","cn":"我们定期见面，每月一次。","src":"四级词库"},
+"regulate": {"en":"People sweat to regulate their body heat.","cn":"人出汗以调节体温。","src":"六级词库"},
+"regulation": {"en":"There seem to be so many rules and regulations these days.","cn":"如今好像条条框框很多。","src":"四级词库"},
+"reign": {"en":"Last night confusion reigned about how the debate, which continues today, would end.","cn":"昨晚，这场在今天继续进行的辩论将如何结束的问题令人困惑。","src":"六级词库"},
+"rein": {"en":"Cord held the reins while the stallion tugged and snorted.","cn":"当那匹牡马使劲挣扎，打着响鼻的时候，科德勒紧了缰绳。","src":"六级词库"},
+"reliable": {"en":"Miller was a quiet and reliable man.","cn":"米勒是个话不多且可靠的人。","src":"四级词库"},
+"reliability": {"en":"I can assure you of the reliability of the information.","cn":"我可以向你保证这消息是可靠的。","src":"四级词库"},
+"relevant": {"en":"Relevant documents were presented in court.","cn":"法庭上出示了相关的文件。","src":"四级词库"},
+"release": {"en":"Police arrested several men, who were later released.","cn":"警察逮捕了几个人，后来都释放了。","src":"四级词库"},
+"relax": {"en":"What Robyn needed was a drink to relax her.","cn":"萝宾需要的是喝一杯放松放松。","src":"四级词库"},
+"relativity": {"en":"Einstein put forward his new theory of relativity.","cn":"爱因斯坦提出了相对论的新学说。","src":"四级词库"},
+"refrigerator": {"en":"Letters have been pouring into the office complaining about this kind of refrigerator.","cn":"办公室连续收到大批信件抱怨这种电冰箱。","src":"托福词库"},
+"relatively": {"en":"She speaks relatively quickly.","cn":"她说话相当快。","src":"Tatoeba 语料"},
+"relationship": {"en":"He’s never had a sexual relationship before.","cn":"他以前从未与人有过性关系。","src":"四级词库"},
+"relate": {"en":"I don’t understand how the two ideas relate.","cn":"我不明白这两个观点有什么联系。","src":"四级词库"},
+"rejoice": {"en":"Garbo plays the queen, rejoicing in the love she has found with Antonio.","cn":"嘉宝饰演沉浸在与安东尼奥爱情的欣喜中的王后。","src":"六级词库"},
+"reject": {"en":"Sarah rejected her brother’s offer of help.","cn":"萨拉拒绝了她弟弟的帮助。","src":"四级词库"},
+"reinforce": {"en":"The film reinforces the idea that women should be pretty and dumb.","cn":"这部影片强化了这个观点——女人要漂亮，而且要笨一些。","src":"四级词库"},
+"relative": {"en":"The relative merits of both approaches have to be considered.","cn":"两种方法的相对优点都得考虑在内。","src":"四级词库"},
+"reliance": {"en":"Arsenal's set-piece prowess is well documented, to the extent that they have been criticised for an over-reliance on dead-ball situations to win tight games.","cn":"阿森纳的定位球能力人尽皆知，甚至有人批评他们过分依赖定位球来赢下胶着比赛。","src":"ESPN · Mark Ogden & James Olley · 2026-09-06"},
+"refreshment": {"en":"Refreshments will be served after the meeting.","cn":"会后有茶点招待。","src":"六级词库"},
+"reform": {"en":"The party embarked on a programme of economic reform.","cn":"这个政党开始了一个经济改革的计划。","src":"考研词库"},
+"reasonable": {"en":"Be reasonable — you can’t expect her to do all the work on her own!","cn":"要讲道理，你不能指望她一个人干所有的工作！","src":"四级词库"},
+"rebel": {"en":"Voters rebelled against high property taxes.","cn":"投票者们反对高额财产税。","src":"四级词库"},
+"rebellion": {"en":"The army quelled the rebellion.","cn":"军队镇压了叛乱。","src":"Tatoeba 语料"},
+"recall": {"en":"As I recall, it was you who suggested this idea in the first place.","cn":"我记得，是你首先提出这个想法的。","src":"四级词库"},
+"receipt": {"en":"Keep your receipt in case you want to bring it back.","cn":"保留收据以备退货之需。","src":"四级词库"},
+"receive": {"en":"All the children will receive a small gift.","cn":"每个孩子都会收到一份小礼物。","src":"四级词库"},
+"receiver": {"en":"Molly's more of a giver than a receiver.","cn":"莫莉更乐于给予而不是接受。","src":"六级词库"},
+"recent": {"en":"Irving’s most recent book","cn":"欧文最新的书","src":"四级词库"},
+"recently": {"en":"More recently, he’s appeared in a number of British films.","cn":"最近，他出演了多部英国电影。","src":"四级词库"},
+"reception": {"en":"She was unsure of her reception after everything that had happened.","cn":"发生了这些事后，她对自己是否还受欢迎没把握。","src":"四级词库"},
+"recite": {"en":"She recited a poem that she had learnt at school.","cn":"她背诵了一首学校里学的诗。","src":"六级词库"},
+"recognition": {"en":"He has achieved recognition and respect as a scientist.","cn":"作为科学家，他得到人们的赞赏和尊敬。","src":"四级词库"},
+"recognize": {"en":"It was malaria, but Dr Lee hadn’t recognized the symptoms.","cn":"这是疟疾，但李医生没有认出症状。","src":"四级词库"},
+"recollect": {"en":"All I recollect is a grey sky.","cn":"我只记得一片灰色的天空。","src":"考研词库"},
+"recommend": {"en":"Doctors strongly recommend that fathers should be present at their baby’s birth.","cn":"医生极力建议孩子出生时父亲应该在场。","src":"四级词库"},
+"recommendation": {"en":"We will review the case and make a recommendation to the client.","cn":"我们将审查此案，然后向当事人提出建议。","src":"四级词库"},
+"record": {"en":"According to official records, five people were killed last year near that road junction.","cn":"据官方记录，去年有五人在那个路口附近丧生。","src":"四级词库"},
+"reflexion": {"en":"Maxwell equations: Lorentz force, plane electromagnetic waves, radiation, light waves, reflexion, refraction, Huyghens principle, diffraction, interference phenomena.","cn":"麦克斯韦方程组：洛仑兹力，平面电磁波，辐射，光波，反射，折射，惠更斯原理，衍射，干涉现象。","src":"四级词库"},
+"reflection": {"en":"Can you see your reflection in the glass?","cn":"你能看到玻璃里你的影像吗？","src":"四级词库"},
+"reflect": {"en":"The drop in consumer spending reflects concern about the economy.","cn":"消费支出的下降反映出人们对经济的担忧。","src":"四级词库"},
+"refine": {"en":"Car makers are constantly refining their designs.","cn":"汽车制造商在不断完善他们的设计。","src":"四级词库"},
+"reference": {"en":"He made no reference to any agreement.","cn":"他没有提到任何协议。","src":"四级词库"},
+"refer": {"en":"In his speech, he referred to a recent trip to Canada.","cn":"在他的讲话中，他提到了最近的加拿大之行。","src":"四级词库"},
+"refresh": {"en":"A shower will refresh you.","cn":"洗个淋浴你就凉快了。","src":"四级词库"},
+"reel": {"en":"Enough teams have spent lots of money on these highlight-reel-but-no-end-product wingers over the past three seasons that it has to mean something.","cn":"过去三个赛季，已经有足够多的球队在这些「集锦精彩但产量不佳」的边锋身上砸下重金，这一定有意义。","src":"ESPN · Ryan O'Hanlon · 2026-09-08"},
+"reduction": {"en":"The company promised they would make no staff reductions for at least two years.","cn":"公司承诺至少两年不裁员。","src":"四级词库"},
+"reduce": {"en":"Small businesses will need to reduce costs in order to survive.","cn":"小企业要想生存必须削减成本。","src":"四级词库"},
+"red": {"en":"We painted the door bright red .","cn":"我们把门漆成鲜红色。","src":"四级词库"},
+"recovery": {"en":"Hopes of economic recovery are fading.","cn":"经济复苏的希望越来越渺茫。","src":"四级词库"},
+"recover": {"en":"Four paintings stolen from the gallery have been recovered.","cn":"美术馆的四幅被盗画作已经失而复得。","src":"四级词库"},
+"recorder": {"en":"Rodney put the recorder on the desk top and pushed the play button.","cn":"罗德尼把录音机放在桌面上，按下了播放键。","src":"四级词库"},
+"reed": {"en":"Reeds grew in clumps all along the river bank.","cn":"沿河岸长着一丛丛芦苇。","src":"考研词库"},
+"relief": {"en":"No one was hurt, and we all breathed a sigh of relief .","cn":"没有人受伤，我们都松了一口气。","src":"四级词库"},
+"relieve": {"en":"Drugs helped to relieve the pain.","cn":"药物有助于舒缓疼痛。","src":"四级词库"},
+"religion": {"en":"The U.S. Constitution promises freedom of religion.","cn":"美国宪法保证宗教信仰自由。","src":"四级词库"},
+"research": {"en":"Gould was helped in his researches by local naturalists.","cn":"古尔德在研究过程中得到了当地博物学家的帮助。","src":"高中词库"},
+"researcher": {"en":"The Cloud Mouse is a project of Microsoft researcher Richard Harper and his collaborators at Microsoft Research Asia.","cn":"云鼠标是微软研究员理查德哈珀和他的合作者在微软亚洲研究院的一个项目 。","src":"托福词库"},
+"resemble": {"en":"It’s amazing how closely Brian and Steve resemble each other.","cn":"布赖恩和史蒂夫真是惊人地相像。","src":"四级词库"},
+"reserve": {"en":"Do you have to reserve tickets in advance?","cn":"你必须预先订票吗？","src":"四级词库"},
+"residence": {"en":"Rome was his main place of residence .","cn":"罗马是他的主要居住地。","src":"四级词库"},
+"resign": {"en":"A hospital administrator has resigned over claims he lied to get the job.","cn":"一位医院主管因为有人声称他的职位是骗来的而辞职了。","src":"四级词库"},
+"resignation": {"en":"He accepted her decision with resignation.","cn":"他无可奈何地接受了她的决定。","src":"六级词库"},
+"resist": {"en":"They only wanted 3 dollars for it, so how could I resist?","cn":"他们只要3美元，我怎能不买？","src":"四级词库"},
+"resistance": {"en":"The U.S. wants big cuts in European agricultural export subsidies, but this is meeting resistance.","cn":"美国想要在欧洲农业出口补贴上的大幅度削减，但这正遭遇抵制。","src":"托福词库"},
+"resistant": {"en":"Some people are very resistant to the idea of exercise.","cn":"一些人对锻炼的主意非常抵制。","src":"四级词库"},
+"resolution": {"en":"They have failed to comply with the resolution.","cn":"他们没有遵守决议。","src":"四级词库"},
+"resolve": {"en":"Barnet was desperate for money to resolve his financial problems.","cn":"巴尼特急需钱来解决他的经济问题。","src":"四级词库"},
+"resort": {"en":"His punishing work schedule had made him resort to drugs.","cn":"他那累人的工作日程已经使他不得不求助于毒品了。","src":"四级词库"},
+"resource": {"en":"Canada’s vast mineral resources","cn":"加拿大丰富的矿产资源","src":"四级词库"},
+"respect": {"en":"The boys showed a complete lack of respect for authority.","cn":"这些男孩子根本无视权威。","src":"四级词库"},
+"restraint": {"en":"The police were praised for their restraint in handling the demonstrators.","cn":"警方因对待示威者时所表现出的克制而受到赞扬。","src":"四级词库"},
+"restrain": {"en":"Renwick restrained a feeling of annoyance.","cn":"伦威克忍住了不悦的情绪。","src":"四级词库"},
+"restore": {"en":"She was hoping that the Mediterranean climate would restore her to full health.","cn":"她希望地中海的气候能使她的身体完全复原。","src":"四级词库"},
+"restless": {"en":"After a few weeks in Marseille, I grew restless and decided to move on.","cn":"在马赛住了几星期后，我开始待不住了，决定换个地方。","src":"四级词库"},
+"restaurant": {"en":"He took her out for a five-course dinner in a fancy restaurant.","cn":"他带她到一家豪华餐厅吃了一顿有五道菜的晚餐。","src":"高中词库"},
+"rest": {"en":"If you’re tired, we’ll stop and rest for a while.","cn":"如果你累了，我们就停下来歇一会儿。","src":"高中词库"},
+"rescue": {"en":"Survivors of the crash were rescued by helicopter.","cn":"空难的生还者被直升机救了出来。","src":"四级词库"},
+"responsibility": {"en":"Kelly’s promotion means more money and more responsibility.","cn":"凯利获得提升，这意味着钱多了，责任也更大了。","src":"四级词库"},
+"response": {"en":"Emmett’s new exhibition has met with a favourable response from critics.","cn":"埃米特的新展览得到评论家的好评。","src":"四级词库"},
+"respond": {"en":"They are likely to respond positively to the president's request for aid.","cn":"他们有可能积极地回应该总统的援助请求。","src":"四级词库"},
+"respectively": {"en":"The cups and saucers cost £5 and £3 respectively.","cn":"茶杯和茶碟的价钱分别为5英镑和3英镑。","src":"四级词库"},
+"respective": {"en":"We all went back to our respective homes to wait for news.","cn":"我们都各自回家等待消息。","src":"四级词库"},
+"respectful": {"en":"They listened in respectful silence.","cn":"他们毕恭毕敬地静听。","src":"四级词库"},
+"responsible": {"en":"We are determined to bring the people responsible to justice.","cn":"我们决意要将肇事者绳之以法。","src":"四级词库"},
+"requirement": {"en":"The refugees’ main requirements are food and shelter.","cn":"难民的主要需求是食物和住所。","src":"四级词库"},
+"require": {"en":"What’s required is a complete reorganization of the system.","cn":"需要做的是彻底整顿整个系统。","src":"四级词库"},
+"request": {"en":"To request more information, please call our toll free number.","cn":"欲知详情，请拨打我们的免费电话。","src":"四级词库"},
+"remove": {"en":"Remove the old wallpaper and fill any holes in the walls.","cn":"撕下旧墙纸，把墙上的洞都填平。","src":"四级词库"},
+"remote": {"en":"The TV remote control is under the couch.","cn":"电视遥控器在沙发下面。","src":"Tatoeba 语料"},
+"remind": {"en":"He made a few notes to remind himself of what he wanted to say.","cn":"他记了几条，提醒自己要说些什么。","src":"四级词库"},
+"remember": {"en":"She clearly remembers the excitement as they boarded the train.","cn":"她清楚地记得他们登上火车时的激动心情。","src":"四级词库"},
+"renew": {"en":"Local people have renewed their efforts to save the school.","cn":"当地居民再一次作出努力，挽救这所学校。","src":"四级词库"},
+"remedy": {"en":"The problems in our schools do not have a simple remedy.","cn":"我们学校的问题没有简单的解决办法。","src":"四级词库"},
+"remark": {"en":"Unfortunately, a local journalist overheard the remark.","cn":"不巧一名当地记者无意中听到了这些话。","src":"高中词库"},
+"remains": {"en":"While there is no direct association between the eggshells and skeletal remains, the authors note in the study, it’s possible they could belong to the same species.","cn":"作者在研究中指出，虽然蛋壳和骨骼遗骸之间没有直接联系，但它们可能属于同一物种。","src":"Smithsonian Magazine · 2026-09-09"},
+"remain": {"en":"They were cleaning up the remains of their picnic.","cn":"他们正在打扫野餐的残余物。","src":"四级词库"},
+"rely": {"en":"They relied heavily on the advice of their professional advisers.","cn":"他们非常依赖专业顾问的建议。","src":"四级词库"},
+"religious": {"en":"I don’t share her religious beliefs .","cn":"她的宗教信仰和我的不同。","src":"四级词库"},
+"remarkable": {"en":"She has made remarkable progress.","cn":"她取得了显著的进步。","src":"四级词库"},
+"restriction": {"en":"Despite financial restrictions that appear to be imposed within the club, you can't hide from the fact they have the highest net spend of any Premier League side since 2022.","cn":"尽管俱乐部内部似乎施加了财务限制，但自2022年以来，他们的净支出一直是英超联赛中最高的。","src":"Sky Sports · 2026-09-09"},
+"rent": {"en":"Most students rent rooms in their second year.","cn":"大多数学生到二年级时租房居住。","src":"四级词库"},
+"repeat": {"en":"It is not, I repeat not, my fault.","cn":"那不是我的错，我再说一遍，不是。","src":"四级词库"},
+"reputation": {"en":"Alice Munro has a reputation for being a very depressing writer.","cn":"艾丽斯•门罗有文风抑郁的名声。","src":"四级词库"},
+"republican": {"en":"Lower taxes made Republican voters happier with their party.","cn":"更低的税率使共和党选民对该党更加满意。","src":"四级词库"},
+"republic": {"en":"Nine republics took part in the referendum.","cn":"有九个共和国参加了全民公决。","src":"四级词库"},
+"reproduce": {"en":"The turtles return to the coast to reproduce.","cn":"海龟回到岸上繁殖。","src":"四级词库"},
+"reproach": {"en":"These derelict houses are a reproach to the city.","cn":"这些破旧房屋的存在是这个城市的耻辱。","src":"考研词库"},
+"representative": {"en":"The pollsters asked a representative sample of New York residents for their opinions.","cn":"民意调查员向一些有代表性的纽约居民征询了意见。","src":"四级词库"},
+"repair": {"en":"Dad was up the ladder, repairing the roof.","cn":"爸爸在梯子上修补屋顶。","src":"四级词库"},
+"represent": {"en":"Mr Kobayashi was chosen to represent the company at the conference.","cn":"小林先生被选中代表公司出席会议。","src":"四级词库"},
+"report": {"en":"This is Gavin Williams, reporting from the United Nations in New York.","cn":"我是加文·威廉斯，在纽约联合国总部为您报道。","src":"四级词库"},
+"reply": {"en":"I asked Clive where he was going, but he didn’t reply.","cn":"我问克莱夫到哪儿去，但他没有回答。","src":"四级词库"},
+"replace": {"en":"Lectures have replaced the old tutorial system.","cn":"课堂授课取代了旧式的导师制。","src":"四级词库"},
+"repetition": {"en":"Children used to learn by repetition.","cn":"过去小孩子是通过背诵来学习的。","src":"四级词库"},
+"repeatedly": {"en":"Graham was repeatedly warned not to work so hard.","cn":"格雷厄姆一再被提醒工作不要这么拼命。","src":"四级词库"},
+"reporter": {"en":"Reporters do not hesitate to intrude into people's privacy.","cn":"记者没有犹豫地去干涉了人们的私生活。","src":"Tatoeba 语料"},
+"plough": {"en":"There are new tractors and new ploughs in the machinery lot.","cn":"机器设备场里有新拖拉机和新耕犁。","src":"四级词库"},
+"plenty": {"en":"The doctor insisted that the patient get plenty of rest.","cn":"医生坚持病人获得充分的休息。","src":"Tatoeba 语料"},
+"might": {"en":"I thought we might go to the new Chinese restaurant on the High Street.","cn":"我想我们可以到大街上新开的那家中国餐馆去。","src":"四级词库"},
+"mild": {"en":"We had an exceptionally mild winter last year.","cn":"去年冬天我们这里异常暖和。","src":"四级词库"},
+"mile": {"en":"It’s 40 miles from here to the Polish border.","cn":"从这里到波兰边界有40英里。","src":"四级词库"},
+"military": {"en":"The government has threatened to take military action if the rebels do not withdraw from the area.","cn":"政府警告说，如果叛乱分子不从该地区撤出，就要采取军事行动。","src":"四级词库"},
+"milk": {"en":"Would you like some milk in your tea?","cn":"你茶里要加点奶吗？","src":"四级词库"},
+"mill": {"en":"All our flours are milled using traditional methods.","cn":"我们所有的面粉全是用传统方法碾磨的。","src":"四级词库"},
+"millimetre": {"en":"The creature is a tiny centipede, just 10 millimetres long.","cn":"那个生物是一只很小的蜈蚣，只有10毫米长。","src":"四级词库"},
+"million": {"en":"The book sold more than a million copies.","cn":"这本书售出了一百多万册。","src":"四级词库"},
+"mind": {"en":"It is impossible to understand the complex nature of the human mind .","cn":"要想了解人类思维复杂的特性是不可能的。","src":"四级词库"},
+"mine": {"en":"You’ve got good legs – mine are too thin.","cn":"你的腿很美——我的腿太细了。","src":"四级词库"},
+"miner": {"en":"Therefore, we should be more like a miner to stand in reality, excavate off wastes, and get gold mines.","cn":"所以我们更应该像一个矿工一样为执著于现实，挖开渣滓，淘出金矿。","src":"四级词库"},
+"mineral": {"en":"The area is very rich in minerals .","cn":"该地区矿产非常丰富。","src":"四级词库"},
+"minimum": {"en":"The minimum number of students we need to run the course is fifteen.","cn":"我们开这门课程最少要有15个学生。","src":"四级词库"},
+"minister": {"en":"Tom became a minister.","cn":"汤姆当上了部长。","src":"Tatoeba 语料"},
+"mission": {"en":"He was sent on over 200 missions before being killed in action.","cn":"在阵亡之前他奉命执行过200多次军事任务。","src":"四级词库"},
+"missing": {"en":"We found the missing piece of the jigsaw under the chair.","cn":"我们在椅子下面找到了那块丢失的拼图。","src":"四级词库"},
+"miss": {"en":"I’d like to make an appointment with Miss Taylor.","cn":"我想约一下泰勒小姐。","src":"四级词库"},
+"mislead": {"en":"Don’t be misled by appearances, he’s a good worker.","cn":"不要被表象迷惑，他工作干得挺不错的。","src":"四级词库"},
+"midst": {"en":"I fear we have an enemy in our midst.","cn":"我担心我们中间有内奸。","src":"四级词库"},
+"miserable": {"en":"Why do you make yourself miserable by taking on too much work?","cn":"你为什么揽这么多活儿，把自己弄得很辛苦呢？","src":"四级词库"},
+"miracle": {"en":"Do you believe in miracles?","cn":"你相信神迹吗？","src":"四级词库"},
+"minute": {"en":"The train arrived at four minutes past eight.","cn":"火车于八点零四分到达。","src":"四级词库"},
+"minus": {"en":"On the minus side, there is no free back-up service if things go wrong.","cn":"不足之处是出了问题没有免费的技术支持服务。","src":"四级词库"},
+"minority": {"en":"Gaelic is still spoken in Ireland by a tiny minority.","cn":"爱尔兰仍有极少数人在说盖尔语。","src":"四级词库"},
+"minor": {"en":"What are your major subject and minor subject?","cn":"你的主修科目和辅修科目是什么?。","src":"四级词库"},
+"mirror": {"en":"When I looked in the mirror I couldn’t believe it. I looked fantastic!","cn":"我看着镜子简直不敢相信，我看上去棒极了！","src":"四级词库"},
+"mist": {"en":"The windows misted, blurring the stark streetlight.","cn":"窗户蒙上了一层水汽，使得明亮的街灯模糊了。","src":"四级词库"},
+"midnight": {"en":"He’s gone for a midnight swim.","cn":"他深更半夜去游泳了。","src":"四级词库"},
+"midday": {"en":"We stopped off in Colchester for our midday meal .","cn":"我们中途在科尔切斯特停留吃了午饭。","src":"四级词库"},
+"medium": {"en":"Fry the onions over a medium heat until they are golden.","cn":"用中火把洋葱炸到金黄色。","src":"四级词库"},
+"meet": {"en":"I was worried I might meet Henry on the bus.","cn":"我担心可能会在公共汽车上遇到亨利。","src":"四级词库"},
+"meeting": {"en":"We’re having a meeting next week to discuss the matter.","cn":"我们下周将开会讨论此事。","src":"四级词库"},
+"melon": {"en":"Cut the melon into six equal pieces.","cn":"把瓜切成六等分。","src":"Tatoeba 语料"},
+"melt": {"en":"It was warmer now, and the snow was beginning to melt.","cn":"现在天气暖和了，雪开始融化。","src":"四级词库"},
+"member": {"en":"The majority of union members voted in favour of a strike.","cn":"大多数工会成员投票赞成罢工。","src":"四级词库"},
+"memorial": {"en":"A memorial service is being held for her at St. Paul's Church.","cn":"一场为她举行的纪念仪式正在圣保罗教堂举行。","src":"四级词库"},
+"memory": {"en":"He has lots of happy memories of his stay in Japan.","cn":"他对在日本逗留的那段时光有许多美好的回忆。","src":"四级词库"},
+"mend": {"en":"My father used to mend our shoes.","cn":"我父亲过去常为我们修补鞋子。","src":"四级词库"},
+"mental": {"en":"The centre provides help for people suffering from mental illness .","cn":"该中心对精神病患者提供帮助。","src":"四级词库"},
+"mention": {"en":"As I mentioned earlier , there have been a lot of changes recently.","cn":"正如我刚才所说的，最近变化很大。","src":"四级词库"},
+"menu": {"en":"Could we have the menu, please?","cn":"请把菜单给我们，好吗？","src":"四级词库"},
+"merchant": {"en":"He had a job with an Edinburgh wine merchant.","cn":"他在爱丁堡的一个葡萄酒商那里做过事。","src":"四级词库"},
+"mercury": {"en":"Some thieves have eaten off their irons with mercury water.","cn":"有些窃贼用汞水腐蚀他们的镣铐。","src":"四级词库"},
+"mercy": {"en":"He showed no mercy to his enemies.","cn":"他对敌人毫不仁慈。","src":"四级词库"},
+"mere": {"en":"She lost the election by a mere 20 votes.","cn":"她仅仅以20票之差落选。","src":"四级词库"},
+"microscope": {"en":"Bacteria under the microscope, even those with no flagella, often bounce about in the water.","cn":"在显微镜下，细菌，甚至包括那些没有鞭毛的细菌，经常在水中跳来跳去。","src":"四级词库"},
+"microphone": {"en":"They searched the room for hidden microphones.","cn":"他们在屋里翻找隐藏的话筒。","src":"四级词库"},
+"microcomputer": {"en":"The merchant sold electrical appliances, such as microcomputer, microphone, microprocessor and microwave ovens.","cn":"商人卖一些电器，比如微型计算机，话筒，微处理器和微波炉。","src":"四级词库"},
+"metric": {"en":"The parts all come in metric sizes now.","cn":"现在配件都采用公制规格。","src":"四级词库"},
+"metre": {"en":"She's running the 1,500 metres here.","cn":"她正在这儿跑1500米。","src":"四级词库"},
+"method": {"en":"I think we should try again using a different method.","cn":"我想我们应该用不同的方法再试一次。","src":"四级词库"},
+"middle": {"en":"There are plenty of small houses for sale, and quite a lot of very large ones, but very little in the middle.","cn":"在售的小房子很多，大房子也有不少，但是不大不小的很少。","src":"四级词库"},
+"meter": {"en":"The taxi driver left the meter running while I ran in to pick up my bags.","cn":"我跑进去拿行李时，出租车司机让计价器继续走字。","src":"四级词库"},
+"messenger": {"en":"There will be a messenger at the airport to collect the photographs from our courier.","cn":"机场会有一名信使从我们的快递员那儿取走照片。","src":"四级词库"},
+"message": {"en":"He left a message saying he would probably be a little late.","cn":"他留言说可能会晚一点来。","src":"四级词库"},
+"mess": {"en":"You can make cookies if you promise not to make a mess in the kitchen.","cn":"如果你答应不把厨房搞得乱七八糟，你可以去做甜饼。","src":"四级词库"},
+"merry": {"en":"He marched off, whistling a merry tune.","cn":"他吹着一首欢快的曲子大步走了。","src":"四级词库"},
+"merit": {"en":"The merit of the report is its realistic assessment of the changes required.","cn":"这份报告的优点就是它对所要求的变动进行了实事求是的评估。","src":"四级词库"},
+"merely": {"en":"He’s merely a boy – you can’t expect him to understand.","cn":"他只是个孩子——你不要指望他能理解。","src":"四级词库"},
+"metal": {"en":"The gate is made of metal.","cn":"这扇大门是用金属做成的。","src":"四级词库"},
+"mediterranean": {"en":"You have the choice of night fishing in the Mediterranean, or windsurfing on a lake in Switzerland.","cn":"你可选择在地中海夜间垂钓，或是在瑞士的湖上玩帆板。","src":"四级词库"},
+"mistake": {"en":"The most common mistake is to plant them too deep.","cn":"最常见的错误就是把它们种得太深了。","src":"四级词库"},
+"mistress": {"en":"The maid looked nervously at her mistress.","cn":"女仆紧张地看着女主人。","src":"四级词库"},
+"motive": {"en":"The violence was clearly prompted by political motives.","cn":"这次暴力事件显然是由政治动机引发的。","src":"四级词库"},
+"mould": {"en":"Another method, used especially for figures, was to pour the clay into a mould.","cn":"另一个方法是把黏土倒入模具中，尤其用于铸造人像。","src":"四级词库"},
+"mount": {"en":"A car suddenly mounted the pavement to avoid a vehicle coming in the opposite direction.","cn":"有辆汽车为了躲避迎面驶来的一辆车，突然冲上了人行道。","src":"四级词库"},
+"mountain": {"en":"She was the first British woman to climb the mountain .","cn":"她是攀登这座山峰的第一位英国女子。","src":"四级词库"},
+"mourn": {"en":"Hundreds of people gathered to mourn the slain president.","cn":"成百上千人聚集在一起悼念遇刺的总统。","src":"四级词库"},
+"mouse": {"en":"The cat laid a dead mouse at my feet.","cn":"猫把一只死老鼠放在我的脚边。","src":"四级词库"},
+"mouth": {"en":"Liam was fast asleep with his mouth wide open.","cn":"利亚姆大张着嘴，睡得很熟。","src":"四级词库"},
+"mouthful": {"en":"Michael told his story between mouthfuls.","cn":"迈克尔边吃边讲他的故事。","src":"四级词库"},
+"move": {"en":"Could you move your car, please? It’s blocking the road.","cn":"你能把车挪一下吗？挡着路了。","src":"四级词库"},
+"movement": {"en":"It's part of a broader nationalist movement that's gaining strength throughout the country.","cn":"这是一场正在全国范围内日益壮大的更为广泛的民族主义运动的一部分。","src":"四级词库"},
+"movie": {"en":"It was like one of those old John Wayne movies.","cn":"这部电影有点像约翰•韦恩演的一部老片子。","src":"四级词库"},
+"much": {"en":"The day ended much as it began.","cn":"这一天结束时还像开始时一样。","src":"四级词库"},
+"mud": {"en":"It was impossible to move the car – its wheels had got stuck in the mud.","cn":"这车子动不了——车轮陷到烂泥里了。","src":"四级词库"},
+"muddy": {"en":"Take your boots off outside if they’re muddy.","cn":"要是靴子上都是泥，你就脱在门外吧。","src":"四级词库"},
+"multiple": {"en":"Having multiple partners increases your risk of sexual diseases.","cn":"性伴侣多会增加得性病的风险。","src":"四级词库"},
+"mutual": {"en":"The two men were a mutual admiration society , gushing about how much they were learning from each other.","cn":"两个男人互相吹捧，盛赞对方让自己受益匪浅。","src":"四级词库"},
+"mutter": {"en":"Elsie muttered something I couldn’t catch and walked off.","cn":"埃尔茜咕哝了一句什么，我也没有听懂，她就走掉了。","src":"四级词库"},
+"mute": {"en":"Billy continued to stand there, mute and defiant.","cn":"比利还是站在那儿一声不吭，一副不服气的样子。","src":"四级词库"},
+"must": {"en":"For the engine to work, the green lever must be in the ‘up’ position.","cn":"要启动引擎，绿色操纵杆必须在“上”这一挡。","src":"四级词库"},
+"musician": {"en":"Both brothers are musicians.","cn":"两兄弟都是音乐家。","src":"Tatoeba 语料"},
+"motivate": {"en":"Was he motivated solely by a desire for power?","cn":"他只是受到权欲的驱使吗？","src":"四级词库"},
+"musical": {"en":"When he began his musical career, King played only for black audiences.","cn":"金在音乐事业的开始阶段只为黑人观众演奏。","src":"四级词库"},
+"mushroom": {"en":"New housing developments mushroomed on the edge of town.","cn":"城郊新住宅区雨后春笋般地冒出来。","src":"四级词库"},
+"museum": {"en":"The museum has an extensive collection of early photographs.","cn":"这座博物馆藏有大量早期的照片。","src":"四级词库"},
+"muscle": {"en":"Rooney has pulled a muscle in his thigh and won’t play tomorrow.","cn":"鲁尼大腿肌肉拉伤，明天不能参赛了。","src":"四级词库"},
+"murderer": {"en":"The gardener turned out to be the murderer.","cn":"园丁后来发现就是凶手。","src":"Tatoeba 语料"},
+"murder": {"en":"On the night the murder was committed , he was out of the country.","cn":"凶案发生当晚他不在国内。","src":"四级词库"},
+"multiply": {"en":"Bacteria multiply quickly in warm food.","cn":"细菌在温热的食物里繁殖得很快。","src":"四级词库"},
+"music": {"en":"A new piece of music was specially written for the occasion.","cn":"为了这个活动专门写了一首新曲子。","src":"四级词库"},
+"mister": {"en":"Look, Mister, we know our job, so don't try to tell us what to do.","cn":"哎，先生，我们了解自己的工作，所以你不必告诉我们该干什么。","src":"四级词库"},
+"motion": {"en":"She motioned for the locked front doors to be opened.","cn":"她打手势示意把锁着的前门打开。","src":"四级词库"},
+"mostly": {"en":"There were about fifteen people in the lounge, mostly women.","cn":"大厅里大约有15人，大部分是女性。","src":"四级词库"},
+"misunderstand": {"en":"Rachel, you must have misunderstood her! Ellie would never say something like that.","cn":"雷切尔，你一定是误会她了！埃莉绝不会说那样的话。","src":"四级词库"},
+"mix": {"en":"Oil and water don’t mix.","cn":"油和水不相融。","src":"四级词库"},
+"mixture": {"en":"Pour the mixture into four small dishes.","cn":"把混合料倒入四个小碟子里。","src":"四级词库"},
+"moan": {"en":"She gave a little moan of pleasure.","cn":"她轻轻地发出一声快乐的呻吟。","src":"四级词库"},
+"mobile": {"en":"People these days are much more socially mobile .","cn":"如今人们的社会地位容易改变多了。","src":"四级词库"},
+"mode": {"en":"Set the monitor to 256 colour mode.","cn":"把显示器调成256色彩模式。","src":"四级词库"},
+"model": {"en":"I'd like to try out this new model before I buy it.","cn":"我想在买之前先试试这个新机型。","src":"Tatoeba 语料"},
+"moderate": {"en":"Moderate exercise, such as walking, is recommended.","cn":"建议适度锻炼，比如散步。","src":"四级词库"},
+"modern": {"en":"Such companies must change if they are to compete in the modern world .","cn":"此类公司如果想在现代社会中与别人竞争，就必须有所改变。","src":"四级词库"},
+"modest": {"en":"You’re too modest! You’ve been a huge help to us.","cn":"你太谦虚了！你帮了我们大忙呢。","src":"四级词库"},
+"modify": {"en":"The feedback will be used to modify the course for next year.","cn":"这些反馈意见将用于修改明年的课程。","src":"四级词库"},
+"moist": {"en":"Make sure the soil is moist before planting the seeds.","cn":"播种之前要确保土壤湿润。","src":"四级词库"},
+"moisture": {"en":"Your skin’s moisture content varies according to weather conditions.","cn":"皮肤的水分含量随着天气状况而变化。","src":"四级词库"},
+"molecule": {"en":"The molecules of oxygen gas contain just two atoms.","cn":"氧分子中只有两个原子。","src":"四级词库"},
+"moment": {"en":"At this moment in time it would be inappropriate to comment on the situation.","cn":"这个时候恐怕不宜对局势作出评论。","src":"四级词库"},
+"monday": {"en":"The president announced Monday that he would cancel the debt.","cn":"总统周一宣布他会取消这笔债务。","src":"四级词库"},
+"money": {"en":"Don’t spend all your money on the first day of your holiday!","cn":"别在度假的第一天就把钱都花完了！","src":"四级词库"},
+"most": {"en":"The president himself won the most votes.","cn":"总统本人赢得了最多的选票。","src":"四级词库"},
+"mosquito": {"en":"He crushes it, with one hydraulic hand, almost unconsciously, like someone swatting a mosquito.","cn":"他下意识地地用液压手将它拍个稀烂，就像拍死一只蚊子。","src":"四级词库"},
+"mortal": {"en":"Her father’s death reminded her that she was mortal.","cn":"父亲的去世让她认识到终有一天她也会死去。","src":"四级词库"},
+"morning": {"en":"He stayed in bed late on Sunday morning.","cn":"星期日早上他睡到很晚。","src":"四级词库"},
+"moreover": {"en":"The source of the information is irrelevant. Moreover, the information need not be confidential.","cn":"信息来源无关紧要，而且也不一定必须是机密的。","src":"四级词库"},
+"more": {"en":"The film deserves more attention from the public.","cn":"这部影片应受到公众的更多注意。","src":"四级词库"},
+"mother": {"en":"If food is scarce, the mother will feed the smaller, weaker chicks.","cn":"如果食物稀少，母禽就喂较小、较弱的幼禽。","src":"四级词库"},
+"moral": {"en":"If we accept that certain babies should be allowed to die, we place doctors in a moral dilemma .","cn":"如果我们同意应该允许某些婴儿死去，那就是让医生在道德上处于两难境地了。","src":"四级词库"},
+"mood": {"en":"You’re in a good mood this morning!","cn":"你今天早晨心情不错啊！","src":"四级词库"},
+"monument": {"en":"He erected a monument on the spot where his daughter was killed.","cn":"他在女儿遇难的地方立了块纪念碑。","src":"四级词库"},
+"monthly": {"en":"In some areas the property price can rise monthly.","cn":"有些地区，房价能每月都涨。","src":"四级词库"},
+"month": {"en":"I hope I’ll have finished the work by the end of the month .","cn":"我希望我这个月底能完成工作。","src":"四级词库"},
+"monkey": {"en":"The monkey had deflowered an entire section of the garden.","cn":"这只猴子把花园中一整块地方的花都糟蹋了。","src":"四级词库"},
+"monitor": {"en":"He suspected that his phone calls were being monitored.","cn":"他怀疑他的电话被人监听。","src":"托福词库"},
+"moon": {"en":"The Americans landed on the Moon in 1969.","cn":"美国人于1969年登上月球。","src":"四级词库"},
+"medicine": {"en":"She studied medicine at Johns Hopkins University.","cn":"她曾在约翰•霍普金斯大学学医。","src":"四级词库"},
+"medical": {"en":"A growing child who doesn't seem to have much energy perhaps needs medical attention.","cn":"一个成长中的孩子如果没有充足的能量，可能需要药物治疗。","src":"Tatoeba 语料"},
+"medal": {"en":"The two boys were awarded medals for their bravery.","cn":"这两个男孩因勇敢而获得勋章。","src":"四级词库"},
+"lose": {"en":"By the time the ambulance arrived, Douglas had lost consciousness .","cn":"救护车赶到时，道格拉斯已经失去知觉。","src":"四级词库"},
+"loss": {"en":"The company is closing down two of its factories, leading to 430 job losses .","cn":"公司要关闭其中的两家工厂，这将造成430人失业。","src":"四级词库"},
+"lot": {"en":"We’ve spent a lot on the children’s education.","cn":"我们在孩子的教育上花费甚多。","src":"四级词库"},
+"loud": {"en":"The book fell to the floor with a loud bang.","cn":"书砰的一声掉落到地上。","src":"四级词库"},
+"loudspeaker": {"en":"The loudspeaker announced the arrival of the train.","cn":"广播说火车进站了。","src":"四级词库"},
+"love": {"en":"He was the only man she had ever loved.","cn":"他是她唯一爱过的男人。","src":"四级词库"},
+"lovely": {"en":"You look lovely in that dress.","cn":"你穿那条连衣裙很漂亮。","src":"四级词库"},
+"lover": {"en":"He killed his wife’s lover.","cn":"他杀了妻子的情人。","src":"四级词库"},
+"low": {"en":"Cost-cutting has led to a lower quality of service.","cn":"削减成本导致服务质量降低。","src":"四级词库"},
+"lower": {"en":"Nina chewed her lower lip anxiously.","cn":"尼娜焦虑不安地咬着下唇。","src":"四级词库"},
+"luck": {"en":"He’s had good luck with his roses this year.","cn":"今年他种玫瑰的运气不错。","src":"四级词库"},
+"lucky": {"en":"I didn’t really know your name – it was just a lucky guess .","cn":"我并不知道你的名字―只是运气好猜中的。","src":"四级词库"},
+"luggage": {"en":"They searched his luggage for illegal drugs.","cn":"他们搜查他的行李看是否藏有毒品。","src":"四级词库"},
+"lumber": {"en":"It was made of soft lumber, spruce by the look of it.","cn":"它是软木做的，看样子是云杉。","src":"四级词库"},
+"lump": {"en":"Strain the custard to remove lumps.","cn":"滤去牛奶蛋糊里的面块。","src":"四级词库"},
+"main": {"en":"The main reason for living in Spain is the weather.","cn":"居住在西班牙的主要原因是天气。","src":"四级词库"},
+"mail": {"en":"He found a mountain of mail waiting for him.","cn":"他发现有堆积如山的邮件等着他处理。","src":"四级词库"},
+"magnificent": {"en":"The twelve-mile coastline has magnificent sce-nery.","cn":"这12英里的海岸线景色壮观。","src":"六级词库"},
+"magnet": {"en":"Prospect Park, with its vast lake, is a magnet for all health freaks.","cn":"拥有大片湖区的展望公园是所有健身迷的向往之地。","src":"四级词库"},
+"lorry": {"en":"Now and then they heard the roar of a heavy lorry.","cn":"他们不时听见一辆重型卡车的轰响声。","src":"四级词库"},
+"magic": {"en":"Paris has lost some of its magic for me over the years.","cn":"这些年来巴黎对我来说已不如从前那么有魅力了。","src":"托福词库"},
+"madam": {"en":"Are you being served, Madam?","cn":"有人接待您吗，夫人？","src":"四级词库"},
+"mad": {"en":"He can’t possibly get that finished in time. He must be mad !","cn":"他不可能按时完成的。他一定是疯了！","src":"四级词库"},
+"machine": {"en":"Could you get me a coffee from the drinks machine ?","cn":"给我从自动饮料机里买一罐咖啡好吗？","src":"四级词库"},
+"luxury": {"en":"He was leading a life of luxury in Australia.","cn":"他在澳大利亚过着豪华舒适的生活。","src":"四级词库"},
+"lung": {"en":"Smoking can cause lung cancer.","cn":"吸烟会引起肺癌。","src":"四级词库"},
+"lunch": {"en":"I slept a little during lunch break because I was so tired.","cn":"我在午休时间睡了一会儿，因为我太累了。","src":"Tatoeba 语料"},
+"magazine": {"en":"She glanced over the magazine racks.","cn":"她扫了一眼杂志架。","src":"四级词库"},
+"mainland": {"en":"Mainland raccoons, on the other hand, typically weigh between 15 and 40 pounds.","cn":"另一方面，大陆浣熊的体重通常在15到40磅之间。","src":"Smithsonian Magazine · 2026-09-08"},
+"lord": {"en":"At the time, all property in England legally belonged to the king, who granted lesser lords the right to lease land to tenants “in return for certain services and restrictions on their freedom,” Prescott says.","cn":"当时，英格兰的所有财产在法律上都属于国王，国王授予较小的领主向租户出租土地的权利，“以换取某些服务和对其自由的限制”，普雷斯科特说。","src":"Smithsonian Magazine · 2026-09-09"},
+"loose": {"en":"This tooth feels very loose.","cn":"这颗牙感觉松动得厉害。","src":"四级词库"},
+"liquid": {"en":"Children take antibiotics in liquid form.","cn":"儿童服用液态抗生素。","src":"四级词库"},
+"liquor": {"en":"The room was filled with cases of liquor.","cn":"房间里满是一箱箱的烈性酒。","src":"四级词库"},
+"list": {"en":"High on the list of public demands is to end military control of broadcasting.","cn":"高居公众要求事项前列的是结束对广播的军事控制。","src":"四级词库"},
+"listen": {"en":"Listen! There’s a strange noise in the engine.","cn":"听！引擎发出奇怪的声音。","src":"四级词库"},
+"liter": {"en":"It takes over three times as much energy to produce a liter of non-organic milk than a liter of organic milk.","cn":"生产一公升的非有机牛奶所需能源，比生产一公升的有机牛奶还要多出三倍以上。","src":"四级词库"},
+"literature": {"en":"He has read many of the major works of literature.","cn":"他读过许多重要的文学作品。","src":"四级词库"},
+"little": {"en":"She was cutting the meat up into little bits.","cn":"她把肉切成小丁。","src":"四级词库"},
+"live": {"en":"As soon as I saw the place, I knew I didn’t want to live there.","cn":"我一看到那地方，就觉得不想住在那儿。","src":"四级词库"},
+"liver": {"en":"Three weeks ago, it was discovered the cancer had spread to his liver.","cn":"三周前，发现癌已扩散到了他的肝脏。","src":"四级词库"},
+"living": {"en":"He’s one of the greatest living composers.","cn":"他是仍然健在的最伟大的作曲家之一。","src":"四级词库"},
+"load": {"en":"Will you help me load the dishwasher?","cn":"你帮我把碗碟放进洗碗机好吗？","src":"四级词库"},
+"loaf": {"en":"There were always a lot of men loafing in the shop.","cn":"总有许多人在商店里闲逛。","src":"四级词库"},
+"loan": {"en":"It’ll be years before we’ve paid off the loan.","cn":"我们要过好几年才能还清贷款。","src":"四级词库"},
+"loop": {"en":"The ball looped over the goalkeeper into the back of the net.","cn":"那个球绕过守门员射入网底。","src":"四级词库"},
+"look": {"en":"If you look carefully you can see that the painting represents a human figure.","cn":"如果仔细看，就会看出画上是一个人形。","src":"四级词库"},
+"long": {"en":"Try to keep going foras long as possible.","cn":"能坚持多久就坚持多久。","src":"四级词库"},
+"lonely": {"en":"Don’t you get lonely being on your own all day?","cn":"你整天独自一人不感到寂寞吗？","src":"四级词库"},
+"logical": {"en":"It’s a logical site for a new supermarket, with the housing development nearby.","cn":"附近有住宅区，新的超级市场选址在此是合情合理的。","src":"四级词库"},
+"loosen": {"en":"You’ll need a spanner to loosen that bolt.","cn":"你需要扳手来拧开那个螺栓。","src":"四级词库"},
+"logic": {"en":"Do you not understand basic logic?","cn":"你不懂基本逻辑吗？","src":"Tatoeba 语料"},
+"lodge": {"en":"The bullet lodged in the sergeant's leg, shattering his thigh bone.","cn":"子弹射入这个军士的腿部，击碎了他的大腿骨。","src":"考研词库"},
+"locomotive": {"en":"A chamber, such as the furnace of a steam locomotive, in which fuel is burned.","cn":"火箱，燃烧室一种燃料在里面燃烧的内室，例如蒸汽机车的燃烧室。","src":"六级词库"},
+"lock": {"en":"I’m sorry, there isn’t a lock on the bathroom door.","cn":"对不起，浴室门上没有锁。","src":"四级词库"},
+"location": {"en":"His apartment is in a really good location.","cn":"他的公寓地段很好。","src":"四级词库"},
+"locate": {"en":"We couldn’t locate the source of the radio signal.","cn":"我们无法确定无线电信号的来源。","src":"四级词库"},
+"local": {"en":"Researchers were curious to know how the wreckage was affecting the local marine ecosystem.","cn":"研究人员想知道残骸是如何影响当地海洋生态系统的。","src":"Smithsonian Magazine · 2026-09-09"},
+"log": {"en":"The captain always keeps a log.","cn":"船长坚持记航海日志。","src":"六级词库"},
+"mainly": {"en":"I don’t go out much, mainly because I have to look after the kids.","cn":"我不大出去，主要是因为我得照看孩子们。","src":"四级词库"},
+"maintain": {"en":"A lot depends on building and maintaining a good relationship with your customers.","cn":"和顾客建立并保持良好关系很重要，很多事情要取决于此。","src":"四级词库"},
+"maintenance": {"en":"Engineers are carrying out essential maintenance work on the main line to Cambridge.","cn":"机修工正在对通往剑桥的干线进行必要的养护。","src":"四级词库"},
+"mate": {"en":"Rabbits can be mated as early as six months old.","cn":"兔子在六个月大时就可以交配了。","src":"四级词库"},
+"material": {"en":"According to some, the material world is all that exists.","cn":"有些人认为，物质世界就是存在的一切。","src":"四级词库"},
+"mathematical": {"en":"Because of the longstanding interest in these equations, Navier-Stokes, officially called the Navier-Stokes existence and smoothness problem, is one of seven mathematical problems with a $1 million award offered for each solution—they’re known collectively as the Millennium Prize Problems.","cn":"由于长期以来对这些方程的兴趣，纳维-斯托克斯问题，正式名称为纳维-斯托克斯存在性和平滑性问题，是七个数学问题之一，每个解决方案都有100万美元的奖金——它们被统称为千年奖问题。","src":"Smithsonian Magazine · 2026-09-10"},
+"mathematics": {"en":"He likes mathematics, but I don't.","cn":"他喜欢数学，但我不喜欢。","src":"Tatoeba 语料"},
+"maths": {"en":"She got top marks in maths and chemistry.","cn":"她数学和化学得了最高分。","src":"四级词库"},
+"matter": {"en":"There are more important matters we need to discuss.","cn":"我们有更重要的事情需要讨论。","src":"四级词库"},
+"mature": {"en":"We’re mature enough to disagree on this issue but still respect each other.","cn":"我们都很成熟，尽管我们对此事意见不同，但还是彼此尊重。","src":"四级词库"},
+"maximum": {"en":"The award will consist of a lump sum to a maximum value of $5,000.","cn":"奖学金最高将是5,000美元，一次性给付。","src":"四级词库"},
+"may": {"en":"It may be that Minoan ships were built and repaired here.","cn":"米诺斯人的船可能就是在这里建造和修理的。","src":"四级词库"},
+"maybe": {"en":"He said he’d finish the work soon – maybe tomorrow.","cn":"他说他很快就会完成那项工作——也许是明天。","src":"四级词库"},
+"mayor": {"en":"\"What do you think of the election for mayor?\" \"I don't know.\"","cn":"“你对市长选举怎么看？”“我不知道。”","src":"Tatoeba 语料"},
+"meadow": {"en":"He hurried across the stream and reached a meadow. He stopped and looked around, as if hewere looking for something.","cn":"忽然来了一个人，他匆匆地穿过溪流，来到草地上，停下来四处看了看，好像在寻找什么。 。","src":"六级词库"},
+"meal": {"en":"Dinner is the main meal of the day for most people.","cn":"晚饭是大多数人一天中的主餐。","src":"四级词库"},
+"mean": {"en":"\"Credible\" means \"believable.\"","cn":"的意思是。","src":"四级词库"},
+"mechanics": {"en":"He has not studied mechanics or engineering.","cn":"他没有学习过力学或者工程学。","src":"四级词库"},
+"mechanically": {"en":"Never copy foreign things blindly or mechanically.","cn":"不要盲目地或机械地照搬外国的东西。","src":"四级词库"},
+"mechanical": {"en":"The plane had to make an emergency landing because of mechanical problems.","cn":"飞机因机械故障不得不紧急降落。","src":"四级词库"},
+"meat": {"en":"I gave up eating meat a few months ago.","cn":"我几个月以前开始不吃肉了。","src":"四级词库"},
+"measurement": {"en":"Take measurements of the room before you buy any new furniture.","cn":"买新家具之前要先量好房间的尺寸。","src":"六级词库"},
+"match": {"en":"They’re preparing for a big match tomorrow.","cn":"他们在为明天的一场大赛做准备。","src":"四级词库"},
+"measure": {"en":"The rainfall was measured over a three-month period.","cn":"对三个月内的降雨量进行了测量。","src":"四级词库"},
+"meanwhile": {"en":"Cook the sauce over a medium heat until it thickens. Meanwhile start boiling the water for the pasta.","cn":"用中火把调味汁煮到变稠，同时烧水准备煮意大利面。","src":"四级词库"},
+"meantime": {"en":"In the meantime, you have to insulate yourself from his moods.","cn":"同时，你必须将你自己隔绝在他的情绪之外。","src":"四级词库"},
+"means": {"en":"Homework should not be used as a means of controlling children.","cn":"家庭作业不应该作为约束儿童的手段。","src":"四级词库"},
+"meaning": {"en":"What’s the meaning of this? I asked you to be here an hour ago!","cn":"这是什么意思？我让你一小时之前就要到的！","src":"四级词库"},
+"mat": {"en":"Wipe your feet on the mat.","cn":"在地垫上蹭蹭你的鞋底。","src":"四级词库"},
+"masterpiece": {"en":"Mary Shelley was just 18 when she wrote the horror masterpiece ‘Frankenstein’.","cn":"玛丽•雪莱创作《科学怪人》这部恐怖小说名作的时候年仅18岁。","src":"四级词库"},
+"manufacturer": {"en":"Read the manufacturer’s instructions before using your new dishwasher.","cn":"使用新洗碗机之前，请先阅读厂家的说明书。","src":"四级词库"},
+"manufacture": {"en":"The date of manufacture is shown on the lid.","cn":"生产日期在盖子上。","src":"Tatoeba 语料"},
+"manual": {"en":"People in manual occupations have a lower life expectancy.","cn":"干体力活的人预期寿命较短。","src":"四级词库"},
+"manner": {"en":"The issue will be resolved in a manner that is fair to both sides.","cn":"这个问题将用对双方都公平的方式来解决。","src":"四级词库"},
+"mankind": {"en":"Since earliest times, mankind has been fascinated by fire.","cn":"人类自远古以来就对火很感兴趣。","src":"四级词库"},
+"many": {"en":"The printing press gave power to a few to change the world for the many.","cn":"印刷机赋予了少数人为多数人改变世界的力量。","src":"四级词库"},
+"manager": {"en":"He is the manager of the marketing department.","cn":"他是营销部的负责人。","src":"Tatoeba 语料"},
+"manage": {"en":"Managing a football team is harder than you think.","cn":"管理一支足球队比你想象的要难。","src":"四级词库"},
+"man": {"en":"Don’t keep Hansen waiting – he’s a busy man.","cn":"别让汉森老等着——他可是个大忙人。","src":"四级词库"},
+"male": {"en":"Many women earn less than their male colleagues.","cn":"许多女性挣钱比她们的男性同事少。","src":"托福词库"},
+"make": {"en":"The company has been making quality furniture for over 200 years.","cn":"这家公司制作优质家具有两百多年的历史了。","src":"四级词库"},
+"majority": {"en":"The Labour Party won a huge majority at the last general election.","cn":"工党在上次大选中以巨大的票数优势获胜。","src":"四级词库"},
+"major": {"en":"The loss of their goalkeeper through injury was a major setback for the team.","cn":"守门员因伤缺阵使该队的实力大打折扣。","src":"四级词库"},
+"map": {"en":"According to the map we should turn left.","cn":"从地图上看，我们应该左拐。","src":"四级词库"},
+"march": {"en":"I flew to Milwaukee in early March.","cn":"我3月初飞到了密尔沃基。","src":"四级词库"},
+"master": {"en":"I never quite mastered the art of walking in high heels.","cn":"我一直学不会穿高跟鞋走路。","src":"高中词库"},
+"mass": {"en":"The war is strongly supported by the mass of the population.","cn":"这场战争得到了大多数人的有力支持。","src":"高中词库"},
+"mask": {"en":"He was attacked and robbed by two people wearing masks .","cn":"他被两个蒙面人袭击并抢劫。","src":"四级词库"},
+"marxism": {"en":"The proletariat must possess the truth of Marxism.","cn":"无产阶级必须掌握马克思主义的真理。","src":"四级词库"},
+"marvelous": {"en":"Wonderful, marvelous. Police always are servants of upper caste, money, politicians. You cant expect justice for dalits in this country.","cn":"好极了，了不起。警察一直是高种姓、金钱、政客的仆人。达利特在这个国家无法期望得到公正。","src":"四级词库"},
+"marble": {"en":"The columns were of white marble.","cn":"柱子是白色的大理石。","src":"四级词库"},
+"marry": {"en":"I’m going to ask her to marry me on St Valentine’s Day.","cn":"我打算在情人节向她求婚。","src":"四级词库"},
+"marriage": {"en":"She has three daughters from a previous marriage.","cn":"她前一次婚姻生了三个女儿。","src":"四级词库"},
+"market": {"en":"Our main overseas market is Japan.","cn":"我们的主要海外市场是日本。","src":"四级词库"},
+"mark": {"en":"The kitten is mainly white with black marks on her back.","cn":"小猫身体基本为白色，背上有黑色斑点。","src":"四级词库"},
+"marine": {"en":"A small number of Marines were wounded.","cn":"几名海军陆战队士兵受了伤。","src":"四级词库"},
+"margin": {"en":"Use double spacing and wide margins to leave room for comments.","cn":"采用双倍行距和宽阔的页边空白，以便留出地方写评注。","src":"四级词库"},
+"married": {"en":"When she first came to London, she was newly married and out of work.","cn":"她初到伦敦时刚结婚，而且没有工作。","src":"四级词库"},
+"myself": {"en":"I blame myself for what has happened.","cn":"发生这一切都怪我自己。","src":"四级词库"},
+"mysterious": {"en":"The police are investigating the mysterious deaths of children at the hospital.","cn":"警察正在调查这家医院的儿童神秘死亡事件。","src":"四级词库"},
+"mystery": {"en":"I don’t know how he got the job – it’s one of life’s little mysteries .","cn":"我不知道他是怎么得到那份工作的——那永远是个小小的谜。","src":"四级词库"},
+"origin": {"en":"The tradition has its origins in the Middle Ages.","cn":"这一传统源于中世纪。","src":"四级词库"},
+"original": {"en":"The original plan was to fly out to New York.","cn":"原先的计划是飞往纽约。","src":"四级词库"},
+"ornament": {"en":"“Although the string or cord connecting them has not survived, there is no doubt that this was an ornament made by human hands.”","cn":"“虽然连接它们的绳子或绳索没有存活下来，但毫无疑问，这是人手制作的装饰品。","src":"Smithsonian Magazine · 2026-09-09"},
+"orphan": {"en":"The war has left thousands of children as orphans.","cn":"这场战争使成千上万的孩子成为孤儿。","src":"四级词库"},
+"other": {"en":"They were just like any other young couple.","cn":"他们那时就和其他任何年轻夫妇一样。","src":"四级词库"},
+"otherwise": {"en":"You’ll have to go now, otherwise you’ll miss your bus.","cn":"你现在就得走，要不然就赶不上公共汽车了。","src":"四级词库"},
+"ought": {"en":"I realize I ought to have told you about it.","cn":"我意识到我本该告诉你这件事的。","src":"六级词库"},
+"ounce": {"en":"If you have an efficient distance per stroke, you're using every ounce of energy to carry yourself forward.","cn":"如果你的单划距离合适，那么你身体的每一盎司精力都将用于前进！","src":"四级词库"},
+"our": {"en":"We avenged ourselves on  our enemy.","cn":"我们向我们的敌人报仇。","src":"四级词库"},
+"ours": {"en":"The main difference between our brains and those of monkeys is that ours are bigger.","cn":"我们的大脑和猴子的大脑之间的主要差别在于我们的要大些。","src":"四级词库"},
+"ourselves": {"en":"We prepared ourselves for the long journey ahead.","cn":"我们为将要开始的长途旅行做好了准备。","src":"四级词库"},
+"out": {"en":"She opened her suitcase and took out a pair of shoes.","cn":"她打开手提箱，拿出一双鞋。","src":"四级词库"},
+"outcome": {"en":"People who had heard the evidence at the trial were surprised at the outcome.","cn":"在审判过程中听过证词的人都对此结果感到吃惊。","src":"四级词库"},
+"outdoor": {"en":"Though with the widespread of the Internet, we can almost do everything at home, we have to enjoy our outdoor lives.","cn":"虽然随着互联网的普及，我们在家几乎可以做所有的事情，但是我们得要欣赏我们的户外生活。","src":"初中词库"},
+"outdoors": {"en":"It’s warm enough to eat outdoors tonight.","cn":"今晚很暖和，可以在户外用餐。","src":"四级词库"},
+"outer": {"en":"Remove the tough outer leaves before cooking.","cn":"烹煮之前先把外面的老叶子去掉。","src":"四级词库"},
+"outlet": {"en":"Her father had found an outlet for his ambition in his work.","cn":"她父亲在工作中找到了施展抱负的途径。","src":"四级词库"},
+"overcome": {"en":"Australia overcame the Netherlands 2-1.","cn":"澳大利亚队2比1战胜了荷兰队。","src":"四级词库"},
+"overcoat": {"en":"She removed all the grease stains from her overcoat.","cn":"她把她大衣上所有油渍都去掉了。","src":"四级词库"},
+"overall": {"en":"We don’t want all the details now, just the overall picture.","cn":"现在我们不需要全部细节，只要知道大致的情况。","src":"四级词库"},
+"over": {"en":"She leaned over the desk to answer the phone.","cn":"她身子探过桌面接电话。","src":"四级词库"},
+"oven": {"en":"Press the mixture onto the bread and bake in a hot oven for ten minutes.","cn":"把混合料抹在面包上，然后在烤箱内高温烘烤10分钟。","src":"四级词库"},
+"outwards": {"en":"The door opens outwards.","cn":"这门是朝外开的。","src":"四级词库"},
+"outward": {"en":"The economy and outward appearance of the area have changed considerably.","cn":"该地区的经济和面貌发生了很大的变化。","src":"四级词库"},
+"outskirt": {"en":"Mianyang Nanjiao Airport is seated in southern outskirt of Minayang city proper, operating flights to Beijing, Shanghai and Guangzhou.","cn":"绵阳南郊机场位于绵阳南部郊区，有航班开往北京，上海和广州。","src":"四级词库"},
+"outside": {"en":"The house will need a lot of outside repairs before we can sell it.","cn":"房子的外部需要好好修一修，之后我们才能把它卖出去。","src":"四级词库"},
+"outset": {"en":"It was clear from the outset that there were going to be problems.","cn":"从一开始就很清楚会有问题出现的。","src":"四级词库"},
+"output": {"en":"Output is up 30% on last year.","cn":"产量比去年提高了30%。","src":"四级词库"},
+"outlook": {"en":"Exercise will improve your looks and your outlook.","cn":"运动将会改善你的外在形象和人生态度。","src":"四级词库"},
+"outline": {"en":"The mayor outlined his plan to clean up the town's image.","cn":"市长概述了他清理整顿该市形象的计划。","src":"托福词库"},
+"outstanding": {"en":"His performance was outstanding.","cn":"他的表演相当出色。","src":"四级词库"},
+"overhead": {"en":"She turned on the overhead light and looked around the little room.","cn":"她打开顶灯，环视这间小屋。","src":"四级词库"},
+"organize": {"en":"The lawyer helped to organize a group of parents who took action for their children.","cn":"这位律师帮助把一群为孩子而采取行动的家长组织起来。","src":"四级词库"},
+"organism": {"en":"Genes operate together in determining the characteristics of an individual organism.","cn":"基因的共同作用决定生物个体的特性。","src":"四级词库"},
+"onion": {"en":"Chop the onions finely.","cn":"把洋葱切碎。","src":"四级词库"},
+"only": {"en":"There are only a few cars on the island.","cn":"这个岛上只有几辆汽车。","src":"四级词库"},
+"onto": {"en":"The car rolled over onto its side.","cn":"这辆汽车侧翻过来了。","src":"四级词库"},
+"open": {"en":"The bar door flew open and a noisy group burst in.","cn":"酒吧的门猛地弹开，冲进来一群吵吵闹闹的人。","src":"四级词库"},
+"opening": {"en":"There are very few openings in scientific research.","cn":"科学研究领域很少有职位空缺。","src":"高中词库"},
+"operate": {"en":"The Lewis family operated a number of boats on the canal.","cn":"刘易斯一家在运河上经营着几艘船。","src":"四级词库"},
+"operation": {"en":"The aircraft’s engine operation was normal.","cn":"飞机引擎运转正常。","src":"四级词库"},
+"operational": {"en":"The boat should be operational by this afternoon.","cn":"今天下午这艘船应该可以使用了。","src":"四级词库"},
+"operator": {"en":"Hello, operator? Could you put me through to Room 31?","cn":"喂，接线员吗？请帮我接31号房间。","src":"考研词库"},
+"opinion": {"en":"When choosing an insurance policy it’s best to get an independent opinion.","cn":"选择保险时，最好听听专家的独立意见。","src":"四级词库"},
+"opponent": {"en":"Graf’s opponent in today’s final will be Sukova.","cn":"格拉芙今天的决赛对手将是苏科娃。","src":"四级词库"},
+"opportunity": {"en":"There are fewer opportunities for new graduates this year.","cn":"今年新毕业的大学生就业机会较少。","src":"四级词库"},
+"oppose": {"en":"Congress is continuing to oppose the President’s health care budget.","cn":"国会继续反对总统的医疗保健预算。","src":"四级词库"},
+"opposite": {"en":"I thought the medicine would make him sleep, but it had the opposite effect.","cn":"我以为这药会让他睡觉，但是它却起了反作用。","src":"四级词库"},
+"organic": {"en":"Organic farming is better for the environment.","cn":"有机耕作对环境更有利。","src":"四级词库"},
+"organ": {"en":"Extra doses of the hormone caused the animals’ reproductive organs to develop sooner than usual.","cn":"额外使用激素使得这些动物的生殖器官比正常情况下发育得更快。","src":"高中词库"},
+"ordinary": {"en":"It is good because it is written in friendly, ordinary language.","cn":"它很不错，因为它是用平易近人的日常语言写的。","src":"四级词库"},
+"orderly": {"en":"She needs to organize her ideas in a more orderly way.","cn":"她需要把自己的想法组织得更有条理些。","src":"四级词库"},
+"order": {"en":"There seemed to be no logical order to the sections.","cn":"这几部分似乎没有逻辑顺序。","src":"四级词库"},
+"organization": {"en":"The public expect high standards from any large organization.","cn":"公众对任何大型机构都期望很高。","src":"四级词库"},
+"orchestra": {"en":"Do you know the concert schedule of London Symphony Orchestra?","cn":"你知道伦敦交响乐团的演奏会行程吗？","src":"Tatoeba 语料"},
+"orange": {"en":"Peel the oranges and divide them into segments.","cn":"把橙子去皮，然后切成片。","src":"四级词库"},
+"optional": {"en":"The other excursions are optional.","cn":"其他的短途旅行是自选项目。","src":"四级词库"},
+"option": {"en":"This was not the only option open to him.","cn":"这并非是他的唯一选择。","src":"四级词库"},
+"optimistic": {"en":"Andrew took a more optimistic view.","cn":"安德鲁抱有更为乐观的想法。","src":"四级词库"},
+"orbit": {"en":"Mars and Earth have orbits which change with time.","cn":"火星和地球的轨道随着时间而发生改变。","src":"四级词库"},
+"overlook": {"en":"Nobody could overlook the fact that box office sales were down.","cn":"谁也无法忽视票房销售额在下降这个事实。","src":"四级词库"},
+"overnight": {"en":"Pam’s staying overnight at my house.","cn":"帕姆要在我家过夜。","src":"四级词库"},
+"overseas": {"en":"Most applications came from overseas.","cn":"大部分申请来自海外。","src":"四级词库"},
+"pin": {"en":"They pinned a notice to the door.","cn":"他们把通知钉在门上。","src":"高中词库"},
+"pinch": {"en":"Put all the ingredients, including a pinch of salt, into a food processor.","cn":"将所有的配料，连同一撮盐，放进食品加工机里。","src":"四级词库"},
+"pine": {"en":"I pine for the countryside.","cn":"我渴望乡下的生活。","src":"四级词库"},
+"pink": {"en":"Her room was decorated in bright pinks and purples.","cn":"她的房间装饰成明亮的粉红色和紫色。","src":"四级词库"},
+"pint": {"en":"He’s gone down the pub for a quick pint.","cn":"他去小酒馆匆匆喝上一品脱啤酒。","src":"四级词库"},
+"pioneer": {"en":"The new cancer treatment was pioneered in the early eighties by Dr Sylvia Bannerjee.","cn":"这种新的癌症治疗方法是由西尔维娅·班纳基医生在80年代初期开创的。","src":"托福词库"},
+"pipe": {"en":"A pipe had burst in the kitchen and flooded the floor.","cn":"厨房的一根管道爆裂，弄得满地都是水。","src":"四级词库"},
+"pipeline": {"en":"A consortium plans to build a natural-gas pipeline from Russia to supply eastern Germany.","cn":"一家财团计划修建一条从俄罗斯向德国东部供应天然气的管道。","src":"托福词库"},
+"pistol": {"en":"He hopped back up the stairs and took his pistol.","cn":"他赶紧返回到楼上，拿上了他的手枪。","src":"六级词库"},
+"pitch": {"en":"She crumpled up the page and pitched it into the fire.","cn":"她把那页纸揉成团，扔进了火里。","src":"四级词库"},
+"pity": {"en":"I like Charlie. Pity he had to marry that awful woman.","cn":"我喜欢查利，遗憾的是他得和那个糟糕的女人结婚。","src":"四级词库"},
+"place": {"en":"The Great Mosque has been a place of worship for Muslims for centuries.","cn":"很多世纪以来大清真寺是穆斯林朝拜的地方。","src":"四级词库"},
+"plain": {"en":"The grassy plain gave way to an extensive swamp.","cn":"青草覆盖的平原被广阔的沼泽地所取代。","src":"四级词库"},
+"plan": {"en":"His plan is to get a degree in economics and then work abroad for a year.","cn":"他计划先取得经济学学位，然后去国外工作一年。","src":"四级词库"},
+"plane": {"en":"It is a big airline with a large fleet of planes.","cn":"这是一家大航空公司，拥有庞大的机群。","src":"四级词库"},
+"pleasure": {"en":"It has always been a pleasure to work with you.","cn":"跟你共事总是很愉快。","src":"Tatoeba 语料"},
+"please": {"en":"She did everything she could to please him.","cn":"她千方百计讨好他。","src":"四级词库"},
+"pleasant": {"en":"The restaurant was large and pleasant.","cn":"那家餐厅宽敞舒适。","src":"四级词库"},
+"playground": {"en":"A group of young men are playing handball in the playground.","cn":"一群年輕人在操場上打手球。","src":"Tatoeba 语料"},
+"player": {"en":"I've always wanted to be a professional basketball player.","cn":"我一直想成为一名职业篮球运动员。","src":"Tatoeba 语料"},
+"pilot": {"en":"The plan is to launch a pilot programme next summer.","cn":"计划是在明年夏天实施一个试验性方案。","src":"四级词库"},
+"play": {"en":"Kids were playing and chasing each other.","cn":"孩子们在互相追逐嬉闹。","src":"四级词库"},
+"plate": {"en":"Anita pushed her plate away; she had eaten virtually nothing.","cn":"安妮塔把盘子推开；她其实什么都没吃。","src":"四级词库"},
+"plastic": {"en":"Plastics have taken the place of many conventional materials.","cn":"塑料代替了许多传统的原料。","src":"Tatoeba 语料"},
+"plaster": {"en":"The ceiling he had just plastered fell in and knocked him off his ladder.","cn":"他刚抹过灰泥的那块天花板脱落了，把他从梯子上砸了下来。","src":"六级词库"},
+"plant": {"en":"Don’t forget to water the plants.","cn":"别忘记给植物浇水。","src":"四级词库"},
+"planet": {"en":"The picture shows six of the nine planets in the solar system.","cn":"这张图片展示太阳系9个行星中的6个行星。","src":"四级词库"},
+"platform": {"en":"This kind of “do your own research” theory of medicine is hardly new, but today, there’s more of a platform than ever to cultivate this demand and serve it at scale.","cn":"这种“自己做研究”的医学理论并不是什么新鲜事，但今天，培养这种需求并大规模服务的平台比以往任何时候都多。","src":"Smithsonian Magazine · 2026-09-09"},
+"pillow": {"en":"I’ll be asleep as soon as my head hits the pillow.","cn":"我头一碰到枕头就会睡着。","src":"四级词库"},
+"pillar": {"en":"Eight massive stone pillars supported the roof.","cn":"八根巨大的石柱支撑起房顶。","src":"四级词库"},
+"pill": {"en":"He has to take pills to control his blood pressure.","cn":"他必须服药控制血压。","src":"四级词库"},
+"phone": {"en":"I wish Amy would get off the phone .","cn":"我真希望埃米别再打电话了。","src":"四级词库"},
+"philosophy": {"en":"Emma studies philosophy at university.","cn":"埃玛在大学攻读哲学。","src":"四级词库"},
+"philosopher": {"en":"Plato, Aristotle, and other Greek philosophers","cn":"柏拉图、亚里士多德和其他希腊哲学家","src":"四级词库"},
+"phenomenon": {"en":"Homelessness is not a new phenomenon .","cn":"无家可归已不是什么新现象。","src":"四级词库"},
+"phase": {"en":"It’s just a phase he’s going through .","cn":"这只是他要经历的一个阶段。","src":"四级词库"},
+"photograph": {"en":"He stood by the tree to be photographed.","cn":"他站在树旁准备让人拍照。","src":"高中词库"},
+"owner": {"en":"He was now the proud owner of a bright red sports car.","cn":"他现在拥有了一辆亮红色跑车，很是自豪。","src":"四级词库"},
+"own": {"en":"The yacht was intended for the King’s own personal use.","cn":"这艘游艇是专供国王私用的。","src":"四级词库"},
+"owl": {"en":"A great owl, with yellow sulphurous eyes, called to him by his name, but he made it no answer.","cn":"一只长着黄色硫磺的巨大眼睛的猫头鹰，呼唤着他的名字，但他没有应答。","src":"四级词库"},
+"owe": {"en":"He owes his success both to working hard and to good luck.","cn":"他的成功要归结于他的辛勤工作和好运气。","src":"Tatoeba 语料"},
+"overtime": {"en":"If you go even one second overtime in these contests, you lose automatically.","cn":"在类似的比赛中，你即使只超时一秒，也会自动输掉比赛。","src":"四级词库"},
+"overtake": {"en":"He pulled out to overtake the van.","cn":"他把车驶出所在车道想超过那辆小货车。","src":"四级词库"},
+"ownership": {"en":"The price of home ownership is increasing.","cn":"房价在不断上涨。","src":"四级词库"},
+"oneself": {"en":"It is only through study that one really begins to know oneself.","cn":"只有通过学习，一个人才能真正了解自己。","src":"四级词库"},
+"physical": {"en":"Don’t be put off by his physical appearance .","cn":"别因为他的外貌讨厌他。","src":"四级词库"},
+"pile": {"en":"He balanced the plate on the top of a pile of books.","cn":"他把盘子在一摞书上放稳。","src":"四级词库"},
+"pigeon": {"en":"As the name implies, pigeon is an awkward pose, and it happens to be the most challenging for me.","cn":"顾名思义，鸽子式是一个很棘手的姿势，它对于我来说是最有挑战性的。","src":"四级词库"},
+"pig": {"en":"He kept pigs and poultry.","cn":"他养过猪和家禽。","src":"四级词库"},
+"pierce": {"en":"One bullet pierced the left side of his chest.","cn":"一颗子弹射入了他的左胸。","src":"四级词库"},
+"piece": {"en":"His trousers were held up with a piece of string.","cn":"他的裤子靠一根细绳系着。","src":"四级词库"},
+"pie": {"en":"I had a steak and kidney pie with chips.","cn":"我吃了一份牛肉腰子馅饼加薯条。","src":"四级词库"},
+"phrase": {"en":"Who first used the phrase ‘survival of the fittest’?","cn":"“适者生存”这一说法最早是谁说的？","src":"四级词库"},
+"picture": {"en":"The room had several pictures on the walls.","cn":"那个房间墙上有几幅画。","src":"四级词库"},
+"pick": {"en":"Who’s going to pick the team for the match on Saturday?","cn":"谁将为星期六的比赛挑选队员？","src":"高中词库"},
+"piano": {"en":"Jean accompanied her on the piano .","cn":"琼为她钢琴伴奏。","src":"四级词库"},
+"physics": {"en":"Physics is my favorite subject.","cn":"物理是我最喜歡的科目。","src":"Tatoeba 语料"},
+"physician": {"en":"The physician prescribed his patient some medicine.","cn":"医生给他的病人开了一些药。","src":"Tatoeba 语料"},
+"picnic": {"en":"We decided to have a picnic down by the lake.","cn":"我们决定在湖边野餐。","src":"四级词库"},
+"plot": {"en":"The minister was found guilty of plotting the downfall of the government.","cn":"那名部长被判犯有阴谋颠覆政府罪。","src":"四级词库"},
+"one": {"en":"They had one daughter.","cn":"他们有一个女儿。","src":"四级词库"},
+"neighbourhood": {"en":"Be quiet! You’ll wake up the whole neighbourhood!","cn":"安静点！ 你会把邻居全都吵醒的！","src":"四级词库"},
+"neither": {"en":"She lives in retirement, neither making nor receiving visits.","cn":"她过着隐退的生活， 既不访客， 也不见客。","src":"四级词库"},
+"nephew": {"en":"I am planning a 25th birthday party for my nephew.","cn":"我正在为侄子筹划他25岁的生日聚会。","src":"四级词库"},
+"nervous": {"en":"I wish you’d stop looking at me like that. You’re making me nervous.","cn":"我希望你不要再那样看着我了，你让我紧张。","src":"四级词库"},
+"nest": {"en":"They say eagles used to nest in those rocks.","cn":"他们说以前常有老鹰在那些岩石中筑巢。","src":"四级词库"},
+"net": {"en":"We netted three fish in under an hour.","cn":"不到一小时我们就网住了三条鱼。","src":"六级词库"},
+"network": {"en":"Hungary’s telephone network","cn":"匈牙利的电话网","src":"四级词库"},
+"neutral": {"en":"The British government acted as a neutral observer during the talks.","cn":"英国政府在会谈中扮演了中立观察员的角色。","src":"四级词库"},
+"never": {"en":"I’m never going back there again, not as long as I live.","cn":"只要我活着，我再也不会回到那儿去。","src":"四级词库"},
+"nevertheless": {"en":"What you said was true. It was, nevertheless, a little unkind.","cn":"你说的都是实话，只不过有点刻薄。","src":"四级词库"},
+"new": {"en":"The hardest part of this job is understanding the new technology.","cn":"这项工作最难的地方是理解新技术。","src":"四级词库"},
+"newly": {"en":"She was young at the time, and newly married.","cn":"那时她还年轻，刚结婚。","src":"四级词库"},
+"news": {"en":"I hope to have some good news for you soon.","cn":"我希望很快就能给你好消息。","src":"四级词库"},
+"newspaper": {"en":"She had read about it in the newspapers.","cn":"关于这件事她已经在报纸上看到了。","src":"四级词库"},
+"next": {"en":"Grace sighed so heavily that Trish could hear it in the next room.","cn":"格雷丝沉重地叹气，特蕾什在隔壁房间都听到了。","src":"四级词库"},
+"nice": {"en":"One of the nice things about Christmas is having all the family together.","cn":"圣诞节的一个好处是全家可以聚首一堂。","src":"四级词库"},
+"none": {"en":"Although these were good students, none had a score above 60.","cn":"虽然这些都是好学生，但是没有一个考到60分以上。","src":"四级词库"},
+"noisy": {"en":"The kids have been really noisy today.","cn":"孩子们今天实在是吵。","src":"四级词库"},
+"noise": {"en":"Try not to make a noise when you go upstairs.","cn":"上楼时尽量不要弄出声。","src":"四级词库"},
+"nod": {"en":"I asked her if she was ready to go, and she nodded.","cn":"我问她是否已准备好出发，她点了点头。","src":"四级词库"},
+"nobody": {"en":"I knocked on the door but nobody answered.","cn":"我敲了敲门，但没人应门。","src":"四级词库"},
+"noble": {"en":"It’s very noble of you to spend all your weekends helping the old folk.","cn":"你心地真好，周末的时间全都用来帮助老人。","src":"四级词库"},
+"ninth": {"en":"In that region, Chile went from ninth to first, overall, as Chilean mobile web use increased by 3200% over the past year.","cn":"智利从这一地区的第九跃升到第一位，因为智利的移动网络用户在过去一年增长了 3200% 。","src":"四级词库"},
+"ninety": {"en":"America was far richer in the nineties.","cn":"90年代的美国要富裕得多。","src":"四级词库"},
+"nineteen": {"en":"It was nineteen minutes past seven.","cn":"当时是7点19分。","src":"四级词库"},
+"nine": {"en":"He’s only been in this job for nine months.","cn":"他干这份工作才九个月。","src":"四级词库"},
+"night": {"en":"I didn’t sleep too well last night.","cn":"我昨晚睡得不太好。","src":"四级词库"},
+"niece": {"en":"These three pretty girls are all nieces of mine.","cn":"这三个漂亮的女孩都是我的侄女。","src":"Tatoeba 语料"},
+"nitrogen": {"en":"All of these from the group one and two through the group five and six elements, but what about elements, what about molecules like hydrogen, or nitrogen, or maybe oxygen?","cn":"所有的这些都是来自于第一主族和第二组主族，到第五主族和第六组主族的悬殊，那么元素呢，比如氢气，氮气或氧气那样的分子呢？","src":"四级词库"},
+"nonsense": {"en":"By 1832 the idea had become an economic nonsense.","cn":"到了1832年，那种观点已经成为经济学的谬论。","src":"四级词库"},
+"negro": {"en":"It meant that I, a humble Negro girl, had just as much chance as anybody in the sight and love of God.","cn":"这就意味着，我这样一个卑微的黑人女孩，也可以像其他人一样有很多机会受到上帝的关注和爱。","src":"四级词库"},
+"negative": {"en":"They have a uniformly negative image of the police.","cn":"他们都对警察印象不好。","src":"四级词库"},
+"nail": {"en":"The key was hanging on a nail by the door.","cn":"钥匙挂在门边的一颗钉子上。","src":"四级词库"},
+"naked": {"en":"The governor ordered the prisoner to be stripped naked and whipped.","cn":"监狱长下令将那个犯人剥光衣服进行鞭笞。","src":"四级词库"},
+"name": {"en":"Her name is Mandy Wilson.","cn":"她的名字是曼迪•威尔逊。","src":"四级词库"},
+"namely": {"en":"Three students were mentioned, namely John, Sarah and Sylvia.","cn":"有三名学生被提到，即约翰、萨拉和西尔维娅。","src":"四级词库"},
+"nap": {"en":"Maybe I'll just give up soon and take a nap instead.","cn":"也许我会马上放弃然后去打盹。","src":"Tatoeba 语料"},
+"narrow": {"en":"The stairs were very narrow.","cn":"楼梯非常狭窄。","src":"四级词库"},
+"nasty": {"en":"He had a nasty accident while riding in the forest.","cn":"他在森林中骑马时出了严重的事故。","src":"六级词库"},
+"nation": {"en":"English has now become the common language of several nations in the world.","cn":"英语现已成为世界上许多国家的通用语言了。","src":"Tatoeba 语料"},
+"national": {"en":"There are strong indications that the Prime Minister will call national elections in May.","cn":"有明显迹象预示首相将于5月召集全国大选。","src":"四级词库"},
+"native": {"en":"Singapore has many native species of palm.","cn":"新加坡有很多土生的棕榈树种。","src":"四级词库"},
+"natural": {"en":"It's very easy to sound natural in your own native language, and very easy to sound unnatural in your non-native language.","cn":"你很容易把母语说得通顺流畅，却很容易把非母语说得不自然。","src":"Tatoeba 语料"},
+"naturally": {"en":"Naturally enough, she wanted her child to grow up fit and strong.","cn":"很自然，她希望自己的孩子健康茁壮地成长。","src":"四级词库"},
+"nature": {"en":"We grew up in the countryside, surrounded by the beauties of nature.","cn":"我们在乡村长大，周围是美丽的大自然。","src":"四级词库"},
+"naughty": {"en":"You’re a very naughty boy! Look what you’ve done!","cn":"你真是个淘气鬼！瞧你干了些什么！","src":"四级词库"},
+"needless": {"en":"The report caused needless anxiety to women who have attended the clinic.","cn":"那份报告让去那家诊所就诊过的妇女产生了不必要的忧虑。","src":"四级词库"},
+"needle": {"en":"She carried hypodermic needles and syringes in her bag.","cn":"她包里带着皮下注射针和针筒。","src":"四级词库"},
+"need": {"en":"Are you sure that you have everything you need?","cn":"你确定需要的都有了吗？","src":"四级词库"},
+"necklace": {"en":"My grandma gave me this necklace.","cn":"这条项链是我奶奶送给我的。","src":"Tatoeba 语料"},
+"neck": {"en":"The dog picked up the puppy and carried it by the scruff of the neck into the house.","cn":"那条狗叼住小狗的后颈，把它叼进了屋子。","src":"四级词库"},
+"necessity": {"en":"A car is an absolute necessity if you live in the country.","cn":"你要是住在乡下，绝对需要有辆汽车。","src":"四级词库"},
+"neglect": {"en":"She smoked and drank, neglected the children, and left the clothes unmended.","cn":"她抽烟喝酒，既不照顾孩子，也不缝补衣服。","src":"四级词库"},
+"necessary": {"en":"The booklet provides all the necessary information about the college.","cn":"这本小册子提供了关于那所学院的所有必需信息。","src":"四级词库"},
+"neat": {"en":"She arranged the books in a nice neat pile.","cn":"她把书摞成整齐的一堆。","src":"四级词库"},
+"nearly": {"en":"Louise is nearly as tall as her mother.","cn":"路易丝差不多和她母亲一样高。","src":"四级词库"},
+"nearby": {"en":"He might easily have been seen by someone who lived nearby.","cn":"他可能很容易被住在附近的人看到。","src":"四级词库"},
+"near": {"en":"She told the children not to go near the canal.","cn":"她告诉孩子们不要走近运河。","src":"四级词库"},
+"navy": {"en":"He joined the navy during the war.","cn":"他在战争期间参加了海军。","src":"四级词库"},
+"necessarily": {"en":"The care of old people necessarily involves quite a lot of heavy lifting.","cn":"照顾老年人必定要干很多搬重物的活儿。","src":"四级词库"},
+"noon": {"en":"The train will probably arrive at the station before noon.","cn":"火车大概会在中午前到站。","src":"Tatoeba 语料"},
+"normal": {"en":"She was assessed in the normal way, and placed on the waiting list.","cn":"她接受了正常的评估后被列入等候名单。","src":"四级词库"},
+"normally": {"en":"The journey normally takes about two hours.","cn":"这段旅程通常需要大约两小时。","src":"四级词库"},
+"observer": {"en":"Observers are predicting a fall in interest rates.","cn":"观察员预测利率会下降。","src":"四级词库"},
+"obtain": {"en":"These conditions no longer obtain.","cn":"这些状况已不复存在。","src":"四级词库"},
+"obvious": {"en":"The obvious way of reducing pollution is to use cars less.","cn":"减少污染显而易见的办法就是少用汽车。","src":"四级词库"},
+"obviously": {"en":"Your research has obviously been very thorough.","cn":"你的研究工作显然做得很透彻。","src":"四级词库"},
+"occasion": {"en":"She had met Zahid on two separate occasions.","cn":"她遇到过扎希德两次。","src":"四级词库"},
+"occasional": {"en":"They had an occasional coffee together after shopping.","cn":"他们偶尔会在购物后一起喝杯咖啡。","src":"四级词库"},
+"occasionally": {"en":"Even now, I occasionally think I'd like to see you. Not the you that you are today, but the you I remember from the past.","cn":"即使是现在，我偶尔还是想见到你。不是今天的你，而是我记忆中曾经的你。","src":"Tatoeba 语料"},
+"occupation": {"en":"Please state your name, address and occupation.","cn":"请写明你的姓名、地址和职业。","src":"四级词库"},
+"occupy": {"en":"Football occupies most of my leisure time.","cn":"足球占去了我大部分的闲暇时间。","src":"四级词库"},
+"occur": {"en":"A third of accidental deaths occur in the home.","cn":"有三分之一的意外死亡发生在家里。","src":"四级词库"},
+"occurrence": {"en":"Complaints seemed to be an everyday occurrence.","cn":"投诉似乎成了天天发生的事。","src":"四级词库"},
+"ocean": {"en":"They are found in every ocean, from the surface to the deep sea.","cn":"你可以在每一个海洋找到它们，从海平面到深海区。","src":"四级词库"},
+"oceania": {"en":"The Mummies Of The World exhibition brings together a collection of mummies and related artefacts from South America, Europe, Asia, Oceania and Egypt.","cn":"汇集了来自南美，欧洲，亚洲，大洋洲和埃及的一系列干尸和艺术品将举办全球巡回展览。","src":"四级词库"},
+"o'clock": {"en":"I want this work completed by two o'clock tomorrow afternoon.","cn":"明天下午2点以前，我希望这工作完成了。","src":"Tatoeba 语料"},
+"october": {"en":"Most seasonal hiring is done in early October.","cn":"多数季节性招聘是在10月初进行。","src":"四级词库"},
+"odd": {"en":"What she did was unforgivable, but the odd thing was he didn’t seem to mind.","cn":"她的所作所为是不可原谅的，但奇怪的是他好像并不在意。","src":"四级词库"},
+"omit": {"en":"Please don’t omit any details, no matter how trivial they may seem.","cn":"请不要忽略任何细节，不管它多细小。","src":"四级词库"},
+"old": {"en":"I’m not coming skating. I’m too old for that now.","cn":"我不去玩溜冰，我现在太老玩不动了。","src":"四级词库"},
+"okay": {"en":"Stop pretending that everything's okay. It's not.","cn":"不要再假装一切都好了，不是这样的！","src":"Tatoeba 语料"},
+"oil": {"en":"The bicycle chain needs oiling.","cn":"自行车链条需要上油了。","src":"初中词库"},
+"often": {"en":"If you wash your hair too often, it can get too dry.","cn":"如果洗头过勤，头发会变得干枯。","src":"四级词库"},
+"observe": {"en":"Predators have been observed to avoid attacking brightly coloured species.","cn":"据观察发现，食肉动物会避免袭击色彩鲜艳的物种。","src":"四级词库"},
+"official": {"en":"Finally the letter of appointment came, making it all official.","cn":"任命书终于来了，这样一切都名正言顺了。","src":"四级词库"},
+"office": {"en":"The department occupies an office just a mile from the White House.","cn":"该部门就在离白宫一英里远的地方有个办公楼。","src":"四级词库"},
+"offer": {"en":"A number of groups offer their services free of charge.","cn":"一些团体免费提供服务。","src":"四级词库"},
+"offend": {"en":"His remarks deeply offended many Scottish people.","cn":"他的话严重冒犯了许多苏格兰人。","src":"四级词库"},
+"off": {"en":"Once we were off the main freeway, the trip felt more like a vacation.","cn":"我们一离开主高速公路，旅途的感觉就更像是度假了。","src":"高中词库"},
+"officer": {"en":"There were three uniformed police officers at the crime scene.","cn":"犯罪现场有三名穿制服的警察。","src":"Tatoeba 语料"},
+"observation": {"en":"Detailed observations were carried out on the behaviour of the students.","cn":"对这些学生的行为作了细致观察。","src":"四级词库"},
+"oblige": {"en":"It’s always a good idea to oblige important clients.","cn":"能满足重要客户的请求总是好的。","src":"四级词库"},
+"objective": {"en":"Scientists need to be objective when doing research.","cn":"科学家做研究时要客观。","src":"四级词库"},
+"november": {"en":"Too much snow in November.","cn":"太多的大雪在十一月。","src":"四级词库"},
+"novel": {"en":"It took Vikram Seth three years to write his 1,349-page novel ‘A Suitable Boy’.","cn":"维克拉姆·塞斯花费三年时间写成了他那部1,349页的小说《如意郎君》。","src":"四级词库"},
+"noun": {"en":"In “the black cat” the adjective “black”modifies the noun “cat”.","cn":"在“那只黑猫”中，形容词“黑的”修饰名词“猫”。","src":"四级词库"},
+"noticeable": {"en":"It was noticeable that many of them avoided answering the question.","cn":"显而易见，他们中的许多人对这个问题都避而不答。","src":"四级词库"},
+"notice": {"en":"He noticed a woman in a black dress sitting across from him.","cn":"他看到有位黑衣女子坐在他的对面。","src":"四级词库"},
+"nothing": {"en":"A brief search was made but they found nothing untoward.","cn":"他们简单地搜查了一番，没发现任何异常。","src":"四级词库"},
+"now": {"en":"But we are now a much more fragmented society.","cn":"但是我们现在是一个更加四分五裂的社会。","src":"四级词库"},
+"notebook": {"en":"He brought out a notebook and pen from his pocket.","cn":"他从口袋里掏出了一个笔记本和一支钢笔。","src":"四级词库"},
+"not": {"en":"Most of the stores do not open until 10 am.","cn":"大多数商店要到上午10点才开始营业。","src":"四级词库"},
+"nose": {"en":"Someone punched him on the nose.","cn":"有人一拳打在他的鼻子上。","src":"四级词库"},
+"northwest": {"en":"Take the narrow lane going northwest parallel with the railway line.","cn":"走那条与铁路线平行的通向西北的窄路。","src":"高中词库"},
+"northern": {"en":"Japan is located in the Northern Hemisphere.","cn":"日本位於北半球。","src":"Tatoeba 语料"},
+"northeast": {"en":"\"We're going northeast,\" Paula told them, before they started.","cn":"“我们将朝东北方向走，”葆拉在他们出发前告诉他们。","src":"高中词库"},
+"north": {"en":"The birds fly north in summer.","cn":"夏季鸟儿向北飞。","src":"初中词库"},
+"note": {"en":"Can I borrow your lecture notes?","cn":"我能不能借用一下你的课堂笔记？","src":"四级词库"},
+"once": {"en":"Paul’s been to Wexford once before.","cn":"保罗曾去过韦克斯福德一次。","src":"四级词库"},
+"nowadays": {"en":"Nowadays people are rarely shocked by the sex they see on television.","cn":"如今人们在电视上看见性爱镜头不太会感到吃惊了。","src":"四级词库"},
+"nuclear": {"en":"France’s reliance on nuclear energy","cn":"法国对核能的依赖","src":"四级词库"},
+"objection": {"en":"Her objection was that he was too young.","cn":"她反对的理由是他太小。","src":"四级词库"},
+"object": {"en":"If no one objects, I would like Mrs Harrison to be present.","cn":"如果没人反对的话，我想请哈里森夫人出席。","src":"四级词库"},
+"obey": {"en":"The little boy made no effort to obey.","cn":"这小男孩不肯服从。","src":"四级词库"},
+"oar": {"en":"He pulled as hard as he could on the oars.","cn":"他拼命地划桨。","src":"六级词库"},
+"oak": {"en":"Quietly he walked towards her, past her, and on towards the heavy oak door.","cn":"轻轻地，他走向她，慢慢地，走过去，走向那沉重的橡树门。","src":"考研词库"},
+"nowhere": {"en":"Nowhere is drug abuse more of a problem than in the US.","cn":"没有什么地方的吸毒问题比美国更严重。","src":"四级词库"},
+"nylon": {"en":"The tent was made of nylon.","cn":"那顶帐篷是尼龙做的。","src":"四级词库"},
+"nursery": {"en":"He has painted murals in his children's nursery.","cn":"他在他家的育儿室画上了壁画。","src":"四级词库"},
+"nurse": {"en":"The nurse is coming to give you an injection.","cn":"护士会来给你打针。","src":"四级词库"},
+"numerous": {"en":"The two leaders have worked together on numerous occasions.","cn":"那两位领导人已经多次合作。","src":"四级词库"},
+"number": {"en":"They wrote various numbers on a large sheet of paper.","cn":"他们在一张大纸上写下了很多不同的数字。","src":"四级词库"},
+"nuisance": {"en":"He could be a bit of a nuisance when he was drunk.","cn":"他喝醉时会是一个有点令人讨厌的人。","src":"四级词库"},
+"nucleus": {"en":"Neutrons and protons are bound together in the nucleus of an atom.","cn":"在一个原子的核内，中子和质子聚合在一起。","src":"四级词库"},
+"nut": {"en":"Use a wrench to loosen the nut.","cn":"用活动扳手将螺帽拧松。","src":"六级词库"},
+"schedule": {"en":"How can he fit everything into his busy schedule ?","cn":"他是怎么把所有的事情都排进自己忙碌的时间表的？","src":"四级词库"},
+"scheme": {"en":"She’s nothing but a lying, scheming little monster!","cn":"她就是个爱撒谎、爱算计的小巫婆！","src":"四级词库"},
+"scholar": {"en":"He is something of a scholar.","cn":"他有几分像学者。","src":"Tatoeba 语料"},
+"tremendous": {"en":"She praised her husband for the tremendous support he had given her.","cn":"她称赞丈夫给了她巨大支持。","src":"四级词库"},
+"trend": {"en":"Successive presidents have tried to reverse this trend , but without success.","cn":"连续几任总统都试图扭转这一趋势，但均未成功。","src":"四级词库"},
+"trial": {"en":"The trial is due to start next week.","cn":"审理定于下周开始。","src":"四级词库"},
+"triangle": {"en":"So, we have to find the area of the triangle.","cn":"因此我们必须求出三角形的面积。","src":"高中词库"},
+"trick": {"en":"He didn’t really lose his wallet - that’s just a trick.","cn":"他并没有真的丢了钱包——这只是一个骗局。","src":"四级词库"},
+"trifle": {"en":"There’s no point in arguing over trifles.","cn":"为琐事争吵毫无意义。","src":"六级词库"},
+"trim": {"en":"Pete was trimming the lawn around the roses.","cn":"皮特在修剪玫瑰丛周围的草坪。","src":"六级词库"},
+"trip": {"en":"He was unable to make the trip to accept the award.","cn":"他无法前去领奖。","src":"高中词库"},
+"triumph": {"en":"All her life, Kelly had stuck with difficult tasks and challenges, and triumphed.","cn":"凯利在一生中遭遇了种种艰巨任务与挑战，但成功了。","src":"四级词库"},
+"troop": {"en":"They all trooped back to the house for a rest.","cn":"他们都成群结队地回房子里休息。","src":"四级词库"},
+"trouble": {"en":"Recent stock market losses point to trouble ahead.","cn":"最近股市的下跌预示着未来将有麻烦。","src":"高中词库"},
+"troublesome": {"en":"The economy has become a troublesome issue for the Conservative Party.","cn":"经济状况已成为保守党的一大难题。","src":"六级词库"},
+"trousers": {"en":"I need a new pair of trousers for work.","cn":"我需要一条上班穿的新裤子。","src":"高中词库"},
+"truck": {"en":"The house burned to the ground before the fire truck arrived.","cn":"消防车到达之前，房子就全烧了。","src":"Tatoeba 语料"},
+"true": {"en":"It’s generally true to say that fewer people are needed nowadays.","cn":"总的来说现在需要的人员少了。","src":"高中词库"},
+"tunnel": {"en":"The thieves tunnelled under all the security devices.","cn":"小偷们在所有的那些安全装置下面都挖了地道。","src":"四级词库"},
+"tune": {"en":"She sang some old classics and a few new tunes.","cn":"她唱了几首经典老歌和一些新曲。","src":"四级词库"},
+"tumble": {"en":"Oil prices have tumbled.","cn":"石油价格猛跌。","src":"六级词库"},
+"tuition": {"en":"I had to have extra tuition in maths.","cn":"我不得不上数学补习课。","src":"四级词库"},
+"tuesday": {"en":"He phoned on Tuesday, just before you came.","cn":"他星期二打了电话，刚好在你来之前。","src":"考研词库"},
+"tuck": {"en":"He tried to tuck his flapping shirt inside his trousers.","cn":"他试图把飘动的衬衫塞进他的裤子里。","src":"六级词库"},
+"tremble": {"en":"I will never forget the look on the patient's face, the tremble in his hand.","cn":"我将永远不会忘记那病人脸上的表情和他颤抖的手。","src":"四级词库"},
+"try": {"en":"I tried everything to lose weight with no success.","cn":"我试了各种方法减肥，但都没有成功。","src":"高中词库"},
+"truth": {"en":"How do we know you’re telling us the truth?","cn":"我们怎么知道你告诉我们的是真话？","src":"四级词库"},
+"trust": {"en":"At first there was a lack of trust between them.","cn":"起初，他们之间缺乏信任。","src":"四级词库"},
+"trunk": {"en":"He left his bicycle leaning against a tree trunk .","cn":"他把他的自行车斜靠在树干上。","src":"四级词库"},
+"trumpet": {"en":"I played the trumpet in the school orchestra.","cn":"我在学校管弦乐队吹小号。","src":"四级词库"},
+"truly": {"en":"Fawcett was a truly remarkable man.","cn":"福西特是一位真正不同凡响的人。","src":"四级词库"},
+"tub": {"en":"I had a long soak in the tub.","cn":"我在浴缸里泡了很久。","src":"六级词库"},
+"tree": {"en":"As a kid, I loved to climb trees.","cn":"小时候，我喜欢爬树。","src":"高中词库"},
+"treatment": {"en":"Throughout the five years of painful cancer treatments, he managed to keep a stiff upper lip.","cn":"这五年痛苦的癌症治疗他终于坚持下来了。","src":"Tatoeba 语料"},
+"track": {"en":"The road leading to the farm was little more than a dirt track .","cn":"只有一条烂泥小路通往农场。","src":"四级词库"},
+"tractor": {"en":"The truck was an 18-wheeler with a white tractor.","cn":"这辆卡车有18轮，还有一个白色牵引车头。","src":"四级词库"},
+"trade": {"en":"They had to travel into town to trade the produce from their farm.","cn":"他们不得不到镇上去出售他们农场的产品。","src":"六级词库"},
+"tradition": {"en":"By tradition, it’s the bride’s parents who pay for the wedding.","cn":"根据传统习俗，婚礼的费用由新娘的父母承担。","src":"四级词库"},
+"traditional": {"en":"Their traditional life style no longer exists.","cn":"他们传统的生活方式不再存在。","src":"Tatoeba 语料"},
+"traffic": {"en":"There wasn’t much traffic on the roads.","cn":"路上车辆不多。","src":"四级词库"},
+"tragedy": {"en":"Tragedy struck the family when their two-year-old son was killed in an accident.","cn":"悲剧降临到这个家庭，他们两岁的儿子在一次事故中丧生。","src":"四级词库"},
+"trail": {"en":"The trail led over Boulder Pass before descending to a lake.","cn":"小路越过博尔德山口，然后向下通往湖边。","src":"四级词库"},
+"train": {"en":"Trained staff will be available to deal with your queries.","cn":"我们会有受过培训的员工来解答你的问题。","src":"高中词库"},
+"training": {"en":"On-the-job training will be supplemented by classroom lectures.","cn":"除了在职培训，还将有课堂授课作为补充。","src":"高中词库"},
+"traitor": {"en":"The world is full of traitors.","cn":"世界充滿了叛徒。","src":"Tatoeba 语料"},
+"tram": {"en":"You can get to the beach easily from the centre of town by tram.","cn":"你可以很容易地在市中心坐有轨电车到达海滩。","src":"高中词库"},
+"tramp": {"en":"The walk involved tramping through mud.","cn":"走这段路要在泥地中跋涉。","src":"六级词库"},
+"transfer": {"en":"He was transferred for a fee of £8 million.","cn":"他以800万英镑的转会费转到了其他球队。","src":"四级词库"},
+"transform": {"en":"Increased population has transformed the landscape.","cn":"人口的增加使景观发生了变化。","src":"四级词库"},
+"transformation": {"en":"In recent years, the movie industry has undergone a dramatic transformation .","cn":"近些年，电影业经历了巨大的变革。","src":"四级词库"},
+"transformer": {"en":"At high input impedances, in practice both efficiency and bandwidth of a transformer will reduce.","cn":"实际上高输入阻抗的变压器，它们的效率和频带宽度都会下降。","src":"四级词库"},
+"treat": {"en":"It was difficult to treat patients because of a shortage of medicine.","cn":"由于缺少药物，很难给病人治病。","src":"高中词库"},
+"treasure": {"en":"The Book of Kells is Trinity College’s greatest treasure.","cn":"《凯尔经》是三一学院的镇院之宝。","src":"四级词库"},
+"tray": {"en":"The waiter brought drinks on a tray.","cn":"服务员用托盘端来饮料。","src":"四级词库"},
+"travel": {"en":"They travelled 200 miles on the first day.","cn":"他们第一天行进了200英里。","src":"高中词库"},
+"trap": {"en":"The only way to catch mice is to set a trap .","cn":"抓老鼠的唯一办法就是放置捕鼠器。","src":"四级词库"},
+"treaty": {"en":"The peace treaty ends nearly four years of violence.","cn":"该和平条约结束了将近四年的暴力。","src":"四级词库"},
+"transmit": {"en":"The system transmits information over digital phone lines.","cn":"这一系统通过数字电话线路传输信息。","src":"四级词库"},
+"translation": {"en":"Which translation of this book do you think is better, the French one or the English one?","cn":"你觉得这本书的哪个译本比较好？法语的还是英语的？","src":"Tatoeba 语料"},
+"translate": {"en":"Poetry doesn’t usually translate well.","cn":"诗歌通常都译不好。","src":"高中词库"},
+"transistor": {"en":"When you got a transistor radio, you could walk around with it, and today you can put your whole record collection in your pocket.","cn":"而当你使用晶体管收音机时，你可以带着它到处走动，时至今日你可以把你收集的唱片装进口袋里。","src":"四级词库"},
+"transport": {"en":"Many goods are now transported by air.","cn":"如今很多的货物都由飞机运送。","src":"Tatoeba 语料"},
+"trace": {"en":"There was no trace of anyone having entered the room since then.","cn":"没有任何迹象表明在那以后有人进过这房间。","src":"四级词库"},
+"turbulent": {"en":"He has had a turbulent political career.","cn":"他的政治生涯动荡不定。","src":"六级词库"},
+"turn": {"en":"She turned her head in surprise.","cn":"她惊讶地转过头来。","src":"高中词库"},
+"understand": {"en":"The woman had a strong accent, and I couldn’t understand what she was saying.","cn":"那女人口音很重，我听不懂她在说些什么。","src":"高中词库"},
+"understanding": {"en":"We had an understanding that Jean-Claude should never be mentioned.","cn":"我们有一个共识，永远不提让－克洛德。","src":"高中词库"},
+"undertake": {"en":"She undertook the task of monitoring the elections.","cn":"她承担了监督选举的任务。","src":"四级词库"},
+"undertaking": {"en":"Both organizations gave an undertaking to curb violence among their members.","cn":"两个组织都作出承诺要约束其成员的暴力行为。","src":"六级词库"},
+"undo": {"en":"The screws can be undone by hand.","cn":"这些螺丝可以用手拧开。","src":"四级词库"},
+"uneasy": {"en":"She eventually fell into an uneasy sleep.","cn":"她终于睡着了，但睡得并不踏实。","src":"四级词库"},
+"unexpected": {"en":"Hague’s announcement was not entirely unexpected.","cn":"黑格的声明并非完全出乎意料。","src":"四级词库"},
+"unfair": {"en":"Many employers have recognized that age discrimination is unfair.","cn":"许多雇主已经认识到年龄歧视是不公平的。","src":"高中词库"},
+"unfortunate": {"en":"When we entered the room, the teacher was yelling at some unfortunate student.","cn":"我们进教室的时候，老师正在对着一个倒霉的学生吼叫。","src":"高中词库"},
+"unfortunately": {"en":"Unfortunately, you were out when we called.","cn":"很遗憾，我们来的时候你出去了。","src":"四级词库"},
+"unhappy": {"en":"If you’re so unhappy, why don’t you change jobs?","cn":"你要是那么不开心，为什么不换个工作呢？","src":"高中词库"},
+"uniform": {"en":"Grade A eggs must be of uniform size.","cn":"A 级鸡蛋必须大小相同。","src":"四级词库"},
+"union": {"en":"Are you planning to join the union?","cn":"你打算加入工会吗？","src":"四级词库"},
+"unique": {"en":"Each person’s fingerprints are unique.","cn":"每个人的指纹都是独一无二的。","src":"考研词库"},
+"unit": {"en":"The man is in the hospital’s intensive care unit.","cn":"那名男子在医院的重症监护室。","src":"四级词库"},
+"unite": {"en":"Our goal is to unite the opposition parties and defeat the President.","cn":"我们的目标是联合各反对党挫败总统。","src":"四级词库"},
+"unnecessary": {"en":"Williams was found guilty of causing unnecessary suffering to animals.","cn":"威廉斯因无故虐待动物被判有罪。","src":"托福词库"},
+"unlucky": {"en":"Four is an unlucky number in Japan.","cn":"4在日本是一个不幸的数字。","src":"Tatoeba 语料"},
+"unload": {"en":"Unload everything from the boat and clean it thoroughly.","cn":"从小船上卸下所有的货物并彻底地清洗。","src":"四级词库"},
+"unlikely": {"en":"Donna might be able to come tomorrow, but it’s very unlikely.","cn":"唐娜明天也许能来，不过这可能性很小。","src":"四级词库"},
+"unlike": {"en":"Now I see that, unlike her, they were my positive models.","cn":"现在我知道了，那些人不像她，他们是我的正面的表率。","src":"四级词库"},
+"underneath": {"en":"He has on his jeans and a long-sleeved blue denim shirt with a white T-shirt underneath.","cn":"他身穿牛仔裤和一件蓝色长袖粗斜纹棉布衬衫，里面还有件白色T恤衫。","src":"四级词库"},
+"unless": {"en":"I think you should complain – unless, of course, you are happy with the way things are.","cn":"我觉得你应该发发牢骚——当然，除非你对现状很满意。","src":"四级词库"},
+"university": {"en":"The student left the university to go out into the world and find himself.","cn":"这个学生离开了大学进入社会去发现自己的才能所在。","src":"考研词库"},
+"universe": {"en":"Einstein's equations showed the universe to be expanding.","cn":"爱因斯坦的方程式表明宇宙正在扩大。","src":"四级词库"},
+"universal": {"en":"These stories have universal appeal.","cn":"这些故事人人都喜欢。","src":"四级词库"},
+"unknown": {"en":"For some unknown reason, Mark quit his job and moved to Greece.","cn":"不知何故，马克辞掉工作移居希腊了。","src":"四级词库"},
+"turkey": {"en":"Mary tied an apron around her waist and then took the turkey out of the oven.","cn":"Mary试图把围裙围在腰上，然后把烤鸡从炉子里拿出来。","src":"Tatoeba 语料"},
+"underline": {"en":"This tragic incident underlines the need for immediate action.","cn":"这一悲剧事件突显了立即采取行动的必要性。","src":"四级词库"},
+"turning": {"en":"He must have taken a wrong turning in the dark.","cn":"他准是在黑暗中拐错弯了。","src":"高中词库"},
+"tutor": {"en":"He was privately tutored.","cn":"他是由家庭教师教的。","src":"四级词库"},
+"twelfth": {"en":"He poled his twelfth home run in the sixth inning.","cn":"在第六回合他打出了他的第十二次本垒打。","src":"高中词库"},
+"twelve": {"en":"He received a twelve-month jail sentence.","cn":"他获刑12个月。","src":"高中词库"},
+"twentieth": {"en":"One twentieth of the total output was exported.","cn":"产量中有二十分之一出口。","src":"高中词库"},
+"twenty": {"en":"Last month our twenty-year-old daughter gave birth to a baby girl.","cn":"上个月，我们20岁的女儿生了个女孩。","src":"Tatoeba 语料"},
+"twice": {"en":"None of our dinner menus are exactly the same twice over .","cn":"我们的晚餐菜单从没有完全重样的。","src":"高中词库"},
+"twin": {"en":"The twin brothers bled for their country and died without any regrets.","cn":"这对孪生兄弟为国流血牺牲， 死而无憾。","src":"四级词库"},
+"twinkle": {"en":"Countless stars were twinkling in the sky.","cn":"无数星星在天上闪烁。","src":"Tatoeba 语料"},
+"twist": {"en":"Her hands began to twist the handles of the bag she carried.","cn":"她的双手开始拧她拎着的那个包的拎柄。","src":"四级词库"},
+"two": {"en":"I’d like you to line up in twos, please.","cn":"请你们两个一组排好队。","src":"高中词库"},
+"type": {"en":"Jo’s not really the sporty type.","cn":"乔可不是那种喜欢运动的人。","src":"四级词库"},
+"typewriter": {"en":"He took all afternoon on each one of them, on account of having to hunt for each letter on the typewriter.","cn":"他每写一篇都花上整整一个下午的时间，因为他得在打字机上寻找每一个字母。","src":"四级词库"},
+"typical": {"en":"This advertisement is a typical example of their marketing strategy.","cn":"这则广告是他们营销策略的一个典型例子。","src":"四级词库"},
+"typist": {"en":"She found employment as a typist.","cn":"她找到打字員的工作。","src":"Tatoeba 语料"},
+"undergo": {"en":"He has been released from prison to undergo medical treatment in the United States.","cn":"他获释出狱去美国接受治疗。","src":"四级词库"},
+"under": {"en":"He took a deep breath before he went under.","cn":"他在钻下水前深深地吸了口气。","src":"高中词库"},
+"uncover": {"en":"Customs officials uncovered a plot to smuggle weapons into the country.","cn":"海关官员侦破了一个走私武器入境的阴谋。","src":"四级词库"},
+"unconscious": {"en":"She was found alive but unconscious.","cn":"她被找到时还活着，但已不省人事。","src":"四级词库"},
+"uncomfortable": {"en":"This sofa is so uncomfortable.","cn":"这张沙发太不舒服了。","src":"高中词库"},
+"uncle": {"en":"I went to stay with my uncle and aunt for a few days.","cn":"我去和叔叔婶婶住了几天。","src":"高中词库"},
+"underground": {"en":"This animal spends most of its life underground.","cn":"这种动物一生中的大部分时间都待在地下。","src":"四级词库"},
+"uncertain": {"en":"My whole future now seemed uncertain.","cn":"现在我的前途似乎是个未知数。","src":"四级词库"},
+"unable": {"en":"The military may feel unable to hand over power to a civilian president next year.","cn":"军方可能觉得无法在明年把政权移交给一位民选总统。","src":"高中词库"},
+"umbrella": {"en":"I spent the day on the beach, lying under a beach umbrella, reading.","cn":"那天我就在海滩上度过，躺在海滩遮阳伞下面看书。","src":"四级词库"},
+"ultimately": {"en":"Ultimately, the decision rests with the child’s parents.","cn":"最终，决定权在这孩子的父母手中。","src":"四级词库"},
+"ultimate": {"en":"The ultimate outcome of the experiment cannot be predicted.","cn":"试验的最后结果无法预测。","src":"四级词库"},
+"ugly": {"en":"An ugly man knocked on my door.","cn":"一个丑男人敲了我的门。","src":"Tatoeba 语料"},
+"tyre": {"en":"The spare tyre ’s in the boot.","cn":"备用轮胎在行李箱里。","src":"四级词库"},
+"unbearable": {"en":"He was making life unbearable for his parents.","cn":"他把父母的生活弄得不堪忍受。","src":"四级词库"},
+"toy": {"en":"Annie was playing happily with her toys .","cn":"安妮正高兴地玩着玩具。","src":"高中词库"},
+"town": {"en":"I walked to the nearest town.","cn":"我走到最近的镇上。","src":"高中词库"},
+"tower": {"en":"The cliffs towered above them.","cn":"悬崖峭壁高耸于他们上方。","src":"六级词库"},
+"them": {"en":"I lent him several books, but he hasn’t read any of them.","cn":"我借给他几本书，但他一本还没看过。","src":"高中词库"},
+"themselves": {"en":"Teachers have no choice but to take measures to protect themselves.","cn":"教师们别无选择，只能采取措施来保护自己。","src":"高中词库"},
+"then": {"en":"He started his career in St Petersburg – or Leningrad as it then was.","cn":"他在圣彼得堡——当时叫列宁格勒——开始他的事业。","src":"高中词库"},
+"theoretical": {"en":"She has theoretical knowledge of teaching, but no practical experience.","cn":"她有教学方面的理论知识，但没有实际经验。","src":"四级词库"},
+"theory": {"en":"Freudian theory has had a great influence on psychology.","cn":"弗洛伊德理论对心理学产生过巨大影响。","src":"四级词库"},
+"there": {"en":"We could go back to my cottage and have lunch there.","cn":"我们可以回到我的小屋去吃午饭。","src":"高中词库"},
+"thereby": {"en":"Our bodies can sweat, thereby losing heat by evaporation.","cn":"我们的身体会流汗，由此能通过蒸发散热。","src":"四级词库"},
+"therefore": {"en":"Progress so far has been very good. We are, therefore, confident that the work will be completed on time.","cn":"到目前为止进展十分顺利，所以我们有把握按时完成工作。","src":"四级词库"},
+"thermometer": {"en":"The thermometer registered over 100˚C.","cn":"温度计显示高于100摄氏度。","src":"四级词库"},
+"these": {"en":"Bear these thoughts with you as you go out into the world.","cn":"当你出去走入社会时你把这些思想牢记在心。","src":"高中词库"},
+"they": {"en":"Ken gave me some flowers. Aren’t they beautiful?","cn":"肯送给我一些花。很漂亮吧？","src":"高中词库"},
+"thick": {"en":"Brown hopes to be back in the thick of the action as soon as possible.","cn":"布朗希望尽快回去，参与到最紧要的行动中。","src":"高中词库"},
+"thickness": {"en":"The thickness of the walls is 5 feet.","cn":"墙体厚度为5英尺。","src":"四级词库"},
+"thief": {"en":"Thieves broke into the offices and stole $150,000’s worth of computer equipment.","cn":"小偷破门进入办公室，偷走了价值15万美元的电脑设备。","src":"高中词库"},
+"thin": {"en":"The skin on the eyelids is the thinnest on the body.","cn":"眼睑上的皮肤是人体最薄的皮肤。","src":"高中词库"},
+"thing": {"en":"Getting more American ideas into British business would be a good thing .","cn":"将更多的美国式理念注入英国商界会是一件好事。","src":"高中词库"},
+"think": {"en":"The recession lasted longer than anyone thought it would.","cn":"谁也没有想到这次经济萧条会持续这么久。","src":"高中词库"},
+"thousand": {"en":"Thousands of candles illuminated the church during the ceremony.","cn":"数以千计的蜡烛点亮了仪式中的教堂。","src":"Tatoeba 语料"},
+"thoughtful": {"en":"Paul is very thoughtful.","cn":"保罗非常体贴人。","src":"四级词库"},
+"thought": {"en":"The thought that I might not have a job next year is a bit troubling.","cn":"想到明年可能失业我有点心烦。","src":"高中词库"},
+"though": {"en":"Two heart attacks in a year. It hasn’t stopped him smoking, though.","cn":"一年里心脏病发作了两次，可是那也没让他把烟戒掉。","src":"高中词库"},
+"those": {"en":"She ganged up on me with those rough boys.","cn":"她伙同那些粗野的男孩对付我。","src":"高中词库"},
+"thorough": {"en":"The police investigation was very thorough.","cn":"警方的调查十分彻底。","src":"四级词库"},
+"theirs": {"en":"When our washing machine broke, our neighbours let us use theirs.","cn":"我们的洗衣机坏了的时候，邻居就让我们用他们的。","src":"高中词库"},
+"thorn": {"en":"Every rose has its thorns.","cn":"沒有不帶刺的玫瑰。","src":"Tatoeba 语料"},
+"thirty": {"en":"In the thirties, air travel really began to take off.","cn":"在30年代，乘飞机旅行迅速流行了起来。","src":"高中词库"},
+"thirteen": {"en":"They’ve only sold thirteen tickets so far.","cn":"到目前为止他们仅仅售出13张票。","src":"高中词库"},
+"thirsty": {"en":"He’d been working in the garden and was very hot and thirsty.","cn":"他一直在花园里干活，又热又渴。","src":"四级词库"},
+"third": {"en":"Divide it into thirds.","cn":"把它分成三等份。","src":"高中词库"},
+"this": {"en":"You need to cut about this much off the end of the pipe.","cn":"你要从管子头上切下大约这么多。","src":"高中词库"},
+"thread": {"en":"I’m looking for a needle and thread.","cn":"我在找针线。","src":"四级词库"},
+"their": {"en":"They talked her round to their position.","cn":"他们说服她同意他们的看法。","src":"高中词库"},
+"the": {"en":"The world exists, whether you like it or not.","cn":"不管你喜欢与否，这个世界照样存在。","src":"高中词库"},
+"temper": {"en":"Pete hit his brother in a fit of temper .","cn":"皮特一气之下打了他弟弟。","src":"四级词库"},
+"temperature": {"en":"The temperature of the water was just right for swimming.","cn":"这水温游泳正好。","src":"高中词库"},
+"temple": {"en":"Can you tell us something about the history of the temple?","cn":"您能给我讲一讲这个庙宇的历史吗？","src":"高中词库"},
+"temporary": {"en":"You might want to consider temporary work until you decide what you want to do.","cn":"在你定下来想做什么之前，也许可以考虑干点临时性工作。","src":"四级词库"},
+"tempt": {"en":"If you leave valuables in your car it will tempt thieves.","cn":"如果把贵重物品留在车上，会招来小偷的。","src":"四级词库"},
+"temptation": {"en":"Resist the temptation to buy the item until you’re certain you need it.","cn":"要抵挡住购买的诱惑，除非你确有需要。","src":"四级词库"},
+"ten": {"en":"Snow had been falling steadily for ten days.","cn":"雪已经连续下了10天了。","src":"高中词库"},
+"tenant": {"en":"The desk was left by the previous tenant.","cn":"书桌是上一个房客留下来的。","src":"六级词库"},
+"tend": {"en":"Sofia was in the bedroom tending to her son.","cn":"索菲娅在卧室里照料她的儿子。","src":"四级词库"},
+"tender": {"en":"Continue cooking until the meat is tender.","cn":"把肉一直烧到松软为止。","src":"四级词库"},
+"tennis": {"en":"If she decides to go with her sister instead, then I can play tennis with you.","cn":"要是她决定和她姐姐一起出去，那我就能和你去打网球。","src":"初中词库"},
+"tense": {"en":"Is anything wrong? You look a little tense.","cn":"有什么不对劲吗？你看起来有点紧张。","src":"四级词库"},
+"tent": {"en":"The school will provide tents for us.","cn":"学校会提供帐篷给我们。","src":"Tatoeba 语料"},
+"tenth": {"en":"Not because she lost, in fact she just won her last election to her tenth term by a landslide.","cn":"不只因为她的失败，事实上她只是由于占绝对优势的选举赢得第十期最后的选举。","src":"初中词库"},
+"that": {"en":"He killed a man once and that’s why he had to leave Ireland.","cn":"他曾杀死过一个人，这就是他不得不离开爱尔兰的原因。","src":"高中词库"},
+"thank": {"en":"They accepted their certificates with words of thanks.","cn":"他们接过证书，同时表示了谢意。","src":"高中词库"},
+"than": {"en":"Divorce is more common than it was a generation ago.","cn":"现在离婚比上一代人常见了。","src":"高中词库"},
+"textile": {"en":"From the context of the text, I find the next pretext for selling the textile.","cn":"我从课文的前后关系中找到卖纺织品的下一个借口。","src":"四级词库"},
+"textbook": {"en":"This school supplies students with textbooks.","cn":"这所学校为学生提供教科书。","src":"Tatoeba 语料"},
+"text": {"en":"There should not be too much text in children’s books.","cn":"儿童书籍里不应该有太多的文字。","src":"托福词库"},
+"territory": {"en":"The armed forces occupied the entire territory.","cn":"军队占领了整片领土。","src":"Tatoeba 语料"},
+"terrific": {"en":"The actress who played the lawyer was terrific.","cn":"扮演律师的女演员表演十分出色。","src":"六级词库"},
+"terrible": {"en":"I’d better write this down; I have a terrible memory.","cn":"我最好把它记下来，我的记性很差。","src":"四级词库"},
+"terminal": {"en":"Carl sits at a computer terminal 40 hours a week.","cn":"卡尔每周要在电脑前坐40小时。","src":"六级词库"},
+"term": {"en":"He is on goods terms with all of his classmates.","cn":"他和他所有的同学相处融洽。","src":"Tatoeba 语料"},
+"test": {"en":"Did you get a good mark in the test?","cn":"你这次测验成绩好吗？","src":"高中词库"},
+"threat": {"en":"Officials at the school say they received a bomb threat at approximately 11:30 a.m. today.","cn":"学校的官员说他们在今天上午11点半左右收到过炸弹恐吓。","src":"四级词库"},
+"threaten": {"en":"Postal workers are threatening a strike if they don’t receive a pay increase.","cn":"邮政工人威胁如果不加薪，他们就要罢工。","src":"四级词库"},
+"three": {"en":"They’ve won their last three games.","cn":"他们赢了最近三场比赛。","src":"高中词库"},
+"tobacco": {"en":"The room smelled of tobacco.","cn":"房里有股烟味。","src":"Tatoeba 语料"},
+"today": {"en":"I couldn’t go shopping yesterday so I’ll have to go today.","cn":"我昨天没能去买东西，所以今天我必须去。","src":"高中词库"},
+"toe": {"en":"I can easily touch my toes.","cn":"我可以轻而易举地碰到我的脚趾。","src":"Tatoeba 语料"},
+"together": {"en":"They’ve decided to spend more time together.","cn":"他们决定要花更多时间在一起。","src":"高中词库"},
+"toilet": {"en":"The toilet doesn't flush properly.","cn":"厕所冲水不正常。","src":"Tatoeba 语料"},
+"tolerate": {"en":"We simply will not tolerate vigilante groups on our streets.","cn":"我们决不容许有自行惩办犯罪的组织出现在我们的街头。","src":"四级词库"},
+"tomato": {"en":"The salmon was brought to the table whole, garnished with parsley and slices of tomato and cucumber.","cn":"整条大麻哈鱼被端上了桌，并用欧芹、西红柿片和黄瓜片作为花色配菜。","src":"高中词库"},
+"tomorrow": {"en":"I’ll see you at tomorrow’s meeting.","cn":"明天会上见。","src":"高中词库"},
+"ton": {"en":"I’ve got tons of work to do.","cn":"我有很多工作要做。","src":"高中词库"},
+"tone": {"en":"It was obvious from her tone of voice that she didn’t like me.","cn":"从她的语气明显听得出来她不喜欢我。","src":"四级词库"},
+"tongue": {"en":"The taste of the chocolate was still on her tongue.","cn":"巧克力的余味依然留在她的舌尖。","src":"高中词库"},
+"tonight": {"en":"We’re meeting him at 9 o’clock tonight.","cn":"我们今晚9点和他见面。","src":"高中词库"},
+"too": {"en":"She doesn’t seem too upset about it.","cn":"她对此好像不是很难过。","src":"高中词库"},
+"tool": {"en":"I don’t have the right tools to start fiddling around with the engine.","cn":"我没有合适的工具来摆弄发动机。","src":"高中词库"},
+"tooth": {"en":"Sugar is bad for your teeth.","cn":"糖对牙齿不好。","src":"高中词库"},
+"towel": {"en":"Have you got a clean towel I could use?","cn":"你有没有干净毛巾给我用？","src":"四级词库"},
+"towards": {"en":"The money collected will be put towards repairing the church roof.","cn":"募集到的钱款将用于修缮教堂屋顶。","src":"六级词库"},
+"tourist": {"en":"What effect will this have on the local tourist industry ?","cn":"这对当地的旅游业会有什么影响？","src":"四级词库"},
+"tour": {"en":"We met on a coach tour in Italy.","cn":"我们是在意大利乘长途客车旅游时相识的。","src":"四级词库"},
+"tough": {"en":"The reporters were asking a lot of tough questions .","cn":"记者们问了很多难以回答的问题。","src":"四级词库"},
+"touch": {"en":"If your house has been burgled, you shouldn’t touch anything until the police arrive.","cn":"如果家中被盗，在警察赶到之前不要动任何物品。","src":"四级词库"},
+"toast": {"en":"I had a piece of toast for breakfast.","cn":"我早饭吃了一片吐司。","src":"四级词库"},
+"total": {"en":"He looked at her with a total lack of comprehension.","cn":"他一头雾水地望着她。","src":"四级词库"},
+"torture": {"en":"He died after five days of excruciating torture.","cn":"遭受了五天的严刑拷打之后，他死了。","src":"四级词库"},
+"tortoise": {"en":"Either way, both the hare and tortoise get what they deserve based on how they behave.","cn":"无论如何，野兔和乌龟得到什么都是基于它们的行为举止的。","src":"高中词库"},
+"torrent": {"en":"Torrents of water gushed into the reservoir.","cn":"急流涌进了水库。","src":"考研词库"},
+"torch": {"en":"We shone our torches around the cavern.","cn":"我们用手电筒照着山洞。","src":"四级词库"},
+"topic": {"en":"The main topic for discussion will be the proposed new supermarket.","cn":"讨论的主要议题是拟建中的超级市场。","src":"四级词库"},
+"top": {"en":"I waited at the top of the stairs.","cn":"我在楼梯顶端上等着。","src":"托福词库"},
+"toss": {"en":"I’ve been tossing and turning all night.","cn":"我一晚上辗转反侧。","src":"六级词库"},
+"title": {"en":"\"Patience and Sarah\" was first published in 1969 under the title \"A Place for Us.\"","cn":"《耐心与萨拉》于1969年以《我们的地方》为书名首次出版。","src":"四级词库"},
+"tick": {"en":"The old clock ticked noisily.","cn":"那只古老的钟大声地嘀嗒着。","src":"六级词库"},
+"thus": {"en":"Most of the evidence was destroyed in the fire. Thus it would be almost impossible to prove him guilty.","cn":"大多数证据已在大火中烧毁，因而要证明他有罪几乎是不可能的。","src":"四级词库"},
+"thursday": {"en":"She was working Thursday.","cn":"她星期四在工作。","src":"高中词库"},
+"thunder": {"en":"The children came thundering downstairs.","cn":"孩子们噔噔噔地走下楼梯。","src":"四级词库"},
+"thumb": {"en":"I thumbed a lift into town.","cn":"我拦顺路车进了城。","src":"四级词库"},
+"thrust": {"en":"He jumped back to avoid another thrust of the knife.","cn":"他往后一闪，躲避再次捅来的一刀。","src":"四级词库"},
+"ticket": {"en":"Slow down or you'll get a ticket.","cn":"开慢点儿，否则你会接到一张罚款通知单。","src":"六级词库"},
+"throw": {"en":"He spent hours throwing a tennis ball against a wall.","cn":"他花了数小时对着一堵墙扔网球。","src":"高中词库"},
+"through": {"en":"How many working days were lost through sickness last year?","cn":"去年因为员工生病损失了多少个工作日？","src":"六级词库"},
+"throng": {"en":"Tourists thronged the bars and restaurants.","cn":"游客挤满了酒吧和餐馆。","src":"托福词库"},
+"throne": {"en":"Prince William is second in line to the English throne.","cn":"威廉王子是英国王位第二顺位继承人","src":"Tatoeba 语料"},
+"throat": {"en":"The singer complained of a sore throat after Wednesday’s show.","cn":"星期三演出后，这位歌手说喉咙痛。","src":"四级词库"},
+"thrill": {"en":"His music continues to thrill audiences.","cn":"他的音乐依然能扣人心弦。","src":"六级词库"},
+"throughout": {"en":"The house is in excellent condition, with fitted carpets throughout.","cn":"这幢房子状况极好，全部铺着地毯。","src":"四级词库"},
+"tide": {"en":"We went for a walk and got cut off by the tide .","cn":"我们去散步，结果被潮水困住了。","src":"四级词库"},
+"tie": {"en":"Interest rates are tied to the rate of inflation.","cn":"利率和通货膨胀率紧密联系在一起。","src":"高中词库"},
+"tissue": {"en":"As we age we lose muscle tissue.","cn":"随着年纪的增大，我们会失去一些肌肉组织。","src":"高中词库"},
+"tired": {"en":"I slept a little during lunch break because I was so tired.","cn":"我在午休时间睡了一会儿，因为我太累了。","src":"Tatoeba 语料"},
+"tire": {"en":"As we neared the summit, we were tiring fast.","cn":"接近山顶时，我们感到越来越累了。","src":"四级词库"},
+"tip": {"en":"Did you tip the waiter?","cn":"你给侍应生小费了吗？","src":"四级词库"},
+"tiny": {"en":"Bad teachers are a tiny minority .","cn":"差老师只占极少数。","src":"四级词库"},
+"tidy": {"en":"Ellen’s room is always neat and tidy .","cn":"埃伦的房间总是非常整洁。","src":"四级词库"},
+"tin": {"en":"Can you distinguish silver from tin?","cn":"你能分辨銀和錫嗎?","src":"Tatoeba 语料"},
+"timetable": {"en":"The timetable was hopelessly optimistic.","cn":"这个时间表过于乐观。","src":"高中词库"},
+"time": {"en":"Customers have only a limited amount of time to examine the goods.","cn":"顾客只有有限的时间可以检查商品。","src":"高中词库"},
+"till": {"en":"The shop’s open till nine o’clock on Fridays.","cn":"这家商店周五营业到9点。","src":"高中词库"},
+"tight": {"en":"My shoes were so tight that I could hardly walk.","cn":"鞋子很紧，我几乎不能走路。","src":"高中词库"},
+"tiger": {"en":"The trainer backed away from the enraged tiger.","cn":"驯兽师从被激怒的老虎身旁往后退。","src":"高中词库"},
+"timid": {"en":"A mouse is a timid creature.","cn":"老鼠是胆小的生物。","src":"Tatoeba 语料"},
+"unstable": {"en":"The political situation is still very unstable.","cn":"政局依然非常动荡。","src":"六级词库"},
+"until": {"en":"Until recently, Anna worked as a teacher in Japan.","cn":"直到最近，安娜一直在日本当老师。","src":"高中词库"},
+"whisky": {"en":"Would you like a gin, or a whisky, or a 'beer?","cn":"你是要喝杜松子酒，还是威士忌酒，还是啤酒？","src":"考研词库"},
+"whisper": {"en":"You don’t have to whisper, no one can hear us.","cn":"你不必轻声轻语，没人听得到我们说话。","src":"四级词库"},
+"whistle": {"en":"The referee whistled and the game began.","cn":"裁判哨声一响，比赛开始了。","src":"四级词库"},
+"white": {"en":"The mayor is very popular among whites.","cn":"市长很受白人欢迎。","src":"托福词库"},
+"whitewash": {"en":"Investigators are accused of whitewashing the governor’s record.","cn":"调查者被指责粉饰州长的政绩。","src":"六级词库"},
+"who": {"en":"They never found out who the murderer was.","cn":"他们一直未查出谁是凶犯。","src":"高中词库"},
+"whoever": {"en":"When you’re done with the book, just give it to Kristin or Shelley or whoever.","cn":"你看完书以后，就给克里斯廷或谢利，或者随便谁都行。","src":"四级词库"},
+"whole": {"en":"It was months before the whole truth came out.","cn":"几个月以后才真相大白。","src":"高中词库"},
+"wholly": {"en":"The report claimed that the disaster was wholly unavoidable.","cn":"报告称这场灾难完全无法避免。","src":"四级词库"},
+"whom": {"en":"Do any other family members reside with you? Yes/No If yes, whom?","cn":"是否有其他家庭成员和你住一起？如果是，谁？","src":"高中词库"},
+"whose": {"en":"Do you know whose handwriting this is?","cn":"你知道这是谁的字吗？","src":"Tatoeba 语料"},
+"why": {"en":"Simon loves you – that’s why he wants to be with you.","cn":"西蒙爱你——所以他想和你在一起。","src":"高中词库"},
+"wide": {"en":"Our aim is to bring classical music to a wider audience.","cn":"我们的目的是把古典音乐带给更多的听众。","src":"高中词库"},
+"widely": {"en":"The quality of the applicants varies widely.","cn":"申请人的素质差异很大。","src":"六级词库"},
+"widen": {"en":"The river widens and splits.","cn":"这条河有变宽的河段，也有分流的河段。","src":"四级词库"},
+"winner": {"en":"Five lucky winners will each receive a signed copy of the album.","cn":"五位幸运的获胜者每人将得到一张签名专辑。","src":"高中词库"},
+"wing": {"en":"The bird flapped its wings furiously.","cn":"那只鸟使劲地拍打着翅膀。","src":"四级词库"},
+"wine": {"en":"I'd like to have this meat dish with your best white wine.","cn":"我想喝著你最好的白酒吃這肉。","src":"Tatoeba 语料"},
+"window": {"en":"Television provides us with a useful window on the world.","cn":"电视为我们提供了了解世界的有用渠道。","src":"高中词库"},
+"wind": {"en":"The wind blew from the northeast.","cn":"风从东北方向吹来。","src":"六级词库"},
+"whip": {"en":"He whipped the horse into a canter.","cn":"他抽了一下鞭子，马儿就小跑起来。","src":"四级词库"},
+"win": {"en":"The most important thing in the Olympic Games is not winning but taking part.","cn":"奥运会最重要的不是获胜，而是参与。","src":"Tatoeba 语料"},
+"will": {"en":"Children sometimes have strong wills.","cn":"小孩子有时有很强的意志力。","src":"高中词库"},
+"wild": {"en":"The importation of rare wild animals to this country is strictly prohibited.","cn":"该国严禁进口稀有野生动物。","src":"Tatoeba 语料"},
+"wife": {"en":"My wife often telephones me when I'm traveling in another country.","cn":"我在国外旅行的时候，我老婆老给我打电话。","src":"Tatoeba 语料"},
+"widow": {"en":"Lesser-known featured Chicago killers include Richard Speck; the satanic Ripper Crew cult; and Tillie Klimek, known as Chicago’s “Black Widow,” who claimed to have had precognitive dreams of the deaths of her husbands, whom, in reality, she poisoned.","cn":"鲜为人知的芝加哥杀手包括理查德·斯佩克（Richard Speck）、撒旦式的开膛手船员邪教（Ripper Crew cult）和被称为芝加哥“黑寡妇”的蒂莉·克莱梅克（Tillie Klimek），她声称自己曾梦到丈夫的死亡，而实际上，她的丈夫是被毒死的。","src":"Smithsonian Magazine · 2026-09-09"},
+"willing": {"en":"I soon had an army of willing helpers.","cn":"我很快就拥有了一批热心的帮手。","src":"四级词库"},
+"winter": {"en":"Soon it will be winter.","cn":"很快要到冬天了。","src":"高中词库"},
+"whichever": {"en":"Letting taxes rise abruptly would hurt not only the recovery but also whichever party the electorate ended up blaming.","cn":"突然的增税不但会妨害经济复苏，而且无论哪个政党这样做都会受到选民指责。","src":"四级词库"},
+"weave": {"en":"Only a few of the women still weave.","cn":"只有数量很少的妇女还在编织。","src":"四级词库"},
+"wedding": {"en":"She’s busy planning her daughter’s wedding.","cn":"她正忙着筹备女儿的婚礼。","src":"四级词库"},
+"wednesday": {"en":"Come and have supper with us on Wednesday, if you're free.","cn":"星期三过来和我们一起吃晚饭，如果有空的话。","src":"高中词库"},
+"weed": {"en":"Caspar was weeding the garden.","cn":"卡斯帕正在给花园除草。","src":"四级词库"},
+"week": {"en":"I can’t see you this week.","cn":"我这星期不能见你。","src":"高中词库"},
+"weekday": {"en":"If you want to avoid the crowds, it's best to come on a weekday.","cn":"如果你想避开人流，最好在工作日来。","src":"高中词库"},
+"weekend": {"en":"Are you doing anything nice this weekend?","cn":"这个周末你有什么好的安排？","src":"高中词库"},
+"weekly": {"en":"The group meets weekly.","cn":"小组每周见面一次。","src":"四级词库"},
+"weep": {"en":"James broke down and wept.","cn":"詹姆斯控制不住感情，哭了起来。","src":"四级词库"},
+"weigh": {"en":"The young birds weigh only a few grams.","cn":"雏鸟重量只有几克。","src":"高中词库"},
+"weight": {"en":"The average weight of a baby at birth is just over seven pounds.","cn":"婴儿的平均出生体重是七磅多一点。","src":"高中词库"},
+"welcome": {"en":"I must be there to welcome my guests.","cn":"我必须在那里迎接我的客人。","src":"高中词库"},
+"weld": {"en":"The new handle will have to be welded on.","cn":"新的把手得焊上去。","src":"四级词库"},
+"welfare": {"en":"Our only concern is the children’s welfare.","cn":"我们唯一关心的是孩子们的幸福。","src":"四级词库"},
+"well": {"en":"Mix the flour and butter well.","cn":"把面粉和黄油搅匀。","src":"高中词库"},
+"well-known": {"en":"Perhaps Chicago’s most well-known serial killer, Gacy features prominently in the exhibition.","cn":"也许是芝加哥最著名的连环杀手，盖西在展览中占据突出地位。","src":"Smithsonian Magazine · 2026-09-09"},
+"which": {"en":"Which translation of this book do you think is better, the French one or the English one?","cn":"你觉得这本书的哪个译本比较好？法语的还是英语的？","src":"Tatoeba 语料"},
+"whether": {"en":"There were times when I wondered whether or not we would get there.","cn":"有时候我也想知道我们能不能做得到。","src":"高中词库"},
+"wherever": {"en":"He would keep in touch with us wherever he was .","cn":"他无论在什么地方，总是与我们保持联系。","src":"高中词库"},
+"where": {"en":"Where others might have been satisfied, Dawson had higher ambitions.","cn":"别人或许这样就满足了，可道森却有更大的雄心。","src":"高中词库"},
+"whenever": {"en":"They were always there by you, whenever you needed them.","cn":"无论何时你需要他们，他们总是在你身边。","src":"高中词库"},
+"when": {"en":"When the family came here from Russia, they were penniless.","cn":"那家人从俄罗斯迁来这里的时候身无分文。","src":"高中词库"},
+"while": {"en":"While she was asleep, thieves broke in and stole her handbag.","cn":"她睡着的时候，小偷闯进来偷走了她的手提包。","src":"高中词库"},
+"wheel": {"en":"The action of the crank turns the wheel.","cn":"这根曲轴的作用是使轮子转动。","src":"初中词库"},
+"whatever": {"en":"This is just a stupid argument that has nothing whatever to do with your job.","cn":"这只是一场无聊的争论，和你的工作没有任何关系。","src":"四级词库"},
+"what": {"en":"What he did was morally wrong.","cn":"他的行为很缺德。","src":"六级词库"},
+"wet": {"en":"I’ve washed your shirt but it’s still wet.","cn":"我把你的衬衫洗过了，不过现在还是湿的。","src":"高中词库"},
+"western": {"en":"But in a small spot of hope for the marsupial, Australian conservationists and the Dambimangari Aboriginal Corporation recently captured the species on camera at two sites in Western Australia where it had not been scientifically recorded before.","cn":"但有袋动物的一线希望在于，澳大利亚自然资源保护主义者和丹比曼加里原住民公司最近在西澳大利亚州的两个地点用相机捕捉到了这个物种，在此之前，它们没有被科学记录过。","src":"Smithsonian Magazine · 2026-09-10"},
+"west": {"en":"There’s a slight chance of some sunshine in the west.","cn":"西部地区见晴的可能性不大。","src":"高中词库"},
+"wheat": {"en":"Can you tell wheat from barley?","cn":"你能辨别小麦和大麦吗？","src":"Tatoeba 语料"},
+"wipe": {"en":"I'll just wipe the table.","cn":"我只擦擦桌子。","src":"高中词库"},
+"wrap": {"en":"I’ve still got a few Christmas presents to wrap up.","cn":"我还有一些圣诞礼物要包起来。","src":"四级词库"},
+"wreath": {"en":"The prime minister laid a wreath at the war memorial.","cn":"首相向战争纪念碑献了花圈。","src":"考研词库"},
+"wreck": {"en":"He was still alive when they pulled him from the wreck.","cn":"他们把他从失事的车辆中拖出来时，他还活着。","src":"四级词库"},
+"wrist": {"en":"He broke his wrist climbing rocks for a cigarette ad.","cn":"他为了一个香烟广告攀岩折断了手腕。","src":"四级词库"},
+"write": {"en":"I wrote her several letters , but she didn’t reply.","cn":"我给她写了几封信，可是她没有回复。","src":"高中词库"},
+"writer": {"en":"She’s one of my favourite writers.","cn":"她是我最喜欢的作家之一。","src":"四级词库"},
+"writing": {"en":"Some of his most powerful writing is based on his childhood experiences.","cn":"他的一些最震慑人心的作品是根据儿时经历写成的。","src":"四级词库"},
+"wrong": {"en":"I must have added it up wrong, then.","cn":"那我一定是加错了。","src":"高中词库"},
+"x-ray": {"en":"The X-ray showed that her leg was not broken.","cn":"X光片显示她的腿没有骨折。","src":"四级词库"},
+"yard": {"en":"Give him an inch and he'll take a yard.","cn":"得寸进尺。","src":"Tatoeba 语料"},
+"yawn": {"en":"Alan stretched and yawned.","cn":"艾伦伸伸懒腰，打了个呵欠。","src":"四级词库"},
+"year": {"en":"We’ve known each other for over a year.","cn":"我们相识一年多了。","src":"高中词库"},
+"yearly": {"en":"Clients normally pay fees in advance, monthly, quarterly, or yearly.","cn":"客户们通常提前付费，或按月，或按季度，或按年。","src":"四级词库"},
+"yell": {"en":"The crowd are on their feet yelling.","cn":"观众站着高声呐喊。","src":"六级词库"},
+"yellow": {"en":"The room was decorated in a variety of reds, blues, and yellows.","cn":"房间以深浅不一的红色、蓝色和黄色装饰。","src":"托福词库"},
+"yes": {"en":"\"Shall I have him call you when he gets back?\" \"Yes, please.\"","cn":"“等他回来，我要让他给你打电话吗？”“是的，谢谢。”","src":"Tatoeba 语料"},
+"zero": {"en":"Make x greater than or equal to zero.","cn":"设x大于或等于零。","src":"高中词库"},
+"zebra": {"en":"Sixty acres of woods and ponds are home to camels, zebra, bison , water buffalo, ostrich and antelope.","cn":"六十英亩的森林和池塘是骆驼，斑马，野牛，水牛，鸵鸟和羚羊的家园。","src":"高中词库"},
+"youth": {"en":"Despite his youth, he had travelled alone.","cn":"他虽然年纪还小，却已独自旅行过了。","src":"四级词库"},
+"wound": {"en":"It took several months for his wounds to heal .","cn":"他的伤口几个月后才愈合。","src":"四级词库"},
+"yourself": {"en":"Go and buy yourself an ice cream.","cn":"去给你自己买个冰激凌吧。","src":"高中词库"},
+"your": {"en":"You should keep in with your colleagues.","cn":"你应当与你的同事友好相处。","src":"高中词库"},
+"young": {"en":"When I was young, I wanted to be a model.","cn":"我年轻时候想当模特。","src":"高中词库"},
+"you": {"en":"You boys have got to learn to behave yourselves.","cn":"你们这些男孩子必须学着规矩点。","src":"高中词库"},
+"yield": {"en":"Our research has only recently begun to yield important results.","cn":"直到最近我们的研究才开始取得重要成果。","src":"四级词库"},
+"yet": {"en":"We’ve had no luck as yet.","cn":"到目前为止，我们还没什么运气。","src":"高中词库"},
+"yesterday": {"en":"They arrived the day before yesterday.","cn":"他们前天到的。","src":"高中词库"},
+"yours": {"en":"A lot of people have money problems, but yours are more serious than most people’s.","cn":"许多人有财务问题，不过你的问题比大多数人的要严重。","src":"高中词库"},
+"would": {"en":"They said they would meet us at 10.30 at the station.","cn":"他们说过会在10点30分到车站接我们。","src":"高中词库"},
+"worthy": {"en":"Leeds United were worthy winners of the competition.","cn":"利兹联队是比赛当之无愧的获胜者。","src":"四级词库"},
+"worthwhile": {"en":"He wanted to do a worthwhile job.","cn":"他想做有意义的工作。","src":"四级词库"},
+"wonderful": {"en":"The cold, misty air felt wonderful on his face.","cn":"那凉凉的雾气使他脸上感觉好极了。","src":"高中词库"},
+"wonder": {"en":"He’s been leaving work early a lot – it makes you wonder , doesn’t it?","cn":"他最近经常提早下班——让人觉得奇怪，是不是？","src":"六级词库"},
+"woman": {"en":"When a woman is pregnant, the levels of hormones in her body change.","cn":"女人怀孕时，体内的荷尔蒙水平会发生变化。","src":"高中词库"},
+"witness": {"en":"Police have appealed for witnesses to come forward.","cn":"警方呼吁目击者站出来。","src":"四级词库"},
+"withstand": {"en":"The Chancellor has withstood the criticism and held firm.","cn":"总理顶住批评，坚持立场。","src":"四级词库"},
+"wood": {"en":"Put some more wood on the fire.","cn":"往火上再添些木柴。","src":"高中词库"},
+"without": {"en":"We passed two ruined abbeys, one with a tower and one without.","cn":"我们路过两座破落的寺院，一座有塔楼，另一座没有。","src":"高中词库"},
+"withdraw": {"en":"After much persuasion he agreed to withdraw his resignation.","cn":"几经劝说，他同意收回辞呈。","src":"高中词库"},
+"with": {"en":"In summer Venice is crammed with tourists.","cn":"夏季的威尼斯挤满了游客。","src":"高中词库"},
+"wit": {"en":"Alone and penniless, I was forced to live on my wits.","cn":"孤身一人又身无分文，我只得靠我的机智来过活。","src":"考研词库"},
+"wish": {"en":"If you wish to discuss this matter further please do not hesitate to contact me.","cn":"如果你想进一步讨论此事，请尽管和我联系。","src":"高中词库"},
+"wise": {"en":"A wise man would not say such a thing.","cn":"一个聪明人不会说这种话。","src":"Tatoeba 语料"},
+"wisdom": {"en":"You can always expect a few words of wisdom from Dave.","cn":"戴夫总能冒出几句至理名言。","src":"四级词库"},
+"within": {"en":"Within an hour of our arrival Caroline was starting to complain.","cn":"我们到达还没有一小时，卡罗琳就开始抱怨了。","src":"高中词库"},
+"weather": {"en":"The weather turned bitterly cold.","cn":"天气变得很冷了。","src":"高中词库"},
+"wooden": {"en":"The garden was surrounded by a wooden fence.","cn":"花园被木栅栏围了起来。","src":"Tatoeba 语料"},
+"woollen": {"en":"Strictly speaking, the Tapestry is an embroidery – because the woollen threads of its design are stitched onto the linen backing cloth rather than being woven as one.","cn":"严格来说，挂毯是一种刺绣，因为其设计的羊毛线是缝在亚麻底布上的，而不是织成一体的。","src":"HistoryExtra · 2026-09-10"},
+"worthless": {"en":"The house was full of worthless junk.","cn":"这房子里堆满了没有用的东西。","src":"四级词库"},
+"worth": {"en":"You should not deprecate your own worth.","cn":"你不应该贬低你自己的价值。","src":"四级词库"},
+"worst": {"en":"What is the worst possible thing that can happen?","cn":"最糟可能会发生什么事？","src":"四级词库"},
+"worship": {"en":"He absolutely worships her.","cn":"他太崇拜她了。","src":"六级词库"},
+"worse": {"en":"The bullying got worse and worse until finally he had to leave the school.","cn":"他所受的欺侮越来越过分，最后只得离开了学校。","src":"高中词库"},
+"worry": {"en":"The heat didn’t seem to worry him.","cn":"酷热似乎并没有让他烦恼。","src":"高中词库"},
+"wool": {"en":"She was dressed in wool.","cn":"她穿著羊毛衣。","src":"Tatoeba 语料"},
+"worm": {"en":"The early bird catches the worm.","cn":"早起的鸟儿有虫吃。","src":"Tatoeba 语料"},
+"world": {"en":"At that time China was the most powerful country in the world .","cn":"当时中国是世界上最强大的国家。","src":"高中词库"},
+"workshop": {"en":"Trumpeter Marcus Belgrave ran a jazz workshop for young artists.","cn":"鼓手马库斯马贝尔格瑞夫为年轻艺术家们举办了一场爵士乐研讨会。","src":"四级词库"},
+"workman": {"en":"In University Square workmen are building a steel fence.","cn":"在大学广场工人们正在筑一个钢栅栏。","src":"四级词库"},
+"worker": {"en":"We often hear it said that the Japanese are good workers.","cn":"我们经常听说日本人工作勤奋。","src":"Tatoeba 语料"},
+"work": {"en":"Staff will have to get used to a new way of working.","cn":"员工必须适应新的工作方式。","src":"高中词库"},
+"word": {"en":"Perhaps ‘lucky’ is not exactly the right word .","cn":"也许“幸运”一词还不够贴切。","src":"高中词库"},
+"tell": {"en":"I’ll tell you all about it when I get back.","cn":"我回来再告诉你这一切。","src":"高中词库"},
+"weary": {"en":"She found Rachel in the kitchen, looking old and weary.","cn":"她发现雷切尔在厨房里，看上去苍老而疲惫。","src":"六级词库"},
+"weapon": {"en":"They all had sticks which they planned to use as weapons.","cn":"他们都持有棍棒，打算当武器用。","src":"四级词库"},
+"valid": {"en":"Your return ticket is valid for three months.","cn":"你的往返票有效期为三个月。","src":"四级词库"},
+"valley": {"en":"In Silicon Valley, devotees have gathered at peptide parties to drink, dance and inject themselves with these chemicals—all in pursuit of sharper minds and more sculpted bodies.","cn":"在硅谷，奉献者聚集在多肽派对上喝酒、跳舞和注射这些化学物质--所有这些都是为了追求更敏锐的头脑和更精致的身体。","src":"Smithsonian Magazine · 2026-09-09"},
+"valuable": {"en":"Their most valuable belongings were locked in a safe in the bedroom.","cn":"他们最值钱的财物锁在卧室保险箱里。","src":"高中词库"},
+"value": {"en":"The value of his investment has risen by more than $50,000.","cn":"他的投资价值已经增长$50000多。","src":"四级词库"},
+"van": {"en":"He imitated the works of Van Gogh.","cn":"他模仿了梵高的作品。","src":"Tatoeba 语料"},
+"vanish": {"en":"My keys were here a minute ago but now they’ve vanished.","cn":"我的钥匙刚刚还在这里，现在却不翼而飞了。","src":"四级词库"},
+"vanity": {"en":"Sabrina had none of the vanity so often associated with beautiful women.","cn":"萨布里娜没有一点漂亮女人经常会有的那种虚荣。","src":"考研词库"},
+"variable": {"en":"Expect variable cloudiness and fog tomorrow.","cn":"预计明天多云有雾，天气多变。","src":"四级词库"},
+"variation": {"en":"Most of his poems are variations on the theme of love.","cn":"他的大部分诗作都是有关爱情主题的形式不同的作品。","src":"四级词库"},
+"variety": {"en":"I really like the variety the store has to offer.","cn":"我很喜欢这家商店商品的丰富多样。","src":"四级词库"},
+"various": {"en":"There are various ways to answer your question.","cn":"有多种方法可以回答你的问题。","src":"四级词库"},
+"vary": {"en":"Quentin’s mood seems to vary according to the weather.","cn":"昆廷的情绪似乎随天气而变化。","src":"四级词库"},
+"vase": {"en":"You need to put more water in the vase.","cn":"你需要往花瓶里加更多的水。","src":"Tatoeba 语料"},
+"vast": {"en":"In the past five years, there has been a vast improvement in graduation rates.","cn":"过去的五年内，毕业率大幅度提高。","src":"四级词库"},
+"vegetable": {"en":"Vitamin A is found in liver and green vegetables.","cn":"动物肝脏和绿色蔬菜中含有维生素A。","src":"高中词库"},
+"vehicle": {"en":"Have you locked your vehicle?","cn":"你锁车了吗？","src":"四级词库"},
+"via": {"en":"We flew to Athens via Paris.","cn":"我们经由巴黎飞往雅典。","src":"四级词库"},
+"veteran": {"en":"He is a veteran of the last revolution in medical technology, gene therapy, which, after some hyped expectations in the 1990s, fell into disfavor after some unsuccessful trials.","cn":"他是基因治疗这项最新医学技术的老手，经过了1990年代的兴奋期和之后几次失败的实验后，基因治疗技术已经失宠了。","src":"六级词库"},
+"vest": {"en":"Tom was wearing a bulletproof vest, so the bullet didn't kill him.","cn":"湯姆穿著一件防彈衣，所以子彈沒把他殺死。","src":"Tatoeba 语料"},
+"vessel": {"en":"Scientists also spotted squid egg clusters attached to the vessel.","cn":"科学家们还发现了附着在船上的鱿鱼卵簇。","src":"Smithsonian Magazine · 2026-09-09"},
+"very": {"en":"The fishing industry is very important to the area.","cn":"捕鱼业对于该地区非常重要。","src":"高中词库"},
+"vain": {"en":"Men can be just as vain as women.","cn":"男人有时会和女人一样虚荣。","src":"四级词库"},
+"verify": {"en":"His statement was verified by several witnesses.","cn":"他的说法得到了几位证人的证实。","src":"四级词库"},
+"verb": {"en":"The German verb is postponed.","cn":"德语动词放在句末。","src":"考研词库"},
+"venture": {"en":"When darkness fell, he would venture out.","cn":"天黑以后，他就会壮着胆子出去。","src":"四级词库"},
+"velocity": {"en":"The speedboat reached a velocity of 120 mph.","cn":"快艇的时速达到了120英里。","src":"四级词库"},
+"veil": {"en":"She lifted her veil with both hands.","cn":"她用双手揭开面纱。","src":"六级词库"},
+"version": {"en":"Could Donna’s version of what happened that night be correct?","cn":"唐娜对那晚发生的事情的描述是否正确呢？","src":"四级词库"},
+"vibrate": {"en":"As air passes over our vocal cords, it makes them vibrate.","cn":"气流通过我们的声带，使之产生振动。","src":"四级词库"},
+"vague": {"en":"The governor gave only a vague outline of his tax plan.","cn":"州长只是含糊地大致说了一下他的税务计划。","src":"四级词库"},
+"vacation": {"en":"We’re planning to go on vacation soon.","cn":"我们在计划近期去度假。","src":"四级词库"},
+"unusual": {"en":"It’s unusual for Dave to be late.","cn":"戴夫迟到是很少见的。","src":"四级词库"},
+"unusually": {"en":"The weather is unusually cold.","cn":"天气非常寒冷。","src":"Tatoeba 语料"},
+"upon": {"en":"We are completely dependent upon your help.","cn":"我们完全依赖你的帮助。","src":"高中词库"},
+"upper": {"en":"Throughout the five years of painful cancer treatments, he managed to keep a stiff upper lip.","cn":"这五年痛苦的癌症治疗他终于坚持下来了。","src":"Tatoeba 语料"},
+"upright": {"en":"You imagine being on a bicycle or motorbike; you go around the corner, you lean into the corner, which remains perfectly upright in physics.","cn":"想象一下骑着自行车和摩托车走在拐弯处时，你朝着拐角处倾斜，这在物理上仍然保持了完全笔直。","src":"四级词库"},
+"upset": {"en":"You’re not still upset with me, are you?","cn":"你不是还在生我的气吧？","src":"四级词库"},
+"upstairs": {"en":"Marsani moved into the upstairs apartment.","cn":"玛萨妮搬进了楼上的公寓。","src":"高中词库"},
+"upward": {"en":"They climbed upward along the steep cliffs surrounding the village.","cn":"他们沿着环绕村庄的陡峭悬崖向上爬。","src":"高中词库"},
+"upwards": {"en":"Pointing upwards, he indicated a large nest high in the tree.","cn":"他朝上指指，示意树上高处有个大鸟窝。","src":"高中词库"},
+"urge": {"en":"The charity urged quick action.","cn":"慈善机构敦促迅速采取行动。","src":"四级词库"},
+"urgent": {"en":"The report called for urgent action to reduce lead in petrol.","cn":"报告呼吁迅速采取行动，减少汽油中的铅含量。","src":"四级词库"},
+"vacant": {"en":"Only a few apartments were still vacant.","cn":"只有几套公寓仍然空着。","src":"四级词库"},
+"utter": {"en":"I watched in complete and utter horror as he pulled out a gun.","cn":"我惊恐万分地看着他拔出枪来。","src":"四级词库"},
+"utmost": {"en":"It is a matter of the utmost urgency to find out what has happened to these people.","cn":"当务之急是弄清楚这些人出了什么事。","src":"四级词库"},
+"utilize": {"en":"We must consider how best to utilize what resources we have.","cn":"我们必须考虑怎样充分利用现有的资源。","src":"四级词库"},
+"utility": {"en":"Does your rent include utilities?","cn":"你的房租包括公用事业费吗？","src":"四级词库"},
+"vacuum": {"en":"I vacuumed the carpets today.","cn":"我今天用吸尘器清洁地毯了。","src":"四级词库"},
+"usually": {"en":"The drive usually takes 15 or 20 minutes.","cn":"这段车程通常需要 15 或 20 分钟。","src":"高中词库"},
+"useless": {"en":"The doctor concluded that further treatment would be useless.","cn":"医生下了结论，进一步治疗是无益的。","src":"高中词库"},
+"useful": {"en":"A little Japanese can be really useful.","cn":"懂一点日语非常有用。","src":"高中词库"},
+"used": {"en":"I do the dishes every day, so I’m used to it.","cn":"我每天洗盘子，所以习惯了。","src":"初中词库"},
+"use": {"en":"Use your imagination when planning meals.","cn":"安排三餐时要动点脑筋。","src":"初中词库"},
+"usual": {"en":"Make a cheese sauce in the usual way.","cn":"按通常的做法做奶酪酱。","src":"高中词库"},
+"vibration": {"en":"The microscope must be free from vibration.","cn":"显微镜一定要避免震动。","src":"托福词库"},
+"vice": {"en":"Smoking is my only vice.","cn":"吸烟是我唯一的恶习。","src":"高中词库"},
+"waist": {"en":"The skirt was too big around the waist.","cn":"那条裙子腰围太大。","src":"四级词库"},
+"wait": {"en":"Would you mind waiting outside?","cn":"你在外面等好吗？","src":"高中词库"},
+"waiter": {"en":"We have a job for you as a waiter.","cn":"我们可以为你提供一份服务员的工作。","src":"初中词库"},
+"wake": {"en":"When she woke, the sun was streaming through the windows.","cn":"她醒来时，阳光泻入窗内。","src":"高中词库"},
+"waken": {"en":"She gently wakened the sleeping child.","cn":"她轻轻地唤醒睡梦中的孩子。","src":"四级词库"},
+"walk": {"en":"Doctors said he’d never walk again.","cn":"医生说他再也不能行走了。","src":"高中词库"},
+"wall": {"en":"We climbed over the wall into the orchard.","cn":"我们翻墙进了果园。","src":"高中词库"},
+"wallet": {"en":"He took a credit card out of his wallet.","cn":"他从钱包里拿出一张信用卡。","src":"六级词库"},
+"wander": {"en":"He was found wandering the streets of New York.","cn":"有人看到他在纽约街头游荡。","src":"四级词库"},
+"want": {"en":"The gallery closed down for want of funding.","cn":"那家画廊由于缺乏资金关闭了。","src":"四级词库"},
+"war": {"en":"He served as a pilot during the war.","cn":"他在战时担任飞行员。","src":"高中词库"},
+"warm": {"en":"I’ve put your dinner in the oven to keep it warm.","cn":"我把你的饭菜放进了烤箱里保温。","src":"高中词库"},
+"warmth": {"en":"She went further into the room, drawn by the warmth of the fire.","cn":"她被火的温暖吸引着，走进了房间。","src":"四级词库"},
+"warn": {"en":"She warned him not to go out at night alone.","cn":"她警告他晚上不要一个人出去。","src":"Tatoeba 语料"},
+"wash": {"en":"It’s your turn to wash the dishes.","cn":"该轮到你洗碗碟了。","src":"高中词库"},
+"waste": {"en":"Leaving the heating on all the time wastes electricity.","cn":"让暖气整天开着是浪费电力。","src":"高中词库"},
+"wealthy": {"en":"During the Depression in the 1930's, many wealthy people lost everything in the stock market crash.","cn":"在十九世纪三十年代的大萧条时期，许多富人在股市崩盘中失去了一切。","src":"Tatoeba 语料"},
+"wealth": {"en":"The purpose of industry is to create wealth.","cn":"工业的目的就是创造财富。","src":"四级词库"},
+"weakness": {"en":"The legislation has a fundamental weakness.","cn":"这项立法有一个根本性缺陷。","src":"四级词库"},
+"weaken": {"en":"The absence of this witness has weakened the case against the accused.","cn":"这名证人的缺席削弱了对被告的指控力度。","src":"四级词库"},
+"weak": {"en":"The animal was weak from loss of blood.","cn":"那只动物因失血而虚弱无力。","src":"高中词库"},
+"wage": {"en":"The government, along with the three factions that had been waging a civil war, signed a peace agreement.","cn":"政府和发动了内战的3方一起签订了1份和平协议。","src":"四级词库"},
+"way": {"en":"It’s worth thinking how you can improve the way things are.","cn":"你应该想想如何让现状变得更好。","src":"六级词库"},
+"wavelength": {"en":"Sunlight consists of different wavelengths of radiation.","cn":"阳光由波长不同的射线组成。","src":"托福词库"},
+"wave": {"en":"The ship tipped over, and finally vanished beneath the waves.","cn":"船倾覆了，最终沉没在海浪之下。","src":"四级词库"},
+"waterproof": {"en":"Rub the wax in to make the shoe waterproof.","cn":"在鞋子上抹点蜡使其防水。","src":"四级词库"},
+"waterfall": {"en":"I saw a beautiful waterfall there.","cn":"我看见那儿有个很美的瀑布。","src":"Tatoeba 语料"},
+"water": {"en":"When dealing with a burst pipe, always turn off the water first.","cn":"处理破裂水管时，一定要先把水关掉。","src":"四级词库"},
+"watch": {"en":"Most parents don’t know what their kids are watching on TV.","cn":"大多数父母不知道自己的孩子都在看什么电视节目。","src":"高中词库"},
+"voyage": {"en":"The voyage from England to India used to take six months.","cn":"过去从英格兰到印度要航行六个月。","src":"四级词库"},
+"vote": {"en":"In 1918 British women got the right to vote.","cn":"1918年，英国妇女获得了选举权。","src":"四级词库"},
+"violin": {"en":"All this from playing the violin and the cello.","cn":"所有这些都来自于小提琴和大提琴的演奏。","src":"四级词库"},
+"violet": {"en":"And what of the violet hue?","cn":"这个和紫色色调又什么关系么？","src":"四级词库"},
+"violent": {"en":"The riots ended in the violent deaths of three teenagers.","cn":"动乱以三名少年的惨死而告终。","src":"四级词库"},
+"violence": {"en":"She spoke with a violence that surprised them both.","cn":"她言辞激烈，令他们俩都很惊讶。","src":"四级词库"},
+"vinegar": {"en":"The sugared vinegar is refined from the sugarcane and pine.","cn":"加糖的醋是从甘蔗和松木中精炼出来的。","src":"四级词库"},
+"vine": {"en":"Ivy is a type of vine.","cn":"常青藤是一种藤本植物。","src":"六级词库"},
+"virtually": {"en":"He was virtually unknown before running for office.","cn":"他在参加竞选之前几乎不为人知。","src":"四级词库"},
+"village": {"en":"Almost everyone in our village is related to one another.","cn":"我们村里所有的村民几乎彼此都是亲戚。","src":"Tatoeba 语料"},
+"viewpoint": {"en":"Different viewpoints produce different images.","cn":"角度不同，产生的画面也不同。","src":"四级词库"},
+"view": {"en":"In my view, the country needs a change of government.","cn":"依我看，这个国家需要换个政府。","src":"高中词库"},
+"video": {"en":"The school will be making a video of the play.","cn":"学校将把这出戏拍摄成录像。","src":"高中词库"},
+"victory": {"en":"Union leaders are heading for victory in their battle over workplace rights.","cn":"工会领袖们在争取工作场所权利的斗争中正迈向胜利。","src":"高中词库"},
+"victorious": {"en":"Former Manchester City playmaker Kevin De Bruyne appeared well placed to equalise when put through for a rare Napoli chance in the final few minutes, but wasted the chance by opting to cross, ensuring Arsenal could celebrate a victorious start to their European campaign and a fifth straight win of the season in all competitions.","cn":"前曼城组织者凯文·德布鲁因（Kevin De Bruyne）在最后几分钟获得罕见的那不勒斯机会时，似乎处于很好的平衡位置，但由于选择交叉而浪费了这个机会，确保阿森纳能够庆祝他们的欧洲战役的胜利开局以及本赛季在所有比赛中的连续第五场胜利。","src":"Sky Sports · 2026-09-09"},
+"victim": {"en":"The victim received head injuries from which she died a week later.","cn":"受害人头部受伤，一周后死亡。","src":"四级词库"},
+"vigorous": {"en":"Environmentalists have begun a vigorous campaign to oppose nuclear dumping in the area.","cn":"环保人士已经发动了一场积极的运动，反对在该地区倾倒核废物。","src":"四级词库"},
+"wear": {"en":"The cushions are starting to wear a little.","cn":"这些靠垫开始有点磨破了。","src":"四级词库"},
+"virtue": {"en":"Women have often been used as symbols of virtue.","cn":"女性常被用作美德的象征。","src":"四级词库"},
+"vision": {"en":"She suffered temporary loss of vision after being struck on the head.","cn":"她头部受撞击以后出现暂时性失明。","src":"四级词库"},
+"voluntary": {"en":"Workers are being encouraged to take voluntary redundancy.","cn":"工人被鼓励主动离职。","src":"四级词库"},
+"volume": {"en":"Turn the volume up so that the students at the back can hear.","cn":"声音大声一点，以便让坐在后边的学生能听到。","src":"Tatoeba 语料"},
+"voltage": {"en":"The systems are getting smaller and using lower voltages.","cn":"这些系统正变得更小而且使用更低的电压。","src":"四级词库"},
+"volt": {"en":"If I multiply these two, what is the coulomb times a volt?","cn":"如果我把这两个乘起来，库仑乘以伏特是多少？","src":"四级词库"},
+"volleyball": {"en":"Balloon, baseball, basketball, football and volleyball all dance  ballet on the  volcano.","cn":"气球、棒球、篮球、足球和排球都在火山上跳芭蕾舞。","src":"高中词库"},
+"volcano": {"en":"Pompeii was destroyed when the volcano erupted in 79 AD.","cn":"庞贝城于公元79年在火山爆发中毁灭。","src":"四级词库"},
+"visible": {"en":"Check the plant for any visible signs of disease.","cn":"检查一下植物是否有患病的迹象。","src":"四级词库"},
+"voice": {"en":"He recognized her voice instantly.","cn":"他立刻听出了她的声音。","src":"高中词库"},
+"vivid": {"en":"He had a vivid picture of her in his mind.","cn":"他的脑海中清晰地留着她的形象。","src":"四级词库"},
+"vitamin": {"en":"Try to eat foods that are rich in vitamins and minerals.","cn":"尽量吃富含维生素和矿物质的食物。","src":"四级词库"},
+"vital": {"en":"The samples could give scientists vital information about long-term changes in the earth’s atmosphere.","cn":"这些样本可以给科学家提供关于地球大气长期变化的极其重要的资料。","src":"四级词库"},
+"visual": {"en":"The tall tower adds to the visual impact of the building.","cn":"高高的塔楼增强了这幢大楼的视觉效果。","src":"六级词库"},
+"visitor": {"en":"Times Square attracts more than 30 million visitors annually.","cn":"时代广场每年吸引三千多万游客。","src":"高中词库"},
+"visit": {"en":"Eric went to Seattle to visit his cousins.","cn":"埃里克到西雅图去看望他的表兄弟。","src":"六级词库"},
+"vocabulary": {"en":"Teachers were impressed by his vocabulary.","cn":"他的词汇量给老师们留下了深刻的印象。","src":"四级词库"},
+"television": {"en":"Lucy turned on the television to watch the evening news.","cn":"露西打开电视收看晚间新闻。","src":"高中词库"},
+"telescope": {"en":"We have two blankets and a telescope.","cn":"我有两个毯子和一个望远镜。","src":"四级词库"},
+"telephone": {"en":"The telephone rang just as I was leaving.","cn":"我正要走，电话铃响了。","src":"高中词库"},
+"skilled": {"en":"The company is fortunate to have such highly skilled workers.","cn":"公司有这样一些技能熟练的工人真是幸运。","src":"四级词库"},
+"skillful": {"en":"Historians say Leonardo was one of the most skillful lyre players in all of Italy.","cn":"历史学家说，莱昂纳多在意大利的最熟练的七弦琴球员之一。","src":"四级词库"},
+"skim": {"en":"Julie skimmed the sports page.","cn":"朱莉浏览了体育版。","src":"四级词库"},
+"skin": {"en":"She had thick black hair and smooth dark skin.","cn":"她一头浓密的黑发，皮肤黝黑光滑。","src":"高中词库"},
+"skirt": {"en":"She wore a white blouse and a plain black skirt.","cn":"她穿着白衬衣和纯黑的裙子。","src":"高中词库"},
+"sky": {"en":"The sky grew dark, and a cold rain began to fall.","cn":"天色转暗，开始下起冰冷的雨来。","src":"高中词库"},
+"slam": {"en":"He slammed the door shut .","cn":"他把门砰地关上。","src":"四级词库"},
+"slave": {"en":"When you're busy all day the last thing you want to do is spend hours slaving over a hot stove.","cn":"当你忙碌了一整天后，你最不愿意做的事就是花好几个钟头在灼热的火炉边辛苦地劳作。","src":"六级词库"},
+"slavery": {"en":"Slavery is a crime against humanity.","cn":"奴役制是一种危害人类罪。","src":"Tatoeba 语料"},
+"sleep": {"en":"He’s lucky because at least he has somewhere to sleep.","cn":"他算是幸运的，至少还有个睡觉的地方。","src":"高中词库"},
+"sleepy": {"en":"The warmth from the fire made her feel sleepy.","cn":"暖洋洋的炉火使她昏昏欲睡。","src":"高中词库"},
+"sleeve": {"en":"In the summer I wear short-sleeved shirts.","cn":"夏天我穿短袖衬衫。","src":"Tatoeba 语料"},
+"slender": {"en":"Laura’s tall, slender figure","cn":"劳拉高挑的身材","src":"四级词库"},
+"slice": {"en":"Cut the tomatoes into slices .","cn":"把番茄切成片。","src":"四级词库"},
+"slide": {"en":"He slid open the door of the glass cabinet.","cn":"他滑开玻璃柜的门。","src":"四级词库"},
+"slight": {"en":"Would you mind if I shut the window? I have a slight cold.","cn":"你不介意我关窗吧？我有点着凉了。","src":"Tatoeba 语料"},
+"slightly": {"en":"His family then moved to a slightly larger house.","cn":"他的家后来搬到了一间稍微大一点儿的房子。","src":"四级词库"},
+"smile": {"en":"She waved her hand to me, smiling brightly.","cn":"她笑眯眯的对我招手。","src":"Tatoeba 语料"},
+"smell": {"en":"What’s that horrible smell?","cn":"是什么味道，这么难闻？","src":"高中词库"},
+"smart": {"en":"The smart kids get good grades and go off to college.","cn":"聪明的孩子成绩好，可以去上大学。","src":"四级词库"},
+"small": {"en":"A much smaller proportion of women are employed in senior positions.","cn":"受雇担任高级职位的女性比例要小得多。","src":"高中词库"},
+"sly": {"en":"They’d been seeing each other on the sly for months.","cn":"他们已经偷偷约会了好几个月。","src":"考研词库"},
+"slum": {"en":"There are many slums in Mexico.","cn":"在墨西哥有很多貧民窟。","src":"Tatoeba 语料"},
+"skill": {"en":"Reading and writing are two different skills.","cn":"阅读和写作是两种不同的技能。","src":"高中词库"},
+"slowly": {"en":"He shook his head slowly.","cn":"他慢慢地摇了摇头。","src":"托福词库"},
+"slope": {"en":"The bank sloped down sharply to the river.","cn":"那座堤岸陡峭地朝着那条河倾斜下去。","src":"四级词库"},
+"slit": {"en":"They say somebody slit her throat.","cn":"他们说有人割断了她的喉咙。","src":"六级词库"},
+"slippery": {"en":"In places, the path can be wet and slippery.","cn":"路上有些地方可能又湿又滑。","src":"四级词库"},
+"slipper": {"en":"My foot was rather sore, but I managed to ease it into a large slipper.","cn":"我的脚很疼，不过我很小心地把它伸进一只大拖鞋里。","src":"初中词库"},
+"slip": {"en":"One man managed to slip from the club as police arrived.","cn":"警察到来时，一个男子设法溜出了俱乐部。","src":"四级词库"},
+"slow": {"en":"The car was travelling at a very slow speed.","cn":"汽车正以非常慢的速度行驶。","src":"高中词库"},
+"smog": {"en":"Cars cause pollution, both smog and acid rain.","cn":"汽车引起污染，既有烟雾又有酸雨。","src":"高中词库"},
+"ski": {"en":"We skied down to the village of Argentière.","cn":"我们滑雪下坡，到了阿让蒂耶尔村。","src":"考研词库"},
+"sketch": {"en":"Holford sketched a 10-year programme for rebuilding the city.","cn":"霍尔福德简单介绍了城市重建的十年规划。","src":"四级词库"},
+"significant": {"en":"His most significant political achievement was the abolition of the death penalty.","cn":"他政治上最重大的成就是废除了死刑。","src":"四级词库"},
+"silence": {"en":"There was a brief silence before anyone answered.","cn":"沉默了片刻才有人回答。","src":"四级词库"},
+"silent": {"en":"Julie offered up a silent prayer that she would pass her exam.","cn":"朱莉默默地祈祷，希望能通过这次考试。","src":"四级词库"},
+"silly": {"en":"I left my keys at home, which was a pretty silly thing to do .","cn":"我干了件傻事，把钥匙落在家里了。","src":"四级词库"},
+"silver": {"en":"The workers parted gold from silver in the workshop.","cn":"在车间里工人们把金子从银子中提炼出来。","src":"考研词库"},
+"similar": {"en":"A number of his friends had been affected in a similar way .","cn":"他的一些朋友也受到了类似的影响。","src":"四级词库"},
+"similarly": {"en":"The first letter she wrote me was less than a page long, and her second letter was similarly brief.","cn":"她写给我的第一封信不到一页，第二封信也一样简短。","src":"四级词库"},
+"simple": {"en":"Completing the race is not just a simple matter of physical fitness.","cn":"跑完比赛不仅仅是纯粹的体力问题。","src":"六级词库"},
+"simplicity": {"en":"For the sake of simplicity, the tax form is divided into three sections.","cn":"为简明起见，税单分成三个部分。","src":"四级词库"},
+"simplify": {"en":"The law needs to be simplified.","cn":"这部法律需要简化。","src":"四级词库"},
+"simply": {"en":"To put it simply, the tax cuts mean the average person will be about 3% better off.","cn":"简单地说，这次减税意味着普通人的收入将增加 3% 左右。","src":"四级词库"},
+"sin": {"en":"The Spanish Inquisition charged him with sinning against God and man.","cn":"西班牙宗教法庭指控他违背了上帝和人类的律法。","src":"四级词库"},
+"since": {"en":"Since the end of the war, over five thousand prisoners have been released.","cn":"自从战争结束以后，已有五千多名战俘获释。","src":"高中词库"},
+"sincere": {"en":"Please accept my sincere apologies .","cn":"请接受我真诚的道歉。","src":"四级词库"},
+"sing": {"en":"We had a great time singing some of the old songs .","cn":"我们唱了一些老歌，非常开心。","src":"高中词库"},
+"singer": {"en":"Tina Turner’s backing singers","cn":"蒂纳·特纳的伴唱歌手","src":"高中词库"},
+"skate": {"en":"The children skated on the frozen pond.","cn":"孩子们在结冰的池塘上滑冰。","src":"高中词库"},
+"size": {"en":"He’s quite a big dog, but he’s still not full size yet.","cn":"这条狗体型很大，但还没有长足。","src":"高中词库"},
+"sixty": {"en":"My father will retire at the age of sixty.","cn":"我父亲六十岁就要退休了。","src":"Tatoeba 语料"},
+"sixth": {"en":"About one sixth of the children admitted to taking drugs.","cn":"大约六分之一的儿童承认吸毒。","src":"高中词库"},
+"sixteen": {"en":"But it contained one very interesting piece of data: in 2008, for the first time in sixteen years, the finance and insurance industry shrank.","cn":"但是，这份报告里有一项非常耐人寻味的数据：在2008年，金融保险业出现近十六年来的首次萎缩。","src":"高中词库"},
+"six": {"en":"My office is on the fourth floor of that gray six-story building.","cn":"我的办公室在那幢灰色的六层楼的四楼。","src":"Tatoeba 语料"},
+"situation": {"en":"I explained the situation to everyone.","cn":"我向大家介绍了一下情况。","src":"四级词库"},
+"sit": {"en":"My climbing boots were sitting unused in a cupboard.","cn":"我的登山靴在橱柜里，一直没有穿。","src":"高中词库"},
+"sister": {"en":"He has two sisters and a brother.","cn":"他有两个姊妹和一个弟弟。","src":"高中词库"},
+"sir": {"en":"Sir! You dropped your wallet.","cn":"先生！ 您的钱包掉了。","src":"高中词库"},
+"sink": {"en":"Dirty plates were piled high in the sink.","cn":"脏盘子在洗涤槽里堆得很高。","src":"六级词库"},
+"singular": {"en":"If the subject is singular, use a singular verb.","cn":"如果主语是单数，就用单数动词。","src":"四级词库"},
+"single": {"en":"A single tree gave shade from the sun.","cn":"唯有一棵树遮阴。","src":"四级词库"},
+"site": {"en":"He said chemical weapons had never been sited in Germany.","cn":"他说从未在德国部署过化学武器。","src":"托福词库"},
+"smoke": {"en":"He admitted that he had smoked marijuana when he was a student.","cn":"他承认在读书时吸过大麻。","src":"高中词库"},
+"smooth": {"en":"The stone steps had been worn smooth .","cn":"石阶被磨得光溜溜的了。","src":"四级词库"},
+"smoothly": {"en":"Traffic flowed smoothly.","cn":"路上交通畅通。","src":"托福词库"},
+"sometime": {"en":"The sales figures won't be released until sometime next month.","cn":"销售数据要到下个月的某个时候才会公布。","src":"四级词库"},
+"sometimes": {"en":"Sometimes, Grandma would tell us stories about her childhood in Italy.","cn":"有时候，祖母会跟我们讲讲她儿时在意大利的经历。","src":"高中词库"},
+"somewhat": {"en":"Things have changed somewhat since then.","cn":"从那时候起，情况就有些不一样了。","src":"四级词库"},
+"somewhere": {"en":"My wallet must be around here somewhere.","cn":"我的钱包肯定是在这里的什么地方。","src":"高中词库"},
+"son": {"en":"In those days, the property went to the oldest son.","cn":"那时候，财产由长子继承。","src":"高中词库"},
+"song": {"en":"They sat round with guitars, singing folk songs.","cn":"他们弹着吉他围坐在一起唱民歌。","src":"托福词库"},
+"soon": {"en":"As soon as the bell rang, the teacher came into the classroom.","cn":"鐘聲一響起，老師就走進了教室。","src":"Tatoeba 语料"},
+"sophisticated": {"en":"Clarissa’s hair was swept up into a sophisticated style.","cn":"克拉丽莎的头发向后梳成一个很老成的式样。","src":"托福词库"},
+"sore": {"en":"I had a sore throat and aching limbs.","cn":"我喉咙疼，四肢酸痛。","src":"四级词库"},
+"sorrow": {"en":"He said that his decision to resign was made more in sorrow than in anger.","cn":"他说他作出辞职的决定与其说是出于气愤，不如说是因为悲伤。","src":"托福词库"},
+"sorry": {"en":"She was very sorry about all the trouble she'd caused.","cn":"她对自己造成的麻烦感到很内疚。","src":"高中词库"},
+"sort": {"en":"They do burgers, pizzas, that sort of thing .","cn":"他们供应汉堡包、比萨饼什么的。","src":"四级词库"},
+"soul": {"en":"It was as if those grey eyes could see into the very depths of her soul .","cn":"仿佛那双灰眼睛能看到她的灵魂深处。","src":"高中词库"},
+"sound": {"en":"He has sound grasp of European history.","cn":"他对欧洲历史有着透彻的理解。","src":"四级词库"},
+"soup": {"en":"There's too much salt in this soup.","cn":"这汤里盐放多了。","src":"Tatoeba 语料"},
+"sour": {"en":"Rachel sampled the wine. It was sour.","cn":"雷切尔尝了尝葡萄酒，是酸的。","src":"四级词库"},
+"spare": {"en":"I’ll go and see if there are any spare seats.","cn":"我去看看是否还有空余的座位。","src":"四级词库"},
+"spanish": {"en":"He is capable of teaching Spanish.","cn":"他有能力教授西班牙文。","src":"Tatoeba 语料"},
+"span": {"en":"It’ll be difficult to hire that many new staff in such a short time span .","cn":"在这么短的时间里要想招聘到那么多新员工是很难的。","src":"四级词库"},
+"spacecraft": {"en":"I paced in the peaceful spacecraft.","cn":"我在宁静的宇宙飞船里踱步。","src":"考研词库"},
+"something": {"en":"Sarah said something about coming over later.","cn":"萨拉说她等一会儿过来什么的。","src":"高中词库"},
+"space": {"en":"How much space is there on each disk?","cn":"每张磁盘有多大容量？","src":"高中词库"},
+"soviet": {"en":"The Cold War ended when the Soviet Union collapsed.","cn":"冷战以苏联解体结束。","src":"Tatoeba 语料"},
+"southwest": {"en":"We took a plane southwest across the Anatolian plateau to Cappadocia.","cn":"我们乘飞机朝西南方,越过安纳托利亚高原,飞往卡帕多细亚。","src":"高中词库"},
+"southern": {"en":"The grave was discovered at an archaeological site near Żórawina, in southern Poland.","cn":"这座坟墓是在波兰南部Żórawina附近的一个考古遗址发现的。","src":"Smithsonian Magazine · 2026-09-09"},
+"southeast": {"en":"I know we have to go southeast, more or less.","cn":"我知道我们大概得往东南方向走。","src":"考研词库"},
+"south": {"en":"Most of the birds had already flown south.","cn":"大部分的鸟都已南飞。","src":"初中词库"},
+"source": {"en":"They get their money from various sources.","cn":"他们从各种途径弄到钱。","src":"四级词库"},
+"sow": {"en":"Sow the seeds in late March.","cn":"三月底播种。","src":"四级词库"},
+"someone": {"en":"What would you do if someone tried to rob you in the street?","cn":"要是有人在街上抢劫你，你会怎么办？","src":"高中词库"},
+"somehow": {"en":"Maybe we could glue it together somehow or other .","cn":"也许我们可以想什么办法把它粘起来。","src":"四级词库"},
+"somebody": {"en":"Somebody’s car alarm kept me awake all night.","cn":"不知谁的汽车警报器吵得我整晚都无法入睡。","src":"四级词库"},
+"socialist": {"en":"Esperanto has always been popular among socialists.","cn":"世界语在社会主义者中一直很受欢迎。","src":"四级词库"},
+"socialism": {"en":"We should rally under the banner of socialism.","cn":"我们应当在社会主义的旗帜下团结起来。","src":"四级词库"},
+"social": {"en":"You shouldn't share too much private information on the social networks.","cn":"你不应该在社交网络上分享过多私人信息。","src":"Tatoeba 语料"},
+"soccer": {"en":"It must be one of those soccer scarfs from England.","cn":"那一定是某个英国足球队的围巾。","src":"高中词库"},
+"so-called": {"en":"The so-called experts couldn’t tell us what was wrong.","cn":"那些所谓的专家说不出问题出在哪里。","src":"四级词库"},
+"sober": {"en":"He’s a nice guy when he’s sober.","cn":"他没喝醉时是个不错的家伙。","src":"六级词库"},
+"society": {"en":"Children are the most vulnerable members of society .","cn":"儿童是最脆弱的社会成员。","src":"高中词库"},
+"sob": {"en":"He began sobbing uncontrollably .","cn":"他不由自主地抽噎起来。","src":"高中词库"},
+"soak": {"en":"Let the pans soak; I’ll wash them later.","cn":"把锅泡着吧，我过一会儿再洗。","src":"四级词库"},
+"snowstorm": {"en":"From beneath, it was at times like gazing into a snowstorm. It was hard not to think of souls.","cn":"从下面往上看时，就像在暴风雪中抬头看到的一样，让人不禁想起了逝去的那些亡灵。","src":"考研词库"},
+"snow": {"en":"Snow was falling heavily as we entered the village.","cn":"我们进村的时候雪下得正大。","src":"高中词库"},
+"snake": {"en":"A snake slithered across our path.","cn":"一条蛇蜿蜒爬过我们的小路。","src":"高中词库"},
+"soap": {"en":"Wash thoroughly with soap and water .","cn":"用肥皂和水彻底洗一洗。","src":"高中词库"},
+"significance": {"en":"Ideas about the social significance of religion have changed over time.","cn":"有关宗教的社会意义的观念已随时间的流逝发生了改变。","src":"四级词库"},
+"sock": {"en":"Once, after a boy made a comment, she socked him.","cn":"有一次，一个男孩子发表了一点意见，她就挥拳猛击他。","src":"高中词库"},
+"soft": {"en":"The fur was soft to the touch.","cn":"这皮毛摸起来很柔滑。","src":"高中词库"},
+"some": {"en":"I’ve just made a pot of coffee. Would you like some?","cn":"我刚煮了一壶咖啡，你想喝点吗？","src":"高中词库"},
+"solve": {"en":"Charlie thinks money will solve all his problems.","cn":"查理认为钱能解决他所有的问题。","src":"四级词库"},
+"solution": {"en":"The best solution would be for them to separate.","cn":"最好的解决方法是他们分开。","src":"四级词库"},
+"solid": {"en":"The ship’s sonar can detect the presence of solid objects in the water.","cn":"船上的声呐能够探测出水中的固体物。","src":"四级词库"},
+"solemn": {"en":"Their faces suddenly grew solemn.","cn":"他们的脸突然变得严肃起来。","src":"四级词库"},
+"solely": {"en":"I shall hold you solely responsible for anything that goes wrong.","cn":"出现任何差错的话，我唯你是问。","src":"四级词库"},
+"sole": {"en":"The story was published with the sole purpose of selling newspapers.","cn":"刊登这则报道的目的纯粹是为了推销报纸。","src":"四级词库"},
+"soldier": {"en":"A British soldier was wounded in the fighting.","cn":"战斗中，有一名英国士兵受了伤。","src":"高中词库"},
+"solar": {"en":"Jupiter is the largest planet in the Solar System.","cn":"木星是太陽系中最大的行星。","src":"Tatoeba 语料"},
+"soil": {"en":"She moistenend  the soil round the plant.","cn":"她把植物周围的土壤弄湿。","src":"四级词库"},
+"spark": {"en":"The wires were sparking above me.","cn":"电线正在我头顶上方冒火花。","src":"四级词库"},
+"signature": {"en":"The Ukrainians put their signatures to the Lisbon Protocol.","cn":"乌克兰签署了《里斯本协议》。","src":"四级词库"},
+"sign": {"en":"A paw print in the dust was a sign that a tiger was close.","cn":"沙土里的一个爪印表明附近有老虎。","src":"六级词库"},
+"seek": {"en":"Attractive woman, 27, seeks male, 25-35, for fun and friendship.","cn":"魅力女性，27岁，欲觅25-35岁男子为友，同玩共乐，发展友情。","src":"四级词库"},
+"seem": {"en":"It seems like you’re catching a cold, Taylor.","cn":"你好像感冒了，泰勒。","src":"高中词库"},
+"seize": {"en":"Suddenly he seized my hand.","cn":"他突然抓住我的手。","src":"四级词库"},
+"seldom": {"en":"Karen had seldom seen him so angry.","cn":"卡伦很少见他这么生气过。","src":"四级词库"},
+"select": {"en":"Honorary degrees are handed out to a select few .","cn":"荣誉学位颁给挑选出的少数几个人。","src":"四级词库"},
+"selection": {"en":"The judges have made their final selection.","cn":"评委已经作出最后的评选。","src":"四级词库"},
+"self": {"en":"A cafeteria is a self-service style restaurant.","cn":"自助餐廳是一種自助式的餐廳。","src":"Tatoeba 语料"},
+"selfish": {"en":"How can you be so selfish?","cn":"你怎能这样自私？","src":"四级词库"},
+"sell": {"en":"If you offer him another hundred, I think he’ll sell.","cn":"如果你再加一百元钱，我想他会卖的。","src":"高中词库"},
+"semiconductor": {"en":"In the Ohmic contacts of LED electrodes, carriers have different transmission mechanisms be- tween metal electrode and semiconductor.","cn":"在LED电极欧姆接触中，载流子在金属电极和半导体间有不同的传输机制。","src":"四级词库"},
+"senate": {"en":"The Senate approved the bill.","cn":"参议院批准了这项议案。","src":"四级词库"},
+"send": {"en":"Lyn sent some pictures of the wedding.","cn":"琳恩寄了几张婚礼照片。","src":"高中词库"},
+"senior": {"en":"White men hold most of the jobs in senior management .","cn":"白人占据高级管理层的大部分职位。","src":"四级词库"},
+"sense": {"en":"Perhaps he sensed your distrust.","cn":"也许他感觉到了你的不信任。","src":"托福词库"},
+"sensible": {"en":"It’s sensible to keep a note of your passport number.","cn":"把你的护照号码记下来是明智的。","src":"四级词库"},
+"session": {"en":"After two late night sessions, the Security Council has failed to reach agreement.","cn":"开过两次深夜会议之后，安理会仍未能达成协议。","src":"托福词库"},
+"service": {"en":"There has been a decline in public services in recent years.","cn":"近年来公共服务减少了。","src":"高中词库"},
+"serve": {"en":"There was only one girl serving customers .","cn":"只有一个女孩在接待顾客。","src":"四级词库"},
+"servant": {"en":"Many young girls became domestic servants .","cn":"许多年轻姑娘成了家仆。","src":"高中词库"},
+"seriously": {"en":"They say you shouldn't take rumors seriously, but that's easier said than done.","cn":"人们常说不要乱相信谣言，但说起来容易做起来难。","src":"Tatoeba 语料"},
+"serious": {"en":"Oil spills pose a serious threat to marine life.","cn":"原油泄漏对海洋生物构成了严重威胁。","src":"高中词库"},
+"seed": {"en":"I sow the seed in pots of soil-based compost.","cn":"我把种子种在一盆盆施有堆肥的土里。","src":"四级词库"},
+"series": {"en":"The police are investigating a series of attacks in the area.","cn":"警方在调查该地区发生的一连串袭击事件。","src":"四级词库"},
+"september": {"en":"Her son, Jerome, was born in September.","cn":"她的儿子杰罗姆出生于9月。","src":"高中词库"},
+"separately": {"en":"Cook each vegetable separately until just tender.","cn":"把每样蔬菜单独烹煮，直到煮软就行了。","src":"四级词库"},
+"separate": {"en":"The gym and the sauna are in separate buildings.","cn":"健身房和桑拿浴室在不同的大楼里。","src":"四级词库"},
+"sentence": {"en":"He has just begun a life sentence for murder.","cn":"他犯了谋杀罪，刚开始服无期徒刑。","src":"四级词库"},
+"sensitive": {"en":"Cats' eyes are very sensitive to light.","cn":"猫的眼睛对光很敏感。","src":"Tatoeba 语料"},
+"sequence": {"en":"Be careful to perform the actions in the correct sequence .","cn":"注意要按正确的顺序来完成动作。","src":"四级词库"},
+"set": {"en":"The set (x, y) has two members.","cn":"（x, y）这个集里有两个项。","src":"六级词库"},
+"see": {"en":"The moment we saw the house, we knew we wanted to buy it.","cn":"我们一看到这房子就知道我们要买。","src":"高中词库"},
+"secure": {"en":"United’s position at the top of the league seems relatively secure.","cn":"联队在联赛中的头名位置似乎相对稳固。","src":"四级词库"},
+"scholarship": {"en":"Her latest publication is a fine piece of scholarship.","cn":"她最新出版的作品是一部优秀的学术著作。","src":"四级词库"},
+"school": {"en":"His mother always used to pick him up from school.","cn":"他母亲以前一直去学校接他。","src":"高中词库"},
+"science": {"en":"Many leading scientists do not consider that science can give absolutely reliable knowledge.","cn":"许多杰出科学家都不认为科学能够提供绝对可靠的知识。","src":"高中词库"},
+"scientific": {"en":"We believe in investing in scientific research.","cn":"我们相信科学研究的投资价值。","src":"四级词库"},
+"scientist": {"en":"Scientists say they've already collected more data than had been expected.","cn":"科学家们说他们已经搜集到比预期更多的数据。","src":"高中词库"},
+"scissors": {"en":"These scissors are suitable for left and right-handed people.","cn":"這把剪刀左右撇子都適用。","src":"Tatoeba 语料"},
+"scold": {"en":"Do not scold the puppy, but simply and firmly say ‘no’.","cn":"不要责骂小狗，但要干脆利落地说“不”。","src":"四级词库"},
+"score": {"en":"Great cheers went up when he scored in the final minute of the game.","cn":"当他在比赛的最后一分钟得分时，人群爆发出了雷鸣般的欢呼。","src":"四级词库"},
+"scorn": {"en":"Researchers greeted the proposal with scorn.","cn":"研究者们对这个提议报以轻蔑的态度。","src":"六级词库"},
+"scout": {"en":"American companies are keen to scout out business opportunities in Vietnam.","cn":"美国公司很想在越南寻找商机。","src":"四级词库"},
+"scrape": {"en":"The two of them scraped their dishes clean .","cn":"他们两个把盘子擦得干干净净。","src":"四级词库"},
+"scratch": {"en":"John yawned and scratched his leg.","cn":"约翰打了个呵欠，挠了挠腿。","src":"四级词库"},
+"scream": {"en":"He was dragged kicking and screaming to a nearby van.","cn":"他又踢又叫着被拖到附近的一辆小货车上。","src":"四级词库"},
+"screen": {"en":"He went on staring at the TV screen .","cn":"他继续盯着电视屏幕看。","src":"四级词库"},
+"screw": {"en":"Fix the frame in position and tighten the screws .","cn":"把框子固定在正确位置上，拧紧螺丝。","src":"四级词库"},
+"sea": {"en":"Jay stripped his clothes off and ran into the sea.","cn":"杰伊脱光衣服奔入海里。","src":"高中词库"},
+"section": {"en":"The plane’s tail section was found in a cornfield.","cn":"飞机的尾部在玉米田里找到了。","src":"四级词库"},
+"secretary": {"en":"My secretary will fax you all the details.","cn":"我的秘书会把所有的细节发传真给你。","src":"四级词库"},
+"secret": {"en":"It was no secret that the two men hated each other.","cn":"这两个男人相互仇视，这算不得什么秘密。","src":"高中词库"},
+"second": {"en":"Any proposal must be seconded by two other members of the committee.","cn":"任何提案须有委员会其他两位委员附议。","src":"六级词库"},
+"security": {"en":"This insurance plan offers your family financial security in the event of your death.","cn":"这份保险能在你死后给你的家人提供经济保障。","src":"四级词库"},
+"season": {"en":"In Japan, it rains quite a bit during our rainy season which is from mid-June until mid-July.","cn":"在日本，在我们的雨季常常下雨，雨季一般在六月中旬至七月中旬。","src":"Tatoeba 语料"},
+"search": {"en":"A search found 46 websites.","cn":"搜索后找到46个网站。","src":"高中词库"},
+"seaman": {"en":"The men emigrate to work as seamen.","cn":"这些男人移居国外当海员。","src":"高中词库"},
+"seal": {"en":"The seal on the box broke when it fell from its hiding-place.","cn":"盒子从隐藏处掉下时上面的封口破了。","src":"四级词库"},
+"seat": {"en":"People were shifting in their seats, looking uncomfortable.","cn":"人们在座位上动来动去，看上去不大自在。","src":"高中词库"},
+"setting": {"en":"I’ve worked with children in various settings, mainly in secondary school.","cn":"我在许多地方教过孩子，主要是在中学。","src":"四级词库"},
+"settle": {"en":"When the children had settled, Miss Brown gave out the new reading books.","cn":"孩子们静下来后，布朗小姐给他们发新的故事书。","src":"四级词库"},
+"settlement": {"en":"Union leaders and company bosses will meet tomorrow in an attempt to reach a settlement .","cn":"工会领导人和公司老板将于明天举行会议以期达成协议。","src":"四级词库"},
+"ship": {"en":"We'll ship your order to the address we print on your cheques.","cn":"我们将把你预订的货物送到我们印在你单据上的地址。","src":"高中词库"},
+"shirt": {"en":"I have to wear a shirt and tie to work.","cn":"我上班要穿衬衫打领带。","src":"高中词库"},
+"shiver": {"en":"Jake stood shivering in the cold air.","cn":"大冷天里，杰克站着冻得瑟瑟发抖。","src":"四级词库"},
+"shock": {"en":"The hatred in her voice shocked him.","cn":"她语气中的仇恨让他震惊。","src":"四级词库"},
+"shoe": {"en":"I sat down and took off my shoes and socks.","cn":"我坐下来脱掉鞋子和袜子。","src":"高中词库"},
+"shoot": {"en":"Police shot one suspect when he pulled a gun on them.","cn":"警方在一名嫌疑人拔枪指着他们时击毙了他。","src":"四级词库"},
+"shop": {"en":"Shirley saw her reflection in the shop window.","cn":"雪莉在商店橱窗里看到了自己的影像。","src":"高中词库"},
+"shopkeeper": {"en":"In Jermyn Street in London, a shopkeeper anxiously asked who the next president would be.","cn":"在伦敦的杰明街，一个店主焦急地问道，谁将是（美国）下一任总统。","src":"高中词库"},
+"shopping": {"en":"Late-night shopping is becoming very popular.","cn":"深夜购物越来越普遍了。","src":"高中词库"},
+"shore": {"en":"We could see a boat about a mile from shore.","cn":"我们看见离岸边大约一英里的地方有一艘船。","src":"四级词库"},
+"short": {"en":"Germany achieved spectacular economic success in a relatively short period of time .","cn":"德国在相对较短的时间里取得了非凡的经济成就。","src":"高中词库"},
+"shortage": {"en":"There is no heating available due to fuel shortages.","cn":"因为燃料短缺，所以没有供暖。","src":"四级词库"},
+"shortcoming": {"en":"Peter was painfully aware of his own shortcomings.","cn":"彼得痛苦地认识到了自己的短处。","src":"四级词库"},
+"shortly": {"en":"Ms Jones will be back shortly.","cn":"琼斯女士很快就会回来。","src":"四级词库"},
+"shot": {"en":"He shot all his bullets, but no one hit.","cn":"他射出了所有的子弹却没有一发命中。","src":"四级词库"},
+"should": {"en":"Why should anyone want to marry Tony?","cn":"怎么竟然会有人意嫁给托尼？","src":"六级词库"},
+"shoulder": {"en":"The residents are being asked to shoulder the costs of the repairs.","cn":"居民们被要求承担这笔修理费用。","src":"六级词库"},
+"sightseeing": {"en":"She swam and sunbathed, went sightseeing and relaxed.","cn":"她游泳，晒日光浴，观光，放松。","src":"四级词库"},
+"sight": {"en":"In the afternoon, you’ll have a chance to relax or see the sights.","cn":"大家下午可以休息，也可以去参观名胜。","src":"六级词库"},
+"sigh": {"en":"She gave out a sigh of relief.","cn":"她鬆了一口氣。","src":"Tatoeba 语料"},
+"sideways": {"en":"A strong gust of wind blew the car sideways into the ditch.","cn":"一阵狂风把汽车横着掀进了沟里。","src":"四级词库"},
+"side": {"en":"His friends and family were all on the other side of the world.","cn":"他的朋友和家人都在地球的另一边。","src":"高中词库"},
+"sickness": {"en":"She is absent because of sickness.","cn":"她不在是因为病了。","src":"Tatoeba 语料"},
+"shine": {"en":"The moon shone brightly in the sky.","cn":"皓月当空。","src":"高中词库"},
+"sick": {"en":"Maria can’t come in today because she’s sick.","cn":"玛丽亚因为生病今天不能来了。","src":"高中词库"},
+"shut": {"en":"She lay down on her bed and shut her eyes .","cn":"她在床上躺下，闭上眼睛。","src":"高中词库"},
+"shrink": {"en":"I’m worried about washing that shirt in case it shrinks.","cn":"我不太敢洗那件衬衫，怕它会缩水。","src":"四级词库"},
+"shriek": {"en":"They were dragged from their homes, shrieking and weeping.","cn":"他们哭喊着被人从家里拖出去。","src":"四级词库"},
+"shower": {"en":"Why does the phone always ring when I’m in the shower?","cn":"为什么电话铃总是在我洗澡的时候响？","src":"四级词库"},
+"show": {"en":"The man grinned, showing bad teeth.","cn":"那男人咧着嘴笑，露出一口坏牙。","src":"高中词库"},
+"shout": {"en":"There’s no need to shout! I can hear you!","cn":"用不着大声喊叫！我听得见！","src":"高中词库"},
+"shy": {"en":"He was a quiet shy man.","cn":"他是个话不多、害羞的男人。","src":"高中词库"},
+"shilling": {"en":"The prominent coin was called the shilling and it was a silver coin.","cn":"那种著名的硬币名叫先令，并且它是一种银质的硬币。","src":"考研词库"},
+"shift": {"en":"He stopped, shifting his cane to his left hand.","cn":"他停下来，把手杖移到左手。","src":"四级词库"},
+"shield": {"en":"He used his left hand as a shield against the reflecting sunlight.","cn":"他用左手遮挡反射过来的阳光。","src":"四级词库"},
+"shallow": {"en":"Place the meat in a shallow dish.","cn":"把肉放在一个浅盘里。","src":"四级词库"},
+"shall": {"en":"I said you could go, and so you shall.","cn":"我说了你可以去，你就一定可以去。","src":"高中词库"},
+"shake": {"en":"The car shook as it went over a bump.","cn":"汽车驶过一个隆起的地方时颠了一下。","src":"高中词库"},
+"shady": {"en":"She’s been involved in some shady deals.","cn":"她参与了一些不正当的事情。","src":"六级词库"},
+"shadow": {"en":"She is afraid of her own shadow.","cn":"她害怕自己的影子。","src":"Tatoeba 语料"},
+"shade": {"en":"The shade on the lamp was slightly crooked.","cn":"灯罩稍有些歪。","src":"四级词库"},
+"shame": {"en":"It shames me to say it, but I lied.","cn":"说出来真难为情，我撒谎了。","src":"六级词库"},
+"sew": {"en":"I learned to sew at school.","cn":"我在学校学会了缝纫。","src":"四级词库"},
+"severe": {"en":"She’s suffering from severe depression.","cn":"她患有严重的抑郁症。","src":"四级词库"},
+"several": {"en":"I have several reasons to support my view.","cn":"我有几个理由来支持我的观点。","src":"初中词库"},
+"seventy": {"en":"We lost touch during the seventies.","cn":"我们在70年代失去了联系。","src":"高中词库"},
+"seventh": {"en":"Both will meet in your seventh house of partnerships, so to unlock your good fortune, you need to collaborate with a partner.","cn":"它们将在你表合作关系的第七宫会面，如果你有一个合作伙伴的话，它们将合作释放出你的好运气。","src":"高中词库"},
+"seventeen": {"en":"She got married at the age of seventeen.","cn":"她十七岁结婚。","src":"Tatoeba 语料"},
+"seven": {"en":"The women visited cities in seven states.","cn":"这些女性访问了七个州的城市。","src":"高中词库"},
+"severely": {"en":"The town was severely damaged in the war.","cn":"这座城镇在战争中遭到了严重破坏。","src":"托福词库"},
+"signal": {"en":"He pressed the red alarm signal to see if it was on or off.","cn":"他按了一下红色报警信号钮，检查一下它是开著的还是关著的。","src":"四级词库"},
+"shampoo": {"en":"What kind of shampoo do you use?","cn":"你用的是哪种洗发水？","src":"考研词库"},
+"share": {"en":"We don’t have enough books so you’ll have to share.","cn":"我们书不够，所以你们得合着用。","src":"高中词库"},
+"shepherd": {"en":"The shepherd tended a flock.","cn":"这个牧羊人照管羊群。","src":"六级词库"},
+"shelter": {"en":"All around me, people were running for shelter .","cn":"我周围的人都在奔跑着寻找地方躲避。","src":"四级词库"},
+"shell": {"en":"We ran for cover as shells dropped all around us.","cn":"周围炮弹四处飞落，我们奔跑着寻找地方躲避。","src":"四级词库"},
+"shelf": {"en":"There aren't many books on these shelves.","cn":"这些书架上没有很多书。","src":"Tatoeba 语料"},
+"sheet": {"en":"I’ll go and find you some clean sheets and blankets.","cn":"我去给你们找些干净的床单和毯子。","src":"四级词库"},
+"sheep": {"en":"Sheep were grazing on the hillside.","cn":"羊群在山坡上吃草。","src":"高中词库"},
+"shape": {"en":"Like it or not, our families shape our lives and make us what we are.","cn":"不管喜欢与否，我们的家庭塑造我们的生活并铸就我们的个性。","src":"高中词库"},
+"shed": {"en":"The magazine is desperately trying to shed its old-fashioned image.","cn":"这份杂志急于摆脱其过时的形象。","src":"四级词库"},
+"shear": {"en":"Though shorn of some of its powers, the party remains in control.","cn":"虽然被削去了一些权力，该党仍然掌握着控制权。","src":"四级词库"},
+"she": {"en":"You could always ask Beth – she’s got plenty of money.","cn":"你总是可以去问贝丝——她有很多钱。","src":"高中词库"},
+"shave": {"en":"Brian had cut himself shaving .","cn":"布赖恩刮胡子时割破了脸。","src":"四级词库"},
+"sharply": {"en":"The report was sharply critical of the police.","cn":"报道猛烈地抨击了警方。","src":"六级词库"},
+"sharpen": {"en":"Anne sharpened her pencil and got out her homework.","cn":"安妮把铅笔削尖，然后拿出家庭作业来。","src":"高中词库"},
+"sharp": {"en":"Make sure you use a good sharp knife.","cn":"你一定要用锋利的好刀。","src":"高中词库"},
+"lip": {"en":"Matt opened the door with a smile on his lips.","cn":"马特开了门，嘴角挂着微笑。","src":"四级词库"},
+"sparkle": {"en":"The crystal chandelier sparkled.","cn":"那水晶枝形吊灯闪闪发光。","src":"六级词库"},
+"speak": {"en":"I was so shocked I couldn’t speak.","cn":"我震惊得说不出话来。","src":"高中词库"},
+"suitable": {"en":"We are hoping to find a suitable school.","cn":"我们希望能找到一所合适的学校。","src":"高中词库"},
+"sulphur": {"en":"Burning sulphur creates poisonous fumes.","cn":"燃烧的硫磺会产生有毒烟雾。","src":"四级词库"},
+"sum": {"en":"He owes me a large sum of money .","cn":"他欠我一大笔钱。","src":"四级词库"},
+"summarize": {"en":"The authors summarize their views in the introduction.","cn":"作者在序言里概述了他们的观点。","src":"四级词库"},
+"summary": {"en":"A brief summary is given on a separate sheet.","cn":"摘要另写一页。","src":"高中词库"},
+"summer": {"en":"After a summer here the poorest sheep and cattle grow strong and fat.","cn":"经过一个夏天， 连最差的牛羊在这里也长得又肥又壮了。","src":"考研词库"},
+"sun": {"en":"The sky was blue and the sun was shining.","cn":"天空蔚蓝，阳光明媚。","src":"高中词库"},
+"sunday": {"en":"What are you doing Sunday?","cn":"你星期天做什么？","src":"高中词库"},
+"sunlight": {"en":"The water sparkled in the bright sunlight.","cn":"水面在灿烂的阳光下闪闪发亮。","src":"四级词库"},
+"sunny": {"en":"I hope it’s sunny tomorrow.","cn":"我希望明天天晴。","src":"高中词库"},
+"sunrise": {"en":"We woke up very early in order to see the sunrise.","cn":"我们起得很早为了看到日出。","src":"Tatoeba 语料"},
+"sunset": {"en":"Never have I seen such a beautiful sunset.","cn":"我从没见过那么壮丽的日落景色。","src":"Tatoeba 语料"},
+"sunshine": {"en":"We had three days of spring sunshine.","cn":"我们享受了三天的春日阳光。","src":"四级词库"},
+"super": {"en":"A triple header on Sky Sports then follows on Super Sunday on December 27, with Frank Lampard taking on Chelsea as Coventry boss at 2pm.","cn":"天空体育将在12月27日的超级星期日上演三场头球，兰帕德将在下午2点作为考文垂主帅迎战切尔西。","src":"Sky Sports · 2026-09-10"},
+"superficial": {"en":"They only have the most superficial understanding of prison life.","cn":"他们对监狱生活只有最粗浅的了解。","src":"四级词库"},
+"superior": {"en":"She had that superior tone of voice.","cn":"她带着那种傲慢的语气。","src":"四级词库"},
+"supermarket": {"en":"Most of us do our food shopping in the supermarket.","cn":"我们大多数人在这家超市采购食品。","src":"高中词库"},
+"surprising": {"en":"I've something interesting to tell you that you might find surprising.","cn":"告訴你箇好玩的事，能驚你一下。","src":"Tatoeba 语料"},
+"surprise": {"en":"The man had a look of surprise on his face.","cn":"那人脸上一副惊讶的表情。","src":"高中词库"},
+"surgery": {"en":"Dr. Hanson is in surgery.","cn":"汉森医生在手术室。","src":"四级词库"},
+"surface": {"en":"Gas bubbles in any liquid tend to rise to the surface .","cn":"在任何液体中气泡往往都会浮到表面。","src":"高中词库"},
+"suit": {"en":"Johnson has filed suit against her.","cn":"约翰逊对她提起了诉讼。","src":"四级词库"},
+"suppose": {"en":"There were many more deaths than was first supposed.","cn":"死亡人数远远超过最初的预料。","src":"四级词库"},
+"support": {"en":"The bill was supported by a large majority in the Senate.","cn":"这项法案得到参议院绝大多数人的支持。","src":"四级词库"},
+"supply": {"en":"To protect the food supply , the government ordered the slaughter of affected cattle.","cn":"为保护食品供应，政府下令宰杀被感染的牛。","src":"四级词库"},
+"supper": {"en":"Why don’t you come over for supper on Friday?","cn":"周五为什么不过来吃晚饭呢？","src":"高中词库"},
+"sure": {"en":"My mother, I felt sure , had not met him before.","cn":"我敢肯定我妈妈以前从未见过他。","src":"托福词库"},
+"surprisingly": {"en":"Millions of years ago, during the late Cretaceous, some of the largest dinosaurs ever were laying eggs in surprisingly cold places.","cn":"数百万年前，在白垩纪晚期，一些有史以来最大的恐龙在出奇寒冷的地方产卵。","src":"Smithsonian Magazine · 2026-09-09"},
+"suggestion": {"en":"Any suggestions would be welcome.","cn":"任何建议都欢迎。","src":"四级词库"},
+"sugar": {"en":"Do you take sugar in your coffee?","cn":"你的咖啡加糖吗？","src":"高中词库"},
+"student": {"en":"Warren's eldest son is an art student.","cn":"沃伦的长子是一名学艺术的学生。","src":"高中词库"},
+"study": {"en":"Recent studies show that women still get paid a lot less than men.","cn":"最近的调查表明，女性的薪水仍比男性的要低很多。","src":"高中词库"},
+"stuff": {"en":"How do you think you’re going to fit all that stuff into the car?","cn":"你说这么多东西你怎么装进车里？","src":"四级词库"},
+"stumble": {"en":"In her hurry, she stumbled and spilled the milk all over the floor.","cn":"匆忙中她绊了一下，把牛奶洒得满地都是。","src":"六级词库"},
+"stupid": {"en":"I can’t believe Kate was stupid enough to get involved in this.","cn":"我简直不能相信凯特这么傻，会介入这件事情。","src":"高中词库"},
+"style": {"en":"Pizza is the kind of food that fits into today's life style.","cn":"比萨是种适合现在的生活方式的食物。","src":"Tatoeba 语料"},
+"subject": {"en":"The subjects covered in this chapter are exercise and nutrition.","cn":"本章涵盖的主题是运动和营养。","src":"四级词库"},
+"submarine": {"en":"The captain dived his submarine deep to escape from the destroyers.","cn":"海军上校使他的潜艇深深下潜以逃避驱逐艇。","src":"四级词库"},
+"submerge": {"en":"The submarine submerged.","cn":"潜艇潜入水中。","src":"四级词库"},
+"submit": {"en":"In desperation, Mrs. Jones submitted to an operation on her right knee to relieve the pain.","cn":"绝望中，琼斯夫人不得已接受了一次她右膝的手术以减轻疼痛。","src":"四级词库"},
+"subsequent": {"en":"These skills were passed on to subsequent generations.","cn":"这些技能代代相传。","src":"四级词库"},
+"substance": {"en":"The leaves were covered with a strange sticky substance.","cn":"树叶上覆着一层黏糊糊的怪东西。","src":"四级词库"},
+"substantial": {"en":"We have the support of a substantial number of parents.","cn":"我们有相当多家长的支持。","src":"四级词库"},
+"substitute": {"en":"Germany brought on a substitute at half time.","cn":"德国队在比赛半场时换上一名替补队员。","src":"四级词库"},
+"subtract": {"en":"Mandy subtracted the date of birth from the date of death.","cn":"曼迪从死亡的日期减去了出生的日期。","src":"四级词库"},
+"suburb": {"en":"You need a car if you live in the suburbs.","cn":"要住在郊区的话，汽车是必需的。","src":"Tatoeba 语料"},
+"sufficient": {"en":"Unauthorized absence is sufficient reason for dismissal.","cn":"旷工足以成为解雇的理由。","src":"四级词库"},
+"suffer": {"en":"At least he died suddenly and didn’t suffer.","cn":"至少他死得突然，没有遭罪。","src":"四级词库"},
+"suddenly": {"en":"I suddenly realized that there was someone following me.","cn":"我突然意识到有人跟着我。","src":"托福词库"},
+"sudden": {"en":"Life is cruel, she thought, with a sudden rush of anger.","cn":"生活真残酷，她想，心头突然涌上一股怒气。","src":"高中词库"},
+"suck": {"en":"Don’t suck your thumb, dear.","cn":"不要吮大拇指，宝贝。","src":"四级词库"},
+"suggest": {"en":"It has been suggested that the manager will resign if any more players are sold.","cn":"有人提议，如果再有球员被出售，球队主教练就辞职。","src":"高中词库"},
+"such": {"en":"This world that I have in this world there is such a you.","cn":"这个世界上有这样一个我是为了这个世界上有这样一个你。","src":"高中词库"},
+"succession": {"en":"If the prince dies, the succession passes to his son.","cn":"王子如果去世，就由他的儿子继承。","src":"四级词库"},
+"successfully": {"en":"She successfully got him to tell the truth.","cn":"她成功地从他口中得知了真相。","src":"Tatoeba 语料"},
+"successful": {"en":"The operation was successful.","cn":"手术成功了。","src":"高中词库"},
+"success": {"en":"The experiment was a big success.","cn":"实验非常成功。","src":"高中词库"},
+"succeed": {"en":"She wanted to be the first woman to climb Mount Qomolangma, and she almost succeeded.","cn":"她本想成为第一位登上珠穆朗玛峰的女性，而且差一点就成功了。","src":"高中词库"},
+"subway": {"en":"Boston has the oldest subway system in the US.","cn":"波士顿拥有美国最老的地铁运输系统。","src":"四级词库"},
+"successive": {"en":"Successive governments have tried to deal with this issue.","cn":"历届政府都试图解决这个问题。","src":"四级词库"},
+"surrender": {"en":"The terrorists were given ten minutes to surrender.","cn":"恐怖分子被限定在十分钟之内投降。","src":"四级词库"},
+"surround": {"en":"He glared at the people who surrounded the tent.","cn":"他怒视着围住帐篷的那些人。","src":"四级词库"},
+"surroundings": {"en":"I need to work in pleasant surroundings.","cn":"我需要在舒适的环境下工作。","src":"四级词库"},
+"take": {"en":"Some doctors are unwilling to take new patients without a referral.","cn":"有些医生不愿意接收没有转诊单的新病人。","src":"高中词库"},
+"tale": {"en":"Its ambiguous storytelling and sparse Latin captions leave much open to interpretation, making every visit a chance to discover new perspectives on this epic tale of conquest and change.","cn":"它模棱两可的故事叙述和稀疏的拉丁字幕留下了很多可供解释的空间，使每次访问都有机会发现这个征服和变革的史诗故事的新视角。","src":"HistoryExtra · 2026-09-10"},
+"talent": {"en":"He has a lot of talent , and his work is fresh and interesting.","cn":"他很有天赋，作品新颖有趣。","src":"四级词库"},
+"talk": {"en":"I could hear Sarah and Andy talking in the next room.","cn":"我听到萨拉和安迪在隔壁讲话。","src":"四级词库"},
+"tall": {"en":"This bush grows tall very quickly.","cn":"这种灌木很快就能长高。","src":"高中词库"},
+"tame": {"en":"I decided that teaching was too tame for me.","cn":"我最终认为教书对我来说太枯燥。","src":"四级词库"},
+"tan": {"en":"She has a pale skin which doesn’t tan easily.","cn":"她的肤色很白，不容易被晒黑。","src":"六级词库"},
+"tank": {"en":"Somehow the chemical got from a storage tank into water supplies.","cn":"不知怎么的，这种化学物从储存箱进入了供水系统。","src":"六级词库"},
+"tap": {"en":"He tapped the table nervously with his fingers.","cn":"他紧张地用手指轻轻地敲打桌子。","src":"四级词库"},
+"tape": {"en":"Crime-scene tape marked out the position of the murdered man.","cn":"犯罪现场隔离带标出了遇害男子的位置。","src":"托福词库"},
+"target": {"en":"There is no target date for completion of the new project.","cn":"这个新的项目何时完工没有预定日期。","src":"四级词库"},
+"task": {"en":"They have the unenviable task of supervising the most dangerous prison in the country.","cn":"他们有个令人头疼的工作，就是管理国家最危险的监狱。","src":"四级词库"},
+"taste": {"en":"That gave me a taste for reading.","cn":"那使我有了读书的喜好。","src":"高中词库"},
+"tax": {"en":"No-one enjoys paying tax.","cn":"没人喜欢缴税。","src":"四级词库"},
+"taxi": {"en":"The plane taxied to a halt.","cn":"飞机滑行一段距离后停下来。","src":"高中词库"},
+"tea": {"en":"I’d like two teas and a piece of chocolate cake, please.","cn":"我想要两杯茶和一块巧克力蛋糕。","src":"高中词库"},
+"telegraph": {"en":"Once he knew where we were, Lewis telegraphed every few hours.","cn":"一知道我们在哪里，刘易斯就每隔几小时发一份电报来。","src":"高中词库"},
+"telegram": {"en":"The president received a briefing by telegram.","cn":"总裁收到了一份电报简报。","src":"四级词库"},
+"teenager": {"en":"Car accidents are the leading cause of death for teenagers in the United States.","cn":"交通事故是美国青少年死亡的主要原因。","src":"Tatoeba 语料"},
+"tedious": {"en":"The work was tiring and tedious.","cn":"这工作既累人又枯燥。","src":"四级词库"},
+"technology": {"en":"Modern technology makes moving money around much easier than it used to be.","cn":"现代科技使货币流动比以前便捷得多。","src":"四级词库"},
+"technique": {"en":"He’s a great player, with brilliant technique.","cn":"他是个伟大的球员，球技十分精湛。","src":"四级词库"},
+"tailor": {"en":"In his youth his father bound him out to a tailor.","cn":"他年轻时他父亲叫他去给一个裁缝当学徒。","src":"四级词库"},
+"tear": {"en":"Have you sewn up the tear in my coat?","cn":"你把我大衣上那个撕破的口子缝起来了吗？","src":"高中词库"},
+"team": {"en":"You can team up with one other class member if you want.","cn":"例句：如果你愿意的话，可以找一个同学组成一组。","src":"六级词库"},
+"teaching": {"en":"I remember my mother teaching me the alphabet.","cn":"我记得我母亲教我认字。","src":"Tatoeba 语料"},
+"teacher": {"en":"I've just spoken to your French teacher and he says you're doing well in his class.","cn":"我刚跟你的法语老师谈过话，他说你在课堂上表现得很好。","src":"Tatoeba 语料"},
+"teach": {"en":"She taught me fractions and counting.","cn":"他教我分数和计算。","src":"高中词库"},
+"technical": {"en":"Our staff will be available to give you technical support .","cn":"有我们的员工向你提供技术支持。","src":"四级词库"},
+"tail": {"en":"The dog wagged its tail .","cn":"那条狗摇了摇尾巴。","src":"高中词库"},
+"tag": {"en":"You just search for an artist, song, album , or just a random search tag.","cn":"你只需要搜索艺术家、歌曲、相册、或者仅仅是一个随机搜索标签。","src":"四级词库"},
+"tablet": {"en":"She took a couple of headache tablets .","cn":"她吃了几片头痛药。","src":"高中词库"},
+"sweat": {"en":"I was sweating a lot despite the air conditioning.","cn":"尽管开着空调，我仍是满头大汗。","src":"高中词库"},
+"swear": {"en":"Don’t swear in front of the children.","cn":"不要在孩子们面前说粗话。","src":"四级词库"},
+"sway": {"en":"The trees swayed gently in the breeze.","cn":"树木在和风中轻轻摇曳。","src":"四级词库"},
+"swarm": {"en":"Within minutes the area was swarming with officers who began searching a nearby wood.","cn":"几分钟之内这个地方挤满了警官，他们开始搜查附近的一片树林。","src":"考研词库"},
+"swan": {"en":"Toads pursuit of swans, swan disdain said: If I as long as you die!","cn":"癞蛤蟆追求天鹅，天鹅不屑地说：我要是长成你这样早去死了！","src":"考研词库"},
+"swamp": {"en":"I spent one whole night by a swamp behind the road listening to frogs.","cn":"我整个晚上都在这条路后面的一个沼泽地旁听蛙鸣。","src":"六级词库"},
+"sweater": {"en":"Somebody pinched my sweater.","cn":"有人偷了我的运动衫。","src":"高中词库"},
+"swallow": {"en":"He downed his whisky in one swallow.","cn":"他一口喝下威士忌。","src":"四级词库"},
+"suspicion": {"en":"Police suspicions were confirmed when the stolen property was found in his flat.","cn":"失窃物品在他公寓里找到，警方的怀疑得到了证实。","src":"四级词库"},
+"suspend": {"en":"Sales of the drug will be suspended until more tests are completed.","cn":"这种药品在完成进一步检验之前将暂停销售。","src":"四级词库"},
+"suspect": {"en":"The two men were convicted on the basis of some highly suspect evidence.","cn":"两名男子被定了罪，而定罪证据尚有很大疑点。","src":"四级词库"},
+"survive": {"en":"Only 12 of the 140 passengers survived.","cn":"140 名乘客中只有 12 人生还。","src":"四级词库"},
+"survey": {"en":"Of the 100 companies surveyed, 10% had a turnover of £50 m to £99 m.","cn":"被调查的 100 家公司中，10% 的公司营业额在 5,000 万到 9,900 万英镑之间。","src":"四级词库"},
+"struggle": {"en":"They had to struggle against all kinds of adversity.","cn":"他们不得不同各种困境斗争。","src":"四级词库"},
+"sweep": {"en":"Bert swept the path in front of the house.","cn":"伯特清扫了屋前的小路。","src":"四级词库"},
+"swell": {"en":"The river was swollen with melted snow.","cn":"积雪融化，河水上涨。","src":"四级词库"},
+"table": {"en":"The food was served on long tables.","cn":"食物放在长餐桌上供应。","src":"高中词库"},
+"systematic": {"en":"They went about their business in a systematic way.","cn":"他们按部就班地做生意。","src":"四级词库"},
+"system": {"en":"The company's competitive edge will be eroded if system engineers continue to leave.","cn":"如果系统工程师继续离开，公司的竞争优势将会被削弱。","src":"Tatoeba 语料"},
+"sympathy": {"en":"Our sympathies are with the families of the victims.","cn":"我们向受害者家庭表示慰问。","src":"四级词库"},
+"sympathize": {"en":"I sympathize, but I don’t know how to help.","cn":"我很同情，但不知道如何帮忙。","src":"四级词库"},
+"sweet": {"en":"This tea is too sweet.","cn":"这茶太甜了。","src":"高中词库"},
+"sword": {"en":"The treaty hung like a sword of Damocles over French politics.","cn":"这个条约好像一把达摩克利斯之剑悬在法国政坛之上。","src":"四级词库"},
+"switch": {"en":"The terrorists will switch tactics .","cn":"恐怖分子会改变战术。","src":"四级词库"},
+"swiss": {"en":"The Swiss consume a large amount of beer.","cn":"瑞士人消耗不少啤酒。","src":"Tatoeba 语料"},
+"swing": {"en":"The sail of the little boat swung crazily from one side to the other.","cn":"这艘小船的船帆发疯似地左右摇晃着。","src":"四级词库"},
+"swim": {"en":"She was the first woman to swim the Channel.","cn":"她是第一个游过英吉利海峡的女性。","src":"高中词库"},
+"swift": {"en":"My letter received a swift reply.","cn":"我的信很快就得到了回复。","src":"四级词库"},
+"symbol": {"en":"The symbol on the packet is a guarantee that the food has been produced organically.","cn":"包装盒上的这个标识保证这种食物是有机生产的。","src":"四级词库"},
+"sparrow": {"en":"Appearing in great danger, the tiny sparrow tumbled on to the lawn, but softy Flint appeared to have taken pity on him.","cn":"跌落在草地上的小麻雀看起来处于非常危险的境地，但是温柔的“弗林特”似乎非常同情他。","src":"高中词库"},
+"structure": {"en":"A new management structure has been introduced.","cn":"已推行一种新的管理结构。","src":"四级词库"},
+"strongly": {"en":"I’m strongly opposed to capital punishment.","cn":"我坚决反对死刑。","src":"托福词库"},
+"spread": {"en":"The industrial revolution, which started a couple of hundred years ago in Europe, is now spreading across the world.","cn":"几百年前始于欧洲的工业革命现在正向全世界扩散。","src":"四级词库"},
+"spring": {"en":"Do you know why spring rolls are called spring rolls?","cn":"你知道春卷为什么叫春卷吗？","src":"Tatoeba 语料"},
+"springtime": {"en":"Which is why, at a price, we still have Paris in springtime.","cn":"这也是今天我们（付出代价后）在巴黎仍能享受春天的原因。","src":"托福词库"},
+"sprinkle": {"en":"Sprinkle the meat with salt and place in the pan.","cn":"给肉撒点盐，然后放进平锅里。","src":"六级词库"},
+"spur": {"en":"So they've said that passing trade bills with South Korea and Panama and Colombia would help spur growth -- those got done, with significant bipartisan support.","cn":"所以他们已经说过了，通过贸易法案与南韩和巴拿马和哥伦比亚将有助于刺激增长——那些搞，重要的两党支持。","src":"四级词库"},
+"spy": {"en":"That day he spied on her while pretending to work on the shrubs.","cn":"那天他假装修剪灌木，却秘密地监视着她。","src":"六级词库"},
+"square": {"en":"First of all, draw a square.","cn":"首先，画一个正方形。","src":"四级词库"},
+"squeeze": {"en":"He squeezed the trigger, but nothing happened.","cn":"他扣动扳机，但没有反应。","src":"四级词库"},
+"squirrel": {"en":"It was moving fast like a squirrel, but it was as loud as a bear.","cn":"它像松鼠一样快速的移动但那声音却像是熊发出的似的。","src":"考研词库"},
+"stab": {"en":"He was stabbed to death in a fight.","cn":"他在一次打斗中被捅死了。","src":"六级词库"},
+"stable": {"en":"A wide base will make the structure much more stable.","cn":"宽大的底座会使结构牢固许多。","src":"四级词库"},
+"stack": {"en":"Mrs. Cathiard was stacking the clean bottles in crates.","cn":"卡提亚夫人当时正在把干净的瓶子堆放到板条箱里。","src":"四级词库"},
+"stadium": {"en":"She is going to Chiba Stadium.","cn":"她將去千葉球場。","src":"Tatoeba 语料"},
+"staff": {"en":"The entire staff has done an outstanding job this year.","cn":"今年全体员工工作都非常出色。","src":"高中词库"},
+"startle": {"en":"Sorry, I didn’t mean to startle you.","cn":"抱歉，我不是故意吓你一跳的。","src":"四级词库"},
+"start": {"en":"There’s so much to do. I don’t know where to start.","cn":"有那么多的事情要做，我都不知道从哪里开始。","src":"六级词库"},
+"stare": {"en":"It isn't polite to stare at people.","cn":"盯著人看是不禮貌的。","src":"Tatoeba 语料"},
+"star": {"en":"I lay on my back and looked up at the stars.","cn":"我仰卧着看天上的星星。","src":"托福词库"},
+"standard": {"en":"We paid them the standard rate.","cn":"我们付给他们标准工资。","src":"高中词库"},
+"spray": {"en":"A sprayer hooked to a tractor can spray five gallons onto ten acres.","cn":"挂在拖拉机上的喷雾器用五加仑液量能喷洒十英亩地。","src":"四级词库"},
+"stand": {"en":"It looks like we’ll have to stand – there are no seats left.","cn":"看来我们只能站着——没有座位了。","src":"高中词库"},
+"stake": {"en":"Young people don’t feel they have a stake in the country’s future.","cn":"年轻人觉得自己与国家的未来没有关系。","src":"四级词库"},
+"staircase": {"en":"They walked down the staircase together.","cn":"他们一起沿楼梯通道往下走。","src":"六级词库"},
+"stair": {"en":"The old lady climbed the stairs with difficulty.","cn":"这名老妇艰难地爬上楼梯。","src":"Tatoeba 语料"},
+"stain": {"en":"We’ve decided to stain the shelves blue.","cn":"我们决定把架子涂成蓝色。","src":"四级词库"},
+"stage": {"en":"We’re getting to the stage where we hardly ever go out together.","cn":"我们快要到几乎不一起外出的地步了。","src":"四级词库"},
+"stamp": {"en":"Richard collects stamps.","cn":"理查德集邮。","src":"高中词库"},
+"starve": {"en":"Thousands of people will starve if food doesn’t reach the city.","cn":"如果食品不能运到那座城市，成千上万的人就要饿死。","src":"四级词库"},
+"spot": {"en":"I chose a spot well away from the road.","cn":"我选了一个远离马路的地点。","src":"四级词库"},
+"sport": {"en":"Eric was sporting a new camelhair coat.","cn":"埃里克得意地穿了一件新的驼绒大衣。","src":"初中词库"},
+"speaker": {"en":"My parents usually speak to each other in French, even though my mother is a native English speaker.","cn":"我父母通常用法语对话，即使我母亲的母语是英语。","src":"Tatoeba 语料"},
+"spear": {"en":"After the rehearsal, the weary mechanic repaired the gears with shears and spear.","cn":"排练完后，疲倦的机修工用剪刀和矛修理了齿轮装置。","src":"高中词库"},
+"special": {"en":"The good china was used only on special occasions .","cn":"这些精美瓷器只在特殊场合使用。","src":"高中词库"},
+"specialist": {"en":"Take a deeper look into specialist positions and you find they are ninth in right-back depth and 18th at left-back, a position that is constantly being discussed due to Luke Shaw's injury history.","cn":"深入研究专家位置，您会发现他们在右后卫深度排名第九，在左后卫排名第18 ，由于Luke Shaw的伤病史，这一位置不断被讨论。","src":"Sky Sports · 2026-09-09"},
+"speciality": {"en":"The restaurant offers a wide variety of local specialities.","cn":"这家餐厅提供各种本地的特色菜。","src":"考研词库"},
+"specialize": {"en":"\"I think the feedback can be helpful because we all have blinders on when we fall in love, \" says Eva Ritvo, a Miami psychiatrist who specialize sin marriage and family therapy.","cn":"专门从事婚姻与家庭疗法研究的迈阿密精神病专家瑞塔沃说：“我认为信息回馈是有用的，因为人们在恋爱时都会变得盲目。","src":"六级词库"},
+"specially": {"en":"For the first time, the Tapestry is being displayed flat and in one continuous length inside a specially constructed showcase, allowing visitors to appreciate its full scale and intricate detail as never before.","cn":"这是挂毯第一次在一个特别建造的展柜里以一个连续的长度平面展示，让游客前所未有地欣赏它的完整尺寸和复杂的细节。","src":"HistoryExtra · 2026-09-10"},
+"specific": {"en":"So, in its simplest terms, the problem is a yes or no question—to solve it, one must either prove that the equations always result in smooth solutions or find one specific situation where they don’t.","cn":"所以，用最简单的术语来说，这个问题是一个“是”或“否”的问题——要解决它，你必须要么证明这些方程总是得到平滑的解，要么找到一个它们不是平滑解的特定情况。","src":"Smithsonian Magazine · 2026-09-10"},
+"specify": {"en":"Payments will be made for a specified number of months.","cn":"款项将在规定的几个月内支付。","src":"四级词库"},
+"speech": {"en":"He has to make a lot of after-dinner speeches .","cn":"他经常要发表席后演说。","src":"高中词库"},
+"speed": {"en":"An ambulance sped her to the hospital.","cn":"一辆救护车把她快速送往医院。","src":"高中词库"},
+"spell": {"en":"Pupils should know how to spell commonly used words.","cn":"小学生应该知道常用词的拼法。","src":"高中词库"},
+"spelling": {"en":"Her spelling has improved.","cn":"她的拼写进步了。","src":"四级词库"},
+"spend": {"en":"I can’t afford to spend any more money this week.","cn":"这星期我没有能力花更多的钱了。","src":"高中词库"},
+"sphere": {"en":"Because the earth spins, it is not a perfect sphere.","cn":"因为地球旋转，所以它不是个完完全全的球体。","src":"四级词库"},
+"spoon": {"en":"He stirred his coffee with a spoon.","cn":"他用匙搅了搅咖啡。","src":"高中词库"},
+"spontaneous": {"en":"My spontaneous reaction was to run away.","cn":"我的本能反应就是逃跑。","src":"四级词库"},
+"sponsor": {"en":"The senator announced that he would sponsor the health care plan.","cn":"这位参议员宣布他将发起这一保健计划。","src":"四级词库"},
+"sponge": {"en":"She stood on the bath mat and sponged herself down.","cn":"她站在浴室踏脚垫上，用海绵擦身子。","src":"六级词库"},
+"spoil": {"en":"Why do you always have to spoil everything ?","cn":"你为什么老是要把一切都弄糟呢？","src":"四级词库"},
+"split": {"en":"It was feared that the issue would split the church.","cn":"人们担心这一问题会导致教会分裂。","src":"四级词库"},
+"sportsman": {"en":"He’s a very keen sportsman .","cn":"他是个非常喜爱运动的人。","src":"四级词库"},
+"splendid": {"en":"The staff are doing a splendid job.","cn":"员工们干得非常棒。","src":"四级词库"},
+"spit": {"en":"Nick rolled down his window and spat.","cn":"尼克摇下窗子，啐了口唾沫。","src":"四级词库"},
+"spiritual": {"en":"Painting helps fill a spiritual need for beauty.","cn":"绘画可以满足对美的精神需求。","src":"四级词库"},
+"spirit": {"en":"Although Laurie is dead, I can feel his spirit with me.","cn":"劳里虽然已经过世，但我还能感觉到他的灵魂和我在一起。","src":"高中词库"},
+"spin": {"en":"The plane’s propellers were spinning.","cn":"飞机的螺旋桨在快速旋转。","src":"四级词库"},
+"spill": {"en":"Katie almost spilled her milk.","cn":"凯蒂差点把牛奶洒出来。","src":"四级词库"},
+"spider": {"en":"I should not have to live my eternity away from my little spider.","cn":"我不会离开我的小蜘蛛而孤凄地度过那无边岁月的。","src":"四级词库"},
+"splash": {"en":"The children were splashing about in the pool.","cn":"孩子们在水池里戏水。","src":"六级词库"},
+"state": {"en":"Water exists in three states: liquid, gaseous, and solid.","cn":"水有三种形态: 液态、气态和固态。","src":"高中词库"},
+"statement": {"en":"In an official statement, she formally announced her resignation.","cn":"在一份官方声明中，她正式宣布辞职。","src":"四级词库"},
+"stop": {"en":"The government tried to stop publication of the book.","cn":"政府企图阻止这本书出版。","src":"高中词库"},
+"store": {"en":"At Christmas the stores stay open late.","cn":"在圣诞节期间，商店营业到很晚。","src":"四级词库"},
+"storey": {"en":"A staircase leads to the upper storey .","cn":"有一段楼梯通往上面一层。","src":"考研词库"},
+"storm": {"en":"The governor found himself at the center of a political storm .","cn":"州长发现自己处于一场政治风暴的中心。","src":"六级词库"},
+"stormy": {"en":"The sky was starting to look stormy.","cn":"开始变天了，看上去暴风雨将至。","src":"托福词库"},
+"story": {"en":"We cuddled together over a bedtime story .","cn":"我们依偎在一起看睡前故事。","src":"高中词库"},
+"stove": {"en":"This factory manufactures electric stoves.","cn":"这家工厂生产电炉。","src":"Tatoeba 语料"},
+"straight": {"en":"He was sitting with his legs stretched straight out in front of him.","cn":"他坐着，两条腿向前伸得直直的。","src":"高中词库"},
+"strain": {"en":"You’ll strain your eyes trying to read in this light.","cn":"在这样的光线下看书会伤眼睛的。","src":"四级词库"},
+"strange": {"en":"For some strange reason, I slept like a baby despite the noise.","cn":"很奇怪，不知为什么，尽管很吵闹，但我仍睡得很香。","src":"四级词库"},
+"stranger": {"en":"Children must not talk to strangers.","cn":"小孩子千万不要同陌生人说话。","src":"四级词库"},
+"strap": {"en":"She strapped the baby seat into the car.","cn":"她把婴儿座椅用带子绑在那辆汽车上。","src":"四级词库"},
+"strategy": {"en":"Hope is not a strategy.","cn":"希望不是一种策略。","src":"Tatoeba 语料"},
+"straw": {"en":"She sipped her lemonade through a straw.","cn":"她用吸管吸着柠檬水。","src":"四级词库"},
+"strawberry": {"en":"The basket was filled with strawberries.","cn":"篮子里装满了草莓。","src":"Tatoeba 语料"},
+"stream": {"en":"Tears streamed down their faces.","cn":"泪水顺着他们的脸颊流下来。","src":"四级词库"},
+"strong": {"en":"I’m not strong enough to fight him.","cn":"和他打我还不够强壮。","src":"高中词库"},
+"stroke": {"en":"She died following a massive stroke.","cn":"她重度中风后去世了。","src":"四级词库"},
+"strip": {"en":"Strip the beds and wash the sheets.","cn":"把床单撤下来清洗。","src":"四级词库"},
+"string": {"en":"The houses and shops were strung out along the bay.","cn":"住宅和店铺沿海湾排成一行。","src":"四级词库"},
+"stoop": {"en":"We had to stoop to pass through the low entrance.","cn":"我们得弯腰通过那低矮的入口。","src":"四级词库"},
+"strike": {"en":"The government has promised that the army will be called in to help if there is a firemen’s strike.","cn":"政府承诺，如消防员罢工，就将调军队来协助。","src":"六级词库"},
+"strict": {"en":"It's important to follow a strict diet.","cn":"重要的是要遵循嚴格的飲食控制。","src":"Tatoeba 语料"},
+"stretch": {"en":"Carl sat up in bed, yawned, and stretched.","cn":"卡尔从床上坐起来，打了个呵欠，伸了伸懒 腰。","src":"四级词库"},
+"stress": {"en":"Janet’s been under a lot of stress since her mother’s illness.","cn":"珍妮特自从母亲生病以来承受了很大的压力。","src":"四级词库"},
+"strengthen": {"en":"Steve’s opposition only strengthened her resolve to go ahead.","cn":"史蒂夫的反对反而坚定了她继续下去的决心。","src":"四级词库"},
+"strength": {"en":"He never ceased to be amazed by her physical strength .","cn":"他一直对她的体力感到惊诧。","src":"高中词库"},
+"street": {"en":"We moved to Center Street when I was young.","cn":"在我小时候，我们搬到了中心大街。","src":"高中词库"},
+"strictly": {"en":"Alcohol is strictly forbidden on school premises.","cn":"校内严禁喝酒。","src":"托福词库"},
+"stone": {"en":"The floors are made of stone.","cn":"地面是石头铺成的。","src":"高中词库"},
+"steep": {"en":"The road became rocky and steep.","cn":"路变得崎岖陡峭起来。","src":"四级词库"},
+"steamer": {"en":"Gerald was fickle, in a week he would be in love with some girl he met on the steamer .","cn":"杰拉尔德是三心二意；不出一星期他就会爱上他在轮船上遇见的某个姑娘。","src":"四级词库"},
+"steam": {"en":"Steam rose from the hot tub.","cn":"水蒸气从热腾腾的浴缸里升起。","src":"四级词库"},
+"steal": {"en":"Boys broke into a shop and stole £45 in cash.","cn":"男孩们闯进一家商店，盗走了45英镑现金。","src":"四级词库"},
+"steady": {"en":"The plane steadied, and the passengers relaxed.","cn":"飞机平稳后，乘客们松了一口气。","src":"四级词库"},
+"steer": {"en":"He was steering with only one hand.","cn":"他只用一只手在驾驶。","src":"四级词库"},
+"steadily": {"en":"The bus climbed steadily up the road.","cn":"公共汽车稳定地沿公路向上爬。","src":"托福词库"},
+"status": {"en":"These documents have no legal status in Britain.","cn":"这些文件在英国并无法律效力。","src":"四级词库"},
+"statue": {"en":"Churchill’s statue stands outside the parliament building.","cn":"丘吉尔的塑像矗立在议会大厦外。","src":"四级词库"},
+"statistical": {"en":"The report contains a great deal of statistical information.","cn":"该报告包含大量统计资料。","src":"四级词库"},
+"station": {"en":"Is there a waiting room in the station?","cn":"车站里有候车室吗？","src":"高中词库"},
+"static": {"en":"The number of young people obtaining qualifications has remained static or decreased.","cn":"获得各种资格证书的年轻人的数量一直保持不变或者已经减少。","src":"四级词库"},
+"statesman": {"en":"The boy grew up to be a great statesman.","cn":"这个孩子长大后成为了一个伟大的政治家。","src":"Tatoeba 语料"},
+"stay": {"en":"Nine women gained weight, and four stayed the same .","cn":"九名女性体重增加，四名仍保持不变。","src":"高中词库"},
+"structural": {"en":"The earthquake caused minor structural damage.","cn":"这次地震造成了轻微的结构破坏。","src":"四级词库"},
+"stem": {"en":"All my problems stem from drink.","cn":"我所有的问题都是酗酒引起的。","src":"四级词库"},
+"stomach": {"en":"I was so hungry my stomach hurt.","cn":"我饿得胃都痛了。","src":"高中词库"},
+"stocking": {"en":"The mocker knocked the stock with the knots on the stocking and sock.","cn":"嘲弄者（模仿者）用长袜和短袜上的结敲打树干。","src":"四级词库"},
+"stock": {"en":"My boss had a stock response – \"If it ain't broke, don't fix it!\"","cn":"我的老板是老一套的回答–“没坏的话就别修了！”","src":"四级词库"},
+"stitch": {"en":"Mary is stitching a bedspread.","cn":"玛丽在缝床罩。","src":"六级词库"},
+"stir": {"en":"Stir the paint to make sure it is smooth.","cn":"将油漆搅拌至均匀。","src":"四级词库"},
+"sting": {"en":"He was stung by a bee.","cn":"他被蜜蜂蜇了。","src":"四级词库"},
+"step": {"en":"He took one step and fell.","cn":"他走了一步就跌倒了。","src":"考研词库"},
+"stimulate": {"en":"Her interest in art was stimulated by her father.","cn":"她对艺术的兴趣是她父亲激发的。","src":"四级词库"},
+"stiffen": {"en":"Their opposition only stiffened my resolve .","cn":"他们的反对只是更加坚定了我的决心。","src":"托福词库"},
+"stiff": {"en":"Anna tried to look interested. Actually, she was bored stiff.","cn":"安娜试图装出感兴趣的样子。实际上她都厌烦透了。","src":"四级词库"},
+"sticky": {"en":"There’s some sticky stuff in your hair.","cn":"你的头发上有什么黏糊糊的东西。","src":"四级词库"},
+"stick": {"en":"So you should stick to it.","cn":"所以你要坚持训练哟。","src":"高中词库"},
+"stewardess": {"en":"He married a stewardess.","cn":"他娶了一个空姐。","src":"Tatoeba 语料"},
+"steward": {"en":"They also claim that the security team elbowed aside a steward .","cn":"他们还声称保安人员将一位乘务员推搡至一边。","src":"高中词库"},
+"still": {"en":"I still haven’t finished painting the spare room.","cn":"我还没粉刷完那间空房间。","src":"高中词库"},
+"zone": {"en":"The government has set up a special economic zone to promote private enterprise.","cn":"政府设立了一个经济特区来推动私营企业的发展。","src":"四级词库"},
+"lion": {"en":"The savages darted spears at the lion.","cn":"野蛮人们把矛掷向狮子。","src":"四级词库"},
+"liner": {"en":"Then he would take an air liner to another city for travel.","cn":"然后他会乘一架班机去另一个城市旅游。","src":"四级词库"},
+"commit": {"en":"Women commit fewer crimes than men.","cn":"女性犯罪比男性少。","src":"四级词库"},
+"committee": {"en":"The senator was censured by the congressional ethics committee.","cn":"议员受到了议会道德委员会的谴责。","src":"Tatoeba 语料"},
+"common": {"en":"English has now become the common language of several nations in the world.","cn":"英语现已成为世界上许多国家的通用语言了。","src":"Tatoeba 语料"},
+"commonly": {"en":"Sodium chloride is more commonly known as salt.","cn":"氯化钠通常都称为盐。","src":"四级词库"},
+"communicate": {"en":"A baby communicates its needs by crying.","cn":"婴儿用哭来表达需要。","src":"四级词库"},
+"communication": {"en":"Good communication is vital in a large organization.","cn":"在大机构里良好的沟通是极为重要的。","src":"四级词库"},
+"communist": {"en":"Without the communists in France, the resistance might not have succeeded in World War II.","cn":"如果没有法国的共产主义者，二战中的抵抗运动可能不会成功。","src":"四级词库"},
+"community": {"en":"The new arts centre will serve the whole community.","cn":"这座新的艺术中心将为整个社区服务。","src":"四级词库"},
+"companion": {"en":"For ten years he had been her constant companion .","cn":"十年来他一直陪伴她左右。","src":"四级词库"},
+"company": {"en":"The company directors have awarded themselves a massive pay increase.","cn":"公司的董事们给自己大幅加薪。","src":"四级词库"},
+"comparative": {"en":"She didn’t want to leave the comparative safety of the shelter.","cn":"她不愿离开相对来说还算安全的掩蔽处。","src":"四级词库"},
+"compare": {"en":"The report compares the different types of home computer available.","cn":"这份报告比较了市场上不同类型的家用计算机。","src":"四级词库"},
+"comparison": {"en":"In comparison with Tokyo, London is small.","cn":"和东京比，伦敦很小。","src":"Tatoeba 语料"},
+"compass": {"en":"Compass needles point to the north.","cn":"指南针的指针指向北边。","src":"Tatoeba 语料"},
+"compete": {"en":"The banks have long competed with American Express's charge cards and various shop cards.","cn":"这些银行长期以来一直与美国运通公司的记账卡和各种商店卡竞争。","src":"四级词库"},
+"compound": {"en":"Do you know what compound words are?","cn":"你知道什么是复合词吗？","src":"Tatoeba 语料"},
+"composition": {"en":"Some minerals have complex chemical compositions.","cn":"有些矿物的化学构成很复杂。","src":"四级词库"},
+"compose": {"en":"Barrington has composed the music for a new production of ‘A Midsummer Night’s Dream’.","cn":"巴林顿为新版的《仲夏夜之梦》谱了曲。","src":"四级词库"},
+"component": {"en":"Gorbachev failed to keep the component parts of the Soviet Union together.","cn":"戈尔巴乔夫没能使苏联各组成部分保持在一起。","src":"四级词库"},
+"complicated": {"en":"For young children, getting dressed is a complicated business.","cn":"对幼童来说，穿衣服是件复杂的事。","src":"四级词库"},
+"complicate": {"en":"If the answer to all of these questions is no, a framework will only complicate matters.","cn":"如果所有这些问题的答案都为否，那么使用框架只会把事情变复杂。","src":"四级词库"},
+"commission": {"en":"The Government set up a commission to investigate allegations of police violence.","cn":"政府成立了一个委员会调查对警察施暴行为的指控。","src":"四级词库"},
+"complete": {"en":"The police were in complete control of the situation.","cn":"警方已完全控制了局势。","src":"四级词库"},
+"complaint": {"en":"There's been a record number of complaints about the standard of service.","cn":"已有对服务水准的创纪录数量的投诉。","src":"四级词库"},
+"complain": {"en":"Miners have complained bitterly that the government did not fulfil their promises.","cn":"矿工们已愤愤地抱怨政府没有兑现他们的承诺。","src":"四级词库"},
+"compile": {"en":"The document was compiled by the Department of Health.","cn":"这份文件是由卫生部汇编的。","src":"四级词库"},
+"competition": {"en":"Going to trade fairs is an ideal opportunity to size up the competition .","cn":"参加商品交易会是估量竞争规模的理想机会。","src":"四级词库"},
+"competent": {"en":"A competent mechanic should be able to fix the problem.","cn":"一名合格的机修工应该能够解决这个问题。","src":"四级词库"},
+"completely": {"en":"Portuguese is pronounced completely differently from Spanish.","cn":"葡萄牙语的发音和西班牙语的完全不同。","src":"四级词库"},
+"commercial": {"en":"Our top priorities must be profit and commercial growth.","cn":"我们必须把利润和贸易增长作为我们的第一要务。","src":"四级词库"},
+"comment": {"en":"So far, Mr. Cook has not commented on these reports.","cn":"到目前为止，库克先生还未对这些报告进行过评论。","src":"四级词库"},
+"coach": {"en":"Nigel coaches a cricket team in his spare time.","cn":"奈杰尔业余时间担任一个板球队的教练。","src":"六级词库"},
+"coal": {"en":"Put some coal on the fire.","cn":"往火里加点煤。","src":"四级词库"},
+"coast": {"en":"We drove along the Pacific coast to Seattle.","cn":"我们沿着太平洋海岸驾车前往西雅图。","src":"四级词库"},
+"coat": {"en":"The kids took off their coats and threw them on the floor.","cn":"孩子们脱下外套扔在地板上。","src":"四级词库"},
+"cock": {"en":"A cock crowed in the distance.","cn":"远处有只公鸡在打鸣。","src":"四级词库"},
+"code": {"en":"The hacker came smack up against the company's policy of keeping its records in code.","cn":"这个计算机黑客突然碰壁了，因这家公司实行了用密码保存公司纪录的政策。","src":"六级词库"},
+"coffee": {"en":"Do you want a cup of coffee?","cn":"你要来杯咖啡吗？","src":"四级词库"},
+"coil": {"en":"Her long hair was coiled up in a plait at the top of her head.","cn":"她的长发编成辫子盘在头顶。","src":"考研词库"},
+"coin": {"en":"Toss a coin to see who goes first.","cn":"抛硬币决定谁先来。","src":"四级词库"},
+"cold": {"en":"She splashed her face with cold water.","cn":"她往脸上泼冷水。","src":"四级词库"},
+"collapse": {"en":"Uncle Ted’s chair collapsed under his weight.","cn":"椅子承受不了特德叔叔的重量，塌架了。","src":"四级词库"},
+"collar": {"en":"He loosened his collar and tie .","cn":"他松开了领子和领带。","src":"四级词库"},
+"colleague": {"en":"She discussed the idea with some of her colleagues.","cn":"她和几位同事讨论了这个想法。","src":"四级词库"},
+"collect": {"en":"After 25 years of collecting recipes, she has compiled them into a cookbook.","cn":"她搜集了25年食谱，把它们编成一本烹饪书。","src":"四级词库"},
+"collection": {"en":"We’ll be taking up a collection at the end of tonight’s service.","cn":"我们在今晚的仪式之后将举行募捐活动。","src":"高中词库"},
+"command": {"en":"He commands the 4th Battalion.","cn":"他指挥第四营。","src":"四级词库"},
+"comfortable": {"en":"I was so comfortable and warm in bed I didn’t want to get up.","cn":"床上又舒服又暖和，我都不想起来。","src":"四级词库"},
+"comfort": {"en":"Now you can watch your favorite movies in the comfort of your own home.","cn":"现在你可以舒舒服服地在自己家里看你最喜欢的电影了。","src":"四级词库"},
+"come": {"en":"Come a bit closer and you’ll be able to see better.","cn":"靠近一些就能看得更清楚。","src":"四级词库"},
+"combine": {"en":"Ruth hesitated, uncertain of how to combine honesty and diplomacy in her answer.","cn":"露丝犹豫了，她不知道怎样回答才能既诚实又婉转。","src":"四级词库"},
+"combination": {"en":"Arteta also highlighted how fresh combinations with team-mates are playing a part.","cn":"Arteta还强调了与队友的新组合是如何发挥作用的。","src":"Sky Sports · 2026-09-09"},
+"column": {"en":"He writes a weekly column for ‘The Times’.","cn":"他每周为《泰晤士报》写一篇专栏文章。","src":"四级词库"},
+"color": {"en":"The colors of the American flag are red, white and blue.","cn":"美国国旗的颜色是红白蓝。","src":"Tatoeba 语料"},
+"colony": {"en":"Algeria was formerly a French colony.","cn":"阿尔及利亚以前是法国的殖民地。","src":"四级词库"},
+"colonel": {"en":"What if they go on to behave as murderously as the colonel and his paid killers?","cn":"如果他们像他们的是上校和他的杀手们一样继续表现为杀气腾腾的又该怎么办？","src":"考研词库"},
+"college": {"en":"Donna left school and went to art college.","cn":"唐娜中学毕业后进了艺术学院。","src":"四级词库"},
+"comb": {"en":"Your hair needs a good comb.","cn":"你的头发需要好好梳理一下。","src":"四级词库"},
+"clumsy": {"en":"A clumsy waiter spilled wine all over her new skirt.","cn":"一名笨手笨脚的服务员把葡萄酒洒得她新裙子上到处都是。","src":"四级词库"},
+"comprise": {"en":"The house comprises two bedrooms, a kitchen, and a living room.","cn":"这座房子有两间卧室、一间厨房和一间起居室。","src":"四级词库"},
+"conquest": {"en":"If so, the end panels might have shown William being crowned king of England, as that was the ultimate consequence of the Conquest.","cn":"如果是这样，最后的镶板可能显示威廉被加冕为英格兰国王，因为这是征服的最终结果。","src":"HistoryExtra · 2026-09-09"},
+"conscience": {"en":"Do you have a guilty conscience?","cn":"是你心里有鬼吧？","src":"Tatoeba 语料"},
+"conscious": {"en":"The driver was still conscious when the ambulance arrived.","cn":"救护车赶到时，司机仍然神志清醒。","src":"四级词库"},
+"consciousness": {"en":"The painful memories eventually faded from her consciousness.","cn":"那些痛苦的回忆最终从她的意识中淡去了。","src":"四级词库"},
+"consent": {"en":"He finally consented to go.","cn":"他最终同意去。","src":"四级词库"},
+"consequently": {"en":"The molecules are absorbed into the bloodstream and consequently affect the organs.","cn":"这些分子被吸收到血液里，从而影响到器官。","src":"四级词库"},
+"conservation": {"en":"These results came back with positive news for conservation: The elusive nabarlek had been found.","cn":"这些结果为自然保护带来了积极的消息：难以捉摸的纳巴莱克被发现了。","src":"Smithsonian Magazine · 2026-09-10"},
+"conservative": {"en":"On the whole, the Japanese are conservative.","cn":"总体上说，日本人很保守。","src":"Tatoeba 语料"},
+"consider": {"en":"We will have to consider your offer carefully .","cn":"我们得仔细考虑你的提议。","src":"四级词库"},
+"considerable": {"en":"Michael has already spent considerable time in Barcelona.","cn":"迈克尔在巴塞罗那已经待了相当长的时间了。","src":"四级词库"},
+"considerate": {"en":"I think he's the most charming, most considerate man I've ever known.","cn":"我觉得他是我所认识的最有魅力、最体贴的男士。","src":"四级词库"},
+"consideration": {"en":"The first thing you have to take into consideration is time.","cn":"你应该考虑的第一件事是时间。","src":"Tatoeba 语料"},
+"constant": {"en":"He kept in constant contact with his family while he was in Australia.","cn":"他在澳大利亚时一直和家人保持着联系。","src":"四级词库"},
+"constitution": {"en":"The right to speak freely is written into the Constitution of the United States.","cn":"言论自由的权利被写入美国宪法。","src":"四级词库"},
+"continent": {"en":"Columbus sailed farther west to look for a new continent.","cn":"哥伦布航行至遥远的西方，去寻找一个新大陆。","src":"Tatoeba 语料"},
+"content": {"en":"Andy was a good husband, and Nicky was clearly very content.","cn":"安迪是个好丈夫，尼基显然非常满足。","src":"四级词库"},
+"contempt": {"en":"How could she have loved a man who so clearly held her in contempt ?","cn":"她怎么会爱上一个明显看不起她的男人呢？","src":"四级词库"},
+"contemporary": {"en":"She writes a lot of contemporary music for people like Whitney Houston.","cn":"她为惠特尼·休斯敦等人创作大量当代音乐作品。","src":"四级词库"},
+"conquer": {"en":"Egypt was conquered by the Persian king Kambyses.","cn":"埃及被波斯国王冈比西斯征服。","src":"四级词库"},
+"container": {"en":"These containers are airtight.","cn":"這些容器是密封的。","src":"Tatoeba 语料"},
+"consumption": {"en":"Vigorous exercise increases oxygen consumption.","cn":"剧烈运动增加氧的消耗。","src":"四级词库"},
+"consult": {"en":"If symptoms persist, consult a doctor without delay.","cn":"如果症状持续的话，马上咨询医生。","src":"四级词库"},
+"construction": {"en":"External doors should be of robust construction.","cn":"外门应该结构坚固。","src":"六级词库"},
+"construct": {"en":"There are plans to construct a new road bridge across the river.","cn":"有计划要建造一条新的跨河公路桥。","src":"四级词库"},
+"contain": {"en":"The museum contains a number of original artworks.","cn":"这家博物馆藏有一些原创艺术品。","src":"四级词库"},
+"compress": {"en":"Light silk is best for parachutes, as it compresses well and then expands rapidly.","cn":"轻质丝绸最适合制作降落伞，因为这种面料便于压缩，而且展开迅速。","src":"四级词库"},
+"connection": {"en":"Students often see little connection between school and the rest of their lives.","cn":"学生往往看不到上学和今后生活的联系。","src":"四级词库"},
+"conjunction": {"en":"The worksheets are designed to be used in conjunction with the new course books.","cn":"这些活页练习题专门用来与新课本配套使用。","src":"四级词库"},
+"compromise": {"en":"She admitted that she was unable to compromise.","cn":"她承认自己无法作出妥协。","src":"四级词库"},
+"compute": {"en":"Final results had not yet been computed.","cn":"最终的结果还未计算出来。","src":"四级词库"},
+"computer": {"en":"Computers are certainly playing an important role in our life, whether we like it or not.","cn":"无论我们是否喜欢电脑，它在我们的生活中始终起着重要的作用。","src":"Tatoeba 语料"},
+"comrade": {"en":"Comrades, please support this motion.","cn":"同志们，请支持这项动议。","src":"四级词库"},
+"conceal": {"en":"The shadows concealed her as she crept up to the house.","cn":"她借着阴影蹑手蹑脚地走向房子。","src":"四级词库"},
+"concentrate": {"en":"Construction of the aircraft is being concentrated at Prestwick.","cn":"飞机制造正在向普雷斯特威克集中。","src":"四级词库"},
+"concentration": {"en":"She needed all her powers of concentration to stop herself from slipping on the icy road.","cn":"她需要集中全部注意力才能不让自己在结冰的路上滑倒。","src":"四级词库"},
+"concern": {"en":"He was moved by her obvious concern.","cn":"她明显的关心使他感动。","src":"四级词库"},
+"concert": {"en":"She still does about 100 concerts every year.","cn":"她每年仍然举行100场左右的演唱会。","src":"四级词库"},
+"conclusion": {"en":"The police came to the inescapable conclusion that the children had been murdered.","cn":"警方得出了无法回避的结论: 这些儿童被谋杀了。","src":"四级词库"},
+"concrete": {"en":"What does that mean in concrete terms ?","cn":"具体来说那到底是什么意思？","src":"四级词库"},
+"condemn": {"en":"Politicians were quick to condemn the bombing.","cn":"政治家们立即对爆炸事件进行了谴责。","src":"四级词库"},
+"condition": {"en":"Profits increased by £1.5m, despite the difficult economic conditions.","cn":"尽管经济形势不佳，利润还是增长了150万英镑。","src":"四级词库"},
+"congratulation": {"en":"I hear you passed the entrance exam. Congratulations!","cn":"我听说你通过了入学考试。恭喜你了！","src":"Tatoeba 语料"},
+"congratulate": {"en":"He never even stopped to congratulate me.","cn":"他甚至没有过来向我祝贺。","src":"四级词库"},
+"confusion": {"en":"To avoid confusion, the teams wore different colours.","cn":"为了避免混淆，各队穿着不同颜色的服装。","src":"四级词库"},
+"conflict": {"en":"Personal ethics and professional ethics sometimes conflict.","cn":"个人道德与职业道德之间有时会相冲突。","src":"四级词库"},
+"confirm": {"en":"New evidence has confirmed the first witness’s story.","cn":"新的证据证实了第一个证人的说法。","src":"四级词库"},
+"confidence": {"en":"I felt I was doing well and my confidence began to grow.","cn":"我觉得自己干得不错，自信心就开始增加了。","src":"四级词库"},
+"confess": {"en":"Occasionally people confess to crimes they haven’t committed just to get attention.","cn":"偶尔人们会承认自己并未犯过的罪行，那只是为了引人注意。","src":"四级词库"},
+"conference": {"en":"Representatives from over 100 countries attended the International Peace Conference in Geneva.","cn":"来自一百多个国家的代表出席了在日内瓦举行的国际和平大会。","src":"四级词库"},
+"conductor": {"en":"Wood is a poor conductor of heat.","cn":"木头导热性能差。","src":"四级词库"},
+"conduct": {"en":"The Senator’s conduct is being investigated by the Ethics Committee.","cn":"该参议员的行为正受到道德委员会的调查。","src":"四级词库"},
+"confine": {"en":"Vaughan is confined to a wheelchair .","cn":"沃恩离不开轮椅。","src":"四级词库"},
+"clue": {"en":"Archaeological evidence will provide clues about what the building was used for.","cn":"考古证据将为这幢建筑的用途提供线索。","src":"四级词库"},
+"club": {"en":"Manchester United Football Club","cn":"曼联（队）足球俱乐部","src":"四级词库"},
+"cloudy": {"en":"Tomorrow, it will be cloudy and cool.","cn":"明天多云，天气凉爽。","src":"四级词库"},
+"central": {"en":"The roof is supported by a central column.","cn":"屋顶由一根中心柱支撑着。","src":"四级词库"},
+"centre": {"en":"The title isn’t quite centred on the page, is it?","cn":"标题并不在这页的正中间，是吗？","src":"高中词库"},
+"century": {"en":"The old church on the hill dates back to the twelfth century.","cn":"山上的老教堂的歷史可以追溯到12世紀。","src":"Tatoeba 语料"},
+"ceremony": {"en":"Thousands of candles illuminated the church during the ceremony.","cn":"数以千计的蜡烛点亮了仪式中的教堂。","src":"Tatoeba 语料"},
+"certain": {"en":"I felt certain that I’d passed the test.","cn":"我感觉自己肯定通过这次测验了。","src":"四级词库"},
+"certainly": {"en":"Computers are certainly playing an important role in our life, whether we like it or not.","cn":"无论我们是否喜欢电脑，它在我们的生活中始终起着重要的作用。","src":"Tatoeba 语料"},
+"certainty": {"en":"The only certainty is that there will need to be major changes.","cn":"唯一能够确定的事就是需要重大的变革。","src":"四级词库"},
+"chain": {"en":"She had a gold chain around her neck.","cn":"她脖子上戴了条金项链。","src":"四级词库"},
+"chair": {"en":"They bought a new table and chairs.","cn":"他们买了一套新的桌椅。","src":"四级词库"},
+"chairman": {"en":"He was invited to be the chairman of the club.","cn":"他受邀做俱乐部的主席。","src":"Tatoeba 语料"},
+"chalk": {"en":"He chalked the message on the blackboard.","cn":"他用粉笔把这条消息写在黑板上。","src":"高中词库"},
+"chamber": {"en":"The heart has four chambers.","cn":"心脏有四个腔。","src":"四级词库"},
+"champion": {"en":"Kasparov became world champion.","cn":"卡斯帕罗夫成了世界冠军。","src":"四级词库"},
+"chance": {"en":"There’s always the chance that something will go wrong.","cn":"总有可能会出现问题。","src":"四级词库"},
+"change": {"en":"A change in personality may mean your teenager has a drug problem.","cn":"十几岁的孩子如果性格上发生了变化，可能意味着有吸毒问题。","src":"四级词库"},
+"cheer": {"en":"Everybody cheered when the firemen arrived.","cn":"消防员到达时，大家都欢呼起来。","src":"四级词库"},
+"cheek": {"en":"Julie’s cheeks flushed with pleasure at the compliment.","cn":"听了这赞美的话，朱莉开心得满脸通红。","src":"四级词库"},
+"check": {"en":"Fill in the cash book carefully and always check your calculations.","cn":"仔细填写现金账簿，每次都要检查计算结果。","src":"四级词库"},
+"cheat": {"en":"He had cheated in the test by using a calculator.","cn":"他在考试时作弊，用了计算器。","src":"四级词库"},
+"cheap": {"en":"The equipment is relatively cheap and simple to use.","cn":"这种设备相对比较便宜，而且操作简单。","src":"四级词库"},
+"chase": {"en":"The dogs saw him running and chased him.","cn":"那些狗看到他在跑就追他。","src":"四级词库"},
+"chart": {"en":"Scientists have been charting temperature changes in the oceans.","cn":"科学家们一直在记录海洋温度的变化。","src":"托福词库"},
+"charity": {"en":"Several charities sent aid to the flood victims.","cn":"有几家慈善机构已向洪灾灾民送去了救援物资。","src":"四级词库"},
+"charge": {"en":"They have the evidence to charge him.","cn":"他们有证据来指控他。","src":"四级词库"},
+"characteristic": {"en":"I got over the difficulty with my characteristic tenacity.","cn":"我凭韧性克服了困难。","src":"Tatoeba 语料"},
+"character": {"en":"He has a cheerful but quiet character.","cn":"他的性格乐观文静。","src":"四级词库"},
+"chapter": {"en":"This chapter discusses power, and how people use it.","cn":"这一章节讲权力，以及人们如何运用权力。","src":"四级词库"},
+"channel": {"en":"The kids are watching cartoons on the Disney Channel.","cn":"孩子们在看迪士尼频道的卡通片。","src":"四级词库"},
+"charming": {"en":"Harry can be very charming.","cn":"哈里有时候很讨人喜欢。","src":"四级词库"},
+"cheerful": {"en":"There was a cheerful picture on the wall.","cn":"墙上有一张赏心悦目的画。","src":"四级词库"},
+"centigrade": {"en":"The number at the bottom is the recommended water temperature in centigrade.","cn":"底部的数字为建议性摄氏度水温。","src":"考研词库"},
+"cement": {"en":"Most artificial joints are cemented into place.","cn":"绝大部分人造关节是被黏结复位的。","src":"六级词库"},
+"career": {"en":"He realized that his acting career was over.","cn":"他意识到自己的演艺事业已走到了尽头。","src":"四级词库"},
+"careful": {"en":"Any school trip requires careful planning.","cn":"学校的任何出游活动都需要周密的安排。","src":"四级词库"},
+"careless": {"en":"It was careless of him to leave the door unlocked.","cn":"他忘了锁门，真是粗心大意。","src":"四级词库"},
+"cargo": {"en":"The cargo ship arrived four hours early.","cn":"货船早到了四小时。","src":"Tatoeba 语料"},
+"carpenter": {"en":"Think of yourself as the carpenter. Think about your house.","cn":"把你当做一个木匠，好好想想你的房子。","src":"四级词库"},
+"carpet": {"en":"My bedroom carpet is green.","cn":"我卧室里的地毯是绿色的。","src":"四级词库"},
+"carriage": {"en":"The president-elect followed in an open carriage drawn by six beautiful grey horses.","cn":"新当选的总统紧随其后，坐着6匹灰色骏马开道的敞篷马车。","src":"四级词库"},
+"carrot": {"en":"Carrots contain a lot of vitamin A.","cn":"胡蘿蔔中含有大量的維生素A。","src":"Tatoeba 语料"},
+"carry": {"en":"There are more airplanes carrying more people than ever before.","cn":"飞机数量和载客数量都是前所未有的。","src":"四级词库"},
+"cart": {"en":"The farmer piles a cart with straw.","cn":"农民在火车上装满稻草。","src":"考研词库"},
+"carve": {"en":"The boy carved his name into the tree.","cn":"男孩把他的名字刻在树上。","src":"Tatoeba 语料"},
+"case": {"en":"We tend to think of these people as untrustworthy, but that is not the case.","cn":"我们往往会认为这些人不可靠，但事实并非如此。","src":"高中词库"},
+"cash": {"en":"There are similar charges if you want to cash a cheque or withdraw money at a branch other than your own.","cn":"如果你在其他银行兑现支票或支取现金，将会产生差不多的手续费。","src":"四级词库"},
+"cassette": {"en":"His two albums released on cassette have sold 10 million copies.","cn":"他以磁带形式发行的两张专辑已售出1000万份。","src":"四级词库"},
+"cast": {"en":"Sparks leapt as he cast more wood on the fire.","cn":"他往火里投进更多的木块，火星四处飞溅。","src":"高中词库"},
+"cell": {"en":"\"Have you seen my cell phone?\" \"It's on the table.\"","cn":"\"你有看到我的手機嗎?\" \"它在桌子上。\"","src":"Tatoeba 语料"},
+"celebrate": {"en":"It’s Dad’s birthday and we’re going out for a meal to celebrate.","cn":"今天是爸爸的生日，我们打算出去吃饭庆祝一下。","src":"四级词库"},
+"ceiling": {"en":"He hung a lamp from the ceiling.","cn":"他把一盏灯挂在了天花板上。","src":"Tatoeba 语料"},
+"cease": {"en":"The rain ceased and the sky cleared.","cn":"雨过天晴。","src":"四级词库"},
+"cave": {"en":"\"What's going on in the cave? I'm curious.\" \"I have no idea.\"","cn":"“洞里发生了什么？我很好奇。”“我一点也不知道。”","src":"Tatoeba 语料"},
+"cent": {"en":"A cup of rice which cost thirty cents a few weeks ago is now being sold for up to one dollar.","cn":"几周前价值30美分的1杯米如今卖到了1美元。","src":"四级词库"},
+"cause": {"en":"It’s our job to establish the cause of the fire.","cn":"查明起火原因是我们的责任。","src":"四级词库"},
+"cathedral": {"en":"It was first documented in a 1476 inventory of the treasures of Bayeux Cathedral, and it’s been in Bayeux ever since, bar a couple of brief sojourns elsewhere.","cn":"它最早被记录在1476年巴叶大教堂的宝藏清单中，从那以后它就一直在巴叶，除了在其他地方短暂停留过几次。","src":"HistoryExtra · 2026-09-10"},
+"catch": {"en":"Early settlers caught rabbits and squirrels and even rats in order to survive.","cn":"早期移民为了生存而捕食野兔、松鼠，甚至老鼠。","src":"四级词库"},
+"catalog": {"en":"Well. this is our latest catalog.","cn":"嗯，这是我们最新的产品目录。 。","src":"考研词库"},
+"cat": {"en":"The police played an elaborate game of cat and mouse to trap him.","cn":"警方跟他玩了一场精心布局的猫捉老鼠游戏，诱他落网。","src":"四级词库"},
+"castle": {"en":"There is a castle in the background of the picture.","cn":"图片的背景是一座城堡。","src":"Tatoeba 语料"},
+"cheese": {"en":"Sprinkle with the grated cheese.","cn":"撒上磨碎的干酪。","src":"四级词库"},
+"chemist": {"en":"She worked as a research chemist.","cn":"她是一名化学研究员。","src":"四级词库"},
+"civilize": {"en":"The missionaries went out to civilize other places.","cn":"传教士们去异国他乡教化当地人民。","src":"四级词库"},
+"clap": {"en":"Narouz clapped his hands and a servant entered.","cn":"纳鲁兹拍了拍手，一名佣人走了进来。","src":"四级词库"},
+"clarify": {"en":"I appreciate your help in clarifying this.","cn":"感謝你幫我解釋明白。","src":"Tatoeba 语料"},
+"clasp": {"en":"She stood with her hands clasped tightly together .","cn":"她站着，双手紧紧地握在一起。","src":"考研词库"},
+"class": {"en":"He had to spend about six months in a class with younger students.","cn":"他不得不在一个比他小的学生的班上呆了大约六个月。","src":"高中词库"},
+"classical": {"en":"I always enjoy listening to classical music when I have some free time.","cn":"有空的时候，我总喜欢听古典音乐。","src":"Tatoeba 语料"},
+"classification": {"en":"There are five job classifications.","cn":"有五种工作类别。","src":"四级词库"},
+"classify": {"en":"Families are classified according to the father’s occupation.","cn":"各个家庭按父亲的职业分类。","src":"四级词库"},
+"classmate": {"en":"He acquainted his classmate with my younger brother.","cn":"他把我的弟弟介绍给他的同班同学。","src":"四级词库"},
+"classroom": {"en":"She fainted in the classroom and was carried out.","cn":"她在教室中昏过去了，并被抬了出来。","src":"四级词库"},
+"claw": {"en":"The wolf clawed at the tree and howled the whole night.","cn":"那只狼在那颗树上抓挠，还嗥叫了整整一个晚上。","src":"四级词库"},
+"clean": {"en":"As usual, she left her room clean and tidy before going to school.","cn":"和往常一样，她去上学之前把房间收拾得干干净净。","src":"四级词库"},
+"clear": {"en":"If you don’t understand, it’s best to say so and get things clear .","cn":"如果你不明白，那就最好照直说并把事情弄清楚。","src":"四级词库"},
+"clearly": {"en":"The economy was clearly failing.","cn":"经济很明显在走下坡路。","src":"四级词库"},
+"cloud": {"en":"Thick mist clouded the mountain tops.","cn":"浓雾笼罩着山顶。","src":"初中词库"},
+"clothing": {"en":"She took only a few items of clothing.","cn":"她只带了几件衣服。","src":"四级词库"},
+"clothes": {"en":"What sort of clothes was he wearing?","cn":"他穿着什么样的衣服？","src":"四级词库"},
+"clothe": {"en":"They could barely keep the family fed and clothed.","cn":"他们几乎无力为家人提供衣食。","src":"四级词库"},
+"cloth": {"en":"Clean the surface with a damp cloth.","cn":"用一块湿布清洗表面。","src":"四级词库"},
+"closely": {"en":"The detective watched him closely , waiting for a reply.","cn":"侦探紧盯着他看，等着他回答。","src":"四级词库"},
+"civil": {"en":"They were married in a civil ceremony in May.","cn":"他们在五月份举行了世俗婚礼。","src":"四级词库"},
+"close": {"en":"Let me do the car door – it won’t close properly.","cn":"我来修一下车门，它关不紧。","src":"四级词库"},
+"cloak": {"en":"Today most of New England will be under a cloak of thick mist.","cn":"今天新英格兰大部分地区会在浓雾的笼罩中。","src":"四级词库"},
+"climb": {"en":"Boys were climbing trees along the river bank.","cn":"男孩们在河边爬树。","src":"四级词库"},
+"climate": {"en":"Los Angeles’ warm dry climate","cn":"洛杉矶温暖干燥的气候","src":"四级词库"},
+"cliff": {"en":"The car rolled over the edge of a cliff.","cn":"汽车翻下了悬崖边。","src":"四级词库"},
+"clerk": {"en":"Tom tried to return the swimsuit for a larger size, but the clerk told him that wasn't allowed.","cn":"汤姆试过还回泳衣来换成更大一号的，但是员工告诉他那是不被允许的。","src":"Tatoeba 语料"},
+"clock": {"en":"Our employees are working around the clock to fix the damage caused by the ice storm.","cn":"我们的员工正在争分夺秒地修理冰暴带来的损坏。","src":"Tatoeba 语料"},
+"city": {"en":"The nearest big city was St. Louis.","cn":"最近的大城市是圣路易斯。","src":"四级词库"},
+"citizen": {"en":"The mayor urged citizens to begin preparing for a major storm.","cn":"一场特大暴风雨即将到来，市长敦促市民做好准备。","src":"四级词库"},
+"chin": {"en":"He rubbed his chin thoughtfully.","cn":"他若有所思地抚摸着下巴。","src":"四级词库"},
+"chimney": {"en":"We can’t light a fire because the chimney hasn’t been swept.","cn":"烟囱管没有清扫过，我们生不了火。","src":"四级词库"},
+"chill": {"en":"Spoon the mixture into a bowl and chill for two hours.","cn":"把混合物舀进碗里，冷藏两小时。","src":"四级词库"},
+"childish": {"en":"His way of thinking is very childish.","cn":"他的思維方式很幼稚。","src":"Tatoeba 语料"},
+"childhood": {"en":"He was remembering a story heard in childhood.","cn":"他一直记着童年时听过的一个故事。","src":"四级词库"},
+"child": {"en":"The hotel is ideal for families with young children.","cn":"这家宾馆对带小孩的家庭再合适不过。","src":"四级词库"},
+"china": {"en":"In 1978 a peace treaty was concluded between Japan and China.","cn":"1978年中国和日本签署了和平条约。","src":"Tatoeba 语料"},
+"chief": {"en":"She had many reasons for taking the money, but chief among them was revenge.","cn":"她拿这笔钱的原因有很多，但最主要的是为了报复。","src":"四级词库"},
+"chew": {"en":"This meat’s so tough I can hardly chew it!","cn":"这肉太老了，我几乎嚼不动！","src":"四级词库"},
+"chest": {"en":"Her heart was pounding in her chest.","cn":"她的心在胸口怦怦直跳。","src":"四级词库"},
+"chess": {"en":"They meet fairly often to play chess .","cn":"他们经常在一起下国际象棋。","src":"四级词库"},
+"cherry": {"en":"This week the cherry blossoms in the park are in full bloom.","cn":"本周公园樱花盛开。","src":"Tatoeba 语料"},
+"cheque": {"en":"You could write her a cheque .","cn":"你可以给她开张支票。","src":"四级词库"},
+"chemistry": {"en":"He is poor at chemistry.","cn":"他的化学很差。","src":"Tatoeba 语料"},
+"chicken": {"en":"We have two dogs, three cats, and six chickens.","cn":"我们养了两只狗、三只猫和六只鸡。","src":"Tatoeba 语料"},
+"chocolate": {"en":"I prefer milk chocolate to dark chocolate .","cn":"和黑巧克力比起来，我更喜欢牛奶巧克力。","src":"四级词库"},
+"circulate": {"en":"Swimming helps to get the blood circulating through the muscles.","cn":"游泳有助于肌肉的血液循环。","src":"四级词库"},
+"circular": {"en":"The proposal has been widely publicized in press information circulars sent to 1,800 newspapers.","cn":"通过向1800份报纸发送新闻通告，这项提议得到了广泛地宣传。","src":"六级词库"},
+"circuit": {"en":"We did a circuit of the old city.","cn":"我们绕着老城走了一圈。","src":"四级词库"},
+"circle": {"en":"Draw a circle 10cm in diameter.","cn":"画一个直径10厘米的圆形。","src":"四级词库"},
+"cinema": {"en":"It’s on at the local cinema.","cn":"此片正在当地影院上映。","src":"四级词库"},
+"chinese": {"en":"Do you fancy going out for a Chinese?","cn":"你想不想出去吃顿中餐？","src":"四级词库"},
+"cigarette": {"en":"Rather than cutting down on cigarettes, why don't you just give them up?","cn":"比起少抽菸，你何不直接把菸戒了？","src":"Tatoeba 语料"},
+"christmas": {"en":"Merry Christmas and a happy New Year everyone!","cn":"祝大家圣诞快乐、新年快乐！","src":"四级词库"},
+"christian": {"en":"He was a devout Christian.","cn":"他曾是一个虔诚的基督教徒。","src":"托福词库"},
+"chop": {"en":"He went outside to chop some more wood for the fire.","cn":"他出去再砍些木材来生火。","src":"四级词库"},
+"choose": {"en":"I don’t mind which one we have – you choose.","cn":"我们要哪一个我无所谓，你来挑吧。","src":"四级词库"},
+"choke": {"en":"Weeds were choking the stream.","cn":"野草将溪流堵塞了。","src":"四级词库"},
+"choice": {"en":"He has to make some important choices.","cn":"他得作出一些重要的抉择。","src":"四级词库"},
+"church": {"en":"Thousands of candles illuminated the church during the ceremony.","cn":"数以千计的蜡烛点亮了仪式中的教堂。","src":"Tatoeba 语料"},
+"continue": {"en":"He will be continuing his education in the US.","cn":"他将在美国继续求学。","src":"四级词库"},
+"continuous": {"en":"For the first time, the Tapestry is being displayed flat and in one continuous length inside a specially constructed showcase, allowing visitors to appreciate its full scale and intricate detail as never before.","cn":"这是挂毯第一次在一个特别建造的展柜里以一个连续的长度平面展示，让游客前所未有地欣赏它的完整尺寸和复杂的细节。","src":"HistoryExtra · 2026-09-10"},
+"depart": {"en":"Flights by Air Europe depart Gatwick on Tuesdays.","cn":"欧洲航空公司的航班每逢周二从盖特威克机场起飞。","src":"四级词库"},
+"department": {"en":"There is a bookstore in front of the department store.","cn":"百货商店前有个书店。","src":"Tatoeba 语料"},
+"departure": {"en":"There are several departures for New York every day.","cn":"每天有好几个班次去纽约。","src":"四级词库"},
+"depend": {"en":"He depended on his writing for his income.","cn":"他靠写作谋生。","src":"四级词库"},
+"dependent": {"en":"Jan’s mother was dependent on her for physical care.","cn":"简的母亲要靠简来照顾。","src":"四级词库"},
+"deposit": {"en":"The female deposits her eggs directly into the water.","cn":"雌性把卵直接产在水中。","src":"四级词库"},
+"depth": {"en":"Astronomers may one day travel to the depths of space.","cn":"天文学家也许有一天可以到太空深处去。","src":"四级词库"},
+"descend": {"en":"I heard his footsteps descending the stairs.","cn":"我听到他下楼的脚步声。","src":"四级词库"},
+"describe": {"en":"Another approach to the problem is described in Chapter 3.","cn":"这个问题的另一种解决方法在第三章有所阐述。","src":"四级词库"},
+"description": {"en":"The booklet gives a brief description of each place.","cn":"这本小册子对每一个地方都作了简短的介绍。","src":"四级词库"},
+"desert": {"en":"This area of the country is mostly desert.","cn":"该国的这一地区大部分是沙漠。","src":"四级词库"},
+"deserve": {"en":"People who are sent to prison for drunk-driving get what they deserve .","cn":"那些醉酒驾车被送进监狱的人是罪有应得的。","src":"四级词库"},
+"design": {"en":"The tower was designed by Gilbert Scott.","cn":"这座塔楼是吉尔伯特·斯科特设计的。","src":"四级词库"},
+"desirable": {"en":"The ability to speak a foreign language is highly desirable .","cn":"能说一门外语是非常理想的。","src":"四级词库"},
+"desire": {"en":"The hotel has everything you could possibly desire .","cn":"这家酒店里你想要的东西应有尽有。","src":"四级词库"},
+"develop": {"en":"Knowledge in the field of genetics has been developing very rapidly.","cn":"遗传学领域的知识发展非常迅速。","src":"四级词库"},
+"determine": {"en":"The amount of available water determines the number of houses that can be built.","cn":"可用的水量决定可以建造多少房子。","src":"四级词库"},
+"determination": {"en":"She works with single-minded determination.","cn":"她一心一意地工作。","src":"Tatoeba 语料"},
+"detail": {"en":"This issue will be discussed in more detail in Chapter 5.","cn":"这个问题将在第五章里作更为详细的论述。","src":"四级词库"},
+"deny": {"en":"The government denied the existence of poverty among 16- and 17-year-olds.","cn":"政府否认十六七岁的青少年当中存在贫困问题。","src":"四级词库"},
+"destruction": {"en":"The floods brought death and destruction to the area.","cn":"洪水给该地区带来了死亡和破坏。","src":"四级词库"},
+"destination": {"en":"Ellis Island has become one of America's most popular tourist destinations.","cn":"埃利斯岛已经成为美国最受欢迎的游览地之一。","src":"四级词库"},
+"despite": {"en":"Liz realized that, despite herself, she cared about Edward.","cn":"利兹发现自己不由自主地在乎爱德华。","src":"四级词库"},
+"despise": {"en":"She despised her neighbours.","cn":"她看不起她的邻居。","src":"四级词库"},
+"despair": {"en":"The noise from the neighbours used to drive him to despair .","cn":"过去，邻居的噪音常常吵得他心烦意乱。","src":"四级词库"},
+"desk": {"en":"Marie was sitting at her desk.","cn":"玛丽正坐在书桌前。","src":"初中词库"},
+"destroy": {"en":"The town was destroyed by the flood after the storm.","cn":"小镇被暴风雨后的洪水摧毁了。","src":"Tatoeba 语料"},
+"development": {"en":"“The metal sheets provide a hard substrate for marine life to grow on,” lead author Simone Modugno, a marine biologist with the Institute for Research, Development and Experimentation on the Environment and Territory, tells BBC Wildlife magazine ’s Helen Pilcher.","cn":"“金属板为海洋生物的生长提供了坚硬的基础，”环境与领土研究、开发和实验研究所的海洋生物学家Simone Modugno告诉英国广播公司野生动物杂志的海伦·皮尔彻。","src":"Smithsonian Magazine · 2026-09-09"},
+"density": {"en":"Japan has a high population density.","cn":"日本的人口密度很高。","src":"Tatoeba 语料"},
+"decide": {"en":"The trainees decide among themselves what programs to take.","cn":"受训者自行选择课程。","src":"四级词库"},
+"decision": {"en":"Do you ever wonder if you made the right decision?","cn":"你怀疑过自己所作的决定是否正确吗？","src":"四级词库"},
+"declare": {"en":"A state of emergency has been declared.","cn":"已宣布进入紧急状态。","src":"四级词库"},
+"decorate": {"en":"The bathroom is decorated in green and yellow.","cn":"浴室里是用绿色和黄色装潢的。","src":"四级词库"},
+"decrease": {"en":"The number of people who have the disease has decreased significantly in recent years.","cn":"近年来，这种病的患者人数明显下降。","src":"四级词库"},
+"deduce": {"en":"Alison cleverly deduced that I was the author of the letter.","cn":"艾莉森聪明地推断出我是这封信的作者。","src":"四级词库"},
+"deed": {"en":"She tried to strangle her baby and her lover helped her finish the evil deed .","cn":"她试图掐死自己的宝宝，她的情人帮着完成了这个罪恶的勾当。","src":"四级词库"},
+"deep": {"en":"She was sitting in a deep leather chair.","cn":"她坐在一张很深的皮椅子里。","src":"四级词库"},
+"deepen": {"en":"The recession continues to deepen.","cn":"经济衰退继续加剧。","src":"四级词库"},
+"deer": {"en":"The lions in this area prey on deer and other wild animals.","cn":"这个地方的狮子捕食鹿和其他野生动物。","src":"四级词库"},
+"defect": {"en":"All the cars are tested for defects before they leave the factory.","cn":"所有汽车在出厂前都经过品质检验。","src":"考研词库"},
+"defence": {"en":"The land was flat, giving no scope for defence.","cn":"土地非常平坦，无法做防卫之用。","src":"四级词库"},
+"define": {"en":"I’ll now try to define the term ‘popular culture’.","cn":"我现在来试试给 “通俗文化” 这个词下定义。","src":"四级词库"},
+"definite": {"en":"We need to record sufficient data to enable definite conclusions to be reached.","cn":"我们需要记录足够的数据，才能得出明确的结论。","src":"四级词库"},
+"democracy": {"en":"Democracy is the worst form of government, except all the others that have been tried.","cn":"除了那些我们尝试过的政府形态，民主是最差的那种了。","src":"Tatoeba 语料"},
+"demand": {"en":"Too many things demanded his attention at the same time.","cn":"太多事情同时需要他的关注。","src":"四级词库"},
+"delivery": {"en":"You can expect delivery in a week to ten days.","cn":"你可以在一周至十天内收到货物。","src":"四级词库"},
+"delight": {"en":"Chris takes great delight in teasing his sister.","cn":"克里斯以取笑妹妹为乐。","src":"四级词库"},
+"delicious": {"en":"That place's food is delicious and their prices are low. However, their location isn't good.","cn":"那家馆子物美价廉，美中不足的是他们糟糕的位置。","src":"Tatoeba 语料"},
+"delegation": {"en":"A trade delegation will visit Kuwait.","cn":"一个贸易代表团将访问科威特。","src":"四级词库"},
+"delete": {"en":"His name was deleted from the list.","cn":"他的名字从名单上删掉了。","src":"四级词库"},
+"delay": {"en":"He delayed his decision on whether to call an election.","cn":"在是否宣布举行选举一事上，他推迟作出决定。","src":"四级词库"},
+"degree": {"en":"Preheat the oven to 425 degrees.","cn":"把烘箱预热至425度。","src":"四级词库"},
+"definition": {"en":"My camera can shoot high-definition video.","cn":"我的录像机可以拍高清视频。","src":"Tatoeba 语料"},
+"definitely": {"en":"The hotel fitness centre is definitely worth a visit.","cn":"这家酒店的健身中心绝对值得一去。","src":"四级词库"},
+"delicate": {"en":"The sun can easily damage a child’s delicate skin .","cn":"阳光很容易晒伤小孩娇嫩的皮肤。","src":"四级词库"},
+"devil": {"en":"The villagers believed a devil had taken control of his body.","cn":"村民们认为他被邪魔附身了。","src":"四级词库"},
+"devise": {"en":"She devised a method for quicker communications between offices.","cn":"她想出一种加快办公室之间通信联络的方法。","src":"四级词库"},
+"disappoint": {"en":"Great things were expected of this band, and they didn’t disappoint.","cn":"大家对这支乐队的期望很高，而他们也不负众望。","src":"四级词库"},
+"disaster": {"en":"Their expedition nearly ended in disaster , when one of the climbers slid off the mountain.","cn":"一名登山者从山上滑落，他们的探险活动险些以灾难告终。","src":"四级词库"},
+"discard": {"en":"Read the manufacturer's guidelines before discarding the box.","cn":"先阅读制造商的说明书再把盒子丢掉。","src":"四级词库"},
+"discipline": {"en":"The book gives parents advice on discipline.","cn":"这本书指导父母如何管教孩子。","src":"四级词库"},
+"disclose": {"en":"Some companies have already voluntarily disclosed similar information .","cn":"一些公司已经主动透露了类似的信息。","src":"四级词库"},
+"discourage": {"en":"You should not let one failure discourage you.","cn":"你不该失败一次就灰心丧气。","src":"四级词库"},
+"discover": {"en":"Forest Service crews often discover campfires that have not been put out completely.","cn":"林务局工作人员常常发现未完全熄灭的营火。","src":"四级词库"},
+"discovery": {"en":"I felt I'd made an incredible discovery.","cn":"我感到自己有了一个惊人的发现。","src":"四级词库"},
+"discuss": {"en":"If you would like to discuss the matter further, please call me.","cn":"如果你想进一步讨论此事，请打电话给我。","src":"四级词库"},
+"discussion": {"en":"We have had discussions about her legal situation.","cn":"我们就她的法律状况已进行了讨论。","src":"四级词库"},
+"disease": {"en":"She contracted the disease while she was abroad on holiday.","cn":"她在国外度假时染上了这种疾病。","src":"四级词库"},
+"disguise": {"en":"He escaped across the border disguised as a priest.","cn":"他装扮成神父越境逃走了。","src":"四级词库"},
+"disgust": {"en":"He reached into the bin with a look of disgust on his face.","cn":"他把手伸进垃圾箱，脸上带着厌恶的表情。","src":"四级词库"},
+"dish": {"en":"I'd like to have this meat dish with your best white wine.","cn":"我想喝著你最好的白酒吃這肉。","src":"Tatoeba 语料"},
+"dishonour": {"en":"I dare not quit my post, though an unfaithful sentinel, whose sure reward is death and dishonour, when his dreary watch shall come to an end!","cn":"虽说我是个不忠于职守的哨兵，等到这种沉网的守望终了的时候，我所能得到的报酬只能是不光彩的死亡，但我仍不敢擅离岗位！","src":"四级词库"},
+"disk": {"en":"The program takes up 2.5 megabytes of disk space and can be run on a standard personal computer.","cn":"这个程序占用2.5 兆字节的磁盘空间，可以在标准个人电脑上运行。","src":"四级词库"},
+"distinction": {"en":"Eliot’s distinction as a poet","cn":"艾略特作为诗人的杰出才能","src":"四级词库"},
+"distant": {"en":"Her honeymoon seemed a distant memory .","cn":"她的蜜月似乎成了遥远的记忆。","src":"四级词库"},
+"distance": {"en":"Measure the distance between the two points.","cn":"量出两点之间的距离。","src":"四级词库"},
+"dissolve": {"en":"Stir until the sugar dissolves.","cn":"一直搅拌到糖溶解掉。","src":"四级词库"},
+"disappear": {"en":"She slowly disappeared into the foggy forest.","cn":"她緩緩消失在霧氣瀰漫的森林中。","src":"Tatoeba 语料"},
+"disposal": {"en":"My car is at your disposal.","cn":"你可以随便用我的车。","src":"Tatoeba 语料"},
+"displease": {"en":"If there are aspects of your life that displease you make you feel regret, this is an opportunity to change direction.","cn":"如果你生活中那些使你不愉快的方面让你觉得懊悔，那么这正是你改变方向的时机。","src":"四级词库"},
+"dismiss": {"en":"The government has dismissed criticisms that the country’s health policy is a mess.","cn":"有人认为国家医疗政策一塌糊涂，政府对这种批评持否认态度。","src":"四级词库"},
+"dislike": {"en":"Why do you dislike her so much?","cn":"你为什么那么讨厌她？","src":"四级词库"},
+"disagree": {"en":"Barr strongly disagreed with Kronfeld’s statement.","cn":"巴尔强烈反对克龙费尔德的说法。","src":"四级词库"},
+"disadvantage": {"en":"Criminal behaviour can be linked to economic disadvantage.","cn":"犯罪行为可能会与经济困难有关。","src":"四级词库"},
+"disable": {"en":"Carter was permanently disabled in the war.","cn":"卡特在那场战争中成了终生残废。","src":"四级词库"},
+"differ": {"en":"The two systems differ in many respects.","cn":"这两个系统在许多方面不同。","src":"四级词库"},
+"die": {"en":"The bullet went straight through his head, and he died instantly .","cn":"子弹穿过他的头部，他当场死亡。","src":"四级词库"},
+"dictionary": {"en":"The good thing about this electronic dictionary is that it's easy to carry.","cn":"这电子辞典的好处就是便于携带。","src":"Tatoeba 语料"},
+"dictation": {"en":"I hate doing French dictations .","cn":"我讨厌做法语听写。","src":"高中词库"},
+"dictate": {"en":"The US government attempted to dictate the terms of the agreement.","cn":"美国政府企图规定协议的条款。","src":"四级词库"},
+"diary": {"en":"He kept a diary during the trip.","cn":"他旅行期间，写了旅游日记。","src":"Tatoeba 语料"},
+"difference": {"en":"In theory, there is no difference between theory and practice. But, in practice, there is.","cn":"理论上说，理论和实践没有区别。但实践上说，是有的。","src":"Tatoeba 语料"},
+"diamond": {"en":"This might not be a genuine diamond.","cn":"這可能不是真的鑽石。","src":"Tatoeba 语料"},
+"dialog": {"en":"For other pages/dialogs, it should go back one page or close the dialog.","cn":"至于其他页面/对话框，它应该回退一个页面或者关闭对话框。","src":"四级词库"},
+"dialect": {"en":"I'm very interested in dialects.","cn":"我对方言很感兴趣。","src":"Tatoeba 语料"},
+"dial": {"en":"She looked at the dial to check her speed.","cn":"她看了看仪表盘，以确认自己的速度。","src":"四级词库"},
+"diagram": {"en":"This is a simpler diagram than the one I just showed you but the principles are the same.","cn":"这是一个比我刚展示的还要更简单的图解，但是原理是一样的。","src":"四级词库"},
+"dew": {"en":"The dew gathered on the leaves.","cn":"露水在叶片上聚集。","src":"四级词库"},
+"devote": {"en":"He decided to devote the rest of his life to scientific investigation.","cn":"他决定把余生奉献给科学研究。","src":"四级词库"},
+"decent": {"en":"Paul visited the local bars more frequently than was decent for a senior lecturer.","cn":"保罗过于频繁地光顾当地酒吧，不太合乎高级讲师的身份。","src":"四级词库"},
+"different": {"en":"The publishing business is no different from any other business in this respect.","cn":"从这一点来讲，出版业和其他任何行业没有什么差别。","src":"四级词库"},
+"difficulty": {"en":"If you have any difficulties, give me a call.","cn":"如果你遇到困难，就给我打电话。","src":"高中词库"},
+"dirty": {"en":"How did you get so dirty?","cn":"你怎么会弄得这么脏？","src":"四级词库"},
+"dirt": {"en":"You should have seen the dirt on that car!","cn":"你没看见那车上沾了多少泥！","src":"四级词库"},
+"director": {"en":"\"Cut!\" the director yelled. \"That was perfect.\"","cn":"“停！”导演叫道。“太好了！”","src":"托福词库"},
+"directly": {"en":"We hope to bring together the countries directly involved in the conflict.","cn":"我们希望让直接卷入冲突的各国重归于好。","src":"四级词库"},
+"direction": {"en":"On seeing me, Maurice changed direction and went along the wharf instead.","cn":"莫里斯一看见我便改变方向，沿着码头走了。","src":"高中词库"},
+"direct": {"en":"Experienced users have direct access to the main data files.","cn":"高级用户可直接浏览主数据文档。","src":"四级词库"},
+"difficult": {"en":"It’s difficult to see how more savings can be made.","cn":"想要进一步节约看来是很难了。","src":"四级词库"},
+"dimension": {"en":"You can have a spiritual dimension to your life without being religious.","cn":"即使你不信宗教，也可以在生命中拥有精神层面的内容。","src":"四级词库"},
+"dim": {"en":"I have a dim memory of my grandmother.","cn":"我对祖母的记忆很模糊。","src":"Tatoeba 语料"},
+"digital": {"en":"My cell phone has a built-in digital camera.","cn":"我的手機有內建的數位相機。","src":"Tatoeba 语料"},
+"digest": {"en":"Most babies can digest a wide range of food easily.","cn":"大多数婴儿能轻易地消化很多种食物。","src":"四级词库"},
+"dig": {"en":"In 1848, people came to California to dig for gold.","cn":"1848年人们来加利福尼亚淘金。","src":"Tatoeba 语料"},
+"dinner": {"en":"What time do you usually have dinner?","cn":"你通常什么时候吃饭？","src":"四级词库"},
+"care": {"en":"She felt that nobody cared.","cn":"她觉得没有人在乎。","src":"四级词库"},
+"december": {"en":"I send out Valentine’s cards with the girls’ photo, instead of trying to mail cards in December.","cn":"——我寄出有女孩子照片的情人节贺卡，以代替试图在十二月寄出的贺卡。","src":"四级词库"},
+"costly": {"en":"Such a database would be extremely costly to set up.","cn":"建立这样一个数据库要花很多钱。","src":"四级词库"},
+"cottage": {"en":"We’re staying in a holiday cottage in Dorset.","cn":"我们住在多塞特的一个度假小别墅里。","src":"四级词库"},
+"cotton": {"en":"Made from 100% cotton.","cn":"百分之百纯棉制作。","src":"四级词库"},
+"cough": {"en":"I think I’m getting a cold or flu – I’ve been coughing and sneezing all day.","cn":"我想我是着凉了，或者得了流感——我整天都在咳嗽和打喷嚏。","src":"四级词库"},
+"could": {"en":"By the time she was eight, she could read Greek and Latin.","cn":"她八岁时就会读希腊文和拉丁文了。","src":"高中词库"},
+"council": {"en":"You should run for city council.","cn":"你应该去竞选城市委员会。","src":"Tatoeba 语料"},
+"count": {"en":"I was amazed at the number of plants - I counted 147.","cn":"我对植物的数量之多感到惊讶，我数了有147棵。","src":"四级词库"},
+"country": {"en":"The amount of paper produced by a country is closely related to its cultural standards.","cn":"一个国家纸的产量和它的文明程度密切相关。","src":"Tatoeba 语料"},
+"countryside": {"en":"The house had lovely views over open countryside .","cn":"这房子望出去是开阔的乡村美景。","src":"四级词库"},
+"county": {"en":"Fairfax County, Virginia","cn":"弗吉尼亚州费尔法克斯县","src":"四级词库"},
+"couple": {"en":"A couple of flights were delayed on account of the earthquake.","cn":"一些航班由於地震被延誤了。","src":"Tatoeba 语料"},
+"courage": {"en":"Sue showed great courage throughout her illness.","cn":"休在生病期间表现出了极大的勇气。","src":"四级词库"},
+"course": {"en":"A cooking course should be mandatory in schools.","cn":"烹饪课程应该作为学校的必修课。","src":"Tatoeba 语料"},
+"court": {"en":"It could not be proved in a court of law.","cn":"这无法在法庭上证实。","src":"四级词库"},
+"cousin": {"en":"My cousin Mark helped me to bring in the bags.","cn":"我表弟马克帮我把包提了进来。","src":"四级词库"},
+"cover": {"en":"She wore a low-cut dress, partly covered by a thin shawl.","cn":"她穿了件低胸连衣裙，搭了一条薄薄的披肩。","src":"四级词库"},
+"creep": {"en":"He crept back up the stairs, trying to avoid the ones that creaked.","cn":"他蹑手蹑脚地回楼上，尽量避开那些嘎吱作响的梯级。","src":"四级词库"},
+"credit": {"en":"What’s the credit limit on your Visa card?","cn":"你的维萨卡信用额度是多少？","src":"四级词库"},
+"creature": {"en":"A mouse is a timid creature.","cn":"老鼠是胆小的生物。","src":"Tatoeba 语料"},
+"creative": {"en":"This job is so boring. I wish I could do something more creative.","cn":"这工作太单调了，我希望能做些更有创造性的事情。","src":"四级词库"},
+"create": {"en":"Some people believe the universe was created by a big explosion.","cn":"有些人认为宇宙是通过一次大爆炸创造出来的。","src":"四级词库"},
+"cream": {"en":"I've got to stop eating such sweet ice cream.","cn":"我必须停止吃那么甜的冰激凌。","src":"Tatoeba 语料"},
+"cost": {"en":"This doesn’t include the cost of repairing the damage.","cn":"这不包括修理破损的费用。","src":"四级词库"},
+"crazy": {"en":"I know this idea sounds crazy , but it may be worth a try.","cn":"我知道这个主意听起来很荒唐，但也许值得一试。","src":"四级词库"},
+"crash": {"en":"We watched the waves crashing against the rocks.","cn":"我们看着海浪哗啦哗啦地冲击岩石。","src":"四级词库"},
+"craft": {"en":"The musician spends years perfecting his craft.","cn":"这位音乐家多年来不断提高自己的艺术造诣。","src":"六级词库"},
+"crack": {"en":"Dennis rubbed his hands together and cracked his knuckles .","cn":"丹尼斯搓着双手，把指关节弄得咯咯响。","src":"四级词库"},
+"coward": {"en":"Try it. Don’t be such a coward.","cn":"试一下，别那么胆小。","src":"四级词库"},
+"cow": {"en":"I don't like being the one who always has to milk the cow.","cn":"我不喜欢做那个总是挤牛奶的人。","src":"Tatoeba 语料"},
+"crawl": {"en":"We crawled into bed at 2 am.","cn":"我们凌晨两点爬上了床。","src":"四级词库"},
+"crew": {"en":"The plane crashed, killing two of the crew and four passengers.","cn":"飞机坠毁，造成两名机组人员和四名乘客死亡。","src":"四级词库"},
+"corridor": {"en":"Go down here and the bathroom’s at the end of the corridor.","cn":"沿着这儿走，浴室就在走廊的尽头。","src":"四级词库"},
+"correspondent": {"en":"Our correspondent in South Africa sent this report.","cn":"我们的驻南非记者发来这份报道。","src":"四级词库"},
+"contrast": {"en":"The Żórawina necklace, by contrast, dates back several thousand years earlier, to Poland’s Middle Neolithic period, or the New Stone Age, per the statement.","cn":"相比之下，Żórawina项链可以追溯到几千年前，根据声明，可以追溯到波兰的新石器时代中期，或新石器时代。","src":"Smithsonian Magazine · 2026-09-09"},
+"contribute": {"en":"The three sons also contribute to the family business.","cn":"3个儿子也为家族企业做贡献。","src":"四级词库"},
+"control": {"en":"Police had to be called in to control the crowds.","cn":"只好调来警察控制人群。","src":"四级词库"},
+"convenience": {"en":"Ready meals sell well because of their convenience.","cn":"即食餐因为方便销路好。","src":"四级词库"},
+"convenient": {"en":"My secretary will call you to arrange a convenient time to meet.","cn":"我的秘书会打电话给你安排一个方便的时间见面。","src":"四级词库"},
+"conventional": {"en":"Internet connections through conventional phone lines are fairly slow.","cn":"通过传统的电话线来连接因特网速度很慢。","src":"四级词库"},
+"conversation": {"en":"They had a short conversation in German and seemed to be disagreeing about something.","cn":"他们用德语说了一会儿，好像对什么事有分歧。","src":"四级词库"},
+"conversely": {"en":"American consumers prefer white eggs; conversely, British buyers like brown eggs.","cn":"美国的消费者喜欢白色的鸡蛋，而英国的消费者却相反，他们喜欢棕色的鸡蛋。","src":"四级词库"},
+"convert": {"en":"The average shot is converted about 10% of the time.","cn":"平均每脚射门大约 10% 能转化为进球。","src":"ESPN · Ryan O'Hanlon · 2026-09-08"},
+"convey": {"en":"He was sent to convey a message to the UN Secretary General.","cn":"他被派去向联合国秘书长传达一条信息。","src":"四级词库"},
+"cook": {"en":"Cook the sauce over a low heat for ten minutes.","cn":"把这调味汁用低火烧十分钟。","src":"四级词库"},
+"cool": {"en":"Relax in the sun with a cool drink.","cn":"在阳光下喝杯清凉饮料放松一下。","src":"四级词库"},
+"correspond": {"en":"The two halves of the document did not correspond.","cn":"这份文件的前后两部分不相符。","src":"四级词库"},
+"correction": {"en":"I just need to make a few corrections , and then we can send it to the printer.","cn":"我只要修改几个地方，然后就可以把它发送到打印机。","src":"四级词库"},
+"correct": {"en":"You are absolutely correct, the Missouri is the longest river in the US.","cn":"你说的完全正确，密苏里河是美国最长的河流。","src":"四级词库"},
+"corporation": {"en":"He works for a large American corporation.","cn":"他在一家美国大公司工作。","src":"四级词库"},
+"corner": {"en":"He pulled a dirty handkerchief out by its corner and waved it at me.","cn":"他拽出一块脏手帕，捏着一角向我挥动。","src":"四级词库"},
+"corn": {"en":"All our chickens are fed on corn.","cn":"我们所有的鸡都喂玉米。","src":"托福词库"},
+"corresponding": {"en":"The war and the corresponding fall in trade have had a devastating effect on the country.","cn":"战争以及由此所导致的贸易量下降对这个国家产生了致命的影响。","src":"四级词库"},
+"core": {"en":"Remove the cores, and bake the apples for 40 minutes.","cn":"去除果心，然后把苹果烤40分钟。","src":"四级词库"},
+"cord": {"en":"He pulled explosives and some tangled cord from his bag.","cn":"他从他的包里掏出炸药和一些乱糟糟的绳子。","src":"四级词库"},
+"copy": {"en":"I bought a copy of \"USA Today\" from a street-corner machine.","cn":"我从售货机上买了一份《今日美国》。","src":"高中词库"},
+"copper": {"en":"He offered to do the job for a few coppers.","cn":"他说他来做这份工作，给他几个铜板就行。","src":"四级词库"},
+"cope": {"en":"He coped quite well as manager while still captaining the team.","cn":"他是球队的主教练，同时兼任队长，干得相当好。","src":"四级词库"},
+"cordial": {"en":"The talks were conducted in a cordial atmosphere.","cn":"会谈在友好的气氛中进行。","src":"四级词库"},
+"cricket": {"en":"He was pressganged into playing in the charity cricket match.","cn":"他是被强拉去参加这场板球义赛的。","src":"四级词库"},
+"crime": {"en":"Police officers are being given new powers to help combat crime.","cn":"警官们被赋予新的权力帮助他们打击犯罪。","src":"四级词库"},
+"criminal": {"en":"I was sure he was involved in some kind of criminal activity .","cn":"我肯定他在从事某种犯罪活动。","src":"四级词库"},
+"cut": {"en":"The major aviation companies need to cut prices if they are to compete with budget airlines.","cn":"大航空公司如果想和廉价的航空公司竞争，就需要降低价格。","src":"四级词库"},
+"daily": {"en":"The zoo is open daily.","cn":"动物园每天开放。","src":"初中词库"},
+"dairy": {"en":"He avoids all meat and dairy products.","cn":"他不吃任何肉类和奶制品。","src":"四级词库"},
+"dam": {"en":"Before the dam was built, Campbell River used to flood in the spring.","cn":"大坝建好之前，坎贝尔河常在春季发大水。","src":"四级词库"},
+"damage": {"en":"These chemicals have been found to cause serious environmental damage.","cn":"经发现，这些化学物质会造成严重的环境破坏。","src":"高中词库"},
+"damp": {"en":"Wipe the leather with a damp cloth.","cn":"用湿布擦拭皮面。","src":"四级词库"},
+"dance": {"en":"The waltz is an easy dance to learn.","cn":"华尔兹这种舞很容易学。","src":"高中词库"},
+"danger": {"en":"The refugees believe that their lives are in danger .","cn":"难民认为他们有生命危险。","src":"四级词库"},
+"dangerous": {"en":"Some of these prisoners are extremely dangerous.","cn":"这些囚犯中有些极为危险。","src":"四级词库"},
+"dare": {"en":"He wanted to ask her, but he didn’t dare.","cn":"他想问她，但又不敢。","src":"四级词库"},
+"dark": {"en":"The church was dark and quiet.","cn":"教堂里黑魆魆的，寂静无声。","src":"四级词库"},
+"darling": {"en":"Look, darling, there’s Mary.","cn":"看呀，亲爱的，玛丽来了。","src":"四级词库"},
+"dash": {"en":"Olive dashed into the room, grabbed her bag, and ran out again.","cn":"奥利芙冲进屋，抓起她的手提袋，又跑了出来。","src":"四级词库"},
+"data": {"en":"The research involves collecting data from two random samples.","cn":"该项研究需要从两个随机样本里收集资料。","src":"四级词库"},
+"date": {"en":"The date on the letter was 30th August 1962.","cn":"信上的日期是1962年8月30日。","src":"四级词库"},
+"decay": {"en":"Most archaeological finds are broken, damaged, or decayed.","cn":"大部分考古发现物都已破裂、损坏或腐烂。","src":"四级词库"},
+"decade": {"en":"Now, more than eight decades later, the wreck is teeming with marine life, researchers report in a paper published July 26 in the journal Frontiers in Ocean Sustainability.","cn":"研究人员在7月26日发表在《海洋可持续发展前沿》（Frontiers in Ocean Sustainability）杂志上的一篇论文中报告说，现在，80多年过去了，沉船上充满了海洋生物。","src":"Smithsonian Magazine · 2026-09-09"},
+"debt": {"en":"He had enough money to pay off his outstanding debts.","cn":"他有足够的钱偿还亏欠的债务。","src":"四级词库"},
+"debate": {"en":"There was much lively debate about whether women should spend more time in the home.","cn":"就妇女是否应该花更多时间待在家里这个话题有许多热烈的争论。","src":"四级词库"},
+"death": {"en":"The latest bombing is the death of all our hopes.","cn":"最近的炸弹爆炸事件使我们所有的希望都化为乌有。","src":"高中词库"},
+"dear": {"en":"Dear Sir or Madam, ...","cn":"尊敬的先生或女士，…","src":"四级词库"},
+"customer": {"en":"We aim to offer good value and service to all our customers.","cn":"我们力求为所有的客户提供物有所值的商品和服务。","src":"四级词库"},
+"deal": {"en":"Many users end up dealing to support their habit.","cn":"许多吸毒者最后都是靠做毒品买卖来供自己吸毒。","src":"六级词库"},
+"deadly": {"en":"Broadcast news was accurate and reliable but deadly dull.","cn":"新闻广播准确、可靠，但极其枯燥。","src":"六级词库"},
+"dead": {"en":"His fellow climbers had left him for dead on the mountain.","cn":"他的登山伙伴以为他已死，便把他留在山上走了。","src":"四级词库"},
+"daylight": {"en":"The park is open to the public during daylight hours .","cn":"公园白天对公众开放。","src":"四级词库"},
+"day": {"en":"Kept in that dark cell, I could no longer tell whether it was day or night.","cn":"我被关在那个漆黑的牢房里，不知是白天还是黑夜。","src":"四级词库"},
+"dawn": {"en":"It was before dawn that they got the fire under control.","cn":"他们在黎明前控制住了火势。","src":"Tatoeba 语料"},
+"daughter": {"en":"She’s got two daughters and one son.","cn":"她有两个女儿和一个儿子。","src":"四级词库"},
+"deaf": {"en":"I think Mum’s going a bit deaf .","cn":"我觉得妈妈有点耳聋了。","src":"四级词库"},
+"custom": {"en":"He awoke early, as was his custom.","cn":"他很早醒来，这是他的习惯。","src":"四级词库"},
+"cushion": {"en":"His landing was cushioned by the fresh snow that had fallen.","cn":"他落地时刚下的雪起到了缓冲作用。","src":"托福词库"},
+"curve": {"en":"The track curved round the side of the hill.","cn":"小路弯弯曲曲，依山盘旋。","src":"四级词库"},
+"crush": {"en":"Two people were crushed to death in the rush to escape.","cn":"两个人在逃生过程中被踩死。","src":"四级词库"},
+"cruel": {"en":"Sometimes life seems unbearably cruel.","cn":"有时候生活残酷得让人无法承受。","src":"四级词库"},
+"crown": {"en":"Louis was crowned at Reims in 814.","cn":"路易于814年在兰斯加冕。","src":"托福词库"},
+"crowd": {"en":"Holidaymakers crowded the beaches.","cn":"海滩上挤满了度假者。","src":"四级词库"},
+"crow": {"en":"The crows roosted in Fonsa's Tower.","cn":"那些乌鸦栖息在风萨塔里。","src":"四级词库"},
+"cross": {"en":"He raised his arms in triumph as he crossed the line for his 100-metres win.","cn":"他以胜利的姿态高举双手跑过终点线，赢得了这场百米赛。","src":"四级词库"},
+"criticize": {"en":"Ron does nothing but criticize and complain all the time.","cn":"罗恩什么也不干，只是一味指责和抱怨。","src":"四级词库"},
+"criticism": {"en":"Another criticism levelled at him was that his teaching methods were old-fashioned.","cn":"还有一个针对他的批评是，他的教学方法已经过时。","src":"四级词库"},
+"critical": {"en":"He made some highly critical remarks.","cn":"他发表了一些严厉的批判性言论。","src":"四级词库"},
+"critic": {"en":"Mather was a film critic for many years.","cn":"马瑟做过多年的电影评论家。","src":"四级词库"},
+"crisis": {"en":"The Prime Minister was criticized for the way in which he handled the crisis .","cn":"首相处理危机的方式遭到了批评。","src":"四级词库"},
+"cripple": {"en":"She has gone from being a healthy, fit, and sporty young woman to being a cripple.","cn":"她从一个健康、强壮、爱好体育运动的年轻姑娘变成了一个残疾人。","src":"四级词库"},
+"crop": {"en":"The main crops were oats and barley.","cn":"主要作物是燕麦和大麦。","src":"四级词库"},
+"deceive": {"en":"He had been deceived by a young man claiming to be the son of a millionaire.","cn":"他被一个自称是百万富翁之子的年轻人骗了。","src":"四级词库"},
+"cry": {"en":"Jamie looked like he’d been crying.","cn":"杰米看上去好像哭过了。","src":"四级词库"},
+"cube": {"en":"Cut the meat into small cubes.","cn":"把肉切成丁。","src":"四级词库"},
+"curtain": {"en":"A green carpet will not go with this blue curtain.","cn":"绿色的毯子和这条蓝色的帘子不配。","src":"Tatoeba 语料"},
+"curse": {"en":"Gilbert was cursing under his breath.","cn":"吉尔伯特在低声咒骂。","src":"四级词库"},
+"curl": {"en":"Maria had curled her hair for the event.","cn":"玛丽亚为这次活动卷了头发。","src":"考研词库"},
+"curious": {"en":"Puppies are naturally curious.","cn":"小狗天生好奇。","src":"四级词库"},
+"curiosity": {"en":"The news aroused a lot of curiosity among local people.","cn":"这条消息在当地人中间引起了很大的好奇心。","src":"四级词库"},
+"crystal": {"en":"Crystal Palace transfers, latest news, rumours and gossip: Live updates, goals and highlights","cn":"水晶宫转会，最新消息，谣言和八卦：实时更新，进球和亮点","src":"Sky Sports · 2026-09-10"},
+"cure": {"en":"She had some acupuncture treatment which seems to have cured her.","cn":"她接受了某种针刺疗法，好像把她的病治好了。","src":"四级词库"},
+"cup": {"en":"Mathew picked up the cup and sipped his coffee.","cn":"马修拿起杯子抿了口咖啡。","src":"四级词库"},
+"culture": {"en":"We speak Danish at home so that the boys don’t lose touch with their language and culture.","cn":"我们在家说丹麦语，这样男孩子们就不会脱离他们的语言和文化。","src":"四级词库"},
+"cultivate": {"en":"We cultivated maize and watermelons.","cn":"我们种植玉米和西瓜。","src":"四级词库"},
+"cucumber": {"en":"The \"gurkophone\" is one of their classics, made from a hollowed cucumber, a pepper and a carrot.","cn":"黄瓜管\"是他们的经典乐器之一,那是用掏空的黄瓜、辣椒和胡萝卜做的。","src":"四级词库"},
+"cupboard": {"en":"It’s in the kitchen cupboard.","cn":"它在厨房的碗柜里。","src":"四级词库"},
+"card": {"en":"Employees must show their identity cards at the gate.","cn":"雇员在大门口必须出示自己的身份卡。","src":"四级词库"},
+"car": {"en":"Dan got out of the car and locked the door.","cn":"丹下了车，锁上车门。","src":"四级词库"},
+"apartment": {"en":"She lives in a small apartment.","cn":"她住在一套小公寓里。","src":"四级词库"},
+"apologize": {"en":"I’m so sorry, I do apologize.","cn":"非常对不起，我真心道歉。","src":"四级词库"},
+"apology": {"en":"Edward can’t be here today, but he sends his apologies .","cn":"爱德华今天来不了，他向大家表示歉意。","src":"四级词库"},
+"apparatus": {"en":"Astronauts have special breathing apparatus.","cn":"航天员有专门的呼吸装装备。","src":"四级词库"},
+"apparent": {"en":"The difference in quality was immediately apparent .","cn":"质量的差异显而易见。","src":"四级词库"},
+"appeal": {"en":"She is not happy with the decision and plans to appeal.","cn":"她不服判决，打算上诉。","src":"四级词库"},
+"appear": {"en":"He tried to make it appear that she had committed suicide.","cn":"他试图制造她自杀的假象。","src":"四级词库"},
+"appearance": {"en":"They work hard at school without giving the appearance of being particularly hard-working.","cn":"他们在学校里学习很用功，只是表面上并不显得特别如此。","src":"四级词库"},
+"appetite": {"en":"Symptoms include tiredness and loss of appetite.","cn":"症状包括疲倦和食欲不振。","src":"四级词库"},
+"apple": {"en":"If it looks like an apple and it tastes like an apple, it's probably an apple.","cn":"如果看起来像个苹果而且吃起来也像苹果的话，可能就是苹果。","src":"Tatoeba 语料"},
+"appliance": {"en":"He could also learn to use the vacuum cleaner, the washing machine and other household appliances.","cn":"他还能学习使用吸尘器、洗衣机和其他家用电器。","src":"四级词库"},
+"applicable": {"en":"What is a reasonable standard for one family is not applicable for another.","cn":"对一个家庭合理的标准对于另一个家庭并不适用。","src":"四级词库"},
+"application": {"en":"The Council is currently reviewing the way it deals with planning applications .","cn":"市政会目前正在审查其处理规划申请的方式。","src":"四级词库"},
+"apply": {"en":"We need to apply for planning permission to build a garage.","cn":"我们建车库需要申请规划许可。","src":"四级词库"},
+"appoint": {"en":"The board unanimously decided to appoint her as CEO.","cn":"董事会一致决定任命她为执行总裁。","src":"Tatoeba 语料"},
+"appointment": {"en":"All consultations are by appointment only .","cn":"就诊必须预约。","src":"四级词库"},
+"appreciate": {"en":"Thanks ever so much for your help, I really appreciate it.","cn":"多谢你的帮助，我真的很感激。","src":"四级词库"},
+"arise": {"en":"More problems like those at the nuclear power plant are certain to arise.","cn":"核电厂肯定还会出现那样的问题。","src":"四级词库"},
+"argument": {"en":"We need to provide a convincing argument as to why the system should be changed.","cn":"我们得提出有说服力的论据，证明为何要改变体制。","src":"四级词库"},
+"argue": {"en":"We could hear the neighbours arguing.","cn":"我们听到邻居在争吵。","src":"四级词库"},
+"area": {"en":"Only cheeses made in this area may be labelled ‘Roquefort.’","cn":"只有这个地区出产的干酪才能被称作“罗克福尔干酪”。","src":"四级词库"},
+"architecture": {"en":"He studied architecture at university.","cn":"他在大学里读的是建筑学。","src":"四级词库"},
+"apart": {"en":"A couple of men started fighting and we had to pull them apart .","cn":"几名男子打起架来，我们不得不将他们拉开。","src":"四级词库"},
+"arabian": {"en":"The term \"Arabian Gulf\" has been in casual but inconsistent use by various members of the US navy and government, and by many Arab states, for a few decades now.","cn":"这一术语“阿拉伯湾”只是一个非正式的词汇，但它已经被美国海军各机构和美国政府，以及许多阿拉伯国家南腔北调的用了几十年。","src":"托福词库"},
+"approximately": {"en":"Approximately thirty young people attended.","cn":"約有三十箇年輕人到了。","src":"Tatoeba 语料"},
+"approximate": {"en":"The approximate cost varies from around $150 to $250.","cn":"大致的费用在$150至$250之间不等。","src":"四级词库"},
+"approve": {"en":"The conference approved a proposal for a referendum.","cn":"会议通过了举行全民公决的提议。","src":"四级词库"},
+"approval": {"en":"It is just three months since we received official approval to go ahead with the project.","cn":"三个月前我们刚刚得到正式批准进行这个项目。","src":"四级词库"},
+"appropriate": {"en":"The timing of the announcement was particularly appropriate .","cn":"通告发布的时机很合适。","src":"四级词库"},
+"approach": {"en":"As I approached the house, I noticed a light on upstairs.","cn":"我走近那幢房子的时候注意到楼上有灯光。","src":"四级词库"},
+"april": {"en":"The changes will be introduced in April.","cn":"这些变更将于4月实施。","src":"四级词库"},
+"arithmetic": {"en":"Accuracy is important in arithmetic.","cn":"准确性在计算中很重要。","src":"Tatoeba 语料"},
+"anywhere": {"en":"I haven't got anywhere to live.","cn":"我没有任何地方住。","src":"四级词库"},
+"anything": {"en":"You can write about swimming, skiing, or anything else you enjoy doing.","cn":"你可以写游泳、写滑雪或者其他任何你喜欢的活动。","src":"四级词库"},
+"amongst": {"en":"Here in Trinity it is right that I should give you an account of how he lived amongst you during these years of his greatest achievement.","cn":"正是在三一学院这儿，我将对你们阐述他如何在你们中间生活，如何在这些年中取得他的最伟大的成就。","src":"四级词库"},
+"amount": {"en":"Consumer spending on sports-related items amounted to $9.75 billion.","cn":"消费者在体育相关用品上的消费总共达到了97.5亿美元。","src":"高中词库"},
+"ampere": {"en":"And I prefer to an ampere meter being made of aluminum even though it has analog to another one.","cn":"我还想要一个铝制的安培表，虽然它与另一个类似。","src":"四级词库"},
+"amuse": {"en":"The kids amused themselves playing hide-and-seek.","cn":"孩子们玩捉迷藏玩。","src":"四级词库"},
+"analyse": {"en":"You need to sit down and analyse why you feel so upset.","cn":"你得坐下来想一想自己为什么会那么生气。","src":"四级词库"},
+"analysis": {"en":"She’s been in analysis for three years.","cn":"她接受精神分析治疗已经三年了。","src":"四级词库"},
+"ancestor": {"en":"My ancestors were French.","cn":"我的祖先是法国人。","src":"四级词库"},
+"anchor": {"en":"The shelves should be securely anchored to the wall.","cn":"搁板应牢牢固定在墙上。","src":"托福词库"},
+"ancient": {"en":"Rome has a lot of ancient buildings.","cn":"罗马有很多古建筑。","src":"Tatoeba 语料"},
+"and": {"en":"She didn’t speak to anyone and nobody spoke to her.","cn":"她不跟别人说话，也没人跟她说话。","src":"四级词库"},
+"angel": {"en":"Fools rush in where angels fear to tread.","cn":"天使畏懼處, 愚人敢闖入。","src":"Tatoeba 语料"},
+"anger": {"en":"There is growing anger among the people against the government.","cn":"民众对政府越来越不满。","src":"四级词库"},
+"angle": {"en":"You didn’t measure the angle accurately.","cn":"你没有量准角度。","src":"四级词库"},
+"angry": {"en":"His comments brought an angry response from opposition politicians.","cn":"他的话激起反对派政客愤怒的回应。","src":"四级词库"},
+"animal": {"en":"The cosmetics have not been tested on animals.","cn":"这些化妆品没有进行过动物试验。","src":"四级词库"},
+"ankle": {"en":"She twisted her ankle while she was doing exercise.","cn":"她锻炼时扭伤了脚踝。","src":"Tatoeba 语料"},
+"anyone": {"en":"Anyone else who is interested in going on the trip should see me at the end of this lesson.","cn":"还有谁有兴趣参加此次旅行，下课来找我。","src":"四级词库"},
+"anyhow": {"en":"The cupboard would hardly close, with all the shoes thrown in anyhow.","cn":"柜子乱塞了许多鞋，都快关不上了。","src":"四级词库"},
+"anybody": {"en":"We shouldn't slight anybody even if he's a nobody.","cn":"我们不应该轻视任何人，即使他是一个小人物。","src":"四级词库"},
+"any": {"en":"We could not reason out which way the robbers escaped, because we were unable to find any trace of them.","cn":"我们推断不出这些强盗是从哪个方向逃走的，因为我们找不到他们的任何踪迹。","src":"四级词库"},
+"anxious": {"en":"She gave me an anxious look.","cn":"她焦急地看了我一眼。","src":"四级词库"},
+"anxiety": {"en":"A high level of anxiety was created by the introduction of cameras into the factory.","cn":"工厂安装了摄像头，这引起了工人的高度不安。","src":"高中词库"},
+"anyway": {"en":"There seems to have been a technical problem – anyway, that’s what they told me.","cn":"好像出了技术故障，至少他们是这么跟我说的。","src":"四级词库"},
+"answer": {"en":"She thought for a moment before answering.","cn":"她想了一会儿才回答。","src":"四级词库"},
+"another": {"en":"Can you cite another case like this one?","cn":"你能举出另一个像这样的例子吗?","src":"四级词库"},
+"annual": {"en":"The school trip has become an annual event.","cn":"学校组织的旅行成了一年一度的活动。","src":"四级词库"},
+"annoy": {"en":"What annoyed him most was that he had received no apology.","cn":"最令他生气的是没人向他道歉。","src":"四级词库"},
+"announce": {"en":"At the end of their meeting, it was announced that an agreement had been reached.","cn":"会议最后宣布已达成一项协议。","src":"四级词库"},
+"ant": {"en":"Ants swarmed up out of the ground and covered her shoes and legs.","cn":"蚂蚁从地里成群地爬出来，爬满了她的鞋和腿。","src":"四级词库"},
+"among": {"en":"I could hear voices coming from somewhere among the bushes.","cn":"我能听到灌木丛中某个地方传来说话的声音。","src":"四级词库"},
+"arm": {"en":"The old lady rushed to greet him, arms outstretched .","cn":"老太太张开双臂，快步上前迎接他。","src":"四级词库"},
+"around": {"en":"All those around him looked at him with amazement.","cn":"周围的人都对他投射出惊异的眼光。","src":"四级词库"},
+"athlete": {"en":"Tom is a natural athlete.","cn":"汤姆天生就是个运动员。","src":"Tatoeba 语料"},
+"atlantic": {"en":"The Straits of Gibraltar are the strategic passage between the Mediterranean and the Atlantic.","cn":"直布罗陀海峡是地中海通向大西洋的咽喉。","src":"四级词库"},
+"atmosphere": {"en":"The hotel had a lovely relaxed atmosphere .","cn":"那家宾馆的气氛轻松愉快。","src":"四级词库"},
+"atomic": {"en":"They know how to make an atomic bomb.","cn":"他们知道如何制造原子弹。","src":"Tatoeba 语料"},
+"attach": {"en":"When approving a merger, the commission can attach conditions.","cn":"委员会在批准公司合并时可能附加条件。","src":"四级词库"},
+"attack": {"en":"We reopened an attack against our enemy last week.","cn":"上周我们向敌人重新发动了一次进攻。","src":"托福词库"},
+"attain": {"en":"More women are attaining positions of power.","cn":"越来越多的女性获得要职。","src":"四级词库"},
+"attend": {"en":"Please let us know if you are unable to attend.","cn":"如果不能出席，请通知我们。","src":"四级词库"},
+"attention": {"en":"Scott sat down at his desk and turned his attention to the file he had in front of him.","cn":"斯科特在自己的办公桌前坐下，将注意力转向面前的文件。","src":"四级词库"},
+"attitude": {"en":"As soon as they found out I was a doctor, their whole attitude changed.","cn":"他们一听说我是医生，态度就完全改变了。","src":"四级词库"},
+"attraction": {"en":"The attraction between them was almost immediate.","cn":"他们几乎是一见钟情。","src":"四级词库"},
+"attractive": {"en":"Women seem to find him attractive .","cn":"女性似乎觉得他很有吸引力。","src":"四级词库"},
+"autumn": {"en":"These green leaves turn red or yellow in autumn.","cn":"这些绿叶到秋天变成红色或黄色。","src":"Tatoeba 语料"},
+"automobile": {"en":"This factory produces 500 automobiles a day.","cn":"这家工厂每天生产500辆车。","src":"Tatoeba 语料"},
+"automation": {"en":"Then you could have your test automation read, parse, and use the data in this file.","cn":"然后您可以让您的测试自动化读取、解析和使用该文件中的数据。","src":"四级词库"},
+"automatic": {"en":"My camera is fully automatic .","cn":"我的照相机是全自动的。","src":"四级词库"},
+"authority": {"en":"Only Rangers fans are allowed in the 50,000-capacity Ibrox for the League Cup quarter-final against Celtic at the order of the authorities amid a ticket allocation spat between the two Glasgow giants.","cn":"联赛杯1 / 4决赛对阵凯尔特人的比赛中，只有流浪者队的球迷才可以进入可容纳5万人的伊布罗克斯球场观看比赛。","src":"Sky Sports · 2026-09-10"},
+"author": {"en":"It’s clear that the author is a woman.","cn":"显然，这位作者是女性。","src":"四级词库"},
+"australia": {"en":"Australia won the toss and put England in to bat.","cn":"澳大利亚队掷币获胜，要求英格兰队首先击球。","src":"四级词库"},
+"aunt": {"en":"I have a special relationship with my aunt.","cn":"我和我阿姨有種特別的情誼。","src":"Tatoeba 语料"},
+"august": {"en":"The world premiere took place in August 1956.","cn":"全球首映是在1956年8月。","src":"四级词库"},
+"audience": {"en":"One member of the audience described the opera as ‘boring’.","cn":"有一名观众说这出歌剧“乏味”。","src":"四级词库"},
+"attribute": {"en":"Women tend to attribute their success to external causes such as luck.","cn":"女性往往把她们的成功归因于外因，如运气。","src":"四级词库"},
+"australian": {"en":"She went solo backpacking for eight months in the Australian outback.","cn":"她在澳大利亚内陆独自背包旅行了八个月。","src":"四级词库"},
+"army": {"en":"The army are helping to clear up after the floods.","cn":"陆军部队正协助洪灾后的清理工作。","src":"四级词库"},
+"astronaut": {"en":"Have you ever wanted to be an astronaut?","cn":"你曾想成为一个宇航员吗？","src":"考研词库"},
+"assure": {"en":"The document is genuine, I can assure you .","cn":"我能向你保证，这文件是真的。","src":"四级词库"},
+"arouse": {"en":"Matt’s behavior was arousing the interest of the neighbors.","cn":"马特的行为渐渐引起了邻居的兴趣。","src":"四级词库"},
+"arrange": {"en":"Contact your local branch to arrange an appointment.","cn":"请联络当地分部安排预约。","src":"四级词库"},
+"arrangement": {"en":"Have you made all your travel arrangements?","cn":"你的旅行都安排好了吗？","src":"四级词库"},
+"arrest": {"en":"He was arrested and charged with murder.","cn":"他遭到逮捕并被指控谋杀。","src":"四级词库"},
+"arrival": {"en":"Only the timely arrival of the police prevented the situation from becoming worse.","cn":"警方及时赶到才阻止了事态恶化。","src":"四级词库"},
+"arrive": {"en":"By the time the police arrived on the scene, the burglars had fled.","cn":"警方赶到现场时，窃贼已经逃跑了。","src":"四级词库"},
+"arrow": {"en":"Follow the arrows to the X-ray department.","cn":"顺着箭头指示的方向去X光科。","src":"四级词库"},
+"art": {"en":"Her garden is a work of art.","cn":"她的花园是一件艺术作品。","src":"Tatoeba 语料"},
+"article": {"en":"Publication of the article was timed to coincide with the professor's birthday.","cn":"文章的发表被预定在教授生日那天。","src":"Tatoeba 语料"},
+"artificial": {"en":"Artificial leather can't compare with the real thing.","cn":"人造皮革是比不上真皮的。","src":"Tatoeba 语料"},
+"artist": {"en":"The poor young man finally became a great artist.","cn":"这个可怜的年轻人最后成为了一个了不起的艺术家。","src":"Tatoeba 语料"},
+"artistic": {"en":"Opinion about the artistic merit of his paintings has been mixed.","cn":"对于他的绘画作品的艺术价值，人们褒贬不一。","src":"四级词库"},
+"ash": {"en":"The house burnt to ashes.","cn":"那房子烧成了灰烬。","src":"四级词库"},
+"ashamed": {"en":"Everyone cries sometimes – it’s nothing to be ashamed of.","cn":"每个人都会有哭的时候——没什么好难为情的。","src":"四级词库"},
+"asia": {"en":"His extensive experience in other parts of Asia helped him to overcome cultural barriers.","cn":"在亚洲其他地区的广泛经历帮助他克服了文化障碍。","src":"四级词库"},
+"asian": {"en":"The government predicates that the market collapse was caused by Asian financial crisis.","cn":"政府宣布市场不景气是由于亚洲金融危机而引起的。","src":"四级词库"},
+"assume": {"en":"She assumed an air of indifference.","cn":"她假装不在意。","src":"Tatoeba 语料"},
+"associate": {"en":"I don’t like these layabouts you’re associating with.","cn":"我不喜欢你结交的这些游手好闲的人。","src":"四级词库"},
+"assistant": {"en":"He made me his own assistant.","cn":"他让我做他的助理。","src":"Tatoeba 语料"},
+"assist": {"en":"The family decided to assist me with my chores.","cn":"家人决定分担我的琐事。","src":"四级词库"},
+"assignment": {"en":"The assignment took me longer than I had expected.","cn":"我用了比我预期更长的时间来完成作业。","src":"Tatoeba 语料"},
+"astonish": {"en":"What astonishes me most is his complete lack of fear.","cn":"最令我吃惊的是，他什么都不怕。","src":"四级词库"},
+"assign": {"en":"How much time have you assigned for the meeting?","cn":"你给这个会议定了多长时间？","src":"四级词库"},
+"assembly": {"en":"Restrictions on freedom of assembly have gradually been relaxed.","cn":"对集会自由的限制渐渐放宽了。","src":"考研词库"},
+"assemble": {"en":"A large crowd had assembled outside the American embassy.","cn":"一大群人聚集在美国大使馆外。","src":"四级词库"},
+"aspect": {"en":"The storm outside gave the room a sinister aspect.","cn":"外面的暴风雨使房间里变得阴森可怕。","src":"高中词库"},
+"asleep": {"en":"Quiet! The baby’s asleep.","cn":"安静！ 宝宝在睡觉。","src":"四级词库"},
+"ask": {"en":"That kid’s always asking awkward questions .","cn":"那孩子总是问一些尴尬的问题。","src":"四级词库"},
+"aside": {"en":"He pushed his half-eaten salad aside and left.","cn":"他推开吃了一半的色拉走了。","src":"四级词库"},
+"assess": {"en":"The test was to assess aptitude rather than academic achievement.","cn":"该测试将评估能力而不是学业成绩。","src":"四级词库"},
+"american": {"en":"Her mother is American.","cn":"她妈妈是美国人。","src":"四级词库"},
+"america": {"en":"Some of the mountains in America have not yet been mapped out.","cn":"美洲有些山脉还没有在地图上标出来。","src":"四级词库"},
+"ambulance": {"en":"The ambulances carried the injured to the nearest hospital.","cn":"救护车把伤者送往了最近的医院。","src":"Tatoeba 语料"},
+"account": {"en":"I’ve opened an account with Barclay’s Bank.","cn":"我在巴克莱银行开了一个账户。","src":"四级词库"},
+"accumulate": {"en":"It is unjust that a privileged few should continue to accumulate wealth.","cn":"少数特权阶级继续积聚财富，这是不公平的。","src":"四级词库"},
+"accuracy": {"en":"He passes the ball with unerring accuracy.","cn":"他传球准确无误。","src":"四级词库"},
+"accurate": {"en":"The brochure tries to give a fair and accurate description of each hotel.","cn":"该手册尽量公正、准确地介绍每一家酒店。","src":"四级词库"},
+"accuse": {"en":"They accused me of having broken my promise.","cn":"他们指责我没有信守诺言。","src":"Tatoeba 语料"},
+"accustom": {"en":"She tried to accustom herself to the tight bandages.","cn":"她尝试着使自己习惯那些紧绷的绷带。","src":"四级词库"},
+"accustomed": {"en":"The pans were in their accustomed places.","cn":"那些锅在老地方。","src":"四级词库"},
+"ache": {"en":"His feet were aching from standing so long.","cn":"他站了那么久，双脚隐隐作痛。","src":"四级词库"},
+"achieve": {"en":"She eventually achieved her goal of becoming a professor.","cn":"她终于实现目标，当上了教授。","src":"四级词库"},
+"achievement": {"en":"His great achievement is to make all the players into a united team.","cn":"他的伟大成就在于把所有选手组织成一支团结的队伍。","src":"四级词库"},
+"acid": {"en":"Acid rain is not a natural phenomenon.","cn":"酸雨不是自然现象。","src":"Tatoeba 语料"},
+"acquaintance": {"en":"She was a casual acquaintance of my family in Vienna.","cn":"她是我们家在维也纳的一个交情不深的朋友。","src":"四级词库"},
+"acquire": {"en":"Manning hoped to acquire valuable works of art as cheaply as possible.","cn":"曼宁希望以尽可能低的价格买到有价值的艺术品。","src":"四级词库"},
+"acre": {"en":"They own 200 acres of farmland.","cn":"他们拥有200英亩农田。","src":"四级词库"},
+"across": {"en":"There’s Brendan. Why don’t you go across and say hello?","cn":"那是布伦丹，你为什么不去打个招呼呢？","src":"托福词库"},
+"act": {"en":"Politicians will only act when enough people demand that they do something.","cn":"只有足够多的民众起来要求，政客们才会采取行动。","src":"四级词库"},
+"action": {"en":"Action speaks louder than words, but not nearly as often.","cn":"行胜于言，但并不是所有情况都是这样。","src":"Tatoeba 语料"},
+"address": {"en":"The address is 2025 M Street, NW, Washington, DC, 20036.","cn":"地址是华盛顿哥伦比亚特区，华盛顿西北，M街2025号，邮编20036。","src":"四级词库"},
+"additional": {"en":"Additional information can be obtained from the centre.","cn":"可以从中心获取更多信息。","src":"四级词库"},
+"addition": {"en":"This is a fine book; a worthy addition to the series.","cn":"这是一本好书——是对这套丛书有价值的增补。","src":"四级词库"},
+"add": {"en":"If the mixture seems dry, add water.","cn":"如果混合物看上去干，加点水。","src":"四级词库"},
+"adapt": {"en":"The ability to adapt is a definite asset in this job.","cn":"适应能力是做这份工作的绝对有利条件。","src":"四级词库"},
+"accordingly": {"en":"Some of the laws were contradictory. Accordingly, measures were taken to clarify them.","cn":"有些法律相互矛盾，因此，采取了措施将其阐明。","src":"四级词库"},
+"actually": {"en":"Actually, on second thoughts, I don’t think I want to go out tonight.","cn":"其实再想想，我今晚不打算出去了。","src":"四级词库"},
+"actual": {"en":"I know Germany won, but I can’t tell you the actual score.","cn":"我知道德国队胜了，但我不知道确切的比分。","src":"四级词库"},
+"actress": {"en":"She's not only a great dramatic actress but she's also very funny.","cn":"她不仅是一位伟大的女戏剧演员，而且也很幽默。","src":"四级词库"},
+"actor": {"en":"His father was an actor in the Cantonese Opera Company.","cn":"他父亲曾是粤剧团的一名演员。","src":"四级词库"},
+"activity": {"en":"Everyone is free to engage in peaceful political activity.","cn":"每个人都可以自由参加和平的政治活动。","src":"四级词库"},
+"active": {"en":"She’s over 80, but is still very active.","cn":"她80多岁了，但仍旧很活跃。","src":"四级词库"},
+"acute": {"en":"The housing shortage is more acute than first thought.","cn":"住房短缺情况比一开始想的要严重。","src":"四级词库"},
+"adjective": {"en":"In “the black cat” the adjective “black”modifies the noun “cat”.","cn":"在“那只黑猫”中，形容词“黑的”修饰名词“猫”。","src":"四级词库"},
+"accordance": {"en":"We assure you that the quality of our goods will be in accordance with that of the samples.","cn":"我们向你方保证，我们货物的质量一定与样品的质量一致。","src":"四级词库"},
+"accomplish": {"en":"We have accomplished all we set out to do.","cn":"所有计划要做的事情，我们都已完成。","src":"四级词库"},
+"abandon": {"en":"How could she abandon her own child?","cn":"她怎么能抛弃自己的孩子呢？","src":"四级词库"},
+"ability": {"en":"The test measures your mathematical ability.","cn":"这种测试考查的是数学能力。","src":"四级词库"},
+"able": {"en":"If you'd listen a little more carefully to what the teacher says, you'd probably be able to understand.","cn":"假如你在老师讲课的时候再集中一点去听讲的话，你应该就能弄明白了。","src":"Tatoeba 语料"},
+"abnormal": {"en":"My parents thought it was abnormal for a boy to be interested in ballet.","cn":"我父母认为一个男孩子对芭蕾舞感兴趣并不正常。","src":"四级词库"},
+"aboard": {"en":"They finally went aboard the plane.","cn":"他们终于登上了飞机。","src":"四级词库"},
+"about": {"en":"About that car of yours. How much are you selling it for?","cn":"说到你的那辆车，你打算卖什么价钱？","src":"四级词库"},
+"above": {"en":"The airliner flew above the clouds.","cn":"大型客机在云层上面飞行。","src":"四级词库"},
+"abroad": {"en":"The books about Harry Potter have been very popular, both at home and abroad .","cn":"有关哈利·波特的书在国内外一直都很流行。","src":"四级词库"},
+"absence": {"en":"In the absence of any evidence, the police had to let Myers go.","cn":"警察没有证据，只好把迈尔斯放了。","src":"四级词库"},
+"absent": {"en":"The dull, absent look on her face implied boredom.","cn":"她脸上呆滞、茫然的神情说明她觉得无聊了。","src":"四级词库"},
+"absolute": {"en":"We don’t know with absolute certainty that the project will succeed.","cn":"我们没有绝对的把握这个项目一定会成功。","src":"四级词库"},
+"absolutely": {"en":"He made his reasons for resigning absolutely clear.","cn":"他把辞职的理由讲得一清二楚。","src":"四级词库"},
+"absorb": {"en":"Plants absorb nutrients from the soil.","cn":"植物从土壤中吸收养分。","src":"四级词库"},
+"abstract": {"en":"By the age of seven, children are capable of thinking in abstract terms .","cn":"儿童到了七岁就具有抽象思维的能力。","src":"四级词库"},
+"abuse": {"en":"Williams abused his position as Mayor to give jobs to his friends.","cn":"威廉斯滥用市长权力，给不少朋友安排了工作。","src":"四级词库"},
+"academic": {"en":"He possessed no academic qualifications.","cn":"他没有学历。","src":"四级词库"},
+"accompany": {"en":"Wherever her husband went, she would accompany him.","cn":"不论丈夫去哪里，她都陪伴左右。","src":"四级词库"},
+"accommodation": {"en":"Universities have to provide student accommodation for first-year students.","cn":"大学必须为一年级生提供学生宿舍。","src":"四级词库"},
+"accommodate": {"en":"He bought a huge house to accommodate his library.","cn":"他买了一座大房子来放他的藏书。","src":"四级词库"},
+"accidental": {"en":"Buy an insurance policy that covers accidental damage .","cn":"购买一份意外损害保单。","src":"四级词库"},
+"accident": {"en":"The discovery was made almost by accident.","cn":"这项发现几乎纯属意外。","src":"四级词库"},
+"accessory": {"en":"An element or accessory of a line printer that receives and stacks printout.","cn":"宽行打印机的一种部件或附件，用以接收和堆放打印输出纸张。","src":"考研词库"},
+"accord": {"en":"The punishments accorded with the current code of discipline.","cn":"处罚与现行的纪律规则一致。","src":"四级词库"},
+"access": {"en":"Access is by means of a small door on the right.","cn":"入口是右边的一扇小门。","src":"四级词库"},
+"acceptable": {"en":"Students who achieve an acceptable standard will progress to degree studies.","cn":"达到一定程度的学生可以进一步攻读学位。","src":"四级词库"},
+"accept": {"en":"He accepted the invitation to stay with us.","cn":"他接受了邀请来我们家住。","src":"四级词库"},
+"accent": {"en":"He had a strong Irish accent","cn":"他有浓重的爱尔兰口音。","src":"四级词库"},
+"acceleration": {"en":"The latest model has excellent acceleration.","cn":"这款最新型号加速性能优异。","src":"四级词库"},
+"adjust": {"en":"If your employment status changes, your tax code will be adjusted accordingly.","cn":"如果就业状况改变，你的免税代码也会作相应调整。","src":"四级词库"},
+"administration": {"en":"We’re looking for someone with experience in administration.","cn":"我们正在寻找一个有管理经验的人。","src":"四级词库"},
+"admire": {"en":"I really admire the way she brings up those kids all on her own.","cn":"我十分佩服她独力把那些孩子抚养大。","src":"四级词库"},
+"aid": {"en":"Foreign aid from many countries poured into the famine area.","cn":"来自许多国家的救援物资纷纷送到饥荒地区。","src":"四级词库"},
+"aim": {"en":"Denver aimed his gun but did not shoot.","cn":"丹佛举枪瞄准，但是没有射击。","src":"四级词库"},
+"air": {"en":"Let’s go outside and get some fresh air.","cn":"我们出去呼吸些新鲜空气吧。","src":"四级词库"},
+"aircraft": {"en":"The return flight of the aircraft was delayed.","cn":"飞机的返回航程被推迟了。","src":"四级词库"},
+"airplane": {"en":"These instruments measure movement, like that of a car or airplane.","cn":"这类仪器可以测量运动，像飞机和汽车的运动。","src":"四级词库"},
+"airport": {"en":"Her family went to see her off at the airport.","cn":"她的家人去机场送她。","src":"四级词库"},
+"alarm": {"en":"Car alarms are always going off in the street.","cn":"街上总有汽车警报器在响。","src":"四级词库"},
+"alcohol": {"en":"I don’t drink alcohol anymore.","cn":"我不再喝酒了。","src":"四级词库"},
+"alike": {"en":"The twins were dressed alike.","cn":"这对双胞胎穿着相似。","src":"四级词库"},
+"alive": {"en":"Apparently he’s alive and well and living in Brazil.","cn":"看来他还健在，住在巴西。","src":"四级词库"},
+"all": {"en":"You shouldn’t be sitting here by yourself, all alone.","cn":"你不应该一个人孤零零地坐在这儿。","src":"高中词库"},
+"allow": {"en":"We don’t allow diving in the pool.","cn":"泳池内禁止跳水。","src":"四级词库"},
+"alloy": {"en":"Brass is an alloy of copper and zinc.","cn":"黄铜是铜和锌的合金。","src":"四级词库"},
+"almost": {"en":"Almost nothing was done to improve the situation.","cn":"几乎没有采取什么措施来改善这个情况。","src":"四级词库"},
+"alone": {"en":"My wife and I like to spend time alone together away from the kids.","cn":"我和妻子喜欢没有孩子打扰，过二人世界。","src":"四级词库"},
+"along": {"en":"She glanced anxiously along the line of faces.","cn":"她焦急地扫视着这一排面孔。","src":"四级词库"},
+"ambition": {"en":"He was young and full of ambition.","cn":"他年轻，而且雄心勃勃。","src":"四级词库"},
+"amaze": {"en":"Dave amazed his friends by suddenly getting married.","cn":"戴夫突然结婚，令朋友们非常吃惊。","src":"四级词库"},
+"always": {"en":"She’d always assumed that Gabriel was a girl’s name.","cn":"她一直认为加布里埃尔是个女孩名字。","src":"四级词库"},
+"aluminium": {"en":"If necessary, we can use aluminium instead of steel.","cn":"如果必要，我们可用铝代钢。","src":"高中词库"},
+"altogether": {"en":"Congress could ban the procession altogether.","cn":"国会可以完全禁止这次游行。","src":"四级词库"},
+"ahead": {"en":"We could see the lights of Las Vegas up ahead .","cn":"我们能看到前方拉斯维加斯的灯光。","src":"四级词库"},
+"altitude": {"en":"The aircraft had reached its cruising altitude of about 39,000 feet.","cn":"那架飞机已经达到了大约三万九千英尺的巡航高度。","src":"四级词库"},
+"alternative": {"en":"An alternative route is along the Via Unione.","cn":"另一条路线是沿着联合路走。","src":"四级词库"},
+"alter": {"en":"Nothing can alter the fact that the refugees are our responsibility.","cn":"我们有责任帮助难民，这一事实无法改变。","src":"四级词库"},
+"also": {"en":"She sings beautifully and also plays the flute and piano.","cn":"她歌唱得好，而且还会吹长笛和弹钢琴。","src":"四级词库"},
+"already": {"en":"The design of the new house is similar to those that have already been built.","cn":"新房的设计与那些已建好的房子相似。","src":"四级词库"},
+"alphabet": {"en":"The modern Russian alphabet has 31 letters.","cn":"现代俄语字母表有31个字母。","src":"四级词库"},
+"aloud": {"en":"When we were children, our father read aloud to us.","cn":"当我们是孩子时，我们的父亲大声地朗读给我们听。","src":"四级词库"},
+"although": {"en":"We decided to take rooms in Longwood House, although we knew we could not really afford the rent.","cn":"虽然我们知道自己其实付不起租金，但还是决定住朗伍德庄园的房间。","src":"四级词库"},
+"agriculture": {"en":"More than 75% of the land is used for agriculture.","cn":"75%以上的土地用于农耕。","src":"四级词库"},
+"agreement": {"en":"It is easier for two parties to reach agreement than for three.","cn":"两方达成一致比三方达成一致容易。","src":"四级词库"},
+"agree": {"en":"Teenagers and their parents rarely agree.","cn":"十几岁的孩子跟父母意见很少一致。","src":"四级词库"},
+"aeroplane": {"en":"An aeroplane offers you an unusual and breathtaking view of the world.","cn":"一架飞机提供了你一个不寻常的和惊人的世界观。","src":"四级词库"},
+"advise": {"en":"She needed someone to advise her.","cn":"她需要有个人给她出主意。","src":"四级词库"},
+"advisable": {"en":"It is advisable to write a career objective at the start of your resume.","cn":"简历开头最好写上职业目标。","src":"四级词库"},
+"advice": {"en":"You should have followed my advice.","cn":"你真该听我的建议。","src":"四级词库"},
+"advertisement": {"en":"They put an advertisement in ‘The Morning News’, offering a high salary for the right person.","cn":"他们在《晨报》上刊登了一则启事，出高薪寻找合适的人选。","src":"四级词库"},
+"adverb": {"en":"In the class, the professor taught the students how to use an adverb in the sentence.","cn":"在课堂上，教授教学生们如何在一个句子里用副词。","src":"四级词库"},
+"affair": {"en":"Women had little role in public affairs.","cn":"女性过去几乎不参与公共事务。","src":"四级词库"},
+"adventure": {"en":"Ahab’s adventures at sea","cn":"亚哈的海上历险","src":"四级词库"},
+"advance": {"en":"A line of US tanks slowly advanced.","cn":"一列美军坦克缓缓前进。","src":"四级词库"},
+"adult": {"en":"He lived most of his adult life in Scotland.","cn":"他成年后大部分时间住在苏格兰。","src":"四级词库"},
+"adopt": {"en":"The couple are unable to have children of their own, but hope to adopt.","cn":"那对夫妇自己无法生育，但希望领养孩子。","src":"四级词库"},
+"admit": {"en":"I must admit , I didn’t actually do anything to help her.","cn":"我必须承认，实际上我并没有帮她什么忙。","src":"四级词库"},
+"admission": {"en":"Reese, by his own admission , lacks the necessary experience.","cn":"里斯自己也承认缺乏必要的经验。","src":"四级词库"},
+"advantage": {"en":"She took full advantage of her stay in London to improve her English.","cn":"她充分利用她住在伦敦的优势，提高英语。","src":"Tatoeba 语料"},
+"affect": {"en":"Trading has been adversely affected by the downturn in consumer spending.","cn":"贸易受到消费支出回落的不利影响。","src":"四级词库"},
+"afford": {"en":"The room affords a beautiful view over the city.","cn":"这房间可以俯瞰城市美景。","src":"四级词库"},
+"ago": {"en":"We had our bicentenary celebrations not that long ago.","cn":"不久前，我们举行了200周年庆典活动。","src":"四级词库"},
+"aggressive": {"en":"Teachers apparently expect a certain amount of aggressive behaviour from boys.","cn":"老师显然料到男孩子多少会有些好勇斗狠的行为。","src":"四级词库"},
+"agent": {"en":"Our agent in Rio deals with all our Brazilian business.","cn":"我们在里约热内卢的业务代表处理我们在巴西的全部业务。","src":"四级词库"},
+"age": {"en":"Experts disagree over the age of the drawings.","cn":"专家对这些画作的年代意见不统一。","src":"四级词库"},
+"affection": {"en":"She thought of him with affection.","cn":"她怀着喜爱想起了他。","src":"四级词库"},
+"against": {"en":"The younger policeman was leaning against the bureau with his arms folded.","cn":"那位较年轻的警官两臂交叉，倚靠在办公桌旁。","src":"四级词库"},
+"afterward": {"en":"Shortly afterward, police arrested four suspects.","cn":"之后不久，警方逮捕了４名嫌疑犯。","src":"四级词库"},
+"afternoon": {"en":"By late afternoon , Micky had changed his mind.","cn":"到了傍晚，米基已改变了主意。","src":"四级词库"},
+"after": {"en":"Zimmerman changed his name after he left Germany.","cn":"齐默尔曼离开德国后改了名字。","src":"四级词库"},
+"african": {"en":"Fish is a staple in the diet of many Africans.","cn":"鱼是很多非洲人饮食中的主食。","src":"托福词库"},
+"africa": {"en":"He traversed alone the whole continent of Africa from east to west.","cn":"他只身长途跋涉， 从东向西横穿整个非洲大陆。","src":"四级词库"},
+"afraid": {"en":"There’s no need to be afraid.","cn":"没有必要害怕。","src":"四级词库"},
+"again": {"en":"In 1997, the family moved house yet again.","cn":"1997年，全家人再一次搬家。","src":"四级词库"},
+"avenue": {"en":"I'd like to do shopping on Fifth Avenue in New York.","cn":"我想在紐約的第五大道購物。","src":"Tatoeba 语料"},
+"average": {"en":"The age of the candidates ranged from 29 to 49 with an average age of 37.","cn":"候选人的年龄29岁至49岁不等，平均37岁。","src":"四级词库"},
+"bread": {"en":"Would you like some bread with your soup?","cn":"你喝汤时要吃点面包吗？","src":"四级词库"},
+"breadth": {"en":"We need to provide more breadth in the college curriculum.","cn":"我们需要扩大学院课程的范围。","src":"四级词库"},
+"break": {"en":"The silence was broken by a loud scream.","cn":"一声尖叫打破了寂静。","src":"四级词库"},
+"breakfast": {"en":"We had bacon and eggs for breakfast .","cn":"我们早餐吃了熏肉鸡蛋。","src":"四级词库"},
+"breast": {"en":"These bras are specially designed for women with large breasts.","cn":"这些胸罩专为乳房丰满的女性设计。","src":"四级词库"},
+"breath": {"en":"Slow down, I need to catch my breath.","cn":"慢一点，我要喘口气。","src":"四级词库"},
+"breathe": {"en":"The room filled with smoke, and it was becoming difficult to breathe.","cn":"房间里全是烟，呼吸越来越困难。","src":"四级词库"},
+"breed": {"en":"Eagles breed during the cooler months of the year.","cn":"鹰在一年中较凉爽的季节交配繁殖。","src":"四级词库"},
+"brick": {"en":"Protesters attacked the police with stones and bricks.","cn":"抗议者用石头和砖块袭击警察。","src":"四级词库"},
+"bridge": {"en":"He walked back over the railway bridge.","cn":"他从铁路桥上走了回去。","src":"四级词库"},
+"brief": {"en":"Let’s keep this conversation brief; I have a plane to catch.","cn":"我们长话短说吧，我还要赶飞机。","src":"四级词库"},
+"bright": {"en":"Her eyes were hurting from the bright lights.","cn":"明亮的光线刺痛了她的眼睛。","src":"四级词库"},
+"brighten": {"en":"Use blonde highlights to brighten your hair.","cn":"用点金色的挑染，让你的发色明亮起来。","src":"四级词库"},
+"brilliant": {"en":"She closed her eyes against the brilliant light .","cn":"强烈的光线下，她闭起了眼睛。","src":"四级词库"},
+"brim": {"en":"Rain dripped from the brim of his baseball cap.","cn":"雨水从他的棒球帽檐上滴下来。","src":"托福词库"},
+"bring": {"en":"The discovery of gold brought thousands of people to the Transvaal.","cn":"黄金的发现把成千上万的人引到了德兰士瓦。","src":"四级词库"},
+"brow": {"en":"He wiped his brow with the back of his hand.","cn":"他用手背擦了擦额头。","src":"四级词库"},
+"brother": {"en":"I have two brothers, William and Mark.","cn":"我有两个兄弟，威廉和马克。","src":"四级词库"},
+"broom": {"en":"The lobby is empty but for the postman and his broom.","cn":"大厅里除了邮差和他的扫帚以外别无他人。","src":"四级词库"},
+"brook": {"en":"The murmur of the brook lulls me to sleep.","cn":"溪流潺潺，催我入眠。","src":"Tatoeba 语料"},
+"brood": {"en":"Don’t sit at home brooding all day.","cn":"别整天坐在家里闷闷不乐的。","src":"六级词库"},
+"brave": {"en":"You're really brave, aren't you?","cn":"你很勇敢，不是嗎？","src":"Tatoeba 语料"},
+"broken": {"en":"Gibbs had an X-ray, which revealed no broken bones.","cn":"吉布斯拍了X光片，显示没有骨折。","src":"四级词库"},
+"broad": {"en":"He was six feet tall, with broad shoulders.","cn":"他身高六英尺，肩膀宽阔。","src":"四级词库"},
+"brittle": {"en":"But while our screens are brittle, theirs is flexible––at what they say is one tenth the price.","cn":"但我们的屏幕都很脆弱，他们的却很柔软，而且价钱是我们的十分之一。","src":"四级词库"},
+"british": {"en":"The Bayeux Tapestry is being displayed in the UK as part of a landmark exhibition at the British Museum in London.","cn":"贝叶挂毯作为伦敦大英博物馆标志性展览的一部分正在英国展出。","src":"HistoryExtra · 2026-09-10"},
+"britain": {"en":"This is the stud  naturalized from Britain.","cn":"这是从不列颠引进的种马。","src":"四级词库"},
+"bristle": {"en":"His chin was covered with bristles.","cn":"他满下巴都是胡茬。","src":"四级词库"},
+"brisk": {"en":"They set off at a brisk pace .","cn":"他们踏着轻快的步伐上路了。","src":"四级词库"},
+"broadcast": {"en":"The interview was broadcast live across Europe.","cn":"这次采访向整个欧洲进行了现场直播。","src":"高中词库"},
+"brown": {"en":"This particular model is available in brown, white, or grey.","cn":"这个型号的产品有棕色、白色和灰色的。","src":"四级词库"},
+"brass": {"en":"A brass band is marching along the street.","cn":"一个管弦乐团沿着路前进","src":"Tatoeba 语料"},
+"brand": {"en":"The owner couldn't be bothered to brand the cattle.","cn":"主人懒得给这牛打上烙印。","src":"四级词库"},
+"boil": {"en":"Put the spaghetti into plenty of boiling salted water.","cn":"把意大利面放入大量煮沸的盐水中。","src":"四级词库"},
+"bold": {"en":"You should be feeling confident and bold when you meet your bank manager.","cn":"你会见银行经理的时候要大胆自信。","src":"四级词库"},
+"bolt": {"en":"Remove the camshaft retaining bolt and remove the sprockets and chain as an assembly.","cn":"拆去凸轮轴固定螺栓，并拆去作为一个总成的链轮和链条。","src":"四级词库"},
+"bomb": {"en":"Enemy planes dropped over 200 bombs during the raid.","cn":"袭击中敌机投下了两百多枚炸弹。","src":"四级词库"},
+"bond": {"en":"It takes less than ten minutes for the two surfaces to bond.","cn":"用不了十分钟两个表面就会黏合起来。","src":"四级词库"},
+"bone": {"en":"The X-ray showed that the bone was broken in two places.","cn":"X光检查显示有两处骨折。","src":"四级词库"},
+"book": {"en":"I’ve just started reading a book by Graham Greene.","cn":"我刚开始看格雷厄姆·格林写的一本书。","src":"四级词库"},
+"boot": {"en":"I would like to purchase some boots.","cn":"我想买些靴子。","src":"Tatoeba 语料"},
+"booth": {"en":"I called her from a public phone booth near the entrance to the bar.","cn":"我在酒吧入口附近的一个公用电话亭给她打了电话。","src":"四级词库"},
+"border": {"en":"I was asked to show my passport at the border.","cn":"在邊境上，我被要求出示我的護照。","src":"Tatoeba 语料"},
+"bore": {"en":"He’s the sort of person who bores you at parties.","cn":"他这人会在派对上烦你。","src":"四级词库"},
+"born": {"en":"Forty lambs were born this spring.","cn":"今年春天有40头小羊羔出生。","src":"考研词库"},
+"borrow": {"en":"Can I borrow your pen for a minute?","cn":"我可以借你的笔用一下吗？","src":"四级词库"},
+"bosom": {"en":"She cradled the child to her bosom.","cn":"她把那孩子抱入怀中。","src":"四级词库"},
+"boss": {"en":"I’ll have to ask my boss for a day off.","cn":"我得向老板请一天假。","src":"四级词库"},
+"both": {"en":"He owes his success both to working hard and to good luck.","cn":"他的成功要归结于他的辛勤工作和好运气。","src":"Tatoeba 语料"},
+"bother": {"en":"Danny, don’t bother Ellen while she’s reading.","cn":"丹尼，埃伦看书的时候不要去打扰她 。","src":"四级词库"},
+"branch": {"en":"After the storm, the ground was littered with twigs and branches.","cn":"暴风雨过后，满地都是大大小小的树枝。","src":"四级词库"},
+"brake": {"en":"He heard tyres squeal as the car braked to avoid a collision.","cn":"他听到当汽车刹车为避免撞车时轮胎发出了刺耳的尖声。","src":"四级词库"},
+"brain": {"en":"Messages from the brain are carried by the central nervous system.","cn":"大脑发出的信息是通过中枢神经系统传递的。","src":"四级词库"},
+"boy": {"en":"The boys wanted to play football.","cn":"男孩子们想踢足球。","src":"四级词库"},
+"box": {"en":"Jim watched the game from a private box.","cn":"吉姆在私人包厢里观看比赛。","src":"四级词库"},
+"brandy": {"en":"After a couple of brandies Michael started telling me his life story.","cn":"几杯白兰地酒过后,迈克尔开始向我讲述他的人生故事。","src":"四级词库"},
+"bowl": {"en":"Mix all the ingredients thoroughly in a large bowl.","cn":"将所有配料放在大碗里搅拌均匀。","src":"四级词库"},
+"bound": {"en":"You are legally bound to report the accident.","cn":"法律上你有责任报告这起事故。","src":"考研词库"},
+"bounce": {"en":"My father would burst into the kitchen bouncing a tennis ball.","cn":"我父亲会拍打着网球闯进厨房。","src":"四级词库"},
+"bough": {"en":"I rested my fishing rod against a pine bough.","cn":"我把我的鱼竿靠在松树的一个大树枝上。","src":"四级词库"},
+"bottom": {"en":"The drugs had been hidden in a suitcase with a false bottom.","cn":"毒品藏在一个带假底板的行李箱里。","src":"四级词库"},
+"bottle": {"en":"My mother bought two bottles of orange juice.","cn":"我母亲买了两瓶橙汁。","src":"Tatoeba 语料"},
+"bow": {"en":"This is done with a formal bow to the king or queen.","cn":"与此同时，还要向国王或女王正式鞠躬行礼。","src":"四级词库"},
+"bruise": {"en":"She fell off her bike and bruised her knee.","cn":"她从自行车上摔下来，擦伤了膝盖。","src":"考研词库"},
+"brush": {"en":"Don’t forget to brush your teeth.","cn":"不要忘记刷牙。","src":"托福词库"},
+"calculation": {"en":"Leonard made a rapid calculation: he'd never make it in time.","cn":"伦纳德做了个快速的估算：他不可能及时做完。","src":"四级词库"},
+"calculator": {"en":"The batteries in my calculator are dead.","cn":"我計算機的電池沒電了。","src":"Tatoeba 语料"},
+"calendar": {"en":"There was a calendar on the wall above, with large squares around the dates.","cn":"墙的上方曾有一本日历，日期框在大方格里。","src":"四级词库"},
+"call": {"en":"You may call it harmless fun, but I call it pornography.","cn":"你可能会说这是无恶意的小玩笑，但是我却认为这是色情。","src":"四级词库"},
+"calm": {"en":"Glen was calm and composed at the funeral.","cn":"格伦在葬礼上表现得平静而镇定。","src":"四级词库"},
+"camel": {"en":"I wonder what the ECL on a half-camel is.","cn":"我想知道半骆驼的有效人物等级是多少。","src":"四级词库"},
+"camera": {"en":"Her grandmother lent her a camera for a school trip to Venice and Egypt.","cn":"她的祖母借给她一部相机，让她在学校组织的到威尼斯和埃及的旅行中使用。","src":"四级词库"},
+"camp": {"en":"Let’s go back to camp – it’s getting dark.","cn":"我们回营地吧，天快黑了。","src":"四级词库"},
+"campaign": {"en":"We are campaigning for law reform.","cn":"我们正从事法律改革运动。","src":"四级词库"},
+"campus": {"en":"I took him to the most expensive restaurant on campus.","cn":"我把他带到校区里最贵的餐馆去了。","src":"Tatoeba 语料"},
+"can": {"en":"Two large cans of paint ought to be enough.","cn":"两大桶油漆应该够了。","src":"高中词库"},
+"canada": {"en":"He has lived in Canada for more than twenty years and is completely Canadianized now.","cn":"他在加拿大已经住了二十多年了，现在完全加拿大化了。","src":"四级词库"},
+"canadian": {"en":"Most English people bracket American and Canadian accents together.","cn":"大多数英国人都把美国音和加拿大音相提并论。","src":"四级词库"},
+"canal": {"en":"We walked along by the side of the canal.","cn":"我们沿着运河边往前走。","src":"四级词库"},
+"cancel": {"en":"I’m afraid I’ll have to cancel our meeting tomorrow.","cn":"恐怕我得取消我们明天的会议。","src":"四级词库"},
+"cancer": {"en":"A lot of cancers can now be treated successfully.","cn":"现在许多癌症可以治愈。","src":"四级词库"},
+"captive": {"en":"He described the difficulties of surviving for four months as a captive.","cn":"他讲述了沦为阶下囚的4个月中生存的种种不易。","src":"四级词库"},
+"captain": {"en":"The captain and crew welcome you aboard.","cn":"机长和全体机组人员欢迎各位乘坐本次航班。","src":"四级词库"},
+"capital": {"en":"Washington D.C., the capital of the United States","cn":"美国首都华盛顿特区","src":"四级词库"},
+"calculate": {"en":"These instruments calculate distances precisely.","cn":"这些仪器计算距离非常精确。","src":"四级词库"},
+"cap": {"en":"Make sure you put the cap back on the pen.","cn":"一定要把笔帽套上。","src":"高中词库"},
+"canteen": {"en":"Rennie had eaten his supper in the canteen.","cn":"伦尼已在食堂吃过晚饭。","src":"高中词库"},
+"canoe": {"en":"At a summer job working as park naturalists that year, I flipped the canoe Air and I were paddling and we had to push it to shore.","cn":"那年我在公园里做暑期兼职，我把独木舟翻转个身，然后我们一起合力将它推到岸边，这样我们就可以划船了。","src":"四级词库"},
+"cannon": {"en":"The cannons boom, the band plays.","cn":"炮声隆隆，鼓乐齐鸣。","src":"四级词库"},
+"candy": {"en":"Do you want a piece of candy?","cn":"你要吃颗糖吗？","src":"四级词库"},
+"candle": {"en":"When the candle was only half an inch high it flickered out and the room became dark.","cn":"蜡烛只有半英寸长时，烛光忽闪忽闪地熄灭了，于是房间一片漆黑。","src":"四级词库"},
+"candidate": {"en":"He was the strongest candidate for the position.","cn":"他是那个职位最有希望的候选人。","src":"Tatoeba 语料"},
+"canvas": {"en":"While on death row, he became a prolific painter and made more than $30,000 selling his canvases, which often featured clowns and skulls, the Los Angeles Times ’ Stephen Braun reported in 1994, the year Gacy was executed.","cn":"《洛杉矶时报》的斯蒂芬·布劳恩（Stephen Braun）在1994年报道说，在死囚区，他成为一名多产的画家，卖掉画布赚了3万多$ ，画布上经常有小丑和头骨。","src":"Smithsonian Magazine · 2026-09-09"},
+"cake": {"en":"We had cake and ice cream.","cn":"我们吃了蛋糕和冰激凌。","src":"四级词库"},
+"cage": {"en":"I hate to see birds in cages.","cn":"我不喜欢看到鸟在笼子里。","src":"四级词库"},
+"cafeteria": {"en":"The food in the cafeteria is cheap, and it's delicious.","cn":"餐廳的飯很便宜，而且很好吃。","src":"Tatoeba 语料"},
+"burn": {"en":"Cars were burned and shops were looted during the rioting.","cn":"暴乱期间，汽车被焚，商店遭抢劫。","src":"四级词库"},
+"burden": {"en":"His family responsibilities had started to become a burden.","cn":"家庭责任已开始成为他的负担。","src":"四级词库"},
+"bundle": {"en":"He was bundled into a car and driven 50 miles to a police station.","cn":"他被塞进一辆小汽车，被带到50英里外的警察局。","src":"四级词库"},
+"bunch": {"en":"She bunched the cloth up and threw it away.","cn":"她把布揉成一团扔了。","src":"四级词库"},
+"bullet": {"en":"Several bullet holes could be seen beside a window.","cn":"窗户边可以看到几个弹孔。","src":"四级词库"},
+"burst": {"en":"The pipes had burst and the house was under two feet of water.","cn":"水管爆裂，房子被水淹了两英尺。","src":"四级词库"},
+"bulb": {"en":"Three bulbs have burned out.","cn":"三个灯泡烧坏了。","src":"Tatoeba 语料"},
+"building": {"en":"The offices are on the top two floors of the building.","cn":"办公室在大楼最高的两层。","src":"四级词库"},
+"build": {"en":"Developers want to build on the site of the old gasworks.","cn":"开发商想在煤气厂的旧址上造房子。","src":"四级词库"},
+"bud": {"en":"Without love, the best in the bud before killing!","cn":"得不到的爱情，最好在萌芽之前扼杀！","src":"六级词库"},
+"bucket": {"en":"We drew water in a bucket from the well outside the door.","cn":"我们用水桶从门外的井里提水。","src":"四级词库"},
+"bubble": {"en":"Heat the cheese until it bubbles.","cn":"把奶酪加热到冒泡。","src":"四级词库"},
+"bulk": {"en":"The dough will rise until it is double in bulk.","cn":"面团会发酵到原来的两倍大。","src":"四级词库"},
+"body": {"en":"My fingers were numb and my whole body ached.","cn":"我手指麻木，浑身疼痛。","src":"四级词库"},
+"bury": {"en":"Electric cables are buried beneath the streets.","cn":"电缆埋在街道的下面。","src":"四级词库"},
+"bush": {"en":"The child was hiding in the bushes.","cn":"那孩子躲在灌木丛里。","src":"四级词库"},
+"cafe": {"en":"At a cat “cafe,” the emphasis is not on food and beverages but relaxing in the company of cats.","cn":"在猫咪咖啡馆，重点不在于食物和饮料，而在于有猫咪陪伴的那份轻松愉快。","src":"四级词库"},
+"cabin": {"en":"Abraham Lincoln, the 16th president of the United States, was born in a log cabin in Kentucky.","cn":"伯拉罕·林肯，美国第16任总统，生于肯塔基州的一个简陋的小屋里。","src":"Tatoeba 语料"},
+"cabbage": {"en":"We have fresh cabbage, celery, lettuce and spinach.","cn":"有新鲜的卷心菜、芹菜、生菜和菠菜。","src":"四级词库"},
+"bus": {"en":"Buses run at 15 and 30 minutes past the hour.","cn":"公共汽车在每小时的15分和30分时发车。","src":"四级词库"},
+"buy": {"en":"People say the judge had been bought by the Mafia.","cn":"人们都说法官被黑手党收买了。","src":"四级词库"},
+"butterfly": {"en":"Butterflies and moths are attracted to the wild flowers.","cn":"蝴蝶和飞蛾为野花所吸引。","src":"四级词库"},
+"butter": {"en":"Cream your butter before adding the sugar and flour.","cn":"加糖和面粉之前要先把黄油搅成乳脂状。","src":"四级词库"},
+"butcher": {"en":"He worked in a butcher's.","cn":"他在肉铺工作。","src":"四级词库"},
+"but": {"en":"We’ve invited the boss, but she may decide not to come.","cn":"我们邀请过老板，但她有可能决定不来。","src":"四级词库"},
+"busy": {"en":"There were lots of activities to keep the kids busy .","cn":"有很多活动可以让孩子们不闲着。","src":"四级词库"},
+"business": {"en":"Carl began in the music business by running a recording studio.","cn":"卡尔是从经营录音棚开始干音乐这一行的。","src":"四级词库"},
+"button": {"en":"A button was missing from his shirt.","cn":"他的衬衫上掉了一颗纽扣。","src":"四级词库"},
+"carbon": {"en":"I dread to think what the carbon footprint must be like of moving that coal but we have no choice.","cn":"我都不敢想象为了运这些煤产生了多少碳足迹，但我们没有选择。","src":"四级词库"},
+"boat": {"en":"A new team was formed in order to take part in the boat race.","cn":"为了参加划船比赛，一支新的队伍组成了。","src":"Tatoeba 语料"},
+"board": {"en":"Several students boarded with Mrs. Smith.","cn":"有几名学生寄宿在史密斯夫人家里。","src":"四级词库"},
+"bark": {"en":"Don't let the dogs bark.","cn":"别让狗叫。","src":"四级词库"},
+"barn": {"en":"The next morning I started trapping around the barn .","cn":"第二天早晨，我就开始在谷仓附近下套子。","src":"考研词库"},
+"barrel": {"en":"The wine is aged in oak barrels.","cn":"这种葡萄酒是用橡木酒桶放陈的。","src":"四级词库"},
+"base": {"en":"India has a good scientific research base.","cn":"印度有良好的科研基础。","src":"四级词库"},
+"basically": {"en":"Well, basically, it’s a matter of filling in a few forms.","cn":"嗯，其实也就是填几张表的事。","src":"四级词库"},
+"basis": {"en":"She visits the dentist on a regular basis, so she seldom gets toothaches.","cn":"她定期去看牙医，所以她很少牙痛。","src":"Tatoeba 语料"},
+"basket": {"en":"She was carrying a basket full of flowers.","cn":"她提著一籃鮮花。","src":"Tatoeba 语料"},
+"basketball": {"en":"Yes, I like basketball and baseball.","cn":"是的，我喜欢篮球和棒球。","src":"初中词库"},
+"bat": {"en":"She began batting and chasing her creation across the ground.","cn":"她开始在地上击球和追逐她的创作。","src":"Smithsonian Magazine · 2026-09-08"},
+"bath": {"en":"After a week of camping, I really needed a bath.","cn":"我露营了一个星期，实在得洗个澡了。","src":"四级词库"},
+"bathe": {"en":"He bathed the children and put them to bed.","cn":"他给孩子们洗了澡，然后把他们弄上床。","src":"四级词库"},
+"bathroom": {"en":"The lights in the bathroom aren't working.","cn":"洗手间的灯坏掉了。","src":"Tatoeba 语料"},
+"battery": {"en":"When the red light comes on, you should recharge the battery .","cn":"红灯亮起的时候你就应该给电池充电了。","src":"四级词库"},
+"battle": {"en":"This is the place where the battle of Hastings took place.","cn":"这里曾是黑斯廷斯战役的战场。","src":"Tatoeba 语料"},
+"because": {"en":"Many exam candidates lose marks simply because they do not read the questions properly.","cn":"许多应试者失分只是因为没有好好地读题。","src":"四级词库"},
+"beauty": {"en":"Millions of dollars are spent each year on beauty products .","cn":"每年都有上千万的钱花在美容产品上。","src":"四级词库"},
+"beautiful": {"en":"She was even more beautiful than I had remembered.","cn":"她比我记忆中更美。","src":"四级词库"},
+"beat": {"en":"Labour easily beat the Conservatives in the last election.","cn":"工党在上一届选举中轻松击败保守党。","src":"四级词库"},
+"beast": {"en":"If the lion is the king of beasts, the eagle is the king of birds.","cn":"狮子是兽类之王的话，鹰就是鸟类之王。","src":"Tatoeba 语料"},
+"beard": {"en":"He's decided to grow a beard.","cn":"他已经决定蓄胡须。","src":"四级词库"},
+"bargain": {"en":"They prefer to bargain with individual clients, for cash.","cn":"他们更愿意同个人客户洽谈，做现金交易。","src":"四级词库"},
+"bear": {"en":"Experts were worried the financial system would not be able to bear the strain .","cn":"专家担心现行金融体系承受不了这样的压力。","src":"高中词库"},
+"bean": {"en":"Soak the beans overnight.","cn":"把豆子浸泡一夜。","src":"四级词库"},
+"beach": {"en":"I was planning on going to the beach today, but then it started to rain.","cn":"我本来预备今天去海滩的，但接着天就开始下雨了。","src":"Tatoeba 语料"},
+"bay": {"en":"A dog suddenly howled, baying at the moon.","cn":"一只狗忽然嚎叫起来，对月长嗥。","src":"高中词库"},
+"become": {"en":"Helen became increasingly anxious about her husband’s strange behaviour.","cn":"海伦越来越担心她丈夫的反常行为。","src":"四级词库"},
+"bare": {"en":"She felt the sun warm on her bare arms.","cn":"她感觉到阳光照在她裸露双臂上的暖意。","src":"四级词库"},
+"bar": {"en":"The large crowd roared in approval as Mark Knopfler played the first few bars of \"Money for Nothing\".","cn":"就像马克·诺弗勒早期演唱的歌曲《金钱无用》一样，绝大多数的人依然高呼赞成“金钱无用论”。","src":"Tatoeba 语料"},
+"avoid": {"en":"Road safety is taught to young children to avoid road accidents.","cn":"小孩子受到道路安全知识的教育，以避免交通事故。","src":"四级词库"},
+"await": {"en":"Several men are awaiting trial for robbery.","cn":"几个人因抢劫正在候审。","src":"四级词库"},
+"awake": {"en":"She was still only half awake when I brought her a cup of coffee.","cn":"我给她端去咖啡的时候，她还是半睡半醒的样子。","src":"四级词库"},
+"award": {"en":"The movie has won a number of awards.","cn":"该片获得了多个奖项。","src":"四级词库"},
+"away": {"en":"Dinah was crying as she drove slowly away.","cn":"黛娜一边哭一边慢慢地开车走了。","src":"四级词库"},
+"awful": {"en":"He made me feel an awful fool.","cn":"他让我感觉像个大傻瓜。","src":"四级词库"},
+"awfully": {"en":"I'm awfully sorry that I was late.","cn":"非常抱歉，我遲到了。","src":"Tatoeba 语料"},
+"awkward": {"en":"There was an awkward moment when she didn’t know whether to shake his hand or kiss his cheek.","cn":"她不知道是该跟他握手还是亲他的脸颊，一时很尴尬。","src":"四级词库"},
+"axis": {"en":"The Earth rotates on an axis between the north and south poles.","cn":"地球绕着南北两极之间的地轴自转。","src":"四级词库"},
+"baby": {"en":"What do you think of your new baby sister?","cn":"你觉得你刚出生的妹妹怎么样？","src":"四级词库"},
+"back": {"en":"It’s possible to travel there and back in a day.","cn":"到那里一天来回是可以的。","src":"四级词库"},
+"background": {"en":"It’s important to understand other people, people from different backgrounds .","cn":"要理解别人，理解那些来自不同背景的人，这是很重要的。","src":"四级词库"},
+"backward": {"en":"The diver flipped over backward into the water.","cn":"跳水运动员向后翻转跳入水中。","src":"四级词库"},
+"bacteria": {"en":"But she correctly points out that bacteria are everywhere: on us, in us and all around us.","cn":"但是她正确地指出细菌无处不在：在我们身上，在我们体内以及在我们周围。","src":"四级词库"},
+"banner": {"en":"The onlookers were shouting, cheering, and waving banners.","cn":"观众挥动着横幅，又是叫喊又是欢呼。","src":"四级词库"},
+"bank": {"en":"Did you bank that check?","cn":"你把那张支票存入银行了吗？","src":"六级词库"},
+"bang": {"en":"The baby kept banging the table with his spoon.","cn":"宝宝不停地拿调羹敲桌子。","src":"四级词库"},
+"band": {"en":"They formed a band when they were still at school.","cn":"他们还在读书的时候就组建了一个乐队。","src":"四级词库"},
+"banana": {"en":"How many bananas do you eat per week?","cn":"你一週吃多少根香蕉？","src":"Tatoeba 语料"},
+"balloon": {"en":"Can you help me blow up these balloons?","cn":"你帮我把这些气球吹起来好吗？","src":"四级词库"},
+"barber": {"en":"My father marched me over to Otto, the local barber, to have my hair cut short.","cn":"爸爸把我拽到当地理发师奥托跟前，让他把我的头发剪短。","src":"四级词库"},
+"ball": {"en":"Seen from the moon, the earth looks like a ball.","cn":"从月球上看的话，地球看起来像个皮球。","src":"Tatoeba 语料"},
+"bake": {"en":"Bake at 250 degrees for 20 minutes.","cn":"用250度的温度烤20分钟。","src":"四级词库"},
+"baggage": {"en":"How many pieces of baggage do you have?","cn":"请问您有多少件行李？","src":"Tatoeba 语料"},
+"bag": {"en":"She left the hotel carrying a shopping bag.","cn":"她拎着一个购物袋离开了宾馆。","src":"四级词库"},
+"badminton": {"en":"My friend and I take part in sports like tennis,badminton and swimming.","cn":"我和我的朋友参加体育运动如打网球,羽毛球和游泳.","src":"四级词库"},
+"badly": {"en":"He was beaten so badly that his brother didn’t recognize him.","cn":"他被打得连他哥哥都认不出他了。","src":"四级词库"},
+"bad": {"en":"The plane was delayed for several hours by bad weather.","cn":"天气不好，飞机延误了好几个小时。","src":"四级词库"},
+"bed": {"en":"She got into bed and turned out the light.","cn":"她上了床，关掉灯。","src":"四级词库"},
+"bee": {"en":"Bee stings can be very painful.","cn":"蜜蜂螫人可以是非常痛苦的。","src":"Tatoeba 语料"},
+"beef": {"en":"We have both dairy and beef cattle on the farm.","cn":"我们农场里奶牛和菜牛都有。","src":"四级词库"},
+"bike": {"en":"Let’s go for a bike ride .","cn":"我们去骑会儿自行车吧。","src":"四级词库"},
+"bill": {"en":"Have you paid the phone bill?","cn":"电话费你付了吗？","src":"四级词库"},
+"billion": {"en":"The final cost could be as much as one billion dollars.","cn":"最后的费用可能高达十亿美元。","src":"四级词库"},
+"bind": {"en":"The monks are bound by vows of silence.","cn":"僧侣们必须遵守保持缄默的誓言。","src":"四级词库"},
+"biology": {"en":"He's a professor of biology at Harvard.","cn":"他是哈佛大学的生物学教授。","src":"Tatoeba 语料"},
+"bird": {"en":"The dawn was filled with the sound of birds.","cn":"黎明时分，鸟鸣声不绝于耳。","src":"四级词库"},
+"birth": {"en":"They believe that the position of the planets at the time of birth determines the fate of the individual.","cn":"他们相信，出生时的星象决定了一个人的命运。","src":"四级词库"},
+"birthday": {"en":"My aunt called to wish me a happy birthday.","cn":"我姑妈打电话来祝我生日快乐。","src":"四级词库"},
+"bit": {"en":"He’s taken the engine to bits .","cn":"他把发动机拆开了。","src":"四级词库"},
+"bite": {"en":"The dog bit him and made his hand bleed.","cn":"那只狗把他的手咬出血了。","src":"四级词库"},
+"bitter": {"en":"His photo stirred up bitter memories.","cn":"他的照片勾起了痛苦的回忆。","src":"四级词库"},
+"bitterly": {"en":"The march was bitterly opposed by local residents.","cn":"这次游行遭到了当地居民的愤怒抵制。","src":"四级词库"},
+"black": {"en":"Can you describe to me the difference between black tea and green tea?","cn":"你能告诉我红茶和绿茶的区别吗？","src":"Tatoeba 语料"},
+"blackboard": {"en":"The teacher knocked on the blackboard to catch our attention.","cn":"老师敲了敲黑板以引起我们的注意。","src":"四级词库"},
+"blame": {"en":"I blame his mother. She does everything for him.","cn":"怪他母亲不好，她什么事都要为他做。","src":"四级词库"},
+"blue": {"en":"I’ve been feeling kind of blue.","cn":"我心情不大好。","src":"六级词库"},
+"blow": {"en":"It was blowing from an easterly direction.","cn":"这是从东面吹过来的。","src":"四级词库"},
+"blossom": {"en":"The cherry tree was covered in blossom.","cn":"樱桃树花满枝头。","src":"四级词库"},
+"bloom": {"en":"They bloom for a month and fade away in no time.","cn":"它们开花为一个月的时间和逐渐消失很快。","src":"四级词库"},
+"blood": {"en":"Blood tests proved he was not the father.","cn":"验血证明他不是孩子的父亲。","src":"四级词库"},
+"block": {"en":"Head for 44th Street, a few blocks east of Sixth Avenue.","cn":"往44号街走，从第六大街往东走几个街区就是。","src":"四级词库"},
+"big": {"en":"Los Angeles is the biggest city in California.","cn":"洛杉矶是加利福尼亚最大的城市。","src":"四级词库"},
+"blind": {"en":"David's good looks and impeccable manners had always made her blind to his faults.","cn":"大卫俊朗的外表和完美的风度总是令她对他的缺点视而不见。","src":"四级词库"},
+"blend": {"en":"Blend the sugar, eggs, and flour.","cn":"把糖、鸡蛋和面粉掺在一起。","src":"考研词库"},
+"bleed": {"en":"Tragically, she bled to death .","cn":"非常不幸，她失血过多死了。","src":"四级词库"},
+"blaze": {"en":"Some 4,000 firefighters are battling the blaze.","cn":"约有四千名消防人员正在与大火搏斗。","src":"四级词库"},
+"blast": {"en":"The station master gave a blast on his whistle and we were off.","cn":"站长一声哨响，我们出发了。","src":"六级词库"},
+"blanket": {"en":"I fixed her hair like they do in the circus with the bright blanket across her back and a flower behind her ear.","cn":"我修理她的像他们的头发向后地横过她的在和明亮的毛毯马戏团中做和在她的耳朵后面的一朵花。","src":"高中词库"},
+"blank": {"en":"Leave the last page blank .","cn":"最后一页留空。","src":"四级词库"},
+"bless": {"en":"The couple later had their marriage blessed in their local parish church.","cn":"那对夫妇后来在他们当地教区的教堂里领受了婚姻祝福。","src":"四级词库"},
+"bicycle": {"en":"Can James ride a bicycle yet?","cn":"詹姆斯会骑自行车了吗？","src":"四级词库"},
+"bible": {"en":"According to the Bible, God created the world in six days.","cn":"根据圣经记载，上帝用6天创造了世界。","src":"Tatoeba 语料"},
+"beyond": {"en":"The financing of home ownership will continue through the 1990s and beyond.","cn":"房屋产权的融资将持续到20世纪90年代及以后。","src":"四级词库"},
+"believe": {"en":"I believed him, even though his story sounded unlikely.","cn":"我相信了他，尽管他的话听上去难以置信。","src":"四级词库"},
+"belief": {"en":"When you get something wrong, it can shake your belief in yourself.","cn":"如果有什么事情没做好，就会动摇你对自己的信心。","src":"四级词库"},
+"being": {"en":"Some people clung to tree branches for several hours to avoid being washed away by the floodwaters.","cn":"为了不被洪水冲走，有的人紧紧地抱着树干长达数个钟头。","src":"Tatoeba 语料"},
+"behind": {"en":"I turned to speak to the person standing behind me.","cn":"我转身和站在我后面的那人说话。","src":"四级词库"},
+"behavior": {"en":"His dress is that of a gentleman, but his speech and behavior are those of a clown.","cn":"他衣着像个绅士，言行举止却像个小丑。","src":"Tatoeba 语料"},
+"behave": {"en":"She behaved in a very responsible way .","cn":"她表现得很有责任心。","src":"四级词库"},
+"bell": {"en":"As soon as the bell rang, the teacher came into the classroom.","cn":"鐘聲一響起，老師就走進了教室。","src":"Tatoeba 语料"},
+"behalf": {"en":"On behalf of everyone here, may I wish you a very happy retirement.","cn":"请允许我代表在座的各位祝你退休后生活愉快。","src":"高中词库"},
+"begin": {"en":"In the third year students begin the study of classical Chinese.","cn":"学生在三年级开始学古代汉语。","src":"四级词库"},
+"beg": {"en":"She fought back the sudden urge to run to him and beg his forgiveness.","cn":"她突然很想冲上去请求他原谅，但是她忍住了。","src":"四级词库"},
+"before": {"en":"The new road should be completed before the end of the year.","cn":"这条新公路应该在年底前完工。","src":"四级词库"},
+"beer": {"en":"Beer is taxed according to its malt content, so low-malt beer is cheaper.","cn":"因为啤酒会根据麦芽含量去征税，所以发泡酒会比较便宜。","src":"Tatoeba 语料"},
+"beginning": {"en":"From the beginning of my career as a journalist, I’ve been writing about gender issues.","cn":"从我一开始干记者这一行，我就写性别议题的题材。","src":"四级词库"},
+"boast": {"en":"It is the charity's proud boast that it has never yet turned anyone away.","cn":"该慈善机构自吹自擂，声称从来没有拒绝过任何人。","src":"四级词库"},
+"belong": {"en":"The house had belonged to her family for three or four generations.","cn":"这座房子属于她家已有三四代了。","src":"四级词库"},
+"below": {"en":"The vegetables store well at temperature below 20℃.","cn":"这些蔬菜在20摄氏度以下能够很好地贮藏。","src":"四级词库"},
+"between": {"en":"The object of these experiments was to find the connection, if any, between the two phenomena.","cn":"这些实验的目的就是探索这两种现象之间的联系，如果存在着任何联系的话。","src":"四级词库"},
+"better": {"en":"There must be a better way to do this.","cn":"一定还有更好的办法来做这件事。","src":"四级词库"},
+"betray": {"en":"She had betrayed her parents' trust .","cn":"她辜负了父母对她的信任。","src":"四级词库"},
+"bet": {"en":"How much do you want to bet?","cn":"你想赌多少钱？","src":"四级词库"},
+"best": {"en":"Our pilots are given the best possible training.","cn":"我们的飞行员接受最好的训练。","src":"四级词库"},
+"besides": {"en":"I need the money. And besides, when I agree to do something, I do it.","cn":"我需要这笔钱，而且，我一旦答应做什么事情就会做到。","src":"四级词库"},
+"beloved": {"en":"He never recovered from the death of his beloved daughter.","cn":"他一直没有走出失去爱女的阴影。","src":"四级词库"},
+"beside": {"en":"I was standing right beside her at the time.","cn":"当时我就站在她的旁边。","src":"四级词库"},
+"beneath": {"en":"He was standing on the bridge looking at the river beneath.","cn":"他站在桥上，看着下面的河水。","src":"四级词库"},
+"bend": {"en":"Several branches started bending towards the ground.","cn":"数根枝条开始向地面弯垂。","src":"四级词库"},
+"bench": {"en":"We sat on a park bench.","cn":"我们坐在公园的长椅上。","src":"四级词库"},
+"belt": {"en":"He unbuckled his leather belt.","cn":"他解开皮带。","src":"四级词库"},
+"berry": {"en":"Whether the legend is true or not, the discovery of coffee dates back to 800 A.D. when Africans created a coffee-berry pulp.","cn":"不论这个传说是真是假，咖啡的发现要回溯到公元800年，那时非洲人制造出了一种咖啡浆果浆。","src":"四级词库"},
+"distress": {"en":"Luke’s behaviour caused his parents great distress.","cn":"卢克的行为使他的父母深感忧虑。","src":"四级词库"},
+"honour": {"en":"Over 100 players competed for the honour of representing the county in the National Finals.","cn":"100多位选手为争取代表郡参加全国总决赛的荣誉进行角逐。","src":"四级词库"},
+"hook": {"en":"He tried to hook his leg over the branch.","cn":"他试图用腿钩住树枝。","src":"四级词库"},
+"hope": {"en":"It was hoped that the job would be filled by a local person.","cn":"希望该职位由当地人来担任。","src":"四级词库"},
+"hopeful": {"en":"The vote is a hopeful sign that attitudes in the church are changing.","cn":"投票结果是个好兆头，表明教会的态度正在转变。","src":"四级词库"},
+"hopeless": {"en":"We tried to stop the flames from spreading, but we knew it was hopeless.","cn":"我们试图阻止火势蔓延，但我们知道这是不可能的。","src":"四级词库"},
+"horizon": {"en":"In the distance, the dot of a boat appeared on the horizon.","cn":"远处小黑点般的一条小船出现在地平线上。","src":"四级词库"},
+"horn": {"en":"A mature cow has horns.","cn":"成年母牛头上长有角。","src":"四级词库"},
+"horror": {"en":"You should have seen the look of horror on his face.","cn":"你真该看看他脸上恐惧的表情。","src":"四级词库"},
+"horse": {"en":"Lee had never ridden a horse before.","cn":"李以前从未骑过马。","src":"四级词库"},
+"hospital": {"en":"They are building a new hospital.","cn":"他们正在建一家新医院。","src":"四级词库"},
+"host": {"en":"Our host greeted us at the door.","cn":"主人在门口迎接我们。","src":"四级词库"},
+"hostess": {"en":"The hostess introduced them.","cn":"女主人介绍了他们。","src":"四级词库"},
+"hostile": {"en":"Southampton fans gave their former coach a hostile reception .","cn":"南安普敦队的球迷对球队的前任教练很不友善。","src":"四级词库"},
+"hot": {"en":"Hot weather will continue, so please watch out for food poisoning.","cn":"因为酷暑一直持续着，请务必注意食物中毒。","src":"Tatoeba 语料"},
+"hundred": {"en":"I’m not a hundred percent sure where she lives.","cn":"我不能完全确定她住在哪里。","src":"四级词库"},
+"humour": {"en":"The host puts the contestants at ease with his own brand of humour .","cn":"主持人以他别具一格的幽默让参赛者放松心情。","src":"四级词库"},
+"humorous": {"en":"The film has some mildly humorous moments.","cn":"那部电影中有些略显幽默的片段。","src":"四级词库"},
+"humid": {"en":"Tokyo is extremely humid in mid-summer.","cn":"仲夏的东京十分潮湿。","src":"四级词库"},
+"humble": {"en":"Be it ever so humble, there's no place like home.","cn":"金窝银窝不如自己的狗窝。","src":"Tatoeba 语料"},
+"human": {"en":"There are many different cell types in the human body .","cn":"人体中有许多种不同的细胞类型。","src":"四级词库"},
+"honeymoon": {"en":"By 1987, the honeymoon was over .","cn":"到1987年，蜜月期已经过去。","src":"四级词库"},
+"huge": {"en":"These shoes make my feet look huge.","cn":"这双鞋让我的脚看上去大极了。","src":"四级词库"},
+"how": {"en":"They had a number of suggestions as to how the service could be improved.","cn":"他们有一些关于如何改进服务的建议。","src":"四级词库"},
+"housewife": {"en":"Married at nineteen, she was a traditional housewife and mother of four children.","cn":"她19岁就结婚了，是个传统的家庭主妇和4个孩子的母亲。","src":"四级词库"},
+"household": {"en":"She was busy with household work.","cn":"她忙於家務。","src":"Tatoeba 语料"},
+"house": {"en":"America’s oldest publishing house","cn":"美国历史最悠久的出版社","src":"四级词库"},
+"hour": {"en":"It takes about a quarter of an hour to walk into town.","cn":"步行进城大约需要一刻钟。","src":"四级词库"},
+"hotel": {"en":"I’ve booked the flights and the hotel.","cn":"我已订好机票和酒店。","src":"四级词库"},
+"however": {"en":"This is a cheap and simple process. However, there are dangers.","cn":"这是个花钱少而又简单的方法，不过有危险。","src":"四级词库"},
+"hunger": {"en":"Try to satisfy your hunger by eating some fruit.","cn":"吃些水果充充饥吧。","src":"四级词库"},
+"honey": {"en":"I like to eat honey and peanut butter sandwiches.","cn":"我喜歡吃蜂蜜花生醬三明治。","src":"Tatoeba 语料"},
+"honest": {"en":"He was a hard-working, honest man.","cn":"他勤奋老实。","src":"四级词库"},
+"her": {"en":"I think it was her, but I’m not sure.","cn":"我觉得是她，但不肯定。","src":"四级词库"},
+"herd": {"en":"Chobe is also renowned for its large herds of elephant and buffalo.","cn":"乔贝还以其大群的大象和水牛而闻名。","src":"四级词库"},
+"here": {"en":"Let’s settle the matter here and now .","cn":"我们现在就解决此事吧。","src":"四级词库"},
+"hero": {"en":"He had dared to speak out against injustice, and overnight he became a national hero .","cn":"他敢于站出来抨击不公正的现象，一夜之间就成了国家英雄。","src":"四级词库"},
+"heroic": {"en":"Lawrence’s heroic struggle against his destiny","cn":"劳伦斯与命运的勇敢抗争","src":"四级词库"},
+"hers": {"en":"These are my gloves. Hers are in the drawer.","cn":"这是我的手套，她的在抽屉里。","src":"四级词库"},
+"herself": {"en":"She cut herself on some broken glass.","cn":"碎玻璃把她割伤了。","src":"四级词库"},
+"hesitate": {"en":"Some parents hesitate to take these steps because they suspect that their child is exaggerating.","cn":"一些家长迟迟不肯采取这些措施，因为他们怀疑自己的孩子在夸大其词。","src":"四级词库"},
+"hide": {"en":"She keeps a bottle of gin hidden behind a stack of books.","cn":"她在一堆书的后面藏了一瓶杜松子酒。","src":"四级词库"},
+"high": {"en":"The camp was surrounded by a high fence.","cn":"营地四周围着高高的栅栏。","src":"四级词库"},
+"highly": {"en":"T.S. Eliot’s highly influential poem, ‘The Waste Land’ T.S.","cn":"艾略特极有影响力的诗作《荒原》","src":"四级词库"},
+"hill": {"en":"Their house is on a hill overlooking the sea.","cn":"他们的房子建在可以俯视大海的小山上。","src":"四级词库"},
+"hillside": {"en":"They sat and had their lunch on a grassy hillside.","cn":"他们坐在长满草的山坡上吃午饭。","src":"四级词库"},
+"him": {"en":"I knew it was him as soon as I heard his voice.","cn":"我一听声音就知道是他。","src":"四级词库"},
+"home": {"en":"They have a beautiful home in California.","cn":"他们在加州有个美丽的家。","src":"四级词库"},
+"holy": {"en":"Harold’s time in Normandy ends with him making an oath to William on holy relics.","cn":"哈罗德在诺曼底的时光以他对着圣物向威廉宣誓结束","src":"HistoryExtra · 2026-09-09"},
+"hollow": {"en":"Hollow out the cake and fill it with cream.","cn":"在蛋糕上挖个洞，填入奶油。","src":"六级词库"},
+"holiday": {"en":"The school holidays start tomorrow.","cn":"学校假期从明天开始。","src":"四级词库"},
+"hole": {"en":"I began digging a hole for the plant.","cn":"我开始挖洞种那棵植物。","src":"四级词库"},
+"hold": {"en":"Do you hold a valid passport?","cn":"你持有有效护照吗？","src":"四级词库"},
+"hobby": {"en":"Susan’s hobbies include reading, cooking, and drama.","cn":"苏珊的业余爱好包括阅读、烹饪和戏剧。","src":"四级词库"},
+"history": {"en":"Throughout history the achievements of women have been largely ignored.","cn":"从古至今，妇女的成就都被大大地忽视了。","src":"四级词库"},
+"historical": {"en":"It is important to look at the novel in its historical context .","cn":"在历史背景下看待这部小说很重要。","src":"四级词库"},
+"his": {"en":"He stated his views to me.","cn":"他向我说明了他的观点。","src":"四级词库"},
+"hire": {"en":"The best way to explore the island is to hire a car.","cn":"在该岛寻幽访胜的最好方式就是租用一辆汽车。","src":"四级词库"},
+"hint": {"en":"She hinted at the possibility of a treat of some sort.","cn":"她暗示可以找找乐子什么的。","src":"四级词库"},
+"himself": {"en":"He stroked the name of himself with his pen.","cn":"他用钢笔划掉了他自己的名字。","src":"四级词库"},
+"hit": {"en":"He raised the hammer and hit the bell.","cn":"他举起钟锤敲钟。","src":"四级词库"},
+"hence": {"en":"The cost of transport is a major expense for an industry. Hence factory location is an important consideration.","cn":"运输成本是企业的一大支出，因此工厂选址是重要的考虑因素。","src":"四级词库"},
+"hungry": {"en":"If you get hungry , there’s some cold chicken in the fridge.","cn":"你要是饿了，冰箱里有些冷鸡肉。","src":"四级词库"},
+"hurry": {"en":"We’ll have to hurry, otherwise we’ll miss the start.","cn":"我们得赶紧，否则就会错过开头部分了。","src":"四级词库"},
+"importance": {"en":"This is considered to be a matter of great importance.","cn":"这被认为是一件大事。","src":"Tatoeba 语料"},
+"important": {"en":"It’s vitally important that you understand the danger.","cn":"了解危险所在是极为重要的。","src":"四级词库"},
+"impose": {"en":"Parents should beware of imposing their own tastes on their children.","cn":"父母应该提防把自己的兴趣强加给孩子。","src":"四级词库"},
+"impossible": {"en":"It is difficult to find work these days, but for blind people it is virtually impossible.","cn":"现在找工作很难，对于盲人来说几乎是不可能。","src":"四级词库"},
+"impress": {"en":"Steve borrowed his dad’s sports car to impress his girlfriend.","cn":"史蒂夫借来他爸爸的跑车向女友炫耀。","src":"四级词库"},
+"impression": {"en":"When we looked around the school we got a very good impression.","cn":"我们参观了学校，对它的印象很好。","src":"四级词库"},
+"impressive": {"en":"Among the guests was an impressive array of authors and critics.","cn":"来宾中有不少出色的作家和评论家。","src":"四级词库"},
+"imprison": {"en":"The government imprisoned all opposition leaders.","cn":"政府把反对派领导人全部监禁起来。","src":"四级词库"},
+"improve": {"en":"You could use the money for improving your home.","cn":"你可以用这笔钱改善家居。","src":"四级词库"},
+"improvement": {"en":"Our results have shown some improvement this month.","cn":"我们的成绩这个月有所提高。","src":"四级词库"},
+"inch": {"en":"Rainfall here is under 15 inches a year.","cn":"本地的年降雨量不到15英寸。","src":"四级词库"},
+"incident": {"en":"Am I at risk because of some incident in my sexual past?","cn":"我过去性生活中的某件事会使我处于危险境地吗？","src":"四级词库"},
+"incline": {"en":"The telescope is inclined at an angle of 43 degrees.","cn":"这架望远镜以43度角倾斜。","src":"四级词库"},
+"include": {"en":"His job includes looking after under-21 teams.","cn":"他的职责包括照管21岁以下球队。","src":"四级词库"},
+"income": {"en":"Professional writers do not have a regular income.","cn":"專職作家沒有固定的收入。","src":"Tatoeba 语料"},
+"incorrect": {"en":"The information you gave us was incorrect.","cn":"你给我们的信息不准确。","src":"四级词库"},
+"indirect": {"en":"Losing weight is an indirect result of smoking cigarettes.","cn":"吸烟间接导致体重减轻。","src":"四级词库"},
+"indication": {"en":"Could you give me some indication as to when I am likely to receive a reply?","cn":"你能给我透露一下什么时候我能收到回复吗？","src":"四级词库"},
+"indicate": {"en":"The study indicates a connection between poverty and crime.","cn":"研究显示贫穷和犯罪有关联。","src":"四级词库"},
+"indian": {"en":"Do you fancy going out for an Indian?","cn":"你想出去吃印度菜吗？","src":"托福词库"},
+"import": {"en":"In 2001, Britain exported more cars than it imported.","cn":"2001年英国的汽车出口量大于进口。","src":"四级词库"},
+"india": {"en":"If you come to India for just one thing, this should be it.","cn":"如果你只为一件事来到印度，那就到这儿来吧。","src":"四级词库"},
+"independent": {"en":"There are plans to split the corporation into a number of smaller independent companies.","cn":"有计划要把这家大企业分割成一些独立的小公司。","src":"四级词库"},
+"independence": {"en":"The country has made great advances since independence.","cn":"该国自独立以来发展迅速。","src":"四级词库"},
+"indefinite": {"en":"Teachers find the report’s terminology so indefinite that it is confusing.","cn":"老师们发现报告的专门用语含义不明确，令人费解。","src":"四级词库"},
+"indeed": {"en":"The blood tests prove that Vince is indeed the father.","cn":"验血证明文斯确实是父亲。","src":"四级词库"},
+"increasingly": {"en":"Marketing techniques are becoming increasingly sophisticated.","cn":"市场营销技巧越来越巧妙。","src":"四级词库"},
+"increase": {"en":"The population increased dramatically in the first half of the century.","cn":"该世纪上半叶，人口大幅度增加。","src":"四级词库"},
+"hunt": {"en":"A forensic team was hunting for clues.","cn":"法医小组正在搜寻线索。","src":"四级词库"},
+"imply": {"en":"I didn't mean to imply otherwise.","cn":"我沒想要暗示其他事。","src":"Tatoeba 语料"},
+"impatient": {"en":"He turned away with an impatient gesture.","cn":"他做了个不耐烦的手势转过身去。","src":"四级词库"},
+"hurt": {"en":"Put that thing down - you might hurt someone with it.","cn":"快把那东西放下，你会伤着别人的。","src":"四级词库"},
+"husband": {"en":"Have you met my husband Roy?","cn":"你见过我的丈夫罗伊吗？","src":"四级词库"},
+"hydrogen": {"en":"At the South Pole, in a region of continuous darkness, humans could access water to produce hydrogen and oxygen.","cn":"月球南极是一个持续黑暗的区域，在这里，人类能够接触到水，以生产氢和氧。","src":"四级词库"},
+"ice": {"en":"The city spent $7 million to remove snow and ice from the roads.","cn":"市政府花费了700万美元用于清除路上的冰雪。","src":"四级词库"},
+"idea": {"en":"You should talk to Ken – he's always full of good ideas.","cn":"你应该和肯谈谈，他总是满脑子好主意。","src":"四级词库"},
+"ideal": {"en":"The scheme offers an ideal opportunity for youngsters to get training.","cn":"该计划为年轻人提供了获得培训的极好机会。","src":"四级词库"},
+"identify": {"en":"The police took fingerprints and identified the body.","cn":"警方采集了指纹，对尸体作了身份确认。","src":"四级词库"},
+"idle": {"en":"Go and wake up that idle brother of yours.","cn":"去把你那懒哥哥叫起来。","src":"四级词库"},
+"ignorant": {"en":"I am quite ignorant of their plan.","cn":"他们的计划我一无所知。","src":"Tatoeba 语料"},
+"ignore": {"en":"You can’t ignore the fact that many criminals never go to prison.","cn":"你不能无视很多罪犯从未获刑的事实。","src":"四级词库"},
+"ill": {"en":"I was feeling ill that day and decided to stay at home.","cn":"我那天不太舒服，决定留在家里。","src":"四级词库"},
+"impact": {"en":"The force of the impact knocked the breath out of her.","cn":"撞击力使她喘不过气来。","src":"四级词库"},
+"immigrant": {"en":"But \"the hostile part can be mobilized from time to time, \" by what he calls \"anti-immigrant entrepreneurs.","cn":"但是“敌对的那部分可能会不时地动员”，以他称之为“反移民企业家”的名义。","src":"考研词库"},
+"immense": {"en":"Regular visits from a social worker can be of immense value to old people living alone.","cn":"对于独居老人来说，社工的经常探望很重要。","src":"四级词库"},
+"immediately": {"en":"Mix in the remaining ingredients and serve immediately.","cn":"拌入余下的食材，立即上桌。","src":"四级词库"},
+"immediate": {"en":"If the eyes are affected, seek immediate medical attention.","cn":"如果眼睛感染了要立即就医。","src":"四级词库"},
+"imitate": {"en":"She was a splendid mimic and loved to imitate Winston Churchill.","cn":"她是个出色的模仿者，喜欢模仿温斯顿·丘吉尔。","src":"四级词库"},
+"imagine": {"en":"Perhaps she’d never really been there at all – perhaps she’d just imagined it.","cn":"可能她从未到过那儿——也许这都是她的幻想。","src":"四级词库"},
+"imaginary": {"en":"We must protect older people from harm, whether it is real or imaginary.","cn":"我们必须保护老人免受伤害，无论这伤害是真实的还是假想的。","src":"四级词库"},
+"image": {"en":"He had the clearest image in his mind of his mother and father.","cn":"他脑海中对父母的印象极其清晰。","src":"四级词库"},
+"illustration": {"en":"The book contains 62 pages of illustrations.","cn":"这本书有62页插图。","src":"四级词库"},
+"illustrate": {"en":"Let me give an example to illustrate the point.","cn":"让我举个例子来说明这一点。","src":"四级词库"},
+"illness": {"en":"Her mother was recovering from a serious illness.","cn":"她母亲重病后正在逐渐康复。","src":"四级词库"},
+"illegal": {"en":"They were involved in illegal activities.","cn":"他们参与了非法活动。","src":"四级词库"},
+"imagination": {"en":"With a little imagination, you can find great inexpensive gifts.","cn":"稍微动点脑筋，你就会找到物美价廉的礼物。","src":"四级词库"},
+"hen": {"en":"What Jones and her colleagues wanted to learn is whether a happy hen in fact produces a better product.","cn":"琼斯和她的同事们希望弄明白，是否一只幸福的母鸡确实产出更好的产品。","src":"四级词库"},
+"helpless": {"en":"Newman threw out a hand in a helpless gesture.","cn":"纽曼伸出手做了个无助的手势。","src":"四级词库"},
+"helpful": {"en":"It is helpful if we address a few key questions here.","cn":"如果我们在这里解决一些关键问题会很有用的。","src":"四级词库"},
+"greedy": {"en":"Have you eaten them all, you greedy pig?","cn":"你把那些全吃了？你这贪吃的猪！","src":"四级词库"},
+"greek": {"en":"That was all Greek to me.","cn":"我完全看不懂。","src":"Tatoeba 语料"},
+"green": {"en":"Raw coffee beans are green in colour.","cn":"生咖啡豆是绿色的。","src":"四级词库"},
+"greenhouse": {"en":"What we are seeking, after all, is not simply an agreement to limit greenhouse gas emissions.","cn":"我们正在寻求的目标毕竟不只是一项限制温室气体排放的协议。","src":"四级词库"},
+"greet": {"en":"Belinda greeted her warmly.","cn":"贝琳达热情地招呼她。","src":"四级词库"},
+"greeting": {"en":"I smiled a polite greeting, but the woman hardly acknowledged me.","cn":"我客气地笑着打了个招呼，可是那女人没有答理我。","src":"四级词库"},
+"grieve": {"en":"People need time to grieve after the death of a loved one.","cn":"人们在所爱之人去世后会有一段悲伤期。","src":"四级词库"},
+"grind": {"en":"The lenses are ground to a high standard of precision.","cn":"镜片被磨到很高的精确度。","src":"四级词库"},
+"grip": {"en":"I gripped the rail and tried not to look down.","cn":"我紧紧抓住栏杆，尽量不往下看。","src":"四级词库"},
+"groan": {"en":"Richard’s jokes make you groan rather than laugh.","cn":"理查德的笑话让你哭笑不得。","src":"四级词库"},
+"grocer": {"en":"The grocer deals in tea, coffee, spices and so forth.","cn":"该杂货店经销茶叶、咖啡、佐料等商品。","src":"四级词库"},
+"grocery": {"en":"They run a small grocery store.","cn":"他们经营一家小食品杂货店。","src":"四级词库"},
+"gross": {"en":"The company was guilty of gross negligence.","cn":"该公司犯了重大的失职罪。","src":"四级词库"},
+"ground": {"en":"There are strong grounds for believing his statement.","cn":"有充分的理由可以相信他的话。","src":"四级词库"},
+"group": {"en":"A group of us are going to London.","cn":"我们有一群人要去伦敦。","src":"四级词库"},
+"grow": {"en":"You’ve really grown since I last saw you.","cn":"你比我上次见到时长了不少啊。","src":"四级词库"},
+"habit": {"en":"She has a habit of playing with her hair when she’s nervous.","cn":"她有一个习惯，一紧张就拨弄自己的头发。","src":"四级词库"},
+"gymnasium": {"en":"Our volleyball team will play away tomorrow and play games in the gymnasium on Saturday.","cn":"我们的排球队明天将去外地比赛，星期六则要在体育馆比赛。","src":"四级词库"},
+"gunpowder": {"en":"A spark caused the gunpowder to explode.","cn":"一点火花让火药爆炸。","src":"Tatoeba 语料"},
+"gun": {"en":"Two policemen were killed in a gun battle .","cn":"两名警察在一次枪战中丧生。","src":"四级词库"},
+"gum": {"en":"I do not chew gum in public.","cn":"我不在公共场合嚼口香糖。","src":"四级词库"},
+"greatly": {"en":"All offers of help will be greatly appreciated .","cn":"如蒙帮助，感激不尽。","src":"四级词库"},
+"guilty": {"en":"It was his guilty conscience that made him offer to help.","cn":"他是因为良心上过意不去才提出帮忙的。","src":"四级词库"},
+"guest": {"en":"Among the invited guests were Jerry Brown and Elihu Harris.","cn":"受邀的嘉宾中有杰里·布朗和伊莱休·哈里斯。","src":"四级词库"},
+"guess": {"en":"I’d say he’s around 50, but I’m only guessing.","cn":"我想他50岁左右，不过也只是猜测。","src":"四级词库"},
+"guard": {"en":"The Sergeant told Swift to guard the entrance.","cn":"中士叫斯威夫特守着入口。","src":"四级词库"},
+"guarantee": {"en":"They offer a two-year guarantee on all their electrical goods.","cn":"他们所有的电器产品都有两年的保修期。","src":"四级词库"},
+"guide": {"en":"Teenagers need adults to guide them.","cn":"十几岁的青少年需要大人来引导。","src":"高中词库"},
+"habitual": {"en":"James took his habitual morning walk around the garden.","cn":"詹姆斯又像往常习惯的那样绕花园作晨间散步去了。","src":"四级词库"},
+"great": {"en":"The news came as possibly the greatest shock of my life.","cn":"这个消息可能是我一生中最大的打击。","src":"四级词库"},
+"gravity": {"en":"It's gravity that makes satellites move around the Earth.","cn":"让卫星环绕地球的是重力。","src":"Tatoeba 语料"},
+"goodness": {"en":"He retains a faith in human goodness.","cn":"他依然相信人性的善。","src":"四级词库"},
+"goods": {"en":"There will be tax increases on a range of goods and services .","cn":"有一些商品和服务将要增税。","src":"四级词库"},
+"govern": {"en":"The party had been governing for seven months.","cn":"该党执政已经有七个月了。","src":"四级词库"},
+"government": {"en":"Neither party had the majority necessary to form a government.","cn":"两个政党都没有获得组阁所必需的多数票。","src":"四级词库"},
+"governor": {"en":"The governor also expressed concerned over the deteriorating standard of education in the country.","cn":"这位地方长官对该国不断恶化的教育标准也表达了忧虑。","src":"考研词库"},
+"gown": {"en":"The new ball gown was a great success.","cn":"那件新款长礼服非常成功。","src":"六级词库"},
+"grace": {"en":"Lena moved with the grace of a dancer.","cn":"莉娜走路姿势有着舞者般的优美。","src":"四级词库"},
+"graceful": {"en":"Her movements were graceful and elegant.","cn":"她举手投足优雅而高贵。","src":"四级词库"},
+"gracious": {"en":"Sibyl was the most gracious, helpful, and generous person to work with.","cn":"西比尔非常和蔼，乐于助人，而且为人慷慨，和她共事最愉快。","src":"四级词库"},
+"grade": {"en":"All the parks are regularly checked and graded by tourist board inspectors.","cn":"所有公园都由旅游协会的检查员进行定期检查和评级。","src":"四级词库"},
+"gradual": {"en":"There has been a gradual change in climate.","cn":"气候渐渐发生了变化。","src":"四级词库"},
+"gradually": {"en":"Jill gradually became aware of an awful smell.","cn":"吉尔渐渐地闻到了一股难闻的气味。","src":"四级词库"},
+"graduate": {"en":"When the boys graduated from high school, Ann moved to a small town in Vermont.","cn":"男孩们中学毕业后安迁到了佛蒙特州的一座小镇。","src":"高中词库"},
+"grain": {"en":"There were crumbs and grains of sugar on the table.","cn":"桌子上有面包屑和糖粒。","src":"四级词库"},
+"grammar": {"en":"Check your spelling and grammar.","cn":"检查你的拼写和语法。","src":"四级词库"},
+"grammatical": {"en":"He made a few grammatical mistakes.","cn":"他犯了一些文法錯誤。","src":"Tatoeba 语料"},
+"grave": {"en":"The report expressed grave concern over the technicians’ lack of training.","cn":"报告中对技术人员缺乏培训深表忧虑。","src":"四级词库"},
+"gratitude": {"en":"Tears of gratitude filled her eyes.","cn":"她眼里充满感激的泪水。","src":"四级词库"},
+"grateful": {"en":"Our grateful thanks go to all who participated.","cn":"我们衷心感谢所有参与者。","src":"四级词库"},
+"grass": {"en":"I walked across the grass.","cn":"我走在草地上。","src":"四级词库"},
+"grasp": {"en":"I grasped his arm firmly and led him away.","cn":"我紧紧抓住他的胳膊把他带走。","src":"四级词库"},
+"graph": {"en":"Martin showed me a graph of their recent sales.","cn":"马丁给我看了他们最近销售情况的图表。","src":"四级词库"},
+"gray": {"en":"Once again he found himself inside the apartment in the enormous gray house.","cn":"他又一次发现自己在那所庞大的灰色的房子的房间里了。","src":"四级词库"},
+"grape": {"en":"She tossed me grapes and I tried to catch them with my mouth.","cn":"她朝我丢葡萄，我试着用嘴接住它们。","src":"Tatoeba 语料"},
+"grandson": {"en":"My grandson's birthday was on Tuesday.","cn":"我孙子的生日是星期二。","src":"四级词库"},
+"grandmother": {"en":"My grandmothers are both widows.","cn":"我的祖母和外祖母都是寡妇。","src":"四级词库"},
+"grandfather": {"en":"His grandfather was a professor.","cn":"他爷爷曾是位教授。","src":"四级词库"},
+"grand": {"en":"New Yorkers build on a grand scale.","cn":"纽约人喜欢建高楼大厦。","src":"四级词库"},
+"grant": {"en":"Anyone wishing to apply for a grant should write to the Treasurer.","cn":"凡希望申请补助者，请致函财务主管。","src":"四级词库"},
+"hair": {"en":"Her hair was short and dark.","cn":"她的头发又短又黑。","src":"四级词库"},
+"haircut": {"en":"Do you like my new haircut?","cn":"你喜欢我的新发型吗？","src":"四级词库"},
+"half": {"en":"If you look at our members, at least half are women.","cn":"看看我们的会员，至少有一半是女性。","src":"四级词库"},
+"have": {"en":"You haven’t done much, have you?","cn":"你没做多少，是吗？","src":"四级词库"},
+"hawk": {"en":"Oil thieves sometimes hawk stolen gasoline on the side of highways.","cn":"石油大盗们有时在公路边上兜售偷来的石油。","src":"六级词库"},
+"head": {"en":"Alan fell asleep as soon as he put his head on the pillow.","cn":"艾伦头一挨枕头就睡着了。","src":"四级词库"},
+"headache": {"en":"If you have a headache, you should take some aspirin.","cn":"要是头痛，你该吃点阿司匹林。","src":"四级词库"},
+"heading": {"en":"Rangers host Celtic at Ibrox in Sunday's League Cup quarter-final in manager Derek McInnes' first Old Firm as manager; there will be no away fans after SPFL ruling; Celtic have won all six league games heading into clash while Rangers have four consecutive Premiership wins after poor start","cn":"周日联赛杯四分之一决赛，流浪者队将在伊布罗克斯主场迎战凯尔特人队，这是德里克·麦金尼斯执教的第一个老东家；苏格兰足球联盟裁决后将不会有客场球迷；凯尔特人已经赢得了联赛前的六场比赛，而流浪者则在开局不佳的情况下取得了联赛的四连胜","src":"Sky Sports · 2026-09-10"},
+"headline": {"en":"Then a few weeks later, another significant headline - Pochettino had, a little surprisingly perhaps, signed for four more years with the USA.","cn":"然后几周后，另一个重要的头条新闻-波切蒂诺与美国签订了四年的合同，也许有点令人惊讶。","src":"Sky Sports · 2026-09-09"},
+"headmaster": {"en":"Our headmaster rattled on for at least two hours at the opening ceremony.","cn":"我们的校长在开学典礼上唠唠叨叨地讲了至少两个小时。","src":"四级词库"},
+"heal": {"en":"It took three months for my arm to heal properly.","cn":"我的胳膊三个月之后才痊愈。","src":"四级词库"},
+"health": {"en":"I’m worried about my husband’s health.","cn":"我担心我丈夫的健康状况。","src":"四级词库"},
+"healthy": {"en":"I’ve always been perfectly healthy until now.","cn":"直到现在，我的身体一直非常健康。","src":"四级词库"},
+"heap": {"en":"We piled the branches into heaps for burning.","cn":"我们把树枝堆起来烧。","src":"四级词库"},
+"hear": {"en":"Blanche heard a crash as the back door was flung open.","cn":"布兰奇听见后门哗啦一声被推开。","src":"四级词库"},
+"heart": {"en":"Her cheeks were hot and her heart was pounding.","cn":"她脸颊发烫，心怦怦直跳。","src":"四级词库"},
+"help": {"en":"If there’s anything I can do to help, just give me a call.","cn":"如果需要我帮忙，就给我打个电话。","src":"四级词库"},
+"helmet": {"en":"Without Christ we are defenseless against the Devil, but with \"the helmet of salvation\" our minds are protected by God.","cn":"没有基督，我们无力防御魔鬼的攻击；但有救恩的头盔，我们的心思便有神的保护。","src":"四级词库"},
+"hello": {"en":"Well, hello there ! I haven’t seen you for ages.","cn":"嗨，你好！好久不见了。","src":"四级词库"},
+"helicopter": {"en":"He put a harness on each of us, and we were hauled into the helicopter.","cn":"他在我们每个人头上套上一个套索，然后我们被拉进了直升飞机。","src":"四级词库"},
+"heir": {"en":"Jonson was his political heir as leader of the party.","cn":"琼森是他的政治接班人，他将担任该党派的领袖。","src":"四级词库"},
+"hatred": {"en":"A look of pure hatred flashed across her face.","cn":"她脸上闪过十足的仇恨表情。","src":"四级词库"},
+"height": {"en":"Sam’s about the same height as his sister now.","cn":"萨姆现在身高和他姐姐差不多了。","src":"四级词库"},
+"hedge": {"en":"You’re hedging again - have you got the money or haven’t you?","cn":"你又在闪烁其词了，你究竟有没有钱？","src":"四级词库"},
+"heavy": {"en":"The wardrobe was too heavy for me to move on my own.","cn":"衣橱太重，我一个人移不动。","src":"四级词库"},
+"heavily": {"en":"The report was heavily criticized in the press.","cn":"该报道遭到了新闻界的严厉批评。","src":"四级词库"},
+"heaven": {"en":"He looked up towards the heavens.","cn":"他仰望苍穹。","src":"四级词库"},
+"heating": {"en":"We wanted to reduce the cost of heating and air-conditioning.","cn":"我们想减少供暖与空调的开支。","src":"四级词库"},
+"heat": {"en":"Insulating the attic is a good way to reduce heat loss.","cn":"为阁楼安装隔热层是减少热量流失的好方法。","src":"四级词库"},
+"heel": {"en":"She's wearing high heels.","cn":"她穿著高跟鞋。","src":"Tatoeba 语料"},
+"hateful": {"en":"It was all the fault of that hateful man!","cn":"都是那个可恶的人造的孽！","src":"四级词库"},
+"hate": {"en":"It’s the kind of movie you either love or hate.","cn":"这是那种你要么喜欢要么讨厌的电影。","src":"四级词库"},
+"hatch": {"en":"The eggs take three days to hatch.","cn":"这些蛋要三天时间才能孵化。","src":"四级词库"},
+"happiness": {"en":"We want our children to have the best possible chance of happiness.","cn":"我们希望自己的孩子得到追求幸福的最佳机会。","src":"四级词库"},
+"happen": {"en":"It’s impossible to predict what will happen next.","cn":"不可能预测接下来会发生什么。","src":"四级词库"},
+"hang": {"en":"If he is found guilty, he will almost certainly hang.","cn":"如果被判有罪，他几乎肯定会被处以绞刑。","src":"四级词库"},
+"handy": {"en":"It’s very handy having a light above your desk.","cn":"书桌上方有盏灯很有用。","src":"四级词库"},
+"handwriting": {"en":"I recognised her handwriting on the envelope.","cn":"我认出了信封上她的笔迹。","src":"四级词库"},
+"handsome": {"en":"They won a handsome victory in the elections.","cn":"他们在选举中取得了重大的胜利。","src":"四级词库"},
+"happy": {"en":"It’s a lovely house and we’ve been very happy here.","cn":"房子很漂亮，我们住在这里非常开心。","src":"四级词库"},
+"handle": {"en":"Then he turned the handle and went in.","cn":"然后他转动把手走了进去。","src":"四级词库"},
+"handful": {"en":"There were only a handful of people there.","cn":"那里只有几个人。","src":"四级词库"},
+"hand": {"en":"Steve gripped the steering wheel tightly with both hands.","cn":"史蒂夫双手紧握方向盘。","src":"四级词库"},
+"hammer": {"en":"To the man who only has a hammer in the toolkit, every problem looks like a nail.","cn":"对工具箱里只有一把榔头的人来说，所有的问题都像钉子。","src":"Tatoeba 语料"},
+"hamburger": {"en":"I order a soda and a hamburger for myself. Then another person gets coffee for me.","cn":"嗯， 我为自己点了一杯苏打和一个汉堡包， 然后另外一人给我拿了杯咖啡。","src":"四级词库"},
+"halt": {"en":"Safety concerns have led them to halt work on the dam.","cn":"出于安全方面的顾虑，他们已经停止水坝的施工。","src":"四级词库"},
+"hall": {"en":"Each floor had ten rooms on both sides of the hall.","cn":"每一层在走廊的两边都各有十个房间。","src":"高中词库"},
+"handkerchief": {"en":"Before sweeping the house she bound up her hair in a large handkerchief.","cn":"打扫房屋前， 她把头发用一块大手帕扎起来。","src":"四级词库"},
+"indispensable": {"en":"Mobile phones have become an indispensable part of our lives.","cn":"移动电话已经成为我们生活中的必需品。","src":"四级词库"},
+"harbour": {"en":"Accusations of harbouring suspects were raised against the former Hungarian leadership.","cn":"匈牙利前领导人被指控窝藏疑犯。","src":"六级词库"},
+"harden": {"en":"It will take about 24 hours for the glue to harden.","cn":"胶水干透大约需要24小时。","src":"四级词库"},
+"hat": {"en":"Maria was wearing a beautiful new hat.","cn":"玛丽亚戴着一顶漂亮的新帽子。","src":"四级词库"},
+"hasty": {"en":"He soon regretted his hasty decision.","cn":"他很快就对自己仓促作出的决定感到后悔了。","src":"四级词库"},
+"hasten": {"en":"Their departure was hastened by an abnormally cold winter.","cn":"那个冬天异常寒冷，所以他们提前走了。","src":"四级词库"},
+"haste": {"en":"I soon regretted my haste.","cn":"我很快就对自己的仓促感到后悔。","src":"四级词库"},
+"harvest": {"en":"The company is now reaping the harvest of careful planning.","cn":"公司现在尝到了精心规划带来的甜头。","src":"四级词库"},
+"harsh": {"en":"The hostages are being held in harsh conditions.","cn":"人质被拘押在恶劣环境中。","src":"四级词库"},
+"hard": {"en":"After months without rain, the ground was too hard to plough.","cn":"数月无雨，土地坚硬难犁。","src":"四级词库"},
+"harness": {"en":"On Sunday the horses were harnessed to a heavy wagon for a day-long ride over the border.","cn":"星期天这些马被套在一辆沉重的货车上，踏上长达一天的旅程越过边境。","src":"四级词库"},
+"harmful": {"en":"Smoking is harmful to your health.","cn":"吸烟有害健康。","src":"Tatoeba 语料"},
+"harm": {"en":"Our children deserve protection from harm.","cn":"我们的儿童理应得到保护免受伤害。","src":"四级词库"},
+"hare": {"en":"He found the shin-bone of a hare lying on the grass.","cn":"他在草地上发现一根野兔的胫骨，骨头上有个洞；","src":"四级词库"},
+"hardship": {"en":"Many students are suffering severe financial hardship.","cn":"许多学生经济非常困难。","src":"四级词库"},
+"hardly": {"en":"My parents divorced when I was six, and I hardly knew my father.","cn":"我六岁时父母离婚，我对父亲几乎一无所知。","src":"四级词库"},
+"harmony": {"en":"I do believe it is possible for different ethnic groups to live together in harmony.","cn":"我确信不同民族的人民可以融洽相处。","src":"高中词库"},
+"individual": {"en":"Each individual leaf on the tree is different.","cn":"树上每片叶子都不相同。","src":"四级词库"},
+"indoors": {"en":"It rained all day so we had to stay indoors.","cn":"雨下了整整一天，我们只好留在屋里。","src":"四级词库"},
+"industrial": {"en":"By 1900, Britain was a mainly industrial society.","cn":"到1900年英国已基本进入工业社会。","src":"四级词库"},
+"lag": {"en":"Some of the runners in the race began to lag.","cn":"参加比赛的运动员中有一些开始落后了。","src":"四级词库"},
+"lake": {"en":"Some of the bluest water in the world is found in Crater Lake.","cn":"一些世界上最藍的水在火山湖。","src":"Tatoeba 语料"},
+"lamp": {"en":"She switched on the bedside lamp.","cn":"她打开了床头灯。","src":"四级词库"},
+"land": {"en":"He bought a piece of land.","cn":"他买了一块地。","src":"四级词库"},
+"landing": {"en":"In a few minutes we'll be landing at New Tokyo International Airport.","cn":"我们将于几分钟内降落在新东京国际机场。","src":"Tatoeba 语料"},
+"landlady": {"en":"There was a note under the door from my landlady.","cn":"门下有我女房东的一张便条。","src":"四级词库"},
+"landlord": {"en":"His landlord doubled the rent.","cn":"他的房东把房租提高了一倍。","src":"四级词库"},
+"language": {"en":"How many languages do you speak?","cn":"你能说几种语言？","src":"四级词库"},
+"lantern": {"en":"In the course of time, this kind of lantern has become an exclusive of the Shens.","cn":"后来， 这种灯笼成了沈家的绝活。","src":"四级词库"},
+"lap": {"en":"Rubens Barrichello finished a lap ahead of his team-mate.","cn":"鲁本斯·巴里切罗领先队友一圈跑完全程。","src":"高中词库"},
+"large": {"en":"A large number of students have signed up for the course.","cn":"很多学生报名读这门课程。","src":"四级词库"},
+"largely": {"en":"The state of Nevada is largely desert.","cn":"内华达州大部分是沙漠。","src":"四级词库"},
+"laser": {"en":"Laser printers are generally cheaper to maintain than inkjet printers.","cn":"激光打印机一般比喷墨打印机用起来更省钱。","src":"Tatoeba 语料"},
+"last": {"en":"I split up with my last boyfriend three years ago.","cn":"我和前任男友在3年前分手了。","src":"四级词库"},
+"lawyer": {"en":"Prosecution and defence lawyers are expected to deliver closing arguments next week.","cn":"原告律师和被告律师下周将要作终结辩论。","src":"四级词库"},
+"lawn": {"en":"I didn't charge Tom anything to mow his lawn.","cn":"我修剪湯姆的草坪，沒有向他收取任何費用。","src":"Tatoeba 语料"},
+"law": {"en":"Elected officials ought to obey the law.","cn":"民选官员理应遵守法律。","src":"四级词库"},
+"laundry": {"en":"Ben was folding laundry.","cn":"本正在叠洗好的衣服。","src":"四级词库"},
+"launch": {"en":"The organization has launched a campaign to raise $150,000.","cn":"为了筹集15万美元，该组织发起了一场募捐活动。","src":"四级词库"},
+"lady": {"en":"Ladies and gentlemen, may I have your attention please?","cn":"女士们、先生们，请大家注意！","src":"四级词库"},
+"laughter": {"en":"Foster joined in the laughter.","cn":"福斯特也跟着笑了起来。","src":"四级词库"},
+"latter": {"en":"In the latter case, buyers pay a 15% commission.","cn":"在后一种情况下，买家付15%的佣金。","src":"四级词库"},
+"latin": {"en":"Many English words are derived from Latin.","cn":"許多英文單字源自於拉丁文。","src":"Tatoeba 语料"},
+"later": {"en":"I’m going out for a bit – I’ll see you later.","cn":"我出去一会儿——回头见。","src":"四级词库"},
+"lately": {"en":"Lately, I’ve had trouble sleeping.","cn":"最近我睡眠有问题。","src":"四级词库"},
+"late": {"en":"We apologize for the late departure of flight AZ709.","cn":"我们为AZ709航班延误起飞表示歉意。","src":"四级词库"},
+"laugh": {"en":"Tony was laughing so hard he had to steady himself on the table.","cn":"托尼笑得太厉害了，靠着桌子才能让自己站稳。","src":"四级词库"},
+"lay": {"en":"They laid a wreath at the place where so many people died.","cn":"他们在这么多人丧生的地方放了一个花圈。","src":"四级词库"},
+"ladder": {"en":"He hurt himself falling off a ladder.","cn":"他从梯子上摔下来受了伤。","src":"四级词库"},
+"lace": {"en":"Lace up your shoes or you’ll trip over.","cn":"把鞋带系好，否则你会绊倒的。","src":"考研词库"},
+"keep": {"en":"The noise kept him awake.","cn":"噪音使他一直醒着。","src":"四级词库"},
+"keeper": {"en":"Bob is head lion keeper at the zoo.","cn":"鲍勃是动物园养狮主管。","src":"四级词库"},
+"kettle": {"en":"She filled the kettle and switched it on.","cn":"她把水壶灌满，打开了开关。","src":"四级词库"},
+"key": {"en":"A bunch of keys hung from his belt.","cn":"他的皮带上挂着一串钥匙。","src":"四级词库"},
+"kick": {"en":"He threw me to the ground and started to kick.","cn":"他把我摔在地上开始踢我。","src":"四级词库"},
+"kid": {"en":"Carlotta’s 39? No kidding?","cn":"卡洛塔39岁了？不是开玩笑吧？","src":"四级词库"},
+"kill": {"en":"Four people were killed when a train plunged into a flooded river.","cn":"火车冲进洪水泛滥的河中，造成四人身亡。","src":"四级词库"},
+"kilogram": {"en":"By comparison, one kilogram of tomatoes requires 160 litres of water.","cn":"相比之下，生产一公斤的番茄需要160升水。","src":"四级词库"},
+"kilometer": {"en":"She had to battle snowstorms, landslides, snakes and loneliness on her 350 kilometer journey.","cn":"在350公里的行程中，她要克服暴风雪、滑坡、蛇和孤独寂寞。","src":"托福词库"},
+"kind": {"en":"Get me a sandwich – any kind will do.","cn":"给我一份三明治，随便哪种都可以。","src":"四级词库"},
+"kindness": {"en":"I can’t thank you enough for your kindness.","cn":"你的好意我感激不尽。","src":"四级词库"},
+"king": {"en":"If the lion is the king of beasts, the eagle is the king of birds.","cn":"狮子是兽类之王的话，鹰就是鸟类之王。","src":"Tatoeba 语料"},
+"kingdom": {"en":"UK is the abbreviation for the United Kingdom.","cn":"UK是英国的缩写。","src":"Tatoeba 语料"},
+"kiss": {"en":"Georgina took him in her arms and kissed him on the lips.","cn":"乔治娜抱住他，吻他的嘴唇。","src":"四级词库"},
+"kitchen": {"en":"Sam went into the kitchen to make a pot of tea.","cn":"萨姆走进厨房去沏一壶茶。","src":"四级词库"},
+"labour": {"en":"The garage charges £30 an hour for labour.","cn":"汽车修理厂收取每小时30英镑的人工费。","src":"四级词库"},
+"laboratory": {"en":"This laboratory is equipped with the latest computers.","cn":"这个实验室配备了最新的计算机。","src":"Tatoeba 语料"},
+"label": {"en":"Label the diagram clearly.","cn":"把图表标示清楚。","src":"托福词库"},
+"lab": {"en":"The air conditioner in the lab is broken.","cn":"实验室里的空调坏了。","src":"Tatoeba 语料"},
+"knowledge": {"en":"He did not have much knowledge of American history.","cn":"他对美国历史所知不多。","src":"四级词库"},
+"know": {"en":"There are instructions telling you everything you need to know.","cn":"操作指南会告诉你所有须知事项。","src":"四级词库"},
+"lack": {"en":"Does their apparent lack of progress mean they are not doing their job properly?","cn":"他们看来没有什么进展，是不是说明他们没有做好本职工作？","src":"四级词库"},
+"knot": {"en":"A pretty scarf was loosely knotted around her neck.","cn":"她的脖子上松松地系着一条漂亮的围巾。","src":"四级词库"},
+"knob": {"en":"He thought the door was locked, but he turned the knob and the door opened.","cn":"他本以为门是锁住的，但是转了一下把手门就开了。","src":"四级词库"},
+"knit": {"en":"I have already started knitting baby clothes.","cn":"我已经开始织婴儿的衣服了。","src":"四级词库"},
+"knife": {"en":"Some young people are carrying knives to defend themselves.","cn":"一些年轻人带着刀子防身。","src":"四级词库"},
+"kneel": {"en":"Tom knelt down and patted the dog.","cn":"汤姆跪下来轻轻拍了拍那只狗。","src":"四级词库"},
+"knee": {"en":"Lucy had a bandage round her knee.","cn":"露西的膝盖上缠着绷带。","src":"四级词库"},
+"kite": {"en":"She has a blue and green kite.","cn":"她有一只蓝色和绿色的风筝。","src":"四级词库"},
+"knock": {"en":"I knocked and knocked but nobody answered.","cn":"我把门敲了又敲，但无人回应。","src":"四级词库"},
+"layout": {"en":"All the flats in the building had the same layout.","cn":"大楼里所有的公寓布局都是一样的。","src":"四级词库"},
+"lazy": {"en":"He felt too lazy to get out of bed.","cn":"他懒得都不想起床。","src":"四级词库"},
+"liberal": {"en":"I had quite liberal parents.","cn":"我的父母思想很开明。","src":"考研词库"},
+"liberate": {"en":"A few days later, our armies liberated the city.","cn":"几天以后，我军解放了这座城市。","src":"四级词库"},
+"liberation": {"en":"They consecrated their lives to the liberation of their motherland.","cn":"他们把生命献给了祖国的解放事业。","src":"四级词库"},
+"librarian": {"en":"The new librarian is a friend of mine.","cn":"这位新来的图书管理员是我的朋友。","src":"四级词库"},
+"library": {"en":"I returned the books I borrowed from the library, and I borrowed some new ones.","cn":"我还了从图书馆借的书，又借了些新的。","src":"Tatoeba 语料"},
+"license": {"en":"Interface that you implement to handle result of the license check.","cn":"您可以通过实现这个接口来处理许可检查的结果。","src":"四级词库"},
+"lick": {"en":"The dog jumped up and licked her face.","cn":"那只狗跳起来舔她的脸。","src":"四级词库"},
+"lid": {"en":"She lifted the lid of the box and displayed the contents.","cn":"她把盒盖掀起，展示了里边的东西。","src":"四级词库"},
+"lie": {"en":"The Tasman Sea lies between Tasmania and Australia.","cn":"塔斯曼海位于塔斯马尼亚和澳大利亚之间。","src":"四级词库"},
+"lieutenant": {"en":"He was preferred to lieutenant.","cn":"他被晋升为陆军中尉。","src":"四级词库"},
+"life": {"en":"She knew she’d feel guilty for the rest of her life.","cn":"她知道自己将内疚终生。","src":"四级词库"},
+"lifetime": {"en":"It’s the sort of opportunity you see only once in a lifetime.","cn":"这种机会你一辈子也只能碰到一次。","src":"四级词库"},
+"lift": {"en":"The lumber was lifted by crane and dropped into the truck.","cn":"木材由起重机搬运到卡车上。","src":"四级词库"},
+"light": {"en":"The truck was quite light and easy to drive.","cn":"这辆卡车很轻，容易驾驶。","src":"四级词库"},
+"line": {"en":"The goalkeeper just managed to stop the ball going over the line.","cn":"守门员刚好把球截住，没有让它越过球门线。","src":"四级词库"},
+"limited": {"en":"So far, the education reforms have had only limited success.","cn":"迄今为止，教育改革只取得了有限的成效。","src":"四级词库"},
+"limitation": {"en":"I know my limitations.","cn":"我知道我的限度。","src":"Tatoeba 语料"},
+"limit": {"en":"My patience is nearing its limit.","cn":"我的耐心快要耗尽了。","src":"Tatoeba 语料"},
+"lime": {"en":"The wall was first pricked up with a coat lime.","cn":"墙壁先抹上一层石灰打底子。","src":"四级词库"},
+"liar": {"en":"Are you calling me a liar?","cn":"你是说我在撒谎？","src":"四级词库"},
+"limb": {"en":"She would be able to stretch out her cramped limbs and rest for a few hours.","cn":"她将可以伸开蜷缩的四肢，休息几个小时。","src":"四级词库"},
+"likely": {"en":"He could offer no likely explanation when I asked him.","cn":"我问他的时候，他不能给出一个合理的解释。","src":"高中词库"},
+"like": {"en":"I didn’t like the idea of being a single parent.","cn":"我可不想当单亲家长。","src":"四级词库"},
+"lightning": {"en":"Lightning flashed overhead.","cn":"头顶上电光闪闪。","src":"四级词库"},
+"lightly": {"en":"I knocked lightly on the door.","cn":"我轻轻地敲了敲门。","src":"四级词库"},
+"lighten": {"en":"As the sky lightened, we were able to see where we were.","cn":"天色渐亮，我们能看清楚身处何地了。","src":"四级词库"},
+"likewise": {"en":"The clams were delicious. Likewise, the eggplant was excellent.","cn":"蛤蜊味道鲜美，茄子也同样美味。","src":"四级词库"},
+"liable": {"en":"The car is liable to overheat on long trips.","cn":"这辆汽车跑长途容易过热。","src":"四级词库"},
+"lever": {"en":"Pull this lever to open the gate.","cn":"拉此横杆开启大门。","src":"四级词库"},
+"level": {"en":"Inflation fell to its lowest level in 30 years.","cn":"通货膨胀降至30年来最低点。","src":"四级词库"},
+"least": {"en":"I try to offend the least amount of people possible.","cn":"我尽可能少得罪人。","src":"四级词库"},
+"learning": {"en":"A little learning is a dangerous thing.","cn":"一知半解很危險。","src":"Tatoeba 语料"},
+"learned": {"en":"It was an advantage having learned Chinese while I was in school.","cn":"在学校时我学了中文是个优势。","src":"Tatoeba 语料"},
+"learn": {"en":"The student will learn from experience about the importance of planning.","cn":"学生将从经验中学到制订计划的重要性。","src":"四级词库"},
+"leap": {"en":"He leapt 27 places to second spot.","cn":"他上升了27位，跃居第二名。","src":"托福词库"},
+"lean": {"en":"My parents lived through the lean years of the 1930s.","cn":"我的父母经历了20世纪30年代的萧条期。","src":"托福词库"},
+"leather": {"en":"The inside of the bag was lined with soft leather.","cn":"这包的里面衬了软皮。","src":"四级词库"},
+"leak": {"en":"A tanker is leaking oil off the coast of Scotland.","cn":"苏格兰海岸附近有一艘油轮漏油。","src":"四级词库"},
+"leaf": {"en":"The leaves of the trees in the garden have turned completely red.","cn":"花园里树上的叶子已经完全变红了。","src":"Tatoeba 语料"},
+"leading": {"en":"The army played a leading role in organizing the attempted coup.","cn":"军队在策划这场未遂政变的过程中起了最主要的作用。","src":"高中词库"},
+"leadership": {"en":"The next leadership election is due in November.","cn":"下一届领导人选举将在十一月举行。","src":"四级词库"},
+"leader": {"en":"Japan is a leader in the world's high-tech industry.","cn":"日本是世界高科技产业的领头人。","src":"Tatoeba 语料"},
+"lead": {"en":"He walks with a stick but still leads his soldiers into battle.","cn":"尽管他拄着拐杖，但他仍带领士兵上战场。","src":"高中词库"},
+"league": {"en":"He makes his football league debut tomorrow.","cn":"明天他将在足球联赛中首次出战。","src":"四级词库"},
+"keen": {"en":"The kids in my class are all very keen.","cn":"我班上的学生都很好学。","src":"四级词库"},
+"leave": {"en":"Before leaving the train, make sure you have all your belongings with you.","cn":"下火车前一定要带好随身物品。","src":"四级词库"},
+"left": {"en":"She held out her left hand.","cn":"她伸出左手。","src":"四级词库"},
+"letter": {"en":"There are 26 letters in the English alphabet.","cn":"英语字母表有26个字母。","src":"四级词库"},
+"let": {"en":"I can’t come out tonight – my dad won’t let me.","cn":"今天晚上我不能出来，我爸爸不允许。","src":"四级词库"},
+"lest": {"en":"She turned away from the window lest anyone see them.","cn":"她转身离开窗边，免得有人看见他们。","src":"四级词库"},
+"lesson": {"en":"Ten minutes remained until the end of the lesson.","cn":"离下课还有十分钟。","src":"Tatoeba 语料"},
+"lessen": {"en":"Gradually her anxiety lessened.","cn":"她的焦虑慢慢减轻了。","src":"四级词库"},
+"less": {"en":"In recent years she has appeared in public less frequently.","cn":"近年来她在公开场合露面的次数少了。","src":"四级词库"},
+"lecture": {"en":"When listening to a lecture, you should be quiet.","cn":"听讲座时，你应该保持安静。","src":"Tatoeba 语料"},
+"lens": {"en":"Have you found your contact lenses?","cn":"你找到你的隱形眼鏡了嗎？","src":"Tatoeba 语料"},
+"lend": {"en":"The bank is reassessing its criteria for lending money.","cn":"银行正在重新评估其贷款标准。","src":"四级词库"},
+"lemon": {"en":"Add a few drops of lemon juice.","cn":"加几滴柠檬汁。","src":"四级词库"},
+"leisure": {"en":"The hotel offers various leisure facilities such as a swimming pool and sauna.","cn":"酒店提供游泳池、桑拿浴室等各种休闲设施。","src":"四级词库"},
+"legal": {"en":"He had twice the legal limit of alcohol in his bloodstream.","cn":"他血液中的酒精含量是法定限度的两倍。","src":"四级词库"},
+"leg": {"en":"She fell and broke her leg.","cn":"她摔断了腿。","src":"四级词库"},
+"length": {"en":"You’ll need several pieces of string of different lengths.","cn":"你需要几根长度不等的绳子。","src":"四级词库"},
+"goodbye": {"en":"He left the house without so much as saying goodbye.","cn":"他甚至没说再见就离开了家。","src":"Tatoeba 语料"},
+"justify": {"en":"Nothing justifies murdering another human being.","cn":"什么都不能成为谋杀他人的正当理由。","src":"四级词库"},
+"just": {"en":"A good strong cup of coffee is just what I need right now.","cn":"我现在正需要喝一杯浓浓的咖啡。","src":"四级词库"},
+"install": {"en":"Security cameras have been installed in the city centre.","cn":"在市中心已安装了一些监控摄像机。","src":"四级词库"},
+"installation": {"en":"More than 500,000 visitors worldwide have visited the installation.","cn":"全球已有超过50万名参观者参观了该装置。","src":"Smithsonian Magazine · 2026-09-09"},
+"instance": {"en":"We need to rethink the way we consume energy. Take, for instance, our approach to transport.","cn":"我们需要重新考虑我们使用能源的方式，例如我们的运输方式。","src":"四级词库"},
+"instant": {"en":"The women took an instant dislike to one another.","cn":"这些女人立刻就彼此厌恶起来。","src":"四级词库"},
+"instantly": {"en":"The information was instantly available.","cn":"信息即时可得。","src":"四级词库"},
+"instead": {"en":"Geoff didn’t study law. Instead, he decided to become an actor.","cn":"杰夫没学法律，相反，他决定当演员。","src":"四级词库"},
+"instinct": {"en":"Her instinct told her that something was wrong.","cn":"直觉告诉她有些不对劲。","src":"四级词库"},
+"institute": {"en":"We will institute a number of measures to better safeguard the public.","cn":"我们将制定许多措施更好地保护公众。","src":"考研词库"},
+"instruction": {"en":"Press ‘Enter’ and follow the on-screen instructions.","cn":"按回车键，然后按照电脑屏幕上的指示来操作。","src":"四级词库"},
+"instrument": {"en":"Besides the piano, can you play any other instruments?","cn":"除了钢琴以外，还会玩什么乐器吗？","src":"Tatoeba 语料"},
+"insufficient": {"en":"Insufficient resources have been devoted to the health service.","cn":"用于医疗保健服务的资源不足。","src":"四级词库"},
+"insult": {"en":"Nobody insults my family and gets away with it!","cn":"谁也别想侮辱了我的家人之后就这么算了！","src":"四级词库"},
+"insurance": {"en":"Your father took out insurance to cover the mortgage.","cn":"你父亲购买了抵押借款保险。","src":"四级词库"},
+"insure": {"en":"Have you insured the contents of your home?","cn":"你给家庭财产投保了吗？","src":"四级词库"},
+"intellectual": {"en":"Mark’s very intellectual.","cn":"马克很聪明。","src":"四级词库"},
+"interior": {"en":"The interior walls are all painted white.","cn":"室内墙壁都粉刷成了白色。","src":"四级词库"},
+"interference": {"en":"Industrial relations should be free from state interference.","cn":"劳资关系应不受政府干预。","src":"四级词库"},
+"interfere": {"en":"My daughter-in-law said that I was interfering, but I was only trying to help.","cn":"我的儿媳说我多管闲事，但我只是想帮忙。","src":"四级词库"},
+"interesting": {"en":"It’s interesting that no one remembers seeing the car.","cn":"竟然没人记得见过这辆车，真是有趣。","src":"四级词库"},
+"interest": {"en":"Our survey reveals a disturbing lack of interest in teacher training.","cn":"我们的调查显示人们对教师培训失去了兴趣，这很令人不安。","src":"四级词库"},
+"interaction": {"en":"The interaction between user and expert system arising from the expert system 's use.","cn":"使用专家系统而发生的用户和专家系统之间的交互作用。","src":"四级词库"},
+"inspire": {"en":"The story was inspired by a chance meeting with an old Russian duke.","cn":"这个故事的创作灵感来自与一位俄国老公爵的不期而遇。","src":"四级词库"},
+"intentional": {"en":"I did trip him, but it wasn’t intentional.","cn":"我的确把他绊倒了，但不是故意的。","src":"四级词库"},
+"intensity": {"en":"The intensity of the hurricane was frightening.","cn":"飓风的猛烈程度令人恐惧。","src":"四级词库"},
+"intense": {"en":"Young people today are under intense pressure to succeed.","cn":"如今的年轻人面临要出人头地的巨大压力。","src":"四级词库"},
+"intend": {"en":"What do you intend doing when you get to this place?","cn":"你打算到这里干什么？","src":"四级词库"},
+"intelligent": {"en":"Sontag was once famously described as the most intelligent woman in America.","cn":"桑塔格曾被称为美国最聪明的女人，这是众人皆知的事。","src":"四级词库"},
+"intelligence": {"en":"To be good at the game, you need a reasonable level of intelligence.","cn":"要想把这种游戏玩好，需要一定的智力水平。","src":"四级词库"},
+"intention": {"en":"They went into town with the intention of visiting the library.","cn":"他们进了城，打算参观图书馆。","src":"四级词库"},
+"inspection": {"en":"An inspection was carried out at the school.","cn":"有人来学校视察了一遍。","src":"四级词库"},
+"insist": {"en":"Stay for supper – I insist!","cn":"留下来吃晚餐——一定的！","src":"四级词库"},
+"industrialize": {"en":"Energy consumption rises as countries industrialize.","cn":"能源消耗随着各国工业化而增加。","src":"四级词库"},
+"industry": {"en":"Italy’s thriving tourist industry","cn":"意大利蓬勃发展的旅游业","src":"四级词库"},
+"inefficient": {"en":"Local government was inefficient.","cn":"地方政府效率低下。","src":"四级词库"},
+"inevitable": {"en":"A further escalation of the crisis now seems inevitable.","cn":"危机的进一步升级现在看来已不可避免。","src":"四级词库"},
+"inexpensive": {"en":"Painting is a relatively inexpensive way to enhance your home.","cn":"粉刷是美化居室的一种相对较便宜的方式。","src":"四级词库"},
+"infant": {"en":"An infant’s skin is very sensitive.","cn":"幼儿的皮肤非常敏感。","src":"考研词库"},
+"infect": {"en":"People with the virus may feel perfectly well, but they can still infect others.","cn":"带有这种病毒的人可能毫无症状，却仍可能传染他人。","src":"四级词库"},
+"infer": {"en":"I inferred from what she said that you have not been well.","cn":"我从她的话里推断出你身体一直不大好。","src":"四级词库"},
+"inferior": {"en":"I felt very inferior among all those academics.","cn":"与那些大学教师在一起，我自惭形秽。","src":"四级词库"},
+"infinite": {"en":"The universe is infinite.","cn":"宇宙是无限的。","src":"四级词库"},
+"influence": {"en":"As a scientist, his influence was immense.","cn":"身为一名科学家，他的影响力极大。","src":"四级词库"},
+"influential": {"en":"He had influential friends.","cn":"他有一些有影响力的朋友。","src":"四级词库"},
+"inform": {"en":"They would inform him of any progress they had made.","cn":"他们将把自己所取得的任何进展都告诉他。","src":"四级词库"},
+"information": {"en":"I need more information.","cn":"我需要更多信息。","src":"四级词库"},
+"inhabit": {"en":"The woods are inhabited by many wild animals.","cn":"很多野生动物栖居在这片森林里。","src":"四级词库"},
+"inside": {"en":"He concealed the key inside his tie.","cn":"他把钥匙藏在领带里面。","src":"四级词库"},
+"insert": {"en":"He took a small key from his pocket and slowly inserted it into the lock.","cn":"他从衣袋里掏出一把小钥匙，然后缓缓地将其插入锁孔里。","src":"四级词库"},
+"insect": {"en":"What do you call this insect in English?","cn":"这种昆虫在英语中叫什么？","src":"Tatoeba 语料"},
+"inquiry": {"en":"I don’t know who sent the gift, but I’ll make some inquiries.","cn":"我不知道礼物是谁送的，但我会打听一下。","src":"四级词库"},
+"inquire": {"en":"\"How long does it take to get to Vienna on foot?\" he inquired.","cn":"“步行到 Vienon 需要多少时间？”他问。","src":"Tatoeba 语料"},
+"input": {"en":"If the input data specified it, the file will close and the process terminates.","cn":"如果输入数据指定，该文件就会关闭，数据处理终止。","src":"四级词库"},
+"inspect": {"en":"The building is regularly inspected by the fire-safety officer.","cn":"消防安全官定期巡视这座大楼。","src":"四级词库"},
+"innocent": {"en":"The court found him innocent and he was released.","cn":"法庭判他无罪，他被释放了。","src":"四级词库"},
+"inn": {"en":"We’re staying at the Holiday Inn.","cn":"我们住在假日酒店。","src":"四级词库"},
+"ink": {"en":"Please write in black ink.","cn":"请用黑色墨水书写。","src":"四级词库"},
+"injury": {"en":"He’s a lawyer who specializes in personal injury claims.","cn":"他是个专门从事人身伤害索赔的律师。","src":"四级词库"},
+"injure": {"en":"Angus injured his leg playing rugby.","cn":"安格斯在打橄榄球时弄伤了腿。","src":"四级词库"},
+"injection": {"en":"The only sure treatment is antibiotics, preferably by injection.","cn":"唯一有效的治疗方法是使用抗生素，最好是注射使用。","src":"四级词库"},
+"initial": {"en":"The initial response has been encouraging.","cn":"最初的反应情况很乐观。","src":"四级词库"},
+"inner": {"en":"Politicians never tell us their inner thoughts.","cn":"政治家从来不告诉我们他们的别有用心。","src":"Tatoeba 语料"},
+"internal": {"en":"We have no interest in interfering in the internal affairs of other countries.","cn":"我们对干涉其他国家内政不感兴趣。","src":"四级词库"},
+"international": {"en":"In a few minutes we'll be landing at New Tokyo International Airport.","cn":"我们将于几分钟内降落在新东京国际机场。","src":"Tatoeba 语料"},
+"jam": {"en":"Hundreds of departing motorists jammed the roads.","cn":"数百名打算驾车离开的司机堵住了道路。","src":"六级词库"},
+"january": {"en":"We always have snow in January.","cn":"我们这里1月份总会下雪。","src":"四级词库"},
+"japan": {"en":"What should I do to send this to Japan?","cn":"把这个送回日本我需要做些什么？","src":"初中词库"},
+"japanese": {"en":"The Japanese women salute the people with formal bows in welcome.","cn":"这些日本妇女以正式的鞠躬向人们施礼以示欢迎。","src":"托福词库"},
+"jar": {"en":"His words jarred Harriet.","cn":"他的话让哈丽雅特很生气。","src":"四级词库"},
+"jaw": {"en":"He got a broken jaw and lost some teeth.","cn":"他磕碎了下巴，掉了几颗牙。","src":"Tatoeba 语料"},
+"jazz": {"en":"Do you like jazz, Evan? Let me play something for you.","cn":"埃文，你喜欢爵士乐吗？让我为你奏一曲。","src":"初中词库"},
+"jealous": {"en":"You must not be jealous of others' success.","cn":"不要嫉妒其他人的成功。","src":"Tatoeba 语料"},
+"jet": {"en":"The president will be jetting off to Germany today.","cn":"总统今天要乘喷气式飞机去德国。","src":"四级词库"},
+"jewel": {"en":"She loved dressing up and wearing priceless jewels.","cn":"她喜欢穿上盛装，戴上极为昂贵的珠宝首饰。","src":"四级词库"},
+"job": {"en":"Your pension can be affected if you change jobs.","cn":"换工作的话，会影响到你的退休金。","src":"四级词库"},
+"join": {"en":"Many sacrificed their weekend to join the hunt for the missing girl.","cn":"许多人牺牲周末时间，加入了寻找失踪女孩的行动。","src":"四级词库"},
+"joint": {"en":"Both companies are involved in the joint development of a new medium-sized car.","cn":"两家公司联合开发一款新的中型汽车。","src":"四级词库"},
+"joke": {"en":"I couldn’t go out with someone for a joke, could you?","cn":"我可不能拿谈恋爱当儿戏，对不对？","src":"四级词库"},
+"jolly": {"en":"Everybody was in a very relaxed and jolly mood.","cn":"大家的心情都非常轻松愉快。","src":"四级词库"},
+"jury": {"en":"The jury found him not guilty.","cn":"陪审团裁定他无罪。","src":"四级词库"},
+"junior": {"en":"She now lives with actor Denis Lawson, 10 years her junior.","cn":"她现在和比她小10岁的演员丹尼斯·劳森同居。","src":"六级词库"},
+"jungle": {"en":"He wrote a book about a jungle adventure.","cn":"他写了一本关于丛林冒险的书。","src":"Tatoeba 语料"},
+"june": {"en":"He spent two and a half weeks with us in June 1986.","cn":"1986年6月，他和我们呆了两个半星期。","src":"四级词库"},
+"jump": {"en":"The cats jumped down and came to meet us.","cn":"这些猫跳下来，过来迎接我们。","src":"四级词库"},
+"july": {"en":"People still remembered the earthquake that had jarred this region last July.","cn":"人们仍然记得去年七月发生的使该地区产生剧烈震动的那次地震。","src":"四级词库"},
+"jail": {"en":"He’s been in jail for three months already.","cn":"他已经入狱三个月。","src":"四级词库"},
+"juice": {"en":"A Coke and a tomato juice, please.","cn":"请来一杯可乐和一杯番茄汁。","src":"四级词库"},
+"judge": {"en":"The trial judge specifies the number of years to be spent in prison.","cn":"由主审法官确定刑期。","src":"四级词库"},
+"joyful": {"en":"A wedding is a joyful celebration of love.","cn":"婚礼是令人喜悦的爱情庆典。","src":"四级词库"},
+"joy": {"en":"The garden was his pride and joy.","cn":"这座花园是他的骄傲和乐趣所在。","src":"高中词库"},
+"journey": {"en":"They left the town and journeyed south.","cn":"他们离开小镇，去南方旅行。","src":"四级词库"},
+"journalist": {"en":"You're an excellent journalist.","cn":"你是个优秀的记者。","src":"Tatoeba 语料"},
+"journal": {"en":"My dad keeps a journal every day.","cn":"我爸爸每天都记日记。","src":"Tatoeba 语料"},
+"jacket": {"en":"Gene has to wear a jacket and tie to work.","cn":"吉恩上班得穿西装打领带。","src":"四级词库"},
+"itself": {"en":"The machine switches itself off when the process is complete.","cn":"工作程序结束，机器会自动关闭。","src":"四级词库"},
+"its": {"en":"The company disseminated information about its new programmes.","cn":"公司传播有关其新计划的信息。","src":"四级词库"},
+"invention": {"en":"The dishwasher is a wonderful invention.","cn":"洗碗机是一项奇妙的发明。","src":"四级词库"},
+"invent": {"en":"Alexander Graham Bell invented the telephone in 1876.","cn":"亚历山大 · 格雷厄姆 · 贝尔于1876年发明了电话。","src":"四级词库"},
+"invade": {"en":"The Romans invaded Britain 2,000 years ago.","cn":"2,000年前古罗马人入侵了英国。","src":"四级词库"},
+"introduction": {"en":"Pete, are you going to make the introductions?","cn":"皮特，你来作一下介绍吧。","src":"四级词库"},
+"introduce": {"en":"Have you two been introduced? Tom, this is Greg.","cn":"有人给你们俩互相介绍了吗？汤姆，这位是格雷格。","src":"四级词库"},
+"into": {"en":"Sue got back into bed and pulled the quilt over her head.","cn":"休回到床上，拉过被子蒙住头。","src":"四级词库"},
+"interview": {"en":"When Wardell was interviewed, he was impressive, and on that basis, he was hired.","cn":"当沃德尔接受面试时，他给人印象深刻，因此他被雇用了。","src":"考研词库"},
+"interval": {"en":"He left the room, returning after a short interval with a message.","cn":"他离开房间，过了一会儿就带回来一条消息。","src":"四级词库"},
+"interruption": {"en":"For tasks that execute code in a loop, it is common to check for interruption only once per loop iteration.","cn":"对于执行一个循环中的代码的任务，通常只需为每一个循环迭代检查一次中断。","src":"托福词库"},
+"interrupt": {"en":"Sorry to interrupt, but I need to ask you to come downstairs.","cn":"很抱歉打扰了，我得请你下楼来。","src":"四级词库"},
+"interpreter": {"en":"My uncle made me serve as interpreter.","cn":"我叔叔讓我擔任翻譯。","src":"Tatoeba 语料"},
+"interpretation": {"en":"One possible interpretation is that they want you to resign.","cn":"一种可能的解释是，他们想要你辞职。","src":"四级词库"},
+"intimate": {"en":"She’s on intimate terms with people in government.","cn":"她与政府官员关系密切。","src":"四级词库"},
+"justice": {"en":"No one doubts the justice of our cause.","cn":"没有人怀疑我们的事业是正义的。","src":"四级词库"},
+"invest": {"en":"I’ve got a few thousand dollars I’m looking to invest.","cn":"我有几千美元想作投资。","src":"四级词库"},
+"investigation": {"en":"A private detective was hired to conduct the investigation.","cn":"雇了一名私人侦探进行调查。","src":"四级词库"},
+"item": {"en":"I also saw that news item in the Sunday Times.","cn":"我在《星期日泰晤士报》上也看到了那条新闻。","src":"四级词库"},
+"italian": {"en":"One is Japanese and the other is Italian.","cn":"一个是日本人，另一个是意大利人。","src":"Tatoeba 语料"},
+"issue": {"en":"Silva issued a statement denying all knowledge of the affair.","cn":"西尔瓦发表声明，宣称对此事一无所知。","src":"四级词库"},
+"isolate": {"en":"The US has sought to isolate Cuba both economically and politically.","cn":"美国一直想在经济和政治上孤立古巴。","src":"四级词库"},
+"island": {"en":"The economy of the island is dependent on the fishing industry.","cn":"这个岛的经济依靠的是渔业。","src":"Tatoeba 语料"},
+"investigate": {"en":"The study investigates the impact of violent TV programming on children.","cn":"该研究调查暴力电视节目对儿童的影响。","src":"四级词库"},
+"irregular": {"en":"It has a highly irregular shape, covered in bumps and indentations.","cn":"它的外形极不规则，满是凸起和凹陷的地方。","src":"四级词库"},
+"inward": {"en":"He pushed open the front door, which swung inward with a groan.","cn":"他推开前门，门呀的一声向里开了。","src":"四级词库"},
+"involve": {"en":"I didn’t realize putting on a play involved so much work.","cn":"我没想到上演一出戏剧需要做这么多的工作。","src":"四级词库"},
+"invite": {"en":"I’m afraid I wasn’t invited.","cn":"恐怕我没有受到邀请。","src":"四级词库"},
+"invitation": {"en":"They were always dropping by, usually without invitation.","cn":"他们常常来串门，通常不请自来。","src":"四级词库"},
+"invisible": {"en":"The house was surrounded by trees, and invisible from the road.","cn":"这所房子树木环绕，从路上是看不见的。","src":"四级词库"},
+"investment": {"en":"We plan to buy some property as an investment.","cn":"我们打算买些房地产作为投资。","src":"四级词库"},
+"iron": {"en":"Have you ironed my shirt?","cn":"我的衬衫你熨过了吗？","src":"高中词库"},
+"good": {"en":"You’ll receive the best medical treatment.","cn":"你将得到最好的治疗。","src":"四级词库"},
+"golf": {"en":"He plays golf on Sundays.","cn":"他星期天都去打高尔夫球。","src":"四级词库"},
+"golden": {"en":"Speech is silver, but silence is golden.","cn":"雄辯如銀，沉默如金。","src":"Tatoeba 语料"},
+"equal": {"en":"Our constitution states that all men are equal.","cn":"我们的宪法规定人人平等。","src":"四级词库"},
+"equality": {"en":"Equality is guaranteed by the Constitution.","cn":"平等是由宪法保障的。","src":"Tatoeba 语料"},
+"equation": {"en":"In the equation 2x + 1 = 7, what is x?","cn":"在方程式2x+1=7中，x的值为多少？","src":"四级词库"},
+"equip": {"en":"They try to equip their vehicles with gadgets to deal with every possible contingency.","cn":"他们尽量给他们的车辆配备各种小装置以应付任何可能的突发状况。","src":"四级词库"},
+"era": {"en":"His death marked the end of an era.","cn":"他的去世标志着一个时代的终结。","src":"四级词库"},
+"error": {"en":"\"There's an apostrophe missing. It's and its are different.\" \"I know. It was a typing error.\"","cn":"“你漏写了一个撇号。it's和its是有分别的。” “我知道。是我打错了。”","src":"Tatoeba 语料"},
+"escape": {"en":"Vents allow any steam to escape if the system overheats.","cn":"如果系统过热，排放口可使蒸汽逸出。","src":"四级词库"},
+"especially": {"en":"Art books are expensive to produce, especially if they contain colour illustrations.","cn":"美术类书籍制作成本很高，尤其是那些带彩色插图的。","src":"四级词库"},
+"essay": {"en":"We asked Jason to write an essay about his hometown.","cn":"我们让杰森写一篇关于他家乡的短文。","src":"四级词库"},
+"estimate": {"en":"Try to estimate how many steps it will take to get to a close object.","cn":"估计一下需要多少步才能到达一个近距目标。","src":"四级词库"},
+"europe": {"en":"Austria is one of the largest producers of electricity in Europe.","cn":"澳大利亚在欧洲是最大的电能生产国之一。","src":"Tatoeba 语料"},
+"everyone": {"en":"Of course everyone else thought it was hilarious!","cn":"当然其他所有人都觉得好笑极了！","src":"四级词库"},
+"everyday": {"en":"Describe it in ordinary everyday language.","cn":"用一般的日常语言把它描述一下。","src":"四级词库"},
+"everybody": {"en":"And yet everybody has certain ideals which determine the direction of his endeavors and his judgments.","cn":"可是每个人都有一些理想，这些理想决定着他的努力和判断的方向。","src":"高中词库"},
+"every": {"en":"His every utterance will be scrutinized.","cn":"他说的每句话都会被细查。","src":"四级词库"},
+"ever": {"en":"If you’re ever in Seattle, come and see me.","cn":"如果你什么时候到了西雅图，就来看我吧。","src":"四级词库"},
+"eventually": {"en":"He eventually escaped and made his way back to England.","cn":"他终于逃脱并返回英格兰。","src":"四级词库"},
+"envy": {"en":"I really envy you and Ian, you seem so happy together.","cn":"我真是羡慕你和伊恩，你俩在一起看起来多幸福。","src":"高中词库"},
+"event": {"en":"An unforgettable event occurred.","cn":"一场令人难忘的事件发生了。","src":"Tatoeba 语料"},
+"even": {"en":"Most companies have suffered a drop in their profits, even very large companies.","cn":"大多数公司的利润都出现下滑，甚至连很大的公司也不例外。","src":"四级词库"},
+"eve": {"en":"We’re arriving on Christmas Eve.","cn":"我们将在平安夜到达。","src":"四级词库"},
+"evaporate": {"en":"The sun evaporates moisture on the leaves.","cn":"太阳会蒸发叶子上的水分。","src":"四级词库"},
+"european": {"en":"Armenian is an Indo-European language.","cn":"亚美尼亚语是一门印欧语言。","src":"Tatoeba 语料"},
+"evening": {"en":"We had just finished our evening meal when the doorbell rang.","cn":"我们刚吃完晚饭门铃就响了。","src":"四级词库"},
+"everything": {"en":"Apart from the bus arriving late, everything else seemed to be going according to plan.","cn":"除了公共汽车晚点之外，其他一切似乎都在按计划进行。","src":"四级词库"},
+"environment": {"en":"Some of these chemicals are very damaging to the environment.","cn":"这些化学品中有些对环境非常有害。","src":"四级词库"},
+"entry": {"en":"There was no sign of a forced entry.","cn":"没有强行闯入的迹象。","src":"四级词库"},
+"empty": {"en":"The fuel tank’s almost empty.","cn":"燃油箱快要空了。","src":"四级词库"},
+"enclose": {"en":"Please enclose a cheque with your order.","cn":"请随订单附上支票。","src":"四级词库"},
+"encounter": {"en":"The doctor had encountered several similar cases in the past.","cn":"那位医生过去曾碰到过好几个类似病例。","src":"四级词库"},
+"encourage": {"en":"I want to thank everyone who has encouraged and supported me.","cn":"我要感谢每一位鼓励和支持过我的人。","src":"四级词库"},
+"end": {"en":"He wore spectacles perched on the very end of his nose.","cn":"他的眼镜架在鼻尖上。","src":"四级词库"},
+"ending": {"en":"Verbal nouns have the ending -ing.","cn":"动名词以-ing结尾。","src":"四级词库"},
+"endless": {"en":"He’s been in a lot of trouble – drugs, guns, blackmail – the list is endless.","cn":"他麻烦太多了——毒品、枪支、敲诈——说都说不完。","src":"四级词库"},
+"enemy": {"en":"Cats and dogs have always been natural enemies.","cn":"猫和狗向来是天敌。","src":"四级词库"},
+"energy": {"en":"The problem with nuclear energy is dealing with the waste.","cn":"核能的问题就是要处理核废料。","src":"四级词库"},
+"enforce": {"en":"Parking restrictions will be strictly enforced.","cn":"停车限制将会严格执行。","src":"四级词库"},
+"engine": {"en":"We were stranded with engine trouble on a deserted highway.","cn":"我们因发动机故障而被困在空无一人的公路上。","src":"四级词库"},
+"engineer": {"en":"The company's competitive edge will be eroded if system engineers continue to leave.","cn":"如果系统工程师继续离开，公司的竞争优势将会被削弱。","src":"Tatoeba 语料"},
+"engineering": {"en":"You could study astronomy , or space engineering , and be good at it.","cn":"你可以学习天文学，或是空间工程学，可以学的很棒。","src":"考研词库"},
+"england": {"en":"We study English every day. So of course we should know something about England.","cn":"我们每天都学习英语，因此我们当然应该知道一些有关英国的事。","src":"初中词库"},
+"entrance": {"en":"I hear you passed the entrance exam. Congratulations!","cn":"我听说你通过了入学考试。恭喜你了！","src":"Tatoeba 语料"},
+"entire": {"en":"It was the worst day in my entire life.","cn":"那是我一生中最糟糕的一天。","src":"四级词库"},
+"enthusiastic": {"en":"Having had a few weeks to reset away from the spotlight, there were enthusiastic hugs all round for the Sky Sports News team as we all swapped summer stories.","cn":"在离开聚光灯几周后，天空体育新闻团队充满了热情的拥抱，因为我们都交换了夏天的故事。","src":"Sky Sports · 2026-09-09"},
+"enthusiasm": {"en":"Gillian and Darren greeted the speakers with great enthusiasm.","cn":"吉利恩和达伦非常热情地接待了演讲者。","src":"四级词库"},
+"entertain": {"en":"Do you get an allowance for entertaining clients?","cn":"你招待客户有补助吗？","src":"四级词库"},
+"envelope": {"en":"She tore open the envelope and frantically read the letter.","cn":"她撕开信封慌忙看信。","src":"四级词库"},
+"enter": {"en":"He entered the election as the clear favourite.","cn":"他参加竞选时显然最有希望获胜。","src":"四级词库"},
+"enough": {"en":"Her disappearance and death would give proof enough of Charles' guilt.","cn":"她的失踪和死亡将提供足够的证据证明查尔斯有罪。","src":"四级词库"},
+"enormous": {"en":"The team made an enormous effort.","cn":"该队付出了巨大的努力。","src":"四级词库"},
+"enlarge": {"en":"Police will have the pictures enlarged in an attempt to identify the thief.","cn":"为了确认窃贼的身份，警方会将这些照片放大。","src":"四级词库"},
+"enjoy": {"en":"Sandra enjoys her job in the city.","cn":"桑德拉很喜欢她在城里的这份工作。","src":"四级词库"},
+"englishman": {"en":"He was the only Englishman present.","cn":"他是在场的唯一一名英国人。","src":"四级词库"},
+"english": {"en":"Which translation of this book do you think is better, the French one or the English one?","cn":"你觉得这本书的哪个译本比较好？法语的还是英语的？","src":"Tatoeba 语料"},
+"everywhere": {"en":"The south should remain dry, but everywhere else will have heavy rain.","cn":"南部持续干旱，但其他地区会下暴雨。","src":"四级词库"},
+"evident": {"en":"Bob ate his lunch with evident enjoyment.","cn":"显然鲍勃吃午饭吃得津津有味。","src":"四级词库"},
+"expansion": {"en":"The industry underwent a period of rapid expansion.","cn":"该产业经历了一轮快速扩张。","src":"四级词库"},
+"expect": {"en":"He didn’t get his expected pay rise.","cn":"他没有得到他预想的加薪。","src":"四级词库"},
+"expectation": {"en":"She lived up to our expectations.","cn":"她没有辜负我们的期望。","src":"Tatoeba 语料"},
+"expense": {"en":"He borrowed £150,000 and used the money for legal expenses.","cn":"他借了15万英镑用于支付律师费。","src":"四级词库"},
+"expensive": {"en":"Employing the wrong builder can be a horribly expensive mistake.","cn":"用错建筑工人有时会是代价高昂的错误。","src":"四级词库"},
+"experience": {"en":"She was turned down on the grounds of lack of experience.","cn":"她因缺乏经验而被拒绝。","src":"四级词库"},
+"experiment": {"en":"The astronauts are conducting a series of experiments to learn more about how the body adapts to weightlessness.","cn":"那些宇航员正在进行一系列实验，以便更多地了解人体如何适应失重状态。","src":"四级词库"},
+"expert": {"en":"Ministers depend on civil servants for expert advice.","cn":"部长们依靠公务员获取专家建议。","src":"考研词库"},
+"explain": {"en":"He carefully explained the procedure.","cn":"他仔细解释了程序。","src":"四级词库"},
+"explanation": {"en":"She told the court she would give a full explanation of the prosecution's decision on Monday.","cn":"她告诉法庭她将在星期一就控方的决定做出详尽的解释。","src":"四级词库"},
+"explode": {"en":"Far sooner than anyone thought possible, the Russians exploded an atomic bomb.","cn":"苏联引爆了一颗原子弹，大大早于任何人的预期。","src":"四级词库"},
+"explore": {"en":"Management need to explore ways of improving office security.","cn":"管理层需要探讨如何加强办事处的安全措施。","src":"四级词库"},
+"explosion": {"en":"We heard a loud explosion.","cn":"我们听到一声巨大的爆炸声。","src":"四级词库"},
+"explosive": {"en":"Because the gas is highly explosive, it needs to be kept in high-pressure containers.","cn":"由于这种气体极易爆炸，因此需要保存在高压容器内。","src":"四级词库"},
+"export": {"en":"Italian food has been exported all over the world.","cn":"意大利食品已传遍世界。","src":"四级词库"},
+"extremely": {"en":"Earthquakes are extremely difficult to predict.","cn":"地震非常难以预测。","src":"四级词库"},
+"extraordinary": {"en":"It’s extraordinary that he should make exactly the same mistake again.","cn":"真想不到他又犯了完全相同的错误。","src":"四级词库"},
+"extra": {"en":"You’re going to have to work extra hard to pass the exam.","cn":"你要格外用功才能通过考试。","src":"四级词库"},
+"exterior": {"en":"The exterior walls need a new coat of paint.","cn":"外墙需要刷新漆了。","src":"四级词库"},
+"expand": {"en":"Sydney’s population expanded rapidly in the 1960s.","cn":"20世纪60年代，悉尼的人口迅速增加。","src":"四级词库"},
+"extent": {"en":"It’s too early to assess the full extent of the damage.","cn":"要全面评估损失程度还为时过早。","src":"考研词库"},
+"extension": {"en":"Donald’s been given an extension to finish his thesis.","cn":"唐纳德获准延期完成他的论文。","src":"高中词库"},
+"express": {"en":"He first learnt to express himself through movement at hisdance classes.","cn":"他最初是在舞蹈班学会通过动作表达情感的。","src":"四级词库"},
+"exposure": {"en":"Exposure to lead is known to damage the brains of young children.","cn":"已知接触铅会损害幼童的大脑。","src":"四级词库"},
+"expose": {"en":"The report exposes the weaknesses of modern medical practice.","cn":"报道揭露了现代医疗的不足之处。","src":"四级词库"},
+"exit": {"en":"Two men were blocking her exit.","cn":"两个男人挡住了她出去的路。","src":"四级词库"},
+"existence": {"en":"Do you believe in the existence of ghosts?","cn":"你相信有幽灵吗？","src":"Tatoeba 语料"},
+"exist": {"en":"The custom of arranged marriages still exists in many countries.","cn":"许多国家仍存在包办婚姻的习俗。","src":"四级词库"},
+"except": {"en":"They all howled with laughter except me.","cn":"除了我以外，他们全都哈哈大笑起来。","src":"四级词库"},
+"excellent": {"en":"The recording quality is excellent.","cn":"录制质量极好。","src":"四级词库"},
+"exceedingly": {"en":"Thank you. You’ve been exceedingly kind.","cn":"谢谢，你真是太好了。","src":"四级词库"},
+"example": {"en":"Many countries, for example Mexico and Japan, have a lot of earthquakes.","cn":"许多国家，例如墨西哥和日本，经常发生地震。","src":"四级词库"},
+"examine": {"en":"Hegel’s philosophy will be examined in detail in Chapter 4.","cn":"黑格尔的哲学将在第4章作详细探讨。","src":"四级词库"},
+"exception": {"en":"The spelling of this word is an interesting exception to the rule.","cn":"这个单词的拼法是该规则一个有趣的例外。","src":"四级词库"},
+"examination": {"en":"The examination results will be announced in September.","cn":"考试成绩将于9月公布。","src":"四级词库"},
+"exactly": {"en":"The figures may not be exactly right, but they’re close enough.","cn":"那些数字可能不是非常精确，但也相当接近。","src":"四级词库"},
+"exact": {"en":"Some concepts in Chinese medicine have no exact equivalent in Western medicine.","cn":"中医的一些概念在西医中没有完全一样的对应观念。","src":"四级词库"},
+"evolve": {"en":"The bright plumage of many male birds was thought to have evolved to attract females.","cn":"许多雄鸟的鲜艳羽毛被认为是为吸引雌鸟而进化来的。","src":"四级词库"},
+"evil": {"en":"As long as good people do nothing, evil will triumph.","cn":"只要好人袖手旁观，恶人就会得胜。","src":"Tatoeba 语料"},
+"exam": {"en":"At the end of each level, there’s an exam.","cn":"在每一级别结束时都有一次考试。","src":"四级词库"},
+"employment": {"en":"She was offered employment in the sales office.","cn":"她获聘在销售部工作。","src":"四级词库"},
+"excess": {"en":"Cut any excess fat from the meat.","cn":"将肉中多余的肥肉切掉。","src":"四级词库"},
+"exchange": {"en":"Four of my cassettes for your Madonna CD is a fair exchange.","cn":"我用四盒磁带换你的麦当娜激光唱片很公平。","src":"四级词库"},
+"exhibition": {"en":"I’ve never seen such an exhibition of jealousy.","cn":"我从未见过如此嫉妒的表现。","src":"考研词库"},
+"exhaust": {"en":"A full day’s teaching exhausts me.","cn":"讲一整天课令我精疲力竭。","src":"四级词库"},
+"exert": {"en":"Environmental groups are exerting pressure on the government to tighten pollution laws.","cn":"环境保护组织在向政府施加压力，要求从严执行环保法律法规。","src":"四级词库"},
+"exercise": {"en":"Try to fit some regular exercise into your daily routine.","cn":"尽量在日常生活中安排一些经常性的锻炼。","src":"四级词库"},
+"executive": {"en":"I trust his executive ability.","cn":"我相信他的执行能力。","src":"Tatoeba 语料"},
+"execute": {"en":"The job involves drawing up and executing a plan of nursing care.","cn":"这项工作包括拟订和实施一个护理计划。","src":"考研词库"},
+"exclusively": {"en":"These are not involved as exclusively as ministers in \"soul-work,\" but they certainly cultivate the inner life more than the third group.","cn":"他们虽不像牧师那样专门做“灵魂方面的工作”，但是肯定比第三群体更注重于建造人类的生命。","src":"四级词库"},
+"exciting": {"en":"Melanie finds her work exciting and rewarding.","cn":"梅拉妮觉得自己的工作既刺激又有意义。","src":"四级词库"},
+"excite": {"en":"His playing is technically brilliant, but it doesn’t excite me.","cn":"他的演奏技巧娴熟，但并不让我激动。","src":"四级词库"},
+"excuse": {"en":"I’ll excuse you this time, but don’t be late again.","cn":"这次我原谅你，但别再迟到了。","src":"四级词库"},
+"eye": {"en":"There were tears in her eyes as she listened to the story.","cn":"她听故事时眼里噙着泪水。","src":"四级词库"},
+"employer": {"en":"The shoe factory is the largest employer in this area.","cn":"这家制鞋厂是本地区最大的雇主。","src":"四级词库"},
+"draw": {"en":"She asked the little girl to draw a picture of the man she’d spoken to.","cn":"她让小女孩把刚才和她说话的那个男人画出来。","src":"四级词库"},
+"drawer": {"en":"She took a file from her desk drawer .","cn":"她从书桌的抽屉里拿出了一个文件夹。","src":"四级词库"},
+"drawing": {"en":"I’ve never been very good at drawing.","cn":"我向来不擅长画图。","src":"四级词库"},
+"dread": {"en":"The prospect of flying filled me with dread .","cn":"想到要乘飞机我充满了恐惧。","src":"四级词库"},
+"dream": {"en":"I had lots of dreams last night.","cn":"昨晚我做了很多梦。","src":"四级词库"},
+"dress": {"en":"Can you wait a minute? I’m just getting dressed .","cn":"稍等一会儿，我穿下衣服就好。","src":"高中词库"},
+"drill": {"en":"Drill a hole in each corner.","cn":"在每个角上钻一个孔。","src":"四级词库"},
+"drink": {"en":"Take a seat while I get you something to drink .","cn":"请坐，我去给你倒杯喝的。","src":"四级词库"},
+"drip": {"en":"Her boots were muddy and her hair was dripping .","cn":"她的靴子沾满了泥，头发在滴水。","src":"四级词库"},
+"drive": {"en":"With a few loud whistles, they drove the donkeys out of the enclosure.","cn":"随着几声响亮的哨声，他们把驴子赶出了围栏。","src":"四级词库"},
+"driver": {"en":"Do you think you’re a good driver?","cn":"你认为自己是个好司机吗？","src":"四级词库"},
+"drop": {"en":"Your button has dropped off.","cn":"你的纽扣掉了。","src":"四级词库"},
+"drown": {"en":"Many people drowned when the boat overturned.","cn":"船翻后许多人淹死了。","src":"四级词库"},
+"drug": {"en":"The big drug companies make huge profits.","cn":"大型制药公司利润丰厚。","src":"四级词库"},
+"drum": {"en":"I could hear the rain drumming against the windows.","cn":"我听到雨滴有节奏地打在窗上的声音。","src":"四级词库"},
+"dwelling": {"en":"Some 3,500 new dwellings are planned for the area.","cn":"大约三千五百套新住宅计划在这个地区新建。","src":"四级词库"},
+"duty": {"en":"In the traditional Hindu family, the son is duty-bound to look after his mother.","cn":"在传统的印度家庭里，儿子负有照顾母亲的责任。","src":"四级词库"},
+"dust": {"en":"There’s not a speck of dust in the kitchen.","cn":"厨房里一尘不染。","src":"四级词库"},
+"dusk": {"en":"The street lights go on at dusk.","cn":"街灯在黄昏时亮起来。","src":"四级词库"},
+"during": {"en":"He slept calmly during the early part of the night.","cn":"他上半夜睡得很安稳。","src":"四级词库"},
+"duration": {"en":"The course is of three years’ duration.","cn":"该课程为期三年。","src":"四级词库"},
+"dramatic": {"en":"Some of the most dramatic events in American history happened here.","cn":"美国历史上一些最震撼人心的事件发生在这里。","src":"四级词库"},
+"durable": {"en":"Wood is a durable material.","cn":"木头是耐用材料。","src":"四级词库"},
+"dumb": {"en":"He stared at the burnt-out car in dumb disbelief.","cn":"他难以置信地望着烧毁的汽车，话也说不出来了。","src":"四级词库"},
+"dull": {"en":"Outside the weather was hazy and dull.","cn":"外面薄雾朦胧，天色灰暗。","src":"四级词库"},
+"due": {"en":"Any money due you will be sent by cheque through the post.","cn":"应该支付给你的款项将会以支票邮寄给你。","src":"四级词库"},
+"duck": {"en":"If she hadn’t ducked, the ball would have hit her.","cn":"如果她没有弯腰躲闪的话，那个球就可能击中她了。","src":"高中词库"},
+"dry": {"en":"Make sure that the surface is clean and dry before you start to paint.","cn":"油漆之前一定先要确保表面清洁干燥。","src":"四级词库"},
+"drunk": {"en":"David would get drunk and I would have to take him home and put him to bed.","cn":"戴维常会喝醉，我就得把他弄回家放到床上。","src":"四级词库"},
+"dump": {"en":"We dumped our bags at the nearby Grand Hotel and hurried toward the market.","cn":"我们把包扔在附近的格兰德旅馆，急匆匆地向市场赶去。","src":"四级词库"},
+"dye": {"en":"The women prepared, spun, and dyed the wool.","cn":"妇女们将羊毛预备、纺线并染色。","src":"四级词库"},
+"drama": {"en":"He plays a Russian spy in the comedy drama ‘Sleepers’.","cn":"他在喜剧片《潜伏特工》中扮演一名俄罗斯间谍。","src":"四级词库"},
+"district": {"en":"One of the first full registers Amandeep asked for was for Ambala, his family’s district.","cn":"阿曼迪普要求的第一批完整的选民之一是他家所在的安巴拉区。","src":"HistoryExtra · 2026-09-09"},
+"disturb": {"en":"The thieves fled when they were disturbed by a neighbour.","cn":"窃贼们被一名邻居惊动后逃跑了。","src":"四级词库"},
+"ditch": {"en":"Both vehicles ended up in a ditch.","cn":"两辆车都掉进了沟里。","src":"四级词库"},
+"dive": {"en":"Diving off the cliffs is dangerous.","cn":"从悬崖上跳水是很危险的。","src":"四级词库"},
+"divide": {"en":"The physical benefits of exercise can be divided into three factors.","cn":"锻炼对身体的好处可以分成3个方面。","src":"四级词库"},
+"divorce": {"en":"David’s parents divorced when he was six.","cn":"戴维的父母在他六岁时离婚了。","src":"四级词库"},
+"dock": {"en":"A crowd was waiting at the dock to greet them.","cn":"一群人在码头等着迎接他们。","src":"四级词库"},
+"doctor": {"en":"She was treated by her local doctor.","cn":"她由她的本区医生治疗。","src":"四级词库"},
+"document": {"en":"She produces legal documents for a downtown Seattle law firm.","cn":"她为西雅图市区的一家法律事务所撰写法律文件。","src":"四级词库"},
+"dog": {"en":"We used to have a dog when I was young.","cn":"我小时候我们养过狗。","src":"四级词库"},
+"dollar": {"en":"You can pay in dollars or euros at the airport.","cn":"在机场你可以使用美元或欧元。","src":"四级词库"},
+"door": {"en":"The door flew open and Ruth stormed in.","cn":"门一下子打开了，露丝气冲冲地跑了进来。","src":"四级词库"},
+"drag": {"en":"He took a drag on his cigarette, and exhaled the smoke.","cn":"他咂了口烟，然后吐出烟雾。","src":"四级词库"},
+"dozen": {"en":"Chris, Helen, and half a dozen others went on holiday together.","cn":"克里斯、海伦和其他六个人一起去度假了。","src":"四级词库"},
+"downward": {"en":"Benedict pointed downward again with his stick.","cn":"贝内迪克特又用他的拐杖向下指了指。","src":"四级词库"},
+"downstairs": {"en":"She repainted the downstairs rooms and closed off the second floor.","cn":"她重新粉刷了楼下的房间，并把二楼封上了。","src":"四级词库"},
+"down": {"en":"Glancing down the list of runners, I noticed a familiar name.","cn":"我往下扫了一眼赛跑选手的名单，注意到了一个熟悉的名字。","src":"四级词库"},
+"doubtless": {"en":"Doubtless there would be lots of rumours.","cn":"无疑会谣言四起。","src":"四级词库"},
+"doubt": {"en":"There was still one little nagging doubt at the back of his mind.","cn":"他的心头仍有一丝挥之不去的疑虑。","src":"四级词库"},
+"double": {"en":"Don’t park your car on double yellow lines.","cn":"不可以在双黄线处停车。","src":"四级词库"},
+"dot": {"en":"Poppies dotted the field.","cn":"田野里遍布着星星点点的罂粟花。","src":"托福词库"},
+"dose": {"en":"One dose of penicillin can wipe out the infection.","cn":"一剂青霉素即可消除感染。","src":"托福词库"},
+"dormitory": {"en":"She lived in a college dormitory.","cn":"她住在一幢大学宿舍楼里。","src":"四级词库"},
+"dorm": {"en":"So, some can stay in the dorm for an entire month without talking at all with anyone.","cn":"因此，有些学生能待在宿舍里整整一个月不与任何人讲话。","src":"四级词库"},
+"doubtful": {"en":"For a time it seemed doubtful that he would move at all.","cn":"短期内他似乎不大可能搬走。","src":"托福词库"},
+"dying": {"en":"It was her dying wish to have a simple burial.","cn":"她的临终遗愿是办个简朴的葬礼。","src":"四级词库"},
+"each": {"en":"They reviewed each aspect of the plan bit by bit.","cn":"他们对计划的各个方面逐一地进行了审核。","src":"四级词库"},
+"elbow": {"en":"He slipped and fell, badly bruising an elbow.","cn":"他滑倒了，严重挫伤了一只胳膊肘。","src":"四级词库"},
+"elder": {"en":"Sarah is the elder of the two.","cn":"两人当中萨拉年纪较长。","src":"四级词库"},
+"elect": {"en":"We elected her captain of our team.","cn":"我们选她为我们队的队长。","src":"Tatoeba 语料"},
+"election": {"en":"Elections for the state governorship will be on November 25.","cn":"州长选举将于11月25日举行。","src":"四级词库"},
+"electric": {"en":"I should have tried out this electric shaver before buying it.","cn":"我本该在买下这个电动剃须刀之前试一下的。","src":"Tatoeba 语料"},
+"electrical": {"en":"The fire was caused by an electrical fault.","cn":"大火是电力故障引起的。","src":"四级词库"},
+"electricity": {"en":"The farm was very isolated, but it had electricity.","cn":"那个农场非常偏远，但有电力供应。","src":"四级词库"},
+"electron": {"en":"Most things are balanced - with equal numbers of electrons and protons.","cn":"大部分物体都是电荷平衡的——含等量的电子和质子。","src":"四级词库"},
+"electronic": {"en":"The good thing about this electronic dictionary is that it's easy to carry.","cn":"这电子辞典的好处就是便于携带。","src":"Tatoeba 语料"},
+"elementary": {"en":"You’ve made a very elementary mistake.","cn":"你犯了一个非常基本的错误。","src":"四级词库"},
+"elephant": {"en":"So the part of the elephant I experience applies what we know about people and how we apply that to UX design.","cn":"所以，我体验的那部分的大象就是我们对人的了解和我们将我们的了解应用于用户体验设计。","src":"四级词库"},
+"elevator": {"en":"We’ll have to take the elevator.","cn":"我们只好坐电梯了。","src":"四级词库"},
+"eleven": {"en":"She was sent to jail for eleven months.","cn":"她被判入狱11个月。","src":"四级词库"},
+"eleventh": {"en":"In 1986, the Southern Regional Education Board gave a test to eleventh graders in five southern states.","cn":"1986年，南方地区教育委员会对南方的五个州的十一年级学生进行考试。","src":"四级词库"},
+"eliminate": {"en":"Our team was eliminated in the first round.","cn":"我们队第一轮就被淘汰了。","src":"四级词库"},
+"emphasis": {"en":"He placed emphasis on the importance of education.","cn":"他强调了教育的重要性。","src":"Tatoeba 语料"},
+"emperor": {"en":"I am napoleon, I am emperor… burned it!","cn":"我就是拿破仑，我就是皇帝…烧掉它！","src":"四级词库"},
+"emotional": {"en":"Ann suffered from depression and a number of other emotional problems.","cn":"安患了抑郁症，还遇到一些其他的情绪问题。","src":"四级词库"},
+"elastic": {"en":"Make a mask with long ears and attach a piece of elastic to go around the back of the head.","cn":"做一个带长耳朵的面具，安上一条松紧带绕过后脑。","src":"四级词库"},
+"emit": {"en":"The kettle emitted a shrill whistle.","cn":"水壶发出了刺耳的鸣笛声。","src":"四级词库"},
+"embrace": {"en":"This course embraces several different aspects of psychology.","cn":"这门课程涉及心理学的几个不同方面。","src":"六级词库"},
+"embarrass": {"en":"He didn’t want to embarrass her by asking questions.","cn":"他不想提问让她尴尬。","src":"四级词库"},
+"elsewhere": {"en":"Kerala has less crime and alcoholism than elsewhere in India.","cn":"喀拉拉邦的犯罪和酗酒现象少于印度的其他地区。","src":"四级词库"},
+"else": {"en":"If I can't make a living at painting, at least I can teach someone else to paint.","cn":"如果我不能以画画谋生的话，至少我能教别人画画。","src":"四级词库"},
+"elimination": {"en":"Breast-feeding is as natural as sex or elimination or any other bodily function.","cn":"母乳哺养是天生的，就像性交、排泄或者其他任何身体功能一样。","src":"四级词库"},
+"emergency": {"en":"The government called an emergency meeting to discuss the crisis.","cn":"政府召开了紧急会议，讨论这次危机。","src":"四级词库"},
+"either": {"en":"We can offer a comfortable home to a young person of either sex.","cn":"我们可以为年轻的男性或女性提供舒适的住处。","src":"高中词库"},
+"eighty": {"en":"The band was incredibly successful in the eighties.","cn":"这支乐队在80年代红透半边天。","src":"四级词库"},
+"eat": {"en":"Good eating habits are the best way of preventing infection.","cn":"良好的饮食习惯是预防感染的最佳方法。","src":"四级词库"},
+"easy": {"en":"It would have been easy for the team to lose the game.","cn":"球队本来是很容易会输掉这场比赛的。","src":"四级词库"},
+"east": {"en":"We drove east along Brooklyn Avenue.","cn":"我们沿布鲁克林大街往东行驶。","src":"初中词库"},
+"easily": {"en":"We found the house easily enough.","cn":"我们轻轻松松就找到了房子。","src":"四级词库"},
+"ease": {"en":"She lived a life of ease.","cn":"她过着悠闲自在的生活。","src":"四级词库"},
+"earthquake": {"en":"An earthquake measuring 6.1 on the Richter scale struck southern California on June 28.","cn":"6月28日加州南部地区发生了里氏6.1级地震。","src":"四级词库"},
+"earnest": {"en":"Matthews was in earnest conversation with a young girl.","cn":"马修斯在和一个年轻姑娘认真地谈话。","src":"四级词库"},
+"early": {"en":"They must have come home early.","cn":"他们肯定提早回到家了。","src":"四级词库"},
+"ear": {"en":"She tucked her hair behind her ears.","cn":"她把头发拢到耳朵背后。","src":"四级词库"},
+"eagle": {"en":"She looked down at her Viennese fan of eagle feathers.","cn":"她的头低着，眼睛看着手中的威尼斯鹰羽扇。","src":"四级词库"},
+"eager": {"en":"A crowd of eager young students were already waiting outside.","cn":"一群急不可待的青年学生已经在外面等着。","src":"四级词库"},
+"earth": {"en":"What do you think would happen if the earth stopped spinning?","cn":"如果地球停止自传，你认为会发生什么？","src":"Tatoeba 语料"},
+"employee": {"en":"Our employees are working around the clock to fix the damage caused by the ice storm.","cn":"我们的员工正在争分夺秒地修理冰暴带来的损坏。","src":"Tatoeba 语料"},
+"economic": {"en":"Economic reform is needed.","cn":"经济改革势在必行。","src":"四级词库"},
+"economy": {"en":"The council must make economies to meet government spending targets.","cn":"市政会必须采取节约措施以达到政府的开支指标。","src":"四级词库"},
+"eighth": {"en":"Then, in eighth or ninth grade, I studied astronomy, cosmology, and the origins of the universe.","cn":"后来，在八、九年级的时候，我在学习天文学，宇宙学和宇宙的起源。","src":"四级词库"},
+"eighteen": {"en":"At least eighteen bullets were fired.","cn":"至少射出了18颗子弹。","src":"四级词库"},
+"eight": {"en":"It’s only eight days till Christmas.","cn":"还有8天就到圣诞节了。","src":"四级词库"},
+"egg": {"en":"Blackbirds lay their eggs in March.","cn":"乌鸫在3月产蛋。","src":"四级词库"},
+"effort": {"en":"Lou lifted the box easily, without using much effort.","cn":"卢没费多大力气就把箱子搬了起来。","src":"四级词库"},
+"efficient": {"en":"Lighting is now more energy efficient.","cn":"如今的照明设备更加节能。","src":"四级词库"},
+"economical": {"en":"A small car is more economical to run.","cn":"开小型汽车比较省油。","src":"四级词库"},
+"effect": {"en":"In mental illness, there is a complex relationship between cause and effect.","cn":"精神疾病有复杂的因果关系。","src":"四级词库"},
+"education": {"en":"She also hopes her children will get a good education.","cn":"她也希望她的孩子可以受到良好的教育。","src":"四级词库"},
+"educate": {"en":"The Ormerod School educates handicapped children.","cn":"奥默罗德学校的教育对象为残疾儿童。","src":"四级词库"},
+"editor": {"en":"You don't want to be an editor?","cn":"你不想做编辑？","src":"Tatoeba 语料"},
+"edge": {"en":"Put the eggs in the centre of the dish, with the vegetables and herbs around the edge.","cn":"把鸡蛋放在盘子中间，盘边一圈放些蔬菜和香草。","src":"四级词库"},
+"effective": {"en":"The cheaper drugs are just as effective in treating arthritis.","cn":"较便宜的药品对治疗关节炎同样有效。","src":"四级词库"},
+"link": {"en":"Police think the murders are linked.","cn":"警方认为这些谋杀案互有关联。","src":"四级词库"},
+"eyesight": {"en":"He had a problem with his eyesight.","cn":"他的视力有问题。","src":"四级词库"},
+"fact": {"en":"Our decision to build the museum in Hartlepool was influenced by the fact that there were no national museums in the North East.","cn":"我们之所以决定在哈特尔浦建造博物馆，是因为东北地区没有国家级的博物馆。","src":"四级词库"},
+"freely": {"en":"EU members are allowed to travel freely between member states.","cn":"欧盟成员国国民可以在成员国之间自由旅行。","src":"四级词库"},
+"freeze": {"en":"The lake had frozen overnight.","cn":"湖上一夜之间就结了冰。","src":"四级词库"},
+"freight": {"en":"We’ll send your personal belongings by air freight and your furniture by sea freight .","cn":"你的个人物品我们将以空运方式运送，家具将以海运方式运送。","src":"四级词库"},
+"french": {"en":"How do you ask for directions in French?","cn":"用法语怎么问路？","src":"托福词库"},
+"frequency": {"en":"Businesses come and go with alarming frequency .","cn":"商家开张停业惊人地频繁。","src":"四级词库"},
+"frequent": {"en":"Trains rushed past at frequent intervals .","cn":"火车频频驶过。","src":"四级词库"},
+"frequently": {"en":"He was frequently drunk.","cn":"他经常喝醉。","src":"四级词库"},
+"fresh": {"en":"The report provides fresh evidence about the way the business was run.","cn":"报告提供了有关该公司运营方式的新证据。","src":"四级词库"},
+"friction": {"en":"Putting oil on both surfaces reduces friction.","cn":"两面都上油可减小摩擦力。","src":"四级词库"},
+"friday": {"en":"Diane won’t be here Friday.","cn":"星期五黛安娜不来这里。","src":"四级词库"},
+"fridge": {"en":"It can be anything: spoiled milk from the back of your fridge right down to tar and feathers.","cn":"它可以是任何玩意儿：从你冰箱后面那些变质的牛奶到沥青和羽毛。","src":"四级词库"},
+"friend": {"en":"One of her closest friends died at the weekend.","cn":"她的一位密友周末过世了。","src":"四级词库"},
+"friendly": {"en":"I’ve found a great pub – good beer and a friendly atmosphere.","cn":"我找到了一家很棒的酒馆——啤酒好，氛围也亲切。","src":"四级词库"},
+"friendship": {"en":"The two boys formed a deep and lasting friendship .","cn":"这两个男孩子建立了深厚持久的友谊。","src":"四级词库"},
+"frighten": {"en":"Don’t stand so near the edge! You’re frightening me.","cn":"别站得那么靠边！你要把我吓坏了。","src":"四级词库"},
+"frog": {"en":"Maybe a little frog on my hip, or a gecko.","cn":"也许在臀部刺一只小青蛙还是壁虎什么的。","src":"四级词库"},
+"from": {"en":"The hotel is on the main road from Newport.","cn":"宾馆位于从纽波特出来的主路上。","src":"高中词库"},
+"fundamental": {"en":"We have to tackle the fundamental cause of the problem.","cn":"我们必须解决问题的根本原因。","src":"四级词库"},
+"fund": {"en":"The fund was set up to try to save the cathedral.","cn":"设立基金以挽救大教堂。","src":"四级词库"},
+"function": {"en":"Her legs have now ceased to function .","cn":"她的双腿现在已经丧失正常功能了。","src":"四级词库"},
+"fun": {"en":"The children were having so much fun, I hated to call them inside.","cn":"小孩子玩得很开心，我不忍心把他们叫进来。","src":"四级词库"},
+"full": {"en":"The class is full, but you can register for next term.","cn":"这个班已经满了，不过你可以注册下学期的。","src":"四级词库"},
+"fulfil": {"en":"Being deaf hasn’t stopped Karen fulfilling her ambition to be a hairdresser.","cn":"失聪并没有阻止卡伦实现当美发师的抱负。","src":"四级词库"},
+"freedom": {"en":"People here like their freedom and privacy.","cn":"这里的人喜欢他们所拥有的自由与隐私权。","src":"四级词库"},
+"fuel": {"en":"The van was fuelled and waiting in the basement car park.","cn":"小货车加好了油，在地下停车场等着。","src":"四级词库"},
+"fruitful": {"en":"He is really a fruitful novelist.","cn":"他真是一位多产的小说家。","src":"四级词库"},
+"fruit": {"en":"Try to eat plenty of fresh fruit .","cn":"尽量多吃新鲜水果。","src":"四级词库"},
+"frown": {"en":"She frowned as she read the letter.","cn":"她看着信皱起了眉头。","src":"四级词库"},
+"frost": {"en":"She was frosting the cupcakes while we talked.","cn":"我们交谈时，她在给杯形蛋糕撒糖霜。","src":"四级词库"},
+"front": {"en":"Two of his front teeth had been knocked out.","cn":"他有两颗门牙被打落了。","src":"四级词库"},
+"fry": {"en":"Fry the potatoes, covered, for about 20 minutes.","cn":"盖上盖，将马铃薯煎20分钟左右。","src":"四级词库"},
+"funeral": {"en":"Hundreds of mourners attended the funeral of the two boys.","cn":"数百名哀悼者参加了那两个男孩的葬礼。","src":"四级词库"},
+"free": {"en":"They have called on the government to set all political prisoners free .","cn":"他们呼吁政府释放所有政治犯。","src":"四级词库"},
+"france": {"en":"We leave Dover at ten and we should be across in France by midnight.","cn":"十点钟离开多佛的话， 我们午夜时分可以到达对面的法国。","src":"初中词库"},
+"foreign": {"en":"Can you speak any foreign languages?","cn":"你会讲外语吗？","src":"四级词库"},
+"foreigner": {"en":"Some of the local people are suspicious of foreigners.","cn":"有些当地人不信任外国人。","src":"四级词库"},
+"foremost": {"en":"Economic concerns are foremost on many voters’ minds.","cn":"经济是许多选民关心的首要问题。","src":"四级词库"},
+"forest": {"en":"She slowly disappeared into the foggy forest.","cn":"她緩緩消失在霧氣瀰漫的森林中。","src":"Tatoeba 语料"},
+"forever": {"en":"Many valuable works of art were lost forever.","cn":"许许多多珍贵的艺术品永远消失了。","src":"四级词库"},
+"forget": {"en":"What happened that day will never be forgotten.","cn":"那一天的事永远难忘。","src":"四级词库"},
+"forgive": {"en":"She forgave the boy for his rudeness.","cn":"她原谅了男孩的粗鲁。","src":"Tatoeba 语料"},
+"fork": {"en":"Put the knives and forks on the table.","cn":"把刀叉摆放在桌子上。","src":"四级词库"},
+"form": {"en":"A typical training programme takes the form of a series of workshops.","cn":"一般的培训计划都采用一系列研习班的形式。","src":"四级词库"},
+"formal": {"en":"There is no formal structure for negotiating pay increases.","cn":"加薪谈判没有正式的框架可循。","src":"四级词库"},
+"formation": {"en":"We now know a lot more about the early stages of planetary formation.","cn":"我们现在对行星形成过程的早期阶段有了更多的了解。","src":"四级词库"},
+"former": {"en":"Their farm has been reduced to half its former size.","cn":"他们的农场已缩小到以前的一半。","src":"四级词库"},
+"formula": {"en":"With viewing figures up a million, the programme has a winning formula .","cn":"收视人数增加了一百万，这个节目的确拥有吸引观众的法宝。","src":"四级词库"},
+"forth": {"en":"The house was still burning, pouring forth thick black smoke.","cn":"房子仍在燃烧，冒出浓浓的黑烟。","src":"四级词库"},
+"fortunate": {"en":"By a fortunate coincidence, a passer-by heard her cries for help.","cn":"所幸正巧有个过路人听到了她的呼救。","src":"四级词库"},
+"fortunately": {"en":"Fortunately, everything worked out all right in the end.","cn":"幸运的是，最后一切顺利。","src":"四级词库"},
+"framework": {"en":"We have to act within the existing legal framework.","cn":"我们必须在现行的法律框架下行事。","src":"四级词库"},
+"frame": {"en":"They removed the picture from its wooden frame.","cn":"他们把画从木镜框中取下来。","src":"四级词库"},
+"fraction": {"en":"The students had a grasp of decimals, percentages and fractions.","cn":"学生们掌握了小数、百分数和分数。","src":"四级词库"},
+"fox": {"en":"We were foxed by the problem.","cn":"我们被这个问题难住了。","src":"高中词库"},
+"fourth": {"en":"Then, we plot the different graphs so that they each take up one fourth of the screen.","cn":"然后，我们绘制不同的曲线图，从而它们可以每个图占据屏幕的四分之一。","src":"四级词库"},
+"frank": {"en":"To be perfectly frank, I think it’s a bad idea.","cn":"老实说，我认为这个主意不好。","src":"四级词库"},
+"fourteen": {"en":"He used to work fourteen hours a day.","cn":"他过去一天工作14个小时。","src":"四级词库"},
+"fountain": {"en":"He was a fountain of information on Asian affairs.","cn":"他是亚洲事务的信息源。","src":"四级词库"},
+"foundation": {"en":"It took the builders three weeks to lay the foundations .","cn":"建筑工人花了三星期的时间打地基。","src":"四级词库"},
+"found": {"en":"Founded in 1935 in Ohio, Alcoholics Anonymous is now a world-wide organization.","cn":"嗜酒者互诫协会1935年创立于俄亥俄州，现在是一个世界性的组织。","src":"四级词库"},
+"forward": {"en":"He leaned forward , his elbows resting on the table.","cn":"他身体前倾，胳膊肘撑在桌子上。","src":"四级词库"},
+"forty": {"en":"The place was built as a casino in the forties.","cn":"这个地方建于20世纪40年代，起初是一座赌场。","src":"四级词库"},
+"fortune": {"en":"I had the good fortune to work with a brilliant head of department.","cn":"我有幸与一位出色的部门主管共事。","src":"四级词库"},
+"four": {"en":"She is married with four children.","cn":"她已婚，有四个孩子。","src":"四级词库"},
+"funny": {"en":"His laughter stopped her mid-sentence. ‘ What’s so funny? ’ she demanded.","cn":"他的笑声打断了她的话。“有什么好笑的？”她厉声问道。","src":"四级词库"},
+"fur": {"en":"Fur coats are on sale.","cn":"毛皮大衣在打折。","src":"Tatoeba 语料"},
+"furious": {"en":"She was absolutely furious .","cn":"她怒不可遏。","src":"四级词库"},
+"geography": {"en":"He likes geography and history.","cn":"他喜欢地理和历史。","src":"Tatoeba 语料"},
+"germ": {"en":"Put disinfectant down the toilet to kill any germs.","cn":"在抽水马桶里投放消毒剂杀菌。","src":"四级词库"},
+"german": {"en":"I heard a very angry man talking in German.","cn":"我听到一个怒不可遏的人说着德语。","src":"托福词库"},
+"germany": {"en":"The new Nazism is resurging in some places in Germany.","cn":"新纳粹主义正在德国的一些地方复活。","src":"高中词库"},
+"gesture": {"en":"I gestured toward the boathouse, and he looked inside.","cn":"我朝停船小屋打手势，他在里面看了看。","src":"四级词库"},
+"get": {"en":"You may be able to get a grant from the local authority.","cn":"你也许可以从当地政府获得拨款。","src":"四级词库"},
+"ghost": {"en":"Do you believe in the existence of ghosts?","cn":"你相信有幽灵吗？","src":"Tatoeba 语料"},
+"giant": {"en":"I look at the sort of best back three probably that I ever saw which was the Juventus and Italy back three with Andrea Barzagli, Leonardo Bonucci and Giorgio Chiellini -- three real giants.","cn":"我想到我见过的最佳三中卫组合——尤文图斯和意大利队的巴尔扎利、博努奇和基耶利尼——三个真正的高塔。","src":"ESPN · Mark White · 2026-09-07"},
+"gift": {"en":"This excellent cookbook would make an ideal gift for anyone just going away to college.","cn":"这本精美的烹饪书送给要离家上大学的人是很好的礼物。","src":"四级词库"},
+"girl": {"en":"Both boys and girls can apply to join the choir.","cn":"男孩和女孩均可申请加入合唱团。","src":"四级词库"},
+"give": {"en":"I’ve got some old diaries that my grandmother gave me years ago.","cn":"我有几本旧日记本，是多年前祖母给我的。","src":"四级词库"},
+"glad": {"en":"We’re so glad you came.","cn":"你来了我们真高兴。","src":"四级词库"},
+"glance": {"en":"Wyatt glanced around the restaurant.","cn":"怀亚特环视了一下餐馆。","src":"四级词库"},
+"glare": {"en":"The sun glared down on us.","cn":"刺眼的阳光照在我们身上。","src":"四级词库"},
+"glass": {"en":"In case of fire, break the glass and push the red button.","cn":"万一发生火灾，打碎玻璃并按下红色按钮。","src":"Tatoeba 语料"},
+"glide": {"en":"Waiters glide between tightly packed tables bearing trays of pasta.","cn":"侍者们托着一盘盘的意大利面食在拥挤的餐桌间自如穿行。","src":"四级词库"},
+"gold": {"en":"In 1848, people came to California to dig for gold.","cn":"1848年人们来加利福尼亚淘金。","src":"Tatoeba 语料"},
+"god": {"en":"Prayer is a way of talking to God.","cn":"祈祷是同上帝交流的一种方式。","src":"高中词库"},
+"goat": {"en":"They staked the goat in the back yard.","cn":"他们把山羊拴在后院的木桩上。","src":"四级词库"},
+"goal": {"en":"Your goal as a parent is to help your child become an independent adult.","cn":"身为父母，你的目标就是要培养孩子成为独立的成年人。","src":"四级词库"},
+"glue": {"en":"Glue the fabric around the window.","cn":"用胶把这布粘在窗户四周。","src":"六级词库"},
+"genuine": {"en":"This might not be a genuine diamond.","cn":"這可能不是真的鑽石。","src":"Tatoeba 语料"},
+"glow": {"en":"The fireplace was still glowing with the remains of last night’s fire.","cn":"壁炉中，隔夜的余烬依然在微微发光。","src":"四级词库"},
+"glory": {"en":"He began the season in a blaze of glory , scoring seven goals in as many games.","cn":"这个赛季一开始他便光芒四射，七场比赛进了七个球。","src":"四级词库"},
+"gloomy": {"en":"The report paints a gloomy picture of the economy.","cn":"这篇报告描绘了一幅惨淡的经济现状。","src":"四级词库"},
+"globe": {"en":"We export our goods all over the globe.","cn":"我们的商品出口到世界各地。","src":"四级词库"},
+"glitter": {"en":"The river glittered in the sunlight.","cn":"阳光下河面波光粼粼。","src":"四级词库"},
+"glimpse": {"en":"I glimpsed a figure at the window.","cn":"我瞥见窗前有个身影。","src":"四级词库"},
+"glove": {"en":"Tom is wearing gloves.","cn":"汤姆戴着手套。","src":"Tatoeba 语料"},
+"gently": {"en":"Gently cook the peppers for 10-15 minutes.","cn":"用文火将辣椒煮10到15分钟。","src":"四级词库"},
+"gentleman": {"en":"Martin – always the perfect gentleman – got to his feet when my mother walked in.","cn":"马丁在我母亲进来时站了起来——他一向是十足的绅士派头。","src":"四级词库"},
+"gentle": {"en":"Arthur was a very gentle, caring person.","cn":"阿瑟是一个非常温柔体贴的人。","src":"四级词库"},
+"garbage": {"en":"Can you take out the garbage when you go?","cn":"你走的时候把垃圾带出去好吗？","src":"四级词库"},
+"garage": {"en":"I’ll just go and put the car in the garage.","cn":"我把车停到车库去。","src":"四级词库"},
+"gap": {"en":"There followed a gap of four years, during which William joined the Army.","cn":"之后有4年的间隔，期间威廉参军了。","src":"考研词库"},
+"gang": {"en":"Several gangs were operating in the area.","cn":"有好几个犯罪团伙在这个地区活动。","src":"四级词库"},
+"game": {"en":"The boys were playing a game in the backyard.","cn":"男孩们在后院里玩游戏。","src":"四级词库"},
+"gallon": {"en":"The car does about 50 miles per gallon.","cn":"这辆车每加仑油能开50英里左右。","src":"四级词库"},
+"garden": {"en":"Grace brought us some flowers from her garden.","cn":"格雷丝给我们送来一些她花园里的花。","src":"四级词库"},
+"future": {"en":"The islands should have the right to decide their own future.","cn":"这些岛屿应当有权决定自己的未来。","src":"四级词库"},
+"furthermore": {"en":"He is old and unpopular. Furthermore, he has at best only two years of political life ahead of him.","cn":"他年纪已老，又不得人心，而且他最多也只有两年的政治生命了。","src":"四级词库"},
+"further": {"en":"They’ve never been further south than San Diego.","cn":"他们从没有到过比圣迭戈更往南的地方。","src":"四级词库"},
+"furniture": {"en":"I can’t think of a single piece of furniture in my house that I bought new.","cn":"我想不出家里有哪件家具是新买的。","src":"四级词库"},
+"furnish": {"en":"Will these finds furnish more information on prehistoric man?","cn":"这些发现是否能提供更多有关史前人类的资料？","src":"四级词库"},
+"furnace": {"en":"An adjustable plate, as in the flue of a furnace or stove, for controlling the draft.","cn":"挡板，调节风门一种可调节的薄片，如在熔炉或火炉的通气管中的，用来控制气流。","src":"四级词库"},
+"gain": {"en":"After gaining independence in 1957, it was renamed ‘Ghana’.","cn":"1957年获得独立后，该国改名为“加纳”。","src":"四级词库"},
+"gardener": {"en":"She employed a gardener.","cn":"她雇了一个园丁。","src":"四级词库"},
+"gaseous": {"en":"Freon exists both in liquid and gaseous states.","cn":"氟利昂既有液态也有气态。","src":"四级词库"},
+"genius": {"en":"The film reveals Fellini’s genius.","cn":"这部影片展现了费里尼的天赋。","src":"四级词库"},
+"generous": {"en":"Mother Nature is generous.","cn":"大自然很慷慨。","src":"Tatoeba 语料"},
+"generation": {"en":"The story has been handed down from generation to generation.","cn":"这个故事是一代一代传下来的。","src":"四级词库"},
+"generally": {"en":"It could be five years before the drug is generally available.","cn":"这种药可能还要过五年才能广泛投入市场。","src":"四级词库"},
+"gas": {"en":"The explosion may have been caused by a gas leak.","cn":"這場爆炸有可能是瓦斯外洩引起的。","src":"Tatoeba 语料"},
+"general": {"en":"There has been a general decline in standards.","cn":"道德水准普遍下降。","src":"四级词库"},
+"gay": {"en":"She felt excited and quite gay.","cn":"她感到兴奋而快活。","src":"高中词库"},
+"gauge": {"en":"The thermostat will gauge the temperature and control the heat.","cn":"恒温器可测量温度并控制热量。","src":"四级词库"},
+"gather": {"en":"During the air raids, we gathered the children around us and sang songs.","cn":"空袭期间，我们把孩子们聚集在身边唱歌。","src":"四级词库"},
+"gate": {"en":"We went through the gate into the orchard.","cn":"我们穿过大门进了果园。","src":"四级词库"},
+"gasp": {"en":"She gave a little gasp and clutched George’s hand.","cn":"她轻轻地倒抽一口气，抓住了乔治的手。","src":"考研词库"},
+"gasoline": {"en":"This system traps the gasoline vapor escaping from the fuel tank and carburetor .","cn":"这个系统能收集从燃油箱和化油器泄漏出来的汽油蒸气。","src":"四级词库"},
+"gaze": {"en":"The girl was gazing at the doll.","cn":"女孩凝视着洋娃娃。","src":"Tatoeba 语料"},
+"forecast": {"en":"Rain was forecast for the weekend.","cn":"预报周末有雨。","src":"四级词库"},
+"forbid": {"en":"Lack of space forbids listing the names of all those who contributed.","cn":"由于篇幅限制，无法列出所有捐款人的姓名。","src":"四级词库"},
+"father": {"en":"Steve recently became the proud father of a 7lb 12oz baby girl.","cn":"史蒂夫最近自豪地当上了爸爸，有了一个7磅12盎司的女儿。","src":"四级词库"},
+"fatigue": {"en":"Everyone has analogy fatigue at this point.","cn":"在这一点上，人人都有类比疲劳。","src":"四级词库"},
+"faulty": {"en":"Customers may ask for a refund if the goods are faulty.","cn":"商品有问题的话，顾客可以要求退货。","src":"四级词库"},
+"favour": {"en":"She helps me out when I have too much to do, and I return the favour when I can.","cn":"我忙的时候她来帮忙，我能帮她的时候就还她人情。","src":"四级词库"},
+"favourable": {"en":"The disease spreads quickly under favourable conditions .","cn":"这种病在合适的条件下会传播得很快。","src":"四级词库"},
+"favourite": {"en":"What’s your favourite colour?","cn":"你最喜欢什么颜色？","src":"四级词库"},
+"fear": {"en":"I was sitting on the floor shivering with fear because a bullet had been fired through a window.","cn":"我坐在地板上吓得浑身发抖，因为有一颗子弹射穿窗户打了进来。","src":"四级词库"},
+"feast": {"en":"The king promised to hold a great feast for all his people.","cn":"国王允诺为全体子民举行盛宴。","src":"四级词库"},
+"feather": {"en":"The bird was covered with white feathers.","cn":"鸟儿身上铺满了白色的羽毛。","src":"Tatoeba 语料"},
+"february": {"en":"He joined the Army in February 1943.","cn":"他1943年2月参军。","src":"四级词库"},
+"federal": {"en":"Switzerland is a federal republic.","cn":"瑞士是一个联邦共和国。","src":"四级词库"},
+"fee": {"en":"You can use the gym and pool for a fee of £35 a month.","cn":"月付35英镑，即可使用健身房和游泳池。","src":"四级词库"},
+"few": {"en":"This should not be an experience for the few.","cn":"这应该不只是少数人的经历。","src":"高中词库"},
+"fever": {"en":"I woke up this morning with a fever and an upset stomach.","cn":"今天早上醒来时我发烧了，胃也不舒服。","src":"四级词库"},
+"fetch": {"en":"Shannon went upstairs to fetch some blankets.","cn":"香农上楼去拿些毯子。","src":"四级词库"},
+"festival": {"en":"Christmas is one of the main festivals in the Christian Calendar.","cn":"圣诞节是基督教历的重大节日之一。","src":"四级词库"},
+"fate": {"en":"I wouldn’t wish such a fate on my worst enemy.","cn":"就算是我不共戴天的仇敌，我也不希望他遭遇这样的命运。","src":"四级词库"},
+"fence": {"en":"Villagers say the fence would restrict public access to the hills.","cn":"村民们说栅栏将限制公众进入山区。","src":"四级词库"},
+"fellow": {"en":"Paul’s an easy-going sort of fellow.","cn":"保罗人很随和。","src":"四级词库"},
+"feeling": {"en":"Knowing we’d won was a wonderful feeling.","cn":"得知我们赢了，感觉真好。","src":"四级词库"},
+"feel": {"en":"I felt like I was being kicked in the teeth every day.","cn":"我感觉我好像每天都在经受挫折。","src":"四级词库"},
+"feedback": {"en":"How can I provide feedback without making someone angry?","cn":"我怎样才能提出反馈意见又不会得罪人呢？","src":"四级词库"},
+"feed": {"en":"Feed the tomatoes once a week.","cn":"每周给番茄施一次肥。","src":"考研词库"},
+"feeble": {"en":"His voice sounded feeble and far away.","cn":"他的声音听上去既无力又遥远。","src":"四级词库"},
+"female": {"en":"Over half of the staff is female.","cn":"半数以上的员工是女性。","src":"四级词库"},
+"fibre": {"en":"Fruit and vegetables are high in fibre content .","cn":"水果和蔬菜的纤维素含量很高。","src":"四级词库"},
+"fatal": {"en":"A slip of the tongue is sometimes fatal to a politician.","cn":"有时候口误对政治家来说是致命的。","src":"Tatoeba 语料"},
+"fast": {"en":"He’s one of the fastest runners in the world.","cn":"他是世界上跑得最快的人之一。","src":"四级词库"},
+"factory": {"en":"Immediately after it caught fire, the chemical factory blew up.","cn":"化学工厂一着火就爆炸了。","src":"Tatoeba 语料"},
+"faculty": {"en":"Both faculty and students oppose the measures.","cn":"教师和学生都反对这些措施。","src":"四级词库"},
+"fade": {"en":"Hopes of a peace settlement are beginning to fade.","cn":"达成和平协议的希望日渐渺茫。","src":"四级词库"},
+"fahrenheit": {"en":"By mid-morning, the temperature was already above 100 degrees Fahrenheit.","cn":"到上午10点左右，气温已超过华氏100度了。","src":"托福词库"},
+"fail": {"en":"If all else fails, you may be advised to have an operation.","cn":"要是其他方法都不见效的话，恐怕你还是动手术的好。","src":"四级词库"},
+"failure": {"en":"Successful people often aren’t very good at dealing with failure.","cn":"一帆风顺的人往往不太擅长应对失败。","src":"四级词库"},
+"faint": {"en":"She gave a faint smile.","cn":"她淡淡一笑。","src":"四级词库"},
+"fair": {"en":"The report is a fair summary of the issues facing us.","cn":"这份报告对我们所面临的问题做了一个适当的总结。","src":"四级词库"},
+"fairly": {"en":"The instructions seem fairly straightforward.","cn":"操作指南似乎很简明。","src":"四级词库"},
+"faith": {"en":"People have lost faith in the government.","cn":"人们已失去了对政府的信心。","src":"四级词库"},
+"faithful": {"en":"The statue of Hachiko, the faithful dog, stands in front of Shibuya Station.","cn":"忠犬八公的雕像伫立在涩谷站前。","src":"Tatoeba 语料"},
+"fall": {"en":"Enough rain had fallen to flood the grounds.","cn":"雨量很大，淹没了地面。","src":"四级词库"},
+"false": {"en":"Please decide whether the following statements are true or false .","cn":"请判断以下说法的对错。","src":"高中词库"},
+"fame": {"en":"He claims he is not really interested in fame.","cn":"他称自己对出名真的没有兴趣。","src":"四级词库"},
+"fashionable": {"en":"Strong colours are very fashionable at the moment.","cn":"眼下流行艳丽的色彩。","src":"四级词库"},
+"fashion": {"en":"Young people are very concerned with fashion","cn":"年轻人很关注时尚。","src":"四级词库"},
+"farther": {"en":"We decided not to go any farther.","cn":"我们决定不再往前走了。","src":"四级词库"},
+"farmer": {"en":"As a farmer, you should learn how to yoke the oxen together.","cn":"作为农民，你应该学会怎样把一对牛用轭连起来。","src":"高中词库"},
+"farm": {"en":"Joe had worked on the farm all his life.","cn":"乔在农场干了一辈子。","src":"四级词库"},
+"farewell": {"en":"Mourners gathered to bid farewell to the victims of the plane tragedy.","cn":"哀悼者来向空难受害者告别。","src":"四级词库"},
+"fasten": {"en":"Make sure all the windows are securely fastened before you leave.","cn":"离开前要确保所有的窗子都已关严。","src":"四级词库"},
+"fare": {"en":"It is unlikely that the marine industry will fare any better in September.","cn":"海运业不大可能在9月份有所好转。","src":"四级词库"},
+"fancy": {"en":"Harry took me to a fancy restaurant for our anniversary.","cn":"哈里带我去了一家豪华餐厅，庆祝我们的结婚纪念日。","src":"四级词库"},
+"fan": {"en":"Groups of football fans began heading towards the ground.","cn":"成群结队的球迷开始向球场走去。","src":"四级词库"},
+"famous": {"en":"Da Vinci’s world-famous portrait of the Mona Lisa","cn":"达•芬奇的那幅闻名世界的肖像画《蒙娜丽莎》","src":"四级词库"},
+"famine": {"en":"A million people are facing famine .","cn":"一百万人正面临饥荒。","src":"四级词库"},
+"family": {"en":"This house isn’t big enough for a family of seven.","cn":"这房子住不下七口之家。","src":"四级词库"},
+"far": {"en":"We can walk to my house from here. It isn’t far.","cn":"我们可以从这里步行去我家，不远。","src":"四级词库"},
+"fiction": {"en":"He's very fond of science fiction.","cn":"他非常喜欢科幻小说。","src":"Tatoeba 语料"},
+"field": {"en":"I also conducted a field study among the boys about their attitude to relationships.","cn":"我也在男生中进行了一项有关他们对人际关系态度的实地调查。","src":"高中词库"},
+"flexible": {"en":"The government needs a more flexible approach to education.","cn":"政府在处理教育问题上需要更加灵活。","src":"四级词库"},
+"flight": {"en":"There are only three flights a day to Logan Airport from Heathrow.","cn":"希思罗机场每天只有三趟飞往洛根机场的航班。","src":"四级词库"},
+"float": {"en":"I looked up at the clouds floating in the sky.","cn":"我仰望着天上的浮云。","src":"四级词库"},
+"flock": {"en":"They kept a small flock of sheep.","cn":"他们养了一小群绵羊。","src":"四级词库"},
+"flood": {"en":"Towns and cities all over the country have been flooded.","cn":"全国各地的城镇都被淹没了。","src":"四级词库"},
+"floor": {"en":"Please attend the meeting in the second floor conference room at 2:30 p.m.","cn":"请在两点半参加在二楼会议室的会议。","src":"Tatoeba 语料"},
+"flour": {"en":"Roll the pastry out on a lightly floured board.","cn":"把面团放在撒有少许面粉的案板上擀平。","src":"高中词库"},
+"flourish": {"en":"The economy is booming and small businesses are flourishing.","cn":"经济繁荣，小企业蒸蒸日上。","src":"四级词库"},
+"flow": {"en":"Money has been flowing into the country from Western aid agencies.","cn":"资金源源不断地从西方援助机构流入该国。","src":"四级词库"},
+"flower": {"en":"Bulbs that you plant in the autumn should flower the following spring.","cn":"秋天种下的鳞茎植物来年春天就会开花。","src":"初中词库"},
+"flu": {"en":"I couldn’t go because I had flu .","cn":"我得了流感，去不了。","src":"四级词库"},
+"fluent": {"en":"He spoke in fluent Italian.","cn":"他用流利的意大利语讲话。","src":"四级词库"},
+"flush": {"en":"Susan flushed deeply and looked away.","cn":"苏珊脸涨得通红，目光转向别处。","src":"四级词库"},
+"fly": {"en":"There were flies buzzing all around us.","cn":"苍蝇嗡嗡地在我们周围飞来飞去。","src":"四级词库"},
+"for": {"en":"We need a new battery for the radio.","cn":"我们的收音机需要一节新电池。","src":"四级词库"},
+"footstep": {"en":"He heard someone’s footsteps in the hall.","cn":"他听见门厅里有脚步声。","src":"四级词库"},
+"football": {"en":"My Dad took me to watch my first football match .","cn":"爸爸带我去看了我人生第一场足球比赛。","src":"四级词库"},
+"foot": {"en":"I dropped a glass earlier, so don’t walk around in bare feet .","cn":"我刚才打破了一个玻璃杯，所以不要光着脚到处走。","src":"四级词库"},
+"foolish": {"en":"I’ve never heard anything so foolish in all my life.","cn":"我这辈子从没听到过这么愚蠢的话。","src":"四级词库"},
+"fool": {"en":"What a fool she had been to think that he would stay.","cn":"她竟然那么傻，以为他会留下来。","src":"四级词库"},
+"flavour": {"en":"Which flavour do you want - chocolate or vanilla?","cn":"你要哪种味道的，巧克力还是香草？","src":"四级词库"},
+"food": {"en":"The restaurant serves good food at affordable prices.","cn":"那家餐厅物美价廉。","src":"四级词库"},
+"following": {"en":"Write down the following information: name of product, type, date purchased and price.","cn":"写下以下信息：产品名称、型号、购买日期和价格。","src":"四级词库"},
+"follow": {"en":"The patrol car followed the BMW for a few miles and then lost it.","cn":"巡逻车跟了那辆宝马几英里，后来就跟丢了。","src":"四级词库"},
+"folk": {"en":"I’m sure there are some folk who would rather they weren’t here.","cn":"我敢肯定有些人宁愿自己不在这里。","src":"四级词库"},
+"fold": {"en":"Fold the paper along the dotted line.","cn":"沿虚线将纸折起来。","src":"四级词库"},
+"fog": {"en":"It will be a cold night, and there may be fog patches .","cn":"今夜天气寒冷，部分地区可能有雾。","src":"四级词库"},
+"focus": {"en":"I want to just focus on the positive.","cn":"我只想注意积极方面。","src":"Tatoeba 语料"},
+"fond": {"en":"I am very fond of Michael.","cn":"我很喜欢迈克尔。","src":"四级词库"},
+"flat": {"en":"That night I lay flat on my back and stared up at the ceiling.","cn":"那一夜，我仰面平躺，眼睛直直地盯着天花板。","src":"四级词库"},
+"flash": {"en":"Lightning flashed overhead.","cn":"头顶上电光闪闪。","src":"四级词库"},
+"find": {"en":"She had almost given up hope of finding a husband.","cn":"她差不多要放弃找个丈夫的希望了。","src":"四级词库"},
+"financial": {"en":"Organic farmers should be encouraged with financial incentives.","cn":"应对实行有机栽培的农民给予经济上的鼓励。","src":"四级词库"},
+"finance": {"en":"The concerts are financed by the Arts Council.","cn":"音乐会由艺术协会出资举办。","src":"四级词库"},
+"finally": {"en":"After several delays we finally took off at six o’clock.","cn":"几经耽搁后，我们终于在六点起飞了。","src":"四级词库"},
+"final": {"en":"Stone is filming the final instalment of his Vietnam trilogy.","cn":"斯通正在拍摄越战三部曲的最后一部。","src":"四级词库"},
+"filter": {"en":"The ozone layer filters harmful UV rays from the sun.","cn":"臭氧层过滤掉有害的太阳紫外线。","src":"四级词库"},
+"finding": {"en":"Surveys conducted in other countries reported similar findings.","cn":"在其他国家进行的调查也报告说有类似的结果。","src":"四级词库"},
+"film": {"en":"Have you seen any good films recently?","cn":"你最近看过什么好的影片吗？","src":"四级词库"},
+"file": {"en":"Do you know how to recover a deleted file?","cn":"你知道怎么恢复已删除的文件吗？","src":"Tatoeba 语料"},
+"figure": {"en":"Reform now figures high on the agenda.","cn":"眼下，改革是当务之急。","src":"四级词库"},
+"fight": {"en":"Neither country is capable of fighting a long war .","cn":"两个国家都没有能力打持久战。","src":"四级词库"},
+"fifty": {"en":"Standards of living rose in the fifties.","cn":"50年代生活水平提高了。","src":"四级词库"},
+"fifth": {"en":"Australia is the world's fifth-largest coal producer.","cn":"澳大利亚是世界第五大煤炭产地。","src":"Tatoeba 语料"},
+"fifteen": {"en":"Please be ready in fifteen minutes.","cn":"请在15分钟内准备好。","src":"Tatoeba 语料"},
+"fill": {"en":"He poured her a drink, then filled his own glass.","cn":"他给她倒了一杯，然后将自己的杯子斟满。","src":"四级词库"},
+"force": {"en":"She tried to keep the door shut but the man forced it open .","cn":"她不想打开门，但那男人硬是把它推开了。","src":"四级词库"},
+"fine": {"en":"Many people regard Beethoven’s fifth symphony as his finest work.","cn":"很多人认为贝多芬的第五交响曲是他最杰出的作品。","src":"四级词库"},
+"finger": {"en":"The woman had a ring on her finger, so I assumed she was married.","cn":"那女人手指上戴着戒指，因此我猜想她已经结婚了。","src":"四级词库"},
+"flare": {"en":"Indeed, last month, we looked at evidence that the last flare up occurred only a few hundred years ago.","cn":"事实上，上个月，我们在看最近一次，也就是几百年前的耀斑发生的有关证据。","src":"四级词库"},
+"flame": {"en":"They rushed past us with buckets of water and tried to douse the flames .","cn":"他们提着一桶桶水跑过我们身边去灭火。","src":"四级词库"},
+"flag": {"en":"Children waving flags greeted the Russian leader.","cn":"孩子们挥舞着旗帜，欢迎俄罗斯领导人。","src":"四级词库"},
+"fix": {"en":"He's going to fix a time when I can see him.","cn":"他将确定一个我可以见他的时间。","src":"四级词库"},
+"five": {"en":"There is also a golf course five miles away.","cn":"五英里外还有个高尔夫球场。","src":"四级词库"},
+"fit": {"en":"The sash, kimono, and other garments were made to fit a child.","cn":"这些腰带、和服和其他衣服都做得适合孩子穿。","src":"四级词库"},
+"fist": {"en":"Varney slammed his fist down onto the table so hard the dishes jumped.","cn":"瓦尼一拳砸在桌子上，盘子都给震了起来。","src":"四级词库"},
+"fish": {"en":"Over 1,500 different species of fish inhabit the waters around the reef.","cn":"那片礁石周围的水域生活着1,500多种不同的鱼类。","src":"四级词库"},
+"first": {"en":"These results are firsts in the history of women’s athletics.","cn":"这些成绩在女运动员历史上是第一次。","src":"四级词库"},
+"firm": {"en":"The firm's employees were expecting large bonuses.","cn":"这家公司的雇员们正期待着大笔的奖金。","src":"四级词库"},
+"fireman": {"en":"Why would you like to be a fireman?","cn":"为什么你愿意是一名消防队员？","src":"四级词库"},
+"fire": {"en":"Police think that the fire was started deliberately.","cn":"警方认为有人故意纵火。","src":"四级词库"},
+"finish": {"en":"You can’t go anywhere until you’ve finished your homework.","cn":"没完成家庭作业前你哪儿也不能去。","src":"四级词库"},
+"fisherman": {"en":"The Algarve is a paradise for fishermen whether river anglers or deep-sea fishermen.","cn":"阿尔加维对河边的垂钓者或深海的渔民都是一个天堂。","src":"四级词库"},
+"zoo": {"en":"Lionesses bearing cubs in the zoo is nothing new now.","cn":"狮子在动物园繁殖早已屡见不鲜了。","src":"高中词库"}
 };
 
 if (typeof WORDS !== "undefined") {
   let n = 0;
   for (const w of WORDS) {
-    if (w.example) continue;                 // 已有例句不动
+    if (w.example) continue;
     const ex = WORD_EXAMPLES[w.word];
     if (!ex) continue;
     w.example = ex.en;
     w.exampleCn = ex.cn;
-    if (!w.source) w.source = ex.src;
+    /* chip 要标例句出处（四级词库 / Tatoeba 语料 / 原刊），而不是词库自带的分类标签
+       ——后者是「这个词属于哪份词表」，贴在例句框里语义是错位的 */
+    w.source = ex.src;
     n++;
   }
   if (typeof window !== "undefined") window.__ADDED_EXAMPLES__ = n;

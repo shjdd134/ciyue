@@ -1,14 +1,27 @@
-/* 从真实文章里抽例句 —— 不 AI 造句。
+/* 词阅 WordLens —— 单词例句库（词典级）
  *
- * 背景：4455 个词里只有 126 个（2.8%）带例句，词卡背面 97% 是空的。
- * 手工写 4000 条例句不现实，机器生成例句又违反本项目「英文一律是真实报道原文」的底线。
+ * 背景：老版本例句是从文章段落里"抽"出来的——句子是足球/时尚的报道长句，
+ * 中文是逐句机翻的副产品，错得离谱（punch 配过"拐角进来了，管家把拳头打得很清楚"）。
+ * 覆盖率也只有 32%。改成三级来源，按优先级取第一条命中的：
  *
- * 于是换个思路：文章库本身就有 1628 段真实英文 + 逐句译文。
- * 逐句翻译的副产品是——第 N 个英文句子恰好对得上第 N 个中文句子（实测 95.7% 段落句数完全对齐）。
- * 那么「英文原句 + 它在同一篇文章里的译文」就是现成的、真实的、成对的例句，零生成成本。
+ *   ① 分级词典词库  github.com/KyleBing/english-vocabulary（★1960）
+ *      四级 → 六级 → 高中 → 考研 → 托福 → 初中，每词带音标、释义、词组、
+ *      多条例句 + 准确中文，属于词典例句（短、典型用法）。
+ *   ② Tatoeba 双语语料  tatoeba.org（CC-BY 2.0，英中人工句对，经 manythings.org 打包）
+ *   ③ 原刊文章抽句（历史遗留兜底，来自本项目文章库，本身是真实报道原文）
  *
- * 产出 assets/data-examples.js：WORD_EXAMPLES = { word: { en, cn, src, aid } }
- * 由 app.js 在启动时并回 WORDS（只补空缺，不覆盖人工撰写的例句）。
+ * 只填补没有例句的词：词库自带 / 人工撰写的例句永远优先，不会被覆盖。
+ * 每个词只放 1 条（卡片背面一屏放得下）。
+ *
+ * 源数据缓存在 tools/.examples-cache/（44MB，不入库），需要时按下面命令重新拉：
+ *   BASE=https://raw.githubusercontent.com/KyleBing/english-vocabulary/HEAD/full_line_jsonl/sentence/%E6%AD%A3%E5%BA%8F
+ *   curl -sL "$BASE/%E5%9B%9B%E7%BA%A7.jsonl" -o cet4.jsonl        # 四级
+ *   curl -sL "$BASE/%E5%85%AD%E7%BA%A7.jsonl" -o lv-liuji.jsonl   # 六级
+ *   curl -sL "$BASE/%E9%AB%98%E4%B8%AD.jsonl" -o lv-gaozhong.jsonl
+ *   curl -sL "$BASE/%E8%80%83%E7%A0%94.jsonl" -o lv-kaoyan.jsonl
+ *   curl -sL "$BASE/%E6%89%98%E7%A6%8F.jsonl" -o lv-tuofu.jsonl
+ *   curl -sL "$BASE/%E5%88%9D%E4%B8%AD.jsonl" -o lv-chuzhong.jsonl
+ *   curl -sL http://www.manythings.org/anki/cmn-eng.zip -o cmn-eng.zip && unzip -o cmn-eng.zip cmn.txt
  *
  * 用法：node tools/build-examples.mjs [--dry]
  */
@@ -17,32 +30,114 @@ import path from "node:path";
 import vm from "node:vm";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
+const CACHE = path.join(ROOT, "tools", ".examples-cache");
 const DRY = process.argv.includes("--dry");
 
-/* ---------------- 载入数据（与浏览器同样的求值顺序） ---------------- */
+/* ---------------- 载入词库 ---------------- */
 const ctx = { console, window: null };
 ctx.window = ctx;
 vm.createContext(ctx);
-for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js",
-                 "data-articles-extra.js", "data-articles-archive.js"]) {
+for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js"]) {
   vm.runInContext(fs.readFileSync(path.join(ROOT, "assets", f), "utf8"), ctx, { filename: f });
 }
-/* 注意：data.js 里的 ARTICLES 是 const，属于全局词法作用域、不挂到 globalThis 上，
-   所以只能再跑一次表达式去取；WORDS 是 var，两种取法都行，这里统一走 runInContext。 */
-const get = name => vm.runInContext(name, ctx);
-const WORDS = get("WORDS");
-const ARTICLES = get("ARTICLES");
-console.log(`词库 ${WORDS.length} 词 · 文章 ${ARTICLES.length} 篇`);
+vm.runInContext(fs.readFileSync(path.join(ROOT, "assets", "data-ecdict.js"), "utf8"), ctx, { filename: "data-ecdict.js" });
+const EC = vm.runInContext("WORD_META", ctx);
+const WORDS = vm.runInContext("WORDS", ctx);
+console.log(`词库 ${WORDS.length} 词 · ECDICT 词形表 ${EC ? Object.keys(EC).length : 0} 条`);
 
-/* ---------------- 词形：词库存原形，正文里常是变形 ----------------
- * 必须与 assets/app.js 的 wordForms 完全一致：抽例句时用什么形态去匹配，
- * 页面上就得能用什么形态去标色，否则会挑出「根本不含这个词的句子」
- * （第一版这里多猜了 -er/-est，于是 should 选中了含 shoulder 的句子、
- * late 选中了含 latest 的句子，而 app.js 标不出这两个「变形」——句子里压根没那个词）。
- * 保守优于激进：宁可少收几个例句，也不让词卡出现标不出目标词的句子。 */
+/* 历史兜底：老版本从文章抽的句子 */
+const lg = { console, window: null };
+lg.window = lg;
+vm.createContext(lg);
+vm.runInContext(fs.readFileSync(path.join(CACHE, "legacy-data-examples.js"), "utf8"), lg, { filename: "legacy" });
+const LEGACY = vm.runInContext("WORD_EXAMPLES", lg);
+
+/* ---------------- ① 分级词典词库 ---------------- */
+const LEVELS = [
+  ["四级词库", "cet4.jsonl"],
+  ["六级词库", "lv-liuji.jsonl"],
+  ["高中词库", "lv-gaozhong.jsonl"],
+  ["考研词库", "lv-kaoyan.jsonl"],
+  ["托福词库", "lv-tuofu.jsonl"],
+  ["初中词库", "lv-chuzhong.jsonl"],
+];
+const libs = {};
+for (const [name, file] of LEVELS) {
+  const p = path.join(CACHE, file);
+  if (!fs.existsSync(p)) { console.error(`缺少源数据：${p}\n见本文件顶部注释里的重新拉取命令`); process.exit(1); }
+  const m = new Map();
+  for (const line of fs.readFileSync(p, "utf8").split("\n")) {
+    if (!line.trim()) continue;
+    try { const o = JSON.parse(line); m.set(String(o.word).toLowerCase(), o); } catch (e) { }
+  }
+  libs[name] = m;
+}
+console.log("分级词库：" + LEVELS.map(([n]) => `${n.replace("词库", "")} ${libs[n].size}`).join(" · "));
+
+/* 词典例句的清洗规则：只要完整、干净、长度合适的一句话 */
+const okCn = cn => {
+  if (!cn) return false;
+  if (/[\u53F0\u6E2F]/.test(cn)) return false;                                  // 港台用词
+  if (/[個們說時會來對為國學實現發樣麼東車見長門開關體與萬馬鳥龍書當還裡從價錢買賣聽舊風飛頭點話題號際離斷續總經過應該認識語讀寫練習麗衛豐產團歲藝蘭樓灣燈隻幾張條纔麼]/.test(cn)) return false;
+  return true;
+};
+const okEn = en => {
+  if (!en || en.length < 22 || en.length > 200) return false;
+  if (/^[（(=＝]/.test(en)) return false;                                        // 词典括注 / 交叉引用
+  if (/\(=|=\)\s*$/.test(en)) return false;
+  if (/^see\s|^cf\.|^syn\.|^SYN|^ant\./i.test(en)) return false;
+  if (/<[^>]+>|https?:\/\//.test(en)) return false;
+  if (!/^["“'(A-Z]/.test(en)) return false;                                     // 被切坏的半截句
+  if (/[{}]|\[\s*\w+\s*\]/.test(en)) return false;                              // 编辑标记
+  return true;
+};
+/* 90 字符左右最理想；带 Tom/Mary 这类语料人名的降权 */
+function score(en) {
+  let s = -Math.abs(en.length - 90);
+  if (/\b(Tom|Mary|John|Jane|Peter|Alice)\b/.test(en)) s -= 45;
+  if (/\b(Mr|Mrs|Dr|Prof)\./.test(en)) s -= 10;
+  return s;
+}
+function pickDict(key) {
+  for (const [name] of LEVELS) {
+    const o = libs[name].get(key);
+    if (!o || !o.sentences) continue;
+    const c = o.sentences
+      .map(x => ({ en: String(x.sentence || "").trim(), cn: String(x.translation || "").trim() }))
+      .filter(x => okEn(x.en) && okCn(x.cn) && canHighlight(x.en, key));
+    if (!c.length) continue;
+    c.sort((a, b) => score(b.en) - score(a.en));
+    return { en: c[0].en, cn: c[0].cn, src: name };
+  }
+  return null;
+}
+
+/* ---------------- ② Tatoeba 双语语料 ---------------- */
+const rows = [];
+for (const line of fs.readFileSync(path.join(CACHE, "cmn.txt"), "utf8").split("\n")) {
+  const [en, cn] = line.split("\t");
+  if (!en || !cn) continue;
+  const E = en.trim(), C = cn.trim();
+  if (!okEn(E) || !okCn(C)) continue;
+  const low = " " + E.toLowerCase().replace(/[^a-z0-9' ]/g, " ").replace(/\s+/g, " ") + " ";
+  rows.push({ en: E, cn: C, low, w: [...new Set(low.trim().split(" "))] });
+}
+console.log(`Tatoeba 合格句对 ${rows.length}`);
+const tIndex = new Map();
+for (const r of rows) for (const t of r.w) { if (!tIndex.has(t)) tIndex.set(t, []); tIndex.get(t).push(r); }
+
+/* 词形变化必须与 assets/app.js 完全一致（同样优先查 ECDICT 的 exchange 表），
+   否则会挑出「页面上标不出目标词」的句子——audit 的 [I] 段专门守这条。
+   反例：have 配到 "We've been spending too much money."，缩写里根本没有 have。 */
 function wordForms(word) {
   const w = String(word == null ? "" : word).toLowerCase().trim();
-  if (!/^[a-z][a-z'-]*$/.test(w)) return [];        // 词组 / 非英文不猜形态
+  if (!/^[a-z][a-z'-]*$/.test(w)) return [];
+  const e = EC && EC[w];
+  if (e && e.x) {
+    const set = new Set([w]);
+    for (const seg of e.x.split("/")) { const v = seg.slice(2); if (v) set.add(v.toLowerCase()); }
+    return [...set].sort((a, b) => b.length - a.length);
+  }
   const set = new Set([w]);
   if (w.length > 2) {
     set.add(w + "s");
@@ -56,107 +151,93 @@ function wordForms(word) {
   }
   return [...set].sort((a, b) => b.length - a.length);
 }
-
-/* ---------------- 断句 ---------------- */
-const ABBR = /\b(Mr|Mrs|Ms|Dr|Prof|St|No|vs|etc|Jr|Sr|Co|Inc|Ltd|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e|Capt|Sgt|Lt|Col|Gen|Sen|Rep|Gov|Rev)\./g;
-const splitEn = t => String(t).replace(ABBR, m => m.replace(/\./g, "\u0001"))
-  .split(/(?<=[.!?…])\s+/).map(s => s.replace(/\u0001/g, ".").trim()).filter(s => s.length > 20);
-const splitCn = t => String(t).split(/(?<=[。！？…])/).map(s => s.trim()).filter(s => s.length > 4);
-
-/* 先把所有段落切成「英文句 / 中文句」对齐好的候选池 */
-const pool = [];
-for (const a of ARTICLES) {
-  for (const p of a.paras || []) {
-    if (!p.en || !p.cn) continue;
-    const en = splitEn(p.en), cn = splitCn(p.cn);
-    if (!en.length || en.length !== cn.length) continue;   // 对不齐的整段放弃，宁缺勿错
-    en.forEach((s, i) => pool.push({ en: s, cn: cn[i], a, low: s.toLowerCase() }));
+/* 与 app.js 的 hlWord 同款正则：句子里必须真的能标出目标词，否则这条例句作废 */
+const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const canHighlight = (sentence, word) => {
+  const forms = wordForms(word);
+  if (!forms.length) return false;
+  return new RegExp("\\b(?:" + forms.map(escRe).join("|") + ")\\b", "i").test(String(sentence));
+};
+function pickTatoeba(word) {
+  const seen = new Set();
+  const c = [];
+  for (const f of wordForms(word)) {
+    const re = new RegExp(`\\b${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`);
+    for (const r of (tIndex.get(f) || [])) {
+      if (seen.has(r.en)) continue;
+      if (!re.test(r.low)) continue;
+      seen.add(r.en); c.push(r);
+    }
   }
+  if (!c.length) return null;
+  c.sort((a, b) => score(b.en) - score(a.en));
+  return { en: c[0].en, cn: c[0].cn, src: "Tatoeba 语料" };
 }
-console.log(`候选句 ${pool.length} 条（来自句数对齐的段落）`);
 
-/* ---------------- 每个词挑一句 ----------------
- * 挑选标准（按优先级）：
- *   1. 长度 60~150 字符最合适（一句半到两句，卡片放得下又有上下文）；
- *   2. 同一个句子最多被 2 个词引用，避免翻来覆去看到同一句；
- *   3. 靠前的文章优先（日期倒序，等于优先用新文章）。 */
-function score(s) {
-  const L = s.en.length;
-  if (L < 45) return 0;
-  if (L <= 150) return 100 - Math.abs(L - 105) / 2;
-  if (L <= 200) return 60 - (L - 150) / 5;
-  return 20;
-}
-/* 功能词不配例句：给 "a" / "the" 发一张词卡没有意义，而它们几乎出现在每一句里，
-   不拦住的话会霸占候选池、把真词的例句挤掉。 */
-const STOP = new Set("a an the and but or nor for yet so if as at by in of on to up out off per via".split(" "));
-
-/* 商业/运营噪音：版权、返利声明、订阅引导这些句子里也含大量常见词，
-   抽出来当例句等于把广告塞进词卡。 */
-const JUNK = /affiliate|commission|we may earn|sign up|newsletter|subscribe|cookie|advertisement|all rights reserved|follow us|share this|read more|terms of (service|use)|privacy polic|©|getty|image credit|photo(?:graph)?:|credit:|https?:\/\//i;
-
-const used = new Map();          // 句子 → 已被引用的次数
+/* ---------------- ③ 主循环 ---------------- */
 const out = {};
-let hit = 0, skipped = 0;
+const stat = { 词典: 0, Tatoeba: 0, 原刊: 0 };
+const miss = [];
 for (const w of WORDS) {
-  if (w.example) continue;                       // 已有例句（含人工撰写的）不动
-  if (String(w.word || "").length < 3 || STOP.has(String(w.word || "").toLowerCase())) { skipped++; continue; }
-  const forms = wordForms(w.word);
-  if (!forms.length) continue;
-  const res = forms.map(f => new RegExp(`\\b${f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`));
-  let best = null, bestScore = -1;
-  for (const s of pool) {
-    if (!res.some(re => re.test(s.low))) continue;
-    if ((used.get(s.en) || 0) >= 2) continue;
-    if (JUNK.test(s.en)) continue;
-    /* 句子开头是小写/数字多半是被断句切坏的半截，不要 */
-    if (!/^["“'(A-Z]/.test(s.en)) continue;
-    const sc = score(s) + (s.a.date ? 0 : -5);
-    if (sc > bestScore) { bestScore = sc; best = s; }
+  if (w.example) continue;                                     // 已有例句不动
+  const key = String(w.word || "").toLowerCase();
+  if (key.length < 3) { miss.push(w.word); continue; }
+  const hit = pickDict(key) || pickTatoeba(w.word);
+  let chosen = (hit && canHighlight(hit.en, w.word)) ? hit : null;   // 最后一道闸：页面上必须标得出目标词
+  if (!chosen) {
+    const old = LEGACY[w.word];
+    if (old && old.en && canHighlight(old.en, w.word)) chosen = { en: old.en, cn: old.cn, src: old.src };
   }
-  if (!best || bestScore <= 0) continue;
-  used.set(best.en, (used.get(best.en) || 0) + 1);
-  /* 来源里常常已经带了日期（"ELLE · 2026-09-09"），别再拼一次 */
-  const srcName = best.a.source || "原刊";
-  const src = (best.a.date && !srcName.includes(best.a.date)) ? `${srcName} · ${best.a.date}` : srcName;
-  out[w.word] = { en: best.en, cn: best.cn, src };
-  hit++;
+  if (!chosen) { miss.push(w.word); continue; }
+  out[w.word] = chosen;
+  if (chosen.src === "Tatoeba 语料") stat.Tatoeba++;
+  else if (LEVELS.some(([n]) => n === chosen.src)) stat.词典++;
+  else stat.原刊++;
 }
 
-const haveBefore = WORDS.filter(w => w.example).length;
-console.log(`新增例句 ${hit} 条；例句覆盖率 ${haveBefore}/${WORDS.length} → ${haveBefore + hit}/${WORDS.length}（${((haveBefore + hit) / WORDS.length * 100).toFixed(1)}%）`);
+const have = WORDS.filter(w => w.example).length;
+const total = have + Object.keys(out).length;
+console.log(`\n新增例句 ${Object.keys(out).length} 条 —— 词典 ${stat.词典} · Tatoeba ${stat.Tatoeba} · 原刊兜底 ${stat.原刊}`);
+console.log(`覆盖率 ${have}/${WORDS.length} → ${total}/${WORDS.length}（${(total / WORDS.length * 100).toFixed(1)}%）`);
+console.log(`仍无例句 ${miss.length} 词（${(miss.length / WORDS.length * 100).toFixed(1)}%）`);
+
+if (DRY) {
+  console.log("\n[试运行] 样本：");
+  for (const [k, v] of Object.entries(out).slice(0, 10)) console.log(`  ${k}  [${v.src}]\n    ${v.en}\n    ${v.cn}`);
+  process.exit(0);
+}
 
 /* ---------------- 写盘 ---------------- */
-const body = `/* 词阅 WordLens —— 真实例句（自动生成，请勿手改；运行 node tools/build-examples.mjs 重新生成）
+const body = `/* 词阅 WordLens —— 单词例句库（自动生成，请勿手改；node tools/build-examples.mjs 重新生成）
  *
- * 来源：文章库里 1628 段真实报道原文 + 逐句译文。逐句翻译的副产品是第 N 个英文句子
- * 对得上第 N 个中文句子（实测 95.7% 段落完全对齐，对不齐的整段放弃），于是
- * 「英文原句 + 它在同一篇文章里的译文」就是成对的真实例句——没有一句是机器造的。
+ * 三级来源，按优先级取第一条命中的：
+ *   ① 分级词典词库  github.com/KyleBing/english-vocabulary —— 词典级例句 + 准确中文
+ *   ② Tatoeba 双语语料  tatoeba.org（CC-BY 2.0）—— 英中人工句对
+ *   ③ 原刊文章抽句 —— 本项目文章库的历史兜底（真实报道原文）
  *
- * 共 ${hit} 条，只用来填补没有例句的词；人工撰写的例句永远优先，不会被覆盖。
+ * 本文件共 ${Object.keys(out).length} 条（词典 ${stat.词典} / Tatoeba ${stat.Tatoeba} / 原刊 ${stat.原刊}），
+ * 只填补没有例句的词；词库自带 / 人工撰写的例句永远优先，不会被覆盖。
  */
-const WORD_EXAMPLES = ${JSON.stringify(out, null, 2)};
+const WORD_EXAMPLES = {
+${Object.entries(out).map(([k, v]) => `${JSON.stringify(k)}: ${JSON.stringify(v)}`).join(",\n")}
+};
 
 if (typeof WORDS !== "undefined") {
   let n = 0;
   for (const w of WORDS) {
-    if (w.example) continue;                 // 已有例句不动
+    if (w.example) continue;
     const ex = WORD_EXAMPLES[w.word];
     if (!ex) continue;
     w.example = ex.en;
     w.exampleCn = ex.cn;
-    if (!w.source) w.source = ex.src;
+    /* chip 要标例句出处（四级词库 / Tatoeba 语料 / 原刊），而不是词库自带的分类标签
+       ——后者是「这个词属于哪份词表」，贴在例句框里语义是错位的 */
+    w.source = ex.src;
     n++;
   }
   if (typeof window !== "undefined") window.__ADDED_EXAMPLES__ = n;
 }
 `;
 const file = path.join(ROOT, "assets", "data-examples.js");
-if (DRY) {
-  const demo = Object.entries(out).slice(0, 6);
-  console.log("\n[试运行] 样本：");
-  for (const [k, v] of demo) console.log(`  ${k}\n    EN ${v.en}\n    CN ${v.cn}\n    —— ${v.src}`);
-} else {
-  fs.writeFileSync(file, body);
-  console.log(`已写入 assets/data-examples.js（${(body.length / 1024).toFixed(0)}KB）`);
-}
+fs.writeFileSync(file, body);
+console.log(`已写入 assets/data-examples.js（${(body.length / 1024).toFixed(0)}KB）`);
