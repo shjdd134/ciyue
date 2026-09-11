@@ -56,6 +56,7 @@ parseCSV(csv, row => {
   const collins = parseInt(row[idx.collins]) || 0;
   const oxford = row[idx.oxford] === "1" ? 1 : 0;
   const exch = (row[idx.exchange] || "").split("/").filter(s => s && !/^[01]:/.test(s)).join("/");
+  const ph = (row[idx.phonetic] || "").trim();   // 英式 IPA
   if (/\bcet4\b/.test(tag)) cet4++;
   const e = {};
   if (frq) e.f = frq;
@@ -63,6 +64,7 @@ parseCSV(csv, row => {
   if (collins) e.c = collins;
   if (oxford) e.o = 1;
   if (exch) e.x = exch;
+  if (ph) e.p = ph;
   if (tag && !/\bcet4\b/.test(tag)) e.t = tag;   // 意外标签才存（四级词都应有 cet4）
   META[w.toLowerCase()] = e;
 });
@@ -74,7 +76,7 @@ if (missing.length) console.log("未命中样例:", missing.slice(0, 20).join(",
 const json = JSON.stringify(META);
 const out = `/* 词阅 WordLens —— ECDICT 四级词元数据（自动生成，请勿手改）
  * 来源：github.com/skywind3000/ECDICT（MIT）全量词库按本级 4455 词过滤
- * 字段：f=当代语料库词频序(小=常用) b=BNC词频序 c=柯林斯星级 o=牛津3000 x=词形变化(p过去/d过去分词/i现在分词/3三单/r比较/t最高/s复数) t=额外考纲标签
+ * 字段：f=当代语料库词频序(小=常用) b=BNC词频序 c=柯林斯星级 o=牛津3000 x=词形变化(p过去/d过去分词/i现在分词/3三单/r比较/t最高/s复数) t=额外考纲标签 p=英式音标IPA
  * 重新生成：node tools/_build-ecdict.mjs（需 tools/.ecdict-blob.json） */
 window.WORD_META = ${json};
 `;

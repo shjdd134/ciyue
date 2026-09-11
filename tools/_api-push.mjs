@@ -1,54 +1,64 @@
 /* 通过 GitHub Git Data API 推送工作区变更（沙箱 git 无法直连 github.com 时的替代通道）
  *   用法: node tools/_api-push.mjs "<commit message>"
  * 凭据: 从 Windows 凭据管理器（git credential fill）取已缓存 PAT，不落盘不打印
+ * 增量: 对比远端树 sha —— 内容一致的文件不上传；远端已不存在的删除项跳过。
+ *   （本地 git HEAD 长期落后于远端，porcelain 状态含大量重复 diff，必须去重）
  */
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const REPO = "SHJDD134/ciyue";
-const MSG = process.argv[2] || "update content";
 const API = `https://api.github.com/repos/${REPO}`;
+const MSG = process.argv[2] || "update";
+const NEVER_PUSH = new Set(["tools/.ecdict-blob.json", "tools/.deepl-key"]);
 
 function token() {
   const out = execSync("git credential fill", {
-    cwd: ROOT,
     input: "protocol=https\nhost=github.com\n\n",
     env: { ...process.env, GCM_INTERACTIVE: "never", GIT_TERMINAL_PROMPT: "0" },
   }).toString();
-  const t = out.split("\n").find(l => l.startsWith("password="))?.slice(9).trim();
-  if (!t) throw new Error("未取到凭据");
-  return t;
+  const m = out.match(/^password=(.*)$/m);
+  if (!m) throw new Error("未取到 GitHub 凭据");
+  return m[1].trim();
 }
-
 const T = token();
 const H = { Authorization: `Bearer ${T}`, "Content-Type": "application/json" };
-const j = (r, text) => { const d = JSON.parse(text || "{}"); if (!r.ok) throw new Error(`${r.status} ${JSON.stringify(d).slice(0, 200)}`); return d; };
+const j = (r, text) => { const d = JSON.parse(text || "{}"); if (!r.ok) throw new Error(`${r.status} ${JSON.stringify(d).slice(0, 500)}`); return d; };
 const api = async (p, opts = {}) => { const r = await fetch(API + p, { ...opts, headers: H }); return j(r, await r.text()); };
 
-/* 1. 基线 */
+/* 1. 基线 ref + 远端全树 */
 const ref = await api("/git/ref/heads/main");
 const baseSha = ref.object.sha;
-const baseCommit = await api(`/git/commits/${baseSha}`);
-const baseTree = baseCommit.tree.sha;
-console.log("基线:", baseSha.slice(0, 7), "tree:", baseTree.slice(0, 7));
+const baseTree = (await api(`/git/commits/${baseSha}`)).tree.sha;
+const remoteTree = await api(`/git/trees/${baseTree}?recursive=1`);
+const remote = new Map(remoteTree.tree.filter(t => t.type === "blob").map(t => [t.path, t.sha]));
+console.log(`基线 ${baseSha.slice(0, 7)} | 远端文件 ${remote.size} 个\n`);
 
-/* 2. 变更清单（git status --porcelain） */
-const status = execSync("git status --porcelain", { cwd: ROOT }).toString().trim().split("\n").map(l => {
-  const m = l.match(/^ ?([MADR?UT]+) +(.+)$/);   // 兼容首行前导空格被吞的情况
-  return m ? { x: m[1], file: m[2] } : null;
-}).filter(e => e && e.file && !/^\.(tmp-|bak|workbuddy)/.test(e.file) && !e.file.startsWith(".tmp"));
+/* 2. git status → 变更清单，与远端做内容比对去重 */
+const blobSha = buf => crypto.createHash("sha1").update(`blob ${buf.length}\0`).update(buf).digest("hex");
+/* 注意：本会话 shim 会吞掉 porcelain 首行的前导空格，路径解析必须用宽松正则剥状态位 */
+const status = execSync("git status --porcelain", { cwd: ROOT }).toString().trim().split("\n")
+  .map(l => { const f = l.replace(/^\s*[A-Z?!]{1,2}\s+/, "").trim(); return { x: l.trim().slice(0, 2), file: f }; })
+  .filter(e => e.file && !NEVER_PUSH.has(e.file));
 
 const entries = [];
 for (const e of status) {
-  if (e.x.includes("D")) { entries.push({ path: e.file, mode: "100644", sha: null }); console.log("删", e.file); continue; }
+  if (e.x.includes("D")) {
+    if (remote.has(e.file)) { entries.push({ path: e.file, mode: "100644", sha: null }); console.log("删", e.file); }
+    continue;
+  }
   const buf = fs.readFileSync(path.join(ROOT, e.file));
+  const sha = blobSha(buf);
+  if (remote.get(e.file) === sha) continue;   // 内容与远端一致，跳过
   const blob = await api("/git/blobs", { method: "POST", body: JSON.stringify({ content: buf.toString("base64"), encoding: "base64" }) });
   entries.push({ path: e.file, mode: "100644", type: "blob", sha: blob.sha });
-  console.log("传", e.file, `(${(buf.length / 1024).toFixed(0)}KB)`);
+  console.log(remote.has(e.file) ? "改" : "新", e.file, `(${(buf.length / 1024).toFixed(0)}KB)`);
 }
-console.log(`共 ${entries.length} 项\n`);
+console.log(`\n实际变更 ${entries.length} 项`);
+if (!entries.length) { console.log("远端已是最新，无需提交"); process.exit(0); }
 
 /* 3. tree → commit → 更新 ref */
 const tree = await api("/git/trees", { method: "POST", body: JSON.stringify({ base_tree: baseTree, tree: entries }) });

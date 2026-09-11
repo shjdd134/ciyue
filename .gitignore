@@ -5,3 +5,4 @@
 
 # 本地密钥，绝不入库
 tools/.deepl-key
+tools/.ecdict-blob.json

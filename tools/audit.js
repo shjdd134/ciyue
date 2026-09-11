@@ -321,13 +321,13 @@ eq('句中没有目标词时不产生标记', ctx('hlWord("Nothing to see here."
 eq('标色不破坏转义', ctx('hlWord("Tea & coffee for the test.", "test")'), 'Tea &amp; coffee for the <mark class="w-hl">test</mark>.');
 
 /* ===================================================================
- * J. 复习队列与艾宾浩斯
+ * J. 复习队列与 FSRS 调度
  *   J1 「开始复习」真的把队列换成错词（以前只是弹个 toast 然后走默认顺序）
  *   J2 答对 → 到期日推后；答错 → 今天就到期
  *   J3 队列走完自动退出并回到「我的」
  *   J4 生词本也能拿来练
  * =================================================================== */
-console.log('\n[J] 复习队列与艾宾浩斯');
+console.log('\n[J] 复习队列与 FSRS 调度');
 const W1 = words[0].word, W2 = words[1].word;
 ctx(`S.wrong = ["${W1}", "${W2}"]; S.review = {}; save()`);
 ctx('setQueue(reviewQueue(), "测试队列")');
@@ -337,19 +337,19 @@ ok('点「开始复习」进入学习页且用的是复习队列', ctx('view.nam
 ok('学习页显示队列名与退出入口', /data-act="quit-queue"/.test(screenEl.innerHTML));
 ok('进度条按队列长度算，不是全量 4455', /\b1\/2\b/.test(screenEl.innerHTML));
 
-/* 答对第一张：应升一级、到期日推后、并移出错词本 */
+/* 答对第一张：应写入 FSRS 复习态、到期时间推到未来、并移出错词本 */
 ctx(`qPos = 0; render()`);
 click({ act: 'answer', v: 'yes' });
-const rev1 = ctx(`S.review["${W1}"]`);
-ok('答对写入艾宾浩斯调度（stage 前进）', rev1 && rev1.stage === 1);
-ok('答对后到期日推到明天之后', rev1 && rev1.due > ctx('todayKey()'));
+const rev1 = ctx(`S.fsrs["${W1}"]`);
+ok('答对写入 FSRS 调度（进入复习态）', rev1 && rev1.st === 2 && rev1.r === 1);
+ok('答对后到期时间推到未来', rev1 && rev1.due > new Date().toISOString());
 ok('答对后从错词本移除', !ctx(`S.wrong.includes("${W1}")`));
 
-/* 答错第二张（队列已推进到 W2）：应归零、当天到期、留在错词本 */
+/* 答错第二张（队列已推进到 W2）：应记遗忘、稳定性应低于答对、留在错词本 */
 ok('答完一张后队列推进到第二张', ctx('curWord().word') === W2);
 click({ act: 'answer', v: 'no' });
-const rev2 = ctx(`S.review["${W2}"]`);
-ok('答错后 stage 归零、当天就到期', rev2 && rev2.stage === 0 && rev2.due === ctx('todayKey()'));
+const rev2 = ctx(`S.fsrs["${W2}"]`);
+ok('答错记入遗忘（lapses）且稳定性低于答对', rev2 && rev2.l === 1 && rev2.s < (rev1 ? rev1.s : 99));
 ok('答错后仍在错词本', ctx(`S.wrong.includes("${W2}")`));
 /* 新交互：答错不直接走人——先翻面看答案，作答行换成「继续」，点它才收尾 */
 ok('答错后翻到背面看答案，不直接跳下一个', ctx('view.name') === 'study' && ctx('flipped') === true && ctx('answered') === 'no');

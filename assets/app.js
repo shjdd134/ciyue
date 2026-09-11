@@ -73,7 +73,7 @@ const defaultState = {
   daily: { date: "", count: 0 },   // 今日已学新词（跨天自动归零）
   studyDays: [],    // 有学习行为的日期 YYYY-MM-DD，用于算连续天数
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，阅读时长按天累计
-  review: {}        // 艾宾浩斯调度：{ word: { stage, due } }，due 是 YYYY-MM-DD
+  fsrs: {}          // FSRS 间隔重复调度：{ word: { st,d,s,e,sd,r,l,due,lr } }（vendor-fsrs.js）
 };
 let S = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORE) || "{}"));
 /* 早期版本留下的写死字段（streak / minutes / tab）：就地丢弃，避免旧数据继续冒充真实统计 */
@@ -82,6 +82,7 @@ delete S.streak; delete S.minutes; delete S.tab;
 S.studyDays = Array.isArray(S.studyDays) ? S.studyDays.slice() : [];
 S.minsByDay = (S.minsByDay && typeof S.minsByDay === "object") ? Object.assign({}, S.minsByDay) : {};
 if (!S.daily || typeof S.daily !== "object") S.daily = { date: "", count: 0 };
+if (!S.fsrs || typeof S.fsrs !== "object") S.fsrs = {};
 const save = () => localStorage.setItem(STORE, JSON.stringify(S));
 
 /* ---------------- 真实学习统计 ----------------
@@ -99,28 +100,56 @@ function rollDay() {
 }
 rollDay();
 
-/* ---------------- 艾宾浩斯复习调度 ----------------
- * 只在三个动作上记一笔：认识 → 升一级；模糊 → 退一级、明天再来；不认识 → 归零、今天重练。
- * due 存的是日期字符串，跨天自然到期，不需要定时器，也不需要后台任务。 */
-const REVIEW_STEPS = [1, 2, 4, 7, 15, 30, 60];   // 各级间隔天数
+/* ---------------- FSRS 间隔重复调度 ----------------
+ * 内核是开源 FSRS 算法（assets/vendor-fsrs.js，MIT，Anki 官方现用调度器的同源实现）。
+ * 三个动作映射：认识 → Good，模糊 → Hard，不认识 → Again；
+ * 算法按每词的记忆稳定性（s）与难度（d）算下次复习时间，取代旧版固定阶梯。
+ * due 存 ISO 时间串，跨天自然到期，不需要定时器，也不需要后台任务。 */
+const REVIEW_STEPS = [1, 2, 4, 7, 15, 30, 60];   // 兜底阶梯（vendor-fsrs.js 加载失败时才用）
+const F_SCHED = window.FSRS
+  ? FSRS.fsrs(FSRS.generatorParameters({ enable_fuzz: true, enable_short_term: false }))
+  : null;
+/* 旧版阶梯调度（S.review）一次性迁移成 FSRS 卡片：stage 近似为记忆稳定性 */
+for (const [w, r] of Object.entries(S.review || {})) {
+  if (S.fsrs[w] || !window.FSRS) continue;
+  const days = REVIEW_STEPS[Math.min(r.stage || 0, REVIEW_STEPS.length - 1)] || 1;
+  S.fsrs[w] = { st: 2, d: 5, s: Math.max(1, days), e: days, sd: days, r: 1, l: 0,
+                due: new Date((r.due || todayKey()) + "T05:00:00").toISOString(), lr: null };
+}
+function cardOf(word) {
+  const c = S.fsrs[word];
+  if (!c) return FSRS.createEmptyCard(new Date());
+  return {
+    due: new Date(c.due), stability: c.s, difficulty: c.d,
+    elapsed_days: c.e, scheduled_days: c.sd, reps: c.r, lapses: c.l,
+    learning_steps: c.ls || 0,
+    state: c.st, last_review: c.lr ? new Date(c.lr) : undefined
+  };
+}
 function scheduleReview(word, v) {
-  const prev = S.review[word] || { stage: 0, due: todayKey() };
-  let stage = prev.stage || 0;
-  if (v === "yes") stage = Math.min(REVIEW_STEPS.length - 1, stage + 1);
-  else if (v === "fuzzy") stage = Math.max(0, stage - 1);
-  else stage = 0;
-  const gap = v === "no" ? 0 : REVIEW_STEPS[stage];
-  const d = new Date();
-  d.setDate(d.getDate() + gap);
-  S.review[word] = { stage, due: ymd(d) };
+  if (!window.FSRS) {                        // 兜底：vendor 脚本加载失败时退回固定阶梯
+    const prev = S.fsrs[word];
+    let stage = prev ? Math.max(0, Math.min(REVIEW_STEPS.length - 1, Math.round(prev.s) || 0)) : 0;
+    stage = v === "yes" ? Math.min(REVIEW_STEPS.length - 1, stage + 1)
+          : v === "fuzzy" ? Math.max(0, stage - 1) : 0;
+    const d = new Date(); d.setDate(d.getDate() + (v === "no" ? 0 : REVIEW_STEPS[stage]));
+    S.fsrs[word] = { st: 2, d: 5, s: stage, e: 0, sd: REVIEW_STEPS[stage], r: 1,
+                     l: v === "no" ? 1 : 0, due: d.toISOString(), lr: null };
+    return;
+  }
+  const rating = v === "yes" ? FSRS.Rating.Good : v === "fuzzy" ? FSRS.Rating.Hard : FSRS.Rating.Again;
+  const { card } = F_SCHED.next(cardOf(word), new Date(), rating);
+  S.fsrs[word] = {
+    st: card.state, d: +card.difficulty.toFixed(3), s: +card.stability.toFixed(3),
+    e: card.elapsed_days, sd: card.scheduled_days, r: card.reps, l: card.lapses,
+    ls: card.learning_steps || 0,
+    due: card.due.toISOString(), lr: card.last_review ? card.last_review.toISOString() : null
+  };
 }
 /* 今天该复习的词：调度表上到期的（含答错当天重练的） */
 function dueWords() {
-  const k = todayKey();
-  return WORDS.filter(w => {
-    const r = S.review[w.word];
-    return r && r.due && r.due <= k;
-  });
+  const now = new Date().toISOString();
+  return WORDS.filter(w => { const r = S.fsrs[w.word]; return r && r.due && r.due <= now; });
 }
 /* 复习队列 = 错词 ∪ 到期词，去重。错词在前——用户点「开始复习」先看错词。 */
 function reviewQueue() {
@@ -266,6 +295,15 @@ WORDS.sort((a, b) => {
 /* 单词索引：错词本 / 生词本里存的是字符串，取词对象别再 O(n) 地 find */
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
 const wordsOf = list => list.map(x => WORD_BY.get(x)).filter(Boolean);
+
+/* 音标兜底：词库自带音标只有 126 词，其余从 ECDICT（英式 IPA，见 data-ecdict.js 的 p 字段）补齐，
+ * 统一包成 /…/ 与自带格式一致 */
+if (EC) for (const w of WORDS) {
+  if (!w.phonetic) {
+    const m = EC[w.word.toLowerCase()];
+    if (m && m.p) w.phonetic = "/" + String(m.p).replace(/^\/+|\/+$/g, "") + "/";
+  }
+}
 
 /* 文章统一按发布日期倒序：最新的一篇自动成为发现页「今日精选」 */
 ARTICLES.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
@@ -683,7 +721,7 @@ function renderStudy() {
       </div>
       ${queue ? `<div class="qbar">
         <span class="chip">${esc(qLabel)}</span>
-        <span class="muted-2" style="font-size:11.5px">答对会按艾宾浩斯间隔推后复习</span>
+        <span class="muted-2" style="font-size:11.5px">答对自动按 FSRS 记忆算法安排下次复习</span>
         <span class="link" data-act="quit-queue" role="button" tabindex="0">退出</span>
       </div>` : ""}
 
@@ -880,7 +918,7 @@ function renderDiscover() {
         <div class="ic">${svg("cards", 20)}</div>
         <div class="col grow" style="gap:4px">
           <div class="t">四级核心词库</div>
-          <div class="s">${WORDS.length.toLocaleString()} 词 · 真题高频 · 艾宾浩斯复习</div>
+          <div class="s">${WORDS.length.toLocaleString()} 词 · 真题高频 · FSRS 科学复习</div>
         </div>
         <div class="col">
           <div class="p">${masteredRate()}%</div>
@@ -942,7 +980,7 @@ function renderMe() {
           <div class="row" style="gap:6px">
             ${svg("refresh", 14)}
             <span class="h2">今日复习</span>
-            <span class="chip" style="padding:2px 8px;font-size:10px">艾宾浩斯</span>
+            <span class="chip" style="padding:2px 8px;font-size:10px">FSRS</span>
           </div>
           <span class="muted-2" style="font-size:11.5px">${due ? `错词 ${S.wrong.length} · 到期 ${due} 词，答对自动推后` : "暂时没有到期的词，明天再来"}</span>
         </div>
@@ -1180,7 +1218,7 @@ function resetSheet() {
         </div>
       </div>
       <div class="muted" style="font-size:12.5px;line-height:20px">
-        这会抹掉已学词、错词本、生词本、阅读打卡与艾宾浩斯复习计划，且无法撤销。主题设置会保留。
+        这会抹掉已学词、错词本、生词本、阅读打卡与 FSRS 复习计划，且无法撤销。主题设置会保留。
       </div>
       <div class="sheet-btns">
         <button class="answer-btn no" data-act="export-data" style="flex:1">${svg("download", 15)} 先导出备份</button>
