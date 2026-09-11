@@ -5,6 +5,11 @@
  *   （本地 git HEAD 长期落后于远端，porcelain 状态含大量重复 diff，必须去重）
  * --only: 只推指定路径。本地索引落后时 porcelain 会混进上百个「工作区已删除」
  *   的旧图片条目，全量推会把远端还在用的图删掉——改数据/代码时务必带白名单。
+ *   ⚠️ porcelain 默认折叠未跟踪目录：像 tools/.examples-cache/（整目录被忽略、
+ *   只靠 ! 白名单放行个别文件）会显示成 `?? tools/.examples-cache/`，与 --only
+ *   里的完整文件路径匹配不上，会被静默跳过（该文件永远推不上去）。
+ *   推这类文件前先执行 `git config status.showUntrackedFiles all`，推完记得
+ *   `git config --unset status.showUntrackedFiles` 还原。
  */
 import fs from "node:fs";
 import path from "node:path";
