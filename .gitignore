@@ -8,10 +8,12 @@ tools/.examples-cache/
 # 例外：两张小表是构建的必需输入，随仓库走
 #   cet4-hf.json      17KB  真题高频表，build-core-vocab.mjs 用
 #   cet4-sprint.json  36KB  冲刺池（真题表 ∪ CETVocabulary 词频），build-words-mid.mjs 用
+#   cet4-gaps-general.json 1KB 通用高频向缺口词，build-core-vocab.mjs 用
 !tools/.examples-cache/
 tools/.examples-cache/*
 !tools/.examples-cache/cet4-hf.json
 !tools/.examples-cache/cet4-sprint.json
+!tools/.examples-cache/cet4-gaps-general.json
 
 # 本地密钥，绝不入库
 tools/.deepl-key

@@ -2,11 +2,13 @@
  *
  * 目标：把 4454 词的「CET4 完整考纲」缩成 ~2000 词的四级核心词库。
  *
- * 口径（三条并集）：
+ * 口径（四条并集）：
  *   ① 语料高频 —— ECDICT 当代语料词频 f ≤ 2500（5 万词级语料统计，可靠代理「常用度」）
  *   ② 真题高频 —— liut969/CET《英语四级真题高频词汇》1250 词
  *                 （近 5 年 30 套四级真题逐词统计，用 ECDICT 的词形表还原成原形）
  *   ③ 手工精编 —— data.js WORDS_CORE 的 30 个精选词（带词根词缀/同根词/助记，产品的招牌内容）
+ *   ④ 通用高频向缺口词 —— cet4-gaps-general.json（2026-09-11 用户拍板「通用高频向」，
+ *                 冲刺池反查：f≤2500 但词表漏掉的词）
  * 再剔除纯功能词（the / of / to …），背单词不该背这些。
  *
  * 另用真题表反查词库缺口：真题里高频、但我们词库没有的词（people / part / pay 这类），
@@ -141,8 +143,23 @@ for (const [surf, n] of hfUnmapped) {
 }
 console.log(`真题表暴露的词库缺口 ${gaps.size} 个 → 从分级词典库补进来`);
 
-const FINAL = [...new Set([...core, ...gaps.keys()])].sort();
-console.log(`\n★ 新词库共 ${FINAL.length} 词（核心 ${core.size} + 补缺 ${gaps.size}）`);
+/* ---------------- 5b. 通用高频向缺口词（第④源） ----------------
+ * 2026-09-11 多源交叉校验后用户拍板「通用高频向」：只补通用语料本身高频
+ * （ECDICT f ≤ 2500，与①同阈值）但词表漏掉的词（perspective / revenue / context …）；
+ * 「真题高频但通用语料中低频」的考试向词不收。列表由 .tmp/_gap-general.mjs
+ * 从冲刺池反查算出后固化在 cet4-gaps-general.json（随仓库，重建可复现）。 */
+const gapGeneralPath = path.join(CACHE, "cet4-gaps-general.json");
+let gapGeneral = new Set();
+if (fs.existsSync(gapGeneralPath)) {
+  gapGeneral = new Set(
+    Object.keys(JSON.parse(fs.readFileSync(gapGeneralPath, "utf8")).words)
+      .filter(w => !byWord.has(w) && DICT.has(w) && !STOP.has(w))
+  );
+  console.log(`④ 通用高频向缺口词            ${gapGeneral.size}`);
+}
+
+const FINAL = [...new Set([...core, ...gaps.keys(), ...gapGeneral])].sort();
+console.log(`\n★ 新词库共 ${FINAL.length} 词（核心 ${core.size} + 真题补缺 ${gaps.size} + 通用高频补缺 ${gapGeneral.size}）`);
 if (DRY) {
   console.log("首 30 按字母序:", FINAL.slice(0, 30).join(", "));
   process.exit(0);

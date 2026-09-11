@@ -1,6 +1,6 @@
 /* 词阅 WordLens —— 中学基础层词库（自动生成，请勿手改；node tools/build-words-mid.mjs 重新生成）
  *
- * 这一层解决的是「四级核心库默认你已经会中学词」这个前提 —— 实测核心库缺 2067 个中学词，
+ * 这一层解决的是「四级核心库默认你已经会中学词」这个前提 —— 实测核心库缺 2069 个中学词，
  * 且缺得很集中：lecture / campus / vocabulary / outline 这类校园与考试场景词，在通用新闻
  * 语料里天然低频，被核心库的「语料词频 f ≤ 2500」口径整片滤掉了。
  *
@@ -13,8 +13,8 @@
  * 释义与音标来自 github.com/KyleBing/english-vocabulary 分级词库；
  * 例句留空，由 tools/build-examples.mjs 统一从分级词库 / Tatoeba 语料补齐。
  *
- * 本文件 2067 词（初中 648 / 高中 1419，
- * 其中真题高频 332 个、带搭配兜底 445 个）。 */
+ * 本文件 2069 词（初中 649 / 高中 1420，
+ * 其中真题高频 333 个、带搭配兜底 446 个）。 */
 
 window.WORDS_MID = [
   {"word":"abnormal","list":"中学基础","src":"高中","phonetic":"/æb'nɔːml/","pos":"adj","def":"反常的，不规则的；变态的","example":"","exampleCn":"","source":""},
@@ -784,6 +784,7 @@ window.WORDS_MID = [
   {"word":"fortunate","list":"中学基础","src":"高中","phonetic":"/'fɔːtʃ(ə)nət/","pos":"adj","def":"幸运的；侥幸的；吉祥的；带来幸运的","example":"","exampleCn":"","source":""},
   {"word":"fortune","list":"中学基础","src":"高中","cv":50,"phonetic":"/'fɔːtʃuːn; -tʃ(ə)n/","pos":"n/vt/vi","def":"财富；命运；运气；给予财富；偶然发生","example":"","exampleCn":"","source":""},
   {"word":"forty","list":"中学基础","src":"初中","phonetic":"/'fɔːtɪ/","pos":"n/adj","def":"四十；四十的；四十个的","example":"","exampleCn":"","source":""},
+  {"word":"found","list":"中学基础","src":"初中","cv":53,"phonetic":"/faund/","pos":"v","def":"创立， 创办， 创建","example":"","exampleCn":"","source":""},
   {"word":"founding","list":"中学基础","src":"高中","phonetic":"/'faʊndɪŋ/","pos":"adj/v/n","def":"创办的；发起的；[机] 铸造；建造；以…为基础（found的ing形式）；[机] 铸造；溶解","example":"","exampleCn":"","source":""},
   {"word":"fountain","list":"中学基础","src":"高中","phonetic":"/ˈfaʊntən/","pos":"n","def":"喷泉，泉水；源泉","example":"","exampleCn":"","source":""},
   {"word":"fourteen","list":"中学基础","src":"初中","phonetic":"/fɔː'tiːn; 'fɔːtiːn/","pos":"num/n","def":"十四；十四个；第十四；十四的记号；十四岁；十四点钟；十五世纪","example":"","exampleCn":"","source":""},
@@ -1044,6 +1045,7 @@ window.WORDS_MID = [
   {"word":"lavatory","list":"中学基础","src":"高中","phonetic":"/'lævət(ə)rɪ/","pos":"n","def":"厕所，盥洗室","example":"","exampleCn":"","source":""},
   {"word":"lazy","list":"中学基础","src":"初中","phonetic":"/'leɪzɪ/","pos":"adj/n","def":"懒惰的；懒洋洋的；怠惰的；慢吞吞的；(Lazy)人名；(德)拉齐","example":"","exampleCn":"","source":""},
   {"word":"leak","list":"中学基础","src":"高中","phonetic":"/liːk/","pos":"n/v","def":"泄漏；漏洞，裂缝；使渗漏，泄露","example":"","exampleCn":"","source":""},
+  {"word":"learned","list":"中学基础","src":"高中","phonetic":"/'lɜːnd; ˈlɜ:nɪd/","pos":"adj/n","def":"博学的；有学问的；学术上的；(Learned)人名；(英)勒尼德","example":"","exampleCn":"","source":"","collocation":"learned behavior","collocationCn":"习得行为"},
   {"word":"leather","list":"中学基础","src":"高中","phonetic":"/'leðə/","pos":"n/v/adj","def":"皮革；皮革制品；用皮革包盖；抽打；皮的；皮革制的","example":"","exampleCn":"","source":""},
   {"word":"lecture","list":"中学基础","src":"高中","cv":312,"phonetic":"/'lektʃə/","pos":"n/v","def":"演讲；讲稿；教训；演讲；训诫","example":"","exampleCn":"","source":"","collocation":"lecture note","collocationCn":"讲义，上课笔记"},
   {"word":"leftover","list":"中学基础","src":"高中","phonetic":"/'leftəʊvə/","pos":"n/adj","def":"残留物；吃剩的饭菜；剩余物；残余的；吃剩的","example":"","exampleCn":"","source":""},

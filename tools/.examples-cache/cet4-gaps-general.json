@@ -1,0 +1,107 @@
+{
+ "note": "通用高频向缺口词（2026-09-11 用户拍板）：冲刺池 ∖ 当前词库 且 ECDICT 通用语料词频 f ≤ 2500（与核心层 CORPUS_HI 同阈值）且分级词典有释义底料。不含「真题高频但通用语料中低频」的考试向词（201 个，未收）。",
+ "generated": "2026-09-11",
+ "corpusThreshold": 2500,
+ "words": {
+  "perspective": {
+   "f": 1412,
+   "collins": 3,
+   "oxford": 0
+  },
+  "context": {
+   "f": 1427,
+   "collins": 3,
+   "oxford": 1
+  },
+  "poll": {
+   "f": 1623,
+   "collins": 4,
+   "oxford": 0
+  },
+  "revenue": {
+   "f": 1681,
+   "collins": 3,
+   "oxford": 0
+  },
+  "notion": {
+   "f": 1714,
+   "collins": 3,
+   "oxford": 0
+  },
+  "ethnic": {
+   "f": 1729,
+   "collins": 3,
+   "oxford": 0
+  },
+  "estate": {
+   "f": 1778,
+   "collins": 2,
+   "oxford": 1
+  },
+  "landscape": {
+   "f": 1827,
+   "collins": 3,
+   "oxford": 1
+  },
+  "cite": {
+   "f": 1932,
+   "collins": 3,
+   "oxford": 0
+  },
+  "sector": {
+   "f": 1974,
+   "collins": 4,
+   "oxford": 1
+  },
+  "asset": {
+   "f": 2094,
+   "collins": 4,
+   "oxford": 0
+  },
+  "transition": {
+   "f": 2212,
+   "collins": 3,
+   "oxford": 0
+  },
+  "pose": {
+   "f": 2230,
+   "collins": 3,
+   "oxford": 1
+  },
+  "passion": {
+   "f": 2283,
+   "collins": 3,
+   "oxford": 0
+  },
+  "gene": {
+   "f": 2287,
+   "collins": 3,
+   "oxford": 0
+  },
+  "dominate": {
+   "f": 2312,
+   "collins": 4,
+   "oxford": 1
+  },
+  "peak": {
+   "f": 2364,
+   "collins": 3,
+   "oxford": 1
+  },
+  "deficit": {
+   "f": 2403,
+   "collins": 4,
+   "oxford": 0
+  },
+  "confront": {
+   "f": 2415,
+   "collins": 3,
+   "oxford": 1
+  },
+  "favor": {
+   "f": 2500,
+   "collins": 0,
+   "oxford": 0
+  }
+ }
+}
