@@ -1344,8 +1344,9 @@ function fixFlipHeight() {
   const viewH = view ? view.clientHeight : 560;
   /* 翻转后背面内容若超出可视区，限制卡片高度并让背面内部滚动，
      避免页面整体滚动、用户找不到卡片下半部分 */
-  const maxH = flipped ? Math.max(280, viewH - 16) : viewH;
-  flip.style.height = Math.min(face.scrollHeight, maxH) + "px";
+  const minH = flipped ? Math.max(360, viewH - 16) : viewH;
+  flip.style.height = Math.min(face.scrollHeight, minH) + "px";
+  face.scrollTop = 0;
 }
 
 /* ---------------- 事件 ---------------- */
@@ -1412,9 +1413,9 @@ document.addEventListener("click", e => {
       if (e.target.closest("[data-act='speak']")) break;
       flipped = !flipped; render();
       requestAnimationFrame(() => {
+        const flip = $("#flip");
+        if (flip) flip.classList.add("flip-anim");
         fixFlipHeight();
-        const view = $(".view");
-        if (view) view.scrollTo({ top: 0, behavior: "smooth" });
       });
       break;
     case "mark": {

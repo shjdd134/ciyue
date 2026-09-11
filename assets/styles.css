@@ -351,6 +351,11 @@ body {
 .flip {
   perspective: 1400px;
   width: 100%;
+}
+.flip-anim .flip-inner {
+  transition: transform .5s cubic-bezier(.4, .2, .2, 1);
+}
+.flip-anim {
   transition: height .45s cubic-bezier(.4, .2, .2, 1);
 }
 .flip-inner {
