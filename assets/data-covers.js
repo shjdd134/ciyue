@@ -6,7 +6,6 @@
  */
 
 const COVER_MAP = {
-  "bz-serbian-sci-fi-epic-sanctuary-starring-the-han": "assets/covers/bz-serbian-sci-fi-epic-sanctuary-starring-the-han.jpg",
   "ft-arteta-explains-new-role-for-transformed-odega": "assets/covers/ft-arteta-explains-new-role-for-transformed-odega.jpg",
   "ft-odegaard-gives-dominant-arsenal-win-over-napol": "assets/covers/ft-odegaard-gives-dominant-arsenal-win-over-napol.jpg",
   "his-archaeologists-excavating-a-roman-era-cemetery": "assets/covers/his-archaeologists-excavating-a-roman-era-cemetery.jpg",

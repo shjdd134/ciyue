@@ -320,88 +320,7 @@ source: "四级真题例句 · 2023 卷一" }
 ];
 
 const ARTICLES = [
-  {
-    "id": "bz-serbian-sci-fi-epic-sanctuary-starring-the-han",
-    "cat": "娱乐",
-    "title": "Serbian Sci-Fi Epic ‘Sanctuary,’ Starring ‘The Handmaid’s Tale’s’ Nina Kiri, Acquired for U.S. Distribution (EXCLUSIVE)",
-    "titleZh": "塞尔维亚科幻史诗电影《避难所》（Sanctuary）获美国发行（独家），由《使女的故事》（The Handmaid’s Tale）的 Nina Kiri 主演",
-    "source": "Variety · 2026-09-10",
-    "date": "2026-09-10",
-    "minutes": 4,
-    "url": "https://variety.com/2026/film/global/serbia-sci-fi-sanctuary-nina-kiri-us-distribution-1236851443/",
-    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
-    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
-    "paras": [
-      {
-        "en": "The English-language, post-apocalyptic thriller is directed by Filip Kovačević",
-        "cn": "这部英语后世界末日惊悚片由菲利普·科瓦切维奇（Filip Kovačević）执导"
-      },
-      {
-        "en": "Vertical has acquired U.S. distribution rights to \"Sanctuary,\" an English-language, post-apocalyptic thriller starring \"The Handmaid's Tale's\" Nina Kiri.",
-        "cn": "Vertical已获得“Sanctuary”的美国发行权，这是一部由“The Handmaid's Tale”的Nina Kiri主演的英语后世界末日惊悚片。"
-      },
-      {
-        "en": "According to the synopsis, \"Sanctuary\" is set on a post-apocalyptic Earth, where the discovery of a cryogenically suspended woman provokes fear in a desperate village, sending a young warrior and the mysterious woman on a quest for a lost city and answers that could restore humanity.",
-        "cn": "根据剧情大纲，《庇护所》设定在一个后世界末日的地球上，一个被低温悬浮的女人的发现在一个绝望的村庄引发了恐惧，派遣一个年轻的战士和一个神秘的女人去寻找一个失落的城市，寻找可以恢复人类的答案。"
-      },
-      {
-        "en": "Directed by Filip Kovačević (\"Incarnation\"), the film is produced by Đorđe Stanković, Filip Kovačević and Vukota Antunović for Void Pictures and TS Media, the production arm of telecommunications giant Telekom Srbija.",
-        "cn": "这部电影由Filip Kovačević （“化身”）执导，由Đorđe Stanković ，Filip Kovačević和Vukota Antunović为Void Pictures和电信巨头Telekom Srbija的制作部门TS Media制作。"
-      },
-      {
-        "en": "It stars Kiri alongside Dutch actor Jonas Smulders (\"Luka,\" \"Paradise Drifters\") and Serbia's Darko Perić (\"Money Heist\").",
-        "cn": "它与荷兰演员Jonas Smulders （“Luka”，“天堂流浪者”）和塞尔维亚的Darko Perić （“金钱抢劫”）一起出演。"
-      },
-      {
-        "en": "World sales are being handled by Sublimity, which has also secured several other international deals.",
-        "cn": "Sublimity正在处理全球销售，该公司还获得了其他几项国际交易。"
-      },
-      {
-        "en": "Kovačević, who previously directed the 2016 action thriller \"Incarnation,\" described “Sanctuary” as an attempt to give \"a fresh take on dystopian sci-fi, with an original story that takes place in a distinct 'semi-far future.'\"",
-        "cn": "Kovačević此前曾执导2016年动作惊悚片《化身》，他将《庇护所》描述为试图“对反乌托邦科幻进行全新演绎，并在独特的“半远未来”中讲述原创故事。”"
-      },
-      {
-        "en": "\"The time is near enough so the events that led to the collapse of civilization are still relevant, but far enough that they have been shrouded in mystery and myth,\" the director said.",
-        "cn": "这位导演说：“时间已经足够接近，导致文明崩溃的事件仍然是相关的，但足够远，它们已经笼罩在神秘和神话之中。”"
-      },
-      {
-        "en": "\"The intent was to make an entertaining genre film that explores the cyclical nature of history and the individual’s role inside it.\"",
-        "cn": "“目的是制作一部有趣的流派电影，探索历史的周期性和个人在其中的角色。”"
-      },
-      {
-        "en": "Variety has been given access to an exclusive teaser for the film, which you can watch here",
-        "cn": "Variety已获得该电影的独家预告片，您可以在此处观看"
-      },
-      {
-        "en": "Producer Đorđe Stanković, of Belgrade-based Void Pictures, said that the filmmakers \"set out to make an ambitious science-fiction film from Serbia that could speak to an international audience without losing its own identity.\"",
-        "cn": "总部位于贝尔格莱德的Void Pictures制片人Đorđe Stanković表示，电影制片人“着手制作一部来自塞尔维亚的雄心勃勃的科幻电影，可以在不失去自己身份的情况下与国际观众交谈。”"
-      },
-      {
-        "en": "\"Producing the film was an enormous undertaking, but also proof that genre cinema of this scale can come from this part of Europe,\" he said.",
-        "cn": "他说：“制作这部电影是一项艰巨的任务，但也证明了这种规模的流派电影可以来自欧洲的这一部分。”"
-      },
-      {
-        "en": "\"We're incredibly proud of what the team created and excited for the film to now begin its journey to audiences around the world.\"",
-        "cn": "“我们为团队的创作感到无比自豪，并为这部电影现在开始面向全球观众的旅程感到兴奋。”"
-      },
-      {
-        "en": "Void's Vukota Antunović added: \"From the beginning, ‘Sanctuary' was driven by a shared belief in the story and the world we were building.",
-        "cn": "Void的Vukota Antunović补充道：“从一开始，‘避难所'就是由对这个故事和我们正在建设的世界的共同信念驱动的。"
-      },
-      {
-        "en": "Bringing together an international and domestic cast and a remarkable Serbian crew allowed us to make something that feels both rooted here and genuinely global.\"",
-        "cn": "将国际和国内演员以及出色的塞尔维亚工作人员聚集在一起，使我们能够制作出既植根于此又真正全球化的东西。”"
-      },
-      {
-        "en": "The ambitious, English-language feature marks a big swing for Telekom Srbija's TS Media.",
-        "cn": "这个雄心勃勃的英语功能标志着Telekom Srbija的TS Media的一个大转变。"
-      },
-      {
-        "en": "In a statement provided to Variety, the company said that \"Sanctuary\" \"represents a notable shift in scale and ambition for Serbian production.\"",
-        "cn": "在提供给Variety的一份声明中，该公司表示，“Sanctuary”“代表了塞尔维亚生产规模和雄心的显着转变。”"
-      }
-    ]
-  },
+
   {
     "id": "ft-arteta-explains-new-role-for-transformed-odega",
     "cat": "足球",
@@ -1529,7 +1448,7 @@ const ARTICLES = [
  * 中文为翻译注释。每篇 url 字段指向原文页面。
  * 抓取文章（data-articles-extra.js）的中文为机器翻译（有道 / MyMemory），同样仅作学习注释。 */
 
-const CATEGORIES = ["全部","时尚","足球","时政","历史","娱乐"];
+const CATEGORIES = ["全部","足球","历史"];
 
 /* 兼容：保留旧引用名 */
 if (typeof WORDS === "undefined") var WORDS = WORDS_CORE;

@@ -71,13 +71,15 @@ if (dropped) {
 /* ---------- 3. 清理不再被引用的封面图 ---------- */
 const ctx = vm.createContext({ console, window: { addEventListener() {} } });
 vm.runInContext("var window=globalThis;", ctx);
-for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-articles-extra.js", "data-articles-archive.js"]) {
+for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-articles-extra.js", "data-articles-archive.js", "data-covers.js"]) {
   vm.runInContext(fs.readFileSync(path.join(ASSETS, f), "utf8"), ctx, { filename: f });
 }
 const ARTICLES = vm.runInContext("ARTICLES", ctx);
+const COVER_MAP = vm.runInContext("typeof COVER_MAP === 'undefined' ? {} : COVER_MAP", ctx);
 const used = new Set();
 for (const a of ARTICLES) {
-  if (a.coverImg) used.add(path.basename(a.coverImg));
+  const c = a.coverImg || COVER_MAP[a.id];
+  if (c) used.add(path.basename(c));
   for (const p of a.paras || []) if (p.img) used.add(path.basename(p.img));
 }
 const coversDir = path.join(ASSETS, "covers");

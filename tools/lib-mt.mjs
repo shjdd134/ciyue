@@ -1,7 +1,7 @@
 /* 词阅 WordLens —— 机器翻译库
  *
  * 抓取流水线（tools/ingest.mjs）翻正文、标题翻译（tools/translate-titles.mjs）翻标题，
- * 共用同一份磁盘缓存与同一套接口调用策略：有道为主、MyMemory 兜底。
+ * 共用同一份磁盘缓存与同一套接口调用策略：DeepL 为主、有道兜底、MyMemory 末位。
  *
  * 有道公开接口支持「一次多行」，返回也按行对应，把请求数压到 1/N；
  * 行数对不上时（被限流截断）先退避整批重试，仍不行才逐行重发。
@@ -72,6 +72,44 @@ async function get(url, tries = 3, timeout = 25000) {
 }
 
 /* ---------------- 翻译引擎 ---------------- */
+
+/** DeepL 密钥：环境变量优先（GitHub Actions secret），本地回落 tools/.deepl-key（不入库） */
+export function deepLKey() {
+  if (process.env.DEEPL_KEY) return process.env.DEEPL_KEY.trim();
+  try {
+    const f = path.join(import.meta.dirname, ".deepl-key");
+    if (fs.existsSync(f)) return fs.readFileSync(f, "utf8").trim();
+  } catch { /* 读不到就没有 */ }
+  return "";
+}
+
+/**
+ * DeepL（主力引擎，质量最好）：一次送一批文本（text 数组），返回按序译文。
+ * key 以 :fx 结尾 = 免费档，走 api-free.deepl.com。返回 null 表示本次不可用，调用方降级有道。
+ */
+export function createDeepL(key) {
+  key = key || deepLKey();
+  if (!key) return null;
+  const base = key.endsWith(":fx") ? "https://api-free.deepl.com" : "https://api.deepl.com";
+  return async function deepl(lines) {
+    for (let i = 0; i < 2; i++) {
+      try {
+        const res = await fetch(base + "/v2/translate", {
+          method: "POST",
+          headers: { "Authorization": "DeepL-Auth-Key " + key, "Content-Type": "application/json" },
+          body: JSON.stringify({ text: lines, target_lang: "ZH", preserve_formatting: true }),
+          signal: AbortSignal.timeout(30000),
+        });
+        if (res.status === 429) { await sleep(2000 * (i + 1)); continue; }   // 限流退避
+        if (!res.ok) { console.warn("  ! DeepL HTTP", res.status); return null; }
+        const j = await res.json();
+        const out = (j.translations || []).map(t => decodeEntities((t.text || "").trim()));
+        return out.length === lines.length ? out : null;
+      } catch { await sleep(1500 * (i + 1)); }
+    }
+    return null;
+  };
+}
 
 /** 有道（公开演示接口）：一次可送多行，返回值按行对应 */
 export async function youdao(text, tries = 4) {
@@ -152,28 +190,37 @@ export async function translateTexts(texts, opts = {}) {
   }
   if (cur.length) batches.push(cur);
 
+  const dl = createDeepL();
   const mm = createMyMemory();
   let done = 0;
   const total = todo.length;
 
   for (const batch of batches) {
     let lines = [];
-    if (batch.length === 1) {
-      lines = [await youdao(batch[0].t) || ""];
-    } else {
-      const joined = batch.map(b => b.t.replace(/\s*\n\s*/g, " ")).join("\n");
-      let many = await youdao(joined);
-      lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
-      if (lines.length !== batch.length) {          // 多半被限流截断，歇一下整批重试
-        await sleep(2500);
-        many = await youdao(joined);
+    /* DeepL 主力：text 数组一次一批，返回天然按序，不存在「行数对不上」的问题 */
+    if (dl) {
+      const dlOut = await dl(batch.map(b => b.t.replace(/\s*\n\s*/g, " ")));
+      if (dlOut) lines = dlOut;
+    }
+    if (lines.length !== batch.length) {
+      lines = [];
+      if (batch.length === 1) {
+        lines = [await youdao(batch[0].t) || ""];
+      } else {
+        const joined = batch.map(b => b.t.replace(/\s*\n\s*/g, " ")).join("\n");
+        let many = await youdao(joined);
         lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
-      }
-      if (lines.length !== batch.length) {          // 仍不齐：退回逐条，保证一一对应
-        lines = [];
-        for (const b of batch) {
-          lines.push(await youdao(b.t) || "");
-          await sleep(700);
+        if (lines.length !== batch.length) {          // 多半被限流截断，歇一下整批重试
+          await sleep(2500);
+          many = await youdao(joined);
+          lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
+        }
+        if (lines.length !== batch.length) {          // 仍不齐：退回逐条，保证一一对应
+          lines = [];
+          for (const b of batch) {
+            lines.push(await youdao(b.t) || "");
+            await sleep(700);
+          }
         }
       }
     }

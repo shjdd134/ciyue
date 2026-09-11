@@ -109,8 +109,8 @@ const eq = (name, a, b) => ok(`${name} → ${JSON.stringify(a)}`, JSON.stringify
  * =================================================================== */
 console.log('\n[A] 查词浮层不跨页残留');
 click({ tab: 'discover' });
-click({ cat: '时尚' });
-click({ article: ctx('ARTICLES.filter(a=>a.cat==="时尚")[0].id') });
+click({ cat: '足球' });
+click({ article: ctx('ARTICLES.filter(a=>a.cat==="足球")[0].id') });
 eq('已进入阅读页', ctx('view.name'), 'read');
 ok('history 已压入一条', st().histDepth === 1);
 
@@ -133,8 +133,8 @@ ok('排序结果写进了页面', /按生词最多/.test(screenEl.innerHTML));
  * =================================================================== */
 console.log('\n[B] 系统返回键只退一层');
 click({ act: 'set-sort', sort: 'new' });
-click({ cat: '时尚' });
-click({ article: ctx('ARTICLES.filter(a=>a.cat==="时尚")[0].id') });
+click({ cat: '足球' });
+click({ article: ctx('ARTICLES.filter(a=>a.cat==="足球")[0].id') });
 eq('压栈 1 层 · history 1 条', [st().depth, st().histDepth, st().histLen], [1, 1, 2]);
 
 /* 模拟用户按系统后退：浏览器先退掉一条 history，再派发 popstate */
@@ -200,7 +200,7 @@ eq('第 7 天（今天）的分钟数与记录一致', ctx('last7()[6].mins'), c
  * =================================================================== */
 console.log('\n[E] 搜索覆盖文章');
 click({ tab: 'discover' });
-ctx('searchTerm = "时尚"; render()');
+ctx('searchTerm = "足球"; render()');
 ok('结果里出现「相关文章」区块', /相关文章/.test(screenEl.innerHTML));
 ok('结果里列出文章卡片', /data-article="/.test(screenEl.innerHTML));
 ctx('searchTerm = "自创词xyz不存在"; render()');

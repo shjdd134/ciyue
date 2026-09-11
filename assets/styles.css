@@ -448,6 +448,7 @@ body {
   color: var(--text-2);
 }
 .para .en.large { font-size: 17px; line-height: 29px; }
+.para .en.xlarge { font-size: 19px; line-height: 32px; }
 
 .kw {
   color: var(--brand);
@@ -614,6 +615,7 @@ body {
   position: relative;
 }
 .read-body .para .en.large { font-size: 19px; line-height: 33px; }
+.read-body .para .en.xlarge { font-size: 22px; line-height: 38px; }
 .read-body .para.first .en::first-letter {
   float: left;
   font-family: var(--font-read);

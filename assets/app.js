@@ -27,6 +27,13 @@ const escRe = s => String(s).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function wordForms(word) {
   const w = String(word == null ? "" : word).toLowerCase().trim();
   if (!/^[a-z][a-z'-]*$/.test(w)) return [];          // 词组/非英文条目不猜形态
+  /* ECDICT exchange 表是权威词形，命中就不猜 */
+  const e = EC && EC[w];
+  if (e && e.x) {
+    const set = new Set([w]);
+    for (const seg of e.x.split("/")) { const v = seg.slice(2); if (v) set.add(v.toLowerCase()); }
+    return [...set].sort((a, b) => b.length - a.length);
+  }
   const set = new Set([w]);
   if (w.length > 2) {
     set.add(w + "s");
@@ -58,7 +65,7 @@ const defaultState = {
   wrong: [],        // 错词本
   notebook: [],     // 生词本（阅读加入）
   showCn: false,
-  fontSize: 1,
+  fontSize: 0,
   readTheme: "",     // 阅读页护眼主题："" | "paper" | "night"
   read: [],         // 累计读过（含重复）
   finished: [],     // 已打卡的去重列表
@@ -233,9 +240,9 @@ const sentCount = a => a.paras.filter(p => p.en).length;
  * 原来的排序只把「List」开头的词提到前面，之后就是录入顺序，第 200 个起变成
  * range / rank / rapid…——用户实际上是在字母表里消耗耐心。
  * 现在按「这个词在文章库里真实出现过几次」加权：先学你真会读到的词。
- * 富字段（真题例句 / 搭配 / 词根词缀）优先，它们是这产品的招牌。
+ * 富字段（真题例句 / 词根词缀）优先，它们是这产品的招牌。
  * 频次为 0（83 篇文章里没出现）的词靠 sort 的稳定性保留原顺序，不乱洗牌。 */
-const RICH = w => (w.example ? 2 : 0) + (w.collocation ? 1 : 0) + ((w.prefix || w.root || w.suffix) ? 2 : 0);
+const RICH = w => (w.example ? 2 : 0) + ((w.prefix || w.root || w.suffix) ? 2 : 0);
 let FREQ = null;
 function corpusFreq() {
   if (FREQ) return FREQ;
@@ -246,10 +253,14 @@ function corpusFreq() {
   }
   return FREQ;
 }
+/* 词频（ECDICT 元数据，见 data-ecdict.js）：f 越小越常用，未收录按 Infinity 沉底 */
+const EC = typeof WORD_META === "undefined" ? null : WORD_META;
+const ecFreq = w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || Infinity; };
 WORDS.sort((a, b) => {
   const f = corpusFreq();
   return (RICH(b) - RICH(a)) ||
-         ((f.get(b.word.toLowerCase()) || 0) - (f.get(a.word.toLowerCase()) || 0));
+         ((f.get(b.word.toLowerCase()) || 0) - (f.get(a.word.toLowerCase()) || 0)) ||
+         (ecFreq(a) - ecFreq(b));
 });
 
 /* 单词索引：错词本 / 生词本里存的是字符串，取词对象别再 O(n) 地 find */
@@ -480,11 +491,8 @@ const toast = msg => {
   setTimeout(() => el.remove(), 1600);
 };
 const CAT_META = {
-  "时尚":   { icon: "hanger",  bg: "linear-gradient(135deg,#F472B6,#BE185D)" },
   "足球":   { icon: "ball",    bg: "linear-gradient(135deg,#10B981,#047857)" },
-  "时政":   { icon: "doc",     bg: "linear-gradient(135deg,#3B82F6,#1E40AF)" },
-  "历史":   { icon: "pillar",  bg: "linear-gradient(135deg,#D97706,#92400E)" },
-  "娱乐":   { icon: "film",    bg: "linear-gradient(135deg,#A855F7,#6D28D9)" }
+  "历史":   { icon: "pillar",  bg: "linear-gradient(135deg,#D97706,#92400E)" }
 };
 
 /* 生词数按文章缓存：排序时要反复比较，避免每次重扫全文 */
@@ -650,19 +658,11 @@ function renderStudy() {
         <div class="en">${hlWord(w.example, w.word)}</div>
         ${w.exampleCn ? `<div class="cn">${esc(w.exampleCn)}</div>` : ""}
       </div>` : ""}
-      ${w.cognates ? `<div class="example-box">
-        <span class="muted-2">同根词</span>
-        <div class="en">${esc(w.cognates)}</div>
-      </div>` : ""}
-      ${w.collocation ? `<div class="example-box">
-        <span class="chip" style="align-self:flex-start">四级真题搭配</span>
-        <div class="en">${hlWord(w.collocation, w.word)}</div>
-      </div>` : ""}
       ${w.mnemonic ? `<div class="row" style="gap:10px;background:var(--brand-deep);border-radius:12px;padding:12px">
         <div style="width:3px;background:var(--brand);border-radius:2px;align-self:stretch"></div>
         <div style="font-size:12px;line-height:19px;color:var(--text-2)">${esc(w.mnemonic)}</div>
       </div>` : ""}
-      ${(!isRich && !w.example && !w.collocation && !w.mnemonic && !w.cognates) ? `<div class="row" style="justify-content:center"><span class="muted-2">基础词库 · 暂未提供例句与搭配</span></div>` : ""}
+      ${(!isRich && !w.example && !w.mnemonic) ? `<div class="row" style="justify-content:center"><span class="muted-2">基础词库 · 暂未提供例句</span></div>` : ""}
     </div>`;
 
   /* 正面：只给词 + 音标 + 词性（回忆线索），不剧透释义与例句 */
@@ -993,7 +993,7 @@ function renderMe() {
 /* ---------------- 页面：阅读（杂志感沉浸） ---------------- */
 function renderRead() {
   const a = activeArticle;
-  const sizeClass = ["", "", "large"][S.fontSize] || "";
+  const sizeClass = ["", "large", "xlarge"][S.fontSize] || "";
   const cover = coverOf(a);
   const total = sentCount(a);
   const dur = a.minutes || Math.max(2, Math.round(total * 1.2));
@@ -1094,7 +1094,7 @@ function renderRead() {
     <div class="read-hud" id="read-hud">0% · 剩余约 ${dur} 分钟</div>
 
     <div class="fab-bar">
-      <button data-act="font" class="${S.fontSize === 2 ? 'active' : ''}" title="字号" aria-label="${S.fontSize === 2 ? "切回标准字号" : "切换大字号"}" aria-pressed="${S.fontSize === 2}">${svg("font", 18)}</button>
+      <button data-act="font" class="${S.fontSize > 0 ? 'active' : ''}" title="字号" aria-label="切换字号（当前${["标准", "大", "特大"][S.fontSize] || "标准"}）" aria-pressed="${S.fontSize > 0}">${svg("font", 18)}</button>
       <button data-act="toggle-cn" class="${S.showCn ? 'active' : ''}" title="译" aria-label="${S.showCn ? "隐藏中文对照" : "显示中文对照"}" aria-pressed="${S.showCn}">${svg("globe", 18)}</button>
       <button data-act="read-theme" class="${S.readTheme ? 'active' : ''}" title="护眼" aria-label="切换护眼/夜间阅读底色">${svg(S.readTheme === "night" ? "moon" : "sun", 18)}</button>
       <button data-act="book" title="生词本" aria-label="打开生词本">${svg("bookmark", 18)}</button>
@@ -1418,7 +1418,7 @@ document.addEventListener("click", e => {
     case "toggle-cn":
       S.showCn = !S.showCn; save(); render(); toast(S.showCn ? "显示中文对照" : "隐藏中文对照"); break;
     case "font":
-      S.fontSize = (S.fontSize + 1) % 2; save(); render(); toast(S.fontSize ? "大字号" : "标准字号"); break;
+      S.fontSize = (S.fontSize + 1) % 3; save(); render(); toast(["标准字号", "大字号", "特大字号"][S.fontSize]); break;
     case "read-theme": {
       S.readTheme = S.readTheme === "" ? "paper" : S.readTheme === "paper" ? "night" : "";
       save(); render();

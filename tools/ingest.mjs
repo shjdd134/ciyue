@@ -67,9 +67,6 @@ const QUOTA = (() => {
   return o;
 })();
 
-/* 时尚类源的 all.xml 会混进影视时讯；命中这些栏目词的文章优先收 */
-const PREFER_STYLE = /\/beauty|\/fashion|\/style|\/makeup|\/hair|\/skin|\/celebrity|\/shopping|\/looks|beauty-|fashion-|style-/i;
-
 /* 公开 RSS 源：按项目分类映射（均为实测可直连、且自带配图的源；max = 单源最多取几篇） */
 const FEEDS = [
   /* —— 足球 —— */
@@ -78,27 +75,7 @@ const FEEDS = [
   /* —— 历史 —— */
   { cat: "历史", name: "Smithsonian Magazine", rss: "https://www.smithsonianmag.com/rss/latest_articles/", max: 2 },
   { cat: "历史", name: "HistoryExtra", rss: "https://www.historyextra.com/feed/", max: 2 },
-  { cat: "历史", name: "Atlas Obscura", rss: "https://www.atlasobscura.com/feeds/latest", max: 2 },
-
-  /* —— 时政 —— */
-  { cat: "时政", name: "CBS News", rss: "https://www.cbsnews.com/latest/rss/politics", max: 2 },
-  { cat: "时政", name: "ABC News", rss: "https://abcnews.go.com/abcnews/internationalheadlines", max: 3 },
-
-  /* —— 娱乐（影视 / 明星） —— */
-  { cat: "娱乐", name: "Variety", rss: "https://variety.com/feed/", max: 3 },
-  { cat: "娱乐", name: "Hollywood Reporter", rss: "https://www.hollywoodreporter.com/feed/", max: 3 },
-
-  /* —— 时尚（时装 / 美妆 / 模特 / 明星造型） —— */
-  { cat: "时尚", name: "Vogue", rss: "https://www.vogue.com/feed/rss", max: 3, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 3, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 2, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Cosmopolitan", rss: "https://www.cosmopolitan.com/rss/all.xml/", max: 2, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Who What Wear", rss: "https://www.whowhatwear.com/rss", max: 2, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Allure", rss: "https://www.allure.com/feed/rss", max: 2, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Vanity Fair", rss: "https://www.vanityfair.com/feed/rss", max: 1, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Town & Country", rss: "https://www.townandcountrymag.com/rss/all.xml/", max: 1, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Women's Health", rss: "https://www.womenshealthmag.com/rss/all.xml/", max: 1, prefer: PREFER_STYLE },
-  { cat: "时尚", name: "Fashionista", rss: "https://fashionista.com/.rss/full/", max: 1, prefer: PREFER_STYLE }
+  { cat: "历史", name: "Atlas Obscura", rss: "https://www.atlasobscura.com/feeds/latest", max: 2 }
 ];
 
 /* 封面渐变池：配图抓不到时的兜底背景，与既有文章视觉一致 */

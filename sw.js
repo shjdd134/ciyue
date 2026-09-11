@@ -6,7 +6,7 @@
  *   网络优先（network-first）：联网时永远拿最新文件，避免开发期改完代码
  *   却看到旧缓存；断网时才回落到缓存，保证离线也能打开。
  */
-const CACHE = "wordlens-v10";
+const CACHE = "wordlens-v14";
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -26,7 +26,7 @@ self.addEventListener("fetch", e => {
   if (url.origin !== location.origin) return;   // 只接管本站资源
 
   e.respondWith(
-    fetch(req)
+    fetch(req, { cache: "reload" })
       .then(res => {
         if (res && res.ok) {
           const copy = res.clone();

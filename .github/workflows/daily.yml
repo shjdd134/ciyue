@@ -36,6 +36,8 @@ jobs:
 
       - name: 每日抓取与质检
         run: node tools/daily.mjs
+        env:
+          DEEPL_KEY: ${{ secrets.DEEPL_KEY }}
 
       - name: 提交数据更新
         run: |
