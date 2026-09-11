@@ -351,21 +351,33 @@ body {
 .flip {
   perspective: 1400px;
   width: 100%;
+  /* 手机手感三件套：
+     touch-action 去掉双击缩放带来的 ~300ms 点击判定延迟，按下即响应；
+     user-select / touch-callout 关掉长按选中与系统菜单（翻卡场景下长按纯属误操作） */
+  touch-action: manipulation;
+  -webkit-user-select: none; user-select: none;
+  -webkit-touch-callout: none;
+  transition: transform .14s ease;
 }
+.flip:active { transform: scale(.985); }        /* 按下反馈：手指知道「点到了」 */
 .flip-inner {
   position: relative;
   height: 100%;
-  transition: transform .5s cubic-bezier(.4, .2, .2, 1);
+  /* 320ms：手机上 500ms 太拖沓，翻面要跟手 */
+  transition: transform .32s cubic-bezier(.34, .68, .3, 1);
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 /* ---------- 背词页：固定卡片框 ----------
-   卡片框用 flex 撑满中间全部剩余空间（比内容自适应大得多），
-   翻转后卡片被「卡」在这个框内：背面内容超出时在卡片内部滚动，
-   进度条 / 作答按钮 / 底栏全部固定不动，页面不再整体滚动。 */
-.study-view { overflow-y: auto; }
+   卡片框用 flex 撑满中间全部剩余空间，进度条 / 作答按钮 / 底栏固定不动。
+   关键：这里是「单层滚动」—— 页面本身不滚（overflow:hidden），
+   只有背面内容确实超长时才在卡片内部滚。
+   以前 .study-view 和 .face.back 都能滚，手机上滑动到底该滚谁分不清，
+   手指落在卡片上会被里层吃掉，页面纹丝不动 —— 那就是「卡住 / 别扭」的来源。 */
+.study-view { overflow: hidden; }
 .study-view > * { flex: none; }              /* 进度条/按钮等固定，不被压缩 */
-.study-view > .flip { flex: 1 1 auto; min-height: 320px; }
+.study-view > .flip { flex: 1 1 auto; min-height: 0; }
 .study-view .face { height: 100%; }
 .flip.flipped .flip-inner { transform: rotateY(180deg); }
 .face {
@@ -375,7 +387,10 @@ body {
   padding: 20px;
   box-shadow: var(--shadow-2);
   display: flex; flex-direction: column; align-items: center; gap: 12px;
-  backface-visibility: hidden;          /* 修复：背面默认可见导致文字镜像 */
+  /* 两面都显式给 3D 变换。iOS 上只有背面带 rotateY 时背面隐藏不完全，
+     翻到正面会透出镜像的答案文字 */
+  transform: rotateY(0deg);
+  backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 .face.back {
@@ -384,6 +399,9 @@ body {
   align-items: stretch;
   overflow-y: auto;
   scrollbar-width: none;
+  /* 卡内滑动不再向页面传递，并启用 iOS 惯性滚动 */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .face.back::-webkit-scrollbar { display: none; }
 
@@ -394,6 +412,7 @@ body {
   letter-spacing: -.5px;
   text-align: center;
 }
+.back-word { font-size: 30px; }        /* 背面已经看过一遍，字号收一档给释义让位 */
 .phonetic { font-family: var(--font-en); font-size: 15px; color: var(--text-2); }
 .divider { height: 1px; background: var(--line); width: 100%; }
 .def { font-size: 16px; line-height: 24px; }
@@ -1053,8 +1072,42 @@ body {
 
 @media (max-width: 560px) {
   body { padding: 0; align-items: stretch; }
-  .phone { width: 100%; height: 100vh; height: 100dvh; border-radius: 0; box-shadow: none; }
+  .phone {
+    width: 100%; height: 100vh; height: 100dvh;
+    border-radius: 0; box-shadow: none;
+    /* 真机上刘海/手势条由系统占位，内容要主动避让 */
+    --safe-t: env(safe-area-inset-top, 0px);
+    --safe-b: env(safe-area-inset-bottom, 0px);
+  }
   .tip { display: none; }
+
+  /* —— 把纵向空间还给卡片 ——
+     状态栏在这版里已经是空的占位条（桌面预览时充刘海），真机上系统自带状态栏，
+     所以只保留安全区高度；底栏和内边距同步收窄，卡片净高多出 ~80px，
+     背面「一屏看完」在 6.1 寸以下也能成立。 */
+  .statusbar { height: max(10px, var(--safe-t)); padding: 0 12px; }
+  .view { padding: 2px 16px 6px; gap: 11px; }
+  .tabbar { padding: 8px 16px calc(10px + var(--safe-b)); }
+  .tabbar .pill { height: 56px; }
+  .answer-row { gap: 10px; }
+  .answer-btn { height: 48px; font-size: 13.5px; }
+  .hint-row { font-size: 10.5px; }
+  .sheet { padding-bottom: calc(24px + var(--safe-b)); }
+
+  /* 背面内容整体收一档，减少「需要滚动」的概率 */
+  .face { padding: 15px 16px; gap: 9px; border-radius: 20px; }
+  .face.front .word { font-size: 32px; }
+  .face.back .word { font-size: 24px; }
+  .phonetic { font-size: 14px; }
+  .divider { margin: 2px 0; }
+  .back-answer { padding: 10px; }
+  .back-answer .def { font-size: 15px; line-height: 22px; }
+  .morphemes { gap: 6px; }
+  .morph { padding: 7px 4px; }
+  .example-box { padding: 10px; gap: 5px; }
+  .example-box .en { font-size: 12.5px; line-height: 19px; }
+  .example-box .cn { font-size: 12px; line-height: 18px; }
+  .front-hint { font-size: 11.5px; padding: 7px 12px; }
 }
 
 /* ---------- 阅读页：护眼 / 夜间主题（只染阅读页） ---------- */

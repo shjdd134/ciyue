@@ -642,6 +642,52 @@ function renderHome() {
 }
 
 /* ---------------- 页面：背单词 ---------------- */
+/* ---------------- 背词页：翻卡 ----------------
+ * 以前翻卡走的是「改状态 → 整页 render()」：screen.innerHTML 被整体重建，
+ * 新建的 #flip 一出生就带着 .flipped，rotateY(180deg) 在元素首次样式计算时就已经生效。
+ * CSS transition 不会在元素「首次渲染」时触发，所以卡片其实是「啪一下换脸」，
+ * 压根没有播放过翻转过程 —— 手机上尤其明显：手指点下去内容瞬间跳变，空间连续性断掉。
+ * 现在翻卡只切类名（DOM 不重建），过渡自然跑起来；只有文案做局部更新。 */
+function backChipText() {
+  const isRich = /^List/i.test(curWord().list || "");
+  return answered === "no" ? "不认识 · 再看一遍"
+       : answered === "fuzzy" ? "有点模糊 · 再巩固一下"
+       : (isRich ? "词根词缀拆解" : "答案 · 加深理解");
+}
+const hintText = () => answered ? "答案看完了吗 · 点下面继续" : "点卡片翻面 · 左右滑动换词";
+
+function toggleFlip() {
+  const flip = $("#flip");
+  if (!flip || flip.dataset.busy === "1") return;   // 动画进行中忽略重复点击
+  flipped = !flipped;
+  flip.dataset.busy = "1";
+  flip.classList.toggle("flipped", flipped);
+  syncFlipLabels();
+  if (flipped) {
+    const back = $(".face.back", flip);
+    if (back) back.scrollTop = 0;                   // 每次翻到背面都从头看
+  }
+  setTimeout(() => { delete flip.dataset.busy; }, 340);   // 与 CSS 过渡时长对齐
+  /* 轻震一下：手机上「点到了」这件事需要非视觉反馈 */
+  if (navigator.vibrate) navigator.vibrate(6);
+}
+
+/* 翻面只影响两处文案（背面 chip / 底部提示），局部改掉即可，不必重建整页 */
+function syncFlipLabels() {
+  const chip = $("#flip .face.back .chip");
+  if (chip) chip.textContent = backChipText();
+  const hint = $(".hint-row");
+  if (hint) hint.innerHTML = svg("flip", 13) + " " + hintText();
+}
+
+/* 上一个词：队列模式到顶就停住，默认全量顺序则循环 */
+function prevWord() {
+  if (queue) { if (qPos === 0) return; qPos--; }
+  else qPos = (qPos - 1 + curList().length) % curList().length;
+  flipped = false; answered = null;
+  render();
+}
+
 function renderStudy() {
   const w = curWord();
   const list = curList();
@@ -657,16 +703,13 @@ function renderStudy() {
 
   const morphes = [["p", w.prefix], ["r", w.root], ["s", w.suffix]].filter(x => x[1] && x[1].m);
 
-  /* 答错的卡翻到背面时，chip 直接把作答结果说出来，比中性的「答案」更有反馈感 */
-  const backChip = answered === "no" ? "不认识 · 再看一遍" :
-                   answered === "fuzzy" ? "有点模糊 · 再巩固一下" :
-                   (isRich ? '词根词缀拆解' : '答案 · 加深理解');
+  const backChip = backChipText();
 
   /* 背面：按「答案 → 为什么 → 怎么用」三层组织，缺哪层就不渲染哪层 */
   const back = `
     <div class="face back">
       <div class="row" style="justify-content:center"><span class="chip${answered ? " amber" : ""}">${backChip}</span></div>
-      <div class="word" style="font-size:30px">${w.word}</div>
+      <div class="word back-word">${w.word}</div>
       <div class="row" style="justify-content:center;gap:10px">
         ${w.phonetic ? `<span class="phonetic">${w.phonetic}</span>` : `<span class="muted-2">暂无音标</span>`}
         <span class="icon-btn solid" data-act="speak" data-word="${w.word}" style="width:30px;height:30px;color:#fff">${svg("speaker", 15)}</span>
@@ -741,7 +784,7 @@ function renderStudy() {
         </div>
       </div>
 
-      <div class="hint-row">${svg("flip", 13)} ${answered ? "答案看完了吗 · 点下面继续" : "点击卡片翻转 · 左右按钮切换"}</div>
+      <div class="hint-row">${svg("flip", 13)} ${hintText()}</div>
       <div class="answer-row">
         ${answered
           ? `<button class="answer-btn yes" data-act="next" style="flex:1">${svg("arrow", 15)} 继续 · 下一个</button>`
@@ -1407,7 +1450,7 @@ document.addEventListener("click", e => {
       e.stopPropagation(); speak(t.dataset.word); break;
     case "flip":
       if (e.target.closest("[data-act='speak']")) break;
-      flipped = !flipped; render(); break;
+      toggleFlip(); break;
     case "mark": {
       const w = curWord().word;
       const i = S.notebook.indexOf(w);
@@ -1444,6 +1487,17 @@ document.addEventListener("click", e => {
         answered = v;
         flipped = true;
         render();
+        /* render 重建的 DOM 不会播放 transition：先把类名摘掉，下一帧再挂回去，
+           这样翻面动画照样能跑（状态立刻是 flipped=true，逻辑与断言不受影响） */
+        const flip = $("#flip");
+        if (flip) {
+          flip.classList.remove("flipped");
+          requestAnimationFrame(() => {
+            flip.classList.add("flipped");
+            const back = $(".face.back", flip);
+            if (back) back.scrollTop = 0;
+          });
+        }
         toast(v === "no" ? "已加入错词本 · 看完答案再继续" : "有点模糊 · 看完答案再继续");
       }
       break;
@@ -1612,7 +1666,7 @@ document.addEventListener("keydown", e => {
   if (e.code === "Space") {
     e.preventDefault();
     if (answered) document.querySelector('[data-act="next"]')?.click();
-    else { flipped = !flipped; render(); }
+    else toggleFlip();
   }
   if (["Digit1", "Digit2", "Digit3"].includes(e.code)) {
     if (answered) return;               // 已作答的卡只剩「继续」，数字键不再触发
@@ -1620,6 +1674,23 @@ document.addEventListener("keydown", e => {
     document.querySelector(`[data-act="answer"][data-v="${map[e.code]}"]`)?.click();
   }
 });
+
+/* 手机上左右滑动换词：拇指滑一下比找按钮自然得多，也顺手把「点击」从唯一操作里解放出来。
+ * 判定门槛 44px，且横向位移必须明显大于纵向 —— 否则会和背面内容的纵向滚动抢手势。 */
+let sx = 0, sy = 0, st = 0;
+document.addEventListener("touchstart", e => {
+  if (view.name !== "study" || e.touches.length !== 1) return;
+  sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
+}, { passive: true });
+document.addEventListener("touchend", e => {
+  if (view.name !== "study") return;
+  const t = e.changedTouches && e.changedTouches[0];
+  if (!t) return;
+  const dx = t.clientX - sx, dy = t.clientY - sy;
+  if (Date.now() - st > 700) return;                  // 慢速拖拽不算滑动
+  if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
+  if (dx < 0) advanceQueue(); else prevWord();
+}, { passive: true });
 
 /* URL 参数：方便预览/截图直接定位到指定页面 + 阅读主题
    ?v=discover|read&a=0&cat=足球&theme=paper|night|default&end=1（阅读页直接到底部） */
@@ -1635,6 +1706,12 @@ document.addEventListener("keydown", e => {
       view = { name: "read" };
     } else if (v === "me") view = { name: "me" };
     else if (v === "study") view = { name: "study" };
+    /* ?v=study&w=<word>：跳到指定单词，用来验证字段最全的卡片（释义+词根+例句+助记）排版 */
+    const wt = p.get("w");
+    if (v === "study" && wt) {
+      const i = WORDS.findIndex(x => String(x.word).toLowerCase() === wt.toLowerCase());
+      if (i >= 0) qPos = i;
+    }
     /* 背词页直接以翻面状态打开（预览/截图验证背面布局用） */
     if (v === "study" && p.get("flip")) requestAnimationFrame(() => { flipped = true; render(); });
     const c = p.get("cat");
