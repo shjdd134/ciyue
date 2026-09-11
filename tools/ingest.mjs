@@ -71,11 +71,17 @@ const QUOTA = (() => {
 const FEEDS = [
   /* —— 足球 —— */
   { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
+  { cat: "足球", name: "FourFourTwo", rss: "https://www.fourfourtwo.com/feeds.xml", max: 3 },
 
   /* —— 历史 —— */
   { cat: "历史", name: "Smithsonian Magazine", rss: "https://www.smithsonianmag.com/rss/latest_articles/", max: 2 },
   { cat: "历史", name: "HistoryExtra", rss: "https://www.historyextra.com/feed/", max: 2 },
-  { cat: "历史", name: "Atlas Obscura", rss: "https://www.atlasobscura.com/feeds/latest", max: 2 }
+  { cat: "历史", name: "Atlas Obscura", rss: "https://www.atlasobscura.com/feeds/latest", max: 2 },
+  { cat: "历史", name: "Mental Floss", rss: "https://www.mentalfloss.com/posts.rss", max: 3 },
+
+  /* —— AI —— */
+  { cat: "AI", name: "TechCrunch AI", rss: "https://techcrunch.com/category/artificial-intelligence/feed/", max: 4 },
+  { cat: "AI", name: "AI News", rss: "https://www.artificialintelligence-news.com/feed/", max: 3 }
 ];
 
 /* 封面渐变池：配图抓不到时的兜底背景，与既有文章视觉一致 */
@@ -90,7 +96,7 @@ const GRADIENTS = [
   "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)"
 ];
 
-const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz" };
+const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab" };
 
 /* ---------------- 工具 ---------------- */
 
@@ -272,6 +278,8 @@ const BOILER = [
   /\bwatch:|\bVIDEO\b/, /^\(?Image|^Credit:/i, /\bterms of (use|service)\b/i, /\bprivacy policy\b/i,
   /\bthis article (was|has been)\b/i, /\bplease use\b/i, /\bfor more (news|information)\b/i,
   /\brelated:|^More from|^Read next/i, /\bsupport our journalism\b/i, /\bdownload the\b/i,
+  /* TechCrunch 每篇文章头部都挂着大会推广段 */
+  /^Disrupt \d{4}:/i, /\btake over \d+ industry stages\b/i,
   /* 各站点的浏览器/兼容性提示与推广位（CBS 等会把它们塞进 <p>） */
   /\bbrowser is not fully supported\b/i, /\bupgrade to a modern browser\b/i, /\bmicrosoft\.com\/edge\b/i,
   /\boptimal experience\b/i, /\bavailable to download\b/i, /\bmore than \d+ languages\b/i,
@@ -345,7 +353,7 @@ function extractBlocks(html) {
     } else {
       const imgs = [...n.inner.matchAll(/<img\b[^>]*>/gi)].map(x => x[0]);
       if (!imgs.length) continue;
-      const cands = imgs.map(pickImgSrc).filter(Boolean).filter(u => !IMG_BAD.test(u)).map(upgradeImg);
+      const cands = imgs.map(pickImgSrc).filter(Boolean).filter(u => !IMG_BAD.test(u)).filter(u => !/\.(svg|gif)(\?|$)/i.test(u)).map(upgradeImg);
       if (!cands.length) continue;
       const src = cands.sort((a, b) => b.length - a.length)[0];
       const base = src.split("?")[0];
@@ -703,6 +711,8 @@ async function main() {
       if (haveUrl.has(it.link) || seenLink.has(it.link)) continue;
       /* 广告软文 / 合作稿不算新闻正文 */
       if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(it.link)) continue;
+      /* 大会/活动推广（如 TechCrunch Disrupt 明星嘉宾稿）不算新闻 */
+      if (/techcrunch (disrupt|sessions|events?)\b/i.test(it.title)) continue;
       /* 源首页/栏目标签页不是文章：路径太浅的一律跳过 */
       try {
         const seg = new URL(it.link).pathname.split("/").filter(Boolean);

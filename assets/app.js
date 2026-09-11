@@ -530,7 +530,9 @@ const toast = msg => {
 };
 const CAT_META = {
   "足球":   { icon: "ball",    bg: "linear-gradient(135deg,#10B981,#047857)" },
-  "历史":   { icon: "pillar",  bg: "linear-gradient(135deg,#D97706,#92400E)" }
+  "历史":   { icon: "pillar",  bg: "linear-gradient(135deg,#D97706,#92400E)" },
+  "AI":     { icon: "sparkle", bg: "linear-gradient(135deg,#A78BFA,#4F46E5)" },
+  "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" }
 };
 
 /* 生词数按文章缓存：排序时要反复比较，避免每次重扫全文 */

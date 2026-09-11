@@ -66,27 +66,31 @@ for (const a of ARTICLES) {
   for (const k of ["id", "url", "cat", "title", "titleZh", "date"]) if (!String(a[k] || "").trim()) F.push(`F1 缺字段 ${k}`);
   if (!CATS.has(a.cat)) F.push(`F1 未知栏目「${a.cat}」`);
 
-  /* F2 新鲜度 */
-  const t = a.date ? new Date(a.date).getTime() : NaN;
-  if (!Number.isFinite(t)) F.push("F2 date 无法解析");
-  else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
+  /* F2 新鲜度（寓言为 1912 公版经典，不参与时效判定） */
+  if (a.cat !== "寓言") {
+    const t = a.date ? new Date(a.date).getTime() : NaN;
+    if (!Number.isFinite(t)) F.push("F2 date 无法解析");
+    else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
+  }
 
-  /* F3 封面 */
-  const cover = a.coverImg || COVER_MAP[a.id] || "";
-  if (!cover) F.push("F3 无封面图");
-  else {
-    const cf = path.join(ROOT, cover);
-    if (!fs.existsSync(cf)) F.push("F3 封面文件不存在：" + cover);
+  /* F3 封面（寓言允许无插画，回退渐变封面） */
+  if (a.cat !== "寓言") {
+    const cover = a.coverImg || COVER_MAP[a.id] || "";
+    if (!cover) F.push("F3 无封面图");
     else {
-      const kb = fs.statSync(cf).size / 1024;
-      if (kb > 250) F.push(`F3 封面过大 ${kb.toFixed(0)}KB`);
+      const cf = path.join(ROOT, cover);
+      if (!fs.existsSync(cf)) F.push("F3 封面文件不存在：" + cover);
+      else {
+        const kb = fs.statSync(cf).size / 1024;
+        if (kb > 250) F.push(`F3 封面过大 ${kb.toFixed(0)}KB`);
+      }
     }
   }
 
-  /* F4/F5 正文 */
+  /* F4/F5 正文（寓言最短只有 2 段） */
   const paras = (a.paras || []).filter(Boolean);
   const textParas = paras.filter(p => p.en);
-  if (paras.length < 3) F.push(`F4 只有 ${paras.length} 段`);
+  if (paras.length < (a.cat === "寓言" ? 2 : 3)) F.push(`F4 只有 ${paras.length} 段`);
   for (let i = 0; i < textParas.length; i++) {
     const p = textParas[i];
     const en = String(p.en || ""), cn = String(p.cn || "");
