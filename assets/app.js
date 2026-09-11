@@ -484,6 +484,7 @@ const ICON = {
   doc: '<rect x="5.5" y="3" width="13" height="18" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
   pillar: '<path d="M4 6h16M6 6v14M18 6v14M9 6v14M15 6v14M3 20h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
   sparkle: '<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M19 16l.8 2.4L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.6z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/>',
+  star: '<path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1.1 5.8L12 16.9l-5.3 2.7 1.1-5.8-4.3-4.1 5.9-.8z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linejoin="round"/>',
   hanger: '<path d="M12 4.2a2 2 0 1 1 2.1 2c-.7.3-1.1.9-1.1 1.6v.9M12 8.7 3.6 14.9c-.7.5-.3 1.6.5 1.6h15.8c.8 0 1.2-1.1.5-1.6L12 8.7Z" stroke="currentColor" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
   film: '<rect x="3" y="5" width="18" height="14" rx="2.2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M7.6 5v14M16.4 5v14M3 9.6h4.6M3 14.4h4.6M16.4 9.6H21M16.4 14.4H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
   arrow: '<path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
@@ -532,7 +533,8 @@ const CAT_META = {
   "足球":   { icon: "ball",    bg: "linear-gradient(135deg,#10B981,#047857)" },
   "历史":   { icon: "pillar",  bg: "linear-gradient(135deg,#D97706,#92400E)" },
   "AI":     { icon: "sparkle", bg: "linear-gradient(135deg,#A78BFA,#4F46E5)" },
-  "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" }
+  "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" },
+  "明星":   { icon: "star",    bg: "linear-gradient(135deg,#F472B6,#DB2777)" }
 };
 
 /* 生词数按文章缓存：排序时要反复比较，避免每次重扫全文 */

@@ -49,7 +49,7 @@ function rollback(why) {
 console.log("== 步骤 1/5：抓取近 3 天文章 ==");
 const okIngest = run("ingest.mjs", [
   "--append", "--days", "3", "--per", "2", "--limit", "24",
-  "--quota", "足球=3,历史=2,AI=3",
+  "--quota", "足球=3,历史=2,AI=3,明星=2",
 ]);
 if (!okIngest) rollback("抓取步骤失败");
 

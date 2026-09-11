@@ -81,7 +81,11 @@ const FEEDS = [
 
   /* —— AI —— */
   { cat: "AI", name: "TechCrunch AI", rss: "https://techcrunch.com/category/artificial-intelligence/feed/", max: 4 },
-  { cat: "AI", name: "AI News", rss: "https://www.artificialintelligence-news.com/feed/", max: 3 }
+  { cat: "AI", name: "AI News", rss: "https://www.artificialintelligence-news.com/feed/", max: 3 },
+
+  /* —— 明星（美图向：名人穿搭/红毯/美妆；Hearst 分类 feed 是空壳，用全站 feed；正文图放宽到 6 张） —— */
+  { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4 },
+  { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4 }
 ];
 
 /* 封面渐变池：配图抓不到时的兜底背景，与既有文章视觉一致 */
@@ -96,7 +100,7 @@ const GRADIENTS = [
   "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)"
 ];
 
-const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab" };
+const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab", 明星: "st" };
 
 /* ---------------- 工具 ---------------- */
 
@@ -325,7 +329,7 @@ function goodPara(t) {
   return true;
 }
 
-function extractBlocks(html) {
+function extractBlocks(html, looseImg = false) {
   /* 先划出 figure 的字符区间，避免同一段被 <p> 和 <figure> 重复计入 */
   const figs = [...html.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/gi)]
     .map(m => ({ at: m.index, end: m.index + m[0].length, inner: m[1] }));
@@ -337,6 +341,18 @@ function extractBlocks(html) {
     if (inFig(m.index)) continue;
     nodes.push({ at: m.index, kind: "p", inner: m[1] });
   }
+
+  /* Hearst（ELLE/Bazaar 等）不写 <figure>，图裸放在 <div> 里：looseImg 时补扫 figure 外的独立 <img>。
+   * 同一节点的处理复用 fig 分支；无 figcaption 时 cap 为空。 */
+  if (looseImg) {
+    for (const m of html.matchAll(/<img\b[^>]*>/gi)) {
+      if (inFig(m.index)) continue;
+      const tag = m[0];
+      if (/\bsrc=["']data:/i.test(tag)) continue;
+      nodes.push({ at: m.index, kind: "fig", inner: tag });
+    }
+  }
+
   nodes.sort((a, b) => a.at - b.at);
 
   const seenText = new Set();
@@ -366,15 +382,15 @@ function extractBlocks(html) {
   return out;
 }
 
-/* 按句子预算裁剪，同时保序保留内嵌图 */
-function packBlocks(blocks, maxSents, maxWords) {
+/* 按句子预算裁剪，同时保序保留内嵌图；明星栏目图多，放宽上限 */
+function packBlocks(blocks, maxSents, maxWords, maxImgs = MAX_INLINE_IMG) {
   const keep = [];
   const sents = [];                        // 扁平句子列表，供翻译使用
   let words = 0, imgs = 0;
   for (const b of blocks) {
     if (sents.length >= maxSents || words >= maxWords) break;
     if (b.t === "img") {
-      if (imgs < MAX_INLINE_IMG) { keep.push(b); imgs++; }
+      if (imgs < maxImgs) { keep.push(b); imgs++; }
       continue;
     }
     const kept = [];
@@ -711,6 +727,8 @@ async function main() {
       if (haveUrl.has(it.link) || seenLink.has(it.link)) continue;
       /* 广告软文 / 合作稿不算新闻正文 */
       if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(it.link)) continue;
+      /* 明星栏目只要美图人物向内容，跳过星座/购物/栏目导览/纯单品稿 */
+      if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b/i.test(it.title)) continue;
       /* 大会/活动推广（如 TechCrunch Disrupt 明星嘉宾稿）不算新闻 */
       if (/techcrunch (disrupt|sessions|events?)\b/i.test(it.title)) continue;
       /* 源首页/栏目标签页不是文章：路径太浅的一律跳过 */
@@ -720,11 +738,11 @@ async function main() {
       } catch { continue; }
       const html = await get(it.link);
       if (!html) continue;
-      const blocks = extractBlocks(html);
+      const blocks = extractBlocks(html, feed.cat === "明星");
       const allSents = blocks.filter(b => b.t === "p").flatMap(b => splitSentences([b.v]));
       if (!difficultyOk(allSents)) continue;
 
-      const { keep, sents, words } = packBlocks(blocks, MAX_SENTS, MAX_WORDS);
+      const { keep, sents, words } = packBlocks(blocks, MAX_SENTS, MAX_WORDS, feed.cat === "明星" ? 6 : MAX_INLINE_IMG);
       if (!sents) continue;
 
       const cover = it.image || ogImage(html);
