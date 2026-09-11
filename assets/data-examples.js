@@ -4,7 +4,7 @@
  * 对得上第 N 个中文句子（实测 95.7% 段落完全对齐，对不齐的整段放弃），于是
  * 「英文原句 + 它在同一篇文章里的译文」就是成对的真实例句——没有一句是机器造的。
  *
- * 共 2007 条，只用来填补没有例句的词；人工撰写的例句永远优先，不会被覆盖。
+ * 共 2083 条，只用来填补没有例句的词；人工撰写的例句永远优先，不会被覆盖。
  */
 const WORD_EXAMPLES = {
   "pull": {
@@ -22,6 +22,11 @@ const WORD_EXAMPLES = {
     "cn": "马蒂诺维奇表示，这也说明了塞尔维亚电信是如何超越自身能力的。",
     "src": "Variety · 2026-09-10"
   },
+  "punish": {
+    "en": "Brennan sued over the investigations earlier this year, alleging the Trump administration has \"adopted a policy of using criminal process and prosecution to punish the President's perceived adversaries.\"",
+    "cn": "布伦南今年早些时候起诉了这些调查，声称特朗普政府“采取了一项利用刑事程序和起诉来惩罚总统的敌人的政策”。",
+    "src": "CBS News · 2026-09-10"
+  },
   "purchase": {
     "en": "In 1907, he and his wife, Aline, purchased and developed a hilltop estate in Cagnes-sur-Mer dotted with olive, orange and fig trees.",
     "cn": "1907年，他和妻子艾琳（Aline）在滨海卡涅（Cagnes-sur-Mer）购买并开发了一处山顶地产，其间点缀着橄榄树、橘子树和无花果树。",
@@ -33,9 +38,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "quality": {
-    "en": "The other is the gulf in quality between the starting XI and the team after changes are made.",
-    "cn": "另一个是变更后首发XI和球队之间的质量差距。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Fernandes believes the quality of the Spurs squad can raise his own level of performance, too.",
+    "cn": "费尔南德斯相信热刺的阵容也能提高他自己的表现水平。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "qualify": {
     "en": "In the Premier League last season, 96 qualifying players put up better per-minute attacking numbers.",
@@ -43,9 +48,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "puzzle": {
-    "en": "In their absence, Xabi Alonso paired Reece James with Romeo Lavia, but even when Caicedo returns to fitness, the Chelsea manager has a puzzle to solve before settling on his best midfield two.",
-    "cn": "在两人缺阵的情况下，阿隆索让里斯·詹姆斯和拉维亚搭档，但即便凯塞多伤愈复出，主帅也要面对如何确定中场双后腰的问题。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "On Tuesday, OpenAI, the developer of ChatGPT, announced in a blog post that an “internal OpenAI system” had just found a solution to the longstanding puzzle.",
+    "cn": "周二，ChatGPT的开发者OpenAI在一篇博客文章中宣布，一个“内部OpenAI系统”刚刚找到了解决这个长期难题的方法。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "publish": {
     "en": "Every story we publish has been thoroughly researched and vetted by our team of editors and industry experts.",
@@ -77,11 +82,6 @@ const WORD_EXAMPLES = {
     "cn": "要查看此内容，请选择“接受并继续”以允许谷歌reCAPTCHA及其所需目的。",
     "src": "HistoryExtra · 2026-09-09"
   },
-  "purple": {
-    "en": "When David and Victoria Beckham wed in 1999, it was the nuptials (and matching purple outfits) heard around the world.",
-    "cn": "1999年大卫·贝克汉姆和维多利亚·贝克汉姆结婚时，全世界都听到了他们的婚礼（以及配套的紫色礼服）。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "purity": {
     "en": "There’s little to no research proving these molecules are safe or effective and no assurance from the FDA about their identity, purity or strength.",
     "cn": "几乎没有研究证明这些分子是安全或有效的，FDA也不能保证它们的特性、纯度或强度。",
@@ -96,11 +96,6 @@ const WORD_EXAMPLES = {
     "en": "There's obviously an abundance of gorgeous knits, including cashmere and quarter-zip ups.",
     "cn": "显然，这里有大量华丽的针织衫，包括羊绒和四分之一拉链。",
     "src": "Who What Wear · 2026-09-10"
-  },
-  "psychological": {
-    "en": "The psychological thriller, which stars both Cruz and Bardem (and earned them a 16-minute standing ovation at the premiere), made its debut on Tuesday night, and the couple coordinated in elegant looks to celebrate.",
-    "cn": "这部心理惊悚片由克鲁兹和巴登共同主演（在首映式上他们起立鼓掌了16分钟），于周二晚上首播，这对夫妇以优雅的造型配合庆祝。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "project": {
     "en": "The original price tag for the project was $368 million and was supposed to be finished this past August.",
@@ -118,9 +113,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "promote": {
-    "en": "Maybe it’s the water taxis, the grand palazzos, or the fact that the festival has long attracted stars with a taste for fashion as considered as the films they’re there to promote.",
-    "cn": "也许是因为水上出租车，也许是因为宏伟的宫殿，也许是因为这个电影节长期以来一直吸引着那些对时尚有品味的明星，就像他们在那里宣传的电影一样。",
-    "src": "ELLE · 2026-09-09"
+    "en": "And, this isn't a promoted side accidentally stumbling into three clean sheets.",
+    "cn": "而且，这不是一支升班马不小心三次失球的球队。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "prompt": {
     "en": "In this way, it functioned as a visual prompt and a mnemonic device, inviting its audience to engage with the drama of 1066 in a uniquely immersive way.",
@@ -128,9 +123,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-10"
   },
   "proof": {
-    "en": "\"Producing the film was an enormous undertaking, but also proof that genre cinema of this scale can come from this part of Europe,\" he said.",
-    "cn": "他说：“制作这部电影是一项艰巨的任务，但也证明了这种规模的流派电影可以来自欧洲的这一部分。",
-    "src": "Variety · 2026-09-10"
+    "en": "The proof was produced by a group of agents, using an OpenAI next-generation model significantly more capable than GPT-6 Astra.",
+    "cn": "证据是由一组代理使用比GPT-6 Astra更强大的OpenAI下一代模型制作的。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "property": {
     "en": "The company aims to identify, finance and produce high-value intellectual property that crosses borders and formats.",
@@ -198,9 +193,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "raise": {
-    "en": "Instead, he wanted to focus on “someone history never named at all: a farmer, the first man to raise his hand in Essex.",
-    "cn": "相反，他想专注于“一个从未命名过的历史人物：一个农民，第一个在埃塞克斯举手的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "Fernandes believes the quality of the Spurs squad can raise his own level of performance, too.",
+    "cn": "费尔南德斯相信热刺的阵容也能提高他自己的表现水平。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "rake": {
     "en": "After letting each curl cool completely, he raked through the hair with fingers (not a brush) to open the curl into a soft, sexy blowout shape without losing definition.",
@@ -242,15 +237,20 @@ const WORD_EXAMPLES = {
     "cn": "这使我们第一次真正看到他的阵容，而不是他的首选XI ，所提供的。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "ratio": {
+    "en": "In their last 16 league games where they've enjoyed less than 45 per cent of the ball and started the match bigger than 2/1, they've conceded just nine goals, losing just two of those games, with those matches averaging a lowly 1.7 goals per game ratio.",
+    "cn": "在过去的16场联赛中，他们的控球率低于45%，开局比分大于2比1，他们只丢了9个球，只输了2场，这些比赛的场均进球率只有1.7个。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "ray": {
     "en": "The vessel is well preserved, with ceramic tiles still lining its bathrooms, fans still hanging from its ceilings and teak tables still “intact, clean and perfectly aligned with each other” on the bridge deck, Cesare Balzi wrote for X-Ray Mag in 2018.",
     "cn": "切萨雷·巴尔齐（Cesare Balzi）在2018年的《X-Ray Mag》杂志上写道，这艘船保存完好，浴室里仍然铺着瓷砖，风扇仍然悬挂在天花板上，柚木桌子仍然“完好无损，干净整洁，彼此完美对齐”。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "realm": {
-    "en": "Touted for their potential to help rejuvenate and heal the skin, including after surgery, it was only a matter of time before they crossed over into the realm of hair care, too.",
-    "cn": "它们被吹捧有潜力帮助皮肤恢复活力和愈合，包括在手术后，它们也会进入护发领域，这只是时间问题。",
-    "src": "ELLE · 2026-09-09"
+    "en": "\"Spyro: A Realm Beyond\" has released its first look at Arcadian Vale in honor of Spyro Community Day.",
+    "cn": "为了纪念Spyro社区日，《Spyro: A Realm Beyond》发布了阿卡迪亚山谷的第一个外观。",
+    "src": "Variety · 2026-09-10"
   },
   "really": {
     "en": "These types of wingers had never really existed before, but now they were more important than anyone else.",
@@ -293,14 +293,19 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-10"
   },
   "reach": {
-    "en": "\"When you're conducting a joint operation in territorial waters, you have to reach an understanding as to how those operations are going to occur,\" he said.",
-    "cn": "“当你在领海进行联合行动时，你必须就这些行动将如何进行达成谅解，”他说。",
+    "en": "CBS News has reached out to the Justice Department for comment.",
+    "cn": "哥伦比亚广播公司新闻已联系司法部寻求置评。",
     "src": "CBS News · 2026-09-10"
   },
   "queen": {
     "en": "Together, they uncover how these formative experiences helped shape the woman who would become a formidable queen.",
     "cn": "他们一起揭示了这些形成性的经历如何帮助塑造了这位将成为令人敬畏的女王的女人。",
     "src": "HistoryExtra · 2026-09-09"
+  },
+  "rail": {
+    "en": "He has long railed against Brennan's role in assessing that Russia tried to meddle in the 2016 election, referring to him in one interview as the \"primogenitor of the entire counterintelligence investigation.\"",
+    "cn": "长期以来，他一直指责布伦南在评估俄罗斯试图干预2016年大选时所扮演的角色，在一次采访中称他是“整个反情报调查的始祖”。",
+    "src": "CBS News · 2026-09-10"
   },
   "question": {
     "en": "The look in question came to us when the actor was spotted filming for The Morning Show in Times Square.",
@@ -315,6 +320,11 @@ const WORD_EXAMPLES = {
   "quickly": {
     "en": "\"At its heart is a boy being forced to grow up too quickly in a world that has abandoned him.",
     "cn": "“故事的核心是一个男孩被迫在一个抛弃他的世界中过快成长。",
+    "src": "Variety · 2026-09-10"
+  },
+  "quiet": {
+    "en": "The series, “ Quiet on Set: The Dark Side of Kids TV,” ran on Investigation Discovery in March 2024.",
+    "cn": "这部名为《片场安静：儿童电视的阴暗面》的电视剧于2024年3月在《调查发现》频道播出。",
     "src": "Variety · 2026-09-10"
   },
   "quit": {
@@ -341,6 +351,11 @@ const WORD_EXAMPLES = {
     "en": "The Tower of London has protected England’s capital since it was first built in the 1070s, withstanding medieval sieges and World War II bombing raids alike.",
     "cn": "伦敦塔自1070年代首次建成以来一直保护着英格兰的首都，经受住了中世纪的围攻和第二次世界大战的轰炸。",
     "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "rage": {
+    "en": "Brentford have been all the rage with the betting markets over the first three games with the belief that Keith Andrews has improved them over the summer, although a few fingers were burnt, my included, with their lacklustre showing in the 1-1 with Sunderland last weekend.",
+    "cn": "在前三场比赛中，布伦特福德一直在博彩市场上大放异彩，他们相信基思·安德鲁斯在整个夏天都改善了他们的表现，尽管上周末他们在1-1桑德兰的比赛中表现平平，但也有一些人受到了伤害，包括我的。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "railroad": {
     "en": "At the back of our railroad apartment, the radio blared; at the front, in the living room, CNN ran the same footage over and over.",
@@ -382,10 +397,15 @@ const WORD_EXAMPLES = {
     "cn": "被盗的四幅作品分别是《斯蒂芬·皮雄夫人的肖像》（1895年）、《可可·雷丁》（1905年）、《科隆娜·罗马诺夫人》（1910年）和《井边的年轻女子》（1886年）。",
     "src": "Smithsonian Magazine · 2026-09-08"
   },
+  "portuguese": {
+    "en": "\"I believe that I can be a much better player than I was last season,\" said the 22-year-old Portuguese, who recorded three goals and four assists in the Premier League for the Hammers.",
+    "cn": "“我相信我可以成为一个比上赛季更好的球员，”这位22岁的葡萄牙人说，他在英超联赛中为铁锤帮贡献了3个进球和4次助攻。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "position": {
-    "en": "On March 1, one day into the Iran war, an Iranian Shahed drone struck Khork's position, killing him and five other American troops.",
-    "cn": "3月1日，伊朗战争开始的第一天，一架伊朗Shahed无人机袭击了霍克的阵地，杀死了他和其他五名美国士兵。",
-    "src": "CBS News · 2026-09-10"
+    "en": "And he continues to hold investments in a range of companies positioned to benefit from the industry's continued growth.",
+    "cn": "他继续持有一系列公司的投资，这些公司将从该行业的持续增长中受益。",
+    "src": "CBS News · 2026-09-11"
   },
   "positive": {
     "en": "I'm as positive as I have been for three, four, five years about Chelsea, because I think they're going in the right direction.",
@@ -403,9 +423,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "possible": {
-    "en": "Soft, hazy, deliciously milky, the look takes the classic French and somehow makes it even more wearable, which I didn’t think was possible.",
-    "cn": "柔和、朦胧、美味的乳白色，这款妆容融合了经典的法式风格，让它更耐穿，这在我看来是不可能的。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "While there is no direct association between the eggshells and skeletal remains, the authors note in the study, it’s possible they could belong to the same species.",
+    "cn": "作者在研究中指出，虽然蛋壳和骨骼遗骸之间没有直接联系，但它们可能属于同一物种。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "possibly": {
     "en": "That mound contained the bones of a calf—possibly a graveside sacrifice.",
@@ -413,9 +433,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "post": {
-    "en": "But Kai Havertz equalised with a low drive in the 25th minute that snuck inside Emiliano Martínez's near post.",
-    "cn": "但凯·哈弗茨在第 25 分钟的一记低射，皮球从埃米利亚诺·马丁内斯的近角钻入网窝，扳平比分。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "Schneider posted a video apology shortly afterward, saying he was “embarrassed” by his past behaviors.",
+    "cn": "施耐德随后发布了一段道歉视频，称他对自己过去的行为感到“尴尬”。",
+    "src": "Variety · 2026-09-10"
   },
   "practical": {
     "en": "Kidman’s most obvious transformation between Practical Magic 1 and 2 is the switch from red to blonde hair.",
@@ -463,9 +483,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "point": {
-    "en": "Arsenal join Manchester City as the only two sides to take maximum points from their first three league games.",
-    "cn": "阿森纳与曼城成为前 3 轮 联赛仅有的两支全取 9 分的球队。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "Hull arrive at Stamford Bridge with seven points from three games and three consecutive clean sheets.",
+    "cn": "赫尔三场比赛积7分，连续三场零封，来到斯坦福桥。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "poison": {
     "en": "Lesser-known featured Chicago killers include Richard Speck; the satanic Ripper Crew cult; and Tillie Klimek, known as Chicago’s “Black Widow,” who claimed to have had precognitive dreams of the deaths of her husbands, whom, in reality, she poisoned.",
@@ -493,9 +513,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "popular": {
-    "en": "Ballet flats are a popular silhouette, but slingbacks and traditional pumps are also in frequent rotation.",
-    "cn": "芭蕾平底鞋是流行的款式，但露跟鞋和传统的高跟鞋也经常出现。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "The Bayeux Tapestry exhibition is already proving to be one of the most popular in the museum’s history.",
+    "cn": "贝叶挂毯展览已经被证明是博物馆历史上最受欢迎的展览之一。",
+    "src": "HistoryExtra · 2026-09-10"
   },
   "pop": {
     "en": "From spicy copper to pop star pink to maple cream blonde, fall’s biggest hair colors are right around the corner.",
@@ -558,9 +578,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "privilege": {
-    "en": "To take on Claudia’s role, as it were, is not just a privilege but a real challenge as an actor – I simply don’t have enough hair.",
-    "cn": "能出演克劳迪娅这个角色，可以说，不仅是一种特权，而且对演员来说是一个真正的挑战——我就是没有足够的头发。",
-    "src": "Variety · 2026-09-10"
+    "en": "\"It was an honor and a privilege to serve the president and the department,\" he said.",
+    "cn": "他说：“为总统和国务院服务是我的荣幸。",
+    "src": "CBS News · 2026-09-10"
   },
   "prize": {
     "en": "The recipients of the Ig Nobel Chemistry Prize, however, conducted research concerning much smaller individuals: cockroaches.",
@@ -647,6 +667,11 @@ const WORD_EXAMPLES = {
     "cn": "这使我们第一次真正看到他的阵容，而不是他的首选XI ，所提供的。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "predict": {
+    "en": "It's a fascinating match-up and the way the market is predicting attack to outgun defence with the expected goals line almost at 3.25 based on the odds I'd be wanting to row against that at the prices and give Hull more a chance than the 11/1 away win suggests.",
+    "cn": "这是一场令人着迷的比赛，市场预测进攻比防守多，预期进球数几乎是3.25，基于赔率，我想以价格来反对，给赫尔城更多的机会，而不是11/1的客场胜利。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "precise": {
     "en": "It was most likely made in England by English embroiderers, and while we do not have a precise date for when the Bayeux Tapestry was created, the academic consensus is that it must have been produced very soon after the events it depicts.",
     "cn": "它很可能是由英国的刺绣工在英格兰制作的，虽然我们没有确切的日期来确定贝叶挂毯是什么时候制作的，但学术界的共识是，它一定是在它描绘的事件发生后不久制作的。",
@@ -671,6 +696,11 @@ const WORD_EXAMPLES = {
     "en": "Underwear buried to test soil quality and urinals scientifically designed to prevent splashing were among the projects honoured as the Ig Nobel prizes again put a spotlight on the quirky side of science.",
     "cn": "埋葬以测试土壤质量的内衣和科学设计以防止飞溅的小便池是获得荣誉的项目之一，因为搞笑诺贝尔奖再次将焦点放在科学的古怪方面。",
     "src": "Smithsonian Magazine · 2026-09-08"
+  },
+  "prevail": {
+    "en": "The defendants prevailed under California’s anti-SLAPP statute, which allows an early mechanism to strike lawsuits intended to stifle speech on matters of public interest.",
+    "cn": "根据加州的反slapp法规，被告胜诉，该法规允许一种早期机制来打击旨在扼杀公众利益问题言论的诉讼。",
+    "src": "Variety · 2026-09-10"
   },
   "pretty": {
     "en": "If this award helps spark more curiosity about this sort of question, then that’s a pretty wonderful outcome.”",
@@ -722,6 +752,11 @@ const WORD_EXAMPLES = {
     "cn": "在2026年秋冬秀场上，我们看到了一种明显的华丽美学的运动，从迪奥到康纳艾夫斯的设计师们，拥抱了丰富细节的纹理、锦缎、刺绣、丰富的色彩、挂毯、流苏、天鹅绒、丝绸和奢华的晚装包——看起来让人想起迷人的二十年代——以及感觉像现代传家宝的作品。",
     "src": "Who What Wear · 2026-09-10"
   },
+  "rob": {
+    "en": "Pennsylvania Rep. Rob Bresnahan is promoting a bill to give data center-wary municipalities greater control over whether the facilities can be built, a message featured in a new television ad the Republican congressman is running in the Scranton and Wilkes-Barre area.",
+    "cn": "宾夕法尼亚州众议员罗布·布雷斯纳汉（Rob Bresnahan）正在推动一项法案，让对数据中心持谨慎态度的市政当局对数据中心设施的建设有更大的控制权，这一信息出现在这位共和党国会议员在斯克兰顿和威尔克斯-巴雷地区播放的新电视广告中。",
+    "src": "CBS News · 2026-09-11"
+  },
   "robber": {
     "en": "Authorities attribute the robbers’ bungle to the museum’s security system and the quick response of local police.",
     "cn": "当局将劫匪的失误归咎于博物馆的安全系统和当地警方的快速反应。",
@@ -736,6 +771,11 @@ const WORD_EXAMPLES = {
     "en": "The 255 egg fragments at the center of the discovery were uncovered in 2020 and 2024 in the Chorrillo Formation, a rock formation on the southern tip of Argentina.",
     "cn": "发现中心的255个鸡蛋碎片于2020年和2024年在阿根廷南端的一个岩层Chorrillo地层中被发现。",
     "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "rocket": {
+    "en": "Select AMC theaters will screen the live broadcast of Epic Games' 2026 Rocket League World Championship Finals.",
+    "cn": "部分AMC影院将直播Epic Games的2026年火箭联盟世界冠军赛总决赛。",
+    "src": "Variety · 2026-09-10"
   },
   "rod": {
     "en": "McKee's first full term has been plagued by the closure of the Washington Bridge, which was shut down in December 2023 after broken anchor rods were discovered.",
@@ -763,14 +803,14 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark White · 2026-09-07"
   },
   "roughly": {
-    "en": "With roughly half of all votes counted at around 8:30 p.m. ET, Foulkes led McKee 62.3% to 37.7%.",
-    "cn": "美国东部时间晚上8点30分左右，大约一半的选票已经清点完毕，福克斯以62.3%对37.7%领先麦基。",
-    "src": "CBS News · 2026-09-10"
+    "en": "According to his financial disclosure, those holdings are worth between roughly $804,024 and $2.04 million.",
+    "cn": "根据他披露的财务状况，这些股份的价值大约在804,024美元至204万美元之间。",
+    "src": "CBS News · 2026-09-11"
   },
   "rotation": {
-    "en": "\"We still have our deep hues in rotation, but the fresh, glitzy formulas help keep the look both modern and timeless,\" she shares.",
-    "cn": "她分享说：“我们仍然在轮换使用深色调，但新鲜、耀眼的配方有助于保持时尚和永恒的外观。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "Ballet flats are a popular silhouette, but slingbacks and traditional pumps are also in frequent rotation.",
+    "cn": "芭蕾平底鞋是流行的款式，但露跟鞋和传统的高跟鞋也经常出现。",
+    "src": "Harper's Bazaar · 2026-09-09"
   },
   "rotate": {
     "en": "Given the nature of the two opponents, you would imagine Carrick will be thinking of rotating on Thursday.",
@@ -778,9 +818,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "rival": {
-    "en": "“We’re seeing a new rival or parallel health system emerge,” says Daniel Carpenter, chair of the government department at Harvard University and an expert in FDA regulation, “built on self-diagnosis and easy access to a wide range of treatments.”",
-    "cn": "哈佛大学政府部门主席、FDA监管专家丹尼尔·卡彭特（Daniel Carpenter）说：“我们正在看到一个新的竞争对手或平行的卫生系统出现，它建立在自我诊断和容易获得各种治疗的基础上。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "It will be tougher against rivals Manchester City on Sunday - but so will his team selection.",
+    "cn": "周日对阵对手曼城的比赛将更加艰难，但他的阵容选择也将更加艰难。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "rose": {
     "en": "I wanted him to stand for all the ordinary people who actually rose up and paid the price for it.”",
@@ -798,9 +838,9 @@ const WORD_EXAMPLES = {
     "src": "Cosmopolitan · 2026-09-09"
   },
   "room": {
-    "en": "If I walk into a room, and I don’t give a shit what anyone thinks about me, I’m gonna have a good time.",
-    "cn": "如果我走进一个房间，我不在乎别人怎么看我，我就会玩得很开心。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "There was Donald Trump - there was always going to be - and the changing-room team talk.",
+    "cn": "唐纳德·特朗普（Donald Trump）-总是会有-和更衣室团队的谈话。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "roof": {
     "en": "“Nowhere in the world are you going to see an exhibit like this with artifacts from so many serial killers under one roof.”",
@@ -882,11 +922,6 @@ const WORD_EXAMPLES = {
     "cn": "从接下来的两个角落中的第二个角落，穆哈雷莫维奇在后柱上升得最高，向对角内的揭幕战点头。",
     "src": "Sky Sports · 2026-09-09"
   },
-  "ride": {
-    "en": "From coordinating red-carpet looks to indulging in sunset gondola rides, the entertainment industry’s favorite pairs have been making the most of their time in Italy—and it’s easy to see why.",
-    "cn": "从协调的红毯造型到沉迷于日落缆车，娱乐圈最受欢迎的一对情侣在意大利度过了最愉快的时光，原因很容易理解。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "rich": {
     "en": "The insurgents’ demands ranged from the abolition of serfdom to the redistribution of the church’s riches.",
     "cn": "叛乱分子的要求从废除农奴制到重新分配教会的财富不等。",
@@ -902,11 +937,6 @@ const WORD_EXAMPLES = {
     "cn": "对于那些厌恶黑色指甲的人（我明白他们的看法两极分化），我建议他们选择深蓝色的午夜路线。",
     "src": "Who What Wear · 2026-09-10"
   },
-  "routine": {
-    "en": "Ahead, Beckham tells us about the original Italian getaway that inspired the new scent, the wellness routine she and David do daily together, and the city that may inspire her next hit scent.",
-    "cn": "接下来，贝克汉姆向我们讲述了激发新香水灵感的意大利之旅，她和大卫每天一起做的健康运动，以及可能激发她下一款热门香水灵感的城市。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "row": {
     "en": "In time, a tightly fitted row of single-peaked teeth came into view, Dąbrowski tells Roman Skiba of the Polish Press Agency (PAP).",
     "cn": "Dąbrowski告诉波兰新闻社（PAP）的Roman Skiba ，随着时间的推移，一排紧密贴合的单峰牙齿出现在视野中。",
@@ -918,9 +948,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "sample": {
-    "en": "“The general pattern seems to be that with wealth and rising power, you become less engaged with the needs of others and less burdened by the needs of social relationships,” study co-author Paul Piff, a social psychologist at the University of California, Irvine, tells the Guardian ’s Ian Sample.",
-    "cn": "研究报告的共同作者、加州大学欧文分校的社会心理学家保罗·皮夫（Paul Piff）告诉《卫报》的伊恩·样本（Ian Sample）：“一般的模式似乎是，随着财富和权力的不断崛起，你对他人的需求的参与度降低，而对社会关系的需求的负担减轻。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "The sample size is small but there seems more aggression and pressing about Brentford this season with a rise in their high turnovers per 90 of 3.1 and 6.2 more fouls committed per 90.",
+    "cn": "样本规模很小，但本赛季布伦特福德似乎更具侵略性和压力，他们每90分钟的最高失误增加了3.1次，每90分钟的犯规增加了6.2次。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "sand": {
     "en": "“Buried in sand, soil, or vegetation, the nest would stay humid or damp enough for the eggs to survive,” says Zelenitsky.",
@@ -928,8 +958,8 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "saturday": {
-    "en": "And in the weekend in between, Sky Sports will be showing Leeds vs Everton on Friday Night Football on New Year's Day, then Bournemouth vs Aston Villa on January 3 for Saturday Night Football at 5.30pm.",
-    "cn": "在这期间的周末，天空体育将在新年当天播放利兹对埃弗顿的周五晚间足球比赛，然后在1月3日下午5:30播放伯恩茅斯对阿斯顿维拉的周六晚间足球比赛。",
+    "en": "\"I spoke with the Mister and he was the key for this decision,\" Fernandes told Sky Sports ahead of the Saturday Night Football clash with Everton.",
+    "cn": "“我和先生谈过了，他是这个决定的关键，”费尔南德斯在周六晚与埃弗顿的比赛前告诉天空体育。",
     "src": "Sky Sports · 2026-09-10"
   },
   "save": {
@@ -938,14 +968,14 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "scene": {
-    "en": "The Latin captions above the scenes are terse, offering little more than names and places.",
-    "cn": "场景上方的拉丁文字幕很简洁，除了名字和地点之外，几乎没有别的说明。",
-    "src": "HistoryExtra · 2026-09-10"
+    "en": "Per the game's description, \"Across the scene are cascading waterfalls tumbling down from towering cliffs.",
+    "cn": "根据游戏的描述，“整个场景是瀑布从高耸的悬崖上倾泻而下。",
+    "src": "Variety · 2026-09-10"
   },
   "scare": {
-    "en": "Odegaard's goal, fired in following a quick one-two with substitute Christos Tzolis, finally broke the deadlock but Noni Madueke, another substitute, missed a one-on-one chance with Tzolis's follow-up blocked on the line, leaving Arsenal to suffer a late scare.",
-    "cn": "厄德高的目标是与替补球员克里斯托斯·佐利斯（Christos Tzolis）进行快速一对二的比赛，最终打破了僵局，但另一名替补球员诺尼·马杜埃克（Noni Madueke）错过了一对一的机会，佐利斯的后续行动被挡在了线上，使阿森纳遭受了晚些时候的恐慌。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "\"I didn't feel like we were shaking or scared, we tried to play, for the whole 90 minutes we did that.",
+    "cn": "“我不觉得我们在颤抖或害怕，我们努力比赛，整整90分钟我们都在这样做。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "sale": {
     "en": "Jungle Book Studio founder Gaurav Dhingra serves as executive producer in addition to handling world sales.",
@@ -953,9 +983,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "scale": {
-    "en": "It came from a shared belief that AFC is ready for its next chapter, one focused on scale and long-term impact.",
-    "cn": "这源于一个共同的信念，即亚足联已经为下一个篇章做好了准备，一个专注于规模和长期影响的篇章。",
-    "src": "Vogue · 2026-09-10"
+    "en": "Among them are Equinix, Digital Realty Trust and Iron Mountain, which operate large-scale data centers.",
+    "cn": "其中包括运营大型数据中心的Equinix、Digital Realty Trust和Iron Mountain。",
+    "src": "CBS News · 2026-09-11"
   },
   "say": {
     "en": "“For the upcoming season, we’re seeing a massive surge toward deep, comforting color palettes,” she says.",
@@ -966,6 +996,11 @@ const WORD_EXAMPLES = {
     "en": "Alonso's 3-5-2 system saw Josh Acheampong, Maxence Lacroix and Wesley Fofana start in the back three -- with Pedro Neto and Jorrel Hato as wing-backs.",
     "cn": "阿隆索排出的 3-5-2 阵型中，约书亚·阿查姆庞、拉克鲁瓦和福法纳组成三中卫，佩德罗·内托和哈托担任翼卫。",
     "src": "ESPN · Mark White · 2026-09-07"
+  },
+  "scar": {
+    "en": "\"I didn't feel like we were shaking or scared, we tried to play, for the whole 90 minutes we did that.",
+    "cn": "“我不觉得我们在颤抖或害怕，我们努力比赛，整整90分钟我们都在这样做。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "runner": {
     "en": "The goal, Odegaard's fourth in five games this season, ensured a winning start for last season's runners-up in this competition but wasteful finishing made it harder than it should have been.",
@@ -1002,6 +1037,11 @@ const WORD_EXAMPLES = {
     "cn": "然后，他继续谈论美国的石油生产和伊朗。",
     "src": "CBS News · 2026-09-10"
   },
+  "russian": {
+    "en": "He was also overseeing a criminal probe into whether Obama-era CIA Director John Brennan lied to Congress in 2023 about the U.S. intelligence community's assessment on Russian interference in the 2016 election.",
+    "cn": "他还负责一项刑事调查，调查奥巴马时代的中央情报局局长约翰·布伦南是否在2023年就美国情报界对俄罗斯干预2016年大选的评估向国会撒谎。",
+    "src": "CBS News · 2026-09-10"
+  },
   "saint": {
     "en": "A strong stop from the Saints goalkeeper, turning the ball past as Celtic push for an early opener.",
     "cn": "圣徒守门员强有力的一站，在凯尔特人推动早期揭幕战时，将球转过身去。",
@@ -1013,9 +1053,9 @@ const WORD_EXAMPLES = {
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "safe": {
-    "en": "Show the following inspiration photos to your nail tech, choose a sheer milky polish, and you’ll be in safe hands.",
-    "cn": "把下面的灵感照片给你的美甲师看，选择一种纯乳状的指甲油，你就会很安全。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Safe Word is a series highlighting the latest trends in the jewelry market, keeping you up to date on all things that sparkle and shine.",
+    "cn": "安全词汇是一个系列，突出了珠宝市场的最新趋势，让你在所有闪耀和闪耀的东西上保持最新。",
+    "src": "ELLE · 2026-09-09"
   },
   "sacrifice": {
     "en": "That mound contained the bones of a calf—possibly a graveside sacrifice.",
@@ -1062,11 +1102,6 @@ const WORD_EXAMPLES = {
     "cn": "在巴基斯坦拉合尔博物馆（Lahore Museum）的地下室里，有34本黑色皮革装订的登记簿落满了灰尘。",
     "src": "HistoryExtra · 2026-09-09"
   },
-  "regular": {
-    "en": "Whether you’re a gel-x devotee or you’re committed to a regular manicure, cloudy French tips can be done with any type of polish.",
-    "cn": "无论你是美甲啫喱爱好者还是普通美甲爱好者，多云的法式美甲都可以用任何类型的指甲油来完成。",
-    "src": "Cosmopolitan · 2026-09-09"
-  },
   "regularly": {
     "en": "In the past year, she made that aforementioned runway debut, opened for Lorde, and embarked on her first headline tour, going from barely traveling to crossing the Atlantic regularly.",
     "cn": "在过去的一年里，她完成了前面提到的t台首秀，为洛德（Lorde）做了开场秀，并开始了她的第一次头条巡演，从几乎不旅行到定期横渡大西洋。",
@@ -1098,9 +1133,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "release": {
-    "en": "Tickets are being released in phases, with the next batch available to book from 21 October 2026.",
-    "cn": "门票将分阶段发售，下一批门票将于2026年10月21日开始接受预订。",
-    "src": "HistoryExtra · 2026-09-10"
+    "en": "\"Spyro: A Realm Beyond\" has released its first look at Arcadian Vale in honor of Spyro Community Day.",
+    "cn": "为了纪念Spyro社区日，《Spyro: A Realm Beyond》发布了阿卡迪亚山谷的第一个外观。",
+    "src": "Variety · 2026-09-10"
   },
   "relationship": {
     "en": "\"He's got that edge and different relationships around him as well and that helps,\" said the Gunners boss.",
@@ -1168,9 +1203,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "recently": {
-    "en": "I'm dedicating this edit to the potential staples (re: versatile pieces) I recently found from J.Crew, Aritzia, and Gap.",
-    "cn": "我把这篇编辑献给了我最近从J.Crew、arizia和Gap找到的潜在的主食（关于：百搭单品）。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "More recently, diGenova represented Mr. Trump's campaign in its failed attempt to overturn the 2020 election results.",
+    "cn": "最近，迪吉诺娃曾代表特朗普的竞选团队推翻2020年大选结果，但未能成功。",
+    "src": "CBS News · 2026-09-10"
   },
   "reception": {
     "en": "We’d just returned from New York the previous day: We’d been there for our friends’ Sunday wedding, the reception at an elegant club in midtown.",
@@ -1206,6 +1241,11 @@ const WORD_EXAMPLES = {
     "en": "Self-reference can be tricky territory, especially for a designer with an archive as deep as Ralph Lauren ’s.",
     "cn": "自我参考可能是一个棘手的领域，尤其是对于像拉尔夫·劳伦（Ralph Lauren）这样拥有深厚档案的设计师来说。",
     "src": "ELLE · 2026-09-09"
+  },
+  "refer": {
+    "en": "He has long railed against Brennan's role in assessing that Russia tried to meddle in the 2016 election, referring to him in one interview as the \"primogenitor of the entire counterintelligence investigation.\"",
+    "cn": "长期以来，他一直指责布伦南在评估俄罗斯试图干预2016年大选时所扮演的角色，在一次采访中称他是“整个反情报调查的始祖”。",
+    "src": "CBS News · 2026-09-10"
   },
   "reel": {
     "en": "Enough teams have spent lots of money on these highlight-reel-but-no-end-product wingers over the past three seasons that it has to mean something.",
@@ -1257,6 +1297,16 @@ const WORD_EXAMPLES = {
     "cn": "大火于周一在安塔利亚的阿克苏地区爆发，并在强风的推动下迅速蔓延到邻近的Kepez地区，迫使数百名居民离开家园。",
     "src": "ABC News · 2026-09-09"
   },
+  "resign": {
+    "en": "Joe diGenova, the prosecutor who was tapped by Attorney General Todd Blanche to supervise the \"grand conspiracy\" investigation targeting Obama- and Biden-era officials, abruptly resigned on Thursday.",
+    "cn": "被司法部长布兰奇任命监督针对奥巴马和拜登时代官员的“大阴谋”调查的检察官乔·迪吉诺娃周四突然辞职。",
+    "src": "CBS News · 2026-09-10"
+  },
+  "resignation": {
+    "en": "In a brief call with CBS News, diGenova said he had turned in his resignation letter to Blanche at 3 p.m. on Thursday.",
+    "cn": "在与CBS新闻的简短通话中，diGenova说他已于周四下午3点向Blanche递交了辞职信。",
+    "src": "CBS News · 2026-09-10"
+  },
   "resist": {
     "en": "Streamlining may have been the focus this season, but as someone who specializes in glamour, Lhuillier couldn’t resist letting her over-the-top side come out to play.",
     "cn": "流线型可能是这一季的焦点，但作为一个擅长魅力的人，Lhuillier忍不住让她夸张的一面发挥出来。",
@@ -1283,9 +1333,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "restore": {
-    "en": "According to the synopsis, \"Sanctuary\" is set on a post-apocalyptic Earth, where the discovery of a cryogenically suspended woman provokes fear in a desperate village, sending a young warrior and the mysterious woman on a quest for a lost city and answers that could restore humanity.",
-    "cn": "根据剧情大纲，《庇护所》设定在一个后世界末日的地球上，一个被低温悬浮的女人的发现在一个绝望的村庄引发了恐惧，派遣一个年轻的战士和一个神秘的女人去寻找一个失落的城市，寻找可以恢复人类的答案。",
-    "src": "Variety · 2026-09-10"
+    "en": "It will be more challenging against City's attack but Carrick and his players go into that with confidence restored.",
+    "cn": "面对曼城的进攻会更有挑战性，但卡里克和他的球员们会恢复信心。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "rest": {
     "en": "Discovered by divers in 2005, it rests on a gently inclined shelf less than a mile off the coast.",
@@ -1308,9 +1358,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-09"
   },
   "responsible": {
-    "en": "But any economic stimulus program runs the risk of causing inflation to spike, and many economists believe the pandemic-era stimulus was at least partially responsible for the rise in consumer prices that ensued over the following years.",
-    "cn": "但任何经济刺激计划都有导致通货膨胀飙升的风险，许多经济学家认为，疫情时期的刺激措施至少部分导致了随后几年消费价格的上涨。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Vitaly Janelt has been responsible for a lot of that upsurge, making 10 fouls in four games and being booked in all three Premier League games.",
+    "cn": "维塔利·贾内尔特对这场热潮负有很大的责任，他在四场比赛中犯规10次，并且在三场英超比赛中都吃到了黄牌。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "require": {
     "en": "To view this content, choose 'Accept and continue' to allow Google reCAPTCHA and its required purposes.",
@@ -1328,9 +1378,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "remove": {
-    "en": "In recent weeks there have been signs of a shift in tactics, with joint U.S.-Ecuador patrols removing crews from at least six boats before sinking the vessels.",
-    "cn": "最近几周有迹象表明，美国和厄瓜多尔的联合巡逻队在击沉船只之前，已经将至少六艘船上的船员撤离。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Navier-Stokes might seem like a wildly theoretical consideration, far removed from the daily life of the average person.",
+    "cn": "纳维-斯托克斯似乎是一种疯狂的理论考虑，与普通人的日常生活相去甚远。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "remind": {
     "en": "This collection reminded our editors of some of Ralph Lauren's most enduring shows of the past, including spring/summer 2003.",
@@ -1398,14 +1448,14 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "represent": {
-    "en": "In a statement provided to Variety, the company said that \"Sanctuary\" \"represents a notable shift in scale and ambition for Serbian production.\"",
-    "cn": "在提供给Variety的一份声明中，该公司表示，“Sanctuary”“代表了塞尔维亚生产规模和雄心的显着转变。",
-    "src": "Variety · 2026-09-10"
+    "en": "More recently, diGenova represented Mr. Trump's campaign in its failed attempt to overturn the 2020 election results.",
+    "cn": "最近，迪吉诺娃曾代表特朗普的竞选团队推翻2020年大选结果，但未能成功。",
+    "src": "CBS News · 2026-09-10"
   },
   "report": {
-    "en": "The report announced that a “light aircraft” had crashed into the North Tower, unexpected because visibility was so good.",
-    "cn": "报告称，一架“轻型飞机”撞上了北塔，由于能见度非常好，这是出乎意料的。",
-    "src": "Vogue · 2026-09-10"
+    "en": "And Bresnahan reported holdings in several of the large technology companies driving the industry's expansion.",
+    "cn": "布雷斯纳汉还表示，他持有几家推动该行业扩张的大型科技公司的股份。",
+    "src": "CBS News · 2026-09-11"
   },
   "reply": {
     "en": "Five told CBS News they would not be going to Dallas, while the vast majority, 51 candidates, did not reply to CBS News' queries.",
@@ -1418,9 +1468,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "repeatedly": {
-    "en": "She then carried the slip of paper to a bowl of water, dunked it repeatedly, and rolled it between her front paws and against the sand until it formed a compact, gritty ball.",
-    "cn": "然后，她把纸条拿到一碗水里，反复浸泡，用前爪在沙子上滚来滚去，直到它变成一个致密的沙砾球。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "Bresnahan has repeatedly said financial advisers manage his portfolio and he has no input in his trades.",
+    "cn": "布雷斯纳汉一再表示，他的投资组合由财务顾问管理，他对自己的交易没有任何投入。",
+    "src": "CBS News · 2026-09-11"
   },
   "reporter": {
     "en": "“Attacking the Renoir Museum is attacking a part of the history and heritage of Cagnes-sur-Mer,” Masson told reporters, per BBC News ’ Michael Sheils McNamee and Tiffany Wertheimer.",
@@ -1463,9 +1513,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "million": {
-    "en": "Arsenal pursued a deal for Rogers for much of the summer but never believed he was worth £117 million.",
-    "cn": "阿森纳整个夏天都在追逐罗杰斯，但始终认为他不值 1.17 亿英镑。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "According to his financial disclosure, those holdings are worth between roughly $804,024 and $2.04 million.",
+    "cn": "根据他披露的财务状况，这些股份的价值大约在804,024美元至204万美元之间。",
+    "src": "CBS News · 2026-09-11"
   },
   "mind": {
     "en": "Those images remain seared in my mind: faced with the choice between the burning building and hurling themselves to certain death, they chose to jump.",
@@ -1502,11 +1552,6 @@ const WORD_EXAMPLES = {
     "cn": "而在出场 900 分钟以上的球员中，去年有 53 名英超球员达到了这一数字。",
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
-  "mist": {
-    "en": "Well, then they will be very excited to know we’ve got lots more Portofino ’97 coming very soon—a hair mist, body lotion.",
-    "cn": "那他们会很兴奋的知道我们很快就会有更多的97年波托菲诺——发胶，身体乳。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "midnight": {
     "en": "For those with an aversion to jet-black manicures ( they're polarizing, I get it), I suggest going the deep, midnight navy route.",
     "cn": "对于那些厌恶黑色指甲的人（我明白他们的看法两极分化），我建议他们选择深蓝色的午夜路线。",
@@ -1526,11 +1571,6 @@ const WORD_EXAMPLES = {
     "en": "This was also a meeting of two sides with a 100% record from their opening two games.",
     "cn": "这场比赛也是前两轮联赛均取得全胜的两支球队之间的对决。",
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "melt": {
-    "en": "The look skips any stark white lines, no ultra-defined tips; instead, Pamela’s manicure appears to feature a sheer, milky base that melts into diffused white tips, creating a blurred, almost cloud-like finish.",
-    "cn": "这款妆容没有任何明显的白线，也没有超细的唇尖；相反，帕梅拉的美甲似乎以透明的乳白色底妆为特色，融化成扩散的白色尖端，创造出一种模糊的、几乎像云一样的效果。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "member": {
     "en": "Members of a group learn to make or use these items by observing others.",
@@ -1566,6 +1606,11 @@ const WORD_EXAMPLES = {
     "en": "Zelenitsky and her colleagues then took a closer look at the pores on the eggshells using microscopes and micro-CT scanners.",
     "cn": "然后，Zelenitsky和她的同事们使用显微镜和微型CT扫描仪仔细观察了蛋壳上的毛孔。",
     "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "microphone": {
+    "en": "Players can now sing or hum one of Link's learned ocarina melodies within range of the Nintendo Switch 2 system's built-in microphone, and he'll perform the song in the game.",
+    "cn": "玩家现在可以在任天堂Switch 2系统的内置麦克风范围内唱或哼唱林克学过的ocarina旋律，林克将在游戏中演唱这首歌。",
+    "src": "Variety · 2026-09-10"
   },
   "metric": {
     "en": "Odegaard only scored once for Arsenal during an injury-hit 2025/26 campaign but now his stats are up across a range of other attacking metrics, too.",
@@ -1607,15 +1652,20 @@ const WORD_EXAMPLES = {
     "cn": "到目前为止，这些肽“完全未经测试和不受管制”，纽约西奈山的肿瘤学家和历史学家Deborah Doroshow说。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
+  "mountain": {
+    "en": "Among them are Equinix, Digital Realty Trust and Iron Mountain, which operate large-scale data centers.",
+    "cn": "其中包括运营大型数据中心的Equinix、Digital Realty Trust和Iron Mountain。",
+    "src": "CBS News · 2026-09-11"
+  },
   "move": {
     "en": "The way we moved the ball, the aggression and the chances we created, we should have done so much better.",
     "cn": "我们移动球的方式，我们创造的侵略性和机会，我们应该做得更好。",
     "src": "Sky Sports · 2026-09-09"
   },
   "movement": {
-    "en": "Frizz can even add a bit of movement or volume to your hair.",
-    "cn": "卷毛甚至可以让你的头发看起来更有动感和丰盈。",
-    "src": "ELLE · 2026-09-09"
+    "en": "The Navier-Stokes problem, a famous theoretical math problem regarding the movement of fluids, has stumped mathematicians for almost 200 years.",
+    "cn": "纳维-斯托克斯问题是一个关于流体运动的著名理论数学问题，困扰了数学家近200年。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "movie": {
     "en": "Some movie moments age like fine wine, as do the characters and real-life actors in them.",
@@ -1642,10 +1692,15 @@ const WORD_EXAMPLES = {
     "cn": "但密苏里州最高法院上周裁定，该州必须恢复上次人口普查后采用的地区。",
     "src": "CBS News · 2026-09-10"
   },
+  "motivate": {
+    "en": "The investigations have drawn criticism from law enforcement veterans who worry the probes are being stacked with politically motivated personnel, CBS News has previously reported.",
+    "cn": "哥伦比亚广播公司此前曾报道，这些调查引起了执法老手的批评，他们担心调查中充斥着出于政治动机的人员。",
+    "src": "CBS News · 2026-09-10"
+  },
   "museum": {
-    "en": "The Bayeux Tapestry exhibition is already proving to be one of the most popular in the museum’s history.",
-    "cn": "贝叶挂毯展览已经被证明是博物馆历史上最受欢迎的展览之一。",
-    "src": "HistoryExtra · 2026-09-10"
+    "en": "In 1960, Renoir’s son Claude sold the estate to the village of Cagnes, which turned it into a museum.",
+    "cn": "1960年，雷诺阿的儿子克劳德将庄园卖给了卡涅斯村，并将其改建为博物馆。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "muscle": {
     "en": "Today, they’re sold via polished websites with a medical gloss, with each peptide promising to deliver a remarkable benefit, such as weight loss, younger-looking skin or muscle repair.",
@@ -1662,6 +1717,11 @@ const WORD_EXAMPLES = {
     "cn": "她的工作包括为阿克塞尔b施普林格和环球音乐等客户提供项目。",
     "src": "Variety · 2026-09-10"
   },
+  "mister": {
+    "en": "\"I spoke with the Mister and he was the key for this decision,\" Fernandes told Sky Sports ahead of the Saturday Night Football clash with Everton.",
+    "cn": "“我和先生谈过了，他是这个决定的关键，”费尔南德斯在周六晚与埃弗顿的比赛前告诉天空体育。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "mostly": {
     "en": "And then Mbaye played only 900 mostly sub minutes for the best team in the world.",
     "cn": "而姆巴耶在世界上最好的球队只踢了大约 900 分钟，大多是替补时间。",
@@ -1671,6 +1731,11 @@ const WORD_EXAMPLES = {
     "en": "“I think it’s a mix of some of the stuff that I would think was the tackiest things ever, ” she said of the collection.",
     "cn": "“我认为它混合了一些我认为是有史以来最俗气的东西，”她谈到这个系列时说。",
     "src": "Vogue · 2026-09-10"
+  },
+  "model": {
+    "en": "The proof was produced by a group of agents, using an OpenAI next-generation model significantly more capable than GPT-6 Astra.",
+    "cn": "证据是由一组代理使用比GPT-6 Astra更强大的OpenAI下一代模型制作的。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "modern": {
     "en": "Get creative with this classic style by adding a matte top coat or gold accents for a delicate, modern update.",
@@ -1683,9 +1748,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "molecule": {
-    "en": "There’s little to no research proving these molecules are safe or effective and no assurance from the FDA about their identity, purity or strength.",
-    "cn": "几乎没有研究证明这些分子是安全或有效的，FDA也不能保证它们的特性、纯度或强度。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "Its equations assume that fluids are smooth and continuous, while in the real world, of course, they are made of atoms and molecules.",
+    "cn": "它的方程假设流体是光滑和连续的，而在现实世界中，它们当然是由原子和分子组成的。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "moment": {
     "en": "I'm personally partial to this smoky brown moment above from celebrity manicurist Iram Shelton, who simply used OPI's Hot Toddy Naughty",
@@ -1727,6 +1792,11 @@ const WORD_EXAMPLES = {
     "cn": "2027年春夏，这位设计师以一种不敬的新心情重新审视了他的标志性代码。",
     "src": "ELLE · 2026-09-09"
   },
+  "monument": {
+    "en": "Ancient stone structures and weathered monuments rise from the terrain while lush greenery blankets the valley floor, creating a destination that feels magical and alive.\"",
+    "cn": "古老的石头结构和风化的纪念碑从地形中升起，而郁郁葱葱的绿色植物覆盖着谷底，创造了一个神奇而充满活力的目的地。",
+    "src": "Variety · 2026-09-10"
+  },
   "month": {
     "en": "Pay extra attention to your cuticles during the colder months when skin becomes prone to dryness and flaking.",
     "cn": "在寒冷的月份要特别注意你的角质层，因为皮肤容易干燥和脱落。",
@@ -1767,6 +1837,11 @@ const WORD_EXAMPLES = {
     "cn": "这是一种你可能会期待像安迪·安德森或安娜·斯科特这样的主要恋爱对象出现的风格。",
     "src": "ELLE · 2026-09-09"
   },
+  "lovely": {
+    "en": "The 7/4 for him to make two or more fouls is a lovely slice of value.",
+    "cn": "对于他来说，7/4的两次或两次以上的犯规是一个可爱的价值。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "lover": {
     "en": "“The makeup is inspired by rolling around in the sheets with a lover in the south of Europe or a tropical place,” he says.",
     "cn": "他说：“这款化妆品的灵感来自与南欧或热带地区的恋人在床单上打滚。",
@@ -1786,6 +1861,11 @@ const WORD_EXAMPLES = {
     "en": "Loyal Trump supporters are coughing up five-digit sums to their respective national fundraising committees for a ticket.",
     "cn": "特朗普的忠实支持者向各自的国家筹款委员会支付了五位数的金额，以获得一张门票。",
     "src": "CBS News · 2026-09-09"
+  },
+  "luck": {
+    "en": "Yes, their expected goals numbers suggest they've ridden their luck to some degree - but this has been an impressive display of defensive organisation, which isn't a new trait.",
+    "cn": "是的，他们的预期进球数表明他们在某种程度上依靠了运气——但这是一个令人印象深刻的防守组织展示，这并不是一个新特点。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "lucky": {
     "en": "The five new pieces—a long necklace, necklace, pendant, bracelet, and earrings—pair the house’s lucky clover with a bold wash of pink that feels both fresh and unmistakably Alhambra.",
@@ -1807,10 +1887,10 @@ const WORD_EXAMPLES = {
     "cn": "举个例子：实用魔术和欧文斯姐妹。",
     "src": "ELLE · 2026-09-09"
   },
-  "luxury": {
-    "en": "It’s about never compromising, and I think this is the ultimate in luxury—from the juice to how unique it is.",
-    "cn": "这是关于永不妥协，我认为这是奢侈品的终极——从果汁到它的独特之处。",
-    "src": "Harper's Bazaar · 2026-09-09"
+  "machine": {
+    "en": "They are a well-oiled machine without the ball.",
+    "cn": "他们是一个没有球的运转良好的机器。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "magazine": {
     "en": "Based in New York City, he previously worked as a News Writer at W magazine and an Assistant Editor at V magazine.",
@@ -1873,8 +1953,8 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "long": {
-    "en": "Cruz’s long, almond nails were slightly warmer and pinker in shade—a look that’s both versatile and flattering.",
-    "cn": "克鲁兹的长杏仁指甲在色调上略显温暖和粉红色，这种造型既百搭又讨人喜欢。",
+    "en": "It came from a shared belief that AFC is ready for its next chapter, one focused on scale and long-term impact.",
+    "cn": "这源于一个共同的信念，即亚足联已经为下一个篇章做好了准备，一个专注于规模和长期影响的篇章。",
     "src": "Vogue · 2026-09-10"
   },
   "lock": {
@@ -1922,6 +2002,16 @@ const WORD_EXAMPLES = {
     "cn": "色调和质地也是如此，粗花呢、麂皮和漆皮等材料设计成不同的颜色组合。",
     "src": "Harper's Bazaar · 2026-09-09"
   },
+  "mathematical": {
+    "en": "Because of the longstanding interest in these equations, Navier-Stokes, officially called the Navier-Stokes existence and smoothness problem, is one of seven mathematical problems with a $1 million award offered for each solution—they’re known collectively as the Millennium Prize Problems.",
+    "cn": "由于长期以来对这些方程的兴趣，纳维-斯托克斯问题，正式名称为纳维-斯托克斯存在性和平滑性问题，是七个数学问题之一，每个解决方案都有100万美元的奖金——它们被统称为千年奖问题。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
+  "mathematics": {
+    "en": "At the turn of the 21st century, the Clay Mathematics Institute decided that it would award $1 million to whoever solved it.",
+    "cn": "在21世纪之交，克莱数学研究所决定给解决这个问题的人奖励100万美元。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
   "matter": {
     "en": "No matter your color, O’Connor says that glossy hair will be key to transitioning your hue for fall.",
     "cn": "奥康纳说，不管你的肤色是什么，有光泽的头发将是秋季转变色调的关键。",
@@ -1953,9 +2043,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "mean": {
-    "en": "Although Johnson is a winger, technically, he's more of a wide centre-forward, meaning he just makes runs to the back post.",
-    "cn": "虽然约翰逊名义上是边锋，但严格说更像是一个边路中锋，他只是不断跑向远端门柱。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+    "en": "Schneider's attempt to find an alternative meaning than what is expressly stated in the documentary is unavailing.”",
+    "cn": "施耐德试图找到另一种意义，而不是在纪录片中明确陈述的意义，这是徒劳的。",
+    "src": "Variety · 2026-09-10"
   },
   "mechanical": {
     "en": "Originally introduced in 2009, the Spin Time takes inspiration from the mechanical departure boards once found in airports and train stations, translating their movement onto the wrist through 12 rotating cubes that mark the passing hours.",
@@ -1978,9 +2068,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "meaning": {
-    "en": "Although Johnson is a winger, technically, he's more of a wide centre-forward, meaning he just makes runs to the back post.",
-    "cn": "虽然约翰逊名义上是边锋，但严格说更像是一个边路中锋，他只是不断跑向远端门柱。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+    "en": "Schneider's attempt to find an alternative meaning than what is expressly stated in the documentary is unavailing.”",
+    "cn": "施耐德试图找到另一种意义，而不是在纪录片中明确陈述的意义，这是徒劳的。",
+    "src": "Variety · 2026-09-10"
   },
   "masterpiece": {
     "en": "But John Finnemore has crafted an absolute masterpiece: a cycle of five plays that are each as funny as they are moving, and of course, deeply, deeply unpredictable.",
@@ -2038,19 +2128,14 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "march": {
-    "en": "Next March, we can only anticipate even more, but luckily for customers that’s also when the spring collections will be in stores.",
-    "cn": "明年3月，我们只能期待更多，但对顾客来说幸运的是，那也是春季系列上市的时候。",
-    "src": "Vogue · 2026-09-10"
+    "en": "The series, “ Quiet on Set: The Dark Side of Kids TV,” ran on Investigation Discovery in March 2024.",
+    "cn": "这部名为《片场安静：儿童电视的阴暗面》的电视剧于2024年3月在《调查发现》频道播出。",
+    "src": "Variety · 2026-09-10"
   },
   "mass": {
     "en": "This unprecedented act of violence took place at the height of the Peasants’ Revolt, a mass uprising sparked by the imposition of a poll tax —the third of its kind in four years.",
     "cn": "这种前所未有的暴力行为发生在农民起义的高峰期，这是四年来第三次征收人头税引发的大规模起义。",
     "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "marriage": {
-    "en": "If you’re wondering about the secret to 27 years of marriage, Victoria Beckham just hinted at the answer with her newest fragrance.",
-    "cn": "如果你想知道27年婚姻的秘密，维多利亚·贝克汉姆用她最新的香水暗示了答案。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "market": {
     "en": "“We want to build a portfolio of IP where creativity, ownership, capital and global market access work together.",
@@ -2198,9 +2283,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "operate": {
-    "en": "Later Wednesday, the U.S. military's Southern Command (SOUTHCOM) said American forces executed a \"lethal kinetic strike on a go-fast vessel operating along established narco-trafficking routes in the Caribbean.\"",
-    "cn": "星期三晚些时候，美军南方司令部说，美军“对一艘在加勒比地区沿既定毒品走私路线行驶的快速船只进行了致命的动力打击”。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Those include firms that own and operate data centers, invest in their development and supply infrastructure, and many of the nation's largest tech firms.",
+    "cn": "这些公司包括拥有和运营数据中心的公司，投资于数据中心的开发和供应基础设施的公司，以及许多美国最大的科技公司。",
+    "src": "CBS News · 2026-09-11"
   },
   "operation": {
     "en": "Dhingra brings more than two decades of producing experience to Jungle Book Studio’s sales operation.",
@@ -2218,9 +2303,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-10"
   },
   "oppose": {
-    "en": "The president and members of both parties, including Fetterman, had initially opposed Nippon's efforts to buy the iconic Pittsburgh-based steelmaker, but Mr. Trump ultimately signed off on an agreement that he argued would result in tens of billions in new investments in U.S. Steel and grant the federal government a \"golden share\" in the company.",
-    "cn": "总统和包括Fetterman在内的双方成员最初反对日本收购这家总部位于匹兹堡的标志性钢铁制造商的努力，但特朗普最终签署了一项协议，他认为该协议将导致对美国钢铁公司进行数百亿美元的新投资，并授予联邦政府该公司的“黄金份额”。",
-    "src": "CBS News · 2026-09-10"
+    "en": "An August 2026 poll from Franklin & Marshall College found that nearly four in five Pennsylvania voters opposed having a data center built in their community.",
+    "cn": "富兰克林与马歇尔学院（Franklin & Marshall College）于2026年8月进行的一项民意调查发现，近五分之四的宾夕法尼亚州选民反对在他们的社区建立数据中心。",
+    "src": "CBS News · 2026-09-11"
   },
   "opposite": {
     "en": "Its opposite was a “skeleton” dress made of different styles of slips made of over-locked tulle in different, transparent colors.",
@@ -2248,9 +2333,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "option": {
-    "en": "James is outstanding in midfield, but the Chelsea captain is even better at right back, so it is likely that he will return to that position when Alonso has a full quota of midfield options.",
-    "cn": "詹姆斯踢中场也很出色，但他踢右后卫更强，所以当中场人员齐整时，他很可能会回到右后卫位置。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "“We are disappointed by the Court's decision to reverse the Superior Court's well-reasoned anti-SLAPP ruling, and we are evaluating our options for further review and appeal,” Silver said.",
+    "cn": "“我们对法院推翻高等法院合理的反slapp裁决的决定感到失望，我们正在评估进一步审查和上诉的选择，”西尔弗说。",
+    "src": "Variety · 2026-09-10"
   },
   "orbit": {
     "en": "While attempting to navigate the estate's unforgiving world alongside his cousin Caleb (played by Khan), Younger is drawn into the orbit of local drug lord Anton (played by Bokinni).",
@@ -2303,9 +2388,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "please": {
-    "en": "Now, when it comes to relationships, I prefer my lines considerably clearer (no situationships for me, please).",
-    "cn": "现在，当涉及到人际关系时，我更喜欢我的线条清晰得多（请不要给我任何情况）。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "\"I couldn't be more pleased with my players for their perseverance and sheer will to keep going.",
+    "cn": "“我对我的球员的毅力和继续前进的纯粹意愿感到非常满意。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "player": {
     "en": "Among players with at least 900 minutes of game time, 53 different Premier League players got there last year.",
@@ -2387,6 +2472,11 @@ const WORD_EXAMPLES = {
     "cn": "这表明巨型生物使用现代鳄鱼共用的技术孵化卵子-使用成堆的腐烂植被来加热。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
+  "pierce": {
+    "en": "He added that his wife, attorney Victoria Toensing, who also worked with the team of federal prosecutors in Fort Pierce, Florida, will be leaving the Justice Department on Friday.",
+    "cn": "他补充说，他的妻子、律师维多利亚·图辛（Victoria Toensing）将于周五离开司法部，她也曾与佛罗里达州皮尔斯堡的联邦检察官团队一起工作。",
+    "src": "CBS News · 2026-09-10"
+  },
   "piece": {
     "en": "Non-standard sizes allow the wearer to adjust them as they want; some pieces can be worn front-to back.",
     "cn": "非标准尺码允许穿着者根据自己的需要进行调整；有些衣服可以前后穿。",
@@ -2433,14 +2523,19 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "never": {
-    "en": "It’s about never compromising, and I think this is the ultimate in luxury—from the juice to how unique it is.",
-    "cn": "这是关于永不妥协，我认为这是奢侈品的终极——从果汁到它的独特之处。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Arsenal pursued a deal for Rogers for much of the summer but never believed he was worth £117 million.",
+    "cn": "阿森纳整个夏天都在追逐罗杰斯，但始终认为他不值 1.17 亿英镑。",
+    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "new": {
     "en": "Every Premier League club has been given at least 60 hours between their Christmas and New Year fixtures.",
     "cn": "每家英超俱乐部在圣诞和新年赛程之间至少有60个小时的休息时间。",
     "src": "Sky Sports · 2026-09-10"
+  },
+  "newly": {
+    "en": "Nintendo unveiled \"Metroid Ravenous\" and \"Kirby and the World Beyond\" during a Nintendo Direct presentation Wednesday, noting both newly announced games will be available on the Nintendo Switch 2 next year.",
+    "cn": "任天堂在周三的任天堂直接发布会上公布了《银河战士：贪婪》和《科比与超越世界》，并指出这两款新宣布的游戏将于明年在任天堂Switch 2上推出。",
+    "src": "Variety · 2026-09-10"
   },
   "news": {
     "en": "Follow Sky Sports on WhatsApp for the latest sports news, videos, features, analysis and much more",
@@ -2453,9 +2548,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "next": {
-    "en": "Maybe Chelsea will need to actually recruit more players as they move on through the next year or two with Alonso.",
-    "cn": "也许切尔西真的需要在阿隆索麾下继续前行的一两年里，再引进更多球员。",
-    "src": "ESPN · Mark White · 2026-09-07"
+    "en": "Tickets are being released in phases, with the next batch available to book from 21 October 2026.",
+    "cn": "门票将分阶段发售，下一批门票将于2026年10月21日开始接受预订。",
+    "src": "HistoryExtra · 2026-09-10"
   },
   "nice": {
     "en": "“Gold, honey, and caramel tones are a nice way to tone down brighter, cooler blondes while still staying blonde into the fall.”",
@@ -2503,9 +2598,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "nail": {
-    "en": "When it comes to trends, short nails are not exempt from fleeting patterns and coveted fall colors.",
-    "cn": "说到流行趋势，短指甲也不能幸免于转瞬即逝的图案和令人垂涎的秋天颜色。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Cruz’s long, almond nails were slightly warmer and pinker in shade—a look that’s both versatile and flattering.",
+    "cn": "克鲁兹的长杏仁指甲在色调上略显温暖和粉红色，这种造型既百搭又讨人喜欢。",
+    "src": "Vogue · 2026-09-10"
   },
   "name": {
     "en": "Instead, he wanted to focus on “someone history never named at all: a farmer, the first man to raise his hand in Essex.",
@@ -2573,9 +2668,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "near": {
-    "en": "The grave was discovered at an archaeological site near Żórawina, in southern Poland.",
-    "cn": "这座坟墓是在波兰南部Żórawina附近的一个考古遗址发现的。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "But Kai Havertz equalised with a low drive in the 25th minute that snuck inside Emiliano Martínez's near post.",
+    "cn": "但凯·哈弗茨在第 25 分钟的一记低射，皮球从埃米利亚诺·马丁内斯的近角钻入网窝，扳平比分。",
+    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "navy": {
     "en": "He also works on branded content initiatives, with brands including Gucci, Nordstrom, Sunglass Hut, Cartier, and Old Navy.",
@@ -2622,10 +2717,15 @@ const WORD_EXAMPLES = {
     "cn": "11月和12月初的选播名单将在19日之前公布。",
     "src": "Sky Sports · 2026-09-10"
   },
+  "odd": {
+    "en": "It's a fascinating match-up and the way the market is predicting attack to outgun defence with the expected goals line almost at 3.25 based on the odds I'd be wanting to row against that at the prices and give Hull more a chance than the 11/1 away win suggests.",
+    "cn": "这是一场令人着迷的比赛，市场预测进攻比防守多，预期进球数几乎是3.25，基于赔率，我想以价格来反对，给赫尔城更多的机会，而不是11/1的客场胜利。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "old": {
-    "en": "But 29-year-old Alisha Boe, star of Apple TV’s The Buccaneers, absolutely knows how to party.",
-    "cn": "但是29岁的阿丽莎·波伊，苹果电视节目《海盗》的明星，绝对知道如何开派对。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "He also works on branded content initiatives, with brands including Gucci, Nordstrom, Sunglass Hut, Cartier, and Old Navy.",
+    "cn": "他还参与品牌内容项目，合作品牌包括Gucci、Nordstrom、Sunglass Hut、Cartier和Old Navy。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "oil": {
     "en": "Key ingredients like biotin, keratin, and chia seed oil reduce frizz, thicken hair, and strengthen your ends.",
@@ -2633,9 +2733,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-10"
   },
   "often": {
-    "en": "It’s a dark and sultry gourmand, often photographed with leather jackets and glossy lips.",
-    "cn": "这是一个黑暗而闷热的美食家，经常穿着皮夹克和光滑的嘴唇拍照。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "“Frizz and dryness often go hand in hand,” says celebrity hairstylist Sabrina Rowe.",
+    "cn": "名人发型师萨布丽娜·罗说：“毛躁和干燥常常相伴而行。",
+    "src": "ELLE · 2026-09-09"
   },
   "observe": {
     "en": "In total, the researchers observed 151 species, ranging from common fish to invertebrates and mammals.",
@@ -2648,9 +2748,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "office": {
-    "en": "We see it as a stand-alone franchise now, so I’m glad to hear that it’s gone down well in the office.",
-    "cn": "我们现在将其视为一款独立游戏，所以我很高兴听到它在办公室取得了成功。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Foulkes has never served in public office, but she has political ties.",
+    "cn": "福克斯从未担任过公职，但她有政治关系。",
+    "src": "CBS News · 2026-09-10"
   },
   "offer": {
     "en": "Luckily, all our favorite retailers from Zara to Reformation have been quick to offer their takes on the trend.",
@@ -2668,9 +2768,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "november": {
-    "en": "His decision has added further confusion about which boundaries will be used in November.",
-    "cn": "他的决定进一步混淆了11月将使用哪些边界。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Broadcast selections for November and early December will be announced before October 19.",
+    "cn": "11月和12月初的选播名单将在19日之前公布。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "novel": {
     "en": "Running mostly from left to right, it tells the story in the style of a graphic novel across a central frieze, with short Latin captions.",
@@ -2688,9 +2788,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "now": {
-    "en": "We see it as a stand-alone franchise now, so I’m glad to hear that it’s gone down well in the office.",
-    "cn": "我们现在将其视为一款独立游戏，所以我很高兴听到它在办公室取得了成功。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Now, because there's no UV lamp, gel, or elaborate nail art involved, it's surprisingly easy to recreate at home.",
+    "cn": "现在，由于不需要紫外线灯、凝胶或复杂的美甲工艺，在家就可以轻松制作。",
+    "src": "Cosmopolitan · 2026-09-09"
   },
   "not": {
     "en": "If I don’t have to spend as much time in the chair, then why not reimagine my color for the cooler weather?",
@@ -2787,11 +2887,6 @@ const WORD_EXAMPLES = {
     "cn": "克鲁尼昨天成为最新一个拥抱自然美甲潮流的名人，他在前往目的地时展示了一组刚修剪过的乳白色指甲。",
     "src": "Harper's Bazaar · 2026-09-09"
   },
-  "trip": {
-    "en": "“While Portofino ’97 is all about falling in love and the rush of infatuation, Hotel Portofino is inspired by the same trip [David and I took] in 1997, but this is a new chapter about staying in love and the deeper echo of enduring love,” she tells Bazaar of her newest extrait fragrance in the Victoria Beckham Beauty lineup, Hotel Portofino extrait perfume.",
-    "cn": "“虽然97年的波托菲诺是关于坠入爱河和迷恋的，但波托菲诺酒店的灵感来自于1997年（大卫和我）的同一次旅行，但这是一个关于保持爱和持久爱的更深回声的新篇章，”她告诉芭莎，她在维多利亚·贝克汉姆美容系列中最新的高级香水，波托菲诺酒店香水。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "troop": {
     "en": "On March 1, one day into the Iran war, an Iranian Shahed drone struck Khork's position, killing him and five other American troops.",
     "cn": "3月1日，伊朗战争开始的第一天，一架伊朗Shahed无人机袭击了霍克的阵地，杀死了他和其他五名美国士兵。",
@@ -2813,9 +2908,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "tumble": {
-    "en": "'Spritz and tumble' laundering rumples full-skirted dresses.",
-    "cn": "“喷淋和翻滚”洗涤会弄皱长裙。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "Per the game's description, \"Across the scene are cascading waterfalls tumbling down from towering cliffs.",
+    "cn": "根据游戏的描述，“整个场景是瀑布从高耸的悬崖上倾泻而下。",
+    "src": "Variety · 2026-09-10"
   },
   "tuesday": {
     "en": "Hanaway's request for the U.S. Supreme Court to step in was rejected by Kavanaugh on Tuesday.",
@@ -2858,9 +2953,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "trade": {
-    "en": "The president continued: \"It's not going to go down as the greatest trade in the history of sports.",
-    "cn": "总统继续说道：“它不会成为体育史上最伟大的贸易。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Bresnahan has repeatedly said financial advisers manage his portfolio and he has no input in his trades.",
+    "cn": "布雷斯纳汉一再表示，他的投资组合由财务顾问管理，他对自己的交易没有任何投入。",
+    "src": "CBS News · 2026-09-11"
   },
   "traditional": {
     "en": "For Martinović, that period has witnessed a transition at Telekom Srbija from a \"traditional ecosystem\" for film and TV content to \"a very open-minded and sophisticated regional production ecosystem in the last eight or nine years.\"",
@@ -2958,19 +3053,14 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "undertaking": {
-    "en": "Winning work highlighted during the 36th annual award ceremony included hilarious research on the aerodynamics of nose blowing, gently stepping on venomous snakes, confirming that teenagers do indeed smell worse than babies and other side-splitting scientific undertakings.",
-    "cn": "第36届年度颁奖典礼上突出的获奖作品包括关于吹鼻子的空气动力学的热闹研究，轻轻踩在毒蛇身上，证实青少年确实比婴儿更难闻，以及其他侧面分裂的科学事业。",
-    "src": "Smithsonian Magazine · 2026-09-08"
-  },
-  "undoubtedly": {
-    "en": "“I think our fragrances are very unique, interesting, and undoubtedly ours; there’s a strangeness that is very on brand—it’s almost addictive, as well,” Beckham says.",
-    "cn": "“我认为我们的香水非常独特、有趣，毫无疑问是我们的；有一种与品牌密切相关的陌生感——几乎让人上瘾，”贝克汉姆说。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "\"Producing the film was an enormous undertaking, but also proof that genre cinema of this scale can come from this part of Europe,\" he said.",
+    "cn": "他说：“制作这部电影是一项艰巨的任务，但也证明了这种规模的流派电影可以来自欧洲的这一部分。",
+    "src": "Variety · 2026-09-10"
   },
   "unexpected": {
-    "en": "September is all about exploring color, contrast, and nature, as some of the industry’s most recognizable motifs are reimagined through unexpected materials and techniques.",
-    "cn": "九月的主题是探索色彩、对比和自然，因为一些业内最知名的主题通过意想不到的材料和技术被重新想象。",
-    "src": "ELLE · 2026-09-09"
+    "en": "The report announced that a “light aircraft” had crashed into the North Tower, unexpected because visibility was so good.",
+    "cn": "报告称，一架“轻型飞机”撞上了北塔，由于能见度非常好，这是出乎意料的。",
+    "src": "Vogue · 2026-09-10"
   },
   "unfair": {
     "en": "Paul Greengrass’ new film stars Andrew Garfield as a fictionalized, unnamed farmer who leads a rebellion against unfair taxes and the system of serfdom",
@@ -2981,11 +3071,6 @@ const WORD_EXAMPLES = {
     "en": "The population is gradually growing, but the species is still considered vulnerable by the International Union for Conservation of Nature and endangered under the Endangered Species Act.",
     "cn": "人口正在逐渐增长，但该物种仍被国际自然保护联盟视为脆弱物种，并根据《濒危物种法》濒临灭绝。",
     "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "unique": {
-    "en": "“I think our fragrances are very unique, interesting, and undoubtedly ours; there’s a strangeness that is very on brand—it’s almost addictive, as well,” Beckham says.",
-    "cn": "“我认为我们的香水非常独特、有趣，毫无疑问是我们的；有一种与品牌密切相关的陌生感——几乎让人上瘾，”贝克汉姆说。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "unit": {
     "en": "According to Transfermarkt, United actually have the second biggest squad in the Premier League.",
@@ -3008,13 +3093,13 @@ const WORD_EXAMPLES = {
     "src": "Cosmopolitan · 2026-09-09"
   },
   "university": {
-    "en": "Study co-author Michelle Szydlowski, an anthrozoologist at Miami University, notes that the ball-building behavior makes sense with raccoon biology.",
-    "cn": "该研究的合著者、迈阿密大学的人类动物学家米歇尔·希德洛夫斯基（Michelle Szydlowski）指出，浣熊造球的行为在生物学上是有道理的。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "“These questions are lighthouses,” Terence Tao, a mathematician at the University of California, Los Angeles, tells the New York Times ’ Cade Metz.",
+    "cn": "“这些问题是灯塔，”加州大学洛杉矶分校的数学家特伦斯·陶告诉《纽约时报》的凯德·梅斯。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "universe": {
-    "en": "It’s about creating universes that artists can own, audiences can inhabit, and cultures can see themselves within.”",
-    "cn": "这是关于创造一个艺术家可以拥有、观众可以居住、文化可以看到自己的宇宙。",
+    "en": "Also featuring friendly creatures, Arcadian Vale is designed to capture the whimsy of the \"Spyro\" universe.",
+    "cn": "阿卡迪亚山谷也以友好生物为特色，旨在捕捉“Spyro”宇宙的奇思妙想。",
     "src": "Variety · 2026-09-10"
   },
   "universal": {
@@ -3028,9 +3113,9 @@ const WORD_EXAMPLES = {
     "src": "ABC News · 2026-09-09"
   },
   "twenty": {
-    "en": "Twenty-eight years after the original cult classic debuted, Sandra Bullock and Nicole Kidman have reprised their roles as Sally Owens and Gillian Owens in Practical Magic 2.",
-    "cn": "这部经典电影上映28年后，桑德拉·布洛克和妮可·基德曼在《实用魔法2》中再次饰演莎莉·欧文斯和吉莉安·欧文斯。",
-    "src": "ELLE · 2026-09-09"
+    "en": "Twenty-six years later, a solution may have finally come to light—but it wasn’t a mathematician who came up with it.",
+    "cn": "26年后，一个解决方案可能终于浮出水面——但提出它的不是数学家。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "twice": {
     "en": "Mike Penders is called into action twice in a matter of seconds to deny Muharemovic and Aaronson with a superb double save.",
@@ -3058,9 +3143,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-09"
   },
   "undergo": {
-    "en": "Rangers summer signing Daisuke Yokota - who was ruled out of the St Mirren game through injury - is also set to undergo surgery and the Japanese winger is also facing a lengthy period out.",
-    "cn": "流浪者队夏季签约横田大辅-因受伤被排除在圣米伦比赛之外-也将接受手术，这位日本边锋也面临着漫长的时期。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "AI-first game studio Studio Atelico released the trailer for its debut game \"Bobium Brawlers,\" which the develop says will undergo an upcoming round of closed beta testing before release.",
+    "cn": "AI-first游戏工作室studio Atelico发布了其首款游戏《Bobium Brawlers》的预告片，开发人员表示，这款游戏将在发布前进行一轮封闭测试。",
+    "src": "Variety · 2026-09-10"
   },
   "under": {
     "en": "During World War II, h ospital ships were protected under international humanitarian law.",
@@ -3088,9 +3173,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "ultimately": {
-    "en": "It’s important when working with Jérôme [Epinette] to be very honest to create ultimately what I want and what I desire.",
-    "cn": "在与Jérôme （Epinette）合作时，非常诚实地创造出我想要的和我想要的东西是很重要的。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "“Plant-derived vesicles may ultimately be easier to standardize and formulate into consumer products, but the clinical evidence is earlier.”",
+    "cn": "“植物来源的囊泡最终可能更容易标准化并配制成消费品，但临床证据还很早。",
+    "src": "ELLE · 2026-09-09"
   },
   "ultimate": {
     "en": "If so, the end panels might have shown William being crowned king of England, as that was the ultimate consequence of the Conquest.",
@@ -3126,6 +3211,11 @@ const WORD_EXAMPLES = {
     "en": "Before then – since at least the late 1720s – it was rolled out only for antiquarian and guest visitors.",
     "cn": "在此之前，至少从18世纪20年代末开始，它只对古董商和游客开放。",
     "src": "HistoryExtra · 2026-09-10"
+  },
+  "theoretical": {
+    "en": "Navier-Stokes might seem like a wildly theoretical consideration, far removed from the daily life of the average person.",
+    "cn": "纳维-斯托克斯似乎是一种疯狂的理论考虑，与普通人的日常生活相去甚远。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "theory": {
     "en": "This kind of “do your own research” theory of medicine is hardly new, but today, there’s more of a platform than ever to cultivate this demand and serve it at scale.",
@@ -3163,9 +3253,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "think": {
-    "en": "If I walk into a room, and I don’t give a shit what anyone thinks about me, I’m gonna have a good time.",
-    "cn": "如果我走进一个房间，我不在乎别人怎么看我，我就会玩得很开心。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "\"I think they can finish second -- third is the absolute lowest I can see Chelsea finishing,\" Neville added.",
+    "cn": "内维尔补充道：「我认为他们能拿到亚军，第三将是切尔西能拿到的最低名次。",
+    "src": "ESPN · Mark White · 2026-09-07"
   },
   "thousand": {
     "en": "There were thousands of names in the registers, mostly written in dark ink.",
@@ -3188,9 +3278,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "third": {
-    "en": "\"I think they can finish second -- third is the absolute lowest I can see Chelsea finishing,\" Neville added.",
-    "cn": "内维尔补充道：「我认为他们能拿到亚军，第三将是切尔西能拿到的最低名次。",
-    "src": "ESPN · Mark White · 2026-09-07"
+    "en": "U.S. Army Central and Third Army ordered the Pentagon probe \"to determine the facts and circumstances\" of the Iranian attack.",
+    "cn": "美国陆军中央和第三军命令五角大楼调查伊朗袭击的“事实和情况”。",
+    "src": "CBS News · 2026-09-10"
   },
   "this": {
     "en": "Get creative with this classic style by adding a matte top coat or gold accents for a delicate, modern update.",
@@ -3203,9 +3293,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "their": {
-    "en": "Julien Loeffler and James Kermack will produce through their production company Featuristic Films.",
-    "cn": "Julien Loeffler和James Kermack将通过他们的制作公司Featuristic Films进行制作。",
-    "src": "Variety · 2026-09-10"
+    "en": "Arsenal join Manchester City as the only two sides to take maximum points from their first three league games.",
+    "cn": "阿森纳与曼城成为前 3 轮 联赛仅有的两支全取 9 分的球队。",
+    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "temporary": {
     "en": "But shortly after, U.S. District Judge Stephen Clark issued a temporary restraining order in a separate challenge to Missouri's Supreme Court decision, writing that the plaintiffs faced \"irreparable harm\" otherwise because \"many Missouri voters would have to cast their general-election votes for candidates whom they had no role in nominating.\"",
@@ -3263,9 +3353,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "test": {
-    "en": "The Blues found themselves two goals behind when Brenden Aaronson struck after 47 minutes to add to Tarik Muharemovic's opener, and it appeared Xabi Alonso's first real cup test would end in disappointment - despite the half-time introduction of Cole Palmer, Morgan Rogers, Pedro Neto and Reece James.",
-    "cn": "布兰登·亚伦森（Brenden Aaronson）在47分钟后击中塔里克·穆哈雷莫维奇（Tarik Muharemovic）的揭幕战后，蓝军发现自己落后了两个进球，尽管科尔·帕尔默（Cole Palmer）、摩根·罗杰斯（Morgan Rogers）、佩德罗·内托（Pedro Neto）和里斯·詹姆斯（Reece James）中场休息，但似乎萨比·阿隆索",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "AI-first game studio Studio Atelico released the trailer for its debut game \"Bobium Brawlers,\" which the develop says will undergo an upcoming round of closed beta testing before release.",
+    "cn": "AI-first游戏工作室studio Atelico发布了其首款游戏《Bobium Brawlers》的预告片，开发人员表示，这款游戏将在发布前进行一轮封闭测试。",
+    "src": "Variety · 2026-09-10"
   },
   "threat": {
     "en": "Rubio said decisions were made case by case and depended on the threat posed by a vessel, its location and local laws.",
@@ -3278,9 +3368,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "three": {
-    "en": "Include his three assists and that adds up to 0.25 non-penalty goals plus assists per 90 minutes with the Toffees.",
-    "cn": "加上 3 个助攻，他在埃弗顿的场均非点球进球加助攻也只有 0.25。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+    "en": "Hull arrive at Stamford Bridge with seven points from three games and three consecutive clean sheets.",
+    "cn": "赫尔三场比赛积7分，连续三场零封，来到斯坦福桥。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "today": {
     "en": "Today, the 443-foot-long shipwreck lies within the Karaburun-Sazan Marine Protected Area, submerged about 108 to 121 feet deep.",
@@ -3353,19 +3443,14 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark White · 2026-09-07"
   },
   "thursday": {
-    "en": "The other takes place between Tuesday January 5 and Thursday January 7.",
-    "cn": "另一个时间是1月5日星期二到1月7日星期四。",
-    "src": "Sky Sports · 2026-09-10"
+    "en": "In a brief call with CBS News, diGenova said he had turned in his resignation letter to Blanche at 3 p.m. on Thursday.",
+    "cn": "在与CBS新闻的简短通话中，diGenova说他已于周四下午3点向Blanche递交了辞职信。",
+    "src": "CBS News · 2026-09-10"
   },
   "ticket": {
     "en": "Tickets range in price from £25 to £33, through a tiered pricing structure based on the day and time of visit.",
     "cn": "门票价格从25英镑到33英镑不等，根据参观日期和时间分层定价。",
     "src": "HistoryExtra · 2026-09-10"
-  },
-  "throw": {
-    "en": "It all made sense that the brand would kick off a new scent by, well, throwing its own party.",
-    "cn": "这一切都说得通，该品牌将通过举办自己的派对来启动一款新香水。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "through": {
     "en": "Tickets range in price from £25 to £33, through a tiered pricing structure based on the day and time of visit.",
@@ -3408,9 +3493,9 @@ const WORD_EXAMPLES = {
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "time": {
-    "en": "If I don’t have to spend as much time in the chair, then why not reimagine my color for the cooler weather?",
-    "cn": "如果我不必花那么多时间坐在椅子上，那么为什么不重新想象一下我的颜色，以适应凉爽的天气呢？",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Michelle Rhee’s spring collection comes at a particularly great time, after a rainy summer in New York.",
+    "cn": "米歇尔·李（Michelle Rhee）的春季系列在纽约一个多雨的夏天之后，恰逢其时。",
+    "src": "Vogue · 2026-09-10"
   },
   "tight": {
     "en": "Arsenal's set-piece prowess is well documented, to the extent that they have been criticised for an over-reliance on dead-ball situations to win tight games.",
@@ -3432,10 +3517,15 @@ const WORD_EXAMPLES = {
     "cn": "朱迪思·琼斯（Judith Jones）是Who What Wear的副购物总监，在时尚界工作了十多年。",
     "src": "Who What Wear · 2026-09-10"
   },
+  "whoever": {
+    "en": "At the turn of the 21st century, the Clay Mathematics Institute decided that it would award $1 million to whoever solved it.",
+    "cn": "在21世纪之交，克莱数学研究所决定给解决这个问题的人奖励100万美元。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
   "whole": {
-    "en": "Quality was always important, but we took it to a whole other level with this fragrance.",
-    "cn": "质量一直都很重要，但我们用这款香水把它提升到了一个全新的水平。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "It had to be connected to scoring because, well, that's the whole point of the game.",
+    "cn": "它必须与进球挂钩，因为说到底，这就是比赛的全部意义。",
+    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "whom": {
     "en": "Lesser-known featured Chicago killers include Richard Speck; the satanic Ripper Crew cult; and Tillie Klimek, known as Chicago’s “Black Widow,” who claimed to have had precognitive dreams of the deaths of her husbands, whom, in reality, she poisoned.",
@@ -3448,13 +3538,13 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "why": {
-    "en": "And the key to one is (1) good people, and (2) feeling good about yourself, which is why she loves Black Opium Pink Glaze.",
-    "cn": "而其中的关键是(1)善良的人，(2)自我感觉良好，这就是她喜欢黑鸦片粉釉的原因。",
+    "en": "If I don’t have to spend as much time in the chair, then why not reimagine my color for the cooler weather?",
+    "cn": "如果我不必花那么多时间坐在椅子上，那么为什么不重新想象一下我的颜色，以适应凉爽的天气呢？",
     "src": "Cosmopolitan · 2026-09-09"
   },
   "wide": {
-    "en": "It used to be: get chalk on your heels, stay wide, wait for a pass, dribble past your full-back, and cross the ball into the big striker in the box.",
-    "cn": "从前，边锋的任务是这样的：在鞋底沾满草粉之后，留在边路，等待传球，突破对面的边后卫，然后把球传中给禁区里的高中锋。",
+    "en": "Although Johnson is a winger, technically, he's more of a wide centre-forward, meaning he just makes runs to the back post.",
+    "cn": "虽然约翰逊名义上是边锋，但严格说更像是一个边路中锋，他只是不断跑向远端门柱。",
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "winner": {
@@ -3483,9 +3573,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "will": {
-    "en": "No matter your color, O’Connor says that glossy hair will be key to transitioning your hue for fall.",
-    "cn": "奥康纳说，不管你的肤色是什么，有光泽的头发将是秋季转变色调的关键。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "But one of the collection’s best pieces was the lightweight denim biker jacket, which will come in two washes.",
+    "cn": "但该系列最好的单品之一是轻便的牛仔机车夹克，可洗两次。",
+    "src": "Vogue · 2026-09-10"
   },
   "wild": {
     "en": "There were times during the tournament when life must have felt a little wild, I suggest.",
@@ -3503,9 +3593,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "winter": {
-    "en": "A take on one of the designer’s Fall/Winter 2026 looks, the gown featured familiar buttons and fringe detailing on the waist.",
-    "cn": "这款礼服借鉴了这位设计师2026年秋冬的一款造型，腰上有熟悉的纽扣和流苏细节。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "The film is produced by Nancy Nisa Beso through her shingle Winter Hymns Films and Rio through his Undercover Squirrel outfit.",
+    "cn": "这部电影由南希·尼萨·贝索（Nancy Nisa Beso）通过她的新公司Winter hyms Films制作，并通过他的卧底松鼠服装制作b里约热内卢。",
+    "src": "Variety · 2026-09-10"
   },
   "wednesday": {
     "en": "That trade is not good,\" he said late Wednesday at the American Airlines Center, the Dallas Mavericks' home arena.",
@@ -3533,9 +3623,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "welcome": {
-    "en": "They tied the knot in July 2010 and have since welcomed two children: 15-year-old son Leo Encinas Cruz, and 13-year-old daughter Luna Encinas Cruz.",
-    "cn": "他们于2010年7月结婚，之后迎来了两个孩子：15岁的儿子里奥·恩西纳斯·克鲁兹和13岁的女儿露娜·恩西纳斯·克鲁兹。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "“We are delighted to welcome Pavita as chair of the BFC board.",
+    "cn": "“我们很高兴欢迎Pavita成为BFC董事会主席。",
+    "src": "Vogue · 2026-09-10"
   },
   "well": {
     "en": "“The tradeoff is donor variability and higher manufacturing complexity, as well as greater regulatory scrutiny.",
@@ -3578,9 +3668,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "whatever": {
-    "en": "It’ll work with your favorite autumn knit, that little black dress, jeans, and a tee, or whatever else your fall wardrobe throws at you.",
-    "cn": "它可以搭配你最喜欢的秋季针织衫、小黑裙、牛仔裤和t恤，或者你秋天衣橱里的任何其他衣服。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "“They were equipped with an electric knife or a metal saw—whatever you prefer to call it—and they cut through the bolts holding the frames of Renoir’s works in place,” Bryan Masson, the mayor of Cagnes-sur-Mer, told reporters, per ABC News ’ Kevin Shalvey.",
+    "cn": "据ABC新闻的凯文·沙维报道，滨海卡涅市长布莱恩·马森告诉记者：“他们配备了一把电动刀或一把金属锯——不管你喜欢怎么称呼它——他们把雷诺阿作品框架固定的螺栓切断了。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "what": {
     "en": "Judith Jones is the associate shopping director at Who What Wear and has worked in fashion for over a decade.",
@@ -3596,6 +3686,11 @@ const WORD_EXAMPLES = {
     "en": "And the season before wasn't too different: his 75 take-ons ranked fourth behind Doku, West Ham's Mohammed Kudus, and Liverpool's Salah.",
     "cn": "前一个赛季也差不多：他的 75 次成功突破排名第四，仅次于多库、西汉姆的库杜斯和利物浦的萨拉赫。",
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+  },
+  "wireless": {
+    "en": "Bresnahan also owns stock in SBA Communications, a wireless communications company whose subsidiary SBA Edge operates a handful of regional data centers and deploys small, modular data centers.",
+    "cn": "布雷斯纳汉还拥有无线通信公司SBA Communications的股份，该公司的子公司SBA Edge运营着少数几个区域数据中心，并部署了小型模块化数据中心。",
+    "src": "CBS News · 2026-09-11"
   },
   "wrap": {
     "en": "To set the loose wave, Roszak used a 1.5-inch barrel curling iron, wrapping small sections away from the face to keep the wave modern rather than overly curled.",
@@ -3653,9 +3748,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "yourself": {
-    "en": "And the key to one is (1) good people, and (2) feeling good about yourself, which is why she loves Black Opium Pink Glaze.",
-    "cn": "而其中的关键是(1)善良的人，(2)自我感觉良好，这就是她喜欢黑鸦片粉釉的原因。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Heading to the British Museum to see the Bayeux Tapestry for yourself?",
+    "cn": "想亲自去大英博物馆看贝叶挂毯吗？",
+    "src": "HistoryExtra · 2026-09-10"
   },
   "your": {
     "en": "Frizz is caused by a variety of different things: humidity, breakage, or just the general curl of your hair.",
@@ -3688,14 +3783,14 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "wonder": {
-    "en": "If you’re wondering about the secret to 27 years of marriage, Victoria Beckham just hinted at the answer with her newest fragrance.",
-    "cn": "如果你想知道27年婚姻的秘密，维多利亚·贝克汉姆用她最新的香水暗示了答案。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "She aimed to simplify and strip down her signature assortment of cocktail dresses and gowns, wondering if her fanciful creations could be less, well, froo-froo.",
+    "cn": "她的目标是简化和精简她标志性的各种鸡尾酒礼服和礼服，想知道她的幻想创作是否可以少一些，嗯，froo-froo。",
+    "src": "Vogue · 2026-09-10"
   },
   "woman": {
-    "en": "“Black Opium to me really describes the most unapologetic, unafraid, cool woman,” she says.",
-    "cn": "她说：“对我来说，黑鸦片确实描述了最无所畏惧、最冷酷的女人。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "“It felt effortless, like an essential in a woman’s closet,” said Lhuillier.",
+    "cn": "“它感觉毫不费力，就像女人衣橱里的必需品，”卢里耶说。",
+    "src": "Vogue · 2026-09-10"
   },
   "witness": {
     "en": "For Martinović, that period has witnessed a transition at Telekom Srbija from a \"traditional ecosystem\" for film and TV content to \"a very open-minded and sophisticated regional production ecosystem in the last eight or nine years.\"",
@@ -3718,14 +3813,19 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark White · 2026-09-07"
   },
   "wise": {
-    "en": "In contrast, exosomes can be harvested directly from plants or from donated animal or human cell tissue—including bone marrow and blood, but most commonly fat, amniotic fluid, and placental tissue, Dr. Wise says.",
-    "cn": "怀斯博士说，相比之下，外泌体可以直接从植物或捐赠的动物或人类细胞组织中获取，包括骨髓和血液，但最常见的是脂肪、羊水和胎盘组织。",
-    "src": "ELLE · 2026-09-09"
+    "en": "But performance-wise, it has been a lot of things we are looking for.",
+    "cn": "但在性能方面，我们一直在寻找很多东西。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "within": {
-    "en": "Today, the 443-foot-long shipwreck lies within the Karaburun-Sazan Marine Protected Area, submerged about 108 to 121 feet deep.",
-    "cn": "今天，这艘443英尺长的沉船位于Karaburun-Sazan海洋保护区内，水深约108至121英尺。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "It’s about creating universes that artists can own, audiences can inhabit, and cultures can see themselves within.”",
+    "cn": "这是关于创造一个艺术家可以拥有、观众可以居住、文化可以看到自己的宇宙。",
+    "src": "Variety · 2026-09-10"
+  },
+  "weather": {
+    "en": "Ancient stone structures and weathered monuments rise from the terrain while lush greenery blankets the valley floor, creating a destination that feels magical and alive.\"",
+    "cn": "古老的石头结构和风化的纪念碑从地形中升起，而郁郁葱葱的绿色植物覆盖着谷底，创造了一个神奇而充满活力的目的地。",
+    "src": "Variety · 2026-09-10"
   },
   "woollen": {
     "en": "Strictly speaking, the Tapestry is an embroidery – because the woollen threads of its design are stitched onto the linen backing cloth rather than being woven as one.",
@@ -3746,6 +3846,11 @@ const WORD_EXAMPLES = {
     "en": "Winning work highlighted during the 36th annual award ceremony included hilarious research on the aerodynamics of nose blowing, gently stepping on venomous snakes, confirming that teenagers do indeed smell worse than babies and other side-splitting scientific undertakings.",
     "cn": "第36届年度颁奖典礼上突出的获奖作品包括关于吹鼻子的空气动力学的热闹研究，轻轻踩在毒蛇身上，证实青少年确实比婴儿更难闻，以及其他侧面分裂的科学事业。",
     "src": "Smithsonian Magazine · 2026-09-08"
+  },
+  "worry": {
+    "en": "The investigations have drawn criticism from law enforcement veterans who worry the probes are being stacked with politically motivated personnel, CBS News has previously reported.",
+    "cn": "哥伦比亚广播公司此前曾报道，这些调查引起了执法老手的批评，他们担心调查中充斥着出于政治动机的人员。",
+    "src": "CBS News · 2026-09-10"
   },
   "world": {
     "en": "Jungle Book Studio founder Gaurav Dhingra serves as executive producer in addition to handling world sales.",
@@ -3843,9 +3948,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "very": {
-    "en": "It’s important when working with Jérôme [Epinette] to be very honest to create ultimately what I want and what I desire.",
-    "cn": "在与Jérôme （Epinette）合作时，非常诚实地创造出我想要的和我想要的东西是很重要的。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "She was very popular among the aspiring grandmas, who all wanted to hold her.",
+    "cn": "她很受那些有抱负的奶奶们的欢迎，她们都想抱她。",
+    "src": "Vogue · 2026-09-10"
   },
   "vertical": {
     "en": "Vertical has acquired U.S. distribution rights to \"Sanctuary,\" an English-language, post-apocalyptic thriller starring \"The Handmaid's Tale's\" Nina Kiri.",
@@ -3872,15 +3977,15 @@ const WORD_EXAMPLES = {
     "cn": "没有什么可以反对春天的柔和色调，也没有什么可以反对充满活力的暑假指甲油，但是一个忧郁的秋天指甲油确实会让我的心灵受到影响。",
     "src": "Who What Wear · 2026-09-10"
   },
+  "unusually": {
+    "en": "Oliver Glanser's record against Unai Emery is an unusually strong tactical head-to-head that is more than just a cute statistic.",
+    "cn": "奥利弗·格兰瑟对阵乌奈·埃梅里的记录是一场异常强大的肉搏战，而不仅仅是一个可爱的数据。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "upon": {
     "en": "Lavia would be the most obvious partner for Caicedo, but the Belgium international has had such an injury-hit time at Chelsea that the 22-year-old cannot yet be relied upon to be a first-choice starter.",
     "cn": "拉维亚本该是凯塞多最明显的搭档，但这位比利时国脚在切尔西饱受伤病困扰，年仅 22 岁的他还不能被视为可靠的首发。",
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
-  },
-  "upper": {
-    "en": "Spotted: Pamela Anderson in New York City's Upper East Side, with a manicure so good it deserves its own anonymous tip line.",
-    "cn": "现场报道：帕梅拉·安德森（Pamela Anderson）在纽约上东区，她的指甲修得太好了，应该有自己的匿名举报热线。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "upward": {
     "en": "Sending out $5,000 checks to all of America's approximately 245 million adult citizens could cost upwards of $1 trillion.",
@@ -3916,11 +4021,6 @@ const WORD_EXAMPLES = {
     "en": "The slate, as usual, features awards-season hopefuls from leading auteurs, including Martin McDonagh’s dark comedy Wild Horse Nine, Bucking Fastard with real-life sisters Rooney and Kate Mara, and Florian Zeller’s Bunker, starring Cruz and Bardem.",
     "cn": "和往常一样，今年的提名名单上有很多大导演的热门作品，包括马丁·麦克唐纳执导的黑色喜剧《野马九号》、现实生活中的姐妹鲁尼和凯特·玛拉主演的《巴克·法斯塔德》，以及克鲁兹和巴登主演的弗洛里安·泽勒执导的《邦克》。",
     "src": "ELLE · 2026-09-09"
-  },
-  "waist": {
-    "en": "A take on one of the designer’s Fall/Winter 2026 looks, the gown featured familiar buttons and fringe detailing on the waist.",
-    "cn": "这款礼服借鉴了这位设计师2026年秋冬的一款造型，腰上有熟悉的纽扣和流苏细节。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "wait": {
     "en": "Below, find the seven trends I personally can't wait to wear this season.",
@@ -4048,9 +4148,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-10"
   },
   "video": {
-    "en": "Follow Sky Sports on WhatsApp for the latest sports news, videos, features, analysis and much more",
-    "cn": "在WhatsApp上关注天空体育，获取最新的体育新闻、视频、功能、分析等",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Schneider posted a video apology shortly afterward, saying he was “embarrassed” by his past behaviors.",
+    "cn": "施耐德随后发布了一段道歉视频，称他对自己过去的行为感到“尴尬”。",
+    "src": "Variety · 2026-09-10"
   },
   "victory": {
     "en": "Martin Odegaard's superb strike gave Arsenal a deserved 1-0 victory over Napoli in their Champions League opener.",
@@ -4138,14 +4238,19 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "sky": {
-    "en": "She followed it up with a chiffon sky-blue gown, complete with a fitted strapless bodice and detachable shoulder cape.",
-    "cn": "随后，她又穿了一件天蓝色雪纺礼服，搭配合身的无肩带紧身胸衣和可拆卸的披肩。",
-    "src": "Vogue · 2026-09-10"
+    "en": "Follow Sky Sports on WhatsApp for the latest sports news, videos, features, analysis and much more",
+    "cn": "在WhatsApp上关注天空体育，获取最新的体育新闻、视频、功能、分析等",
+    "src": "Sky Sports · 2026-09-09"
   },
   "sleeve": {
     "en": "So what does the beloved American designer have up his sleeve this time?",
     "cn": "那么，这位受人喜爱的美国设计师这次又有什么锦囊妙计呢？",
     "src": "Who What Wear · 2026-09-10"
+  },
+  "slice": {
+    "en": "The 7/4 for him to make two or more fouls is a lovely slice of value.",
+    "cn": "对于他来说，7/4的两次或两次以上的犯规是一个可爱的价值。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "slightly": {
     "en": "Cruz’s long, almond nails were slightly warmer and pinker in shade—a look that’s both versatile and flattering.",
@@ -4157,6 +4262,11 @@ const WORD_EXAMPLES = {
     "cn": "我在开玩笑之前微笑，波切蒂诺只是笑着说他已经准备好了。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "smell": {
+    "en": "Winning work highlighted during the 36th annual award ceremony included hilarious research on the aerodynamics of nose blowing, gently stepping on venomous snakes, confirming that teenagers do indeed smell worse than babies and other side-splitting scientific undertakings.",
+    "cn": "第36届年度颁奖典礼上突出的获奖作品包括关于吹鼻子的空气动力学的热闹研究，轻轻踩在毒蛇身上，证实青少年确实比婴儿更难闻，以及其他侧面分裂的科学事业。",
+    "src": "Smithsonian Magazine · 2026-09-08"
+  },
   "small": {
     "en": "\"We are completely aware that we come from a small country,\" she says.",
     "cn": "她说：“我们完全意识到我们来自一个小国。",
@@ -4166,11 +4276,6 @@ const WORD_EXAMPLES = {
     "en": "What Ronaldo and Messi did -- and made everyone else realise -- is that you could take those same winger skills, the speed and technical brilliance, and turn it into something even better.",
     "cn": "C 罗和梅西所做的事情——也让所有人认识到——是同样的边锋技术、速度和天赋，可以演化成更可怕的东西。",
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
-  },
-  "slit": {
-    "en": "However, while the runway set saw long sleeves and a knee-length skirt, the actor’s version was defined by its sleeveless scoop neckline and floor-length gown, which was cut with a thigh-high slit.",
-    "cn": "然而，虽然t台的造型是长袖和及膝裙，但这位演员的版本则是无袖露领和及地礼服，礼服的剪裁是及膝的开叉。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "slip": {
     "en": "Her take on the enduring ’90s slip dress, in a silver-champagne combo, featured beads that beautifully accentuated the natural lines of the body.",
@@ -4198,9 +4303,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "silver": {
-    "en": "Her take on the enduring ’90s slip dress, in a silver-champagne combo, featured beads that beautifully accentuated the natural lines of the body.",
-    "cn": "她将90年代经久不衰的吊带裙设计成银色香槟色的组合，用珠子漂亮地突出了身体的自然线条。",
-    "src": "Vogue · 2026-09-10"
+    "en": "Gerry Silver, Schneider’s attorney, said in a statement he was disappointed in the result.",
+    "cn": "施耐德的律师格里·西尔弗（Gerry Silver）在一份声明中说，他对判决结果感到失望。",
+    "src": "Variety · 2026-09-10"
   },
   "similar": {
     "en": "It came after a similar operation that destroyed another vessel linked to the gang, one of Ecuador's main drug trafficking and extortion groups.",
@@ -4232,15 +4337,20 @@ const WORD_EXAMPLES = {
     "cn": "她说：“直到去年这个时候，我才去过欧洲，从那以后我已经去过10多次了。",
     "src": "Vogue · 2026-09-10"
   },
+  "sing": {
+    "en": "Players can now sing or hum one of Link's learned ocarina melodies within range of the Nintendo Switch 2 system's built-in microphone, and he'll perform the song in the game.",
+    "cn": "玩家现在可以在任天堂Switch 2系统的内置麦克风范围内唱或哼唱林克学过的ocarina旋律，林克将在游戏中演唱这首歌。",
+    "src": "Variety · 2026-09-10"
+  },
   "size": {
     "en": "Key Ingredients: Camellia japonica seed oil, argan oil, and kelp extract Sizes: 6.76 fl oz",
     "cn": "主要成分：山茶籽油，摩洛哥坚果油，海带提取物；大小：6.76液盎司",
     "src": "ELLE · 2026-09-09"
   },
   "six": {
-    "en": "Two people were hospitalized with burns to their legs on Tuesday, while six others were treated for smoke inhalation.",
-    "cn": "周二，两人因腿部烧伤住院，另有六人因吸入烟雾而接受治疗。",
-    "src": "ABC News · 2026-09-09"
+    "en": "Twenty-six years later, a solution may have finally come to light—but it wasn’t a mathematician who came up with it.",
+    "cn": "26年后，一个解决方案可能终于浮出水面——但提出它的不是数学家。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "situation": {
     "en": "\"I don't know the amount of chances and situations we generated but the performance doesn't reflect the result.",
@@ -4278,14 +4388,14 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "smoke": {
-    "en": "James and I wept too, uncomprehending—the flames, the smoke, above all the people jumping.",
-    "cn": "詹姆斯和我也哭了，无法理解——火焰，烟雾，最重要的是人们跳了起来。",
-    "src": "Vogue · 2026-09-10"
+    "en": "Two people were hospitalized with burns to their legs on Tuesday, while six others were treated for smoke inhalation.",
+    "cn": "周二，两人因腿部烧伤住院，另有六人因吸入烟雾而接受治疗。",
+    "src": "ABC News · 2026-09-09"
   },
   "smooth": {
-    "en": "After carving out a deep side part, Abergel used the ghd Speed hairdryer and a round brush to smooth out Kidman’s damp hair and create lift and volume.",
-    "cn": "在剪出较深的侧分后，阿伯格尔用ghd Speed吹风机和圆刷把基德曼潮湿的头发弄平，让头发蓬松起来。",
-    "src": "ELLE · 2026-09-09"
+    "en": "Its equations assume that fluids are smooth and continuous, while in the real world, of course, they are made of atoms and molecules.",
+    "cn": "它的方程假设流体是光滑和连续的，而在现实世界中，它们当然是由原子和分子组成的。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "sometime": {
     "en": "Sure, it’s not exactly ideal and can sometimes signal a larger issue, like dryness, breakage, or humidity, but not all frizz is bad.",
@@ -4298,9 +4408,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "son": {
-    "en": "In 1960, Renoir’s son Claude sold the estate to the village of Cagnes, which turned it into a museum.",
-    "cn": "1960年，雷诺阿的儿子克劳德将庄园卖给了卡涅斯村，并将其改建为博物馆。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "There he found the name of his great uncle, Bishen Singh, son of Jatti.",
+    "cn": "在那里，他找到了他的叔祖父，贾蒂的儿子毕申·辛格的名字。",
+    "src": "HistoryExtra · 2026-09-09"
   },
   "song": {
     "en": "“Each song carries a different place in that journey for me,” she says.",
@@ -4332,11 +4442,6 @@ const WORD_EXAMPLES = {
     "cn": "在这个精选混合系列中，它就像一个大开眼界的酸糖。",
     "src": "Vogue · 2026-09-10"
   },
-  "spanish": {
-    "en": "The Spanish actors—who have been married for over 16 years and have worked together for nearly double that time—were on the clock in Venice, promoting their latest joint project, French filmmaker Florian Zeller’s Bunker.",
-    "cn": "这对西班牙演员——他们已经结婚16年了，在一起工作的时间几乎是这16年的两倍——在威尼斯忙着宣传他们最新的合作项目，法国电影制片人弗洛里安·泽勒的《地堡》。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "span": {
     "en": "His work spans bestselling audio storytelling, animation and AI-based productions, including \"Space Vets\" and \"Tarmac.\"",
     "cn": "他的作品涵盖了畅销的有声故事、动画和基于人工智能的作品，包括《太空兽医》（Space Vets）和《停机坪》（Tarmac）。",
@@ -4363,19 +4468,19 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "source": {
-    "en": "G ossip Cosmo Girl here, your one and only source into the scandalous lives of Manhattan’s elite...",
-    "cn": "《时尚天后》在此，这是你了解曼哈顿名流们绯闻的唯一渠道…",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Because these products are not standardized, quality and sourcing can vary significantly.",
+    "cn": "由于这些产品没有标准化，质量和来源可能会有很大差异。",
+    "src": "ELLE · 2026-09-09"
   },
   "someone": {
-    "en": "And the hunter was someone important, Dąbrowski tells PAP, like a family clan leader.",
-    "cn": "Dąbrowski告诉PAP ，猎人是一个重要的人物，就像一个家族领袖。",
+    "en": "Instead, he wanted to focus on “someone history never named at all: a farmer, the first man to raise his hand in Essex.",
+    "cn": "相反，他想专注于“一个从未命名过的历史人物：一个农民，第一个在埃塞克斯举手的人。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "somehow": {
-    "en": "Soft, hazy, deliciously milky, the look takes the classic French and somehow makes it even more wearable, which I didn’t think was possible.",
-    "cn": "柔和、朦胧、美味的乳白色，这款妆容融合了经典的法式风格，让它更耐穿，这在我看来是不可能的。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "In Flores’s hands things that really shouldn’t work somehow do.",
+    "cn": "在弗洛雷斯的手中，本来不该起作用的东西却莫名其妙地起了作用。",
+    "src": "Vogue · 2026-09-10"
   },
   "socialism": {
     "en": "I'm always going to reject the extremes in socialism and that anti-American way of life.\"",
@@ -4413,9 +4518,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "solution": {
-    "en": "Valentín Barco is the other possible solution, but the Argentina midfielder has no Premier League experience having arrived from Strasbourg this summer, so again, he would be a gamble for Alonso.",
-    "cn": "巴尔科是另一种可能的选择，但这位今夏从斯特拉斯堡加盟的阿根廷中场没有英超经验，对阿隆索而言同样是一场赌博。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of the deepest problems at the frontier of mathematics.",
+    "cn": "我们正在分享一个解决纳维-斯托克斯千年奖问题的方法，这是数学前沿最深奥的问题之一。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "solid": {
     "en": "For short nails, we love a perfectly executed, solid-toned mani for a polished, minimalist aesthetic that works every time.”",
@@ -4458,24 +4563,29 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "select": {
-    "en": "He has repeatedly criticized the NFL's new rules for kickoffs, and in a Truth Social post last year, he lamented the fact that quarterback Shedeur Sanders wasn't selected in the first few rounds of the NFL draft.",
-    "cn": "他一再批评NFL的新开球规则，在去年的Truth Social帖子中，他感叹四分卫Shedeur Sanders没有在NFL选秀的前几轮中被选中。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Select AMC theaters will screen the live broadcast of Epic Games' 2026 Rocket League World Championship Finals.",
+    "cn": "部分AMC影院将直播Epic Games的2026年火箭联盟世界冠军赛总决赛。",
+    "src": "Variety · 2026-09-10"
   },
   "selection": {
-    "en": "Broadcast selections for November and early December will be announced before October 19.",
-    "cn": "11月和12月初的选播名单将在19日之前公布。",
-    "src": "Sky Sports · 2026-09-10"
+    "en": "It will be tougher against rivals Manchester City on Sunday - but so will his team selection.",
+    "cn": "周日对阵对手曼城的比赛将更加艰难，但他的阵容选择也将更加艰难。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "self": {
-    "en": "What unlocks it is being a person who isn’t going to be self-conscious and not thinking about what everyone else is thinking about you.",
-    "cn": "打开它的是做一个不自我意识的人，不去想别人怎么看你。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Due October 16 via A24 Music, the 10-track self-produced record follows Stel’s 2024 debut EP, Object Permanence, and this year’s How to Win At Solitaire.",
+    "cn": "这张10首曲目的自制专辑将于10月16日通过A24 Music发行，继斯泰尔2024年的首张EP《Object Permanence》和今年的《How to Win At Solitaire》之后。",
+    "src": "Vogue · 2026-09-10"
   },
   "sell": {
     "en": "Barcelona are looking to sell Frenkie de Jong when the January transfer window opens.",
     "cn": "巴塞罗那希望在1月转会窗口打开时出售Frenkie de Jong。",
     "src": "Sky Sports · 2026-09-09"
+  },
+  "semiconductor": {
+    "en": "Bresnahan's portfolio also includes investments in companies that supply the chips, networking equipment, semiconductor manufacturing tools and software that underpin the rapid growth of artificial intelligence and data centers.",
+    "cn": "布雷斯纳汉的投资组合还包括对芯片、网络设备、半导体制造工具和软件供应商的投资，这些公司支撑着人工智能和数据中心的快速增长。",
+    "src": "CBS News · 2026-09-11"
   },
   "senate": {
     "en": "If Fetterman were to switch parties, it would be harder for Democrats to reclaim the Senate majority.",
@@ -4503,8 +4613,8 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "serve": {
-    "en": "He was elected for a full term in 2022 and has served as governor for five years.",
-    "cn": "他于2022年当选，并担任了5年的州长。",
+    "en": "\"It was an honor and a privilege to serve the president and the department,\" he said.",
+    "cn": "他说：“为总统和国务院服务是我的荣幸。",
     "src": "CBS News · 2026-09-10"
   },
   "serious": {
@@ -4638,14 +4748,14 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "setting": {
-    "en": "(The dreamy canals are, after all, the perfect setting for a bit of romance.)",
-    "cn": "（毕竟，梦幻般的运河是浪漫的完美场所。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "As a world sales company, Jungle Book Studio can already envision ‘Angh’ setting the international buyers’ circuit alight and sparking a buzz across territories.",
+    "cn": "作为一家全球销售公司，《奇幻森林》工作室已经预见到《Angh》将点燃国际买家的热情，并在各个地区掀起热潮。",
+    "src": "Variety · 2026-09-10"
   },
   "settle": {
-    "en": "As Taher settles into her role during a challenging time for the local industry, she speaks to Vogue about her other plans for the fashion council and what to expect from Dubai Fashion Week SS27.",
-    "cn": "在当地行业面临挑战的时期，Taher逐渐适应了自己的角色，她向《Vogue》讲述了她对时尚委员会的其他计划，以及对迪拜SS27时装周的期待。",
-    "src": "Vogue · 2026-09-10"
+    "en": "In their absence, Xabi Alonso paired Reece James with Romeo Lavia, but even when Caicedo returns to fitness, the Chelsea manager has a puzzle to solve before settling on his best midfield two.",
+    "cn": "在两人缺阵的情况下，阿隆索让里斯·詹姆斯和拉维亚搭档，但即便凯塞多伤愈复出，主帅也要面对如何确定中场双后腰的问题。",
+    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "ship": {
     "en": "Asked whether vessels would continue to be destroyed, Rubio replied: \"Well again, it depends, and we still blow up ships.\"",
@@ -4753,9 +4863,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "several": {
-    "en": "It is some 68m long and is composed of several panels that were produced separately and then eventually sewn together to form one long whole.",
-    "cn": "它长约68米，由几块面板组成，这些面板分别生产，然后最终缝合在一起形成一个长整体。",
-    "src": "HistoryExtra · 2026-09-09"
+    "en": "And Bresnahan reported holdings in several of the large technology companies driving the industry's expansion.",
+    "cn": "布雷斯纳汉还表示，他持有几家推动该行业扩张的大型科技公司的股份。",
+    "src": "CBS News · 2026-09-11"
   },
   "seven": {
     "en": "They have conceded seven goals in three league games this season, and that is way too many for a team with title ambitions.",
@@ -4783,9 +4893,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "sheet": {
-    "en": "“The metal sheets provide a hard substrate for marine life to grow on,” lead author Simone Modugno, a marine biologist with the Institute for Research, Development and Experimentation on the Environment and Territory, tells BBC Wildlife magazine ’s Helen Pilcher.",
-    "cn": "“金属板为海洋生物的生长提供了坚硬的基础，”环境与领土研究、开发和实验研究所的海洋生物学家Simone Modugno告诉英国广播公司野生动物杂志的海伦·皮尔彻。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "And, this isn't a promoted side accidentally stumbling into three clean sheets.",
+    "cn": "而且，这不是一支升班马不小心三次失球的球队。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "shape": {
     "en": "From anniversary celebrations to colorful updates, September is shaping up to be an exciting month in jewelry.",
@@ -4803,14 +4913,14 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "sharp": {
-    "en": "Excavations in Poland have unearthed a 5,000-year-old grave, complete with a man’s skeleton, two other skulls, amber beads, a flint knife, a stone ax and a necklace made of 42 sharp teeth.",
-    "cn": "波兰的挖掘工作发现了一座5000年前的坟墓，其中包括一具男子骨骼、另外两具头骨、琥珀珠、一把火石刀、一把石斧和一条由42颗锋利的牙齿制成的项链。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "Sesko scored after coming off the bench against Everton and looked sharp here in his first start of the season.",
+    "cn": "在对阵埃弗顿的比赛中，塞斯科替补出场，他在本赛季的第一次首发中表现出色。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "lip": {
-    "en": "It’s a dark and sultry gourmand, often photographed with leather jackets and glossy lips.",
-    "cn": "这是一个黑暗而闷热的美食家，经常穿着皮夹克和光滑的嘴唇拍照。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Makeup artist Sabrina Bedrani painted very light pink shades on Bullock’s cheeks and lips and went heavier and darker with the eyeliner and mascara, being careful to keep the eye look out of smoky territory.",
+    "cn": "化妆师萨布丽娜·贝德拉尼在布洛克的脸颊和嘴唇上涂了浅粉色，然后用眼线笔和睫毛膏涂得更浓更黑，小心翼翼地让眼睛看起来不像烟熏的区域。",
+    "src": "ELLE · 2026-09-09"
   },
   "sparkle": {
     "en": "Safe Word is a series highlighting the latest trends in the jewelry market, keeping you up to date on all things that sparkle and shine.",
@@ -4828,9 +4938,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "summer": {
-    "en": "Michelle Rhee’s spring collection comes at a particularly great time, after a rainy summer in New York.",
-    "cn": "米歇尔·李（Michelle Rhee）的春季系列在纽约一个多雨的夏天之后，恰逢其时。",
-    "src": "Vogue · 2026-09-10"
+    "en": "This elusive look is exactly what inspired Belghiran for Cult Gaia’s spring/summer 2027 show.",
+    "cn": "这种难以捉摸的造型正是Belghiran为Cult Gaia 2027年春夏时装秀的灵感来源。",
+    "src": "ELLE · 2026-09-09"
   },
   "sunday": {
     "en": "Chelsea took the lead early on at the Premier League champions on Sunday through Morgan Rogers.",
@@ -4847,15 +4957,15 @@ const WORD_EXAMPLES = {
     "cn": "在今天早晨日出之前，窃贼进入了梅尔河畔卡涅的雷诺阿博物馆，该博物馆位于著名印象派画家雷诺阿度过生命最后十年的地方。",
     "src": "Smithsonian Magazine · 2026-09-08"
   },
-  "sunset": {
-    "en": "From coordinating red-carpet looks to indulging in sunset gondola rides, the entertainment industry’s favorite pairs have been making the most of their time in Italy—and it’s easy to see why.",
-    "cn": "从协调的红毯造型到沉迷于日落缆车，娱乐圈最受欢迎的一对情侣在意大利度过了最愉快的时光，原因很容易理解。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "super": {
     "en": "It works like a spray, meaning it’s super lightweight and doesn’t require any washing.",
     "cn": "它像喷雾一样工作，这意味着它非常轻，不需要任何洗涤。",
     "src": "ELLE · 2026-09-09"
+  },
+  "superior": {
+    "en": "“We are disappointed by the Court's decision to reverse the Superior Court's well-reasoned anti-SLAPP ruling, and we are evaluating our options for further review and appeal,” Silver said.",
+    "cn": "“我们对法院推翻高等法院合理的反slapp裁决的决定感到失望，我们正在评估进一步审查和上诉的选择，”西尔弗说。",
+    "src": "Variety · 2026-09-10"
   },
   "surprising": {
     "en": "Organized by the company Improbable Research, the spoof awards were designed to “honor achievements so surprising that they make people laugh, then think,” per their website.",
@@ -4883,9 +4993,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "suit": {
-    "en": "She posed with her husband, who was dressed in a classic navy-blue suit.",
-    "cn": "她和丈夫合影，丈夫穿着一套经典的海军蓝西装。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "What came next was a wide-ranging interpretation of Lauren’s world, moving from elevated “going out” looks to polished prep, with suiting at its sharpest.",
+    "cn": "接下来是对Lauren的世界进行了广泛的解释，从高端的“走出去”外观转变为抛光的准备，以最锋利的姿态穿着。",
+    "src": "ELLE · 2026-09-09"
   },
   "supreme": {
     "en": "Immediately following the 8th Circuit Court's ruling, People not Politicians appealed the case to the U.S. Supreme Court.",
@@ -4901,6 +5011,11 @@ const WORD_EXAMPLES = {
     "en": "Sylvia Nitzsche: A Berlin-based director and creative technologist specializing in AI-supported storytelling.",
     "cn": "西尔维娅·尼采：柏林导演和创意技术专家，专门从事人工智能支持的故事讲述。",
     "src": "Variety · 2026-09-10"
+  },
+  "supply": {
+    "en": "Those include firms that own and operate data centers, invest in their development and supply infrastructure, and many of the nation's largest tech firms.",
+    "cn": "这些公司包括拥有和运营数据中心的公司，投资于数据中心的开发和供应基础设施的公司，以及许多美国最大的科技公司。",
+    "src": "CBS News · 2026-09-11"
   },
   "supplement": {
     "en": "During Wednesday's speech, Mr. Trump likened the payments to his Trump Account child investment funds, which were authorized by Congress, and last year's \"warrior dividend\" bonuses to U.S. service members, which were funded through a military housing supplement approved by lawmakers.",
@@ -4936,6 +5051,11 @@ const WORD_EXAMPLES = {
     "en": "To emulate this ease, Belghiran created loose, knotted ponytails in two different styles.",
     "cn": "为了模仿这种轻松，Belghiran创造了两种不同风格的宽松打结马尾。",
     "src": "ELLE · 2026-09-09"
+  },
+  "submerge": {
+    "en": "Today, the 443-foot-long shipwreck lies within the Karaburun-Sazan Marine Protected Area, submerged about 108 to 121 feet deep.",
+    "cn": "今天，这艘443英尺长的沉船位于Karaburun-Sazan海洋保护区内，水深约108至121英尺。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "subsequent": {
     "en": "From the second of two subsequent corners, Muharemovic rises highest at the back post to nod the opener back inside the opposite corner.",
@@ -4978,9 +5098,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "such": {
-    "en": "And under the direction of the brilliant Robert Hastie, I couldn’t be more delighted to be joining such an original and wildly ambitious show.",
-    "cn": "在才华横溢的罗伯特·海斯蒂的指导下，我非常高兴能加入这样一部原创而雄心勃勃的电视剧。",
-    "src": "Variety · 2026-09-10"
+    "en": "Many of her gowns this season had such versatile styling approaches, featuring removable capes or jackets that completed the look, if desired.",
+    "cn": "她这一季的许多礼服都采用了这种百搭的造型方法，如果需要的话，还可以用可拆卸的斗篷或夹克来完成整个造型。",
+    "src": "Vogue · 2026-09-10"
   },
   "succession": {
     "en": "The Gunners should have won by a bigger margin but missed a succession of chances before Odegaard crashed a low shot in off the post from the edge of the box following intricate build-up.",
@@ -4993,9 +5113,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "success": {
-    "en": "You know, the success of that fragrance has really blown us all away.",
-    "cn": "你知道吗，那款香水的成功真的让我们大吃一惊。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Mr. Trump argued the payments would be a consequence of the country's \"tremendous economic success,\" and suggested they could be funded partially by his administration's tariffs on foreign goods.",
+    "cn": "特朗普认为，这些付款将是该国“巨大经济成功”的结果，并暗示这些付款可以部分由其政府对外国商品征收的关税提供资金。",
+    "src": "CBS News · 2026-09-10"
   },
   "take": {
     "en": "The defending champions did take the lead after the break as Baur tapped in from Haissem Hassan's cross.",
@@ -5061,6 +5181,11 @@ const WORD_EXAMPLES = {
     "en": "The U.S. has brought in just under $500 billion in tariff and excise tax revenue since the start of last year, according to the Bipartisan Policy Center.",
     "cn": "根据两党政策中心的数据，自去年年初以来，美国的关税和消费税收入略低于5000亿美元。",
     "src": "CBS News · 2026-09-10"
+  },
+  "taxi": {
+    "en": "Maybe it’s the water taxis, the grand palazzos, or the fact that the festival has long attracted stars with a taste for fashion as considered as the films they’re there to promote.",
+    "cn": "也许是因为水上出租车，也许是因为宏伟的宫殿，也许是因为这个电影节长期以来一直吸引着那些对时尚有品味的明星，就像他们在那里宣传的电影一样。",
+    "src": "ELLE · 2026-09-09"
   },
   "telegraph": {
     "en": "Nearly 70 years later, the two-tone motif still telegraphs a sense of everyday elegance.",
@@ -5133,9 +5258,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-10"
   },
   "table": {
-    "en": "“I always keep my perfume right by the door, like on the entryway table,” Alisha adds.",
-    "cn": "“我总是把香水放在门边，比如入口处的桌子上，”阿丽莎补充道。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "At one point James hastily changed her diaper on a table in a niche in the library, a transgression that we laughed about afterwards.",
+    "cn": "有一次，詹姆斯在图书馆壁龛里的一张桌子上匆忙地换了尿布，这是我们后来嘲笑的违规行为。",
+    "src": "Vogue · 2026-09-10"
   },
   "system": {
     "en": "That's the way the system's supposed to work …",
@@ -5143,9 +5268,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-09"
   },
   "sweet": {
-    "en": "It’s an irresistibly sweet perfume with strawberry, coffee, vanilla, and jasmine—and it’s just begging to be worn on a night out.",
-    "cn": "这是一款令人难以抗拒的甜味香水，混合了草莓、咖啡、香草和茉莉花的香味，适合晚上外出时使用。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "“It just feels like summer in a really nice, wholesome, sweet way.",
+    "cn": "“感觉就像夏天一样美好、健康、甜蜜。",
+    "src": "Vogue · 2026-09-10"
   },
   "switch": {
     "en": "He has denied that he is considering switching parties.",
@@ -5171,6 +5296,11 @@ const WORD_EXAMPLES = {
     "en": "I felt that energy a lot in these pieces,” said Giovanna Flores of her unconstrained and dreamy spring collection.",
     "cn": "我在这些作品中感受到了很多能量，”乔凡娜·弗洛雷斯（Giovanna Flores）谈起她无拘无束、梦幻般的春季系列时说。",
     "src": "Vogue · 2026-09-10"
+  },
+  "spur": {
+    "en": "Fernandes made his feelings for De Zerbi clear to the Spurs boss himself when the deal was done.",
+    "cn": "在交易完成后，费尔南德斯向热刺主帅表达了他对德泽比的感情。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "square": {
     "en": "Still, some of her pieces required being more fully committed, like the black, squared-neck gown finished with oversized-pearl shoulder straps.",
@@ -5198,9 +5328,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "start": {
-    "en": "The other is the gulf in quality between the starting XI and the team after changes are made.",
-    "cn": "另一个是变更后首发XI和球队之间的质量差距。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Sesko scored after coming off the bench against Everton and looked sharp here in his first start of the season.",
+    "cn": "在对阵埃弗顿的比赛中，塞斯科替补出场，他在本赛季的第一次首发中表现出色。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "star": {
     "en": "\"The U.S. Army is committed to transparency and respecting the privacy of our Gold Star Families.",
@@ -5222,15 +5352,20 @@ const WORD_EXAMPLES = {
     "cn": "凯尔特人有球在网中，但它不会站立。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "stake": {
+    "en": "Those investments include stakes in NVIDIA, Advanced Micro Devices, Micron Technology, Arista Networks, Ciena, Applied Materials, Lam Research, Cadence Design Systems, Synopsys, Taiwan Semiconductor Manufacturing Company, Cisco Systems, Broadcom Inc. and Credo Technology.",
+    "cn": "这些投资包括NVIDIA、Advanced Micro Devices、Micron Technology、Arista Networks、Ciena、Applied Materials、Lam Research、Cadence Design Systems、Synopsys、台积电、Cisco Systems、Broadcom Inc.和Credo Technology的股份。",
+    "src": "CBS News · 2026-09-11"
+  },
   "stage": {
     "en": "With the departure of Salah from England and Messi and Ronaldo from the international stage, perhaps it's fitting.",
     "cn": "随着萨拉赫离开英格兰，梅西和 C 罗退出国际舞台，这种情况也在情理之中。",
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "spot": {
-    "en": "Spotted: Pamela Anderson in New York City's Upper East Side, with a manicure so good it deserves its own anonymous tip line.",
-    "cn": "现场报道：帕梅拉·安德森（Pamela Anderson）在纽约上东区，她的指甲修得太好了，应该有自己的匿名举报热线。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "I've already spotted this stunner of a skirt on fashion people all over Instagram.",
+    "cn": "我已经在Instagram上的时尚人士身上看到了这条漂亮的裙子。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "sport": {
     "en": "The president continued: \"It's not going to go down as the greatest trade in the history of sports.",
@@ -5268,14 +5403,14 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "speech": {
-    "en": "President Trump's rally-style speech at the Republican National Committee midterm convention touched on oil, Iran, immigration, the economy — and the polarizing NBA trade that sent superstar guard Luka Dončić from the Dallas Mavericks to the Los Angeles Lakers last year.",
-    "cn": "特朗普总统在共和党全国委员会中期大会上的集会式演讲涉及石油、伊朗、移民、经济，以及去年将超级明星后卫Luka Dončić从达拉斯小牛队送到洛杉矶湖人队的两极分化NBA交易。",
-    "src": "CBS News · 2026-09-10"
+    "en": "The defendants prevailed under California’s anti-SLAPP statute, which allows an early mechanism to strike lawsuits intended to stifle speech on matters of public interest.",
+    "cn": "根据加州的反slapp法规，被告胜诉，该法规允许一种早期机制来打击旨在扼杀公众利益问题言论的诉讼。",
+    "src": "Variety · 2026-09-10"
   },
   "speed": {
-    "en": "After carving out a deep side part, Abergel used the ghd Speed hairdryer and a round brush to smooth out Kidman’s damp hair and create lift and volume.",
-    "cn": "在剪出较深的侧分后，阿伯格尔用ghd Speed吹风机和圆刷把基德曼潮湿的头发弄平，让头发蓬松起来。",
-    "src": "ELLE · 2026-09-09"
+    "en": "Speed, physicality, ability to play on the last line and run in behind.",
+    "cn": "速度，身体素质，在最后一条线上的能力，以及在后面奔跑的能力。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "spend": {
     "en": "Yet, said spending still hasn't built a unit that has genuine competition for places.",
@@ -5338,9 +5473,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "strap": {
-    "en": "For the Bunker photo call, the star wore an ankle-length black number with Blazy’s signature feather accents adorning the straps.",
-    "cn": "为了拍摄邦克的照片，这位明星穿了一件及脚踝的黑色礼服，带子上装饰着布拉齐标志性的羽毛。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Still, some of her pieces required being more fully committed, like the black, squared-neck gown finished with oversized-pearl shoulder straps.",
+    "cn": "不过，她的一些作品需要更充分的投入，比如用超大珍珠肩带装饰的黑色方领礼服。",
+    "src": "Vogue · 2026-09-10"
   },
   "strategy": {
     "en": "Fetterman has, at times, distanced himself from the Democrats, backing Mr. Trump's strategy in Iran and breaking with congressional Democrats in last year's government shutdown fight.",
@@ -5351,11 +5486,6 @@ const WORD_EXAMPLES = {
     "en": "Straw boater hats were some of my favorite accessories this season, but I also appreciated the impressive range of chic brooches, floral scarves, white handbags, oversized clutches, lace-up flats, delicate strappy heels, and more.",
     "cn": "草帽是这一季我最喜欢的配饰之一，但我也很欣赏那些令人印象深刻的别致胸针、花围巾、白色手袋、超大手包、系带平底鞋、精致的绑带高跟鞋等等。",
     "src": "Who What Wear · 2026-09-10"
-  },
-  "strawberry": {
-    "en": "It’s an irresistibly sweet perfume with strawberry, coffee, vanilla, and jasmine—and it’s just begging to be worn on a night out.",
-    "cn": "这是一款令人难以抗拒的甜味香水，混合了草莓、咖啡、香草和茉莉花的香味，适合晚上外出时使用。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "stream": {
     "en": "A project might end up as a film, a TV series, a streaming title, a book, a game, a soundtrack, a licensed product or an immersive experience, wherever it fits best internationally.",
@@ -5377,11 +5507,6 @@ const WORD_EXAMPLES = {
     "cn": "20多年前，娜塔莉亚·沃佳诺娃（natalie Vodianova）（下图左）穿了一件在柔和条纹之间点缀着精致花朵的长外套，而今天的秀场上，她穿了一件类似于布里奇顿风格的外套，前襟剪短，后襟修长。",
     "src": "Who What Wear · 2026-09-10"
   },
-  "strip": {
-    "en": "She aimed to simplify and strip down her signature assortment of cocktail dresses and gowns, wondering if her fanciful creations could be less, well, froo-froo.",
-    "cn": "她的目标是简化和精简她标志性的各种鸡尾酒礼服和礼服，想知道她的幻想创作是否可以少一些，嗯，froo-froo。",
-    "src": "Vogue · 2026-09-10"
-  },
   "string": {
     "en": "“Although the string or cord connecting them has not survived, there is no doubt that this was an ornament made by human hands.”",
     "cn": "“虽然连接它们的绳子或绳索没有存活下来，但毫无疑问，这是人手制作的装饰品。",
@@ -5398,9 +5523,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "stress": {
-    "en": "To lose control and to let go of the stress of the day.",
-    "cn": "失去控制，释放一天的压力。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Some people are born with it, while others experience thinning as they age due to anything from genetics and stress to hormonal changes or even over-styling.",
+    "cn": "有些人天生就患有这种疾病，而另一些人则会因为遗传、压力、荷尔蒙变化甚至过度造型等因素而随着年龄的增长而变薄。",
+    "src": "ELLE · 2026-09-10"
   },
   "strengthen": {
     "en": "We want to use this technology responsibly, strengthen European sovereignty and create stories that inspire audiences around the world.\"",
@@ -5413,9 +5538,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "street": {
-    "en": "Recently on the streets of NYC, Pamela debuted what might just be the chicest interpretation of a French manicure I’ve seen in a while: cloudy French nails.",
-    "cn": "最近在纽约街头，帕梅拉展示了一种可能是我这段时间见过的对法式美甲最优雅的诠释：浑浊的法式指甲。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Nick Mohammed will play the host in “ The Traitors – Acts of Betrayal,” the West End stage adaptation of the hit competition format, after a video in which Claudia Winkleman swore him in to the role, producers Studio Lambert and Neal Street Productions have revealed.",
+    "cn": "兰伯特工作室和尼尔街制作公司透露，尼克·穆罕默德将在《叛徒-背叛行为》中扮演主持人，这是伦敦西区舞台上改编的热门比赛形式，克劳迪娅·温克尔曼在一段视频中宣誓让他出演这个角色。",
+    "src": "Variety · 2026-09-10"
   },
   "strictly": {
     "en": "Strictly speaking, the Tapestry is an embroidery – because the woollen threads of its design are stitched onto the linen backing cloth rather than being woven as one.",
@@ -5488,9 +5613,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "commit": {
-    "en": "Whether you’re a gel-x devotee or you’re committed to a regular manicure, cloudy French tips can be done with any type of polish.",
-    "cn": "无论你是美甲啫喱爱好者还是普通美甲爱好者，多云的法式美甲都可以用任何类型的指甲油来完成。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "The sample size is small but there seems more aggression and pressing about Brentford this season with a rise in their high turnovers per 90 of 3.1 and 6.2 more fouls committed per 90.",
+    "cn": "样本规模很小，但本赛季布伦特福德似乎更具侵略性和压力，他们每90分钟的最高失误增加了3.1次，每90分钟的犯规增加了6.2次。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "committee": {
     "en": "President Trump's rally-style speech at the Republican National Committee midterm convention touched on oil, Iran, immigration, the economy — and the polarizing NBA trade that sent superstar guard Luka Dončić from the Dallas Mavericks to the Los Angeles Lakers last year.",
@@ -5518,14 +5643,14 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "community": {
-    "en": "Current executive board member Caroline Issa has been appointed as deputy chair, a new post put in place to support and vouch for the UK’s designer community, drawing on her relationships across the sector.",
-    "cn": "现任执行董事会成员卡洛琳·伊萨（Caroline Issa）被任命为副主席，这是一个新的职位，旨在利用她在整个行业的关系，为英国的设计师群体提供支持和担保。",
-    "src": "Vogue · 2026-09-10"
+    "en": "An August 2026 poll from Franklin & Marshall College found that nearly four in five Pennsylvania voters opposed having a data center built in their community.",
+    "cn": "富兰克林与马歇尔学院（Franklin & Marshall College）于2026年8月进行的一项民意调查发现，近五分之四的宾夕法尼亚州选民反对在他们的社区建立数据中心。",
+    "src": "CBS News · 2026-09-11"
   },
   "company": {
-    "en": "Mauricio Pochettino has always been good company - warm, engaging and likeable.",
-    "cn": "Mauricio Pochettino一直是好伙伴--热情、迷人、可爱。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Julien Loeffler and James Kermack will produce through their production company Featuristic Films.",
+    "cn": "Julien Loeffler和James Kermack将通过他们的制作公司Featuristic Films进行制作。",
+    "src": "Variety · 2026-09-10"
   },
   "comparison": {
     "en": "He says the closest comparison is a necklace unearthed in Wojkowice, composed of just four teeth and dating to the Bronze Age.",
@@ -5578,8 +5703,8 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "comment": {
-    "en": "Barnes did not respond to multiple requests for comment, while a spokeswoman for the 103rd Sustainment Command directed all questions to the Pentagon.",
-    "cn": "巴恩斯没有回应多次置评请求，而第103维持司令部的一名女发言人则将所有问题都转给了五角大楼。",
+    "en": "CBS News has reached out to the Justice Department for comment.",
+    "cn": "哥伦比亚广播公司新闻已联系司法部寻求置评。",
     "src": "CBS News · 2026-09-10"
   },
   "coach": {
@@ -5643,13 +5768,13 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "collection": {
-    "en": "But one of the collection’s best pieces was the lightweight denim biker jacket, which will come in two washes.",
-    "cn": "但该系列最好的单品之一是轻便的牛仔机车夹克，可洗两次。",
+    "en": "I felt that energy a lot in these pieces,” said Giovanna Flores of her unconstrained and dreamy spring collection.",
+    "cn": "我在这些作品中感受到了很多能量，”乔凡娜·弗洛雷斯（Giovanna Flores）谈起她无拘无束、梦幻般的春季系列时说。",
     "src": "Vogue · 2026-09-10"
   },
   "command": {
-    "en": "They found that opportunity with the Iowa-based 103rd Sustainment Command, where Khork would serve as deputy force protection officer for nine months at Camp Arifjan in Kuwait.",
-    "cn": "他们在爱荷华州的第103维持司令部找到了这个机会，霍尔克将在科威特的阿里夫詹营地担任9个月的副部队保护官。",
+    "en": "Barnes did not respond to multiple requests for comment, while a spokeswoman for the 103rd Sustainment Command directed all questions to the Pentagon.",
+    "cn": "巴恩斯没有回应多次置评请求，而第103维持司令部的一名女发言人则将所有问题都转给了五角大楼。",
     "src": "CBS News · 2026-09-10"
   },
   "comfortable": {
@@ -5663,14 +5788,14 @@ const WORD_EXAMPLES = {
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "come": {
-    "en": "Now, when it comes to relationships, I prefer my lines considerably clearer (no situationships for me, please).",
-    "cn": "现在，当涉及到人际关系时，我更喜欢我的线条清晰得多（请不要给我任何情况）。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "When it comes to trends, short nails are not exempt from fleeting patterns and coveted fall colors.",
+    "cn": "说到流行趋势，短指甲也不能幸免于转瞬即逝的图案和令人垂涎的秋天颜色。",
+    "src": "Harper's Bazaar · 2026-09-09"
   },
   "combine": {
-    "en": "“Doron, Yoav and Ariel have created a thrilling, emotionally charged series that combines a deeply human story with cinematic scale,\" said Karni Ziv, head of drama at Keshet 12.",
-    "cn": "“多伦、约阿夫和阿里尔创造了一部惊心动魄、充满情感的电视剧，将深刻的人类故事与电影规模相结合，”凯舍特12的戏剧主管卡尼·齐夫说。",
-    "src": "Variety · 2026-09-10"
+    "en": "Fernandes starred again and the sight of him combining with the equally intelligent Youri Tielemans for United's second was encouraging.",
+    "cn": "费尔南德斯再次成为主力，他和同样聪明的蒂勒曼斯一起打进了曼联的第二个进球，这令人鼓舞。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "commerce": {
     "en": "McKee, previously the lieutenant governor, was elevated to the top job after former Gov. Gina Raimondo became commerce secretary during the Biden administration.",
@@ -5683,8 +5808,8 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "color": {
-    "en": "“This will change up your color while still keeping it natural and not being drastic.”",
-    "cn": "“这会改变你的肤色，同时保持自然而不夸张。",
+    "en": "No matter your color, O’Connor says that glossy hair will be key to transitioning your hue for fall.",
+    "cn": "奥康纳说，不管你的肤色是什么，有光泽的头发将是秋季转变色调的关键。",
     "src": "Cosmopolitan · 2026-09-09"
   },
   "college": {
@@ -5696,11 +5821,6 @@ const WORD_EXAMPLES = {
     "en": "If so, the end panels might have shown William being crowned king of England, as that was the ultimate consequence of the Conquest.",
     "cn": "如果是这样，最后的镶板可能显示威廉被加冕为英格兰国王，因为这是征服的最终结果。",
     "src": "HistoryExtra · 2026-09-09"
-  },
-  "conscious": {
-    "en": "What unlocks it is being a person who isn’t going to be self-conscious and not thinking about what everyone else is thinking about you.",
-    "cn": "打开它的是做一个不自我意识的人，不去想别人怎么看你。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "conservative": {
     "en": "Hailing a new generation of conservative leaders emerging across the region who are allied with President Trump, Rubio said Washington was finding partners willing to be \"very aggressive\" against criminal groups.",
@@ -5723,8 +5843,8 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "content": {
-    "en": "He also works on branded content initiatives, with brands including Gucci, Nordstrom, Sunglass Hut, Cartier, and Old Navy.",
-    "cn": "他还参与品牌内容项目，合作品牌包括Gucci、Nordstrom、Sunglass Hut、Cartier和Old Navy。",
+    "en": "He's spent over a decade at Who What Wear, currently leading the shopping team to deliver highly covetable and convertible content.",
+    "cn": "他在Who What Wear工作了十多年，目前领导购物团队提供非常令人垂涎和可转换的内容。",
     "src": "Who What Wear · 2026-09-10"
   },
   "construction": {
@@ -5746,6 +5866,11 @@ const WORD_EXAMPLES = {
     "en": "His previous credits include “Faith Connections,” which sold in more than 20 territories following its Toronto premiere; “Angry Indian Goddesses,” released theatrically in more than 67 countries and licensed worldwide by Netflix; “Beyond the Known World,” the first official India-New Zealand co-production; and “Stolen,” a Venice selection that received a global release on Prime Video.",
     "cn": "他之前的作品包括《信仰联系》（Faith Connections），在多伦多首映后在20多个地区销售；《愤怒的印度女神》（Angry Indian goddess）在超过67个国家上映，由Netflix在全球范围内授权；《超越已知世界》（Beyond the Known World），这是印度和新西兰首次正式合作制作的影片；威尼斯精选影片《偷走》（Stolen）在Prime Video上全球上映。",
     "src": "Variety · 2026-09-10"
+  },
+  "compute": {
+    "en": "Those holdings include Amazon, Alphabet, Meta Platforms and Oracle, all of which have invested heavily in data center infrastructure as demand for AI computing has surged.",
+    "cn": "这些公司包括亚马逊（Amazon）、Alphabet、Meta Platforms和甲骨文（Oracle），随着对人工智能计算的需求激增，这些公司都在数据中心基础设施方面投入了大量资金。",
+    "src": "CBS News · 2026-09-11"
   },
   "comrade": {
     "en": "“I didn’t want to tell [this story] through the names we remember,” like rebel leader Wat Tyler (played by Cosmo Jarvis ) and his comrade, the bombastic priest John Ball (Jamie Bell), Greengrass says in a director’s statement.",
@@ -5802,20 +5927,15 @@ const WORD_EXAMPLES = {
     "cn": "这也是在与足球支持者协会和俱乐部球迷顾问委员会的代表进行磋商之后做出的决定。",
     "src": "Sky Sports · 2026-09-10"
   },
-  "cloudy": {
-    "en": "Recently on the streets of NYC, Pamela debuted what might just be the chicest interpretation of a French manicure I’ve seen in a while: cloudy French nails.",
-    "cn": "最近在纽约街头，帕梅拉展示了一种可能是我这段时间见过的对法式美甲最优雅的诠释：浑浊的法式指甲。",
-    "src": "Cosmopolitan · 2026-09-09"
-  },
   "central": {
     "en": "U.S. Army Central and Third Army ordered the Pentagon probe \"to determine the facts and circumstances\" of the Iranian attack.",
     "cn": "美国陆军中央和第三军命令五角大楼调查伊朗袭击的“事实和情况”。",
     "src": "CBS News · 2026-09-10"
   },
   "centre": {
-    "en": "Havertz might never have entirely convinced as a centre-forward -- which is partly why Chelsea were willing to move him out and Arsenal signed Viktor Gyökeres last summer.",
-    "cn": "哈弗茨从未能彻底证明自己是一名合格的中锋——这也是切尔西愿意将他放走、阿森纳去年夏天签下维克托·约克雷斯的原因之一。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "Although Johnson is a winger, technically, he's more of a wide centre-forward, meaning he just makes runs to the back post.",
+    "cn": "虽然约翰逊名义上是边锋，但严格说更像是一个边路中锋，他只是不断跑向远端门柱。",
+    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "century": {
     "en": "The bubonic plague contributed to a growing sense of dissatisfaction in the country in the mid-14th century.",
@@ -5863,9 +5983,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "change": {
-    "en": "When a neighboring cell takes up an exosome, it receives a set of instructions that can change how that cell behaves.”",
-    "cn": "当邻近细胞吸收外泌体时，它会收到一组可以改变细胞行为的指令。",
-    "src": "ELLE · 2026-09-09"
+    "en": "The other is the gulf in quality between the starting XI and the team after changes are made.",
+    "cn": "另一个是变更后首发XI和球队之间的质量差距。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "cheek": {
     "en": "Makeup artist Sabrina Bedrani painted very light pink shades on Bullock’s cheeks and lips and went heavier and darker with the eyeliner and mascara, being careful to keep the eye look out of smoky territory.",
@@ -5898,14 +6018,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "character": {
-    "en": "\"It's about ways of dressing that celebrate ingenuity, originality, and character—the freedom and fun of creating a style that is truly personal.\"",
-    "cn": "“这是一种庆祝独创性、独创性和个性的着装方式——创造真正个人风格的自由和乐趣。",
-    "src": "Who What Wear · 2026-09-10"
-  },
-  "chapter": {
-    "en": "“While Portofino ’97 is all about falling in love and the rush of infatuation, Hotel Portofino is inspired by the same trip [David and I took] in 1997, but this is a new chapter about staying in love and the deeper echo of enduring love,” she tells Bazaar of her newest extrait fragrance in the Victoria Beckham Beauty lineup, Hotel Portofino extrait perfume.",
-    "cn": "“虽然97年的波托菲诺是关于坠入爱河和迷恋的，但波托菲诺酒店的灵感来自于1997年（大卫和我）的同一次旅行，但这是一个关于保持爱和持久爱的更深回声的新篇章，”她告诉芭莎，她在维多利亚·贝克汉姆美容系列中最新的高级香水，波托菲诺酒店香水。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "\"Kirby and the World Beyond\" is a 3D adventure for Kirby, where the character's Copy Abilities allow players to freely explore Kirby's universe.",
+    "cn": "《Kirby and the World Beyond》是一款针对Kirby的3D冒险游戏，角色的复制能力允许玩家自由探索Kirby的世界。",
+    "src": "Variety · 2026-09-10"
   },
   "channel": {
     "en": "The ships cross the Channel and the Norman army establishes itself on English soil.",
@@ -5922,10 +6037,10 @@ const WORD_EXAMPLES = {
     "cn": "她以自己25年的职业生涯为例，证明她可以让医疗服务更容易获得。",
     "src": "CBS News · 2026-09-10"
   },
-  "careful": {
-    "en": "Makeup artist Sabrina Bedrani painted very light pink shades on Bullock’s cheeks and lips and went heavier and darker with the eyeliner and mascara, being careful to keep the eye look out of smoky territory.",
-    "cn": "化妆师萨布丽娜·贝德拉尼在布洛克的脸颊和嘴唇上涂了浅粉色，然后用眼线笔和睫毛膏涂得更浓更黑，小心翼翼地让眼睛看起来不像烟熏的区域。",
-    "src": "ELLE · 2026-09-09"
+  "carpenter": {
+    "en": "“We’re seeing a new rival or parallel health system emerge,” says Daniel Carpenter, chair of the government department at Harvard University and an expert in FDA regulation, “built on self-diagnosis and easy access to a wide range of treatments.”",
+    "cn": "哈佛大学政府部门主席、FDA监管专家丹尼尔·卡彭特（Daniel Carpenter）说：“我们正在看到一个新的竞争对手或平行的卫生系统出现，它建立在自我诊断和容易获得各种治疗的基础上。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "carpet": {
     "en": "Might Pieter Mulier’s new vision for Versace continue to take shape on the red carpet?",
@@ -5936,6 +6051,11 @@ const WORD_EXAMPLES = {
     "en": "Simply put, peptides are short chains of amino acids—the building blocks of proteins—that carry specific instructions to specific cells.",
     "cn": "简而言之，肽是氨基酸的短链（蛋白质的组成部分），可向特定细胞传递特定的指令。",
     "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "carve": {
+    "en": "After carving out a deep side part, Abergel used the ghd Speed hairdryer and a round brush to smooth out Kidman’s damp hair and create lift and volume.",
+    "cn": "在剪出较深的侧分后，阿伯格尔用ghd Speed吹风机和圆刷把基德曼潮湿的头发弄平，让头发蓬松起来。",
+    "src": "ELLE · 2026-09-09"
   },
   "case": {
     "en": "Immediately following the 8th Circuit Court's ruling, People not Politicians appealed the case to the U.S. Supreme Court.",
@@ -5953,14 +6073,19 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "celebrate": {
-    "en": "“It’s about ways of dressing that celebrate ingenuity, originality, and character—the freedom and fun of creating a style that is truly personal,” Lauren continued.",
-    "cn": "Lauren继续说道：「这是关于庆祝独创性、独创性和个性的着装方式--创造真正个性化风格的自由和乐趣。",
-    "src": "ELLE · 2026-09-09"
+    "en": "\"It's about ways of dressing that celebrate ingenuity, originality, and character—the freedom and fun of creating a style that is truly personal.\"",
+    "cn": "“这是一种庆祝独创性、独创性和个性的着装方式——创造真正个人风格的自由和乐趣。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "ceiling": {
     "en": "But there are thousands of balloons in nets already hoisted into the arena ceiling, a sign they'll likely come tumbling down during Thursday's convention finale.",
     "cn": "但是已经有成千上万的气球挂在球馆的天花板上，这表明它们可能会在周四的大会结束时掉下来。",
     "src": "CBS News · 2026-09-09"
+  },
+  "cent": {
+    "en": "In their last 16 league games where they've enjoyed less than 45 per cent of the ball and started the match bigger than 2/1, they've conceded just nine goals, losing just two of those games, with those matches averaging a lowly 1.7 goals per game ratio.",
+    "cn": "在过去的16场联赛中，他们的控球率低于45%，开局比分大于2比1，他们只丢了9个球，只输了2场，这些比赛的场均进球率只有1.7个。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "cause": {
     "en": "The best leave-in conditioner for you will target and fix that cause.",
@@ -5998,19 +6123,14 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "clear": {
-    "en": "\"The general kept asking Cody to call an 'all clear,'\" his father told CBS News.",
-    "cn": "他的父亲告诉哥伦比亚广播公司新闻：“将军一直让科迪报‘安全警报’。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Fernandes made his feelings for De Zerbi clear to the Spurs boss himself when the deal was done.",
+    "cn": "在交易完成后，费尔南德斯向热刺主帅表达了他对德泽比的感情。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "clearly": {
     "en": "“They clearly spent time in higher latitude areas, but until now it wasn’t known whether they were also nesting there.”",
     "cn": "“他们显然在高纬度地区度过了一段时间，但直到现在还不知道他们是否也在那里筑巢。",
     "src": "Smithsonian Magazine · 2026-09-09"
-  },
-  "cloud": {
-    "en": "The look skips any stark white lines, no ultra-defined tips; instead, Pamela’s manicure appears to feature a sheer, milky base that melts into diffused white tips, creating a blurred, almost cloud-like finish.",
-    "cn": "这款妆容没有任何明显的白线，也没有超细的唇尖；相反，帕梅拉的美甲似乎以透明的乳白色底妆为特色，融化成扩散的白色尖端，创造出一种模糊的、几乎像云一样的效果。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "clothes": {
     "en": "No designer wants their clothes to be associated with the word “fussy,” but it’s a hard adjective to avoid in the world of evening wear or gala attire.",
@@ -6041,11 +6161,6 @@ const WORD_EXAMPLES = {
     "en": "Designed in London and handmade in Italy from 24K gold plate, the collection pairs sculptural shapes with clever details designed to offer multiple ways to wear each piece.",
     "cn": "该系列在伦敦设计，在意大利手工制作，采用24K金板材，将雕塑形状与巧妙的细节搭配在一起，为每件作品提供多种佩戴方式。",
     "src": "ELLE · 2026-09-09"
-  },
-  "clock": {
-    "en": "The Spanish actors—who have been married for over 16 years and have worked together for nearly double that time—were on the clock in Venice, promoting their latest joint project, French filmmaker Florian Zeller’s Bunker.",
-    "cn": "这对西班牙演员——他们已经结婚16年了，在一起工作的时间几乎是这16年的两倍——在威尼斯忙着宣传他们最新的合作项目，法国电影制片人弗洛里安·泽勒的《地堡》。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "city": {
     "en": "Based in New York City, he previously worked as a News Writer at W magazine and an Assistant Editor at V magazine.",
@@ -6083,9 +6198,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "circuit": {
-    "en": "As a world sales company, Jungle Book Studio can already envision ‘Angh’ setting the international buyers’ circuit alight and sparking a buzz across territories.",
-    "cn": "作为一家全球销售公司，《奇幻森林》工作室已经预见到《Angh》将点燃国际买家的热情，并在各个地区掀起热潮。",
-    "src": "Variety · 2026-09-10"
+    "en": "On Wednesday, however, the U.S. Court of Appeals for the 8th Circuit rejected the request for a temporary stay of Clark's ruling, writing that the appeals court either lacks \"jurisdiction over the appeal or, based on the briefing we have so far, the stay factors have not been met.\"",
+    "cn": "然而，周三，美国第八巡回上诉法院驳回了暂停克拉克裁决的请求，写道，上诉法院要么缺乏“对上诉的管辖权，要么根据我们迄今为止的简报，暂停因素尚未得到满足。",
+    "src": "CBS News · 2026-09-10"
   },
   "cinema": {
     "en": "His 2025 AI film \"The Cinema That Never Was\" attracted attention from leading filmmakers such as Alex Proyas and John Gaeta, and won major international AI film awards, including Grand Prizes at the Omni International AI Film Festival, whose jury was headed by George Miller, and the Artefact AI Film Festival, chaired by C&eacute;dric Klapisch.",
@@ -6097,19 +6212,19 @@ const WORD_EXAMPLES = {
     "cn": "一旦进入堡垒，叛乱分子就向他们的敌人进行报复，将一些王国最强大的人拖到处决区并砍下他们的头。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
-  "choose": {
-    "en": "Show the following inspiration photos to your nail tech, choose a sheer milky polish, and you’ll be in safe hands.",
-    "cn": "把下面的灵感照片给你的美甲师看，选择一种纯乳状的指甲油，你就会很安全。",
-    "src": "Cosmopolitan · 2026-09-09"
-  },
   "choice": {
     "en": "Those images remain seared in my mind: faced with the choice between the burning building and hurling themselves to certain death, they chose to jump.",
     "cn": "那些画面仍然在我的脑海中挥之不去：面对着火的大楼和将自己扔向死亡之间的选择，他们选择了跳下去。",
     "src": "Vogue · 2026-09-10"
   },
   "continue": {
-    "en": "\"It's like a cancer that continues to grow until you don't literally have a state anymore.\"",
-    "cn": "“这就像一种癌症，它会继续生长，直到你不再有一个真正的州。",
+    "en": "The president continued: \"It's not going to go down as the greatest trade in the history of sports.",
+    "cn": "总统继续说道：“它不会成为体育史上最伟大的贸易。",
+    "src": "CBS News · 2026-09-10"
+  },
+  "department": {
+    "en": "He added that his wife, attorney Victoria Toensing, who also worked with the team of federal prosecutors in Fort Pierce, Florida, will be leaving the Justice Department on Friday.",
+    "cn": "他补充说，他的妻子、律师维多利亚·图辛（Victoria Toensing）将于周五离开司法部，她也曾与佛罗里达州皮尔斯堡的联邦检察官团队一起工作。",
     "src": "CBS News · 2026-09-10"
   },
   "departure": {
@@ -6128,9 +6243,14 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "describe": {
-    "en": "“Black Opium to me really describes the most unapologetic, unafraid, cool woman,” she says.",
-    "cn": "她说：“对我来说，黑鸦片确实描述了最无所畏惧、最冷酷的女人。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "This story starts some 200 years ago, when Claude-Louis Navier and George Gabriel Stokes wrote equations to describe how fluids move.",
+    "cn": "这个故事始于大约200年前，当时克劳德-路易斯·纳维尔和乔治·加布里埃尔·斯托克斯写了一些方程来描述流体的运动。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
+  "description": {
+    "en": "The game was built on the studio's AI engine, which allows players to bring creatures to life based on a brief description.",
+    "cn": "这款游戏是基于工作室的AI引擎开发的，玩家可以根据简短的描述将生物赋予生命。",
+    "src": "Variety · 2026-09-10"
   },
   "deserve": {
     "en": "It might go down as the worst trade in the history of sports,\" before conceding that the Boston Red Sox's decision to ship pitcher Babe Ruth to the New York Yankees more than a century ago likely still deserved that dubious distinction.",
@@ -6138,9 +6258,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "design": {
-    "en": "A fine, chocolate-toned French tip puts a playful twist on this ever-timeless nail design.",
-    "cn": "精致的巧克力色法式指甲为这款永不过时的美甲设计增添了俏皮的色彩。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Also featuring friendly creatures, Arcadian Vale is designed to capture the whimsy of the \"Spyro\" universe.",
+    "cn": "阿卡迪亚山谷也以友好生物为特色，旨在捕捉“Spyro”宇宙的奇思妙想。",
+    "src": "Variety · 2026-09-10"
   },
   "desirable": {
     "en": "She shares the coolest, most desirable fashion market finds and brands for every budget.",
@@ -6156,11 +6276,6 @@ const WORD_EXAMPLES = {
     "en": "Her superheroine short film \"Blake\" is now being developed by Dreamkite as an original series.",
     "cn": "她的超级女英雄短片“布莱克”现在正在Dreamkite作为原创系列开发。",
     "src": "Variety · 2026-09-10"
-  },
-  "determine": {
-    "en": "U.S. Army Central and Third Army ordered the Pentagon probe \"to determine the facts and circumstances\" of the Iranian attack.",
-    "cn": "美国陆军中央和第三军命令五角大楼调查伊朗袭击的“事实和情况”。",
-    "src": "CBS News · 2026-09-10"
   },
   "detail": {
     "en": "The Tapestry’s borders are filled with animals, fables and mischievous details that invite close inspection.",
@@ -6192,6 +6307,11 @@ const WORD_EXAMPLES = {
     "cn": "然后在20到25分钟的时间里，我们做出了很多糟糕的决定，但我们找到了获胜的方法。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "deck": {
+    "en": "The AI-technology then creates a customized image that also includes a personalized deck of cards.",
+    "cn": "然后，人工智能技术会创建一个定制的图像，其中还包括一副个性化的纸牌。",
+    "src": "Variety · 2026-09-10"
+  },
   "declare": {
     "en": "When Rogers signed with Chelsea, he declared he was joining the biggest team in London.",
     "cn": "罗杰斯加盟切尔西时曾说，他加盟的是伦敦最大的球队。",
@@ -6208,9 +6328,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "define": {
-    "en": "However, while the runway set saw long sleeves and a knee-length skirt, the actor’s version was defined by its sleeveless scoop neckline and floor-length gown, which was cut with a thigh-high slit.",
-    "cn": "然而，虽然t台的造型是长袖和及膝裙，但这位演员的版本则是无袖露领和及地礼服，礼服的剪裁是及膝的开叉。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "\"In an homage to the first suit Ralph Lauren designed for women, two stark, sharp pantsuits were built in an Italian menswear facility, where the focus is on highly defined structure,\" the brand explained in the show notes.",
+    "cn": "“为了向拉夫·劳伦为女性设计的第一套西装致敬，两套鲜明、利落的长裤套装是在意大利的一家男装工厂生产的，那里的重点是高度明确的结构，”该品牌在时装秀说明中解释道。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "democratic": {
     "en": "She ran for governor in 2022 but lost to McKee in the Democratic primary.",
@@ -6218,9 +6338,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "demand": {
-    "en": "Experts say the peptide boom offers a window into a larger transformation in American health care: a shift from a market driven by diagnoses to one driven by demand, in which medicine is increasingly viewed as a consumer good—an Amazon-like product delivered to your doorstep.",
-    "cn": "专家表示，多肽繁荣为美国医疗保健行业的更大转型提供了一个窗口：从由诊断驱动的市场转向由需求驱动的市场，在这个市场中，医药越来越被视为一种消费品--一种类似亚马逊的产品，送货上门。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "Those holdings include Amazon, Alphabet, Meta Platforms and Oracle, all of which have invested heavily in data center infrastructure as demand for AI computing has surged.",
+    "cn": "这些公司包括亚马逊（Amazon）、Alphabet、Meta Platforms和甲骨文（Oracle），随着对人工智能计算的需求激增，这些公司都在数据中心基础设施方面投入了大量资金。",
+    "src": "CBS News · 2026-09-11"
   },
   "delight": {
     "en": "And under the direction of the brilliant Robert Hastie, I couldn’t be more delighted to be joining such an original and wildly ambitious show.",
@@ -6228,14 +6348,19 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "degree": {
-    "en": "A deeper shade also elevates my outfits to the nth degree—even more so if I opt for a chic, artful design —so I've been collecting inspo for months in preparation for the first kiss of brisk fall air.",
-    "cn": "更深的颜色也会让我的服装提升到第n级——如果我选择别致、巧妙的设计，效果会更明显——所以我几个月来一直在收集灵感，为秋天清新空气的初吻做准备。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "Yes, their expected goals numbers suggest they've ridden their luck to some degree - but this has been an impressive display of defensive organisation, which isn't a new trait.",
+    "cn": "是的，他们的预期进球数表明他们在某种程度上依靠了运气——但这是一个令人印象深刻的防守组织展示，这并不是一个新特点。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "definition": {
     "en": "After letting each curl cool completely, he raked through the hair with fingers (not a brush) to open the curl into a soft, sexy blowout shape without losing definition.",
     "cn": "让每一卷头发完全冷却后，他用手指（不是梳子）拨弄头发，使卷发柔软、性感，又不失轮廓。",
     "src": "ELLE · 2026-09-09"
+  },
+  "definitely": {
+    "en": "\"He definitely offers a different kind of threat, that is the beauty of it really, we know what Ben gives us and there are not many who can give us what he gives us.",
+    "cn": "“他绝对提供了一种不同的威胁，这就是它的美妙之处，我们知道本给了我们什么，没有几个人能给我们他给我们的。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "delicate": {
     "en": "Straw boater hats were some of my favorite accessories this season, but I also appreciated the impressive range of chic brooches, floral scarves, white handbags, oversized clutches, lace-up flats, delicate strappy heels, and more.",
@@ -6252,6 +6377,11 @@ const WORD_EXAMPLES = {
     "cn": "展示聚光灯下的个人物品、调查证据、真实的艺术品和其他“谋杀品”，让人们惊奇地窥见来自数十个国家的大约150名凶手的生活，这些凶手策划并犯下了不可思议的罪行。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
+  "disappoint": {
+    "en": "Gerry Silver, Schneider’s attorney, said in a statement he was disappointed in the result.",
+    "cn": "施耐德的律师格里·西尔弗（Gerry Silver）在一份声明中说，他对判决结果感到失望。",
+    "src": "Variety · 2026-09-10"
+  },
   "disaster": {
     "en": "\"A federal-election-administration disaster is unfolding in Missouri,\" Hanaway wrote in an emergency application for the U.S. Supreme Court to put the ruling on hold, warning it could lead to \"unprecedented chaos\" and render the primary \"utterly pointless.\"",
     "cn": "“密苏里州正在发生联邦选举行政灾难，”Hanaway在一份紧急申请中写道，要求美国最高法院搁置裁决，并警告说，这可能导致“前所未有的混乱”，并使主要的“毫无意义”。",
@@ -6263,9 +6393,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "discover": {
-    "en": "Its ambiguous storytelling and sparse Latin captions leave much open to interpretation, making every visit a chance to discover new perspectives on this epic tale of conquest and change.",
-    "cn": "它模棱两可的故事叙述和稀疏的拉丁字幕留下了很多可供解释的空间，使每次访问都有机会发现这个征服和变革的史诗故事的新视角。",
-    "src": "HistoryExtra · 2026-09-10"
+    "en": "The grave was discovered at an archaeological site near Żórawina, in southern Poland.",
+    "cn": "这座坟墓是在波兰南部Żórawina附近的一个考古遗址发现的。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "discovery": {
     "en": "This jolly discovery has a poignant undertone.",
@@ -6278,9 +6408,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "discussion": {
-    "en": "Republican leaders and Trump allies are gathering for two days at a downtown Dallas arena, and are holding other off-site donor events and discussions centered around topics like domestic energy production.",
-    "cn": "共和党领导人和特朗普的盟友将在达拉斯市中心的一个体育馆举行为期两天的聚会，并举行其他场外捐赠活动和讨论，主题包括国内能源生产。",
-    "src": "CBS News · 2026-09-09"
+    "en": "The action actually starts a couple of years before the set-piece battle of Hastings, with a discussion between England’s King, Edward the Confessor, and his leading noble (who was also his brother-in-law), Harold Godwinson.",
+    "cn": "故事发生在黑斯廷斯战役前几年，英国国王忏悔者爱德华和他的贵族领袖（也是他的姐夫）哈罗德·戈德温森之间的讨论。",
+    "src": "HistoryExtra · 2026-09-09"
   },
   "distance": {
     "en": "Fetterman has, at times, distanced himself from the Democrats, backing Mr. Trump's strategy in Iran and breaking with congressional Democrats in last year's government shutdown fight.",
@@ -6303,9 +6433,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "difference": {
-    "en": "The right formula, however, can make all the difference by adding hydration without heaviness, taming frizz without stealing volume, and leaving your hair soft, shiny, and full of life.",
-    "cn": "然而，正确的配方可以通过增加水分而不会产生沉重感，驯服卷曲而不会窃取体积，并让您的头发柔软，有光泽，充满活力。",
-    "src": "ELLE · 2026-09-10"
+    "en": "With goal difference a potentially significant factor in the league phase of this Champions League format, this was a fine night's work on their return.",
+    "cn": "在欧冠赛制的联赛阶段，净胜球是一个潜在的重要因素，这对他们的回归来说是一个美好的夜晚。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "diamond": {
     "en": "To hop on the trend, either opt for a burnished polish (like Essie's Gel Couture Liquid Diamonds collection) or simply add a chrome topper to any rich shade you please.",
@@ -6398,9 +6528,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "count": {
-    "en": "There is at least one randomized controlled trial of a plant extract exosome formulation showing a real increase in hair counts, but the signaling overlap with human follicle biology is less well characterized.”",
-    "cn": "至少有一项植物提取物外泌体配方的随机对照试验显示，毛发数量确实增加了，但与人类毛囊生物学的信号重叠却没有得到很好的表征。",
-    "src": "ELLE · 2026-09-09"
+    "en": "With roughly half of all votes counted at around 8:30 p.m. ET, Foulkes led McKee 62.3% to 37.7%.",
+    "cn": "美国东部时间晚上8点30分左右，大约一半的选票已经清点完毕，福克斯以62.3%对37.7%领先麦基。",
+    "src": "CBS News · 2026-09-10"
   },
   "country": {
     "en": "\"If you don't confront these groups, they will eat these countries alive,\" he warned.",
@@ -6438,9 +6568,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "creature": {
-    "en": "Above and below the action are borders populated by animals, birds, mythical creatures, decorative devices and mini scenes that may or may not relate to the main narrative.",
-    "cn": "行动的上方和下方是由动物、鸟类、神话生物、装饰装置和迷你场景组成的边界，这些场景可能与主要叙事有关，也可能与主要叙事无关。",
-    "src": "HistoryExtra · 2026-09-10"
+    "en": "The game was built on the studio's AI engine, which allows players to bring creatures to life based on a brief description.",
+    "cn": "这款游戏是基于工作室的AI引擎开发的，玩家可以根据简短的描述将生物赋予生命。",
+    "src": "Variety · 2026-09-10"
   },
   "creative": {
     "en": "The global fashion industry needs new markets, new consumers, and new creative voices.",
@@ -6448,9 +6578,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "create": {
-    "en": "This is the first time that we have created an extrait, so it was a deliberate step up in craft.",
-    "cn": "这是我们第一次创造一个外挂，所以这是在工艺上的一个深思熟虑的步骤。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "The AI-technology then creates a customized image that also includes a personalized deck of cards.",
+    "cn": "然后，人工智能技术会创建一个定制的图像，其中还包括一副个性化的纸牌。",
+    "src": "Variety · 2026-09-10"
   },
   "cream": {
     "en": "Ferragamo’s Maximilian Davis offered pointed pumps that “ recall nautical codes \" with their cream-and-black color schemes, while Isabel Marant took a splashier stance by splicing together colorful shades of snakeskin-embossed leather.",
@@ -6468,9 +6598,14 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "craft": {
-    "en": "This is the first time that we have created an extrait, so it was a deliberate step up in craft.",
-    "cn": "这是我们第一次创造一个外挂，所以这是在工艺上的一个深思熟虑的步骤。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "She focused largely on draping this season, finding beauty in the strong silhouettes she could craft with a singular roll of fabric.",
+    "cn": "这一季，她主要专注于垂饰，用一卷单一的面料打造出鲜明的轮廓，从中寻找美。",
+    "src": "Vogue · 2026-09-10"
+  },
+  "crack": {
+    "en": "He knows how to crack Emery's tactical plan as Glasner's teams are extremely comfortable allowing the opponent possession before attacking the spaces created when the opponent overcommits.",
+    "cn": "他知道如何破解埃梅里的战术计划，因为格拉斯纳的球队在进攻对手过度投入时创造的空间之前，总是让对手拥有控球权。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "cow": {
     "en": "In a 2016 study, scientists found that milk proteins from a species of cockroach that gives live birth carry three times as much energy as milk proteins from cows.",
@@ -6503,9 +6638,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-09"
   },
   "conversation": {
-    "en": "The upshot of that conversation is that Harold sets off on a ship to France.",
-    "cn": "谈话的结果是哈罗德乘船去了法国。",
-    "src": "HistoryExtra · 2026-09-09"
+    "en": "For Fernandes, it was his conversations with head coach Roberto De Zerbi which persuaded him the north London project was for him.",
+    "cn": "对于费尔南德斯来说，是他和主教练罗伯托·德泽比的谈话说服了他北伦敦的计划是适合他的。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "convert": {
     "en": "The average shot is converted about 10% of the time.",
@@ -6521,6 +6656,11 @@ const WORD_EXAMPLES = {
     "en": "I concur—there's just something so cool about an off-season, \"Summerween\" manicure.",
     "cn": "我同意——淡季的“夏夜”美甲真是太酷了。",
     "src": "Who What Wear · 2026-09-10"
+  },
+  "correct": {
+    "en": "Week 3 @SkySportsPL Predictions & Best Bet results: Leif Davis to score or assist 4/1 ❌ Brentford/Brentford 9/4 ❌ Aston Villa to win 17/20 ❌ P+L -3 Season P+L +3.47 5/10 correct results 2/10 correct scores pic.twitter.com/3tM4kQYwOK",
+    "cn": "第三周@SkySportsPL预测和最佳投注结果：莱夫·戴维斯得分或助攻4/1❌布伦特福德/布伦特福德9/4❌阿斯顿维拉获胜17/20❌P+L -3赛季P+L +3.47 5/10正确结果2/10正确分数pic.twitter.com/3tM4kQYwOK",
+    "src": "Sky Sports · 2026-09-10"
   },
   "corporation": {
     "en": "They date back to about 68 million years ago, when the site, sitting at between 55 degrees and 60 degrees south latitude, had a climate comparable to New York City today, Zelenitsky tells Emily Chung at the Canadian Broadcasting Corporation.",
@@ -6542,6 +6682,11 @@ const WORD_EXAMPLES = {
     "cn": "这一发现可能与Corded Ware文化有关，Corded Ware文化以陶瓷陶器特有的扭绳印记命名。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
+  "copy": {
+    "en": "\"Kirby and the World Beyond\" is a 3D adventure for Kirby, where the character's Copy Abilities allow players to freely explore Kirby's universe.",
+    "cn": "《Kirby and the World Beyond》是一款针对Kirby的3D冒险游戏，角色的复制能力允许玩家自由探索Kirby的世界。",
+    "src": "Variety · 2026-09-10"
+  },
   "copper": {
     "en": "“It’s warm without being overly copper and dimensional without needing to be blonde, which makes it incredibly wearable,” Botsford says.",
     "cn": "博茨福德说：“它既温暖，又不会过于古铜色，也不需要金黄色，这让它非常适合穿。",
@@ -6551,11 +6696,6 @@ const WORD_EXAMPLES = {
     "en": "Rangers had to cope without captain and striker Lawrence Shankland, who missed out through injury, with Ryan Naderi starting in his place.",
     "cn": "流浪者不得不在没有队长和前锋劳伦斯·尚克兰德的情况下应对，劳伦斯·尚克兰德因伤缺席比赛，瑞安·纳德里（Ryan Naderi）开始取代他。",
     "src": "Sky Sports · 2026-09-09"
-  },
-  "coordinate": {
-    "en": "The psychological thriller, which stars both Cruz and Bardem (and earned them a 16-minute standing ovation at the premiere), made its debut on Tuesday night, and the couple coordinated in elegant looks to celebrate.",
-    "cn": "这部心理惊悚片由克鲁兹和巴登共同主演（在首映式上他们起立鼓掌了16分钟），于周二晚上首播，这对夫妇以优雅的造型配合庆祝。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "crime": {
     "en": "Spanning a massive, 21,000-square-foot space, “ Serial Killer: The Exhibition ” brings together more than 2,000 items that confront myth with true crime’s gruesome reality.",
@@ -6572,19 +6712,14 @@ const WORD_EXAMPLES = {
     "cn": "但在他的2027年春夏系列中，这位坚定的设计师重新审视了他的签名，同时寻找了切割、分层和风格经典的新方法。",
     "src": "ELLE · 2026-09-09"
   },
-  "daily": {
-    "en": "Ahead, Beckham tells us about the original Italian getaway that inspired the new scent, the wellness routine she and David do daily together, and the city that may inspire her next hit scent.",
-    "cn": "接下来，贝克汉姆向我们讲述了激发新香水灵感的意大利之旅，她和大卫每天一起做的健康运动，以及可能激发她下一款热门香水灵感的城市。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "damage": {
     "en": "Whether you’ve got heat damage or just don’t want to deal with the humidity clinging to your every strand, we sourced the seven best leave-in conditioners for all kinds of frizzy hair.",
     "cn": "无论你是受到了热损伤，还是只是不想处理每根头发上的湿气，我们都为你挑选了七种最好的免洗护发素，适用于各种卷曲的头发。",
     "src": "ELLE · 2026-09-09"
   },
   "damp": {
-    "en": "To create the style, she prepped Bullock’s damp hair with a combination of RŌZ Santa Lucia Styling Oil and the RŌZ Milk Hair Serum before blow-drying with a round brush.",
-    "cn": "为了打造这种造型，她用RŌZ圣卢西亚造型油和RŌZ牛奶护发精华液为布洛克潮湿的头发做了准备，然后用圆刷吹干。",
+    "en": "After carving out a deep side part, Abergel used the ghd Speed hairdryer and a round brush to smooth out Kidman’s damp hair and create lift and volume.",
+    "cn": "在剪出较深的侧分后，阿伯格尔用ghd Speed吹风机和圆刷把基德曼潮湿的头发弄平，让头发蓬松起来。",
     "src": "ELLE · 2026-09-09"
   },
   "dance": {
@@ -6613,9 +6748,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "data": {
-    "en": "The strategy outlines a DEI goal led by social mobility and better access to the BFC’s prize program, which the organization plans to bolster through data collection, research papers, and the implementation of industry guidance toolkits.",
-    "cn": "该战略概述了以社会流动性和更好地参与BFC奖励计划为主导的DEI目标，该组织计划通过数据收集、研究论文和实施行业指导工具包来支持这一目标。",
-    "src": "Vogue · 2026-09-10"
+    "en": "His disclosure shows between roughly $777,000 and $1.78 million invested in major technology firms that build, operate or lease large amounts of data center capacity.",
+    "cn": "他披露的信息显示，投资于建造、运营或租赁大量数据中心容量的大型科技公司的资金约为77.7万美元至178万美元。",
+    "src": "CBS News · 2026-09-11"
   },
   "date": {
     "en": "Soon, the researchers will use radiocarbon dating to figure out the skeleton’s exact age.",
@@ -6638,9 +6773,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "customer": {
-    "en": "Customer review: “The best conditioner for fine hair that I have found.",
-    "cn": "客户评价：“我找到的最好的细发护发素。",
-    "src": "ELLE · 2026-09-10"
+    "en": "Next March, we can only anticipate even more, but luckily for customers that’s also when the spring collections will be in stores.",
+    "cn": "明年3月，我们只能期待更多，但对顾客来说幸运的是，那也是春季系列上市的时候。",
+    "src": "Vogue · 2026-09-10"
   },
   "deal": {
     "en": "Morgan Rogers -- who signed for Chelsea in a £117 million deal after repeated links with a move to Arsenal -- struck inside 77 seconds to put the visitors in front.",
@@ -6653,19 +6788,14 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "day": {
-    "en": "But Martinez and Lacroix both had an off day at the Emirates as Chelsea's defensive frailties once again highlighted their big weakness.",
-    "cn": "但马丁内斯和拉克鲁瓦在酋长球场双双不在状态，切尔西防线的问题再次暴露无遗。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "On March 1, one day into the Iran war, an Iranian Shahed drone struck Khork's position, killing him and five other American troops.",
+    "cn": "3月1日，伊朗战争开始的第一天，一架伊朗Shahed无人机袭击了霍克的阵地，杀死了他和其他五名美国士兵。",
+    "src": "CBS News · 2026-09-10"
   },
   "daughter": {
     "en": "Gyllenhaal’s directorial debut, The Lost Daughter, won Best Screenplay at the festival in 2021.",
     "cn": "吉伦哈尔的导演处女作《迷失的女儿》在2021年的电影节上获得了最佳剧本奖。",
     "src": "ELLE · 2026-09-09"
-  },
-  "custom": {
-    "en": "For Cruz, this meant a red Chanel dress, made custom by Matthieu Blazy.",
-    "cn": "对克鲁兹来说，这意味着一件由马修·布拉齐（Matthieu Blazy）定制的红色香奈儿（Chanel）连衣裙。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "curve": {
     "en": "File the nail into your preferred shape; soft “squoval” or rounded work well to complement the natural curve of your fingertip, and always push back and perfectly tidy the cuticle area —this instantly elongates the nail bed and maximises the canvas, even when the length is minimal.”",
@@ -6753,9 +6883,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "apple": {
-    "en": "But 29-year-old Alisha Boe, star of Apple TV’s The Buccaneers, absolutely knows how to party.",
-    "cn": "但是29岁的阿丽莎·波伊，苹果电视节目《海盗》的明星，绝对知道如何开派对。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "\"The Escape\" is the latest in an ambitious international slate for Keshet International, which is part of Keshet Media Group, including Claire Danes starrer \"Lovesick\" for Netflix, recently-released international thriller \"Unconditional\" for Apple TV and \"Save the Date,\" from showrunner Dana Fox, which has come out of the company's -look scripted deal with Sony Pictures Television.",
+    "cn": "《越狱》是凯舍特传媒集团旗下凯舍特国际公司雄心勃勃的国际计划中的最新一部，其中包括克莱尔·丹尼斯主演的Netflix的《相思》，最近在苹果电视上上映的国际惊悚片《无条件》，以及由制片人达纳·福克斯主演的《拯救约会》，这部电影是该公司与索尼影视公司签订的剧本协议。",
+    "src": "Variety · 2026-09-10"
   },
   "appoint": {
     "en": "They have appointed a top-class manager in Xabi Alonso and recruited well with goalkeeper Martinez, defender Maxence Lacroix and forward Rogers.",
@@ -6767,10 +6897,15 @@ const WORD_EXAMPLES = {
     "cn": "她的任命与BFC的持续使命相一致，即更好地影响政策制定者和政府，增加投资，并突出时尚在该地区经济和文化中的作用。",
     "src": "Vogue · 2026-09-10"
   },
+  "argument": {
+    "en": "But the panel ruled that it could not go along with that argument, given that “the only such abuse discussed is explicitly attributed to named perpetrators and the documentary expressly states that an investigation into Schneider found no evidence of abuse.”",
+    "cn": "但该小组裁定，它不能同意这一论点，因为“唯一讨论到的此类虐待行为都是明确归咎于指名道姓的肇事者，而且纪录片明确表示，对施耐德的调查没有发现虐待的证据。",
+    "src": "Variety · 2026-09-10"
+  },
   "argue": {
-    "en": "Arsenal, the current Premier League champions, can currently argue otherwise and point to a run that now extends to 10 unbeaten league games against Chelsea.",
-    "cn": "作为现任英超冠军，阿森纳完全有理由反驳——对切尔西的联赛不败纪录已经扩大到了 10 场。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "Schneider argued that he had nothing to do with those cases, and that the series created a false impression by linking him to them.",
+    "cn": "施耐德辩称，他与这些案件没有任何关系，该系列节目将他与这些案件联系在一起，造成了一种错误的印象。",
+    "src": "Variety · 2026-09-10"
   },
   "area": {
     "en": "He first gets down to a Gassama strike from the edge of the area.",
@@ -6791,6 +6926,11 @@ const WORD_EXAMPLES = {
     "en": "Many of her gowns this season had such versatile styling approaches, featuring removable capes or jackets that completed the look, if desired.",
     "cn": "她这一季的许多礼服都采用了这种百搭的造型方法，如果需要的话，还可以用可拆卸的斗篷或夹克来完成整个造型。",
     "src": "Vogue · 2026-09-10"
+  },
+  "april": {
+    "en": "Menino Convention & Exhibition Center April 22 to April 25.",
+    "cn": "美尼诺会展中心4月22日至4月25日。",
+    "src": "Variety · 2026-09-10"
   },
   "anything": {
     "en": "And if this manicure could talk, it would say “I’m ready for anything.”",
@@ -6813,9 +6953,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "analysis": {
-    "en": "Lia covers everything from emerging trend analysis to viral celebrity hair and makeup moments, making her an expert at spotting the season’s next big beauty look (before it takes over social media feeds).",
-    "cn": "Lia涵盖了从新兴趋势分析到走红的明星发型和化妆瞬间的所有内容，使她成为发现本季下一个大美女造型的专家（在它占领社交媒体之前）。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Our top tipster Lewis Jones, aka Jones Knows, provides his analysis and betting insight across the weekend Premier League action.",
+    "cn": "我们的顶级线人刘易斯·琼斯，又名琼斯知道，提供他的分析和投注洞察整个周末英超联赛的行动。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "anchor": {
     "en": "Holmes of The Devil in the White City infamy—anchors a new exhibition, now open in Chicago.",
@@ -6841,11 +6981,6 @@ const WORD_EXAMPLES = {
     "en": "“Human and animal-derived exosomes have more direct clinical evidence for hair growth,” explains Dr. Kobets.",
     "cn": "“人类和动物来源的外泌体对毛发生长有更直接的临床证据，”Kobets博士解释说。",
     "src": "ELLE · 2026-09-09"
-  },
-  "ankle": {
-    "en": "For the Bunker photo call, the star wore an ankle-length black number with Blazy’s signature feather accents adorning the straps.",
-    "cn": "为了拍摄邦克的照片，这位明星穿了一件及脚踝的黑色礼服，带子上装饰着布拉齐标志性的羽毛。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "any": {
     "en": "And it's not even clear that the production -- you know, the part where you turn your play into goals -- drove any kind of premium.",
@@ -6878,9 +7013,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "around": {
-    "en": "When David and Victoria Beckham wed in 1999, it was the nuptials (and matching purple outfits) heard around the world.",
-    "cn": "1999年大卫·贝克汉姆和维多利亚·贝克汉姆结婚时，全世界都听到了他们的婚礼（以及配套的紫色礼服）。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "Pygmy raccoons, also called Cozumel raccoons, weigh between six and nine pounds, around the same as a newborn human baby.",
+    "cn": "侏儒浣熊，也叫科苏梅尔浣熊，体重在6到9磅之间，和一个新生的人类婴儿差不多。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "atlantic": {
     "en": "In the past year, she made that aforementioned runway debut, opened for Lorde, and embarked on her first headline tour, going from barely traveling to crossing the Atlantic regularly.",
@@ -6903,9 +7038,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "attend": {
-    "en": "I caught up with the actress in London last week, just before attending YSL Beauty’s London Block Party to celebrate the brand’s new fragrance, Black Opium Pink Glaze Eau de Parfum.",
-    "cn": "上周，我在伦敦采访了这位女演员，就在参加YSL Beauty的伦敦街区派对之前，该派对是为了庆祝该品牌的新香水Black Opium Pink Glaze Eau de Parfum。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "It is Atletico Madrid away next in Europe but there are bigger matters to attend to before that.",
+    "cn": "接下来在欧洲的比赛是马德里竞技，但在那之前还有更重要的事情要做。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "attention": {
     "en": "On the night the Po sank, however, its lights had intentionally been kept off to avoid drawing attention to other ships anchored in the bay.",
@@ -6916,11 +7051,6 @@ const WORD_EXAMPLES = {
     "en": "It was still uncertain that Chelsea had finally sealed their progress when Valentin Barco blasted them 5-3 up from close range from another Rogers assist, but they could finally rest easy in added time - and extinguish Leeds' commendable never-say-die attitude - when Welbeck nodded Barco's wildly mishit effort beyond Zetterer.",
     "cn": "当瓦伦丁·巴科（Valentin Barco）从另一位罗杰斯（Rogers）助手的近距离以5比3击败他们时，切尔西最终是否已经封锁了他们的进步仍不确定，但当韦尔贝克（Welbeck）点头点头时，他们终于可以在额外的时间内轻松休息，并消除利兹（Leeds）值得称赞的永不言败的态度。",
     "src": "Sky Sports · 2026-09-09"
-  },
-  "autumn": {
-    "en": "It’ll work with your favorite autumn knit, that little black dress, jeans, and a tee, or whatever else your fall wardrobe throws at you.",
-    "cn": "它可以搭配你最喜欢的秋季针织衫、小黑裙、牛仔裤和t恤，或者你秋天衣橱里的任何其他衣服。",
-    "src": "Cosmopolitan · 2026-09-09"
   },
   "authority": {
     "en": "We cover what’s new and what’s next in fashion by working with the world’s leading authorities in ready-to-wear, footwear, accessories, and more.",
@@ -6957,6 +7087,11 @@ const WORD_EXAMPLES = {
     "cn": "天空体育将在12月26日至1月7日期间播出29场比赛；英超提前公布了节日赛程，因为它“给了球迷三个多月的时间来计划和安排旅行”。",
     "src": "Sky Sports · 2026-09-10"
   },
+  "arrest": {
+    "en": "The show also delved into the cases of Brian Peck, a dialogue coach who was arrested for child sex abuse, and Jason Michael Handy, a production assistant who was also accused of sending an explicit photo to a child actress.",
+    "cn": "该剧还深入探讨了对话教练布莱恩·派克（Brian Peck）因性侵儿童而被捕的案件，以及制片助理杰森·迈克尔·汉迪（Jason Michael Handy）也被指控向一名童星发送露点照片的案件。",
+    "src": "Variety · 2026-09-10"
+  },
   "arrival": {
     "en": "Here’s what you need to know about the real history behind The Uprising ahead of the film’s arrival in theaters across the United States on September 10.",
     "cn": "以下是电影于9月10日抵达美国各地影院之前，您需要了解的《起义》背后的真实历史。",
@@ -6968,9 +7103,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "art": {
-    "en": "Now, because there's no UV lamp, gel, or elaborate nail art involved, it's surprisingly easy to recreate at home.",
-    "cn": "现在，由于不需要紫外线灯、凝胶或复杂的美甲工艺，在家就可以轻松制作。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "In France’s latest art heist, two thieves broke into Pierre-Auguste Renoir ’s house and stole four of his paintings.",
+    "cn": "在法国最近的艺术品盗窃案中，两名小偷闯入皮埃尔-奥古斯特·雷诺阿的家中，偷走了他的四幅画。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "artificial": {
     "en": "The findings suggest that the Po has transformed into an artificial reef, providing habitat and shelter for a diverse range of marine life.",
@@ -7037,6 +7172,11 @@ const WORD_EXAMPLES = {
     "cn": "预期进球和预期助攻更能反映球员在禁区附近的威胁，因为它考虑了球员的每一次射门和传球。",
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
+  "accuse": {
+    "en": "In the lawsuit, Schneider’s attorneys argued that while the show did not come out and directly accuse Schneider of sex abuse, it did juxtapose accusations of “inappropriate behavior” with pictures of Schneider with his arm around child actresses.",
+    "cn": "在诉讼中，施耐德的律师辩称，虽然节目没有直接指控施耐德性侵，但它确实将施耐德搂着童女的照片与“不当行为”的指控并列在一起。",
+    "src": "Variety · 2026-09-10"
+  },
   "achieve": {
     "en": "Although the rebellion failed to achieve any of its stated goals, it inspired subsequent “large-scale popular uprisings with a political aim,” Prescott says.",
     "cn": "普雷斯科特说，尽管叛乱未能实现其任何既定目标，但它激发了随后的“有政治目的的大规模民众起义”。",
@@ -7062,10 +7202,15 @@ const WORD_EXAMPLES = {
     "cn": "耶胡达·利瓦伊（《有效的身体》）主演了凯舍特国际公司的一部新的国际动作惊悚片《越狱》。",
     "src": "Variety · 2026-09-10"
   },
+  "address": {
+    "en": "It shows that they support the will of the people, and in fact it is important and responsible to consider the blue-collar jobs and economic development that might benefit a region like Northeastern Pennsylvania when addressing and legislating this issue.\"",
+    "cn": "这表明他们支持人民的意愿，事实上，在解决和立法这个问题时，考虑蓝领就业和经济发展可能有利于宾夕法尼亚东北部地区，这是重要和负责任的。",
+    "src": "CBS News · 2026-09-11"
+  },
   "additional": {
-    "en": "Foulkes has pitched raising Medicaid reimbursement rates, and she's proposed a tax on millionaires, which would allot money to build over 20,000 homes by adding an additional 3% tax on incomes over $1 million.",
-    "cn": "福克斯提议提高医疗补助报销率，她还提议对百万富翁征税，这将通过对超过100万美元的收入额外征收3%的税来分配建造2万多套住房的资金。",
-    "src": "CBS News · 2026-09-10"
+    "en": "For additional information about new features and enhancements coming to \"The Legend of Zelda: Ocarina of Time\" or to preorder, please visit Amazon, Nintendo Store or Nintendo eShop.",
+    "cn": "有关“塞尔达传说：时之笛”的新功能和增强功能的更多信息或预订，请访问亚马逊，任天堂商店或任天堂eShop。",
+    "src": "Variety · 2026-09-10"
   },
   "addition": {
     "en": "Gucci revisits its equestrian roots with a new Horsebit fine jewelry and watch collection, giving the iconic house code a fresh update in diamonds and gold, while Louis Vuitton brings a bold dose of color to its signature Tambour Spin Time with five new additions to the permanent collection.",
@@ -7073,14 +7218,19 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "add": {
-    "en": "“What’s in the package may not actually be what is on the outside of the label,” Doroshow adds.",
-    "cn": "Doroshow补充道：“包装中的东西实际上可能不是标签外面的东西。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "Include his three assists and that adds up to 0.25 non-penalty goals plus assists per 90 minutes with the Toffees.",
+    "cn": "加上 3 个助攻，他在埃弗顿的场均非点球进球加助攻也只有 0.25。",
+    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+  },
+  "adapt": {
+    "en": "It's been jaw dropping the way they have adapted their game to this level of football.",
+    "cn": "他们让自己的比赛适应这种水平的足球的方式令人惊叹。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "actually": {
-    "en": "“It functions as rainwear and is made of a technical fabric, but the jacket actually has a leathery cool look to it,” said Rhee.",
-    "cn": "他说：“它的功能是雨衣，由一种技术面料制成，但这件夹克实际上有一种皮革般的酷感。",
-    "src": "Vogue · 2026-09-10"
+    "en": "Maybe Chelsea will need to actually recruit more players as they move on through the next year or two with Alonso.",
+    "cn": "也许切尔西真的需要在阿隆索麾下继续前行的一两年里，再引进更多球员。",
+    "src": "ESPN · Mark White · 2026-09-07"
   },
   "actual": {
     "en": "Among the actual wingers who got consistent playing time, we're left with three -- out of 19 -- who were able to dribble past their defender and turn it into above-average production.",
@@ -7088,9 +7238,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "actress": {
-    "en": "The actress and new face of YSL Beauty’s Black Opium Eau de Parfum told me the green flags she looks for in a good party (just before we went to one together).",
-    "cn": "这位女演员兼圣罗兰美妆黑色鸦片香水的新代言人告诉我，她在一个好的派对上最喜欢的绿色旗帜是什么（就在我们一起去派对之前）。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "In the lawsuit, Schneider’s attorneys argued that while the show did not come out and directly accuse Schneider of sex abuse, it did juxtapose accusations of “inappropriate behavior” with pictures of Schneider with his arm around child actresses.",
+    "cn": "在诉讼中，施耐德的律师辩称，虽然节目没有直接指控施耐德性侵，但它确实将施耐德搂着童女的照片与“不当行为”的指控并列在一起。",
+    "src": "Variety · 2026-09-10"
   },
   "actor": {
     "en": "It stars Kiri alongside Dutch actor Jonas Smulders (\"Luka,\" \"Paradise Drifters\") and Serbia's Darko Perić (\"Money Heist\").",
@@ -7113,24 +7263,24 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "ability": {
-    "en": "For candidates running in places where Mr. Trump is popular, it's an opportunity to capitalize on the president's unparalleled ability to turn out the base.",
-    "cn": "对于在特朗普受欢迎的地方竞选的候选人来说，这是一个利用特朗普无与伦比的拉票能力的机会。",
-    "src": "CBS News · 2026-09-09"
+    "en": "Speed, physicality, ability to play on the last line and run in behind.",
+    "cn": "速度，身体素质，在最后一条线上的能力，以及在后面奔跑的能力。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "able": {
-    "en": "Among the actual wingers who got consistent playing time, we're left with three -- out of 19 -- who were able to dribble past their defender and turn it into above-average production.",
-    "cn": "在真正有稳定出场时间的边锋中，19 人里只有 3 人能够突破对手并转化为高于平均水准的产出。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+    "en": "Dorgu enjoyed himself at left-back with Luke Shaw missing from the squad but he was able to play as a de facto winger given United's superiority.",
+    "cn": "在卢克·肖缺阵的情况下，多古在左后卫的位置上表现得很好，但鉴于曼联的优势，他能够胜任边锋的位置。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "about": {
-    "en": "I polled some of the biggest hair colorists in the business on what they’re excited about (and already getting requests for).",
-    "cn": "我调查了业内一些最大的染发师，问他们最感兴趣的是什么（以及已经收到的要求）。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "His decision has added further confusion about which boundaries will be used in November.",
+    "cn": "他的决定进一步混淆了11月将使用哪些边界。",
+    "src": "CBS News · 2026-09-10"
   },
   "above": {
-    "en": "James and I wept too, uncomprehending—the flames, the smoke, above all the people jumping.",
-    "cn": "詹姆斯和我也哭了，无法理解——火焰，烟雾，最重要的是人们跳了起来。",
-    "src": "Vogue · 2026-09-10"
+    "en": "The Latin captions above the scenes are terse, offering little more than names and places.",
+    "cn": "场景上方的拉丁文字幕很简洁，除了名字和地点之外，几乎没有别的说明。",
+    "src": "HistoryExtra · 2026-09-10"
   },
   "absence": {
     "en": "Many believe Chelsea could push Arsenal the closest this season, given an absence of European football and Alonso's encouraging early returns.",
@@ -7140,6 +7290,16 @@ const WORD_EXAMPLES = {
   "absolute": {
     "en": "But John Finnemore has crafted an absolute masterpiece: a cycle of five plays that are each as funny as they are moving, and of course, deeply, deeply unpredictable.",
     "cn": "但约翰·芬尼莫尔创作了一部绝对的杰作：一部由五部戏剧组成的戏剧循环，每部戏剧既有趣又感人，当然，也非常非常不可预测。",
+    "src": "Variety · 2026-09-10"
+  },
+  "absolutely": {
+    "en": "“However, we are pleased that the Court acknowledged that the makers of ‘Quiet on Set’ presented absolutely no evidence that Dan was sexually abusive towards any of his cast members and agreed that any such allegation is provably false.\"",
+    "cn": "“然而，我们很高兴法院承认，《安静的现场》的制作方绝对没有提供任何证据证明丹对他的任何演员进行了性虐待，并同意任何此类指控都是可证明的虚假指控。",
+    "src": "Variety · 2026-09-10"
+  },
+  "abuse": {
+    "en": "“‘Quiet on Set’ also affirmatively states that Schneider's employer investigated his conduct and, while it confirmed some inappropriate behavior, it found no evidence of child sexual abuse.",
+    "cn": "“《片场安静》还明确表示，施耐德的雇主调查了他的行为，虽然证实了一些不当行为，但没有发现性虐待儿童的证据。",
     "src": "Variety · 2026-09-10"
   },
   "academic": {
@@ -7253,9 +7413,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "ahead": {
-    "en": "Ahead, find the 10 best conditioners for fine hair.",
-    "cn": "提前找到10种最适合细头发的护发素。",
-    "src": "ELLE · 2026-09-10"
+    "en": "With Marcus Rashford also available, and Cunha getting a confidence-boosting goal, there are some interesting decisions ahead for the United boss.",
+    "cn": "拉什福德也可以上场，库尼亚也取得了一个提升信心的进球，曼联主帅将面临一些有趣的决定。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "alternative": {
     "en": "“While we love a long and bold statement nail look, the short manicure remains a timeless classic, offering an understated, chic, and, frankly, more practical alternative to length,” says Daisy Kalnina, founder of The Gel Bottle.",
@@ -7278,9 +7438,14 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "agreement": {
-    "en": "The president and members of both parties, including Fetterman, had initially opposed Nippon's efforts to buy the iconic Pittsburgh-based steelmaker, but Mr. Trump ultimately signed off on an agreement that he argued would result in tens of billions in new investments in U.S. Steel and grant the federal government a \"golden share\" in the company.",
-    "cn": "总统和包括Fetterman在内的双方成员最初反对日本收购这家总部位于匹兹堡的标志性钢铁制造商的努力，但特朗普最终签署了一项协议，他认为该协议将导致对美国钢铁公司进行数百亿美元的新投资，并授予联邦政府该公司的“黄金份额”。",
-    "src": "CBS News · 2026-09-10"
+    "en": "The embroidery is normally housed at the Bayeux Tapestry Museum in Normandy, but a historic agreement was reached with the French government for the artefact to be loaned to the UK while its home museum undergoes renovation.",
+    "cn": "这幅刺绣作品通常存放在诺曼底的贝叶挂毯博物馆，但与法国政府达成了一项历史性协议，在其本国博物馆进行翻修时，这幅艺术品将被借给英国。",
+    "src": "HistoryExtra · 2026-09-10"
+  },
+  "agree": {
+    "en": "“However, we are pleased that the Court acknowledged that the makers of ‘Quiet on Set’ presented absolutely no evidence that Dan was sexually abusive towards any of his cast members and agreed that any such allegation is provably false.\"",
+    "cn": "“然而，我们很高兴法院承认，《安静的现场》的制作方绝对没有提供任何证据证明丹对他的任何演员进行了性虐待，并同意任何此类指控都是可证明的虚假指控。",
+    "src": "Variety · 2026-09-10"
   },
   "advise": {
     "en": "Titled The Uprising, the movie stars Andrew Garfield as the Ploughman, a fictionalized everyman who takes up arms against the corrupt politicians advising England’s 14-year-old king, Richard II.",
@@ -7297,6 +7462,11 @@ const WORD_EXAMPLES = {
     "cn": "奇怪的是，他们随后一起前往布列塔尼进行军事冒险，哈罗德似乎热情地参加了这次冒险。",
     "src": "HistoryExtra · 2026-09-09"
   },
+  "advanced": {
+    "en": "Those investments include stakes in NVIDIA, Advanced Micro Devices, Micron Technology, Arista Networks, Ciena, Applied Materials, Lam Research, Cadence Design Systems, Synopsys, Taiwan Semiconductor Manufacturing Company, Cisco Systems, Broadcom Inc. and Credo Technology.",
+    "cn": "这些投资包括NVIDIA、Advanced Micro Devices、Micron Technology、Arista Networks、Ciena、Applied Materials、Lam Research、Cadence Design Systems、Synopsys、台积电、Cisco Systems、Broadcom Inc.和Credo Technology的股份。",
+    "src": "CBS News · 2026-09-11"
+  },
   "advance": {
     "en": "Arteta put Odegaard's freedom to advance into more threatening positions down to the skills of his team-mates in open play, which the Arsenal head coach suggested had been missing previously.",
     "cn": "Arteta将Odegaard晋级到更具威胁性的位置的自由归功于他的队友在公开比赛中的技能，阿森纳主教练认为以前缺少这些技能。",
@@ -7306,6 +7476,11 @@ const WORD_EXAMPLES = {
     "en": "Adults could weigh up to 75 tonnes—over eight times bigger than a Tyrannosaurus rex and 12 times as heavy as an elephant.",
     "cn": "成年人的体重可达75吨，是霸王龙的8倍多，是大象的12倍重。",
     "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "adopt": {
+    "en": "Brennan sued over the investigations earlier this year, alleging the Trump administration has \"adopted a policy of using criminal process and prosecution to punish the President's perceived adversaries.\"",
+    "cn": "布伦南今年早些时候起诉了这些调查，声称特朗普政府“采取了一项利用刑事程序和起诉来惩罚总统的敌人的政策”。",
+    "src": "CBS News · 2026-09-10"
   },
   "affect": {
     "en": "Hasan Kahya, an Aksu resident who was helping firefighters tackle the blaze, suffered a heart attack after being affected by the smoke and later died in hospital, the district’s mayor, Isa Yildirim, said.",
@@ -7338,9 +7513,9 @@ const WORD_EXAMPLES = {
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "against": {
-    "en": "Nothing against spring pastels or vibrant, summer vacation-ready polishes, but a moody, fall mani just does something to my psyche.",
-    "cn": "没有什么可以反对春天的柔和色调，也没有什么可以反对充满活力的暑假指甲油，但是一个忧郁的秋天指甲油确实会让我的心灵受到影响。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "It will be more challenging against City's attack but Carrick and his players go into that with confidence restored.",
+    "cn": "面对曼城的进攻会更有挑战性，但卡里克和他的球员们会恢复信心。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "afterward": {
     "en": "At one point James hastily changed her diaper on a table in a niche in the library, a transgression that we laughed about afterwards.",
@@ -7363,9 +7538,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "again": {
-    "en": "Odegaard was the match-winner again for Arsenal on Wednesday, thumping in the only goal of the game in the Champions League victory at Napoli.",
-    "cn": "周三，厄德高再次成为阿森纳的取胜功臣，在那不勒斯的冠军联赛胜利中击败了比赛的唯一进球。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "But Martinez and Lacroix both had an off day at the Emirates as Chelsea's defensive frailties once again highlighted their big weakness.",
+    "cn": "但马丁内斯和拉克鲁瓦在酋长球场双双不在状态，切尔西防线的问题再次暴露无遗。",
+    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "average": {
     "en": "The average shot is converted about 10% of the time.",
@@ -7408,9 +7583,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "bring": {
-    "en": "Louis Vuitton is bringing bold color to its watchmaking lineup with five new Tambour Spin Time references joining the permanent collection.",
-    "cn": "路易威登（Louis Vuitton）为其制表系列带来了大胆的色彩，五款新的Tambour Spin Time系列加入了其永久系列。",
-    "src": "ELLE · 2026-09-09"
+    "en": "\"Collectively, as a team, we have done a lot of the right things and that is why were are excited about what the season will bring.",
+    "cn": "“作为一个团队，我们做了很多正确的事情，这就是为什么我们对新赛季的到来感到兴奋。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "brother": {
     "en": "The action actually starts a couple of years before the set-piece battle of Hastings, with a discussion between England’s King, Edward the Confessor, and his leading noble (who was also his brother-in-law), Harold Godwinson.",
@@ -7443,9 +7618,9 @@ const WORD_EXAMPLES = {
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "brand": {
-    "en": "It all made sense that the brand would kick off a new scent by, well, throwing its own party.",
-    "cn": "这一切都说得通，该品牌将通过举办自己的派对来启动一款新香水。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "After 12 years as a creative director at agencies including BBDO, he developed hybrid AI productions for major brands including Persil and Lidl.",
+    "cn": "在BBDO等代理公司担任创意总监12年之后，他为宝莹（Persil）和Lidl等主要品牌开发了混合人工智能产品。",
+    "src": "Variety · 2026-09-10"
   },
   "bold": {
     "en": "AI technology finally allows us to become much more ambitious, independent, and bold in the worlds we create and the projects we imagine.",
@@ -7477,11 +7652,6 @@ const WORD_EXAMPLES = {
     "cn": "行动的上方和下方是由动物、鸟类、神话生物、装饰装置和迷你场景组成的边界，这些场景可能与主要叙事有关，也可能与主要叙事无关。",
     "src": "HistoryExtra · 2026-09-10"
   },
-  "bore": {
-    "en": "“To have something polarizing is a compliment because I would always rather be part of the conversation and have something interesting than something boring and safe.”",
-    "cn": "“有一些两极分化的东西是一种赞美，因为我总是宁愿成为谈话的一部分，做一些有趣的事情，而不是无聊和安全的事情。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "born": {
     "en": "The 26-year-old, French-born, Senegalese international is one of the best dribblers in the Premier League, if not the world.",
     "cn": "这位 26 岁、法籍塞内加尔国脚，是英超乃至全世界最顶尖的突破手之一。",
@@ -7493,9 +7663,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
   },
   "both": {
-    "en": "In the collection’s show notes, the designer cited an “irreverent take on romance,” an ethos that carried through to both the silhouette and styling.",
-    "cn": "在系列的展览笔记中，设计师引用了“对浪漫的不敬”，这种精神贯穿于轮廓和造型中。",
-    "src": "ELLE · 2026-09-09"
+    "en": "\"We still have our deep hues in rotation, but the fresh, glitzy formulas help keep the look both modern and timeless,\" she shares.",
+    "cn": "她分享说：“我们仍然在轮换使用深色调，但新鲜、耀眼的配方有助于保持时尚和永恒的外观。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "boy": {
     "en": "He had been blinded by sandstorms in Iraq; as a boy, Amandeep’s father had accompanied his uncle to Rupar in Ambala, in undivided India, to collect his army pension.",
@@ -7518,8 +7688,8 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "bottle": {
-    "en": "But then you look at the bottle—how beautiful it looks in your bathroom and how it feels when you hold it—and it’s an item that you want to own.",
-    "cn": "但当你看到这个瓶子——它放在你的浴室里多么漂亮，你拿着它的感觉多么美妙——你就会想拥有它。",
+    "en": "“While we love a long and bold statement nail look, the short manicure remains a timeless classic, offering an understated, chic, and, frankly, more practical alternative to length,” says Daisy Kalnina, founder of The Gel Bottle.",
+    "cn": "the Gel Bottle的创始人黛西·卡尔尼娜（Daisy Kalnina）说：“虽然我们喜欢大胆的长指甲，但短指甲仍然是永恒的经典，它提供了一种低调、别致、坦率地说，比长指甲更实用的选择。",
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "bow": {
@@ -7538,9 +7708,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "calm": {
-    "en": "On March 1, while members of the unit holed up in a bunker amid air sirens, Cody's family said many survivors of the attack and other officers on the ground told them Cody advised Barnes that the unit should remain there, even amid periods of calm.",
-    "cn": "3月1日，科迪的家人说，当这支部队的成员在空中警报声中躲在一个地堡里时，科迪的家人说，许多袭击的幸存者和地面上的其他军官告诉他们，科迪建议巴恩斯，即使在平静时期，这支部队也应该留在那里。",
-    "src": "CBS News · 2026-09-10"
+    "en": "The game's region is a calm, vibrant location consisting of natural beauty.",
+    "cn": "游戏的区域是一个平静，充满活力的地方，由自然美景组成。",
+    "src": "Variety · 2026-09-10"
   },
   "camera": {
     "en": "He also appears on camera in video and shopping livestream franchises, and is the star of Who What Wear's scripted show, Retail Therapy.",
@@ -7561,11 +7731,6 @@ const WORD_EXAMPLES = {
     "en": "When a neighboring cell takes up an exosome, it receives a set of instructions that can change how that cell behaves.”",
     "cn": "当邻近细胞吸收外泌体时，它会收到一组可以改变细胞行为的指令。",
     "src": "ELLE · 2026-09-09"
-  },
-  "canal": {
-    "en": "(The dreamy canals are, after all, the perfect setting for a bit of romance.)",
-    "cn": "（毕竟，梦幻般的运河是浪漫的完美场所。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "cancer": {
     "en": "\"It's like a cancer that continues to grow until you don't literally have a state anymore.\"",
@@ -7596,6 +7761,11 @@ const WORD_EXAMPLES = {
     "en": "While on death row, he became a prolific painter and made more than $30,000 selling his canvases, which often featured clowns and skulls, the Los Angeles Times ’ Stephen Braun reported in 1994, the year Gacy was executed.",
     "cn": "《洛杉矶时报》的斯蒂芬·布劳恩（Stephen Braun）在1994年报道说，在死囚区，他成为一名多产的画家，卖掉画布赚了3万多$ ，画布上经常有小丑和头骨。",
     "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "burden": {
+    "en": "“The general pattern seems to be that with wealth and rising power, you become less engaged with the needs of others and less burdened by the needs of social relationships,” study co-author Paul Piff, a social psychologist at the University of California, Irvine, tells the Guardian ’s Ian Sample.",
+    "cn": "研究报告的共同作者、加州大学欧文分校的社会心理学家保罗·皮夫（Paul Piff）告诉《卫报》的伊恩·样本（Ian Sample）：“一般的模式似乎是，随着财富和权力的不断崛起，你对他人的需求的参与度降低，而对社会关系的需求的负担减轻。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "burst": {
     "en": "The operation \"killed three narco-terrorists,\" SOUTHCOM posted on X along with black-and-white footage of a ship exploding in the water and bursting into flames.",
@@ -7628,13 +7798,13 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-10"
   },
   "business": {
-    "en": "What drew me in was the opportunity to build more of the infrastructure around the regional talent, connecting fashion to business, investment and international markets.",
-    "cn": "吸引我的是有机会围绕地区人才建立更多的基础设施，将时尚与商业、投资和国际市场联系起来。",
-    "src": "Vogue · 2026-09-10"
+    "en": "I polled some of the biggest hair colorists in the business on what they’re excited about (and already getting requests for).",
+    "cn": "我调查了业内一些最大的染发师，问他们最感兴趣的是什么（以及已经收到的要求）。",
+    "src": "Cosmopolitan · 2026-09-09"
   },
   "boat": {
-    "en": "Secretary of State Marco Rubio defended controversial strikes on suspected drug-trafficking boats during a visit to Ecuador on Wednesday, arguing Latin American cartels would \"eat these countries alive\" if left unchecked.",
-    "cn": "美国国务卿卢比奥星期三在访问厄瓜多尔期间为有争议的打击涉嫌贩毒船只的行动进行了辩护，他说，如果不加以控制，拉美贩毒集团将“把这些国家活活吃掉”。",
+    "en": "In recent weeks there have been signs of a shift in tactics, with joint U.S.-Ecuador patrols removing crews from at least six boats before sinking the vessels.",
+    "cn": "最近几周有迹象表明，美国和厄瓜多尔的联合巡逻队在击沉船只之前，已经将至少六艘船上的船员撤离。",
     "src": "CBS News · 2026-09-10"
   },
   "board": {
@@ -7652,25 +7822,20 @@ const WORD_EXAMPLES = {
     "cn": "她开始在地上击球和追逐她的创作。",
     "src": "Smithsonian Magazine · 2026-09-08"
   },
-  "bathroom": {
-    "en": "But then you look at the bottle—how beautiful it looks in your bathroom and how it feels when you hold it—and it’s an item that you want to own.",
-    "cn": "但当你看到这个瓶子——它放在你的浴室里多么漂亮，你拿着它的感觉多么美妙——你就会想拥有它。",
-    "src": "Harper's Bazaar · 2026-09-09"
-  },
   "battle": {
     "en": "Then we get to the battle of Hastings itself, which is portrayed in considerable detail.",
     "cn": "接下来是黑斯廷斯战役，书中对其进行了相当详细的描述。",
     "src": "HistoryExtra · 2026-09-09"
   },
   "because": {
-    "en": "Because these products are not standardized, quality and sourcing can vary significantly.",
-    "cn": "由于这些产品没有标准化，质量和来源可能会有很大差异。",
-    "src": "ELLE · 2026-09-09"
+    "en": "It had to be connected to scoring because, well, that's the whole point of the game.",
+    "cn": "它必须与进球挂钩，因为说到底，这就是比赛的全部意义。",
+    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "beauty": {
-    "en": "The beauty of this particular mani, beyond the fact that it looks expensive as heck, is just how versatile it is.",
-    "cn": "除了它看起来贵得离谱之外，这个特殊的美甲的美丽之处在于它是多么的万能。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "For more than 150 years, Harper’s Bazaar has been the preeminent fashion, beauty, and lifestyle resource for women at every age.",
+    "cn": "150多年来，《时尚芭莎》一直是各年龄段女性卓越的时尚、美容和生活方式资源。",
+    "src": "Harper's Bazaar · 2026-09-09"
   },
   "beautiful": {
     "en": "I have a feeling this beautiful beaded Zara skirt won't stay in stock for long.",
@@ -7718,14 +7883,14 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "away": {
-    "en": "Expert review: “I don’t want controlling frizz to mean suppressing someone’s curl pattern or taking away all of their volume.",
-    "cn": "专家评论：“我不希望控制头发卷曲意味着抑制某人的卷发模式，或者把他们的头发全部卷掉。",
-    "src": "ELLE · 2026-09-09"
+    "en": "It is Atletico Madrid away next in Europe but there are bigger matters to attend to before that.",
+    "cn": "接下来在欧洲的比赛是马德里竞技，但在那之前还有更重要的事情要做。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "baby": {
-    "en": "Pygmy raccoons, also called Cozumel raccoons, weigh between six and nine pounds, around the same as a newborn human baby.",
-    "cn": "侏儒浣熊，也叫科苏梅尔浣熊，体重在6到9磅之间，和一个新生的人类婴儿差不多。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "It may be 81&deg;F as I type this sentence, but hey, it's officially September, baby!",
+    "cn": "当我打出这句话的时候，可能是华氏81度，但是，嘿，已经是九月了，宝贝！",
+    "src": "Who What Wear · 2026-09-10"
   },
   "back": {
     "en": "Hogh headed it back into Hassan to smash in, but it had gone out of play before he sent it in.",
@@ -7787,6 +7952,21 @@ const WORD_EXAMPLES = {
     "cn": "克里斯汀·贝尔身上这款奶油色的深金色眼影完全符合她的要求。",
     "src": "Cosmopolitan · 2026-09-09"
   },
+  "billion": {
+    "en": "The president and members of both parties, including Fetterman, had initially opposed Nippon's efforts to buy the iconic Pittsburgh-based steelmaker, but Mr. Trump ultimately signed off on an agreement that he argued would result in tens of billions in new investments in U.S. Steel and grant the federal government a \"golden share\" in the company.",
+    "cn": "总统和包括Fetterman在内的双方成员最初反对日本收购这家总部位于匹兹堡的标志性钢铁制造商的努力，但特朗普最终签署了一项协议，他认为该协议将导致对美国钢铁公司进行数百亿美元的新投资，并授予联邦政府该公司的“黄金份额”。",
+    "src": "CBS News · 2026-09-10"
+  },
+  "biology": {
+    "en": "Study co-author Michelle Szydlowski, an anthrozoologist at Miami University, notes that the ball-building behavior makes sense with raccoon biology.",
+    "cn": "该研究的合著者、迈阿密大学的人类动物学家米歇尔·希德洛夫斯基（Michelle Szydlowski）指出，浣熊造球的行为在生物学上是有道理的。",
+    "src": "Smithsonian Magazine · 2026-09-08"
+  },
+  "bird": {
+    "en": "Above and below the action are borders populated by animals, birds, mythical creatures, decorative devices and mini scenes that may or may not relate to the main narrative.",
+    "cn": "行动的上方和下方是由动物、鸟类、神话生物、装饰装置和迷你场景组成的边界，这些场景可能与主要叙事有关，也可能与主要叙事无关。",
+    "src": "HistoryExtra · 2026-09-10"
+  },
   "bit": {
     "en": "\"We've still got a bit to go, but we're getting results and that's the main thing.\"",
     "cn": "“我们还有一段路要走，但我们正在取得成果，这是最重要的。",
@@ -7798,14 +7978,14 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "blame": {
-    "en": "It’s so easy to blame this generation, but it is technology.",
-    "cn": "我们很容易责怪这一代人，但这就是科技。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "They can only blame themselves for that problem, mind you.",
+    "cn": "请注意，他们只能把这个问题归咎于自己。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "blue": {
-    "en": "She posed with her husband, who was dressed in a classic navy-blue suit.",
-    "cn": "她和丈夫合影，丈夫穿着一套经典的海军蓝西装。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "She followed it up with a chiffon sky-blue gown, complete with a fitted strapless bodice and detachable shoulder cape.",
+    "cn": "随后，她又穿了一件天蓝色雪纺礼服，搭配合身的无肩带紧身胸衣和可拆卸的披肩。",
+    "src": "Vogue · 2026-09-10"
   },
   "blow": {
     "en": "He isn't the only expensive winger who dribbles past defenders for fun, blows up YouTube, and fails to turn it into goals, though.",
@@ -7818,9 +7998,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "block": {
-    "en": "I caught up with the actress in London last week, just before attending YSL Beauty’s London Block Party to celebrate the brand’s new fragrance, Black Opium Pink Glaze Eau de Parfum.",
-    "cn": "上周，我在伦敦采访了这位女演员，就在参加YSL Beauty的伦敦街区派对之前，该派对是为了庆祝该品牌的新香水Black Opium Pink Glaze Eau de Parfum。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Odegaard's goal, fired in following a quick one-two with substitute Christos Tzolis, finally broke the deadlock but Noni Madueke, another substitute, missed a one-on-one chance with Tzolis's follow-up blocked on the line, leaving Arsenal to suffer a late scare.",
+    "cn": "厄德高的目标是与替补球员克里斯托斯·佐利斯（Christos Tzolis）进行快速一对二的比赛，最终打破了僵局，但另一名替补球员诺尼·马杜埃克（Noni Madueke）错过了一对一的机会，佐利斯的后续行动被挡在了线上，使阿森纳遭受了晚些时候的恐慌。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "big": {
     "en": "If we ignore the four wingers who moved from outside of Europe's Big Five top leagues, then we're left with 19 players.",
@@ -7848,9 +8028,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "beyond": {
-    "en": "The beauty of this particular mani, beyond the fact that it looks expensive as heck, is just how versatile it is.",
-    "cn": "除了它看起来贵得离谱之外，这个特殊的美甲的美丽之处在于它是多么的万能。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Nintendo unveiled \"Metroid Ravenous\" and \"Kirby and the World Beyond\" during a Nintendo Direct presentation Wednesday, noting both newly announced games will be available on the Nintendo Switch 2 next year.",
+    "cn": "任天堂在周三的任天堂直接发布会上公布了《银河战士：贪婪》和《科比与超越世界》，并指出这两款新宣布的游戏将于明年在任天堂Switch 2上推出。",
+    "src": "Variety · 2026-09-10"
   },
   "believe": {
     "en": "At Dreamkite, we believe that the future of cinematic storytelling has only just begun.\"",
@@ -7876,6 +8056,11 @@ const WORD_EXAMPLES = {
     "en": "In 2012, researchers reported that higher-class individuals are more likely to engage in unethical behaviors, like taking candy meant for children.",
     "cn": "2012年，研究人员报告说，高阶层的人更有可能从事不道德的行为，比如吃儿童糖果。",
     "src": "Smithsonian Magazine · 2026-09-08"
+  },
+  "behave": {
+    "en": "When a neighboring cell takes up an exosome, it receives a set of instructions that can change how that cell behaves.”",
+    "cn": "当邻近细胞吸收外泌体时，它会收到一组可以改变细胞行为的指令。",
+    "src": "ELLE · 2026-09-09"
   },
   "bell": {
     "en": "This creamy, dark-blonde shade on Kristen Bell totally fits the bill.",
@@ -7908,9 +8093,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "between": {
-    "en": "Launching this September, the collection offers a polished finishing touch designed to move effortlessly between outfits.",
-    "cn": "该系列将于今年9月推出，提供了一种精致的画龙点睛的设计，可以毫不费力地在不同的服装之间切换。",
-    "src": "ELLE · 2026-09-09"
+    "en": "The other is the gulf in quality between the starting XI and the team after changes are made.",
+    "cn": "另一个是变更后首发XI和球队之间的质量差距。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "better": {
     "en": "\"We have a lot of players that can take the ball there and progress the ball much better than we did in the past,\" Arteta explained.",
@@ -7918,9 +8103,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "bet": {
-    "en": "Along with its prolific production arm, TS Media, Telekom Srbija is betting big on its streaming platform, MOVE — described by Martinović as a \"regional Balkan Netflix\" — while also \"investing more in every element of the production chain,\" most notably with the acquisition earlier this year of the Belgrade-based Firefly Studios.",
-    "cn": "与其多产的制作部门TS Media一起，塞尔维亚电信在其流媒体平台MOVE（被martinoviki描述为“巴尔干地区的Netflix”）上押下了重金，同时也“在生产链的每一个环节都加大了投资”，最引人注目的是今年早些时候收购了总部位于贝尔格莱德的Firefly Studios。",
-    "src": "Variety · 2026-09-10"
+    "en": "Our top tipster Lewis Jones, aka Jones Knows, provides his analysis and betting insight across the weekend Premier League action.",
+    "cn": "我们的顶级线人刘易斯·琼斯，又名琼斯知道，提供他的分析和投注洞察整个周末英超联赛的行动。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "best": {
     "en": "The state of winger play in 2026 is best summed up by Manchester City's move for Iliman Ndiaye.",
@@ -8008,9 +8193,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "hotel": {
-    "en": "The longevity was very important to me, especially when you look at the storytelling from Portofino ’97 to Hotel Portofino.",
-    "cn": "这部电影的长期性对我来说非常重要，尤其是当你看从《波托菲诺97》到《波托菲诺酒店》的故事叙述时。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "The exhibition dedicates displays to other local killers, including Holmes, who, as one of America’s first serial killers, used his “ Murder Castle ” hotel to claim victims’ lives during the 1893 Chicago World’s Fair.",
+    "cn": "该展览致力于展示其他当地杀手，包括福尔摩斯，他作为美国最早的连环杀手之一，在1893年芝加哥世界博览会期间使用他的“谋杀城堡”酒店夺走了受害者的生命。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "however": {
     "en": "However, the balance of that squad is what creates the problem.",
@@ -8023,14 +8208,14 @@ const WORD_EXAMPLES = {
     "src": "Cosmopolitan · 2026-09-09"
   },
   "her": {
-    "en": "I felt that energy a lot in these pieces,” said Giovanna Flores of her unconstrained and dreamy spring collection.",
-    "cn": "我在这些作品中感受到了很多能量，”乔凡娜·弗洛雷斯（Giovanna Flores）谈起她无拘无束、梦幻般的春季系列时说。",
-    "src": "Vogue · 2026-09-10"
+    "en": "She has cited her 25-year career as evidence that she can make healthcare more accessible.",
+    "cn": "她以自己25年的职业生涯为例，证明她可以让医疗服务更容易获得。",
+    "src": "CBS News · 2026-09-10"
   },
   "here": {
-    "en": "G ossip Cosmo Girl here, your one and only source into the scandalous lives of Manhattan’s elite...",
-    "cn": "《时尚天后》在此，这是你了解曼哈顿名流们绯闻的唯一渠道…",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Here are the projects that won the ten categories of the 2026 Ig Nobel Prizes.",
+    "cn": "以下是获得2026年搞笑诺贝尔奖十大奖项的项目。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "herself": {
     "en": "Jennifer Aniston has spent decades cementing herself as the hair muse—from 'The Rachel' to her famously glossy, face-framing layers.",
@@ -8073,9 +8258,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "hold": {
-    "en": "She was very popular among the aspiring grandmas, who all wanted to hold her.",
-    "cn": "她很受那些有抱负的奶奶们的欢迎，她们都想抱她。",
-    "src": "Vogue · 2026-09-10"
+    "en": "And he continues to hold investments in a range of companies positioned to benefit from the industry's continued growth.",
+    "cn": "他继续持有一系列公司的投资，这些公司将从该行业的持续增长中受益。",
+    "src": "CBS News · 2026-09-11"
   },
   "history": {
     "en": "And this wasn’t ancient history, it was inside my own father’s lifetime,” Amandeep told me.",
@@ -8108,9 +8293,19 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "important": {
-    "en": "Quality was always important, but we took it to a whole other level with this fragrance.",
-    "cn": "质量一直都很重要，但我们用这款香水把它提升到了一个全新的水平。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "And the hunter was someone important, Dąbrowski tells PAP, like a family clan leader.",
+    "cn": "Dąbrowski告诉PAP ，猎人是一个重要的人物，就像一个家族领袖。",
+    "src": "Smithsonian Magazine · 2026-09-09"
+  },
+  "impress": {
+    "en": "The Italian's style of football also impressed Fernandes.",
+    "cn": "意大利人的足球风格也给费尔南德斯留下了深刻的印象。",
+    "src": "Sky Sports · 2026-09-10"
+  },
+  "impression": {
+    "en": "Schneider argued that he had nothing to do with those cases, and that the series created a false impression by linking him to them.",
+    "cn": "施耐德辩称，他与这些案件没有任何关系，该系列节目将他与这些案件联系在一起，造成了一种错误的印象。",
+    "src": "Variety · 2026-09-10"
   },
   "impressive": {
     "en": "Martin Odegaard is a player transformed at the start of this season - and Arsenal boss Mikel Arteta puts his captain's impressive form down to fitness and new positioning.",
@@ -8118,9 +8313,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "improve": {
-    "en": "Cooper is currently UK chair for the 30% Club — a voluntary organization committed to improving women’s representation on company boards — and has advised on DEI across various global businesses, working alongside C-suite leaders on gender and race, in particular.",
-    "cn": "库珀目前是30%俱乐部（一个致力于提高女性在公司董事会中的代表性的自愿组织）的英国主席，并为各种全球企业的DEI提供建议，特别是在性别和种族问题上与高级管理层领导人合作。",
-    "src": "Vogue · 2026-09-10"
+    "en": "This version of \"Legend of Zelda: Ocarina of Time\" will have improved performance and presentation, greater movement and control and a more immersive Hyrule.",
+    "cn": "这个版本的“塞尔达传说：时之笛”将有更好的性能和表现，更大的运动和控制和更身临其境的海拉尔。",
+    "src": "Variety · 2026-09-10"
   },
   "improvement": {
     "en": "\"First of all he needs to be available and last year he missed so many games through injuries,\" said Arteta when asked in his post-match press conference about Odegaard's improvement.",
@@ -8141,6 +8336,11 @@ const WORD_EXAMPLES = {
     "en": "Foulkes has pitched raising Medicaid reimbursement rates, and she's proposed a tax on millionaires, which would allot money to build over 20,000 homes by adding an additional 3% tax on incomes over $1 million.",
     "cn": "福克斯提议提高医疗补助报销率，她还提议对百万富翁征税，这将通过对超过100万美元的收入额外征收3%的税来分配建造2万多套住房的资金。",
     "src": "CBS News · 2026-09-10"
+  },
+  "indication": {
+    "en": "OpenAI’s breakthrough is the latest indication that A.I.",
+    "cn": "OpenAI的突破是人工智能的最新迹象",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "indian": {
     "en": "An Indigenous story told by Indigenous filmmakers, ‘Angh’ represents some of the most exciting cinema emerging from India’s margins, with the potential to become a torchbearer for a new, truly global Indian cinema.",
@@ -8182,11 +8382,6 @@ const WORD_EXAMPLES = {
     "cn": "延续了这种颜色会流血的理念，t恤大胆地采用了填充物垫肩，让填充物的颜色“渗透”进来。",
     "src": "Vogue · 2026-09-10"
   },
-  "ideal": {
-    "en": "We chatted all things parties and late nights, including the ideal way to end it:",
-    "cn": "我们聊了派对和深夜的所有事情，包括理想的结束方式：",
-    "src": "Cosmopolitan · 2026-09-09"
-  },
   "ignore": {
     "en": "If we ignore the four wingers who moved from outside of Europe's Big Five top leagues, then we're left with 19 players.",
     "cn": "如果忽略从欧洲五大联赛之外加盟的四名边锋，剩下 19 人。",
@@ -8203,9 +8398,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "green": {
-    "en": "The actress and new face of YSL Beauty’s Black Opium Eau de Parfum told me the green flags she looks for in a good party (just before we went to one together).",
-    "cn": "这位女演员兼圣罗兰美妆黑色鸦片香水的新代言人告诉我，她在一个好的派对上最喜欢的绿色旗帜是什么（就在我们一起去派对之前）。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "The most dramatic example of the latter was a long dress in the primary colors Ellsworth Kelly loved (red, green, blue) with romantic white sleeves and a draped, almost bustled low back.",
+    "cn": "后者最引人注目的例子是一件长裙，用的是埃尔斯沃斯·凯利（Ellsworth Kelly）喜欢的三原色（红、绿、蓝），搭配浪漫的白色袖子和褶皱的低背。",
+    "src": "Vogue · 2026-09-10"
   },
   "ground": {
     "en": "She began batting and chasing her creation across the ground.",
@@ -8218,9 +8413,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "grow": {
-    "en": "The Renoir Museum burglary joins a growing roster of recent art thefts in Europe.",
-    "cn": "雷诺阿博物馆的盗窃案是欧洲近年来不断增多的艺术品盗窃案之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "\"It's like a cancer that continues to grow until you don't literally have a state anymore.\"",
+    "cn": "“这就像一种癌症，它会继续生长，直到你不再有一个真正的州。",
+    "src": "CBS News · 2026-09-10"
   },
   "habit": {
     "en": "Now, in a study published on 25 August in the journal Wild, researchers report that this playful habit was not an isolated quirk but a skill passed among members of a pygmy raccoon family.",
@@ -8242,6 +8437,11 @@ const WORD_EXAMPLES = {
     "cn": "同样是嘉宾的演员萨姆·沃特斯顿（Sam Waterston）亲切地抚摸着她的头。",
     "src": "Vogue · 2026-09-10"
   },
+  "guard": {
+    "en": "President Trump's rally-style speech at the Republican National Committee midterm convention touched on oil, Iran, immigration, the economy — and the polarizing NBA trade that sent superstar guard Luka Dončić from the Dallas Mavericks to the Los Angeles Lakers last year.",
+    "cn": "特朗普总统在共和党全国委员会中期大会上的集会式演讲涉及石油、伊朗、移民、经济，以及去年将超级明星后卫Luka Dončić从达拉斯小牛队送到洛杉矶湖人队的两极分化NBA交易。",
+    "src": "CBS News · 2026-09-10"
+  },
   "growth": {
     "en": "My background has taught me to think about audiences, capital, growth and long-term value, while respecting the cultural power of fashion.",
     "cn": "我的背景教会了我在尊重时尚文化力量的同时，思考受众、资本、增长和长期价值。",
@@ -8256,11 +8456,6 @@ const WORD_EXAMPLES = {
     "en": "\"That's great that a lot of very different players got in those situations.",
     "cn": "“在这种情况下，很多不同的球员都得到了很好的表现。",
     "src": "Sky Sports · 2026-09-09"
-  },
-  "goods": {
-    "en": "Mr. Trump argued the payments would be a consequence of the country's \"tremendous economic success,\" and suggested they could be funded partially by his administration's tariffs on foreign goods.",
-    "cn": "特朗普认为，这些付款将是该国“巨大经济成功”的结果，并暗示这些付款可以部分由其政府对外国商品征收的关税提供资金。",
-    "src": "CBS News · 2026-09-10"
   },
   "govern": {
     "en": "She continued: \"Looking forwards, the State is genuinely unsure whether it can switch its governing congressional map in time to run a timely federal election.\"",
@@ -8278,8 +8473,8 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "gown": {
-    "en": "Many of her gowns this season had such versatile styling approaches, featuring removable capes or jackets that completed the look, if desired.",
-    "cn": "她这一季的许多礼服都采用了这种百搭的造型方法，如果需要的话，还可以用可拆卸的斗篷或夹克来完成整个造型。",
+    "en": "Perhaps more dated, or certainly not for everyone, were her explosions of tulle, including a full-on red mermaid strapless gown, with sheer hints of pink tulle peeking through the underlay.",
+    "cn": "也许更过时的是她对薄纱的大爆炸，或者肯定不适合所有人，包括一件全身红色美人鱼无肩带礼服，衬底中透出一丝粉色薄纱。",
     "src": "Vogue · 2026-09-10"
   },
   "grave": {
@@ -8298,9 +8493,9 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "grand": {
-    "en": "His 2025 AI film \"The Cinema That Never Was\" attracted attention from leading filmmakers such as Alex Proyas and John Gaeta, and won major international AI film awards, including Grand Prizes at the Omni International AI Film Festival, whose jury was headed by George Miller, and the Artefact AI Film Festival, chaired by C&eacute;dric Klapisch.",
-    "cn": "他的2025年人工智能电影《从未有过的电影》吸引了亚历克斯·普罗亚斯和约翰·盖塔等知名电影人的关注，并获得了主要的国际人工智能电影奖项，包括由乔治·米勒担任评审团主席的Omni国际人工智能电影节的大奖，以及由德里克·克拉皮什担任主席的人工智能电影节。",
-    "src": "Variety · 2026-09-10"
+    "en": "Joe diGenova, the prosecutor who was tapped by Attorney General Todd Blanche to supervise the \"grand conspiracy\" investigation targeting Obama- and Biden-era officials, abruptly resigned on Thursday.",
+    "cn": "被司法部长布兰奇任命监督针对奥巴马和拜登时代官员的“大阴谋”调查的检察官乔·迪吉诺娃周四突然辞职。",
+    "src": "CBS News · 2026-09-10"
   },
   "grant": {
     "en": "At the time, all property in England legally belonged to the king, who granted lesser lords the right to lease land to tenants “in return for certain services and restrictions on their freedom,” Prescott says.",
@@ -8313,9 +8508,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "half": {
-    "en": "Havertz's deft flick midway through the second half almost led to another, as Bukayo Saka's subsequent shot was brilliantly turned behind by Martinez.",
-    "cn": "下半场中段，哈弗茨又一次轻巧的一蹭险些制造进球，布卡约·萨卡随后的射门被马丁内斯神扑化解。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "In that 16-game run they've conceded just two first-half goals.",
+    "cn": "在这16场比赛中，他们上半场只丢了两个球。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "have": {
     "en": "\"Last year, to have two shoulder injuries like he did, then a MCL injury he did, it's never easy.",
@@ -8336,6 +8531,11 @@ const WORD_EXAMPLES = {
     "en": "Then a few weeks later, another significant headline - Pochettino had, a little surprisingly perhaps, signed for four more years with the USA.",
     "cn": "然后几周后，另一个重要的头条新闻-波切蒂诺与美国签订了四年的合同，也许有点令人惊讶。",
     "src": "Sky Sports · 2026-09-09"
+  },
+  "heal": {
+    "en": "Touted for their potential to help rejuvenate and heal the skin, including after surgery, it was only a matter of time before they crossed over into the realm of hair care, too.",
+    "cn": "它们被吹捧有潜力帮助皮肤恢复活力和愈合，包括在手术后，它们也会进入护发领域，这只是时间问题。",
+    "src": "ELLE · 2026-09-09"
   },
   "health": {
     "en": "At this point, I've given you two celebrity endorsements, nail-health benefits, longevity, and the promise of doing it from your sofa.",
@@ -8377,6 +8577,11 @@ const WORD_EXAMPLES = {
     "cn": "无论你是受到了热损伤，还是只是不想处理每根头发上的湿气，我们都为你挑选了七种最好的免洗护发素，适用于各种卷曲的头发。",
     "src": "ELLE · 2026-09-09"
   },
+  "heel": {
+    "en": "It used to be: get chalk on your heels, stay wide, wait for a pass, dribble past your full-back, and cross the ball into the big striker in the box.",
+    "cn": "从前，边锋的任务是这样的：在鞋底沾满草粉之后，留在边路，等待传球，突破对面的边后卫，然后把球传中给禁区里的高中锋。",
+    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+  },
   "hate": {
     "en": "I hate to use the word murder because it's strong, but if a loved one of yours was murdered, our justice system is built to have accountability and to have atonement for that and for the grief of the family.\"",
     "cn": "我讨厌使用谋杀这个词，因为它很强烈，但如果你所爱的人被谋杀了，我们的司法系统是为了追究责任，为家庭的悲痛赎罪而建立的。",
@@ -8392,20 +8597,35 @@ const WORD_EXAMPLES = {
     "cn": "但它的名字来自法语tapisserie，意思是“挂在墙上”。",
     "src": "HistoryExtra · 2026-09-10"
   },
+  "handy": {
+    "en": "The show also delved into the cases of Brian Peck, a dialogue coach who was arrested for child sex abuse, and Jason Michael Handy, a production assistant who was also accused of sending an explicit photo to a child actress.",
+    "cn": "该剧还深入探讨了对话教练布莱恩·派克（Brian Peck）因性侵儿童而被捕的案件，以及制片助理杰森·迈克尔·汉迪（Jason Michael Handy）也被指控向一名童星发送露点照片的案件。",
+    "src": "Variety · 2026-09-10"
+  },
   "happy": {
-    "en": "The bride and groom beamed throughout, so happy.",
-    "cn": "新郎新娘自始至终都面带笑容，非常幸福。",
-    "src": "Vogue · 2026-09-10"
+    "en": "\"The first day of the pre-season, I met him and he was very happy.",
+    "cn": "“季前赛的第一天，我见到了他，他很高兴。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "handle": {
     "en": "Mr. Trump's own lagging approval rating could also be a drag on the party, with Democrats seeking to capitalize on the Iran war's unpopularity and voters' unhappiness with the Trump administration's handling of the economy.",
     "cn": "特朗普自己落后的支持率也可能拖累该党，民主党人试图利用伊朗战争的不受欢迎以及选民对特朗普政府处理经济的不满。",
     "src": "CBS News · 2026-09-10"
   },
+  "handful": {
+    "en": "Bresnahan also owns stock in SBA Communications, a wireless communications company whose subsidiary SBA Edge operates a handful of regional data centers and deploys small, modular data centers.",
+    "cn": "布雷斯纳汉还拥有无线通信公司SBA Communications的股份，该公司的子公司SBA Edge运营着少数几个区域数据中心，并部署了小型模块化数据中心。",
+    "src": "CBS News · 2026-09-11"
+  },
   "hand": {
     "en": "“Frizz and dryness often go hand in hand,” says celebrity hairstylist Sabrina Rowe.",
     "cn": "名人发型师萨布丽娜·罗说：“毛躁和干燥常常相伴而行。",
     "src": "ELLE · 2026-09-09"
+  },
+  "hammer": {
+    "en": "\"I believe that I can be a much better player than I was last season,\" said the 22-year-old Portuguese, who recorded three goals and four assists in the Premier League for the Hammers.",
+    "cn": "“我相信我可以成为一个比上赛季更好的球员，”这位22岁的葡萄牙人说，他在英超联赛中为铁锤帮贡献了3个进球和4次助攻。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "halt": {
     "en": "The former Tottenham boss guided the USA team to the last 16 of the World Cup, where the host nation's dreams of victory came to a crashing halt against Belgium, but that barely tells the story of an extraordinary few weeks for the Argentine.",
@@ -8448,34 +8668,34 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "large": {
-    "en": "ANKARA, Turkey -- A volunteer firefighter died on Wednesday in Turkey after helping local emergency services tackle a large wildfire in the Mediterranean coastal province of Antalya, an official said.",
-    "cn": "土耳其安卡拉——一名官员表示，周三，土耳其一名志愿消防员在帮助当地紧急服务部门扑灭地中海沿岸省份安塔利亚的一场大火后死亡。",
-    "src": "ABC News · 2026-09-09"
+    "en": "His disclosure shows between roughly $777,000 and $1.78 million invested in major technology firms that build, operate or lease large amounts of data center capacity.",
+    "cn": "他披露的信息显示，投资于建造、运营或租赁大量数据中心容量的大型科技公司的资金约为77.7万美元至178万美元。",
+    "src": "CBS News · 2026-09-11"
   },
   "largely": {
-    "en": "She focused largely on draping this season, finding beauty in the strong silhouettes she could craft with a singular roll of fabric.",
-    "cn": "这一季，她主要专注于垂饰，用一卷单一的面料打造出鲜明的轮廓，从中寻找美。",
-    "src": "Vogue · 2026-09-10"
+    "en": "The company used around 10,000 artificial intelligence “agents,” or bots, that worked largely autonomously on the Navier-Stokes equations for 88 hours, using computational power that likely cost millions of dollars.",
+    "cn": "该公司使用了大约1万个人工智能“代理”或机器人，它们在很大程度上自主地在纳维-斯托克斯方程上工作了88个小时，使用的计算能力可能耗资数百万美元。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "last": {
     "en": "“I’d never been to Europe until this time last year, and I’ve been over 10 times since,” she says.",
     "cn": "她说：“直到去年这个时候，我才去过欧洲，从那以后我已经去过10多次了。",
     "src": "Vogue · 2026-09-10"
   },
+  "lawyer": {
+    "en": "His exit comes just days after lawyers representing some of the witnesses in the investigation received emails alerting them that their clients would be receiving grand jury subpoenas, sources familiar with the matter told CBS News.",
+    "cn": "知情人士告诉哥伦比亚广播公司新闻频道（CBS News），就在他辞职的几天前，代表调查中一些证人的律师收到了电子邮件，警告他们的客户将收到大陪审团的传票。",
+    "src": "CBS News · 2026-09-10"
+  },
   "law": {
-    "en": "The action actually starts a couple of years before the set-piece battle of Hastings, with a discussion between England’s King, Edward the Confessor, and his leading noble (who was also his brother-in-law), Harold Godwinson.",
-    "cn": "故事发生在黑斯廷斯战役前几年，英国国王忏悔者爱德华和他的贵族领袖（也是他的姐夫）哈罗德·戈德温森之间的讨论。",
-    "src": "HistoryExtra · 2026-09-09"
+    "en": "The venture has brought in an advisory board whose members work across intellectual-property and entertainment law, filmmaking, screenwriting and franchise development on one side, and international production, finance, media strategy, technology and distribution on the other.",
+    "cn": "这家合资企业还引入了一个顾问委员会，其成员一方面涉及知识产权和娱乐法律、电影制作、剧本创作和特许经营开发，另一方面涉及国际制作、金融、媒体战略、技术和发行。",
+    "src": "Variety · 2026-09-10"
   },
   "launch": {
     "en": "Launching this September, the collection offers a polished finishing touch designed to move effortlessly between outfits.",
     "cn": "该系列将于今年9月推出，提供了一种精致的画龙点睛的设计，可以毫不费力地在不同的服装之间切换。",
     "src": "ELLE · 2026-09-09"
-  },
-  "latter": {
-    "en": "The most dramatic example of the latter was a long dress in the primary colors Ellsworth Kelly loved (red, green, blue) with romantic white sleeves and a draped, almost bustled low back.",
-    "cn": "后者最引人注目的例子是一件长裙，用的是埃尔斯沃斯·凯利（Ellsworth Kelly）喜欢的三原色（红、绿、蓝），搭配浪漫的白色袖子和褶皱的低背。",
-    "src": "Vogue · 2026-09-10"
   },
   "latin": {
     "en": "Running mostly from left to right, it tells the story in the style of a graphic novel across a central frieze, with short Latin captions.",
@@ -8488,14 +8708,14 @@ const WORD_EXAMPLES = {
     "src": "Harper's Bazaar · 2026-09-09"
   },
   "late": {
-    "en": "We chatted all things parties and late nights, including the ideal way to end it:",
-    "cn": "我们聊了派对和深夜的所有事情，包括理想的结束方式：",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "Balogun has been in the headlines again over the past few weeks after his proposed move from Monaco to Everton collapsed late on Deadline Day.",
+    "cn": "Balogun在截止日期当天晚些时候从摩纳哥搬到埃弗顿的提议崩溃后，过去几周再次成为头条新闻。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "laugh": {
-    "en": "At one point James hastily changed her diaper on a table in a niche in the library, a transgression that we laughed about afterwards.",
-    "cn": "有一次，詹姆斯在图书馆壁龛里的一张桌子上匆忙地换了尿布，这是我们后来嘲笑的违规行为。",
-    "src": "Vogue · 2026-09-10"
+    "en": "I smile before jesting, and Pochettino just laughs and says he's ready.",
+    "cn": "我在开玩笑之前微笑，波切蒂诺只是笑着说他已经准备好了。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "lay": {
     "en": "Hogh lays the ball off to Hassan but his curling effort is pushed past by Steward.",
@@ -8518,9 +8738,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-10"
   },
   "kick": {
-    "en": "The president hit many of his familiar rally points during the speech, touting his record on border security, last year's tax legislation, his tariff-heavy approach to trade and his White House renovation kick — including his planned ballroom.",
-    "cn": "总统在演讲中击中了他许多熟悉的集会点，吹嘘他在边境安全方面的记录，去年的税收立法，他的关税沉重的贸易方式以及他的白宫翻新计划—包括他计划的宴会厅。",
-    "src": "CBS News · 2026-09-10"
+    "en": "There will be seven Premier League matches on Boxing Day this year, with Hull City vs Liverpool - kicking off at 5.30pm - and Newcastle vs Man City - kicking off at 8pm - featuring as a live Sky Sports double header.",
+    "cn": "今年节礼日将有七场英超比赛，赫尔城vs利物浦，下午5:30开球，纽卡斯尔vs曼城，晚上8点开球，这是天空体育直播的两场比赛。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "kill": {
     "en": "According to Pentagon figures, the operations have killed more than 200 people.",
@@ -8542,10 +8762,20 @@ const WORD_EXAMPLES = {
     "cn": "英格兰与法国交战了近五十年，官员们需要更多的钱来支付王国的军队和国防费用。",
     "src": "Smithsonian Magazine · 2026-09-09"
   },
+  "kiss": {
+    "en": "A deeper shade also elevates my outfits to the nth degree—even more so if I opt for a chic, artful design —so I've been collecting inspo for months in preparation for the first kiss of brisk fall air.",
+    "cn": "更深的颜色也会让我的服装提升到第n级——如果我选择别致、巧妙的设计，效果会更明显——所以我几个月来一直在收集灵感，为秋天清新空气的初吻做准备。",
+    "src": "Who What Wear · 2026-09-10"
+  },
   "kitchen": {
     "en": "I woke before my husband, James, before the baby—not early; we’d been up in the night—and went to the kitchen to make coffee.",
     "cn": "我醒得比我丈夫詹姆斯早，比孩子早——不早；我们通宵未眠，去厨房煮咖啡。",
     "src": "Vogue · 2026-09-10"
+  },
+  "label": {
+    "en": "“What’s in the package may not actually be what is on the outside of the label,” Doroshow adds.",
+    "cn": "Doroshow补充道：“包装中的东西实际上可能不是标签外面的东西。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "lab": {
     "en": "Dr. Halaas also mentions that products containing biomimetic or lab-engineered vesicles are becoming a third category of exosome therapy that hair-growth consumers will start to see more of.",
@@ -8553,9 +8783,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "know": {
-    "en": "Well, then they will be very excited to know we’ve got lots more Portofino ’97 coming very soon—a hair mist, body lotion.",
-    "cn": "那他们会很兴奋的知道我们很快就会有更多的97年波托菲诺——发胶，身体乳。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "If you have fine hair, you know the struggle: One wrong conditioner and your strands fall flat before you even leave the house.",
+    "cn": "如果你的头发很细，你就知道如何挣扎：一个错误的护发素和你的绳子在你离开房子之前就掉平了。",
+    "src": "ELLE · 2026-09-10"
   },
   "lack": {
     "en": "On Wednesday, however, the U.S. Court of Appeals for the 8th Circuit rejected the request for a temporary stay of Clark's ruling, writing that the appeals court either lacks \"jurisdiction over the appeal or, based on the briefing we have so far, the stay factors have not been met.\"",
@@ -8563,14 +8793,14 @@ const WORD_EXAMPLES = {
     "src": "CBS News · 2026-09-10"
   },
   "knot": {
-    "en": "They tied the knot in July 2010 and have since welcomed two children: 15-year-old son Leo Encinas Cruz, and 13-year-old daughter Luna Encinas Cruz.",
-    "cn": "他们于2010年7月结婚，之后迎来了两个孩子：15岁的儿子里奥·恩西纳斯·克鲁兹和13岁的女儿露娜·恩西纳斯·克鲁兹。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "“One is a straight infinity knot with no tension,” he says.",
+    "cn": "“一个是没有张力的直无限大的结，”他说。",
+    "src": "ELLE · 2026-09-09"
   },
   "knife": {
-    "en": "“They were equipped with an electric knife or a metal saw—whatever you prefer to call it—and they cut through the bolts holding the frames of Renoir’s works in place,” Bryan Masson, the mayor of Cagnes-sur-Mer, told reporters, per ABC News ’ Kevin Shalvey.",
-    "cn": "据ABC新闻的凯文·沙维报道，滨海卡涅市长布莱恩·马森告诉记者：“他们配备了一把电动刀或一把金属锯——不管你喜欢怎么称呼它——他们把雷诺阿作品框架固定的螺栓切断了。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "Excavations in Poland have unearthed a 5,000-year-old grave, complete with a man’s skeleton, two other skulls, amber beads, a flint knife, a stone ax and a necklace made of 42 sharp teeth.",
+    "cn": "波兰的挖掘工作发现了一座5000年前的坟墓，其中包括一具男子骨骼、另外两具头骨、琥珀珠、一把火石刀、一把石斧和一条由42颗锋利的牙齿制成的项链。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "kite": {
     "en": "The first song she made was the hypnotic “Like A Kite,” written around a year ago and almost abandoned after she got stuck on its second verse.",
@@ -8586,6 +8816,11 @@ const WORD_EXAMPLES = {
     "en": "“The Traitors” format was created and developed by IDTV in cooperation with RTL Creative Unit and is distributed by All3Media International, part of Banijay Entertainment, which also handles the show’s licensing program.",
     "cn": "《叛徒》由IDTV与RTL Creative Unit合作制作和开发，由Banijay Entertainment旗下的All3Media International发行，该公司还负责该节目的授权项目。",
     "src": "Variety · 2026-09-10"
+  },
+  "lie": {
+    "en": "He was also overseeing a criminal probe into whether Obama-era CIA Director John Brennan lied to Congress in 2023 about the U.S. intelligence community's assessment on Russian interference in the 2016 election.",
+    "cn": "他还负责一项刑事调查，调查奥巴马时代的中央情报局局长约翰·布伦南是否在2023年就美国情报界对俄罗斯干预2016年大选的评估向国会撒谎。",
+    "src": "CBS News · 2026-09-10"
   },
   "lieutenant": {
     "en": "For Pochettino, the biggest takeaway is how much he and his coaching staff, including his long-term lieutenant Jesus Perez, have learned.",
@@ -8618,9 +8853,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "like": {
-    "en": "“I always keep my perfume right by the door, like on the entryway table,” Alisha adds.",
-    "cn": "“我总是把香水放在门边，比如入口处的桌子上，”阿丽莎补充道。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "And the hunter was someone important, Dąbrowski tells PAP, like a family clan leader.",
+    "cn": "Dąbrowski告诉PAP ，猎人是一个重要的人物，就像一个家族领袖。",
+    "src": "Smithsonian Magazine · 2026-09-09"
   },
   "level": {
     "en": "“Your stylist can customize the exact spice level to complement your skin tone, starting level, and maintenance goals.”",
@@ -8668,14 +8903,14 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "leading": {
-    "en": "He's spent over a decade at Who What Wear, currently leading the shopping team to deliver highly covetable and convertible content.",
-    "cn": "他在Who What Wear工作了十多年，目前领导购物团队提供非常令人垂涎和可转换的内容。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "Below, Kalnina outlines the leading trends to note for the season.",
+    "cn": "下面，Kalnina概述了本季的主要趋势。",
+    "src": "Harper's Bazaar · 2026-09-09"
   },
   "leader": {
-    "en": "And the hunter was someone important, Dąbrowski tells PAP, like a family clan leader.",
-    "cn": "Dąbrowski告诉PAP ，猎人是一个重要的人物，就像一个家族领袖。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "\"I'm glad that we have leaders in this region that are serious about going after these groups, because if we didn't, we would have failed country after failed country.\"",
+    "cn": "“我很高兴我们这个地区的领导人认真对待这些组织，因为如果我们不这样做，我们就会让一个又一个失败的国家失败。",
+    "src": "CBS News · 2026-09-10"
   },
   "lead": {
     "en": "Norman will lead the film as Younger, a 16-year-old rehoused with his mother, Maria (played by Middleton), on the notorious Stonemore Estate.",
@@ -8686,6 +8921,11 @@ const WORD_EXAMPLES = {
     "en": "Don't be fooled by this result -- Chelsea are back among the Premier League title contenders.",
     "cn": "不要被这场比赛的结果欺骗——切尔西已经重新回到争冠行列。",
     "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+  },
+  "keen": {
+    "en": "The £85m midfielder was wanted by a list of clubs after impressing for West Ham last season, with Man Utd keen on a deal but ultimately unable to go head-to-head with Spurs on the fee.",
+    "cn": "这位身价8500万英镑的中场球员在上赛季对西汉姆联队表现出色后，曾被多家俱乐部看上，曼联希望与他达成交易，但最终无法在转会费上与热刺展开正面交锋。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "leave": {
     "en": "Hair experts chime in with their favorite leave-in conditioners from amika, Rōz, and more.",
@@ -8702,9 +8942,19 @@ const WORD_EXAMPLES = {
     "cn": "我们需要继续给他球，让事情发生。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "less": {
+    "en": "There is at least one randomized controlled trial of a plant extract exosome formulation showing a real increase in hair counts, but the signaling overlap with human follicle biology is less well characterized.”",
+    "cn": "至少有一项植物提取物外泌体配方的随机对照试验显示，毛发数量确实增加了，但与人类毛囊生物学的信号重叠却没有得到很好的表征。",
+    "src": "ELLE · 2026-09-09"
+  },
   "lens": {
     "en": "“With both its director Theja Rio and producer Nancy Beso hailing from Nagaland, the film eschews the ‘outsider gaze’ and the pitfalls of Orientalist exoticisation, authentically anchoring its narrative in an Indigenous cultural lens shaped by lived experience.",
     "cn": "导演Theja b里约热内卢和制片人Nancy Beso都来自那加兰邦，这部电影避开了“局外人的目光”和东方主义异国情调的陷阱，真实地将其叙事固定在由生活经历塑造的土著文化镜头中。",
+    "src": "Variety · 2026-09-10"
+  },
+  "legend": {
+    "en": "Celebrating 40 years of franchise gameplay, an updated version of \"The Legend of Zelda: Ocarina of Time\" will be available for Nintendo Switch 2 on Nov.",
+    "cn": "为庆祝《塞尔达传说：时之笛》系列游戏问世40周年，新版《塞尔达传说：时之笛》将于11月5日登陆任天堂Switch 2平台。",
     "src": "Variety · 2026-09-10"
   },
   "leg": {
@@ -8753,9 +9003,9 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "interesting": {
-    "en": "“To have something polarizing is a compliment because I would always rather be part of the conversation and have something interesting than something boring and safe.”",
-    "cn": "“有一些两极分化的东西是一种赞美，因为我总是宁愿成为谈话的一部分，做一些有趣的事情，而不是无聊和安全的事情。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "With Marcus Rashford also available, and Cunha getting a confidence-boosting goal, there are some interesting decisions ahead for the United boss.",
+    "cn": "拉什福德也可以上场，库尼亚也取得了一个提升信心的进球，曼联主帅将面临一些有趣的决定。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "interest": {
     "en": "Nottingham Forest could revive their interest in Tottenham midfielder Lucas Bergvall in January.",
@@ -8782,6 +9032,11 @@ const WORD_EXAMPLES = {
     "cn": "它是打算挂在大厅的墙上吗？",
     "src": "HistoryExtra · 2026-09-10"
   },
+  "intelligent": {
+    "en": "Fernandes starred again and the sight of him combining with the equally intelligent Youri Tielemans for United's second was encouraging.",
+    "cn": "费尔南德斯再次成为主力，他和同样聪明的蒂勒曼斯一起打进了曼联的第二个进球，这令人鼓舞。",
+    "src": "Sky Sports · 2026-09-08"
+  },
   "intelligence": {
     "en": "Woody possesses the rare combination of vulnerability, intelligence and strength that Younger demands, while Malachi, Conrad, Kola and Tuppence bring extraordinary weight and complexity to the forces shaping his life.",
     "cn": "伍迪拥有杨格所要求的脆弱、智慧和力量的罕见结合，而玛拉基、康拉德、科拉和塔彭丝则给塑造他生活的力量带来了非凡的重量和复杂性。",
@@ -8807,6 +9062,11 @@ const WORD_EXAMPLES = {
     "cn": "尼古拉·塔利斯探索了伊丽莎白一世的早年生活，揭示了她的成长经历是如何影响她后来成为君主的",
     "src": "HistoryExtra · 2026-09-09"
   },
+  "information": {
+    "en": "For additional information about new features and enhancements coming to \"The Legend of Zelda: Ocarina of Time\" or to preorder, please visit Amazon, Nintendo Store or Nintendo eShop.",
+    "cn": "有关“塞尔达传说：时之笛”的新功能和增强功能的更多信息或预订，请访问亚马逊，任天堂商店或任天堂eShop。",
+    "src": "Variety · 2026-09-10"
+  },
   "inside": {
     "en": "The formula plumps up your tresses for voluminous locks that last and provides fuller strands from the inside out.",
     "cn": "该配方为您的长裤增添了丰富的锁，可以持续使用，并从内到外提供更饱满的锁链。",
@@ -8822,15 +9082,15 @@ const WORD_EXAMPLES = {
     "cn": "董事会成员分布在好莱坞、亚洲、中东和其他制作中心，他们将帮助K2在从最初的版权工作到融资、制作、合作和货币化的过程中寻找和创造机会。",
     "src": "Variety · 2026-09-10"
   },
+  "internal": {
+    "en": "On Tuesday, OpenAI, the developer of ChatGPT, announced in a blog post that an “internal OpenAI system” had just found a solution to the longstanding puzzle.",
+    "cn": "周二，ChatGPT的开发者OpenAI在一篇博客文章中宣布，一个“内部OpenAI系统”刚刚找到了解决这个长期难题的方法。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
   "international": {
     "en": "Jungle Book Studio has taken international sales rights to “ Angh,” the debut feature from Nagaland filmmaker Theja Rio.",
     "cn": "《丛林之书》工作室获得了那加兰邦电影制作人Theja b里约热内卢的处女作《Angh》的国际销售权。",
     "src": "Variety · 2026-09-10"
-  },
-  "jam": {
-    "en": "Cruz and Bardem first met on the 1992 set of Jamón, Jamón, and started dating 15 years later, while filming Vicky Cristina Barcelona in 2008.",
-    "cn": "克鲁兹和巴登在1992年的《Jamón，Jamón》片场相识，15年后在2008年拍摄《午夜巴塞罗那》时开始约会。",
-    "src": "Harper's Bazaar · 2026-09-09"
   },
   "january": {
     "en": "There will be further releases into 2027 for dates between January and July 2027.",
@@ -8848,9 +9108,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "jaw": {
-    "en": "“My jaw hit the floor when I got the phone call” about the award, Matilda Brindle, an evolutionary biologist at the University of Oxford in England who worked on the research, tells Nature ’s Chris Simms.",
-    "cn": "英国牛津大学的进化生物学家玛蒂尔达·布林德尔（Matilda Brindle）告诉《自然》杂志的克里斯·西姆斯（Chris Simms），“当我接到关于该奖项的电话时，我的下巴掉在地板上”。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "It's been jaw dropping the way they have adapted their game to this level of football.",
+    "cn": "他们让自己的比赛适应这种水平的足球的方式令人惊叹。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "job": {
     "en": "Having finished 10th last season, 33 points behind the Gunners, Chelsea have done a remarkable job in the summer to put themselves back in the title mix.",
@@ -8863,8 +9123,8 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "joint": {
-    "en": "Earlier this year, American commandos joined Ecuadorian troops in a joint mission aimed at dismantling a suspected criminal hub operated by an alleged narco-terrorist organization along the country's coast.",
-    "cn": "今年早些时候，美国突击队与厄瓜多尔军队一起执行了一项联合任务，目的是拆除该国沿海地区一个涉嫌由贩毒恐怖组织运营的犯罪中心。",
+    "en": "\"When you're conducting a joint operation in territorial waters, you have to reach an understanding as to how those operations are going to occur,\" he said.",
+    "cn": "“当你在领海进行联合行动时，你必须就这些行动将如何进行达成谅解，”他说。",
     "src": "CBS News · 2026-09-10"
   },
   "jolly": {
@@ -8883,9 +9143,14 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "june": {
-    "en": "Criminal gang violence continues unabated in Ecuador following the recapture in June 2025 of the country's biggest drug lord, Adolfo Mac&iacute;as after his escape from a maximum-security prison in 2024.",
-    "cn": "厄瓜多尔最大的毒枭Adolfo maciacute于2024年从最高安全级别的监狱越狱后，于2025年6月被重新抓获，此后该国的犯罪团伙暴力活动有增无减。",
-    "src": "CBS News · 2026-09-10"
+    "en": "The gaming event will also debut PAX Unplugged Houston, the new iteration of PAX expos that will take place June 25 to June 27 at the George R.",
+    "cn": "游戏活动还将首次亮相PAX Unplugged Houston，这是将于6月25日至6月27日在乔治R。",
+    "src": "Variety · 2026-09-10"
+  },
+  "jump": {
+    "en": "James and I wept too, uncomprehending—the flames, the smoke, above all the people jumping.",
+    "cn": "詹姆斯和我也哭了，无法理解——火焰，烟雾，最重要的是人们跳了起来。",
+    "src": "Vogue · 2026-09-10"
   },
   "july": {
     "en": "There will be further releases into 2027 for dates between January and July 2027.",
@@ -8913,9 +9178,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "jacket": {
-    "en": "You'll also notice cool jackets, trousers to dress up or down, and cute tees.",
-    "cn": "你还会注意到很酷的夹克、穿搭或穿搭的裤子和可爱的t恤。",
-    "src": "Who What Wear · 2026-09-10"
+    "en": "“It functions as rainwear and is made of a technical fabric, but the jacket actually has a leathery cool look to it,” said Rhee.",
+    "cn": "他说：“它的功能是雨衣，由一种技术面料制成，但这件夹克实际上有一种皮革般的酷感。",
+    "src": "Vogue · 2026-09-10"
   },
   "itself": {
     "en": "Alongside the Tapestry itself, visitors can explore a range of digital elements designed to enhance understanding and engagement.",
@@ -8933,9 +9198,9 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "into": {
-    "en": "In France’s latest art heist, two thieves broke into Pierre-Auguste Renoir ’s house and stole four of his paintings.",
-    "cn": "在法国最近的艺术品盗窃案中，两名小偷闯入皮埃尔-奥古斯特·雷诺阿的家中，偷走了他的四幅画。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "David Martindale has pledged he won't be stepping back into the Livingston dugout long-term.",
+    "cn": "大卫·马丁代尔（David Martindale）承诺，他不会长期退回利文斯顿防空洞。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "interview": {
     "en": "Mauricio Pochettino speaks to Sky Sports News' Gail Davis in an exclusive interview; ex-Tottenham and Chelsea boss reveals hope of returning to Premier League in future; last month, the Argentine signed a new four-year deal to continue as the manager of the USA men's team",
@@ -8992,10 +9257,20 @@ const WORD_EXAMPLES = {
     "cn": "罗德岛州是一个可靠的民主党州，自2006年以来，该州还没有选出过共和党人，这使得福克斯最有可能在11月获胜。",
     "src": "CBS News · 2026-09-10"
   },
+  "investigate": {
+    "en": "“‘Quiet on Set’ also affirmatively states that Schneider's employer investigated his conduct and, while it confirmed some inappropriate behavior, it found no evidence of child sexual abuse.",
+    "cn": "“《片场安静》还明确表示，施耐德的雇主调查了他的行为，虽然证实了一些不当行为，但没有发现性虐待儿童的证据。",
+    "src": "Variety · 2026-09-10"
+  },
+  "inward": {
+    "en": "OpenAI claims to have found one such “blowup” scenario, involving a vortex of fluid that spirals inward and becomes stretched out, like spaghetti.",
+    "cn": "OpenAI声称已经发现了一个这样的“爆炸”场景，包括一个向内螺旋并伸展的流体漩涡，就像意大利面一样。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
   "involve": {
-    "en": "Robert Reisz, a paleontologist at the University of Toronto who was not involved in the study, tells Ivan Semeniuk at the Globe and Mail that the study provides new insight on the dinosaurs' reproductive strategies.",
-    "cn": "多伦多大学的古生物学家Robert Reisz没有参与这项研究，他告诉《环球邮报》的Ivan Semeniuk ，这项研究为恐龙的生殖策略提供了新的见解。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "OpenAI claims to have found one such “blowup” scenario, involving a vortex of fluid that spirals inward and becomes stretched out, like spaghetti.",
+    "cn": "OpenAI声称已经发现了一个这样的“爆炸”场景，包括一个向内螺旋并伸展的流体漩涡，就像意大利面一样。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "invite": {
     "en": "\"I think it's pretty reasonable that if the president would like to have a conversation — or invite someone to have a conversation — to have it.",
@@ -9022,15 +9297,30 @@ const WORD_EXAMPLES = {
     "cn": "继大卫·彭塞尔即将离职的消息宣布后，长期担任董事会顾问、多元化、平等和包容（DEI）专家的帕维塔·库珀被任命为英国时装协会（BFC）新任主席。",
     "src": "Vogue · 2026-09-10"
   },
+  "equation": {
+    "en": "This story starts some 200 years ago, when Claude-Louis Navier and George Gabriel Stokes wrote equations to describe how fluids move.",
+    "cn": "这个故事始于大约200年前，当时克劳德-路易斯·纳维尔和乔治·加布里埃尔·斯托克斯写了一些方程来描述流体的运动。",
+    "src": "Smithsonian Magazine · 2026-09-10"
+  },
+  "equipment": {
+    "en": "Bresnahan's portfolio also includes investments in companies that supply the chips, networking equipment, semiconductor manufacturing tools and software that underpin the rapid growth of artificial intelligence and data centers.",
+    "cn": "布雷斯纳汉的投资组合还包括对芯片、网络设备、半导体制造工具和软件供应商的投资，这些公司支撑着人工智能和数据中心的快速增长。",
+    "src": "CBS News · 2026-09-11"
+  },
+  "era": {
+    "en": "But any economic stimulus program runs the risk of causing inflation to spike, and many economists believe the pandemic-era stimulus was at least partially responsible for the rise in consumer prices that ensued over the following years.",
+    "cn": "但任何经济刺激计划都有导致通货膨胀飙升的风险，许多经济学家认为，疫情时期的刺激措施至少部分导致了随后几年消费价格的上涨。",
+    "src": "CBS News · 2026-09-10"
+  },
   "escape": {
     "en": "\"The Escape\" is a Keshet Media Group production in association with Reisdor Productions for Keshet 12, produced by SE Films and Reisdor.",
     "cn": "“The Escape”是凯舍特传媒集团与瑞斯多制作公司联合制作的凯舍特12，由SE电影和瑞斯多制作。",
     "src": "Variety · 2026-09-10"
   },
   "especially": {
-    "en": "The longevity was very important to me, especially when you look at the storytelling from Portofino ’97 to Hotel Portofino.",
-    "cn": "这部电影的长期性对我来说非常重要，尤其是当你看从《波托菲诺97》到《波托菲诺酒店》的故事叙述时。",
-    "src": "Harper's Bazaar · 2026-09-09"
+    "en": "\"He can start to go by different heights in the team, especially in the attacking phase, and when we get him into those positions he's a really dangerous player.\"",
+    "cn": "“他可以开始在球队中达到不同的高度，特别是在进攻阶段，当我们让他进入这些位置时，他是一个非常危险的球员。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "estimate": {
     "en": "During the Covid-19 pandemic, he saw parallels between the ongoing crisis and the Black Death, which killed an estimated 30 to 50 percent of England’s population just a few decades before the uprising.",
@@ -9038,9 +9328,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "europe": {
-    "en": "Objects from the British Museum’s own collection and other significant loans from across the UK and Europe are displayed, offering fresh perspectives on the people and events depicted in the embroidery.",
-    "cn": "展品包括大英博物馆自己收藏的物品，以及从英国和欧洲各地借来的其他重要物品，为刺绣中描绘的人物和事件提供了新的视角。",
-    "src": "HistoryExtra · 2026-09-10"
+    "en": "The Renoir Museum burglary joins a growing roster of recent art thefts in Europe.",
+    "cn": "雷诺阿博物馆的盗窃案是欧洲近年来不断增多的艺术品盗窃案之一。",
+    "src": "Smithsonian Magazine · 2026-09-08"
   },
   "everyone": {
     "en": "“Everyone’s obsessed with shiny, glossy-looking hair this season, which can make color look better and hair healthier overall,” she explains.",
@@ -9053,19 +9343,19 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-10"
   },
   "ever": {
-    "en": "If there was ever a goal to sum up a game, this was it.",
-    "cn": "如果有一个目标来总结一场比赛，那就是它。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "A fine, chocolate-toned French tip puts a playful twist on this ever-timeless nail design.",
+    "cn": "精致的巧克力色法式指甲为这款永不过时的美甲设计增添了俏皮的色彩。",
+    "src": "Harper's Bazaar · 2026-09-09"
   },
   "eventually": {
-    "en": "“If these eggshells belong to colossosaurians, the hatchlings had to have had plenty of nutritious food resources in that environment to start packing on the tonnes to eventually reach their colossal body sizes,” Zelenitsky tells CNN.",
-    "cn": "Zelenitsky告诉美国有线电视新闻网（CNN）：“如果这些蛋壳属于巨龙，那么幼崽必须在那种环境中拥有大量营养丰富的食物资源，才能开始积累大量食物，最终达到巨大的体型。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "It is some 68m long and is composed of several panels that were produced separately and then eventually sewn together to form one long whole.",
+    "cn": "它长约68米，由几块面板组成，这些面板分别生产，然后最终缝合在一起形成一个长整体。",
+    "src": "HistoryExtra · 2026-09-09"
   },
   "event": {
-    "en": "DFW is the headline event of the Arab Fashion Council (AFC), which was founded by its CEO, Jacob Abrian, in 2014, with a mandate to represent fashion across the 22 countries of the Arab League.",
-    "cn": "DFW是阿拉伯时尚理事会（AFC）的头条活动，AFC由其首席执行官雅各布·阿布里安（Jacob Abrian）于2014年创立，其使命是代表阿拉伯联盟22个国家的时尚。",
-    "src": "Vogue · 2026-09-10"
+    "en": "The gaming event will also debut PAX Unplugged Houston, the new iteration of PAX expos that will take place June 25 to June 27 at the George R.",
+    "cn": "游戏活动还将首次亮相PAX Unplugged Houston，这是将于6月25日至6月27日在乔治R。",
+    "src": "Variety · 2026-09-10"
   },
   "even": {
     "en": "Chandelier earrings were the perfect match for many of Ralph Lauren's most elegant evening looks.",
@@ -9128,9 +9418,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "entire": {
-    "en": "In fact, Black Opium’s entire line has always been about this.",
-    "cn": "事实上，黑鸦片的整条线都是围绕着这个。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "It's hard to believe that Ralph Lauren (the man) has remained at the helm of his namesake brand for its entire six-decade-and-counting run, but alas, there he was taking a bow at the end of today's runway show.",
+    "cn": "很难相信拉尔夫·劳伦（Ralph Lauren）在他的同名品牌60多年的历史中一直掌舵，但可惜的是，他在今天的时装秀结束时鞠躬谢幕。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "enthusiastic": {
     "en": "Having had a few weeks to reset away from the spotlight, there were enthusiastic hugs all round for the Sky Sports News team as we all swapped summer stories.",
@@ -9148,9 +9438,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-08"
   },
   "enough": {
-    "en": "This has gone on for long enough that it's not just some random quirk.",
-    "cn": "这种情况已经持续了足够长的时间，绝不只是偶然。",
-    "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
+    "en": "To take on Claudia’s role, as it were, is not just a privilege but a real challenge as an actor – I simply don’t have enough hair.",
+    "cn": "能出演克劳迪娅这个角色，可以说，不仅是一种特权，而且对演员来说是一个真正的挑战——我就是没有足够的头发。",
+    "src": "Variety · 2026-09-10"
   },
   "enjoy": {
     "en": "There's managing at the World Cup, then there's managing at a home World Cup for a nation whose President rather enjoys the spotlight.",
@@ -9188,9 +9478,9 @@ const WORD_EXAMPLES = {
     "src": "Smithsonian Magazine · 2026-09-09"
   },
   "expert": {
-    "en": "Experts have also questioned whether they do anything to curb the flow of cocaine and other drugs to the United States -- the world's largest consumer.",
-    "cn": "专家们还质疑他们是否采取了任何措施来遏制可卡因和其他毒品流入美国——世界上最大的消费国。",
-    "src": "CBS News · 2026-09-10"
+    "en": "Expert review: “I don’t want controlling frizz to mean suppressing someone’s curl pattern or taking away all of their volume.",
+    "cn": "专家评论：“我不希望控制头发卷曲意味着抑制某人的卷发模式，或者把他们的头发全部卷掉。",
+    "src": "ELLE · 2026-09-09"
   },
   "explain": {
     "en": "“It’s more about keeping the hair hydrated, manageable, and healthy depending on the style you’re trying to create,” explains celebrity hair stylist Jenny Cho.",
@@ -9207,25 +9497,40 @@ const WORD_EXAMPLES = {
     "cn": "九月的主题是探索色彩、对比和自然，因为一些业内最知名的主题通过意想不到的材料和技术被重新想象。",
     "src": "ELLE · 2026-09-09"
   },
-  "explosion": {
-    "en": "Perhaps more dated, or certainly not for everyone, were her explosions of tulle, including a full-on red mermaid strapless gown, with sheer hints of pink tulle peeking through the underlay.",
-    "cn": "也许更过时的是她对薄纱的大爆炸，或者肯定不适合所有人，包括一件全身红色美人鱼无肩带礼服，衬底中透出一丝粉色薄纱。",
-    "src": "Vogue · 2026-09-10"
-  },
   "export": {
     "en": "Telecommunications giant Telekom Srbija is looking to position itself as not only the leading production hub in Serbia but a regional juggernaut for the countries of the former Yugoslavia, exporting local content while attracting international productions to the Balkan nation.",
     "cn": "电信巨头塞尔维亚电信（Telekom Srbija）正在寻求将自己定位为不仅是塞尔维亚领先的生产中心，而且是前南斯拉夫国家的地区巨头，在向巴尔干国家出口本地内容的同时吸引国际制作。",
     "src": "Variety · 2026-09-10"
+  },
+  "extremely": {
+    "en": "He knows how to crack Emery's tactical plan as Glasner's teams are extremely comfortable allowing the opponent possession before attacking the spaces created when the opponent overcommits.",
+    "cn": "他知道如何破解埃梅里的战术计划，因为格拉斯纳的球队在进攻对手过度投入时创造的空间之前，总是让对手拥有控球权。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "extraordinary": {
     "en": "Theja has brought an extraordinary depth of vision and sensitivity to this story, and it has been deeply meaningful to build this film alongside him.”",
     "cn": "Theja为这个故事带来了非凡的深度和敏感性，和他一起制作这部电影非常有意义。",
     "src": "Variety · 2026-09-10"
   },
+  "extra": {
+    "en": "Glasner is unbeaten in seven meeting with Emery, winning five and what gives this angle extra robustness is across the last five league meetings Glasner's team are creating 2.47 expected goals per 90.",
+    "cn": "格拉斯纳在与埃默里的七次交锋中保持不败，赢了五场，在过去的五次联赛中，格拉斯纳的球队每90分钟创造2.47个预期进球，这让这个角度更加坚固。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "expand": {
     "en": "Finally, ME+EM expands its accessories world with Atelier.",
     "cn": "最后，ME+EM通过Atelier拓展了其配件领域。",
     "src": "ELLE · 2026-09-09"
+  },
+  "exit": {
+    "en": "His exit comes just days after lawyers representing some of the witnesses in the investigation received emails alerting them that their clients would be receiving grand jury subpoenas, sources familiar with the matter told CBS News.",
+    "cn": "知情人士告诉哥伦比亚广播公司新闻频道（CBS News），就在他辞职的几天前，代表调查中一些证人的律师收到了电子邮件，警告他们的客户将收到大陪审团的传票。",
+    "src": "CBS News · 2026-09-10"
+  },
+  "existence": {
+    "en": "Because of the longstanding interest in these equations, Navier-Stokes, officially called the Navier-Stokes existence and smoothness problem, is one of seven mathematical problems with a $1 million award offered for each solution—they’re known collectively as the Millennium Prize Problems.",
+    "cn": "由于长期以来对这些方程的兴趣，纳维-斯托克斯问题，正式名称为纳维-斯托克斯存在性和平滑性问题，是七个数学问题之一，每个解决方案都有100万美元的奖金——它们被统称为千年奖问题。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "exist": {
     "en": "His now-City teammate Jérémy Doku exists in his own ball-carrying world, but Ndiaye ranked second behind him in completed take-ons last season, per the stats app Futi.",
@@ -9241,11 +9546,6 @@ const WORD_EXAMPLES = {
     "en": "As part of his HistoryExtra Academy series on the embroidery, Dr David Musgrove examines the history of the tapestry, the story it tells, who made it and whether it's reliable as a historical source…",
     "cn": "作为他关于刺绣的历史系列的一部分，大卫·马斯格罗夫博士研究了挂毯的历史，它讲述的故事，它的制造者，以及它作为历史来源是否可靠…",
     "src": "HistoryExtra · 2026-09-09"
-  },
-  "exactly": {
-    "en": "This elusive look is exactly what inspired Belghiran for Cult Gaia’s spring/summer 2027 show.",
-    "cn": "这种难以捉摸的造型正是Belghiran为Cult Gaia 2027年春夏时装秀的灵感来源。",
-    "src": "ELLE · 2026-09-09"
   },
   "exact": {
     "en": "“Your stylist can customize the exact spice level to complement your skin tone, starting level, and maintenance goals.”",
@@ -9281,6 +9581,11 @@ const WORD_EXAMPLES = {
     "en": "“They’re one of the more exciting areas in hair regeneration research because they potentially influence multiple components of the follicular microenvironment at once, rather than only targeting a single pathway.”",
     "cn": "“它们是头发再生研究中更令人兴奋的领域之一，因为它们有可能同时影响毛囊微环境的多个组成部分，而不是只针对单一途径。",
     "src": "ELLE · 2026-09-09"
+  },
+  "excite": {
+    "en": "\"Collectively, as a team, we have done a lot of the right things and that is why were are excited about what the season will bring.",
+    "cn": "“作为一个团队，我们做了很多正确的事情，这就是为什么我们对新赛季的到来感到兴奋。",
+    "src": "Sky Sports · 2026-09-08"
   },
   "eye": {
     "en": "Forget a basic white tee: In her eyes, you need a totally bedazzled floor-length one.",
@@ -9338,14 +9643,19 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "due": {
-    "en": "Due October 16 via A24 Music, the 10-track self-produced record follows Stel’s 2024 debut EP, Object Permanence, and this year’s How to Win At Solitaire.",
-    "cn": "这张10首曲目的自制专辑将于10月16日通过A24 Music发行，继斯泰尔2024年的首张EP《Object Permanence》和今年的《How to Win At Solitaire》之后。",
-    "src": "Vogue · 2026-09-10"
+    "en": "The general consensus is that United's business in the transfer market has left them short, with a squad that is unable to cope with three games per week due to an over-reliance on the same names.",
+    "cn": "普遍的共识是曼联在转会市场的业务使他们短缺，由于过度依赖相同的名字，球队每周无法应付三场比赛。",
+    "src": "Sky Sports · 2026-09-09"
   },
   "dry": {
-    "en": "“Their eggshells were very porous, which means if the eggs were left out in the open, they would lose water, dry out, and the embryos would die,” Zelenitsky explains to CNN.",
-    "cn": "Zelenitsky向美国有线电视新闻网解释说：“它们的蛋壳非常多孔，这意味着如果卵子被放在外面，它们会失去水分，变干，胚胎就会死亡。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "To create the style, she prepped Bullock’s damp hair with a combination of RŌZ Santa Lucia Styling Oil and the RŌZ Milk Hair Serum before blow-drying with a round brush.",
+    "cn": "为了打造这种造型，她用RŌZ圣卢西亚造型油和RŌZ牛奶护发精华液为布洛克潮湿的头发做了准备，然后用圆刷吹干。",
+    "src": "ELLE · 2026-09-09"
+  },
+  "drama": {
+    "en": "“Doron, Yoav and Ariel have created a thrilling, emotionally charged series that combines a deeply human story with cinematic scale,\" said Karni Ziv, head of drama at Keshet 12.",
+    "cn": "“多伦、约阿夫和阿里尔创造了一部惊心动魄、充满情感的电视剧，将深刻的人类故事与电影规模相结合，”凯舍特12的戏剧主管卡尼·齐夫说。",
+    "src": "Variety · 2026-09-10"
   },
   "district": {
     "en": "One of the first full registers Amandeep asked for was for Ambala, his family’s district.",
@@ -9366,6 +9676,11 @@ const WORD_EXAMPLES = {
     "en": "More than 100 dogs were evacuated from an animal shelter in Aksu.",
     "cn": "阿克苏一家动物收容所疏散了100多只狗。",
     "src": "ABC News · 2026-09-09"
+  },
+  "dollar": {
+    "en": "The company used around 10,000 artificial intelligence “agents,” or bots, that worked largely autonomously on the Navier-Stokes equations for 88 hours, using computational power that likely cost millions of dollars.",
+    "cn": "该公司使用了大约1万个人工智能“代理”或机器人，它们在很大程度上自主地在纳维-斯托克斯方程上工作了88个小时，使用的计算能力可能耗资数百万美元。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "dozen": {
     "en": "While his fiancée was moved out of the country, Khork was among a few dozen specialists moved to a tactical operations center at the Port of Shuaiba.",
@@ -9388,8 +9703,8 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "elect": {
-    "en": "Rhode Island is a reliably Democratic state, and hasn't elected a Republican statewide since 2006, making Foulkes the favorite to win in November.",
-    "cn": "罗德岛州是一个可靠的民主党州，自2006年以来，该州还没有选出过共和党人，这使得福克斯最有可能在11月获胜。",
+    "en": "He was elected for a full term in 2022 and has served as governor for five years.",
+    "cn": "他于2022年当选，并担任了5年的州长。",
     "src": "CBS News · 2026-09-10"
   },
   "election": {
@@ -9417,10 +9732,15 @@ const WORD_EXAMPLES = {
     "cn": "在《盖娅崇拜》中，情人的能量并没有随着松开的马尾辫而结束。",
     "src": "ELLE · 2026-09-09"
   },
+  "eat": {
+    "en": "Secretary of State Marco Rubio defended controversial strikes on suspected drug-trafficking boats during a visit to Ecuador on Wednesday, arguing Latin American cartels would \"eat these countries alive\" if left unchecked.",
+    "cn": "美国国务卿卢比奥星期三在访问厄瓜多尔期间为有争议的打击涉嫌贩毒船只的行动进行了辩护，他说，如果不加以控制，拉美贩毒集团将“把这些国家活活吃掉”。",
+    "src": "CBS News · 2026-09-10"
+  },
   "easy": {
-    "en": "It’s so easy to blame this generation, but it is technology.",
-    "cn": "我们很容易责怪这一代人，但这就是科技。",
-    "src": "Cosmopolitan · 2026-09-09"
+    "en": "For the most part, though, Lipa and Turner’s first summer as husband and wife has been spent in easy, beach-ready vacation clothes: colorful bikinis, breezy separates, and ruffled Chloé sets among them.",
+    "cn": "不过，利帕和特纳成为夫妻后的第一个夏天，大部分时间都是穿着轻松、适合去海滩的度假服装度过的：色彩鲜艳的比基尼、清爽的单品和褶皱的chloe套装。",
+    "src": "Vogue · 2026-09-10"
   },
   "eastern": {
     "en": "Since Mr. Trump returned to power, the U.S. has conducted airstrikes against vessels plying known trafficking routes in the Caribbean and eastern Pacific.",
@@ -9502,6 +9822,11 @@ const WORD_EXAMPLES = {
     "cn": "他扭动着盒子的边缘，然后他的努力就消失了。",
     "src": "Sky Sports · 2026-09-09"
   },
+  "effective": {
+    "en": "There’s little to no research proving these molecules are safe or effective and no assurance from the FDA about their identity, purity or strength.",
+    "cn": "几乎没有研究证明这些分子是安全或有效的，FDA也不能保证它们的特性、纯度或强度。",
+    "src": "Smithsonian Magazine · 2026-09-09"
+  },
   "link": {
     "en": "A harrowing curation of artifacts linked to the world’s most notorious serial killers—including the “Killer Clown” John Wayne Gacy and H.H.",
     "cn": "一系列与世界上最臭名昭著的连环杀手有关的文物，包括“杀手小丑”约翰·韦恩·盖西（John Wayne Gacy）和H.H.",
@@ -9532,10 +9857,15 @@ const WORD_EXAMPLES = {
     "cn": "在这期间的周末，天空体育将在新年当天播放利兹对埃弗顿的周五晚间足球比赛，然后在1月3日下午5:30播放伯恩茅斯对阿斯顿维拉的周六晚间足球比赛。",
     "src": "Sky Sports · 2026-09-10"
   },
+  "friendly": {
+    "en": "But in the past, Bresnahan has taken an overtly friendly stance toward data centers, calling them potential \"catalysts for economic growth\" in Northeastern Pennsylvania last year.",
+    "cn": "但在过去，布雷斯纳汉对数据中心采取了公开的友好立场，去年在宾夕法尼亚州东北部称其为潜在的“经济增长催化剂”。",
+    "src": "CBS News · 2026-09-11"
+  },
   "from": {
-    "en": "Some of Gacy’s paintings featured in the exhibition, on show for the first time, come from people who knew him personally.",
-    "cn": "展览中首次展出的盖西的一些画作来自认识他的人。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "I'm dedicating this edit to the potential staples (re: versatile pieces) I recently found from J.Crew, Aritzia, and Gap.",
+    "cn": "我把这篇编辑献给了我最近从J.Crew、arizia和Gap找到的潜在的主食（关于：百搭单品）。",
+    "src": "Who What Wear · 2026-09-10"
   },
   "fund": {
     "en": "She joins the BFC — a non-profit organization funded via government support, patronage, and member fees — during a transition spearheaded by CEO Laura Weir.",
@@ -9558,9 +9888,14 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "freedom": {
-    "en": "Summer is more than a season, it is also a state of mind equated with freedom, light, openness, and adventure—all qualities that animate this designer’s off-beat work.",
-    "cn": "夏天不仅仅是一个季节，它也是一种精神状态，等同于自由、光明、开放和冒险——所有这些品质都为这位设计师的另类作品注入了活力。",
-    "src": "Vogue · 2026-09-10"
+    "en": "“It’s about ways of dressing that celebrate ingenuity, originality, and character—the freedom and fun of creating a style that is truly personal,” Lauren continued.",
+    "cn": "Lauren继续说道：「这是关于庆祝独创性、独创性和个性的着装方式--创造真正个性化风格的自由和乐趣。",
+    "src": "ELLE · 2026-09-09"
+  },
+  "frontier": {
+    "en": "We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of the deepest problems at the frontier of mathematics.",
+    "cn": "我们正在分享一个解决纳维-斯托克斯千年奖问题的方法，这是数学前沿最深奥的问题之一。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "front": {
     "en": "Take a dress with a shiny, even gaudy, metallic pink stretch front and cotton back in shades of magenta (there was a lot of back action for spring).",
@@ -9573,9 +9908,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-10"
   },
   "france": {
-    "en": "Renoir, born in France in 1841, was one of Impressionism’s founding artists.",
-    "cn": "雷诺阿1841年出生于法国，是印象派的奠基人之一。",
-    "src": "Smithsonian Magazine · 2026-09-08"
+    "en": "The upshot of that conversation is that Harold sets off on a ship to France.",
+    "cn": "谈话的结果是哈罗德乘船去了法国。",
+    "src": "HistoryExtra · 2026-09-09"
   },
   "foremost": {
     "en": "“But first and foremost, it should leave the hair feeling better conditioned and more manageable—otherwise, what’s the point of leaving it in?”",
@@ -9606,6 +9941,11 @@ const WORD_EXAMPLES = {
     "en": "The former CVS pharmacy executive has campaigned on housing and affordability, some of the most resonant issues in the midterm elections.",
     "cn": "这位前CVS制药公司高管的竞选主题是住房和可负担性，这是中期选举中最容易引起共鸣的一些问题。",
     "src": "CBS News · 2026-09-10"
+  },
+  "formula": {
+    "en": "The right formula, however, can make all the difference by adding hydration without heaviness, taming frizz without stealing volume, and leaving your hair soft, shiny, and full of life.",
+    "cn": "然而，正确的配方可以通过增加水分而不会产生沉重感，驯服卷曲而不会窃取体积，并让您的头发柔软，有光泽，充满活力。",
+    "src": "ELLE · 2026-09-10"
   },
   "fortunately": {
     "en": "Fortunately, thousands of products—including conditioners—can make fine hair look fuller after just one wash and grow in thicker from the root.",
@@ -9717,15 +10057,25 @@ const WORD_EXAMPLES = {
     "cn": "大卫·马斯格罗夫和迈克尔·刘易斯揭示了在体验世界上最著名的刺绣的荣耀时，你必须做的10件事",
     "src": "HistoryExtra · 2026-09-10"
   },
+  "globe": {
+    "en": "Robert Reisz, a paleontologist at the University of Toronto who was not involved in the study, tells Ivan Semeniuk at the Globe and Mail that the study provides new insight on the dinosaurs' reproductive strategies.",
+    "cn": "多伦多大学的古生物学家Robert Reisz没有参与这项研究，他告诉《环球邮报》的Ivan Semeniuk ，这项研究为恐龙的生殖策略提供了新的见解。",
+    "src": "Smithsonian Magazine · 2026-09-09"
+  },
   "glitter": {
     "en": "It was a glittering start to New York Fashion Week, with plenty of stars stepping out for Bulgari’s Serpenti Infiniti after-party.",
     "cn": "纽约时装周有了一个闪亮的开端，许多明星都出席了宝格丽（Bulgari）的Serpenti Infiniti晚会。",
     "src": "Vogue · 2026-09-10"
   },
+  "gang": {
+    "en": "Criminal gang violence continues unabated in Ecuador following the recapture in June 2025 of the country's biggest drug lord, Adolfo Mac&iacute;as after his escape from a maximum-security prison in 2024.",
+    "cn": "厄瓜多尔最大的毒枭Adolfo maciacute于2024年从最高安全级别的监狱越狱后，于2025年6月被重新抓获，此后该国的犯罪团伙暴力活动有增无减。",
+    "src": "CBS News · 2026-09-10"
+  },
   "game": {
-    "en": "Arsenal conceded just 27 goals in 38 league games on their way to the title last season.",
-    "cn": "阿森纳上赛季以 38 场仅丢 27 球的防守赢得了联赛冠军。",
-    "src": "ESPN · Mark Ogden & James Olley · 2026-09-06"
+    "en": "The game will debut in spring 2027, timed with the 35th anniversary for the Kirby series.",
+    "cn": "这款游戏将于2027年春季首次亮相，恰逢Kirby系列诞生35周年。",
+    "src": "Variety · 2026-09-10"
   },
   "gallery": {
     "en": "The Bayeux Tapestry exhibition opened at the Sainsbury Exhibitions Gallery at the British Museum on 10 September 2026 and will run until 11 July 2027.",
@@ -9752,6 +10102,11 @@ const WORD_EXAMPLES = {
     "cn": "更新到最新版本可以看到《Vogue》的所有内容，以及我们的Runway Genius测试、群聊和《Vogue》撰稿人的帖子等新功能。",
     "src": "Vogue · 2026-09-10"
   },
+  "generous": {
+    "en": "This Glasner hold over Emery isn't factored enough into the match pricing so the draw no bet on Forest at 5/4 with Sky Bet is a touch generous.",
+    "cn": "格拉斯纳对埃梅里的控制并没有充分考虑到比赛的定价，所以天空博彩以5/4的赔率赌福里斯特的平局是相当慷慨的。",
+    "src": "Sky Sports · 2026-09-10"
+  },
   "generation": {
     "en": "Dreamkite Studios brings together exceptional creative talent, premium IP and cutting-edge technology to build a new generation of European entertainment.",
     "cn": "Dreamkite Studios汇集了杰出的创意人才，优质IP和尖端技术，以建立新一代的欧洲娱乐。",
@@ -9773,9 +10128,14 @@ const WORD_EXAMPLES = {
     "src": "Variety · 2026-09-10"
   },
   "father": {
-    "en": "Amandeep’s mother was tearful at seeing the names written down, but also knowing her husband, Amandeep’s father, was no longer alive to see it.",
-    "cn": "阿曼迪普的母亲看到写在上面的名字时泪流满面，但也知道她的丈夫，阿曼迪普的父亲，已经不在人世了。",
-    "src": "HistoryExtra · 2026-09-09"
+    "en": "\"The general kept asking Cody to call an 'all clear,'\" his father told CBS News.",
+    "cn": "他的父亲告诉哥伦比亚广播公司新闻：“将军一直让科迪报‘安全警报’。",
+    "src": "CBS News · 2026-09-10"
+  },
+  "fear": {
+    "en": "According to the synopsis, \"Sanctuary\" is set on a post-apocalyptic Earth, where the discovery of a cryogenically suspended woman provokes fear in a desperate village, sending a young warrior and the mysterious woman on a quest for a lost city and answers that could restore humanity.",
+    "cn": "根据剧情大纲，《庇护所》设定在一个后世界末日的地球上，一个被低温悬浮的女人的发现在一个绝望的村庄引发了恐惧，派遣一个年轻的战士和一个神秘的女人去寻找一个失落的城市，寻找可以恢复人类的答案。",
+    "src": "Variety · 2026-09-10"
   },
   "feast": {
     "en": "They are shown pillaging, feasting and fortifying their position.",
@@ -9793,8 +10153,8 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "few": {
-    "en": "Balogun has been in the headlines again over the past few weeks after his proposed move from Monaco to Everton collapsed late on Deadline Day.",
-    "cn": "Balogun在截止日期当天晚些时候从摩纳哥搬到埃弗顿的提议崩溃后，过去几周再次成为头条新闻。",
+    "en": "Having had a few weeks to reset away from the spotlight, there were enthusiastic hugs all round for the Sky Sports News team as we all swapped summer stories.",
+    "cn": "在离开聚光灯几周后，天空体育新闻团队充满了热情的拥抱，因为我们都交换了夏天的故事。",
     "src": "Sky Sports · 2026-09-09"
   },
   "fetch": {
@@ -9843,9 +10203,9 @@ const WORD_EXAMPLES = {
     "src": "Who What Wear · 2026-09-10"
   },
   "fair": {
-    "en": "The exhibition dedicates displays to other local killers, including Holmes, who, as one of America’s first serial killers, used his “ Murder Castle ” hotel to claim victims’ lives during the 1893 Chicago World’s Fair.",
-    "cn": "该展览致力于展示其他当地杀手，包括福尔摩斯，他作为美国最早的连环杀手之一，在1893年芝加哥世界博览会期间使用他的“谋杀城堡”酒店夺走了受害者的生命。",
-    "src": "Smithsonian Magazine · 2026-09-09"
+    "en": "Cruz’s go-to manicurist, Lucero Hurtado, recently shared during an interview with Vanity Fair Spain that soft, milky shades and clean finishes are continuing to go strong as one of the biggest nail trends of 2026.",
+    "cn": "克鲁兹的御用美甲师卢塞罗·赫尔塔多（Lucero Hurtado）最近在接受《名利场》（Vanity Fair）西班牙版采访时表示，柔和的乳白色色调和干净的指甲油将继续成为2026年最大的美甲趋势之一。",
+    "src": "Vogue · 2026-09-10"
   },
   "fall": {
     "en": "Each of these retailers offers modern and relevant fall pieces that stylish people (ahem, you) will want to wear.",
@@ -9878,9 +10238,9 @@ const WORD_EXAMPLES = {
     "src": "HistoryExtra · 2026-09-09"
   },
   "far": {
-    "en": "That is demonstrated by Odegaard's touches in the opposition box going up from 2.5 per 90 minutes last season to 4.3 per 90 minutes so far this term.",
-    "cn": "Odegaard在反对派禁区中的触动从上赛季的每90分钟2.5次上升到本赛季到目前为止的每90分钟4.3次，就证明了这一点。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Spurs' players have been unable to turn that perception into more than one point so far.",
+    "cn": "到目前为止，热刺的球员们还无法将这种感觉转化为一分以上。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "fiction": {
     "en": "Producer Đorđe Stanković, of Belgrade-based Void Pictures, said that the filmmakers \"set out to make an ambitious science-fiction film from Serbia that could speak to an international audience without losing its own identity.\"",
@@ -9907,10 +10267,15 @@ const WORD_EXAMPLES = {
     "cn": "由约翰·德·摩尔（John de Mol）创立的独立制片公司Talpa Studios出品的《地板》目前已在全球30多个地区销售。",
     "src": "Variety · 2026-09-10"
   },
+  "flow": {
+    "en": "Experts have also questioned whether they do anything to curb the flow of cocaine and other drugs to the United States -- the world's largest consumer.",
+    "cn": "专家们还质疑他们是否采取了任何措施来遏制可卡因和其他毒品流入美国——世界上最大的消费国。",
+    "src": "CBS News · 2026-09-10"
+  },
   "fluid": {
-    "en": "The silhouettes were familiar—fluid dresses, velvet robes, and shimmering separates—but new techniques gave them a looseness and texture that felt of the moment.",
-    "cn": "轮廓是熟悉的-流畅的连衣裙，天鹅绒长袍和闪闪发光的分离物-但新技术给了他们一种松散和质地的感觉。",
-    "src": "ELLE · 2026-09-09"
+    "en": "The Navier-Stokes problem, a famous theoretical math problem regarding the movement of fluids, has stumped mathematicians for almost 200 years.",
+    "cn": "纳维-斯托克斯问题是一个关于流体运动的著名理论数学问题，困扰了数学家近200年。",
+    "src": "Smithsonian Magazine · 2026-09-10"
   },
   "fly": {
     "en": "As Belghiran says: “You’ll feel so good that you’re almost about to fly.”",
@@ -9918,9 +10283,9 @@ const WORD_EXAMPLES = {
     "src": "ELLE · 2026-09-09"
   },
   "football": {
-    "en": "Chelsea, who finished 10th last season, have no European football to contend with in this campaign and had won both games before Sunday's London derby.",
-    "cn": "切尔西上赛季仅获第 10，本赛季没有欧战任务，在周日这场伦敦德比之前两场比赛全胜。",
-    "src": "ESPN · Mark White · 2026-09-07"
+    "en": "\"You can feel when you speak with him, the energy, the passion about football.",
+    "cn": "“当你和他交谈时，你能感受到他对足球的能量和激情。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "foot": {
     "en": "Spanning a massive, 21,000-square-foot space, “ Serial Killer: The Exhibition ” brings together more than 2,000 items that confront myth with true crime’s gruesome reality.",
@@ -9948,9 +10313,9 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Mark White · 2026-09-07"
   },
   "flat": {
-    "en": "If you have fine hair, you know the struggle: One wrong conditioner and your strands fall flat before you even leave the house.",
-    "cn": "如果你的头发很细，你就知道如何挣扎：一个错误的护发素和你的绳子在你离开房子之前就掉平了。",
-    "src": "ELLE · 2026-09-10"
+    "en": "At the British Museum, for the first time in decades – possibly in its history – the Tapestry is being displayed in a single length, lying flat, providing the most intimate perspective since it was first put on permanent public display in 1842.",
+    "cn": "在大英博物馆，这是几十年来——可能是它的历史上——第一次以单一的长度平放，提供了自1842年首次永久公开展出以来最亲密的视角。",
+    "src": "HistoryExtra · 2026-09-10"
   },
   "find": {
     "en": "Her main hurdle is finding ways to work with found materials.",
@@ -9958,9 +10323,9 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "financial": {
-    "en": "In her new role, Cooper will advocate for fashion as a financial and cultural asset to the UK, as well as its strong global reach, working with the BFC’s board, executive leaders, and the industry at large to foster a stronger ecosystem for homegrown talent, enterprise and business, encouraging international expansion.",
-    "cn": "在她的新角色中，库珀将倡导时尚作为英国的金融和文化资产，以及其强大的全球影响力，与BFC董事会，执行领导人和整个行业合作，为本土人才，企业和商业建立更强大的生态系统，鼓励国际扩张。",
-    "src": "Vogue · 2026-09-10"
+    "en": "According to a financial disclosure filed in August, Bresnahan owns between roughly $19,005 and $110,000 worth of stock in four companies with direct ties to the data center industry.",
+    "cn": "根据8月份提交的财务披露，布雷斯纳汉持有四家与数据中心行业有直接联系的公司的股票，价值约19,005美元至11万美元。",
+    "src": "CBS News · 2026-09-11"
   },
   "finance": {
     "en": "The company describes its process as a chain that starts with creating IP and moves through development, packaging, financing and production before reaching distribution and exploitation across multiple formats, with no fixed medium preferred.",
@@ -9978,9 +10343,14 @@ const WORD_EXAMPLES = {
     "src": "Vogue · 2026-09-10"
   },
   "film": {
-    "en": "The film is produced by Nancy Nisa Beso through her shingle Winter Hymns Films and Rio through his Undercover Squirrel outfit.",
-    "cn": "这部电影由南希·尼萨·贝索（Nancy Nisa Beso）通过她的新公司Winter hyms Films制作，并通过他的卧底松鼠服装制作b里约热内卢。",
-    "src": "Variety · 2026-09-10"
+    "en": "The couple made their return to the red carpet as newlyweds last month for the premiere of Turner’s latest film, One Night Only.",
+    "cn": "上个月，这对夫妇以新婚夫妇的身份重返红毯，参加了特纳最新电影《只有一夜》的首映式。",
+    "src": "Vogue · 2026-09-10"
+  },
+  "file": {
+    "en": "According to a financial disclosure filed in August, Bresnahan owns between roughly $19,005 and $110,000 worth of stock in four companies with direct ties to the data center industry.",
+    "cn": "根据8月份提交的财务披露，布雷斯纳汉持有四家与数据中心行业有直接联系的公司的股票，价值约19,005美元至11万美元。",
+    "src": "CBS News · 2026-09-11"
   },
   "figure": {
     "en": "According to Pentagon figures, the operations have killed more than 200 people.",
@@ -10003,14 +10373,24 @@ const WORD_EXAMPLES = {
     "src": "ESPN · Ryan O'Hanlon · 2026-09-08"
   },
   "force": {
-    "en": "Woody possesses the rare combination of vulnerability, intelligence and strength that Younger demands, while Malachi, Conrad, Kola and Tuppence bring extraordinary weight and complexity to the forces shaping his life.",
-    "cn": "伍迪拥有杨格所要求的脆弱、智慧和力量的罕见结合，而玛拉基、康拉德、科拉和塔彭丝则给塑造他生活的力量带来了非凡的重量和复杂性。",
-    "src": "Variety · 2026-09-10"
+    "en": "They found that opportunity with the Iowa-based 103rd Sustainment Command, where Khork would serve as deputy force protection officer for nine months at Camp Arifjan in Kuwait.",
+    "cn": "他们在爱荷华州的第103维持司令部找到了这个机会，霍尔克将在科威特的阿里夫詹营地担任9个月的副部队保护官。",
+    "src": "CBS News · 2026-09-10"
   },
   "fine": {
     "en": "Customer review: “The best conditioner for fine hair that I have found.",
     "cn": "客户评价：“我找到的最好的细发护发素。",
     "src": "ELLE · 2026-09-10"
+  },
+  "finger": {
+    "en": "Brentford have been all the rage with the betting markets over the first three games with the belief that Keith Andrews has improved them over the summer, although a few fingers were burnt, my included, with their lacklustre showing in the 1-1 with Sunderland last weekend.",
+    "cn": "在前三场比赛中，布伦特福德一直在博彩市场上大放异彩，他们相信基思·安德鲁斯在整个夏天都改善了他们的表现，尽管上周末他们在1-1桑德兰的比赛中表现平平，但也有一些人受到了伤害，包括我的。",
+    "src": "Sky Sports · 2026-09-10"
+  },
+  "flame": {
+    "en": "James and I wept too, uncomprehending—the flames, the smoke, above all the people jumping.",
+    "cn": "詹姆斯和我也哭了，无法理解——火焰，烟雾，最重要的是人们跳了起来。",
+    "src": "Vogue · 2026-09-10"
   },
   "fix": {
     "en": "The company describes its process as a chain that starts with creating IP and moves through development, packaging, financing and production before reaching distribution and exploitation across multiple formats, with no fixed medium preferred.",
@@ -10033,14 +10413,14 @@ const WORD_EXAMPLES = {
     "src": "Sky Sports · 2026-09-09"
   },
   "fire": {
-    "en": "Odegaard's goal, fired in following a quick one-two with substitute Christos Tzolis, finally broke the deadlock but Noni Madueke, another substitute, missed a one-on-one chance with Tzolis's follow-up blocked on the line, leaving Arsenal to suffer a late scare.",
-    "cn": "厄德高的目标是与替补球员克里斯托斯·佐利斯（Christos Tzolis）进行快速一对二的比赛，最终打破了僵局，但另一名替补球员诺尼·马杜埃克（Noni Madueke）错过了一对一的机会，佐利斯的后续行动被挡在了线上，使阿森纳遭受了晚些时候的恐慌。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Up against Adam Scott, who draws over two fouls per game, and Justin Kluivert who was fouled three times at Newcastle, he's going to be in the firing line for fouls.",
+    "cn": "面对场均犯规超过两次的亚当·斯科特和在纽卡斯尔被犯规三次的贾斯汀·克鲁伊维特，他将在犯规的火线上。",
+    "src": "Sky Sports · 2026-09-10"
   },
   "finish": {
-    "en": "But showing his team-mates how to finish was only one part of his performance.",
-    "cn": "但向队友展示如何完成比赛只是他表现的一部分。",
-    "src": "Sky Sports · 2026-09-09"
+    "en": "Launching this September, the collection offers a polished finishing touch designed to move effortlessly between outfits.",
+    "cn": "该系列将于今年9月推出，提供了一种精致的画龙点睛的设计，可以毫不费力地在不同的服装之间切换。",
+    "src": "ELLE · 2026-09-09"
   }
 };
 

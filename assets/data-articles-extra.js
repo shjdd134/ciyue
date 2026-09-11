@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 60 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
+ * 共 68 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
  * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
- * 每篇保留 url 外链可溯源。来源：Sky Sports / Smithsonian Magazine / CBS News / ELLE / Variety / Vogue / Harper's Bazaar / Cosmopolitan / Who What Wear / HistoryExtra / ABC News
+ * 每篇保留 url 外链可溯源。来源：Sky Sports / HistoryExtra / Smithsonian Magazine / CBS News / ABC News / ELLE / Vogue / Who What Wear / Harper's Bazaar / Cosmopolitan / Variety
  */
 
 const ARTICLES_EXTRA = [
@@ -5675,6 +5675,810 @@ const ARTICLES_EXTRA = [
       {
         "en": "It’s about creating universes that artists can own, audiences can inhabit, and cultures can see themselves within.”",
         "cn": "这是关于创造一个艺术家可以拥有、观众可以居住、文化可以看到自己的宇宙。”"
+      }
+    ]
+  },
+  {
+    "id": "ft-pl-predictions-hull-s-run-can-t-continue-at-ch",
+    "cat": "足球",
+    "title": "PL Predictions: Hull's run can't continue at Chelsea, can it? Oh, it can",
+    "titleZh": "PL 预测：赫尔城在切尔西的表现不能继续下去了，是吗？哦，可以",
+    "source": "Sky Sports · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 4,
+    "url": "https://www.skysports.com/football/news/11095/13583782/premier-league-predictions-jones-knows-best-bets-hulls-run-cant-continue-at-chelsea-can-it-oh-it-can",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/ft-pl-predictions-hull-s-run-can-t-continue-at-ch.jpg",
+    "paras": [
+      {
+        "en": "Our football betting expert Lewis Jones is back to preview the weekend card; Watch Tottenham vs Everton, Coventry vs Brighton, Manchester United vs Manchester City & Leeds vs Newcastle live on Sky Sports | Play Super 6 to win £1m!",
+        "cn": "我们的足球博彩专家刘易斯·琼斯回来预演周末卡；观看热刺对埃弗顿，考文垂对布莱顿，曼联对曼城和利兹对纽卡斯尔的天空体育直播。玩超级6赢得100万英镑！"
+      },
+      {
+        "img": "assets/covers/ft-pl-predictions-hull-s-run-can-t-continue-at-ch-1.jpg",
+        "cap": ""
+      },
+      {
+        "en": "Our top tipster Lewis Jones, aka Jones Knows, provides his analysis and betting insight across the weekend Premier League action.",
+        "cn": "我们的顶级线人刘易斯·琼斯，又名琼斯知道，提供他的分析和投注洞察整个周末英超联赛的行动。"
+      },
+      {
+        "en": "Oliver Glanser's record against Unai Emery is an unusually strong tactical head-to-head that is more than just a cute statistic.",
+        "cn": "奥利弗·格兰瑟对阵乌奈·埃梅里的记录是一场异常强大的肉搏战，而不仅仅是一个可爱的数据。"
+      },
+      {
+        "en": "Glasner is unbeaten in seven meeting with Emery, winning five and what gives this angle extra robustness is across the last five league meetings Glasner's team are creating 2.47 expected goals per 90.",
+        "cn": "格拉斯纳在与埃默里的七次交锋中保持不败，赢了五场，在过去的五次联赛中，格拉斯纳的球队每90分钟创造2.47个预期进球，这让这个角度更加坚固。"
+      },
+      {
+        "en": "He knows how to crack Emery's tactical plan as Glasner's teams are extremely comfortable allowing the opponent possession before attacking the spaces created when the opponent overcommits.",
+        "cn": "他知道如何破解埃梅里的战术计划，因为格拉斯纳的球队在进攻对手过度投入时创造的空间之前，总是让对手拥有控球权。"
+      },
+      {
+        "en": "This Glasner hold over Emery isn't factored enough into the match pricing so the draw no bet on Forest at 5/4 with Sky Bet is a touch generous.",
+        "cn": "格拉斯纳对埃梅里的控制并没有充分考虑到比赛的定价，所以天空博彩以5/4的赔率赌福里斯特的平局是相当慷慨的。"
+      },
+      {
+        "en": "Week 3 @SkySportsPL Predictions & Best Bet results: Leif Davis to score or assist 4/1 ❌ Brentford/Brentford 9/4 ❌ Aston Villa to win 17/20 ❌ P+L -3 Season P+L +3.47 5/10 correct results 2/10 correct scores pic.twitter.com/3tM4kQYwOK",
+        "cn": "第三周@SkySportsPL预测和最佳投注结果：莱夫·戴维斯得分或助攻4/1❌布伦特福德/布伦特福德9/4❌阿斯顿维拉获胜17/20❌P+L -3赛季P+L +3.47 5/10正确结果2/10正确分数pic.twitter.com/3tM4kQYwOK"
+      },
+      {
+        "en": "Brentford have been all the rage with the betting markets over the first three games with the belief that Keith Andrews has improved them over the summer, although a few fingers were burnt, my included, with their lacklustre showing in the 1-1 with Sunderland last weekend.",
+        "cn": "在前三场比赛中，布伦特福德一直在博彩市场上大放异彩，他们相信基思·安德鲁斯在整个夏天都改善了他们的表现，尽管上周末他们在1-1桑德兰的比赛中表现平平，但也有一些人受到了伤害，包括我的。"
+      },
+      {
+        "en": "The sample size is small but there seems more aggression and pressing about Brentford this season with a rise in their high turnovers per 90 of 3.1 and 6.2 more fouls committed per 90.",
+        "cn": "样本规模很小，但本赛季布伦特福德似乎更具侵略性和压力，他们每90分钟的最高失误增加了3.1次，每90分钟的犯规增加了6.2次。"
+      },
+      {
+        "en": "Vitaly Janelt has been responsible for a lot of that upsurge, making 10 fouls in four games and being booked in all three Premier League games.",
+        "cn": "维塔利·贾内尔特对这场热潮负有很大的责任，他在四场比赛中犯规10次，并且在三场英超比赛中都吃到了黄牌。"
+      },
+      {
+        "en": "Up against Adam Scott, who draws over two fouls per game, and Justin Kluivert who was fouled three times at Newcastle, he's going to be in the firing line for fouls.",
+        "cn": "面对场均犯规超过两次的亚当·斯科特和在纽卡斯尔被犯规三次的贾斯汀·克鲁伊维特，他将在犯规的火线上。"
+      },
+      {
+        "en": "The 7/4 for him to make two or more fouls is a lovely slice of value.",
+        "cn": "对于他来说，7/4的两次或两次以上的犯规是一个可爱的价值。"
+      },
+      {
+        "en": "Hull arrive at Stamford Bridge with seven points from three games and three consecutive clean sheets.",
+        "cn": "赫尔三场比赛积7分，连续三场零封，来到斯坦福桥。"
+      },
+      {
+        "en": "It's been jaw dropping the way they have adapted their game to this level of football.",
+        "cn": "他们让自己的比赛适应这种水平的足球的方式令人惊叹。"
+      },
+      {
+        "en": "And, this isn't a promoted side accidentally stumbling into three clean sheets.",
+        "cn": "而且，这不是一支升班马不小心三次失球的球队。"
+      },
+      {
+        "en": "They are a well-oiled machine without the ball.",
+        "cn": "他们是一个没有球的运转良好的机器。"
+      },
+      {
+        "en": "Yes, their expected goals numbers suggest they've ridden their luck to some degree - but this has been an impressive display of defensive organisation, which isn't a new trait.",
+        "cn": "是的，他们的预期进球数表明他们在某种程度上依靠了运气——但这是一个令人印象深刻的防守组织展示，这并不是一个新特点。"
+      },
+      {
+        "en": "In their last 16 league games where they've enjoyed less than 45 per cent of the ball and started the match bigger than 2/1, they've conceded just nine goals, losing just two of those games, with those matches averaging a lowly 1.7 goals per game ratio.",
+        "cn": "在过去的16场联赛中，他们的控球率低于45%，开局比分大于2比1，他们只丢了9个球，只输了2场，这些比赛的场均进球率只有1.7个。"
+      },
+      {
+        "en": "In that 16-game run they've conceded just two first-half goals.",
+        "cn": "在这16场比赛中，他们上半场只丢了两个球。"
+      },
+      {
+        "en": "Can they stop this Chelsea attack?",
+        "cn": "他们能阻止切尔西的进攻吗？"
+      },
+      {
+        "en": "It's a fascinating match-up and the way the market is predicting attack to outgun defence with the expected goals line almost at 3.25 based on the odds I'd be wanting to row against that at the prices and give Hull more a chance than the 11/1 away win suggests.",
+        "cn": "这是一场令人着迷的比赛，市场预测进攻比防守多，预期进球数几乎是3.25，基于赔率，我想以价格来反对，给赫尔城更多的机会，而不是11/1的客场胜利。"
+      },
+      {
+        "en": "Getting Evens through the BuildABet function for under 1.5 first-half goals paired with under 3.5 total goals looks a shrewd play based on Hull's ability to make games so difficult no matter who the opponent are.",
+        "cn": "通过BuildABet功能，上半场进球数在1.5个以下，总进球数在3.5个以下，这看起来是一种精明的发挥，因为赫尔城无论对手是谁，都能让比赛变得如此困难。"
+      }
+    ]
+  },
+  {
+    "id": "ft-man-utd-put-four-past-sabah-on-champions-leagu",
+    "cat": "足球",
+    "title": "Man Utd put four past Sabah on Champions League return",
+    "titleZh": "曼联在欧冠赛场上四次击败沙巴",
+    "source": "Sky Sports · 2026-09-08",
+    "date": "2026-09-08",
+    "minutes": 4,
+    "url": "https://www.skysports.com/football/manchester-united-vs-sabah/report/577612",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/ft-man-utd-put-four-past-sabah-on-champions-leagu.jpg",
+    "paras": [
+      {
+        "en": "Report as Man Utd beat Sabah FC 4-0 at Old Trafford in the Champions League; first-half goals from Matheus Cunha, Bruno Fernandes and Benjamin Sesko took the game away from their opponents before Lisandro Martinez made it four after the break",
+        "cn": "报道曼联在老特拉福德4-0击败沙巴FC；上半场库尼亚、费尔南德斯和塞斯科的进球帮助球队战胜了对手，中场休息后，马丁内斯打进了第4球"
+      },
+      {
+        "img": "assets/covers/ft-man-utd-put-four-past-sabah-on-champions-leagu-1.jpg",
+        "cap": "Image: Youri Tielemans celebrates with Bruno Fernandes during the win over Sabah"
+      },
+      {
+        "en": "Manchester United made a winning return to the Champions League as they beat Sabah FC in style with a 4-0 victory at Old Trafford.",
+        "cn": "曼联在老特拉福德球场以4-0大胜沙巴队，成功重返欧冠赛场。"
+      },
+      {
+        "en": "The Azerbaijani side started brightly but Matheus Cunha converted Patrick Dorgu's 27th-minute cross and, although Joy-Lance Mickels should have levelled, two goals late in the first half from Bruno Fernandes and Benjamin Sesko put United in total control.",
+        "cn": "阿塞拜疆队开局不错，但库尼亚在第27分钟接应了多尔古的传中，尽管米克尔斯本可以扳平比分，但上半场后半段布鲁诺·费尔南德斯和本杰明·塞斯科的两粒进球让曼联完全控制了比分。"
+      },
+      {
+        "en": "Michael Carrick made changes in the second half with the points secure but there was still time for Lisandro Martinez to smash home from close range after some flashy play from Joshua Zirkzee, who produced an eye-catching cameo.",
+        "cn": "迈克尔·卡里克在下半场做出了一些改变，确保了积分，但在约书亚·齐克切的精彩发挥后，马丁内斯仍然有时间近距离破门，齐克切也有一个引人注目的客串。"
+      },
+      {
+        "en": "With goal difference a potentially significant factor in the league phase of this Champions League format, this was a fine night's work on their return.",
+        "cn": "在欧冠赛制的联赛阶段，净胜球是一个潜在的重要因素，这对他们的回归来说是一个美好的夜晚。"
+      },
+      {
+        "en": "It is Atletico Madrid away next in Europe but there are bigger matters to attend to before that.",
+        "cn": "接下来在欧洲的比赛是马德里竞技，但在那之前还有更重要的事情要做。"
+      },
+      {
+        "en": "It is over 1000 days since United competed in a Champions League game but this, their 300th in Europe's premier club competition, was not too taxing for Carrick's men.",
+        "cn": "曼联已经1000多天没有参加欧冠比赛了，但这是他们在欧洲顶级俱乐部比赛中的第300场比赛，对卡里克的队员来说并不是太繁重。"
+      },
+      {
+        "en": "It will be tougher against rivals Manchester City on Sunday - but so will his team selection.",
+        "cn": "周日对阵对手曼城的比赛将更加艰难，但他的阵容选择也将更加艰难。"
+      },
+      {
+        "en": "Fernandes starred again and the sight of him combining with the equally intelligent Youri Tielemans for United's second was encouraging.",
+        "cn": "费尔南德斯再次成为主力，他和同样聪明的蒂勒曼斯一起打进了曼联的第二个进球，这令人鼓舞。"
+      },
+      {
+        "en": "The Belgian produced perhaps his best 45 minutes at Old Trafford.",
+        "cn": "比利时人在老特拉福德打出了他最好的45分钟。"
+      },
+      {
+        "en": "But others pressed their case too.",
+        "cn": "但其他人也坚持自己的观点。"
+      },
+      {
+        "en": "Sesko scored after coming off the bench against Everton and looked sharp here in his first start of the season.",
+        "cn": "在对阵埃弗顿的比赛中，塞斯科替补出场，他在本赛季的第一次首发中表现出色。"
+      },
+      {
+        "en": "With Marcus Rashford also available, and Cunha getting a confidence-boosting goal, there are some interesting decisions ahead for the United boss.",
+        "cn": "拉什福德也可以上场，库尼亚也取得了一个提升信心的进球，曼联主帅将面临一些有趣的决定。"
+      },
+      {
+        "en": "Dorgu enjoyed himself at left-back with Luke Shaw missing from the squad but he was able to play as a de facto winger given United's superiority.",
+        "cn": "在卢克·肖缺阵的情况下，多古在左后卫的位置上表现得很好，但鉴于曼联的优势，他能够胜任边锋的位置。"
+      },
+      {
+        "en": "It will be more challenging against City's attack but Carrick and his players go into that with confidence restored.",
+        "cn": "面对曼城的进攻会更有挑战性，但卡里克和他的球员们会恢复信心。"
+      },
+      {
+        "en": "\"I think it was kind of what we set out to achieve, good performance, individually and collectively throughout the game, the boys that started, the boys that came on pitch, clean sheet, goals, exciting football.",
+        "cn": "“我认为这是我们想要达到的目标，在整场比赛中，无论是个人还是集体，都表现出色，小伙子们首发，小伙子们上场，零失球，进球，令人兴奋的足球。"
+      },
+      {
+        "en": "\"Results-wise, it has not been the start that what we wanted.",
+        "cn": "“结果方面，这并不是我们想要的开始。"
+      },
+      {
+        "en": "We wanted more points in the league.",
+        "cn": "我们想在联赛中得到更多的积分。"
+      },
+      {
+        "en": "But performance-wise, it has been a lot of things we are looking for.",
+        "cn": "但在性能方面，我们一直在寻找很多东西。"
+      },
+      {
+        "en": "\"Collectively, as a team, we have done a lot of the right things and that is why were are excited about what the season will bring.",
+        "cn": "“作为一个团队，我们做了很多正确的事情，这就是为什么我们对新赛季的到来感到兴奋。"
+      },
+      {
+        "en": "It is really encouraging for me.\"",
+        "cn": "这对我来说真的很鼓舞人心。”"
+      },
+      {
+        "en": "\"He definitely offers a different kind of threat, that is the beauty of it really, we know what Ben gives us and there are not many who can give us what he gives us.",
+        "cn": "“他绝对提供了一种不同的威胁，这就是它的美妙之处，我们知道本给了我们什么，没有几个人能给我们他给我们的。”"
+      },
+      {
+        "en": "Speed, physicality, ability to play on the last line and run in behind.",
+        "cn": "速度，身体素质，在最后一条线上的能力，以及在后面奔跑的能力。"
+      },
+      {
+        "en": "\"I didn't feel like we were shaking or scared, we tried to play, for the whole 90 minutes we did that.",
+        "cn": "“我不觉得我们在颤抖或害怕，我们努力比赛，整整90分钟我们都在这样做。"
+      }
+    ]
+  },
+  {
+    "id": "ft-de-zerbi-was-the-key-fernandes-on-his-spurs-sw",
+    "cat": "足球",
+    "title": "De Zerbi 'was the key' - Fernandes on his Spurs switch and trophy ambitions",
+    "titleZh": "德泽比“是关键”——费尔南德斯谈他转投热刺和夺冠野心",
+    "source": "Sky Sports · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 3,
+    "url": "https://www.skysports.com/football/news/11095/13584072/matheus-fernandes-interview-spurs-midfielder-on-the-passion-of-head-coach-roberto-de-zerbi-and-trophy-ambitions",
+    "cover": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "gradient": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "coverImg": "assets/covers/ft-de-zerbi-was-the-key-fernandes-on-his-spurs-sw.jpg",
+    "paras": [
+      {
+        "en": "Tottenham searching for first goal and first win of the Premier League season but £85m Matheus Fernandes says the squad with \"a lot of quality\" is aiming to fight for trophies; watch Tottenham vs Everton live on Sky from 5pm on Saturday; kick-off 5.30pm",
+        "cn": "托特纳姆热刺正在寻找英超赛季的首球和首胜，但身价8500万英镑的马修斯·费尔南德斯表示，这支“实力很强”的球队的目标是为奖杯而战；从周六下午5点开始在天空电视台观看热刺对埃弗顿的直播；开球5.30点"
+      },
+      {
+        "en": "Spurs may have failed to win any of their first three Premier League games this season, but summer signing Matheus Fernandes is convinced he has joined a squad set to start fighting for trophies.",
+        "cn": "热刺本赛季的前三场英超比赛可能一场都没赢，但是夏天签下的费尔南德斯相信他已经加入了一支为奖杯而战的球队。"
+      },
+      {
+        "en": "The £85m midfielder was wanted by a list of clubs after impressing for West Ham last season, with Man Utd keen on a deal but ultimately unable to go head-to-head with Spurs on the fee.",
+        "cn": "这位身价8500万英镑的中场球员在上赛季对西汉姆联队表现出色后，曾被多家俱乐部看上，曼联希望与他达成交易，但最终无法在转会费上与热刺展开正面交锋。"
+      },
+      {
+        "en": "For Fernandes, it was his conversations with head coach Roberto De Zerbi which persuaded him the north London project was for him.",
+        "cn": "对于费尔南德斯来说，是他和主教练罗伯托·德泽比的谈话说服了他北伦敦的计划是适合他的。"
+      },
+      {
+        "en": "\"I spoke with the Mister and he was the key for this decision,\" Fernandes told Sky Sports ahead of the Saturday Night Football clash with Everton.",
+        "cn": "“我和先生谈过了，他是这个决定的关键，”费尔南德斯在周六晚与埃弗顿的比赛前告诉天空体育。"
+      },
+      {
+        "en": "\"You can feel when you speak with him, the energy, the passion about football.",
+        "cn": "“当你和他交谈时，你能感受到他对足球的能量和激情。"
+      },
+      {
+        "en": "\"He spoke with me, he spoke with my dad, he spoke with my mum.",
+        "cn": "“他和我谈过，他和我爸爸谈过，他和我妈妈谈过。"
+      },
+      {
+        "en": "So it was not just about me, it was about the people around me.",
+        "cn": "所以这不仅仅是关于我，也是关于我周围的人。"
+      },
+      {
+        "en": "He said to my dad, 'we'll take care' [of] me.",
+        "cn": "他对我爸爸说，‘我们会照顾好我的’。"
+      },
+      {
+        "en": "You can feel on the pitch, off the pitch as well.",
+        "cn": "你在场上和场下都能感受到。"
+      },
+      {
+        "en": "And I'm very happy to work with him.\"",
+        "cn": "我很高兴和他一起工作。”"
+      },
+      {
+        "en": "Fernandes made his feelings for De Zerbi clear to the Spurs boss himself when the deal was done.",
+        "cn": "在交易完成后，费尔南德斯向热刺主帅表达了他对德泽比的感情。"
+      },
+      {
+        "en": "\"The first day of the pre-season, I met him and he was very happy.",
+        "cn": "“季前赛的第一天，我见到了他，他很高兴。"
+      },
+      {
+        "en": "I was very happy as well for playing for him.",
+        "cn": "我也很高兴为他效力。"
+      },
+      {
+        "en": "I said, 'Look, I chose Tottenham because one of the biggest parts was you'.\"",
+        "cn": "我说，‘看，我选择热刺是因为你是最重要的一部分。’”"
+      },
+      {
+        "en": "It wasn't just De Zerbi's way with words.",
+        "cn": "这不仅仅是德泽比的语言方式。"
+      },
+      {
+        "en": "The Italian's style of football also impressed Fernandes.",
+        "cn": "意大利人的足球风格也给费尔南德斯留下了深刻的印象。"
+      },
+      {
+        "en": "\"For me as a midfielder, I like so much,\" he said.",
+        "cn": "“作为一名中场球员，我非常喜欢，”他说。"
+      },
+      {
+        "en": "Fernandes believes the quality of the Spurs squad can raise his own level of performance, too.",
+        "cn": "费尔南德斯相信热刺的阵容也能提高他自己的表现水平。"
+      },
+      {
+        "en": "\"I believe that I can be a much better player than I was last season,\" said the 22-year-old Portuguese, who recorded three goals and four assists in the Premier League for the Hammers.",
+        "cn": "“我相信我可以成为一个比上赛季更好的球员，”这位22岁的葡萄牙人说，他在英超联赛中为铁锤帮贡献了3个进球和4次助攻。"
+      },
+      {
+        "en": "\"If you look at the squad, it's a big team with big players, important players, players with experience, players with a lot of quality.",
+        "cn": "“如果你看看这支球队，你会发现这是一支拥有大牌球员、重要球员、有经验的球员、有实力的球员的强队。"
+      },
+      {
+        "en": "So, when you play with better players, I think you play better.",
+        "cn": "所以，当你和更好的球员一起打球时，我认为你会打得更好。"
+      },
+      {
+        "en": "So, I believe that I can be much better.\"",
+        "cn": "所以，我相信我可以做得更好。”"
+      },
+      {
+        "en": "Spurs' players have been unable to turn that perception into more than one point so far.",
+        "cn": "到目前为止，热刺的球员们还无法将这种感觉转化为一分以上。"
+      }
+    ]
+  },
+  {
+    "id": "his-a-i-may-have-solved-a-longstanding-math-proble",
+    "cat": "历史",
+    "title": "A.I. May Have Solved a Longstanding Math Problem With a Million-Dollar Prize. It Ignited a Controversy Over Who Gets Credit",
+    "titleZh": "人工智能可能解决了一个长期存在的数学问题，并获得了100万美元的奖金。这引发了一场关于谁得到了荣誉的争议",
+    "source": "Smithsonian Magazine · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 4,
+    "url": "https://www.smithsonianmag.com/smart-news/ai-may-have-solved-a-longstanding-math-problem-with-a-million-dollar-prize-it-ignited-a-controversy-over-who-gets-credit-180989472/",
+    "cover": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
+    "gradient": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
+    "coverImg": "assets/covers/his-a-i-may-have-solved-a-longstanding-math-proble.jpg",
+    "paras": [
+      {
+        "en": "The Navier-Stokes problem, a famous theoretical math problem regarding the movement of fluids, has stumped mathematicians for almost 200 years.",
+        "cn": "纳维-斯托克斯问题是一个关于流体运动的著名理论数学问题，困扰了数学家近200年。"
+      },
+      {
+        "en": "At the turn of the 21st century, the Clay Mathematics Institute decided that it would award $1 million to whoever solved it.",
+        "cn": "在21世纪之交，克莱数学研究所决定给解决这个问题的人奖励100万美元。"
+      },
+      {
+        "en": "Twenty-six years later, a solution may have finally come to light—but it wasn’t a mathematician who came up with it.",
+        "cn": "26年后，一个解决方案可能终于浮出水面——但提出它的不是数学家。"
+      },
+      {
+        "en": "On Tuesday, OpenAI, the developer of ChatGPT, announced in a blog post that an “internal OpenAI system” had just found a solution to the longstanding puzzle.",
+        "cn": "周二，ChatGPT的开发者OpenAI在一篇博客文章中宣布，一个“内部OpenAI系统”刚刚找到了解决这个长期难题的方法。"
+      },
+      {
+        "en": "The company used around 10,000 artificial intelligence “agents,” or bots, that worked largely autonomously on the Navier-Stokes equations for 88 hours, using computational power that likely cost millions of dollars.",
+        "cn": "该公司使用了大约1万个人工智能“代理”或机器人，它们在很大程度上自主地在纳维-斯托克斯方程上工作了88个小时，使用的计算能力可能耗资数百万美元。"
+      },
+      {
+        "en": "OpenAI’s breakthrough is the latest indication that A.I.",
+        "cn": "OpenAI的突破是人工智能的最新迹象"
+      },
+      {
+        "en": "models can crack mathematical conundrums that have long eluded humans.",
+        "cn": "模型可以破解长期困扰人类的数学难题。"
+      },
+      {
+        "en": "“It’s undeniable that symbolically, it’s a big moment—and the next in a natural chain of big moments,” Timothy Gowers, a mathematician at the Collège de France, tells the Wall Street Journal ’s Ben Cohen, though he notes he hasn’t read OpenAI’s paper regarding the achievement yet.",
+        "cn": "法兰西学院的数学家蒂莫西•高尔斯告诉《华尔街日报》的本•科恩：“不可否认，从象征意义上讲，这是一个重大时刻，而且是一系列重大时刻的下一个。”不过，他指出，他还没有阅读OpenAI关于这一成就的论文。"
+      },
+      {
+        "en": "But the feat has also sparked a controversy: While the Navier-Stokes problem may have been solved by A.I., the achievement has become contentious because of a possible association with the work of two human researchers—one of whom is employed by OpenAI’s rival company Anthropic.",
+        "cn": "但这一成就也引发了争议：虽然纳维-斯托克斯问题可能是由人工智能解决的，但这一成就引发了争议，因为它可能与两名人类研究人员的工作有关，其中一名研究人员受雇于OpenAI的竞争对手Anthropic公司。"
+      },
+      {
+        "en": "This story starts some 200 years ago, when Claude-Louis Navier and George Gabriel Stokes wrote equations to describe how fluids move.",
+        "cn": "这个故事始于大约200年前，当时克劳德-路易斯·纳维尔和乔治·加布里埃尔·斯托克斯写了一些方程来描述流体的运动。"
+      },
+      {
+        "en": "Since then, mathematicians have been investigating whether these equations work in all situations or whether they allow for a theoretical case in which a small part of the fluid moves infinitely quickly and the solution breaks down—or “blows up.”",
+        "cn": "从那时起，数学家们一直在研究这些方程是否适用于所有情况，或者它们是否允许一种理论情况，在这种情况下，一小部分流体无限快速地运动，溶液就会破裂或“爆炸”。"
+      },
+      {
+        "en": "So, in its simplest terms, the problem is a yes or no question—to solve it, one must either prove that the equations always result in smooth solutions or find one specific situation where they don’t.",
+        "cn": "所以，用最简单的术语来说，这个问题是一个“是”或“否”的问题——要解决它，你必须要么证明这些方程总是得到平滑的解，要么找到一个它们不是平滑解的特定情况。"
+      },
+      {
+        "en": "OpenAI claims to have found one such “blowup” scenario, involving a vortex of fluid that spirals inward and becomes stretched out, like spaghetti.",
+        "cn": "OpenAI声称已经发现了一个这样的“爆炸”场景，包括一个向内螺旋并伸展的流体漩涡，就像意大利面一样。"
+      },
+      {
+        "en": "The company says it verified its A.I.",
+        "cn": "该公司表示，它已经验证了自己的人工智能"
+      },
+      {
+        "en": "agents’ work with a programming language called Lean.",
+        "cn": "代理人使用一种叫做精益的编程语言工作。"
+      },
+      {
+        "en": "We’re sharing a solution to the Navier-Stokes Millennium Prize Problem, one of the deepest problems at the frontier of mathematics.",
+        "cn": "我们正在分享一个解决纳维-斯托克斯千年奖问题的方法，这是数学前沿最深奥的问题之一。"
+      },
+      {
+        "en": "The proof was produced by a group of agents, using an OpenAI next-generation model significantly more capable than GPT-6 Astra.",
+        "cn": "证据是由一组代理使用比GPT-6 Astra更强大的OpenAI下一代模型制作的。"
+      },
+      {
+        "en": "Navier-Stokes might seem like a wildly theoretical consideration, far removed from the daily life of the average person.",
+        "cn": "纳维-斯托克斯似乎是一种疯狂的理论考虑，与普通人的日常生活相去甚远。"
+      },
+      {
+        "en": "Its equations assume that fluids are smooth and continuous, while in the real world, of course, they are made of atoms and molecules.",
+        "cn": "它的方程假设流体是光滑和连续的，而在现实世界中，它们当然是由原子和分子组成的。"
+      },
+      {
+        "en": "(This means that no “blowup” scenario could happen in real life.) Still, the equations involved with the problem are used in the field of fluid dynamics for applications such as designing aircraft and creating climate models.",
+        "cn": "（这意味着在现实生活中不可能发生“爆炸”场景。）尽管如此，与该问题相关的方程仍被用于流体动力学领域的应用，如设计飞机和创建气候模型。"
+      },
+      {
+        "en": "Because of the longstanding interest in these equations, Navier-Stokes, officially called the Navier-Stokes existence and smoothness problem, is one of seven mathematical problems with a $1 million award offered for each solution—they’re known collectively as the Millennium Prize Problems.",
+        "cn": "由于长期以来对这些方程的兴趣，纳维-斯托克斯问题，正式名称为纳维-斯托克斯存在性和平滑性问题，是七个数学问题之一，每个解决方案都有100万美元的奖金——它们被统称为千年奖问题。"
+      },
+      {
+        "en": "“These questions are lighthouses,” Terence Tao, a mathematician at the University of California, Los Angeles, tells the New York Times ’ Cade Metz.",
+        "cn": "“这些问题是灯塔，”加州大学洛杉矶分校的数学家特伦斯·陶告诉《纽约时报》的凯德·梅斯。"
+      }
+    ]
+  },
+  {
+    "id": "pol-gop-rep-rob-bresnahan-campaigns-on-data-center",
+    "cat": "时政",
+    "title": "GOP Rep. Rob Bresnahan campaigns on data center limits while investing in industry",
+    "titleZh": "共和党众议员罗布·布雷斯纳汉（Rob Bresnahan）在投资工业的同时，还在数据中心限制方面进行宣传",
+    "source": "CBS News · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 4,
+    "url": "https://www.cbsnews.com/news/gop-rep-rob-bresnahan-data-centers-pennsylvania/",
+    "cover": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
+    "gradient": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
+    "coverImg": "assets/covers/pol-gop-rep-rob-bresnahan-campaigns-on-data-center.jpg",
+    "paras": [
+      {
+        "en": "Pennsylvania Rep. Rob Bresnahan is promoting a bill to give data center-wary municipalities greater control over whether the facilities can be built, a message featured in a new television ad the Republican congressman is running in the Scranton and Wilkes-Barre area.",
+        "cn": "宾夕法尼亚州众议员罗布·布雷斯纳汉（Rob Bresnahan）正在推动一项法案，让对数据中心持谨慎态度的市政当局对数据中心设施的建设有更大的控制权，这一信息出现在这位共和党国会议员在斯克兰顿和威尔克斯-巴雷地区播放的新电视广告中。"
+      },
+      {
+        "en": "But in the past, Bresnahan has taken an overtly friendly stance toward data centers, calling them potential \"catalysts for economic growth\" in Northeastern Pennsylvania last year.",
+        "cn": "但在过去，布雷斯纳汉对数据中心采取了公开的友好立场，去年在宾夕法尼亚州东北部称其为潜在的“经济增长催化剂”。"
+      },
+      {
+        "en": "And he continues to hold investments in a range of companies positioned to benefit from the industry's continued growth.",
+        "cn": "他继续持有一系列公司的投资，这些公司将从该行业的持续增长中受益。"
+      },
+      {
+        "en": "Those include firms that own and operate data centers, invest in their development and supply infrastructure, and many of the nation's largest tech firms.",
+        "cn": "这些公司包括拥有和运营数据中心的公司，投资于数据中心的开发和供应基础设施的公司，以及许多美国最大的科技公司。"
+      },
+      {
+        "en": "Bresnahan's campaign did not answer questions about his stock holdings, but campaign spokesperson Samantha Bullock said in a statement: \"Favoring local control over data center development does not make someone anti-investment.",
+        "cn": "布雷斯纳汉的竞选团队没有回答有关他持有股票的问题，但竞选发言人萨曼莎·布洛克在一份声明中表示：“支持本地控制数据中心发展并不会让人反对投资。"
+      },
+      {
+        "en": "It shows that they support the will of the people, and in fact it is important and responsible to consider the blue-collar jobs and economic development that might benefit a region like Northeastern Pennsylvania when addressing and legislating this issue.\"",
+        "cn": "这表明他们支持人民的意愿，事实上，在解决和立法这个问题时，考虑蓝领就业和经济发展可能有利于宾夕法尼亚东北部地区，这是重要和负责任的。”"
+      },
+      {
+        "en": "Many of Bresnahan's holdings are in large companies that are part of the S&P 500 and other major stock indices, and the tech and data center-related investments make up just part of his multimillion-dollar investment portfolio.",
+        "cn": "布雷斯纳汉持有的许多股票都是标准普尔500指数和其他主要股指成份股的大公司，而科技和数据中心相关的投资只占他数百万美元投资组合的一部分。"
+      },
+      {
+        "en": "Bresnahan has repeatedly said financial advisers manage his portfolio and he has no input in his trades.",
+        "cn": "布雷斯纳汉一再表示，他的投资组合由财务顾问管理，他对自己的交易没有任何投入。"
+      },
+      {
+        "en": "According to a financial disclosure filed in August, Bresnahan owns between roughly $19,005 and $110,000 worth of stock in four companies with direct ties to the data center industry.",
+        "cn": "根据8月份提交的财务披露，布雷斯纳汉持有四家与数据中心行业有直接联系的公司的股票，价值约19,005美元至11万美元。"
+      },
+      {
+        "en": "Among them are Equinix, Digital Realty Trust and Iron Mountain, which operate large-scale data centers.",
+        "cn": "其中包括运营大型数据中心的Equinix、Digital Realty Trust和Iron Mountain。"
+      },
+      {
+        "en": "Bresnahan also owns stock in SBA Communications, a wireless communications company whose subsidiary SBA Edge operates a handful of regional data centers and deploys small, modular data centers.",
+        "cn": "布雷斯纳汉还拥有无线通信公司SBA Communications的股份，该公司的子公司SBA Edge运营着少数几个区域数据中心，并部署了小型模块化数据中心。"
+      },
+      {
+        "en": "Bresnahan's portfolio also includes investments in companies that supply the chips, networking equipment, semiconductor manufacturing tools and software that underpin the rapid growth of artificial intelligence and data centers.",
+        "cn": "布雷斯纳汉的投资组合还包括对芯片、网络设备、半导体制造工具和软件供应商的投资，这些公司支撑着人工智能和数据中心的快速增长。"
+      },
+      {
+        "en": "According to his financial disclosure, those holdings are worth between roughly $804,024 and $2.04 million.",
+        "cn": "根据他披露的财务状况，这些股份的价值大约在804,024美元至204万美元之间。"
+      },
+      {
+        "en": "Those investments include stakes in NVIDIA, Advanced Micro Devices, Micron Technology, Arista Networks, Ciena, Applied Materials, Lam Research, Cadence Design Systems, Synopsys, Taiwan Semiconductor Manufacturing Company, Cisco Systems, Broadcom Inc. and Credo Technology.",
+        "cn": "这些投资包括NVIDIA、Advanced Micro Devices、Micron Technology、Arista Networks、Ciena、Applied Materials、Lam Research、Cadence Design Systems、Synopsys、台积电、Cisco Systems、Broadcom Inc.和Credo Technology的股份。"
+      },
+      {
+        "en": "Politico first reported his purchase of Credo stock in January.",
+        "cn": "今年1月，Politico首次报道了他购买Credo股票的消息。"
+      },
+      {
+        "en": "And Bresnahan reported holdings in several of the large technology companies driving the industry's expansion.",
+        "cn": "布雷斯纳汉还表示，他持有几家推动该行业扩张的大型科技公司的股份。"
+      },
+      {
+        "en": "His disclosure shows between roughly $777,000 and $1.78 million invested in major technology firms that build, operate or lease large amounts of data center capacity.",
+        "cn": "他披露的信息显示，投资于建造、运营或租赁大量数据中心容量的大型科技公司的资金约为77.7万美元至178万美元。"
+      },
+      {
+        "en": "Those holdings include Amazon, Alphabet, Meta Platforms and Oracle, all of which have invested heavily in data center infrastructure as demand for AI computing has surged.",
+        "cn": "这些公司包括亚马逊（Amazon）、Alphabet、Meta Platforms和甲骨文（Oracle），随着对人工智能计算的需求激增，这些公司都在数据中心基础设施方面投入了大量资金。"
+      },
+      {
+        "en": "Disclosures show Bresnahan also holds between $15,001 and $50,000 in Blackstone Inc., one of the world's largest investment firms, which in July 2025 announced data center-related energy investments in Northeastern Pennsylvania.",
+        "cn": "披露的信息显示，布雷斯纳汉还持有全球最大的投资公司之一黑石集团（Blackstone Inc.）15,001美元至50,000美元的股份，该公司于2025年7月宣布在宾夕法尼亚州东北部进行与数据中心相关的能源投资。"
+      },
+      {
+        "en": "Data centers have become one of the most contentious development issues in Pennsylvania, as the artificial intelligence industry's insatiable need for computing power causes demand for the facilities to surge.",
+        "cn": "数据中心已经成为宾夕法尼亚州最具争议的发展问题之一，因为人工智能行业对计算能力的永不满足的需求导致对数据中心设施的需求激增。"
+      },
+      {
+        "en": "An August 2026 poll from Franklin & Marshall College found that nearly four in five Pennsylvania voters opposed having a data center built in their community.",
+        "cn": "富兰克林与马歇尔学院（Franklin & Marshall College）于2026年8月进行的一项民意调查发现，近五分之四的宾夕法尼亚州选民反对在他们的社区建立数据中心。"
+      },
+      {
+        "en": "That opposition has grown alongside a surge of proposed development, particularly in Northeastern Pennsylvania, where regional economic development officials said earlier this year that roughly 29 data center projects were under consideration or in planning stages.",
+        "cn": "与此同时，反对的声音也在增加，尤其是在宾夕法尼亚州东北部。当地经济发展官员今年早些时候说，大约有29个数据中心项目正在考虑或规划阶段。"
+      }
+    ]
+  },
+  {
+    "id": "pol-joe-digenova-resigns-from-doj-after-overseeing",
+    "cat": "时政",
+    "title": "Joe diGenova resigns from DOJ after overseeing \"grand conspiracy\" probe",
+    "titleZh": "在监督“大阴谋”调查后，乔·迪格诺娃从司法部辞职",
+    "source": "CBS News · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 3,
+    "url": "https://www.cbsnews.com/news/joe-digenova-resigns-doj-grand-conspiracy-investigation-trump-obama-biden/",
+    "cover": "linear-gradient(135deg,#f6c9d8 0%,#a8326a 100%)",
+    "gradient": "linear-gradient(135deg,#f6c9d8 0%,#a8326a 100%)",
+    "coverImg": "assets/covers/pol-joe-digenova-resigns-from-doj-after-overseeing.jpg",
+    "paras": [
+      {
+        "en": "Joe diGenova, the prosecutor who was tapped by Attorney General Todd Blanche to supervise the \"grand conspiracy\" investigation targeting Obama- and Biden-era officials, abruptly resigned on Thursday.",
+        "cn": "被司法部长布兰奇任命监督针对奥巴马和拜登时代官员的“大阴谋”调查的检察官乔·迪吉诺娃周四突然辞职。"
+      },
+      {
+        "en": "In a brief call with CBS News, diGenova said he had turned in his resignation letter to Blanche at 3 p.m. on Thursday.",
+        "cn": "在与CBS新闻的简短通话中，diGenova说他已于周四下午3点向Blanche递交了辞职信。"
+      },
+      {
+        "en": "\"It was an honor and a privilege to serve the president and the department,\" he said.",
+        "cn": "他说：“为总统和国务院服务是我的荣幸。”"
+      },
+      {
+        "en": "He added that his wife, attorney Victoria Toensing, who also worked with the team of federal prosecutors in Fort Pierce, Florida, will be leaving the Justice Department on Friday.",
+        "cn": "他补充说，他的妻子、律师维多利亚·图辛（Victoria Toensing）将于周五离开司法部，她也曾与佛罗里达州皮尔斯堡的联邦检察官团队一起工作。"
+      },
+      {
+        "en": "diGenova declined to comment on the reasons for his sudden departure, which was first reported by ABC News.",
+        "cn": "diGenova拒绝对他突然离职的原因发表评论，ABC新闻首先报道了这一消息。"
+      },
+      {
+        "en": "CBS News has reached out to the Justice Department for comment.",
+        "cn": "哥伦比亚广播公司新闻已联系司法部寻求置评。"
+      },
+      {
+        "en": "His exit comes just days after lawyers representing some of the witnesses in the investigation received emails alerting them that their clients would be receiving grand jury subpoenas, sources familiar with the matter told CBS News.",
+        "cn": "知情人士告诉哥伦比亚广播公司新闻频道（CBS News），就在他辞职的几天前，代表调查中一些证人的律师收到了电子邮件，警告他们的客户将收到大陪审团的传票。"
+      },
+      {
+        "en": "Recently, diGenova's investigators also reached out to lawyers who represent former FBI agents who investigated President Trump for his retention of classified records to request voluntary interviews, two other sources briefed on the matter said.",
+        "cn": "另外两名知情人士表示，最近，diGenova的调查人员还联系了代表前联邦调查局特工的律师，这些特工曾调查过特朗普总统保留机密记录的问题，要求他们自愿接受采访。"
+      },
+      {
+        "en": "diGenova was tapped earlier this year to oversee a sprawling \"grand conspiracy\" probe being run out of Fort Pierce, Florida, that is examining whether Obama- and Biden-era officials were part of a long-running conspiracy to keep Mr. Trump out of political office.",
+        "cn": "今年早些时候，迪吉诺娃被派去监督佛罗里达州皮尔斯堡（Fort Pierce）展开的一项庞大的“大阴谋”调查，调查奥巴马和拜登时代的官员是否参与了一场将特朗普赶出政坛的长期阴谋。"
+      },
+      {
+        "en": "He was also overseeing a criminal probe into whether Obama-era CIA Director John Brennan lied to Congress in 2023 about the U.S. intelligence community's assessment on Russian interference in the 2016 election.",
+        "cn": "他还负责一项刑事调查，调查奥巴马时代的中央情报局局长约翰·布伦南是否在2023年就美国情报界对俄罗斯干预2016年大选的评估向国会撒谎。"
+      },
+      {
+        "en": "diGenova was tapped for the role in April, after Maria Medetis Long, the prosecutor who had been overseeing the two cases in the U.S. attorney's office in Miami, was abruptly removed after she had expressed some concerns about the strength of the evidence.",
+        "cn": "在迈阿密联邦检察官办公室负责这两起案件的检察官玛丽亚·梅德蒂斯·朗（Maria Medetis Long）对证据的力度表示了一些担忧后，她突然被免职，随后迪加诺娃于今年4月被任命为该职位。"
+      },
+      {
+        "en": "The investigations have drawn criticism from law enforcement veterans who worry the probes are being stacked with politically motivated personnel, CBS News has previously reported.",
+        "cn": "哥伦比亚广播公司此前曾报道，这些调查引起了执法老手的批评，他们担心调查中充斥着出于政治动机的人员。"
+      },
+      {
+        "en": "Brennan sued over the investigations earlier this year, alleging the Trump administration has \"adopted a policy of using criminal process and prosecution to punish the President's perceived adversaries.\"",
+        "cn": "布伦南今年早些时候起诉了这些调查，声称特朗普政府“采取了一项利用刑事程序和起诉来惩罚总统的敌人的政策”。"
+      },
+      {
+        "en": "diGenova returned to the Justice Department in April, more than three decades after he served as U.S. attorney in Washington, D.C., from 1983 to 1988.",
+        "cn": "diGenova在1983年至1988年担任华盛顿特区联邦检察官30多年后，于今年4月重返司法部。"
+      },
+      {
+        "en": "More recently, diGenova represented Mr. Trump's campaign in its failed attempt to overturn the 2020 election results.",
+        "cn": "最近，迪吉诺娃曾代表特朗普的竞选团队推翻2020年大选结果，但未能成功。"
+      },
+      {
+        "en": "He has long railed against Brennan's role in assessing that Russia tried to meddle in the 2016 election, referring to him in one interview as the \"primogenitor of the entire counterintelligence investigation.\"",
+        "cn": "长期以来，他一直指责布伦南在评估俄罗斯试图干预2016年大选时所扮演的角色，在一次采访中称他是“整个反情报调查的始祖”。"
+      }
+    ]
+  },
+  {
+    "id": "et-dan-schneider-loses-quiet-on-set-defamation-su",
+    "cat": "娱乐",
+    "title": "Dan Schneider Loses ‘Quiet on Set’ Defamation Suit on Appeal",
+    "titleZh": "丹·施耐德（Dan Schneider）在“安静拍摄”诽谤诉讼中败诉",
+    "source": "Variety · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 3,
+    "url": "https://variety.com/2026/tv/news/dan-schneider-quiet-on-set-defamation-dismissed-appeal-1236858005/",
+    "cover": "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)",
+    "gradient": "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)",
+    "coverImg": "assets/covers/et-dan-schneider-loses-quiet-on-set-defamation-su.jpg",
+    "paras": [
+      {
+        "en": "The producers of the documentary series “Quiet on Set” have prevailed in a lawsuit brought by former Nickelodeon showrunner Dan Schneider, who claimed that the show implied that he was a child sex abuser.",
+        "cn": "在尼克国际儿童频道（Nickelodeon）前节目负责人丹·施耐德（Dan Schneider）提起的诉讼中，纪录片《安静的现场》（Quiet on Set）的制片人胜诉。施耐德称，该纪录片暗示他是一名儿童性侵者。"
+      },
+      {
+        "en": "“The documentary clearly distinguishes between the lamentable conduct that its participants attribute to Schneider — gender discrimination, harassment, toxic workplace behavior, and inappropriate sexual innuendo — and the child sexual abuse explicitly attributed to three named individuals, two of whom are discussed at length,” wrote Judge Melanie Ochoa, for the panel.",
+        "cn": "“这部纪录片明确区分了参与者归咎于施耐德的可悲行为——性别歧视、骚扰、有毒的工作场所行为和不恰当的性暗示——和明确归咎于三个人的儿童性虐待，其中两个被详细讨论了，”法官梅勒妮·奥乔亚（Melanie Ochoa）为陪审团写道。"
+      },
+      {
+        "en": "“‘Quiet on Set’ also affirmatively states that Schneider's employer investigated his conduct and, while it confirmed some inappropriate behavior, it found no evidence of child sexual abuse.",
+        "cn": "“《片场安静》还明确表示，施耐德的雇主调查了他的行为，虽然证实了一些不当行为，但没有发现性虐待儿童的证据。"
+      },
+      {
+        "en": "Schneider's attempt to find an alternative meaning than what is expressly stated in the documentary is unavailing.”",
+        "cn": "施耐德试图找到另一种意义，而不是在纪录片中明确陈述的意义，这是徒劳的。”"
+      },
+      {
+        "en": "The series, “ Quiet on Set: The Dark Side of Kids TV,” ran on Investigation Discovery in March 2024.",
+        "cn": "这部名为《片场安静：儿童电视的阴暗面》的电视剧于2024年3月在《调查发现》频道播出。"
+      },
+      {
+        "en": "Schneider posted a video apology shortly afterward, saying he was “embarrassed” by his past behaviors.",
+        "cn": "施耐德随后发布了一段道歉视频，称他对自己过去的行为感到“尴尬”。"
+      },
+      {
+        "en": "In the lawsuit, Schneider’s attorneys argued that while the show did not come out and directly accuse Schneider of sex abuse, it did juxtapose accusations of “inappropriate behavior” with pictures of Schneider with his arm around child actresses.",
+        "cn": "在诉讼中，施耐德的律师辩称，虽然节目没有直接指控施耐德性侵，但它确实将施耐德搂着童女的照片与“不当行为”的指控并列在一起。"
+      },
+      {
+        "en": "The show also delved into the cases of Brian Peck, a dialogue coach who was arrested for child sex abuse, and Jason Michael Handy, a production assistant who was also accused of sending an explicit photo to a child actress.",
+        "cn": "该剧还深入探讨了对话教练布莱恩·派克（Brian Peck）因性侵儿童而被捕的案件，以及制片助理杰森·迈克尔·汉迪（Jason Michael Handy）也被指控向一名童星发送露点照片的案件。"
+      },
+      {
+        "en": "Schneider argued that he had nothing to do with those cases, and that the series created a false impression by linking him to them.",
+        "cn": "施耐德辩称，他与这些案件没有任何关系，该系列节目将他与这些案件联系在一起，造成了一种错误的印象。"
+      },
+      {
+        "en": "But the panel ruled that it could not go along with that argument, given that “the only such abuse discussed is explicitly attributed to named perpetrators and the documentary expressly states that an investigation into Schneider found no evidence of abuse.”",
+        "cn": "但该小组裁定，它不能同意这一论点，因为“唯一讨论到的此类虐待行为都是明确归咎于指名道姓的肇事者，而且纪录片明确表示，对施耐德的调查没有发现虐待的证据。”"
+      },
+      {
+        "en": "The defendants prevailed under California’s anti-SLAPP statute, which allows an early mechanism to strike lawsuits intended to stifle speech on matters of public interest.",
+        "cn": "根据加州的反slapp法规，被告胜诉，该法规允许一种早期机制来打击旨在扼杀公众利益问题言论的诉讼。"
+      },
+      {
+        "en": "Gerry Silver, Schneider’s attorney, said in a statement he was disappointed in the result.",
+        "cn": "施耐德的律师格里·西尔弗（Gerry Silver）在一份声明中说，他对判决结果感到失望。"
+      },
+      {
+        "en": "“We are disappointed by the Court's decision to reverse the Superior Court's well-reasoned anti-SLAPP ruling, and we are evaluating our options for further review and appeal,” Silver said.",
+        "cn": "“我们对法院推翻高等法院合理的反slapp裁决的决定感到失望，我们正在评估进一步审查和上诉的选择，”西尔弗说。"
+      },
+      {
+        "en": "“However, we are pleased that the Court acknowledged that the makers of ‘Quiet on Set’ presented absolutely no evidence that Dan was sexually abusive towards any of his cast members and agreed that any such allegation is provably false.\"",
+        "cn": "“然而，我们很高兴法院承认，《安静的现场》的制作方绝对没有提供任何证据证明丹对他的任何演员进行了性虐待，并同意任何此类指控都是可证明的虚假指控。”"
+      }
+    ]
+  },
+  {
+    "id": "et-the-legend-of-zelda-ocarina-of-time-40th-anniv",
+    "cat": "娱乐",
+    "title": "‘The Legend of Zelda: Ocarina of Time’ 40th Anniversary Remake Sets Nintendo Switch 2 Release Date (Gaming News Roundup)",
+    "titleZh": "《塞尔达传说：时之笛》40周年重制确定任天堂 Switch 2发售日期（游戏新闻摘要）",
+    "source": "Variety · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 4,
+    "url": "https://variety.com/2026/gaming/news/gaming-news-roundup-week-september-7-1236855160/",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/et-the-legend-of-zelda-ocarina-of-time-40th-anniv.jpg",
+    "paras": [
+      {
+        "en": "Celebrating 40 years of franchise gameplay, an updated version of \"The Legend of Zelda: Ocarina of Time\" will be available for Nintendo Switch 2 on Nov. 5.",
+        "cn": "为庆祝《塞尔达传说：时之笛》系列游戏问世40周年，新版《塞尔达传说：时之笛》将于11月5日登陆任天堂Switch 2平台。"
+      },
+      {
+        "en": "This version of \"Legend of Zelda: Ocarina of Time\" will have improved performance and presentation, greater movement and control and a more immersive Hyrule.",
+        "cn": "这个版本的“塞尔达传说：时之笛”将有更好的性能和表现，更大的运动和控制和更身临其境的海拉尔。"
+      },
+      {
+        "en": "Players can now sing or hum one of Link's learned ocarina melodies within range of the Nintendo Switch 2 system's built-in microphone, and he'll perform the song in the game.",
+        "cn": "玩家现在可以在任天堂Switch 2系统的内置麦克风范围内唱或哼唱林克学过的ocarina旋律，林克将在游戏中演唱这首歌。"
+      },
+      {
+        "en": "For additional information about new features and enhancements coming to \"The Legend of Zelda: Ocarina of Time\" or to preorder, please visit Amazon, Nintendo Store or Nintendo eShop.",
+        "cn": "有关“塞尔达传说：时之笛”的新功能和增强功能的更多信息或预订，请访问亚马逊，任天堂商店或任天堂eShop。"
+      },
+      {
+        "en": "AI-first game studio Studio Atelico released the trailer for its debut game \"Bobium Brawlers,\" which the develop says will undergo an upcoming round of closed beta testing before release.",
+        "cn": "AI-first游戏工作室studio Atelico发布了其首款游戏《Bobium Brawlers》的预告片，开发人员表示，这款游戏将在发布前进行一轮封闭测试。"
+      },
+      {
+        "en": "The game was built on the studio's AI engine, which allows players to bring creatures to life based on a brief description.",
+        "cn": "这款游戏是基于工作室的AI引擎开发的，玩家可以根据简短的描述将生物赋予生命。"
+      },
+      {
+        "en": "The AI-technology then creates a customized image that also includes a personalized deck of cards.",
+        "cn": "然后，人工智能技术会创建一个定制的图像，其中还包括一副个性化的纸牌。"
+      },
+      {
+        "en": "\"Spyro: A Realm Beyond\" has released its first look at Arcadian Vale in honor of Spyro Community Day.",
+        "cn": "为了纪念Spyro社区日，《Spyro: A Realm Beyond》发布了阿卡迪亚山谷的第一个外观。"
+      },
+      {
+        "en": "The game's region is a calm, vibrant location consisting of natural beauty.",
+        "cn": "游戏的区域是一个平静，充满活力的地方，由自然美景组成。"
+      },
+      {
+        "en": "Per the game's description, \"Across the scene are cascading waterfalls tumbling down from towering cliffs.",
+        "cn": "根据游戏的描述，“整个场景是瀑布从高耸的悬崖上倾泻而下。"
+      },
+      {
+        "en": "Ancient stone structures and weathered monuments rise from the terrain while lush greenery blankets the valley floor, creating a destination that feels magical and alive.\"",
+        "cn": "古老的石头结构和风化的纪念碑从地形中升起，而郁郁葱葱的绿色植物覆盖着谷底，创造了一个神奇而充满活力的目的地。”"
+      },
+      {
+        "en": "Also featuring friendly creatures, Arcadian Vale is designed to capture the whimsy of the \"Spyro\" universe.",
+        "cn": "阿卡迪亚山谷也以友好生物为特色，旨在捕捉“Spyro”宇宙的奇思妙想。"
+      },
+      {
+        "en": "Nintendo unveiled \"Metroid Ravenous\" and \"Kirby and the World Beyond\" during a Nintendo Direct presentation Wednesday, noting both newly announced games will be available on the Nintendo Switch 2 next year.",
+        "cn": "任天堂在周三的任天堂直接发布会上公布了《银河战士：贪婪》和《科比与超越世界》，并指出这两款新宣布的游戏将于明年在任天堂Switch 2上推出。"
+      },
+      {
+        "en": "Samus Aran is back with even more of a fight for survival in \"Metroid Ravenous.\" The game's amiibo collection will feature Samus and Chozo Statue figures at its launch, while a third amiibo of Samus in her Metroid Suit will be bundled in a special edition that also includes a steel case for the game.",
+        "cn": "Samus Aran将在《银河战士：贪婪》中为生存而战。游戏的amiibo系列将以Samus和Chozo雕像为特色，而Samus的第三个amiibo将在她的银河战士套装中捆绑在一个特别版本中，其中还包括一个游戏的钢盒。"
+      },
+      {
+        "en": "Both releases will launch Jan. 28, and pre-orders are available now.",
+        "cn": "这两款产品都将于1月28日上市，现在可以预订。"
+      },
+      {
+        "en": "\"Kirby and the World Beyond\" is a 3D adventure for Kirby, where the character's Copy Abilities allow players to freely explore Kirby's universe.",
+        "cn": "《Kirby and the World Beyond》是一款针对Kirby的3D冒险游戏，角色的复制能力允许玩家自由探索Kirby的世界。"
+      },
+      {
+        "en": "The game will debut in spring 2027, timed with the 35th anniversary for the Kirby series.",
+        "cn": "这款游戏将于2027年春季首次亮相，恰逢Kirby系列诞生35周年。"
+      },
+      {
+        "img": "assets/covers/et-the-legend-of-zelda-ocarina-of-time-40th-anniv-1.jpg",
+        "cap": ""
+      },
+      {
+        "en": "The gaming event will also debut PAX Unplugged Houston, the new iteration of PAX expos that will take place June 25 to June 27 at the George R.",
+        "cn": "游戏活动还将首次亮相PAX Unplugged Houston，这是将于6月25日至6月27日在乔治R。"
+      },
+      {
+        "en": "Brown Convention Center in Houston, Texas.",
+        "cn": "德克萨斯州休斯顿的布朗会议中心。"
+      },
+      {
+        "en": "Badges will be available to purchase later this year.",
+        "cn": "徽章将于今年晚些时候发售。"
+      },
+      {
+        "en": "On the East Coast, PAX Unplugged 2026 returns to the Pennsylvania Convention Center Dec. 6 to Dec. 8, while PAX East 2027 will be held in Boston at the Thomas M.",
+        "cn": "在东海岸，PAX Unplugged 2026将于12月6日至12月8日返回宾夕法尼亚会议中心，而PAX East 2027将在波士顿的托马斯M。"
+      },
+      {
+        "en": "Menino Convention & Exhibition Center April 22 to April 25.",
+        "cn": "美尼诺会展中心4月22日至4月25日。"
+      },
+      {
+        "en": "Select AMC theaters will screen the live broadcast of Epic Games' 2026 Rocket League World Championship Finals.",
+        "cn": "部分AMC影院将直播Epic Games的2026年火箭联盟世界冠军赛总决赛。"
+      },
+      {
+        "en": "For the first time, fans will be able to watch Rocket League teams compete for the $1.2 million prize pool on Sept. 20 at 50 AMC locations nationwide, including Chicago, Boston, New York and Los Angeles.",
+        "cn": "9月20日，粉丝们将首次能够在包括芝加哥、波士顿、纽约和洛杉矶在内的全美50家AMC影院观看火箭联盟球队争夺120万美元的奖金。"
       }
     ]
   }
