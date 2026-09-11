@@ -282,15 +282,16 @@ const EC = typeof WORD_META === "undefined" ? null : WORD_META;
 const EC_F = w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || Infinity; };
 
 /* 档位标签：只用于展示与快筛，不参与排序 —— 排序始终是连续的词频爬坡，
- * 硬切档会让学习曲线出现台阶，用户在第 1500 词处会突然变难。 */
-const TIER_HI = 1500, TIER_MID = 4500;
+ * 硬切档会让学习曲线出现台阶。
+ * 阈值贴着核心词库的结构定：词库 = 语料高频(f≤2500) ∪ 真题高频 ∪ 手工精编，
+ * 所以「高频 / 中频」正好是语料高频那一层的两半，「低频」就是靠真题与精编补进来的那批。 */
+const TIER_HI = 1500, TIER_MID = 2500;
 const tierOf = w => { const f = EC_F(w); return f <= TIER_HI ? "高频" : f <= TIER_MID ? "中频" : "低频"; };
 
 /* 「中学已学词」判定：词频 + 牛津3000 + 柯林斯星级 三者交叉。
  * 刻意不用 ECDICT 的考纲标签（t 字段）—— 它是「覆盖关系」而非「学历关系」，
  * compensate(f=5037) / compulsory(f=12735) 都挂着 gk 标签，显然不是高中词汇。
- * 命中 1254 词（28%），边界落在 familiar / appropriate / supply / search 一带，
- * 与「高中毕业应掌握 3500 词」的量级吻合。 */
+ * 边界落在 familiar / appropriate / supply / search 一带，与「高中毕业应掌握 3500 词」的量级吻合。 */
 const isBasic = w => {
   const e = EC && EC[w.word.toLowerCase()];
   if (!e || !e.f) return false;
@@ -317,8 +318,8 @@ const BASIC_WORDS = WORDS.filter(isBasic);
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
 const wordsOf = list => list.map(x => WORD_BY.get(x)).filter(Boolean);
 
-/* 音标兜底：词库自带音标只有 126 词，其余从 ECDICT（英式 IPA，见 data-ecdict.js 的 p 字段）补齐，
- * 统一包成 /…/ 与自带格式一致 */
+/* 音标兜底：词库自带音标的只有百来个（人工精编 + 补缺词），其余从 ECDICT
+ * （英式 IPA，见 data-ecdict.js 的 p 字段）补齐，统一包成 /…/ 与自带格式一致 */
 if (EC) for (const w of WORDS) {
   if (!w.phonetic) {
     const m = EC[w.word.toLowerCase()];
@@ -348,7 +349,7 @@ let qNoCount = false;  // 快筛队列：点「认识」不计入每日新词额
 
 /* 默认新词顺序从「摸底自测」定出的起点开始 —— 起点之前的词默认视为已掌握。
  * 对有一些基础的用户，这直接省掉前 1000 多个中学已收录词的重复劳动。
- * slice 结果缓存在 _pool 里：curList() 每帧都会被调用，不能每次都复制 4454 个元素。 */
+ * slice 结果缓存在 _pool 里：curList() 每帧都会被调用，不能每次都复制整个词库。 */
 const startIdx = () => {
   const n = (S.probe && S.probe.startIdx) | 0;
   return Math.max(0, Math.min(n, Math.max(0, WORDS.length - 1)));
@@ -858,7 +859,7 @@ function renderStudy() {
     </div>`;
 
   /* 正面：只给词 + 音标 + 词性（回忆线索），不剧透释义与例句 */
-  const frontChip = `四级考纲 · ${tier}词`;
+  const frontChip = `四级核心 · ${tier}词`;
 
   return `
     ${statusbar()}
@@ -1184,7 +1185,9 @@ function renderMe() {
       </div>
       <div class="muted-2" style="font-size:11.5px;line-height:18px">
         个人学习项目，仅供学习交流，不作商业用途。<br>
-        单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章；词库与音标：ECDICT（MIT）。<br>
+        四级核心词库：按「语料词频 + 历年真题高频」从四级大纲筛出的约 2000 词；词频与音标来自 ECDICT（MIT）。<br>
+        真题词频：liut969/CET《英语四级真题高频词汇》（近 5 年 30 套真题统计）。<br>
+        单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章。<br>
         阅读文章均为外刊公开内容摘要，版权归原媒体所有，正文可一键跳转原文。
       </div>
       <div style="height:6px"></div>

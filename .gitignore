@@ -5,6 +5,10 @@
 
 # 例句源数据缓存（44MB）；重新拉取命令见 tools/build-examples.mjs 顶部注释
 tools/.examples-cache/
+# 例外：真题高频词表很小（17KB），是 build-core-vocab.mjs 的必需输入，随仓库走
+!tools/.examples-cache/
+tools/.examples-cache/*
+!tools/.examples-cache/cet4-hf.json
 
 # 本地密钥，绝不入库
 tools/.deepl-key

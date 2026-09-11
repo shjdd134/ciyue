@@ -497,5 +497,39 @@ click({ act: 'answer', v: 'yes' });
 eq('快筛不占今日新词额度', ctx('S.daily.count'), dailyBefore);
 ok('快筛里的词进了熟词表', ctx('S.known.includes(queue[0].word)') === true);
 
+/* ================= [N] 四级核心词库构成 =================
+ * 词库由「CET4 完整考纲」4454 词缩为 ~2000 个核心词，口径见 tools/build-core-vocab.mjs。
+ * 这一段守住三件事：规模不再膨胀回去、功能词不再混进来、真题暴露的缺口词确实补上了。 */
+console.log('\n[N] 四级核心词库构成');
+
+const N_WORDS = ctx('WORDS.length');
+ok(`词库规模在 1800–2100 之间（实为 ${N_WORDS}）`, N_WORDS >= 1800 && N_WORDS <= 2100);
+
+const wordsLower = ctx('WORDS.map(w=>w.word.toLowerCase())');
+const FUNC = ['the', 'of', 'to', 'in', 'and', 'that', 'with', 'for', 'is', 'are', 'was', 'were', 'you', 'they', 'this', 'have'];
+ok('不含纯功能词', !wordsLower.some(w => FUNC.includes(w)));
+
+/* 真题表（近 5 年 30 套四级真题统计）里高频、但原词库整个没有的词 —— 重建时从分级词典库补进来了 */
+const GAP_WORDS = ['people', 'part', 'pay', 'person', 'face', 'paper', 'internet', 'online', 'global', 'media', 'labor', 'nutrition', 'curriculum', 'diversity'];
+const missGap = GAP_WORDS.filter(w => !wordsLower.includes(w));
+ok(`真题暴露的词库缺口已补齐（缺 ${missGap.length}：${missGap.join(',') || '无'}）`, missGap.length === 0);
+
+const noDef = ctx('WORDS.filter(w=>!w.def||!w.def.trim()).map(w=>w.word)');
+ok(`每个词都有释义（缺 ${noDef.length}）`, noDef.length === 0);
+
+const noPh = ctx('WORDS.filter(w=>!w.phonetic).length');
+ok(`音标覆盖 ≥ 99%（缺 ${noPh} 词）`, noPh / N_WORDS <= 0.01);
+
+const exCover = ctx('WORDS.filter(w=>w.example).length') / N_WORDS;
+ok(`例句覆盖 ≥ 95%（实为 ${(exCover * 100).toFixed(1)}%）`, exCover >= 0.95);
+
+/* 早期 bulk-a 那批挂着「CET4 高频」，但其中 47% 的 ECDICT 词频 > 2500，标签是错的 */
+const badTag = ctx(`WORDS.filter(w=>/CET4 高频/.test(w.source||'')).length`);
+ok(`不再有写错的「CET4 高频」标签（剩 ${badTag} 条）`, badTag === 0);
+
+/* 词频结构：核心词库里 f≤2500 的应占九成上下，剩下的是真题补缺与手工精编 */
+const overF = ctx('WORDS.filter(w=>{const e=EC&&EC[w.word.toLowerCase()];return !e||!e.f||e.f>2500}).length');
+ok(`f>2500 的词占比 ≤ 10%（${overF} 词 / ${N_WORDS}）`, overF / N_WORDS <= 0.1);
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

@@ -17,11 +17,22 @@
 
 本项目是**个人非商业学习项目**——不售卖、不投放广告、不提供付费服务。所有第三方数据版权归各自权利人所有。
 
-### 单词与例句
+### 单词语料
+
+词库为**约 2000 个四级核心词**，从四级大纲（4454 词）按三条并集筛出，口径见 `tools/build-core-vocab.mjs`：
+
+| 口径 | 说明 |
+| --- | --- |
+| ① 语料高频 | ECDICT 当代语料词频 f ≤ 2500（5 万词级语料统计） |
+| ② 真题高频 | [liut969/CET](https://github.com/liut969/CET)《英语四级真题高频词汇》1250 词（近 5 年 30 套真题逐词统计） |
+| ③ 手工精编 | 项目早期精编的 30 个词（词根词缀 / 同根词 / 助记） |
+
+已剔除纯功能词（the / of / to …）。另用真题表反查并补回了原词库缺失的常用词（people / part / pay 这类约 80 词）。
 
 | 数据 | 来源 | 许可 |
 | --- | --- | --- |
-| 词表、音标、词形变化 | [ECDICT](https://github.com/skywind3000/ECDICT) | MIT |
+| 词频、音标、词形变化、考纲标签 | [ECDICT](https://github.com/skywind3000/ECDICT) | MIT |
+| 真题词频（核心词筛选依据） | [liut969/CET](https://github.com/liut969/CET) | 作者免费公开 |
 | 单词例句与中文对照 | [KyleBing/english-vocabulary](https://github.com/KyleBing/english-vocabulary) | 作者声明供学习使用 |
 | 双语例句补充 | [Tatoeba](https://tatoeba.org)（经 manythings.org 打包） | CC-BY 2.0 |
 | 兜底例句 | 本项目文章库的原刊原句 | 见下 |

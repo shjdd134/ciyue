@@ -1,5 +1,6 @@
-/* ECDICT 接入生成器（一次性）：全量 CSV → 四级词库 4455 词的精简元数据
+/* ECDICT 接入生成器（一次性）：全量 CSV → 当前词库的精简元数据
  * 产出 assets/data-ecdict.js：window.WORD_META = { word: {f:当代词频, b:BNC词频, c:柯林斯星级, o:牛津3000, x:词形变化, t:考纲标签} }
+ * 前置：先跑 tools/build-core-vocab.mjs 重写词库；再跑本脚本刷新元数据（词库换代后必须重跑，否则新词没有词频/音标）。
  * 用后即删。 */
 import fs from "node:fs";
 import vm from "node:vm";
@@ -74,8 +75,8 @@ if (missing.length) console.log("未命中样例:", missing.slice(0, 20).join(",
 
 /* 5. 写出精简数据 */
 const json = JSON.stringify(META);
-const out = `/* 词阅 WordLens —— ECDICT 四级词元数据（自动生成，请勿手改）
- * 来源：github.com/skywind3000/ECDICT（MIT）全量词库按本级 4455 词过滤
+const out = `/* 词阅 WordLens —— ECDICT 词元数据（自动生成，请勿手改）
+ * 来源：github.com/skywind3000/ECDICT（MIT）全量词库按当前核心词库过滤
  * 字段：f=当代语料库词频序(小=常用) b=BNC词频序 c=柯林斯星级 o=牛津3000 x=词形变化(p过去/d过去分词/i现在分词/3三单/r比较/t最高/s复数) t=额外考纲标签 p=英式音标IPA
  * 重新生成：node tools/_build-ecdict.mjs（需 tools/.ecdict-blob.json） */
 window.WORD_META = ${json};
