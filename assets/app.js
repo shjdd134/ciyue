@@ -73,7 +73,8 @@ const defaultState = {
   daily: { date: "", count: 0 },   // 今日已学新词（跨天自动归零）
   studyDays: [],    // 有学习行为的日期 YYYY-MM-DD，用于算连续天数
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，阅读时长按天累计
-  fsrs: {}          // FSRS 间隔重复调度：{ word: { st,d,s,e,sd,r,l,due,lr } }（vendor-fsrs.js）
+  fsrs: {},         // FSRS 间隔重复调度：{ word: { st,d,s,e,sd,r,l,due,lr } }（vendor-fsrs.js）
+  probe: null       // 摸底自测：{ done, at, known:[词], startIdx }，决定新词从哪个位置学起
 };
 let S = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORE) || "{}"));
 /* 早期版本留下的写死字段（streak / minutes / tab）：就地丢弃，避免旧数据继续冒充真实统计 */
@@ -265,32 +266,52 @@ function countHits(a) {
 /* 文章的纯文本句数（不含内嵌图） */
 const sentCount = a => a.paras.filter(p => p.en).length;
 
-/* ---------------- 学习顺序：富字段 → 语料频次 → 原顺序 ----------------
- * 原来的排序只把「List」开头的词提到前面，之后就是录入顺序，第 200 个起变成
- * range / rank / rapid…——用户实际上是在字母表里消耗耐心。
- * 现在按「这个词在文章库里真实出现过几次」加权：先学你真会读到的词。
- * 富字段（真题例句 / 词根词缀）优先，它们是这产品的招牌。
- * 频次为 0（83 篇文章里没出现）的词靠 sort 的稳定性保留原顺序，不乱洗牌。 */
-const RICH = w => (w.example ? 2 : 0) + ((w.prefix || w.root || w.suffix) ? 2 : 0);
-let FREQ = null;
-function corpusFreq() {
-  if (FREQ) return FREQ;
-  FREQ = new Map();
-  for (const a of ARTICLES) for (const p of a.paras || []) {
-    if (!p.en) continue;
-    for (const m of p.en.toLowerCase().matchAll(/[a-z][a-z'-]*/g)) FREQ.set(m[0], (FREQ.get(m[0]) || 0) + 1);
-  }
-  return FREQ;
-}
-/* 词频（ECDICT 元数据，见 data-ecdict.js）：f 越小越常用，未收录按 Infinity 沉底 */
+/* ---------------- 学习顺序：词频爬坡 ----------------
+ * 旧版主轴是「这个词在我们自己的 83 篇文章里出现过几次」。而文章库主力是足球
+ * 报道和时尚资讯，结果 the / and / league / season / team / football 这些功能词
+ * 与题材词霸占前排 —— 实测前 100 名里 93% 是中学已收录的词，对有基础的用户
+ * 纯粹是消耗耐心；同时「例句 / 词根词缀丰富度」这一档也早已失效（例句覆盖
+ * 92%、词根词缀 100%，人人满分，不再起任何区分作用）。
+ *
+ * 现在主轴换成 ECDICT 的当代语料词频 f（5 万词级统计，见 data-ecdict.js）：
+ * f 越小越常用，它同时代表「重要程度」和「难度」，升序排列就是一条由常用到
+ * 生僻的平滑梯度。这对应新东方《四级词汇·乱序版》「按考查频次分档」的思路，
+ * 但依据是语料库统计而非单一考试的出现次数。
+ * 语料相关度彻底退出主轴：实测把它当主轴会让难度反复回退（单调性 100% → 51%）。 */
 const EC = typeof WORD_META === "undefined" ? null : WORD_META;
-const ecFreq = w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || Infinity; };
-WORDS.sort((a, b) => {
-  const f = corpusFreq();
-  return (RICH(b) - RICH(a)) ||
-         ((f.get(b.word.toLowerCase()) || 0) - (f.get(a.word.toLowerCase()) || 0)) ||
-         (ecFreq(a) - ecFreq(b));
-});
+const EC_F = w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || Infinity; };
+
+/* 档位标签：只用于展示与快筛，不参与排序 —— 排序始终是连续的词频爬坡，
+ * 硬切档会让学习曲线出现台阶，用户在第 1500 词处会突然变难。 */
+const TIER_HI = 1500, TIER_MID = 4500;
+const tierOf = w => { const f = EC_F(w); return f <= TIER_HI ? "高频" : f <= TIER_MID ? "中频" : "低频"; };
+
+/* 「中学已学词」判定：词频 + 牛津3000 + 柯林斯星级 三者交叉。
+ * 刻意不用 ECDICT 的考纲标签（t 字段）—— 它是「覆盖关系」而非「学历关系」，
+ * compensate(f=5037) / compulsory(f=12735) 都挂着 gk 标签，显然不是高中词汇。
+ * 命中 1254 词（28%），边界落在 familiar / appropriate / supply / search 一带，
+ * 与「高中毕业应掌握 3500 词」的量级吻合。 */
+const isBasic = w => {
+  const e = EC && EC[w.word.toLowerCase()];
+  if (!e || !e.f) return false;
+  return e.f <= TIER_HI && (e.o === 1 || (e.c || 0) >= 4);
+};
+
+WORDS.sort((a, b) => EC_F(a) - EC_F(b));
+
+/* 同档内确定性打散：词频相邻的词常常同源同族（american / british / african /
+ * european 全挤在一起），连着背容易串味，一屏 20 词里也会扎堆好几个同首字母。
+ * 用 FNV-1a 哈希对单词本身做组内重排 —— 确定性算法，每次加载顺序完全一致，
+ * 不会让学习进度对不上。 */
+const fnv = s => { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+const UNIT = 20;                    // 与每日目标对齐：一个单元正好是一天的量
+for (let i = 0; i < WORDS.length; i += UNIT) {
+  const seg = WORDS.slice(i, i + UNIT).sort((a, b) => fnv(a.word) - fnv(b.word));
+  for (let j = 0; j < seg.length; j++) WORDS[i + j] = seg[j];
+}
+
+/* 中学已学词另存一份，供「快速筛掉已会词」队列使用 */
+const BASIC_WORDS = WORDS.filter(isBasic);
 
 /* 单词索引：错词本 / 生词本里存的是字符串，取词对象别再 O(n) 地 find */
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
@@ -308,7 +329,7 @@ if (EC) for (const w of WORDS) {
 /* 文章统一按发布日期倒序：最新的一篇自动成为发现页「今日精选」 */
 ARTICLES.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 
-let view = { name: "home" };      // home | study | discover | me | read
+let view = { name: "home" };      // home | study | probe | discover | me | read
 let flipped = false;
 /* 本卡的作答状态：null = 还没答；"no"/"fuzzy" = 已答错、正在看背面答案。
  * 答错的卡不直接跳下一个——先翻面让你把答案看完，再点「继续」走人，
@@ -318,17 +339,33 @@ let answered = null;
 /* ---------------- 学习队列 ----------------
  * 以前学习页只认一个全局下标 studyIdx，取词写死为 WORDS[studyIdx % len]——
  * 「开始复习错词」因此是个空头承诺：进了学习页还是顺序里的下一个词。
- * 现在学习页只认队列：queue 为 null 时才是默认全量顺序，否则按队列走。
- * 复习（错词 / 生词本 / 艾宾浩斯到期）都是「换一个队列」，不再往渲染里塞 if。 */
-let queue = null;      // 当前队列（单词对象数组）；null = 默认全量
+ * 现在学习页只认队列：queue 为 null 时才是默认顺序，否则按队列走。
+ * 复习（错词 / 生词本 / 到期词）都是「换一个队列」，不再往渲染里塞 if。 */
+let queue = null;      // 当前队列（单词对象数组）；null = 默认新词顺序
 let qPos = 0;          // 队列内位置
 let qLabel = "";       // 队列名，显示在进度条旁，如「复习 · 错词」
-const curList = () => queue || WORDS;
+let qNoCount = false;  // 快筛队列：点「认识」不计入每日新词额度
+
+/* 默认新词顺序从「摸底自测」定出的起点开始 —— 起点之前的词默认视为已掌握。
+ * 对有一些基础的用户，这直接省掉前 1000 多个中学已收录词的重复劳动。
+ * slice 结果缓存在 _pool 里：curList() 每帧都会被调用，不能每次都复制 4454 个元素。 */
+const startIdx = () => {
+  const n = (S.probe && S.probe.startIdx) | 0;
+  return Math.max(0, Math.min(n, Math.max(0, WORDS.length - 1)));
+};
+let _pool = null, _poolAt = -1;
+function newWords() {
+  const s = startIdx();
+  if (_poolAt !== s || !_pool) { _pool = WORDS.slice(s); _poolAt = s; }
+  return _pool;
+}
+const curList = () => queue || newWords();
 const curWord = () => curList()[qPos % curList().length];
-function setQueue(words, label) {
+function setQueue(words, label, noCount) {
   queue = words && words.length ? words : null;
   qPos = 0;
   qLabel = queue ? label : "";
+  qNoCount = !!noCount;
   flipped = false;
   answered = null;
 }
@@ -600,6 +637,9 @@ function renderHome() {
   const streak = streakDays();
   const hr = new Date().getHours();
   const greet = hr < 6 ? "夜深了" : hr < 12 ? "早上好" : hr < 18 ? "下午好" : "晚上好";
+  const pv = S.probe && S.probe.done ? S.probe : null;
+  const si = startIdx();
+  const firstNew = (newWords()[0] || {}).word || "—";
   return `
     ${statusbar()}
     <div class="view">
@@ -632,12 +672,86 @@ function renderHome() {
         <button class="btn-primary" data-act="start-study">${svg("play", 18)} 开始今日背词</button>
       </div>
 
+      ${pv ? `
+      <div class="card col" style="gap:12px">
+        <div class="row between">
+          <span class="h3">学习起点</span>
+          <span class="row" style="gap:10px;align-items:center">
+            <span class="chip">${(WORDS.length - si).toLocaleString()} 词待学</span>
+            <span class="link" data-act="probe-again" role="button" tabindex="0">重测</span>
+          </span>
+        </div>
+        <div class="muted-2">已跳过前 ${si.toLocaleString()} 个已会词，从「${esc(firstNew)}」开始学。</div>
+        <button class="go-btn" data-act="quick-sieve" style="width:100%">快筛中学已会词 · ${BASIC_WORDS.length}</button>
+      </div>` : `
+      <div class="card row between" style="gap:12px">
+        <div class="col" style="gap:3px">
+          <span class="h3">还没定位起点</span>
+          <span class="muted-2">12 个词，测出你该从哪儿开始</span>
+        </div>
+        <button class="go-btn" data-act="probe-again" style="flex:none">开始定位</button>
+      </div>`}
+
       <div class="row between">
         <span class="h3">今日推荐</span>
         <span class="link" data-act="go-discover" role="button" tabindex="0">换一批</span>
       </div>
       ${ARTICLES.slice(0, 2).map(articleCard).join("")}
       <div style="height:6px"></div>
+    </div>`;
+}
+
+/* ---------------- 页面：摸底自测（定位起点） ----------------
+ * 借鉴扇贝单词的「词汇量测评定位起点」：给一屏 12 个词，用户点出认识的即可，
+ * 据此判断他该从词库的哪个位置学起。有基础的人不必从 the / and 一路熬过来。
+ * 探测词从全库按词频分 12 段、每段取中位，梯度均匀；且只取长度 ≥4 的实词 ——
+ * 功能词测不出水平，谁都会 the / and。同时把「中学已学词」整批排除：探测点要问
+ * 的是「你会到哪儿」，拿 human / winter 这种全民都会的词去问，纯属浪费位置。
+ * 起点规则：取「认识的最深那个探测词」之后的位置；但只认识 1~2 个就直接从头开始 ——
+ * 偶然认识一个难词不足以判定整体水平，不能让用户一拍脑门跳过整个词库。 */
+const PROBE_K = 12;
+let PROBE_WORDS = null;
+function probeWords() {
+  if (PROBE_WORDS) return PROBE_WORDS;
+  const pool = WORDS.filter(w => w.word.length >= 4 && /^[a-z]+$/.test(w.word)
+    && !STOPWORD_HIGHLIGHT.has(w.word) && !isBasic(w));
+  const seg = Math.floor(pool.length / PROBE_K);
+  PROBE_WORDS = [];
+  for (let i = 0; i < PROBE_K; i++) PROBE_WORDS.push(pool[Math.min(pool.length - 1, i * seg + (seg >> 1))]);
+  return PROBE_WORDS;
+}
+function probeStartOf(picked) {
+  const list = probeWords();
+  let deepest = -1;
+  list.forEach((w, i) => { if (picked.has(w.word)) deepest = i; });
+  if (deepest < 2) return 0;
+  return Math.max(0, WORDS.indexOf(list[deepest]) + 1);
+}
+let probePicked = new Set();
+
+function renderProbe() {
+  const list = probeWords();
+  const n = list.filter(w => probePicked.has(w.word)).length;
+  return `
+    ${statusbar()}
+    <div class="view">
+      <div class="row" style="gap:12px">
+        <span class="icon-btn" data-act="go-home" role="button" tabindex="0" aria-label="返回首页">${svg("close", 16)}</span>
+        <span class="h3 grow">先定位一下你的起点</span>
+      </div>
+      <div class="muted">下面 12 个词大致按由易到难排列。勾出你已经认识的 —— 前面这些你本来就会的词，就不用再花时间了。</div>
+      <div class="probe-grid">
+        ${list.map(w => `<button class="probe-chip${probePicked.has(w.word) ? " on" : ""}" data-act="probe-pick" data-word="${w.word}" aria-pressed="${probePicked.has(w.word) ? "true" : "false"}">${esc(w.word)}</button>`).join("")}
+      </div>
+      <div class="row between">
+        <span class="muted-2">已勾选 ${n} / ${PROBE_K}</span>
+        ${n ? `<span class="link" data-act="probe-reset" role="button" tabindex="0">全部清空</span>` : ""}
+      </div>
+      <div style="height:4px"></div>
+      <button class="btn-primary" data-act="probe-done">${svg("check", 18)} 完成 · 开始背词</button>
+      <div class="row" style="justify-content:center">
+        <span class="link" data-act="probe-skip" role="button" tabindex="0">跳过 · 从最常用的词开始</span>
+      </div>
     </div>`;
 }
 
@@ -694,7 +808,7 @@ function renderStudy() {
   const at = qPos % list.length;
   const p = Math.round(at / list.length * 100);
   const marked = S.notebook.includes(w.word);
-  const isRich = /^List/i.test(w.list || "");   // 核心富字段 vs 考纲基础词
+  const tier = tierOf(w);        // 高频 / 中频 / 低频（ECDICT 语料词频分档，见文件上方）
 
   /* ---------------- 卡片正反面重新分工 ----------------
    * 旧版正面就摊开「释义 + 例句」，背面又重复一遍，翻不翻几乎一样——翻转失去意义。
@@ -740,11 +854,11 @@ function renderStudy() {
         <div style="width:3px;background:var(--brand);border-radius:2px;align-self:stretch"></div>
         <div style="font-size:12px;line-height:19px;color:var(--text-2)">${esc(w.mnemonic)}</div>
       </div>` : ""}
-      ${(!isRich && !w.example && !w.mnemonic) ? `<div class="row" style="justify-content:center"><span class="muted-2">基础词库 · 暂未提供例句</span></div>` : ""}
+      ${(!w.example && !w.mnemonic) ? `<div class="row" style="justify-content:center"><span class="muted-2">基础词库 · 暂未提供例句</span></div>` : ""}
     </div>`;
 
   /* 正面：只给词 + 音标 + 词性（回忆线索），不剧透释义与例句 */
-  const frontChip = isRich ? '四级核心词 · 真题高频' : '四级考纲 · 基础词';
+  const frontChip = `四级考纲 · ${tier}词`;
 
   return `
     ${statusbar()}
@@ -761,7 +875,7 @@ function renderStudy() {
       </div>
       ${queue ? `<div class="qbar">
         <span class="chip">${esc(qLabel)}</span>
-        <span class="muted-2" style="font-size:11.5px">答对自动按 FSRS 记忆算法安排下次复习</span>
+        <span class="muted-2" style="font-size:11.5px">${qNoCount ? "快筛模式 · 不计入今日新词额度" : "答对自动按 FSRS 记忆算法安排下次复习"}</span>
         <span class="link" data-act="quit-queue" role="button" tabindex="0">退出</span>
       </div>` : ""}
 
@@ -1352,6 +1466,7 @@ function render() {
   let body = "";
   if (view.name === "home") body = renderHome();
   else if (view.name === "study") body = renderStudy();
+  else if (view.name === "probe") body = renderProbe();
   else if (view.name === "discover") body = renderDiscover();
   else if (view.name === "me") body = renderMe();
   else if (view.name === "read") body = renderRead();
@@ -1422,7 +1537,42 @@ document.addEventListener("click", e => {
 
   switch (t.dataset.act) {
     case "start-study":
-      resetNav(); view = { name: "study" }; flipped = false; answered = null; render(); break;
+      resetNav();
+      /* 不知道用户水平就让他从 the / and 背起，是最浪费的开场 —— 首次先走摸底 */
+      if (!S.probe || !S.probe.done) { probePicked = new Set(); view = { name: "probe" }; render(); break; }
+      view = { name: "study" }; flipped = false; answered = null; render(); break;
+    case "probe-pick": {
+      const w = t.dataset.word;
+      if (probePicked.has(w)) probePicked.delete(w); else probePicked.add(w);
+      render(); break;
+    }
+    case "probe-reset":
+      probePicked = new Set(); render(); break;
+    case "probe-skip":
+      S.probe = { done: true, at: todayKey(), known: [], startIdx: 0, skipped: true };
+      save(); resetNav();
+      view = { name: "study" }; flipped = false; answered = null; render();
+      toast("已从最常用的词开始"); break;
+    case "probe-done": {
+      const picked = [...probePicked];
+      /* 勾出来的词直接进熟词表：文章里也不再高亮，一举两得 */
+      for (const w of picked) if (!S.known.includes(w)) S.known.push(w);
+      const si = probeStartOf(probePicked);
+      S.probe = { done: true, at: todayKey(), known: picked, startIdx: si, skipped: false };
+      save(); resetNav();
+      view = { name: "study" }; flipped = false; answered = null; render();
+      toast(si > 0 ? `起点已定位 · 前面 ${si} 个已会词跳过` : "起点已定位 · 从最常用的词开始");
+      break;
+    }
+    case "probe-again":
+      probePicked = new Set((S.probe && S.probe.known) || []);
+      resetNav(); view = { name: "probe" }; render(); break;
+    case "quick-sieve":
+      /* 中学已学词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度 */
+      resetNav();
+      setQueue(BASIC_WORDS, "基础词快筛", true);
+      view = { name: "study" }; render();
+      toast(`筛掉 ${BASIC_WORDS.length} 个中学已会词`); break;
     case "go-home":
       resetNav(); view = { name: "home" }; render(); break;
     case "go-discover":
@@ -1472,7 +1622,7 @@ document.addEventListener("click", e => {
       rollDay();
       const w = curWord().word;
       const v = t.dataset.v;
-      if (!S.studied.includes(w)) { S.studied.push(w); S.daily.count++; }
+      if (!S.studied.includes(w)) { S.studied.push(w); if (!qNoCount) S.daily.count++; }
       /* 「认识」= 记入已掌握，文章里不再高亮；答错/模糊则撤销这个标记 */
       const ki = S.known.indexOf(w);
       if (v === "yes") {
@@ -1715,11 +1865,14 @@ document.addEventListener("touchend", e => {
       view = { name: "read" };
     } else if (v === "me") view = { name: "me" };
     else if (v === "study") view = { name: "study" };
-    /* ?v=study&w=<word>：跳到指定单词，用来验证字段最全的卡片（释义+词根+例句+助记）排版 */
+    /* ?v=probe：直达摸底自测页（预览/截图用） */
+    else if (v === "probe") { probePicked = new Set(); view = { name: "probe" }; }
+    /* ?v=study&w=<word>：跳到指定单词，用来验证字段最全的卡片（释义+词根+例句+助记）排版。
+     * 注意 qPos 是「队列内下标」而新词队列从 startIdx 起，要减掉起点偏移才对得上。 */
     const wt = p.get("w");
     if (v === "study" && wt) {
       const i = WORDS.findIndex(x => String(x.word).toLowerCase() === wt.toLowerCase());
-      if (i >= 0) qPos = i;
+      if (i >= 0) qPos = Math.max(0, i - startIdx());
     }
     /* 背词页直接以翻面状态打开（预览/截图验证背面布局用） */
     if (v === "study" && p.get("flip")) requestAnimationFrame(() => { flipped = true; render(); });

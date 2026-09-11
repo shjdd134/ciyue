@@ -416,5 +416,86 @@ const manifest = JSON.parse(fs.readFileSync(path.join(base, 'manifest.webmanifes
 ok('manifest 含 192 + 512 + maskable 图标', manifest.icons.some(i => i.sizes === '192x192') && manifest.icons.some(i => i.sizes === '512x512') && manifest.icons.some(i => i.purpose === 'maskable'));
 ok('192/512 PNG 已落盘', fs.existsSync(path.join(base, 'assets', 'icons', 'icon-192.png')) && fs.existsSync(path.join(base, 'assets', 'icons', 'icon-512.png')));
 
+/* ===================================================================
+ * M. 学习顺序：词频爬坡 + 摸底定位起点
+ *   M1 排序主轴已换成 ECDICT 语料词频（旧版被自家新闻语料带偏，
+ *      前 100 名里 93% 是中学已收录词，the / and / league 霸屏）
+ *   M2 摸底自测：12 个探测词、点选、起点判定、熟词登记
+ *   M3 「中学已学词」快筛队列不占每日新词额度
+ * =================================================================== */
+console.log('\n[M] 学习顺序与起点定位');
+
+// M1 词频爬坡：跨「每日单元」边界必须严格递增
+//    （单元内为降低字母聚集做了哈希打散，所以只在段边界上验证单调性）
+const fOf = ctx('WORDS.map(w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || null; })');
+let crossBad = 0, crossN = 0;
+for (let i = 20; i < 1200; i += 20) {
+  const prev = fOf[i - 1], cur = fOf[i];
+  if (prev == null || cur == null) continue;
+  crossN++;
+  if (cur < prev) crossBad++;
+}
+ok(`跨单元难度严格递增（${crossN} 个边界，回退 ${crossBad} 个）`, crossBad === 0 && crossN > 40);
+
+const head30 = ctx('WORDS.slice(0,30).map(w=>w.word)');
+/* the / and 按语料词频排在首位是正确的（对零基础用户，最常用的就该先学）；
+ * 要守的是「不再被自家文章的题材词占据」—— 旧版 league / season / football 全在前排。 */
+ok('前排不再被题材词占据', !head30.includes('league') && !head30.includes('season') && !head30.includes('football') && !head30.includes('player'));
+
+// 分档标签与基础词识别
+ok('档位函数给出高频档', ctx("tierOf(WORDS[0])") === '高频');
+const basicN = ctx('BASIC_WORDS.length');
+ok(`中学已学词识别规模合理（${basicN} 词）`, basicN > 800 && basicN < 1800);
+// 考纲标签不可靠的反例：compensate / compulsory 都挂着 gk 标签，但显然不是高中词汇
+ok('基础词判定不受错标考纲标签影响', !ctx("isBasic({word:'compulsory'})") && !ctx("isBasic({word:'compensate'})"));
+ok('真基础词判为已学', ctx("isBasic({word:'search'})") && ctx("isBasic({word:'familiar'})"));
+
+// M2 摸底自测
+ctx('S.probe = null; S.known = []; _pool = null; _poolAt = -1;');
+eq('未摸底时默认起点为 0', ctx('startIdx()'), 0);
+click({ act: 'start-study' });
+eq('首次背词先进入摸底页', ctx('view.name'), 'probe');
+const pChips = (screenEl.innerHTML.match(/class="probe-chip/g) || []).length;
+eq('探测词共 12 个', pChips, 12);
+const probeWordList = ctx('probeWords().map(w=>w.word)');
+ok('探测词不含功能词', !probeWordList.some(w => ['the', 'and', 'with', 'that', 'have', 'this'].includes(w)));
+
+// 只勾 2 个 → 不跳词（偶然认识一两个难词不足以判定整体水平）
+click({ act: 'probe-pick', word: probeWordList[0] });
+click({ act: 'probe-pick', word: probeWordList[1] });
+ok('勾选后 chip 变为选中态', /probe-chip on/.test(screenEl.innerHTML));
+click({ act: 'probe-done' });
+eq('完成后进入背词页', ctx('view.name'), 'study');
+eq('只勾 2 个不从词库中途开始', ctx('S.probe.startIdx'), 0);
+eq('勾选的词登记进熟词表', ctx('S.known.length'), 2);
+
+// 勾 8 个 → 起点明显前移，且不影响已学进度字段
+const studiedBefore = ctx('S.studied.length');
+ctx('S.probe = null; S.known = [];');
+click({ act: 'probe-again' });
+eq('可从首页重测起点', ctx('view.name'), 'probe');
+for (let i = 0; i < 8; i++) click({ act: 'probe-pick', word: probeWordList[i] });
+click({ act: 'probe-done' });
+const si = ctx('S.probe.startIdx');
+ok(`勾 8 个后起点前移（startIdx=${si}）`, si > 500);
+eq('默认新词队列从起点开始', ctx('newWords()[0].word'), ctx(`WORDS[${si}].word`));
+eq('定位起点不篡改已学记录', ctx('S.studied.length'), studiedBefore);
+
+// 跳过摸底 = 从最常用的词开始
+ctx('S.probe = null;');
+click({ act: 'probe-again' });
+click({ act: 'probe-skip' });
+eq('跳过后起点回到 0', ctx('startIdx()'), 0);
+ok('跳过被如实记录', ctx('S.probe.skipped') === true);
+
+// M3 中学已会词快筛
+click({ act: 'quick-sieve' });
+ok('进入快筛队列', ctx('!!queue') === true && ctx('qNoCount') === true);
+ctx('rollDay(); answered = null;');
+const dailyBefore = ctx('S.daily.count');
+click({ act: 'answer', v: 'yes' });
+eq('快筛不占今日新词额度', ctx('S.daily.count'), dailyBefore);
+ok('快筛里的词进了熟词表', ctx('S.known.includes(queue[0].word)') === true);
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);
