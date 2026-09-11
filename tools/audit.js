@@ -417,13 +417,14 @@ ok('manifest 含 192 + 512 + maskable 图标', manifest.icons.some(i => i.sizes 
 ok('192/512 PNG 已落盘', fs.existsSync(path.join(base, 'assets', 'icons', 'icon-192.png')) && fs.existsSync(path.join(base, 'assets', 'icons', 'icon-512.png')));
 
 /* ===================================================================
- * M. 学习顺序：词频爬坡 + 摸底定位起点
+ * M. 学习顺序：词频爬坡 + 快筛已会词
  *   M1 排序主轴已换成 ECDICT 语料词频（旧版被自家新闻语料带偏，
  *      前 100 名里 93% 是中学已收录词，the / and / league 霸屏）
- *   M2 摸底自测：12 个探测词、点选、起点判定、熟词登记
  *   M3 「中学已学词」快筛队列不占每日新词额度
+ *   （2026-09-11 移除摸底自测/学习起点功能，起点恒为队列头部，
+ *     已会词一律走快筛清掉 —— M2 已删）
  * =================================================================== */
-console.log('\n[M] 学习顺序与起点定位');
+console.log('\n[M] 学习顺序与快筛');
 
 // M1 词频爬坡：跨「每日单元」边界必须严格递增
 //    （单元内为降低字母聚集做了哈希打散，所以只在段边界上验证单调性）
@@ -460,43 +461,9 @@ ok(`中学已学词识别规模合理（${basicN} 词）`, basicN > 800 && basic
 ok('基础词判定不受错标考纲标签影响', !ctx("isBasic({word:'compulsory'})") && !ctx("isBasic({word:'compensate'})"));
 ok('真基础词判为已学', ctx("isBasic({word:'search'})") && ctx("isBasic({word:'familiar'})"));
 
-// M2 摸底自测
-ctx('S.probe = null; S.known = []; _pool = null; _poolAt = -1;');
-eq('未摸底时默认起点为 0', ctx('startIdx()'), 0);
-click({ act: 'start-study' });
-eq('首次背词先进入摸底页', ctx('view.name'), 'probe');
-const pChips = (screenEl.innerHTML.match(/class="probe-chip/g) || []).length;
-eq('探测词共 12 个', pChips, 12);
-const probeWordList = ctx('probeWords().map(w=>w.word)');
-ok('探测词不含功能词', !probeWordList.some(w => ['the', 'and', 'with', 'that', 'have', 'this'].includes(w)));
-
-// 只勾 2 个 → 不跳词（偶然认识一两个难词不足以判定整体水平）
-click({ act: 'probe-pick', word: probeWordList[0] });
-click({ act: 'probe-pick', word: probeWordList[1] });
-ok('勾选后 chip 变为选中态', /probe-chip on/.test(screenEl.innerHTML));
-click({ act: 'probe-done' });
-eq('完成后进入背词页', ctx('view.name'), 'study');
-eq('只勾 2 个不从词库中途开始', ctx('S.probe.startIdx'), 0);
-eq('勾选的词登记进熟词表', ctx('S.known.length'), 2);
-
-// 勾 8 个 → 起点明显前移，且不影响已学进度字段
-const studiedBefore = ctx('S.studied.length');
-ctx('S.probe = null; S.known = [];');
-click({ act: 'probe-again' });
-eq('可从首页重测起点', ctx('view.name'), 'probe');
-for (let i = 0; i < 8; i++) click({ act: 'probe-pick', word: probeWordList[i] });
-click({ act: 'probe-done' });
-const si = ctx('S.probe.startIdx');
-ok(`勾 8 个后起点前移（startIdx=${si}）`, si > 500);
-eq('默认新词队列从起点开始', ctx('newWords()[0].word'), ctx(`WORDS[${si}].word`));
-eq('定位起点不篡改已学记录', ctx('S.studied.length'), studiedBefore);
-
-// 跳过摸底 = 从最常用的词开始
-ctx('S.probe = null;');
-click({ act: 'probe-again' });
-click({ act: 'probe-skip' });
-eq('跳过后起点回到 0', ctx('startIdx()'), 0);
-ok('跳过被如实记录', ctx('S.probe.skipped') === true);
+// M2（已删）：摸底自测移除后，默认队列恒为全库路径，起点 = 队列头部
+eq('新词队列从全库头部开始', ctx('newWords()[0].word'), ctx('WORDS[0].word'));
+eq('队列即完整学习路径（基础层在前）', ctx('newWords().length'), ctx('WORDS.length'));
 
 // M3 中学已会词快筛
 click({ act: 'quick-sieve' });
