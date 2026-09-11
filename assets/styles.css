@@ -348,7 +348,11 @@ body {
 .article.read .thumb.has-img::after { box-shadow: inset 0 0 0 1px rgba(20, 20, 43, .05); }
 
 /* ---------- 词卡 ---------- */
-.flip { perspective: 1400px; }
+.flip {
+  perspective: 1400px;
+  width: 100%;
+  transition: height .45s cubic-bezier(.4, .2, .2, 1);
+}
 .flip-inner {
   position: relative;
   height: 100%;

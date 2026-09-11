@@ -514,14 +514,7 @@ const ring = (p, size = 78, sw = 10) => {
   </div>`;
 };
 const statusbar = () => `
-  <div class="statusbar">
-    <span>9:41</span>
-    <div class="icons">
-      <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>
-      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M1.6 4.3a9 9 0 0 1 12.8 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M4.3 7.1a5.2 5.2 0 0 1 7.4 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="8" cy="10.3" r="1.25" fill="currentColor"/></svg>
-      <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.6" y="0.6" width="21" height="10.8" rx="3.4" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.2"/><rect x="2.2" y="2.2" width="15.5" height="7.6" rx="2" fill="currentColor"/><path d="M23.6 4.2v3.6a2.3 2.3 0 0 0 0-3.6Z" fill="currentColor" fill-opacity="0.35"/></svg>
-    </div>
-  </div>`;
+  <div class="statusbar" aria-hidden="true"></div>`;
 const speak = t => { try { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) { } };
 const toast = msg => {
   const el = document.createElement("div");
@@ -1346,7 +1339,13 @@ function fixFlipHeight() {
   const flip = $("#flip");
   if (!flip) return;
   const face = flipped ? $(".face.back", flip) : $(".face:not(.back)", flip);
-  if (face) flip.style.height = face.scrollHeight + "px";
+  if (!face) return;
+  const view = $(".view");
+  const viewH = view ? view.clientHeight : 560;
+  /* 翻转后背面内容若超出可视区，限制卡片高度并让背面内部滚动，
+     避免页面整体滚动、用户找不到卡片下半部分 */
+  const maxH = flipped ? Math.max(280, viewH - 16) : viewH;
+  flip.style.height = Math.min(face.scrollHeight, maxH) + "px";
 }
 
 /* ---------------- 事件 ---------------- */
@@ -1411,7 +1410,13 @@ document.addEventListener("click", e => {
       e.stopPropagation(); speak(t.dataset.word); break;
     case "flip":
       if (e.target.closest("[data-act='speak']")) break;
-      flipped = !flipped; render(); break;
+      flipped = !flipped; render();
+      requestAnimationFrame(() => {
+        fixFlipHeight();
+        const view = $(".view");
+        if (view) view.scrollTo({ top: 0, behavior: "smooth" });
+      });
+      break;
     case "mark": {
       const w = curWord().word;
       const i = S.notebook.indexOf(w);
