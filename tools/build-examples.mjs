@@ -37,7 +37,7 @@ const DRY = process.argv.includes("--dry");
 const ctx = { console, window: null };
 ctx.window = ctx;
 vm.createContext(ctx);
-for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js"]) {
+for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-words-mid.js"]) {
   vm.runInContext(fs.readFileSync(path.join(ROOT, "assets", f), "utf8"), ctx, { filename: f });
 }
 vm.runInContext(fs.readFileSync(path.join(ROOT, "assets", "data-ecdict.js"), "utf8"), ctx, { filename: "data-ecdict.js" });

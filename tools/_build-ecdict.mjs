@@ -8,7 +8,7 @@ import vm from "node:vm";
 /* 1. 取词库词表 */
 const ctx = vm.createContext({ console, window: { addEventListener() {} } });
 vm.runInContext("var window=globalThis;", ctx);
-for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js"])
+for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-words-mid.js"])
   vm.runInContext(fs.readFileSync("assets/" + f, "utf8"), ctx, { filename: f });
 const WORDS = vm.runInContext("WORDS", ctx);
 const want = new Set(WORDS.map(w => w.word.toLowerCase()));
