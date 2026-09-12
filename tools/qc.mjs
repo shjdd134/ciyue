@@ -74,8 +74,8 @@ for (const a of ARTICLES) {
     else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
   }
 
-  /* F3 封面（寓言/成长允许无图，回退渐变封面） */
-  if (a.cat !== "寓言" && a.cat !== "成长") {
+  /* F3 封面（寓言/成长/明星允许无图，回退渐变封面） */
+  if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星") {
     const cover = a.coverImg || COVER_MAP[a.id] || "";
     if (!cover) F.push("F3 无封面图");
     else {
