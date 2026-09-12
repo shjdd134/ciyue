@@ -45,12 +45,18 @@ const EC = vm.runInContext("WORD_META", ctx);
 const WORDS = vm.runInContext("WORDS", ctx);
 console.log(`词库 ${WORDS.length} 词 · ECDICT 词形表 ${EC ? Object.keys(EC).length : 0} 条`);
 
-/* 历史兜底：老版本从文章抽的句子 */
+/* 历史兜底：老版本从文章抽的句子（缓存缺该文件时优雅降级——Actions runner 上没有） */
 const lg = { console, window: null };
 lg.window = lg;
 vm.createContext(lg);
-vm.runInContext(fs.readFileSync(path.join(CACHE, "legacy-data-examples.js"), "utf8"), lg, { filename: "legacy" });
-const LEGACY = vm.runInContext("WORD_EXAMPLES", lg);
+let LEGACY = {};
+const legacyPath = path.join(CACHE, "legacy-data-examples.js");
+if (fs.existsSync(legacyPath)) {
+  vm.runInContext(fs.readFileSync(legacyPath, "utf8"), lg, { filename: "legacy" });
+  LEGACY = vm.runInContext("WORD_EXAMPLES", lg);
+} else {
+  console.log("  （无 legacy 例句缓存，跳过历史兜底）");
+}
 
 /* ---------------- ① 分级词典词库 ---------------- */
 const LEVELS = [
@@ -64,7 +70,7 @@ const LEVELS = [
 const libs = {};
 for (const [name, file] of LEVELS) {
   const p = path.join(CACHE, file);
-  if (!fs.existsSync(p)) { console.error(`缺少源数据：${p}\n见本文件顶部注释里的重新拉取命令`); process.exit(1); }
+  if (!fs.existsSync(p)) { console.log(`  （缺 ${file}，跳过「${name}」——Actions runner 上无本地缓存，例句由其他来源兜底）`); libs[name] = new Map(); continue; }
   const m = new Map();
   for (const line of fs.readFileSync(p, "utf8").split("\n")) {
     if (!line.trim()) continue;
@@ -112,15 +118,18 @@ function pickDict(key) {
   return null;
 }
 
-/* ---------------- ② Tatoeba 双语语料 ---------------- */
+/* ---------------- ② Tatoeba 双语语料（缓存缺失时优雅跳过） ---------------- */
 const rows = [];
-for (const line of fs.readFileSync(path.join(CACHE, "cmn.txt"), "utf8").split("\n")) {
-  const [en, cn] = line.split("\t");
-  if (!en || !cn) continue;
-  const E = en.trim(), C = cn.trim();
-  if (!okEn(E) || !okCn(C)) continue;
-  const low = " " + E.toLowerCase().replace(/[^a-z0-9' ]/g, " ").replace(/\s+/g, " ") + " ";
-  rows.push({ en: E, cn: C, low, w: [...new Set(low.trim().split(" "))] });
+const cmnPath = path.join(CACHE, "cmn.txt");
+if (fs.existsSync(cmnPath)) {
+  for (const line of fs.readFileSync(cmnPath, "utf8").split("\n")) {
+    const [en, cn] = line.split("\t");
+    if (!en || !cn) continue;
+    const E = en.trim(), C = cn.trim();
+    if (!okEn(E) || !okCn(C)) continue;
+    const low = " " + E.toLowerCase().replace(/[^a-z0-9' ]/g, " ").replace(/\s+/g, " ") + " ";
+    rows.push({ en: E, cn: C, low, w: [...new Set(low.trim().split(" "))] });
+  }
 }
 console.log(`Tatoeba 合格句对 ${rows.length}`);
 const tIndex = new Map();
