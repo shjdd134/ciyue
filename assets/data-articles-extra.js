@@ -954,10 +954,6 @@ const ARTICLES_EXTRA = [
         "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
       },
       {
-        "img": "assets/covers/ft-footballers-give-me-hundreds-of-thousands-of-p-1.jpg",
-        "cap": "\"We've got the stairs, leading up to the bedrooms...\" (Image credit: Getty Images)"
-      },
-      {
         "en": "The Homes Under the Hammer presenter, who since hanging up his boots has transitioned from Premier League goalscoring to real estate expertise and punditry, is using his industry knowledge to help fellow players secure their financial futures.",
         "cn": "这位《Homes Under the Hammer》节目的主持人，自挂靴后便从英超射手转型为房地产专家和评论员，如今正利用自己的行业知识帮助前队友们保障未来的财务安全。"
       },
@@ -974,7 +970,7 @@ const ARTICLES_EXTRA = [
         "cn": "“我来帮你搞定，”都柏林说道。"
       },
       {
-        "img": "assets/covers/ft-footballers-give-me-hundreds-of-thousands-of-p-2.jpg",
+        "img": "assets/covers/ft-footballers-give-me-hundreds-of-thousands-of-p-1.jpg",
         "cap": "Dublin often found himself in the PrimeLocation inside the penalty area during his playing days (Image credit:"
       },
       {
@@ -992,6 +988,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "Dublin has focused much of his property enterprise in North Wales, specifically around the Wrexham area, where attention surrounding the now-Championship level football club has fuelled a market boom.",
         "cn": "都柏林将其房地产业务的大部分集中在北威尔士，特别是雷克瑟姆地区，那里围绕着如今已升入英冠联赛的足球俱乐部所引发的热潮，推动了当地房地产市场的繁荣。"
+      },
+      {
+        "img": "assets/covers/ft-footballers-give-me-hundreds-of-thousands-of-p-2.jpg",
+        "cap": "Executive Producers Rob Mac and Ryan Reynolds attend an FYC red carpet event for FX's Welcome to Wrexham in Lo"
       },
       {
         "en": "\"I've got a few of them houses in Wrexham now, which is a bit of a hot spot with all the attention around the football club.",
@@ -1016,6 +1016,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "\"My advice is to try and find those places but most importantly find the place that works for you.",
         "cn": "“我的建议是，试着去寻找这些地方，但最重要的是找到最适合你的那个地方。"
+      },
+      {
+        "img": "assets/covers/ft-footballers-give-me-hundreds-of-thousands-of-p-3.jpg",
+        "cap": "72 goals in 162 games for Coventry. You could say that was the Rightmove (Image credit: Alamy)"
       },
       {
         "en": "\"I think if you're investing in property then you need to look anywhere north of London and Watford and you might have a chance to get a bit of value for your money.",
@@ -1066,10 +1070,6 @@ const ARTICLES_EXTRA = [
       },
       {
         "img": "assets/covers/ft-friday-football-quiz-episode-132-can-you-get-2-1.jpg",
-        "cap": "Friday Football Quiz (Image credit: Getty Images)"
-      },
-      {
-        "img": "assets/covers/ft-friday-football-quiz-episode-132-can-you-get-2-2.jpg",
         "cap": "(Image credit: Getty Images)"
       },
       {
@@ -1103,6 +1103,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "After celebrating those Three Lions icons, scale the ultimate heights of the global game to identify every Ballon d'Or winner to have won the World Cup, celebrating the exclusive pantheon of legends who achieved both individual perfection and ultimate international glory.",
         "cn": "在致敬了这些“三狮军团”的传奇人物之后，让我们将目光投向世界足坛的巅峰，盘点所有曾荣膺金球奖并夺得世界杯冠军的球员，向这一群既实现了个人完美，又赢得了国际足坛至高荣耀的传奇巨星们致敬。"
+      },
+      {
+        "img": "assets/covers/ft-friday-football-quiz-episode-132-can-you-get-2-2.jpg",
+        "cap": ""
       },
       {
         "en": "Mark White is the Digital Content Editor at FourFourTwo.",
@@ -1176,10 +1180,6 @@ const ARTICLES_EXTRA = [
         "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
       },
       {
-        "img": "assets/covers/ft-why-2026-27-will-be-one-of-the-best-championsh-1.jpg",
-        "cap": "Charlton Athletic's win at West Ham United was one of the shock results of the Championship season (Image cred"
-      },
-      {
         "en": "The Championship is often branded as the most competitive and unpredictable league in world football.",
         "cn": "英冠联赛常被誉为世界足坛竞争最激烈、最难以预测的联赛。"
       },
@@ -1200,7 +1200,7 @@ const ARTICLES_EXTRA = [
         "cn": "女士们、先生们，这或许是近来最符合该联赛品牌调性的冠军赛季。"
       },
       {
-        "img": "assets/covers/ft-why-2026-27-will-be-one-of-the-best-championsh-2.jpg",
+        "img": "assets/covers/ft-why-2026-27-will-be-one-of-the-best-championsh-1.jpg",
         "cap": "Coventry City finished 11 points clear at the top of the Championship last season (Image credit: Getty Images)"
       },
       {
@@ -1218,6 +1218,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "Ipswich Town were the only member of that trio to gain promotion, finishing second behind Coventry, and their total of 84 points ended a run of five seasons where one of the three relegated clubs reached 90 points or more in their first campaign back in the Championship.",
         "cn": "伊普斯维奇镇是这三支球队中唯一成功升入英冠的球队，他们以第二名的成绩紧随考文垂之后，而他们总共拿到的84分，也终结了此前连续五个赛季中，每赛季都有降级球队在重返英冠的首个赛季中拿到90分或以上的纪录。"
+      },
+      {
+        "img": "assets/covers/ft-why-2026-27-will-be-one-of-the-best-championsh-2.jpg",
+        "cap": "West Ham United are starting to click after a slow start to the campaign (Image credit: Getty Images)"
       },
       {
         "en": "Meanwhile, the three teams promoted from League One - Birmingham City, Wrexham and Charlton Athletic - all stayed up, the third year in a row in which that has happened.",
@@ -1264,7 +1268,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "img": "assets/covers/ft-hall-signs-new-deal-at-newcastle-after-man-utd-1.jpg",
-        "cap": "Image: Lewis Hall has agreed a new long-term deal at St James'"
+        "cap": "Image: Lewis Hall has signed a new Newcastle deal"
       },
       {
         "en": "The England international has committed to a new deal at St James' Park despite Manchester United showing an interest in him during the summer transfer window.",
@@ -1394,10 +1398,6 @@ const ARTICLES_EXTRA = [
         "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
       },
       {
-        "img": "assets/covers/ft-bukayo-saka-is-the-standout-attacking-option-r-1.jpg",
-        "cap": "Bukayo Saka (Image credit: Getty Images)"
-      },
-      {
         "en": "If Gameweek 3 was the week of the Wildcard, Gameweek 4 is the natural follow up window for those who held off.",
         "cn": "如果说第3轮是“万能卡”大放异彩的一周，那么对于那些此前按兵不动的人来说，第4轮自然就是接续使用“万能卡”的最佳时机。"
       },
@@ -1406,7 +1406,7 @@ const ARTICLES_EXTRA = [
         "cn": "转会窗口已彻底关闭，每周的出场时间安排都日益明朗，赛程安排也足够清晰，足以组建一支真正具有长期发展前景的阵容。"
       },
       {
-        "img": "assets/covers/ft-bukayo-saka-is-the-standout-attacking-option-r-2.jpg",
+        "img": "assets/covers/ft-bukayo-saka-is-the-standout-attacking-option-r-1.jpg",
         "cap": "Bart Verbruggen (Image credit: Getty Images)"
       },
       {
@@ -1420,6 +1420,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "The backup slot can honestly be filled by any £4.0m goalkeeper from a team you are unlikely to triple up on, as there are no truly nailed-on options at that price point right now.",
         "cn": "说实话，替补门将的位置完全可以由任何一位身价400万英镑、且你不太可能在同一支球队中拥有三名该队球员的门将来填补，因为目前在这个价位上并没有真正稳如磐石的人选。"
+      },
+      {
+        "img": "assets/covers/ft-bukayo-saka-is-the-standout-attacking-option-r-2.jpg",
+        "cap": "Ezri Konsa (Image credit: Getty Images)"
       },
       {
         "en": "The defensive unit leans into three teams with strong fixture runs and players who bring more than just clean sheet potential.",
@@ -1440,6 +1444,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "Finally, Jan Paul van Hecke rotates really well with the rest of the defence, is particularly strong in home fixtures and carries good aerial ability from dead ball situations.",
         "cn": "最后，扬·保罗·范·赫克与后防线其他队员的配合非常默契，在主场比赛中表现尤为出色，并且在定位球进攻中拥有出色的争顶能力。"
+      },
+      {
+        "img": "assets/covers/ft-bukayo-saka-is-the-standout-attacking-option-r-3.jpg",
+        "cap": "Cole Palmer (Image credit: Getty Images)"
       },
       {
         "en": "The midfield is where this squad truly shines.",
@@ -1567,6 +1575,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "How many of those 100 career paths can you identify?",
         "cn": "在这100种职业发展路径中，你能认出多少种？"
+      },
+      {
+        "img": "assets/covers/ft-quickfire-quiz-200-can-you-answer-10-questions-3.jpg",
+        "cap": ""
       },
       {
         "en": "Please logout and then login again, you will then be prompted to enter your display name.",
@@ -2669,6 +2681,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "My challenge to you is to pursue this knowledge in your own time, by your own curiosity, because it will only enhance your ability to take control of your life.",
         "cn": "我希望你们能利用自己的时间，凭着自己的好奇心去探索这些知识，因为这只会增强你们掌控自己人生的能力。"
+      },
+      {
+        "img": "assets/covers/gr-how-to-think-like-a-genius-the-map-of-all-know-4.jpg",
+        "cap": ""
       },
       {
         "en": "Future-proof yourself with 2-4 premium guides, prompts, and strategies per month.",
@@ -4558,12 +4574,24 @@ const ARTICLES_EXTRA = [
         "cn": "请记住：“你的目标就是你痛苦的起点，而你可以选择为了什么而受苦。”"
       },
       {
+        "img": "assets/covers/gr-a-complete-knowledge-base-of-human-3-0-1.jpg",
+        "cap": ""
+      },
+      {
         "en": "Future-proof yourself with 2-4 premium guides, prompts, and strategies per month.",
         "cn": "每月获取 2 至 4 份优质指南、提示和策略，为未来做好准备。"
       },
       {
+        "img": "assets/covers/gr-a-complete-knowledge-base-of-human-3-0-2.jpg",
+        "cap": ""
+      },
+      {
         "en": "Find meaning, reinvent yourself, and create your ideal future.",
         "cn": "寻找人生意义，重塑自我，创造你理想中的未来。"
+      },
+      {
+        "img": "assets/covers/gr-a-complete-knowledge-base-of-human-3-0-3.jpg",
+        "cap": ""
       },
       {
         "en": "I am an author, creator, and founder.",
@@ -4609,6 +4637,22 @@ const ARTICLES_EXTRA = [
         "cn": "在这场难得的对话中，格雷格深入剖析了那些既造就了这家全球最重要的AI公司，又险些将其摧毁的关键时刻。"
       },
       {
+        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--3.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--4.jpg",
+        "cap": ""
+      },
+      {
         "en": "Greg explains how the original Napa offsite produced the three-step technical plan OpenAI has followed for a decade and the real reason OpenAI had to abandon its pure nonprofit structure.",
         "cn": "格雷格解释了最初那次在纳帕举行的闭门会议如何制定出了OpenAI过去十年一直遵循的三步技术计划，以及OpenAI不得不放弃其纯非营利组织结构的真正原因。"
       },
@@ -4645,10 +4689,6 @@ const ARTICLES_EXTRA = [
         "cn": "洛克菲勒之所以能成为有史以来最富有的人，是因为他对商业、竞争和家庭有着与众不同的见解。"
       },
       {
-        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--1.jpg",
-        "cap": ""
-      },
-      {
         "en": "A podcast about mastering the best of what other people have already figured out.",
         "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
       },
@@ -4682,6 +4722,22 @@ const ARTICLES_EXTRA = [
       {
         "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create together.",
         "cn": "大卫·巴祖基是Roblox的联合创始人兼首席执行官，该平台基于一个简单的理念：为用户提供工具和激励，让他们能够共同进行创作。"
+      },
+      {
+        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-3.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-4.jpg",
+        "cap": ""
       },
       {
         "en": "In this short conversation, he shares how a health decision saved his son’s life and how it changed how he eats, why bureaucracy compounds unless you actively destroy it, monitoring your mind before making decisions, and why the best products often improve by removing complexity.",
@@ -4748,10 +4804,6 @@ const ARTICLES_EXTRA = [
         "cn": "当Opendoor距离……仅剩几个月时，卡兹·内贾蒂安接手了该公司……"
       },
       {
-        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-1.jpg",
-        "cap": ""
-      },
-      {
         "en": "A podcast about mastering the best of what other people have already figured out.",
         "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
       },
@@ -4795,6 +4847,22 @@ const ARTICLES_EXTRA = [
         "cn": "如果你听过的话，这是一部经典之作，值得再次聆听。"
       },
       {
+        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-3.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-4.jpg",
+        "cap": ""
+      },
+      {
         "en": "Brad Jacobs has built eight billion-dollar companies, completed more than 500 acquisitions, and created extraordinary returns for shareholders over four decades.",
         "cn": "布拉德·雅各布斯在四十多年间创立了八家市值达10亿美元的公司，完成了500多起收购，并为股东创造了非凡的回报。"
       },
@@ -4835,10 +4903,6 @@ const ARTICLES_EXTRA = [
         "cn": "当Opendoor距离……仅剩几个月时，卡兹·内贾蒂安接手了该公司……"
       },
       {
-        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-1.jpg",
-        "cap": ""
-      },
-      {
         "en": "A podcast about mastering the best of what other people have already figured out.",
         "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
       },
@@ -4867,11 +4931,27 @@ const ARTICLES_EXTRA = [
     "url": "https://moretothat.com/listening-is-the-silencing-of-the-mind/",
     "cover": "linear-gradient(135deg,#f6c9d8 0%,#a8326a 100%)",
     "gradient": "linear-gradient(135deg,#f6c9d8 0%,#a8326a 100%)",
-    "coverImg": "",
+    "coverImg": "assets/covers/gr-listening-is-the-silencing-of-the-mind.jpg",
     "paras": [
       {
         "en": "When you’re having a conversation with someone, we imagine it to look something like this.",
         "cn": "当你与某人交谈时，我们想象中的场景大概是这样的。"
+      },
+      {
+        "img": "assets/covers/gr-listening-is-the-silencing-of-the-mind-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-listening-is-the-silencing-of-the-mind-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-listening-is-the-silencing-of-the-mind-3.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-listening-is-the-silencing-of-the-mind-4.jpg",
+        "cap": ""
       },
       {
         "en": "We equate conversation with the words that are spoken, but much of the dialogue is actually happening in your own mind.",
@@ -5210,8 +5290,12 @@ const ARTICLES_EXTRA = [
     "url": "https://moretothat.com/tales-from-the-island-of-illness/",
     "cover": "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)",
     "gradient": "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)",
-    "coverImg": "",
+    "coverImg": "assets/covers/gr-tales-from-the-island-of-illness.jpg",
     "paras": [
+      {
+        "img": "assets/covers/gr-tales-from-the-island-of-illness-1.jpg",
+        "cap": ""
+      },
       {
         "en": "There’s a feeling of isolation that accompanies an illness of any kind, which only broadens the scope of your suffering.",
         "cn": "任何疾病都会带来一种孤独感，这只会加剧你的痛苦。"
@@ -5223,6 +5307,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "You start thinking that everyone else must be getting along just fine, and that you’re the lone exception in a world full of healthy and vibrant people.",
         "cn": "你会开始觉得，其他人肯定都过得很好，而在这个充满健康活力的世界里，只有你是个例外。"
+      },
+      {
+        "img": "assets/covers/gr-tales-from-the-island-of-illness-2.jpg",
+        "cap": ""
       },
       {
         "en": "The truth is that there are many, many people on that island of illness with you.",
@@ -5239,6 +5327,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "This doesn’t change the fact that they are on that island with you, but the absence of that knowledge leads to the assumption that they are in pristine health while you are not.",
         "cn": "这并不改变他们与你同在那个岛上的事实，但正因为不知道这一点，才会让人误以为他们身体非常健康，而你却并非如此。"
+      },
+      {
+        "img": "assets/covers/gr-tales-from-the-island-of-illness-3.jpg",
+        "cap": ""
       },
       {
         "en": "It is for this reason that I am creating this piece.",
