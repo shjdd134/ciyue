@@ -66,15 +66,15 @@ for (const a of ARTICLES) {
   for (const k of ["id", "url", "cat", "title", "titleZh", "date"]) if (!String(a[k] || "").trim()) F.push(`F1 缺字段 ${k}`);
   if (!CATS.has(a.cat)) F.push(`F1 未知栏目「${a.cat}」`);
 
-  /* F2 新鲜度（寓言为 1912 公版经典，不参与时效判定） */
-  if (a.cat !== "寓言") {
+  /* F2 新鲜度（寓言为 1912 公版经典、成长为常青博主长文，均不参与时效判定） */
+  if (a.cat !== "寓言" && a.cat !== "成长") {
     const t = a.date ? new Date(a.date).getTime() : NaN;
     if (!Number.isFinite(t)) F.push("F2 date 无法解析");
     else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
   }
 
-  /* F3 封面（寓言允许无插画，回退渐变封面） */
-  if (a.cat !== "寓言") {
+  /* F3 封面（寓言/成长允许无图，回退渐变封面） */
+  if (a.cat !== "寓言" && a.cat !== "成长") {
     const cover = a.coverImg || COVER_MAP[a.id] || "";
     if (!cover) F.push("F3 无封面图");
     else {

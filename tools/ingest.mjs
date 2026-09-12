@@ -89,8 +89,9 @@ const FEEDS = [
 
   /* —— 成长（独立博主英文长文：对人生发展有实质干货，反厚黑学/反空话——
      Dan Koe 是用户点名的类型代表，More To That 本身就是手绘插图的图文长文）——
-     常青内容不受全局时效限制（days 放宽）；full = 不截断，整篇进应用 */
-  { cat: "成长", name: "Dan Koe", rss: "https://thedankoe.com/letters/feed/", max: 3, days: 800, full: true },
+     常青内容不受全局时效限制（days 放宽）；full = 不截断，整篇进应用。
+     Dan Koe 的 WordPress 站 2025-08 后停更，活跃更新在 Substack 镜像 future/proof */
+  { cat: "成长", name: "Dan Koe", rss: "https://letters.thedankoe.com/feed", max: 3, days: 800, full: true },
   { cat: "成长", name: "Farnam Street", rss: "https://fs.blog/feed/", max: 3, days: 400, full: true },
   { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true },
   { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
