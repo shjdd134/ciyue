@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 35 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
+ * 共 36 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
  * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
- * 每篇保留 url 外链可溯源。来源：Aesop's Fables (1912) / Sky Sports / FourFourTwo / Dan Koe / Farnam Street / More To That / Ness Labs
+ * 每篇保留 url 外链可溯源。来源：Aesop's Fables (1912) / Sky Sports / FourFourTwo / Dan Koe / Farnam Street / More To That / Ness Labs / Harper's Bazaar UK
  */
 
 const ARTICLES_EXTRA = [
@@ -7992,6 +7992,117 @@ const ARTICLES_EXTRA = [
       {
         "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
         "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
+      }
+    ]
+  },
+  {
+    "id": "st-monica-bellucci-explains-why-she-can-t-live-wi",
+    "cat": "明星",
+    "title": "Monica Bellucci explains why she can't live without a black dress",
+    "titleZh": "莫妮卡·贝鲁奇解释了为什么她离不开黑色连衣裙",
+    "source": "Harper's Bazaar UK · 2026-02-23",
+    "date": "2026-02-23",
+    "minutes": 4,
+    "url": "http://localhost:8124/.tmp/oneoff/essay.html",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "",
+    "paras": [
+      {
+        "en": "Monica Bellucci really knows glamour.",
+        "cn": "莫妮卡·贝鲁奇确实深谙魅力之道。"
+      },
+      {
+        "en": "It’s a look born of her Italian heritage and a deep connection to the intertwining worlds of fashion and cinema, and a style that she’s stuck to since her early twenties; elegant little black dresses that skim her body, a great pair of heels, and tumbling raven hair.",
+        "cn": "这种造型源于她的意大利血统，以及她与时尚与电影这两个相互交织的世界之间深厚的联系，也是她从二十出头起便一直坚持的风格：贴合身形的优雅小黑裙、一双漂亮的高跟鞋，还有一头如瀑般的乌黑长发。"
+      },
+      {
+        "en": "If Bellucci hadn’t existed, Fellini would have made her up.",
+        "cn": "如果贝卢奇不存在，费里尼也会把她虚构出来。"
+      },
+      {
+        "en": "Bellucci, who celebrated her 60th birthday last year, has always known who she is.",
+        "cn": "贝鲁奇去年刚过完60岁生日，她一直都很清楚自己是谁。"
+      },
+      {
+        "en": "You won’t find her dabbling with oversized proportions or this season’s buzzy trainers; her aesthetic is timeless.",
+        "cn": "你不会看到她尝试夸张的廓形或本季热门的运动鞋；她的美学风格是永恒的。"
+      },
+      {
+        "en": "It’s pure La Dolce Vita, an expression of personality and taste, and an appreciation of fit and quality.",
+        "cn": "这正是《甜蜜生活》的精髓所在，既彰显个性与品味，也体现了对版型与品质的追求。"
+      },
+      {
+        "en": "Her career is vast, with roles that manoeuvre from art house and theatre to box office-smashing blockbusters such as the Matrix sequels and the Bond film Spectre.",
+        "cn": "她的演艺生涯涉猎广泛，饰演的角色横跨艺术电影和舞台剧，也包括《黑客帝国》系列续集和邦德电影《幽灵党》等票房大卖的商业大片。"
+      },
+      {
+        "en": "When she made her stage debut as Maria Callas in Letters and Memoirs, she performed in three different languages across 10 different countries.",
+        "cn": "当她在《书信与回忆录》中首次登台饰演玛丽亚·卡拉斯时，她用三种不同的语言在10个不同的国家进行了演出。"
+      },
+      {
+        "en": "This weekend, she presented the Best Documentary category at the BAFTAs, turning to Stella McCartney for a black gown completed by a Roger Vivier clutch and Cartier jewellery, a maison she's worked with for decades.",
+        "cn": "本周末，她在英国电影和电视艺术学院奖（BAFTA）颁奖典礼上担任“最佳纪录片”奖项的颁奖嘉宾，身着斯特拉·麦卡特尼（Stella McCartney）设计的黑色礼服，搭配罗杰·维维耶（Roger Vivier）手拿包和卡地亚（Cartier）珠宝——她与卡地亚的合作已长达数十年。"
+      },
+      {
+        "en": "Bellucci chose two pieces from the En Équilibre Chapter II -High Jewellery collection: an 18k white gold necklace with sapphires and diamonds, with a matching ring.",
+        "cn": "贝鲁奇从“En Équilibre Chapter II”高级珠宝系列中挑选了两件作品：一条镶有蓝宝石和钻石的18K白金项链，以及一枚配套的戒指。"
+      },
+      {
+        "en": "We caught up with her to find out how she came up with her signature look, what glamour really means today and how her Italian heritage changed the way she views the world.",
+        "cn": "我们采访了她，了解她是如何打造出自己的标志性风格的，如今“魅力”的真正含义是什么，以及她的意大利血统如何改变了她看待世界的方式。"
+      },
+      {
+        "en": "“I wore Stella McCartney because I really love her creations.",
+        "cn": "“我穿了斯特拉·麦卡特尼（Stella McCartney）的衣服，因为我真的很喜欢她的设计。"
+      },
+      {
+        "en": "The style is very feminine and sensual, but, at the same time, there’s also something very easy, simple and elegant.",
+        "cn": "这种风格既非常女性化又充满性感魅力，但同时又透着一种轻松、简约而优雅的气质。"
+      },
+      {
+        "en": "It makes me feel comfortable with myself.",
+        "cn": "这让我感到很自在。"
+      },
+      {
+        "en": "Stella and I have collaborated before; I was Mistress of Ceremonies at the 2017 Cannes Film Festival, and for the press conference, I was dressed in one of her black jumpsuits.",
+        "cn": "斯黛拉和我之前曾合作过；我在2017年戛纳电影节上担任了司仪，而在新闻发布会上，我穿的就是她设计的一件黑色连体裤。"
+      },
+      {
+        "en": "The Cartier jewellery I wore last night was very important, so I thought it was more interesting to have a very beautiful, understated dress with simple lines to make the contrast more obvious.”",
+        "cn": "“昨晚我佩戴的卡地亚珠宝非常重要，所以我认为搭配一件线条简洁、优雅低调的礼服会更有趣，这样能让对比更加鲜明。”"
+      },
+      {
+        "en": "“For me, Cartier’s work is more than jewellery; it’s a form of art.",
+        "cn": "“对我来说，卡地亚的作品不仅仅只是珠宝，更是一种艺术形式。"
+      },
+      {
+        "en": "The maison continues to create amazing pieces while also respecting tradition.",
+        "cn": "该品牌在尊重传统的同时，仍在不断打造出令人惊叹的作品。"
+      },
+      {
+        "en": "I admire their way of working and how the pieces fit everybody, not just me.",
+        "cn": "我很欣赏他们的工作方式，以及这些作品如何能适合每个人，而不仅仅是我。"
+      },
+      {
+        "en": "I'm just so lucky to have the chance to wear it.",
+        "cn": "能有机会穿上它，我真是太幸运了。"
+      },
+      {
+        "en": "For the BAFTAs, I chose a light blue stone necklace and, when you choose a particular stone, you connect with an energy.",
+        "cn": "参加英国电影和电视艺术学院奖（BAFTA）颁奖典礼时，我选了一条浅蓝色宝石项链；当你选择某种特定的宝石时，就会与一种能量产生联结。"
+      },
+      {
+        "en": "It has to align with yours somehow.",
+        "cn": "它总得在某种程度上与你的观点一致。"
+      },
+      {
+        "en": "Sometimes the jewellery we love is not a matter of price; sometimes it’s a matter of affection.",
+        "cn": "有时，我们钟爱的珠宝并非取决于价格；有时，它取决于情感。"
+      },
+      {
+        "en": "I have a simple ring that my grandmother gave to me, and it doesn't have really an incredible monetary value, but, for me, it has an enormous value because it’s about love.”",
+        "cn": "“我有一枚简单的戒指，是祖母送给我的。它虽然没有多大的经济价值，但对我来说却意义非凡，因为它承载着爱。”"
       }
     ]
   }
