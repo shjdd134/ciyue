@@ -1097,6 +1097,9 @@ body {
      背面「一屏看完」在 6.1 寸以下也能成立。 */
   .statusbar { height: max(10px, var(--safe-t)); padding: 0 12px; }
   .view { padding: 2px 16px 6px; gap: 11px; }
+  /* 阅读页滚动区必须保留 .fab-bar（z-index:50，可点击）的底部空间，
+     否则读毕卡的「下一篇」沉到工具条底下被拦住点击 */
+  .view.read-scroll { padding-bottom: 110px; }
   .tabbar { padding: 8px 16px calc(10px + var(--safe-b)); }
   .tabbar .pill { height: 56px; }
   .answer-row { gap: 10px; }

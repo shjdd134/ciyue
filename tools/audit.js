@@ -582,5 +582,35 @@ ok(`highlightEn 输出两类 span`, (() => {
   return html.includes('class="tw"') && html.includes('class="kw"');
 })());
 
+/* ---------------- [Q] 队列接续与查词卡行为（2026-09-12 三 bug 回归） ---------------- */
+console.log('\n[Q] 队列接续与查词卡行为');
+/* render 间谍：本段所有查词卡操作都应零整页渲染（render 会把阅读位置打回开头） */
+ctx('window.__renderCalls = 0; const __origRender = render; render = () => { window.__renderCalls++; };');
+/* .kw span 桩：验证 mark-known 就地切换 known 类 */
+const fakeKw = { cls: new Set(), classList: { toggle(c, on) { on ? fakeKw.cls.add(c) : fakeKw.cls.delete(c); } } };
+const __prevQSA = sandbox.document.querySelectorAll;
+sandbox.document.querySelectorAll = s => (String(s).startsWith('.kw') ? [fakeKw] : __prevQSA(s));
+
+ctx('S.studied.length = 0');
+ok(`resumePos：没学过任何词 → 起点 0`, ctx('resumePos()') === 0);
+ctx(`(${JSON.stringify(ctx('WORDS.slice(0,5).map(w => w.word)'))}).forEach(w => S.studied.push(w))`);
+ok(`resumePos：前 5 词已学 → 起点 5（重开页面接着背，不再从头）`, ctx('resumePos()') === 5);
+ctx(`WORDS.forEach(w => { if (!S.studied.includes(w.word)) S.studied.push(w.word); })`);
+ok(`resumePos：全库学完 → 回到 0`, ctx('resumePos()') === 0);
+ctx('S.studied.length = 0');
+
+const sheetW0 = ctx('WORDS[0].word');
+click({ act: "lookup", word: sheetW0 });
+click({ act: "add-note", word: sheetW0 });
+ok(`查词卡「加入生词本」零整页渲染（阅读位置不丢）`, ctx('window.__renderCalls') === 0);
+ok(`生词确实入了本（${sheetW0}）`, ctx(`S.notebook.includes(${JSON.stringify(sheetW0)})`));
+
+const sheetW1 = ctx('WORDS[1].word');
+click({ act: "mark-known", word: sheetW1 });
+ok(`「标为已认识」就地切换正文高亮、零整页渲染`, ctx('window.__renderCalls') === 0 && fakeKw.cls.has('known') && ctx(`S.known.includes(${JSON.stringify(sheetW1)})`));
+click({ act: "mark-known", word: sheetW1 });
+ok(`再次点击取消已认识标记（类已摘除）`, !fakeKw.cls.has('known') && !ctx(`S.known.includes(${JSON.stringify(sheetW1)})`));
+sandbox.document.querySelectorAll = __prevQSA;
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

@@ -464,6 +464,16 @@ function advanceQueue() {
   render();
   return true;
 }
+/* 默认新词队列的接续起点 = 第一个没学过的词。qPos 是内存态，页面重载即归零，
+ * 不恢复的话每次打开都从全库第一个词重背（S.daily.count 与背词页进度也会互相矛盾）。
+ * 起点由 S.studied 推导而非持久化 qPos：自愈、无需迁移；全部学完则回到 0。
+ * 只在启动时执行一次；会话内 tab 切换不重算，避免与滑动跳词行为互相干扰。 */
+function resumePos() {
+  const list = newWords();
+  const done = new Set(S.studied);
+  const i = list.findIndex(w => !done.has(w.word));
+  return i < 0 ? 0 : i;
+}
 let activeArticle = null;
 let catFilter = "全部";
 let searchTerm = "";
@@ -1771,10 +1781,13 @@ document.addEventListener("click", e => {
     case "mark-known": {
       const w = t.dataset.word;
       const i = S.known.indexOf(w);
-      if (i >= 0) { S.known.splice(i, 1); toast(`已取消「${w}」的已认识标记`); }
-      else { S.known.push(w); toast(`「${w}」已标记为认识，文中不再高亮`); }
-      save(); render();
-      break;
+      const known = i < 0;
+      if (known) S.known.push(w); else S.known.splice(i, 1);
+      /* 就地切换正文高亮，不整页 render——render 会把阅读滚动位置打回开头
+         （与下方 lookup case 同理） */
+      $$(`.kw[data-word="${w}"]`).forEach(n => n.classList.toggle("known", known));
+      toast(known ? `「${w}」已标记为认识，文中不再高亮` : `已取消「${w}」的已认识标记`);
+      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     }
     case "lookup": {
       const word = t.dataset.word;
@@ -1793,13 +1806,14 @@ document.addEventListener("click", e => {
       const w = t.dataset.word;
       if (!S.notebook.includes(w)) { S.notebook.push(w); toast(`「${w}」已加入生词本`); }
       else toast("已经在生词本里了");
-      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove()); render(); break;
+      /* 不 render：整页重渲染会把阅读位置打回开头，词已入本，浮层关掉即可 */
+      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     }
     case "add-review": {
       const w = t.dataset.word;
       if (!S.wrong.includes(w)) S.wrong.push(w);
       save(); $$(".sheet, .sheet-mask").forEach(n => n.remove());
-      toast(`「${w}」已加入复习队列`); render(); break;
+      toast(`「${w}」已加入复习队列`); break;
     }
     /* 复习：错词 ∪ 今天到期的词。以前这里只是弹个 toast 然后进学习页，
        而学习页压根不看 S.wrong——现在队列是真的换了。 */
@@ -1903,6 +1917,8 @@ document.addEventListener("touchend", e => {
 (function bootFromQuery(){
   if (typeof location === "undefined" || typeof URLSearchParams === "undefined") return;
   try {
+    /* 先恢复默认队列的接续起点（?w= 调试参数在下面仍会覆盖 qPos） */
+    qPos = resumePos();
     const p = new URLSearchParams(location.search);
     const v = p.get("v");
     if (v === "discover") view = { name: "discover" };
