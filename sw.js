@@ -2,16 +2,37 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（2026-09-12 起）：
- *   - 页面导航（index.html）：网络优先，保证入口壳最新，断网回落缓存；
- *   - 其余静态资源：缓存优先 + 后台刷新（stale-while-revalidate）。
- *     原先全量网络优先时，每次进站都要重新拉 2MB / 15+ 个文件，而 GitHub Pages
- *     的单请求边缘延迟 1~2s（1KB 的文件也一样慢），用户感知就是「进站有时候卡」；
- *     现在非首次进站直接用缓存秒开，最新文件在后台拉回来供下次使用。
- *   - 发布时 bump 下面的 CACHE 名：新 SW 激活清空旧缓存，发布后首次进站自然
- *     全量走网络拿最新内容，之后恢复秒开。
+ * 缓存策略（v38）：
+ *   - 页面导航与静态资源统一走「缓存优先 + 新鲜度窗口 + 后台刷新」：
+ *       1) 缓存里有、且缓存时间不足 1 小时（看响应 Date 头）→ 零网络请求，直接用；
+ *       2) 过期或未命中 → 走网络（不带 reload，让 ETag/Last-Modified 协商出 304），
+ *          成功则更新缓存；失败（离线）回落缓存。
+ *     历史：v37 用「命中缓存 + 每次 force-reload 全量后台重下」，页面虽然秒开，
+ *     但每次进站都白拉 2MB；v36 及以前是全量网络优先，每次进站都慢。
+ *   - 发布时 bump 下面的 CACHE 名：新 SW 激活清空旧缓存，发布后首次进站全量走
+ *     网络拿最新内容（一次性代价），之后恢复秒开。
  */
-const CACHE = "wordlens-v37";
+const CACHE = "wordlens-v38";
+const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
+
+const isFresh = res => {
+  if (!res) return false;
+  const d = Date.parse(res.headers.get("date") || "");
+  return Number.isFinite(d) && Date.now() - d < FRESH_MS;
+};
+
+async function swr(req) {
+  const hit = await caches.match(req);
+  if (isFresh(hit)) return hit;
+  const net = fetch(req).then(res => {
+    if (res && res.ok) {
+      const copy = res.clone();
+      caches.open(CACHE).then(c => c.put(req, copy)).catch(() => { });
+    }
+    return res;
+  }).catch(() => hit);
+  return hit || net;   // 过期缓存也先回，后台刷新
+}
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -30,26 +51,13 @@ self.addEventListener("fetch", e => {
   try { url = new URL(req.url); } catch (err) { return; }
   if (url.origin !== location.origin) return;   // 只接管本站资源
 
+  /* 页面导航与资源同一策略：缓存新鲜直接用；离线时导航回落缓存首页 */
   if (req.mode === "navigate") {
     e.respondWith(
-      fetch(req, { cache: "reload" })
-        .catch(() => caches.match(req).then(hit => hit || caches.match("index.html")))
+      swr(req).catch(() => caches.match("index.html"))
     );
     return;
   }
 
-  e.respondWith(
-    caches.match(req).then(hit => {
-      const net = fetch(req, { cache: "reload" })
-        .then(res => {
-          if (res && res.ok) {
-            const copy = res.clone();
-            caches.open(CACHE).then(c => c.put(req, copy)).catch(() => { });
-          }
-          return res;
-        })
-        .catch(() => hit);
-      return hit || net;
-    })
-  );
+  e.respondWith(swr(req));
 });
