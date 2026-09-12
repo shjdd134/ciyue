@@ -6,7 +6,7 @@
 
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
-- **当前版本**：sw v39，词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **39 篇**（明星 4（VF/RS 源已接入，Guardian 明星 tag feed 待 Actions 首跑）+ 足球 9 = 2026-09-11 当天 + 成长 11 = 独立博主长文全文（Dan Koe / Farnam Street / More To That / Ness Labs；Dan Koe 常驻源已切至 Substack future/proof feed，其爆文 How to fix your entire life in 1 day 经单篇导入收录）+ 寓言 15；AI 待每日回补；**历史栏目已删除**（v39，源长期断供，FEEDS/配额/CATEGORIES 同步移除）），全库 35 篇封面零缺口（v39 repair 补齐 MTT 两篇），另有点词翻译层 38,267 词（阅读页任意单词点击查义）。SW 已改缓存优先+后台刷新（v37，非首次进站秒开，发布 bump 缓存名即换新）
+- **当前版本**：sw v39，词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **39 篇**（明星 4（VF/RS 源已接入，Guardian 明星 tag feed 待 Actions 首跑）+ 足球 9 = 2026-09-11 当天 + 成长 11 = 独立博主长文全文（Dan Koe / Farnam Street / More To That / Ness Labs；Dan Koe 常驻源已切至 Substack future/proof feed，其爆文 How to fix your entire life in 1 day 经单篇导入收录）+ 寓言 15；AI 待每日回补；**历史栏目已删除**（v39，源长期断供，FEEDS/配额/CATEGORIES 同步移除）），全库 35 篇封面零缺口（v39 repair 补齐 MTT 两篇），另有点词翻译层 38,267 词（阅读页任意单词点击查义）。SW 缓存策略（v42）：固定缓存名 + 缓存优先/1 小时新鲜窗/304 协商回落 + 保留上一代缓存作回退——进站秒开且不再有每日/每次发布后的冷加载空窗；发布不再升级缓存名，内容更新靠后台协商自动完成（用户下次打开可见）
 - **运行环境**：Node ≥22（只用内置模块，无 npm 依赖）、Python 3.12+（仅 Pillow 用于压图）。本地起服务任意静态服务器即可，如 `python -m http.server 8123`。
 
 ## 1. 目录地图
