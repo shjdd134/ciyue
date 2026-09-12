@@ -628,5 +628,13 @@ ok(`快筛队列排除已认识/已学词（首卡是第 3 个基础词）`, ctx
 ok(`首页快筛计数与队列同口径`, ctx('sieveLeft()') === ctx('queue.length'));
 ctx(`S.known.length = 0; S.studied.length = 0; queue = null; qPos = 0;`);
 
+/* 阅读页原地设置（对照/字号/护眼）不切走视图；滚动位置保留由浏览器实测覆盖 */
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.showCn = false; S.fontSize = 0;');
+click({ act: "toggle-cn" });
+ok(`阅读页「中英对照」不切走视图（状态翻转）`, ctx('view.name') === 'read' && ctx('S.showCn') === true);
+click({ act: "font" });
+ok(`阅读页「字号」不切走视图（档位推进）`, ctx('view.name') === 'read' && ctx('S.fontSize') === 1);
+ctx('activeArticle = null; view = {name:"home"}; S.showCn = false; S.fontSize = 0;');
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

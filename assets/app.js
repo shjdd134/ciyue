@@ -1322,7 +1322,7 @@ function renderRead() {
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${S.showCn ? "" : "no-cn"}${S.readTheme === "night" ? " rt-night" : S.readTheme === "paper" ? " rt-paper" : ""}" id="read-scroll">
+    <div class="view read-scroll ${S.showCn ? "" : "no-cn"}${S.readTheme === "night" ? " rt-night" : S.readTheme === "paper" ? " rt-paper" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="pills">
           <span class="chip">${esc(clean(a.cat))}</span>
@@ -1561,6 +1561,12 @@ function render() {
      只重写 #screen.innerHTML 是清不掉它们的 —— 必须在每次主渲染开头统一收掉。
      否则在阅读页查完词再点返回：页面已经回到列表，单词卡还盖在底部。 */
   $$(".phone > .sheet, .phone > .sheet-mask").forEach(n => n.remove());
+  /* 阅读页重渲染保留滚动位置：字号 / 中英对照 / 护眼主题 / 打卡这类原地设置，
+     不该把读者甩回文章开头。data-art 相同（同一篇文章）才恢复；
+     打开新文章 / 下一篇时 art 变化，保持回顶。 */
+  const prevRead = view.name === "read" ? document.querySelector("#screen .read-scroll") : null;
+  const prevArt = prevRead ? prevRead.dataset.art : null;
+  const prevScroll = prevRead ? prevRead.scrollTop : 0;
   const screen = $("#screen");
   let body = "";
   if (view.name === "home") body = renderHome();
@@ -1582,6 +1588,11 @@ function render() {
     const cont = $("#read-scroll");
     if (cont) {
       cont.addEventListener("scroll", updateReadProgress, { passive: true });
+      /* 同一篇文章的重渲染：恢复滚动位置并同步进度条（rAF 那次会读到恢复后的位置） */
+      if (prevArt && cont.dataset.art === prevArt && prevScroll) {
+        cont.scrollTop = prevScroll;
+        updateReadProgress();
+      }
       requestAnimationFrame(updateReadProgress);
     }
   } else {
