@@ -91,11 +91,7 @@ if (fs.existsSync(coversDir)) {
 }
 console.log(`孤儿封面清理：删除 ${orphan} 张不再引用的图`);
 
-/* ---------- 4. SW 缓存版本 +1（有数据变动才推进） ---------- */
-const swSrc = fs.readFileSync(SW, "utf8");
-const v = swSrc.match(/wordlens-v(\d+)/);
-if (v && (dropped || orphan)) {
-  fs.writeFileSync(SW, swSrc.replace(/wordlens-v\d+/, `wordlens-v${+v[1] + 1}`));
-  console.log(`SW 缓存 → wordlens-v${+v[1] + 1}`);
-}
+/* ---------- 4. SW 缓存名保持稳定（v42 起） ----------
+ * 缓存策略已改为 SWR 后台刷新 + ETag 协商，内容更新不再需要清缓存——
+ * 按日升级缓存名反而会每天清空用户缓存，制造冷加载空窗。这里不再改动 sw.js。 */
 console.log("发布完成");

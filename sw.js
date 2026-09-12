@@ -2,17 +2,17 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（v38）：
+ * 缓存策略（v42）：
+ *   - 缓存名固定不变（内容更新靠 SWR 后台刷新 + ETag 协商，不再靠每日改名清缓存）；
  *   - 页面导航与静态资源统一走「缓存优先 + 新鲜度窗口 + 后台刷新」：
  *       1) 缓存里有、且缓存时间不足 1 小时（看响应 Date 头）→ 零网络请求，直接用；
- *       2) 过期或未命中 → 走网络（不带 reload，让 ETag/Last-Modified 协商出 304），
- *          成功则更新缓存；失败（离线）回落缓存。
- *     历史：v37 用「命中缓存 + 每次 force-reload 全量后台重下」，页面虽然秒开，
- *     但每次进站都白拉 2MB；v36 及以前是全量网络优先，每次进站都慢。
- *   - 发布时 bump 下面的 CACHE 名：新 SW 激活清空旧缓存，发布后首次进站全量走
- *     网络拿最新内容（一次性代价），之后恢复秒开。
+ *       2) 过期或未命中 → 走网络协商（ETag / Last-Modified）：
+ *            200 → 更新缓存并返回；304（内容没变）→ 继续用缓存副本；
+ *          网络失败（离线）→ 回落缓存。任何时刻都不会把空响应交给页面。
+ *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
+ *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-v41";
+const CACHE = "wordlens-cache";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {
@@ -22,25 +22,30 @@ const isFresh = res => {
 };
 
 async function swr(req) {
+  /* caches.match 不指定缓存名：命中旧代缓存也算，平滑过渡 */
   const hit = await caches.match(req);
   if (isFresh(hit)) return hit;
   const net = fetch(req).then(res => {
+    if (res && res.status === 304) return hit || res;   // 协商未变：绝不能把 304 空体交给页面
     if (res && res.ok) {
       const copy = res.clone();
       caches.open(CACHE).then(c => c.put(req, copy)).catch(() => { });
+      return res;
     }
-    return res;
+    return hit || res;
   }).catch(() => hit);
-  return hit || net;   // 过期缓存也先回，后台刷新
+  return hit || net;   // 有过期缓存也先回，后台刷新
 }
 
 self.addEventListener("install", () => self.skipWaiting());
 
 self.addEventListener("activate", e => {
   e.waitUntil(
-    caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
-      .then(() => self.clients.claim())
+    caches.keys().then(keys => {
+      /* 保留当前缓存 + 版本号最高的旧缓存作回退，其余清理 */
+      const old = keys.filter(k => k !== CACHE).sort().pop();
+      return Promise.all(keys.filter(k => k !== CACHE && k !== old).map(k => caches.delete(k)));
+    }).then(() => self.clients.claim())
   );
 });
 
@@ -51,11 +56,9 @@ self.addEventListener("fetch", e => {
   try { url = new URL(req.url); } catch (err) { return; }
   if (url.origin !== location.origin) return;   // 只接管本站资源
 
-  /* 页面导航与资源同一策略：缓存新鲜直接用；离线时导航回落缓存首页 */
+  /* 页面导航与资源同一策略；导航离线时兜底缓存首页 */
   if (req.mode === "navigate") {
-    e.respondWith(
-      swr(req).catch(() => caches.match("index.html"))
-    );
+    e.respondWith(swr(req).catch(() => caches.match("index.html")));
     return;
   }
 
