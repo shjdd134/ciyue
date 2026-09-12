@@ -2036,4 +2036,13 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
   window.addEventListener("pagehide", () => {
     if (S.lastRead && S.lastRead.id && LAST_Y) { S.lastRead.y = LAST_Y; save(); }
   });
+  /* SW 后台刷新到新内容：自动整页刷新一次（阅读/背词中不打断，改用提示） */
+  navigator.serviceWorker.addEventListener("message", e => {
+    if (!e.data || e.data.type !== "content-updated") return;
+    if (view.name === "read" || view.name === "study") { toast("内容已更新，返回后生效"); return; }
+    if (sessionStorage.getItem("wl-updated")) return;   // 每次会话只自动刷一次，防循环
+    sessionStorage.setItem("wl-updated", "1");
+    toast("内容已更新，正在刷新…");
+    setTimeout(() => location.reload(), 800);
+  });
 }

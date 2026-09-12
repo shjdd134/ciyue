@@ -28,13 +28,24 @@ async function swr(req) {
   const net = fetch(req).then(res => {
     if (res && res.status === 304) return hit || res;   // 协商未变：绝不能把 304 空体交给页面
     if (res && res.ok) {
+      const changed = !!hit && hit.headers.get("etag") !== res.headers.get("etag");
       const copy = res.clone();
       caches.open(CACHE).then(c => c.put(req, copy)).catch(() => { });
+      /* 后台刷新发现内容变了：通知页面（非阅读视图会自动刷新一次） */
+      if (changed) notifyUpdated();
       return res;
     }
     return hit || res;
   }).catch(() => hit);
   return hit || net;   // 有过期缓存也先回，后台刷新
+}
+
+/* 内容在后台更新完成：广播给打开中的页面 */
+async function notifyUpdated() {
+  try {
+    const clis = await self.clients.matchAll({ type: "window" });
+    clis.forEach(c => c.postMessage({ type: "content-updated" }));
+  } catch { /* 通知失败不影响刷新本身 */ }
 }
 
 self.addEventListener("install", () => self.skipWaiting());
