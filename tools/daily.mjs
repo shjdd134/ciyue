@@ -66,9 +66,15 @@ if (newIds.length) {
     rollback("新文章全部未通过质检");
 }
 
-/* ---------- 3. 例句重生成 ---------- */
-console.log("\n== 步骤 3/5：重生成例句 ==");
-if (!run("build-examples.mjs")) rollback("例句生成失败");
+/* ---------- 3. 例句重生成（仅本机有全量缓存时；Actions runner 缓存缺失则跳过，
+      保留已发布的例句库——新文章不影响 4082 词的例句覆盖，降级重生成反而会把
+      覆盖率打到 2%，audit 会正确拦下） ---------- */
+console.log("== 步骤 3/5：例句 ==");
+if (fs.existsSync(path.join(ROOT, "tools", ".examples-cache", "cet4.jsonl"))) {
+  if (!run("build-examples.mjs")) rollback("例句生成失败");
+} else {
+  console.log("  runner 无例句缓存，跳过重生成，保留现有 data-examples.js");
+}
 
 /* ---------- 4. 发布（瘦身/备份/SW/孤儿图） ---------- */
 console.log("\n== 步骤 4/5：发布 ==");
