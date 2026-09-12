@@ -2,13 +2,7 @@
  *
  * 键为文章 id，值为本地图片路径（相对站点根目录）。
  * 抓不到配图的文章不在此表内，页面会自动回退到渐变封面。
- * 共 5 篇有图。
+ * 共 0 篇有图（2026-09-12 内置种子文章清理后暂无映射；抓取文章封面自带 coverImg）。
  */
 
-const COVER_MAP = {
-  "ft-arteta-explains-new-role-for-transformed-odega": "assets/covers/ft-arteta-explains-new-role-for-transformed-odega.jpg",
-  "ft-odegaard-gives-dominant-arsenal-win-over-napol": "assets/covers/ft-odegaard-gives-dominant-arsenal-win-over-napol.jpg",
-  "epl-wingers-overspending-2026": "assets/covers/epl-wingers-overspending-2026.jpg",
-  "epl-neville-chelsea-defence-2026": "assets/covers/epl-neville-chelsea-defence-2026.jpg",
-  "epl-arsenal-beat-chelsea-2026": "assets/covers/epl-arsenal-beat-chelsea-2026.jpg"
-};
+const COVER_MAP = {};

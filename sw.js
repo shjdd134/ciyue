@@ -6,7 +6,7 @@
  *   网络优先（network-first）：联网时永远拿最新文件，避免开发期改完代码
  *   却看到旧缓存；断网时才回落到缓存，保证离线也能打开。
  */
-const CACHE = "wordlens-v33";
+const CACHE = "wordlens-v34";
 
 self.addEventListener("install", () => self.skipWaiting());
 
