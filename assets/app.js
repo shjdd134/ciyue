@@ -398,6 +398,12 @@ const MID_END = MID_WORDS.length;          // 基础层的结束位置（学习�
 /* 中学已学词另存一份，供「快速筛掉已会词」队列使用 */
 const BASIC_WORDS = WORDS.filter(isBasic);
 
+/* 快筛待筛数：BASIC_WORDS 里既没标认识、也没答过题的（与 quick-sieve 队列同口径） */
+const sieveLeft = () => {
+  const done = new Set([...S.known, ...S.studied]);
+  return BASIC_WORDS.reduce((n, w) => n + (done.has(w.word) ? 0 : 1), 0);
+};
+
 /* 单词索引：错词本 / 生词本里存的是字符串，取词对象别再 O(n) 地 find */
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
 const wordsOf = list => list.map(x => WORD_BY.get(x)).filter(Boolean);
@@ -461,16 +467,23 @@ function advanceQueue() {
     return false;
   }
   qPos++;
+  /* 默认新词队列跳过已标认识的词（快筛/文章里点「认识」后不再以新词出现）。
+   * 有界循环兜底：全库都标认识时不再前进。 */
+  if (!queue) {
+    const list = curList();
+    const known = new Set(S.known);
+    for (let n = 0; n < list.length && known.has(list[qPos % list.length].word); n++) qPos++;
+  }
   render();
   return true;
 }
-/* 默认新词队列的接续起点 = 第一个没学过的词。qPos 是内存态，页面重载即归零，
- * 不恢复的话每次打开都从全库第一个词重背（S.daily.count 与背词页进度也会互相矛盾）。
- * 起点由 S.studied 推导而非持久化 qPos：自愈、无需迁移；全部学完则回到 0。
- * 只在启动时执行一次；会话内 tab 切换不重算，避免与滑动跳词行为互相干扰。 */
+/* 默认新词队列的接续起点 = 第一个既没学过、也没标认识的词。qPos 是内存态，
+ * 页面重载即归零，不恢复的话每次打开都从全库第一个词重背（S.daily.count 与背词页
+ * 进度也会互相矛盾）。起点由 S.studied/S.known 推导而非持久化 qPos：自愈、无需迁移；
+ * 全部学完则回到 0。只在启动时执行一次；会话内 tab 切换不重算，避免与滑动跳词互相干扰。 */
 function resumePos() {
   const list = newWords();
-  const done = new Set(S.studied);
+  const done = new Set([...S.studied, ...S.known]);
   const i = list.findIndex(w => !done.has(w.word));
   return i < 0 ? 0 : i;
 }
@@ -791,7 +804,7 @@ function renderHome() {
       <div class="card row between" style="gap:12px">
         <div class="col" style="gap:3px">
           <span class="h3">已会词快筛</span>
-          <span class="muted-2">${BASIC_WORDS.length.toLocaleString()} 个中学基础词 · 点「认识」直接过，不占今日额度</span>
+          <span class="muted-2">${sieveLeft().toLocaleString()} 个待筛中学词 · 点「认识」直接过，不占今日额度</span>
         </div>
         <button class="go-btn" data-act="quick-sieve" style="flex:none">开始快筛</button>
       </div>
@@ -1624,12 +1637,16 @@ document.addEventListener("click", e => {
     case "start-study":
       resetNav();
       view = { name: "study" }; flipped = false; answered = null; render(); break;
-    case "quick-sieve":
-      /* 已会词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度 */
+    case "quick-sieve": {
+      /* 已会词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度。
+       * 已认识/已答过的词不再进场——筛过的词重复出现只会消耗耐心 */
       resetNav();
-      setQueue(BASIC_WORDS, "已会词快筛", true);
+      const sieve = BASIC_WORDS.filter(w => !S.known.includes(w.word) && !S.studied.includes(w.word));
+      if (!sieve.length) { toast("快筛已完成 · 没有待筛的中学词了"); break; }
+      setQueue(sieve, "已会词快筛", true);
       view = { name: "study" }; render();
-      toast(`快筛 ${BASIC_WORDS.length} 个你可能已会的词`); break;
+      toast(`快筛 ${sieve.length} 个你可能已会的词`); break;
+    }
     case "go-home":
       resetNav(); view = { name: "home" }; render(); break;
     case "go-discover":

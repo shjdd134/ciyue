@@ -591,13 +591,22 @@ const fakeKw = { cls: new Set(), classList: { toggle(c, on) { on ? fakeKw.cls.ad
 const __prevQSA = sandbox.document.querySelectorAll;
 sandbox.document.querySelectorAll = s => (String(s).startsWith('.kw') ? [fakeKw] : __prevQSA(s));
 
-ctx('S.studied.length = 0');
+ctx('S.studied.length = 0; S.known.length = 0');
 ok(`resumePos：没学过任何词 → 起点 0`, ctx('resumePos()') === 0);
 ctx(`(${JSON.stringify(ctx('WORDS.slice(0,5).map(w => w.word)'))}).forEach(w => S.studied.push(w))`);
 ok(`resumePos：前 5 词已学 → 起点 5（重开页面接着背，不再从头）`, ctx('resumePos()') === 5);
+ctx('S.known.push(WORDS[5].word)');
+ok(`resumePos：第 6 词已标认识 → 跳到 7（认识词不再以新词出现）`, ctx('resumePos()') === 6);
 ctx(`WORDS.forEach(w => { if (!S.studied.includes(w.word)) S.studied.push(w.word); })`);
 ok(`resumePos：全库学完 → 回到 0`, ctx('resumePos()') === 0);
-ctx('S.studied.length = 0');
+ctx('S.studied.length = 0; S.known.length = 0');
+
+/* 答题推进跳过已标认识的词（advanceQueue 的有界跳过循环） */
+ctx('S.known.push(WORDS[6].word); S.studied.push(WORDS[5].word); queue = null; qPos = 5;');
+ctx('advanceQueue()');
+ok(`答题推进跳过已标认识的词（位置 5 → 7）`, ctx('qPos') === 7);
+ctx(`S.known.length = 0; S.studied.length = 0; queue = null; qPos = 0;`);
+ctx('window.__renderCalls = 0');   /* advanceQueue 内部合法调用过 render，计数清零后再测查词卡 */
 
 const sheetW0 = ctx('WORDS[0].word');
 click({ act: "lookup", word: sheetW0 });
@@ -611,6 +620,13 @@ ok(`「标为已认识」就地切换正文高亮、零整页渲染`, ctx('windo
 click({ act: "mark-known", word: sheetW1 });
 ok(`再次点击取消已认识标记（类已摘除）`, !fakeKw.cls.has('known') && !ctx(`S.known.includes(${JSON.stringify(sheetW1)})`));
 sandbox.document.querySelectorAll = __prevQSA;
+
+/* 快筛队列排除已认识/已学词，首页计数同口径 */
+ctx(`S.known.push(BASIC_WORDS[0].word); S.studied.push(BASIC_WORDS[1].word);`);
+click({ act: "quick-sieve" });
+ok(`快筛队列排除已认识/已学词（首卡是第 3 个基础词）`, ctx('queue && queue[0].word') === ctx('BASIC_WORDS[2].word') && ctx('qPos') === 0);
+ok(`首页快筛计数与队列同口径`, ctx('sieveLeft()') === ctx('queue.length'));
+ctx(`S.known.length = 0; S.studied.length = 0; queue = null; qPos = 0;`);
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);
