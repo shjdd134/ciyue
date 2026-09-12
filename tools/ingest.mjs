@@ -91,11 +91,12 @@ const FEEDS = [
   { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true, looseImg: true },
   { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
 
-  /* —— 明星（美图向 + 经典美人深度人物特写：Guardian tag feed 跑在 Actions 上不受
-     本地网络限制，专出对应明星的访谈/特写档案；Vanity Fair / Rolling Stone 出名人
-     长文与写真报道；Hearst 全站 feed 出每日美图向内容；正文图放宽到 6 张） —— */
-  { cat: "明星", name: "The Guardian · Monica Bellucci", rss: "https://www.theguardian.com/film/monica-bellucci/rss", max: 3, days: 8000, full: true, looseImg: true },
-  { cat: "明星", name: "The Guardian · Sophie Marceau", rss: "https://www.theguardian.com/film/sophie-marceau/rss", max: 3, days: 8000, full: true, looseImg: true },
+  /* —— 明星（美图向 + 经典美人深度人物特写：Guardian film feed 常出大明星访谈/人物
+     特写（Emma Stone / Sophia Loren 这类），prefer 把访谈类排前；Vanity Fair / Rolling Stone 出名人
+     长文与写真报道；Hearst 全站 feed 出每日美图向内容；正文图放宽到 6 张。注：Guardian 的
+     明星 tag feed（/film/<人名>/rss）已不存在，实测 Actions 上取不到，勿再加） —— */
+  { cat: "明星", name: "The Guardian", rss: "https://www.theguardian.com/film/rss", max: 3, days: 30, full: true, looseImg: true,
+    prefer: /interview|profile|portrait|this much i know|gets? ready/i },   // film feed 常出大明星访谈/特写，把访谈类排前
   { cat: "明星", name: "Vanity Fair", rss: "https://www.vanityfair.com/feed/rss", max: 3, days: 60, full: true, looseImg: true },
   { cat: "明星", name: "Rolling Stone", rss: "https://www.rollingstone.com/feed/", max: 2, days: 30, full: true, looseImg: true },
   { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6, looseImg: true },
