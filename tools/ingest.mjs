@@ -48,13 +48,14 @@ const DRY = has("dry");
 const BACKFILL = has("backfill");
 const REPAIR = has("repair-images");
 const NO_FILTER = has("no-filter");
+const VERBOSE = has("verbose");
 const APPEND = has("append");
 const LIMIT = +val("limit", 99);
 const PER_FEED = +val("per", 4);
 const MAX_AGE_DAYS = +val("days", 21);
 const MAX_SENTS = +val("sents", 24);
 const MAX_WORDS = +val("words", 540);
-const MAX_INLINE_IMG = 2;
+const MAX_INLINE_IMG = 4;   /* 图文并茂：各栏目默认正文内嵌图上限（明星在 FEEDS 里放宽到 6） */
 
 /* 按类别配额，例如 --quota 足球=6,历史=4,时政=4,杂志=3 */
 const QUOTA = (() => {
@@ -67,7 +68,10 @@ const QUOTA = (() => {
   return o;
 })();
 
-/* 公开 RSS 源：按项目分类映射（均为实测可直连、且自带配图的源；max = 单源最多取几篇） */
+/* 公开 RSS 源：按项目分类映射（均为实测可直连、且自带配图的源；max = 单源最多取几篇）
+ * 可选字段：days = 该源独立时效窗（常青内容不受全局 --days 限制）
+ *           sents / words = 该源长度上限（默认 MAX_SENTS / MAX_WORDS）
+ *           inline = 正文内嵌图上限（默认 MAX_INLINE_IMG） */
 const FEEDS = [
   /* —— 足球 —— */
   { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
@@ -83,9 +87,17 @@ const FEEDS = [
   { cat: "AI", name: "TechCrunch AI", rss: "https://techcrunch.com/category/artificial-intelligence/feed/", max: 4 },
   { cat: "AI", name: "AI News", rss: "https://www.artificialintelligence-news.com/feed/", max: 3 },
 
+  /* —— 成长（独立博主英文长文：对人生发展有实质干货，反厚黑学/反空话——
+     Dan Koe 是用户点名的类型代表，More To That 本身就是手绘插图的图文长文）——
+     常青内容不受全局时效限制（days 放宽）；full = 不截断，整篇进应用 */
+  { cat: "成长", name: "Dan Koe", rss: "https://thedankoe.com/letters/feed/", max: 3, days: 800, full: true },
+  { cat: "成长", name: "Farnam Street", rss: "https://fs.blog/feed/", max: 3, days: 400, full: true },
+  { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true },
+  { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
+
   /* —— 明星（美图向：名人穿搭/红毯/美妆；Hearst 分类 feed 是空壳，用全站 feed；正文图放宽到 6 张） —— */
-  { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4 },
-  { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4 }
+  { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6 },
+  { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4, inline: 6 }
 ];
 
 /* 封面渐变池：配图抓不到时的兜底背景，与既有文章视觉一致 */
@@ -100,7 +112,7 @@ const GRADIENTS = [
   "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)"
 ];
 
-const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab", 明星: "st" };
+const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab", 明星: "st", 成长: "gr" };
 
 /* ---------------- 工具 ---------------- */
 
@@ -152,12 +164,18 @@ const stripTags = s => decode(s.replace(/<[^>]+>/g, " "))
   .trim();
 
 async function get(url, tries = 3) {
+  /* 部分站点（如 Squarespace 的 moretothat.com）的盾会拦完整 Chrome UA 串回 403，
+     403 时降级为短 UA 重试 */
+  const UA_SHORT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126";
   for (let i = 0; i < tries; i++) {
     try {
       const ctl = AbortSignal.timeout(25000);
-      const res = await fetch(url, { headers: { "User-Agent": UA, "Accept-Language": "en-US,en;q=0.9" }, signal: ctl });
+      const h = i === 0 ? { "User-Agent": UA } : { "User-Agent": UA_SHORT };
+      const res = await fetch(url, { headers: h, signal: ctl });
       if (res.ok) return await res.text();
-      if (res.status === 403 || res.status === 404) return "";
+      if (res.status === 404) return "";
+      if (res.status === 403 && i === 0) continue;
+      return "";
     } catch (e) { /* 重试 */ }
     await sleep(600 * (i + 1));
   }
@@ -187,6 +205,8 @@ function parseItems(xml) {
       link: (tag("link") || (block.match(/<guid[^>]*>(https?:[^<]+)<\/guid>/i) || [])[1] || "").trim(),
       date: parseRssDate(tag("pubDate") || tag("dc:date") || ""),
       image: rssImage(block),
+      /* RSS 里正文带几张图：选文排序的「图文并茂」信号（正文的实际图片数要等拉了页面才知道） */
+      nimgs: (block.match(/<img[\s>]/gi) || []).length + (block.match(/<enclosure[\s>]/gi) || []).length,
       desc: stripTags(tag("description") || "")
     };
   }).filter(it => /^https?:\/\//.test(it.link) && it.title);
@@ -199,10 +219,10 @@ function parseRssDate(raw) {
   return isNaN(d) ? "" : d.toISOString().slice(0, 10);
 }
 
-function freshEnough(date) {
+function freshEnough(date, maxAge) {
   if (!date) return false;
   const t = Date.parse(`${date}T12:00:00Z`);
-  return (Date.now() - t) / 86400000 <= MAX_AGE_DAYS;
+  return (Date.now() - t) / 86400000 <= (maxAge || MAX_AGE_DAYS);
 }
 
 /* ---------------- 图片 ---------------- */
@@ -704,45 +724,57 @@ async function main() {
   const picked = [];
   const catCount = {};                 // 按类别累计：同一类别可有多个源，共享配额
   for (const feed of FEEDS) {
-    const catCap = QUOTA[feed.cat] || PER_FEED;
+    const catCap = feed.cat in QUOTA ? QUOTA[feed.cat] : PER_FEED;
     const srcCap = feed.max || 99;
     const used = () => catCount[feed.cat] || 0;
     process.stdout.write(`· ${feed.name} (${feed.cat}) ... `);
     if (used() >= catCap) { console.log("该类别配额已满，跳过"); continue; }
     const xml = await get(feed.rss);
     if (!xml) { console.log("RSS 取不到，跳过"); continue; }
-    let items = parseItems(xml).filter(it => freshEnough(it.date));
+    let items = parseItems(xml).filter(it => freshEnough(it.date, feed.days));
     /* 时尚类源优先取「时装 / 美妆 / 明星造型」栏目，影视时讯往后排 */
     if (feed.prefer) {
       const hit = it => feed.prefer.test(it.link);
       items = [...items.filter(hit), ...items.filter(it => !hit(it))];
     }
+    /* 图文并茂优先：RSS 里带图多的候选排前（正文实际图片数要等拉了页面才知道，
+       这里是零成本信号，让同一批次里有图的先占配额） */
+    items = [...items].sort((a, b) => (b.nimgs || 0) - (a.nimgs || 0));
     const before = used();
     let tried = 0;
     /* 尝试上限：配额小的类别也要多试几篇，否则一条软文就能把整个类别堵死 */
     const maxTry = Math.max(10, Math.min(srcCap, catCap) * 5);
+    /* --verbose：逐条打印跳过原因（排查某源长期无产出的利器） */
+    const skip = (it, why) => { if (VERBOSE) console.log(`    · 跳过[${why}] ${cleanTitle(it.title).slice(0, 46)}`); };
     for (const it of items) {
       if (used() >= catCap || used() - before >= srcCap || picked.length >= LIMIT || tried >= maxTry) break;
       tried++;
-      if (haveUrl.has(it.link) || seenLink.has(it.link)) continue;
+      if (haveUrl.has(it.link) || seenLink.has(it.link)) { skip(it, "已抓过"); continue; }
       /* 广告软文 / 合作稿不算新闻正文 */
-      if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(it.link)) continue;
+      if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(it.link)) { skip(it, "软文"); continue; }
       /* 明星栏目只要美图人物向内容，跳过星座/购物/栏目导览/纯单品稿 */
-      if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b/i.test(it.title)) continue;
+      if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b/i.test(it.title)) { skip(it, "非美图向"); continue; }
+      /* 成长栏目只要真干货：搞钱成功学标题（厚黑学 / 空话）在源头就拦掉；播客转写页不是文章 */
+      if (feed.cat === "成长" && /passive income|get rich|dropship|side hustle|\bcrypto\b|\bnft\b|\$\d[\d,.]*\s*(\/|a|per)?\s*(month|day|hr|hour)/i.test(it.title)) { skip(it, "搞钱标题"); continue; }
+      if (feed.cat === "成长" && /\/podcast\//i.test(it.link)) { skip(it, "播客页"); continue; }
       /* 大会/活动推广（如 TechCrunch Disrupt 明星嘉宾稿）不算新闻 */
-      if (/techcrunch (disrupt|sessions|events?)\b/i.test(it.title)) continue;
-      /* 源首页/栏目标签页不是文章：路径太浅的一律跳过 */
+      if (/techcrunch (disrupt|sessions|events?)\b/i.test(it.title)) { skip(it, "活动推广"); continue; }
+      /* 源首页/栏目标签页不是文章：路径太浅的一律跳过（扁平 URL 的博客站如 nesslabs.com/文章名 除外） */
       try {
         const seg = new URL(it.link).pathname.split("/").filter(Boolean);
-        if (seg.length < 2) continue;
-      } catch { continue; }
+        if (seg.length < 2 && !feed.flatUrl) { skip(it, "非文章页"); continue; }
+      } catch { skip(it, "链接异常"); continue; }
       const html = await get(it.link);
-      if (!html) continue;
+      if (!html) { skip(it, "页面取不到"); continue; }
       const blocks = extractBlocks(html, feed.cat === "明星");
       const allSents = blocks.filter(b => b.t === "p").flatMap(b => splitSentences([b.v]));
-      if (!difficultyOk(allSents)) continue;
+      if (!difficultyOk(allSents)) { skip(it, `难度不符(${allSents.length}句/${allSents.reduce((n, s) => n + wordCount(s), 0)}词)`); continue; }
 
-      const { keep, sents, words } = packBlocks(blocks, MAX_SENTS, MAX_WORDS, feed.cat === "明星" ? 6 : MAX_INLINE_IMG);
+      /* 长度与配图上限按源可覆盖：full = 全文不截断，明星图多 */
+      const capSents = feed.full ? Infinity : (feed.sents || MAX_SENTS);
+      const capWords = feed.full ? Infinity : (feed.words || MAX_WORDS);
+      const capInline = feed.inline || MAX_INLINE_IMG;
+      const { keep, sents, words } = packBlocks(blocks, capSents, capWords, capInline);
       if (!sents) continue;
 
       const cover = it.image || ogImage(html);

@@ -9,7 +9,7 @@
 - **翻卡记词**：中英互译、发音、词根词缀、真实例句；会 / 模糊 / 不会三档作答
 - **FSRS 间隔重复**：按记忆曲线安排复习，错词自动进入队列
 - **原刊精读**：逐句点读、逐句对照译文、整段显译、生词一键收藏；正文**任意单词可点查释义**（学习词弹完整卡可入生词本，词库外词弹轻量释义卡）
-- **六个栏目**：时尚 / 足球 / 时政 / 历史 / AI / 寓言
+- **六大内容栏目**：足球 / 历史 / AI / 成长（博主英文长文，整篇收录）/ 寓言 / 明星
 - **本地优先**：学习进度只存在浏览器本地，可导出 / 导入备份
 - **三套配色**：深色 / 浅色 / 纸质
 
@@ -53,7 +53,7 @@
 
 ### 阅读文章
 
-文章正文与配图来自各媒体**公开的 RSS 订阅源**，仅作个人语言学习之用，正文页保留指向原文的外链。涉及的媒体包括 Vogue、ELLE、Harper's Bazaar、Sky Sports、ESPN、Smithsonian Magazine、HistoryExtra、TechCrunch 等，版权归原媒体所有。
+文章正文与配图来自各媒体**公开的 RSS 订阅源**，仅作个人语言学习之用，正文页保留指向原文的外链。涉及的媒体包括 Sky Sports、FourFourTwo、Smithsonian Magazine、HistoryExtra、Atlas Obscura、Mental Floss、TechCrunch AI、AI News、ELLE、Harper's Bazaar，以及「成长」栏目的独立博主长文（Dan Koe、Farnam Street、More To That、Ness Labs，整篇收录），版权归原媒体和作者所有。
 
 ### 译文
 
