@@ -70,18 +70,13 @@ const QUOTA = (() => {
 
 /* 公开 RSS 源：按项目分类映射（均为实测可直连、且自带配图的源；max = 单源最多取几篇）
  * 可选字段：days = 该源独立时效窗（常青内容不受全局 --days 限制）
- *           sents / words = 该源长度上限（默认 MAX_SENTS / MAX_WORDS）
- *           inline = 正文内嵌图上限（默认 MAX_INLINE_IMG） */
+ *           sents / words = 该源长度上限（默认 MAX_SENTS / MAX_WORDS），full = 整篇不截断
+ *           inline = 正文内嵌图上限（默认 MAX_INLINE_IMG）
+ *           looseImg = 裸 <img> 也算配图（Squarespace 类站点图片不包 <figure>，默认只认 figure） */
 const FEEDS = [
   /* —— 足球 —— */
   { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
   { cat: "足球", name: "FourFourTwo", rss: "https://www.fourfourtwo.com/feeds.xml", max: 3 },
-
-  /* —— 历史 —— */
-  { cat: "历史", name: "Smithsonian Magazine", rss: "https://www.smithsonianmag.com/rss/latest_articles/", max: 2 },
-  { cat: "历史", name: "HistoryExtra", rss: "https://www.historyextra.com/feed/", max: 2 },
-  { cat: "历史", name: "Atlas Obscura", rss: "https://www.atlasobscura.com/feeds/latest", max: 2 },
-  { cat: "历史", name: "Mental Floss", rss: "https://www.mentalfloss.com/posts.rss", max: 3 },
 
   /* —— AI —— */
   { cat: "AI", name: "TechCrunch AI", rss: "https://techcrunch.com/category/artificial-intelligence/feed/", max: 4 },
@@ -93,13 +88,19 @@ const FEEDS = [
      Dan Koe 的 WordPress 站 2025-08 后停更，活跃更新在 Substack 镜像 future/proof */
   { cat: "成长", name: "Dan Koe", rss: "https://letters.thedankoe.com/feed", max: 3, days: 800, full: true },
   { cat: "成长", name: "Farnam Street", rss: "https://fs.blog/feed/", max: 3, days: 400, full: true },
-  { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true },
+  { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true, looseImg: true },
   { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
 
   /* —— 明星（美图向：名人穿搭/红毯/美妆；Hearst 分类 feed 是空壳，用全站 feed；正文图放宽到 6 张） —— */
-  { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6 },
-  { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4, inline: 6 }
+  { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6, looseImg: true },
+  { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4, inline: 6, looseImg: true }
 ];
+
+/* 裸图提取分类：这些分类的文章页图片不包 <figure>，extractBlocks 需要放开扫 <img> */
+const LOOSE_CATS = new Set(FEEDS.filter(f => f.looseImg).map(f => f.cat));
+/* 每个分类的抓取配置（repair 等按文章 cat 回查） */
+const FEED_BY_CAT = {};
+FEEDS.forEach(f => { if (!FEED_BY_CAT[f.cat]) FEED_BY_CAT[f.cat] = f; });
 
 /* 封面渐变池：配图抓不到时的兜底背景，与既有文章视觉一致 */
 const GRADIENTS = [
@@ -113,7 +114,7 @@ const GRADIENTS = [
   "linear-gradient(135deg,#e2e6c9 0%,#6f7f2a 100%)"
 ];
 
-const CAT_ABBR = { 足球: "ft", 时政: "pol", 历史: "his", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab", 明星: "st", 成长: "gr" };
+const CAT_ABBR = { 足球: "ft", 时政: "pol", 娱乐: "et", 时尚: "fs", 杂志: "bz", AI: "ai", 寓言: "fab", 明星: "st", 成长: "gr" };
 
 /* ---------------- 工具 ---------------- */
 
@@ -276,14 +277,19 @@ function upgradeImg(u) {
 
 async function downloadImg(url, dest) {
   if (!url || IMG_BAD.test(url)) return 0;
-  try {
-    const res = await fetch(encodeURI(url), { headers: { "User-Agent": UA }, signal: AbortSignal.timeout(30000) });
-    if (!res.ok) return 0;
-    const buf = Buffer.from(await res.arrayBuffer());
-    if (buf.length < 4000) return 0;                 // 太小：占位图或纯色
-    fs.writeFileSync(dest, buf);
-    return buf.length;
-  } catch { return 0; }
+  /* 图床与页面同源时共享同一套盾：403 就降级短 UA 再试（如 moretothat.com） */
+  const UAS = [UA, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126"];
+  for (const ua of UAS) {
+    try {
+      const res = await fetch(encodeURI(url), { headers: { "User-Agent": ua }, signal: AbortSignal.timeout(30000) });
+      if (!res.ok) { if (res.status === 403) continue; return 0; }
+      const buf = Buffer.from(await res.arrayBuffer());
+      if (buf.length < 4000) return 0;                 // 太小：占位图或纯色
+      fs.writeFileSync(dest, buf);
+      return buf.length;
+    } catch { /* 换 UA 重试 */ }
+  }
+  return 0;
 }
 
 const PY = process.env.WORDLENS_PY || "C:/Users/sekiro/.workbuddy/binaries/python/envs/default/Scripts/python.exe";
@@ -648,11 +654,16 @@ async function repairImages() {
     const html = await get(a.url, 2);
     if (!html) { console.log(`· ${a.id.padEnd(40)} 页面取不到，保持原样`); coverFail++; continue; }
 
-    const blocks = extractBlocks(html);
+    const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat));
     const inlineSrcs = blocks.filter(b => b.t === "img").map(b => b.src);
 
     /* 封面的取图优先级：og:image → 正文第一张图（与首次生成时一致） */
     const coverSrc = ogImage(html) || inlineSrcs[0] || "";
+
+    /* 长度上限按分类取（成长是全文模式，图要铺满整篇；其余默认 24 句窗） */
+    const fd = FEED_BY_CAT[a.cat] || {};
+    const capSents = fd.full ? Infinity : (fd.sents || MAX_SENTS);
+    const capWords = fd.full ? Infinity : (fd.words || MAX_WORDS);
 
     /* 封面：已有可用文件就不重下 */
     const coverDest = path.join(COVERS_DIR, `${a.id}.jpg`);
@@ -672,7 +683,7 @@ async function repairImages() {
       if (!coverSrc || !u) return false;
       return urlKey(u) === urlKey(coverSrc);
     };
-    const marks = plannedImgPositions(blocks, MAX_SENTS, MAX_WORDS).filter(mk => !sameAsCover(mk.src));
+    const marks = plannedImgPositions(blocks, capSents, capWords).filter(mk => !sameAsCover(mk.src));
     const at = new Map();                       // 句子序号 -> 该位置要插入的图
     marks.forEach((mk, k) => {
       if (!at.has(mk.after)) at.set(mk.after, []);
@@ -767,7 +778,7 @@ async function main() {
       } catch { skip(it, "链接异常"); continue; }
       const html = await get(it.link);
       if (!html) { skip(it, "页面取不到"); continue; }
-      const blocks = extractBlocks(html, feed.cat === "明星");
+      const blocks = extractBlocks(html, LOOSE_CATS.has(feed.cat));
       const allSents = blocks.filter(b => b.t === "p").flatMap(b => splitSentences([b.v]));
       if (!difficultyOk(allSents)) { skip(it, `难度不符(${allSents.length}句/${allSents.reduce((n, s) => n + wordCount(s), 0)}词)`); continue; }
 

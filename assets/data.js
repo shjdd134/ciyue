@@ -325,7 +325,7 @@ const ARTICLES = [];   // 内置种子文章已清空（2026-09-12 内容清理�
  * 中文为翻译注释。每篇 url 字段指向原文页面。
  * 抓取文章（data-articles-extra.js）的中文为机器翻译（有道 / MyMemory），同样仅作学习注释。 */
 
-const CATEGORIES = ["全部","足球","历史","AI","成长","寓言","明星"];
+const CATEGORIES = ["全部","足球","AI","成长","寓言","明星"];
 
 /* 兼容：保留旧引用名 */
 if (typeof WORDS === "undefined") var WORDS = WORDS_CORE;
