@@ -636,5 +636,21 @@ click({ act: "font" });
 ok(`阅读页「字号」不切走视图（档位推进）`, ctx('view.name') === 'read' && ctx('S.fontSize') === 1);
 ctx('activeArticle = null; view = {name:"home"}; S.showCn = false; S.fontSize = 0;');
 
+/* 「上次读到」：打开文章即记录，发现页出续读卡片，重进同一篇恢复位置。
+   这里要真渲染发现页，先解除 render 间谍 */
+ctx('render = __origRender;');
+ctx(`S.lastRead = { id: "", y: 0, pct: 0, at: 0 }; view = {name:"discover"}; catFilter = "全部";`);
+const lrId = ctx('ARTICLES[0].id');
+click({ article: lrId });
+ok(`打开文章即记录「上次读到」`, ctx('S.lastRead.id') === 'ARTICLES[0].id' || ctx(`S.lastRead.id`) === lrId);
+ctx(`S.lastRead.y = 321; S.lastRead.pct = 42;`);
+click({ article: lrId });
+ok(`重进同一篇带上恢复位置（resumeY=321）`, ctx('resumeY') === 321);
+ctx(`view = {name:"discover"}; catFilter = "全部"; searchTerm = ""; render();`);
+const discHtml = `document.querySelector("#screen").innerHTML`;
+ok(`发现页渲染「上次读到」续读卡片（含进度）`, ctx(`${discHtml}.includes("上次读到")`) === true && ctx(`${discHtml}.includes("读到 42%")`) === true);
+ctx(`S.lastRead = { id: "", y: 0, pct: 0, at: 0 }; view = {name:"discover"}; render();`);
+ok(`没有阅读记录时不渲染续读卡片`, ctx(`${discHtml}.includes("上次读到")`) === false);
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

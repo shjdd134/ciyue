@@ -74,6 +74,7 @@ const defaultState = {
   studyDays: [],    // 有学习行为的日期 YYYY-MM-DD，用于算连续天数
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，阅读时长按天累计
   fsrs: {},         // FSRS 间隔重复调度：{ word: { st,d,s,e,sd,r,l,due,lr } }（vendor-fsrs.js）
+  lastRead: { id: "", y: 0, pct: 0, at: 0 },  // 「上次读到」：文章 id + 滚动位置，发现页可直达续读
 };
 let S = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORE) || "{}"));
 /* 早期版本留下的写死字段（streak / minutes / tab）：就地丢弃，避免旧数据继续冒充真实统计 */
@@ -492,6 +493,8 @@ let catFilter = "全部";
 let searchTerm = "";
 /* 阅读页状态：计时器 + 本篇查询过的生词数 */
 let readSecs = 0, readTimer = null;
+let LAST_Y = 0;   // 当前阅读滚动位置（updateReadProgress 实时更新，节流落盘）
+let resumeY = 0;  // 打开文章那一刻要恢复的位置（消费一次即清零）
 const LOOKED = {};  // { [articleId]: 次 }
 
 /* ---------------- 视图栈：从哪儿进来，就退回哪儿 ----------------
@@ -667,6 +670,7 @@ const CAT_META = {
   "历史":   { icon: "pillar",  bg: "linear-gradient(135deg,#D97706,#92400E)" },
   "AI":     { icon: "sparkle", bg: "linear-gradient(135deg,#A78BFA,#4F46E5)" },
   "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" },
+  "成长":   { icon: "sun",     bg: "linear-gradient(135deg,#34D399,#059669)" },
   "明星":   { icon: "star",    bg: "linear-gradient(135deg,#F472B6,#DB2777)" }
 };
 
@@ -1092,6 +1096,24 @@ function renderDiscover() {
     ? `<div class="card" style="text-align:center;padding:28px 0;color:var(--text-3);font-size:13px">没有找到「${esc(searchTerm)}」相关的单词或文章</div>`
     : "";
 
+  /* 「上次读到」：发现页顶部的续读直达入口（只在全部视图展示，点卡片回原文并恢复位置） */
+  const last = S.lastRead && S.lastRead.id ? ARTICLES.find(a => a.id === S.lastRead.id) : null;
+  const lastHtml = isAll && last ? (() => {
+    const pct = S.lastRead.pct || 0;
+    const ago = S.lastRead.at ? fmtWhen(new Date(S.lastRead.at).toISOString().slice(0, 10)) : "";
+    return `<button class="card resume-card" data-article="${last.id}" role="button" tabindex="0" aria-label="继续阅读上次读到的文章：${esc(clean(last.title))}">
+      <span class="rc-chip">${svg("book", 12)} 上次读到${ago ? " · " + esc(ago) : ""}</span>
+      <span class="rc-title">${esc(clean(last.title))}</span>
+      ${zhTitle(last) ? `<span class="rc-zh">${esc(zhTitle(last))}</span>` : ""}
+      <span class="rc-meta">
+        <span class="chip">${esc(last.cat)}</span>
+        <span class="rc-bar"><span style="width:${Math.max(2, pct)}%"></span></span>
+        <span class="rc-pct">${pct ? "读到 " + pct + "%" : "刚开始"}</span>
+        <span class="rc-go">继续 ${svg("arrow", 12)}</span>
+      </span>
+    </button>`;
+  })() : "";
+
   const featImg = featured ? coverOf(featured) : "";
   const featZh = featured ? zhTitle(featured) : "";
   const featuredHtml = featured ? `<div class="discover-feat" data-article="${featured.id}" role="button" tabindex="0" aria-label="今日精选：${esc(clean(featured.title))}${featZh ? `，${esc(featZh)}` : ""}">
@@ -1139,6 +1161,7 @@ function renderDiscover() {
       ${wordsHtml}
       ${artHitsHtml}
       ${emptyHtml}
+      ${lastHtml}
       ${catGridHtml}
       ${featuredHtml}
       ${isAll ? `<div class="lib">
@@ -1402,6 +1425,14 @@ function updateReadProgress() {
     const remain = Math.max(0, Math.ceil(dur * (1 - pct / 100)));
     hud.textContent = `${Math.round(pct)}% · 剩余约 ${remain} 分钟`;
   }
+  /* 「上次读到」：滚动时记下位置，5 秒节流落盘（滚动事件高频，不能每次都写 localStorage） */
+  if (a && S.lastRead && S.lastRead.id === a.id) {
+    LAST_Y = cont.scrollTop;
+    if (Date.now() - (S.lastRead.at || 0) > 5000) {
+      S.lastRead.y = LAST_Y; S.lastRead.pct = Math.round(pct); S.lastRead.at = Date.now();
+      save();
+    }
+  }
 }
 
 /* ---------------- 数据备份：导出 / 导入 ----------------
@@ -1564,9 +1595,14 @@ function render() {
   /* 阅读页重渲染保留滚动位置：字号 / 中英对照 / 护眼主题 / 打卡这类原地设置，
      不该把读者甩回文章开头。data-art 相同（同一篇文章）才恢复；
      打开新文章 / 下一篇时 art 变化，保持回顶。 */
-  const prevRead = view.name === "read" ? document.querySelector("#screen .read-scroll") : null;
+  /* 旧 DOM 里有 .read-scroll 就捕获：同篇重渲染用于恢复位置；离开阅读页用于落盘「上次读到」 */
+  const prevRead = document.querySelector("#screen .read-scroll");
   const prevArt = prevRead ? prevRead.dataset.art : null;
   const prevScroll = prevRead ? prevRead.scrollTop : 0;
+  /* 离开阅读页：把最后位置落盘（换文场景 openArticle 已重置 lastRead，id 对不上不会覆盖） */
+  if (prevRead && view.name !== "read" && S.lastRead && S.lastRead.id === prevRead.dataset.art) {
+    S.lastRead.y = LAST_Y; S.lastRead.at = Date.now(); save();
+  }
   const screen = $("#screen");
   let body = "";
   if (view.name === "home") body = renderHome();
@@ -1593,6 +1629,9 @@ function render() {
         cont.scrollTop = prevScroll;
         updateReadProgress();
       }
+      /* 「上次读到」：打开文章那一刻消费一次 resumeY（重进同一篇直达上次位置） */
+      if (resumeY && cont.dataset.art === activeArticle.id) { cont.scrollTop = resumeY; LAST_Y = resumeY; }
+      resumeY = 0;
       requestAnimationFrame(updateReadProgress);
     }
   } else {
@@ -1638,6 +1677,10 @@ document.addEventListener("click", e => {
     activeArticle = ARTICLES.find(a => a.id === t.dataset.article);
     readSecs = 0;             // 进入新文章，计时清零
     LOOKED[activeArticle.id] = 0;  // 本篇查询清零
+    /* 「上次读到」：换文重置进度；重进同一篇则保留位置（resumeY 在渲染后恢复一次） */
+    resumeY = (S.lastRead && S.lastRead.id === activeArticle.id) ? (S.lastRead.y || 0) : 0;
+    S.lastRead = { id: activeArticle.id, y: resumeY, pct: resumeY ? (S.lastRead.pct || 0) : 0, at: Date.now() };
+    save();
     view = { name: "read" };
     render(); return;
   }
@@ -1670,6 +1713,8 @@ document.addEventListener("click", e => {
       const nx = activeArticle && nextArticle(activeArticle);
       if (!nx) { toast("已经是这个分类的最后一篇了"); break; }
       activeArticle = nx; readSecs = 0; LOOKED[nx.id] = 0;
+      /* 「上次读到」跟着换文：旧篇位置已在离开时落盘，这里重置到新篇开头 */
+      S.lastRead = { id: nx.id, y: 0, pct: 0, at: Date.now() }; save();
       view = { name: "read" }; render();
       toast(`下一篇 · ${nx.cat}｜${(nx.titleZh || nx.title).slice(0, 14)}…`);
       break;
@@ -1987,5 +2032,9 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
   && typeof window !== "undefined" && window.addEventListener) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").catch(() => { });
+  });
+  /* 「上次读到」兜底：页面被切走/关闭时，把滚动位置立即落盘（正常路径有 5 秒节流） */
+  window.addEventListener("pagehide", () => {
+    if (S.lastRead && S.lastRead.id && LAST_Y) { S.lastRead.y = LAST_Y; save(); }
   });
 }

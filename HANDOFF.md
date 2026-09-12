@@ -6,7 +6,7 @@
 
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
-- **当前版本**：sw v36，词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **35 篇**（足球 9 = 2026-09-11 当天 + **成长 11** = 独立博主长文全文（Dan Koe / Farnam Street / More To That / Ness Labs；Dan Koe 常驻源已切至 Substack future/proof feed，其爆文 How to fix your entire life in 1 day 经单篇导入收录）+ 寓言 15；AI/明星待每日回补，历史源断供），另有点词翻译层 38,267 词（阅读页任意单词点击查义）
+- **当前版本**：sw v37，词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **35 篇**（足球 9 = 2026-09-11 当天 + 成长 11 = 独立博主长文全文（Dan Koe / Farnam Street / More To That / Ness Labs；Dan Koe 常驻源已切至 Substack future/proof feed，其爆文 How to fix your entire life in 1 day 经单篇导入收录）+ 寓言 15；AI/明星待每日回补，历史源断供），另有点词翻译层 38,267 词（阅读页任意单词点击查义）。SW 已改缓存优先+后台刷新（v37，非首次进站秒开，发布 bump 缓存名即换新）
 - **运行环境**：Node ≥22（只用内置模块，无 npm 依赖）、Python 3.12+（仅 Pillow 用于压图）。本地起服务任意静态服务器即可，如 `python -m http.server 8123`。
 
 ## 1. 目录地图
@@ -108,7 +108,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 
 ## 6. 现状与遗留任务
 
-- ✅ 已上线：两层词库 4,082 词、通用高频缺口 20 词（v28）、摸底功能删除（v29）、点词翻译层（v30，阅读页任意单词点击查义：学习词完整卡可入生词本，词库外词轻量卡只给释义不入学习流）、背词队列断点接续 + 阅读页查词卡免整页渲染 + 真机读毕卡不被 .fab-bar 遮挡（v31）、标认识的词不再进背词新词队列与快筛（v32，resumePos/advanceQueue/quick-sieve/首页计数四处同口径）、阅读页同一篇文章的重渲染保留滚动位置（v33，字号/中英对照/护眼/打卡不再甩回开头，靠 .read-scroll[data-art] 前后比对；下一篇/换文仍回顶）、存量文章清理（v34，足球仅留 09-11 当天 9 篇，AI/明星清空，内置种子文删除，管线配额不动照常回补）、成长栏目（v35，独立博主英文长文全文：Dan Koe / Farnam Street / More To That / Ness Labs，`full` 不截断、常青内容 `days` 放宽、扁平 URL `flatUrl`，get() 403 自动降级短 UA；全栏目配图上限 2→4、选文按 RSS 带图数优先，ingest 新增 `--verbose` 逐条跳过原因）、qc 分类豁免（v36，成长/寓言不做时效与封面强检——常青长文与渐变兜底是设计口径，否则每日 qc --prune 会清光成长栏目）、Dan Koe 爆文单篇导入（v36，不在任何 RSS 窗口时：切正文容器做本地单条目 feed 走完整管线，见 .tmp/oneoff 流程）、FSRS 复习、每日自动更新。
+- ✅ 已上线：两层词库 4,082 词、通用高频缺口 20 词（v28）、摸底功能删除（v29）、点词翻译层（v30，阅读页任意单词点击查义：学习词完整卡可入生词本，词库外词轻量卡只给释义不入学习流）、背词队列断点接续 + 阅读页查词卡免整页渲染 + 真机读毕卡不被 .fab-bar 遮挡（v31）、标认识的词不再进背词新词队列与快筛（v32，resumePos/advanceQueue/quick-sieve/首页计数四处同口径）、阅读页同一篇文章的重渲染保留滚动位置（v33，字号/中英对照/护眼/打卡不再甩回开头，靠 .read-scroll[data-art] 前后比对；下一篇/换文仍回顶）、存量文章清理（v34，足球仅留 09-11 当天 9 篇，AI/明星清空，内置种子文删除，管线配额不动照常回补）、成长栏目（v35，独立博主英文长文全文：Dan Koe / Farnam Street / More To That / Ness Labs，`full` 不截断、常青内容 `days` 放宽、扁平 URL `flatUrl`，get() 403 自动降级短 UA；全栏目配图上限 2→4、选文按 RSS 带图数优先，ingest 新增 `--verbose` 逐条跳过原因）、qc 分类豁免（v36，成长/寓言不做时效与封面强检——常青长文与渐变兜底是设计口径，否则每日 qc --prune 会清光成长栏目）、Dan Koe 爆文单篇导入（v36，不在任何 RSS 窗口时：切正文容器做本地单条目 feed 走完整管线，见 .tmp/oneoff 流程）、SW 缓存优先（v37，导航网络优先+资源 SWR，进站不再每次全量拉 2MB）、「上次读到」（v37，S.lastRead 记 id/位置/进度，发现页顶部续读卡直达并恢复滚动位置；滚动 5 秒节流落盘 + 离开阅读页与 pagehide 兜底）、FSRS 复习、每日自动更新。
 - ⏳ **L3「真题高频验收」队列未接入**：数据 `tools/.examples-cache/cet4-sprint.json`（2159 词冲刺池）已入库，产品设想是考前验收模式（不背只测），未写任何前端代码。
 - ⏳ 观察项：足球栏目每日管线只保留近 3 天的效果；qc F2 时效 40 天比配额宽。
 - 设计基调：零依赖、单文件 app.js、手机优先；改动保持这个形态，别引入框架/构建步骤。
@@ -116,7 +116,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 ## 7. 快速自检（接手后先跑一遍）
 
 ```bash
-node tools/audit.js        # 期望 144/0 fail
+node tools/audit.js        # 期望 148/0 fail
 node tools/nav-test.js     # 期望 19/0
 node tools/smoke.js        # 跑通不抛错；打印统计 JSON（含 TAPDICT_size 38267）
 python -m http.server 8123 # 浏览器打开 localhost:8123 应正常渲染

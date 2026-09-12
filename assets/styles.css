@@ -150,6 +150,38 @@ body {
   box-shadow: var(--shadow-1);
 }
 
+/* 上次读到：发现页顶部的续读直达卡片 */
+.resume-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 5px;
+  width: 100%; text-align: left; cursor: pointer;
+  font-family: inherit;
+  background: var(--card);
+  border: 1px solid var(--brand);
+  border-radius: var(--r-lg);
+  padding: 13px 16px;
+  box-shadow: var(--shadow-1);
+  transition: transform .12s;
+}
+.resume-card:active { transform: scale(.98); }
+.resume-card .rc-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--brand);
+}
+.resume-card .rc-title {
+  font-family: var(--font-en); font-weight: 700; font-size: 15px; line-height: 21px; color: var(--text-1);
+}
+.resume-card .rc-zh { font-size: 12px; color: var(--text-2); line-height: 18px; }
+.resume-card .rc-meta { display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 2px; }
+.resume-card .rc-bar {
+  flex: 1; height: 5px; border-radius: 3px; background: var(--brand-soft); overflow: hidden;
+}
+.resume-card .rc-bar span { display: block; height: 100%; border-radius: 3px; background: var(--brand); }
+.resume-card .rc-pct { font-size: 11px; color: var(--text-2); white-space: nowrap; }
+.resume-card .rc-go {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-size: 12px; font-weight: 600; color: var(--brand); white-space: nowrap;
+}
+
 .h1 { font-size: 22px; font-weight: 700; letter-spacing: -.3px; color: var(--text-1); }
 .h2 { font-size: 16px; font-weight: 600; }
 .h3 { font-size: 15px; font-weight: 600; }
