@@ -92,10 +92,12 @@ const FEEDS = [
   { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
 
   /* —— 明星（美图向 + 经典美人深度人物特写：Guardian tag feed 跑在 Actions 上不受
-     本地网络限制，专出对应明星的访谈/特写档案；Hearst 全站 feed 出每日美图向内容；
-     正文图放宽到 6 张） —— */
+     本地网络限制，专出对应明星的访谈/特写档案；Vanity Fair / Rolling Stone 出名人
+     长文与写真报道；Hearst 全站 feed 出每日美图向内容；正文图放宽到 6 张） —— */
   { cat: "明星", name: "The Guardian · Monica Bellucci", rss: "https://www.theguardian.com/film/monica-bellucci/rss", max: 3, days: 8000, full: true, looseImg: true },
   { cat: "明星", name: "The Guardian · Sophie Marceau", rss: "https://www.theguardian.com/film/sophie-marceau/rss", max: 3, days: 8000, full: true, looseImg: true },
+  { cat: "明星", name: "Vanity Fair", rss: "https://www.vanityfair.com/feed/rss", max: 3, days: 60, full: true, looseImg: true },
+  { cat: "明星", name: "Rolling Stone", rss: "https://www.rollingstone.com/feed/", max: 2, days: 30, full: true, looseImg: true },
   { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6, looseImg: true },
   { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4, inline: 6, looseImg: true }
 ];
@@ -169,13 +171,13 @@ const stripTags = s => decode(s.replace(/<[^>]+>/g, " "))
   .replace(/\s+([,.;:!?%])/g, "$1")
   .trim();
 
-async function get(url, tries = 3) {
+async function get(url, tries = 3, timeout = 25000) {
   /* 部分站点（如 Squarespace 的 moretothat.com）的盾会拦完整 Chrome UA 串回 403，
      403 时降级为短 UA 重试 */
   const UA_SHORT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126";
   for (let i = 0; i < tries; i++) {
     try {
-      const ctl = AbortSignal.timeout(25000);
+      const ctl = AbortSignal.timeout(timeout);
       const h = i === 0 ? { "User-Agent": UA } : { "User-Agent": UA_SHORT };
       const res = await fetch(url, { headers: h, signal: ctl });
       if (res.ok) return await res.text();
@@ -559,7 +561,7 @@ async function backfill() {
     if (!a.url) { fail++; continue; }
 
     process.stdout.write(`· ${String(a.title).slice(0, 46)} … `);
-    const html = await get(a.url, 2);
+    const html = await get(a.url, 2, 60000);   // 名刊页面重，放宽单次超时
     let src = html ? ogImage(html) : "";
     /* og:image 缺失时，退而取正文里第一张够大的图 */
     if (!src && html) {
@@ -655,7 +657,7 @@ async function repairImages() {
 
   let coverOk = 0, coverFail = 0, inOk = 0, inFail = 0;
   for (const a of list) {
-    const html = await get(a.url, 2);
+    const html = await get(a.url, 2, 60000);   // 名刊页面重，放宽单次超时
     if (!html) { console.log(`· ${a.id.padEnd(40)} 页面取不到，保持原样`); coverFail++; continue; }
 
     const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat));

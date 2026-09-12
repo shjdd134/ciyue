@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 36 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
+ * 共 39 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
  * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
- * 每篇保留 url 外链可溯源。来源：Aesop's Fables (1912) / Sky Sports / FourFourTwo / Dan Koe / Farnam Street / More To That / Ness Labs / Harper's Bazaar UK
+ * 每篇保留 url 外链可溯源。来源：Aesop's Fables (1912) / Sky Sports / FourFourTwo / Dan Koe / Farnam Street / More To That / Ness Labs / Harper's Bazaar UK / Vanity Fair
  */
 
 const ARTICLES_EXTRA = [
@@ -6986,6 +6986,10 @@ const ARTICLES_EXTRA = [
         "cn": "文末介绍的这个流程——深入探索你的内心，发掘你对人生的真正渴望——大约需要一整天的时间来完成，而其效果将远不止于此。"
       },
       {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-1.jpg",
+        "cap": ""
+      },
+      {
         "en": "All I ask is that you dedicate your full attention to this.",
         "cn": "我只希望你能全神贯注地做这件事。"
       },
@@ -7036,6 +7040,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "To some people, my own lifestyle seems a bit extreme and disciplined.",
         "cn": "在某些人眼里，我的生活方式似乎有些极端且纪律严明。"
+      },
+      {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-2.jpg",
+        "cap": ""
       },
       {
         "en": "To me, it’s natural, and I don’t say that to contrast it with any other kind of lifestyle.",
@@ -7090,6 +7098,10 @@ const ARTICLES_EXTRA = [
         "cn": "而且，这远比你想象的要深得多。"
       },
       {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-3.jpg",
+        "cap": ""
+      },
+      {
         "en": "Life happens at the level of events, not of words.",
         "cn": "生活发生在事件层面，而非言语层面。"
       },
@@ -7128,6 +7140,10 @@ const ARTICLES_EXTRA = [
       {
         "en": "If you say you want to quit your dead-end job, but stay in it without any real reason, you may start to think you don’t have enough courage, or that you were never really a “risk taker,” but the truth is that you are pursuing the goal of safety, predictability, and an excuse to not look like a failure to everyone else in your life who also works a dead-end job.",
         "cn": "如果你嘴上说想辞掉这份死胡同般的工作，却又在没有正当理由的情况下继续留任，你可能会开始认为自己不够勇敢，或者觉得自己从来就不是一个“敢于冒险的人”，但事实是，你追求的不过是安全感、可预测性，以及一个借口——这样在生活中那些同样从事死胡同工作的人眼中，你就不会显得像个失败者。"
+      },
+      {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-4.jpg",
+        "cap": ""
       },
       {
         "en": "I don’t mean setting some surface level goal because the act of doing that serves an unconscious goal that is actually harming you.",
@@ -7274,10 +7290,6 @@ const ARTICLES_EXTRA = [
         "cn": "我曾多次谈及这些内容，并将其整合到我自己的“人类3.0”模型中，但为了让大家温故知新，这里简要概述一下自我发展九个阶段中的80/20原则（因为重复有助于发现之前未曾注意到的细节，而且也有新读者在阅读这些信件）："
       },
       {
-        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-1.jpg",
-        "cap": ""
-      },
-      {
         "en": "Impulsive — No separation between impulse and action.",
         "cn": "冲动——冲动与行动之间没有界限。"
       },
@@ -7408,10 +7420,6 @@ const ARTICLES_EXTRA = [
       {
         "en": "So, if Naval’s definition of intelligence is getting what you want out of life, understanding cybernetics helps you do that much faster.",
         "cn": "因此，如果纳瓦尔对“智慧”的定义是实现人生目标，那么了解控制论就能帮助你更快地实现这一目标。"
-      },
-      {
-        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-2.jpg",
-        "cap": ""
       },
       {
         "en": "You can judge intelligence based on the system’s ability to iterate and persist with trial and error.",
@@ -8103,6 +8111,679 @@ const ARTICLES_EXTRA = [
       {
         "en": "I have a simple ring that my grandmother gave to me, and it doesn't have really an incredible monetary value, but, for me, it has an enormous value because it’s about love.”",
         "cn": "“我有一枚简单的戒指，是祖母送给我的。它虽然没有多大的经济价值，但对我来说却意义非凡，因为它承载着爱。”"
+      }
+    ]
+  },
+  {
+    "id": "st-a-new-photo-exhibit-asks-a-heartbreaking-quest",
+    "cat": "明星",
+    "title": "A New Photo Exhibit Asks a Heartbreaking Question: What If Emmett Till Had Lived?",
+    "titleZh": "一场新的摄影展提出了一个令人心碎的问题：如果埃米特·蒂尔还活着会怎样？",
+    "source": "Vanity Fair · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 8,
+    "url": "https://www.vanityfair.com/story/if-emmett-till-lived-photos",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/st-a-new-photo-exhibit-asks-a-heartbreaking-quest.jpg",
+    "paras": [
+      {
+        "en": "Since his lynching in 1955, Emmett Till has been a symbol of the civil rights movement and a face for the countless Black men slain in racially motivated attacks.",
+        "cn": "自1955年遭私刑处决以来，埃米特·蒂尔一直是民权运动的象征，也是无数在种族主义袭击中遇害的黑人男性的代表。"
+      },
+      {
+        "en": "But while the 14-year-old’s kidnapping and murder has inspired a number of films and documentaries, Dr. Sarah Elizabeth Lewis—a professor of humanities, African studies, and African American studies at Harvard—wanted to approach Till’s legacy in a new way: not as a case to be investigated, but as an example of the promise the world loses to every act of racist violence.",
+        "cn": "尽管这名14岁少年被绑架并遇害的事件曾启发了多部电影和纪录片的创作，但哈佛大学人文学科、非洲研究及非裔美国人研究教授莎拉·伊丽莎白·刘易斯博士希望以一种崭新的方式来探讨蒂尔留下的遗产：不是将其视为一个待调查的案件，而是将其视为一个例证——每一次种族主义暴力行为，都会让世界失去一份希望。"
+      },
+      {
+        "en": "“We are in an era where we are challenged to see the facts of history, to see what's in front of us,” Lewis tells Vanity Fair.",
+        "cn": "“我们正处于一个时代，在这个时代里，我们面临着直面历史事实、看清眼前事物的挑战，”刘易斯对《名利场》杂志说道。"
+      },
+      {
+        "en": "She does just that in What If Emmett Till Lived?, a multi-artist exhibit at Columbia College Chicago’s Museum of Contemporary Photography (MoCP) that Lewis curated under the guidance of Reverend Wheeler Parker, Jr.—Till’s best friend, cousin, and witness to his abduction.",
+        "cn": "她在《如果埃米特·蒂尔还活着会怎样？》中正是这样做的。这是一场由多位艺术家参与的展览，在芝加哥哥伦比亚学院当代摄影博物馆（MoCP）举办，由刘易斯在小惠勒·帕克牧师的指导下策划——帕克牧师是蒂尔最好的朋友、表亲，也是他被绑架事件的目击者。"
+      },
+      {
+        "en": "On August 24, 1955, Chicago native Till was visiting relatives near Money, Mississippi, when he was accused of whistling at a white woman, shopkeeper Carolyn Bryant.",
+        "cn": "1955年8月24日，出生于芝加哥的蒂尔在密西西比州莫尼附近探亲时，被指控向一名白人妇女——店主卡罗琳·布莱恩特——吹口哨。"
+      },
+      {
+        "en": "Four nights later, on August 28, Emmett Till was kidnapped, tortured, and shot in the head for that alleged transgression.",
+        "cn": "四天后的8月28日，埃米特·蒂尔因那项所谓的“越界行为”遭到绑架、酷刑折磨，并被一枪击中头部。"
+      },
+      {
+        "en": "His abductors, Roy Bryant and J.",
+        "cn": "绑架他的人是罗伊·布莱恩特和J."
+      },
+      {
+        "en": "Milam— who admitted their crimes but were never convicted for them—threw his body into the Tallahatchie River, weighing it down with a cotton-gin fan.",
+        "cn": "米拉姆——他虽然承认了自己的罪行，但从未因此被定罪——将尸体扔进了塔拉哈奇河，并在尸体上绑了一台棉花机风扇作为配重。"
+      },
+      {
+        "img": "assets/covers/st-a-new-photo-exhibit-asks-a-heartbreaking-quest-3.jpg",
+        "cap": ""
+      },
+      {
+        "en": "When his body was found, Emmett’s mother, Mamie Till-Mobley, insisted on an open-casket funeral.",
+        "cn": "当埃米特的遗体被发现时，他的母亲玛米·蒂尔-莫布利坚持要举行露棺葬礼。"
+      },
+      {
+        "en": "She hoped that the horrifying image of his grotesquely brutalized head might reach people the way words have not.",
+        "cn": "她希望他那被残忍摧残得面目全非的头部所呈现出的骇人景象，能像文字无法做到的那样打动人们。"
+      },
+      {
+        "en": "“A photograph was what would be required to transform witnessing in society,” Lewis said—and indeed, the funeral photos had a tremendous impact at the time when news outlets published them.",
+        "cn": "“要改变社会中的见证方式，就需要一张照片，”刘易斯说——事实上，当新闻媒体刊登这些葬礼照片时，它们确实产生了巨大的影响。"
+      },
+      {
+        "en": "“For me, there can be no more important question than asking, ‘What does seeing the truth require today?’”",
+        "cn": "“对我来说，没有什么问题比‘今天要看清真相需要什么’更重要了。”"
+      },
+      {
+        "en": "What galvanized her to launch this project was the resistance, even now, to acknowledging the details of Till’s case.",
+        "cn": "促使她启动这个项目的，正是人们至今仍不愿承认蒂尔案具体细节的抵触态度。"
+      },
+      {
+        "en": "One example: a memorial placed at Graball Landing near Glendora, Mississippi, where Till’s body was pulled from the river, has been the site of countless acts of vandalism.",
+        "cn": "举个例子：位于密西西比州格伦多拉附近格拉巴尔登陆点的纪念碑——蒂尔的遗体正是从那里被从河中打捞上来的——曾多次遭到破坏。"
+      },
+      {
+        "en": "A visit to the monument “constructed an urgency in me to do my part to honor Emmett Till's life,” says Lewis.",
+        "cn": "“参观这座纪念碑让我产生了一种紧迫感，想要尽自己的一份力量来纪念埃米特·蒂尔的一生，”刘易斯说道。"
+      },
+      {
+        "en": "But she was coming from a place beyond mourning and despair.",
+        "cn": "但她所处的境地已超越了悲伤与绝望。"
+      },
+      {
+        "en": "“He’s become a symbol,” she says, “but we’ve never given ourselves a means to envision his right to life.” So Lewis sought to build one for him, using photos by artists in MoCP’s permanent collection—including ones by Annie Leibovitz, Francesco Scavullo, Bruce Davidson, and about 110 others.",
+        "cn": "“他已成为一个象征，”她说，“但我们从未找到一种方式来设想他拥有生存的权利。”于是，刘易斯试图为他构建这样一种途径，利用芝加哥摄影博物馆（MoCP）永久馆藏中艺术家的照片——其中包括安妮·莱博维茨、弗朗切斯科·斯卡武洛、布鲁斯·戴维森等约110位艺术家的作品。"
+      },
+      {
+        "en": "For months on end, Lewis would take a seat, set an intention, and scan through images until she lost focus.",
+        "cn": "好几个月来，刘易斯总是坐下来，设定一个目标，然后翻看图片，直到注意力开始涣散。"
+      },
+      {
+        "en": "She went through 18,000 photographs, choosing images without considering the identity of each individual artist.",
+        "cn": "她翻看了18,000张照片，在挑选照片时并未考虑每位艺术家的身份。"
+      },
+      {
+        "en": "She also invoked the departed: “I’m not afraid to say I really asked for guidance from Till and from Mamie Till-Mobley.",
+        "cn": "她还提到了已故的亲人：“我不怕说，我确实向蒂尔和玛米·蒂尔-莫布利寻求过指引。”"
+      },
+      {
+        "en": "I really asked for a sign of what was meant to represent his unlived life, and really, that’s maybe for another kind of interview.",
+        "cn": "我确实曾请求他给我一个象征他那段未曾经历过的人生的事物，不过说真的，这或许该留待另一次访谈再谈了。"
+      },
+      {
+        "en": "But it shocked me how precise the feedback was.”",
+        "cn": "“但反馈竟然如此精准，这让我大吃一惊。”"
+      },
+      {
+        "img": "assets/covers/st-a-new-photo-exhibit-asks-a-heartbreaking-quest-4.jpg",
+        "cap": ""
+      },
+      {
+        "en": "Once Lewis had winnowed the images down to a manageable number, she met with Parker to make the final picks.",
+        "cn": "当刘易斯将图片筛选到一个可控的数量后，她便与帕克会面，共同确定了最终选定的一批。"
+      },
+      {
+        "en": "“He lives with that survivor’s guilt,” Lewis says of the 87-year-old clergyman, who has dedicated his life to keeping Till’s memory alive.",
+        "cn": "“他一直背负着那种幸存者内疚感，”刘易斯这样评价这位87岁的牧师，他毕生致力于让蒂尔的精神永存。"
+      },
+      {
+        "en": "“He is the last living eyewitness.",
+        "cn": "“他是现存的最后一位目击者。"
+      },
+      {
+        "en": "He bears the testimony of the story that’s never been acknowledged by the official record.”",
+        "cn": "“他见证了那个从未被官方记录所承认的故事。”"
+      },
+      {
+        "en": "The exhibit’s choices aren’t necessarily what you’d expect from a project related to one of the most notable tragedies in modern American life.",
+        "cn": "该展览的选题，未必是人们对一个与现代美国历史上最引人注目的悲剧之一相关的项目所抱有的预期。"
+      },
+      {
+        "en": "It and its companion piece, a photo and essay collection called If Emmett Till Lived: A Creative Monument, express messages of hope and positivity, a rare and almost counterintuitive tactic for a death as horrific as Till’s.",
+        "cn": "该作品及其配套作品——一部名为《如果埃米特·蒂尔还活着：一座创意纪念碑》的照片与随笔集——传递着希望与积极向上的信息，对于蒂尔这样惨烈的死亡事件而言，这是一种罕见且几乎违背直觉的做法。"
+      },
+      {
+        "en": "We see photos of children playing alongside images of a cup of coffee or a scoop of ice cream; a father playing with a baby is followed by an image of former president Barack Obama.",
+        "cn": "我们看到孩子们玩耍的照片与一杯咖啡或一勺冰淇淋的图片并列；一张父亲和婴儿玩耍的照片之后，紧接着是一张前总统巴拉克·奥巴马的照片。"
+      },
+      {
+        "en": "“What I was asking in every turn is, does this represent a pathway, a life option?” Lewis says.",
+        "cn": "“我一直在问的是，这是否代表了一条出路，一种人生选择？”刘易斯说。"
+      },
+      {
+        "en": "“Does this represent opportunity?",
+        "cn": "“这是否意味着机遇？"
+      },
+      {
+        "en": "So you see, in many cases, proxies for Till.”",
+        "cn": "所以你看，在许多情况下，这些都是蒂尔的代理人。”"
+      },
+      {
+        "en": "That so many images are simple, relatable scenes is intentional, Lewis says.",
+        "cn": "刘易斯表示，这么多画面都是简单、贴近生活的场景，这是有意为之。"
+      },
+      {
+        "en": "“It represents, ultimately, the fact that Emmett Till’s story represents all of ours, and that our lives represent his.”",
+        "cn": "“归根结底，这说明埃米特·蒂尔的故事代表了我们所有人的故事，而我们的人生也代表着他的故事。”"
+      },
+      {
+        "en": "Peter Cochrane, one of the artists whose work Lewis chose, says he understands her reasoning.",
+        "cn": "彼得·科克伦是刘易斯选中作品的艺术家之一，他表示理解她的考量。"
+      },
+      {
+        "en": "“Photographs used in journalism, videos, etc., can strike a chord initially, but then we grow sort of tired of them—I’m thinking of the sort of horrors that have been documented,” he says.",
+        "cn": "“新闻报道、视频等中使用的照片，起初或许能引起共鸣，但随后我们便会感到有些厌倦——我想到的正是那些被记录下来的惨状，”他说。"
+      },
+      {
+        "en": "“We just become sort of inured.”",
+        "cn": "“我们只是变得有点麻木了。”"
+      },
+      {
+        "en": "“Then, there are images in our sort of artistic and social canon that just stick with us forever, right?",
+        "cn": "“此外，在我们的艺术和社会经典中，有些画面会永远留在我们心中，对吧？"
+      },
+      {
+        "en": "You see them once, and you’ll never forget them,” Cochrane continues.",
+        "cn": "“你只要见过他们一次，就永远不会忘记他们，”科克伦接着说道。"
+      },
+      {
+        "en": "“I think that’s a lot of what Sarah Lewis was drawn to in these.”",
+        "cn": "“我觉得这正是莎拉·刘易斯对这些作品着迷的主要原因。”"
+      },
+      {
+        "en": "Call it guidance from beyond; call it the ghost in the machine.",
+        "cn": "管它叫来自彼岸的指引，还是机器中的幽灵。"
+      },
+      {
+        "en": "But whatever was guiding Lewis seemed to agree with Cochrane about tragedy’s numbing effect.",
+        "cn": "但无论是什么在指引刘易斯，他似乎都认同科克伦关于悲剧具有麻木效应的观点。"
+      },
+      {
+        "en": "“There were moments where an image, because these are civil rights photographs, was of explicit violence.",
+        "cn": "“有些时候，由于这些是民权运动的照片，画面中会出现露骨的暴力场景。"
+      },
+      {
+        "en": "I would look at it, and there were many times where something would glitch on the computer, and it would not get in.”",
+        "cn": "“我看着它，很多时候电脑会出现故障，导致数据无法导入。”"
+      },
+      {
+        "en": "It’s hard to think about Till and not feel despair, especially for someone who’s paying attention to the news.",
+        "cn": "一想到蒂尔，就很难不感到绝望，特别是对于那些关注新闻的人来说。"
+      },
+      {
+        "en": "But Lewis hopes the exhibit can counteract despair with the reminder that living in “generation time”—a longer span than just a few years—is important.",
+        "cn": "但刘易斯希望，通过提醒人们“世代时间”（其跨度远不止几年）的重要性，此次展览能够抵消这种绝望情绪。"
+      },
+      {
+        "en": "Du Bois, the first Black person to earn a PhD at Harvard.",
+        "cn": "杜波依斯，首位在哈佛大学获得博士学位的黑人。"
+      },
+      {
+        "en": "“He needed to be able to maintain his fortitude because of what was going to come.",
+        "cn": "“鉴于即将发生的事情，他必须保持坚韧不拔的意志。”"
+      },
+      {
+        "en": "We're going to have another flourishing, another time.”",
+        "cn": "“我们还会迎来另一个繁荣时期，另一个时代。”"
+      },
+      {
+        "en": "“Generation time requires keeping an eye on two things at once,” Lewis continues.",
+        "cn": "“生成时间需要同时关注两件事，”刘易斯接着说。"
+      },
+      {
+        "en": "“You know what’s required for the moment, and what’s required for the era, and the era requires endurance.",
+        "cn": "“你知道当下需要什么，也知道这个时代需要什么，而这个时代需要的是坚韧。”"
+      },
+      {
+        "en": "That’s what I owe to my ancestors.",
+        "cn": "这就是我对祖先应尽的责任。"
+      },
+      {
+        "en": "That’s what I owe to the future.”",
+        "cn": "“这就是我对未来应尽的责任。”"
+      },
+      {
+        "en": "opened at MoCP on September 10 and will run until December 19, 2026.",
+        "cn": "该展览于9月10日在MoCP开幕，将持续至2026年12月19日。"
+      },
+      {
+        "en": "Its companion publication, If Emmett Till Lived: A Creative Monument, is available now.",
+        "cn": "其配套出版物《如果埃米特·蒂尔还活着：一座创意纪念碑》现已上市。"
+      }
+    ]
+  },
+  {
+    "id": "st-tribeca-is-new-york-s-new-gallery-mecca",
+    "cat": "明星",
+    "title": "Tribeca Is New York’s New Gallery Mecca",
+    "titleZh": "翠贝卡已成为纽约新的画廊圣地",
+    "source": "Vanity Fair · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 14,
+    "url": "https://www.vanityfair.com/style/tribeca-galleries",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/st-tribeca-is-new-york-s-new-gallery-mecca.jpg",
+    "paras": [
+      {
+        "img": "assets/covers/st-tribeca-is-new-york-s-new-gallery-mecca-3.jpg",
+        "cap": ""
+      },
+      {
+        "en": "Read True Colors: Inside the global deals and colorful critiques that make the art world go round, with a weekly guide to the must-see openings, auctions, and fairs.",
+        "cn": "阅读《True Colors》：深入了解推动艺术界运转的全球交易与丰富多彩的评论，并获取每周必看的展览开幕、拍卖和艺术博览会指南。"
+      },
+      {
+        "en": "It’s time to proclaim a new preeminent gallery district in New York.",
+        "cn": "是时候宣布纽约出现一个崭新的顶尖画廊区了。"
+      },
+      {
+        "en": "It is finally, actually, all happening in Tribeca.",
+        "cn": "说到底，这一切其实都在翠贝卡上演。"
+      },
+      {
+        "en": "Just this past Wednesday night, at least 70 major blue-chip gallery shows opened in or near the neighborhood—nearly all of them within a few blocks of one another.",
+        "cn": "就在上周三晚上，该社区内及周边至少有70场大型蓝筹画廊展览开幕——其中几乎所有展览都集中在相距仅几个街区范围内。"
+      },
+      {
+        "en": "We’ve come a long way from the days when this area was called the Triangle Below Canal.",
+        "cn": "与这片区域曾被称为“运河以南三角区”的年代相比，我们已经走了很长一段路。"
+      },
+      {
+        "en": "In some ways, the gallery world’s migration has been a slow burn.",
+        "cn": "从某些方面来看，画廊界的迁移是一个缓慢而持续的过程。"
+      },
+      {
+        "en": "I’ve been tracking galleries opening in Tribeca since at least 2016, when Stefania Bortolami told me she was ditching Chelsea for downtown, and doing so without a twinge of regret.",
+        "cn": "我追踪翠贝卡地区画廊的开业情况至少可以追溯到2016年，当时斯特法尼亚·博尔托拉米告诉我，她要离开切尔西搬到市中心，而且对此毫无遗憾。"
+      },
+      {
+        "en": "“I’m pretty happy to be going away from Chelsea.",
+        "cn": "“能离开切尔西，我感到相当高兴。"
+      },
+      {
+        "en": "This whole block is going to be torn down to become condos.",
+        "cn": "整个街区都将被拆除，改建为公寓楼。"
+      },
+      {
+        "en": "It’s insane—not only here, but every block,” she told me a decade ago.",
+        "cn": "“简直太疯狂了——不仅这里，每个街区都是如此，”她十年前对我说。"
+      },
+      {
+        "en": "“I know there are some galleries that need to move from Chelsea,” Bortolami said in 2016.",
+        "cn": "“我知道有些画廊需要搬离切尔西，”博尔托拉米在2016年说道。"
+      },
+      {
+        "en": "“Already, from the moment when I said I was interested in this space, I got a lot of calls.”",
+        "cn": "“其实，从我表示对这个空间感兴趣的那一刻起，我就接到了很多电话。”"
+      },
+      {
+        "en": "They moved in waves, with a major spike happening after the pandemic.",
+        "cn": "他们呈波浪式迁入，其中在疫情之后出现了一次大幅增长。"
+      },
+      {
+        "en": "In the past few years, though, a larger number of truly global art-selling concerns have claimed a foothold in Tribeca.",
+        "cn": "不过，在过去的几年里，越来越多的真正具有全球影响力的艺术品销售机构已在翠贝卡站稳了脚跟。"
+      },
+      {
+        "en": "When Marian Goodman finally gave up its 57th Street location in 2024, it opted to move downtown rather than to the West Side, taking over a gigantic building on Broadway and renovating it top to bottom.",
+        "cn": "2024年，当玛丽安·古德曼画廊最终放弃其位于57街的展馆时，它选择迁往市中心而非西区，接手了百老汇上一栋巨型建筑，并对之进行了彻底翻新。"
+      },
+      {
+        "en": "In 2022, Pace opened a gallery that would be run solely by its founder, Arne Glimcher.",
+        "cn": "2022年，佩斯画廊开设了一家由其创始人阿恩·格利姆彻独立运营的画廊。"
+      },
+      {
+        "en": "David Zwirner opened a kunsthalle called 52 Walker in 2021; this year, he’s converted the space into a full-blown outpost of his mega-gallery, and next week he will open a show of new paintings by Emma McIntyre.",
+        "cn": "大卫·兹维纳于2021年开设了一家名为“52 Walker”的艺术中心；今年，他将该空间改造成了其大型画廊的一个正式分支机构，并将于下周举办艾玛·麦金太尔的新画作展。"
+      },
+      {
+        "en": "Later this year, Karma, which also has spaces in Chelsea and Los Angeles, will open an outpost on White Street in Tribeca.",
+        "cn": "今年晚些时候，Karma（该品牌在切尔西和洛杉矶也设有门店）将在翠贝卡的白街开设一家分店。"
+      },
+      {
+        "en": "Other gallery openings, I’m told, are yet to be announced.",
+        "cn": "据我所知，其他画廊的开幕活动尚未公布。"
+      },
+      {
+        "en": "The economics of this operation do confuse me.",
+        "cn": "这项行动的经济效益确实让我感到困惑。"
+      },
+      {
+        "en": "As anyone who shops at Meadow Lane knows, Tribeca is one of the most expensive neighborhoods in Manhattan, which puts it high on the list for the priciest patch of dirt anywhere.",
+        "cn": "正如任何在梅多巷购物的人都知道的那样，翠贝卡是曼哈顿最昂贵的社区之一，这使得它在“全球最昂贵的土地”排行榜上名列前茅。"
+      },
+      {
+        "en": "Crypto-loving billionaire Michael Novogratz lives in Tribeca.",
+        "cn": "热爱加密货币的亿万富翁迈克尔·诺沃格拉茨住在翠贝卡。"
+      },
+      {
+        "en": "So does Mukesh Ambani, the Indian businessman worth $120 billion, who’s turning 11 Hubert Street into the largest apartment in New York City.",
+        "cn": "身家1200亿美元的印度商人穆凯什·安巴尼也是如此，他正在将休伯特街11号改造成纽约市最大的公寓。"
+      },
+      {
+        "en": "Indeed, Bortolami told me in 2016 that even back then, she wasn’t getting a price cut by moving out of Chelsea—her Tribeca rent was the same, though the space was bigger.",
+        "cn": "事实上，博尔托拉米在2016年曾告诉我，即使在那时，她搬离切尔西也并未因此获得租金减免——她在翠贝卡的租金与之前相同，尽管住处面积更大。"
+      },
+      {
+        "en": "But remarkably, even as the last half-decade has made city living comically unsustainable—bodegas are selling Diet Cokes for $4—rents in Tribeca have stayed relatively stable.",
+        "cn": "但令人惊讶的是，尽管过去这五年里城市生活变得荒谬地难以维持——小杂货店里一罐健怡可乐都要卖4美元——翠贝卡的房租却一直保持相对稳定。"
+      },
+      {
+        "en": "This data point is coming from no lesser authority than Jonathan Travis, the real estate agent who, during the pandemic, brokered deals for one gallerist after another looking for spaces in Tribeca.",
+        "cn": "这一数据来源于权威人士乔纳森·特拉维斯——这位房地产经纪人在疫情期间，为一位又一位在翠贝卡寻找展厅的画廊主促成了交易。"
+      },
+      {
+        "en": "On the lease-signing side, there’s no one more integral to the whole migration.",
+        "cn": "在租赁签约方面，没有人比他更对整个迁移过程至关重要。"
+      },
+      {
+        "en": "“Rents on the big ground-floor spaces have not really moved drastically at all since 2020,” Travis tells me, though he mentioned that the inventory of “high-quality large spaces” has been low since day one.",
+        "cn": "“自2020年以来，大型底层商铺的租金其实并没有出现太大波动，”特拉维斯告诉我，不过他提到，“优质大型商铺”的供应量从一开始就一直很低。"
+      },
+      {
+        "en": "Now all of those spaces have been snapped up by dealers ready for the spotlight, hell-bent on competing in what’s now the most concentrated art-viewing hopscotch in Manhattan.",
+        "cn": "如今，这些展位已被经销商们一抢而空，他们摩拳擦掌，准备大放异彩，并决心在这条如今已成为曼哈顿艺术观赏最密集的“跳房子”路线中一决高下。"
+      },
+      {
+        "en": "And the energy gets pretty bonkers with 70 openings raging at the same time.",
+        "cn": "而且，当70场开幕式同时如火如荼地进行时，现场气氛简直热得发狂。"
+      },
+      {
+        "en": "“Tribeca as a neighborhood is absolutely a global arts powerhouse now, with foot traffic that rivals anywhere in the world when the galleries have coordinated openings,” Travis says.",
+        "cn": "“特里贝卡作为一個社区，如今绝对是全球艺术重镇，每当各画廊联合举办开幕活动时，这里的人流量足以与世界任何地方媲美，”特拉维斯说。"
+      },
+      {
+        "en": "“I’ve even seen lines to get into galleries.”",
+        "cn": "“我甚至还看到过人们排队进画廊。”"
+      },
+      {
+        "img": "assets/covers/st-tribeca-is-new-york-s-new-gallery-mecca-4.jpg",
+        "cap": ""
+      },
+      {
+        "en": "As of this month, the neighborhood even has a local artists canteen.",
+        "cn": "从本月起，这个社区甚至还开了一家本地艺术家食堂。"
+      },
+      {
+        "en": "Not The Odeon—though The Odeon is still a perfect restaurant and just a convenient stroll away from the Tribeca gallery network.",
+        "cn": "不是“奥德翁”——尽管“奥德翁”依然是一家完美的餐厅，而且距离翠贝卡画廊群只需步行片刻即可到达。"
+      },
+      {
+        "en": "That restaurant is Faux, a neo-bistro that opened a few days ago on Church Street—just steps away from many galleries on White Street.",
+        "cn": "那家餐厅名叫“Faux”，是一家新派小酒馆，几天前在教堂街开业——距离怀特街上的许多画廊仅几步之遥。"
+      },
+      {
+        "en": "Among media and dining-out types, Faux’s not an unknown entity.",
+        "cn": "在媒体界和餐饮爱好者中，Faux 并非无名之辈。"
+      },
+      {
+        "en": "It’s the work of 23-year-old former Balthazar staffer George McNally, son of Keith McNally, the I Regret Almost Everything author who kicked off his Gotham-conquering run by opening, you guessed it, The Odeon, back in 1980, along with his brother Brian McNally and his then wife Lynn Wagenknecht, who still owns it solo.",
+        "cn": "这是23岁的前巴尔塔扎尔餐厅员工乔治·麦克纳利的作品，他是《我几乎后悔一切》一书的作者基思·麦克纳利的儿子——基思正是通过开设（你猜对了）1980年，他与兄弟布莱恩·麦克纳利以及当时的妻子琳恩·瓦根克内希特共同开设了“奥德翁”餐厅，由此开启了他在哥谭市的征服之旅——而琳恩至今仍是该餐厅的唯一所有者。"
+      },
+      {
+        "en": "Faux channels the vibe of another McNally property: Lucky Strike, a place I loved that doubled as SoHo’s art world anchor restaurant before all the galleries moved to Chelsea.",
+        "cn": "Faux 营造出麦克纳利旗下另一家餐厅的氛围：Lucky Strike——那是我非常喜欢的一家餐厅，在所有画廊迁往切尔西之前，它曾是苏活区艺术界的标志性餐厅。"
+      },
+      {
+        "en": "“Eric Fischl went there for lunch with Ralph Gibson.",
+        "cn": "“埃里克·菲施尔和拉尔夫·吉布森一起去那里吃了午饭。"
+      },
+      {
+        "en": "They had a standing thing,” gallerist Jeffrey Deitch told me while mourning Lucky Strike after it closed in 2020.",
+        "cn": "“他们一直有个惯例，”画廊主杰弗里·迪奇在2020年“幸运一击”画廊关闭后，一边悼念它一边对我说。"
+      },
+      {
+        "en": "“I used to go there to have a few beers in the evenings with Jeff Koons.",
+        "cn": "“我以前经常晚上和杰夫·昆斯一起去那里喝几杯啤酒。”"
+      },
+      {
+        "en": "George McNally’s restaurant isn’t a carbon copy of Keith’s.",
+        "cn": "乔治·麦克纳利的餐厅并不是基思餐厅的复制品。"
+      },
+      {
+        "en": "It’s got funky paintings-on-tile of tarot cards, tables without white tablecloths, and paperback-size menus.",
+        "cn": "这里有风格独特的塔罗牌瓷砖画，没有铺白色桌布的餐桌，还有平装书大小的菜单。"
+      },
+      {
+        "en": "McNally didn’t exactly plan to open Faux in this new gallery district.",
+        "cn": "麦克纳利原本并没有打算在这个新兴的画廊区开设“Faux”画廊。"
+      },
+      {
+        "en": "But as he told me Tuesday, its location is pretty fortuitous.",
+        "cn": "但他周二告诉我，这个地点选得相当巧。"
+      },
+      {
+        "en": "He’s already in talks to host private post-opening celebration dinners at Faux’s downstairs bar, which doubles as a vaulted private dining room.",
+        "cn": "他目前正在商谈，计划在Faux餐厅楼下的酒吧——该处同时也是一间拱顶私人包厢——举办开业后的私人庆祝晚宴。"
+      },
+      {
+        "en": "Not that you need a buyout: Among those seated at the two dozen tables Tuesday night were the painters Adam Alessi, Tristan Unrau, and Dustin Hodges, along with dealers Sebastian Gladstone and George Newall and the esteemed ventriloquist Sophie Becker.",
+        "cn": "倒也不是说你需要被收购：周二晚上，坐在这二十几张桌子旁的人中，有画家亚当·阿莱西、特里斯坦·乌恩劳和达斯汀·霍奇斯，还有画商塞巴斯蒂安·格拉德斯通和乔治·纽厄尔，以及备受尊敬的腹语艺术家索菲·贝克尔。"
+      },
+      {
+        "en": "When McNally was sitting at our perfectly rickety table, I said that the place looked like it had been here forever.",
+        "cn": "当麦克纳利坐在我们那张摇摇欲坠的桌子旁时，我说这地方看起来好像一直都在这里一样。"
+      },
+      {
+        "en": "“That’s the highest compliment anyone could give me,” he said.",
+        "cn": "“这是任何人能给予我的最高赞誉，”他说。"
+      },
+      {
+        "en": "On Wednesday I made a quick trip to SoHo, where Rita Ackermann was opening a show at the Hauser & Wirth space on Wooster Street—just a block from what was once Andrea Rosen’s gallery in the ’90s.",
+        "cn": "周三，我匆匆去了趟苏活区，里塔·阿克曼正在伍斯特街的豪瑟沃斯画廊举办个展开幕式——那里距离90年代安德里亚·罗森的画廊旧址仅一个街区之遥。"
+      },
+      {
+        "en": "During a brief, rare tour of the new show before doors opened to the public, Ackermann said she had her first New York solo show with Rosen in 1994.",
+        "cn": "在向公众开放前的一次简短而难得的展览导览中，阿克曼表示，她于1994年与罗森合作举办了她在纽约的首场个展。"
+      },
+      {
+        "en": "Several of the people there for the tour had also been present way back when—like Chloë Sevigny, who told me she met Ackermann when she was 18 and used to walk into Rosen’s gallery three times a day.",
+        "cn": "参加此次导览的几位来宾当年也曾到场——比如克洛伊·塞维尼，她告诉我，自己18岁时就认识了阿克曼，那时她每天都要去罗森的画廊三次。"
+      },
+      {
+        "en": "Then I headed toward Tribeca—and past the Celine store, which was giving out hot dogs with “Celine” written on them in mustard.",
+        "cn": "随后，我朝翠贝卡走去——路过一家Celine专卖店，店里正在派发热狗，热狗上用芥末写着“Celine”字样。"
+      },
+      {
+        "en": "I also passed dealer Garth Greenan’s new two-prong SoHo foothold, a pair of elegant ground-floor spaces on Greene Street.",
+        "cn": "我还路过了画廊主加思·格里南在苏豪区新开设的两处据点——格林街上两处位于一楼的优雅空间。"
+      },
+      {
+        "en": "The gallery is showing work by the legendary Rosalyn Drexler, a bodybuilder, wrestler, novelist, playwright, and film critic for Vogue, who died last year at the age of 98.",
+        "cn": "该画廊正在展出传奇人物罗莎琳·德雷克斯勒的作品。她曾是健美运动员、摔跤手、小说家、剧作家，也是《Vogue》杂志的影评人，去年以98岁高龄去世。"
+      },
+      {
+        "en": "And then I crossed the Rubicon of Canal Street into Tribeca, where art viewers thronged down Broadway and peeled off toward galleries in every direction.",
+        "cn": "随后，我跨过卡纳尔街这条“鲁比康河”，进入了翠贝卡区，那里艺术爱好者们挤满了百老汇大街，随后向四面八方的画廊散去。"
+      },
+      {
+        "en": "I was blown away by everything happening at Maxwell Graham, which just moved to the top floor of the building adjacent to Cortlandt Alley—one of the most sui generis edifices downtown, with a hand-cranked elevator and all sorts of secret entrances and exits.",
+        "cn": "麦克斯韦·格雷厄姆（Maxwell Graham）那里发生的一切让我惊叹不已。这家店刚刚搬到了科特兰特巷（Cortlandt Alley）旁边那栋大楼的顶层——那是市中心最具独特风格的建筑之一，配有手摇电梯，还有各种各样的秘密出入口。"
+      },
+      {
+        "en": "Graham’s new space is generously proportioned, and the inaugural show features Michael E.",
+        "cn": "格雷厄姆的新展厅空间宽敞，首展将展出迈克尔·E.的作品。"
+      },
+      {
+        "en": "Smith, the enigmatic poet-artist who sculpts with light and makes balletic, strange ready-mades from everyday objects.",
+        "cn": "史密斯，这位神秘的诗人兼艺术家，他以光为媒介进行雕塑创作，并利用日常物品制作出宛如芭蕾舞般奇特的现成品。"
+      },
+      {
+        "en": "Smith is having a banner year, with a solo show at Graham and a survey at MASS MoCA, plus an exhibition at Waldo, Tobias Czudej’s seasonal space in an out-there part of Maine.",
+        "cn": "史密斯今年可谓风头正劲，不仅在格雷厄姆画廊举办了个人展，还在马萨诸塞州当代艺术博物馆（MASS MoCA）举办了回顾展，此外还在托比亚斯·楚德伊位于缅因州偏远地区的季节性展馆“沃尔多”举办了展览。"
+      },
+      {
+        "en": "On Wednesday the place was packed—who needs painting when there’s capital-C conceptual art?",
+        "cn": "周三那里人满为患——既然有大写的“C”概念艺术，谁还需要绘画呢？"
+      },
+      {
+        "en": "Down the street was Ellie Rines Gallery, formerly known as 56 Henry, which just moved to Tribeca and debuted with a massive installation by Christopher K.",
+        "cn": "街对面是埃莉·莱恩斯画廊（Ellie Rines Gallery），该画廊前身为“56亨利”（56 Henry），刚刚搬迁至翠贝卡（Tribeca），并以克里斯托弗·K（Christopher K）的一件大型装置作品作为新址首展。"
+      },
+      {
+        "en": "The new ground-floor space is, by my eyeball estimate, about 10 times the size of the old gallery—but just as before, you’re bound to run into some unexpected art people if you sneak into the back room.",
+        "cn": "据我目测，新的一楼空间大约是旧画廊的10倍大——但和以前一样，如果你悄悄溜进后屋，肯定会遇到一些意想不到的艺术圈人士。"
+      },
+      {
+        "en": "I walked in to see a giant Cynthia Talmadge on the wall, with Cecily Brown sitting in front of it and 291 Agency cofounder Andrea Crane talking to artist Jo Messer.",
+        "cn": "我一走进来，就看到墙上挂着一幅巨大的辛西娅·塔尔马奇的作品，塞西莉·布朗正坐在画前，而291 Agency的联合创始人安德烈娅·克雷恩则正与艺术家乔·梅瑟交谈。"
+      },
+      {
+        "en": "Nearby, I enjoyed Matt McCormick’s paintings installed inside the façade of a SoCal corner store at Ruttkowski;68.",
+        "cn": "在附近，我欣赏了马特·麦考密克的画作，这些作品陈列在Ruttkowski街68号一家南加州街角小店的立面内。"
+      },
+      {
+        "en": "At Chapter NY I loved new work by Alix Vernet.",
+        "cn": "在Chapter NY，我非常喜欢阿里克斯·韦尔内的新作。"
+      },
+      {
+        "en": "She’s made sculptures from the aluminum condenser coils inside discarded AC units, the guts of the cooling machines that have been weathered by New York City elements.",
+        "cn": "她利用废弃空调机内的铝制冷凝器盘管——这些曾经受纽约市风吹日晒的制冷设备内部部件——创作了雕塑作品。"
+      },
+      {
+        "en": "As the press release puts it, they’re “more photographs than ready-mades,” as they process passing time by accumulating dust particles.",
+        "cn": "正如新闻稿所言，这些作品“与其说是现成品，不如说是摄影作品”，它们通过积聚灰尘颗粒来展现流逝的时间。"
+      },
+      {
+        "en": "But of course, there were painting shows to see as well.",
+        "cn": "当然，还有一些画展值得一看。"
+      },
+      {
+        "en": "Herman Cherry, the late Abstract Expressionist painter who was brought into The Club in the 1950s by Philip Guston, has works looking fresh as ever at Sebastian Gladstone.",
+        "cn": "已故的抽象表现主义画家赫尔曼·切里（Herman Cherry）于1950年代由菲利普·古斯顿（Philip Guston）引荐加入“俱乐部”（The Club），其作品在塞巴斯蒂安·格拉德斯通画廊（Sebastian Gladstone）展出时，依然显得鲜活如初。"
+      },
+      {
+        "en": "I was very intrigued by Mia Goldstein’s paintings—paintings of paintings, really, on view at The Journal Gallery.",
+        "cn": "米娅·戈尔茨坦的画作让我着实着迷——说白了，那是在《The Journal》画廊展出的“画中画”。"
+      },
+      {
+        "en": "Claire Oswalt had an opening at Broadway Gallery.",
+        "cn": "克莱尔·奥斯瓦尔特在百老汇画廊举办了开幕展。"
+      },
+      {
+        "en": "Alexander Gray had an expansive survey of Melvin Edwards, who died earlier this year.",
+        "cn": "亚历山大·格雷曾举办过一场规模宏大的梅尔文·爱德华兹回顾展，后者于今年早些时候去世。"
+      },
+      {
+        "en": "I was most delighted by the Carroll Dunham show at Matthew Brown, a suite of new paintings where Dunham fully bets on himself—making some of his most out-there but oddly endearing work.",
+        "cn": "马修·布朗画廊举办的卡罗尔·邓汉姆个展让我欣喜不已。这组新作中，邓汉姆完全放手一搏——创作出了一些他最天马行空却又奇妙地令人喜爱作品。"
+      },
+      {
+        "en": "Word is that several have been snapped up by big institutions, as they should be.",
+        "cn": "据说其中几家已被大型机构抢购一空，这也理所应当。"
+      },
+      {
+        "en": "It still felt strange to see such a show in Tribeca rather than Chelsea, where so many canonical painting exhibitions have been staged in the last 30 years.",
+        "cn": "在翠贝卡而非切尔西看到这样的展览，总让人觉得有些奇怪——毕竟过去30年来，切尔西举办过如此多的经典绘画展。"
+      },
+      {
+        "en": "In the back of the gallery, where a bunch of absolutely insane Dunham works on paper hung salon-style on the walls, Brown conceded that a show of such scale and historical oomph could have fit at a Chelsea gallery—but it’s also inspiring to him that this neighborhood is ready for a big Carroll Dunham show.",
+        "cn": "在画廊的后方，一堆绝对疯狂的卡罗尔·邓汉姆纸上作品以沙龙式风格悬挂在墙上。布朗承认，这样规模宏大且极具历史分量的展览本可以放在切尔西的画廊里举办——但这个街区已经准备好举办一场大型的卡罗尔·邓汉姆展览，这一点也让他深受鼓舞。"
+      },
+      {
+        "en": "Brown also hosted a dinner for Dunham at Il Buco Alimentari, Donna Leonard’s offshoot of the beloved Bond Street Il Buco.",
+        "cn": "布朗还在“Il Buco Alimentari”为邓纳姆举办了一场晚宴，这家餐厅是唐娜·伦纳德在备受喜爱的邦德街“Il Buco”餐厅基础上开设的分店。"
+      },
+      {
+        "en": "An entire generation of artists circulated through the restaurant’s two stories: Dana Schutz and Ryan Johnson, Huma Bhabha, Joe Bradley and Valentina Akerman, Mel Kendrick, Louise Lawler, Alexis Rockman, Amy Sillman.",
+        "cn": "整整一代艺术家都曾在这家餐厅的两层楼里穿梭往来：达娜·舒茨和瑞安·约翰逊、胡玛·巴布哈、乔·布拉德利和瓦伦蒂娜·阿克曼、梅尔·肯德里克、路易丝·劳勒、亚历克西斯·罗克曼、艾米·西尔曼。"
+      },
+      {
+        "en": "Of course, the artist Laurie Simmons, Dunham’s wife, was there, along with their children, Lena and Cyrus.",
+        "cn": "当然，艺术家劳里·西蒙斯——邓汉姆的妻子——也出席了活动，他们的孩子莉娜和赛勒斯也一同到场。"
+      },
+      {
+        "en": "Jerry Saltz went looking for pizza and found it, while Roberta Smith sat at a table with former New Museum director Lisa Phillips.",
+        "cn": "杰里·萨尔茨去寻找披萨，结果找到了；而罗伯塔·史密斯则与新博物馆前馆长丽莎·菲利普斯同桌而坐。"
+      },
+      {
+        "en": "Later, Phillips told me about the show she curated at her old stomping grounds on the Bowery—a show about the Bowery.",
+        "cn": "后来，菲利普斯向我讲述了她在鲍威里老据点策划的那场展览——一场以鲍威里为主题的展览。"
+      },
+      {
+        "en": "Along with the legends was a new generation of artists, including Unrau, Alessi, Ohad Meromi, and a number of artists from Brown’s stable: Uri Aran, Olivia van Kuiken, Blair Whiteford.",
+        "cn": "与这些传奇人物一同崭露头角的，还有新一代艺术家，包括乌恩劳（Unrau）、阿莱西（Alessi）、奥哈德·梅罗米（Ohad Meromi），以及布朗旗下的一批艺术家：乌里·阿兰（Uri Aran）、奥利维亚·范·库伊肯（Olivia van Kuiken）、布莱尔·怀特福德（Blair Whiteford）。"
+      },
+      {
+        "en": "Dinner ended, but no one really said goodbye.",
+        "cn": "晚餐结束了，但没人真正道别。"
+      },
+      {
+        "en": "Despite the Tribeca takeover, everyone was planning to storm Chelsea for another set of openings on Thursday.",
+        "cn": "尽管翠贝卡活动已经开始，大家还是计划在周四蜂拥前往切尔西，参加另一场开幕活动。"
+      }
+    ]
+  },
+  {
+    "id": "st-the-best-emmy-awards-dresses-of-all-time",
+    "cat": "明星",
+    "title": "The Best Emmy Awards Dresses of All Time",
+    "titleZh": "艾美奖史上最美的礼服",
+    "source": "Vanity Fair · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 2,
+    "url": "https://www.vanityfair.com/photos/best-emmys-dresses-in-history",
+    "cover": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "gradient": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "coverImg": "assets/covers/st-the-best-emmy-awards-dresses-of-all-time.jpg",
+    "paras": [
+      {
+        "en": "At the Emmy Awards, the stars of television’s small screen often come wearing some big dresses.",
+        "cn": "在艾美奖颁奖典礼上，电视荧屏上的明星们常常身着华丽的礼服亮相。"
+      },
+      {
+        "en": "In the 1950s and ’60s, celebrities like Lucille Ball arrived on red carpets at LA landmarks like the Paul R.",
+        "cn": "在20世纪50年代和60年代，露西尔·鲍尔等名人曾现身于洛杉矶地标建筑——如保罗·R.——的红毯上。"
+      },
+      {
+        "en": "Williams –designed Ambassador Hotel or the Hollywood Palladium in custom gowns by their studio’s costume designers or other private high-end dressmakers.",
+        "cn": "无论是威廉姆斯设计的“大使酒店”，还是好莱坞帕拉迪姆剧院，她们身着由其工作室的服装设计师或其他私人高端裁缝量身定制的礼服。"
+      },
+      {
+        "en": "Come the 2000s, nearly every major European fashion house is clamoring to style the year’s nominees…and send out a press release as well as an Instagram post once they do.",
+        "cn": "进入21世纪后，几乎每一家欧洲大型时装屋都争先恐后地为当年的提名者打造造型……一旦完成，便会发布新闻稿并在Instagram上发帖。"
+      },
+      {
+        "en": "So out of a sea of stylish looks, which dresses stand out as some of the best in Emmys history?",
+        "cn": "那么，在众多时尚造型中，哪些礼服堪称艾美奖历史上最出色的代表？"
+      },
+      {
+        "en": "There’s Ball in the height of ’60s glamour in a feather caftan, and Jane Seymour in an oh-so-’80s sequined gown, which she wore when winning outstanding supporting actress in a miniseries for Onassis: The Richest Man in the World.",
+        "cn": "鲍尔身着一件羽毛长袍，尽显60年代的迷人风采；而简·西摩则身着一件极具80年代风格的亮片礼服——她正是穿着这件礼服，凭借《奥纳西斯：世界首富》一剧荣获迷你剧类最佳女配角奖。"
+      },
+      {
+        "en": "In the ’90s and early 2000s, Sarah Jessica Parker cemented herself as a bona fide fashion darling, wearing looks from designers like Oscar de La Renta and Chanel.",
+        "cn": "在90年代和21世纪初，莎拉·杰西卡·帕克凭借身着奥斯卡·德拉伦塔和香奈儿等设计师品牌的造型，确立了自己作为当之无愧的时尚宠儿的地位。"
+      },
+      {
+        "en": "And in recent years, celebrities like Zendaya and Anya Taylor-Joy have embraced full European couture, trains and all.",
+        "cn": "近年来，赞达亚和安雅·泰勒-乔伊等明星纷纷穿上了完整的欧洲高级定制礼服，连拖尾也不例外。"
+      },
+      {
+        "en": "Then there are the risk-takers.",
+        "cn": "还有那些敢于冒险的人。"
+      },
+      {
+        "en": "Aubrey Plaza dared to don Loewe’s Post-it note dress.",
+        "cn": "奥布里·普拉扎大胆地穿上了Loewe的便利贴连衣裙。"
+      },
+      {
+        "en": "Emma Corrin wore a delightfully bizarre Miu Miu ensemble in 2021.",
+        "cn": "2021年，艾玛·科林身着一套妙趣横生又略显奇特的Miu Miu套装。"
+      },
+      {
+        "en": "Kiernan Shipka, meanwhile, eschewed a ball gown for a Dior Couture minidress worn over a pair of black pants—an even bolder choice when you consider the Mad Men star was only 15 years old.",
+        "cn": "与此同时，基尔南·希普卡没有选择礼服，而是身着迪奥高定（Dior Couture）迷你连衣裙，内搭一条黑色长裤——考虑到这位《广告狂人》女星当时才15岁，这一选择显得尤为大胆。"
+      },
+      {
+        "en": "Ahead of the 2026 Emmy Awards, here are the best dresses in Emmys history.",
+        "cn": "在2026年艾美奖颁奖典礼即将举行之际，以下是艾美奖历史上最精彩的礼服。"
       }
     ]
   }

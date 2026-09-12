@@ -12,7 +12,7 @@
  *   - 发布时 bump 下面的 CACHE 名：新 SW 激活清空旧缓存，发布后首次进站全量走
  *     网络拿最新内容（一次性代价），之后恢复秒开。
  */
-const CACHE = "wordlens-v40";
+const CACHE = "wordlens-v41";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {
