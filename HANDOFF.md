@@ -6,7 +6,7 @@
 
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
-- **当前工作树状态**：SW 策略 v43，词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **39 篇**（明星 4（VF/RS 源已接入，Guardian 明星 tag feed 待 Actions 首跑）+ 足球 9 = 2026-09-11 当天 + 成长 11 = 独立博主长文全文（Dan Koe / Farnam Street / More To That / Ness Labs；新增 Opta Analyst、Aeon、Psyche RSS 配置，待下一次可联网 Actions 运行验证）+ 寓言 15；AI 待每日回补；**历史栏目已删除**（v39，源长期断供，FEEDS/配额/CATEGORIES 同步移除）），全库 35 篇封面零缺口（v39 repair 补齐 MTT 两篇），另有点词翻译层 38,267 词（阅读页任意单词点击查义）。缓存优先/1 小时新鲜窗/304 协商回落 + 保留上一代缓存作回退；本次 v43 为移除旧背词状态后的发布缓存升级，后续内容更新继续靠后台协商完成
+- **当前工作树状态（2026-09-13）**：SW 策略 v43，词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **11 篇**（足球 2、AI 3、成长 3、明星 3；寓言入口保留但本次没有可用新来源），旧文章已按 `--replace` 清空并替换。11 篇均有封面（10 篇文章自带封面 + 1 篇由封面索引映射），另有点词翻译层约 38,267 词（阅读页任意单词点击查义）。缓存优先/1 小时新鲜窗/304 协商回落 + 保留上一代缓存作回退；v43 为移除旧背词状态后的发布缓存版本
 - **运行环境**：Node ≥22（只用内置模块，无 npm 依赖）、Python 3.12+（仅 Pillow 用于压图）。本地起服务任意静态服务器即可，如 `python -m http.server 8123`。
 
 ## 1. 目录地图
@@ -20,7 +20,7 @@
 │   ├── styles.css              全部样式
 │   ├── vendor-fsrs.js          历史 FSRS vendor（当前工作树缺失；背词/复习功能已移除，按当前任务不恢复）
 │   ├── fonts.css / 字体文件    本地化字体
-│   ├── data.js                 内置文章 + WORDS_CORE 手工精编词
+│   ├── data.js                 内置词库种子 + 分类配置（文章种子当前为空）
 │   ├── data-words-bulk-a.js    核心层词库 A 段（生成产物）
 │   ├── data-words-full.js      核心层词库 B 段（生成产物）
 │   ├── data-words-mid.js       基础层词库（生成产物）
@@ -38,7 +38,7 @@
     ├── _build-ecdict.mjs       生成 data-ecdict.js（依赖 .ecdict-blob.json 88MB）
     ├── build-tapdict.mjs       生成 data-tapdict.js 点词翻译层（同依赖 .ecdict-blob.json；词库换代后必须重跑，排除表=当前词库）
     ├── build-examples.mjs      生成 data-examples.js（依赖 .examples-cache/ 44MB）
-    ├── ingest.mjs              文章抓取（RSS→翻译→落库），--append --quota --limit --days
+    ├── ingest.mjs              文章抓取（RSS→翻译→落库），--append/--replace --quota --limit --days
     ├── recommend.mjs           推荐评分与来源健康度纯规则层
     ├── recommend-test.mjs      推荐评分/熔断恢复单元测试
     ├── daily.mjs               GitHub Actions 每日更新入口（定时抓新文章）
@@ -68,7 +68,7 @@
 5. **涉及静态资源结构变更时递增 sw.js 缓存名** `wordlens-cache-vN`；普通内容更新由缓存的后台协商完成。若用户仍看到旧页面，先硬刷新一次。
 6. **英文正文禁改写**，只做清洗（lib-text.mjs）；标题翻译的人工校对表在 translate-titles.mjs 的 TITLE_FIXES。
 7. 基础层词的例句兜底字段是 `collocation`/`collocationCn`（源词典只给短语无完整句），不是所有词都有 `example`。
-8. 文章 `paras` 兼容两种形状：旧文章使用 `{en,cn}`，新抓取文章使用 `{sentences:[{en,cn},...]}`；图片块仍为 `{img,cap}`，不要迁移现有 39 篇旧文。
+8. 文章 `paras` 兼容两种形状：旧文章使用 `{en,cn}`，新抓取文章使用 `{sentences:[{en,cn},...]}`；图片块仍为 `{img,cap}`。使用 `--replace` 更新时不要把旧文章重新混回结果。
 
 ## 3. 词库口径（改动前必读）
 
@@ -95,7 +95,7 @@ GITHUB_TOKEN=$(python tools/_cred-get.py git) node tools/_api-push.mjs "提交�
 
 ```bash
 # 抓新文章（足球/AI/明星/成长走 RSS，寓言走公版静态导入）
-node tools/ingest.mjs --append --quota "足球=3,AI=3,明星=2,成长=2" --limit 10 --days 30   # --dry 预览
+node tools/ingest.mjs --append --quota "足球=3,AI=3,明星=2,成长=2" --limit 10 --days 30   # --dry 预览；全量替换用 --replace
 node tools/translate-titles.mjs --dry        # 标题翻译回填
 node tools/text-scan.js --full               # 正文体检；有问题则 fix-text.mjs --dry 后去掉 --dry
 node tools/qc.mjs                            # 文章质量体检
@@ -111,7 +111,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 
 ## 6. 现状与遗留任务
 
-- ✅ 已上线：两层词库 4,082 词、通用高频缺口 20 词（v28）、点词翻译层（v30，阅读页任意单词点击查义：词库词完整卡可入生词本，词库外词轻量卡只给释义）、阅读页同一篇文章的重渲染保留滚动位置（v33）、存量文章清理（v34）、成长栏目与配图修复（v35-v39）、SW 缓存优先与「上次读到」（v37）、批次化段落兼容（批次 3：新导入文章按段分组，旧文章保持 flat；app.js / ingest / 清洗 / 质检链双格式兼容）、推荐与阅读反馈、每日自动更新。背词/复习/快筛/学习起点入口与交互已移除；保留词库、点词查义、已认识标记和阅读生词本。历史备份中的 studied/wrong/daily/fsrs/studyDays 仅作导入兼容，读取后不再进入运行状态。
+- ✅ 已上线：两层词库 4,082 词、通用高频缺口 20 词（v28）、点词翻译层（v30，阅读页任意单词点击查义：词库词完整卡可入生词本，词库外词轻量卡只给释义）、阅读页同一篇文章的重渲染保留滚动位置（v33）、文章替换与配图清理、成长栏目与配图修复（v35-v39）、SW 缓存优先与「上次读到」（v37）、批次化段落兼容（新抓取文章按段分组；app.js / ingest / 清洗 / 质检链双格式兼容）、推荐与阅读反馈、每日自动更新。背词/复习/快筛/学习起点入口与交互已移除；保留词库、点词查义、已认识标记和阅读生词本。历史备份中的 studied/wrong/daily/fsrs/studyDays 仅作导入兼容，读取后不再进入运行状态。2026-09-13 已按 `--replace` 清空旧文章并按既有规则更新为 11 篇。
 - ✅ 推荐系统阶段 1：新抓文章写入质量分、基础难度分和服务端初始分；质量低于 65 不进入候选池；RSS/正文/图片健康度独立记录，RSS/正文连续失败 3 次熔断、连续成功 3 次恢复。历史文章暂不回写评分字段，保持数据不迁移。
 - ⏳ **L3「真题高频验收」队列未接入**：数据 `tools/.examples-cache/cet4-sprint.json`（2159 词冲刺池）已入库，产品设想是考前验收模式（不背只测），未写任何前端代码。
 - ⏳ 观察项：足球栏目每日管线只保留近 3 天的效果；qc F2 时效 40 天比配额宽。
@@ -120,7 +120,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 ## 7. 快速自检（接手后先跑一遍）
 
 ```bash
-node tools/audit.js        # 期望当前 110/0 fail
+node tools/audit.js        # 期望当前 114/0 fail
 node tools/nav-test.js     # 期望当前 18/0
 node tools/smoke.js        # 跑通不抛错；打印统计 JSON（含 TAPDICT_size 38267）
 python -m http.server 8123 # 浏览器打开 localhost:8123 应正常渲染

@@ -320,10 +320,9 @@ source: "四级真题例句 · 2023 卷一" }
 
 const ARTICLES = [];   // 内置种子文章已清空（2026-09-12 内容清理，足球类旧种子文删除）；文章全部来自 data-articles-extra.js
 
-/* 内容来源说明：以上 14 篇英文正文均为 BBC Sport / The Guardian / ESPN / Smithsonian / People / Mercury News
- * 真实报道的原文摘录（个别段落为便于阅读做了节选与拼接），未做改写虚构。
- * 中文为翻译注释。每篇 url 字段指向原文页面。
- * 抓取文章（data-articles-extra.js）的中文为机器翻译（有道 / MyMemory），同样仅作学习注释。 */
+/* 内容来源说明：当前内置文章种子为空；抓取文章由 data-articles-extra.js 注入。
+ * 抓取正文来自配置媒体的公开 RSS/文章页，英文正文不改写，中文为机器翻译学习注释。
+ * 每篇 url 字段指向原文页面。 */
 
 const CATEGORIES = ["全部","足球","AI","成长","寓言","明星"];
 

@@ -13,6 +13,7 @@
  * 用法：
  *   node tools/ingest.mjs                    抓取并翻译，默认 12 篇，每源最多 4 篇
  *   node tools/ingest.mjs --limit 20 --per 6 抓更多
+ *   node tools/ingest.mjs --replace --limit 16    清空旧文章后重建（先 dry 预览）
  *   node tools/ingest.mjs --append            追加一批（保留此前抓到的文章，不清空）
  *   node tools/ingest.mjs --days 14          只要近 14 天的文章
  *   node tools/ingest.mjs --dry              只抓取+提取+筛选，不翻译，打印摘要
@@ -56,6 +57,7 @@ const REPAIR = has("repair-images");
 const NO_FILTER = has("no-filter");
 const VERBOSE = has("verbose");
 const APPEND = has("append");
+const REPLACE = has("replace");
 const LIMIT = +val("limit", 99);
 const PER_FEED = +val("per", 4);
 const MAX_AGE_DAYS = +val("days", 21);
@@ -680,7 +682,7 @@ function scoreItem({ feed, item, words, cover, imgs, sents, paragraphs }) {
 
 function staticSkipReason(feed, item) {
   if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(item.link)) return "软文";
-  if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b/i.test(item.title)) return "非美图向";
+  if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|watch online|how to watch|livestream|streaming|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b|boxing fight|football game/i.test(item.title)) return "非美图向";
   if (feed.cat === "成长" && /passive income|get rich|dropship|side hustle|\bcrypto\b|\bnft\b|\$\d[\d,.]*\s*(\/|a|per)?\s*(month|day|hr|hour)/i.test(item.title)) return "搞钱标题";
   if (feed.cat === "成长" && /\/podcast\//i.test(item.link)) return "播客页";
   if (/techcrunch (disrupt|sessions|events?)\b/i.test(item.title)) return "活动推广";
@@ -940,9 +942,9 @@ async function repairImages() {
 /* ---------------- 模式二：抓取新文章 ---------------- */
 
 async function main() {
-  console.log(`抓取模式：${DRY ? "DRY（不翻译）" : "抓取 + 翻译"}  目标 ≤ ${LIMIT} 篇  候选/源 = ${CANDIDATE_LIMIT}  时效 = 近 ${MAX_AGE_DAYS} 天\n`);
+  console.log(`抓取模式：${DRY ? "DRY（不翻译）" : "抓取 + 翻译"}${REPLACE ? " · REPLACE（不保留旧文章）" : ""}  目标 ≤ ${LIMIT} 篇  候选/源 = ${CANDIDATE_LIMIT}  时效 = 近 ${MAX_AGE_DAYS} 天\n`);
 
-  const existing = loadExisting();
+  const existing = REPLACE ? [] : loadExisting();
   const haveUrl = new Set(existing.map(a => a.url));
   const rawCandidates = [];
   const skip = (it, why) => { if (VERBOSE) console.log(`    · 跳过[${why}] ${cleanTitle(it.title).slice(0, 46)}`); };

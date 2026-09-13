@@ -63,22 +63,23 @@ let pass = 0, fail = 0;
 const ok = (name, cond) => { (cond ? pass++ : fail++); console.log(`  ${cond ? '✓' : '✗'} ${name}`); };
 const eq = (name, a, b) => ok(`${name}（${JSON.stringify(a)}）`, JSON.stringify(a) === JSON.stringify(b));
 
-console.log('\n[1] 发现页 · 足球分类 → 打开文章 → 返回');
+const sequenceCat = ctx('CATEGORIES.find(c => c !== "全部" && ARTICLES.filter(a => a.cat === c).length >= 3)') || '全部';
+const sequenceIds = ctx(`ARTICLES.filter(a=>a.cat===${JSON.stringify(sequenceCat)}).map(a=>a.id)`);
+console.log(`\n[1] 发现页 · ${sequenceCat}分类 → 打开文章 → 返回`);
 click({ tab: 'discover' });
-click({ cat: '足球' });
+click({ cat: sequenceCat });
 eq('已切到发现页', at().view, 'discover');
-eq('筛选为足球', at().cat, '足球');
-const fashion = ctx('ARTICLES.filter(a=>a.cat==="足球").map(a=>a.id)');
-ok(`足球分类有 ${fashion.length} 篇`, fashion.length > 1);
+eq(`筛选为${sequenceCat}`, at().cat, sequenceCat);
+ok(`${sequenceCat}分类有 ${sequenceIds.length} 篇`, sequenceIds.length > 1);
 
-click({ article: fashion[0] });
+click({ article: sequenceIds[0] });
 eq('进入阅读页', at().view, 'read');
 eq('来路压栈一层', at().depth, 1);
-ok('读完卡片有去处按钮', /finish-nav/.test(screenEl.innerHTML) && /返回足球/.test(screenEl.innerHTML));
+ok('读完卡片有去处按钮', /finish-nav/.test(screenEl.innerHTML) && screenEl.innerHTML.includes(`返回${sequenceCat}`));
 
 click({ act: 'go-back' });
 eq('返回回到发现页（而不是首页）', at().view, 'discover');
-eq('分类筛选被保留', at().cat, '足球');
+eq('分类筛选被保留', at().cat, sequenceCat);
 eq('栈已清空', at().depth, 0);
 
 console.log('\n[2] 首页 · 今日推荐 → 打开文章 → 返回');
@@ -90,15 +91,15 @@ eq('返回回到首页', at().view, 'home');
 
 console.log('\n[3] 分类内「下一篇」');
 click({ tab: 'discover' });
-click({ cat: '足球' });
-const ids = ctx('ARTICLES.filter(a=>a.cat==="足球").map(a=>a.id)');
+click({ cat: sequenceCat });
+const ids = sequenceIds;
 click({ article: ids[0] });
 click({ act: 'next-article' });
 eq('下一篇 = 同分类第 2 篇', ctx('activeArticle.id'), ids[1]);
 click({ act: 'next-article' });
 eq('再下一篇 = 同分类第 3 篇', ctx('activeArticle.id'), ids[2]);
 click({ act: 'go-back' });
-eq('连读几篇后返回仍回到分类页', [at().view, at().cat], ['discover', '足球']);
+eq('连读几篇后返回仍回到分类页', [at().view, at().cat], ['discover', sequenceCat]);
 
 console.log('\n[4] 分类最后一篇点「下一篇」');
 click({ article: ids[ids.length - 1] });
