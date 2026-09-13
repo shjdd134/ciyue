@@ -20,6 +20,7 @@
  *   node tools/ingest.mjs --candidate 12    每个源最多富化多少个候选（默认 12）
  *   node tools/ingest.mjs --backfill         为已有文章补抓封面图（写 assets/data-covers.js）
  *   node tools/ingest.mjs --repair-images    只修复已抓文章的封面与正文图，不重跑翻译
+ *   node tools/ingest.mjs --repair-images --repair-cats 足球,AI,明星  只修复指定栏目
  *   node tools/ingest.mjs --no-filter        放宽难度筛选
  *
  * 翻译结果缓存在 tools/.mt-cache.json，重复运行不会重复请求。
@@ -54,6 +55,7 @@ const val = (n, d) => { const i = argv.indexOf(`--${n}`); return i >= 0 && argv[
 const DRY = has("dry");
 const BACKFILL = has("backfill");
 const REPAIR = has("repair-images");
+const REPAIR_CATS = new Set(String(val("repair-cats", "")).split(",").map(s => s.trim()).filter(Boolean));
 const NO_FILTER = has("no-filter");
 const VERBOSE = has("verbose");
 const APPEND = has("append");
@@ -836,10 +838,11 @@ async function repairImages() {
 
   const list = JSON.parse(m[2]);
   fs.mkdirSync(COVERS_DIR, { recursive: true });
-  console.log(`修复配图：共 ${list.length} 篇\n`);
+  const targets = REPAIR_CATS.size ? list.filter(a => REPAIR_CATS.has(a.cat)) : list;
+  console.log(`修复配图：${targets.length} / ${list.length} 篇${REPAIR_CATS.size ? `（${[...REPAIR_CATS].join("、")}）` : ""}\n`);
 
   let coverOk = 0, coverFail = 0, inOk = 0, inFail = 0;
-  for (const a of list) {
+  for (const a of targets) {
     const html = await get(a.url, 2, 60000);   // 名刊页面重，放宽单次超时
     if (!html) { console.log(`· ${a.id.padEnd(40)} 页面取不到，保持原样`); coverFail++; continue; }
 
@@ -921,11 +924,8 @@ async function repairImages() {
     await addMarks(sentenceIndex);
     a.paras = rebuilt;
 
-    /* 清掉这轮不再引用的旧图文件 */
-    for (let k = placed + 1; k <= MAX_INLINE_IMG + 2; k++) {
-      const stale = path.join(COVERS_DIR, `${a.id}-${k}.jpg`);
-      if (fs.existsSync(stale)) fs.unlinkSync(stale);
-    }
+    /* 不在修复过程中删除旧图。完整数据写盘并通过质检后，交给 publish.mjs
+     * 按全库引用关系归档孤儿图，避免中断时把仍需恢复的图片永久删掉。 */
 
     console.log(`· ${a.id.padEnd(40)} 封面 ${hasCover ? "✓" : "×"}  正文图 ${placed} 张`);
     await sleep(300);

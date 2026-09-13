@@ -4,7 +4,7 @@
  * 用法： node tools/publish.mjs [--days 30] [--per-cat 25]
  *
  * 瘦身只作用于抓取库（data-articles-extra.js）：
- *   - 超过 --days 天的文章删除（新闻类内容过期即贬值）
+ *   - 新闻类超过 --days 天的文章删除（成长/寓言为常青内容，不按日期淘汰）
  *   - 每个栏目最多保留 --per-cat 篇（按日期取最新）
  * data.js 内置文章与归档文件不受影响。
  */
@@ -19,6 +19,7 @@ const arg = (name, dflt) => {
 };
 const KEEP_DAYS = arg("days", 30);
 const PER_CAT = arg("per-cat", 25);
+const EVERGREEN_CATS = new Set(["成长", "寓言"]);
 
 const ASSETS = path.join(ROOT, "assets");
 const EXTRA = path.join(ASSETS, "data-articles-extra.js");
@@ -44,7 +45,11 @@ const list = JSON.parse(m[1]);
 const DAY = 86400000;
 const cutoff = Date.now() - KEEP_DAYS * DAY;
 
-const dated = list.filter(a => { const t = new Date(a.date || 0).getTime(); return Number.isFinite(t) && t >= cutoff; });
+const dated = list.filter(a => {
+  if (EVERGREEN_CATS.has(a.cat)) return true;
+  const t = new Date(a.date || 0).getTime();
+  return Number.isFinite(t) && t >= cutoff;
+});
 const expired = list.length - dated.length;
 
 /* 每类取最新的 N 篇（date 降序），多余的淘汰 */
@@ -84,13 +89,25 @@ for (const a of ARTICLES) {
   for (const p of a.paras || []) if (p.img) used.add(path.basename(p.img));
 }
 const coversDir = path.join(ASSETS, "covers");
+const orphanBakDir = path.join(bakDir, "covers");
 let orphan = 0;
 if (fs.existsSync(coversDir)) {
   for (const f of fs.readdirSync(coversDir)) {
-    if (!used.has(f)) { fs.unlinkSync(path.join(coversDir, f)); orphan++; }
+    if (used.has(f)) continue;
+    fs.mkdirSync(orphanBakDir, { recursive: true });
+    const src = path.join(coversDir, f);
+    const dest = path.join(orphanBakDir, f);
+    try {
+      fs.renameSync(src, dest);
+      orphan++;
+    } catch (err) {
+      /* Windows 上图片可能被浏览器、杀毒软件短暂占用。发布不应因此失败，
+       * 也不能退回不可恢复的 unlink；保留原文件，留待下次发布再清理。 */
+      console.warn(`孤儿封面暂未归档：${f}（${err.code || err.message}）`);
+    }
   }
 }
-console.log(`孤儿封面清理：删除 ${orphan} 张不再引用的图`);
+console.log(`孤儿封面清理：归档 ${orphan} 张到 .bak/daily/${day}/covers/`);
 
 /* ---------- 4. SW 缓存名保持稳定（v42 起） ----------
  * 缓存策略已改为 SWR 后台刷新 + ETag 协商，内容更新不再需要清缓存——

@@ -2,9 +2,7 @@
  *
  * 键为文章 id，值为本地图片路径（相对站点根目录）。
  * 抓不到配图的文章不在此表内，页面会自动回退到渐变封面。
- * 共 1 篇有图。
+ * 共 0 篇有图。
  */
 
-const COVER_MAP = {
-  "ft-who-are-elversberg-from-the-regional-leagues-t": "assets/covers/ft-who-are-elversberg-from-the-regional-leagues-t.jpg"
-};
+const COVER_MAP = {};
