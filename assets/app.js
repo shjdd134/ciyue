@@ -77,6 +77,7 @@ const defaultState = {
   lastRead: { id: "", y: 0, pct: 0, at: 0 },  // 「上次读到」：文章 id + 滚动位置，发现页可直达续读
   articleFeedback: {},  // 完成页反馈：{ [文章id]: { diff: easy|ok|hard, rate: up|mid|down, at } }
   hintSeen: false,  // 阅读页操作提示只出现一次
+  backupHintAt: 0,  // 上次「记得备份」提示时间（7 天节流）
 };
 let S = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORE) || "{}"));
 /* 早期版本留下的写死字段（streak / minutes / tab）：就地丢弃，避免旧数据继续冒充真实统计 */
@@ -181,6 +182,13 @@ function markStudyDay() {
   const k = todayKey();
   if (!S.studyDays.includes(k)) S.studyDays.push(k);
   if (S.studyDays.length > 400) S.studyDays = S.studyDays.slice(-400);
+  /* 备份提醒：学习第 2 天起或掌握 ≥50 词时提示一次，7 天不重复——
+     进度只存在本地浏览器，这是唯一的数据安全网（不做账号/云同步） */
+  if ((S.studyDays.length >= 2 || masteredCount() >= 50) &&
+      Date.now() - (S.backupHintAt || 0) > 7 * 86400000) {
+    S.backupHintAt = Date.now(); save();
+    setTimeout(() => toast("进度只存在这台浏览器 · 记得在「我的」里备份"), 1200);
+  }
 }
 
 /* 连续学习天数：从今天（今天还没学则从昨天）往前数连续有记录的天数（按北京日期） */
@@ -508,6 +516,7 @@ let resumeY = 0;  // 打开文章那一刻要恢复的位置（消费一次即�
 let sheetMore = false;  // 查词卡是否处于「更多」展开态（关卡即复位）
 let lastActiveAt = Date.now();  // 最近一次交互（滚动/点击），活跃阅读计时用
 let lastFabY = 0;     // 上次滚动位置（FAB 淡入淡出判方向用）
+let installEvt = null;  // PWA 安装提示事件（Android 捕获后「我的」页出安装按钮）
 const LOOKED = {};  // { [articleId]: 次 }
 
 /* ---------------- 视图栈：从哪儿进来，就退回哪儿 ----------------
@@ -671,7 +680,18 @@ const ring = (p, size = 78, sw = 10) => {
 };
 const statusbar = () => `
   <div class="statusbar" aria-hidden="true"></div>`;
-const speak = t => { try { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (e) { } };
+/* TTS：iOS 静音键/首次授权/无英文语音都可能「哑火」——失败必须给提示，不能无声 */
+const speak = t => {
+  try {
+    if (!window.speechSynthesis) { toast("当前系统不支持朗读"); return false; }
+    const u = new SpeechSynthesisUtterance(t);
+    u.lang = "en-US";
+    u.onerror = () => toast("朗读失败 · 系统可能不支持英文语音");
+    speechSynthesis.cancel();
+    speechSynthesis.speak(u);
+    return true;
+  } catch (e) { toast("当前系统不支持朗读"); return false; }
+};
 const toast = msg => {
   const el = document.createElement("div");
   el.className = "toast"; el.textContent = msg;
@@ -841,7 +861,7 @@ function renderHome() {
         <div class="icon-btn" style="background:var(--brand-soft);border:0;color:var(--brand)" aria-hidden="true">${svg("user", 18)}</div>
       </div>
 
-      <button class="btn-primary" data-act="start-study" style="width:100%">${svg("play", 18)} 开始今日背词</button>
+      <button class="btn-primary" data-act="${daysToExam() <= 30 && typeof SPRINT_WORDS !== "undefined" && SPRINT_WORDS.length ? "start-sprint" : "start-study"}" style="width:100%">${daysToExam() <= 30 && typeof SPRINT_WORDS !== "undefined" && SPRINT_WORDS.length ? svg("check", 18) + " 今日验收 30 词 · 先作答再看释义" : svg("play", 18) + " 开始今日背词"}</button>
 
       <div class="row between">
         <span class="h3">今日推荐</span>
@@ -1279,6 +1299,9 @@ function renderMe() {
           <div class="muted">已读完 ${S.finished.length} 篇 · 累计学过 ${S.studied.length.toLocaleString()} 词</div>
         </div>
       </div>
+
+      ${installEvt ? `<button class="btn-primary" data-act="pwa-install" style="width:100%">${svg("check", 16)} 添加到主屏幕</button>` : ""}
+      ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2" style="font-size:12px">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
 
       <div class="card col" style="gap:12px">
         <div class="row between"><span class="h2">学习总览</span><span class="muted-2">近 7 天</span></div>
@@ -1855,6 +1878,22 @@ document.addEventListener("click", e => {
     case "start-study":
       resetNav();
       view = { name: "study" }; flipped = false; answered = null; render(); break;
+    case "start-sprint": {
+      /* 考前验收：冲刺词单按真题热度排序，按天轮转 30 词；验收不占每日额度，仍走 FSRS */
+      resetNav();
+      const pool = (typeof SPRINT_WORDS !== "undefined" ? SPRINT_WORDS : [])
+        .map(w => WORDS.find(x => x.word === w)).filter(Boolean);
+      if (!pool.length) { toast("冲刺词单为空"); break; }
+      const dayN = Math.floor(Date.parse(todayKey() + "T00:00:00+08:00") / 86400000);
+      const off = ((dayN * 30) % pool.length + pool.length) % pool.length;
+      const picks = [];
+      for (let i = 0; i < 30; i++) picks.push(pool[(off + i) % pool.length]);
+      setQueue(picks, "考前验收", true);
+      flipped = false; answered = null;
+      view = { name: "study" }; render();
+      toast(`考前验收 · 30 词 · 先作答再看释义`);
+      break;
+    }
     case "toggle-home-stats":
       homeStatsOpen = !homeStatsOpen; render(); break;
     case "home-reroll":
@@ -1883,6 +1922,9 @@ document.addEventListener("click", e => {
       resetNav(); setQueue(ws, "本篇生词", false);
       view = { name: "study" }; render(); break;
     }
+    case "pwa-install":
+      if (installEvt) { installEvt.prompt(); installEvt = null; render(); }
+      break;
     case "sheet-more": {
       sheetMore = true;
       const w = t.dataset.word;
@@ -2242,6 +2284,11 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
   });
   /* 活跃阅读计时：任何点击都刷新活跃时间戳 */
   document.addEventListener("click", () => { lastActiveAt = Date.now(); }, true);
+  /* PWA 安装：Android Chrome 捕获安装事件，「我的」页出安装按钮；iOS 走分享指引 */
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault(); installEvt = e;
+    if (view.name === "me") render();
+  });
   /* SW 后台刷新到新内容：自动整页刷新一次（阅读/背词中不打断，改用提示） */
   navigator.serviceWorker.addEventListener("message", e => {
     if (!e.data || e.data.type !== "content-updated") return;
