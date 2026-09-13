@@ -22,7 +22,7 @@ const run = (script, args = []) => {
   return r.status === 0;
 };
 
-const tracked = ["data-articles-extra.js", "data-covers.js", "data-examples.js", "sw.js"];
+const tracked = ["data-articles-extra.js", "data-covers.js", "data-examples.js", "data-source-health.js", "sw.js"];
 
 /* ---------- 快照 ---------- */
 fs.rmSync(STAGE, { recursive: true, force: true });
@@ -41,7 +41,12 @@ function extraIds() {
 
 function rollback(why) {
   console.error(`\n✗ ${why} —— 回滚到更新前状态`);
-  for (const f of tracked) if (fs.existsSync(path.join(STAGE, f))) fs.copyFileSync(path.join(STAGE, f), path.join(ASSETS, f));
+  for (const f of tracked) {
+    const snap = path.join(STAGE, f);
+    const live = path.join(ASSETS, f);
+    if (fs.existsSync(snap)) fs.copyFileSync(snap, live);
+    else if (fs.existsSync(live)) fs.rmSync(live, { force: true });
+  }
   process.exit(1);
 }
 
@@ -49,6 +54,7 @@ function rollback(why) {
 console.log("== 步骤 1/5：抓取近 7 天文章 ==");
 const okIngest = run("ingest.mjs", [
   "--append", "--days", "7", "--per", "2", "--limit", "24",
+  "--candidate", "16",
   "--quota", "足球=3,AI=3,明星=2,成长=2",
 ]);
 if (!okIngest) rollback("抓取步骤失败");
@@ -82,7 +88,7 @@ if (!run("publish.mjs")) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-for (const t of ["audit.js", "nav-test.js", "smoke.js", "text-scan.js"]) {
+for (const t of ["recommend-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 

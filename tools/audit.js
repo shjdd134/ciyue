@@ -4,13 +4,13 @@
  *   [A] 浮层跨页残留（查词卡挂在 .phone 上、不在 #screen 里）
  *   [B] 系统返回键不再一次吃掉两条 history
  *   [C] 根级跳转（点底部 tab）回收已压入的 history 条目
- *   [D] 学习数据全部为真实计算（每日目标 / 连续天数 / 时长 / 掌握率 / 已认识）
+ *   [D] 阅读数据全部为真实计算（连续天数 / 时长 / 已读 / 已认识）
  *   [E] 搜索真的能搜到文章
  *   [F] 「筛选」按钮真的能排序
  *   [G] 正文无乱码（占位符 / 脚本 / 不可见字符 / 空译文）
  *   [H] 标题双语（每篇都有中文标题，四个渲染位都落地）
  *   [I] 例句里的目标词标色（含词形变化、三处渲染位、不误标）
- *   [J] 复习队列：错词复习真的换队列、艾宾浩斯按结果推后、队列走完自动收尾
+ *   [J] 词库与点词查义：完整词卡、生词本与已认识标记仍可用
  *   [K] 数据安全：清空进度有确认浮层、备份可导出
  *
  * 运行：node tools/audit.js
@@ -170,27 +170,9 @@ ok('回收触发的 popstate 被吞掉、视图没被改坏', ctx('view.name') =
  * D. 学习数据必须是真实计算
  * =================================================================== */
 console.log('\n[D] 学习数据全部真实计算');
-eq('每日目标独立于词库总量', ctx('DAILY_GOAL'), 28);
-eq('初始今日已学为 0', ctx('doneToday()'), 0);
-eq('初始连续天数为 0', ctx('streakDays()'), 0);
-eq('初始掌握率为 0', ctx('masteredRate()'), 0);
 ok('首页不再显示整本词库当作今日目标', !/今日还剩 4455/.test(screenEl.innerHTML));
 ok('首页倒计时不是写死的 47 天', !/还有 47 天/.test(screenEl.innerHTML));
 
-const w0 = ctx('WORDS[0].word');
-click({ tab: 'study' });
-click({ act: 'answer', v: 'yes' });
-eq('答「认识」→ 今日已学 +1', ctx('doneToday()'), 1);
-eq('答「认识」→ 计入已掌握', ctx('S.studied.length'), 1);
-ok('答「认识」→ 词进入 known（文章不再高亮）', ctx(`S.known.includes(${JSON.stringify(w0)})`));
-eq('连续天数变为 1', ctx('streakDays()'), 1);
-eq('掌握率 100%', ctx('masteredRate()'), 100);
-
-click({ act: 'answer', v: 'no' });
-eq('答「不认识」→ 今日已学 +1', ctx('doneToday()'), 2);
-eq('答「不认识」→ 错词本 +1', ctx('S.wrong.length'), 1);
-ok('答「不认识」→ 撤销 known 标记', !ctx(`S.known.includes(${JSON.stringify(ctx('WORDS[1].word'))})`));
-eq('掌握率回落为 50%', ctx('masteredRate()'), 50);
 
 /* 阅读打卡写入真实时长 */
 click({ tab: 'home' });
@@ -231,6 +213,11 @@ click({ act: 'filter' });
 click({ act: 'set-sort', sort: 'new' });
 eq('切回最新发布 → 排在最前的是日期最新那篇', ctx('sortArticles(ARTICLES)[0].id'),
   ctx('ARTICLES.slice().sort((a,b)=>String(b.date||"").localeCompare(String(a.date||"")))[0].id'));
+const feedbackId = ctx('ARTICLES[0].id');
+const scoreBeforeFeedback = ctx('clientScore(ARTICLES[0])');
+ctx(`S.articleFeedback = { ${JSON.stringify(feedbackId)}: { rate: "down", diff: "hard", at: Date.now() } };`);
+ok('负反馈会降低同一篇文章的推荐分', ctx('clientScore(ARTICLES[0])') < scoreBeforeFeedback);
+ctx('S.articleFeedback = {};');
 
 /* ===================================================================
  * G. 正文里不能出现乱码
@@ -246,20 +233,51 @@ const noCnHits = [];
 let textParas = 0;
 for (const a of ctx('ARTICLES')) {
   (a.paras || []).forEach((p, i) => {
-    for (const k of ['en', 'cn', 'cap']) {
+    if (!p || typeof p !== 'object') {
+      noiseHits.push(`${a.id} p${i + 1} 不是对象`);
+      return;
+    }
+    for (const k of ['cap']) {
       const v = p[k];
       if (typeof v === 'string' && NOISE.test(v)) noiseHits.push(`${a.id} p${i + 1}.${k}`);
     }
     if (p.img) return;
-    textParas++;
-    if (!String(p.cn || '').trim()) noCnHits.push(`${a.id} p${i + 1}`);
-    if (!String(p.en || '').trim()) noiseHits.push(`${a.id} p${i + 1}.en 为空`);
+    const sentences = Array.isArray(p.sentences) ? p.sentences : [p];
+    if (!sentences.length) {
+      noiseHits.push(`${a.id} p${i + 1} 没有句子`);
+      return;
+    }
+    sentences.forEach((s, j) => {
+      const label = Array.isArray(p.sentences) ? `p${i + 1}s${j + 1}` : `p${i + 1}`;
+      textParas++;
+      for (const k of ['en', 'cn']) {
+        const v = s && s[k];
+        if (typeof v === 'string' && NOISE.test(v)) noiseHits.push(`${a.id} ${label}.${k}`);
+      }
+      if (!String(s?.cn || '').trim()) noCnHits.push(`${a.id} ${label}`);
+      if (!String(s?.en || '').trim()) noiseHits.push(`${a.id} ${label}.en 为空`);
+    });
   });
 }
 ok(`全部 ${ctx('ARTICLES.length')} 篇 / ${textParas} 段正文无占位符、脚本与不可见字符`, noiseHits.length === 0);
 if (noiseHits.length) console.log(`    命中：${noiseHits.slice(0, 8).join('、')}`);
 ok('没有只有英文、没有译文的段落', noCnHits.length === 0);
 if (noCnHits.length) console.log(`    命中：${noCnHits.slice(0, 8).join('、')}`);
+
+/* 新抓取文章的段落形状回归：一段可包含多句，图片仍是独立块。 */
+ctx(`var __nestedProbe = { id: "nested-probe", title: "Nested", source: "test", cat: "寓言", date: "1912", url: "#", cover: "", gradient: "", paras: [
+  { sentences: [
+    { en: "A comprehensive test sentence.", cn: "一条完整的测试句子。" },
+    { en: "Another sentence.", cn: "另一条测试句子。" }
+  ] },
+  { img: "assets/covers/test.jpg", cap: "测试图片" }
+]};`);
+ok('嵌套段落展开为两句', ctx('textSentences(__nestedProbe).length') === 2);
+ok('嵌套段落统计词数', ctx('articleStats(__nestedProbe).words') > 0);
+ctx('activeArticle = __nestedProbe; view = {name:"read"}; S.showCn = true;');
+const nestedRead = ctx('renderRead()');
+ok('嵌套段落阅读渲染句子节点', nestedRead.includes('class="sentence"') && nestedRead.includes('data-si="1"'));
+ctx('activeArticle = ARTICLES[0]; view = {name:"home"}; S.showCn = false;');
 
 /* ===================================================================
  * H. 标题双语
@@ -316,10 +334,8 @@ eq('标记落在目标词上', marked, 'The report offers a <mark class="w-hl">c
 
 /* 三处渲染位 */
 const iWord = words.findIndex(w => w.word === 'comprehensive');
-ctx(`qPos = ${iWord}; queue = null; flipped = false; view = { name: "study" }; render()`);
-ok('词卡正面渲染标色', /class="w-hl">comprehensive</.test(screenEl.innerHTML));
-ctx('flipped = true; render()');
-ok('词卡背面「真题搭配」渲染标色', /class="w-hl">comprehensive</.test(screenEl.innerHTML));
+ctx('view = { name: "read" }; activeArticle = ARTICLES[0]; render()');
+ok('阅读正文渲染标色', /class="w-hl"|kw/.test(screenEl.innerHTML));
 ctx('sheetMore = true');
 ok('查词浮层渲染标色（展开态）', /class="w-hl">comprehensive</.test(ctx('renderSheet("comprehensive")')));
 ctx('sheetMore = false');
@@ -330,61 +346,18 @@ eq('句中没有目标词时不产生标记', ctx('hlWord("Nothing to see here."
 eq('标色不破坏转义', ctx('hlWord("Tea & coffee for the test.", "test")'), 'Tea &amp; coffee for the <mark class="w-hl">test</mark>.');
 
 /* ===================================================================
- * J. 复习队列与 FSRS 调度
- *   J1 「开始复习」真的把队列换成错词（以前只是弹个 toast 然后走默认顺序）
- *   J2 答对 → 到期日推后；答错 → 今天就到期
- *   J3 队列走完自动退出并回到「我的」
- *   J4 生词本也能拿来练
- * =================================================================== */
-console.log('\n[J] 复习队列与 FSRS 调度');
-const W1 = words[0].word, W2 = words[1].word;
-ctx(`S.wrong = ["${W1}", "${W2}"]; S.review = {}; save()`);
-ctx('setQueue(reviewQueue(), "测试队列")');
-ok('复习队列 = 错词（去重后）', ctx('queue && queue.map(w=>w.word).join(",")') === `${W1},${W2}`);
-click({ act: 'review' });
-ok('点「开始复习」进入学习页且用的是复习队列', ctx('view.name') === 'study' && ctx('queue !== null'));
-ok('学习页显示队列名与退出入口', /data-act="quit-queue"/.test(screenEl.innerHTML));
-ok('进度条按队列长度算，不是全量 4455', /\b1\/2\b/.test(screenEl.innerHTML));
-
-/* 答对第一张：应写入 FSRS 复习态、到期时间推到未来、并移出错词本 */
-ctx(`qPos = 0; render()`);
-click({ act: 'answer', v: 'yes' });
-const rev1 = ctx(`S.fsrs["${W1}"]`);
-ok('答对写入 FSRS 调度（进入复习态）', rev1 && rev1.st === 2 && rev1.r === 1);
-ok('答对后到期时间推到未来', rev1 && rev1.due > new Date().toISOString());
-ok('答对后从错词本移除', !ctx(`S.wrong.includes("${W1}")`));
-
-/* 答错第二张（队列已推进到 W2）：应记遗忘、稳定性应低于答对、留在错词本 */
-ok('答完一张后队列推进到第二张', ctx('curWord().word') === W2);
-click({ act: 'answer', v: 'no' });
-const rev2 = ctx(`S.fsrs["${W2}"]`);
-ok('答错记入遗忘（lapses）且稳定性低于答对', rev2 && rev2.l === 1 && rev2.s < (rev1 ? rev1.s : 99));
-ok('答错后仍在错词本', ctx(`S.wrong.includes("${W2}")`));
-/* 新交互：答错不直接走人——先翻面看答案，作答行换成「继续」，点它才收尾 */
-ok('答错后翻到背面看答案，不直接跳下一个', ctx('view.name') === 'study' && ctx('flipped') === true && ctx('answered') === 'no');
-ok('作答行换成「继续 · 下一个」', /data-act="next"/.test(screenEl.innerHTML) && !/data-act="answer"/.test(screenEl.innerHTML));
-click({ act: 'next' });
-ok('点「继续」后队列走完自动收尾，回到「我的」', ctx('view.name') === 'me' && ctx('queue') === null);
-ok('收尾后作答状态已复位', ctx('answered') === null && ctx('flipped') === false);
-
-/* 生词本练习 */
-ctx(`S.notebook = ["${W1}"]; setQueue(wordsOf(S.notebook), "生词本")`);
-ok('生词本可以拿来练习', ctx('queue.length') === 1 && ctx('curWord().word') === W1);
-ctx('setQueue(null, "")');
-
-/* ===================================================================
  * K. 数据安全
  *   K1 「清空进度」不再一键抹掉：先弹确认浮层
  *   K2 确认浮层里同时给出导出与导入，不会让人无从下手
  *   K3 导出把整个状态装进 JSON
  * =================================================================== */
 console.log('\n[K] 数据安全');
-ctx('S.studied = ["alpha"]; save()');
-const beforeReset = ctx('S.studied.length');
+ctx('S.notebook = ["alpha"]; save()');
+const beforeReset = ctx('S.notebook.length');
 click({ act: 'ask-reset' });
-ok('点「清空全部进度」先弹确认浮层', /清空全部学习进度/.test(ctx('resetSheet()')));
+ok('点「清空阅读记录」先弹确认浮层', /清空阅读记录/.test(ctx('resetSheet()')));
 ok('确认浮层带导出 / 导入备份入口', /data-act="export-data"/.test(ctx('resetSheet()')) && /data-act="import-data"/.test(ctx('resetSheet()')));
-ok('确认浮层里有「确认清空」而不是直接清', /data-act="reset"/.test(ctx('resetSheet()')) && ctx('S.studied.length') === beforeReset);
+ok('确认浮层里有「确认清空」而不是直接清', /data-act="reset"/.test(ctx('resetSheet()')) && ctx('S.notebook.length') === beforeReset);
 ok('导出函数存在且带进度字段', typeof ctx('exportData') === 'function' && /state/.test(String(ctx('exportData'))));
 
 /* ===================================================================
@@ -421,14 +394,11 @@ ok('manifest 含 192 + 512 + maskable 图标', manifest.icons.some(i => i.sizes 
 ok('192/512 PNG 已落盘', fs.existsSync(path.join(base, 'assets', 'icons', 'icon-192.png')) && fs.existsSync(path.join(base, 'assets', 'icons', 'icon-512.png')));
 
 /* ===================================================================
- * M. 学习顺序：词频爬坡 + 快筛已会词
+ * M. 词库顺序与结构
  *   M1 排序主轴已换成 ECDICT 语料词频（旧版被自家新闻语料带偏，
  *      前 100 名里 93% 是中学已收录词，the / and / league 霸屏）
- *   M3 「中学已学词」快筛队列不占每日新词额度
- *   （2026-09-11 移除摸底自测/学习起点功能，起点恒为队列头部，
- *     已会词一律走快筛清掉 —— M2 已删）
  * =================================================================== */
-console.log('\n[M] 学习顺序与快筛');
+console.log('\n[M] 词库顺序与结构');
 
 // M1 词频爬坡：跨「每日单元」边界必须严格递增
 //    （单元内为降低字母聚集做了哈希打散，所以只在段边界上验证单调性）
@@ -457,26 +427,9 @@ const head30 = ctx('WORDS.slice(0,30).map(w=>w.word)');
  * 要守的是「不再被自家文章的题材词占据」—— 旧版 league / season / football 全在前排。 */
 ok('前排不再被题材词占据', !head30.includes('league') && !head30.includes('season') && !head30.includes('football') && !head30.includes('player'));
 
-// 分档标签与基础词识别
+// 分档标签
 ok('档位函数给出高频档', ctx("tierOf(WORDS[0])") === '高频');
-const basicN = ctx('BASIC_WORDS.length');
-ok(`中学已学词识别规模合理（${basicN} 词）`, basicN > 800 && basicN < 1800);
-// 考纲标签不可靠的反例：compensate / compulsory 都挂着 gk 标签，但显然不是高中词汇
-ok('基础词判定不受错标考纲标签影响', !ctx("isBasic({word:'compulsory'})") && !ctx("isBasic({word:'compensate'})"));
-ok('真基础词判为已学', ctx("isBasic({word:'search'})") && ctx("isBasic({word:'familiar'})"));
 
-// M2（已删）：摸底自测移除后，默认队列恒为全库路径，起点 = 队列头部
-eq('新词队列从全库头部开始', ctx('newWords()[0].word'), ctx('WORDS[0].word'));
-eq('队列即完整学习路径（基础层在前）', ctx('newWords().length'), ctx('WORDS.length'));
-
-// M3 中学已会词快筛
-click({ act: 'quick-sieve' });
-ok('进入快筛队列', ctx('!!queue') === true && ctx('qNoCount') === true);
-ctx('rollDay(); answered = null;');
-const dailyBefore = ctx('S.daily.count');
-click({ act: 'answer', v: 'yes' });
-eq('快筛不占今日新词额度', ctx('S.daily.count'), dailyBefore);
-ok('快筛里的词进了熟词表', ctx('S.known.includes(queue[0].word)') === true);
 
 /* ================= [N] 四级核心层构成 =================
  * 核心层由「CET4 完整考纲」4454 词缩为 ~2000 词，口径见 tools/build-core-vocab.mjs。
@@ -557,7 +510,6 @@ const firstCore = ctx('WORDS.findIndex(w=>w.list!=="中学基础")');
 ok(`学习路径先基础后核心（核心层从第 ${firstCore} 位开始，基础层 ${MID.length} 词）`, firstCore === MID.length);
 
 /* 每日目标：28 词/天是按 99 天备考期反推的，改数字前先重算排期 */
-ok(`每日目标为 28（实为 ${ctx('DAILY_GOAL')}）`, ctx('DAILY_GOAL') === 28);
 
 /* ---------------- [P] 点词翻译层（data-tapdict.js，build-tapdict.mjs 生成） ---------------- */
 console.log('\n[P] 点词翻译层');
@@ -585,8 +537,8 @@ ok(`highlightEn 输出两类 span`, (() => {
   return html.includes('class="tw"') && html.includes('class="kw"');
 })());
 
-/* ---------------- [Q] 队列接续与查词卡行为（2026-09-12 三 bug 回归） ---------------- */
-console.log('\n[Q] 队列接续与查词卡行为');
+/* ---------------- [Q] 词库查词卡行为 ---------------- */
+console.log('\n[Q] 词库查词卡行为');
 /* render 间谍：本段所有查词卡操作都应零整页渲染（render 会把阅读位置打回开头） */
 ctx('window.__renderCalls = 0; const __origRender = render; render = () => { window.__renderCalls++; };');
 /* .kw span 桩：验证 mark-known 就地切换 known 类 */
@@ -594,22 +546,9 @@ const fakeKw = { cls: new Set(), classList: { toggle(c, on) { on ? fakeKw.cls.ad
 const __prevQSA = sandbox.document.querySelectorAll;
 sandbox.document.querySelectorAll = s => (String(s).startsWith('.kw') ? [fakeKw] : __prevQSA(s));
 
-ctx('S.studied.length = 0; S.known.length = 0');
-ok(`resumePos：没学过任何词 → 起点 0`, ctx('resumePos()') === 0);
-ctx(`(${JSON.stringify(ctx('WORDS.slice(0,5).map(w => w.word)'))}).forEach(w => S.studied.push(w))`);
-ok(`resumePos：前 5 词已学 → 起点 5（重开页面接着背，不再从头）`, ctx('resumePos()') === 5);
-ctx('S.known.push(WORDS[5].word)');
-ok(`resumePos：第 6 词已标认识 → 跳到 7（认识词不再以新词出现）`, ctx('resumePos()') === 6);
-ctx(`WORDS.forEach(w => { if (!S.studied.includes(w.word)) S.studied.push(w.word); })`);
-ok(`resumePos：全库学完 → 回到 0`, ctx('resumePos()') === 0);
-ctx('S.studied.length = 0; S.known.length = 0');
+/* 查词卡测试前重置渲染计数 */
+ctx('window.__renderCalls = 0');
 
-/* 答题推进跳过已标认识的词（advanceQueue 的有界跳过循环） */
-ctx('S.known.push(WORDS[6].word); S.studied.push(WORDS[5].word); queue = null; qPos = 5;');
-ctx('advanceQueue()');
-ok(`答题推进跳过已标认识的词（位置 5 → 7）`, ctx('qPos') === 7);
-ctx(`S.known.length = 0; S.studied.length = 0; queue = null; qPos = 0;`);
-ctx('window.__renderCalls = 0');   /* advanceQueue 内部合法调用过 render，计数清零后再测查词卡 */
 
 const sheetW0 = ctx('WORDS[0].word');
 click({ act: "lookup", word: sheetW0 });
@@ -624,12 +563,13 @@ click({ act: "mark-known", word: sheetW1 });
 ok(`再次点击取消已认识标记（类已摘除）`, !fakeKw.cls.has('known') && !ctx(`S.known.includes(${JSON.stringify(sheetW1)})`));
 sandbox.document.querySelectorAll = __prevQSA;
 
-/* 快筛队列排除已认识/已学词，首页计数同口径 */
-ctx(`S.known.push(BASIC_WORDS[0].word); S.studied.push(BASIC_WORDS[1].word);`);
-click({ act: "quick-sieve" });
-ok(`快筛队列排除已认识/已学词（首卡是第 3 个基础词）`, ctx('queue && queue[0].word') === ctx('BASIC_WORDS[2].word') && ctx('qPos') === 0);
-ok(`首页快筛计数与队列同口径`, ctx('sieveLeft()') === ctx('queue.length'));
-ctx(`S.known.length = 0; S.studied.length = 0; queue = null; qPos = 0;`);
+ok('底部导航已移除背词入口', !/data-tab="study"/.test(ctx('tabbar()')));
+const meHtml = ctx('renderMe()');
+ok('我的页保留词库说明', meHtml.includes('四级词库') && meHtml.includes('词库'));
+ok('我的页不再显示复习入口', !/今日复习|开始复习|FSRS/.test(meHtml));
+ok('完整词卡不再提供加入复习', !/data-act="add-review"|加入复习/.test(ctx('renderSheet("comprehensive")')));
+
+ctx(`S.known.length = 0; S.notebook.length = 0;`);
 
 /* 阅读页原地设置（对照/字号/护眼）不切走视图；滚动位置保留由浏览器实测覆盖 */
 ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.showCn = false; S.fontSize = 0;');

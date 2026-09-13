@@ -15,7 +15,6 @@
 <script src="../assets/data-articles-extra.js"></script>
 <script src="../assets/data-covers.js"></script>
 <script src="../assets/data-ecdict.js"></script>
-<script src="../assets/vendor-fsrs.js"></script>
 <script>
 /* 先挂错误收集器，再看 app.js 有没有抛错 */
 window.__errs = [];
@@ -55,20 +54,14 @@ const has = s => body().includes(s);
     lines.push("已打开 " + params.get("id"));
   }
 
-  /* 截图专用：直接落到某个词的词卡 / 查词浮层（?word=comprehensive[&flip=1]，配 v=study|sheet） */
+  /* 截图专用：直接落到某个词的查词浮层（?word=comprehensive，配 v=sheet） */
   if (params.get("word")) {
     const w = params.get("word");
     const i = WORDS.findIndex(x => x.word === w);
     lines.push("词库中 " + w + " 的位置 = " + i);
     if (i >= 0) {
-      queue = null; qPos = i;
-      flipped = !!params.get("flip");
-      if (where === "sheet") {
-        view = { name: "home" }; render();
-        q(".phone").insertAdjacentHTML("beforeend", renderSheet(w));
-      } else {
-        view = { name: "study" }; render();
-      }
+      view = { name: "home" }; render();
+      q(".phone").insertAdjacentHTML("beforeend", renderSheet(w));
     }
   }
 
@@ -78,8 +71,10 @@ const has = s => body().includes(s);
     lines.push("A2 可点生词 = " + hit("#read-body .kw"));
     await wait(150);
     lines.push("A3 查词浮层已打开 = " + !!q(".sheet"));
-    lines.push("A4 浮层按钮数（应为 3） = " + qa(".sheet-btns button").length);
-    lines.push("A5 含「标为已认识」 = " + /标为已认识/.test((q(".sheet") || {}).textContent || ""));
+    lines.push("A4 轻量浮层按钮数（应为 2） = " + qa(".sheet-btns button").length);
+    hit('[data-act="sheet-more"]');
+    await wait(100);
+    lines.push("A5 完整查词卡含「标为已认识」 = " + /标为已认识/.test((q(".sheet") || {}).textContent || ""));
     hit('[data-act="go-back"]');
     await wait(250);
     lines.push("A6 返回后已离开阅读页 = " + !q(".read-top"));

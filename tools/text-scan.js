@@ -125,24 +125,29 @@ for (const [group, list] of GROUPS) {
         return;
       }
 
-      const en = typeof p.en === "string" ? p.en : "";
-      const cn = typeof p.cn === "string" ? p.cn : typeof p.zh === "string" ? p.zh : "";
-      if (!en.trim()) add("struct", "原文为空", group, id, at);
-      if (!cn.trim()) add("translate", "译文缺失", group, id, at);
-      else {
-        if (!CJK.test(cn) && en.trim()) add("translate", "译文无中文（疑似漏译）", group, id, at);
-        if (en.trim() && cn.trim() === en.trim()) add("translate", "译文与原文相同", group, id, at);
-      }
-
-      for (const field of ["en", "cn"]) {
-        const t = typeof p[field] === "string" ? p[field] : "";
-        if (!t) continue;
-        for (const r of RULES) {
-          r.re.lastIndex = 0;
-          const m = t.match(r.re);
-          if (m) add(r.id, r.label, group, id, at + " · " + field + " → " + JSON.stringify([...new Set(m)].slice(0, 3)));
+      const sentences = Array.isArray(p.sentences) ? p.sentences : [p];
+      if (!sentences.length) { add("struct", "段落为空", group, id, at); return; }
+      sentences.forEach((s, j) => {
+        const sat = Array.isArray(p.sentences) ? `${at} · 第 ${j + 1} 句` : at;
+        const en = typeof s?.en === "string" ? s.en : "";
+        const cn = typeof s?.cn === "string" ? s.cn : typeof s?.zh === "string" ? s.zh : "";
+        if (!en.trim()) add("struct", "原文为空", group, id, sat);
+        if (!cn.trim()) add("translate", "译文缺失", group, id, sat);
+        else {
+          if (!CJK.test(cn) && en.trim()) add("translate", "译文无中文（疑似漏译）", group, id, sat);
+          if (en.trim() && cn.trim() === en.trim()) add("translate", "译文与原文相同", group, id, sat);
         }
-      }
+
+        for (const field of ["en", "cn"]) {
+          const t = typeof s?.[field] === "string" ? s[field] : "";
+          if (!t) continue;
+          for (const r of RULES) {
+            r.re.lastIndex = 0;
+            const m = t.match(r.re);
+            if (m) add(r.id, r.label, group, id, sat + " · " + field + " → " + JSON.stringify([...new Set(m)].slice(0, 3)));
+          }
+        }
+      });
     });
   }
 }

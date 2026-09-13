@@ -61,8 +61,8 @@ function hlWord(sentence, word) {
 const STORE = "wordlens.v1";
 const defaultState = {
   theme: "light",
-  studied: [],      // 已学过的单词（累计，用于掌握率）
-  wrong: [],        // 错词本
+  studied: [],      // 旧版背词数据：保留以兼容历史备份，不再参与运行逻辑
+  wrong: [],        // 旧版错词数据：保留以兼容历史备份，不再参与运行逻辑
   notebook: [],     // 生词本（阅读加入）
   showCn: false,
   fontSize: 0,
@@ -70,10 +70,10 @@ const defaultState = {
   read: [],         // 累计读过（含重复）
   finished: [],     // 已打卡的去重列表
   known: [],        // 标记「认识」的词：文章里不再高亮
-  daily: { date: "", count: 0 },   // 今日已学新词（跨天自动归零）
+  daily: { date: "", count: 0 },   // 旧版背词统计：保留以兼容历史备份
   studyDays: [],    // 有学习行为的日期 YYYY-MM-DD，用于算连续天数
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，阅读时长按天累计
-  fsrs: {},         // FSRS 间隔重复调度：{ word: { st,d,s,e,sd,r,l,due,lr } }（vendor-fsrs.js）
+  fsrs: {},         // 旧版 FSRS 数据：保留以兼容历史备份，不再参与运行逻辑
   lastRead: { id: "", y: 0, pct: 0, at: 0 },  // 「上次读到」：文章 id + 滚动位置，发现页可直达续读
   articleFeedback: {},  // 完成页反馈：{ [文章id]: { diff: easy|ok|hard, rate: up|mid|down, at } }
   hintSeen: false,  // 阅读页操作提示只出现一次
@@ -89,12 +89,8 @@ if (!S.daily || typeof S.daily !== "object") S.daily = { date: "", count: 0 };
 if (!S.fsrs || typeof S.fsrs !== "object") S.fsrs = {};
 const save = () => localStorage.setItem(STORE, JSON.stringify(S));
 
-/* ---------------- 真实学习统计 ----------------
- * 页面上所有数字都从下面这几个函数算出来，没有任何写死的「基准值」。 */
-/* 28 不是拍脑袋：4,064 词（基础 2,067 + 核心 1,997）按「已会约 1,880」估，
- * 待学约 2,350 词；距考试 99 天里扣掉摸底 4 天与考前 9 天纯复习，86 个学习日 → 27.3 词/天。
- * 撑不住就别硬撑，去「我的 → 学习起点」重测把起点往前挪，比断卡强。 */
-const DAILY_GOAL = 28;                 // 每日目标新词数
+/* ---------------- 阅读统计 ----------------
+ * 阅读时长、读完篇数和连续阅读天数都从本地记录计算。 */
 const EXAM_DATE = "2026-12-19";        // 下一次四级笔试（12 月第三个周六）
 const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 /* 时区：四级是国内考试，「今天」属于哪个日期、问候语的小时、考试倒计时，
@@ -105,86 +101,14 @@ const ymdTZ = d => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numer
 const todayKey = () => ymdTZ(new Date());
 const shanghaiHour = () => +new Intl.DateTimeFormat("en-CA", { timeZone: TZ, hour: "numeric", hour12: false }).format(new Date());
 
-/* 跨天自动把「今日已学」归零 */
-function rollDay() {
-  const k = todayKey();
-  if (!S.daily || S.daily.date !== k) { S.daily = { date: k, count: 0 }; return true; }
-  return false;
-}
-rollDay();
-
-/* ---------------- FSRS 间隔重复调度 ----------------
- * 内核是开源 FSRS 算法（assets/vendor-fsrs.js，MIT，Anki 官方现用调度器的同源实现）。
- * 三个动作映射：认识 → Good，模糊 → Hard，不认识 → Again；
- * 算法按每词的记忆稳定性（s）与难度（d）算下次复习时间，取代旧版固定阶梯。
- * due 存 ISO 时间串，跨天自然到期，不需要定时器，也不需要后台任务。 */
-const REVIEW_STEPS = [1, 2, 4, 7, 15, 30, 60];   // 兜底阶梯（vendor-fsrs.js 加载失败时才用）
-const F_SCHED = window.FSRS
-  ? FSRS.fsrs(FSRS.generatorParameters({ enable_fuzz: true, enable_short_term: false }))
-  : null;
-/* 旧版阶梯调度（S.review）一次性迁移成 FSRS 卡片：stage 近似为记忆稳定性 */
-for (const [w, r] of Object.entries(S.review || {})) {
-  if (S.fsrs[w] || !window.FSRS) continue;
-  const days = REVIEW_STEPS[Math.min(r.stage || 0, REVIEW_STEPS.length - 1)] || 1;
-  S.fsrs[w] = { st: 2, d: 5, s: Math.max(1, days), e: days, sd: days, r: 1, l: 0,
-                due: new Date((r.due || todayKey()) + "T05:00:00").toISOString(), lr: null };
-}
-function cardOf(word) {
-  const c = S.fsrs[word];
-  if (!c) return FSRS.createEmptyCard(new Date());
-  return {
-    due: new Date(c.due), stability: c.s, difficulty: c.d,
-    elapsed_days: c.e, scheduled_days: c.sd, reps: c.r, lapses: c.l,
-    learning_steps: c.ls || 0,
-    state: c.st, last_review: c.lr ? new Date(c.lr) : undefined
-  };
-}
-function scheduleReview(word, v) {
-  if (!window.FSRS) {                        // 兜底：vendor 脚本加载失败时退回固定阶梯
-    const prev = S.fsrs[word];
-    let stage = prev ? Math.max(0, Math.min(REVIEW_STEPS.length - 1, Math.round(prev.s) || 0)) : 0;
-    stage = v === "yes" ? Math.min(REVIEW_STEPS.length - 1, stage + 1)
-          : v === "fuzzy" ? Math.max(0, stage - 1) : 0;
-    const d = new Date(); d.setDate(d.getDate() + (v === "no" ? 0 : REVIEW_STEPS[stage]));
-    S.fsrs[word] = { st: 2, d: 5, s: stage, e: 0, sd: REVIEW_STEPS[stage], r: 1,
-                     l: v === "no" ? 1 : 0, due: d.toISOString(), lr: null };
-    return;
-  }
-  const rating = v === "yes" ? FSRS.Rating.Good : v === "fuzzy" ? FSRS.Rating.Hard : FSRS.Rating.Again;
-  const { card } = F_SCHED.next(cardOf(word), new Date(), rating);
-  S.fsrs[word] = {
-    st: card.state, d: +card.difficulty.toFixed(3), s: +card.stability.toFixed(3),
-    e: card.elapsed_days, sd: card.scheduled_days, r: card.reps, l: card.lapses,
-    ls: card.learning_steps || 0,
-    due: card.due.toISOString(), lr: card.last_review ? card.last_review.toISOString() : null
-  };
-}
-/* 今天该复习的词：调度表上到期的（含答错当天重练的） */
-function dueWords() {
-  const now = new Date().toISOString();
-  return WORDS.filter(w => { const r = S.fsrs[w.word]; return r && r.due && r.due <= now; });
-}
-/* 复习队列 = 错词 ∪ 到期词，去重。错词在前——用户点「开始复习」先看错词。 */
-function reviewQueue() {
-  const seen = new Set();
-  const out = [];
-  for (const w of [...wordsOf(S.wrong), ...dueWords()]) {
-    if (seen.has(w.word)) continue;
-    seen.add(w.word);
-    out.push(w);
-  }
-  return out;
-}
-const dueCount = () => reviewQueue().length;
-
-/* 记录今天有学习行为（背词作答 / 读完打卡） */
+/* 记录今天有阅读行为（读完打卡） */
 function markStudyDay() {
   const k = todayKey();
   if (!S.studyDays.includes(k)) S.studyDays.push(k);
   if (S.studyDays.length > 400) S.studyDays = S.studyDays.slice(-400);
-  /* 备份提醒：学习第 2 天起或掌握 ≥50 词时提示一次，7 天不重复——
+  /* 备份提醒：阅读第 2 天起提示一次，7 天不重复——
      进度只存在本地浏览器，这是唯一的数据安全网（不做账号/云同步） */
-  if ((S.studyDays.length >= 2 || masteredCount() >= 50) &&
+  if (S.studyDays.length >= 2 &&
       Date.now() - (S.backupHintAt || 0) > 7 * 86400000) {
     S.backupHintAt = Date.now(); save();
     setTimeout(() => toast("进度只存在这台浏览器 · 记得在「我的」里备份"), 1200);
@@ -295,7 +219,7 @@ function resolveToken(low) {
 }
 
 /* 在英文段落里把可查词的 token 包成 span（data-act="lookup"）：
- * - 学习词（含变形，如 performing→perform）：紫色 .kw，点开完整查词卡（可入生词本/复习）
+ * - 词库词（含变形，如 performing→perform）：紫色 .kw，点开完整查词卡（可入生词本）
  * - 点词层普通词：.tw 无持久标色，点开轻量释义卡
  * - 专有名词 / 词库未收录：保持纯文本
  * 匹配含所有格（Japan's 整体归到 japan），避免 's 断在 span 外。 */
@@ -311,12 +235,28 @@ function highlightEn(text) {
   });
 }
 
-/* 统计文章命中关键词个数（去重）。正文里可能夹带图片项，只对文本段生效 */
+/* 文章正文兼容两种格式：
+ *   旧格式：{ en, cn }（现有文章保持不迁移）
+ *   新格式：{ sentences: [{ en, cn }, ...] }（新抓取文章按真实段落分组）
+ * 图片块 { img, cap } 不进入句子流。所有统计、朗读和阅读渲染都经过这里，
+ * 避免某个入口只支持其中一种数据形状。 */
+const sentencesOf = p => {
+  if (p && Array.isArray(p.sentences)) return p.sentences.filter(Boolean);
+  if (p && (p.en || p.cn)) return [p];
+  return [];
+};
+const textSentences = a => (a && Array.isArray(a.paras) ? a.paras : []).flatMap(sentencesOf);
+const sentenceAt = (a, pi, si = 0) => {
+  const p = a && a.paras && a.paras[pi];
+  return sentencesOf(p)[si] || null;
+};
+
+/* 统计文章命中关键词个数（去重）。正文里可能夹带图片项，只对文本句生效 */
 function countHits(a) {
   const hit = new Set();
-  a.paras.forEach(p => {
-    if (!p.en) return;
-    p.en.replace(/[A-Za-z]+/g, m => {
+  textSentences(a).forEach(s => {
+    if (!s.en) return;
+    s.en.replace(/[A-Za-z]+/g, m => {
       const low = m.toLowerCase();
       let node = KW_TRIE;
       for (let i = 0; i < low.length; i++) {
@@ -331,7 +271,7 @@ function countHits(a) {
 }
 
 /* 文章的纯文本句数（不含内嵌图） */
-const sentCount = a => a.paras.filter(p => p.en).length;
+const sentCount = a => textSentences(a).filter(s => s.en).length;
 
 /* ---------------- 学习顺序：词频爬坡 ----------------
  * 旧版主轴是「这个词在我们自己的 83 篇文章里出现过几次」。而文章库主力是足球
@@ -348,7 +288,7 @@ const sentCount = a => a.paras.filter(p => p.en).length;
 const EC = typeof WORD_META === "undefined" ? null : WORD_META;
 const EC_F = w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || Infinity; };
 
-/* 档位标签：只用于展示与快筛，不参与排序 —— 排序始终是连续的词频爬坡，
+/* 档位标签：只用于展示，不参与排序 —— 排序始终是连续的词频爬坡，
  * 硬切档会让学习曲线出现台阶。
  * 阈值贴着核心词库的结构定：词库 = 语料高频(f≤2500) ∪ 真题高频 ∪ 手工精编，
  * 所以「高频 / 中频」正好是语料高频那一层的两半，「低频」就是靠真题与精编补进来的那批。 */
@@ -367,18 +307,7 @@ const tierOf = w => { const f = EC_F(w); return f <= TIER_HI ? "高频" : f <= T
  * hf / cv 是真题高频标记（真题表出现次数 / 试卷词频），基础层内凭它提前。 */
 const LAYER_MID = "中学基础";
 const layerOf = w => (w.list === LAYER_MID ? 0 : 1);
-const LAYER_NAME = ["基础层", "核心层"];
 const isSprint = w => !!(w.hf || w.cv);
-
-/* 「中学已学词」判定：词频 + 牛津3000 + 柯林斯星级 三者交叉。
- * 刻意不用 ECDICT 的考纲标签（t 字段）—— 它是「覆盖关系」而非「学历关系」，
- * compensate(f=5037) / compulsory(f=12735) 都挂着 gk 标签，显然不是高中词汇。
- * 边界落在 familiar / appropriate / supply / search 一带，与「高中毕业应掌握 3500 词」的量级吻合。 */
-const isBasic = w => {
-  const e = EC && EC[w.word.toLowerCase()];
-  if (!e || !e.f) return false;
-  return e.f <= TIER_HI && (e.o === 1 || (e.c || 0) >= 4);
-};
 
 /* 分层排序：先层、后词频；基础层内「真题高频」提前 —— 这些词考试真的会考到，
  * 哪怕它们在日常语料里不显眼（lecture / campus / budget / agriculture 都是）。 */
@@ -414,16 +343,7 @@ for (const w of MID_WORDS) WORDS.push(w);
 for (const w of CORE_WORDS) WORDS.push(w);
 const MID_END = MID_WORDS.length;          // 基础层的结束位置（学习路径上的分界点）
 
-/* 中学已学词另存一份，供「快速筛掉已会词」队列使用 */
-const BASIC_WORDS = WORDS.filter(isBasic);
-
-/* 快筛待筛数：BASIC_WORDS 里既没标认识、也没答过题的（与 quick-sieve 队列同口径） */
-const sieveLeft = () => {
-  const done = new Set([...S.known, ...S.studied]);
-  return BASIC_WORDS.reduce((n, w) => n + (done.has(w.word) ? 0 : 1), 0);
-};
-
-/* 单词索引：错词本 / 生词本里存的是字符串，取词对象别再 O(n) 地 find */
+/* 单词索引：生词本里存的是字符串，取词对象别再 O(n) 地 find */
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
 const wordsOf = list => list.map(x => WORD_BY.get(x)).filter(Boolean);
 
@@ -439,73 +359,7 @@ if (EC) for (const w of WORDS) {
 /* 文章统一按发布日期倒序：最新的一篇自动成为发现页「今日精选」 */
 ARTICLES.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 
-let view = { name: "home" };      // home | study | discover | me | read
-let flipped = false;
-/* 本卡的作答状态：null = 还没答；"no"/"fuzzy" = 已答错、正在看背面答案。
- * 答错的卡不直接跳下一个——先翻面让你把答案看完，再点「继续」走人，
- * 否则错词只是被记进本子，眼睛从来没在答案上停留过。 */
-let answered = null;
-
-/* ---------------- 学习队列 ----------------
- * 以前学习页只认一个全局下标 studyIdx，取词写死为 WORDS[studyIdx % len]——
- * 「开始复习错词」因此是个空头承诺：进了学习页还是顺序里的下一个词。
- * 现在学习页只认队列：queue 为 null 时才是默认顺序，否则按队列走。
- * 复习（错词 / 生词本 / 到期词）都是「换一个队列」，不再往渲染里塞 if。 */
-let queue = null;      // 当前队列（单词对象数组）；null = 默认新词顺序
-let qPos = 0;          // 队列内位置
-let qLabel = "";       // 队列名，显示在进度条旁，如「复习 · 错词」
-let qNoCount = false;  // 快筛队列：点「认识」不计入每日新词额度
-
-/* 默认新词顺序 = 全库学习路径：先基础层（先补高中欠账）再核心层（四级词）。
- * 已会的词走「快筛」队列清掉，不再用摸底自测定位起点。
- * 整个词库缓存在 _pool 里：curList() 每帧都会被调用，不能每次都复制整个词库。 */
-let _pool = null;
-function newWords() {
-  if (!_pool) _pool = WORDS.slice();
-  return _pool;
-}
-const curList = () => queue || newWords();
-const curWord = () => curList()[qPos % curList().length];
-function setQueue(words, label, noCount) {
-  queue = words && words.length ? words : null;
-  qPos = 0;
-  qLabel = queue ? label : "";
-  qNoCount = !!noCount;
-  flipped = false;
-  answered = null;
-}
-/* 走到下一张卡；队列走完自动收尾回「我的」。返回 false 表示队列已结束（此时已 toast）。
- * 默认全量队列是循环的，永远走不到头。 */
-function advanceQueue() {
-  if (queue && qPos + 1 >= queue.length) {
-    const n = queue.length;
-    setQueue(null, "");
-    view = { name: "me" };
-    render();
-    toast(`复习完成 · 过了一遍 ${n} 个词`);
-    return false;
-  }
-  qPos++;
-  /* 默认新词队列跳过已标认识的词（快筛/文章里点「认识」后不再以新词出现）。
-   * 有界循环兜底：全库都标认识时不再前进。 */
-  if (!queue) {
-    const list = curList();
-    const known = new Set(S.known);
-    for (let n = 0; n < list.length && known.has(list[qPos % list.length].word); n++) qPos++;
-  }
-  render();
-  return true;
-}
-/* 默认新词队列的接续起点 = 第一个既没学过、也没标认识的词。qPos 是内存态，
- * 页面重载即归零，不恢复的话每次打开都从全库第一个词重背（S.daily.count 与背词页
- * 进度也会互相矛盾）。起点由 S.studied/S.known 推导而非持久化 qPos：自愈、无需迁移；
- * 全部学完则回到 0。只在启动时执行一次；会话内 tab 切换不重算，避免与滑动跳词互相干扰。 */
-function resumePos() {
-  const list = newWords();
-  const done = new Set([...S.studied, ...S.known]);
-  const i = list.findIndex(w => !done.has(w.word));
-  return i < 0 ? 0 : i;
-}
+let view = { name: "home" };      // home | discover | me | read
 let activeArticle = null;
 let catFilter = "全部";
 let searchTerm = "";
@@ -606,7 +460,13 @@ function listContext() {
 function nextArticle(a) {
   const list = listContext();
   const i = list.indexOf(a);
-  return i >= 0 && i + 1 < list.length ? list[i + 1] : null;
+  if (i < 0 || i + 1 >= list.length) return null;
+  const rest = list.slice(i + 1);
+  /* 没有用户反馈时保持原来的顺序；有反馈后只在「下一篇」这个局部候选里
+     重排，避免把用户当前的分类/搜索来路改成全站推荐。 */
+  return Object.keys(S.articleFeedback || {}).length
+    ? rest.slice().sort((x, y) => clientScore(y) - clientScore(x))[0]
+    : rest[0];
 }
 
 if (typeof window !== "undefined" && window.addEventListener) {
@@ -662,11 +522,6 @@ const ICON = {
 const svg = (n, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none">${ICON[n] || ""}</svg>`;
 
 /* ---------------- 工具 ---------------- */
-const doneToday = () => { rollDay(); return S.daily.count; };
-const pct = () => Math.min(100, Math.round(doneToday() / DAILY_GOAL * 100));
-/* 已掌握 = 学过且不在错词本里的词；掌握率 = 已掌握 / 已学 */
-const masteredCount = () => S.studied.filter(w => !S.wrong.includes(w)).length;
-const masteredRate = () => S.studied.length ? Math.round(masteredCount() / S.studied.length * 100) : 0;
 const ring = (p, size = 78, sw = 10) => {
   const r = (size - sw) / 2, c = 2 * Math.PI * r;
   return `<div class="ring-wrap" style="width:${size}px;height:${size}px">
@@ -718,7 +573,7 @@ const STATS_CACHE = new Map();
 function articleStats(a) {
   if (!STATS_CACHE.has(a.id)) {
     let words = 0;
-    a.paras.forEach(p => { if (p.en) words += String(p.en).trim().split(/\s+/).filter(Boolean).length; });
+    textSentences(a).forEach(s => { if (s.en) words += String(s.en).trim().split(/\s+/).filter(Boolean).length; });
     const unknown = hitsOf(a);
     const rate = words ? unknown / words : 0;
     STATS_CACHE.set(a.id, { words, unknown, rate });
@@ -737,6 +592,36 @@ const estMinutes = a => {
   return Math.max(1, Math.round(st.words / diffTier(st.rate).wpm));
 };
 const clearArticleCaches = () => { HITS_CACHE.clear(); STATS_CACHE.clear(); };
+
+/* 文章推荐 ClientScore v1：规则透明、只读本地行为。
+ * 未读优先；词数/生词率落在可读区间时加分；完成页的反馈只影响相同栏目和来源，
+ * 避免一次对某篇文章的偏好把全站推荐拉偏。负反馈强降权，正反馈适度加权。 */
+function clientScore(a) {
+  const st = articleStats(a);
+  let score = S.read.includes(a.id) ? -6 : 8;
+  /* 新抓文章带服务端初始分；旧文章没有该字段时保持原有排序口径。 */
+  const server = Number(a.serverScore);
+  if (Number.isFinite(server)) score += (server - 50) / 10;
+  if (st.rate >= 0.02 && st.rate <= 0.08) score += 3;
+  if (st.words > 0 && estMinutes(a) >= 3 && estMinutes(a) <= 6) score += 2;
+
+  const own = (S.articleFeedback || {})[a.id];
+  if (own) {
+    score += own.rate === "up" ? 5 : own.rate === "down" ? -12 : 0;
+    score += own.diff === "easy" ? 2 : own.diff === "hard" ? -3 : 0;
+  }
+  const source = srcName(a);
+  for (const [id, rec] of Object.entries(S.articleFeedback || {})) {
+    if (id === a.id || !rec) continue;
+    const other = ARTICLES.find(x => x.id === id);
+    if (!other) continue;
+    const affinity = (rec.rate === "up" ? 3 : rec.rate === "down" ? -5 : 0)
+      + (rec.diff === "easy" ? 1 : rec.diff === "hard" ? -1 : 0);
+    if (other.cat === a.cat) score += affinity;
+    if (srcName(other) === source) score += affinity * 0.6;
+  }
+  return score;
+}
 
 /* 文章排序：发现页「筛选」按钮切换，不是摆设 */
 const SORTS = { new: "最新发布", words: "生词最多", short: "时长最短" };
@@ -795,20 +680,9 @@ const articleCard = a => {
 };
 
 /* ---------------- 页面：首页 ---------------- */
-/* 分层进度：词库分「中学基础 → 四级核心」两层，这里按层统计已学量。
- * 用 Set 而不是 includes —— studied 上千条时 O(n²) 会明显卡住渲染。 */
-function layerProgress(n) {
-  const s = new Set(S.studied);
-  const arr = n === 0 ? MID_WORDS : CORE_WORDS;
-  let k = 0;
-  for (const w of arr) if (s.has(w.word)) k++;
-  return { done: k, total: arr.length, pct: Math.round(k / arr.length * 100) };
-}
-
 /* 今日推荐：未读优先 → 生词数 20–50 → 时长 3–6 分钟 → 相邻分类轮换；不足时放宽。
    池子按天缓存，「换一批」在池内向后翻页，翻完回到开头。 */
 let homeReads = { day: "", pool: [], off: 0 };
-let homeStatsOpen = false;
 
 function diversifyCats(pool) {
   const out = [], rest = pool.slice();
@@ -828,7 +702,7 @@ function pickDailyReads(reroll) {
     const scored = base.map(a => {
       const hits = countHits(a);
       const m = estMinutes(a);
-      const s = (m >= 3 && m <= 6 ? 2 : 0) + (hits >= 20 && hits <= 50 ? 2 : 0);
+      const s = clientScore(a) + (hits >= 20 && hits <= 50 ? 2 : 0);
       return { a, s };
     });
     scored.sort((x, y) => y.s - x.s);
@@ -842,26 +716,39 @@ function pickDailyReads(reroll) {
 }
 
 function renderHome() {
-  const done = doneToday();
-  const rest = Math.max(0, DAILY_GOAL - done);
-  const streak = streakDays();
   const hr = shanghaiHour();
   const greet = hr < 6 ? "夜深了" : hr < 12 ? "早上好" : hr < 18 ? "下午好" : "晚上好";
+  const last = S.lastRead && S.lastRead.id ? ARTICLES.find(a => a.id === S.lastRead.id) : null;
   const reads = pickDailyReads();
-  /* 首屏 = 问候 + 主按钮 + 今日推荐；统计与词表收进「今日学习」折叠区，
-     不再让仪表盘把阅读入口压到折线下 */
+  const done = S.finished.length;
+  const mins = Object.values(S.minsByDay || {}).reduce((a, b) => a + b, 0);
+  /* 阅读主页：上次读到 → 今日推荐 → 分类入口 → 轻量阅读统计 */
   return `
     ${statusbar()}
     <div class="view">
       <div class="row between">
         <div class="col" style="gap:4px">
           <div class="h1">${greet}</div>
-          <div class="muted">距四级考试还有 ${daysToExam()} 天 · 已掌握 ${masteredCount().toLocaleString()} 词 / 共 ${WORDS.length.toLocaleString()}</div>
+          <div class="muted">距四级考试还有 ${daysToExam()} 天 · 已读完 ${done} 篇 · 累计 ${mins} 分钟</div>
         </div>
         <div class="icon-btn" style="background:var(--brand-soft);border:0;color:var(--brand)" aria-hidden="true">${svg("user", 18)}</div>
       </div>
 
-      <button class="btn-primary" data-act="${daysToExam() <= 30 && typeof SPRINT_WORDS !== "undefined" && SPRINT_WORDS.length ? "start-sprint" : "start-study"}" style="width:100%">${daysToExam() <= 30 && typeof SPRINT_WORDS !== "undefined" && SPRINT_WORDS.length ? svg("check", 18) + " 今日验收 30 词 · 先作答再看释义" : svg("play", 18) + " 开始今日背词"}</button>
+      ${last ? `<button class="card resume-card" data-article="${last.id}" role="button" tabindex="0" aria-label="继续阅读：${esc(clean(last.title))}">
+        <span class="rc-chip">${svg("book", 12)} 上次读到${S.lastRead.at ? " · " + esc(fmtWhen(new Date(S.lastRead.at).toISOString().slice(0, 10))) : ""}</span>
+        <span class="rc-title">${esc(clean(last.title))}</span>
+        ${zhTitle(last) ? `<span class="rc-zh">${esc(zhTitle(last))}</span>` : ""}
+        <span class="rc-meta">
+          <span class="chip">${esc(last.cat)}</span>
+          <span class="rc-bar"><span style="width:${Math.max(2, S.lastRead.pct || 2)}%"></span></span>
+          <span class="rc-pct">${S.lastRead.pct ? "读到 " + S.lastRead.pct + "%" : "刚开始"}</span>
+          <span class="rc-go">继续 ${svg("arrow", 12)}</span>
+        </span>
+      </button>` : `<button class="card resume-card" data-act="go-discover" role="button" tabindex="0" aria-label="去发现页挑一篇文章">
+        <span class="rc-chip">${svg("book", 12)} 开始阅读</span>
+        <span class="rc-title">从今天的一篇文章开始</span>
+        <span class="rc-meta"><span class="chip">${ARTICLES.length} 篇可选</span><span class="rc-go">去挑一篇 ${svg("arrow", 12)}</span></span>
+      </button>`}
 
       <div class="row between">
         <span class="h3">今日推荐</span>
@@ -869,221 +756,21 @@ function renderHome() {
       </div>
       ${reads.map(articleCard).join("")}
 
-      <div class="card col" style="gap:12px">
-        <div class="row between" data-act="toggle-home-stats" role="button" tabindex="0" aria-expanded="${homeStatsOpen}">
-          <div class="row" style="gap:14px">
-            ${ring(pct())}
-            <div class="col" style="gap:3px">
-              <span class="h2">今日学习</span>
-              <span class="muted-2">${done} / ${DAILY_GOAL} · ${streak > 0 ? `连续 ${streak} 天` : "今天还没开始"} · 点${homeStatsOpen ? "收起" : "展开"}详情</span>
-            </div>
-          </div>
-          <span class="muted" style="font-family:var(--font-num)">${homeStatsOpen ? "▾" : "▸"}</span>
+      <div class="card col" style="gap:10px">
+        <div class="row between">
+          <span class="h3">分类</span>
+          <span class="link" data-act="go-discover" role="button" tabindex="0">全部文章</span>
         </div>
-        ${homeStatsOpen ? `
-        <div class="stat-grid">
-          <div class="stat"><div class="n">${done}</div><div class="l">今日新学</div></div>
-          <div class="stat"><div class="n">${rest}</div><div class="l">今日剩余</div></div>
-          <div class="stat good"><div class="n">${masteredRate()}%</div><div class="l">掌握率</div></div>
-        </div>
-        <div class="col" style="gap:8px">
-          <div class="row between">
-            <span class="muted">词表进度</span>
-            <span class="muted-2">先补高中欠账 · 再攻四级词</span>
-          </div>
-          ${[0, 1].map(n => {
-            const p = layerProgress(n);
-            return `<div class="col" style="gap:6px">
-              <div class="row between">
-                <span class="muted">${LAYER_NAME[n]}</span>
-                <span class="muted-2" style="font-family:var(--font-num)">${p.done.toLocaleString()} / ${p.total.toLocaleString()} · ${p.pct}%</span>
-              </div>
-              <div style="height:6px;border-radius:3px;background:var(--brand-soft);overflow:hidden">
-                <div style="width:${Math.max(1, p.pct)}%;height:100%;background:var(--brand);border-radius:3px"></div>
-              </div>
-            </div>`;
+        <div class="cats" role="tablist" aria-label="文章分类">
+          ${CATEGORIES.filter(c => c === "全部" || ARTICLES.some(a => a.cat === c)).map(c => {
+            const n = c === "全部" ? ARTICLES.length : ARTICLES.filter(a => a.cat === c).length;
+            return `<button class="cat" data-cat="${c}" data-go="1" role="tab">${c} <span style="font-family:var(--font-num);font-size:11px">${n}</span></button>`;
           }).join("")}
         </div>
-        <div class="row between" style="gap:12px;border-top:1px solid var(--line);padding-top:10px">
-          <div class="col" style="gap:3px">
-            <span class="h3">已会词快筛</span>
-            <span class="muted-2">${sieveLeft().toLocaleString()} 个待筛中学词 · 不占今日额度</span>
-          </div>
-          <button class="go-btn" data-act="quick-sieve" style="flex:none">开始快筛</button>
-        </div>` : ""}
       </div>
       <div style="height:6px"></div>
     </div>`;
 }
-
-/* ---------------- 页面：背单词 ---------------- */
-/* ---------------- 背词页：翻卡 ----------------
- * 以前翻卡走的是「改状态 → 整页 render()」：screen.innerHTML 被整体重建，
- * 新建的 #flip 一出生就带着 .flipped，rotateY(180deg) 在元素首次样式计算时就已经生效。
- * CSS transition 不会在元素「首次渲染」时触发，所以卡片其实是「啪一下换脸」，
- * 压根没有播放过翻转过程 —— 手机上尤其明显：手指点下去内容瞬间跳变，空间连续性断掉。
- * 现在翻卡只切类名（DOM 不重建），过渡自然跑起来；只有文案做局部更新。 */
-function backChipText() {
-  const isRich = /^List/i.test(curWord().list || "");
-  return answered === "no" ? "不认识 · 再看一遍"
-       : answered === "fuzzy" ? "有点模糊 · 再巩固一下"
-       : (isRich ? "词根词缀拆解" : "答案 · 加深理解");
-}
-const hintText = () => answered ? "答案看完了吗 · 点下面继续" : "点卡片翻面 · 左右滑动换词";
-
-function toggleFlip() {
-  const flip = $("#flip");
-  if (!flip || flip.dataset.busy === "1") return;   // 动画进行中忽略重复点击
-  flipped = !flipped;
-  flip.dataset.busy = "1";
-  flip.classList.toggle("flipped", flipped);
-  syncFlipLabels();
-  if (flipped) {
-    const back = $(".face.back", flip);
-    if (back) back.scrollTop = 0;                   // 每次翻到背面都从头看
-  }
-  setTimeout(() => { delete flip.dataset.busy; }, 340);   // 与 CSS 过渡时长对齐
-  /* 轻震一下：手机上「点到了」这件事需要非视觉反馈 */
-  if (navigator.vibrate) navigator.vibrate(6);
-}
-
-/* 翻面只影响两处文案（背面 chip / 底部提示），局部改掉即可，不必重建整页 */
-function syncFlipLabels() {
-  const chip = $("#flip .face.back .chip");
-  if (chip) chip.textContent = backChipText();
-  const hint = $(".hint-row");
-  if (hint) hint.innerHTML = svg("flip", 13) + " " + hintText();
-}
-
-/* 上一个词：队列模式到顶就停住，默认全量顺序则循环 */
-function prevWord() {
-  if (queue) { if (qPos === 0) return; qPos--; }
-  else qPos = (qPos - 1 + curList().length) % curList().length;
-  flipped = false; answered = null;
-  render();
-}
-
-function renderStudy() {
-  const w = curWord();
-  const list = curList();
-  const at = qPos % list.length;
-  const p = Math.round(at / list.length * 100);
-  const marked = S.notebook.includes(w.word);
-  const tier = tierOf(w);        // 高频 / 中频 / 低频（ECDICT 语料词频分档，见文件上方）
-
-  /* ---------------- 卡片正反面重新分工 ----------------
-   * 旧版正面就摊开「释义 + 例句」，背面又重复一遍，翻不翻几乎一样——翻转失去意义。
-   * 现在回归闪卡范式：正面 = 问题（词 + 音标，让用户先回忆），背面 = 答案（全部深化内容）。
-   * 正面只给词性做「回忆线索」，不剧透释义；例句/搭配/助记/词根词缀全部只在背面出现。 */
-
-  const morphes = [["p", w.prefix], ["r", w.root], ["s", w.suffix]].filter(x => x[1] && x[1].m);
-
-  const backChip = backChipText();
-
-  /* 背面：按「答案 → 为什么 → 怎么用」三层组织，缺哪层就不渲染哪层 */
-  const back = `
-    <div class="face back">
-      <div class="row" style="justify-content:center"><span class="chip${answered ? " amber" : ""}">${backChip}</span></div>
-      <div class="word back-word">${w.word}</div>
-      <div class="row" style="justify-content:center;gap:10px">
-        ${w.phonetic ? `<span class="phonetic">${w.phonetic}</span>` : `<span class="muted-2">暂无音标</span>`}
-        <span class="icon-btn solid" data-act="speak" data-word="${w.word}" style="width:30px;height:30px;color:#fff">${svg("speaker", 15)}</span>
-      </div>
-      <div class="divider"></div>
-
-      <div class="back-answer">
-        <span class="muted-2">释义</span>
-        <div class="def">${w.pos} ${esc(w.def)}</div>
-      </div>
-
-      ${morphes.length ? `
-        <div class="morphemes">
-          ${morphes.map(([k, m]) => `<div class="morph ${k}"><div class="m">${esc(m.m)}</div><div class="t">${esc(m.t)}</div></div>`).join("")}
-        </div>
-        ${w.literal ? `<div style="color:var(--brand);font-size:13px;font-weight:500">${esc(w.literal)}</div>` : ""}
-      ` : ""}
-
-      ${w.example ? `<div class="example-box">
-        <div class="row" style="gap:6px">
-          ${svg("book", 12)}
-          <span class="chip" style="padding:2px 8px;font-size:10px">${esc(srcLabel(w))}</span>
-        </div>
-        <div class="en">${hlWord(w.example, w.word)}</div>
-        ${w.exampleCn ? `<div class="cn">${esc(w.exampleCn)}</div>` : ""}
-      </div>` : ""}
-      ${w.mnemonic ? `<div class="row" style="gap:10px;background:var(--brand-deep);border-radius:12px;padding:12px">
-        <div style="width:3px;background:var(--brand);border-radius:2px;align-self:stretch"></div>
-        <div style="font-size:12px;line-height:19px;color:var(--text-2)">${esc(w.mnemonic)}</div>
-      </div>` : ""}
-      ${(!w.example && w.collocation) ? `<div class="example-box">
-        <div class="row" style="gap:6px">
-          ${svg("book", 12)}
-          <span class="chip" style="padding:2px 8px;font-size:10px">搭配</span>
-        </div>
-        <div class="en">${hlWord(w.collocation, w.word)}</div>
-        ${w.collocationCn ? `<div class="cn">${esc(w.collocationCn)}</div>` : ""}
-      </div>` : ""}
-      ${(!w.example && !w.collocation && !w.mnemonic) ? `<div class="row" style="justify-content:center"><span class="muted-2">该词暂未提供例句</span></div>` : ""}
-    </div>`;
-
-  /* 正面：只给词 + 音标 + 词性（回忆线索），不剧透释义与例句 */
-  const frontChip = layerOf(w) === 0
-    ? `中学基础 · ${w.src || "高中"}${isSprint(w) ? " · 真题高频" : ""}`
-    : `四级核心 · ${tier}词`;
-
-  return `
-    ${statusbar()}
-    <div class="view study-view">
-      <div class="row" style="gap:12px">
-        <span class="icon-btn" data-act="go-home">${svg("close", 16)}</span>
-        <div class="row grow" style="gap:10px">
-          <div style="flex:1;height:6px;border-radius:3px;background:var(--brand-soft);overflow:hidden">
-            <div style="width:${Math.max(4, p)}%;height:100%;background:var(--brand);border-radius:3px"></div>
-          </div>
-          <span style="font-family:var(--font-num);font-weight:600;font-size:13px;color:var(--text-2)">${at + 1}/${list.length}</span>
-        </div>
-        <span class="icon-btn ${marked ? "active" : ""}" data-act="mark">${svg(marked ? "bookmarkOn" : "bookmark", 16)}</span>
-      </div>
-      ${queue ? `<div class="qbar">
-        <span class="chip">${esc(qLabel)}</span>
-        <span class="muted-2" style="font-size:11.5px">${qNoCount ? "快筛模式 · 不计入今日新词额度" : "答对自动按 FSRS 记忆算法安排下次复习"}</span>
-        <span class="link" data-act="quit-queue" role="button" tabindex="0">退出</span>
-      </div>` : ""}
-
-      <div class="flip ${flipped ? "flipped" : ""}" id="flip" data-act="flip">
-        <div class="flip-inner">
-          <div class="face front">
-            <span class="chip">${frontChip}</span>
-            <div class="word">${w.word}</div>
-            <div class="row" style="gap:10px">
-              ${w.phonetic ? `<span class="phonetic">${w.phonetic}</span>` : `<span class="muted-2" style="font-size:13px">暂无音标</span>`}
-              <span class="icon-btn solid" data-act="speak" data-word="${w.word}" style="width:30px;height:30px;color:#fff">${svg("speaker", 15)}</span>
-            </div>
-            <div class="divider"></div>
-            <div class="col" style="gap:10px;width:100%;align-items:center">
-              <span class="muted-2">${w.pos ? esc(w.pos) : ""} · 想一想它的意思</span>
-              <span class="front-hint">${svg("flip", 13)} 点击翻转查看释义</span>
-            </div>
-          </div>
-          ${back}
-        </div>
-      </div>
-
-      <div class="hint-row">${svg("flip", 13)} ${hintText()}</div>
-      <div class="answer-row">
-        ${answered
-          ? `<button class="answer-btn yes" data-act="next" style="flex:1">${svg("arrow", 15)} 继续 · 下一个</button>`
-          : `<button class="answer-btn no" data-act="answer" data-v="no">${svg("cross", 15)} 不认识</button>
-        <button class="answer-btn fuzzy" data-act="answer" data-v="fuzzy">${svg("question", 15)} 模糊</button>
-        <button class="answer-btn yes" data-act="answer" data-v="yes">${svg("check", 15)} 认识</button>`}
-      </div>
-      <div style="height:6px"></div>
-    </div>`;
-}
-
-/* ---------------- 页面：发现 ----------------
- * 列表分页：切到非默认排序时，以前会把 60+ 篇文章一次性铺出来（实测 67 张卡 / 62 张封面）。
- * 现在每页 20 篇，其余点「显示更多」再补。配合封面懒加载，首屏不再背上 4MB 图片。 */
 const PAGE = 20;
 let shown = PAGE;
 const clipList = items => items.slice(0, shown);
@@ -1262,12 +949,8 @@ function renderDiscover() {
       ${isAll ? `<div class="lib">
         <div class="ic">${svg("cards", 20)}</div>
         <div class="col grow" style="gap:4px">
-          <div class="t">四级核心词库</div>
-          <div class="s">${WORDS.length.toLocaleString()} 词 · 真题高频 · FSRS 科学复习</div>
-        </div>
-        <div class="col">
-          <div class="p">${masteredRate()}%</div>
-          <div class="pl">已掌握</div>
+          <div class="t">四级词库</div>
+          <div class="s">${WORDS.length.toLocaleString()} 词 · 阅读中可点击查义</div>
         </div>
       </div>` : ""}
       ${latestHtml}
@@ -1281,9 +964,8 @@ function renderMe() {
   const week = last7();
   const max = Math.max(1, ...week.map(d => d.mins));
   const weekMins = week.reduce((a, d) => a + d.mins, 0);
-  const wrongWords = wordsOf(S.wrong);
-  const due = dueCount();
   const avg = Math.round(weekMins / 7);
+  const notebookWords = wordsOf(S.notebook || []);
   return `
     ${statusbar()}
     <div class="view">
@@ -1296,7 +978,7 @@ function renderMe() {
         <div style="width:50px;height:50px;border-radius:25px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center" aria-hidden="true">${svg("user", 22)}</div>
         <div class="col grow" style="gap:4px">
           <div class="h2">同学</div>
-          <div class="muted">已读完 ${S.finished.length} 篇 · 累计学过 ${S.studied.length.toLocaleString()} 词</div>
+          <div class="muted">已读完 ${S.finished.length} 篇 · 词库 ${WORDS.length.toLocaleString()} 词</div>
         </div>
       </div>
 
@@ -1304,17 +986,17 @@ function renderMe() {
       ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2" style="font-size:12px">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
 
       <div class="card col" style="gap:12px">
-        <div class="row between"><span class="h2">学习总览</span><span class="muted-2">近 7 天</span></div>
+        <div class="row between"><span class="h2">阅读总览</span><span class="muted-2">近 7 天</span></div>
         <div class="stat-grid">
           <div class="stat"><div class="n">${streakDays()}</div><div class="l">连续天</div></div>
           <div class="stat"><div class="n">${weekMins}</div><div class="l">分钟</div></div>
-          <div class="stat good"><div class="n">${masteredCount().toLocaleString()}</div><div class="l">掌握词</div></div>
-          <div class="stat bad"><div class="n">${S.wrong.length}</div><div class="l">错词</div></div>
+          <div class="stat good"><div class="n">${S.finished.length}</div><div class="l">读完篇</div></div>
+          <div class="stat"><div class="n">${notebookWords.length}</div><div class="l">生词本</div></div>
         </div>
       </div>
 
       <div class="card col" style="gap:12px">
-        <div class="row between"><span class="h2">近 7 天学习</span><span class="muted-2">日均 ${avg} 分钟</span></div>
+        <div class="row between"><span class="h2">近 7 天阅读</span><span class="muted-2">日均 ${avg} 分钟</span></div>
         <div class="bars">
           ${week.map(d => `<div class="bar-col">
             <div class="bar ${d.today ? "today" : ""}" style="height:${Math.round(d.mins / max * 62)}px"></div>
@@ -1323,36 +1005,18 @@ function renderMe() {
         </div>
       </div>
 
-      <div class="card row between review-card" style="padding:14px 16px">
-        <div class="col" style="gap:3px">
-          <div class="row" style="gap:6px">
-            ${svg("refresh", 14)}
-            <span class="h2">今日复习</span>
-            <span class="chip" style="padding:2px 8px;font-size:10px">FSRS</span>
-          </div>
-          <span class="muted-2" style="font-size:11.5px">${due ? `错词 ${S.wrong.length} · 到期 ${due} 词，答对自动推后` : "暂时没有到期的词，明天再来"}</span>
+      <div class="card row" style="gap:12px;padding:14px 16px">
+        <div class="ic">${svg("cards", 20)}</div>
+        <div class="col grow" style="gap:4px">
+          <div class="t">四级词库</div>
+          <div class="s">${WORDS.length.toLocaleString()} 词 · 阅读中点击单词即可查义</div>
         </div>
-        <button class="go-btn${due ? "" : " off"}" data-act="review" ${due ? "" : "disabled"}>${due ? "开始复习" : "无需复习"}</button>
       </div>
 
-      <div class="row between">
-        <span class="h3">错词本</span>
-        <span class="link" data-act="review" role="button" tabindex="0">${S.wrong.length} 词 · 开始复习</span>
+      ${notebookWords.length ? `<div class="row between" style="margin-top:4px">
+        <span class="h3">生词本（阅读收集）</span><span class="muted-2">${notebookWords.length} 词 · 点击查义</span>
       </div>
-      ${wrongWords.length ? wrongWords.slice(0, 5).map(w => `
-        <div class="wrong" data-act="lookup" data-word="${w.word}">
-          <div class="col" style="width:118px">
-            <span class="w">${w.word}</span>
-            <span class="p">${w.phonetic}</span>
-          </div>
-          <div class="grow d">${w.pos} ${esc(w.def)}</div>
-        </div>`).join("")
-      : `<div class="card" style="text-align:center;padding:26px 0;color:var(--text-3);font-size:12px">还没有错词，去背词页标记「不认识」试试</div>`}
-
-      ${S.notebook.length ? `<div class="row between" style="margin-top:4px">
-        <span class="h3">生词本（阅读收集）</span><span class="link" data-act="practice-note" role="button" tabindex="0">${S.notebook.length} 词 · 开始练习</span>
-      </div>
-      ${WORDS.filter(w => S.notebook.includes(w.word)).slice(0, 4).map(w => `
+      ${notebookWords.slice(0, 4).map(w => `
         <div class="wrong" data-act="lookup" data-word="${w.word}">
           <div class="col" style="width:118px"><span class="w">${w.word}</span><span class="p">${w.phonetic}</span></div>
           <div class="grow d">${w.pos} ${esc(w.def)}</div>
@@ -1370,7 +1034,7 @@ function renderMe() {
       </div>
       <div class="row between" style="margin-top:6px">
         <span class="h3">危险操作</span>
-        <span class="link danger" data-act="ask-reset" role="button" tabindex="0">清空全部进度</span>
+        <span class="link danger" data-act="ask-reset" role="button" tabindex="0">清空阅读记录</span>
       </div>
 
       <div class="row between" style="margin-top:10px">
@@ -1428,15 +1092,19 @@ function renderRead() {
         ${p.cap ? `<figcaption>${esc(clean(p.cap))}</figcaption>` : ""}
       </figure>`;
     }
-    const enText = clean(p.en);
-    const cnText = clean(p.cn);
-    if (!enText && !cnText) return "";          // 两端都空的段落不占位置（索引保持不变）
-    const en = highlightEn(esc(enText));
+    const rendered = sentencesOf(p).map((s, si) => {
+      const enText = clean(s.en);
+      const cnText = clean(s.cn);
+      if (!enText && !cnText) return "";        // 两端都空的句子不占位置
+      const en = highlightEn(esc(enText));
+      return `<div class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}">
+        <div class="en ${sizeClass}">${en}<span class="para-tts" data-act="para-speak" data-pi="${i}" data-si="${si}" title="读这一句">${svg("speaker", 13)}</span></div>
+        ${cnText ? `<div class="cn">${esc(cnText)}</div>` : ""}
+      </div>`;
+    }).join("");
+    if (!rendered) return "";
     const isFirst = firstText; firstText = false;
-    return `<div class="para${isFirst ? " first" : ""}" data-act="para-peek" data-pi="${i}">
-      <div class="en ${sizeClass}">${en}<span class="para-tts" data-act="para-speak" data-pi="${i}" title="读这一句">${svg("speaker", 13)}</span></div>
-      ${cnText ? `<div class="cn">${esc(cnText)}</div>` : ""}
-    </div>`;
+    return `<div class="para${isFirst ? " first" : ""}">${rendered}</div>`;
   }).join("");
 
   return `
@@ -1538,7 +1206,7 @@ function renderFabSheet() {
 /* 阅读中查看本篇已收藏的生词：bottom sheet，不离开文章 */
 function renderArticleNotebookSheet() {
   const a = activeArticle;
-  const text = " " + a.paras.map(p => p.en || "").join(" ").toLowerCase() + " ";
+  const text = " " + textSentences(a).map(s => s.en || "").join(" ").toLowerCase() + " ";
   const words = (S.notebook || []).filter(w => text.includes(w.toLowerCase()));
   const rows = words.map(w => `
     <div class="row" data-act="lookup" data-word="${esc(w)}" role="button" tabindex="0" style="padding:8px 0;border-bottom:1px solid var(--line)">
@@ -1549,8 +1217,7 @@ function renderArticleNotebookSheet() {
     <div class="sheet" role="dialog" aria-label="本篇生词本">
       <div class="grip"></div>
       <div class="row between"><span class="h2">本篇生词</span><span class="muted-2">${words.length} 个</span></div>
-      ${words.length ? `<div class="col" style="max-height:40vh;overflow-y:auto">${rows}</div>
-        <button class="btn-primary" data-act="practice-notebook" style="width:100%">练习这些词（${words.length}）</button>`
+      ${words.length ? `<div class="col" style="max-height:40vh;overflow-y:auto">${rows}</div>`
       : `<div class="muted" style="text-align:center;padding:16px 0">这篇还没收藏生词 · 点正文里的词可加入</div>`}
     </div>`;
 }
@@ -1623,9 +1290,8 @@ function importData(file) {
       S.studyDays = Array.isArray(S.studyDays) ? S.studyDays.slice() : [];
       S.minsByDay = (S.minsByDay && typeof S.minsByDay === "object") ? Object.assign({}, S.minsByDay) : {};
       if (!S.daily || typeof S.daily !== "object") S.daily = { date: "", count: 0 };
-      if (!S.review || typeof S.review !== "object") S.review = {};
-      save(); setQueue(null, ""); render();
-      toast(`已恢复备份 · 学过 ${S.studied.length} 词`);
+      save(); render();
+      toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词`);
     } catch (e) {
       toast("这个文件读不出来，请确认是导出的备份");
     }
@@ -1644,12 +1310,12 @@ function resetSheet() {
       <div class="row" style="gap:10px">
         <span style="width:34px;height:34px;border-radius:17px;background:var(--red-bg);color:var(--red);display:flex;align-items:center;justify-content:center;flex:none">${svg("trash", 17)}</span>
         <div class="col" style="gap:2px">
-          <div class="h2">清空全部学习进度？</div>
-          <span class="muted-2" style="font-size:11.5px">已学 ${S.studied.length} 词 · 错词 ${S.wrong.length} · 读完 ${S.finished.length} 篇</span>
+          <div class="h2">清空阅读记录？</div>
+          <span class="muted-2" style="font-size:11.5px">生词本 ${S.notebook.length} 词 · 读完 ${S.finished.length} 篇</span>
         </div>
       </div>
       <div class="muted" style="font-size:12.5px;line-height:20px">
-        这会抹掉已学词、错词本、生词本、阅读打卡与 FSRS 复习计划，且无法撤销。主题设置会保留。
+        这会抹掉阅读记录与生词本，且无法撤销。主题设置会保留；内置词库不会被删除。
       </div>
       <div class="sheet-btns">
         <button class="answer-btn no" data-act="export-data" style="flex:1">${svg("download", 15)} 先导出备份</button>
@@ -1664,7 +1330,7 @@ function resetSheet() {
 
 /* ---------------- 查词浮层 ----------------
  * 两级结构：第一层只回答「这个词在这里是什么意思」（词/音标/短释义/收藏），
- * 点「更多」才展开词根、例句、FSRS 等完整卡——3 秒理解后回到正文。 */
+ * 点「更多」才展开词根、例句等完整卡——3 秒理解后回到正文。 */
 function renderSheet(word) {
   const w = WORDS.find(x => x.word === word);
   if (!w) return renderTapSheet(word);   // 词库外单词走轻量卡
@@ -1708,15 +1374,12 @@ function renderSheet(word) {
       </div>` : ""}
       <div class="sheet-btns">
         <button class="a" data-act="add-note" data-word="${w.word}">${S.notebook.includes(w.word) ? "已在生词本" : "加入生词本"}</button>
-        <button class="b" data-act="add-review" data-word="${w.word}">加入复习</button>
         <button class="c" data-act="mark-known" data-word="${w.word}" aria-pressed="${S.known.includes(w.word)}">${S.known.includes(w.word) ? "已认识 ✓" : "标为已认识"}</button>
       </div>
     </div>`;
 }
 
-/* 词库外单词的轻量查词卡：只有释义与发音。
- * 刻意不给生词本/复习/已认识按钮——FSRS 复习队列建立在 4082 学习词上，
- * 任意词混入会破坏学习流（2026-09-11 拍板口径） */
+/* 词库外单词的轻量查词卡：只有释义与发音，不加入词库学习记录。 */
 function renderTapSheet(word) {
   const t = TAP && TAP[word];
   if (!t) return "";
@@ -1732,7 +1395,7 @@ function renderTapSheet(word) {
         <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
       </div>
       <div class="df pre">${esc(t.d)}</div>
-      <div class="rt">词库外单词 · 仅供查询，不进入背词与复习队列</div>
+      <div class="rt">词库外单词 · 仅供查询</div>
     </div>`;
 }
 
@@ -1758,10 +1421,9 @@ function renderSortSheet() {
 }
 
 /* ---------------- 底部导航 ---------------- */
-const TABS = [["home", "首页", "home"], ["study", "背词", "cards"], ["discover", "发现", "compass"], ["me", "我的", "user"]];
+const TABS = [["home", "首页", "home"], ["discover", "发现", "compass"], ["me", "我的", "user"]];
 const tabbar = () => {
-  const cur = ["home", "study", "discover", "me"].includes(view.name) ? view.name
-    : (view.name === "read" ? "home" : "home");
+  const cur = ["home", "discover", "me"].includes(view.name) ? view.name : "home";
   return `<div class="tabbar"><div class="pill">
     ${TABS.map(([k, label, ic]) => `<button data-tab="${k}" class="${k === cur ? "on" : ""}">${svg(ic, 18)}<span>${label}</span></button>`).join("")}
   </div></div>`;
@@ -1788,7 +1450,6 @@ function render() {
   const screen = $("#screen");
   let body = "";
   if (view.name === "home") body = renderHome();
-  else if (view.name === "study") body = renderStudy();
   else if (view.name === "discover") body = renderDiscover();
   else if (view.name === "me") body = renderMe();
   else if (view.name === "read") body = renderRead();
@@ -1800,7 +1461,6 @@ function render() {
     : "";
   screen.className = "screen " + themeCls;
 
-  if (view.name === "study") fixFlipHeight();
   if (view.name === "read") {
     if (!readTimer) readTimer = setInterval(() => {
       /* 活跃阅读计时：页面隐藏或 60 秒无交互不累计 */
@@ -1837,25 +1497,15 @@ function render() {
   }
 }
 
-function fixFlipHeight() {
-  const flip = $("#flip");
-  if (!flip) return;
-  /* 背词页 = 固定卡片框布局：高度全部交给 flex 撑满中间区域，
-     翻转后卡片被卡在框内，背面内容在卡内滚动（.face.back 自带 overflow） */
-  flip.style.height = "";
-  const face = flipped ? $(".face.back", flip) : $(".face:not(.back)", flip);
-  if (face) face.scrollTop = 0;
-}
-
 /* ---------------- 事件 ---------------- */
 document.addEventListener("click", e => {
   const t = e.target.closest("[data-act],[data-tab],[data-article],[data-cat]");
   if (!t) return;
 
   if (t.dataset.tab) {
+    if (!["home", "discover", "me"].includes(t.dataset.tab)) return;
     view = { name: t.dataset.tab };
     resetNav();                 // 点底部 tab = 根级跳转
-    if (t.dataset.tab === "study") { flipped = false; answered = null; }
     render(); return;
   }
 
@@ -1875,27 +1525,6 @@ document.addEventListener("click", e => {
   if (t.dataset.cat) { catFilter = t.dataset.cat; shown = PAGE; render(); return; }
 
   switch (t.dataset.act) {
-    case "start-study":
-      resetNav();
-      view = { name: "study" }; flipped = false; answered = null; render(); break;
-    case "start-sprint": {
-      /* 考前验收：冲刺词单按真题热度排序，按天轮转 30 词；验收不占每日额度，仍走 FSRS */
-      resetNav();
-      const pool = (typeof SPRINT_WORDS !== "undefined" ? SPRINT_WORDS : [])
-        .map(w => WORDS.find(x => x.word === w)).filter(Boolean);
-      if (!pool.length) { toast("冲刺词单为空"); break; }
-      const dayN = Math.floor(Date.parse(todayKey() + "T00:00:00+08:00") / 86400000);
-      const off = ((dayN * 30) % pool.length + pool.length) % pool.length;
-      const picks = [];
-      for (let i = 0; i < 30; i++) picks.push(pool[(off + i) % pool.length]);
-      setQueue(picks, "考前验收", true);
-      flipped = false; answered = null;
-      view = { name: "study" }; render();
-      toast(`考前验收 · 30 词 · 先作答再看释义`);
-      break;
-    }
-    case "toggle-home-stats":
-      homeStatsOpen = !homeStatsOpen; render(); break;
     case "home-reroll":
       pickDailyReads(true); render(); break;
     case "fb-diff":
@@ -1906,22 +1535,15 @@ document.addEventListener("click", e => {
       const rec = S.articleFeedback[activeArticle.id] = S.articleFeedback[activeArticle.id] || { at: 0 };
       if (t.dataset.act === "fb-diff") rec.diff = fbv; else rec.rate = fbv;
       rec.at = Date.now();
+      homeReads.pool = [];          // 下一次回首页时重新计算 ClientScore
       save(); render(); break;
     }
     case "fab-more":
-      $(".sheet, .sheet-mask").forEach(n => n.remove());
+      $$(".sheet, .sheet-mask").forEach(n => n.remove());
       $(".phone").insertAdjacentHTML("beforeend", renderFabSheet()); break;
     case "article-notebook":
-      $(".sheet, .sheet-mask").forEach(n => n.remove());
+      $$(".sheet, .sheet-mask").forEach(n => n.remove());
       $(".phone").insertAdjacentHTML("beforeend", renderArticleNotebookSheet()); break;
-    case "practice-notebook": {
-      const text = " " + (activeArticle ? activeArticle.paras.map(p => p.en || "").join(" ").toLowerCase() : "") + " ";
-      const ws = (S.notebook || []).filter(w => text.includes(w.toLowerCase()))
-        .map(w => WORDS.find(x => x.word === w)).filter(Boolean);
-      if (!ws.length) { toast("没有可练习的词"); break; }
-      resetNav(); setQueue(ws, "本篇生词", false);
-      view = { name: "study" }; render(); break;
-    }
     case "pwa-install":
       if (installEvt) { installEvt.prompt(); installEvt = null; render(); }
       break;
@@ -1931,16 +1553,6 @@ document.addEventListener("click", e => {
       $$(".sheet, .sheet-mask").forEach(n => n.remove());
       $(".phone").insertAdjacentHTML("beforeend", renderSheet(w));
       break;
-    }
-    case "quick-sieve": {
-      /* 已会词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度。
-       * 已认识/已答过的词不再进场——筛过的词重复出现只会消耗耐心 */
-      resetNav();
-      const sieve = BASIC_WORDS.filter(w => !S.known.includes(w.word) && !S.studied.includes(w.word));
-      if (!sieve.length) { toast("快筛已完成 · 没有待筛的中学词了"); break; }
-      setQueue(sieve, "已会词快筛", true);
-      view = { name: "study" }; render();
-      toast(`快筛 ${sieve.length} 个你可能已会的词`); break;
     }
     case "go-home":
       resetNav(); view = { name: "home" }; render(); break;
@@ -1978,66 +1590,6 @@ document.addEventListener("click", e => {
     }
     case "speak":
       e.stopPropagation(); speak(t.dataset.word); break;
-    case "flip":
-      if (e.target.closest("[data-act='speak']")) break;
-      toggleFlip(); break;
-    case "mark": {
-      const w = curWord().word;
-      const i = S.notebook.indexOf(w);
-      if (i >= 0) { S.notebook.splice(i, 1); toast("已移出生词本"); }
-      else { S.notebook.push(w); toast("已加入生词本"); }
-      save(); render(); break;
-    }
-    case "answer": {
-      if (answered) break;                // 已答过的卡不再重复计数
-      rollDay();
-      const w = curWord().word;
-      const v = t.dataset.v;
-      if (!S.studied.includes(w)) { S.studied.push(w); if (!qNoCount) S.daily.count++; }
-      /* 「认识」= 记入已掌握，文章里不再高亮；答错/模糊则撤销这个标记 */
-      const ki = S.known.indexOf(w);
-      if (v === "yes") {
-        if (ki < 0) S.known.push(w);
-        const i = S.wrong.indexOf(w);
-        if (i >= 0) S.wrong.splice(i, 1);
-      } else {
-        if (ki >= 0) S.known.splice(ki, 1);
-        if (!S.wrong.includes(w)) S.wrong.push(w);
-      }
-      clearArticleCaches();   // known 变化：文章生词数/难度缓存失效
-      /* 艾宾浩斯：新词只在学习时调度；复习队列里的词按本次结果重排下次时间 */
-      scheduleReview(w, v);
-      markStudyDay();
-      save();
-      if (v === "yes") {
-        /* 认识：直接走下一个，不必翻面 */
-        flipped = false; answered = null;
-        if (advanceQueue()) toast("已标记掌握，文中不再高亮");
-      } else {
-        /* 不认识 / 模糊：先翻面看答案（释义 + 例句 + 拆解），读完再「继续」 */
-        answered = v;
-        flipped = true;
-        render();
-        /* render 重建的 DOM 不会播放 transition：先把类名摘掉，下一帧再挂回去，
-           这样翻面动画照样能跑（状态立刻是 flipped=true，逻辑与断言不受影响） */
-        const flip = $("#flip");
-        if (flip) {
-          flip.classList.remove("flipped");
-          requestAnimationFrame(() => {
-            flip.classList.add("flipped");
-            const back = $(".face.back", flip);
-            if (back) back.scrollTop = 0;
-          });
-        }
-        toast(v === "no" ? "已加入错词本 · 看完答案再继续" : "有点模糊 · 看完答案再继续");
-      }
-      break;
-    }
-    case "next":
-      /* 错卡的「继续」：答案看完了，走下一个 */
-      flipped = false; answered = null;
-      advanceQueue();
-      break;
     case "toggle-cn":
       S.showCn = !S.showCn; save(); render(); toast(S.showCn ? "显示中文对照" : "隐藏中文对照"); break;
     case "font":
@@ -2055,13 +1607,14 @@ document.addEventListener("click", e => {
     }
     case "para-speak": {
       e.stopPropagation();
-      const a2 = activeArticle; const i = +t.dataset.pi;
-      const sent = a2 && a2.paras[i] && a2.paras[i].en;
-      if (sent) {
-        speak(sent);
+      const a2 = activeArticle; const pi = +t.dataset.pi; const si = +t.dataset.si || 0;
+      const sent = sentenceAt(a2, pi, si);
+      if (sent && sent.en) {
+        speak(sent.en);
         t.closest(".para")?.classList.add("playing");
         setTimeout(() => t.closest(".para")?.classList.remove("playing"), 1200);
-        const n = a2.paras.slice(0, i + 1).filter(x => x.en).length;
+        let n = 0;
+        for (let i = 0; i <= pi; i++) n += i === pi ? si + 1 : sentencesOf(a2.paras[i]).length;
         toast(`朗读第 ${n}/${sentCount(a2)} 句`);
       }
       break;
@@ -2074,17 +1627,20 @@ document.addEventListener("click", e => {
     case "more":
       shown += PAGE; render(); break;
     case "read-all":
-      speak(activeArticle.paras.filter(p => p.en).map(p => p.en).join(" ")); toast("开始朗读全文"); break;
-    case "book":
-      resetNav(); view = { name: "me" }; render(); break;
+      speak(textSentences(activeArticle).filter(s => s.en).map(s => s.en).join(" ")); toast("开始朗读全文"); break;
     case "punch-in": {
       const id = activeArticle && activeArticle.id;
       if (id) {
-        rollDay();
         /* 真实阅读时长：按天累计，供「我的 · 近 7 天」使用（不再是写死的数组） */
         const mins = Math.max(1, Math.round(readSecs / 60));
         S.read.push(id);
         if (!S.finished.includes(id)) S.finished.push(id);
+        homeReads.pool = [];        // 已读状态变化，未读优先池需要失效
+        /* 备份提醒：读完第 2 篇起提示一次，7 天不重复——进度只存在本地浏览器 */
+        if (S.finished.length >= 2 && Date.now() - (S.backupHintAt || 0) > 7 * 86400000) {
+          S.backupHintAt = Date.now(); save();
+          setTimeout(() => toast("进度只存在这台浏览器 · 记得在「我的」里备份"), 1200);
+        }
         const k = todayKey();
         S.minsByDay[k] = (S.minsByDay[k] || 0) + mins;
         markStudyDay();
@@ -2127,37 +1683,6 @@ document.addEventListener("click", e => {
       /* 不 render：整页重渲染会把阅读位置打回开头，词已入本，浮层关掉即可 */
       save(); $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     }
-    case "add-review": {
-      const w = t.dataset.word;
-      if (!S.wrong.includes(w)) S.wrong.push(w);
-      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove());
-      toast(`「${w}」已加入复习队列`); break;
-    }
-    /* 复习：错词 ∪ 今天到期的词。以前这里只是弹个 toast 然后进学习页，
-       而学习页压根不看 S.wrong——现在队列是真的换了。 */
-    case "review": {
-      const q = reviewQueue();
-      if (!q.length) { toast("今天没有待复习的词"); break; }
-      setQueue(q, `复习 · ${S.wrong.length ? "错词 " + S.wrong.length + " · " : ""}到期 ${q.length} 词`);
-      resetNav();
-      view = { name: "study" };
-      render();
-      break;
-    }
-    case "practice-note": {
-      const q = wordsOf(S.notebook);
-      if (!q.length) { toast("生词本还是空的"); break; }
-      setQueue(q, `生词本练习 · ${q.length} 词`);
-      resetNav();
-      view = { name: "study" };
-      render();
-      break;
-    }
-    case "quit-queue":
-      setQueue(null, "");
-      render();
-      toast("已退出复习队列");
-      break;
     case "ask-reset":
       $(".phone").insertAdjacentHTML("beforeend", resetSheet());
       break;
@@ -2167,11 +1692,11 @@ document.addEventListener("click", e => {
       $("#file-in").click(); break;
     case "reset": {
       resetNav();
-      /* 深拷贝重置：浅拷贝会让新状态继续和 defaultState 共享 daily / studyDays 等引用 */
+      /* 深拷贝重置：浅拷贝会让新状态继续和 defaultState 共享 studyDays 等引用 */
       const keepTheme = S.theme;
       S = JSON.parse(JSON.stringify(defaultState));
       S.theme = keepTheme || "light";      // 主题是外观偏好，不算学习进度，别一起清掉
-      save(); setQueue(null, ""); render(); toast("进度已重置");
+      save(); render(); toast("阅读记录已重置");
       break;
     }
   }
@@ -2198,45 +1723,11 @@ document.addEventListener("keydown", e => {
   el.click();
 });
 
-/* 键盘：空格翻卡（答错看答案时，空格 = 继续），1/2/3 作答 */
-document.addEventListener("keydown", e => {
-  if (view.name !== "study") return;
-  if (e.code === "Space") {
-    e.preventDefault();
-    if (answered) document.querySelector('[data-act="next"]')?.click();
-    else toggleFlip();
-  }
-  if (["Digit1", "Digit2", "Digit3"].includes(e.code)) {
-    if (answered) return;               // 已作答的卡只剩「继续」，数字键不再触发
-    const map = { Digit1: "no", Digit2: "fuzzy", Digit3: "yes" };
-    document.querySelector(`[data-act="answer"][data-v="${map[e.code]}"]`)?.click();
-  }
-});
-
-/* 手机上左右滑动换词：拇指滑一下比找按钮自然得多，也顺手把「点击」从唯一操作里解放出来。
- * 判定门槛 44px，且横向位移必须明显大于纵向 —— 否则会和背面内容的纵向滚动抢手势。 */
-let sx = 0, sy = 0, st = 0;
-document.addEventListener("touchstart", e => {
-  if (view.name !== "study" || e.touches.length !== 1) return;
-  sx = e.touches[0].clientX; sy = e.touches[0].clientY; st = Date.now();
-}, { passive: true });
-document.addEventListener("touchend", e => {
-  if (view.name !== "study") return;
-  const t = e.changedTouches && e.changedTouches[0];
-  if (!t) return;
-  const dx = t.clientX - sx, dy = t.clientY - sy;
-  if (Date.now() - st > 700) return;                  // 慢速拖拽不算滑动
-  if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(dy) * 1.4) return;
-  if (dx < 0) advanceQueue(); else prevWord();
-}, { passive: true });
-
 /* URL 参数：方便预览/截图直接定位到指定页面 + 阅读主题
    ?v=discover|read&a=0&cat=足球&theme=paper|night|default&end=1（阅读页直接到底部） */
 (function bootFromQuery(){
   if (typeof location === "undefined" || typeof URLSearchParams === "undefined") return;
   try {
-    /* 先恢复默认队列的接续起点（?w= 调试参数在下面仍会覆盖 qPos） */
-    qPos = resumePos();
     const p = new URLSearchParams(location.search);
     const v = p.get("v");
     if (v === "discover") view = { name: "discover" };
@@ -2245,15 +1736,6 @@ document.addEventListener("touchend", e => {
       activeArticle = ARTICLES[idx] || ARTICLES[0];
       view = { name: "read" };
     } else if (v === "me") view = { name: "me" };
-    else if (v === "study") view = { name: "study" };
-    /* ?v=study&w=<word>：跳到指定单词，用来验证字段最全的卡片（释义+词根+例句+助记）排版。 */
-    const wt = p.get("w");
-    if (v === "study" && wt) {
-      const i = WORDS.findIndex(x => String(x.word).toLowerCase() === wt.toLowerCase());
-      if (i >= 0) qPos = Math.max(0, i);
-    }
-    /* 背词页直接以翻面状态打开（预览/截图验证背面布局用） */
-    if (v === "study" && p.get("flip")) requestAnimationFrame(() => { flipped = true; render(); });
     const c = p.get("cat");
     if (c && CATEGORIES.includes(c)) catFilter = c;
     const t = p.get("theme");
@@ -2289,10 +1771,10 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
     e.preventDefault(); installEvt = e;
     if (view.name === "me") render();
   });
-  /* SW 后台刷新到新内容：自动整页刷新一次（阅读/背词中不打断，改用提示） */
+  /* SW 后台刷新到新内容：阅读中不打断，改用提示 */
   navigator.serviceWorker.addEventListener("message", e => {
     if (!e.data || e.data.type !== "content-updated") return;
-    if (view.name === "read" || view.name === "study") { toast("内容已更新，返回后生效"); return; }
+    if (view.name === "read") { toast("内容已更新，返回后生效"); return; }
     if (sessionStorage.getItem("wl-updated")) return;   // 每次会话只自动刷一次，防循环
     sessionStorage.setItem("wl-updated", "1");
     toast("内容已更新，正在刷新…");

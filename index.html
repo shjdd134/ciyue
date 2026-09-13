@@ -5,9 +5,9 @@
 <!-- 去掉 maximum-scale=1：禁止缩放会让低视力用户无法放大正文（WCAG 1.4.4） -->
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" data-page-node-id="WcptSByTg1mTIJLmHW7fVi">
 <meta name="theme-color" content="#6C5CE7" data-page-node-id="1VzJLKciBsZ6xSTneTdtAS">
-<meta name="description" content="词阅 WordLens —— 四级核心词记忆 + 英文原刊双语阅读" data-page-node-id="UrolQCln9gX0HD64THATQW">
+<meta name="description" content="词阅 WordLens —— 四级词库查义 + 英文原刊双语阅读" data-page-node-id="UrolQCln9gX0HD64THATQW">
 <meta name="apple-mobile-web-app-capable" content="yes" data-page-node-id="stIBGlgAD1sIuCYfs6R2y2">
-<title>词阅 WordLens · 四级背词 + 双语阅读</title>
+<title>词阅 WordLens · 四级词库 + 双语阅读</title>
 <link rel="manifest" href="manifest.webmanifest" data-page-node-id="DPiYALaZCc1UsYucEK17wP">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml" data-page-node-id="fuermaE1fuPQh8HBfaLID0">
 <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192" type="image/png" data-page-node-id="tWuNgnEPKOax7Rfi2UHElV">
@@ -22,7 +22,7 @@
   </div>
   <div class="tip" data-page-node-id="QDdaQiqkvOBUijy1Xk2bX0">
     词阅 WordLens · 可运行原型<br data-page-node-id="wtuhbIQW9ht9YDo15Y1hsI">
-    空格 = 翻卡　1 / 2 / 3 = 不认识 / 模糊 / 认识
+    阅读文章时点击英文单词即可查义，词库与生词本保留在「我的」
   </div>
 
   <!-- 导入备份用的隐藏文件选择框 -->
@@ -44,10 +44,6 @@
   <script defer src="assets/data-ecdict.js"></script>
   <!-- 点词翻译层：阅读页任意单词点击查义（生成产物，必须在 app.js 之前） -->
   <script defer src="assets/data-tapdict.js"></script>
-  <!-- 考前冲刺词单：考前 30 天「今日验收」按此出卡（生成产物，必须在 app.js 之前） -->
-  <script defer src="assets/data-sprint.js"></script>
-  <!-- FSRS 间隔重复算法内核（open-spaced-repetition/ts-fsrs v5.4.2，MIT，暴露全局 FSRS） -->
-  <script defer src="assets/vendor-fsrs.js"></script>
   <script defer src="assets/app.js"></script>
 </body>
 </html>

@@ -24,13 +24,14 @@ const ASSETS = path.join(ROOT, "assets");
 const EXTRA = path.join(ASSETS, "data-articles-extra.js");
 const COVERS = path.join(ASSETS, "data-covers.js");
 const EXAMPLES = path.join(ASSETS, "data-examples.js");
+const SOURCE_HEALTH = path.join(ASSETS, "data-source-health.js");
 const SW = path.join(ROOT, "sw.js");
 
 /* ---------- 1. 快照备份（当日覆盖） ---------- */
 const day = new Date().toISOString().slice(0, 10);
 const bakDir = path.join(ROOT, ".bak", "daily", day);
 fs.mkdirSync(bakDir, { recursive: true });
-for (const f of [EXTRA, COVERS, EXAMPLES, SW]) {
+for (const f of [EXTRA, COVERS, EXAMPLES, SOURCE_HEALTH, SW]) {
   if (fs.existsSync(f)) fs.copyFileSync(f, path.join(bakDir, path.basename(f)));
 }
 console.log(`快照 → .bak/daily/${day}/`);

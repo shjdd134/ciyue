@@ -121,7 +121,11 @@ ARTICLES.forEach(a => {
   /* 正文支持两种块：文本句（en+cn）与内嵌图（img） */
   if (a.paras) a.paras.forEach((p, i) => {
     if (p.img) return;
-    if (!p.en || !p.cn) miss.push('paras[' + i + ']');
+    const sentences = Array.isArray(p.sentences) ? p.sentences : [p];
+    if (!sentences.length) miss.push('paras[' + i + ']');
+    sentences.forEach((s, j) => {
+      if (!s || !s.en || !s.cn) miss.push(`paras[${i}]${Array.isArray(p.sentences) ? `.sentences[${j}]` : ''}`);
+    });
   });
   if (miss.length) stats.missingFields.push({ id: a.id, miss });
 });

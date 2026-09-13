@@ -1,14 +1,14 @@
 # 词阅 WordLens
 
-四级核心词记忆 + 英文原刊双语阅读。纯静态 Web 应用，零依赖、零构建、可离线，手机浏览器打开即用。
+四级词库查义 + 英文原刊双语阅读。纯静态 Web 应用，零依赖、零构建、可离线，手机浏览器打开即用。
 
 在线地址：https://shjdd134.github.io/ciyue/
 
 ## 功能
 
-- **翻卡记词**：中英互译、发音、词根词缀、真实例句；会 / 模糊 / 不会三档作答
-- **FSRS 间隔重复**：按记忆曲线安排复习，错词自动进入队列
-- **原刊精读**：逐句点读、逐句对照译文、整段显译、生词一键收藏；正文**任意单词可点查释义**（学习词弹完整卡可入生词本，词库外词弹轻量释义卡）
+- **四级词库查义**：保留完整词库、音标、词根词缀、真实例句；正文**任意单词可点查释义**
+- **原刊精读**：逐句点读、逐句对照译文、整段显译、生词一键收藏；词库外词弹轻量释义卡
+- **阅读生词本**：只收集阅读中遇到的词，支持从「我的」或文章内打开查看
 - **五大内容栏目**：足球 / AI / 成长（博主英文长文，整篇收录）/ 寓言 / 明星
 - **本地优先**：学习进度只存在浏览器本地，可导出 / 导入备份
 - **三套配色**：深色 / 浅色 / 纸质
@@ -53,7 +53,7 @@
 
 ### 阅读文章
 
-文章正文与配图来自各媒体**公开的 RSS 订阅源**，仅作个人语言学习之用，正文页保留指向原文的外链。涉及的媒体包括 Sky Sports、FourFourTwo、TechCrunch AI、AI News、ELLE、Harper's Bazaar，以及「成长」栏目的独立博主长文（Dan Koe、Farnam Street、More To That、Ness Labs，整篇收录），版权归原媒体和作者所有。
+文章正文与配图来自各媒体**公开的 RSS 订阅源**，仅作个人语言学习之用，正文页保留指向原文的外链。涉及的媒体包括 Sky Sports、FourFourTwo、Opta Analyst、TechCrunch AI、AI News、ELLE、Harper's Bazaar，以及「成长」栏目的独立博主和长文刊物（Dan Koe、Farnam Street、More To That、Ness Labs、Aeon、Psyche，整篇收录），版权归原媒体和作者所有。Aeon/Psyche 的 RSS 使用须遵守其个人非商业使用条款。
 
 ### 译文
 
@@ -65,17 +65,20 @@
 
 ```
 assets/          前端资源（HTML/CSS/JS + 数据）
-  app.js           应用主逻辑（视图、FSRS 调度、导航）
+  app.js           应用主逻辑（视图、词库查义、阅读与导航）
   styles.css       全部样式
   data.js          词库与文章主数据
   data-examples.js 单词例句库（自动生成）
   data-ecdict.js   ECDICT 词元数据（自动生成）
   data-tapdict.js  点词翻译层：阅读页任意单词查义（自动生成）
+  data-source-health.js  RSS/正文/图片来源健康度（自动生成）
 tools/           数据管线与回归测试（Node，无依赖）
   build-examples.mjs  生成例句库
   build-tapdict.mjs   生成点词翻译层
-  ingest.mjs          RSS 抓取 + 翻译
-  qc.mjs              内容质检
+  ingest.mjs          RSS 抓取 + 评分 + 翻译
+  recommend.mjs       质量/难度/服务端推荐分与来源健康度规则
+  recommend-test.mjs  推荐规则单元测试
+  qc.mjs              内容质检 + 推荐评分门禁
   smoke.js / nav-test.js / audit.js  回归测试
 .github/workflows/daily.yml   每日自动更新
 ```
@@ -87,11 +90,11 @@ python -m http.server 8123
 # 打开 http://localhost:8123
 ```
 
-调试参数：`?theme=dark|light`、`?v=home|study|discover|read|me`、`?v=study&flip=1`、`?v=study&w=<word>`
+调试参数：`?theme=dark|light`、`?v=home|discover|read|me`
 
 ## 自动更新
 
-`.github/workflows/daily.yml` 每日北京时间 07:00 执行：抓取新文章 → 内容质检 → 资源瘦身 → 回归测试 → 部署 GitHub Pages。
+`.github/workflows/daily.yml` 每日北京时间 07:00 执行：抓取新文章 → 候选评分与来源健康度记录 → 内容质检 → 资源瘦身 → 回归测试 → 部署 GitHub Pages。
 
 ## 免责声明
 

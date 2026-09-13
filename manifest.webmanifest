@@ -1,7 +1,7 @@
 {
   "name": "词阅 WordLens",
   "short_name": "词阅",
-  "description": "四级核心词背诵 + 双语阅读 · 足球 / 明星 / 时政 / 历史",
+  "description": "四级词库查义 + 双语阅读 · 足球 / AI / 成长 / 寓言 / 明星",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

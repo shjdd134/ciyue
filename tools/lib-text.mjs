@@ -169,6 +169,13 @@ export function cleanPara(p) {
   if (!p || typeof p !== "object") return null;
   if (p.img) return p;                                   // 内嵌配图段原样保留
 
+  /* 新抓取文章按真实段落分组：一个文字块里可以有多句。递归复用同一套
+     清洗规则，保留块结构；旧数据的 { en, cn } 仍走下面的兼容路径。 */
+  if (Array.isArray(p.sentences)) {
+    const sentences = p.sentences.map(cleanPara).filter(Boolean);
+    return sentences.length ? { sentences } : null;
+  }
+
   const enRaw = cleanInvisible(p.en || "");
   const cnRaw = cleanInvisible(p.cn || "");
 
@@ -205,15 +212,30 @@ const SPLIT_TAIL = /\b(Mr|Mrs|Ms|Dr|Prof|Sr|Jr|St|No|vs|etc|Co|Inc|Ltd|Corp|Bros
 
 export function mergeSplitSentences(paras) {
   const out = [];
+  let lastSentence = null;
   for (const p of paras || []) {
-    const prev = out[out.length - 1];
-    if (prev && !prev.img && !p.img && SPLIT_TAIL.test(prev.en)) {
-      prev.en = prev.en + " " + p.en;
-      /* 半截句的译文中如果还带着句号，换成逗号再往下接 */
-      prev.cn = prev.cn.replace(/[。．.]+$/, "，") + p.cn;
+    if (!p || typeof p !== "object") continue;
+    if (p.img) {
+      out.push(p);
+      lastSentence = null;
       continue;
     }
-    out.push(p);
+
+    const nested = Array.isArray(p.sentences);
+    const sentences = (nested ? p.sentences : [p]).filter(Boolean);
+    if (!sentences.length) continue;
+    const kept = [];
+    for (const sentence of sentences) {
+      if (lastSentence && SPLIT_TAIL.test(lastSentence.en || "")) {
+        lastSentence.en = lastSentence.en + " " + sentence.en;
+        /* 半截句的译文中如果还带着句号，换成逗号再往下接 */
+        lastSentence.cn = lastSentence.cn.replace(/[。．.]+$/, "，") + sentence.cn;
+      } else {
+        kept.push(sentence);
+        lastSentence = sentence;
+      }
+    }
+    if (kept.length) out.push(nested ? { sentences: kept } : kept[0]);
   }
   return out;
 }

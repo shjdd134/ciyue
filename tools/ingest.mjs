@@ -16,6 +16,7 @@
  *   node tools/ingest.mjs --append            追加一批（保留此前抓到的文章，不清空）
  *   node tools/ingest.mjs --days 14          只要近 14 天的文章
  *   node tools/ingest.mjs --dry              只抓取+提取+筛选，不翻译，打印摘要
+ *   node tools/ingest.mjs --candidate 12    每个源最多富化多少个候选（默认 12）
  *   node tools/ingest.mjs --backfill         为已有文章补抓封面图（写 assets/data-covers.js）
  *   node tools/ingest.mjs --repair-images    只修复已抓文章的封面与正文图，不重跑翻译
  *   node tools/ingest.mjs --no-filter        放宽难度筛选
@@ -31,10 +32,15 @@ import {
   cleanInvisible, cleanPara, cleanTitleZh, hasAdCode, isJunkPara, putTitleZh, tidySpace,
 } from "./lib-text.mjs";
 import { translateTexts } from "./lib-mt.mjs";
+import {
+  QUALITY_CANDIDATE_THRESHOLD, SCORE_VERSION, classifySourceHealth, difficultyBaseScore,
+  emptySourceHealth, qualityScore, serverScore, updateSourceHealth,
+} from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const OUT_FILE = path.join(ROOT, "assets", "data-articles-extra.js");
 const COVER_MAP_FILE = path.join(ROOT, "assets", "data-covers.js");
+const SOURCE_HEALTH_FILE = path.join(ROOT, "assets", "data-source-health.js");
 const COVERS_DIR = path.join(ROOT, "assets", "covers");
 const DATA_FILE = path.join(ROOT, "assets", "data.js");
 
@@ -55,6 +61,8 @@ const PER_FEED = +val("per", 4);
 const MAX_AGE_DAYS = +val("days", 21);
 const MAX_SENTS = +val("sents", 24);
 const MAX_WORDS = +val("words", 540);
+const CANDIDATE_LIMIT = Math.max(1, +val("candidate", 12));
+const SOURCE_DIVERSITY_CAP = 2;              // 同一来源每批最多入选 2 篇
 const MAX_INLINE_IMG = 4;   /* 图文并茂：各栏目默认正文内嵌图上限（明星在 FEEDS 里放宽到 6） */
 
 /* 按类别配额，例如 --quota 足球=6,历史=4,时政=4,杂志=3 */
@@ -77,6 +85,7 @@ const FEEDS = [
   /* —— 足球 —— */
   { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
   { cat: "足球", name: "FourFourTwo", rss: "https://www.fourfourtwo.com/feeds.xml", max: 3 },
+  { cat: "足球", name: "Opta Analyst", rss: "https://theanalyst.com/feed", max: 3, days: 30, full: true, looseImg: true },
 
   /* —— AI —— */
   { cat: "AI", name: "TechCrunch AI", rss: "https://techcrunch.com/category/artificial-intelligence/feed/", max: 4 },
@@ -90,13 +99,15 @@ const FEEDS = [
   { cat: "成长", name: "Farnam Street", rss: "https://fs.blog/feed/", max: 3, days: 400, full: true },
   { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true, looseImg: true },
   { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
+  /* Aeon / Psyche 均为 Aeon Media 旗下的长文刊物；条款允许个人非商业使用 RSS。 */
+  { cat: "成长", name: "Aeon", rss: "https://aeon.co/feed.rss", max: 3, days: 800, full: true, looseImg: true },
+  { cat: "成长", name: "Psyche", rss: "https://psyche.co/feed", max: 3, days: 800, full: true, looseImg: true },
 
   /* —— 明星（美图向 + 经典美人深度人物特写：Guardian film feed 常出大明星访谈/人物
-     特写（Emma Stone / Sophia Loren 这类），prefer 把访谈类排前；Vanity Fair / Rolling Stone 出名人
+     特写（Emma Stone / Sophia Loren 这类），统一评分会把访谈/特写排前；Vanity Fair / Rolling Stone 出名人
      长文与写真报道；Hearst 全站 feed 出每日美图向内容；正文图放宽到 6 张。注：Guardian 的
      明星 tag feed（/film/<人名>/rss）已不存在，实测 Actions 上取不到，勿再加） —— */
-  { cat: "明星", name: "The Guardian", rss: "https://www.theguardian.com/film/rss", max: 3, days: 30, full: true, looseImg: true,
-    prefer: /interview|profile|portrait|this much i know|gets? ready/i },   // film feed 常出大明星访谈/特写，把访谈类排前
+  { cat: "明星", name: "The Guardian", rss: "https://www.theguardian.com/film/rss", max: 3, days: 30, full: true, looseImg: true },
   { cat: "明星", name: "Vanity Fair", rss: "https://www.vanityfair.com/feed/rss", max: 3, days: 60, full: true, looseImg: true },
   { cat: "明星", name: "Rolling Stone", rss: "https://www.rollingstone.com/feed/", max: 2, days: 30, full: true, looseImg: true },
   { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6, looseImg: true },
@@ -108,6 +119,56 @@ const LOOSE_CATS = new Set(FEEDS.filter(f => f.looseImg).map(f => f.cat));
 /* 每个分类的抓取配置（repair 等按文章 cat 回查） */
 const FEED_BY_CAT = {};
 FEEDS.forEach(f => { if (!FEED_BY_CAT[f.cat]) FEED_BY_CAT[f.cat] = f; });
+
+/* ---------------- 来源健康度 ----------------
+ * 健康度是运行状态，不参与文章内容展示。RSS/正文连续失败 3 次时熔断来源，
+ * 后续运行仍会探测；连续成功 3 次恢复。图片失败只标记图片降级，不熔断文字来源。
+ */
+function loadSourceHealth() {
+  try {
+    const ctx = { console };
+    vm.createContext(ctx);
+    vm.runInContext(fs.readFileSync(SOURCE_HEALTH_FILE, "utf8"), ctx);
+    const data = vm.runInContext("typeof DATA_SOURCE_HEALTH !== 'undefined' ? DATA_SOURCE_HEALTH : {}", ctx);
+    return data && typeof data === "object" ? data : {};
+  } catch { return {}; }
+}
+
+let sourceHealth = loadSourceHealth();
+for (const feed of FEEDS) {
+  if (!sourceHealth[feed.name]) sourceHealth[feed.name] = emptySourceHealth(feed.rss);
+  else sourceHealth[feed.name].url = feed.rss;
+}
+
+function sourceEntry(feed) {
+  if (!feed) return null;
+  if (!sourceHealth[feed.name]) sourceHealth[feed.name] = emptySourceHealth(feed.rss);
+  return sourceHealth[feed.name];
+}
+
+function recordSourceEvent(feed, kind, event) {
+  const current = sourceEntry(feed);
+  if (!current) return;
+  sourceHealth[feed.name] = updateSourceHealth(current, kind, event);
+}
+
+function sourceUsable(feed, kind = "all") {
+  const health = sourceEntry(feed);
+  if (kind === "rss") return !health.rss?.disabled;
+  if (kind === "article") return !health.article?.disabled;
+  return classifySourceHealth(health);
+}
+
+function saveSourceHealth() {
+  const body = `/* 词阅 WordLens —— 来源健康度（自动生成，请勿手改）
+ * RSS/正文连续失败 3 次熔断，连续成功 3 次恢复；图片失败只做降级记录。
+ * 评分版本：${SCORE_VERSION}
+ */
+
+const DATA_SOURCE_HEALTH = ${JSON.stringify(sourceHealth, null, 2)};
+`;
+  fs.writeFileSync(SOURCE_HEALTH_FILE, body);
+}
 
 /* 封面渐变池：配图抓不到时的兜底背景，与既有文章视觉一致 */
 const GRADIENTS = [
@@ -172,23 +233,42 @@ const stripTags = s => decode(s.replace(/<[^>]+>/g, " "))
   .replace(/\s+([,.;:!?%])/g, "$1")
   .trim();
 
-async function get(url, tries = 3, timeout = 25000) {
+async function getDetailed(url, tries = 3, timeout = 25000) {
   /* 部分站点（如 Squarespace 的 moretothat.com）的盾会拦完整 Chrome UA 串回 403，
      403 时降级为短 UA 重试 */
   const UA_SHORT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126";
+  let last = { text: "", ok: false, status: 0, latencyMs: 0 };
   for (let i = 0; i < tries; i++) {
+    const started = Date.now();
     try {
       const ctl = AbortSignal.timeout(timeout);
       const h = i === 0 ? { "User-Agent": UA } : { "User-Agent": UA_SHORT };
       const res = await fetch(url, { headers: h, signal: ctl });
-      if (res.ok) return await res.text();
-      if (res.status === 404) return "";
+      if (res.ok) return { text: await res.text(), ok: true, status: res.status, latencyMs: Date.now() - started };
+      last = { text: "", ok: false, status: res.status, latencyMs: Date.now() - started };
+      if (res.status === 404) return last;
       if (res.status === 403 && i === 0) continue;
-      return "";
-    } catch (e) { /* 重试 */ }
+      return last;
+    } catch (e) {
+      last = { text: "", ok: false, status: 0, latencyMs: Date.now() - started };
+    }
     await sleep(600 * (i + 1));
   }
-  return "";
+  return last;
+}
+
+async function get(url, tries = 3, timeout = 25000) {
+  return (await getDetailed(url, tries, timeout)).text;
+}
+
+async function getTracked(feed, kind, url, tries = 3, timeout = 25000) {
+  const result = await getDetailed(url, tries, timeout);
+  recordSourceEvent(feed, kind, {
+    ok: result.ok && Boolean(result.text),
+    status: result.status,
+    latencyMs: result.latencyMs,
+  });
+  return result.text;
 }
 
 /* ---------------- RSS ---------------- */
@@ -282,20 +362,25 @@ function upgradeImg(u) {
   return u;
 }
 
-async function downloadImg(url, dest) {
+async function downloadImg(url, dest, feed = null) {
   if (!url || IMG_BAD.test(url)) return 0;
   /* 图床与页面同源时共享同一套盾：403 就降级短 UA 再试（如 moretothat.com） */
   const UAS = [UA, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/126"];
+  let lastStatus = 0;
+  const started = Date.now();
   for (const ua of UAS) {
     try {
       const res = await fetch(encodeURI(url), { headers: { "User-Agent": ua }, signal: AbortSignal.timeout(30000) });
-      if (!res.ok) { if (res.status === 403) continue; return 0; }
+      lastStatus = res.status;
+      if (!res.ok) { if (res.status === 403) continue; break; }
       const buf = Buffer.from(await res.arrayBuffer());
-      if (buf.length < 4000) return 0;                 // 太小：占位图或纯色
+      if (buf.length < 4000) break;                    // 太小：占位图或纯色
       fs.writeFileSync(dest, buf);
+      recordSourceEvent(feed, "image", { ok: true, status: res.status, latencyMs: Date.now() - started });
       return buf.length;
     } catch { /* 换 UA 重试 */ }
   }
+  recordSourceEvent(feed, "image", { ok: false, status: lastStatus, latencyMs: Date.now() - started });
   return 0;
 }
 
@@ -539,6 +624,101 @@ const readPrevExtra = () => {
   } catch { return []; }
 };
 
+/* 基础难度需要一份四级词表作初始覆盖率参考。它只影响新文章的 serverScore，
+ * 不会改变用户词库，也不参与运行时的已知词判断。 */
+function loadVocabulary() {
+  const ctx = { console };
+  vm.createContext(ctx);
+  for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js"]) {
+    const file = path.join(ROOT, "assets", f);
+    if (fs.existsSync(file)) {
+      try { vm.runInContext(fs.readFileSync(file, "utf8"), ctx, { filename: f }); } catch { /* 可选词库文件 */ }
+    }
+  }
+  try {
+    const words = vm.runInContext("typeof WORDS !== 'undefined' ? WORDS : []", ctx);
+    return new Set(words.map(w => String(w.word || "").toLowerCase()).filter(Boolean));
+  } catch { return new Set(); }
+}
+
+const VOCABULARY = loadVocabulary();
+
+/* ---------------- 候选池评分 ----------------
+ * 先把所有源放进同一候选池，再统一富化、评分和取数。这样不会因为 FEEDS
+ * 的排列顺序或某个类别先达到配额，就让后面的来源永远没有机会。评分只用
+ * 可解释的规则，不引入模型，也不改变英文正文。 */
+const SOURCE_TIERS = {
+  "Sky Sports": 3, "TechCrunch AI": 3, "Dan Koe": 3, "Farnam Street": 3,
+  "Opta Analyst": 3, "Aeon": 3, "Psyche": 3,
+  "More To That": 3, "The Guardian": 3, "Vanity Fair": 3, "Rolling Stone": 3,
+  "FourFourTwo": 2, "AI News": 2, "Ness Labs": 2, "ELLE": 2, "Harper's Bazaar": 2,
+};
+const TITLE_KEY = s => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+function scoreItem({ feed, item, words, cover, imgs, sents, paragraphs }) {
+  const quality = qualityScore({
+    sourceTier: SOURCE_TIERS[feed.name] || 1,
+    title: item.title,
+    desc: item.desc,
+    date: item.date,
+    words,
+    paragraphs,
+    sentences: sents.length,
+    cover: Boolean(cover),
+    images: Number(item.nimgs || 0) + Number(imgs || 0),
+  });
+  const difficulty = difficultyBaseScore({ sentences: sents, vocabulary: VOCABULARY });
+  const server = serverScore(quality.value, difficulty);
+  return {
+    qualityScore: quality.value,
+    qualityBand: quality.band,
+    difficultyBaseScore: difficulty,
+    serverScore: server,
+    score: server,
+  };
+}
+
+function staticSkipReason(feed, item) {
+  if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(item.link)) return "软文";
+  if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b/i.test(item.title)) return "非美图向";
+  if (feed.cat === "成长" && /passive income|get rich|dropship|side hustle|\bcrypto\b|\bnft\b|\$\d[\d,.]*\s*(\/|a|per)?\s*(month|day|hr|hour)/i.test(item.title)) return "搞钱标题";
+  if (feed.cat === "成长" && /\/podcast\//i.test(item.link)) return "播客页";
+  if (/techcrunch (disrupt|sessions|events?)\b/i.test(item.title)) return "活动推广";
+  try {
+    const seg = new URL(item.link).pathname.split("/").filter(Boolean);
+    if (seg.length < 2 && !feed.flatUrl) return "非文章页";
+  } catch { return "链接异常"; }
+  return "";
+}
+
+function selectCandidates(candidates) {
+  const eligible = candidates.filter(c => c.qualityScore >= QUALITY_CANDIDATE_THRESHOLD);
+  const ordered = [...eligible].sort((a, b) => b.score - a.score || (b.item.date || "").localeCompare(a.item.date || ""));
+  const seenUrls = new Set(), seenTitles = new Set(), unique = [];
+  for (const c of ordered) {
+    const url = c.item.link;
+    const title = TITLE_KEY(c.item.title);
+    if (seenUrls.has(url) || (title && seenTitles.has(title))) continue;
+    seenUrls.add(url);
+    if (title) seenTitles.add(title);
+    unique.push(c);
+  }
+
+  const selected = [], catCount = {}, sourceCount = {};
+  for (const c of unique) {
+    if (selected.length >= LIMIT) break;
+    const catCap = c.feed.cat in QUOTA ? QUOTA[c.feed.cat] : PER_FEED;
+    const sourceCap = Math.min(c.feed.max || SOURCE_DIVERSITY_CAP, SOURCE_DIVERSITY_CAP);
+    const catN = catCount[c.feed.cat] || 0;
+    const sourceN = sourceCount[c.feed.name] || 0;
+    if (catN >= catCap || sourceN >= sourceCap) continue;
+    selected.push(c);
+    catCount[c.feed.cat] = catN + 1;
+    sourceCount[c.feed.name] = sourceN + 1;
+  }
+  return selected;
+}
+
 /* ---------------- 模式一：为已有文章补封面图 ---------------- */
 
 async function backfill() {
@@ -697,10 +877,13 @@ async function repairImages() {
       at.get(mk.after).push({ ...mk, n: k + 1 });
     });
 
-    const textParas = a.paras.filter(p => !p.img);
+    const textParas = a.paras.filter(p => p && !p.img);
     const rebuilt = [];
+    const addedAt = new Set();
     let placed = 0;
-    for (let si = 0; si <= textParas.length; si++) {
+    const addMarks = async si => {
+      if (addedAt.has(si)) return;
+      addedAt.add(si);
       for (const g of (at.get(si) || [])) {
         const rel = `assets/covers/${a.id}-${g.n}.jpg`;
         const dest = path.join(ROOT, rel);
@@ -709,8 +892,31 @@ async function repairImages() {
         if (good) { rebuilt.push({ img: rel, cap: g.cap }); inOk++; placed++; }
         else inFail++;
       }
-      if (si < textParas.length) rebuilt.push(textParas[si]);
+    };
+    let sentenceIndex = 0;
+    for (const block of textParas) {
+      const nested = Array.isArray(block.sentences);
+      const sentences = (nested ? block.sentences : [block]).filter(Boolean);
+      const kept = [];
+      const flush = () => {
+        if (!kept.length) return;
+        rebuilt.push(nested ? { sentences: kept.splice(0) } : kept.shift());
+      };
+      for (const sentence of sentences) {
+        if (at.has(sentenceIndex)) {
+          flush();
+          await addMarks(sentenceIndex);
+        }
+        kept.push(sentence);
+        sentenceIndex++;
+      }
+      if (at.has(sentenceIndex)) {
+        flush();
+        await addMarks(sentenceIndex);
+      }
+      flush();
     }
+    await addMarks(sentenceIndex);
     a.paras = rebuilt;
 
     /* 清掉这轮不再引用的旧图文件 */
@@ -734,81 +940,73 @@ async function repairImages() {
 /* ---------------- 模式二：抓取新文章 ---------------- */
 
 async function main() {
-  console.log(`抓取模式：${DRY ? "DRY（不翻译）" : "抓取 + 翻译"}  目标 = min(${LIMIT}, 每源 ${PER_FEED}) 篇  时效 = 近 ${MAX_AGE_DAYS} 天\n`);
+  console.log(`抓取模式：${DRY ? "DRY（不翻译）" : "抓取 + 翻译"}  目标 ≤ ${LIMIT} 篇  候选/源 = ${CANDIDATE_LIMIT}  时效 = 近 ${MAX_AGE_DAYS} 天\n`);
 
   const existing = loadExisting();
   const haveUrl = new Set(existing.map(a => a.url));
-  const seenLink = new Set();          // 同一次运行内也去重（有些源会重复推首页链接）
+  const rawCandidates = [];
+  const skip = (it, why) => { if (VERBOSE) console.log(`    · 跳过[${why}] ${cleanTitle(it.title).slice(0, 46)}`); };
 
-  const picked = [];
-  const catCount = {};                 // 按类别累计：同一类别可有多个源，共享配额
+  /* 阶段一：所有源先收集 RSS 候选，不在这里消耗类别配额。 */
   for (const feed of FEEDS) {
-    const catCap = feed.cat in QUOTA ? QUOTA[feed.cat] : PER_FEED;
-    const srcCap = feed.max || 99;
-    const used = () => catCount[feed.cat] || 0;
     process.stdout.write(`· ${feed.name} (${feed.cat}) ... `);
-    if (used() >= catCap) { console.log("该类别配额已满，跳过"); continue; }
-    const xml = await get(feed.rss);
+    const xml = await getTracked(feed, "rss", feed.rss);
     if (!xml) { console.log("RSS 取不到，跳过"); continue; }
-    let items = parseItems(xml).filter(it => freshEnough(it.date, feed.days));
-    /* 时尚类源优先取「时装 / 美妆 / 明星造型」栏目，影视时讯往后排 */
-    if (feed.prefer) {
-      const hit = it => feed.prefer.test(it.link);
-      items = [...items.filter(hit), ...items.filter(it => !hit(it))];
+    if (!sourceUsable(feed, "rss")) {
+      console.log(`RSS ${parseItems(xml).length} 条 · 来源熔断（RSS/正文连续失败，等待恢复探测）`);
+      continue;
     }
-    /* 图文并茂优先：RSS 里带图多的候选排前（正文实际图片数要等拉了页面才知道，
-       这里是零成本信号，让同一批次里有图的先占配额） */
-    items = [...items].sort((a, b) => (b.nimgs || 0) - (a.nimgs || 0));
-    const before = used();
-    let tried = 0;
-    /* 尝试上限：配额小的类别也要多试几篇，否则一条软文就能把整个类别堵死 */
-    const maxTry = Math.max(10, Math.min(srcCap, catCap) * 5);
-    /* --verbose：逐条打印跳过原因（排查某源长期无产出的利器） */
-    const skip = (it, why) => { if (VERBOSE) console.log(`    · 跳过[${why}] ${cleanTitle(it.title).slice(0, 46)}`); };
-    for (const it of items) {
-      if (used() >= catCap || used() - before >= srcCap || picked.length >= LIMIT || tried >= maxTry) break;
-      tried++;
-      if (haveUrl.has(it.link) || seenLink.has(it.link)) { skip(it, "已抓过"); continue; }
-      /* 广告软文 / 合作稿不算新闻正文 */
-      if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(it.link)) { skip(it, "软文"); continue; }
-      /* 明星栏目只要美图人物向内容，跳过星座/购物/栏目导览/纯单品稿 */
-      if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b/i.test(it.title)) { skip(it, "非美图向"); continue; }
-      /* 成长栏目只要真干货：搞钱成功学标题（厚黑学 / 空话）在源头就拦掉；播客转写页不是文章 */
-      if (feed.cat === "成长" && /passive income|get rich|dropship|side hustle|\bcrypto\b|\bnft\b|\$\d[\d,.]*\s*(\/|a|per)?\s*(month|day|hr|hour)/i.test(it.title)) { skip(it, "搞钱标题"); continue; }
-      if (feed.cat === "成长" && /\/podcast\//i.test(it.link)) { skip(it, "播客页"); continue; }
-      /* 大会/活动推广（如 TechCrunch Disrupt 明星嘉宾稿）不算新闻 */
-      if (/techcrunch (disrupt|sessions|events?)\b/i.test(it.title)) { skip(it, "活动推广"); continue; }
-      /* 源首页/栏目标签页不是文章：路径太浅的一律跳过（扁平 URL 的博客站如 nesslabs.com/文章名 除外） */
-      try {
-        const seg = new URL(it.link).pathname.split("/").filter(Boolean);
-        if (seg.length < 2 && !feed.flatUrl) { skip(it, "非文章页"); continue; }
-      } catch { skip(it, "链接异常"); continue; }
-      const html = await get(it.link);
-      if (!html) { skip(it, "页面取不到"); continue; }
+    const all = parseItems(xml).filter(it => freshEnough(it.date, feed.days));
+    const items = all.filter(it => {
+      if (haveUrl.has(it.link)) { skip(it, "已抓过"); return false; }
+      const why = staticSkipReason(feed, it);
+      if (why) { skip(it, why); return false; }
+      return true;
+    }).sort((a, b) => (b.nimgs || 0) - (a.nimgs || 0) || (b.date || "").localeCompare(a.date || ""));
+    const chosen = items.slice(0, CANDIDATE_LIMIT);
+    rawCandidates.push(...chosen.map(item => ({ feed, item })));
+    console.log(`RSS ${all.length} 条 · 入池 ${chosen.length} 条`);
+  }
+
+  if (!rawCandidates.length) { console.log("\n没有进入候选池的文章，退出。"); return; }
+  console.log(`\n候选池：${rawCandidates.length} 条，开始富化正文与图片…`);
+
+  /* 阶段二：统一富化。此处才拉文章页、抽正文、判难度和计算最终评分。 */
+  const enriched = [];
+  for (const { feed, item } of rawCandidates) {
+    const html = await getTracked(feed, "article", item.link);
+    if (!html) { skip(item, "页面取不到"); continue; }
+    if (!sourceUsable(feed)) { skip(item, "来源正文熔断"); continue; }
       const blocks = extractBlocks(html, LOOSE_CATS.has(feed.cat));
       const allSents = blocks.filter(b => b.t === "p").flatMap(b => splitSentences([b.v]));
-      if (!difficultyOk(allSents)) { skip(it, `难度不符(${allSents.length}句/${allSents.reduce((n, s) => n + wordCount(s), 0)}词)`); continue; }
+    if (!difficultyOk(allSents)) { skip(item, `难度不符(${allSents.length}句/${allSents.reduce((n, s) => n + wordCount(s), 0)}词)`); continue; }
 
       /* 长度与配图上限按源可覆盖：full = 全文不截断，明星图多 */
       const capSents = feed.full ? Infinity : (feed.sents || MAX_SENTS);
       const capWords = feed.full ? Infinity : (feed.words || MAX_WORDS);
       const capInline = feed.inline || MAX_INLINE_IMG;
       const { keep, sents, words } = packBlocks(blocks, capSents, capWords, capInline);
-      if (!sents) continue;
+    if (!sents.length) { skip(item, "正文为空"); continue; }
 
-      const cover = it.image || ogImage(html);
+      const cover = item.image || ogImage(html);
       /* 与封面同一张的正文图不重复收录 */
       const keep2 = keep.filter(b => b.t !== "img" || urlKey(b.src) !== urlKey(cover));
-      seenLink.add(it.link);
-      picked.push({
-        feed, item: it, keep: keep2, sents, words, cover,
-        slug: slug(cleanTitle(it.title)),
-        imgs: keep2.filter(b => b.t === "img").length
-      });
-      catCount[feed.cat] = used() + 1;
-      console.log(`✓ ${cleanTitle(it.title).slice(0, 46)}  [${sents.length} 句 / ${words} 词${keep2.some(b => b.t === "img") ? " / 有内嵌图" : ""}]`);
-    }
-    if (used() === before) console.log("无合格文章（可能被墙、重复或难度不符）");
+    const imgs = keep2.filter(b => b.t === "img").length;
+    const scored = scoreItem({
+      feed, item, words, cover, imgs, sents,
+      paragraphs: keep2.filter(b => b.t === "p").length,
+    });
+    enriched.push({
+        feed, item, keep: keep2, sents, words, cover, imgs,
+        slug: slug(cleanTitle(item.title)), ...scored,
+    });
+    console.log(`· ${cleanTitle(item.title).slice(0, 46)}  质量 ${scored.qualityScore}（${scored.qualityBand}）· 难度 ${scored.difficultyBaseScore} · 服务端 ${scored.serverScore}  [${sents.length} 句 / ${words} 词${imgs ? " / 有内嵌图" : ""}]`);
+  }
+
+  const picked = selectCandidates(enriched);
+  if (picked.length) {
+    const counts = picked.reduce((o, p) => { o[p.feed.cat] = (o[p.feed.cat] || 0) + 1; return o; }, {});
+    console.log(`\n统一评分后入选 ${picked.length} 篇：${JSON.stringify(counts)}（单源上限 ${SOURCE_DIVERSITY_CAP}）`);
   }
 
   if (!picked.length) { console.log("\n没抓到合格文章，退出。"); return; }
@@ -820,6 +1018,8 @@ async function main() {
     picked.forEach(p => {
       console.log(`\n【${p.feed.cat}】${cleanTitle(p.item.title)}   ${p.item.date}`);
       console.log(`   ${p.item.link}`);
+      console.log(`   质量: ${p.qualityScore}（${p.qualityBand}） · 基础难度: ${p.difficultyBaseScore} · 服务端: ${p.serverScore}`);
+      console.log(`   来源层级: ${SOURCE_TIERS[p.feed.name] || 1}`);
       console.log(`   封面图: ${p.cover ? p.cover.slice(0, 100) : "（无，将回退渐变）"}`);
       p.keep.filter(b => b.t === "img").forEach(b => console.log(`   内嵌图: ${b.src.slice(0, 100)}${b.cap ? `  cap="${b.cap.slice(0, 50)}"` : ""}`));
       p.keep.filter(b => b.t === "p").slice(0, 2).forEach(b => b.sents.forEach((s, i) => console.log(`   ${i + 1}. ${s.slice(0, 140)}`)));
@@ -854,7 +1054,7 @@ async function main() {
     let coverImg = "";
     if (p.cover) {
       const dest = path.join(COVERS_DIR, `${id}.jpg`);
-      const bytes = await downloadImg(p.cover, dest);
+      const bytes = await downloadImg(p.cover, dest, p.feed);
       if (bytes) { coverImg = `assets/covers/${id}.jpg`; imgOk++; } else imgFail++;
       await sleep(200);
     }
@@ -865,19 +1065,21 @@ async function main() {
       if (b.t === "img") {
         n++;
         const dest = path.join(COVERS_DIR, `${id}-${n}.jpg`);
-        const bytes = await downloadImg(b.src, dest);
+        const bytes = await downloadImg(b.src, dest, p.feed);
         if (bytes) { paras.push({ img: `assets/covers/${id}-${n}.jpg`, cap: b.cap || "" }); imgOk++; }
         else imgFail++;
         await sleep(200);
         continue;
       }
+      const sentences = [];
       for (const s of b.sents) {
         const cn = postEdit(p.cn[si++] || "", p.feed.cat);
         /* 统一清洗：删掉混进来的脚本、还原翻译占位符、规范中文标点留白。
            没译出来、或清洗后只剩残句的，整段丢掉——宁可少一句，也不要空对照或乱码 */
         const para = cleanPara({ en: s, cn });
-        if (para) paras.push(para);
+        if (para) sentences.push(para);
       }
+      if (sentences.length) paras.push({ sentences });
     }
 
     articles.push({
@@ -891,6 +1093,11 @@ async function main() {
       cover: grad,
       gradient: grad,
       coverImg,
+      scoreVersion: SCORE_VERSION,
+      qualityScore: p.qualityScore,
+      qualityBand: p.qualityBand,
+      difficultyBaseScore: p.difficultyBaseScore,
+      serverScore: p.serverScore,
       paras
     });
   }
@@ -947,4 +1154,11 @@ if (typeof ARTICLES !== "undefined" && typeof ARTICLES.push === "function") {
   console.log(`\n下一步：node tools/ingest.mjs --backfill   给 data.js 里的文章补封面图`);
 }
 
-(BACKFILL ? backfill() : REPAIR ? repairImages() : main()).catch(e => { console.error("失败：", e); process.exit(1); });
+const job = BACKFILL ? backfill() : REPAIR ? repairImages() : main();
+job.then(() => {
+  if (!BACKFILL && !REPAIR) saveSourceHealth();
+}).catch(e => {
+  if (!BACKFILL && !REPAIR) saveSourceHealth();
+  console.error("失败：", e);
+  process.exit(1);
+});

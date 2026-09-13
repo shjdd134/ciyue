@@ -18,6 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { cleanInvisible } from "./lib-text.mjs";
+import { QUALITY_CANDIDATE_THRESHOLD } from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const IDS_FILE = (() => {
@@ -57,6 +58,7 @@ const CN_RE = /[\u4e00-\u9fff]/;
 const now = Date.now();
 const DAY = 86400000;
 const bad = [], warned = [], ok = [];
+const scored = ARTICLES.filter(a => a.scoreVersion && Number.isFinite(Number(a.qualityScore)) && Number.isFinite(Number(a.serverScore)));
 
 for (const a of ARTICLES) {
   if (!targets.has(a.id)) continue;
@@ -90,27 +92,44 @@ for (const a of ARTICLES) {
 
   /* F4/F5 正文（寓言最短只有 2 段） */
   const paras = (a.paras || []).filter(Boolean);
-  const textParas = paras.filter(p => p.en);
+  const textParas = [];
+  paras.forEach((p, pi) => {
+    if (p.img) return;
+    if (Array.isArray(p.sentences)) {
+      if (!p.sentences.length) F.push(`F4 段 ${pi} 为空`);
+      p.sentences.forEach((s, si) => textParas.push({ p: s, label: `段 ${pi}·句 ${si}` }));
+    } else {
+      textParas.push({ p, label: `段 ${pi}` });
+    }
+  });
   if (paras.length < (a.cat === "寓言" ? 2 : 3)) F.push(`F4 只有 ${paras.length} 段`);
   for (let i = 0; i < textParas.length; i++) {
-    const p = textParas[i];
+    const { p, label } = textParas[i];
     const en = String(p.en || ""), cn = String(p.cn || "");
-    if (!en.trim()) { F.push(`F4 段 ${i} en 为空`); continue; }
-    if (!cn.trim()) { F.push(`F4 段 ${i} 漏译（cn 为空）`); continue; }
-    if (cn === en) F.push(`F4 段 ${i} 译文与原文相同`);
-    if (!CN_RE.test(cn)) F.push(`F4 段 ${i} 译文无中文`);
+    if (!en.trim()) { F.push(`F4 ${label} en 为空`); continue; }
+    if (!cn.trim()) { F.push(`F4 ${label} 漏译（cn 为空）`); continue; }
+    if (cn === en) F.push(`F4 ${label} 译文与原文相同`);
+    if (!CN_RE.test(cn)) F.push(`F4 ${label} 译文无中文`);
     for (const [name, txt] of [["en", en], ["cn", cn]]) {
-      if (PLACEHOLDER.test(txt)) F.push(`F5 段 ${i} ${name} 残留翻译占位符`);
-      if (txt.includes("\uFFFD")) F.push(`F5 段 ${i} ${name} 含替换字符 U+FFFD`);
-      if (cleanInvisible(txt) !== txt) F.push(`F5 段 ${i} ${name} 残留不可见字符`);
-      if (AD_CODE.test(txt)) F.push(`F5 段 ${i} ${name} 混入广告脚本`);
-      if (NAV_PREFIX.test(txt)) F.push(`F5 段 ${i} ${name} 混入导航句`);
-      if (BARE_LINK.test(txt)) F.push(`F5 段 ${i} ${name} 整段纯链接`);
+      if (PLACEHOLDER.test(txt)) F.push(`F5 ${label} ${name} 残留翻译占位符`);
+      if (txt.includes("\uFFFD")) F.push(`F5 ${label} ${name} 含替换字符 U+FFFD`);
+      if (cleanInvisible(txt) !== txt) F.push(`F5 ${label} ${name} 残留不可见字符`);
+      if (AD_CODE.test(txt)) F.push(`F5 ${label} ${name} 混入广告脚本`);
+      if (NAV_PREFIX.test(txt)) F.push(`F5 ${label} ${name} 混入导航句`);
+      if (BARE_LINK.test(txt)) F.push(`F5 ${label} ${name} 整段纯链接`);
     }
     /* W1 译文英文残留：≥4 字母的英文词超过 8 个且译文较短 */
     const latin = (cn.match(/[A-Za-z]{4,}/g) || []).length;
-    if (latin > 8 && cn.length < 400) warned.push(`W1 ${a.id} 段 ${i} 译文中英文残留偏多（${latin} 个英文词）`);
-    if (en.length + cn.length < 60) warned.push(`W2 ${a.id} 段 ${i} 过短`);
+    if (latin > 8 && cn.length < 400) warned.push(`W1 ${a.id} ${label} 译文中英文残留偏多（${latin} 个英文词）`);
+    if (en.length + cn.length < 60) warned.push(`W2 ${a.id} ${label} 过短`);
+  }
+
+  /* 新抓文章的评分是发布链的一部分；历史文章没有这些字段时保持兼容。 */
+  if (a.scoreVersion) {
+    const q = Number(a.qualityScore), d = Number(a.difficultyBaseScore), s = Number(a.serverScore);
+    if (![q, d, s].every(Number.isFinite)) F.push("F6 推荐评分字段不完整");
+    else if (q < QUALITY_CANDIDATE_THRESHOLD) F.push(`F6 质量分低于候选线（${q}）`);
+    else if (q > 100 || d < 0 || d > 100 || s < 0 || s > 100) F.push("F6 推荐评分超出 0–100 范围");
   }
 
   if (F.length) bad.push({ id: a.id, fails: F });
@@ -118,7 +137,7 @@ for (const a of ARTICLES) {
 }
 
 /* ---------- 报告 ---------- */
-console.log(`质检：合格 ${ok.length} · 拒收 ${bad.length} · 警告 ${warned.length}`);
+console.log(`质检：合格 ${ok.length} · 拒收 ${bad.length} · 警告 ${warned.length} · 已带推荐评分 ${scored.length}/${ARTICLES.length}`);
 for (const b of bad) console.log(`  ✗ ${b.id}\n      ${b.fails.join("\n      ")}`);
 for (const w of warned.slice(0, 10)) console.log("  ⚠ " + w);
 

@@ -111,11 +111,11 @@ eq('仍能正常返回', at().view, 'discover');
 console.log('\n[5] 生词本（根级跳转）不残留来路');
 click({ tab: 'discover' });
 click({ article: ids[0] });
-click({ act: 'book' });
-eq('跳到「我的」', at().view, 'me');
-eq('栈已重置', at().depth, 0);
-click({ act: 'go-back' });
-eq('无来路时兜底回首页且不报错', at().view, 'home');
+click({ act: 'article-notebook' });
+eq('生词本 sheet 在阅读页上打开', at().view, 'read');
+click({ act: 'close-sheet' });
+click({ tab: 'home' });
+eq('回首页不报错', at().view, 'home');
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

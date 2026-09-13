@@ -32,6 +32,11 @@ for (const [rel, name] of FILES) {
   const arr = read.value;
   const droppedLines = [];
   let dropped = 0, merged = 0, edited = 0;
+  const preview = p => {
+    if (p?.img) return `[图] ${p.img}`;
+    if (Array.isArray(p?.sentences)) return p.sentences[0]?.en || p.sentences[0]?.cn || "[空段]";
+    return p?.en || p?.cn || "[空段]";
+  };
 
   for (const art of arr) {
     const before = art.paras || [];
@@ -42,11 +47,10 @@ for (const [rel, name] of FILES) {
       const c = cleanPara(p);
       if (!c) {
         dropped++;
-        droppedLines.push(`   删除 ${art.id} p${i + 1}：${JSON.stringify((p.en || p.cn || "[图] " + (p.img || "")).slice(0, 76))}`);
+        droppedLines.push(`   删除 ${art.id} p${i + 1}：${JSON.stringify(preview(p).slice(0, 76))}`);
         return;
       }
-      if (c.cn !== p.cn) edited++;
-      if (c.en !== p.en) edited++;
+      if (JSON.stringify(c) !== JSON.stringify(p)) edited++;
       kept.push(c);
     });
 

@@ -88,7 +88,7 @@ console.log(`冲刺池 ${Object.keys(SPRINT).length} 词`);
    「未命中」那一行会列出 ECDICT 完全不认识的词 —— 那基本就是坏数据。发现新的往这里加。
    （2026-09-11 全量核对：2068 词里只有 rusia 一条，ECDICT 无记录、无音标、释义是「鲁西亚（地名）」。）
    国家名 / 首都名（china / japan / tokyo …）**不排除** —— 它们本来就在中学教材词表里，
-   用户用「快筛」几秒就能划掉，静默删掉教材词反而更糟。 */
+   词库保留教材词，供阅读中的点词查义使用。 */
 const JUNK = new Set(["rusia"]);
 
 const isNoise = w => JUNK.has(w) || STOP.has(w) || w.length <= 2 || !/^[a-z][a-z'-]*$/.test(w);
