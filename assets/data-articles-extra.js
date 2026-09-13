@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 20 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
+ * 共 28 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
  * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
- * 每篇保留 url 外链可溯源。来源：Aesop's Fables (1912) / Sky Sports / FourFourTwo / Dan Koe / Farnam Street / More To That / Ness Labs / Harper's Bazaar UK / Vanity Fair / TechCrunch AI
+ * 每篇保留 url 外链可溯源。来源：Sky Sports / FourFourTwo / Ness Labs / Vanity Fair / TechCrunch AI / Dan Koe / The Guardian
  */
 
 const ARTICLES_EXTRA = [
@@ -70,6 +70,327 @@ const ARTICLES_EXTRA = [
       {
         "img": "assets/covers/ft-liverpool-held-at-anfield-as-fulham-pick-up-fi-3.jpg",
         "cap": ""
+      }
+    ]
+  },
+  {
+    "id": "ft-furious-arteta-rages-over-unacceptable-sunderl",
+    "cat": "足球",
+    "title": "Furious Arteta rages over 'unacceptable' Sunderland penalty call",
+    "titleZh": "阿特塔勃然大怒，痛斥桑德兰那次“不可接受”的点球判罚",
+    "source": "Sky Sports · 2026-09-12",
+    "date": "2026-09-12",
+    "minutes": 3,
+    "url": "https://www.skysports.com/football/news/11095/13585214/mikel-arteta-rages-at-sunderland-penalty-decision-after-arsenal-win-at-stadium-of-light-this-cannot-happen",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/ft-furious-arteta-rages-over-unacceptable-sunderl.jpg",
+    "paras": [
+      {
+        "en": "Mikel Arteta was left furious by the award of Sunderland's penalty during Arsenal's 2-0 win at the Stadium of Light, saying such decisions can cost a side a Premier League title; David Raya saved Enzo Le Fee's spot kick as Gunners claimed a fourth straight win",
+        "cn": "在阿森纳客场2-0战胜桑德兰的比赛中，米克尔·阿尔特塔对裁判判给桑德兰一记点球感到极为愤怒，他表示此类判罚可能会让球队错失英超冠军；大卫·拉亚扑出了恩佐·勒菲的点球，枪手 thereby 取得了四连胜"
+      },
+      {
+        "en": "A furious Mikel Arteta described Sunderland's penalty in Arsenal's 2-0 win at the Stadium of Light as \"unacceptable\".",
+        "cn": "在阿森纳客场2-0战胜桑德兰的“光明球场”一役中，怒不可遏的米克尔·阿尔特塔将桑德兰获得的点球称为“不可接受”。"
+      },
+      {
+        "en": "The home side were awarded a spot kick in the 54th minute when defender Ezri Konsa was adjudged to have held Sunderland's Dan Ballard by referee John Brooks.",
+        "cn": "第54分钟，主队获得一记点球，当时裁判约翰·布鲁克斯判定后卫埃兹里·康萨拉拽了桑德兰队的丹·巴拉德。"
+      },
+      {
+        "en": "\"The referee's call of penalty to Sunderland for a holding offence by Konsa on Ballard was checked and confirmed by VAR,\" said a statement published by the Premier League Match Centre.",
+        "cn": "英超联赛比赛中心发表的一份声明称：“裁判因康萨对巴拉德犯规（拉人）而判给桑德兰一记点球，这一判罚经VAR回放核查后得到确认。”"
+      },
+      {
+        "en": "The statement continued by quoting the interaction between on-pitch referee Brooks and the VAR.",
+        "cn": "该声明随后援引了场上主裁判布鲁克斯与VAR之间的互动。"
+      },
+      {
+        "en": "\"REF: 'He's all over him at the near post facing the wrong way.' VAR: 'I'm happy that it's a holding offence.",
+        "cn": "“裁判：‘他在近门柱处紧贴对方，而且背对球门。’VAR：‘我认为这属于拉人犯规，我对此没有异议。’"
+      },
+      {
+        "en": "Confirming the on-field decision of penalty.'\"",
+        "cn": "“确认场上判罚的决定。”"
+      },
+      {
+        "en": "David Raya saved Enzo Le Fee's spot kick and Bruno Guimaraes scored Arsenal's opening goal just 121 seconds later but Arteta vented his anger at the decision despite the result.",
+        "cn": "大卫·拉亚扑出了恩佐·勒菲的点球，布鲁诺·吉马良斯在121秒后便为阿森纳打入了首粒进球，但尽管取得了胜利，阿尔特塔仍对这一判罚表达了不满。"
+      },
+      {
+        "en": "\"The first question we have to discuss is this,\" he said at the start of his press conference.",
+        "cn": "“我们首先要讨论的问题是这个，”他在新闻发布会开始时说道。"
+      },
+      {
+        "en": "\"This is not acceptable at this level.",
+        "cn": "“在这个层面上，这是不可接受的。"
+      },
+      {
+        "en": "\"It was a beautiful game of football with two teams, with an atmosphere in the stadium that was unbelievable.",
+        "cn": "“这是一场精彩的足球比赛，两支球队表现出色，球场上的气氛简直令人难以置信。”"
+      },
+      {
+        "en": "\"Sunderland are so well organised, they are so good in so many phases, they have great players and they create a lot of issues.",
+        "cn": "“桑德兰的组织非常严密，他们在许多环节都表现出色，拥有优秀的球员，给对手制造了很大麻烦。”"
+      },
+      {
+        "en": "We have to cope with all of that in a really difficult week.",
+        "cn": "在这个非常艰难的一周里，我们不得不应对所有这些事情。"
+      },
+      {
+        "en": "\"And on top of that, we have to go through what we have done today, that, in my opinion, is not acceptable.",
+        "cn": "“更何况，我们还得回顾今天所做的一切，在我看来，这是不可接受的。"
+      },
+      {
+        "en": "\"I watched it 20 times and I cannot find a way to understand how they think to give a penalty in that situation, or the way the VAR has to intervene.",
+        "cn": "“我看了20遍，还是无法理解他们为什么会在那种情况下判罚点球，也不明白VAR为什么要介入。”"
+      },
+      {
+        "img": "assets/covers/ft-furious-arteta-rages-over-unacceptable-sunderl-1.jpg",
+        "cap": "Image: David Raya superbly saved Enzo Le Fee's penalty at 0-0"
+      },
+      {
+        "en": "\"I'm sad that we have to discuss this after such a beautiful game, that at this level, has the gravity of that.",
+        "cn": "“很遗憾，在这样一场精彩的比赛之后，我们却不得不讨论这个问题；在如此高的水平上，这件事的分量确实很重。”"
+      },
+      {
+        "en": "Because that changes the course of the season and it can cost you the championship.",
+        "cn": "因为这会改变整个赛季的走向，甚至可能让你错失冠军。"
+      },
+      {
+        "en": "Arsenal's victory was wrapped up by a late Bukayo Saka penalty but Arteta, who was booked for going out of his technical area earlier in the game, was similarly angry in his post-match interview with TNT Sports, describing the incident as a \"judo roll\".",
+        "cn": "阿森纳的胜利由布卡约·萨卡在比赛尾声阶段罚入的点球锁定，但阿特塔——他此前因离开技术区而领到一张黄牌——在接受TNT Sports赛后采访时同样怒不可遏，将这一事件形容为“柔道式翻滚”。"
+      },
+      {
+        "img": "assets/covers/ft-furious-arteta-rages-over-unacceptable-sunderl-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ft-furious-arteta-rages-over-unacceptable-sunderl-3.jpg",
+        "cap": ""
+      }
+    ]
+  },
+  {
+    "id": "ft-guimaraes-haunts-sunderland-as-arsenal-continu",
+    "cat": "足球",
+    "title": "Guimaraes haunts Sunderland as Arsenal continue winning start",
+    "titleZh": "吉马良斯令桑德兰心有余悸，阿森纳开局连胜势头不减",
+    "source": "Sky Sports · 2026-09-12",
+    "date": "2026-09-12",
+    "minutes": 4,
+    "url": "https://www.skysports.com/football/sunderland-vs-arsenal/report/559482",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/ft-guimaraes-haunts-sunderland-as-arsenal-continu.jpg",
+    "paras": [
+      {
+        "en": "Report and free match highlights as former Newcastle captain Bruno Guimaraes haunts Sunderland with a stunning goal as Arsenal win 2-0 at the Stadium of Light; David Raya saved an Enzo Le Fee penalty; Bukayo Saka added a late second from the spot",
+        "cn": "赛后报道及免费比赛集锦：前纽卡斯尔队长布鲁诺·吉马良斯以一记精彩绝伦的进球令桑德兰苦不堪言，阿森纳在光明球场以2-0获胜；大卫·拉亚扑出了恩佐·勒菲的点球；布卡约·萨卡在比赛尾声通过点球再下一城"
+      },
+      {
+        "en": "Bruno Guimaraes scored a stunning goal two minutes after David Raya had saved a penalty as Arsenal beat Sunderland 2-0 to move above Manchester City at the top of the Premier League.",
+        "cn": "在大卫·拉亚扑出点球两分钟后，布鲁诺·吉马良斯打入一记精彩绝伦的进球，阿森纳最终以2-0战胜桑德兰，从而超越曼城，登顶英超积分榜。"
+      },
+      {
+        "en": "The Black Cats had the chance to go in front when Ezri Konsa was penalised for holding Dan Ballard in the second half, a decision which enraged Arsenal manager Mikel Arteta, but Raya brilliantly tipped Enzo Le Fee's spot kick onto the post.",
+        "cn": "下半场，埃兹里·康萨因拉拽丹·巴拉德被判罚点球，这让“黑猫”获得了领先的机会，这一判罚激怒了阿森纳主帅米克尔·阿尔特塔，但拉亚神勇地将恩佐·勒菲的点球扑到了门柱上。"
+      },
+      {
+        "en": "Just 121 seconds later, Guimaraes, whose every touch had been booed by the home fans due to his Newcastle connections, crashed a stunning strike in off the underside of the crossbar from outside the Sunderland box for his first Arsenal goal.",
+        "cn": "仅仅121秒后，吉马良斯——由于他与纽卡斯尔的渊源，主队球迷对他每次触球都报以嘘声——在桑德兰禁区外轰出一记惊人的射门，皮球击中横梁下沿弹入网窝，打入了他在阿森纳的首粒进球。"
+      },
+      {
+        "en": "Arsenal had to withstand late pressure from the home side, with Raya saving well from Nordi Mukiele, but they made the result safe when Bukayo Saka scored a stoppage-time penalty after Reinildo Mandava was shown a second yellow card for hauling him down.",
+        "cn": "阿森纳不得不顶住主队在比赛尾声阶段的猛攻，拉亚神勇扑出了诺迪·穆基莱的射门；随后，雷尼尔多·曼达瓦因拉倒布卡约·萨卡而领到第二张黄牌被罚下，萨卡在补时阶段罚入点球，锁定了胜局。"
+      },
+      {
+        "en": "The victory, Arsenal's fourth in a row in the Premier League and sixth in all competitions, maintains their strong start to the campaign and puts the champions three points above Manchester City, who face Manchester United live on Sky Sports on Sunday.",
+        "cn": "这场胜利是阿森纳在英超联赛中的四连胜，也是各项赛事中的第六场胜利，延续了球队本赛季的强势开局，并使这位卫冕冠军在积分榜上领先曼城3分——曼城将于周日迎战曼联，该场比赛将在Sky Sports进行现场直播。"
+      },
+      {
+        "en": "For Sunderland, the defeat is made all the more painful by the identity of the player who opened the scoring, coming so soon after they appeared poised to strike first from the spot.",
+        "cn": "对桑德兰来说，这场失利之所以格外令人痛心，是因为首开纪录的球员身份——就在他们本有望通过点球率先破门后不久，对方便由这位球员攻入一球。"
+      },
+      {
+        "en": "They remain on four points, the latest side to be dispatched by Mikel Arteta's men.",
+        "cn": "他们仍积4分，成为米克尔·阿尔特塔麾下球队最新一支被击败的队伍。"
+      },
+      {
+        "en": "Arsenal manager Mikel Arteta to TNT Sports: \"It's a huge win but it could have been something very different.",
+        "cn": "阿森纳主帅米克尔·阿尔特塔对TNT Sports表示：“这是一场重要的胜利，但结果本可能截然不同。”"
+      },
+      {
+        "en": "It's unacceptable (Sunderland's award of a penalty).",
+        "cn": "这是不可接受的（桑德兰获得点球）。"
+      },
+      {
+        "en": "This can change the course of a season, the championship, and it's not acceptable.",
+        "cn": "这可能会改变整个赛季乃至冠军争夺的走向，这是不可接受的。"
+      },
+      {
+        "en": "\"I've seen it 10 times to make sure because I watched it live and I said it's not possible that it's going to be a penalty because it's a judo role, that's what it is.",
+        "cn": "“为了确认，我反复看了10遍，因为我是现场观看的，当时我就觉得这不可能判罚点球，因为这分明是个柔道动作，就是这么回事。”"
+      },
+      {
+        "en": "Guimaraes didn't hesitate when asked after the game if he sees David Raya as the best goalkeeper in the world.",
+        "cn": "赛后被问及是否认为大卫·拉亚是世界上最好的门将时，吉马良斯毫不犹豫地给出了回答。"
+      },
+      {
+        "en": "The midfielder's sensational goal completed the two-minute turnaround but it was Raya who made it possible.",
+        "cn": "这位中场球员的精彩进球让球队在两分钟内完成了逆转，但正是拉亚让这一切成为可能。"
+      },
+      {
+        "en": "Arteta was adamant the spot kick should never have been awarded.",
+        "cn": "阿尔特塔坚称，那粒点球根本就不该判给对方。"
+      },
+      {
+        "en": "But Raya's sole focus was to stop it from going in.",
+        "cn": "但拉亚唯一关心的就是阻止球进网。"
+      },
+      {
+        "en": "Le Fee, who scored a penalty last weekend, struck it well.",
+        "cn": "上周末罚进一粒点球的勒·费，这次射门踢得相当漂亮。"
+      },
+      {
+        "en": "Raya, though, showed his athleticism, diving low to his left to make the save.",
+        "cn": "不过，拉亚展现出了出色的运动能力，他向左侧低身扑救，成功将球扑出。"
+      },
+      {
+        "en": "It was a brilliant piece of goalkeeping and there were plenty of other examples over the course of the 90 minutes at the Stadium of Light.",
+        "cn": "这是一次精彩的扑救，而在“光明球场”进行的这90分钟比赛中，类似的精彩表现还有很多。"
+      },
+      {
+        "en": "Sunderland are about as physical as opponents come but he dominated his box, claiming crosses and exuding calm.",
+        "cn": "桑德兰是对手中身体对抗最强的球队之一，但他却在禁区内占据了绝对优势，稳稳接住传中球，表现得从容不迫。"
+      },
+      {
+        "en": "His save to deny Mukiele, following a fabulous centre by Granit Xhaka, when Arsenal were still only a goal up, was another crucial intervention.",
+        "cn": "当时阿森纳仅以一球领先，格拉尼特·扎卡送出一记精彩的传中，门将扑出了穆基莱的射门，这又是一次关键的扑救。"
+      },
+      {
+        "en": "And he was straight back up on his feet to scramble away the follow-up.",
+        "cn": "随后他立刻站起身来，奋力化解了对手的后续进攻。"
+      },
+      {
+        "en": "Raya is always alert to danger.",
+        "cn": "拉雅总是对危险保持警惕。"
+      },
+      {
+        "en": "He had to settle for a place on the bench with Spain at the World Cup.",
+        "cn": "在世界杯上，他只能在西班牙队中担任替补。"
+      }
+    ]
+  },
+  {
+    "id": "ft-winless-spurs-remain-goalless-after-another-bo",
+    "cat": "足球",
+    "title": "Winless Spurs remain goalless after another bore draw against Everton",
+    "titleZh": "马刺队依然未尝胜绩，在与埃弗顿队的又一场乏味的平局后，仍未取得进球",
+    "source": "Sky Sports · 2026-09-12",
+    "date": "2026-09-12",
+    "minutes": 4,
+    "url": "https://www.skysports.com/football/tottenham-hotspur-vs-everton/report/559483",
+    "cover": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "gradient": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "coverImg": "assets/covers/ft-winless-spurs-remain-goalless-after-another-bo.jpg",
+    "paras": [
+      {
+        "en": "Report and free match highlights as Tottenham remain winless and goalless in Premier League this season with 0-0 draw against Everton; first time Spurs have failed to score in any of their first four league games of a season; Spurs booed off at full-time as Toffees maintain unbeaten start",
+        "cn": "赛后报道及免费比赛集锦：热刺本赛季英超仍未尝胜绩且一球未进，本轮0-0战平埃弗顿；这是热刺首次在赛季前四轮联赛中均未能破门；终场哨响时，热刺球员离场时遭到嘘声，而太妃糖则延续了赛季开局不败的纪录。"
+      },
+      {
+        "en": "Tottenham’s winless and goalless start to the Premier League season continued with a 0-0 draw at home to unbeaten Everton.",
+        "cn": "托特纳姆热刺在英超赛季开局阶段仍未尝胜绩且一球未进，此番主场0-0战平保持不败的埃弗顿，这一局面仍在延续。"
+      },
+      {
+        "en": "It is the first time Spurs have failed to score in any of their first four league games of a season, while it is now over 400 minutes since their last Premier League goal.",
+        "cn": "这是热刺首次在赛季前四场联赛中均未能取得进球，而自他们上一次在英超联赛中进球以来，已过去400多分钟。"
+      },
+      {
+        "en": "Following last weekend's goalless draw at Nottingham Forest, it was another toothless display from Roberto De Zerbi's new-look, expensively assembled side, who were booed off at the full-time whistle.",
+        "cn": "继上周末客场0比0战平诺丁汉森林之后，罗伯托·德泽尔比麾下这支阵容焕然一新、耗资不菲的球队再次表现乏力，终场哨响时遭到了现场球迷的嘘声。"
+      },
+      {
+        "en": "A disgruntled home crowd watched their side have just two shots on target - the first a weak second-half effort from Mateus Fernandes met with ironic cheers - create one big chance and register a paltry expected goals of 0.64.",
+        "cn": "主场球迷们心怀不满地目睹了自家球队全场仅有两次射正——其中第一次是马特乌斯·费尔南德斯下半场的一记力量不足的射门，还招来了讽刺般的欢呼——仅创造了一次绝佳机会，预期进球数更是低至0.64。"
+      },
+      {
+        "en": "Everton had the better moments to earn their first away league win since February, but ex-Spurs winger Brennan Johnson blazed a great second-half chance over, while earlier, Spurs goalkeeper Antonin Kinsky nearly gifted Kiernan Dewsbury-Hall an opener.",
+        "cn": "埃弗顿曾有几次绝佳机会，本有望取得自2月以来的首场客场联赛胜利，但前热刺边锋布伦南·约翰逊在下半场错失了一次绝佳机会，将球踢飞；而此前，热刺门将安东宁·金斯基险些将球送入自家球门，让基尔南·杜斯伯里-霍尔率先破门。"
+      },
+      {
+        "en": "The Toffees weathered Spurs' early storm as the home side had four shots in the opening 10 minutes, with Jan Paul van Hecke missing a great close-range chance.",
+        "cn": "“太妃糖”顶住了热刺开场阶段的猛攻——主队在开场10分钟内就完成了4次射门，其中扬·保罗·范·赫克错失了一次绝佳的近距离射门机会。"
+      },
+      {
+        "en": "But the defender's fifth-minute effort proved to be Tottenham's best opportunity as De Zerbi's side became the first Spurs team to go on a four-game goalless run in 20 years.",
+        "cn": "但这位后卫在第5分钟的射门最终成为热刺本场比赛的最佳机会，德泽尔比执教的这支热刺队也因此成为20年来首支连续四场比赛未能进球的热刺队。"
+      },
+      {
+        "en": "It was also the first goalless draw at the Tottenham Hotspur Stadium in the Premier League (140th game), and the first time that Spurs have drawn 0-0 in a home game in the competition since September 2017.",
+        "cn": "这也是托特纳姆热刺球场在英超联赛中的首场0-0平局（第140场比赛），也是热刺自2017年9月以来首次在英超主场比赛中以0-0战平对手。"
+      },
+      {
+        "en": "\"After spending £300m, I didn't think there would be a problem scoring goals.",
+        "cn": "“花了3亿英镑之后，我本以为进球不会有问题。”"
+      },
+      {
+        "en": "But to not score in six hours of football is absolutely diabolical.",
+        "cn": "但在长达六小时的足球比赛中一球未进，这简直是噩梦般的表现。"
+      },
+      {
+        "en": "\"For the first 20 minutes, I thought that this is what I want to see.",
+        "cn": "“在前20分钟里，我以为这就是我想看的。”"
+      },
+      {
+        "en": "There was a moment when Fernandes had a shot and the whole crowd celebrated.",
+        "cn": "有那么一瞬间，费尔南德斯起脚射门，全场观众都欢呼雀跃。"
+      },
+      {
+        "en": "\"The connection with the fans and the players is not there.",
+        "cn": "“球迷和球员之间缺乏联系。”"
+      },
+      {
+        "en": "I don't know when they are going to get their first win.",
+        "cn": "我不知道他们什么时候才能取得首胜。"
+      },
+      {
+        "en": "It might go on for longer, but I do still see some positives.",
+        "cn": "这种情况可能会持续更久，但我仍然看到了一些积极的一面。"
+      },
+      {
+        "en": "\"It cannot stay this way with what is at their disposal.",
+        "cn": "“以他们现有的资源，情况不可能一直这样下去。”"
+      },
+      {
+        "en": "There are things that I don't like.",
+        "cn": "有些事情我不喜欢。"
+      },
+      {
+        "en": "Robertson was your left-back and your wide left player because Marmoush wanted to come inside.",
+        "cn": "罗伯逊既担任左后卫，又担任左路边前卫，因为马尔穆什想内切。"
+      },
+      {
+        "en": "That balance didn't really work, so you are lopsided with what you're trying to do.",
+        "cn": "这种平衡其实并不奏效，所以你现在所做的事情有些失衡。"
+      },
+      {
+        "en": "\"Trying to get the best squad is what De Zerbi has to solve.",
+        "cn": "“如何组建最强的阵容，是德泽尔比必须解决的问题。”"
+      },
+      {
+        "en": "The midfield balance also isn't right.",
+        "cn": "中场的平衡也不够好。"
+      },
+      {
+        "en": "You've got to find a way of getting a Kudus into the ten, or Maddison if he gets fit.",
+        "cn": "你得想办法让库杜斯进入首发十人阵容，如果马迪森恢复健康的话，就让他上场。"
+      },
+      {
+        "en": "I'm not sure how Kulusevski's going to be but when he's fit you've got to get him in.",
+        "cn": "我不确定库卢塞夫斯基的情况会如何，但只要他恢复健康，就必须让他上场。"
       }
     ]
   },
@@ -1927,6 +2248,256 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
+    "id": "st-luke-evans-as-a-child-i-was-in-love-with-harri",
+    "cat": "明星",
+    "title": "Luke Evans: ‘As a child I was in love with Harrison Ford as Indiana Jones’",
+    "titleZh": "卢克·埃文斯：“小时候，我非常迷恋哈里森·福特饰演的印第安纳·琼斯",
+    "source": "The Guardian · 2026-09-12",
+    "date": "2026-09-12",
+    "minutes": 3,
+    "url": "https://www.theguardian.com/lifeandstyle/2026/sep/12/luke-evans-actor-interview-the-party-itv-elizabeth-day-novel",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "",
+    "paras": [
+      {
+        "en": "The Hobbit and Fast & Furious actor on the joy of strawberry laces, hating that he’s so hard on himself, and his sneaky way of leaving a meeting",
+        "cn": "这位曾出演《霍比特人》和《速度与激情》的演员谈到了草莓味糖绳带来的快乐、讨厌自己对自我要求过高，以及他偷偷溜出会议的妙招"
+      },
+      {
+        "en": "B orn in south Wales, Luke Evans, 47, left school at 16 and trained at London Studio Centre before appearing in various West End shows.",
+        "cn": "现年47岁的卢克·埃文斯出生于南威尔士，16岁辍学，随后在伦敦工作室中心接受培训，之后出演了多部西区剧目。"
+      },
+      {
+        "en": "His films include Clash of the Titans, the Fast & Furious franchise, The Hobbit trilogy and Beauty and the Beast.",
+        "cn": "他执导的电影包括《诸神之战》、《速度与激情》系列、《霍比特人》三部曲以及《美女与野兽》。"
+      },
+      {
+        "en": "He has released two albums and a memoir, was Tony-nominated for his role in The Rocky Horror Show on Broadway, and stars in The Party, an ITV adaptation of Elizabeth Day’s novel.",
+        "cn": "他已发行了两张专辑和一部回忆录，曾因在百老汇剧目《洛基恐怖秀》中的表演获得托尼奖提名，并主演了ITV根据伊丽莎白·戴伊小说改编的电视剧《派对》。"
+      },
+      {
+        "en": "He lives in Lisbon with his partner.",
+        "cn": "他和伴侣一起住在里斯本。"
+      },
+      {
+        "en": "What is the trait you most deplore in yourself?",
+        "cn": "你最讨厌自己哪一点？"
+      },
+      {
+        "en": "Being hard on myself, saying negative things in my head that are not helpful.",
+        "cn": "对自己要求太严，脑海中不断浮现那些毫无益处的消极想法。"
+      },
+      {
+        "en": "Aside from a property, what’s the most expensive thing you’ve bought?",
+        "cn": "除了房产之外，你买过最贵的东西是什么？"
+      },
+      {
+        "en": "BDXY is a clothing brand I started with my partner three years ago with no investment.",
+        "cn": "BDXY 是一个我三年前与合伙人共同创立的服装品牌，当时没有获得任何投资。"
+      },
+      {
+        "en": "If you could bring something extinct back to life, what would you choose?",
+        "cn": "如果你能让某种已灭绝的生物复活，你会选择什么？"
+      },
+      {
+        "en": "My great-aunt Lala, who I named my dog after.",
+        "cn": "我的姑婆拉拉，我给我的狗取名就是为了纪念她。"
+      },
+      {
+        "en": "Lala was 94 when she died and I was seven.",
+        "cn": "拉拉去世时94岁，而我当时7岁。"
+      },
+      {
+        "en": "We saw her every Saturday and I’ve got tape recordings of me and her singing.",
+        "cn": "我们每个星期六都会见到她，我还有一些我和她一起唱歌的录音带。"
+      },
+      {
+        "en": "I was the apple of her eye and she would have been thrilled being part of my journey.",
+        "cn": "我是她眼中的掌上明珠，如果她能参与我的这段旅程，一定会欣喜若狂。"
+      },
+      {
+        "en": "As a child, Harrison Ford in Indiana Jones.",
+        "cn": "小时候，哈里森·福特在《夺宝奇兵》中的样子。"
+      },
+      {
+        "en": "What was the last lie you told?",
+        "cn": "你上次撒的谎是什么？"
+      },
+      {
+        "en": "That I had a meeting to go to so that I could leave another meeting.",
+        "cn": "我得去开一个会，这样才能从另一个会议中抽身离开。"
+      },
+      {
+        "en": "It’s like a blanket I wrap around myself knowing that every mountain I have to climb, every problem I have to deal with, I will share with someone who will help me, and vice versa.",
+        "cn": "这就像一条我裹在身上的毯子，让我深知，无论我必须攀登多少座山，无论我必须应对多少个难题，我都会与某个人分享，而那个人也会帮助我，反之亦然。"
+      },
+      {
+        "img": "assets/covers/st-luke-evans-as-a-child-i-was-in-love-with-harri-2.jpg",
+        "cap": ""
+      },
+      {
+        "en": "What is the worst job you’ve done?",
+        "cn": "你做过最糟糕的工作是什么？"
+      },
+      {
+        "en": "Packing chocolate bars and cans of Stella and Foster’s into Christmas bumper packs in a factory in the valleys of south Wales when I was 16.",
+        "cn": "16岁那年，我在南威尔士山谷的一家工厂里，将巧克力棒和斯泰拉（Stella）及福斯特（Foster’s）啤酒罐装入圣诞特大礼包中。"
+      },
+      {
+        "en": "What has been your biggest disappointment?",
+        "cn": "你经历过的最大失望是什么？"
+      },
+      {
+        "en": "Not liking myself earlier in my life.",
+        "cn": "年轻时不喜欢自己。"
+      },
+      {
+        "en": "Always questioning how I looked and how people felt about me, and worrying about the wrong things.",
+        "cn": "总是怀疑自己的外表，在意别人对我的看法，还总在为一些无关紧要的事情担心。"
+      },
+      {
+        "en": "What single thing would improve the quality of your life?",
+        "cn": "有什么单一的事情能改善你的生活质量？"
+      }
+    ]
+  },
+  {
+    "id": "st-woman-unknown-wins-venice-film-festival-as-naz",
+    "cat": "明星",
+    "title": "Woman Unknown wins Venice film festival as NAZA takes special jury prize",
+    "titleZh": "《未知女子》斩获威尼斯电影节最佳影片奖，NAZA 则获得评委会特别奖",
+    "source": "The Guardian · 2026-09-12",
+    "date": "2026-09-12",
+    "minutes": 6,
+    "url": "https://www.theguardian.com/film/2026/sep/12/woman-unknown-wins-venice-film-festival-as-naza-takes-special-jury-prize",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/st-woman-unknown-wins-venice-film-festival-as-naz.jpg",
+    "paras": [
+      {
+        "en": "May el-Toukhy becomes eighth female director to take Golden Lion as Lee Chang-dong’s Possible Love and Guardian-produced exposé of Israel’s Gaza killings also awarded",
+        "cn": "玛伊·埃尔-图基成为第八位荣获金狮奖的女导演，李沧东的《可能的爱》以及由Guardian制作、揭露以色列在加沙杀戮行为的纪录片也获得了奖项"
+      },
+      {
+        "en": "May el-Toukhy’s Woman Unknown has scooped the Golden Lion at the Venice film festival, at an awards ceremony that also saw the Gaza documentary NAZA win the jury prize.",
+        "cn": "迈·埃尔-图基执导的《无名女子》在威尼斯电影节上摘得金狮奖，在同一场颁奖典礼上，讲述加沙故事的纪录片《纳扎》也获得了评委会奖。"
+      },
+      {
+        "en": "Set in the immediate aftermath of Danish liberation from Nazi occupation, the Egyptian-Danish director’s film tells the story of a young housemaid, Marie (Mathilde Arcel), who is about to marry her widowed employer but anxious about him discovering a shameful secret in her past: during the war, Marie had an intimate relationship with a German soldier.",
+        "cn": "这部由埃及裔丹麦导演执导的电影，背景设定在丹麦刚从纳粹占领中解放后的初期，讲述了一位年轻女佣玛丽（玛蒂尔德·阿尔塞尔 饰）的故事。她即将嫁给寡居的雇主，却担心对方会发现她过去的一个可耻秘密：战争期间，玛丽曾与一名德国士兵有过亲密关系。"
+      },
+      {
+        "en": "The Guardian’s film critic hailed Woman Unknown as “elegantly appointed” in his review, likening it to Alfred Hitchcock’s Rebecca.",
+        "cn": "《卫报》的影评人在评论中盛赞《神秘女子》“制作精良”，并将其比作阿尔弗雷德·希区柯克的《蝴蝶梦》。"
+      },
+      {
+        "en": "Arcel also won the festival’s best actress prize, the Volpi Cup, which puzzled some critics: usually, Venice doesn’t award more than one prize to a film.",
+        "cn": "阿尔塞尔还获得了本届电影节的最佳女演员奖——沃尔皮杯，这让一些影评人感到不解：通常情况下，威尼斯电影节不会向一部电影颁发超过一个奖项。"
+      },
+      {
+        "en": "Speaking to the press after the ceremony, the jury president, Maggie Gyllenhaal, said they were able to make an exception because the jury’s vote for the Danish actor was unanimous.",
+        "cn": "颁奖典礼结束后，评委会主席玛吉·吉伦哈尔在接受媒体采访时表示，之所以能破例，是因为评委会对这位丹麦演员的投票结果是一致通过的。"
+      },
+      {
+        "en": "“She is going to blow our socks off,” she said.",
+        "cn": "“她一定会让我们大吃一惊，”她说。"
+      },
+      {
+        "img": "assets/covers/st-woman-unknown-wins-venice-film-festival-as-naz-2.jpg",
+        "cap": "Maggie Gyllenhaal (left), president of the 2026 Venice jury, and the festival’s president, Pietrangelo Buttafu"
+      },
+      {
+        "en": "In an emotional acceptance speech, El-Toukhy thanked Gyllenhaal for addressing the underrepresentation of female film-makers at the start of the festival.",
+        "cn": "在一篇充满情感的获奖感言中，埃尔-图基感谢吉伦哈尔在电影节开幕时提到了女性电影人代表性不足的问题。"
+      },
+      {
+        "en": "Woman Unknown was the only film in competition to be solely directed by a woman.",
+        "cn": "《未知女子》是本届竞赛单元中唯一一部完全由女性执导的影片。"
+      },
+      {
+        "en": "“This film has been incredibly challenging to make financially, logistically, emotionally,” El-Toukhy said.",
+        "cn": "“这部电影在资金、后勤和情感方面都面临着巨大的挑战，”埃尔-图基说道。"
+      },
+      {
+        "en": "“And what kept me going was the urgent need to illuminate the unknown women of our common history, to make them known.",
+        "cn": "“而支撑我继续前行的，正是迫切希望揭示我们共同历史中那些不为人知的女性，让世人了解她们。”"
+      },
+      {
+        "en": "And especially tonight, I feel like I succeeded in doing just that.”",
+        "cn": "“尤其是今晚，我觉得自己确实做到了这一点。”"
+      },
+      {
+        "img": "assets/covers/st-woman-unknown-wins-venice-film-festival-as-naz-3.jpg",
+        "cap": "Lee Chang-dong (right) is presented with the grand jury prize for Possible Love by veteran Hong Kong film-make"
+      },
+      {
+        "en": "The runner-up grand jury prize went to the Korean director Lee Chang-dong’s Possible Love, a simmering tale of an unhappy married couple befriended by a documentary maker and her wealthy husband, which drew rave reviews.",
+        "cn": "评审团二等奖由韩国导演李沧东的《可能的爱》获得，这部影片讲述了一对婚姻不睦的夫妇与一位纪录片导演及其富有的丈夫结为朋友的故事，情节暗流涌动，广受好评。"
+      },
+      {
+        "en": "The special jury prize, Venice’s equivalent of a bronze medal, went to Yuval Abraham and Rachel Szor’s documentary NAZA, about Israel’s AI-powered mass killing of civilians in Gaza.",
+        "cn": "评审团特别奖——相当于威尼斯电影节的铜奖——授予了尤瓦尔·亚伯拉罕和蕾切尔·索尔执导的纪录片《NAZA》，该片讲述了以色列利用人工智能在加沙对平民实施的大规模屠杀。"
+      },
+      {
+        "en": "The film, which was produced by the Guardian, is based on testimony from 24 Israeli military insiders who are interviewed anonymously at night on rooftops in Tel Aviv.",
+        "cn": "这部由《卫报》制作的纪录片，基于24名以色列军方内部人士的证词，这些人士是在特拉维夫的屋顶上，于夜间以匿名方式接受采访的。"
+      },
+      {
+        "en": "It takes its title from an acronym used by the intelligence service to indicate how many civilians it expects to die in an airstrike on Gaza.",
+        "cn": "该片名称源自情报机构使用的一个首字母缩写词，用于表示其在加沙空袭中预计会有多少平民丧生。"
+      },
+      {
+        "en": "“It’s honestly not very easy to stand here, thinking of all the Israeli politicians and journalists who are now attacking this film and denying it without even seeing it,” Abraham said when accepting his prize.",
+        "cn": "“说实话，站在这里，想到所有那些连电影都没看过就对它大加抨击、予以否认的以色列政客和记者，这感觉真的不太好受，”亚伯拉罕在领奖时说道。"
+      },
+      {
+        "en": "“So much is being done not to look at reality.”",
+        "cn": "“人们正竭尽全力不去正视现实。”"
+      },
+      {
+        "en": "The day after NAZA’s premiere, the Israeli military “categorically denied” the allegations made in the film.",
+        "cn": "在电影《NAZA》首映的第二天，以色列军方“断然否认”了影片中提出的指控。"
+      },
+      {
+        "en": "The Russian director Ilya Khrzhanovsky won the Silver Lion for best director for the visually stunning DAU, a biopic of the Nobel prize-winning quantum physicist Lev Landau, who was pressured into working on the Soviet Union’s nuclear weapons programme.",
+        "cn": "俄罗斯导演伊利亚·赫尔扎诺夫斯基凭借视觉效果惊人的《DAU》斩获最佳导演银狮奖。该片是一部传记片，讲述了诺贝尔奖得主、量子物理学家列夫·朗道的故事——他曾被迫参与苏联的核武器计划。"
+      },
+      {
+        "en": "The inclusion of Khrzhanovsky’s film in the Venice lineup was criticised by the Ukrainian government in the run-up to the festival, over its lead actor Teodor Currentzis’s refusal to condemn the full-scale invasion of Ukraine, and for having received funding from a Russian businessman who was later sanctioned by the US and Ukraine.",
+        "cn": "在威尼斯电影节开幕前夕，乌克兰政府对赫尔扎诺夫斯基的影片入选威尼斯电影节片单一事提出了批评，理由是该片男主角特奥多尔·库伦齐斯拒绝谴责对乌克兰的大规模入侵，且该片曾接受一名俄罗斯商人的资助，而该商人随后遭到了美国和乌克兰的制裁。"
+      },
+      {
+        "en": "DAU was filmed in Kharkiv between 2008 and 2011, before the start of the conflict.",
+        "cn": "《DAU》于2008年至2011年间在哈尔科夫拍摄，当时冲突尚未爆发。"
+      },
+      {
+        "en": "At a press conference on the Lido, Khrzhanovsky said: “The only thing I can wish for is peace and success for the Ukrainian government to succeed in the best possible way, to save the country and to win this war.”",
+        "cn": "在利多岛举行的一场新闻发布会上，赫尔扎诺夫斯基表示：“我唯一的心愿就是乌克兰政府能够和平、顺利地取得成功，以最佳方式拯救国家并赢得这场战争。”"
+      },
+      {
+        "en": "John Malkovich took home the Volpi Cup for best actor, for his role as an erratic veteran CIA agent whose cancer diagnosis leads him to question the morality of his profession, in Martin McDonagh’s Wild Horse Nine.",
+        "cn": "约翰·马尔科维奇凭借在马丁·麦克唐纳执导的《野马九号》中饰演一位行为古怪的中情局资深特工一角，摘得沃尔皮杯最佳男演员奖。该角色因被诊断出患有癌症，开始质疑自己职业的道德性。"
+      },
+      {
+        "en": "The 72-year-old US actor was not present in Venice and accepted his award via a video link.",
+        "cn": "这位72岁的美国演员并未亲临威尼斯，而是通过视频连线领取了奖项。"
+      },
+      {
+        "en": "“I am humbled to be chosen for this award, which has been given to so many wonderful actors over the past 83 iterations of the Venice film festival,” Malkovich said.",
+        "cn": "“能获此殊荣，我深感荣幸。在威尼斯电影节过去的83届活动中，已有众多杰出的演员曾获此奖，”马尔科维奇说道。"
+      },
+      {
+        "en": "Armani Beauty audience award: Eu contez (I Matter), directed by Alina Șerban",
+        "cn": "阿玛尼美妆观众奖：《Eu contez》（《我很重要》），导演：阿丽娜·谢尔班"
+      },
+      {
+        "en": "Luigi De Laurentiis award for debut film: La maison du vent (House of the Wind), directed by Auguste Bernard Kouemo Yanghu",
+        "cn": "路易吉·德·劳伦蒂斯最佳处女作奖：《风之屋》（La maison du vent），导演：奥古斯特·伯纳德·库埃莫·杨胡"
+      }
+    ]
+  },
+  {
     "id": "st-a-new-photo-exhibit-asks-a-heartbreaking-quest",
     "cat": "明星",
     "title": "A New Photo Exhibit Asks a Heartbreaking Question: What If Emmett Till Had Lived?",
@@ -3158,6 +3729,85 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
+    "id": "ai-openai-s-sam-altman-says-it-would-be-ill-advis",
+    "cat": "AI",
+    "title": "OpenAI’s Sam Altman says it would be ‘ill-advised’ to go public in 2026",
+    "titleZh": "OpenAI 的萨姆·阿尔特曼表示，2026年上市将“不妥",
+    "source": "TechCrunch AI · 2026-09-12",
+    "date": "2026-09-12",
+    "minutes": 2,
+    "url": "https://techcrunch.com/2026/09/12/openais-sam-altman-says-it-would-be-ill-advised-to-go-public-in-2026/",
+    "cover": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
+    "gradient": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
+    "coverImg": "assets/covers/ai-openai-s-sam-altman-says-it-would-be-ill-advis.jpg",
+    "paras": [
+      {
+        "en": "While OpenAI has filed confidentially for an IPO, the company will not be going public this year, according to CEO Sam Altman.",
+        "cn": "尽管OpenAI已秘密提交了IPO申请，但据首席执行官萨姆·阿尔特曼称，该公司今年不会上市。"
+      },
+      {
+        "en": "Altman was interviewed recently by Fortune editor in chief Alyson Shontell; amidst the fallout from the OpenAI-HuggingFace hack, as well as broader discussions about AI safety, Shontell asked whether OpenAI still feels pressure to “move really fast” due to its IPO plans.",
+        "cn": "阿尔特曼最近接受了《财富》杂志总编辑艾莉森·肖特尔的采访；在OpenAI和HuggingFace遭遇黑客攻击引发的余波，以及关于人工智能安全性的更广泛讨论之际，肖特尔询问OpenAI是否仍因IPO计划而感到必须“快速推进”的压力。"
+      },
+      {
+        "en": "“We’re not rushing into an IPO,” Altman said.",
+        "cn": "“我们不会仓促进行首次公开募股，”阿尔特曼说。"
+      },
+      {
+        "en": "“I actually think that given everything happening with safety, right now would be an ill-advised moment to go public.”",
+        "cn": "“实际上，考虑到目前在安全方面发生的一切，我认为现在上市并非明智之举。”"
+      },
+      {
+        "en": "Instead, he insisted that OpenAI will go public “when we’re ready, which is when the business is ready, when we feel ready from what the moment is like in society with this technology.” When pressed on whether that means the IPO isn’t happening in 2026, Altman replied, “I would say not 2026, yeah.",
+        "cn": "相反，他坚持认为，OpenAI将在“我们准备好的时候”上市，“也就是当业务准备就绪时，当考虑到社会对这项技术的接受程度，我们认为时机成熟时。”当被追问这是否意味着2026年不会进行IPO时，阿尔特曼回答道：“我只能说不会在2026年，是的。”"
+      },
+      {
+        "en": "We’ve got a lot of stuff to do.”",
+        "cn": "“我们还有好多事情要做。”"
+      },
+      {
+        "en": "The New York Times reported in June that although OpenAI had hired bankers and lawyers with the goal of going public in the third or fourth quarter of 2026, the company was leaning toward 2027 due to the volatility of tech stocks and its own financial challenges.",
+        "cn": "《纽约时报》6月报道称，尽管OpenAI已聘请银行家和律师，计划于2026年第三或第四季度上市，但由于科技股行情波动以及公司自身面临的财务挑战，该公司目前倾向于将上市时间推迟至2027年。"
+      },
+      {
+        "en": "Last day to book an exhibit table is September 18.",
+        "cn": "预订展位的截止日期是9月18日。"
+      },
+      {
+        "en": "Don’t miss out on high-impact leads, investor access, and a brand spotlight in Disrupt’s Expo Hall.",
+        "cn": "千万不要错过Disrupt展览厅里那些极具影响力的潜在客户、与投资者的接触机会以及品牌展示的良机。"
+      },
+      {
+        "en": "Every weekday and Sunday, you can get the best of TechCrunch’s coverage.",
+        "cn": "每个工作日和周日，您都能阅读到TechCrunch的精选报道。"
+      },
+      {
+        "en": "TechCrunch Mobility is your destination for transportation news and insight.",
+        "cn": "TechCrunch Mobility 是您获取交通领域新闻和洞察的理想平台。"
+      },
+      {
+        "en": "Startups are the core of TechCrunch, so get our best coverage delivered weekly.",
+        "cn": "初创企业是TechCrunch的核心，因此请订阅我们的每周精选报道。"
+      },
+      {
+        "en": "Provides movers and shakers with the info they need to start their day.",
+        "cn": "为各界领军人物提供开启新一天所需的资讯。"
+      },
+      {
+        "img": "assets/covers/ai-openai-s-sam-altman-says-it-would-be-ill-advis-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-openai-s-sam-altman-says-it-would-be-ill-advis-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-openai-s-sam-altman-says-it-would-be-ill-advis-3.jpg",
+        "cap": ""
+      }
+    ]
+  },
+  {
     "id": "ai-mecka-ai-nears-500m-valuation-in-sequoia-led-d",
     "cat": "AI",
     "title": "Mecka AI nears $500M valuation in Sequoia-led deal amid rush for robot training data",
@@ -3466,6 +4116,216 @@ const ARTICLES_EXTRA = [
       },
       {
         "img": "assets/covers/ai-kimi-maker-moonshot-ai-targets-2b-in-annual-re-3.jpg",
+        "cap": ""
+      }
+    ]
+  },
+  {
+    "id": "ai-an-anthropic-researcher-s-doomsday-warning-com",
+    "cat": "AI",
+    "title": "An Anthropic researcher’s doomsday warning comes at a very interesting time",
+    "titleZh": "一位 Anthropic 研究人员的末日警告出现在一个非常耐人寻味的时刻",
+    "source": "TechCrunch AI · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 3,
+    "url": "https://techcrunch.com/podcast/an-anthropic-researchers-doomsday-warning-comes-at-a-very-interesting-time/",
+    "cover": "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
+    "gradient": "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
+    "coverImg": "assets/covers/ai-an-anthropic-researcher-s-doomsday-warning-com.jpg",
+    "paras": [
+      {
+        "en": "An Anthropic researcher resigned this week, warning in a post on X that the company is “racing straight to self-improving superintelligence and gambling with our lives”.",
+        "cn": "本周，一名Anthropic的研究人员辞职，并在X平台上发文警告称，该公司正在“直奔自我进化的超级智能，并将我们的生命置于险境”。"
+      },
+      {
+        "en": "The company’s own alignment lead even co-signed the message rather than walking it back.",
+        "cn": "该公司负责协调工作的负责人甚至在该消息上联名签署，而非予以澄清。"
+      },
+      {
+        "en": "It’s the kind of doomer warning the AI industry has flirted with before, but the timing, with Anthropic reportedly preparing for an IPO, makes it land differently.",
+        "cn": "这正是人工智能行业此前曾多次接触过的“末日论”式警告，但鉴于据称Anthropic正在筹备首次公开募股（IPO），此次警告产生的影响却截然不同。"
+      },
+      {
+        "en": "On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane dig into the latest AI safety warning and what it says about the industry’s race toward increasingly capable models.",
+        "cn": "在本期TechCrunch的《Equity》播客中，主持人Kirsten Korosec、Anthony Ha和Sean O’Kane深入探讨了最新的AI安全警告，以及这一警告对行业竞相开发性能日益强大的模型所反映出的现象。"
+      },
+      {
+        "en": "Plus, Apple’s first big event under new CEO John Ternus and more of the week’s headlines.",
+        "cn": "此外，还有苹果公司新任首席执行官约翰·特纳斯上任后的首场大型活动，以及本周的其他头条新闻。"
+      },
+      {
+        "en": "Theresa Loconsolo is an audio producer at TechCrunch focusing on Equity, the network’s flagship podcast.",
+        "cn": "特蕾莎·洛康索洛是TechCrunch的一名音频制作人，主要负责该网络的旗舰播客节目《Equity》。"
+      },
+      {
+        "en": "Before joining TechCrunch in 2022, she was one of 2 producers at a four-station conglomerate where she wrote, recorded, voiced and edited content, and engineered live performances and interviews from guests like lovelytheband.",
+        "cn": "在2022年加入TechCrunch之前，她曾是一家拥有四家电台的媒体集团的两名制片人之一，负责内容的撰写、录制、配音和剪辑，并为lovelytheband等嘉宾的现场表演和访谈进行技术支持。"
+      },
+      {
+        "en": "Theresa is based in New Jersey and holds a bachelors degree in Communication from Monmouth University.",
+        "cn": "特蕾莎现居新泽西州，拥有蒙茅斯大学传播学学士学位。"
+      },
+      {
+        "en": "You can contact or verify outreach from Theresa by emailing theresa.loconsolo@techcrunch.com.",
+        "cn": "您可以通过发送电子邮件至 theresa.loconsolo@techcrunch.com 联系特蕾莎或核实她发出的联络信息。"
+      },
+      {
+        "en": "View Bio Anthony Ha Anthony Ha is TechCrunch’s weekend editor.",
+        "cn": "查看个人简介 安东尼·哈 安东尼·哈是 TechCrunch 的周末编辑。"
+      },
+      {
+        "en": "Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm.",
+        "cn": "此前，他曾担任《广告周刊》（Adweek）的科技记者、《VentureBeat》的高级编辑、《霍利斯特自由报》（Hollister Free Lance）的地方政府记者，以及一家风投公司的内容副总裁。"
+      },
+      {
+        "en": "You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com.",
+        "cn": "您可以通过发送电子邮件至 anthony.ha@techcrunch.com 联系安东尼或核实其联系事宜。"
+      },
+      {
+        "en": "Sean O’Kane is a reporter who has spent a decade covering the rapidly-evolving business and technology of the transportation industry, including Tesla and the many startups chasing Elon Musk.",
+        "cn": "肖恩·奥凯恩（Sean O’Kane）是一名记者，过去十年里一直致力于报道交通行业日新月异的商业与技术动态，其中包括特斯拉以及众多追随埃隆·马斯克的初创企业。"
+      },
+      {
+        "en": "Most recently, he was a reporter at Bloomberg News where he helped break stories about some of the most notorious EV SPAC flops.",
+        "cn": "最近，他曾在彭博新闻社担任记者，期间协助报道了多起最臭名昭著的电动汽车SPAC失败案例。"
+      },
+      {
+        "en": "He previously worked at The Verge, where he also covered consumer technology, hosted many short- and long-form videos, performed product and editorial photography, and once nearly passed out in a Red Bull Air Race plane.",
+        "cn": "他此前曾在《The Verge》工作，期间不仅报道消费类科技领域，还主持了多部短视频和长视频节目，负责产品和编辑摄影工作，并且有一次在红牛空中竞速赛的飞机上差点晕过去。"
+      },
+      {
+        "en": "You can contact or verify outreach from Sean by emailing sean.okane@techcrunch.com or via encrypted message at okane.01 on Signal.",
+        "cn": "您可以通过发送电子邮件至 sean.okane@techcrunch.com，或通过 Signal 上的 okane.01 发送加密消息，与 Sean 联系或核实其联系。"
+      },
+      {
+        "en": "Last day to book an exhibit table is September 18.",
+        "cn": "预订展位的截止日期是9月18日。"
+      },
+      {
+        "en": "Don’t miss out on high-impact leads, investor access, and a brand spotlight in Disrupt’s Expo Hall.",
+        "cn": "千万不要错过Disrupt展览厅里那些极具影响力的潜在客户、与投资者的接触机会以及品牌展示的良机。"
+      },
+      {
+        "en": "ID verification giant IDScan confirms data breach with more than 150 million driver’s licenses stolen Zack Whittaker",
+        "cn": "身份验证巨头IDScan确认发生数据泄露事件，逾1.5亿份驾驶证信息被盗 扎克·惠特克"
+      },
+      {
+        "en": "OpenAI fought dirty on career-making math problem, says NYU mathematician Russell Brandom",
+        "cn": "纽约大学数学家拉塞尔·布兰多姆称，OpenAI在一道可能改变职业生涯的数学题上使了下作手段"
+      },
+      {
+        "en": "TechCrunch Mobility: Tesla Cybercab hits the road — and a snag Kirsten Korosec",
+        "cn": "TechCrunch Mobility：特斯拉“Cybercab”正式上路——但遇到了些波折 克尔斯滕·科罗塞克"
+      },
+      {
+        "img": "assets/covers/ai-an-anthropic-researcher-s-doomsday-warning-com-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-an-anthropic-researcher-s-doomsday-warning-com-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-an-anthropic-researcher-s-doomsday-warning-com-3.jpg",
+        "cap": ""
+      }
+    ]
+  },
+  {
+    "id": "ai-nscale-adds-former-openai-exec-fidji-simo-to-i",
+    "cat": "AI",
+    "title": "Nscale adds former OpenAI exec Fidji Simo to its board ahead of potential IPO",
+    "titleZh": "Nscale 在可能进行首次公开募股（IPO）之前，任命前 OpenAI 高管 Fidji Simo 加入董事会",
+    "source": "TechCrunch AI · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 3,
+    "url": "https://techcrunch.com/2026/09/11/nscale-adds-former-openai-exec-fidji-simo-to-its-board-ahead-of-potential-ipo/",
+    "cover": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
+    "gradient": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
+    "coverImg": "assets/covers/ai-nscale-adds-former-openai-exec-fidji-simo-to-i.jpg",
+    "paras": [
+      {
+        "en": "Nscale, the buzzy U.K.-based AI data center startup, has appointed former OpenAI, Meta, and Instacart executive Fidji Simo to its board.",
+        "cn": "总部位于英国、备受瞩目的人工智能数据中心初创公司Nscale已任命曾任职于OpenAI、Meta和Instacart的高管菲吉·西莫（Fidji Simo）加入其董事会。"
+      },
+      {
+        "en": "Simo joins high-profile tech executives Sheryl Sandberg, Susan Decker, and Nick Clegg on Nscale’s board ahead of the startup’s anticipated IPO this fall.",
+        "cn": "在Nscale预计于今年秋季进行首次公开募股（IPO）之前，西莫与谢丽尔·桑德伯格、苏珊·德克尔和尼克·克莱格等知名科技高管一同加入了Nscale的董事会。"
+      },
+      {
+        "en": "Formerly CEO of AGI deployment at OpenAI, essentially the No. 2 executive at the AI lab, Simo left the company in July citing health reasons.",
+        "cn": "西莫曾担任OpenAI人工智能部署部门（AGI）的首席执行官，实际上是该人工智能实验室的二把手，他于7月以健康原因辞职。"
+      },
+      {
+        "en": "She still advises the company on a part-time basis.",
+        "cn": "她目前仍以兼职身份为该公司提供咨询。"
+      },
+      {
+        "en": "Before OpenAI, Simo was chair and CEO of Instacart, where she led the company through its 2023 IPO.",
+        "cn": "在加入OpenAI之前，西莫曾担任Instacart的董事长兼首席执行官，并带领该公司完成了2023年的首次公开募股（IPO）。"
+      },
+      {
+        "en": "She also spent more than a decade at Meta, including as head of the Facebook app.",
+        "cn": "她还在Meta工作了十多年，期间曾担任Facebook应用负责人。"
+      },
+      {
+        "en": "Simo also sits on Shopify’s board.",
+        "cn": "西莫还担任Shopify董事会成员。"
+      },
+      {
+        "en": "Nscale’s founder and CEO, Josh Payne, said Simo is one of the few leaders who understand what it means to scale products used by billions of people and the demands those products place on the underlying systems.",
+        "cn": "Nscale的创始人兼首席执行官乔什·佩恩表示，西莫是少数几位真正理解“将产品扩展至服务数十亿用户”意味着什么，以及这些产品对底层系统提出哪些要求的领导者之一。"
+      },
+      {
+        "en": "“That’s what we’re building for at Nscale,” he said in a statement.",
+        "cn": "“这就是我们在Nscale所致力于实现的目标，”他在一份声明中表示。"
+      },
+      {
+        "en": "“Fidji joins a board we’ve built deliberately, with the experience of scaling platforms to the largest in the world, and the independence, financial rigor and operating depth to which companies at this scale are held.”",
+        "cn": "“斐济加入了我们精心组建的董事会，该董事会不仅拥有将平台扩展至全球最大规模的经验，还具备这一规模的企业所必需的独立性、财务严谨性和运营深度。”"
+      },
+      {
+        "en": "Nscale’s valuation has skyrocketed since it was founded just two years ago on the back of booming demand for AI infrastructure.",
+        "cn": "得益于人工智能基础设施需求的激增，Nscale自两年前成立以来，其估值已飙升至新高。"
+      },
+      {
+        "en": "The startup, which designs, builds, and operates AI data centers, is reportedly trying to raise up to $3.5 billion ahead of a planned IPO, Bloomberg reported last week, citing unnamed sources.",
+        "cn": "据彭博社上周援引匿名消息人士报道，这家从事人工智能数据中心设计、建设和运营的初创公司，正计划在拟议的首次公开募股（IPO）前筹集最多35亿美元。"
+      },
+      {
+        "en": "Last day to book an exhibit table is September 18.",
+        "cn": "预订展位的截止日期是9月18日。"
+      },
+      {
+        "en": "Don’t miss out on high-impact leads, investor access, and a brand spotlight in Disrupt’s Expo Hall.",
+        "cn": "千万不要错过Disrupt展览厅里那些极具影响力的潜在客户、与投资者的接触机会以及品牌展示的良机。"
+      },
+      {
+        "en": "Every weekday and Sunday, you can get the best of TechCrunch’s coverage.",
+        "cn": "每个工作日和周日，您都能阅读到TechCrunch的精选报道。"
+      },
+      {
+        "en": "TechCrunch Mobility is your destination for transportation news and insight.",
+        "cn": "TechCrunch Mobility 是您获取交通领域新闻和洞察的理想平台。"
+      },
+      {
+        "en": "Startups are the core of TechCrunch, so get our best coverage delivered weekly.",
+        "cn": "初创企业是TechCrunch的核心，因此请订阅我们的每周精选报道。"
+      },
+      {
+        "en": "Provides movers and shakers with the info they need to start their day.",
+        "cn": "为各界领军人物提供开启新一天所需的资讯。"
+      },
+      {
+        "img": "assets/covers/ai-nscale-adds-former-openai-exec-fidji-simo-to-i-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-nscale-adds-former-openai-exec-fidji-simo-to-i-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-nscale-adds-former-openai-exec-fidji-simo-to-i-3.jpg",
         "cap": ""
       }
     ]
