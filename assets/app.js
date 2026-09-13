@@ -75,6 +75,8 @@ const defaultState = {
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，阅读时长按天累计
   fsrs: {},         // FSRS 间隔重复调度：{ word: { st,d,s,e,sd,r,l,due,lr } }（vendor-fsrs.js）
   lastRead: { id: "", y: 0, pct: 0, at: 0 },  // 「上次读到」：文章 id + 滚动位置，发现页可直达续读
+  articleFeedback: {},  // 完成页反馈：{ [文章id]: { diff: easy|ok|hard, rate: up|mid|down, at } }
+  hintSeen: false,  // 阅读页操作提示只出现一次
 };
 let S = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORE) || "{}"));
 /* 早期版本留下的写死字段（streak / minutes / tab）：就地丢弃，避免旧数据继续冒充真实统计 */
@@ -313,7 +315,8 @@ function countHits(a) {
         node = node[low[i]];
         if (!node) return;
       }
-      if (node && node.$) hit.add(node.$);
+      /* 「生词」必须排除已标认识的词，否则数字虚高 */
+      if (node && node.$ && !S.known.includes(node.$)) hit.add(node.$);
     });
   });
   return hit.size;
@@ -502,6 +505,9 @@ let searchTerm = "";
 let readSecs = 0, readTimer = null;
 let LAST_Y = 0;   // 当前阅读滚动位置（updateReadProgress 实时更新，节流落盘）
 let resumeY = 0;  // 打开文章那一刻要恢复的位置（消费一次即清零）
+let sheetMore = false;  // 查词卡是否处于「更多」展开态（关卡即复位）
+let lastActiveAt = Date.now();  // 最近一次交互（滚动/点击），活跃阅读计时用
+let lastFabY = 0;     // 上次滚动位置（FAB 淡入淡出判方向用）
 const LOOKED = {};  // { [articleId]: 次 }
 
 /* ---------------- 视图栈：从哪儿进来，就退回哪儿 ----------------
@@ -687,13 +693,38 @@ const hitsOf = a => {
   return HITS_CACHE.get(a.id);
 };
 
+/* 文章词数 / 预计生词率 / 估时：按篇缓存；known 变化时由 clearArticleCaches() 失效 */
+const STATS_CACHE = new Map();
+function articleStats(a) {
+  if (!STATS_CACHE.has(a.id)) {
+    let words = 0;
+    a.paras.forEach(p => { if (p.en) words += String(p.en).trim().split(/\s+/).filter(Boolean).length; });
+    const unknown = hitsOf(a);
+    const rate = words ? unknown / words : 0;
+    STATS_CACHE.set(a.id, { words, unknown, rate });
+  }
+  return STATS_CACHE.get(a.id);
+}
+/* 个人难度四档：阈值即已知词覆盖率 98/95/92 的补数（预计生词率 ≤2% 轻松…） */
+function diffTier(rate) {
+  if (rate <= 0.02) return { label: "轻松", wpm: 160 };
+  if (rate <= 0.05) return { label: "合适", wpm: 130 };
+  if (rate <= 0.08) return { label: "稍难", wpm: 100 };
+  return { label: "困难", wpm: 80 };
+}
+const estMinutes = a => {
+  const st = articleStats(a);
+  return Math.max(1, Math.round(st.words / diffTier(st.rate).wpm));
+};
+const clearArticleCaches = () => { HITS_CACHE.clear(); STATS_CACHE.clear(); };
+
 /* 文章排序：发现页「筛选」按钮切换，不是摆设 */
 const SORTS = { new: "最新发布", words: "生词最多", short: "时长最短" };
 let sortBy = "new";
 function sortArticles(list) {
   const arr = list.slice();
   if (sortBy === "words") arr.sort((a, b) => hitsOf(b) - hitsOf(a));
-  else if (sortBy === "short") arr.sort((a, b) => (a.minutes || 0) - (b.minutes || 0));
+  else if (sortBy === "short") arr.sort((a, b) => estMinutes(a) - estMinutes(b));
   else arr.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
   return arr;
 }
@@ -735,10 +766,10 @@ const articleCard = a => {
   <div class="article${done ? " read" : ""}" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读文章：${esc(clean(a.title))}${tzh ? `，${esc(tzh)}` : ""}${done ? "，已读" : ""}">
     ${thumbHtml(a, img)}
     <div class="col grow" style="gap:6px">
-      <span class="tag">${esc(clean(a.cat))}${when ? ` · ${when}` : " · 四级难度"}</span>
+      <span class="tag">${esc(clean(a.cat))}${when ? ` · ${when}` : ""}</span>
       <div class="t">${esc(clean(a.title))}${done ? ` <span class="read-dot" title="已读完">已读</span>` : ""}</div>
       ${tzh ? `<div class="t-zh">${esc(tzh)}</div>` : ""}
-      <span class="meta">${esc(srcName(a))} · ${a.minutes} 分钟 · 生词 ${hitsLbl}</span>
+      <span class="meta">${esc(srcName(a))} · ${estMinutes(a)} 分钟 · 生词 ${hitsLbl} · ${(articleStats(a).rate * 100).toFixed(1)}%</span>
     </div>
   </div>`;
 };
@@ -776,7 +807,8 @@ function pickDailyReads(reroll) {
     const base = unread.length >= 2 ? unread : ARTICLES.slice();
     const scored = base.map(a => {
       const hits = countHits(a);
-      const s = (a.minutes >= 3 && a.minutes <= 6 ? 2 : 0) + (hits >= 20 && hits <= 50 ? 2 : 0);
+      const m = estMinutes(a);
+      const s = (m >= 3 && m <= 6 ? 2 : 0) + (hits >= 20 && hits <= 50 ? 2 : 0);
       return { a, s };
     });
     scored.sort((x, y) => y.s - x.s);
@@ -1171,8 +1203,8 @@ function renderDiscover() {
     <div class="feat-body">
       <div class="row" style="gap:6px;flex-wrap:wrap">
         <span class="chip">${esc(featured.cat)}</span>
-        <span class="chip green">四级难度</span>
-        <span class="chip">${featured.minutes} 分钟</span>
+        <span class="chip green">${diffTier(articleStats(featured).rate).label}</span>
+        <span class="chip">${estMinutes(featured)} 分钟</span>
         <span class="chip">${hitsOf(featured)} 个生词</span>
       </div>
       <button class="feat-cta" data-article="${featured.id}">开始阅读 ${svg("arrow", 14)}</button>
@@ -1335,18 +1367,26 @@ function renderMe() {
 }
 
 /* ---------------- 页面：阅读（杂志感沉浸） ---------------- */
+/* 完成页反馈按钮的公共片段 */
+const fbSeg = (act, v, label, on) =>
+  `<button class="fb-seg${on ? " on" : ""}" data-act="${act}" data-v="${v}" aria-pressed="${on}">${label}</button>`;
+
 function renderRead() {
   const a = activeArticle;
   const sizeClass = ["", "large", "xlarge"][S.fontSize] || "";
   const cover = coverOf(a);
   const total = sentCount(a);
-  const dur = a.minutes || Math.max(2, Math.round(total * 1.2));
+  const st = articleStats(a);
+  const tier = diffTier(st.rate);
+  const ratePct = (st.rate * 100).toFixed(1);
+  const dur = estMinutes(a);
   const aZh = zhTitle(a);
-  const hits = countHits(a);
+  const hits = hitsOf(a);
   const hitsLbl = hits > 999 ? "999+" : hits;
   const looked = LOOKED[a.id] || 0;
   const minsNow = Math.max(1, Math.round(readSecs / 60));
   const readTimes = S.read.filter(x => x === a.id).length;
+  const fb = (S.articleFeedback || {})[a.id] || {};
   const nx = nextArticle(a);   // 同一来路列表里的下一篇
   /* 返回按钮写成具体去处，心里有数：返回时尚 / 返回发现 / 返回首页 */
   const fromLabel = (() => {
@@ -1391,24 +1431,18 @@ function renderRead() {
 
     <div class="view read-scroll ${S.showCn ? "" : "no-cn"}${S.readTheme === "night" ? " rt-night" : S.readTheme === "paper" ? " rt-paper" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
-        <div class="pills">
-          <span class="chip">${esc(clean(a.cat))}</span>
-          <span class="chip green">四级难度</span>
-          <span class="chip">${dur} 分钟</span>
-        </div>
         <h1 class="title">${esc(clean(a.title))}</h1>
         ${aZh ? `<div class="title-zh">${esc(aZh)}</div>` : ""}
         <div class="byline">
-          <span>${esc(srcName(a))}</span>
-          ${a.date ? `<span class="dot"></span><span>${esc(fmtWhen(a.date))}</span>` : ""}
-          <span class="dot"></span><span>${total} 句 · ${hitsLbl} 个生词</span>
+          <span>${esc(clean(a.cat))}</span><span class="dot"></span><span>${esc(srcName(a))}</span>
+          <span class="dot"></span><span>${dur} 分钟 · ${tier.label}</span>
+          <span class="dot"></span><span>生词 ${hitsLbl} · ${ratePct}%</span>
         </div>
-        ${a.url ? `<a class="read-source-link" href="${esc(a.url)}" target="_blank" rel="noopener">查看原文 →</a>` : ""}
         <div class="read-cover${cover ? " has-img" : ""}" style="${cover ? `background-image:url('${esc(cover)}')` : `background:${esc(a.gradient)}`}">
           <span class="mark">${esc(srcName(a))}</span>
           <div class="play" data-act="read-all">${svg("speaker", 18)}</div>
         </div>
-        ${S.showCn ? "" : `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>`}
+        ${!S.hintSeen && !S.showCn ? `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>` : ""}
       </div>
 
       <div class="read-body" id="read-body">${paras}</div>
@@ -1419,10 +1453,26 @@ function renderRead() {
           ? `<h3>已读完 · 累计第 ${readTimes} 次</h3>`
           : `<h3>读完了？打个卡</h3>`}
         <div class="stat-chips">
-          <span class="st-chip"><b>${dur}</b><i>分钟难度</i></span>
+          <span class="st-chip"><b>${dur}</b><i>分钟</i></span>
           <span class="st-chip"><b>${hitsLbl}</b><i>个生词</i></span>
           <span class="st-chip"><b>${looked}</b><i>次查询</i></span>
           <span class="st-chip"><b>${minsNow}</b><i>分钟读过</i></span>
+        </div>
+        <div class="fb-block">
+          <div class="fb-row"><span class="fb-l">理解体验</span>
+            <div class="fb-segs">
+              ${fbSeg("fb-diff", "easy", "很轻松", fb.diff === "easy")}
+              ${fbSeg("fb-diff", "ok", "正合适", fb.diff === "ok")}
+              ${fbSeg("fb-diff", "hard", "有点难", fb.diff === "hard")}
+            </div>
+          </div>
+          <div class="fb-row"><span class="fb-l">这篇文章</span>
+            <div class="fb-segs">
+              ${fbSeg("fb-rate", "up", "👍 喜欢", fb.rate === "up")}
+              ${fbSeg("fb-rate", "mid", "😐 一般", fb.rate === "mid")}
+              ${fbSeg("fb-rate", "down", "👎 不喜欢", fb.rate === "down")}
+            </div>
+          </div>
         </div>
         ${S.read.includes(a.id)
           ? `<p>这篇加入了你的阅读历史，可以在「我的」里再次回顾。</p>`
@@ -1433,18 +1483,53 @@ function renderRead() {
           ${nx ? `<button data-act="next-article">下一篇 ${svg("arrow", 14)}</button>`
                : `<button disabled>本分类已读完</button>`}
         </div>
+        ${a.url ? `<a class="read-source-link" href="${esc(a.url)}" target="_blank" rel="noopener">查看原文 →</a>` : ""}
       </div>
     </div>
 
 
-    <div class="fab-bar">
-      <button data-act="font" class="${S.fontSize > 0 ? 'active' : ''}" title="字号" aria-label="切换字号（当前${["标准", "大", "特大"][S.fontSize] || "标准"}）" aria-pressed="${S.fontSize > 0}">${svg("font", 18)}</button>
+    <div class="fab-bar" id="fab-bar">
       <button data-act="toggle-cn" class="${S.showCn ? 'active' : ''}" title="译" aria-label="${S.showCn ? "隐藏中文对照" : "显示中文对照"}" aria-pressed="${S.showCn}">${svg("globe", 18)}</button>
-      <button data-act="read-theme" class="${S.readTheme ? 'active' : ''}" title="护眼" aria-label="切换护眼/夜间阅读底色">${svg(S.readTheme === "night" ? "moon" : "sun", 18)}</button>
-      <button data-act="book" title="生词本" aria-label="打开生词本">${svg("bookmark", 18)}</button>
-      <button data-act="read-all" title="朗读" aria-label="朗读全文">${svg("speaker", 18)}</button>
+      <button data-act="font" class="${S.fontSize > 0 ? 'active' : ''}" title="字号" aria-label="切换字号（当前${["标准", "大", "特大"][S.fontSize] || "标准"}）" aria-pressed="${S.fontSize > 0}">${svg("font", 18)}</button>
+      <button data-act="fab-more" title="更多工具" aria-label="更多工具"><span style="font-family:var(--font-num);font-weight:700;letter-spacing:1px">···</span></button>
     </div>
   `;
+}
+
+/* 「···」更多工具面板：低频功能收进来，阅读页保持安静 */
+function renderFabSheet() {
+  const a = activeArticle;
+  return `
+    <div class="sheet-mask" data-act="close-sheet"></div>
+    <div class="sheet" role="dialog" aria-label="阅读工具">
+      <div class="grip"></div>
+      <div class="col" style="gap:8px">
+        <button class="sheet-item" data-act="read-theme">${svg(S.readTheme === "night" ? "moon" : "sun", 16)} 护眼底色：${S.readTheme === "" ? "关" : S.readTheme === "paper" ? "纸张" : "夜间"}</button>
+        <button class="sheet-item" data-act="read-all">${svg("speaker", 16)} 朗读全文</button>
+        <button class="sheet-item" data-act="article-notebook">${svg("bookmark", 16)} 本篇生词本</button>
+        ${a.url ? `<a class="sheet-item" href="${esc(a.url)}" target="_blank" rel="noopener">${svg("arrow", 16)} 查看原文</a>` : ""}
+      </div>
+    </div>`;
+}
+
+/* 阅读中查看本篇已收藏的生词：bottom sheet，不离开文章 */
+function renderArticleNotebookSheet() {
+  const a = activeArticle;
+  const text = " " + a.paras.map(p => p.en || "").join(" ").toLowerCase() + " ";
+  const words = (S.notebook || []).filter(w => text.includes(w.toLowerCase()));
+  const rows = words.map(w => `
+    <div class="row" data-act="lookup" data-word="${esc(w)}" role="button" tabindex="0" style="padding:8px 0;border-bottom:1px solid var(--line)">
+      <span style="font-family:var(--font-en);font-weight:600;font-size:14px">${esc(w)}</span>
+    </div>`).join("");
+  return `
+    <div class="sheet-mask" data-act="close-sheet"></div>
+    <div class="sheet" role="dialog" aria-label="本篇生词本">
+      <div class="grip"></div>
+      <div class="row between"><span class="h2">本篇生词</span><span class="muted-2">${words.length} 个</span></div>
+      ${words.length ? `<div class="col" style="max-height:40vh;overflow-y:auto">${rows}</div>
+        <button class="btn-primary" data-act="practice-notebook" style="width:100%">练习这些词（${words.length}）</button>`
+      : `<div class="muted" style="text-align:center;padding:16px 0">这篇还没收藏生词 · 点正文里的词可加入</div>`}
+    </div>`;
 }
 
 /* 阅读进度条 + HUD：基于 #read-scroll 容器的滚动位置 */
@@ -1453,6 +1538,7 @@ function updateReadProgress() {
   const bar = $("#read-bar");
   const body = $("#read-body");
   if (!cont || !bar || !body) return;
+  lastActiveAt = Date.now();   // 滚动即活跃
   const cRect = cont.getBoundingClientRect();
   const bRect = body.getBoundingClientRect();
   const total = body.scrollHeight;
@@ -1464,7 +1550,7 @@ function updateReadProgress() {
   const hud = $("#read-hud");
   const a = activeArticle;
   if (hud && a) {
-    const dur = a.minutes || Math.max(2, Math.round(a.paras.length * 1.2));
+    const dur = estMinutes(a);
     const remain = Math.max(0, Math.ceil(dur * (1 - pct / 100)));
     hud.textContent = `${Math.round(pct)}% · 剩余约 ${remain} 分钟`;
   }
@@ -1475,6 +1561,14 @@ function updateReadProgress() {
       S.lastRead.y = LAST_Y; S.lastRead.pct = Math.round(pct); S.lastRead.at = Date.now();
       save();
     }
+  }
+  /* FAB 随滚动方向淡入淡出：下滚让位正文，上滚/回顶部出现 */
+  const fab = $("#fab-bar");
+  if (fab) {
+    const y = cont.scrollTop;
+    if (y > lastFabY + 6 && y > 160) fab.classList.add("hide");
+    else if (y < lastFabY - 6 || y < 160) fab.classList.remove("hide");
+    lastFabY = y;
   }
 }
 
@@ -1545,10 +1639,32 @@ function resetSheet() {
     </div>`;
 }
 
-/* ---------------- 查词浮层 ---------------- */
+/* ---------------- 查词浮层 ----------------
+ * 两级结构：第一层只回答「这个词在这里是什么意思」（词/音标/短释义/收藏），
+ * 点「更多」才展开词根、例句、FSRS 等完整卡——3 秒理解后回到正文。 */
 function renderSheet(word) {
   const w = WORDS.find(x => x.word === word);
   if (!w) return renderTapSheet(word);   // 词库外单词走轻量卡
+  const shortDef = String(w.def || "").split("\n")[0] || w.def;
+  if (!sheetMore) {
+    return `
+      <div class="sheet-mask" data-act="close-sheet"></div>
+      <div class="sheet slim" role="dialog" aria-label="查词 ${esc(word)}">
+        <div class="grip"></div>
+        <div class="row between">
+          <div class="col" style="gap:3px">
+            <div class="w">${esc(w.word)}</div>
+            <span class="ph">${esc(w.phonetic || "")}</span>
+          </div>
+          <span class="icon-btn solid" data-act="speak" data-word="${esc(w.word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
+        </div>
+        <div class="df">${esc(w.pos || "")} ${esc(shortDef)}</div>
+        <div class="sheet-btns">
+          <button class="a" data-act="add-note" data-word="${esc(w.word)}">${S.notebook.includes(w.word) ? "已在生词本" : "加入生词本"}</button>
+          <button class="b" data-act="sheet-more" data-word="${esc(w.word)}">更多</button>
+        </div>
+      </div>`;
+  }
   return `
     <div class="sheet-mask" data-act="close-sheet"></div>
     <div class="sheet">
@@ -1663,7 +1779,11 @@ function render() {
 
   if (view.name === "study") fixFlipHeight();
   if (view.name === "read") {
-    if (!readTimer) readTimer = setInterval(() => { readSecs++; }, 1000);
+    if (!readTimer) readTimer = setInterval(() => {
+      /* 活跃阅读计时：页面隐藏或 60 秒无交互不累计 */
+      if (document.hidden || Date.now() - lastActiveAt > 60000) return;
+      readSecs++;
+    }, 1000);
     const cont = $("#read-scroll");
     if (cont) {
       cont.addEventListener("scroll", updateReadProgress, { passive: true });
@@ -1675,6 +1795,7 @@ function render() {
       /* 「上次读到」：打开文章那一刻消费一次 resumeY（重进同一篇直达上次位置） */
       if (resumeY && cont.dataset.art === activeArticle.id) { cont.scrollTop = resumeY; LAST_Y = resumeY; }
       resumeY = 0;
+      if (!S.hintSeen) { S.hintSeen = true; save(); }   // 操作提示只在首次使用出现
       requestAnimationFrame(updateReadProgress);
     }
   } else {
@@ -1738,6 +1859,37 @@ document.addEventListener("click", e => {
       homeStatsOpen = !homeStatsOpen; render(); break;
     case "home-reroll":
       pickDailyReads(true); render(); break;
+    case "fb-diff":
+    case "fb-rate": {
+      if (!activeArticle) break;
+      const fbv = t.dataset.v;
+      S.articleFeedback = S.articleFeedback || {};
+      const rec = S.articleFeedback[activeArticle.id] = S.articleFeedback[activeArticle.id] || { at: 0 };
+      if (t.dataset.act === "fb-diff") rec.diff = fbv; else rec.rate = fbv;
+      rec.at = Date.now();
+      save(); render(); break;
+    }
+    case "fab-more":
+      $(".sheet, .sheet-mask").forEach(n => n.remove());
+      $(".phone").insertAdjacentHTML("beforeend", renderFabSheet()); break;
+    case "article-notebook":
+      $(".sheet, .sheet-mask").forEach(n => n.remove());
+      $(".phone").insertAdjacentHTML("beforeend", renderArticleNotebookSheet()); break;
+    case "practice-notebook": {
+      const text = " " + (activeArticle ? activeArticle.paras.map(p => p.en || "").join(" ").toLowerCase() : "") + " ";
+      const ws = (S.notebook || []).filter(w => text.includes(w.toLowerCase()))
+        .map(w => WORDS.find(x => x.word === w)).filter(Boolean);
+      if (!ws.length) { toast("没有可练习的词"); break; }
+      resetNav(); setQueue(ws, "本篇生词", false);
+      view = { name: "study" }; render(); break;
+    }
+    case "sheet-more": {
+      sheetMore = true;
+      const w = t.dataset.word;
+      $$(".sheet, .sheet-mask").forEach(n => n.remove());
+      $(".phone").insertAdjacentHTML("beforeend", renderSheet(w));
+      break;
+    }
     case "quick-sieve": {
       /* 已会词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度。
        * 已认识/已答过的词不再进场——筛过的词重复出现只会消耗耐心 */
@@ -1810,6 +1962,7 @@ document.addEventListener("click", e => {
         if (ki >= 0) S.known.splice(ki, 1);
         if (!S.wrong.includes(w)) S.wrong.push(w);
       }
+      clearArticleCaches();   // known 变化：文章生词数/难度缓存失效
       /* 艾宾浩斯：新词只在学习时调度；复习队列里的词按本次结果重排下次时间 */
       scheduleReview(w, v);
       markStudyDay();
@@ -1904,13 +2057,15 @@ document.addEventListener("click", e => {
       const known = i < 0;
       if (known) S.known.push(w); else S.known.splice(i, 1);
       /* 就地切换正文高亮，不整页 render——render 会把阅读滚动位置打回开头
-         （与下方 lookup case 同理） */
+         （与下方 lookup case 同理）；known 变化同时失效生词/难度统计缓存 */
+      clearArticleCaches();
       $$(`.kw[data-word="${w}"]`).forEach(n => n.classList.toggle("known", known));
       toast(known ? `「${w}」已标记为认识，文中不再高亮` : `已取消「${w}」的已认识标记`);
       save(); $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     }
     case "lookup": {
       const word = t.dataset.word;
+      sheetMore = false;   // 每次新查词都从轻卡开始
       if (activeArticle && view.name === "read") {
         LOOKED[activeArticle.id] = (LOOKED[activeArticle.id] || 0) + 1;
         /* 同步更新顶部的「已查次数」chip，不触发整页重渲染（避免滚动丢失） */
@@ -1921,6 +2076,7 @@ document.addEventListener("click", e => {
       break;
     }
     case "close-sheet":
+      sheetMore = false;
       $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     case "add-note": {
       const w = t.dataset.word;
@@ -2084,6 +2240,8 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
   window.addEventListener("pagehide", () => {
     if (S.lastRead && S.lastRead.id && LAST_Y) { S.lastRead.y = LAST_Y; save(); }
   });
+  /* 活跃阅读计时：任何点击都刷新活跃时间戳 */
+  document.addEventListener("click", () => { lastActiveAt = Date.now(); }, true);
   /* SW 后台刷新到新内容：自动整页刷新一次（阅读/背词中不打断，改用提示） */
   navigator.serviceWorker.addEventListener("message", e => {
     if (!e.data || e.data.type !== "content-updated") return;

@@ -219,7 +219,7 @@ ctx('searchTerm = ""; render()');
 console.log('\n[F] 排序真的生效');
 /* 注意：这里要独立算「生词最多」的期望值，不能借 sortArticles（它跟随 sortBy） */
 const topByWords = ctx('ARTICLES.slice().sort((a,b)=>hitsOf(b)-hitsOf(a))[0].id');
-const topByShort = ctx('ARTICLES.slice().sort((a,b)=>(a.minutes||0)-(b.minutes||0))[0].id');
+const topByShort = ctx('ARTICLES.slice().sort((a,b)=>estMinutes(a)-estMinutes(b))[0].id');   // 时长现为动态估算法
 click({ act: 'filter' });
 click({ act: 'set-sort', sort: 'words' });
 eq('sortBy 已切换', ctx('sortBy'), 'words');
@@ -320,7 +320,10 @@ ctx(`qPos = ${iWord}; queue = null; flipped = false; view = { name: "study" }; r
 ok('词卡正面渲染标色', /class="w-hl">comprehensive</.test(screenEl.innerHTML));
 ctx('flipped = true; render()');
 ok('词卡背面「真题搭配」渲染标色', /class="w-hl">comprehensive</.test(screenEl.innerHTML));
-ok('查词浮层渲染标色', /class="w-hl">comprehensive</.test(ctx('renderSheet("comprehensive")')));
+ctx('sheetMore = true');
+ok('查词浮层渲染标色（展开态）', /class="w-hl">comprehensive</.test(ctx('renderSheet("comprehensive")')));
+ctx('sheetMore = false');
+ok('查词浮层默认轻卡（短释义 + 更多按钮）', (() => { const h = ctx('renderSheet("comprehensive")'); return h.includes('更多') && !h.includes('w-hl'); })());
 
 /* 不误标 + 转义不被破坏 */
 eq('句中没有目标词时不产生标记', ctx('hlWord("Nothing to see here.", "zebra")'), 'Nothing to see here.');
