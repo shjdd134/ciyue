@@ -46,9 +46,9 @@ function rollback(why) {
 }
 
 /* ---------- 1. 抓取 ---------- */
-console.log("== 步骤 1/5：抓取近 3 天文章 ==");
+console.log("== 步骤 1/5：抓取近 7 天文章 ==");
 const okIngest = run("ingest.mjs", [
-  "--append", "--days", "3", "--per", "2", "--limit", "24",
+  "--append", "--days", "7", "--per", "2", "--limit", "24",
   "--quota", "足球=3,AI=3,明星=2,成长=2",
 ]);
 if (!okIngest) rollback("抓取步骤失败");

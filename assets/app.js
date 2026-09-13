@@ -94,7 +94,13 @@ const save = () => localStorage.setItem(STORE, JSON.stringify(S));
 const DAILY_GOAL = 28;                 // 每日目标新词数
 const EXAM_DATE = "2026-12-19";        // 下一次四级笔试（12 月第三个周六）
 const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-const todayKey = () => ymd(new Date());
+/* 时区：四级是国内考试，「今天」属于哪个日期、问候语的小时、考试倒计时，
+ * 一律按北京时间（Asia/Shanghai）取，不随宿主时区漂移——否则海外/跨时区设备
+ * 会在错的日子里归零进度、问错好、差一天倒计时。 */
+const TZ = "Asia/Shanghai";
+const ymdTZ = d => new Intl.DateTimeFormat("en-CA", { timeZone: TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(d);
+const todayKey = () => ymdTZ(new Date());
+const shanghaiHour = () => +new Intl.DateTimeFormat("en-CA", { timeZone: TZ, hour: "numeric", hour12: false }).format(new Date());
 
 /* 跨天自动把「今日已学」归零 */
 function rollDay() {
@@ -175,17 +181,18 @@ function markStudyDay() {
   if (S.studyDays.length > 400) S.studyDays = S.studyDays.slice(-400);
 }
 
-/* 连续学习天数：从今天（今天还没学则从昨天）往前数连续有记录的天数 */
+/* 连续学习天数：从今天（今天还没学则从昨天）往前数连续有记录的天数（按北京日期） */
 function streakDays() {
   const set = new Set(S.studyDays || []);
   const d = new Date();
-  if (!set.has(ymd(d))) d.setDate(d.getDate() - 1);
+  if (!set.has(ymdTZ(d))) d.setDate(d.getDate() - 1);
   let n = 0;
-  while (set.has(ymd(d))) { n++; d.setDate(d.getDate() - 1); }
+  while (set.has(ymdTZ(d))) { n++; d.setDate(d.getDate() - 1); }
   return n;
 }
 
-const daysToExam = () => Math.max(0, Math.ceil((Date.parse(`${EXAM_DATE}T00:00:00`) - Date.now()) / 86400000));
+/* 考试日锚定北京时间当天零点（+08:00），对「真实的现在」求差——与宿主时区无关 */
+const daysToExam = () => Math.max(0, Math.ceil((Date.parse(`${EXAM_DATE}T00:00:00+08:00`) - Date.now()) / 86400000));
 
 /* 近 7 天（含今天）每天的学习分钟数，没有记录的当天补 0 */
 function last7() {
@@ -193,7 +200,7 @@ function last7() {
   const d = new Date();
   for (let i = 6; i >= 0; i--) {
     const x = new Date(d); x.setDate(d.getDate() - i);
-    const k = ymd(x);
+    const k = ymdTZ(x);
     out.push({ key: k, label: "日一二三四五六"[x.getDay()], today: i === 0, mins: (S.minsByDay || {})[k] || 0 });
   }
   return out;
@@ -747,12 +754,50 @@ function layerProgress(n) {
   return { done: k, total: arr.length, pct: Math.round(k / arr.length * 100) };
 }
 
+/* 今日推荐：未读优先 → 生词数 20–50 → 时长 3–6 分钟 → 相邻分类轮换；不足时放宽。
+   池子按天缓存，「换一批」在池内向后翻页，翻完回到开头。 */
+let homeReads = { day: "", pool: [], off: 0 };
+let homeStatsOpen = false;
+
+function diversifyCats(pool) {
+  const out = [], rest = pool.slice();
+  while (rest.length) {
+    const i = rest.findIndex(a => !out.length || a.cat !== out[out.length - 1].cat);
+    out.push(rest.splice(i < 0 ? 0 : i, 1)[0]);
+  }
+  return out;
+}
+
+function pickDailyReads(reroll) {
+  const day = todayKey();
+  if (homeReads.day !== day) homeReads = { day, pool: [], off: 0 };
+  if (reroll || !homeReads.pool.length) {
+    const unread = ARTICLES.filter(a => !S.read.includes(a.id));
+    const base = unread.length >= 2 ? unread : ARTICLES.slice();
+    const scored = base.map(a => {
+      const hits = countHits(a);
+      const s = (a.minutes >= 3 && a.minutes <= 6 ? 2 : 0) + (hits >= 20 && hits <= 50 ? 2 : 0);
+      return { a, s };
+    });
+    scored.sort((x, y) => y.s - x.s);
+    homeReads.pool = diversifyCats(scored.map(x => x.a));
+    homeReads.off = 0;
+  }
+  let picks = homeReads.pool.slice(homeReads.off, homeReads.off + 2);
+  if (picks.length < 2) { homeReads.off = 0; picks = homeReads.pool.slice(0, 2); }
+  else homeReads.off += 2;
+  return picks;
+}
+
 function renderHome() {
   const done = doneToday();
   const rest = Math.max(0, DAILY_GOAL - done);
   const streak = streakDays();
-  const hr = new Date().getHours();
+  const hr = shanghaiHour();
   const greet = hr < 6 ? "夜深了" : hr < 12 ? "早上好" : hr < 18 ? "下午好" : "晚上好";
+  const reads = pickDailyReads();
+  /* 首屏 = 问候 + 主按钮 + 今日推荐；统计与词表收进「今日学习」折叠区，
+     不再让仪表盘把阅读入口压到折线下 */
   return `
     ${statusbar()}
     <div class="view">
@@ -764,59 +809,57 @@ function renderHome() {
         <div class="icon-btn" style="background:var(--brand-soft);border:0;color:var(--brand)" aria-hidden="true">${svg("user", 18)}</div>
       </div>
 
-      <div class="card col" style="gap:16px">
-        <div class="row between">
-          <span class="h2">今日学习</span>
-          <span class="chip amber">${svg("fire", 13)}&nbsp;${streak > 0 ? `连续 ${streak} 天` : "今天还没开始"}</span>
-        </div>
-        <div class="row" style="gap:18px">
-          ${ring(pct())}
-          <div class="col grow" style="gap:5px">
-            <div style="font-family:var(--font-num);font-weight:700;font-size:26px">${done} / ${DAILY_GOAL}</div>
-            <div class="muted">${LAYER_NAME[0]} · 今日目标</div>
-            <div class="muted-2">${rest > 0 ? `今日还剩 ${rest} 个新词` : "今日任务已完成 🎉"}</div>
+      <button class="btn-primary" data-act="start-study" style="width:100%">${svg("play", 18)} 开始今日背词</button>
+
+      <div class="row between">
+        <span class="h3">今日推荐</span>
+        <span class="link" data-act="home-reroll" role="button" tabindex="0">换一批</span>
+      </div>
+      ${reads.map(articleCard).join("")}
+
+      <div class="card col" style="gap:12px">
+        <div class="row between" data-act="toggle-home-stats" role="button" tabindex="0" aria-expanded="${homeStatsOpen}">
+          <div class="row" style="gap:14px">
+            ${ring(pct())}
+            <div class="col" style="gap:3px">
+              <span class="h2">今日学习</span>
+              <span class="muted-2">${done} / ${DAILY_GOAL} · ${streak > 0 ? `连续 ${streak} 天` : "今天还没开始"} · 点${homeStatsOpen ? "收起" : "展开"}详情</span>
+            </div>
           </div>
+          <span class="muted" style="font-family:var(--font-num)">${homeStatsOpen ? "▾" : "▸"}</span>
         </div>
+        ${homeStatsOpen ? `
         <div class="stat-grid">
           <div class="stat"><div class="n">${done}</div><div class="l">今日新学</div></div>
           <div class="stat"><div class="n">${rest}</div><div class="l">今日剩余</div></div>
           <div class="stat good"><div class="n">${masteredRate()}%</div><div class="l">掌握率</div></div>
         </div>
-        <button class="btn-primary" data-act="start-study">${svg("play", 18)} 开始今日背词</button>
-      </div>
-
-      <div class="card col" style="gap:12px">
-        <div class="row between">
-          <span class="h2">词表进度</span>
-          <span class="muted-2">先补高中欠账 · 再攻四级词</span>
+        <div class="col" style="gap:8px">
+          <div class="row between">
+            <span class="muted">词表进度</span>
+            <span class="muted-2">先补高中欠账 · 再攻四级词</span>
+          </div>
+          ${[0, 1].map(n => {
+            const p = layerProgress(n);
+            return `<div class="col" style="gap:6px">
+              <div class="row between">
+                <span class="muted">${LAYER_NAME[n]}</span>
+                <span class="muted-2" style="font-family:var(--font-num)">${p.done.toLocaleString()} / ${p.total.toLocaleString()} · ${p.pct}%</span>
+              </div>
+              <div style="height:6px;border-radius:3px;background:var(--brand-soft);overflow:hidden">
+                <div style="width:${Math.max(1, p.pct)}%;height:100%;background:var(--brand);border-radius:3px"></div>
+              </div>
+            </div>`;
+          }).join("")}
         </div>
-        ${[0, 1].map(n => {
-          const p = layerProgress(n);
-          return `<div class="col" style="gap:6px">
-            <div class="row between">
-              <span class="muted">${LAYER_NAME[n]}</span>
-              <span class="muted-2" style="font-family:var(--font-num)">${p.done.toLocaleString()} / ${p.total.toLocaleString()} · ${p.pct}%</span>
-            </div>
-            <div style="height:6px;border-radius:3px;background:var(--brand-soft);overflow:hidden">
-              <div style="width:${Math.max(1, p.pct)}%;height:100%;background:var(--brand);border-radius:3px"></div>
-            </div>
-          </div>`;
-        }).join("")}
+        <div class="row between" style="gap:12px;border-top:1px solid var(--line);padding-top:10px">
+          <div class="col" style="gap:3px">
+            <span class="h3">已会词快筛</span>
+            <span class="muted-2">${sieveLeft().toLocaleString()} 个待筛中学词 · 不占今日额度</span>
+          </div>
+          <button class="go-btn" data-act="quick-sieve" style="flex:none">开始快筛</button>
+        </div>` : ""}
       </div>
-
-      <div class="card row between" style="gap:12px">
-        <div class="col" style="gap:3px">
-          <span class="h3">已会词快筛</span>
-          <span class="muted-2">${sieveLeft().toLocaleString()} 个待筛中学词 · 点「认识」直接过，不占今日额度</span>
-        </div>
-        <button class="go-btn" data-act="quick-sieve" style="flex:none">开始快筛</button>
-      </div>
-
-      <div class="row between">
-        <span class="h3">今日推荐</span>
-        <span class="link" data-act="go-discover" role="button" tabindex="0">换一批</span>
-      </div>
-      ${ARTICLES.slice(0, 2).map(articleCard).join("")}
       <div style="height:6px"></div>
     </div>`;
 }
@@ -1030,6 +1073,7 @@ function renderDiscover() {
       ${catList.map(cat => {
         const meta = CAT_META[cat] || { icon: "doc", bg: "var(--brand)" };
         const items = ARTICLES.filter(a => a.cat === cat);
+        if (!items.length) return "";   // 空分类不占磁贴（有内容自动回来）
         const lead = items.find(a => coverOf(a));
         return `<button class="cat-tile${lead ? " has-img" : ""}" data-cat="${cat}">
           <span class="ct-bg" style="${lead ? `background-image:url('${esc(coverOf(lead))}')` : `background:${esc(meta.bg)}`}"></span>
@@ -1150,7 +1194,7 @@ function renderDiscover() {
       </div>
       <div class="cats-wrap">
         <div class="cats" role="tablist" aria-label="文章分类">
-          ${CATEGORIES.map(c => {
+          ${CATEGORIES.filter(c => c === "全部" || ARTICLES.some(a => a.cat === c)).map(c => {
             const col = c === "全部" ? "var(--brand)" : ((CAT_META[c] || {}).bg || "var(--brand)");
             return `<button class="cat ${c === catFilter ? "on" : ""}" data-cat="${c}" style="--cat:${col}" role="tab" aria-selected="${c === catFilter}">${c}</button>`;
           }).join("")}
@@ -1339,6 +1383,7 @@ function renderRead() {
       <div class="center">
         <span>双语阅读</span>
         <span class="src">${esc(clean(a.cat))} · ${esc(clean(a.source))}</span>
+        <span class="read-hud" id="read-hud">0% · 剩余约 ${dur} 分钟</span>
       </div>
       <span class="icon-btn" data-act="toggle-cn" role="button" tabindex="0" style="color:${S.showCn ? 'var(--brand)' : 'var(--text-2)'}" title="译" aria-label="${S.showCn ? "隐藏中文对照" : "显示中文对照"}" aria-pressed="${S.showCn}">${svg("globe", 18)}</span>
     </div>
@@ -1391,7 +1436,6 @@ function renderRead() {
       </div>
     </div>
 
-    <div class="read-hud" id="read-hud">0% · 剩余约 ${dur} 分钟</div>
 
     <div class="fab-bar">
       <button data-act="font" class="${S.fontSize > 0 ? 'active' : ''}" title="字号" aria-label="切换字号（当前${["标准", "大", "特大"][S.fontSize] || "标准"}）" aria-pressed="${S.fontSize > 0}">${svg("font", 18)}</button>
@@ -1690,6 +1734,10 @@ document.addEventListener("click", e => {
     case "start-study":
       resetNav();
       view = { name: "study" }; flipped = false; answered = null; render(); break;
+    case "toggle-home-stats":
+      homeStatsOpen = !homeStatsOpen; render(); break;
+    case "home-reroll":
+      pickDailyReads(true); render(); break;
     case "quick-sieve": {
       /* 已会词快筛：一条独立队列，点「认识」直接过，不计入今日新词额度。
        * 已认识/已答过的词不再进场——筛过的词重复出现只会消耗耐心 */

@@ -693,15 +693,10 @@ body {
 }
 .read-finish .st-chip i { font-style: normal; color: var(--text-2); }
 /* 顶部进度浮标（相对手机壳定位，桌面预览时不会跑到壳外） */
+/* 进度文字：并入阅读顶栏（原先悬浮在正文上会盖住文字行） */
 .read-hud {
-  position: absolute; bottom: 90px; left: 50%; transform: translateX(-50%);
-  font-family: var(--font-cn); font-size: 11px; color: var(--text-2);
-  background: rgba(255,255,255,.88); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  padding: 4px 14px; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.6);
-  box-shadow: 0 4px 16px rgba(15,17,51,.10);
-  z-index: 49; pointer-events: none; white-space: nowrap;
-  transition: opacity .4s;
+  font-family: var(--font-cn); font-size: 10.5px; color: var(--text-2);
+  white-space: nowrap; pointer-events: none;
 }
 
 .read-body {
@@ -1168,7 +1163,7 @@ body {
 .screen.rt-paper .peek-hint { background: rgba(176, 132, 38, .12); color: #8A6D2F; }
 .screen.rt-paper .fab-bar { background: rgba(253, 248, 232, .9); border-color: rgba(255,255,255,.6); }
 .screen.rt-paper .fab-bar button { background: #FDF8E8; }
-.screen.rt-paper .read-hud { background: rgba(253, 248, 232, .92); color: #6B5A3A; }
+.screen.rt-paper .read-hud { color: #6B5A3A; }
 .screen.rt-paper .st-chip { background: rgba(253, 248, 232, .78); border-color: rgba(176, 132, 38, .18); }
 .screen.rt-paper .kw { background: rgba(176, 132, 38, .10); }
 
@@ -1184,7 +1179,7 @@ body {
 .screen.rt-night .fab-bar { background: rgba(30, 30, 42, .88); border-color: rgba(255,255,255,.06); }
 .screen.rt-night .fab-bar button { background: #262633; }
 .screen.rt-night .fab-bar button.active { background: var(--brand); }
-.screen.rt-night .read-hud { background: rgba(30, 30, 42, .92); color: #B0ACC4; border-color: rgba(255,255,255,.06); }
+.screen.rt-night .read-hud { color: #B0ACC4; }
 .screen.rt-night .st-chip { background: rgba(38, 38, 51, .85); border-color: rgba(176, 164, 255, .18); color: #C8C2E4; }
 .screen.rt-night .kw { background: rgba(176, 164, 255, .14); color: #C8C2FF; }
 .screen.rt-night .read-body .para .cn { background: rgba(176, 164, 255, .06); border-color: #B0A4FF; }
