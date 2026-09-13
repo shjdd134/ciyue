@@ -796,7 +796,7 @@ body {
 .bar-col span.today { color: var(--brand); font-weight: 600; }
 
 /* ---------- 错词行 ---------- */
-.wrong {
+.notebook-row {
   display: flex; align-items: center; gap: 10px;
   background: var(--card);
   border: 1px solid var(--border);
@@ -806,10 +806,10 @@ body {
   cursor: pointer;
   transition: box-shadow .18s ease, transform .18s ease;
 }
-.wrong:hover { box-shadow: var(--shadow-2); transform: translateY(-1px); }
-.wrong .w { font-family: var(--font-en); font-weight: 600; font-size: 13px; }
-.wrong .p { font-family: var(--font-en); font-size: 10px; color: var(--text-3); }
-.wrong .d { font-size: 11px; color: var(--text-2); }
+.notebook-row:hover { box-shadow: var(--shadow-2); transform: translateY(-1px); }
+.notebook-row .w { font-family: var(--font-en); font-weight: 600; font-size: 13px; }
+.notebook-row .p { font-family: var(--font-en); font-size: 10px; color: var(--text-3); }
+.notebook-row .d { font-size: 11px; color: var(--text-2); }
 
 /* ---------- 分类胶囊 ---------- */
 /* 发现页是纵向长列表：禁止子块在可视区变矮时被 flex 压缩。

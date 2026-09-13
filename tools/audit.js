@@ -4,7 +4,7 @@
  *   [A] 浮层跨页残留（查词卡挂在 .phone 上、不在 #screen 里）
  *   [B] 系统返回键不再一次吃掉两条 history
  *   [C] 根级跳转（点底部 tab）回收已压入的 history 条目
- *   [D] 阅读数据全部为真实计算（连续天数 / 时长 / 已读 / 已认识）
+ *   [D] 阅读数据全部为真实计算（连续阅读天数 / 时长 / 已读 / 已认识）
  *   [E] 搜索真的能搜到文章
  *   [F] 「筛选」按钮真的能排序
  *   [G] 正文无乱码（占位符 / 脚本 / 不可见字符 / 空译文）
@@ -167,9 +167,9 @@ eq('history 已回收到基线条目', st().histLen, 1);
 ok('回收触发的 popstate 被吞掉、视图没被改坏', ctx('view.name') === 'home');
 
 /* ===================================================================
- * D. 学习数据必须是真实计算
+ * D. 阅读数据必须是真实计算
  * =================================================================== */
-console.log('\n[D] 学习数据全部真实计算');
+console.log('\n[D] 阅读数据全部真实计算');
 ok('首页不再显示整本词库当作今日目标', !/今日还剩 4455/.test(screenEl.innerHTML));
 ok('首页倒计时不是写死的 47 天', !/还有 47 天/.test(screenEl.innerHTML));
 
@@ -406,7 +406,7 @@ console.log('\n[M] 词库顺序与结构');
 //    开头（abandon f≈1500）生僻，层边界上出现一次回退是设计使然 —— 先补地基再盖楼。
 const fOf = ctx('WORDS.map(w => { const e = EC && EC[w.word.toLowerCase()]; return (e && e.f) || null; })');
 const MID_END_N = ctx('MID_END');
-/* 学习路径上两处「有意的分段」：核心层的起点、以及基础层里真题高频块与普通块的交界。
+/* 词库顺序上两处「有意的分段」：核心层的起点、以及基础层里真题高频块与普通块的交界。
  * 段与段之间难度本来就会重新起跳（真题高频块是整段提前的），
  * 且单元打散以 20 为一格、块长未必是 20 的整数倍，所以交界前后各放宽一个单元。 */
 const sprintEnd = ctx('MID_WORDS.filter(w=>w.hf||w.cv).length');
@@ -507,7 +507,7 @@ ok(`校园/考试场景词已补回（缺 ${missScene.length}：${missScene.join
 
 /* 排序第一关键字是层：基础层必须整段排在核心层之前 */
 const firstCore = ctx('WORDS.findIndex(w=>w.list!=="中学基础")');
-ok(`学习路径先基础后核心（核心层从第 ${firstCore} 位开始，基础层 ${MID.length} 词）`, firstCore === MID.length);
+ok(`词库顺序先基础后核心（核心层从第 ${firstCore} 位开始，基础层 ${MID.length} 词）`, firstCore === MID.length);
 
 /* 每日目标：28 词/天是按 99 天备考期反推的，改数字前先重算排期 */
 
@@ -564,6 +564,8 @@ ok(`再次点击取消已认识标记（类已摘除）`, !fakeKw.cls.has('known
 sandbox.document.querySelectorAll = __prevQSA;
 
 ok('底部导航已移除背词入口', !/data-tab="study"/.test(ctx('tabbar()')));
+ok('运行状态已移除背词/复习字段', !['studied', 'wrong', 'daily', 'fsrs', 'studyDays'].some(k => Object.prototype.hasOwnProperty.call(ctx('S'), k)));
+ok('阅读统计使用独立阅读日期', Array.isArray(ctx('S.readDays')) && typeof ctx('readingStreakDays') === 'function');
 const meHtml = ctx('renderMe()');
 ok('我的页保留词库说明', meHtml.includes('四级词库') && meHtml.includes('词库'));
 ok('我的页不再显示复习入口', !/今日复习|开始复习|FSRS/.test(meHtml));

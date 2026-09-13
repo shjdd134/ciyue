@@ -61,8 +61,6 @@ function hlWord(sentence, word) {
 const STORE = "wordlens.v1";
 const defaultState = {
   theme: "light",
-  studied: [],      // 旧版背词数据：保留以兼容历史备份，不再参与运行逻辑
-  wrong: [],        // 旧版错词数据：保留以兼容历史备份，不再参与运行逻辑
   notebook: [],     // 生词本（阅读加入）
   showCn: false,
   fontSize: 0,
@@ -70,23 +68,31 @@ const defaultState = {
   read: [],         // 累计读过（含重复）
   finished: [],     // 已打卡的去重列表
   known: [],        // 标记「认识」的词：文章里不再高亮
-  daily: { date: "", count: 0 },   // 旧版背词统计：保留以兼容历史备份
-  studyDays: [],    // 有学习行为的日期 YYYY-MM-DD，用于算连续天数
+  readDays: [],     // 有阅读行为的日期 YYYY-MM-DD，用于算连续阅读天数
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，阅读时长按天累计
-  fsrs: {},         // 旧版 FSRS 数据：保留以兼容历史备份，不再参与运行逻辑
   lastRead: { id: "", y: 0, pct: 0, at: 0 },  // 「上次读到」：文章 id + 滚动位置，发现页可直达续读
   articleFeedback: {},  // 完成页反馈：{ [文章id]: { diff: easy|ok|hard, rate: up|mid|down, at } }
   hintSeen: false,  // 阅读页操作提示只出现一次
   backupHintAt: 0,  // 上次「记得备份」提示时间（7 天节流）
 };
-let S = Object.assign({}, defaultState, JSON.parse(localStorage.getItem(STORE) || "{}"));
-/* 早期版本留下的写死字段（streak / minutes / tab）：就地丢弃，避免旧数据继续冒充真实统计 */
-delete S.streak; delete S.minutes; delete S.tab;
-/* 数组/对象要断开与 defaultState 的引用共享，否则「清空进度」后一写入就污染默认值 */
-S.studyDays = Array.isArray(S.studyDays) ? S.studyDays.slice() : [];
-S.minsByDay = (S.minsByDay && typeof S.minsByDay === "object") ? Object.assign({}, S.minsByDay) : {};
-if (!S.daily || typeof S.daily !== "object") S.daily = { date: "", count: 0 };
-if (!S.fsrs || typeof S.fsrs !== "object") S.fsrs = {};
+/* 历史备份仍可导入，但旧版背词/复习字段只读不写回，不再进入运行状态。 */
+function normalizeState(raw) {
+  const src = raw && typeof raw === "object" ? raw : {};
+  const next = Object.assign({}, defaultState, src);
+  if (!Array.isArray(src.readDays) && Array.isArray(src.studyDays)) next.readDays = src.studyDays.slice();
+  delete next.streak; delete next.minutes; delete next.tab;
+  delete next.studied; delete next.wrong; delete next.daily; delete next.fsrs; delete next.studyDays;
+  next.readDays = Array.isArray(next.readDays) ? next.readDays.slice() : [];
+  next.minsByDay = (next.minsByDay && typeof next.minsByDay === "object") ? Object.assign({}, next.minsByDay) : {};
+  next.notebook = Array.isArray(next.notebook) ? next.notebook.slice() : [];
+  next.known = Array.isArray(next.known) ? next.known.slice() : [];
+  next.read = Array.isArray(next.read) ? next.read.slice() : [];
+  next.finished = Array.isArray(next.finished) ? next.finished.slice() : [];
+  return next;
+}
+let storedState = {};
+try { storedState = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { storedState = {}; }
+let S = normalizeState(storedState);
 const save = () => localStorage.setItem(STORE, JSON.stringify(S));
 
 /* ---------------- 阅读统计 ----------------
@@ -102,22 +108,22 @@ const todayKey = () => ymdTZ(new Date());
 const shanghaiHour = () => +new Intl.DateTimeFormat("en-CA", { timeZone: TZ, hour: "numeric", hour12: false }).format(new Date());
 
 /* 记录今天有阅读行为（读完打卡） */
-function markStudyDay() {
+function markReadDay() {
   const k = todayKey();
-  if (!S.studyDays.includes(k)) S.studyDays.push(k);
-  if (S.studyDays.length > 400) S.studyDays = S.studyDays.slice(-400);
+  if (!S.readDays.includes(k)) S.readDays.push(k);
+  if (S.readDays.length > 400) S.readDays = S.readDays.slice(-400);
   /* 备份提醒：阅读第 2 天起提示一次，7 天不重复——
      进度只存在本地浏览器，这是唯一的数据安全网（不做账号/云同步） */
-  if (S.studyDays.length >= 2 &&
+  if (S.readDays.length >= 2 &&
       Date.now() - (S.backupHintAt || 0) > 7 * 86400000) {
     S.backupHintAt = Date.now(); save();
     setTimeout(() => toast("进度只存在这台浏览器 · 记得在「我的」里备份"), 1200);
   }
 }
 
-/* 连续学习天数：从今天（今天还没学则从昨天）往前数连续有记录的天数（按北京日期） */
-function streakDays() {
-  const set = new Set(S.studyDays || []);
+/* 连续阅读天数：从今天（今天还没读则从昨天）往前数连续有记录的天数（按北京日期） */
+function readingStreakDays() {
+  const set = new Set(S.readDays || []);
   const d = new Date();
   if (!set.has(ymdTZ(d))) d.setDate(d.getDate() - 1);
   let n = 0;
@@ -128,7 +134,7 @@ function streakDays() {
 /* 考试日锚定北京时间当天零点（+08:00），对「真实的现在」求差——与宿主时区无关 */
 const daysToExam = () => Math.max(0, Math.ceil((Date.parse(`${EXAM_DATE}T00:00:00+08:00`) - Date.now()) / 86400000));
 
-/* 近 7 天（含今天）每天的学习分钟数，没有记录的当天补 0 */
+/* 近 7 天（含今天）每天的阅读分钟数，没有记录的当天补 0 */
 function last7() {
   const out = [];
   const d = new Date();
@@ -273,7 +279,7 @@ function countHits(a) {
 /* 文章的纯文本句数（不含内嵌图） */
 const sentCount = a => textSentences(a).filter(s => s.en).length;
 
-/* ---------------- 学习顺序：词频爬坡 ----------------
+/* ---------------- 词库顺序：词频爬坡 ----------------
  * 旧版主轴是「这个词在我们自己的 83 篇文章里出现过几次」。而文章库主力是足球
  * 报道和时尚资讯，结果 the / and / league / season / team / football 这些功能词
  * 与题材词霸占前排 —— 实测前 100 名里 93% 是中学已收录的词，对有基础的用户
@@ -303,7 +309,7 @@ const tierOf = w => { const f = EC_F(w); return f <= TIER_HI ? "高频" : f <= T
  * 于是补一层「中学基础」放在核心层之前：先补地基，再盖楼。
  *   · layer 0 基础层 = (初中 ∪ 高中) − 核心库，见 assets/data-words-mid.js
  *   · layer 1 核心层 = 原四级核心库
- * 排序第一关键字是层而不是词频 —— 否则两层会被词频搅在一起，学习路径就不再是梯道。
+ * 排序第一关键字是层而不是词频 —— 确保词库展示先基础后核心。
  * hf / cv 是真题高频标记（真题表出现次数 / 试卷词频），基础层内凭它提前。 */
 const LAYER_MID = "中学基础";
 const layerOf = w => (w.list === LAYER_MID ? 0 : 1);
@@ -341,7 +347,7 @@ shuffleUnits(CORE_WORDS);
 WORDS.length = 0;
 for (const w of MID_WORDS) WORDS.push(w);
 for (const w of CORE_WORDS) WORDS.push(w);
-const MID_END = MID_WORDS.length;          // 基础层的结束位置（学习路径上的分界点）
+const MID_END = MID_WORDS.length;          // 基础层的结束位置（词库层级的分界点）
 
 /* 单词索引：生词本里存的是字符串，取词对象别再 O(n) 地 find */
 const WORD_BY = new Map(WORDS.map(w => [w.word, w]));
@@ -988,7 +994,7 @@ function renderMe() {
       <div class="card col" style="gap:12px">
         <div class="row between"><span class="h2">阅读总览</span><span class="muted-2">近 7 天</span></div>
         <div class="stat-grid">
-          <div class="stat"><div class="n">${streakDays()}</div><div class="l">连续天</div></div>
+           <div class="stat"><div class="n">${readingStreakDays()}</div><div class="l">连续阅读天</div></div>
           <div class="stat"><div class="n">${weekMins}</div><div class="l">分钟</div></div>
           <div class="stat good"><div class="n">${S.finished.length}</div><div class="l">读完篇</div></div>
           <div class="stat"><div class="n">${notebookWords.length}</div><div class="l">生词本</div></div>
@@ -1017,7 +1023,7 @@ function renderMe() {
         <span class="h3">生词本（阅读收集）</span><span class="muted-2">${notebookWords.length} 词 · 点击查义</span>
       </div>
       ${notebookWords.slice(0, 4).map(w => `
-        <div class="wrong" data-act="lookup" data-word="${w.word}">
+        <div class="notebook-row" data-act="lookup" data-word="${w.word}">
           <div class="col" style="width:118px"><span class="w">${w.word}</span><span class="p">${w.phonetic}</span></div>
           <div class="grow d">${w.pos} ${esc(w.def)}</div>
         </div>`).join("")}` : ""}
@@ -1285,11 +1291,7 @@ function importData(file) {
       const j = JSON.parse(String(r.result));
       const st = j && j.state ? j.state : j;
       if (!st || typeof st !== "object") throw new Error("格式不对");
-      S = Object.assign({}, defaultState, st);
-      delete S.streak; delete S.minutes; delete S.tab;
-      S.studyDays = Array.isArray(S.studyDays) ? S.studyDays.slice() : [];
-      S.minsByDay = (S.minsByDay && typeof S.minsByDay === "object") ? Object.assign({}, S.minsByDay) : {};
-      if (!S.daily || typeof S.daily !== "object") S.daily = { date: "", count: 0 };
+       S = normalizeState(st);
       save(); render();
       toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词`);
     } catch (e) {
@@ -1643,7 +1645,7 @@ document.addEventListener("click", e => {
         }
         const k = todayKey();
         S.minsByDay[k] = (S.minsByDay[k] || 0) + mins;
-        markStudyDay();
+        markReadDay();
         save(); render();
         toast(`打卡成功 · 本次阅读 ${mins} 分钟`);
       }
@@ -1692,7 +1694,7 @@ document.addEventListener("click", e => {
       $("#file-in").click(); break;
     case "reset": {
       resetNav();
-      /* 深拷贝重置：浅拷贝会让新状态继续和 defaultState 共享 studyDays 等引用 */
+      /* 深拷贝重置：浅拷贝会让新状态继续和 defaultState 共享阅读统计引用 */
       const keepTheme = S.theme;
       S = JSON.parse(JSON.stringify(defaultState));
       S.theme = keepTheme || "light";      // 主题是外观偏好，不算学习进度，别一起清掉
