@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 19 篇；英文正文来自公开 RSS 的真实报道原文，未做改写；
+ * 共 27 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
  * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
- * 每篇保留 url 外链可溯源。
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / Farnam Street / More To That / Ness Labs / FourFourTwo / TechCrunch AI / Vanity Fair / Rolling Stone / Harper's Bazaar / AI News / The Guardian / Opta Analyst
  */
 
 const ARTICLES_EXTRA = [
@@ -8084,6 +8084,1646 @@ const ARTICLES_EXTRA = [
             "cn": "AI News 由 TechForge Media 提供支持。"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "gr-the-mindset-that-unlocks-your-full-potential-d",
+    "cat": "成长",
+    "title": "The Mindset That Unlocks Your Full Potential | Dr. Gio Valiante",
+    "titleZh": "释放你全部潜能的心态 | 吉奥·瓦利亚特博士",
+    "source": "Farnam Street · 2026-06-30",
+    "date": "2026-06-30",
+    "minutes": 2,
+    "url": "https://fs.blog/knowledge-project-podcast/performance-psychologist-mindset/",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 62.86,
+    "serverScore": 81.14,
+    "paras": [
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-2.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "Practical techniques for developing presence and reducing distraction.",
+            "cn": "培养专注力、减少分心的实用技巧。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-3.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "Rebuilding confidence by focusing on small wins instead of chasing big recoveries.",
+            "cn": "通过关注小胜利而非追求大幅回升，来重建信心。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "We discuss why most people never reach their potential, how confidence and fear shape performance, and what separates those who consistently excel from those who stay stuck.",
+            "cn": "我们将探讨为什么大多数人永远无法发挥自己的潜能，自信和恐惧如何影响表现，以及那些始终表现出色的人与那些原地踏步的人之间有何不同。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He shares practical strategies for building better habits, overcoming self-imposed limits, staying focused under pressure, and creating the conditions for long-term success.",
+            "cn": "他分享了培养更好习惯、突破自我设限、在压力下保持专注以及为长期成功创造条件的实用策略。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you’ve ever felt capable of more, this episode will help you understand what’s holding you back and what to do about it.",
+            "cn": "如果你曾觉得自己还能做得更好，本期节目将帮助你了解是什么在阻碍你，以及该如何应对。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "+ Members get the longer, extended version of this conversation, with additional content not included in the public release.",
+            "cn": "+ 会员可获取本次对话的加长版，其中包含公开版本中未收录的额外内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
+            "cn": "请前往“会员专区”，查看文字记录及其他会员专属内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "We all know the Steve Jobs who came back in the late 1990s and saved Apple from becoming a footnote.",
+            "cn": "我们都知道那位在20世纪90年代末重返苹果、将苹果从濒临消亡的境地拯救出来的史蒂夫·乔布斯。"
+          },
+          {
+            "en": "And we’ve all heard the story of …",
+            "cn": "而且我们都听说过……的故事"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create …",
+            "cn": "大卫·巴祖基是Roblox的联合创始人兼首席执行官，该平台基于一个简单理念：为用户提供创作所需的工具和激励……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This summer, I’m revisiting one of my favorite episodes.",
+            "cn": "今年夏天，我打算重温我最喜欢的其中一集。"
+          },
+          {
+            "en": "If you haven’t heard it, now is the time.",
+            "cn": "如果你还没听过，现在正是时候。"
+          },
+          {
+            "en": "If you have, it’s a classic and …",
+            "cn": "如果你看过的话，这可是部经典之作，而且……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A podcast about mastering the best of what other people have already figured out.",
+            "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
+          },
+          {
+            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
+            "cn": "“知识项目”致力于发掘那些永不过时的见解和经验教训。"
+          },
+          {
+            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
+            "cn": "每集节目结束后，您都会获得切实可行的见解，这些见解将帮助您取得更好的成果，过上更有意义的生活。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
+            "cn": "Farnam Street 参加了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-proven-better-new-mark-pincus-on-the-rules-of-",
+    "cat": "成长",
+    "title": "Proven, Better, New: Mark Pincus on the Rules of Innovation",
+    "titleZh": "经实践检验，更优，创新”：马克·平库斯谈创新法则",
+    "source": "Farnam Street · 2026-05-28",
+    "date": "2026-05-28",
+    "minutes": 2,
+    "url": "https://fs.blog/knowledge-project-podcast/mark-pincus/",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of-.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 64.34,
+    "serverScore": 80.7,
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Mark Pincus is the creator behind Farmville and Words with Friends.",
+            "cn": "马克·平库斯是《Farmville》和《Words with Friends》的创作者。"
+          },
+          {
+            "en": "He built Zynga into one of the biggest gaming companies in the world and helped shape the early era of social products on the internet.",
+            "cn": "他将Zynga打造成为全球最大的游戏公司之一，并为互联网社交产品的早期发展奠定了基础。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--3.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "In this conversation, he breaks down how to spot winning ideas early, why most startups build the wrong thing, and why you should always copy what’s proven.",
+            "cn": "在这段对话中，他详细解析了如何及早发现有潜力的创意、为什么大多数初创公司会开发错误的产品，以及为什么你应该始终借鉴那些经过验证的模式。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He shares lessons from building Zynga, missing the opportunity behind social networking before Facebook took off, navigating platform risk during Zynga’s explosive growth, and rebuilding his life when he thought everything was lost.",
+            "cn": "他分享了在创立Zynga过程中的经验教训，包括在Facebook崛起前错失了社交网络带来的机遇、在Zynga爆发式增长期间应对平台风险，以及在以为一切都已失去时如何重建人生。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "+ Members get the longer, extended version of this conversation, with additional content not included in the public release.",
+            "cn": "+ 会员可获取本次对话的加长版，其中包含公开版本中未收录的额外内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
+            "cn": "请前往“会员专区”，查看文字记录及其他会员专属内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "We all know the Steve Jobs who came back in the late 1990s and saved Apple from becoming a footnote.",
+            "cn": "我们都知道那位在20世纪90年代末重返苹果、将苹果从濒临消亡的境地拯救出来的史蒂夫·乔布斯。"
+          },
+          {
+            "en": "And we’ve all heard the story of …",
+            "cn": "而且我们都听说过……的故事"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create …",
+            "cn": "大卫·巴祖基是Roblox的联合创始人兼首席执行官，该平台基于一个简单理念：为用户提供创作所需的工具和激励……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This summer, I’m revisiting one of my favorite episodes.",
+            "cn": "今年夏天，我打算重温我最喜欢的其中一集。"
+          },
+          {
+            "en": "If you haven’t heard it, now is the time.",
+            "cn": "如果你还没听过，现在正是时候。"
+          },
+          {
+            "en": "If you have, it’s a classic and …",
+            "cn": "如果你看过的话，这可是部经典之作，而且……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A podcast about mastering the best of what other people have already figured out.",
+            "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
+          },
+          {
+            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
+            "cn": "“知识项目”致力于发掘那些永不过时的见解和经验教训。"
+          },
+          {
+            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
+            "cn": "每集节目结束后，您都会获得切实可行的见解，这些见解将帮助您取得更好的成果，过上更有意义的生活。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
+            "cn": "Farnam Street 参加了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ft-michael-olise-s-nonchalant-interview-schtick-i",
+    "cat": "足球",
+    "title": "Michael Olise's nonchalant interview schtick is rude, tiresome and boring - sort it out",
+    "titleZh": "迈克尔·奥利塞那种漫不经心的采访做派既粗鲁，又令人厌烦，还很无聊——该改改了",
+    "source": "FourFourTwo · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 3,
+    "url": "https://www.fourfourtwo.com/person/player/michael-olises-nonchalant-interview-schtick-is-rude-tiresome-and-boring-sort-it-out",
+    "cover": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "gradient": "linear-gradient(135deg,#ffe0b8 0%,#c97e05 100%)",
+    "coverImg": "assets/covers/ft-michael-olise-s-nonchalant-interview-schtick-i.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 64.58,
+    "serverScore": 80.63,
+    "paras": [
+      {
+        "img": "assets/covers/ft-michael-olise-s-nonchalant-interview-schtick-i-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ft-michael-olise-s-nonchalant-interview-schtick-i-4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
+            "cn": "每周精选内容、趣味活动和足球问答，直接送达您的收件箱。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fantastic football content straight to your inbox!",
+            "cn": "精彩足球内容直达您的收件箱！"
+          },
+          {
+            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
+            "cn": "涵盖最新的转会新闻、趣味问答、视频、专题报道以及对足坛巨星的专访，还有更多精彩内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Get full access to premium articles, exclusive features and a growing list of member rewards.",
+            "cn": "即可畅享所有优质文章、独家专题以及日益丰富的会员福利。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Michael Olise's post-match interview routine has gone viral yet again due to the Frenchman's answers, or lack thereof",
+            "cn": "迈克尔·奥利塞的赛后采访环节再次引发热议，原因在于这位法国球员的回答——或者说他几乎没有回答"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When you purchase through links on our site, we may earn an affiliate commission.",
+            "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Another post-match interview featuring Bayern Munich winger Michael Olise has gone viral across social media for all the wrong reasons.",
+            "cn": "拜仁慕尼黑边锋迈克尔·奥利塞的另一段赛后采访，因种种负面原因在社交媒体上引发热议。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Once again, football fans have been treated to the painful spectacle of awkward silences, and a player doing everything he can to make life harder for the person holding the microphone.",
+            "cn": "足球迷们再次目睹了令人尴尬的沉默场面，以及一名球员竭尽全力让手持话筒的人难堪的尴尬一幕。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What started as a quirky, meme-worthy gimmick as a young player has officially crossed the line into something far more grating.",
+            "cn": "这种行为最初只是年轻球员时的一种古怪、值得成为网络梗的噱头，如今却已正式越界，变成了令人极其反感的东西。"
+          },
+          {
+            "en": "Olise 's nonchalant media routine isn't clever or cool - it is rude, tiresome, and paints young footballers in a really poor light.",
+            "cn": "奥利塞那种漫不经心的媒体应对方式既不聪明也不酷——它既粗鲁又令人厌烦，而且给年轻足球运动员留下了非常糟糕的印象。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "For a long time, I was willing to afford the Frenchman the benefit of the doubt.",
+            "cn": "很长一段时间以来，我一直愿意给这位法国人一个机会，不先下定论。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "'Does he suffer from social anxiety?",
+            "cn": "“他有社交焦虑症吗？”"
+          },
+          {
+            "en": "Is he just painfully shy?' It's not easy being a teenager thrust into the limelight, so it was a fair question to ask.",
+            "cn": "“他只是特别害羞吗？”对于一个突然被推上风口浪尖的青少年来说，这并不容易，所以提出这个问题是合情合理的。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "However, recent refcam footage shatters that narrative.",
+            "cn": "然而，最近公布的裁判视角录像彻底推翻了这一说法。"
+          },
+          {
+            "en": "On the pitch, Olise is the antithesis of stage-fright, his apparent communication issues deserting him when arguing the toss over a decision with a match official.",
+            "cn": "在球场上，奥利塞完全不会怯场，当他与裁判就某项判罚争论时，他平时显而易见的沟通障碍似乎就消失了。"
+          },
+          {
+            "en": "He is vocal, animated, and - compared to his post-game media debriefs - uninhibited.",
+            "cn": "他说话直率，神采飞扬，而且——与赛后接受媒体采访时相比——显得毫无拘束。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This sullen, disengaged persona reserved exclusively for post-match broadcasters is a choice.",
+            "cn": "这种专属于赛后解说员的阴沉、疏离的形象，是一种刻意选择。"
+          },
+          {
+            "en": "The cold one-word responses and the air of casual arrogance suggest he knows precisely what he's doing with his non-answers.",
+            "cn": "那些冷淡的单字回答和那副漫不经心的傲慢神态，表明他非常清楚自己这种避重就轻的做法是出于何种目的。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Watch these viral clips closely and you will see broadcast journalists - often asking questions in a second or third language with commendable poise - maintaining total professionalism while receiving complete apathy in return.",
+            "cn": "仔细观看这些在网络上疯传的片段，你会发现，这些电视记者——他们往往用第二或第三语言提问，表现得从容自若，令人钦佩——在面对受访者完全冷漠的回应时，依然保持着十足的专业素养。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This isn't merely a case of one journalist instinctively standing up for another; it is a matter of fundamental workplace decency.",
+            "cn": "这不仅仅是一个记者本能地为另一位记者挺身而出，而是关乎职场基本道德的问题。"
+          },
+          {
+            "en": "Does Olise offer up the silent treatment to the staff at Bayern's training ground?",
+            "cn": "奥利塞是否对拜仁训练基地的工作人员采取了冷处理的态度？"
+          },
+          {
+            "en": "To those who serve his meals, those on the security desk and reception?",
+            "cn": "给那些负责上菜的人、值班室的工作人员和前台接待人员吗？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The golden rule ought to apply even in elite football: treat people as you would wish to be treated yourself.",
+            "cn": "即使在顶级足球领域，这条黄金法则也应当适用：待人如己所愿。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In an era where access to players is restricted to the absolute extreme, reporters are given minutes to glean something meaningful.",
+            "cn": "在这个接触球员受到极度限制的时代，记者们只有短短几分钟的时间来挖掘有价值的信息。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ai-jensen-huang-explains-why-nvidia-will-grow-an-",
+    "cat": "AI",
+    "title": "Jensen Huang explains why Nvidia will grow an astounding 70% next year",
+    "titleZh": "黄仁勋解释了为何英伟达明年的增长率将达到惊人的70%",
+    "source": "TechCrunch AI · 2026-09-10",
+    "date": "2026-09-10",
+    "minutes": 3,
+    "url": "https://techcrunch.com/2026/09/10/jensen-huang-explains-why-nvidia-will-grow-an-astounding-70-next-year/",
+    "cover": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
+    "gradient": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
+    "coverImg": "assets/covers/ai-jensen-huang-explains-why-nvidia-will-grow-an-.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 65,
+    "serverScore": 80.5,
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Founder, CEO, and tireless Nvidia hype man Jensen Huang told attendees at the Goldman Sachs Communacopia + Technology conference on Thursday why his company’s AI domination — and revenues — will continue its record-breaking growth streak through the end of next year.",
+            "cn": "英伟达创始人、首席执行官兼不遗余力的宣传推手黄仁勋周四在高盛“Communicopia + Technology”大会上向与会者阐述了为何该公司在人工智能领域的统治地位——以及营收——将持续保持创纪录的增长势头，直至明年年底。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "There’s been endless hand-wringing over whether Nvidia’s party will end as it faces increasing competition for GPUs and AI chips from all directions: the hyperscalers (Amazon, Microsoft, and Google, each building their own) and the AI labs (Anthropic and OpenAI, which are building their own), as well as from newly public competitor Cerebras and startups such as Etched.",
+            "cn": "随着英伟达在GPU和AI芯片领域面临来自四面八方的日益激烈的竞争，关于其“好日子”是否即将结束的担忧从未停止：超大规模云服务商（亚马逊、微软和谷歌，各家都在自主研发）和人工智能实验室（Anthropic和OpenAI，也在自主研发），以及新上市的竞争对手Cerebras和Etched等初创公司。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Most people think Nvidia builds a chip.",
+            "cn": "“大多数人认为英伟达生产芯片。"
+          },
+          {
+            "en": "I mean, you need airplanes to ship what we build,” Huang said, adding that the company continues to battle a perception from its early days.",
+            "cn": "“我的意思是，要运输我们制造的产品，就得靠飞机，”黄说，他还补充道，公司仍在努力扭转人们对其早期阶段形成的刻板印象。"
+          },
+          {
+            "en": "Nvidia invented the GPU, which back then were largely sold to consumers to improve PC gaming.",
+            "cn": "英伟达发明了GPU，当时这些产品主要面向消费者销售，旨在提升PC游戏体验。"
+          },
+          {
+            "en": "That’s one GPU, all connected with NVLink, 2 million parts, right?",
+            "cn": "那就是一块GPU，全部通过NVLink连接，有200万个部件，对吧？"
+          },
+          {
+            "en": "That’s a GPU, and we ship thousands of them.”",
+            "cn": "“那是一块GPU，我们出货量达数千块。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He added that orders for just one product, a computer system that combines 36 Grace CPUs with 72 Blackwell GPUs, is currently experiencing 27% month-to-month sales growth.",
+            "cn": "他补充道，仅就其中一款产品——一款将36颗Grace CPU与72颗Blackwell GPU相结合的计算机系统——而言，其订单量目前正以环比27%的速度增长。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Huang didn’t limit his bullish view to current sales though.",
+            "cn": "不过，黄先生的乐观看法并不局限于当前的销售情况。"
+          },
+          {
+            "en": "He took the opportunity to reiterate Nvidia’s revenue outlook for next year — guidance the company provided last month when it reported yet another record-breaking revenue quarter.",
+            "cn": "他借此机会重申了英伟达对明年营收的展望——该公司上个月在公布又一个创纪录的季度营收时曾给出过这一指引。"
+          },
+          {
+            "en": "That’s when he first said revenue could grow by 70% next year.",
+            "cn": "正是那时，他首次表示明年的营收可能增长70%。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I think we could grow 70% year over year.",
+            "cn": "“我认为我们的年同比增长率可以达到70%。”"
+          },
+          {
+            "en": "We’re confident about that,” Huang said again on Thursday.",
+            "cn": "“我们对此很有信心，”黄周四再次表示。"
+          },
+          {
+            "en": "Analysts expect the company to end its current fiscal year at about $400 billion in revenue.",
+            "cn": "分析师预计，该公司本财年营收将达到约4000亿美元。"
+          },
+          {
+            "en": "So 70% growth would mean around $680 billion next year.",
+            "cn": "因此，70%的增长意味着明年的规模将达到约6800亿美元。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Huang explained why he’s confident: His company is so embedded in every area of AI that he believes he can see the future.",
+            "cn": "黄解释了他为何如此自信：他的公司已深度融入人工智能的各个领域，因此他相信自己能够预见未来。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Every single lab can use us,” the CEO said, mentioning that this includes models from Anthropic, OpenAI, and Google, as well as open-weight offerings.",
+            "cn": "“每一家实验室都能用上我们的技术，”这位首席执行官表示，并提到这包括Anthropic、OpenAI和谷歌的模型，以及开放权重模型。"
+          },
+          {
+            "en": "“We are a foundational platform of the AI ecosystem, foundational platform of the AI industry.”",
+            "cn": "“我们是人工智能生态系统的基石平台，也是人工智能行业的基石平台。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Nvidia’s fingers extend all the way from its suppliers, such as memory chip makers, to data center projects and startups.",
+            "cn": "英伟达的影响力从其供应商（如内存芯片制造商）一直延伸到数据中心项目和初创企业。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“We’re tracking every single gigawatt of land, power, shell around the world.",
+            "cn": "“我们正在追踪全球每一吉瓦的土地、电力和建筑外壳。”"
+          },
+          {
+            "en": "Literally everything on the planet,” he said.",
+            "cn": "“字面意思上就是地球上的所有东西，”他说。"
+          },
+          {
+            "en": "(“Shell” refers to the shell of a data center building before it is outfitted with computers).",
+            "cn": "（“外壳”指数据中心大楼在安装计算机之前的外壳。）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I mean, just think about all my partners.",
+            "cn": "“我的意思是，想想我所有的搭档吧。"
+          },
+          {
+            "en": "How many neoclouds are reporting back to us?",
+            "cn": "目前有多少台Neocloud设备向我们发送了报告？"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ft-how-to-watch-arsenal-vs-crystal-palace-for-fre",
+    "cat": "足球",
+    "title": "How to watch Arsenal vs Crystal Palace for FREE: Live streams and TV channels for WSL clash at Emirates Stadium",
+    "titleZh": "如何免费观看阿森纳对阵水晶宫的比赛：酋长球场 WSL 对决的直播链接和电视频道",
+    "source": "FourFourTwo · 2026-09-13",
+    "date": "2026-09-13",
+    "minutes": 4,
+    "url": "https://www.fourfourtwo.com/competition/watch-arsenal-vs-crystal-palace-wsl-2026-27-free",
+    "cover": "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
+    "gradient": "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
+    "coverImg": "assets/covers/ft-how-to-watch-arsenal-vs-crystal-palace-for-fre.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 66.48,
+    "serverScore": 80.06,
+    "paras": [
+      {
+        "img": "assets/covers/ft-how-to-watch-arsenal-vs-crystal-palace-for-fre-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ft-how-to-watch-arsenal-vs-crystal-palace-for-fre-4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
+            "cn": "每周精选内容、趣味活动和足球问答，直接送达您的收件箱。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fantastic football content straight to your inbox!",
+            "cn": "精彩足球内容直达您的收件箱！"
+          },
+          {
+            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
+            "cn": "涵盖最新的转会新闻、趣味问答、视频、专题报道以及对足坛巨星的专访，还有更多精彩内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Get full access to premium articles, exclusive features and a growing list of member rewards.",
+            "cn": "即可畅享所有优质文章、独家专题以及日益丰富的会员福利。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When you purchase through links on our site, we may earn an affiliate commission.",
+            "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Watch Arsenal Women vs Crystal Palace Women as the Gunners look to continue their winning start in the WSL, with all the broadcast details right here in this guide.",
+            "cn": "观看阿森纳女足对阵水晶宫女足的比赛，枪手们将力争在WSL联赛中延续开局连胜的势头，本指南中提供了全部转播详情。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "After a victory in their opening WSL fixture, Renee Slegers' Arsenal will want to continue their winning form in north London.",
+            "cn": "在WSL首轮比赛中取得胜利后，由蕾妮·斯莱格斯执教的阿森纳队希望能在北伦敦延续胜势。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As they face newly-promoted Crystal Palace, they will be hoping for three points in their first home game of the season to continue their title charge.",
+            "cn": "在迎战新晋升的水晶宫队时，他们希望在本赛季的首场主场比赛中拿下三分，以继续向冠军发起冲击。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "FourFourTwo has all the information on live streams and TV channels so you can watch Arsenal vs Chelsea in the WSL online, on TV, and from anywhere.",
+            "cn": "《FourFourTwo》提供了关于直播和电视频道的所有信息，让您无论身在何处，都能通过网络或电视观看WSL阿森纳对阵切尔西的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Women's Super League fans in both the UK and the US can watch Arsenal vs Crystal Palace for free.",
+            "cn": "无论是在英国还是美国的女子超级联赛球迷，都可以免费观看阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the UK, the game will be live on BBC Two and BBC iPlayer, with this fixture the second of 19 WSL matches shown by the free-to-air broadcaster across the 2026/27 season.",
+            "cn": "在英国，这场比赛将在BBC Two和BBC iPlayer上直播，这也是该免费电视台在2026/27赛季转播的19场WSL比赛中的第二场。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Meanwhile, US viewers can watch Arsenal vs Crystal Palace at no cost on CBS Sports Golazo Network, which will show selected WSL fixtures throughout the campaign.",
+            "cn": "与此同时，美国观众可以通过CBS Sports Golazo Network免费观看阿森纳对阵水晶宫的比赛，该频道将在整个赛季期间转播部分WSL赛事。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Use a VPN to access your free Arsenal vs Crystal Palace stream from anywhere in the world.",
+            "cn": "使用VPN，即可从世界任何地方观看阿森纳对阵水晶宫的免费直播。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You don't have to miss Arsenal vs Crystal Palace.",
+            "cn": "您不必错过阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The solution to your geo-restriction nightmares is a Virtual Private Network ( VPN), a piece of software that can set your devices to appear to be in any country in the world.",
+            "cn": "解决您因地域限制而产生的烦恼的办法是使用虚拟专用网络（VPN）——这是一种能够让您的设备看起来仿佛位于世界任何国家的软件。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "FourFourTwo's tech-obsessed office-mates over at Tom's Guide know everything there is to know about VPNs, and they rate NordVPN as the best VPN you can buy.",
+            "cn": "《FourFourTwo》旗下《Tom's Guide》的同事们对科技痴迷不已，他们对VPN了如指掌，并将NordVPN评为市面上最值得购买的VPN。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "磊 World's best VPN service  Fast, secure, easy to use ✅ Unblocks BBC iPlayer and CBS Sports Golazo Network  Stream Arsenal vs Crystal Palace from anywhere",
+            "cn": "磊 全球最佳VPN服务  快速、安全、易于使用 ✅ 解锁BBC iPlayer和CBS Sports Golazo Network  无论身在何处，都能在线观看阿森纳对阵水晶宫的比赛"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As mentioned above, Arsenal vs Crystal Palace is live on BBC Two and BBC iPlayer in the UK.",
+            "cn": "如上所述，阿森纳对阵水晶宫的比赛将在英国的BBC Two和BBC iPlayer上进行直播。"
+          },
+          {
+            "en": "You just need a TV Licence and a BBC iPlayer registration to watch online, with kick-off at 2:45pm BST.",
+            "cn": "您只需持有电视执照并注册BBC iPlayer账号即可在线观看，比赛将于英国夏令时下午2点45分开球。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Watch Arsenal vs Crystal Palace for free on BBC iPlayer via NordVPN.",
+            "cn": "通过NordVPN在BBC iPlayer上免费观看阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "BBC iPlayer will have live coverage of 19 Women's Super League games completely free across the 2026/27 season.",
+            "cn": "在2026/27赛季期间，BBC iPlayer将完全免费直播19场女子超级联赛的比赛。"
+          },
+          {
+            "en": "You just need a TV Licence and a BBC iPlayer registration.",
+            "cn": "您只需办理电视执照并注册BBC iPlayer即可。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As mentioned above, US viewers can watch Arsenal vs Crystal Palace for free on CBS Sports Golazo Network.",
+            "cn": "如上所述，美国观众可以在CBS Sports Golazo Network上免费观看阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Use NordVPN to watch Arsenal vs Crystal Palace for free on CBS Sports Golazo Network.",
+            "cn": "使用NordVPN，即可在CBS Sports Golazo Network上免费观看阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "st-people-think-fame-is-a-magic-wand-jarvis-cocke",
+    "cat": "明星",
+    "title": "‘People think fame is a magic wand’: Jarvis Cocker on old songs, young fans and his granny’s verdict on Pulp",
+    "titleZh": "人们总以为成名是一根魔杖”：贾维斯·科克谈老歌，年轻乐迷以及他祖母对 Pulp 乐队的评价",
+    "source": "The Guardian · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 14,
+    "url": "https://www.theguardian.com/film/2026/sep/11/people-think-fame-is-a-magic-wand-jarvis-cocker-on-old-songs-young-fans-and-his-grannys-verdict-on-pulp",
+    "cover": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
+    "gradient": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
+    "coverImg": "assets/covers/st-people-think-fame-is-a-magic-wand-jarvis-cocke.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 99.37,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 67.66,
+    "serverScore": 79.26,
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Before the release of a joyful film on the history of the Sheffield band, frontman Cocker and director Garth Jennings talk dark times, taking inspiration from Abba – and why there could yet be another record",
+            "cn": "在一部讲述谢菲尔德乐队历史的欢快电影上映之前，主唱科克和导演加思·詹宁斯谈到了乐队经历的艰难时期、从ABBA乐队汲取灵感——以及为何未来可能还会推出新专辑"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "W hen the director Garth Jennings first moved to Paris, Jarvis Cocker, who was living there, dropped in on his old friend.",
+            "cn": "当导演加思·詹宁斯刚搬到巴黎时，当时住在巴黎的贾维斯·科克去探望了这位老朋友。"
+          },
+          {
+            "en": "“And I nearly got you arrested,” the Pulp frontman recalls.",
+            "cn": "“而且我差点让你被逮捕了，”Pulp乐队的主唱回忆道。"
+          },
+          {
+            "en": "It was bonfire night, and Cocker had taken some welcoming fireworks over to Jennings’ place.",
+            "cn": "那天是篝火之夜，科克带了一些庆祝用的烟花去了詹宁斯家。"
+          },
+          {
+            "en": "“It turned out Garth’s apartment was quite near to the – not an army base, but what’s it called?”",
+            "cn": "“结果发现，加思的公寓离那个地方挺近的——不是军营，但那叫什么来着？”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“So obviously they didn’t like explosives,” says Cocker.",
+            "cn": "“所以很明显，他们不喜欢爆炸物，”科克说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The men had first met in the late 1990s, when Jennings directed two gorgeous music videos for Pulp, for the singles Help the Aged and A Little Soul.",
+            "cn": "两人最初是在20世纪90年代末相识的，当时詹宁斯为Pulp乐队执导了两支精美的音乐录影带，分别是单曲《Help the Aged》和《A Little Soul》的MV。"
+          },
+          {
+            "en": "Now, almost 30 years later, they are working together again, on Pulp: What Do You Do for an Encore?",
+            "cn": "如今，时隔近30年，他们再次携手合作，共同打造《Pulp：What Do You Do for an Encore?》。"
+          },
+          {
+            "en": "This joyful, funny, celebratory film is a hybrid beast: part concert movie and part documentary on the long history of the band.",
+            "cn": "这部充满欢乐、幽默且洋溢着庆典氛围的电影堪称一部“混合体”：既是一部演唱会电影，又是一部关于该乐队悠久历史的纪录片。"
+          },
+          {
+            "en": "The live show was filmed at London’s O2 Arena in the summer of 2025, on the night that Pulp were told that More, their eighth studio album and first album in 24 years, had gone to No 1 in the British album charts.",
+            "cn": "这场现场演出于2025年夏天在伦敦O2体育馆录制，当晚，Pulp乐队得知他们的第八张录音室专辑《More》——也是时隔24年推出的首张专辑——已登上英国专辑榜榜首。"
+          },
+          {
+            "en": "You can see Cocker waving around the trophy on stage.",
+            "cn": "你可以看到科克在舞台上挥舞着奖杯。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Jennings, director of Son of Rambow and The Hitchhiker’s Guide to the Galaxy, has lived in Paris for the past 13 years, where the animation for Sing, his wildly successful kids’ musical film franchise, is made.",
+            "cn": "曾执导《兰博之子》和《银河系漫游指南》的詹宁斯，过去13年一直居住在巴黎，他那部大获成功的儿童音乐电影系列《欢乐好声音》的动画制作便是在那里完成的。"
+          },
+          {
+            "en": "He is working on a short Christmas special, and the third and final film in the series.",
+            "cn": "他正在制作一部圣诞特别短片，以及该系列的第三部也是最后一部电影。"
+          },
+          {
+            "en": "“It’s a slow process,” he says, from the studio, “but we’re getting there.” Cocker moved back to London a few years ago, and today he is at home, getting ready to headline the End of the Road festival.",
+            "cn": "“这是一个缓慢的过程，”他在录音室里说道，“但我们正在逐步实现目标。”科克几年前搬回了伦敦，今天他正在家中，准备作为压轴嘉宾登台参加“End of the Road”音乐节。"
+          },
+          {
+            "en": "It will be Pulp’s last show for a while.",
+            "cn": "这将是Pulp乐队在一段时间内的最后一场演出。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You can blame Instagram and Abba Voyage for the existence of What Do You Do for an Encore?",
+            "cn": "《What Do You Do for an Encore?》之所以会面世，你大可把责任归咎于Instagram和《Abba Voyage》。"
+          },
+          {
+            "en": "Pulp, formed by Cocker in Sheffield in 1978, split up in 2002.",
+            "cn": "Pulp乐队由科克于1978年在谢菲尔德组建，于2002年解散。"
+          },
+          {
+            "en": "They got back together for a reunion tour between 2011 and 2013, the final date of which was captured for another idiosyncratic documentary, Florian Habicht’s Pulp: A Film About Life, Death & Supermarkets.",
+            "cn": "2011年至2013年间，他们重聚并展开了一次重聚巡演，巡演的最后一场演出被收录进另一部风格独特的纪录片——弗洛里安·哈比希特执导的《Pulp：一部关于生活、死亡与超市的电影》中。"
+          },
+          {
+            "en": "Cocker had considered those shows to be a fitting – and final – farewell.",
+            "cn": "科克曾认为那些演出是一场恰如其分——也是最后的——告别。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“When Pulp got together that time, I had this idea that things had ended in a not-nice way, and I wanted it to have a happy ending,” Cocker says.",
+            "cn": "“当时Pulp乐队重组时，我觉得之前的事情以一种不太愉快的方式结束了，所以我希望这次能有一个圆满的结局，”科克说道。"
+          },
+          {
+            "en": "“I thought the way to do that would be to play concerts, and we invited Russell Senior back” – the violinist and guitarist had quit in 1997 – “and I just thought it would be like: we’re all friends, everything’s good, and then we’d all retire,” says Cocker.",
+            "cn": "“我当时觉得实现这个目标的方法就是举办音乐会，于是我们邀请了拉塞尔·塞尼尔回归”——这位小提琴手兼吉他手曾在1997年退出乐队——“我当时只是觉得：我们都是朋友，一切都很顺利，然后大家就一起退休了，”科克说道。"
+          },
+          {
+            "en": "“And to be honest, that tour did seem to do that.”",
+            "cn": "“说实话，那次巡演似乎确实做到了这一点。”"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/st-people-think-fame-is-a-magic-wand-jarvis-cocke-3.jpg",
+        "cap": "‘I don’t go to shows any more. I’m an old bloke’... Jarvis Cocker. Photograph: Tom Jackson"
+      },
+      {
+        "sentences": [
+          {
+            "en": "So when a promoter got in touch years later, to ask if Pulp would be interested in playing again, Cocker had to think about it.",
+            "cn": "因此，当多年后一位演出主办方联系他，询问Pulp乐队是否有兴趣再次登台演出时，科克不得不认真考虑一下。"
+          },
+          {
+            "en": "“Because the worst thing to do would have been to spoil the happy ending.” How did he decide to say yes?",
+            "cn": "“因为最糟糕的做法就是破坏这个圆满的结局。”他是怎么决定答应下来的呢？"
+          },
+          {
+            "en": "“I confessed my fear that people wouldn’t come, or that people weren’t that bothered, and why would they be?” The promoter assured him that people would most definitely be bothered.",
+            "cn": "“我坦言自己担心没人来，或者大家根本不在乎，毕竟他们为什么要关心呢？”活动主办方向他保证，大家肯定会在乎的。"
+          },
+          {
+            "en": "“He told me about a few times when he’d been to shows and a Pulp song had come on before a band went on, and everybody sang along.",
+            "cn": "“他跟我提过几次，说他去看演出时，有几次在乐队登台前播放了Pulp的歌，结果全场观众都跟着唱了起来。”"
+          },
+          {
+            "en": "You know, I don’t go to shows any more.",
+            "cn": "你知道吗，我现在不去看演出啦。"
+          },
+          {
+            "en": "I’m an old bloke.” (Cocker is about to turn 63.) “I just said: ‘All right, I hope you’re right, let’s do it.’ But I wanted to make sure that it would be a good thing for us to do as well.”",
+            "cn": "“我这把年纪了。”（科克即将年满63岁。）“我当时只是说：‘好吧，希望你说得对，那就干吧。’但我还是想确认一下，这对我们来说是不是件好事。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Cocker teased the news of a second Pulp reunion on Instagram in 2022.",
+            "cn": "2022年，科克在Instagram上暗示了Pulp乐队将迎来第二次重组的消息。"
+          },
+          {
+            "en": "Jennings messaged him to tell him how excited he was, and to offer his help.",
+            "cn": "詹宁斯给他发了消息，表达了自己的兴奋之情，并表示愿意提供帮助。"
+          },
+          {
+            "en": "It is obvious, when chatting to Jennings, that as well as being Cocker’s friend, he is a huge Pulp fan.",
+            "cn": "与詹宁斯交谈时，很明显，他不仅是科克的朋友，还是《Pulp》杂志的忠实粉丝。"
+          },
+          {
+            "en": "As they started to work on the creative direction of the live show together, Jennings remembers, “I’d be in some other room working on a graphics thing, and then I’d suddenly hear you lot playing, and I’d have to just drop it and come outside.",
+            "cn": "当他们开始共同构思现场演出的创意方向时，詹宁斯回忆道：“我当时在另一个房间里处理一些图形设计工作，突然听到你们在演奏，我只好放下手头的工作，跑出去看看。”"
+          },
+          {
+            "en": "Especially a song like Razzmatazz, which was my first Pulp song.",
+            "cn": "尤其是像《Razzmatazz》这样的歌，那是我听到的第一首Pulp的歌。"
+          },
+          {
+            "en": "You started playing that at one point, and it was just the best thing ever.",
+            "cn": "你当时开始玩那个，那简直是史上最棒的事。"
+          },
+          {
+            "en": "I had this wonderful little secret window into this world.”",
+            "cn": "“我曾拥有这样一扇通往这个世界的美妙小窗口。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When it became obvious that the live show was going to be a spectacle, they started to wonder about turning it into a film.",
+            "cn": "当大家明显意识到这场现场演出将是一场视觉盛宴时，他们便开始考虑将其拍成电影。"
+          },
+          {
+            "en": "“Some of my favourite films are concert films, and they don’t need to be anything more.",
+            "cn": "“我最喜欢的电影中，有不少是演唱会电影，它们本身就足够精彩，无需其他。”"
+          },
+          {
+            "en": "But this felt like an opportunity to go a bit further,” says Jennings.",
+            "cn": "“但这让我觉得这是一个可以更进一步的机会，”詹宁斯说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Which is where Abba Voyage comes in.",
+            "cn": "这正是“Abba Voyage”登场的时候。"
+          },
+          {
+            "en": "Both Jennings and Cocker had seen – and loved – the theatrical experience, which blends live music with giant holograms of Abba in their prime.",
+            "cn": "詹宁斯和科克都曾观看过——并深深喜爱——这场将现场音乐与ABBA全盛时期的巨型全息影像相融合的舞台演出。"
+          },
+          {
+            "en": "“That was something that was very inspiring.",
+            "cn": "“那真是令人深受鼓舞的一件事。”"
+          },
+          {
+            "en": "Just the sheer joy of it,” says Jennings, who has seen it three times.",
+            "cn": "“纯粹就是那种纯粹的快乐，”詹宁斯说，他已经看过这部电影三次了。"
+          },
+          {
+            "en": "As well as performing the hits, Abba Voyage tells the story of Abba, just as What Do You Do for an Encore?",
+            "cn": "除了演唱经典歌曲外，《Abba Voyage》还讲述了ABBA的故事，这与《What Do You Do for an Encore?》如出一辙。"
+          },
+          {
+            "en": "tells the story of Pulp, giving each song context.",
+            "cn": "讲述了Pulp乐队的故事，并为每首歌曲提供了背景信息。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I was so glad when Garth got in touch, because it felt as if he could help make it something that people hadn’t seen before,” Cocker says.",
+            "cn": "“当加思联系我时，我非常高兴，因为我觉得他能帮助我把它打造成一种前所未见的作品，”科克说。"
+          },
+          {
+            "en": "“I am very familiar with Pulp’s backstory because I’ve lived through it.",
+            "cn": "“我对Pulp的来龙去脉非常熟悉，因为我亲身经历过这一切。"
+          },
+          {
+            "en": "But I’m always flabbergasted at how long the band has gone on.” It is clear from the footage of the crowd, showing people losing their minds and singing every word, that some of the audience were not even born when Pulp split up for the first time.",
+            "cn": "“但我总是对这支乐队能坚持这么久感到震惊。”从观众的录像中可以清楚地看到，人们兴奋得忘乎所以，每一句歌词都跟着唱，这说明有些观众在Pulp乐队第一次解散时甚至还没出生。"
+          },
+          {
+            "en": "“That’s something amazing, really.",
+            "cn": "“这真的太神奇了。”"
+          },
+          {
+            "en": "And something I can’t explain – why young people have latched on to it.” They played in Manchester recently.",
+            "cn": "“还有一件事我无法解释——为什么年轻人会如此痴迷于此。”他们最近在曼彻斯特举办了演出。"
+          },
+          {
+            "en": "“A lot of young people,” Cocker laughs.",
+            "cn": "“很多年轻人，”科克笑着说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The film uses animation, old TV clips and grainy VHS footage, as well as documents and objects that fans may recognise from Cocker’s 2023 book Good Pop Bad Pop.",
+            "cn": "该片运用了动画、老电视片段和颗粒感强烈的VHS录像片段，以及粉丝们可能从科克2023年出版的《Good Pop Bad Pop》一书中认出的文件和物品。"
+          },
+          {
+            "en": "It was a “huge job” to pull it together, says Jennings, who credits the archivist Tess McNally-Watson with some serious hard work.",
+            "cn": "詹宁斯表示，将这一切整理出来是一项“艰巨的任务”，他特别感谢档案管理员泰丝·麦克纳利-沃森付出的辛勤努力。"
+          },
+          {
+            "en": "“Because it’s not all in one place.",
+            "cn": "“因为这些内容并没有集中在一个地方。"
+          },
+          {
+            "en": "It’s in people’s bedrooms and attics, and someone’s friend’s brother’s still got a cassette, so it’s a lot of Raiders of the Lost Ark-style gathering and then transferring.” At one point, there is a funny, fond interview with Cocker’s mother and grandmother, who crack jokes about his newfound fame.",
+            "cn": "“这些录音带散落在人们的卧室和阁楼里，还有人朋友的哥哥至今还保留着一盘卡带，所以这过程就像《夺宝奇兵》里的场景一样，大家得四处搜集，然后再转录出来。”片中有一段有趣又温馨的采访，科克的母亲和祖母在采访中调侃了他新获得的名气。"
+          },
+          {
+            "en": "“That’s a bit embarrassing for me,” says Cocker.",
+            "cn": "“这让我有点难为情，”科克说。"
+          },
+          {
+            "en": "“My grandma’s been dead ages, and my mum died only three or four years ago, so it was quite a thing.”",
+            "cn": "“我奶奶已经去世很久了，而我妈妈也是才三四年之前去世的，所以这件事对我来说意义重大。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "During the live show, Pulp pay a moving tribute to Steve Mackey, who joined the band as bassist in 1989, and who died in 2023 aged 56.",
+            "cn": "在现场演出中，Pulp乐队向史蒂夫·麦基致以感人至深的悼念——他于1989年作为贝斯手加入乐队，并于2023年去世，享年56岁。"
+          },
+          {
+            "en": "Mackey was not going to play on this tour, though he had wished his old bandmates luck.",
+            "cn": "麦基这次巡演不会登台演出，尽管他曾祝愿老乐队伙伴们好运。"
+          },
+          {
+            "en": "It was important that he was included in the film, and Cocker says that they were able to show it to Mackey’s family before it was signed off.",
+            "cn": "让他出现在影片中非常重要，科克表示，在影片最终定稿前，他们已经向麦基的家人展示了这部影片。"
+          },
+          {
+            "en": "“Just to make sure that they were happy with it.",
+            "cn": "“只是为了确保他们对此感到满意。"
+          },
+          {
+            "en": "But I think you did a very good job there, Garth.",
+            "cn": "不过，加思，我觉得你那儿做得非常棒。"
+          },
+          {
+            "en": "It’s a hard thing to express in the right way.”",
+            "cn": "“这很难用恰当的方式表达出来。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "does not shy away from the more complicated times in Pulp’s story.",
+            "cn": "并不回避Pulp故事中那些更为复杂的时期。"
+          },
+          {
+            "en": "Around the release of their then-divisive album This Is Hardcore in 1998, Cocker describes “going down a dark tunnel”.",
+            "cn": "在1998年他们那张当时引发争议的专辑《This Is Hardcore》发行前后，科克形容自己“仿佛走进了一条黑暗的隧道”。"
+          },
+          {
+            "en": "Jennings was making videos for the band back then.",
+            "cn": "当时，詹宁斯正在为这支乐队制作视频。"
+          },
+          {
+            "en": "Had he noticed that things seemed off?",
+            "cn": "他有没有注意到事情似乎有些不对劲？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I didn’t notice Jarvis going down a dark tunnel, and maybe you were, Jarvis, and I apologise if I wasn’t there to help you,” he says, sincerely.",
+            "cn": "“我没注意到贾维斯正走进一条黑暗的隧道，也许你当时确实是这样，贾维斯，如果我没能及时赶去帮助你，我向你道歉，”他诚恳地说。"
+          },
+          {
+            "en": "“But no, because the actual act of making these things was always lovely.",
+            "cn": "“但并非如此，因为制作这些东西的过程本身总是令人愉悦的。"
+          },
+          {
+            "en": "I never noticed you being tricky, or anything.”",
+            "cn": "“我从来没觉得你耍花招，或者什么的。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“It was probably because I’d decided to be in a band when I was seven,” Cocker reflects.",
+            "cn": "“这大概是因为我七岁的时候就决定要组建一支乐队了，”科克回忆道。"
+          },
+          {
+            "en": "“Like a lot of people, you think that if you achieve fame, that will be the magic wand that makes everything in your life work, and obviously that’s not the case.",
+            "cn": "“和许多人一样，你以为只要成名，那就会像一根魔法棒一样，让生活中的所有事情都顺风顺水，但显然事实并非如此。”"
+          },
+          {
+            "en": "You still have to make an effort in your life.",
+            "cn": "在生活中，你还是得付出努力。"
+          },
+          {
+            "en": "You can’t just lie in a bed and say: ‘Right, OK, that’s it, job done.’ But I didn’t realise that, so that’s why I had issues with it.” Over time, he says, “I went back into real life and appreciated it.",
+            "cn": "“你不能只是躺在床上说：‘好了，行，就这样，搞定了。’但我当时没意识到这一点，所以才对此感到困扰。”他说，随着时间的推移，“我重新回归现实生活，并开始珍惜它。”"
+          },
+          {
+            "en": "That was probably another reason why it took me a while to decide to do Pulp again.",
+            "cn": "这大概也是我迟迟未能决定再次参与《Pulp》项目的原因之一。"
+          },
+          {
+            "en": "I was thinking: ‘Well, what’s the motivation?",
+            "cn": "我当时在想：“那，动机是什么呢？”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the film, Cocker describes Pulp as “scaling Mount Pop”, but it sounds as if he didn’t much like what he found at the summit.",
+            "cn": "在这部电影中，科克将“Pulp”乐队比作“攀登波普山”，但听起来他似乎并不太喜欢在山顶所看到的一切。"
+          },
+          {
+            "en": "“It’s like seeing videos of your wedding.",
+            "cn": "“这就像在看自己婚礼的视频一样。”"
+          },
+          {
+            "en": "Your wedding is a magical thing, but then somebody shows you a video, and you think: ‘Oh God, what’s that?’” He prefers fantasy to reality, he says, “but sometimes you have to look at reality.",
+            "cn": "“婚礼本是一件充满魔力的事，但当有人给你看一段视频时，你会想：‘天哪，那是什么？’”他说，自己更喜欢幻想而非现实，“但有时候还是得正视现实。”"
+          },
+          {
+            "en": "And that’s what happened.” Fame, he says, “is an exciting thing, but you just have to keep your wits about you, and make sure you’re doing things for the right reason, and try not to get too up your own arse.”",
+            "cn": "“事情就是这样。”他说，“成名是一件令人兴奋的事，但你必须保持清醒，确保自己做事的动机是正确的，并且尽量不要太自视过高。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When he was still at school, in one of his exercise books, Cocker wrote out a “Pulp master plan”.",
+            "cn": "还在上学的时候，科克曾在某本练习本上写下了一份“平装书总计划”。"
+          },
+          {
+            "en": "It makes an appearance in the film.",
+            "cn": "它在这部电影中露了一面。"
+          },
+          {
+            "en": "But really, he says, they’ve never had one.",
+            "cn": "但他表示，实际上，他们从来就没有过。"
+          },
+          {
+            "en": "“I’m glad things that things didn’t go according to a plan.",
+            "cn": "“我很高兴事情并没有按计划进行。”"
+          },
+          {
+            "en": "That’s the great thing about groups.",
+            "cn": "这就是团队的魅力所在。"
+          },
+          {
+            "en": "You know that you have to work with other people, and everybody adds something to it, and then you get something that you can’t really say exactly where it came from.”",
+            "cn": "“你知道，你必须与他人合作，每个人都会为这个项目贡献一份力量，最终得到的成果，你其实很难准确说清它究竟源自何处。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Pulp’s End of the Road set last week marked the end of a tour that started in 2023, though the band are planning to meet up again in October, to celebrate it all.",
+            "cn": "Pulp乐队上周举行的“End of the Road”演唱会标志着这场始于2023年的巡演画上了句号，不过乐队计划于10月再次聚首，共同庆祝这段旅程。"
+          },
+          {
+            "en": "They’re going to see Abba Voyage together.",
+            "cn": "他们打算一起去观看《ABBA Voyage》演出。"
+          },
+          {
+            "en": "“You know, it’s like a tree,” says Cocker, philosophically.",
+            "cn": "“你知道吗，这就像一棵树，”科克尔若有所思地说。"
+          },
+          {
+            "en": "“A tree doesn’t decide it’s going to grow.",
+            "cn": "“树不会决定自己要生长。”"
+          },
+          {
+            "en": "If the weather’s right, it’ll grow a branch.",
+            "cn": "如果天气合适，它就会长出一根枝条。"
+          },
+          {
+            "en": "And if the intellectual weather is right in the next couple of years, maybe we’ll sprout another record.” He said it himself: there has never been a master plan.",
+            "cn": "“如果未来几年思想氛围合适，说不定我们还能再创一项纪录。”他自己也说过：从来就没有过什么总体规划。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Pulp: What Do You Do for an Encore?",
+            "cn": "Pulp：接下来有什么新动作？"
+          },
+          {
+            "en": "is on Mubi from 25 September, with special one night only preview screenings at UK and Irish cinemas on 18 September and in US cinemas on 24 September",
+            "cn": "该片将于9月25日在Mubi上线，并将于9月18日在英国和爱尔兰的影院、9月24日在美国的影院举行仅此一晚的特别预映场次。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "st-the-7-best-eyeshadow-colors-for-hazel-eyes",
+    "cat": "明星",
+    "title": "The 7 Best Eyeshadow Colors for Hazel Eyes",
+    "titleZh": "最适合琥珀色眼睛的7种眼影颜色",
+    "source": "Harper's Bazaar · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 4,
+    "url": "https://www.harpersbazaar.com/beauty/makeup/a73668066/best-eyeshadow-colors-for-hazel-eyes/",
+    "cover": "linear-gradient(135deg,#f6c9d8 0%,#a8326a 100%)",
+    "gradient": "linear-gradient(135deg,#f6c9d8 0%,#a8326a 100%)",
+    "coverImg": "assets/covers/st-the-7-best-eyeshadow-colors-for-hazel-eyes.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 70.6,
+    "serverScore": 78.82,
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "It’s the season of maxxing, and the latest thing to get optimized on social media is eye color—more specifically, the best makeup for specific eye colors.",
+            "cn": "现在正是“极致美妆”的季节，社交媒体上最新兴起的优化话题是眼色——更确切地说，是针对特定眼色的最佳妆容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you’re old enough to remember the era of eyeshadow palettes that were curated for each eye color (a special shoutout to Almay and Maybelline for their color-coded palettes), then you know not every color is made equal when it comes to complementing your irises.",
+            "cn": "如果你年纪足够大，还记得那个专为不同眼色精心搭配的眼影盘时代（特别要提一下Almay和Maybelline那些按颜色分类的眼影盘），那么你一定知道，在衬托虹膜方面，并不是所有颜色都能达到同样的效果。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Hazel eyes are the ultimate chameleon among eye colors, since they are not a single color.",
+            "cn": "榛色眼睛是所有眼色中最具变色龙特质的，因为它们并非单一颜色。"
+          },
+          {
+            "en": "“Hazel eyes are so unique because they shift depending on what you wear,” says makeup artist Jamie Greenberg.",
+            "cn": "“榛色眼睛之所以如此独特，是因为它们会随着你的穿搭而呈现不同的效果，”化妆师杰米·格林伯格说道。"
+          },
+          {
+            "en": "“Golds, bronzes, olives, plums, mauves, warm browns, and soft greens all bring out different flecks in the iris.",
+            "cn": "“金色、青铜色、橄榄色、李子色、淡紫色、暖棕色和柔和的绿色，都能衬托出虹膜中不同的斑点。"
+          },
+          {
+            "en": "You can almost choose which color you want to emphasize.” Hazel tends to color-shift, depending on the variant of hazel one has and factors like lighting, the clothes you wear, and makeup.",
+            "cn": "“你几乎可以自己选择想要突出的颜色。”琥珀色眼眸的色调往往会发生变化，这取决于具体是哪种琥珀色，以及光线、穿着的衣服和妆容等因素。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "To bring out one of the colors in hazel eyes, which can range from brown to green, gold, and blue, use shades with a similar undertone to the color you want to emphasize.",
+            "cn": "为了凸显榛色眼睛中的某种颜色（其色调范围从棕色到绿色、金色乃至蓝色不等），请选用与您想要突出的颜色基调相近的色调。"
+          },
+          {
+            "en": "For example, to bring out the gold or green, use warm bronze and coppery shades; to bring out the green, use contrasting colors like purple, magenta, or red-based hues.",
+            "cn": "例如，若要凸显金色或绿色，可选用暖调的青铜色和铜色；若要凸显绿色，则可选用紫色、品红或红色调等对比色。"
+          },
+          {
+            "en": "Lastly, a deep brown will emphasize the brown tones in hazel eyes.",
+            "cn": "最后，深棕色能凸显琥珀色眼睛中的棕色调。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Ready to eyemaxx your hazel eyes?",
+            "cn": "准备好让你的琥珀色眼睛更迷人了吗？"
+          },
+          {
+            "en": "Ahead is a hazel-eye cheat sheet for the best eyeshadows and eyeliners to keep on hand so they pop (no makeup expertise required).",
+            "cn": "下面是一份针对榛色眼睛的速查指南，介绍了一些值得常备的最佳眼影和眼线笔，让你的眼睛更加亮眼（无需专业化妆技巧）。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/st-the-7-best-eyeshadow-colors-for-hazel-eyes-1.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "The colors in this Chanel palette may look intimidating, but fear not.",
+            "cn": "这款香奈儿眼影盘里的颜色看起来可能让人望而生畏，但别担心。"
+          },
+          {
+            "en": "Makeup artist Lila Childs says, “Hazel-eyed people are lucky because they can play with lots of different colors,” so there isn’t a color in this shadow jewel box that won’t make hazel eyes pop.",
+            "cn": "化妆师莉拉·柴尔兹表示：“榛色眼睛的人很幸运，因为他们可以尝试各种不同的颜色”，因此这款眼影宝盒里的每种颜色都能让榛色眼睛更加耀眼。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/st-the-7-best-eyeshadow-colors-for-hazel-eyes-2.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "To make hazel eyes look greener, purple will be your best friend.",
+            "cn": "要想让榛色眼睛显得更绿，紫色就是你的最佳拍档。"
+          },
+          {
+            "en": "While most purples get the job done, “Plum or mauve colors can add a nice contrast,” says Cheyenne Pellicoro, a makeup artist and director of artistry and education at Jones Road Beauty.",
+            "cn": "虽然大多数紫色都能达到效果，但“李子色或淡紫色能营造出不错的对比效果，”琼斯路美容（Jones Road Beauty）的化妆师兼艺术与教育总监夏安·佩利科罗说道。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/st-the-7-best-eyeshadow-colors-for-hazel-eyes-3.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you don’t want to emphasize a specific color but still make your hazel eyes shine, Pellicoro recommends taupe as a neutral middle ground.",
+            "cn": "如果你不想突出某种特定颜色，但仍想让自己的琥珀色眼睛闪闪发光，佩利科罗建议选择灰褐色作为中性的折中选择。"
+          },
+          {
+            "en": "The cool undertones “simply make the eyes look more defined,” she adds.",
+            "cn": "“冷色调‘能让眼睛看起来更立体’，”她补充道。"
+          },
+          {
+            "en": "The slight iridescence of this Jones Road taupe shadow adds an extra sparkle that makes hazel pop.",
+            "cn": "这款琼斯路（Jones Road）灰褐色眼影略带的虹彩光泽，为琥珀色眼眸增添了一抹额外的闪耀，使其更加耀眼。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/st-the-7-best-eyeshadow-colors-for-hazel-eyes-4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "For a subtle hint of color without going full purple disco, Childs loves soft mauve hues, like this creamy liner from Canmake.",
+            "cn": "为了增添一抹若隐若现的色彩，又避免显得像全紫色的迪斯科风格，Childs 特别钟爱柔和的淡紫色调，比如这款来自 Canmake 的奶油色眼线笔。"
+          },
+          {
+            "en": "“Purples overall look amazing with hazel eyes, but you can adjust the intensity and depth according to the depth of your eyes,” she explains.",
+            "cn": "“紫色系总体上非常适合琥珀色眼睛，但你可以根据自己眼睛的深浅来调整颜色的饱和度和深浅，”她解释道。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/st-the-7-best-eyeshadow-colors-for-hazel-eyes-5.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "“To bring out the brown base of the hazel, go for a deep brown shadow,” Greenberg says.",
+            "cn": "“为了凸显榛色眼影中的棕色基调，不妨选择深棕色的眼影，”格林伯格说。"
+          },
+          {
+            "en": "Danessa Myricks Colorfix shadows are aptly titled, as they do not move once placed on the lid while imparting tons of pigment.",
+            "cn": "Danessa Myricks Colorfix 眼影的名字起得恰如其分，因为它们一旦涂在眼皮上就不会脱妆，同时还能呈现出极高的显色度。"
+          },
+          {
+            "en": "This brown paint can be used as eyeshadow across the lid or as eyeliner when applied with an angled brush.",
+            "cn": "这种棕色颜料既可以涂抹在整个眼睑上作为眼影，也可以用斜角刷蘸取后作为眼线使用。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It may seem counterintuitive to use green to make hazel eyes pop, but the warmth of green hues lends a golden glow to hazel that looks ethereal.",
+            "cn": "用绿色来凸显琥珀色眼睛，这听起来似乎有悖常理，但绿色调的暖意能为琥珀色眼睛增添一抹金色的光泽，显得格外迷人。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ai-kimi-maker-moonshot-ai-targets-2b-in-annual-re",
+    "cat": "AI",
+    "title": "Kimi-maker Moonshot AI targets $2B in annual revenue",
+    "titleZh": "Kimi 开发公司 Moonshot AI 计划实现20亿美元的年营收",
+    "source": "TechCrunch AI · 2026-09-11",
+    "date": "2026-09-11",
+    "minutes": 2,
+    "url": "https://techcrunch.com/2026/09/11/kimi-maker-moonshot-ai-targets-2-billion-in-annual-revenue/",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/ai-kimi-maker-moonshot-ai-targets-2b-in-annual-re.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 95.37,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 65.32,
+    "serverScore": 77.16,
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "One of China’s most prominent AI labs, Moonshot AI, believes it can turn its popular open-weight model into serious sales growth.",
+            "cn": "中国最知名的人工智能实验室之一——Moonshot AI——认为，其广受欢迎的开放式权重模型能够为其带来显著的销售增长。"
+          },
+          {
+            "en": "On Friday, Bloomberg reported that the lab is targeting $2 billion in annualized revenue by the end of the year, double the company’s reported revenue run rate for August.",
+            "cn": "周五，彭博社报道称，该实验室的目标是在年底前实现20亿美元的年化营收，这一数字是该公司8月份报告的营收运行率的两倍。"
+          },
+          {
+            "en": "It’s an aggressive goal that reflects the success of the company’s K3 model since its release this summer.",
+            "cn": "这是一个雄心勃勃的目标，反映了该公司K3车型自今年夏天上市以来的成功。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "While K3’s usage figures have declined slightly in recent months, OpenRouter data currently shows as many as 300 billion tokens being generated each day by K3 models on the system.",
+            "cn": "尽管K3的使用量在最近几个月略有下降，但OpenRouter的数据目前显示，系统上的K3模型每天生成的代币数量高达3000亿枚。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Moonshot’s projected revenue is still dwarfed by that of OpenAI and Anthropic, which recent reports put at $40 billion and $65 billion, respectively.",
+            "cn": "Moonshot的预计营收仍远不及OpenAI和Anthropic，据最新报道，这两家公司的营收分别达到400亿美元和650亿美元。"
+          },
+          {
+            "en": "Because Moonshot’s model weights are freely available, the company has far lower margins than its closed-weight competitors.",
+            "cn": "由于Moonshot的模型权重是公开可用的，因此该公司的利润率远低于那些采用闭源权重的竞争对手。"
+          },
+          {
+            "en": "The rising projections show there’s still money to be made from open-weight AI models, even if they’re not as lucrative as closed-weight frontier models.",
+            "cn": "不断上升的预测数据显示，尽管开放权重的人工智能模型不如封闭权重的前沿模型那么赚钱，但从中仍可获利。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Still, Moonshot’s model development practices remain controversial — if not downright illegal.",
+            "cn": "尽管如此，Moonshot的模型开发做法仍备受争议——甚至可以说完全违法。"
+          },
+          {
+            "en": "Earlier this week, Anthropic accused the company of a long-running model distillation campaign that routed nearly 300,000 requests from Kimi directly to Claude Opus, effectively serving Opus in place of Kimi’s own models.",
+            "cn": "本周早些时候，Anthropic指控该公司长期开展模型蒸馏活动，将近30万次来自Kimi的请求直接转发至Claude Opus，实际上是用Opus取代了Kimi自身的模型。"
+          },
+          {
+            "en": "In total, more than 23 million responses were collected from Anthropic models for use in Moonshot’s training, the company alleged.",
+            "cn": "据该公司称，共从Anthropic模型中收集了超过2300万条回复，用于Moonshot的训练。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Last day to book an exhibit table is September 18.",
+            "cn": "预订展位的截止日期是9月18日。"
+          },
+          {
+            "en": "Don’t miss out on high-impact leads, investor access, and a brand spotlight in Disrupt’s Expo Hall.",
+            "cn": "千万不要错过Disrupt展览厅里那些极具影响力的潜在客户、与投资者的接触机会以及品牌展示的良机。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Every weekday and Sunday, you can get the best of TechCrunch’s coverage.",
+            "cn": "每个工作日和周日，您都能阅读到TechCrunch的精选报道。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "TechCrunch Mobility is your destination for transportation news and insight.",
+            "cn": "TechCrunch Mobility 是您获取交通领域新闻和洞察的理想平台。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Startups are the core of TechCrunch, so get our best coverage delivered weekly.",
+            "cn": "初创企业是TechCrunch的核心，因此请订阅我们的每周精选报道。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Provides movers and shakers with the info they need to start their day.",
+            "cn": "为各界领军人物提供开启新一天所需的资讯。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ai-kimi-maker-moonshot-ai-targets-2b-in-annual-re-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-kimi-maker-moonshot-ai-targets-2b-in-annual-re-2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/ai-kimi-maker-moonshot-ai-targets-2b-in-annual-re-3.jpg",
+        "cap": ""
       }
     ]
   }
