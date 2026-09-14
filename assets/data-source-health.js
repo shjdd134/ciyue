@@ -9,17 +9,17 @@ const DATA_SOURCE_HEALTH = {
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 160,
-      "lastAt": "2026-09-14T00:32:38.442Z",
+      "lastLatencyMs": 1396,
+      "lastAt": "2026-09-13T12:41:53.390Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 958,
-      "lastAt": "2026-09-14T00:32:48.764Z",
+      "lastLatencyMs": 900,
+      "lastAt": "2026-09-13T12:44:41.294Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
       "disabled": false
@@ -33,148 +33,148 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:32:48.764Z"
+    "updatedAt": "2026-09-13T12:44:41.294Z"
   },
   "FourFourTwo": {
     "url": "https://www.fourfourtwo.com/feeds.xml",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 108,
-      "lastAt": "2026-09-14T00:32:38.565Z",
+      "lastLatencyMs": 19175,
+      "lastAt": "2026-09-13T12:42:12.577Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 2,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 28,
-      "lastAt": "2026-09-14T00:32:49.689Z",
+      "lastLatencyMs": 4136,
+      "lastAt": "2026-09-13T12:45:43.401Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 12,
       "disabled": false
     },
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 5,
-      "lastAt": "2026-09-14T00:35:30.707Z",
+      "lastLatencyMs": 260,
+      "lastAt": "2026-09-13T12:48:04.185Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 1,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:35:30.707Z"
+    "updatedAt": "2026-09-13T12:48:04.185Z"
   },
   "Opta Analyst": {
     "url": "https://theanalyst.com/feed",
     "rss": {
-      "ok": true,
-      "lastStatus": 200,
-      "lastLatencyMs": 85,
-      "lastAt": "2026-09-14T00:32:38.657Z",
-      "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "ok": false,
+      "lastStatus": 0,
+      "lastLatencyMs": 25014,
+      "lastAt": "2026-09-13T12:43:16.871Z",
+      "consecutiveFailures": 1,
+      "consecutiveSuccesses": 0,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 10,
-      "lastAt": "2026-09-14T00:32:50.068Z",
+      "lastLatencyMs": 725,
+      "lastAt": "2026-09-13T12:39:01.178Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 12,
       "disabled": false
     },
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 61,
-      "lastAt": "2026-09-14T00:35:34.762Z",
+      "lastLatencyMs": 2072,
+      "lastAt": "2026-09-13T12:28:58.418Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 7,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:35:34.762Z"
+    "updatedAt": "2026-09-13T12:43:16.871Z"
   },
   "TechCrunch AI": {
     "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 89,
-      "lastAt": "2026-09-14T00:32:38.752Z",
+      "lastLatencyMs": 1405,
+      "lastAt": "2026-09-13T12:43:18.276Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 14,
-      "lastAt": "2026-09-14T00:32:50.324Z",
+      "lastLatencyMs": 167,
+      "lastAt": "2026-09-13T12:45:44.374Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 14,
+      "consecutiveSuccesses": 16,
       "disabled": false
     },
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 14,
-      "lastAt": "2026-09-14T00:35:35.678Z",
+      "lastLatencyMs": 573,
+      "lastAt": "2026-09-13T12:48:13.884Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 5,
+      "consecutiveSuccesses": 10,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:35:35.678Z"
+    "updatedAt": "2026-09-13T12:48:13.884Z"
   },
   "AI News": {
     "url": "https://www.artificialintelligence-news.com/feed/",
     "rss": {
       "ok": true,
-      "lastStatus": 202,
-      "lastLatencyMs": 562,
-      "lastAt": "2026-09-14T00:32:39.315Z",
+      "lastStatus": 200,
+      "lastLatencyMs": 1763,
+      "lastAt": "2026-09-13T12:43:20.040Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
-      "ok": null,
-      "lastStatus": null,
-      "lastLatencyMs": null,
-      "lastAt": "",
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 247,
+      "lastAt": "2026-09-13T12:45:47.550Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 0,
+      "consecutiveSuccesses": 16,
       "disabled": false
     },
     "image": {
-      "ok": null,
-      "lastStatus": null,
-      "lastLatencyMs": null,
-      "lastAt": "",
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 299,
+      "lastAt": "2026-09-13T12:49:35.023Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 0,
+      "consecutiveSuccesses": 6,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:32:39.315Z"
+    "updatedAt": "2026-09-13T12:49:35.023Z"
   },
   "Dan Koe": {
     "url": "https://letters.thedankoe.com/feed",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 239,
-      "lastAt": "2026-09-14T00:32:39.554Z",
+      "lastLatencyMs": 1433,
+      "lastAt": "2026-09-13T12:43:21.474Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 243,
-      "lastAt": "2026-09-14T00:32:53.504Z",
+      "lastLatencyMs": 307,
+      "lastAt": "2026-09-13T12:45:49.531Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
       "disabled": false
@@ -188,24 +188,24 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:32:53.504Z"
+    "updatedAt": "2026-09-13T12:45:49.531Z"
   },
   "Farnam Street": {
     "url": "https://fs.blog/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 244,
-      "lastAt": "2026-09-14T00:32:39.800Z",
+      "lastLatencyMs": 1127,
+      "lastAt": "2026-09-13T12:43:22.602Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 41,
-      "lastAt": "2026-09-14T00:32:54.273Z",
+      "lastLatencyMs": 1079,
+      "lastAt": "2026-09-13T12:45:53.559Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
       "disabled": false
@@ -213,32 +213,32 @@ const DATA_SOURCE_HEALTH = {
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 177,
-      "lastAt": "2026-09-14T00:35:27.732Z",
+      "lastLatencyMs": 535,
+      "lastAt": "2026-09-13T12:47:56.832Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 10,
+      "consecutiveSuccesses": 20,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:35:27.732Z"
+    "updatedAt": "2026-09-13T12:47:56.832Z"
   },
   "More To That": {
     "url": "https://moretothat.com/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 115,
-      "lastAt": "2026-09-14T00:32:39.916Z",
+      "lastLatencyMs": 1006,
+      "lastAt": "2026-09-13T12:43:26.760Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 392,
-      "lastAt": "2026-09-14T00:32:57.673Z",
+      "lastLatencyMs": 696,
+      "lastAt": "2026-09-13T12:45:59.271Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 8,
+      "consecutiveSuccesses": 16,
       "disabled": false
     },
     "image": {
@@ -250,26 +250,26 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:32:57.673Z"
+    "updatedAt": "2026-09-13T12:45:59.271Z"
   },
   "Ness Labs": {
     "url": "https://nesslabs.com/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 420,
-      "lastAt": "2026-09-14T00:32:40.338Z",
+      "lastLatencyMs": 1802,
+      "lastAt": "2026-09-13T12:43:28.563Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 44,
-      "lastAt": "2026-09-14T00:33:30.941Z",
+      "lastLatencyMs": 236,
+      "lastAt": "2026-09-13T12:46:01.178Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 8,
+      "consecutiveSuccesses": 16,
       "disabled": false
     },
     "image": {
@@ -281,24 +281,24 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:33:30.941Z"
+    "updatedAt": "2026-09-13T12:46:01.178Z"
   },
   "Aeon": {
     "url": "https://aeon.co/feed.rss",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 143,
-      "lastAt": "2026-09-14T00:32:40.482Z",
+      "lastLatencyMs": 2055,
+      "lastAt": "2026-09-13T12:43:30.619Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 45,
-      "lastAt": "2026-09-14T00:33:31.812Z",
+      "lastLatencyMs": 97,
+      "lastAt": "2026-09-13T12:46:02.078Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
       "disabled": false
@@ -312,26 +312,57 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:33:31.812Z"
+    "updatedAt": "2026-09-13T12:46:02.078Z"
   },
   "Psyche": {
     "url": "https://psyche.co/feed",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 267,
-      "lastAt": "2026-09-14T00:32:40.749Z",
+      "lastLatencyMs": 754,
+      "lastAt": "2026-09-13T12:43:31.374Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 35,
-      "lastAt": "2026-09-14T00:33:32.700Z",
+      "lastLatencyMs": 104,
+      "lastAt": "2026-09-13T12:46:02.841Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
+      "disabled": false
+    },
+    "image": {
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 589,
+      "lastAt": "2026-09-13T12:47:52.167Z",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 8,
+      "disabled": false
+    },
+    "updatedAt": "2026-09-13T12:47:52.167Z"
+  },
+  "The Guardian": {
+    "url": "https://www.theguardian.com/film/rss",
+    "rss": {
+      "ok": false,
+      "lastStatus": 0,
+      "lastLatencyMs": 10705,
+      "lastAt": "2026-09-13T12:44:06.916Z",
+      "consecutiveFailures": 4,
+      "consecutiveSuccesses": 0,
+      "disabled": true
+    },
+    "article": {
+      "ok": null,
+      "lastStatus": null,
+      "lastLatencyMs": null,
+      "lastAt": "",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 0,
       "disabled": false
     },
     "image": {
@@ -343,117 +374,86 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:33:32.700Z"
-  },
-  "The Guardian": {
-    "url": "https://www.theguardian.com/film/rss",
-    "rss": {
-      "ok": true,
-      "lastStatus": 200,
-      "lastLatencyMs": 584,
-      "lastAt": "2026-09-14T00:32:41.334Z",
-      "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
-      "disabled": false
-    },
-    "article": {
-      "ok": true,
-      "lastStatus": 200,
-      "lastLatencyMs": 169,
-      "lastAt": "2026-09-14T00:33:36.455Z",
-      "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
-      "disabled": false
-    },
-    "image": {
-      "ok": true,
-      "lastStatus": 200,
-      "lastLatencyMs": 21,
-      "lastAt": "2026-09-14T00:35:32.083Z",
-      "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
-      "disabled": false
-    },
-    "updatedAt": "2026-09-14T00:35:32.083Z"
+    "updatedAt": "2026-09-13T12:44:06.916Z"
   },
   "Vanity Fair": {
     "url": "https://www.vanityfair.com/feed/rss",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 124,
-      "lastAt": "2026-09-14T00:32:41.461Z",
+      "lastLatencyMs": 824,
+      "lastAt": "2026-09-13T12:44:07.740Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 197,
-      "lastAt": "2026-09-14T00:33:40.858Z",
+      "lastLatencyMs": 264,
+      "lastAt": "2026-09-13T12:46:04.704Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
       "disabled": false
     },
     "image": {
-      "ok": null,
-      "lastStatus": null,
-      "lastLatencyMs": null,
-      "lastAt": "",
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 624,
+      "lastAt": "2026-09-13T12:48:13.096Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 0,
+      "consecutiveSuccesses": 2,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:33:40.858Z"
+    "updatedAt": "2026-09-13T12:48:13.096Z"
   },
   "Rolling Stone": {
     "url": "https://www.rollingstone.com/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 99,
-      "lastAt": "2026-09-14T00:32:41.562Z",
+      "lastLatencyMs": 569,
+      "lastAt": "2026-09-13T12:44:08.310Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 13,
-      "lastAt": "2026-09-14T00:33:41.061Z",
+      "lastLatencyMs": 176,
+      "lastAt": "2026-09-13T12:46:05.787Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 9,
+      "consecutiveSuccesses": 16,
       "disabled": false
     },
     "image": {
-      "ok": null,
-      "lastStatus": null,
-      "lastLatencyMs": null,
-      "lastAt": "",
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 346,
+      "lastAt": "2026-09-13T12:48:18.031Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 0,
+      "consecutiveSuccesses": 3,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:33:41.061Z"
+    "updatedAt": "2026-09-13T12:48:18.031Z"
   },
   "ELLE": {
     "url": "https://www.elle.com/rss/all.xml/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 167,
-      "lastAt": "2026-09-14T00:32:41.730Z",
+      "lastLatencyMs": 2879,
+      "lastAt": "2026-09-13T12:44:11.190Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 384,
-      "lastAt": "2026-09-14T00:33:48.490Z",
+      "lastLatencyMs": 686,
+      "lastAt": "2026-09-13T12:46:43.837Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 16,
       "disabled": false
@@ -467,37 +467,99 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:33:48.490Z"
+    "updatedAt": "2026-09-13T12:46:43.837Z"
   },
   "Harper's Bazaar": {
     "url": "https://www.harpersbazaar.com/rss/all.xml/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 286,
-      "lastAt": "2026-09-14T00:32:42.018Z",
+      "lastLatencyMs": 4116,
+      "lastAt": "2026-09-13T12:44:38.586Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 1,
+      "consecutiveSuccesses": 4,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 108,
-      "lastAt": "2026-09-14T00:33:58.837Z",
+      "lastLatencyMs": 650,
+      "lastAt": "2026-09-13T12:47:14.685Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 7,
       "disabled": false
     },
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 74,
-      "lastAt": "2026-09-14T00:35:33.754Z",
+      "lastLatencyMs": 236,
+      "lastAt": "2026-09-13T12:49:31.530Z",
       "consecutiveFailures": 0,
       "consecutiveSuccesses": 6,
       "disabled": false
     },
-    "updatedAt": "2026-09-14T00:35:33.754Z"
+    "updatedAt": "2026-09-13T12:49:31.530Z"
+  },
+  "Vogue US": {
+    "url": "",
+    "rss": {
+      "ok": null,
+      "lastStatus": null,
+      "lastLatencyMs": null,
+      "lastAt": "",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 0,
+      "disabled": false
+    },
+    "article": {
+      "ok": null,
+      "lastStatus": null,
+      "lastLatencyMs": null,
+      "lastAt": "",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 0,
+      "disabled": false
+    },
+    "image": {
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 1918,
+      "lastAt": "2026-09-14T13:14:27.149Z",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 123,
+      "disabled": false
+    },
+    "updatedAt": "2026-09-14T13:14:27.149Z"
+  },
+  "British Vogue": {
+    "url": "",
+    "rss": {
+      "ok": null,
+      "lastStatus": null,
+      "lastLatencyMs": null,
+      "lastAt": "",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 0,
+      "disabled": false
+    },
+    "article": {
+      "ok": null,
+      "lastStatus": null,
+      "lastLatencyMs": null,
+      "lastAt": "",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 0,
+      "disabled": false
+    },
+    "image": {
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 1486,
+      "lastAt": "2026-09-14T13:13:54.191Z",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 17,
+      "disabled": false
+    },
+    "updatedAt": "2026-09-14T13:13:54.191Z"
   }
 };

@@ -8,7 +8,8 @@
  *       1) 缓存里有、且缓存时间不足 1 小时（看响应 Date 头）→ 零网络请求，直接用；
  *       2) 过期或未命中 → 走网络协商（ETag / Last-Modified）：
  *            200 → 更新缓存并返回；304（内容没变）→ 继续用缓存副本；
- *          网络失败（离线）→ 回落缓存。任何时刻都不会把空响应交给页面。
+ *          网络失败（离线）→ 回落缓存；缓存也没有 → 离线兜底页 / 504。
+ *          任何时刻都不会把 undefined 交给 respondWith（那会变成网络错误页）。
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
@@ -20,6 +21,31 @@ const isFresh = res => {
   const d = Date.parse(res.headers.get("date") || "");
   return Number.isFinite(d) && Date.now() - d < FRESH_MS;
 };
+
+/* 离线且没有任何缓存的兜底。必须返回一个真正的 Response：
+ * 原来 swr() 在这种情况下会解析成 undefined，而 respondWith(undefined) 会被浏览器
+ * 当成网络错误 —— 外层 .catch(() => caches.match("index.html")) 也救不了，
+ * 因为那不是 reject，是「成功拿到了一个 undefined」。 */
+const OFFLINE_HTML = `<!doctype html><html lang="zh-CN"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>词阅 · 离线</title>
+<body style="margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center;
+background:#F7F8FC;color:#2D3436;font:16px/1.7 -apple-system,'PingFang SC',sans-serif;text-align:center">
+<div><div style="font-size:44px">📵</div><p style="margin:12px 0 4px;font-weight:600">当前处于离线状态</p>
+<p style="margin:0;color:#8A8F98;font-size:14px">这篇文章还没缓存到本地<br>联网后重新打开即可</p></div></body></html>`;
+
+function offlineResponse(req) {
+  if (req.mode === "navigate") {
+    return caches.match("index.html").then(hit =>
+      hit || new Response(OFFLINE_HTML, {
+        status: 200, headers: { "Content-Type": "text/html; charset=utf-8" },
+      }));
+  }
+  return Promise.resolve(new Response("offline", {
+    status: 504, statusText: "Offline",
+    headers: { "Content-Type": "text/plain; charset=utf-8" },
+  }));
+}
 
 async function swr(req) {
   /* caches.match 不指定缓存名：命中旧代缓存也算，平滑过渡 */
@@ -37,7 +63,9 @@ async function swr(req) {
     }
     return hit || res;
   }).catch(() => hit);
-  return hit || net;   // 有过期缓存也先回，后台刷新
+  /* 有过期副本先回（后台继续刷新）；没有就等网络；网络也拿不到（离线首访）
+   * 才落到离线兜底。任一分支都必须给出 Response，永不返回 undefined。 */
+  return hit || (await net) || (await offlineResponse(req));
 }
 
 /* 内容在后台更新完成：广播给打开中的页面 */
@@ -67,11 +95,8 @@ self.addEventListener("fetch", e => {
   try { url = new URL(req.url); } catch (err) { return; }
   if (url.origin !== location.origin) return;   // 只接管本站资源
 
-  /* 页面导航与资源同一策略；导航离线时兜底缓存首页 */
-  if (req.mode === "navigate") {
-    e.respondWith(swr(req).catch(() => caches.match("index.html")));
-    return;
-  }
-
+  /* 页面导航与静态资源同一策略。离线兜底已收进 swr() 内部（offlineResponse），
+   * 这里不再挂 .catch —— 原来那条 catch 是个安慰剂：swr 离线无缓存时是 resolve
+   * 成 undefined 而不是 reject，catch 根本不会触发，页面照样白屏。 */
   e.respondWith(swr(req));
 });
