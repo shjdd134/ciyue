@@ -1217,7 +1217,7 @@ function renderMe() {
         中学基础：KyleBing/english-vocabulary 分级词库；其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。<br>
         真题词频：liut969/CET《英语四级真题高频词汇》（近 5 年 30 套真题统计）· exam-data/CETVocabulary（约 200 套试卷词频，CC BY-NC-SA 4.0）。<br>
         单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章。<br>
-        阅读文章均为外刊公开内容摘要，版权归原媒体所有，正文可一键跳转原文。
+        阅读文章均为外刊公开内容摘要（明星经典图集来自 Vogue 公开档案页），版权归原媒体所有，正文可一键跳转原文。
       </div>
       <div style="height:6px"></div>
     </div>`;
