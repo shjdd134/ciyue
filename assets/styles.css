@@ -377,6 +377,22 @@ body {
   font-weight: 600;
 }
 
+/* 例句按需加载的占位：沿用同一套 .example-box 外壳，加载完成时高度不跳 */
+.example-box.loading { flex-direction: row; align-items: center; gap: 10px; }
+.ex-hint { font-size: 12px; color: var(--text-2); }
+.mini-btn {
+  margin-left: auto;
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-family: var(--font-cn);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
 /* ---------- 操作按钮 ---------- */
 .answer-btn {
   flex: 1;
@@ -396,24 +412,9 @@ body {
 .answer-btn.fuzzy { background: var(--amber-bg); color: var(--amber); box-shadow: inset 0 0 0 1px rgba(201, 126, 5, .16); }
 .answer-btn.yes { background: var(--green-bg); color: var(--green); box-shadow: inset 0 0 0 1px rgba(14, 159, 110, .18); }
 
-/* ---------- 阅读正文 ---------- */
-.para { display: flex; flex-direction: column; gap: 10px; }
-.para .en {
-  font-family: var(--font-en);
-  font-size: 15px;
-  line-height: 26px;
-}
-.para .cn {
-  background: var(--brand-deep);
-  border-left: 3px solid var(--brand);
-  border-radius: var(--r-sm);
-  padding: 12px 14px;
-  font-size: 13px;
-  line-height: 21px;
-  color: var(--text-2);
-}
-.para .en.large { font-size: 17px; line-height: 29px; }
-.para .en.xlarge { font-size: 19px; line-height: 32px; }
+/* ---------- 阅读正文 ----------
+ * 正文字号/行高/左右留白统一由 .read-scroll 上的 CSS 变量控制（见「阅读：排版基础」段），
+ * 旧的一套 .para/.en 尺寸（15/17/19px）已随逐句分行一起删掉，避免两套数字打架。 */
 
 .kw {
   color: var(--brand);
@@ -483,11 +484,29 @@ body {
 
 .read-top, .read-progress { flex: none; }
 
-/* 阅读页滚动容器：复用 .view 的 overflow-y:auto，底部留出 FAB 空间 */
-.read-scroll { padding: 14px 20px 110px; gap: 18px; }
+/* 阅读页滚动容器：复用 .view 的 overflow-y:auto，底部留出 FAB 空间。
+ *
+ * 左右留白只在这里定义一次（--rd-pad），正文/标题/读完卡都从它取。
+ * 为什么：原来是 .read-scroll 的 20px 和 .read-body 的 24px 叠加，
+ * 手机上一行正文两侧各让掉 40px（390px 屏只剩约 310px 宽），换行密、读着累。
+ * 两层各写一半 padding，谁改都不会想到另一层还在加 —— 现在只有一个数。
+ *
+ * .view.read-scroll 的选择器要压过媒体查询里的 .view{padding}，
+ * 否则平板上会用回 .view 的横向 16px，又变回两层叠加。 */
+.view.read-scroll { padding: 12px 0 110px; }
+.read-scroll {
+  --rd-pad: 22px;
+  /* 字号三档：英文 19/21/24px，行高按 1.7 倍取整；中文同比跟进，
+     不再固定 13.5px —— 英文调到最大而中文不动，双语对照会一轻一重。 */
+  --rd-en: 19px; --rd-en-lh: 32px;
+  --rd-cn: 14px; --rd-cn-lh: 22px;
+  gap: 18px;
+}
+.read-scroll.fs-1 { --rd-en: 21px; --rd-en-lh: 36px; --rd-cn: 15.5px; --rd-cn-lh: 24px; }
+.read-scroll.fs-2 { --rd-en: 24px; --rd-en-lh: 41px; --rd-cn: 17px; --rd-cn-lh: 27px; }
 
 .read-hero {
-  padding: 8px 24px 20px;
+  padding: 8px var(--rd-pad) 16px;
   display: flex; flex-direction: column; gap: 12px;
 }
 .read-hero .pills { display: flex; gap: 8px; }
@@ -573,33 +592,31 @@ body {
   white-space: nowrap; pointer-events: none;
 }
 
+/* 正文排版：一段话连续排下去
+ *
+ * 旧结构是「每个句子一个 flex 块」，于是一段话被拆成竖排的句子清单：
+ * 英文再长也只在句末换行，句间还有 10px 空隙 + 2px 间距，读起来一顿一顿。
+ * 现在 .para 是段落级的文本流，句子是内联 span，句与句之间只有空格 ——
+ * 换行由行宽自然决定（「一段文字能自然连读，句间没有不必要的视觉停顿」）。
+ *
+ * 逐句译文 .cn 在段内是块级元素：它会打断文本流，把译文插在该句下方，
+ * 这正是双语对照需要的效果；隐藏中文时它不占位，段落仍是连续的一段。
+ */
 .read-body {
-  padding: 20px 24px 8px;
-  display: flex; flex-direction: column; gap: 18px;
+  padding: 16px var(--rd-pad) 8px;
 }
-.read-body .para { display: flex; flex-direction: column; gap: 10px; }
-.read-body .para .sentence { display: flex; flex-direction: column; gap: 5px; }
-.read-body .para .sentence + .sentence { margin-top: 2px; }
-.read-body .para .en {
+.read-body .para {
   font-family: var(--font-read);
-  font-size: 17px; line-height: 30px; letter-spacing: .1px;
+  font-size: var(--rd-en); line-height: var(--rd-en-lh);
+  letter-spacing: .1px;
   color: var(--text-1);
-  position: relative;
+  margin: 0 0 18px;
 }
-.read-body .para .en.large { font-size: 19px; line-height: 33px; }
-.read-body .para .en.xlarge { font-size: 22px; line-height: 38px; }
-.read-body .para.first .en::first-letter {
-  float: left;
-  font-family: var(--font-read);
-  font-size: 46px; line-height: 40px; padding: 3px 10px 0 0;
-  font-weight: 700; color: var(--brand);
-}
-/* 段间装饰：除首段外，每段顶部居中放一串小点（杂志常见分隔符） */
-.read-body .para:not(.first)::before {
-  content: "· · ·"; display: block; text-align: center;
-  font-size: 12px; letter-spacing: 10px; text-indent: 10px;
-  color: var(--text-3); opacity: .55; margin: 2px 0 8px;
-}
+.read-body .para:last-child { margin-bottom: 0; }
+.read-body .para .sentence { display: inline; }
+/* 句子的热区：整句可点（选句 / 在隐藏中文时点出该句译文），
+   行内元素竖向内边距不会撑开行距，所以只做圆角与背景提示 */
+.read-body .para .sentence.sel { background: rgba(108, 92, 231, .07); border-radius: 4px; }
 /* 隐藏译文模式：点单句显该句译文；段落内其他句子保持收起 */
 .read-scroll.no-cn .sentence { cursor: pointer; }
 .read-scroll.no-cn .para .cn { display: none; }
@@ -608,27 +625,36 @@ body {
 .read-scroll.no-cn .sentence.peek .cn {
   display: block; animation: peekIn .28s ease;
 }
-.read-scroll.no-cn .sentence:hover .en { text-shadow: 0 0 1px var(--line); }
 @keyframes peekIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: none; }
 }
+/* 逐句译文：块级，插在该句下方；字号跟随正文档位 */
 .read-body .para .cn {
-  font-size: 13.5px; line-height: 22px; color: var(--text-2);
+  display: block;
+  font-family: var(--font-cn);
+  font-size: var(--rd-cn); line-height: var(--rd-cn-lh);
+  color: var(--text-2);
   background: rgba(108, 92, 231, .05);
   border-left: 2px solid var(--brand);
   padding: 6px 0 6px 12px;
   border-radius: 2px;
+  margin: 6px 0 10px;
 }
-/* 单句点读小喇叭 */
+/* 单句朗读小喇叭：默认不出现。
+ * 旧版每句都挂一个半透明喇叭，长文里满屏小图标 —— 读的时候是噪音。
+ * 现在只在「选中这一句」或鼠标停在该句上时出现（触摸屏靠点选，桌面靠悬停）。 */
 .para-tts {
   display: inline-flex; align-items: center; justify-content: center;
-  margin-left: 6px; width: 22px; height: 22px; border-radius: 11px;
-  color: var(--text-3); opacity: .5; cursor: pointer;
+  margin-left: 5px; width: 22px; height: 22px; border-radius: 11px;
+  color: var(--text-3); opacity: 0; pointer-events: none;
   vertical-align: middle; transition: opacity .15s, color .15s, background .15s;
+  cursor: pointer;
 }
-.para-tts:hover { opacity: 1; color: var(--brand); background: var(--brand-soft); }
-.para.playing .para-tts { opacity: 1; color: var(--brand); background: var(--brand-soft); }
+.sentence.sel > .para-tts,
+.sentence:hover > .para-tts,
+.para.playing .para-tts { opacity: 1; pointer-events: auto; }
+.para-tts:hover, .sentence.sel > .para-tts { color: var(--brand); background: var(--brand-soft); }
 
 /* ---------- 正文内嵌配图 ---------- */
 .read-body .para-img {
@@ -654,7 +680,7 @@ body {
 }
 
 .read-finish {
-  margin: 24px 24px 8px;
+  margin: 24px var(--rd-pad) 8px;
   padding: 20px;
   background: linear-gradient(135deg, #F1EFFE 0%, #FBFAFF 100%);
   border-radius: 18px;
@@ -720,6 +746,9 @@ body {
 .fab-bar button.active { background: var(--brand); color: #fff; }
 .fab-bar button:hover { background: var(--brand-soft); }
 .fab-bar button.active:hover { background: var(--brand); }
+/* 阅读设置入口用「Aa」字样：齿轮/太阳图标在这个尺寸下会读成「亮度」，
+   而它管的是字号 + 对照 + 底色三件事 */
+.fab-aa { font-family: var(--font-read); font-weight: 700; font-size: 16px; line-height: 1; letter-spacing: .5px; }
 
 .read-source-link {
   display: inline-flex; align-items: center; gap: 4px;
@@ -743,6 +772,12 @@ body {
   animation: fade .2s ease;
 }
 @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+/* 阅读设置面板要让正文当预览：遮罩只压暗一点、不模糊。
+   默认遮罩带 blur(3px)，那样「改一下就看见效果」会变成隔着毛玻璃猜。 */
+.sheet-mask.soft {
+  background: rgba(10, 10, 20, .18);
+  backdrop-filter: none; -webkit-backdrop-filter: none;
+}
 
 .sheet {
   position: absolute;
@@ -776,6 +811,20 @@ body {
 .sheet-btns .b { background: var(--card-2); color: var(--text); font-weight: 500; }
 .sheet-btns .c { background: var(--card-2); color: var(--text-2); font-weight: 500; }
 .sheet-btns .c[aria-pressed="true"] { background: var(--brand-soft); color: var(--brand); }
+
+/* 阅读设置浮层：字号 / 中文对照 / 底色 三组直接点选。
+ * 面板压在正文上方但正文照常可见 —— 改一下就当下看到效果，不用来回开关面板。 */
+.rd-set { display: flex; flex-direction: column; gap: 14px; }
+.rd-set .rd-row { display: flex; flex-direction: column; gap: 7px; }
+.rd-set .rd-lab { font-family: var(--font-cn); font-size: 12px; color: var(--text-2); }
+.rd-set .rd-segs { display: flex; gap: 6px; }
+.rd-set .rd-seg {
+  flex: 1; height: 40px; border: 1px solid var(--border); border-radius: 12px;
+  background: var(--card-2); color: var(--text-2);
+  font-family: var(--font-cn); font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.rd-set .rd-seg.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
 
 /* ---------- 排序面板 ---------- */
 .sort-opt {
