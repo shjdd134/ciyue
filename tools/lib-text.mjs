@@ -3,10 +3,16 @@
  * 抓取流水线（tools/ingest.mjs）与数据修复（tools/fix-text.mjs）共用同一套规则，
  * 保证「新抓的」和「已存在的」文章走同样的清洗标准。
  *
- * 处理三类问题：
+ * 处理四类问题：
  *   1. 机器翻译残留：有道的 <s:N> / <e:N> 占位符、中文里的空格错位
  *   2. 网页垃圾：源站把广告脚本、相关阅读导航塞进 <p>，被当作正文抓了进来
  *   3. 不可见字符：LRM/RLM、零宽空格、软连字符等
+ *   4. 正文段落判定与断句（2.5 / 2.6 节）：`goodPara` + `splitSentences`。
+ *      这两样原在 ingest.mjs，2026-09-14 搬来共享 —— **因为「有多少正文」这件事
+ *      被两处各算了一遍并且算出了两个数**：明星栏目历史通道的候选清单报 1035 词、
+ *      真入库实测 178 词，一篇够格的图集被清单放行、被入库拒收。
+ *      凡是要数正文词数的地方（清单 `measure`、入库 `classics()`、RSS 主流程）
+ *      都必须从这里拿尺子，别再各写一份。
  */
 
 import fs from "node:fs";
@@ -46,6 +52,118 @@ export function stripInlineJunk(t) {
   if (m < 0) return s;
   return s.slice(0, m).replace(/[\s:：,，;；、\-–—(（]+$/, "").trim();
 }
+
+/* ---------------- 2.5 段落质量判定（正文 / 噪声） ----------------
+ *
+ * 这一段原先长在 `ingest.mjs` 里。搬过来的原因是一次**实测口径漂移**：
+ * 明星栏目「历史通道」的候选清单（`lib-classics.mjs` 的 `measure`）与真正入库
+ * （`ingest.mjs` 的 `classics()`）各数各的正文词数，结果碧昂丝那篇在清单上报
+ * **1035 词**、入库实测只有 **178 词**，被「正文 ≥300 词」当场跳过 —— 清单说
+ * 「这篇能入」，真跑却被拒，看起来像随机丢数据。
+ * 根因就是这里：清单只做了「排除图注副本」的粗筛，入库还要过下面这套段落质量
+ * 判定 + 断句过滤。同一把尺子必须只有一份，所以连 `splitSentences` 一起搬来。
+ *
+ * 判定顺序（任何一条命中即整段丢弃）：长度 → 字母数 → 站点推广话术 → 广告脚本
+ * → 导航前缀 → 导航条形状 → 竖线/短标题。 */
+
+const BOILER = [
+  /\bchrome browser\b/i, /\baccessibilit/i, /\bsubscri(b|pt)/i, /\bsign up\b/i, /\bnewsletter\b/i,
+  /\bfollow us\b/i, /\bshare (this|on)\b/i, /\bclick here\b/i, /\bread more\b/i, /\badvertisement\b/i,
+  /\ball rights reserved\b/i, /\bcopyright\b/i, /\bphoto(graph)? (by|credit)/i, /\bgetty images\b/i,
+  /\bwatch:|\bVIDEO\b/, /^\(?Image|^Credit:/i, /\bterms of (use|service)\b/i, /\bprivacy policy\b/i,
+  /\bthis article (was|has been)\b/i, /\bplease use\b/i, /\bfor more (news|information)\b/i,
+  /\brelated:|^More from|^Read next/i, /\bsupport our journalism\b/i, /\bdownload the\b/i,
+  /* TechCrunch 每篇文章头部都挂着大会推广段 */
+  /^Disrupt \d{4}:/i, /\btake over \d+ industry stages\b/i,
+  /* 各站点的浏览器/兼容性提示与推广位（CBS 等会把它们塞进 <p>） */
+  /\bbrowser is not fully supported\b/i, /\bupgrade to a modern browser\b/i, /\bmicrosoft\.com\/edge\b/i,
+  /\boptimal experience\b/i, /\bavailable to download\b/i, /\bmore than \d+ languages\b/i,
+  /\bskip to (main )?content\b/i, /\benable javascript\b/i, /\byour (browser|device) (does not|doesn't)\b/i,
+  /\bcookie(s)? (policy|settings|preferences)\b/i, /\bmanage your (privacy|preferences)\b/i,
+  /\bthis (site|website) is protected by\b/i, /\bwe use cookies\b/i, /\bconsent\b/i,
+  /* 时尚/美妆媒体：导购免责声明与栏目推广 */
+  /\bevery item on this page\b/i, /\bwe may earn (a )?commission\b/i, /\bwe independently (select|chose|test)/i,
+  /\bindependently (selected|evaluated|tested) by our\b/i, /\bif you buy from a link\b/i,
+  /\ball products are independently/i, /\bcontinue reading below\b/i, /\bwe only recommend (products|things)\b/i,
+  /\bshopping (editor|director|team) (picks|approved)\b/i, /\bprice (and|or) availability\b/i,
+  /\bwhy trust us\b/i, /\byou may also like\b/i, /\bsubscribe to (our|the) newsletter\b/i,
+  /\bwhen you purchase through links on (our|the) site\b/i, /\bwe may earn an affiliate commission\b/i,
+  /\bget full access to premium articles\b/i, /\bexclusive features and a growing list of member rewards\b/i,
+  /* 征订/许可类话术（HistoryExtra、Immediate Media 等会把它们写进正文 <p>） */
+  /\bwould you like to receive\b/i, /\bcarefully selected partners\b/i, /\bfrom our publisher\b/i,
+  /\boffers from (our|the) (publisher|partners)\b/i, /\bkeep up with (the )?latest\b/i,
+  /* Condé Nast 系（Vogue / Vanity Fair / GQ）正文尾部的推广段。实测戴安娜那篇有 3 段
+     全部通过了上面的过滤混进正文 —— 「Vogue Runway App 升级」「加入 Vogue Business 会员」
+     「把我们加进你的偏好来源」，都是纯推广，不是文章内容。历史通道（--classics）
+     抓的是这一系，不挡就会每篇都带 3 段广告尾巴。 */
+  /\bvogue (runway )?app has expanded\b/i, /\bvogue business (member|membership)\b/i,
+  /\bnever miss a story\b/i, /\bto your preferred sources\b/i,
+  /\b(become|join) a [a-z]+ (business )?member\b/i, /\bthe ultimate resource for\b/i
+];
+
+/* 广告脚本 / 页面埋点碎片：Hearst、Variety 等会把它们写进 <p> 里 */
+const CODE_JUNK = /\.push\s*\(|defineSlot|blogherads|pmcCnx|window\.pmc|googletag|document\.|function\s*\(|=>\s*\{|@media|!important|\{[\s\S]*\}/;
+
+const NAV_HINT = /\b(as it happened|latest news and rumours|match report|not got sky|champions league scores|full match|watch highlights|teams \| stats|sign in|log in|get sky sports|subscribe to|sign up for our)\b/i;
+
+/* 栏目/导航条：没有句末标点、且大写词占比过高的一串词 */
+function looksLikeNav(t) {
+  if (/[.!?…”"']$/.test(t)) return false;
+  const ws = t.split(/\s+/).filter(Boolean);
+  if (ws.length < 6) return false;
+  const cap = ws.filter(w => /^[A-Z0-9]/.test(w)).length;
+  return cap / ws.length > 0.5;
+}
+
+/** 这一段是不是值得给读者看的正文（逐段判定，与文章体裁无关） */
+export function goodPara(t) {
+  if (!t || t.length < 70) return false;
+  if ((t.match(/[A-Za-z]/g) || []).length < 55) return false;
+  if (BOILER.some(re => re.test(t))) return false;
+  if (CODE_JUNK.test(t)) return false;
+  if (hasAdCode(t)) return false;
+  if (isJunkPara(t)) return false;
+  if (NAV_HINT.test(t)) return false;
+  if (looksLikeNav(t)) return false;
+  if ((t.match(/\|/g) || []).length >= 2) return false;
+  if (/^[A-Z][^.!?]{0,40}$/.test(t)) return false;
+  return true;
+}
+
+/* ---------------- 2.6 断句 ----------------
+ * 与段落判定配套：只有过了 goodPara 的段落才轮到断句，断句再筛掉过短碎片，
+ * 于是「入库的句子数」与「清单的词数」出自同一条流水线。 */
+
+/* 句末缩写：句号不是句尾。原先只覆盖了 Mr/Dr/U.S 等少数几个，
+   新闻里高频的 Capt. / Sen. / Sgt. / Dec. 会把一句话从中间劈成两段，
+   译文也就跟着变成半截话——看起来就像"翻译坏了"。 */
+const ABBR = /\b(Mr|Mrs|Ms|Messrs|Dr|Drs|Prof|Sr|Jr|St|No|Nos|vs|etc|Co|Inc|Ltd|Corp|Bros|Assoc|Univ|Dept|Govt|Est|Vol|Fig|approx|Ave|Blvd|Rd|Capt|Cpl|Sgt|Lt|Col|Gen|Adm|Maj|Cmdr|Pvt|Sen|Rep|Gov|Rev|Hon|Gen|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e)\./g;
+
+export function splitSentences(paras) {
+  const out = [];
+  for (const p of paras) {
+    const guarded = p.replace(ABBR, m => m.replace(/\./g, "·"));
+    const parts = guarded
+      .split(/(?<=[.!?…])\s+/)
+      .map(s => s.trim())
+      /* 广告脚本/导航碎片不送翻译：省额度，也避免它们被译成中文混进正文 */
+      .filter(s => s.length > 30 && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
+      .map(s => s.replace(/·/g, "."));
+    for (const s of parts) {
+      if (s.length <= 420) { out.push(s); continue; }
+      const chunks = s.split(/(?<=[,;:])\s+/);
+      let buf = "";
+      for (const c of chunks) {
+        if ((buf + " " + c).trim().length > 400) { out.push(buf.trim()); buf = c; }
+        else buf = (buf + " " + c).trim();
+      }
+      if (buf.trim().length > 30) out.push(buf.trim());
+    }
+  }
+  return out;
+}
+
+export const wordCount = s => (s.match(/[A-Za-z'’-]+/g) || []).length;
 
 /* ---------------- 3. 机器翻译残留 ---------------- */
 

@@ -45,7 +45,7 @@ vm.createContext(sandbox);
 for (const f of [
   'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
-  'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js'
+  'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js', 'assets/data-wordfreq.js'
 ]) {
   const p = path.join(base, f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, 'utf8'), sandbox, { filename: f });
@@ -53,6 +53,7 @@ for (const f of [
 /* 沙箱的 window 是替身对象，词形表要显式提升到全局才能被 app.js 取到 */
 vm.runInContext('var WORD_META = window.WORD_META;', sandbox);
 vm.runInContext('var TAPDICT = window.TAPDICT, TAP_REVERSE = window.TAP_REVERSE;', sandbox);
+vm.runInContext('var COMMON_WORDS = window.COMMON_WORDS;', sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = expr => vm.runInContext(expr, sandbox);
@@ -89,6 +90,14 @@ eq('进入阅读页', at().view, 'read');
 click({ act: 'go-back' });
 eq('返回回到首页', at().view, 'home');
 
+console.log('\n[2b] 首页分类入口 → 发现页');
+click({ tab: 'home' });
+click({ cat: sequenceCat, go: '1' });
+eq('首页分类入口进入发现页', at().view, 'discover');
+eq('首页分类入口保留分类筛选', at().cat, sequenceCat);
+click({ act: 'go-back' });
+eq('分类入口可返回首页', at().view, 'home');
+
 console.log('\n[3] 分类内「下一篇」');
 click({ tab: 'discover' });
 click({ cat: sequenceCat });
@@ -117,6 +126,14 @@ eq('生词本 sheet 在阅读页上打开', at().view, 'read');
 click({ act: 'close-sheet' });
 click({ tab: 'home' });
 eq('回首页不报错', at().view, 'home');
+
+console.log('\n[6] 阅读记录入口');
+click({ tab: 'me' });
+click({ act: 'read-history' });
+eq('阅读记录进入独立页面', at().view, 'history');
+ok('阅读记录页面包含已打开的文章', screenEl.innerHTML.includes('history-row'));
+click({ act: 'go-back' });
+eq('阅读记录可返回来路', at().view, 'me');
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

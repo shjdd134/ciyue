@@ -73,6 +73,7 @@ const defaultState = {
   minsByDay: {},    // { YYYY-MM-DD: 分钟 }，由 secByDay 派生，仅供展示与旧版兼容
   lastRead: { id: "", y: 0, pct: 0, at: 0 },  // 「上次读到」：文章 id + 滚动位置，发现页可直达续读
   readPos: {},      // { [文章id]: { pi, si, off, y, pct, at } } 每篇各自的续读位置（句子锚点 + 屏内偏移）
+  readHistory: {},  // { [文章id]: { firstAt, lastAt, visits, finished, title, ... } } 阅读记录索引
   articleFeedback: {},  // 完成页反馈：{ [文章id]: { diff: easy|ok|hard, rate: up|mid|down, at } }
   hintSeen: false,  // 阅读页操作提示只出现一次
   backupHintAt: 0,  // 上次「记得备份」提示时间（7 天节流）
@@ -99,6 +100,7 @@ function normalizeState(raw) {
   next.finished = Array.isArray(next.finished) ? next.finished.slice() : [];
   /* 每篇的续读位置：老版本没有这个字段，缺了就补空表（旧数据仍靠 lastRead.y 兜底） */
   next.readPos = (next.readPos && typeof next.readPos === "object") ? Object.assign({}, next.readPos) : {};
+  next.readHistory = (next.readHistory && typeof next.readHistory === "object") ? Object.assign({}, next.readHistory) : {};
   return next;
 }
 let storedState = {};
@@ -164,6 +166,7 @@ function flushReadPos() {
   const cont = $("#read-scroll");
   if (!cont || !cont.dataset || !S.lastRead || !S.lastRead.id) return 0;
   if (cont.dataset.art !== S.lastRead.id) return 0;
+  updateReadProgress();
   S.lastRead.y = cont.scrollTop;
   S.lastRead.at = Date.now();
   rememberReadPos(cont, S.lastRead.id);
@@ -490,11 +493,13 @@ if (EC) for (const w of WORDS) {
 /* 文章统一按发布日期倒序：最新的一篇自动成为发现页「今日精选」 */
 ARTICLES.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 
-let view = { name: "home" };      // home | discover | me | read
+let view = { name: "home" };      // home | discover | me | history | read
 let prevViewName = view.name;     // 上一次渲染的视图：判断「是否刚离开阅读页」（不依赖 DOM）
 let activeArticle = null;
 let catFilter = "全部";
 let searchTerm = "";
+let historyFilter = "all";
+let historyQuery = "";
 /* 阅读页状态：计时器 + 本篇查询过的生词数 */
 let readSecs = 0, readTimer = null;
 let flushedSecs = 0;  // readSecs 里已经写进 secByDay 的部分（避免重复记账）
@@ -1130,6 +1135,101 @@ function renderDiscover() {
 }
 
 /* ---------------- 页面：我的 ---------------- */
+function touchReadHistory(id) {
+  if (!id) return;
+  S.readHistory = S.readHistory || {};
+  const now = Date.now();
+  const prev = S.readHistory[id] || {};
+  const article = ARTICLES.find(a => a.id === id);
+  S.readHistory[id] = {
+    firstAt: Number(prev.firstAt) || now,
+    lastAt: now,
+    visits: (Number(prev.visits) || 0) + 1,
+    finished: S.finished.includes(id),
+    title: article ? article.title : (prev.title || ""),
+    titleZh: article ? article.titleZh : (prev.titleZh || ""),
+    cat: article ? article.cat : (prev.cat || ""),
+    source: article ? article.source : (prev.source || ""),
+    coverImg: article ? article.coverImg : (prev.coverImg || ""),
+    gradient: article ? article.gradient : (prev.gradient || "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)"),
+  };
+}
+
+function historyItems() {
+  const ids = new Set([
+    ...Object.keys(S.readHistory || {}),
+    ...Object.keys(S.readPos || {}),
+    ...(S.read || []),
+    ...(S.finished || []),
+  ]);
+  return [...ids].map(id => {
+    const meta = (S.readHistory || {})[id] || {};
+    const live = ARTICLES.find(x => x.id === id);
+    const a = live || (meta.title ? {
+      id,
+      title: meta.title,
+      titleZh: meta.titleZh || "",
+      cat: meta.cat || "",
+      source: meta.source || "",
+      coverImg: meta.coverImg || "",
+      gradient: meta.gradient || "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
+    } : null);
+    if (!a) return null;
+    const pos = (S.readPos || {})[id] || {};
+    const last = S.lastRead && S.lastRead.id === id ? S.lastRead : {};
+    return {
+      a,
+      pos: Object.assign({}, pos, last),
+      firstAt: Number(meta.firstAt) || Number(pos.at) || Number(last.at) || 0,
+      lastAt: Number(meta.lastAt) || Number(pos.at) || Number(last.at) || 0,
+      visits: Number(meta.visits) || 1,
+      finished: S.finished.includes(id) || meta.finished === true,
+      archived: !live,
+    };
+  }).filter(Boolean).sort((x, y) => y.lastAt - x.lastAt);
+}
+
+function historyWhen(ts) {
+  return ts ? fmtWhen(new Date(ts).toISOString().slice(0, 10)) : "时间未知";
+}
+
+function renderReadHistory() {
+  const q = historyQuery.trim().toLowerCase();
+  const all = historyItems();
+  const filtered = all.filter(x => {
+    if (historyFilter === "unfinished" && x.finished) return false;
+    if (historyFilter === "finished" && !x.finished) return false;
+    if (!q) return true;
+    return [x.a.title, x.a.titleZh, x.a.cat, x.a.source].some(v => String(v || "").toLowerCase().includes(q));
+  });
+  const seg = (value, label) => `<button class="history-filter${historyFilter === value ? " on" : ""}" data-act="history-filter" data-filter="${value}" aria-pressed="${historyFilter === value}">${label}</button>`;
+  const rows = filtered.map(x => {
+    const pct = Math.max(0, Math.min(100, Number(x.pos.pct) || 0));
+    const status = x.archived ? "文章已下线" : (x.finished ? "已读完" : (pct ? `读到 ${pct}%` : "刚开始"));
+    const action = x.archived ? "" : ` data-article="${esc(x.a.id)}"`;
+    return `<button class="history-row${x.archived ? " archived" : ""}"${action} aria-label="${x.archived ? "已下线：" : "继续阅读："}${esc(clean(x.a.title))}"${x.archived ? " disabled" : ""}>
+      ${thumbHtml(x.a, coverOf(x.a))}
+      <span class="history-main">
+        <span class="history-title">${esc(clean(x.a.title))}</span>
+        ${zhTitle(x.a) ? `<span class="history-zh">${esc(zhTitle(x.a))}</span>` : ""}
+        <span class="history-meta">${esc(x.a.cat)} · ${esc(historyWhen(x.lastAt))} · ${x.visits} 次阅读</span>
+        <span class="history-progress"><span style="width:${x.finished ? 100 : Math.max(2, pct)}%"></span></span>
+        <span class="history-status">${status}${x.archived ? "" : `<b>继续阅读 ${svg("arrow", 12)}</b>`}</span>
+      </span>
+    </button>`;
+  }).join("");
+  return `${statusbar()}
+    <div class="view view-flow history-view">
+      <div class="row between">
+        <span class="h1">阅读记录</span>
+        <span class="icon-btn" data-act="go-back" role="button" tabindex="0" aria-label="返回">${svg("back", 16)}</span>
+      </div>
+      <div class="search history-search">${svg("search", 16)}<input id="history-q" placeholder="搜索读过的文章" value="${esc(historyQuery)}" aria-label="搜索读过的文章" /></div>
+      <div class="history-filters">${seg("all", "全部")} ${seg("unfinished", "未读完")} ${seg("finished", "已读完")}<span class="muted-2">共 ${all.length} 篇</span></div>
+      ${rows || `<div class="card history-empty">${all.length ? "没有符合条件的记录" : "还没有阅读记录，先去发现页读一篇吧"}</div>`}
+    </div>`;
+}
+
 function renderMe() {
   const week = last7();
   const max = Math.max(1, ...week.map(d => d.mins));
@@ -1151,6 +1251,12 @@ function renderMe() {
           <div class="muted">已读完 ${S.finished.length} 篇 · 词库 ${WORDS.length.toLocaleString()} 词</div>
         </div>
       </div>
+
+      <button class="card row history-entry" data-act="read-history" aria-label="打开阅读记录">
+        <span class="ic">${svg("book", 20)}</span>
+        <span class="col grow" style="gap:3px"><span class="h3">阅读记录</span><span class="muted">${historyItems().length} 篇读过的文章 · 查看每篇进度并继续阅读</span></span>
+        ${svg("arrow", 16)}
+      </button>
 
       ${installEvt ? `<button class="btn-primary" data-act="pwa-install" style="width:100%">${svg("check", 16)} 添加到主屏幕</button>` : ""}
       ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2" style="font-size:12px">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
@@ -1255,11 +1361,13 @@ function renderRead() {
   })();
 
   const paras = a.paras.map((p, i) => {
-    /* 内嵌配图：整段插图 + 图注，不参与点读/显译 */
+    /* 内嵌配图：图注也走点词层，读者可以直接查人物、年代和动作词。 */
     if (p.img) {
+      const cap = clean(p.cap || "");
+      const capCn = clean(p.capCn || "");
       return `<figure class="para-img">
         <img src="${esc(p.img)}" alt="" loading="lazy" />
-        ${p.cap ? `<figcaption>${esc(clean(p.cap))}</figcaption>` : ""}
+        ${cap ? `<figcaption aria-label="图片说明">${highlightEn(esc(cap))}${capCn ? `<span class="caption-cn">${esc(capCn)}</span>` : ""}</figcaption>` : ""}
       </figure>`;
     }
     /* 一段话 = 一个文本流：句子是内联 span，句间只有一个空格。
@@ -1506,6 +1614,14 @@ function rememberReadPos(cont, artId) {
   };
   S.readPos = S.readPos || {};
   S.readPos[id] = rec;
+  S.readHistory = S.readHistory || {};
+  const meta = S.readHistory[id] || {};
+  S.readHistory[id] = {
+    firstAt: Number(meta.firstAt) || rec.at,
+    lastAt: rec.at,
+    visits: Number(meta.visits) || 1,
+    finished: S.finished.includes(id),
+  };
   return rec;
 }
 
@@ -1571,8 +1687,12 @@ function updateReadProgress() {
   /* 「上次读到」：滚动时记下位置，5 秒节流落盘（滚动事件高频，不能每次都写 localStorage） */
   if (a && S.lastRead && S.lastRead.id === a.id) {
     LAST_Y = cont.scrollTop;
+    S.lastRead.y = LAST_Y;
+    S.lastRead.pct = Math.round(pct);
     if (Date.now() - (S.lastRead.at || 0) > 5000) {
-      S.lastRead.y = LAST_Y; S.lastRead.pct = Math.round(pct); S.lastRead.at = Date.now();
+      S.lastRead.at = Date.now();
+      const meta = (S.readHistory || {})[a.id];
+      if (meta) meta.lastAt = S.lastRead.at;
       save();
     }
   }
@@ -1607,9 +1727,13 @@ function importData(file) {
   r.onload = () => {
     try {
       const j = JSON.parse(String(r.result));
-      const st = j && j.state ? j.state : j;
-      if (!st || typeof st !== "object") throw new Error("格式不对");
-       S = normalizeState(st);
+      const wrapped = j && typeof j === "object" && Object.prototype.hasOwnProperty.call(j, "state");
+      if (wrapped && j.app !== "wordlens") throw new Error("不是词阅备份");
+      const st = wrapped ? j.state : j;
+      if (!st || typeof st !== "object" || Array.isArray(st)) throw new Error("格式不对");
+      const knownKeys = ["theme", "notebook", "showCn", "fontSize", "readTheme", "read", "finished", "known", "readDays", "secByDay", "minsByDay", "lastRead", "readPos", "readHistory", "articleFeedback"];
+      if (!knownKeys.some(k => Object.prototype.hasOwnProperty.call(st, k))) throw new Error("不是有效进度");
+      S = normalizeState(st);
       save(); render();
       toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词`);
     } catch (e) {
@@ -1821,7 +1945,7 @@ function renderSortSheet() {
 /* ---------------- 底部导航 ---------------- */
 const TABS = [["home", "首页", "home"], ["discover", "发现", "compass"], ["me", "我的", "user"]];
 const tabbar = () => {
-  const cur = ["home", "discover", "me"].includes(view.name) ? view.name : "home";
+  const cur = view.name === "history" ? "me" : (["home", "discover", "me"].includes(view.name) ? view.name : "home");
   return `<div class="tabbar"><div class="pill">
     ${TABS.map(([k, label, ic]) => `<button data-tab="${k}" class="${k === cur ? "on" : ""}">${svg(ic, 18)}<span>${label}</span></button>`).join("")}
   </div></div>`;
@@ -1871,6 +1995,7 @@ function render() {
   if (view.name === "home") body = renderHome();
   else if (view.name === "discover") body = renderDiscover();
   else if (view.name === "me") body = renderMe();
+  else if (view.name === "history") body = renderReadHistory();
   else if (view.name === "read") body = renderRead();
   screen.innerHTML = body + (view.name === "read" ? "" : tabbar());
 
@@ -1924,6 +2049,15 @@ function render() {
       });
     }
   }
+  if (view.name === "history") {
+    const q = $("#history-q");
+    if (q) {
+      q.addEventListener("input", e => {
+        historyQuery = e.target.value; render();
+        const n = $("#history-q"); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); }
+      });
+    }
+  }
 }
 
 /* ---------------- 事件 ---------------- */
@@ -1941,6 +2075,8 @@ document.addEventListener("click", e => {
   if (t.dataset.article) {
     pushNav({ src: t.dataset.article });   // 记住来路：返回时回到同一张列表、同一位置
     activeArticle = ARTICLES.find(a => a.id === t.dataset.article);
+    if (!activeArticle) return;
+    touchReadHistory(activeArticle.id);
     readSecs = 0; flushedSecs = 0;   // 进入新文章，计时清零（上一篇的秒数已由 render 结算）
     LOOKED[activeArticle.id] = 0;  // 本篇查询清零
     /* 「上次读到」：换文重置进度；重进同一篇则保留位置（resumeAnchor/resumeY 在渲染后恢复一次）。
@@ -1948,13 +2084,18 @@ document.addEventListener("click", e => {
     resumeY = (S.lastRead && S.lastRead.id === activeArticle.id) ? (S.lastRead.y || 0) : 0;
     const savedPos = (S.readPos || {})[activeArticle.id];
     resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, off: savedPos.off || 0 } : null;
-    S.lastRead = { id: activeArticle.id, y: resumeY, pct: resumeY ? (S.lastRead.pct || 0) : 0, at: Date.now() };
+    const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
+    S.lastRead = { id: activeArticle.id, y: resumeY, pct: savedPct, at: Date.now() };
     save();
     view = { name: "read" };
     render(); return;
   }
 
-  if (t.dataset.cat) { catFilter = t.dataset.cat; shown = PAGE; render(); return; }
+  if (t.dataset.cat) {
+    catFilter = t.dataset.cat; shown = PAGE;
+    if (view.name === "home" || t.dataset.go === "1") { pushNav(); view = { name: "discover" }; }
+    render(); return;
+  }
 
   switch (t.dataset.act) {
     case "home-reroll":
@@ -2000,6 +2141,11 @@ document.addEventListener("click", e => {
       resetNav(); view = { name: "home" }; render(); break;
     case "go-discover":
       pushNav(); view = { name: "discover" }; render(); break;
+    case "read-history":
+      pushNav(); view = { name: "history" }; render(); break;
+    case "history-filter":
+      historyFilter = ["all", "unfinished", "finished"].includes(t.dataset.filter) ? t.dataset.filter : "all";
+      render(); break;
     case "go-back":
       /* 回到进来时的那一页（发现页分类视图 / 首页推荐），栈空才回首页 */
       if (!navBack()) { resetNav(); view = { name: "home" }; render(); }
@@ -2007,9 +2153,11 @@ document.addEventListener("click", e => {
     case "next-article": {
       const nx = activeArticle && nextArticle(activeArticle);
       if (!nx) { toast("已经是这个分类的最后一篇了"); break; }
-      /* 换文章前先把上一篇的阅读秒数结算掉，否则这段时长跟着 readSecs 一起被清零 */
+      /* 换文章前先把上一篇的位置和阅读秒数结算掉，否则这段时长跟着 readSecs 一起被清零 */
+      flushReadPos();
       flushReadTime();
       activeArticle = nx; readSecs = 0; flushedSecs = 0; LOOKED[nx.id] = 0;
+      touchReadHistory(nx.id);
       /* 「上次读到」跟着换文：旧篇位置已在离开时落盘，这里重置到新篇开头 */
       S.lastRead = { id: nx.id, y: 0, pct: 0, at: Date.now() }; save();
       resumeAnchor = null;   // 新篇从开头读：不能把上一篇的句子锚点套到这篇的正文上
@@ -2108,6 +2256,8 @@ document.addEventListener("click", e => {
         const sec = flushReadTime();
         S.read.push(id);
         if (!S.finished.includes(id)) S.finished.push(id);
+        S.readHistory = S.readHistory || {};
+        if (S.readHistory[id]) S.readHistory[id].finished = true;
         homeReads.pool = [];        // 已读状态变化，未读优先池需要失效
         /* 备份提醒：读完第 2 篇起提示一次，7 天不重复——进度只存在本地浏览器 */
         if (S.finished.length >= 2 && Date.now() - (S.backupHintAt || 0) > 7 * 86400000) {
@@ -2229,15 +2379,29 @@ render();
 if (typeof navigator !== "undefined" && navigator.serviceWorker
   && typeof location !== "undefined" && /^https?:$/.test(location.protocol)
   && typeof window !== "undefined" && window.addEventListener) {
+  const warmAppCache = async () => {
+    if (!window.caches) return;
+    const urls = new Set(["index.html", "assets/styles.css", "assets/app.js", "assets/data.js", "assets/data-articles-extra.js", "assets/data-covers.js"]);
+    /* GitHub Pages 部署在 /ciyue/ 这类子路径时，根导航 URL 与 index.html 是两个缓存键；
+       同时预热当前路径，离线刷新首页才能命中。 */
+    urls.add(location.pathname);
+    if (location.pathname.endsWith("/")) urls.add(location.pathname + "index.html");
+    document.querySelectorAll("script[src],link[rel='stylesheet'][href]").forEach(el => {
+      const raw = el.getAttribute("src") || el.getAttribute("href");
+      if (!raw) return;
+      try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
+    });
+    try {
+      const cache = await caches.open("wordlens-cache-v43");
+      await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
+    } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
+  };
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => { });
+    navigator.serviceWorker.register("sw.js").then(warmAppCache).catch(() => { });
   });
   /* 「上次读到」兜底：页面被切走/关闭时，把滚动位置与句子锚点立即落盘（正常路径在离开阅读页时落） */
   window.addEventListener("pagehide", () => {
-    if (S.lastRead && S.lastRead.id && LAST_Y) {
-      S.lastRead.y = LAST_Y;
-      if (!flushReadPos()) save();
-    }
+    if (S.lastRead && S.lastRead.id) flushReadPos();
     flushReadTime();   // 关页/切走也要结算，别把这段时长丢了
   });
   /* 切到后台 / 锁屏：立刻结算一次。移动端 pagehide 不一定触发，

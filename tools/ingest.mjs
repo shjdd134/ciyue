@@ -23,6 +23,15 @@
  *   node tools/ingest.mjs --repair-images --repair-cats 足球,AI,明星  只修复指定栏目
  *   node tools/ingest.mjs --no-filter        放宽难度筛选
  *
+ * 历史通道（明星栏目经典图集，非 RSS）：
+ *   node tools/ingest.mjs --classics                   扫近 8 个月 Vogue 图集并入库
+ *   node tools/ingest.mjs --classics --dry             只看计划，不写任何文件
+ *   node tools/ingest.mjs --classics --classic-limit 5 本次最多入库 5 篇
+ *   node tools/ingest.mjs --classics --imgs 20         每篇最多保留 20 张图（默认 16）
+ *   node tools/ingest.mjs --classics --months 14       扫更久（每片约 1 个月）
+ *   node tools/ingest.mjs --classics --refresh         忽略实测缓存，重抓页面
+ *   入库的文章带 pin:true（豁免 30 天过期与栏目配额）与 cap 图注；先跑 --dry 看计划。
+ *
  * 翻译结果缓存在 tools/.mt-cache.json，重复运行不会重复请求。
  */
 
@@ -31,12 +40,18 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import vm from "node:vm";
 import {
-  cleanInvisible, cleanPara, cleanTitleZh, hasAdCode, isJunkPara, putTitleZh, tidySpace,
+  cleanInvisible, cleanPara, cleanTitleZh, goodPara, putTitleZh, splitSentences, tidySpace, wordCount,
 } from "./lib-text.mjs";
 import { translateTexts } from "./lib-mt.mjs";
+/* 历史通道（明星栏目经典专题）的发现与提取口径 —— 与 fetch-classics.mjs 同一份实现。
+ * 「数 <figure> 而非 <img>」「老模板图 URL 无扩展名」「不能只取第一个 srcset」
+ * 「跨站去重不能靠图注文本或图片 id」四个坑的说明都在那个文件里。 */
 import {
-  QUALITY_CANDIDATE_THRESHOLD, SCORE_VERSION, classifySourceHealth, difficultyBaseScore,
-  emptySourceHealth, qualityScore, serverScore, updateSourceHealth,
+  buildPool, classicPara, classicRead, fetchText as classicsFetch, imgKey, scanClassics,
+} from "./lib-classics.mjs";
+import {
+  QUALITY_CANDIDATE_THRESHOLD, SCORE_VERSION, STAR_MIN_IMAGES, classifySourceHealth, difficultyBaseScore,
+  emptySourceHealth, meetsImageGate, qualityScore, serverScore, updateSourceHealth,
 } from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -55,6 +70,7 @@ const val = (n, d) => { const i = argv.indexOf(`--${n}`); return i >= 0 && argv[
 const DRY = has("dry");
 const BACKFILL = has("backfill");
 const REPAIR = has("repair-images");
+const CLASSICS = has("classics");
 const REPAIR_CATS = new Set(String(val("repair-cats", "")).split(",").map(s => s.trim()).filter(Boolean));
 const NO_FILTER = has("no-filter");
 const VERBOSE = has("verbose");
@@ -68,6 +84,25 @@ const MAX_WORDS = +val("words", 540);
 const CANDIDATE_LIMIT = Math.max(1, +val("candidate", 12));
 const SOURCE_DIVERSITY_CAP = 2;              // 同一来源每批最多入选 2 篇
 const MAX_INLINE_IMG = 4;   /* 图文并茂：各栏目默认正文内嵌图上限（明星在 FEEDS 里放宽到 6） */
+
+/* 历史通道（--classics）专属参数 */
+const CL_MONTHS = Math.max(1, +val("months", 8));
+const CL_SITE = String(val("site", "all")).toLowerCase();
+const CL_IMGS = Math.max(1, +val("imgs", 16));       /* 明星图集上限：用户定的「理想 8—16 张」 */
+const CL_MIN_EARLY = Math.max(0, +val("min-early", 10));
+/* 文字门槛两条线，必须与 buildPool 的默认值一致（见 lib-classics.mjs 的 buildPool 注释）：
+   正文 ≥min-words 词 且 正文+图注 ≥min-read 词。单看正文会把图集类内容全挡在门外。 */
+const CL_MIN_WORDS = Math.max(0, +val("min-words", 80));
+const CL_MIN_READ = Math.max(0, +val("min-read", 300));
+const CL_LIMIT = Math.max(0, +val("classic-limit", 0));   // 本次最多入库几篇（0 = 不限）
+const CL_REFRESH = has("refresh");
+const CL_CACHE = path.join(ROOT, "tools", "_spot", "classics-measure.json");
+/* Vogue 美版 / 英版各是一个「来源」，与 FEEDS 里的源同名同形，好让来源健康度与
+   source 字段复用同一套。tier 3 = 一线大刊。 */
+const CLASSIC_FEEDS = {
+  us: { cat: "明星", name: "Vogue US" },
+  uk: { cat: "明星", name: "British Vogue" },
+};
 
 /* 按类别配额，例如 --quota 足球=6,历史=4,时政=4,杂志=3 */
 const QUOTA = (() => {
@@ -366,6 +401,14 @@ function upgradeImg(u) {
   return u;
 }
 
+/* 图片 URL 的编码口径。**已经编码过的不能再编一次**：
+ * Vogue / Condé Nast 的图床 URL 里带 `w_2048%2Cc_limit`，而 encodeURI 会把 `%`
+ * 变成 `%25`（`%2C` → `%252C`），图床收到直接回 400。
+ * 实测 Diana 那篇 16 张图全部下载失败、只剩封面，就是这一条：
+ * 同一串 URL 用 curl 是 200，经 encodeURI 后是 400。
+ * 有需要编码的字符（空格等）且没有现成转义时才编。 */
+const safeUrl = u => (/%[0-9a-fA-F]{2}/.test(String(u)) ? u : encodeURI(u));
+
 async function downloadImg(url, dest, feed = null) {
   if (!url || IMG_BAD.test(url)) return 0;
   /* 图床与页面同源时共享同一套盾：403 就降级短 UA 再试（如 moretothat.com） */
@@ -374,7 +417,7 @@ async function downloadImg(url, dest, feed = null) {
   const started = Date.now();
   for (const ua of UAS) {
     try {
-      const res = await fetch(encodeURI(url), { headers: { "User-Agent": ua }, signal: AbortSignal.timeout(30000) });
+      const res = await fetch(safeUrl(url), { headers: { "User-Agent": ua }, signal: AbortSignal.timeout(30000) });
       lastStatus = res.status;
       if (!res.ok) { if (res.status === 403) continue; break; }
       const buf = Buffer.from(await res.arrayBuffer());
@@ -388,69 +431,24 @@ async function downloadImg(url, dest, feed = null) {
   return 0;
 }
 
-const PY = process.env.WORDLENS_PY || "C:/Users/sekiro/.workbuddy/binaries/python/envs/default/Scripts/python.exe";
+const WINDOWS_PY = "C:/Users/sekiro/.workbuddy/binaries/python/envs/default/Scripts/python.exe";
+/* 本地可继续使用打包的 Windows Pillow；CI/Linux 使用 PATH 中的 python3。
+   之前把 Windows 绝对路径写死在这里，导致 Ubuntu 每次静默跳过压缩。 */
+const PY = process.env.WORDLENS_PY
+  || (process.platform === "win32" && fs.existsSync(WINDOWS_PY) ? WINDOWS_PY : (process.platform === "win32" ? "python" : "python3"));
 function optimizeImages() {
-  if (!fs.existsSync(PY)) { console.log("  （未找到 Pillow 环境，跳过压缩，保留原图）"); return; }
   try {
     execFileSync(PY, [path.join(ROOT, "tools", "img-post.py"), COVERS_DIR], { stdio: "inherit" });
-  } catch (e) { console.log("  （图片压缩失败，保留原图）", e.message); }
+  } catch (e) {
+    if (e.code === "ENOENT") console.log(`  （未找到 ${PY}，跳过压缩，保留原图）`);
+    else console.log("  （图片压缩失败，保留原图）", e.message);
+  }
 }
 
-/* ---------------- 正文提取（段落 + 内嵌图，保持原始顺序） ---------------- */
-
-const BOILER = [
-  /\bchrome browser\b/i, /\baccessibilit/i, /\bsubscri(b|pt)/i, /\bsign up\b/i, /\bnewsletter\b/i,
-  /\bfollow us\b/i, /\bshare (this|on)\b/i, /\bclick here\b/i, /\bread more\b/i, /\badvertisement\b/i,
-  /\ball rights reserved\b/i, /\bcopyright\b/i, /\bphoto(graph)? (by|credit)/i, /\bgetty images\b/i,
-  /\bwatch:|\bVIDEO\b/, /^\(?Image|^Credit:/i, /\bterms of (use|service)\b/i, /\bprivacy policy\b/i,
-  /\bthis article (was|has been)\b/i, /\bplease use\b/i, /\bfor more (news|information)\b/i,
-  /\brelated:|^More from|^Read next/i, /\bsupport our journalism\b/i, /\bdownload the\b/i,
-  /* TechCrunch 每篇文章头部都挂着大会推广段 */
-  /^Disrupt \d{4}:/i, /\btake over \d+ industry stages\b/i,
-  /* 各站点的浏览器/兼容性提示与推广位（CBS 等会把它们塞进 <p>） */
-  /\bbrowser is not fully supported\b/i, /\bupgrade to a modern browser\b/i, /\bmicrosoft\.com\/edge\b/i,
-  /\boptimal experience\b/i, /\bavailable to download\b/i, /\bmore than \d+ languages\b/i,
-  /\bskip to (main )?content\b/i, /\benable javascript\b/i, /\byour (browser|device) (does not|doesn't)\b/i,
-  /\bcookie(s)? (policy|settings|preferences)\b/i, /\bmanage your (privacy|preferences)\b/i,
-  /\bthis (site|website) is protected by\b/i, /\bwe use cookies\b/i, /\bconsent\b/i,
-  /* 时尚/美妆媒体：导购免责声明与栏目推广 */
-  /\bevery item on this page\b/i, /\bwe may earn (a )?commission\b/i, /\bwe independently (select|chose|test)/i,
-  /\bindependently (selected|evaluated|tested) by our\b/i, /\bif you buy from a link\b/i,
-  /\ball products are independently/i, /\bcontinue reading below\b/i, /\bwe only recommend (products|things)\b/i,
-  /\bshopping (editor|director|team) (picks|approved)\b/i, /\bprice (and|or) availability\b/i,
-  /\bwhy trust us\b/i, /\byou may also like\b/i, /\bsubscribe to (our|the) newsletter\b/i,
-  /* 征订/许可类话术（HistoryExtra、Immediate Media 等会把它们写进正文 <p>） */
-  /\bwould you like to receive\b/i, /\bcarefully selected partners\b/i, /\bfrom our publisher\b/i,
-  /\boffers from (our|the) (publisher|partners)\b/i, /\bkeep up with (the )?latest\b/i
-];
-
-/* 广告脚本 / 页面埋点碎片：Hearst、Variety 等会把它们写进 <p> 里 */
-const CODE_JUNK = /\.push\s*\(|defineSlot|blogherads|pmcCnx|window\.pmc|googletag|document\.|function\s*\(|=>\s*\{|@media|!important|\{[\s\S]*\}/;
-
-const NAV_HINT = /\b(as it happened|latest news and rumours|match report|not got sky|champions league scores|full match|watch highlights|teams \| stats|sign in|log in|get sky sports|subscribe to|sign up for our)\b/i;
-
-/* 栏目/导航条：没有句末标点、且大写词占比过高的一串词 */
-function looksLikeNav(t) {
-  if (/[.!?…”"']$/.test(t)) return false;
-  const ws = t.split(/\s+/).filter(Boolean);
-  if (ws.length < 6) return false;
-  const cap = ws.filter(w => /^[A-Z0-9]/.test(w)).length;
-  return cap / ws.length > 0.5;
-}
-
-function goodPara(t) {
-  if (!t || t.length < 70) return false;
-  if ((t.match(/[A-Za-z]/g) || []).length < 55) return false;
-  if (BOILER.some(re => re.test(t))) return false;
-  if (CODE_JUNK.test(t)) return false;
-  if (hasAdCode(t)) return false;
-  if (isJunkPara(t)) return false;
-  if (NAV_HINT.test(t)) return false;
-  if (looksLikeNav(t)) return false;
-  if ((t.match(/\|/g) || []).length >= 2) return false;
-  if (/^[A-Z][^.!?]{0,40}$/.test(t)) return false;
-  return true;
-}
+/* ---------------- 正文提取（段落 + 内嵌图，保持原始顺序） ----------------
+ * 段落质量判定（`goodPara`）与断句（`splitSentences` / `wordCount`）已搬到
+ * `lib-text.mjs` 的 2.5 / 2.6 节 —— 明星栏目的历史通道要在「出清单」阶段就用
+ * 同一把尺子预测正文词数，各自的实现会漂（详见那个文件头的说明）。 */
 
 function extractBlocks(html, looseImg = false) {
   /* 先划出 figure 的字符区间，避免同一段被 <p> 和 <figure> 重复计入 */
@@ -526,38 +524,8 @@ function packBlocks(blocks, maxSents, maxWords, maxImgs = MAX_INLINE_IMG) {
   return { keep, sents, words };
 }
 
-/* ---------------- 断句 ---------------- */
-
-/* 句末缩写：句号不是句尾。原先只覆盖了 Mr/Dr/U.S 等少数几个，
-   新闻里高频的 Capt. / Sen. / Sgt. / Dec. 会把一句话从中间劈成两段，
-   译文也就跟着变成半截话——看起来就像"翻译坏了"。 */
-const ABBR = /\b(Mr|Mrs|Ms|Messrs|Dr|Drs|Prof|Sr|Jr|St|No|Nos|vs|etc|Co|Inc|Ltd|Corp|Bros|Assoc|Univ|Dept|Govt|Est|Vol|Fig|approx|Ave|Blvd|Rd|Capt|Cpl|Sgt|Lt|Col|Gen|Adm|Maj|Cmdr|Pvt|Sen|Rep|Gov|Rev|Hon|Gen|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e)\./g;
-
-function splitSentences(paras) {
-  const out = [];
-  for (const p of paras) {
-    const guarded = p.replace(ABBR, m => m.replace(/\./g, "·"));
-    const parts = guarded
-      .split(/(?<=[.!?…])\s+/)
-      .map(s => s.trim())
-      /* 广告脚本/导航碎片不送翻译：省额度，也避免它们被译成中文混进正文 */
-      .filter(s => s.length > 30 && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
-      .map(s => s.replace(/·/g, "."));
-    for (const s of parts) {
-      if (s.length <= 420) { out.push(s); continue; }
-      const chunks = s.split(/(?<=[,;:])\s+/);
-      let buf = "";
-      for (const c of chunks) {
-        if ((buf + " " + c).trim().length > 400) { out.push(buf.trim()); buf = c; }
-        else buf = (buf + " " + c).trim();
-      }
-      if (buf.trim().length > 30) out.push(buf.trim());
-    }
-  }
-  return out;
-}
-
-const wordCount = s => (s.match(/[A-Za-z'’-]+/g) || []).length;
+/* ---------------- 断句 ----------------
+ * `splitSentences` / `wordCount` 见 lib-text.mjs 2.6 节（共享给历史通道的清单阶段）。 */
 
 function difficultyOk(sents) {
   if (NO_FILTER) return true;
@@ -655,17 +623,32 @@ const SOURCE_TIERS = {
   "Sky Sports": 3, "TechCrunch AI": 3, "Dan Koe": 3, "Farnam Street": 3,
   "Opta Analyst": 3, "Aeon": 3, "Psyche": 3,
   "More To That": 3, "The Guardian": 3, "Vanity Fair": 3, "Rolling Stone": 3,
+  /* 历史通道的两个来源（Vogue 美版 / 英版）—— 一线大刊的档案图集 */
+  "Vogue US": 3, "British Vogue": 3,
   "FourFourTwo": 2, "AI News": 2, "Ness Labs": 2, "ELLE": 2, "Harper's Bazaar": 2,
 };
 const TITLE_KEY = s => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+/* 明星栏目偏好名单：命中标题或摘要时提高排序优先级；不改变图片门槛和正文内容。 */
+const STAR_WATCHLIST = [
+  /monica\s+bellucci/i,
+  /sophie\s+marceau/i,
+  /anne\s+hathaway/i,
+];
 
-function scoreItem({ feed, item, words, cover, imgs, sents, paragraphs }) {
+function starWatchBoost(feed, item) {
+  if (feed.cat !== "明星") return 0;
+  const text = `${item.title || ""} ${item.desc || ""}`;
+  return STAR_WATCHLIST.some(re => re.test(text)) ? 8 : 0;
+}
+
+function scoreItem({ feed, item, words, capWords, cover, imgs, sents, paragraphs }) {
   const quality = qualityScore({
     sourceTier: SOURCE_TIERS[feed.name] || 1,
     title: item.title,
     desc: item.desc,
     date: item.date,
     words,
+    capWords,
     paragraphs,
     sentences: sents.length,
     cover: Boolean(cover),
@@ -673,12 +656,14 @@ function scoreItem({ feed, item, words, cover, imgs, sents, paragraphs }) {
   });
   const difficulty = difficultyBaseScore({ sentences: sents, vocabulary: VOCABULARY });
   const server = serverScore(quality.value, difficulty);
+  const watchBoost = starWatchBoost(feed, item);
   return {
     qualityScore: quality.value,
     qualityBand: quality.band,
     difficultyBaseScore: difficulty,
     serverScore: server,
-    score: server,
+    score: server + watchBoost,
+    watchBoost,
   };
 }
 
@@ -697,7 +682,16 @@ function staticSkipReason(feed, item) {
 
 function selectCandidates(candidates) {
   const eligible = candidates.filter(c => c.qualityScore >= QUALITY_CANDIDATE_THRESHOLD);
-  const ordered = [...eligible].sort((a, b) => b.score - a.score || (b.item.date || "").localeCompare(a.item.date || ""));
+  /* 明星栏目的图片硬门槛（用户 2026-09-14 定）：正文内嵌图 ≥6 张才算候选。
+     门槛用「从正文抽到的有效图」而不是 RSS 里声明的图数 —— 后者常是推荐位缩略图。
+     被它挡下的是「2—3 张图的明星短讯」，正是「只有一张配图的短消息」那类。 */
+  const gated = eligible.filter(c => meetsImageGate(c.feed.cat, c.imgs));
+  if (VERBOSE && gated.length < eligible.length) {
+    for (const c of eligible.filter(x => !gated.includes(x))) {
+      console.log(`    · 图片门槛挡下[${c.imgs} 图] ${cleanTitle(c.item.title).slice(0, 46)}`);
+    }
+  }
+  const ordered = [...gated].sort((a, b) => b.score - a.score || (b.item.date || "").localeCompare(a.item.date || ""));
   const seenUrls = new Set(), seenTitles = new Set(), unique = [];
   for (const c of ordered) {
     const url = c.item.link;
@@ -939,6 +933,270 @@ async function repairImages() {
   console.log(`写出 ${path.relative(ROOT, OUT_FILE)}`);
 }
 
+/* ---------------- 写盘 ---------------- */
+
+/* RSS 通道与历史通道共用同一份产物格式。两个通道写两个头会漂，所以只有这一个出口。 */
+function writeExtra(all) {
+  const body = `/* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
+ *
+ * 共 ${all.length} 篇，英文正文来自公开来源的真实原文，未做改写；
+ * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
+ * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => a.source.split(" · ")[0]))].join(" / ")}
+ *
+ * 通道：RSS（FEEDS）+ 历史通道（--classics，Vogue 月度 sitemap 的经典图集）。
+ * 历史通道的文章带 pin: true —— 经典专题不按 30 天过期，且不占栏目配额。
+ */
+
+const ARTICLES_EXTRA = ${JSON.stringify(all, null, 2)};
+
+/* 合并进 ARTICLES（按 url / id 去重，避免和 data.js 里的文章重复） */
+if (typeof ARTICLES !== "undefined" && typeof ARTICLES.push === "function") {
+  const _haveUrl = new Set(ARTICLES.map(a => a.url));
+  const _haveId = new Set(ARTICLES.map(a => a.id));
+  ARTICLES_EXTRA.forEach(a => {
+    if (!_haveUrl.has(a.url) && !_haveId.has(a.id)) ARTICLES.push(a);
+  });
+}
+`;
+  fs.writeFileSync(OUT_FILE, body);
+}
+
+/* ---------------- 模式三：明星栏目「历史通道」（非 RSS） ----------------
+ * 现有来源全是 RSS，时效窗最长 60 天，而「经典人物影像回顾」是长尾存量内容 ——
+ * 九十年代旧照今天照样发，靠 RSS 永远抓不到。这条通道换一条路：
+ *   月度 sitemap → 主题/人物筛选 → 实测（图数 / 图注年代 / 正文词数）→ 入池
+ *   → 抓正文与全部图 → 逐句翻译 → 落库
+ *
+ * 与 RSS 通道的三处不同：
+ *   ① **图注必须进库**。RSS 通道的 ELLE / Bazaar 是裸 <img>，没有 <figcaption>，
+ *      所以全库内嵌图的 cap 一直是空的；这里的图注形如
+ *      `Getty Images November 1980 A 19-year-old Diana Spencer wore a red blazer…`
+ *      —— 出处、拍摄年代、内容齐全，是这篇内容的一半价值。
+ *   ② **图上限放宽到 --imgs（默认 16）**。RSS 通道默认 4、明星源 6。
+ *   ③ **每篇带 `pin: true`**。经典专题不能按 30 天过期：publish.mjs 的 isPinned()
+ *      同时豁免日期过期与栏目配额，并校验「置顶文章被误删」。
+ *      为什么不用「把明星加进 EVERGREEN_CATS」：那会连每日明星新闻一起永久保留，
+ *      而过期的日常更新本就该走。
+ */
+async function classics() {
+  fs.mkdirSync(path.dirname(CL_CACHE), { recursive: true });
+
+  const prev = readPrevExtra();
+  const haveUrl = new Set(prev.map(a => urlKey(a.url)));
+  const haveId = new Set(prev.map(a => a.id));
+
+  console.log(`历史通道：扫近 ${CL_MONTHS} 个月的 Vogue 图集（sitemap 按月分片）`);
+  console.log(`入选门槛：名单确认女性 · 图注带 ≤2005 年份的图 ≥${CL_MIN_EARLY} 张 · 图 ≥6`
+    + ` · 正文 ≥${CL_MIN_WORDS} 词且正文+图注 ≥${CL_MIN_READ} 词 · 每人一篇\n`);
+
+  /* 与 fetch-classics.mjs 共用同一份实测缓存 —— 那边刚扫过，这边就不必重抓 130 个页面 */
+  const cache = CL_REFRESH || !fs.existsSync(CL_CACHE)
+    ? {}
+    : JSON.parse(fs.readFileSync(CL_CACHE, "utf8"));
+  const { all, kept, probed, stats } = await scanClassics({
+    months: CL_MONTHS, site: CL_SITE, cache,
+    onSource: (s, n) => console.log(`   ${s.name.padEnd(14)} ${s.section.padEnd(12)} 全量 ${n} 条`),
+    onProgress: (done, total) => { if (done % 20 === 0) console.log(`   实测 … ${done}/${total}`); },
+  });
+  fs.writeFileSync(CL_CACHE, JSON.stringify(cache, null, 1));
+
+  const { pool } = buildPool(probed, { minEarly: CL_MIN_EARLY, minWords: CL_MIN_WORDS, minRead: CL_MIN_READ });
+  console.log(`\n   sitemap 全量 ${all.length} 条 → 命中经典回顾型 ${kept.length} 条`);
+  console.log(`   实测 ${probed.length} 条（缓存命中 ${stats.cached} · 失败 ${stats.failed}）→ 入池 ${pool.length} 条`);
+
+  const targets = [];
+  let skipped = 0;
+  for (const t of pool) {
+    const id = `${CAT_ABBR["明星"]}-${slug(t.slug)}`;
+    if (haveUrl.has(urlKey(t.url)) || haveId.has(id)) { skipped++; continue; }
+    targets.push({ t, id });
+  }
+  if (skipped) console.log(`   ${skipped} 条已在库里，跳过`);
+
+  const batch = CL_LIMIT ? targets.slice(0, CL_LIMIT) : targets;
+  if (!batch.length) { console.log("\n没有新专题要入库。"); return; }
+  console.log(`\n本次处理 ${batch.length} 篇：`);
+  batch.forEach(({ t }, i) => console.log(
+    `   ${String(i + 1).padStart(2)}. ${t.person.padEnd(20)} ${String(t.m.figs).padStart(2)} 图 · `
+    + `${String(t.m.early).padStart(2)} 张早期 · ${String(t.m.words).padStart(4)} 词 · ${t.m.published || "?"}`));
+
+  if (DRY) { console.log("\n--dry：只列计划，未写任何文件"); return; }
+
+  fs.mkdirSync(COVERS_DIR, { recursive: true });
+  let imgOk = 0, imgFail = 0;
+  const articles = [];
+
+  for (const [idx, { t, id }] of batch.entries()) {
+    console.log(`\n· [${idx + 1}/${batch.length}] ${t.person} — ${t.m.title.slice(0, 56)}`);
+    let html;
+    try {
+      html = await classicsFetch(t.url);
+    } catch (e) {
+      console.log(`   页面取不到（${e.message}），跳过`);
+      continue;
+    }
+    const feed = CLASSIC_FEEDS[t.site] || CLASSIC_FEEDS.us;
+    /* 图床在 URL 里写死尺寸（`w_2580%2Cc_limit`）。最终一律压到 720px，
+       所以把源收到 w_1600 就够了 —— 否则每张 300—900KB，17 篇要下几百 MB。
+       upgradeImg 只改尺寸段，不动 %2C 编码（改了就会被图床回 400）。 */
+    const shot = u => upgradeImg(u);
+    const cover = shot(ogImage(html) || (t.m.imgSample && t.m.imgSample[0] && t.m.imgSample[0].url) || "");
+
+    /* 正文段与图按原顺序拼回；图取前 CL_IMGS 张（保序，不改原图顺序）。
+       复检用共享的 `classicRead` —— 与清单（buildPool）同一把尺子，否则会出现
+       「清单说能入、这里说文字太薄」的漂移（2026-09-14 实测过一次，碧昂丝那篇）。 */
+    const rd = classicRead(html);
+    const merged = [];
+    const sents = [];
+    let n = 0, seenImg = false;
+    for (const b of rd.blocks) {
+      if (b.kind === "img") {
+        /* 首图无图注 = Vogue 的 story hero（实测 Diana 与 Halle Berry 都是
+           「恰好 1 张、位于第 0 位」）。它已经作为封面出现，再收一次就是
+           开头连着两张同源图。 */
+        const hero = !seenImg && !b.cap;
+        seenImg = true;
+        if (hero) continue;
+        /* 封面去重必须按 photo id（`/photos/<id>/`），不能只去 query：
+           og:image 与正文图常是同 id 不同宽度段（w_1280 vs w_2580），
+           按完整 URL 比是比不出来的。 */
+        if (cover && imgKey(b.url) === imgKey(cover)) continue;
+        if (n >= CL_IMGS) continue;
+        n++;
+        merged.push({ t: "img", src: shot(b.url), cap: b.cap || "" });
+      } else if (classicPara(b.text)) {
+        const ss = splitSentences([b.text]);
+        if (!ss.length) continue;
+        merged.push({ t: "p", sents: ss });
+        sents.push(...ss);
+      }
+    }
+    const imgs = merged.filter(b => b.t === "img").length;
+    const words = sents.reduce((x, s) => x + wordCount(s), 0);
+
+    /* 页面可能已改版。实测值对不上就跳过，宁可少一篇也不要入库一个空壳 ——
+     * 「标题写 25 张、抽到 0 张」这种提取失败，表现和「这篇内容不行」一模一样。
+     * 门槛与 buildPool 完全一致：图 ≥6 · 正文 ≥CL_MIN_WORDS · 正文+图注 ≥CL_MIN_READ。 */
+    if (rd.imgs < 6 || rd.words < CL_MIN_WORDS || rd.readWords < CL_MIN_READ) {
+      console.log(`   ⚠ 重新实测不达标（${rd.imgs} 图 / 正文 ${rd.words} 词`
+        + ` + 图注 ${rd.capWords} 词），跳过`);
+      continue;
+    }
+
+    const capTexts = [...new Set(merged.filter(b => b.t === "img" && b.cap).map(b => b.cap))];
+    const translated = await translateTexts([...sents, ...capTexts], { maxLines: 4, maxChars: 1200 });
+    const cn = translated.slice(0, sents.length);
+    const capCnBy = new Map(capTexts.map((cap, i) => [cap, postEdit(translated[sents.length + i] || "", "明星")]));
+    const ratio = cn.length ? cn.filter(Boolean).length / cn.length : 0;
+    if (ratio < 0.85) {
+      console.log(`   翻译成功度 ${(ratio * 100).toFixed(0)}%，跳过`);
+      continue;
+    }
+
+    let coverImg = "";
+    if (cover) {
+      const bytes = await downloadImg(cover, path.join(COVERS_DIR, `${id}.jpg`), feed);
+      if (bytes) { coverImg = `assets/covers/${id}.jpg`; imgOk++; } else imgFail++;
+      await sleep(200);
+    }
+
+    const paras = [];
+    let si = 0, ni = 0;
+    for (const b of merged) {
+      if (b.t === "img") {
+        ni++;
+        const rel = `assets/covers/${id}-${ni}.jpg`;
+        const bytes = await downloadImg(b.src, path.join(COVERS_DIR, `${id}-${ni}.jpg`), feed);
+        if (bytes) { paras.push({ img: rel, cap: b.cap, capCn: b.cap ? capCnBy.get(b.cap) || "" : "" }); imgOk++; } else imgFail++;
+        await sleep(120);
+        continue;
+      }
+      const sentences = [];
+      for (const s of b.sents) {
+        const para = cleanPara({ en: s, cn: postEdit(cn[si++] || "", "明星") });
+        if (para) sentences.push(para);
+      }
+      if (sentences.length) paras.push({ sentences });
+    }
+    if (!paras.some(p => Array.isArray(p.sentences) && p.sentences.length)) {
+      console.log("   清洗后没有可用句对，跳过");
+      continue;
+    }
+    const finalImgs = paras.filter(p => p && p.img).length;
+    if (!meetsImageGate("明星", finalImgs)) {
+      console.log(`   ⚠ 配图下载后不达标（${finalImgs}/${STAR_MIN_IMAGES}），跳过`);
+      continue;
+    }
+
+    const grad = GRADIENTS[idx % GRADIENTS.length];
+    /* 图注词数进质量分：经典图集的正文薄是常态，图注才是文字主体（见 recommend.mjs）。
+       从 merged（去 hero、去封面重复、16 张上限后的实际入库块）里数 ——
+       分数要描述「这篇入库后有多少东西可读」，不是池子清单里的全量图注。 */
+    const capWords = paras.filter(b => b && b.img && b.cap)
+      .reduce((n, b) => n + wordCount(b.cap), 0);
+    const scored = scoreItem({
+      feed, words, cover, imgs: finalImgs, sents,
+      capWords,
+      item: { title: t.m.title, desc: "", date: t.m.published, nimgs: 0 },
+      paragraphs: merged.filter(b => b.t === "p").length,
+    });
+
+    articles.push({
+      id,
+      cat: "明星",
+      title: cleanTitle(t.m.title || t.slug.replace(/-/g, " ")),
+      source: `${feed.name} · ${t.m.published || "档案"}`,
+      date: t.m.published || new Date().toISOString().slice(0, 10),
+      minutes: Math.max(2, Math.round(words / 130)),
+      url: t.url,
+      cover: grad,
+      gradient: grad,
+      coverImg,
+      /* 历史通道标记（方案 §3.3）：pin 豁免过期与配额；src/license 记收录方式；
+         yearFrom 是图注里最早的拍摄年代 —— 「判断照片年代而不是发布日期」靠它落地。 */
+      pin: true,
+      src: t.site === "uk" ? "vogue-uk" : "vogue-us",
+      license: "getty",
+      yearFrom: (t.m.years && t.m.years[0]) || 0,
+      person: t.person,
+      photoCount: finalImgs,
+      scoreVersion: SCORE_VERSION,
+      qualityScore: scored.qualityScore,
+      qualityBand: scored.qualityBand,
+      difficultyBaseScore: scored.difficultyBaseScore,
+      serverScore: scored.serverScore,
+      paras,
+    });
+    console.log(`   ✓ ${finalImgs} 图 · ${sents.length} 句 · ${words} 词 · 封面${coverImg ? "有" : "无"}`);
+  }
+
+  if (!articles.length) { console.log("\n没有成功入库的专题。"); return; }
+  optimizeImages();
+
+  const needZh = articles.filter(a => !a.titleZh && a.title);
+  if (needZh.length) {
+    await sleep(3000);   // 正文刚翻完，接口还在限流窗口里
+    const zhs = await translateTexts(needZh.map(a => a.title));
+    let zhOk = 0;
+    needZh.forEach((a, i) => {
+      const zh = cleanTitleZh(zhs[i], a.title);
+      if (!zh) return;
+      articles[articles.indexOf(a)] = putTitleZh(a, zh);
+      zhOk++;
+    });
+    console.log(`\n  标题中文：${zhOk}/${needZh.length}${zhOk < needZh.length ? "（有未译出的，跑 node tools/translate-titles.mjs 可补）" : ""}`);
+  }
+
+  const newIds = new Set(articles.map(a => a.id));
+  const list = [...articles, ...prev.filter(a => !newIds.has(a.id))];
+  writeExtra(list);
+
+  console.log(`\n配图：成功 ${imgOk} 张，失败 ${imgFail} 张`);
+  console.log(`写出 ${path.relative(ROOT, OUT_FILE)}：本次新增 ${articles.length} 篇 · 累计 ${list.length} 篇`);
+  articles.forEach(a => console.log(`  · [${a.cat}] ${a.coverImg ? "🖼 " : "  "}${a.title.slice(0, 52)}  (${a.photoCount} 图 · ${a.paras.length} 段)`));
+  console.log(`\n下一步：node tools/publish.mjs --dry   看发布计划（经典专题带 pin:true，豁免 30 天过期与栏目配额）`);
+}
+
 /* ---------------- 模式二：抓取新文章 ---------------- */
 
 async function main() {
@@ -1084,6 +1342,14 @@ async function main() {
       if (sentences.length) paras.push({ sentences });
     }
 
+    /* 图片下载可能失败，候选阶段的图片数量不能代表最终入库数量。
+       明星栏目必须在下载后再次过硬门槛，避免落成少图的娱乐快讯。 */
+    const finalImgs = paras.filter(x => x && x.img).length;
+    if (!meetsImageGate(p.feed.cat, finalImgs)) {
+      console.log(`  ⚠ 配图下载后不达标（${finalImgs}/${STAR_MIN_IMAGES}），跳过`);
+      continue;
+    }
+
     articles.push({
       id,
       cat: p.feed.cat,
@@ -1128,25 +1394,7 @@ async function main() {
   const haveIds = new Set(prev.map(a => a.id));
   const all = [...prev, ...articles.filter(a => !haveIds.has(a.id))];
 
-  const body = `/* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
- *
- * 共 ${all.length} 篇，英文正文来自公开 RSS 的真实报道原文，未做改写；
- * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
- * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => a.source.split(" · ")[0]))].join(" / ")}
- */
-
-const ARTICLES_EXTRA = ${JSON.stringify(all, null, 2)};
-
-/* 合并进 ARTICLES（按 url / id 去重，避免和 data.js 里的文章重复） */
-if (typeof ARTICLES !== "undefined" && typeof ARTICLES.push === "function") {
-  const _haveUrl = new Set(ARTICLES.map(a => a.url));
-  const _haveId = new Set(ARTICLES.map(a => a.id));
-  ARTICLES_EXTRA.forEach(a => {
-    if (!_haveUrl.has(a.url) && !_haveId.has(a.id)) ARTICLES.push(a);
-  });
-}
-`;
-  fs.writeFileSync(OUT_FILE, body);
+  writeExtra(all);
 
   const dist = {};
   all.forEach(a => dist[a.cat] = (dist[a.cat] || 0) + 1);
@@ -1156,7 +1404,7 @@ if (typeof ARTICLES !== "undefined" && typeof ARTICLES.push === "function") {
   console.log(`\n下一步：node tools/ingest.mjs --backfill   给 data.js 里的文章补封面图`);
 }
 
-const job = BACKFILL ? backfill() : REPAIR ? repairImages() : main();
+const job = CLASSICS ? classics() : BACKFILL ? backfill() : REPAIR ? repairImages() : main();
 job.then(() => {
   if (!BACKFILL && !REPAIR) saveSourceHealth();
 }).catch(e => {

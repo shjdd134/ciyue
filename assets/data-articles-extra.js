@@ -1626,7 +1626,7 @@ const ARTICLES_EXTRA = [
     "license": "getty",
     "yearFrom": 1805,
     "person": "martha stewart",
-    "photoCount": 16,
+    "photoCount": 15,
     "scoreVersion": "v2",
     "qualityScore": 93,
     "qualityBand": "formal",
@@ -11167,28 +11167,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Get full access to premium articles, exclusive features and a growing list of member rewards.",
-            "cn": "即可畅享所有优质文章、独家专题以及日益丰富的会员福利。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
             "en": "Kenny Dalglish was a legend as both a player and a manager, but he remains as modest as ever.",
             "cn": "肯尼·达格利什无论作为球员还是教练都是传奇人物，但他依然像往常一样谦逊。"
           },
           {
             "en": "FFT speaks to the man known as King Kenny about a career that brought trophy after trophy",
             "cn": "《FFT》杂志采访了这位被称为“肯尼王”的传奇人物，回顾了他那座接一座奖杯的辉煌职业生涯"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "When you purchase through links on our site, we may earn an affiliate commission.",
-            "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
           }
         ]
       },
@@ -11343,24 +11327,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Get full access to premium articles, exclusive features and a growing list of member rewards.",
-            "cn": "即可畅享所有优质文章、独家专题以及日益丰富的会员福利。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
             "en": "The early weeks of the Championship campaign have been full of goals and shock results - if that continues, it will be a season for the ages",
             "cn": "英冠联赛开赛以来的几周里，进球如潮，冷门频出——如果这种势头持续下去，这必将是一个载入史册的赛季"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "When you purchase through links on our site, we may earn an affiliate commission.",
-            "cn": "当您通过我们网站上的链接购买时，我们可能会获得附属佣金。"
           }
         ]
       },

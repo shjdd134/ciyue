@@ -9,16 +9,16 @@
  * 判拒标准（一条不满足即拒收该文章）：
  *   F1 字段完备：id/url/cat/title/titleZh/date/paras 齐全，cat 在栏目表内
  *   F2 新鲜度：date 可解析且在近 40 天内
- *   F3 封面：coverImg 非空、文件存在、优化后 < 250KB（无图不收，用户明确要求）
+ *   F3 封面与配图：新闻封面存在且 < 250KB；明星正文内嵌图达到 6 张且引用文件存在
  *   F4 正文：paras ≥ 3 段；每个文字段 en 非空、cn 非空且不与 en 相同、含中文
  *   F5 文面：无翻译占位符 <e:N>/<s:N>、无 U+FFFD、无不可见字符、无广告脚本/导航/纯链接段
- * 警告（不拒收，只打印）：W1 译文中英文残留偏多、W2 段落过短
+ * 警告（不拒收，只打印）：W1 译文中英文残留偏多（只数小写起头的拉丁词，专有名词不算）、W2 段落过短
  */
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { cleanInvisible } from "./lib-text.mjs";
-import { QUALITY_CANDIDATE_THRESHOLD } from "./recommend.mjs";
+import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES } from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const IDS_FILE = (() => {
@@ -27,6 +27,7 @@ const IDS_FILE = (() => {
 })();
 const PRUNE = process.argv.includes("--prune");
 const ALL = process.argv.includes("--all");
+const STRICT_IDS = process.argv.includes("--strict-ids");
 
 /* ---------- 载入库 ---------- */
 const ctx = vm.createContext({ console, window: { addEventListener() {} } });
@@ -46,6 +47,18 @@ if (ALL) {
 } else {
   if (!IDS_FILE || !fs.existsSync(IDS_FILE)) { console.error("需要 --ids-file <文件>（每行一个 id）或 --all"); process.exit(2); }
   targets = new Set(fs.readFileSync(IDS_FILE, "utf8").split("\n").map(s => s.trim()).filter(Boolean));
+}
+/* 「什么都不检查」绝不能被当成「检查通过」。
+ * 这是真实踩过的坑：新文章全部不合格、被 --prune 剔除之后，拿同一份 ID 清单复查，
+ * targets 里的 id 全都不在 ARTICLES 里了，主循环一个都没进、bad 为空、退出码 0 ——
+ * 于是「全军覆没」被判成了「全部通过」。所以这里把「清单点名但文章不存在」单列出来。 */
+const missingIds = [...targets].filter(id => !ARTICLES.some(a => a.id === id));
+if (missingIds.length) {
+  console.log(`清单里 ${missingIds.length} 个 id 在文章表中不存在：${missingIds.slice(0, 8).join(", ")}${missingIds.length > 8 ? " …" : ""}`);
+}
+if (!targets.size) {
+  console.error("质检清单为空 —— 没有任何文章被检查，不能算通过。");
+  process.exit(2);
 }
 
 /* ---------- 规则 ---------- */
@@ -76,7 +89,7 @@ for (const a of ARTICLES) {
     else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
   }
 
-  /* F3 封面（寓言/成长/明星允许无图，回退渐变封面） */
+  /* F3 封面（寓言/成长允许无封面，明星必须达到正文配图门槛） */
   if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星") {
     const cover = a.coverImg || COVER_MAP[a.id] || "";
     if (!cover) F.push("F3 无封面图");
@@ -92,6 +105,16 @@ for (const a of ARTICLES) {
 
   /* F4/F5 正文（寓言最短只有 2 段） */
   const paras = (a.paras || []).filter(Boolean);
+  const inlineImages = paras.filter(p => p && p.img).length;
+  if (!meetsImageGate(a.cat, inlineImages)) F.push(`F3 明星正文配图不足（${inlineImages}/${STAR_MIN_IMAGES}）`);
+  if (a.cat === "明星" && a.photoCount != null && Number(a.photoCount) !== inlineImages) {
+    F.push(`F3 photoCount 不一致（字段 ${a.photoCount}，正文 ${inlineImages}）`);
+  }
+  for (const p of paras) {
+    if (!p || !p.img) continue;
+    const img = path.join(ROOT, p.img);
+    if (!fs.existsSync(img)) F.push(`F3 正文图片文件不存在：${p.img}`);
+  }
   const textParas = [];
   paras.forEach((p, pi) => {
     if (p.img) return;
@@ -118,8 +141,11 @@ for (const a of ARTICLES) {
       if (NAV_PREFIX.test(txt)) F.push(`F5 ${label} ${name} 混入导航句`);
       if (BARE_LINK.test(txt)) F.push(`F5 ${label} ${name} 整段纯链接`);
     }
-    /* W1 译文英文残留：≥4 字母的英文词超过 8 个且译文较短 */
-    const latin = (cn.match(/[A-Za-z]{4,}/g) || []).length;
+    /* W1 译文英文残留：只数**小写起头**的拉丁词 —— 专有名词与公司名（AWS、
+     * Hugging Face、Unitree Robotics）在译文里保留英文是正确做法，原先一律计数
+     * 会把「公司名清单」判成「没翻译干净」（实测 2 条 W1 全是这类误报）。
+     * `\b[a-z]` 保证只从全小写词起算，首字母大写的一律放过。 */
+    const latin = (cn.match(/\b[a-z][A-Za-z]{3,}/g) || []).length;
     if (latin > 8 && cn.length < 400) warned.push(`W1 ${a.id} ${label} 译文中英文残留偏多（${latin} 个英文词）`);
     if (en.length + cn.length < 60) warned.push(`W2 ${a.id} ${label} 过短`);
   }
@@ -140,6 +166,13 @@ for (const a of ARTICLES) {
 console.log(`质检：合格 ${ok.length} · 拒收 ${bad.length} · 警告 ${warned.length} · 已带推荐评分 ${scored.length}/${ARTICLES.length}`);
 for (const b of bad) console.log(`  ✗ ${b.id}\n      ${b.fails.join("\n      ")}`);
 for (const w of warned.slice(0, 10)) console.log("  ⚠ " + w);
+
+/* --strict-ids：清单点名的 id 必须都还在。--prune 之后再复查时不能用它（被剔除的
+ * id 必然「不存在」），但「检查一批已知 id」时用它，能挡住清单一空就默认通过。 */
+if (STRICT_IDS && missingIds.length) {
+  console.error(`✗ --strict-ids：有 ${missingIds.length} 个清单 id 不在文章表中`);
+  process.exit(1);
+}
 
 /* ---------- 剔除不合格者 ---------- */
 if (PRUNE && bad.length) {

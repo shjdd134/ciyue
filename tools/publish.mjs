@@ -1,115 +1,296 @@
 #!/usr/bin/env node
-/* 词阅 WordLens —— 发布：滚动瘦身 + 快照备份 + SW 版本推进 + 孤儿图清理
+/* 词阅 WordLens —— 发布：计划 → 暂存校验 → 提交
  *
- * 用法： node tools/publish.mjs [--days 30] [--per-cat 25]
+ * 用法： node tools/publish.mjs [--days 30] [--per-cat 25] [--evergreen-per-cat 60]
+ *                              [--keep-batches 10] [--batch <批次号>] [--dry]
+ *
+ * 三个阶段（任一步失败都不动线上数据）：
+ *   1. 计划   算出新增 / 淘汰 / 保留 / 置顶清单，以及引用不到的孤儿图
+ *   2. 暂存   新数据写进 <批次>/after/，线上不动；变更前状态已在 <批次>/before/
+ *   3. 校验   在暂存副本上验正文完整性与所有被引用图片真实存在，未过则退出、线上无损
+ *   4. 提交   after/ 覆盖线上，孤儿图归档（先复制后删除），写 manifest.json + 推送清单
  *
  * 瘦身只作用于抓取库（data-articles-extra.js）：
- *   - 新闻类超过 --days 天的文章删除（成长/寓言为常青内容，不按日期淘汰）
- *   - 每个栏目最多保留 --per-cat 篇（按日期取最新）
- * data.js 内置文章与归档文件不受影响。
+ *   - 新闻类超过 --days 天的文章删除
+ *   - 每栏最多 --per-cat 篇；成长/寓言为常青栏目，用 --evergreen-per-cat
+ *   - 带 `pin: true` 的文章永久豁免淘汰（不受日期与配额影响）
+ * data.js 内置文章与归档文件不参与瘦身。
+ *
+ * 批次由 lib-release.mjs 管理；daily.mjs 会先建批次再调本脚本（--batch 复用），
+ * 手工单独跑则本脚本自建。回滚：node tools/rollback.mjs [批次号|latest]
  */
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import crypto from "node:crypto";
+import {
+  createBatch, releaseDir, setLatest, pruneBatches, readPublished,
+  SNAPSHOT_FILES, SNAPSHOT_COVERS,
+} from "./lib-release.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const arg = (name, dflt) => {
   const i = process.argv.indexOf("--" + name);
   return i > 0 ? +process.argv[i + 1] : dflt;
 };
+const opt = name => {
+  const i = process.argv.indexOf("--" + name);
+  return i > 0 ? process.argv[i + 1] : null;
+};
 const KEEP_DAYS = arg("days", 30);
 const PER_CAT = arg("per-cat", 25);
+const EVERGREEN_PER_CAT = arg("evergreen-per-cat", 60);
+const KEEP_BATCHES = arg("keep-batches", 10);
+const DRY = process.argv.includes("--dry");
 const EVERGREEN_CATS = new Set(["成长", "寓言"]);
 
 const ASSETS = path.join(ROOT, "assets");
 const EXTRA = path.join(ASSETS, "data-articles-extra.js");
-const COVERS = path.join(ASSETS, "data-covers.js");
-const EXAMPLES = path.join(ASSETS, "data-examples.js");
-const SOURCE_HEALTH = path.join(ASSETS, "data-source-health.js");
-const SW = path.join(ROOT, "sw.js");
+const COVERS_DIR = path.join(ASSETS, "covers");
 
-/* ---------- 1. 快照备份（当日覆盖） ---------- */
-const day = new Date().toISOString().slice(0, 10);
-const bakDir = path.join(ROOT, ".bak", "daily", day);
-fs.mkdirSync(bakDir, { recursive: true });
-for (const f of [EXTRA, COVERS, EXAMPLES, SOURCE_HEALTH, SW]) {
-  if (fs.existsSync(f)) fs.copyFileSync(f, path.join(bakDir, path.basename(f)));
-}
-console.log(`快照 → .bak/daily/${day}/`);
+const sha1 = f => crypto.createHash("sha1").update(fs.readFileSync(f)).digest("hex");
+/* 仓库相对路径取 sha1（清单里的路径都是相对的） */
+const sha1rel = rel => sha1(path.join(ROOT, rel));
+/* dropBatch：本次是自建批次、且失败发生在写盘之前 —— 线上零改动，快照没有回滚
+ * 价值，留着只会在 .bak/releases/ 里越积越多（复用的批次不能删，那是调用方的）。 */
+const fail = (msg, extra, batchDir, dropBatch = false) => {
+  console.error(`\n✗ ${msg}`);
+  if (extra) console.error(extra);
+  console.error("  线上数据与图片未被修改。");
+  if (batchDir && dropBatch) {
+    fs.rmSync(batchDir, { recursive: true, force: true });
+    console.error("  本次自建批次已清理（无回滚价值）。");
+  } else if (batchDir) {
+    console.error(`  批次暂存保留在 ${path.relative(ROOT, batchDir)}/ 供排查；` +
+      `如需回滚：node tools/rollback.mjs ${path.basename(batchDir)}`);
+  }
+  process.exit(2);
+};
 
-/* ---------- 2. 瘦身 ---------- */
+/* ---------- 1. 计划 ---------- */
 const src = fs.readFileSync(EXTRA, "utf8");
 const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-if (!m) { console.error("extra 文件结构异常"); process.exit(2); }
-const list = JSON.parse(m[1]);
+if (!m) fail("extra 文件结构异常，无法解析 ARTICLES_EXTRA");
+let list;
+try { list = JSON.parse(m[1]); } catch (e) { fail("ARTICLES_EXTRA 不是合法 JSON：" + e.message); }
+
+const isPinned = a => a.pin === true;
+const isEvergreenCat = a => EVERGREEN_CATS.has(a.cat);
 const DAY = 86400000;
 const cutoff = Date.now() - KEEP_DAYS * DAY;
 
-const dated = list.filter(a => {
-  if (EVERGREEN_CATS.has(a.cat)) return true;
+/* 第一轮：日期过期。pin 与常青栏目豁免 */
+const fresh = a => {
   const t = new Date(a.date || 0).getTime();
   return Number.isFinite(t) && t >= cutoff;
-});
-const expired = list.length - dated.length;
+};
+const survivedDate = list.filter(a => isPinned(a) || isEvergreenCat(a) || fresh(a));
+const expired = list.length - survivedDate.length;
 
-/* 每类取最新的 N 篇（date 降序），多余的淘汰 */
+/* 第二轮：栏目配额。pin 不占配额；常青栏目用更高配额 */
 const byCat = new Map();
-for (const a of dated) {
+for (const a of survivedDate) {
   if (!byCat.has(a.cat)) byCat.set(a.cat, []);
   byCat.get(a.cat).push(a);
 }
 const kept = [], overQuota = [];
 for (const [cat, arr] of byCat) {
-  arr.sort((x, y) => new Date(y.date) - new Date(x.date));
-  kept.push(...arr.slice(0, PER_CAT));
-  overQuota.push(...arr.slice(PER_CAT));
+  arr.sort((x, y) => new Date(y.date || 0) - new Date(x.date || 0));
+  const cap = EVERGREEN_CATS.has(cat) ? EVERGREEN_PER_CAT : PER_CAT;
+  const pinnedIn = arr.filter(isPinned);
+  const rest = arr.filter(a => !isPinned(a));
+  /* pin 不占栏目配额：经典明星专题全部保留，普通文章仍按 cap 截断。 */
+  const room = cap;
+  kept.push(...pinnedIn, ...rest.slice(0, room));
+  const over = rest.slice(room);
+  overQuota.push(...over);
+  if (over.length) {
+    console.warn(`⚠ 「${cat}」超出栏目配额 ${cap} 篇，本次淘汰最早的 ${over.length} 篇；` +
+      `需要长期保留请给单篇加 "pin": true`);
+  }
 }
-const dropped = expired + overQuota.length;
+const droppedIds = list.filter(a => !kept.includes(a)).map(a => a.id);
+const keptIds = kept.map(a => a.id);
+const pinnedIds = kept.filter(isPinned).map(a => a.id);
 const dist = {};
-kept.forEach(a => dist[a.cat] = (dist[a.cat] || 0) + 1);
-console.log(`瘦身：${list.length} → ${kept.length} 篇（过期 ${expired} · 超配额 ${overQuota.length}）分布 ${JSON.stringify(dist)}`);
+kept.forEach(a => { dist[a.cat] = (dist[a.cat] || 0) + 1; });
 
-if (dropped) {
-  const head = src.slice(0, m.index).replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`);
-  fs.writeFileSync(EXTRA, head + "const ARTICLES_EXTRA = " + JSON.stringify(kept, null, 2) + m[2] + src.slice(m.index + m[0].length));
-}
-
-/* ---------- 3. 清理不再被引用的封面图 ---------- */
-const ctx = vm.createContext({ console, window: { addEventListener() {} } });
+/* 被引用但磁盘上不存在的封面 —— 直接拦下，别把坏图发上线 */
+const ctx = vm.createContext({ console, window: { addEventListener() { } } });
 vm.runInContext("var window=globalThis;", ctx);
 for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-articles-extra.js", "data-articles-archive.js", "data-covers.js"]) {
-  vm.runInContext(fs.readFileSync(path.join(ASSETS, f), "utf8"), ctx, { filename: f });
+  const p = path.join(ASSETS, f);
+  if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, "utf8"), ctx, { filename: f });
 }
-const ARTICLES = vm.runInContext("ARTICLES", ctx);
+const allArticles = vm.runInContext("ARTICLES", ctx);
 const COVER_MAP = vm.runInContext("typeof COVER_MAP === 'undefined' ? {} : COVER_MAP", ctx);
-const used = new Set();
-for (const a of ARTICLES) {
+
+/* 引用集合必须按「瘦身之后的 extra」算，否则被淘汰文章的图不算孤儿 */
+const droppedSet = new Set(droppedIds);
+const referenced = new Set();
+for (const a of allArticles) {
+  if (droppedSet.has(a.id)) continue;
   const c = a.coverImg || COVER_MAP[a.id];
-  if (c) used.add(path.basename(c));
-  for (const p of a.paras || []) if (p.img) used.add(path.basename(p.img));
+  if (c) referenced.add(path.basename(c));
+  for (const p of a.paras || []) if (p.img) referenced.add(path.basename(p.img));
 }
-const coversDir = path.join(ASSETS, "covers");
-const orphanBakDir = path.join(bakDir, "covers");
-let orphan = 0;
-if (fs.existsSync(coversDir)) {
-  for (const f of fs.readdirSync(coversDir)) {
-    if (used.has(f)) continue;
-    fs.mkdirSync(orphanBakDir, { recursive: true });
-    const src = path.join(coversDir, f);
-    const dest = path.join(orphanBakDir, f);
+const onDisk = fs.existsSync(COVERS_DIR) ? new Set(fs.readdirSync(COVERS_DIR)) : new Set();
+const coversMissing = [...referenced].filter(f => !onDisk.has(f));
+const coversOrphan = [...onDisk].filter(f => !referenced.has(f));
+
+console.log(`== 发布计划（保留 ${KEEP_DAYS} 天 · 每栏 ${PER_CAT} 篇 · 常青 ${EVERGREEN_PER_CAT} 篇）==`);
+console.log(`文章：${list.length} → ${kept.length} 篇（过期 ${expired} · 超配额 ${overQuota.length} · 置顶保留 ${pinnedIds.length}）`);
+console.log(`栏目分布：${JSON.stringify(dist)}`);
+if (droppedIds.length) {
+  console.log(`淘汰 ${droppedIds.length} 篇：${droppedIds.slice(0, 8).join(", ")}${droppedIds.length > 8 ? " …" : ""}`);
+}
+console.log(`封面：引用 ${referenced.size} 张 · 孤儿 ${coversOrphan.length} 张 · 缺失 ${coversMissing.length} 张`);
+
+if (DRY) { console.log("\n--dry：只出计划，未写任何文件"); process.exit(0); }
+
+/* ---------- 2. 建立/复用批次 + 暂存 ---------- */
+const reused = opt("batch");
+let id, dir;
+if (reused) {
+  const meta = JSON.parse(fs.readFileSync(path.join(releaseDir(ROOT, reused), "batch.json"), "utf8"));
+  id = meta.id; dir = releaseDir(ROOT, id);
+  console.log(`\n复用批次 ${id}（回滚基线取自该批次创建时刻）`);
+} else {
+  const b = createBatch(ROOT, { label: "publish" });
+  id = b.id; dir = b.dir;
+  console.log(`\n新建批次 ${id}`);
+}
+const BEFORE_DIR = path.join(dir, "before");
+const AFTER_DIR = path.join(dir, "after");
+const ORPHAN_DIR = path.join(dir, "orphans");
+
+fs.rmSync(AFTER_DIR, { recursive: true, force: true });
+fs.mkdirSync(AFTER_DIR, { recursive: true });
+if (droppedIds.length) {
+  const head = src.slice(0, m.index).replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`);
+  fs.writeFileSync(path.join(AFTER_DIR, "data-articles-extra.js"),
+    head + "const ARTICLES_EXTRA = " + JSON.stringify(kept, null, 2) + m[2] + src.slice(m.index + m[0].length));
+} else {
+  fs.copyFileSync(EXTRA, path.join(AFTER_DIR, "data-articles-extra.js"));
+}
+console.log(`暂存 → .bak/releases/${id}/after/`);
+
+/* ---------- 3. 校验（只看暂存副本） ---------- */
+const stagedSrc = fs.readFileSync(path.join(AFTER_DIR, "data-articles-extra.js"), "utf8");
+const sm = stagedSrc.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
+if (!sm) fail("暂存副本解析失败", null, dir);
+let staged;
+try { staged = JSON.parse(sm[1]); } catch (e) { fail("暂存副本不是合法 JSON：" + e.message, null, dir, !reused); }
+
+const errors = [];
+const seenId = new Set();
+for (const a of staged) {
+  const tag = a.id || "(无 id)";
+  if (!a.id) errors.push(`${tag}：缺 id`);
+  else if (seenId.has(a.id)) errors.push(`${tag}：id 重复`);
+  seenId.add(a.id);
+  if (!a.title) errors.push(`${tag}：缺标题`);
+  if (!a.cat) errors.push(`${tag}：缺栏目`);
+  if (!Array.isArray(a.paras) || !a.paras.length) { errors.push(`${tag}：paras 为空`); continue; }
+  const textSents = a.paras.flatMap(p => Array.isArray(p.sentences) ? p.sentences : (p && p.en ? [p] : []));
+  if (!textSents.some(s => s && String(s.en || "").trim())) errors.push(`${tag}：正文没有任何英文句`);
+  if (!(a.coverImg || COVER_MAP[a.id])) errors.push(`${tag}：没有封面`);
+}
+if (!staged.length) errors.push("瘦身后文章数为 0");
+for (const a of list.filter(isPinned)) {
+  if (!seenId.has(a.id)) errors.push(`置顶文章被误删：${a.id}`);
+}
+for (const f of coversMissing) errors.push(`引用的封面文件不存在：${f}`);
+for (const f of coversOrphan) {
+  if (referenced.has(f)) errors.push(`仍被引用的图片被列入归档：${f}`);
+}
+if (errors.length) {
+  fail(`校验未通过（${errors.length} 项）`, errors.slice(0, 20).map(e => "   · " + e).join("\n"), dir, !reused);
+}
+console.log(`校验通过：${staged.length} 篇正文完整 · ${referenced.size} 张引用图全部存在`);
+
+/* ---------- 4. 提交 ---------- */
+const written = [];
+for (const f of fs.readdirSync(AFTER_DIR)) {
+  const target = path.join(ASSETS, f);
+  if (fs.existsSync(target) && sha1(target) === sha1(path.join(AFTER_DIR, f))) continue;
+  fs.copyFileSync(path.join(AFTER_DIR, f), target);
+  written.push("assets/" + f);
+}
+
+/* 孤儿封面：before/ 已经有全量副本，这里再落一份归档，确认写成功后才删线上文件。
+ * 删不掉就留着下次再清 —— 发布不因图片被占用而失败，也不做不可恢复的删除。 */
+const archived = [], stuck = [];
+if (coversOrphan.length) {
+  fs.mkdirSync(ORPHAN_DIR, { recursive: true });
+  for (const f of coversOrphan) {
+    const from = path.join(COVERS_DIR, f);
     try {
-      fs.renameSync(src, dest);
-      orphan++;
+      fs.copyFileSync(from, path.join(ORPHAN_DIR, f));
+      fs.unlinkSync(from);
+      archived.push(f);
     } catch (err) {
-      /* Windows 上图片可能被浏览器、杀毒软件短暂占用。发布不应因此失败，
-       * 也不能退回不可恢复的 unlink；保留原文件，留待下次发布再清理。 */
+      stuck.push(f);
       console.warn(`孤儿封面暂未归档：${f}（${err.code || err.message}）`);
     }
   }
 }
-console.log(`孤儿封面清理：归档 ${orphan} 张到 .bak/daily/${day}/covers/`);
 
-/* ---------- 4. SW 缓存名保持稳定（v42 起） ----------
- * 缓存策略已改为 SWR 后台刷新 + ETag 协商，内容更新不再需要清缓存——
- * 按日升级缓存名反而会每天清空用户缓存，制造冷加载空窗。这里不再改动 sw.js。 */
-console.log("发布完成");
+/* 推送清单：基线是「上次成功推上远端的状态」（.bak/published.json，由 _api-push 成功后写入），
+ * 不是本次批次的 before/。用 before/ 当基线有个致命情形：先改好正文、补好配图，再跑 publish ——
+ * before/ 拍到的已经是改好之后的样子，差异恒为空，于是「改好了却推不上去」。
+ * 顺手把 delete 也交给同一份基线：上次发布有、现在盘上没有的，就是远端该删的。 */
+const prev = readPublished(ROOT);
+const push = [], del = [];
+for (const f of SNAPSHOT_FILES) {
+  if (!fs.existsSync(path.join(ROOT, f))) continue;
+  if (prev.files[f] !== sha1rel(f)) push.push(f);
+}
+for (const f of (fs.existsSync(COVERS_DIR) ? fs.readdirSync(COVERS_DIR) : [])) {
+  const rel = SNAPSHOT_COVERS + "/" + f;
+  if (prev.files[rel] !== sha1rel(rel)) push.push(rel);
+}
+for (const f of Object.keys(prev.files)) {
+  if (!fs.existsSync(path.join(ROOT, f))) del.push(f);
+}
+
+const manifest = {
+  batch: id,
+  at: new Date().toISOString(),
+  options: { days: KEEP_DAYS, perCat: PER_CAT, evergreenPerCat: EVERGREEN_PER_CAT },
+  summary: {
+    before: list.length, after: staged.length,
+    expired, overQuota: overQuota.length, pinned: pinnedIds.length,
+    coversReferenced: referenced.size, coversArchived: archived.length, coversStuck: stuck.length,
+    pushed: push.length, deleted: del.length,
+    baselineAt: prev.at, baselineCommit: prev.commit,
+  },
+  dist,
+  /* added / dropped 都要跟「上次发布」比才有意义：keptIds 是 list 的子集，
+   * 拿 list 比恒为空。 */
+  added: keptIds.filter(x => !prev.articles.includes(x)),
+  dropped: prev.articles.filter(x => !keptIds.includes(x)),
+  droppedNow: droppedIds,
+  pinned: pinnedIds,
+  kept: keptIds,
+  coversArchived: archived,
+  coversStuck: stuck,
+  coversMissing,
+  verified: true,
+  push: push.sort(),
+  delete: del.sort(),
+};
+fs.writeFileSync(path.join(dir, "manifest.json"), JSON.stringify(manifest, null, 2));
+setLatest(ROOT, id);
+const pruned = pruneBatches(ROOT, KEEP_BATCHES);
+
+console.log(`\n新增 ${manifest.added.length} 篇 · 本次淘汰 ${droppedIds.length} 篇 · 保留 ${kept.length} 篇 · 归档图 ${archived.length} 张`);
+console.log(`推送清单 ${push.length} 项${del.length ? ` · 删除 ${del.length} 项` : ""}` +
+  (prev.at ? `（基线：${prev.at.slice(0, 16).replace("T", " ")}${prev.commit ? " @" + String(prev.commit).slice(0, 7) : ""}）` : "（首次发布，无基线 → 全量）"));
+if (changed()) {
+  console.log(`\n  GITHUB_TOKEN=$(python tools/_cred-get.py git) node tools/_api-push.mjs "chore: 每日更新 ${id}" --manifest auto`);
+}
+if (pruned.length) console.log(`已清理旧批次：${pruned.join(", ")}`);
+console.log(`\n发布完成。批次 ${id} · 回滚：node tools/rollback.mjs ${id}`);
+
+function changed() { return push.length > 0 || del.length > 0 || written.length > 0; }

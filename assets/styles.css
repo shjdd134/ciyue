@@ -182,6 +182,37 @@ body {
   font-size: 12px; font-weight: 600; color: var(--brand); white-space: nowrap;
 }
 
+/* ---------- 阅读记录 ---------- */
+.history-entry { width: 100%; text-align: left; cursor: pointer; align-items: center; }
+.history-entry > svg { color: var(--text-3); flex: none; }
+.history-view { gap: 12px; }
+.history-filters { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.history-filters .muted-2 { margin-left: auto; }
+.history-filter {
+  border: 1px solid var(--border); background: var(--card); color: var(--text-2);
+  border-radius: 999px; padding: 6px 11px; font-family: var(--font-cn); font-size: 11.5px; cursor: pointer;
+}
+.history-filter.on { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); font-weight: 600; }
+.history-row {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; cursor: pointer;
+  border: 1px solid var(--border); border-radius: var(--r-md); padding: 10px 12px;
+  background: var(--card); box-shadow: var(--shadow-1); font-family: inherit;
+}
+.history-row:active { transform: scale(.995); }
+.history-row.archived { cursor: default; opacity: .72; }
+.history-row.archived:active { transform: none; }
+.history-row .thumb { width: 64px; height: 64px; border-radius: 10px; flex: none; position: relative; overflow: hidden; background-size: cover; background-position: center; }
+.history-row .thumb img { width: 100%; height: 100%; display: block; object-fit: cover; }
+.history-main { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.history-title { font-family: var(--font-en); font-size: 13px; line-height: 18px; font-weight: 600; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.history-zh { color: var(--text-2); font-size: 11px; line-height: 15px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+.history-meta, .history-status { color: var(--text-3); font-size: 10.5px; }
+.history-progress { height: 4px; border-radius: 3px; background: var(--brand-soft); overflow: hidden; margin-top: 2px; }
+.history-progress span { display: block; height: 100%; border-radius: inherit; background: var(--brand); }
+.history-status { display: flex; justify-content: space-between; align-items: center; }
+.history-status b { color: var(--brand); font-weight: 600; }
+.history-empty { text-align: center; color: var(--text-2); font-size: 13px; padding: 28px 18px; }
+
 .h1 { font-size: 22px; font-weight: 700; letter-spacing: -.3px; color: var(--text-1); }
 .h2 { font-size: 16px; font-weight: 600; }
 .h3 { font-size: 15px; font-weight: 600; }
@@ -672,6 +703,10 @@ body {
   display: flex; gap: 7px;
   font-size: 11.5px; line-height: 17px; color: var(--text-3);
   padding-left: 1px;
+  flex-wrap: wrap;
+}
+.read-body .para-img figcaption .caption-cn {
+  flex-basis: 100%; color: var(--text-2); font-family: var(--font-cn);
 }
 .read-body .para-img figcaption::before {
   content: ""; flex: none;

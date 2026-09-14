@@ -47,18 +47,24 @@ function offlineResponse(req) {
   }));
 }
 
-async function swr(req) {
-  /* caches.match 不指定缓存名：命中旧代缓存也算，平滑过渡 */
-  const hit = await caches.match(req);
+async function swr(req, event) {
+  /* 当前代优先：全局 caches.match 会先命中旧缓存，发布后可能长期把旧 app.js
+     交给页面；当前缓存没有时才退回旧代，兼顾更新正确性与平滑回退。 */
+  const current = await caches.match(req, { cacheName: CACHE });
+  const hit = current || await caches.match(req);
   if (isFresh(hit)) return hit;
   const net = fetch(req).then(res => {
     if (res && res.status === 304) return hit || res;   // 协商未变：绝不能把 304 空体交给页面
     if (res && res.ok) {
       const changed = !!hit && hit.headers.get("etag") !== res.headers.get("etag");
       const copy = res.clone();
-      caches.open(CACHE).then(c => c.put(req, copy)).catch(() => { });
+      const write = caches.open(CACHE).then(c => c.put(req, copy)).catch(() => { });
+      if (event && event.waitUntil) event.waitUntil(write);
       /* 后台刷新发现内容变了：通知页面（非阅读视图会自动刷新一次） */
-      if (changed) notifyUpdated();
+      if (changed) {
+        const notice = notifyUpdated();
+        if (event && event.waitUntil) event.waitUntil(notice);
+      }
       return res;
     }
     return hit || res;
@@ -98,5 +104,5 @@ self.addEventListener("fetch", e => {
   /* 页面导航与静态资源同一策略。离线兜底已收进 swr() 内部（offlineResponse），
    * 这里不再挂 .catch —— 原来那条 catch 是个安慰剂：swr 离线无缓存时是 resolve
    * 成 undefined 而不是 reject，catch 根本不会触发，页面照样白屏。 */
-  e.respondWith(swr(req));
+  e.respondWith(swr(req, e));
 });
