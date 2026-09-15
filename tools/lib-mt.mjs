@@ -91,13 +91,18 @@ export function createDeepL(key) {
   key = key || deepLKey();
   if (!key) return null;
   const base = key.endsWith(":fx") ? "https://api-free.deepl.com" : "https://api.deepl.com";
-  return async function deepl(lines) {
+  return async function deepl(lines, context = "") {
     for (let i = 0; i < 2; i++) {
       try {
         const res = await fetch(base + "/v2/translate", {
           method: "POST",
           headers: { "Authorization": "DeepL-Auth-Key " + key, "Content-Type": "application/json" },
-          body: JSON.stringify({ text: lines, target_lang: "ZH", preserve_formatting: true }),
+          body: JSON.stringify({
+            text: lines,
+            target_lang: "ZH",
+            preserve_formatting: true,
+            ...(context ? { context } : {}),
+          }),
           signal: AbortSignal.timeout(30000),
         });
         if (res.status === 429) { await sleep(2000 * (i + 1)); continue; }   // 限流退避
@@ -161,6 +166,9 @@ export function createMyMemory() {
  *   - maxChars   单次请求的原文总长上限（有道对 q 有长度限制）
  *   - maxLines   单次请求的行数上限
  *   - onTick     (done, total) => void，进度回调
+ *   - cacheNamespace  缓存方案名；切换上下文/术语表时递增，避免复用旧译文
+ *   - cacheKey   当前文章或文档的稳定标识；有上下文的翻译应按文章隔离
+ *   - context    DeepL 的上下文字符串，或接收当前批次 [{i,t}] 的函数
  */
 export async function translateTexts(texts, opts = {}) {
   const {
@@ -168,14 +176,27 @@ export async function translateTexts(texts, opts = {}) {
     maxChars = 400,
     maxLines = 6,
     onTick = null,
+    cacheNamespace = "legacy",
+    cacheKey = "",
+    context = "",
   } = opts;
+
+  const keyFor = t => hash(`${cacheNamespace}\n${cacheKey}\n${t}`);
+  const contextFor = batch => {
+    const raw = typeof context === "function" ? context(batch) : context;
+    /* DeepL context 不应无限膨胀；标题和相邻句子足够消歧，过长反而增加请求失败率。 */
+    return String(raw || "").replace(/\s+/g, " ").trim().slice(0, 3500);
+  };
 
   const cache = loadCache(cacheFile);
   const out = new Array(texts.length).fill("");
   const todo = [];
   texts.forEach((t, i) => {
-    const key = hash(t);
+    const key = keyFor(t);
+    /* legacy 且无上下文时兼容旧缓存；文章上下文方案故意不回退，确保旧译文不会遮住新译文。 */
+    const legacy = cacheNamespace === "legacy" && !cacheKey && !context ? cache[hash(t)] : "";
     if (cache[key]) out[i] = cache[key];
+    else if (legacy) out[i] = legacy;
     else todo.push({ i, t });
   });
 
@@ -199,7 +220,10 @@ export async function translateTexts(texts, opts = {}) {
     let lines = [];
     /* DeepL 主力：text 数组一次一批，返回天然按序，不存在「行数对不上」的问题 */
     if (dl) {
-      const dlOut = await dl(batch.map(b => b.t.replace(/\s*\n\s*/g, " ")));
+      const dlOut = await dl(
+        batch.map(b => b.t.replace(/\s*\n\s*/g, " ")),
+        contextFor(batch),
+      );
       if (dlOut) lines = dlOut;
     }
     if (lines.length !== batch.length) {
@@ -227,7 +251,7 @@ export async function translateTexts(texts, opts = {}) {
 
     batch.forEach((b, k) => {
       const cn = lines[k] || "";
-      if (cn) { cache[hash(b.t)] = cn; out[b.i] = cn; }
+      if (cn) { cache[keyFor(b.t)] = cn; out[b.i] = cn; }
     });
 
     done += batch.length;
@@ -240,7 +264,7 @@ export async function translateTexts(texts, opts = {}) {
   for (const item of todo) {
     if (out[item.i]) continue;
     const cn = await mm(item.t);
-    if (cn) { cache[hash(item.t)] = cn; out[item.i] = cn; }
+    if (cn) { cache[keyFor(item.t)] = cn; out[item.i] = cn; }
   }
   saveCache(cacheFile, cache);
 

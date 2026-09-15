@@ -51,6 +51,14 @@ if (fs.existsSync(tapFile)) {
   TAPDICT = vm.runInContext('TAPDICT', sandbox);
   TAP_REVERSE = vm.runInContext('TAP_REVERSE', sandbox);
 }
+/* 常见词表（可选）：难度指标的「词库外常见词」依据，同样须在 app.js 之前 */
+const freqFile = path.join(base, 'assets/data-wordfreq.js');
+let COMMON_WORDS = {};
+if (fs.existsSync(freqFile)) {
+  vm.runInContext(fs.readFileSync(freqFile, 'utf8'), sandbox);
+  vm.runInContext('var COMMON_WORDS = window.COMMON_WORDS;', sandbox);
+  COMMON_WORDS = vm.runInContext('COMMON_WORDS', sandbox);
+}
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox);
 
 // data.js 里 const 声明在同一个 context 的顶层词法作用域中，可被后续脚本读到
@@ -73,6 +81,7 @@ const stats = {
   KEYWORDS_count: sandbox.KEYWORDS.length,
   TAPDICT_size: Object.keys(TAPDICT).length,
   TAP_REVERSE_size: Object.keys(TAP_REVERSE).length,
+  COMMON_WORDS_size: Object.keys(COMMON_WORDS).length,
   /* 内容新鲜度与配图覆盖 */
   datedOldest: '',
   datedNewest: '',

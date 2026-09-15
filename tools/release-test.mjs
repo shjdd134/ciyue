@@ -210,7 +210,10 @@ try {
   const droppedIds = droppedLine ? droppedLine.replace(/^淘汰 \d+ 篇：/, "").replace(/\s*…$/, "").split(", ").map(s => s.trim()) : [];
   console.log(`  ${planLine.trim()}`);
   results.push(["--dry 不改动任何文件", fingerprint() === fpBeforeDry]);
-  results.push(["置顶文章数量与标记数一致", keptPinned === pinned.length]);
+  /* 历史通道上线后，库里本来就躺着一堆 pin:true 的经典专题（2026-09-14 起 24 篇）——
+   * 「置顶保留」不再是本次测试打的标记数，而是**原有 pin ∪ 本次打的 pin**。 */
+  const expectPinned = new Set([...list.filter(a => a.pin).map(a => a.id), ...pinned.map(a => a.id)]).size;
+  results.push(["置顶文章数量与标记数一致", keptPinned === expectPinned]);
   results.push(["置顶文章未出现在淘汰名单", !pinned.some(a => droppedIds.includes(a.id))]);
 
   /* ===== C. 校验门禁 ===== */

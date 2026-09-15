@@ -103,7 +103,7 @@ if (!run("publish.mjs", ["--batch", batch.id])) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-for (const t of ["recommend-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "examples-test.mjs"]) {
+for (const t of ["recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "examples-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 

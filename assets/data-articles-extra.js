@@ -1,7 +1,7 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
  * 共 40 篇，英文正文来自公开来源的真实原文，未做改写；
- * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
+ * 中文为逐句机器翻译（DeepL 优先，有道 / MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
  * 每篇保留 url 外链可溯源。来源：Vogue US / British Vogue / Dan Koe / Farnam Street / More To That / Ness Labs / FourFourTwo / TechCrunch AI / Vanity Fair / Rolling Stone / Harper's Bazaar / AI News
  *
  * 通道：RSS（FEEDS）+ 历史通道（--classics，Vogue 月度 sitemap 的经典图集）。

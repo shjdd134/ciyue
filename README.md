@@ -60,13 +60,13 @@
 
 「明星」栏目另有**历史通道**（`tools/ingest.mjs --classics`）：不走 RSS，按月扫 Vogue US / British Vogue 公开 sitemap 里的经典图集（`/slideshow/`、`/gallery/` 路径），只收单人女性的旧照回顾型专题（图注带 ≤2005 年份的早期影像 ≥10 张）。文章带 `pin: true` 长期保留，不按 30 天过期、不占栏目配额；图片来自原报道的 Getty 图床链接，版权归 Condé Nast / Getty Images 所有。
 
-明星采集设有偏好名单（Monica Bellucci、Sophie Marceau、Anne Hathaway）：标题或摘要命中时提高候选排序，仍须通过正文长度、翻译和至少 6 张有效图的门槛。
+明星采集设有偏好名单（Monica Bellucci、Sophie Marceau、Anne Hathaway）：RSS 标题/摘要或经典图集人物命中时提高候选排序，仍须通过正文长度、完整翻译和至少 6 张有效图的门槛。
 
 图集图注保留英文原文，阅读页中的词可直接点查；新抓取的历史专题若有中文图注也会在图下注显示。
 
 ### 译文
 
-文章译文由机器翻译（有道 / DeepL）生成，仅作阅读辅助，不保证准确性；单词例句中文来自上述开源词库，非机器生成。
+文章译文由机器翻译（DeepL 优先，有道 / MyMemory 兜底）生成，仅作阅读辅助，不保证准确性；翻译请求会带上文章标题、来源和相邻句子，且按文章 URL 隔离缓存，避免把上一篇的代词语境复用到下一篇。任一正文句子没有译文时整篇暂不入库，下一轮会重新尝试，不再静默删句。单词例句中文来自上述开源词库，非机器生成。
 
 > **如任何权利人认为本项目使用的内容不当，请提 Issue 联系，我们会立即下架相关内容。**
 
@@ -87,6 +87,10 @@ tools/           数据管线与回归测试（Node，无依赖）
   build-wordfreq.mjs  生成常见词表（词库换代后须重跑）
   build-tapdict.mjs   生成点词翻译层（词库换代后须重跑）
   ingest.mjs          RSS 抓取 + 评分 + 翻译
+  lib-mt.mjs          带文章上下文与隔离缓存的翻译引擎
+  mt-test.mjs         翻译上下文 / 缓存隔离回归
+  text-test.mjs       译文原样回显过滤回归
+  classics-test.mjs   明星经典图集偏好排序回归
   recommend.mjs       质量/难度/服务端推荐分与来源健康度规则
   recommend-test.mjs  推荐规则单元测试
   qc.mjs              内容质检 + 推荐评分门禁
@@ -169,6 +173,7 @@ node tools/rollback.mjs latest   # 完整回滚（数据 + 图片，含本次新
 node tools/release-test.mjs      # 发布可靠性回归（自带还原保护）
 node tools/sw-test.js            # Service Worker 离线/缓存路径
 node tools/push-test.mjs         # 上传清单闸门（缺文件必须中止）
+node tools/mt-test.mjs && node tools/text-test.mjs && node tools/classics-test.mjs  # 抓取/翻译专项回归
 ```
 
 成长 / 寓言属常青栏目，不受时效淘汰；需要长期保留的单篇文章可以单独加保留标记。

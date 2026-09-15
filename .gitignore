@@ -18,3 +18,16 @@ tools/.examples-cache/*
 # 本地密钥，绝不入库
 tools/.deepl-key
 tools/.ecdict-blob.json
+
+# 抓取残留 / 会话产物 —— 不参与构建、不该进公开仓库。
+# 它们此前只是「未跟踪」，一旦有人走 git-status 路线 push 就会被一起传上去。
+# _aesop-raw.html 另在 _api-push.mjs 的 NEVER_PUSH 里兜底，这里再拦一道。
+.tmp-*.html
+tools/.remote-articles.js
+tools/_aesop-raw.html
+# 本地工作区/会话目录（agent 记忆、计划稿），仓库公开，不入库
+.zcode/
+.workbuddy/
+
+# 人工抽查材料（spot-check.mjs 生成，逐句对照 + 记录模板），属一次性产物
+tools/_spot/

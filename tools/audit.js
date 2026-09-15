@@ -22,6 +22,9 @@ const noop = () => { };
 
 const base = path.resolve(__dirname, '..');
 const handlers = {};
+const captureHandlers = {};   // capture=true 的监听（与 handlers 分槽，互不覆盖）
+const swHandlers = {};        // navigator.serviceWorker 上的 message 监听
+let reloads = 0;              // location.reload 被调用次数（内容更新后刷新的断言用）
 
 /* ---------- 最小 DOM：浮层可被记录与移除 ---------- */
 const screenEl = { innerHTML: '', style: {}, className: '', appendChild: noop };
@@ -63,15 +66,33 @@ const grow = (ds, extra) => Object.assign({
 const sandbox = {
   console,
   history: hist,
-  location: { protocol: 'http:', search: '' },
+  location: { protocol: 'http:', search: '', reload: () => { reloads++; } },
   window: { addEventListener: (t, f) => { handlers[t] = f; }, removeEventListener: noop },
+  /* Service Worker / 会话存储桩：app.js 的 SW 通知与 PWA 代码块只有存在
+   * navigator.serviceWorker 时才会挂监听，不补桩就整段测不到。 */
+  navigator: {
+    serviceWorker: {
+      addEventListener: (t, f) => { swHandlers[t] = f; },
+      register: () => ({ catch: noop }),
+    },
+  },
+  sessionStorage: { _d: {}, getItem(k) { return this._d[k] || null; }, setItem(k, v) { this._d[k] = v; } },
   document: {
+    hidden: false,
     documentElement: { setAttribute: noop },
-    addEventListener: (t, f) => { handlers[t] = f; },
+    /* capture 阶段的监听单独存：app.js 用 capture=true 挂「活跃计时」的 click，
+     * 若与测试用的 handlers.click 挤同一个槽，会把点击测试的处理器覆盖掉。 */
+    addEventListener: (t, f, opts) => {
+      if (opts === true || (opts && opts.capture)) (captureHandlers[t] = captureHandlers[t] || []).push(f);
+      else handlers[t] = f;
+    },
     removeEventListener: noop,
     querySelector: s => (s === '#screen' ? screenEl : s === '.phone' ? phoneEl : null),
     querySelectorAll: s => (String(s).includes('sheet') ? overlays.slice() : []),
     createElement: () => grow({}),
+    /* 例句库的按需加载会往 head 插 script；沙箱里 data-examples.js 已直接求值，
+     * examplesReady() 会短路，正常不会走到这儿 —— 留着只是别让边界情况炸掉。 */
+    head: { appendChild: noop },
   },
   localStorage: { _d: {}, getItem(k) { return this._d[k] || null; }, setItem(k, v) { this._d[k] = v; } },
   SpeechSynthesisUtterance: function () { },
@@ -85,7 +106,7 @@ vm.createContext(sandbox);
 for (const f of [
   'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
-  'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js'
+  'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js', 'assets/data-wordfreq.js'
 ]) {
   const p = path.join(base, f);
   if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, 'utf8'), sandbox, { filename: f });
@@ -95,6 +116,7 @@ for (const f of [
    —— see 找不到 saw、good 找不到 best，例句标色会整段失效。 */
 vm.runInContext('var WORD_META = window.WORD_META;', sandbox);
 vm.runInContext('var TAPDICT = window.TAPDICT, TAP_REVERSE = window.TAP_REVERSE;', sandbox);
+vm.runInContext('var COMMON_WORDS = window.COMMON_WORDS;', sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = e => vm.runInContext(e, sandbox);
@@ -132,7 +154,7 @@ click({ act: 'filter' });
 eq('打开排序浮层', overlays.length, 1);
 click({ act: 'set-sort', sort: 'words' });
 eq('选完排序后浮层关闭', overlays.length, 0);
-ok('排序结果写进了页面', /按生词最多/.test(screenEl.innerHTML));
+ok('排序结果写进了页面', /按需学最多/.test(screenEl.innerHTML));
 
 /* ===================================================================
  * B. 系统返回键不该一次退两层
@@ -278,6 +300,66 @@ ctx('activeArticle = __nestedProbe; view = {name:"read"}; S.showCn = true;');
 const nestedRead = ctx('renderRead()');
 ok('嵌套段落阅读渲染句子节点', nestedRead.includes('class="sentence"') && nestedRead.includes('data-si="1"'));
 ctx('activeArticle = ARTICLES[0]; view = {name:"home"}; S.showCn = false;');
+
+/* ===================================================================
+ * G2. 难度指标口径（原来的生词率分子分母量纲不一致）
+ *   旧实现：分子 = 去重后的未认识词库词数，分母 = 正文总词数。
+ *   · 同一个生词出现 20 次，分子只算 1；
+ *   · 词库外的陌生词一个都不算。
+ *   现在拆成两个各自自洽的口径，这两条各自立断言。
+ * =================================================================== */
+console.log('\n[G2] 难度指标两个口径各自自洽');
+const mkProbe = paras => ctx(`({ id: "metric-probe", title: "Metric", source: "test", cat: "成长",
+  date: "2026-01-01", url: "#", cover: "assets/covers/t.jpg", gradient: "", paras: ${JSON.stringify(paras)} })`);
+
+/* 口径一：陌生词按 token 计，重复出现要重复计入 */
+const repProbe = mkProbe([{ en: 'quantum quantum quantum.', cn: '测试。' }]);
+ok('同一陌生词重复 3 次 → 陌生占比 100%（不是 33%）',
+  Math.abs(ctx('computeArticleMetrics(' + JSON.stringify(repProbe) + ').rate') - 1) < 1e-9);
+const mixProbe = mkProbe([{ en: 'quantum the of and.', cn: '测试。' }]);
+const mixRate = ctx('computeArticleMetrics(' + JSON.stringify(mixProbe) + ').rate');
+ok(`1 个陌生词 + 3 个常见词 → 陌生占比 25%（实际 ${(mixRate * 100).toFixed(1)}%）`, Math.abs(mixRate - 0.25) < 1e-9);
+ok('全部是常见词 → 陌生占比 0',
+  ctx('computeArticleMetrics(' + JSON.stringify(mkProbe([{ en: 'the of and a to in.', cn: '测试。' }])) + ').rate') === 0);
+
+/* 口径二：词库外的「常见词」不能被算成陌生 —— 学习词表主动剔除了纯功能词，
+   只查 WORD_META 会把它们全部误判（实测会虚高到 88%） */
+ok('纯功能词（the / of / and）不算陌生词',
+  ctx('Math.abs(computeArticleMetrics(' + JSON.stringify(mkProbe([{ en: 'the of and a to in it is.', cn: '测试。' }])) + ').rate) < 1e-9'));
+ok('词库外的冷僻词算陌生词（ostensibly / perfunctory）',
+  ctx('computeArticleMetrics(' + JSON.stringify(mkProbe([{ en: 'ostensibly perfunctory.', cn: '测试。' }])) + ').rate') > 0.9);
+ok('句中人名不算陌生词',
+  ctx('computeArticleMetrics(' + JSON.stringify(mkProbe([{ en: 'The of and Zuckerberg.', cn: '测试。' }])) + ').rate') === 0);
+ok('同一个小写词（词库外生僻词）会算作陌生词',
+  ctx('computeArticleMetrics(' + JSON.stringify(mkProbe([{ en: 'The of and zuckerberg.', cn: '测试。' }])) + ').rate') > 0);
+/* 专有名词只跳过自己，不能把它后面整句都吞掉（曾用 return 导致整句漏统计） */
+ok('人名之后的词照常统计（不会被整句吞掉）',
+  ctx('computeArticleMetrics(' + JSON.stringify(mkProbe([{ en: 'Zuckerberg ostensibly ostensibly.', cn: '测试。' }])) + ').unknown') === 2);
+
+/* 口径三：needLearn 走词形归一去重，不能一种变形算一个词 */
+const inflProbe = mkProbe([{ en: 'perform performs performing performed.', cn: '测试。' }]);
+const infl = ctx('computeArticleMetrics(' + JSON.stringify(inflProbe) + ').needLearn');
+ok(`perform 的 4 种变形只算 1 个需学词（实际 ${infl}）`, infl === 1);
+
+/* 口径四：陌生占比刻画文本难度，不该随用户的认识标记变化；需学词数才该变 */
+ctx('S.known = []; clearArticleCaches();');
+const rateNoKnown = ctx('articleStats(ARTICLES[0]).rate');
+const needNoKnown = ctx('articleStats(ARTICLES[0]).needLearn');
+ctx(`S.known = WORDS.slice(0, 3000).map(w => w.word.toLowerCase()); clearArticleCaches();`);
+const rateKnown = ctx('articleStats(ARTICLES[0]).rate');
+const needKnown = ctx('articleStats(ARTICLES[0]).needLearn');
+ok('标认识 3000 词后陌生占比不变（文本固有难度）', Math.abs(rateKnown - rateNoKnown) < 1e-9);
+ok(`标认识 3000 词后需学词数下降（${needNoKnown} → ${needKnown}）`, needKnown < needNoKnown);
+ctx('S.known = []; clearArticleCaches();');
+
+/* 口径五：难度档必须真的分档，不能全挤在一档 */
+const tiers = ctx('ARTICLES.map(a => diffTier(articleStats(a).rate).label)');
+ok(`难度四档有区分度（实测分布 ${JSON.stringify(tiers.reduce((m, t) => (m[t] = (m[t] || 0) + 1, m), {}))}）`,
+  new Set(tiers).size >= 2);
+
+/* 弯引号：正文用 ’ 而词形表按 ' 写，不归一会把 it’s 切成 it + s 凭空多一个生词 */
+ok('弯引号 it’s 的标色不断在撇号上', ctx('highlightEn("It\\u2019s fine.")').includes('>It\u2019s<')
+  || ctx('highlightEn("It\\u2019s fine.")').includes('>It’s<'));
 
 /* ===================================================================
  * H. 标题双语
@@ -573,13 +655,98 @@ ok('完整词卡不再提供加入复习', !/data-act="add-review"|加入复习/
 
 ctx(`S.known.length = 0; S.notebook.length = 0;`);
 
-/* 阅读页原地设置（对照/字号/护眼）不切走视图；滚动位置保留由浏览器实测覆盖 */
-ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.showCn = false; S.fontSize = 0;');
+/* 阅读页原地设置（对照/字号/底色）不切走视图，也不整页重渲染
+   —— 整页 render 等于把阅读位置打回开头。滚动位置由句子锚点保证，见 [R]。 */
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.showCn = false; S.fontSize = 0; S.readTheme = ""; window.__renderCalls = 0;');
 click({ act: "toggle-cn" });
 ok(`阅读页「中英对照」不切走视图（状态翻转）`, ctx('view.name') === 'read' && ctx('S.showCn') === true);
-click({ act: "font" });
-ok(`阅读页「字号」不切走视图（档位推进）`, ctx('view.name') === 'read' && ctx('S.fontSize') === 1);
-ctx('activeArticle = null; view = {name:"home"}; S.showCn = false; S.fontSize = 0;');
+click({ act: "read-settings" });
+ok('「阅读设置」按钮打开设置浮层', overlays.length === 1);
+ok('设置面板把字号三档全列出来（不是点一下轮一档）',
+  /data-act="set-fs"[^>]*data-fs="0"/.test(ctx('renderReadSettingsSheet()')) &&
+  /data-act="set-fs"[^>]*data-fs="2"/.test(ctx('renderReadSettingsSheet()')));
+click({ act: "set-fs", fs: "1" });
+ok('直接点「大」即生效（fontSize=1，零整页重渲染）', ctx('S.fontSize') === 1 && ctx('window.__renderCalls') === 0);
+click({ act: "set-theme", theme: "night" });
+ok('直接点「夜间」即生效（不再循环切换）', ctx('S.readTheme') === 'night' && ctx('window.__renderCalls') === 0);
+click({ act: "close-sheet" });
+ok('关掉设置浮层', overlays.length === 0);
+ctx('activeArticle = null; view = {name:"home"}; S.showCn = false; S.fontSize = 0; S.readTheme = ""; window.__renderCalls = 0;');
+
+/* ===================================================================
+ * R. 阅读排版与位置（逐句分行 / 段间装饰 / 首字下沉 / 句子锚点）
+ * =================================================================== */
+console.log('\n[R] 阅读排版与位置');
+const readHtml = ctx('(activeArticle = ARTICLES[0], renderRead())');
+ok('英文按段落连续排版（句子是内联 span，不是逐句块级）',
+  /<p class="para">/.test(readHtml) && /<p class="para">[^<]*<span class="sentence"/.test(readHtml) && !/<div class="sentence"/.test(readHtml));
+ok('正文不再有 .en 容器（逐句分行的载体已移除）', !/<div class="en( |")/.test(readHtml));
+ok('每句带句子坐标（data-pi / data-si），锚点能定位到句',
+  /class="sentence" data-act="para-peek" data-pi="0" data-si="0"/.test(readHtml));
+ok('朗读按钮挂在句内（每句一个 data-act="para-speak"）',
+  /<span class="para-tts" data-act="para-speak"/.test(readHtml));
+ctx('activeArticle = null;');
+
+const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
+ok('段间装饰点已删除', !/· · ·/.test(css));
+ok('首字下沉已删除', !/::first-letter/.test(css));
+ok('左右留白只在 --rd-pad 定义一次', /--rd-pad:\s*22px/.test(css));
+const rdBodyCss = (css.match(/\.read-body\s*\{([^}]*)\}/) || [, ''])[1];
+ok('正文容器横向留白取自 --rd-pad（不再和 .read-scroll 各加一层）',
+  /padding:\s*[\d.]+px\s+var\(--rd-pad\)/.test(rdBodyCss));
+ok('滚动容器自身不再加横向留白', /\.view\.read-scroll\s*\{\s*padding:\s*[\d.]+px\s+0\s+[\d.]+px/.test(css));
+ok('英文默认 19px / 行高 32px（约 1.7 倍）', /--rd-en:\s*19px;\s*--rd-en-lh:\s*32px/.test(css));
+ok('中文字号跟随正文档位（不再固定 13.5px）',
+  /--rd-cn:\s*14px/.test(css) && !/\.read-body \.para \.cn\s*\{[^}]*13\.5px/.test(css));
+ok('朗读喇叭默认隐藏、选中句子才出现（长文不再满屏小图标）',
+  /\.para-tts\s*\{[^}]*opacity:\s*0/.test(css) && /\.sentence\.sel > \.para-tts/.test(css));
+/* & 会被 esc() 转成 &amp;，分词不能钻进实体里（否则页面显示的是 "&amp;" 而不是 "&"） */
+const ampHtml = ctx('highlightEn(esc("Buddhism & Christianity"))');
+ok('正文里的 & 不被拆成实体（highlightEn 跳过实体段）',
+  ampHtml.includes(' &amp; ') && !/&<span/.test(ampHtml));
+ok('实体之外照常分词（& 两侧的词仍可点）',
+  /data-word="buddhism"/.test(ampHtml) && /data-word="christianity"/.test(ampHtml));
+/* 段落分组是排版的前提：句子写成一个段落一组，阅读页才可能「一段话连读」。
+ * 旧版 ingest 把原段落拆成了单句段（1519 个单句段），排版层救不回来 ——
+ * 已由 tools/_regroup-paras.mjs 按原文接回。这里守住不许再退化。 */
+const stillFlat = ctx(`ARTICLES.filter(a => {
+  const txt = (a.paras||[]).filter(p => p && !p.img);
+  const flat = txt.filter(p => !Array.isArray(p.sentences));
+  return txt.length >= 20 && flat.length / txt.length > 0.8;
+}).map(a => a.id)`);
+ok(`按原文段落分组的文章 ≥18/19（仍是单句段的：${stillFlat.join(", ") || "无"}）`,
+  stillFlat.length <= 1);
+const multiPara = ctx(`ARTICLES.reduce((n,a) => n + (a.paras||[]).filter(p => Array.isArray(p.sentences) && p.sentences.length > 1).length, 0)`);
+ok(`多句段数量充足（${multiPara} 个 ≥2 句的段落）`, multiPara >= 300);
+
+/* 句子锚点：off = 该句顶部相对滚动容器视口的偏移；还原时把同一句放回同一偏移 */
+const mkSent = (pi, si, top, bottom) => ({
+  dataset: { pi: String(pi), si: String(si) },
+  getBoundingClientRect: () => ({ top, bottom }),
+});
+sandbox.__fakeRead = {
+  clientHeight: 600, scrollTop: 500,
+  getBoundingClientRect: () => ({ top: 0 }),
+  querySelectorAll: () => [mkSent(0, 0, -300, -100), mkSent(0, 1, -80, 60), mkSent(1, 0, 80, 200)],
+};
+ok('锚点取「第一个越过视口上部 22% 的句子」（第 3 句）',
+  ctx('JSON.stringify(readAnchor(__fakeRead))') === '{"pi":1,"si":0,"off":80}');
+sandbox.__fakeCont = {
+  clientHeight: 600, scrollTop: 1000,
+  getBoundingClientRect: () => ({ top: 100 }),
+  querySelector: s => (String(s).includes('data-pi="3"') ? { getBoundingClientRect: () => ({ top: 130 }) } : null),
+};
+ctx('applyAnchor(__fakeCont, {pi:3, si:1, off:-20})');
+ok('还原锚点：该句回到记录时的屏幕位置（scrollTop 1000 → 1050）', ctx('__fakeCont.scrollTop') === 1050);
+ok('锚点指向的句子不存在时安全退出', ctx('applyAnchor(__fakeCont, {pi:99, si:0, off:0})') === false);
+
+ctx('S.readPos = {}; S.lastRead = { id: "artA", y: 500, pct: 33, at: 0 };');
+ctx('rememberReadPos(__fakeRead, "artA"); rememberReadPos(__fakeRead, "artB");');
+ok('每篇文章各存一份续读位置（A / B 互不覆盖）',
+  Object.keys(ctx('S.readPos')).length === 2 && ctx('S.readPos.artA.pi') === 1 && ctx('S.readPos.artA.si') === 0 &&
+  ctx('S.readPos.artA.off') === 80 && ctx('S.readPos.artA.y') === 500 && ctx('S.readPos.artA.pct') === 33);
+ok('B 篇没有 lastRead 记录时 pct 归零，不串用 A 篇进度', ctx('S.readPos.artB.pct') === 0);
+ctx('S.readPos = {}; S.lastRead = { id: "", y: 0, pct: 0, at: 0 };');
 
 /* 「上次读到」：打开文章即记录，发现页出续读卡片，重进同一篇恢复位置。
    这里要真渲染发现页，先解除 render 间谍 */
@@ -591,11 +758,212 @@ ok(`打开文章即记录「上次读到」`, ctx('S.lastRead.id') === 'ARTICLES
 ctx(`S.lastRead.y = 321; S.lastRead.pct = 42;`);
 click({ article: lrId });
 ok(`重进同一篇带上恢复位置（resumeY=321）`, ctx('resumeY') === 321);
+ctx(`S.readPos = { [${JSON.stringify(lrId)}]: { pi: 5, si: 2, off: -12, y: 900, pct: 42, at: 1 } };`);
+click({ article: lrId });
+ok('同篇还带上了句子锚点（排版变了也对得回原句，不只靠 scrollTop）',
+  ctx('JSON.stringify(resumeAnchor)') === '{"pi":5,"si":2,"off":-12}');
+ctx(`S.readPos = {}; resumeAnchor = null; resumeY = 0;`);
 ctx(`view = {name:"discover"}; catFilter = "全部"; searchTerm = ""; render();`);
 const discHtml = `document.querySelector("#screen").innerHTML`;
 ok(`发现页渲染「上次读到」续读卡片（含进度）`, ctx(`${discHtml}.includes("上次读到")`) === true && ctx(`${discHtml}.includes("读到 42%")`) === true);
 ctx(`S.lastRead = { id: "", y: 0, pct: 0, at: 0 }; view = {name:"discover"}; render();`);
 ok(`没有阅读记录时不渲染续读卡片`, ctx(`${discHtml}.includes("上次读到")`) === false);
+
+/* ===================================================================
+ * G3. 首页推荐位置稳定
+ *   旧实现有两个反向的毛病：renderHome 每次重渲染都会推进位置（打卡、收藏、
+ *   返回首页都会偷偷换掉推荐位）；而「换一批」反而重建池子并归零
+ *   （又回到刚看过的那两篇，等于没换）。
+ * =================================================================== */
+console.log('\n[G3] 首页推荐位置稳定');
+ctx('render = __origRender; S.read = []; homeReads = { day: "", pool: [], off: 0 };');
+const page1 = ctx('JSON.stringify(pickDailyReads().map(a => a.id))');
+ok('连续取两次推荐位返回同一组（取值不改位置）',
+  ctx('JSON.stringify(pickDailyReads().map(a => a.id))') === page1);
+ctx('renderHome(); renderHome(); renderHome();');
+ok('首页重渲染三次后推荐位依然没动',
+  ctx('JSON.stringify(pickDailyReads().map(a => a.id))') === page1);
+
+const poolBefore = ctx('JSON.stringify(homeReads.pool.map(a => a.id))');
+const offBefore = ctx('homeReads.off');
+ctx('rerollDailyReads()');
+const page2 = ctx('JSON.stringify(pickDailyReads().map(a => a.id))');
+ok('「换一批」推进了位置', ctx('homeReads.off') !== offBefore);
+ok(`「换一批」换到不同的两篇（${JSON.parse(page1).join(" / ")} → ${JSON.parse(page2).join(" / ")}）`, page2 !== page1);
+ok('「换一批」不重建池子', ctx('JSON.stringify(homeReads.pool.map(a => a.id))') === poolBefore);
+
+/* 翻到底必须能接回开头，不能卡在最后一页 */
+const poolSize = ctx('homeReads.pool.length');
+const seen = new Set(JSON.parse(page1).concat(JSON.parse(page2)));
+let wrapped = false;
+for (let i = 0; i < poolSize; i++) {
+  ctx('rerollDailyReads()');
+  const p = JSON.parse(ctx('JSON.stringify(pickDailyReads().map(a => a.id))'));
+  if (p.length && seen.has(p[0])) { wrapped = true; break; }
+  p.forEach(x => seen.add(x));
+}
+ok(`环形翻页能覆盖整个推荐池并接回开头（覆盖 ${seen.size}/${poolSize}）`, wrapped);
+ctx('homeReads = { day: "", pool: [], off: 0 };');
+
+/* ===================================================================
+ * [G4] 本篇生词本：按词匹配，不是按子串
+ * 旧实现 text.includes(w)：收藏 art，正文有 party 就被误收；收藏 go，正文只有 went 又漏掉。
+ * 用例数据驱动地从真实语料里挑，不写死词对（词库换代也不至于失效）。
+ * =================================================================== */
+console.log('\n[G4] 本篇生词本按词匹配');
+{
+  const neg = ctx(`(() => {
+    for (const a of ARTICLES) {
+      const toks = new Set();
+      textSentences(a).forEach(s => { WORD_TOKEN_RE.lastIndex = 0; let m; while ((m = WORD_TOKEN_RE.exec(s.en || ''))) toks.add(normApos(m[0]).toLowerCase()); });
+      const tl = [...toks];
+      for (const x of Object.keys(WORD_META)) {
+        if (x.length < 3 || toks.has(x)) continue;
+        const y = tl.find(y => y.length > x.length + 2 && y.includes(x));
+        if (y) return { art: a.id, x, y };
+      }
+    }
+    return null;
+  })()`);
+  ok('语料中存在「子串误收」反例可测', !!neg);
+  if (neg) {
+    const listed = ctx(`(() => {
+      const keepArt = activeArticle, keepNb = S.notebook;
+      activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(neg.art)});
+      S.notebook = [${JSON.stringify(neg.x)}];
+      const html = renderArticleNotebookSheet();
+      S.notebook = keepNb; activeArticle = keepArt;
+      return html.includes('data-word="' + ${JSON.stringify(neg.x)} + '"');
+    })()`);
+    ok(`正文只有「${neg.y}」而收藏「${neg.x}」→ 不该被算作本篇生词`, listed === false);
+  }
+
+  const pos = ctx(`(() => {
+    for (const a of ARTICLES) {
+      const toks = new Set();
+      textSentences(a).forEach(s => { WORD_TOKEN_RE.lastIndex = 0; let m; while ((m = WORD_TOKEN_RE.exec(s.en || ''))) toks.add(normApos(m[0]).toLowerCase()); });
+      for (const y of toks) {
+        const t = resolveToken(y);
+        if (t && t.kw && t.kw !== y && !toks.has(t.kw) && WORD_META[t.kw]) return { art: a.id, kw: t.kw, form: y };
+      }
+    }
+    return null;
+  })()`);
+  ok('语料中存在「变形需还原」正例可测', !!pos);
+  if (pos) {
+    const listed = ctx(`(() => {
+      const keepArt = activeArticle, keepNb = S.notebook;
+      activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(pos.art)});
+      S.notebook = [${JSON.stringify(pos.kw)}];
+      const html = renderArticleNotebookSheet();
+      S.notebook = keepNb; activeArticle = keepArt;
+      return html.includes('data-word="' + ${JSON.stringify(pos.kw)} + '"');
+    })()`);
+    ok(`收藏「${pos.kw}」、正文只有「${pos.form}」→ 应命中本篇生词本`, listed === true);
+  }
+}
+
+/* ===================================================================
+ * [G5] 阅读时长：按秒持续记账
+ * 旧实现只在打卡时写一次，且 Math.max(1, round(sec/60)) —— 读 10 分钟直接返回不记账，
+ * 几乎没读就打卡却至少记 1 分钟。现在计时持续落盘，打卡只标记「读完」。
+ * =================================================================== */
+console.log('\n[G5] 阅读时长按秒持续记账');
+{
+  ok('老数据只有分钟时迁移成秒（7 分钟 → 420 秒）',
+    ctx('normalizeState({ minsByDay: { "2026-09-01": 7 } }).secByDay["2026-09-01"]') === 420);
+
+  ctx('readSecs = 0; flushedSecs = 0; S.secByDay = {}; S.readDays = []; syncMinsMirror();');
+  ctx('readSecs = 600; flushReadTime();');
+  ok('读满 10 分钟就记 600 秒（不必等打卡）', ctx('S.secByDay[todayKey()]') === 600);
+  ok('分钟镜像同步为 10', ctx('S.minsByDay[todayKey()]') === 10);
+  ok('这一天同时被记为「有阅读行为」', ctx('S.readDays.includes(todayKey())'));
+  ctx('flushReadTime();');
+  ok('重复 flush 不会重复记账', ctx('S.secByDay[todayKey()]') === 600);
+  ctx('readSecs += 30; flushReadTime();');
+  ok('继续读只补增量（600+30）', ctx('S.secByDay[todayKey()]') === 630);
+  ctx('readSecs = 0; flushedSecs = 0; S.secByDay = {}; syncMinsMirror(); readSecs = 20; flushReadTime();');
+  ok('只读 20 秒就如实记 20 秒（不再硬凑 1 分钟）', ctx('S.secByDay[todayKey()]') === 20);
+  ctx('readSecs = 0; flushedSecs = 0; S.secByDay = {}; S.readDays = []; syncMinsMirror(); save();');
+}
+
+/* ===================================================================
+ * [G6] 内容更新通知：阅读中不打断，退出阅读页后才刷新
+ * 旧实现收到 content-updated 时，若在阅读页只弹一句「返回后生效」就 return，
+ * 既不记待更新、返回后也不刷新 —— 页面里还是内存中的旧文章。
+ * =================================================================== */
+console.log('\n[G6] 内容更新通知的处理');
+{
+  click({ tab: 'discover' });
+  click({ cat: '全部' });
+  click({ article: ctx('ARTICLES[0].id') });
+  eq('已在阅读页', ctx('view.name'), 'read');
+
+  reloads = 0;
+  ctx('pendingUpdate = false;');
+  sandbox.sessionStorage._d = {};
+  swHandlers.message && swHandlers.message({ data: { type: 'content-updated' } });
+  ok('阅读中收到更新只记「待更新」，不打断当前阅读（未触发刷新）',
+    ctx('pendingUpdate') === true && reloads === 0);
+  ok('阅读中也不占用「本会话已刷过一次」的名额',
+    sandbox.sessionStorage.getItem('wl-updated') === null);
+
+  click({ tab: 'home' });
+  ok('退出阅读页后待更新标记被消费', ctx('pendingUpdate') === false);
+
+  swHandlers.message && swHandlers.message({ data: { type: 'content-updated' } });
+  ok('非阅读页收到更新直接走刷新路径（占用会话名额）',
+    sandbox.sessionStorage.getItem('wl-updated') === '1');
+}
+
+/* ---------------- [G7] 例句库已移出首屏 ----------------
+ * 例句库 560KB（gzip 225KB），只在词卡展开「更多」后才用得上。这里守住三件事：
+ * 首页不引用它、文件本身还在（按需取得到）、加载器指的就是这个文件。 */
+{
+  const html = fs.readFileSync(path.join(base, 'index.html'), 'utf8');
+  const srcs = (html.match(/<script[^>]*\ssrc="([^"]+)"/g) || []).map(s => s.match(/src="([^"]+)"/)[1]);
+  ok(`首页不请求例句库（首屏 script ${srcs.length} 个，无一指向 data-examples）`,
+    srcs.length > 0 && !srcs.some(s => s.includes('data-examples')));
+  ok('例句库文件仍在（按需加载的前提）', fs.existsSync(path.join(base, 'assets/data-examples.js')));
+  eq('加载器指向例句库文件', ctx('EXAMPLES_FILE'), 'assets/data-examples.js');
+  /* 首屏 script 全部带同一个 ?v=，否则会出现新旧资源混用 */
+  const vs = new Set(srcs.map(s => (s.match(/[?&]v=([^&]+)/) || [])[1] || '(无)'));
+  ok(`首屏 script 版本号一致（${[...vs].join(', ')}）`, vs.size === 1);
+}
+
+/* ---------------- [G8] 例句不参与任何计算 ----------------
+ * 这是「首屏不加载例句库」的安全前提。万一将来有人在指标或推荐里读了 w.example，
+ * 这条会立刻炸 —— 那时的症状会是：首页难度标签与排序悄悄算错，而页面看着正常。 */
+{
+  const str = ctx(`ARTICLES.map(a => {
+    const s = articleStats(a);
+    return [a.id, s.words, s.needLearn, s.rate.toFixed(5), diffTier(s.rate).label, estMinutes(a), clientScore(a).toFixed(4)].join('|');
+  })`);
+  const nWords = ctx('WORDS.filter(w => w.example || w.exampleCn).length');
+  ok(`沙箱里例句确实灌进去了（${nWords} 词）`, nWords > 0);
+
+  ctx(`(() => {
+    window.__exBak = WORDS.map(w => [w.example, w.exampleCn]);
+    for (const w of WORDS) { w.example = ''; w.exampleCn = ''; }
+    clearArticleCaches();
+    return 0;
+  })()`);
+  const without = ctx(`ARTICLES.map(a => {
+    const s = articleStats(a);
+    return [a.id, s.words, s.needLearn, s.rate.toFixed(5), diffTier(s.rate).label, estMinutes(a), clientScore(a).toFixed(4)].join('|');
+  })`);
+  ctx(`(() => {
+    WORDS.forEach((w, i) => { w.example = window.__exBak[i][0]; w.exampleCn = window.__exBak[i][1]; });
+    clearArticleCaches();
+    return 0;
+  })()`);
+
+  const changed = str.filter((r, i) => r !== without[i]);
+  ok(`摘掉例句后词数/需学/低频占比/难度档/估时/推荐分逐篇不变（${str.length} 篇）`, changed.length === 0);
+  if (changed.length) changed.slice(0, 3).forEach(r => console.log('    有例句：' + r));
+  /* 还原必须干净，否则后面所有指标断言都跟着错 */
+  ok('例句已还原（后续断言不被污染）', ctx('WORDS.filter(w => w.example || w.exampleCn).length') === nWords);
+}
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

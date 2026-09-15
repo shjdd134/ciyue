@@ -6,7 +6,7 @@
  *
  * 原则：
  *   - 英文正文 100% 来自真实报道原文，不做任何改写或虚构（与项目"拒绝 AI 写文"一致）
- *   - 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释
+ *   - 中文为逐句机器翻译（DeepL 优先，有道 / MyMemory 兜底），仅作学习注释
  *   - 只收近 N 天的文章，每篇保留 url 外链与来源，可追溯
  *   - 配图来自原报道自己的图床（RSS enclosure / og:image / 正文 figure），本地留档
  *
@@ -641,6 +641,29 @@ function starWatchBoost(feed, item) {
   return STAR_WATCHLIST.some(re => re.test(text)) ? 8 : 0;
 }
 
+/* 翻译时把文章标题、来源和相邻句子一起送给引擎。
+ * 单句脱离上下文时最容易把代词、时态和人名关系译错；上下文只作提示，
+ * 不会写入正文，因此英文原句仍保持可追溯。 */
+function articleContext(feed, item, texts, batch) {
+  const around = new Set();
+  for (const b of batch || []) {
+    const i = Number(b.i);
+    for (const j of [i - 1, i, i + 1]) {
+      if (j >= 0 && j < texts.length && texts[j]) around.add(texts[j]);
+    }
+  }
+  return [
+    item?.title ? `Article title: ${item.title}` : "",
+    feed?.name ? `Source: ${feed.name}` : "",
+    [...around].join(" "),
+  ].filter(Boolean).join("\n");
+}
+
+/* 翻译结果必须逐项存在。之前只按 85% 比例放行，cleanPara 又会静默删掉
+ * 空译文，最终读者看到的是缺句的中英对照，且很难追查是哪次接口截断。 */
+const translationsComplete = xs => Array.isArray(xs) && xs.length > 0
+  && xs.every(x => typeof x === "string" && x.trim().length > 0);
+
 function scoreItem({ feed, item, words, capWords, cover, imgs, sents, paragraphs }) {
   const quality = qualityScore({
     sourceTier: SOURCE_TIERS[feed.name] || 1,
@@ -940,7 +963,7 @@ function writeExtra(all) {
   const body = `/* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
  * 共 ${all.length} 篇，英文正文来自公开来源的真实原文，未做改写；
- * 中文为逐句机器翻译（有道为主、MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
+ * 中文为逐句机器翻译（DeepL 优先，有道 / MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
  * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => a.source.split(" · ")[0]))].join(" / ")}
  *
  * 通道：RSS（FEEDS）+ 历史通道（--classics，Vogue 月度 sitemap 的经典图集）。
@@ -1084,14 +1107,21 @@ async function classics() {
     }
 
     const capTexts = [...new Set(merged.filter(b => b.t === "img" && b.cap).map(b => b.cap))];
-    const translated = await translateTexts([...sents, ...capTexts], { maxLines: 4, maxChars: 1200 });
-    const cn = translated.slice(0, sents.length);
-    const capCnBy = new Map(capTexts.map((cap, i) => [cap, postEdit(translated[sents.length + i] || "", "明星")]));
-    const ratio = cn.length ? cn.filter(Boolean).length / cn.length : 0;
-    if (ratio < 0.85) {
-      console.log(`   翻译成功度 ${(ratio * 100).toFixed(0)}%，跳过`);
+    const allTexts = [...sents, ...capTexts];
+    const translated = await translateTexts(allTexts, {
+      maxLines: 4,
+      maxChars: 1200,
+      cacheNamespace: "article-context-v2",
+      cacheKey: t.url,
+      context: batch => articleContext(feed, { title: t.m.title }, allTexts, batch),
+    });
+    if (!translationsComplete(translated)) {
+      const ok = translated.filter(x => typeof x === "string" && x.trim()).length;
+      console.log(`   翻译不完整（${ok}/${translated.length}），跳过并留待下次重试`);
       continue;
     }
+    const cn = translated.slice(0, sents.length);
+    const capCnBy = new Map(capTexts.map((cap, i) => [cap, postEdit(translated[sents.length + i] || "", "明星")]));
 
     let coverImg = "";
     if (cover) {
@@ -1101,7 +1131,7 @@ async function classics() {
     }
 
     const paras = [];
-    let si = 0, ni = 0;
+    let si = 0, ni = 0, cleanedSentences = 0;
     for (const b of merged) {
       if (b.t === "img") {
         ni++;
@@ -1114,9 +1144,13 @@ async function classics() {
       const sentences = [];
       for (const s of b.sents) {
         const para = cleanPara({ en: s, cn: postEdit(cn[si++] || "", "明星") });
-        if (para) sentences.push(para);
+        if (para) { sentences.push(para); cleanedSentences++; }
       }
       if (sentences.length) paras.push({ sentences });
+    }
+    if (cleanedSentences !== sents.length) {
+      console.log(`   清洗后句子数不一致（${cleanedSentences}/${sents.length}），跳过并留待下次重试`);
+      continue;
     }
     if (!paras.some(p => Array.isArray(p.sentences) && p.sentences.length)) {
       console.log("   清洗后没有可用句对，跳过");
@@ -1222,7 +1256,9 @@ async function main() {
       const why = staticSkipReason(feed, it);
       if (why) { skip(it, why); return false; }
       return true;
-    }).sort((a, b) => (b.nimgs || 0) - (a.nimgs || 0) || (b.date || "").localeCompare(a.date || ""));
+    }).sort((a, b) => starWatchBoost(feed, b) - starWatchBoost(feed, a)
+      || (b.nimgs || 0) - (a.nimgs || 0)
+      || (b.date || "").localeCompare(a.date || ""));
     const chosen = items.slice(0, CANDIDATE_LIMIT);
     rawCandidates.push(...chosen.map(item => ({ feed, item })));
     console.log(`RSS ${all.length} 条 · 入池 ${chosen.length} 条`);
@@ -1292,15 +1328,21 @@ async function main() {
   const total = picked.reduce((n, p) => n + p.sents.length, 0);
   let done = 0;
   for (const p of picked) {
-    p.cn = await translateTexts(p.sents, { maxLines: 4, maxChars: 1200 });
+    p.cn = await translateTexts(p.sents, {
+      maxLines: 4,
+      maxChars: 1200,
+      cacheNamespace: "article-context-v2",
+      cacheKey: p.item.link,
+      context: batch => articleContext(p.feed, p.item, p.sents, batch),
+    });
     done += p.sents.length;
     process.stdout.write(`\r  翻译进度 ${done}/${total}`);
   }
   console.log();
 
-  const good = picked.filter(p => p.cn.filter(Boolean).length / p.cn.length >= 0.85);
+  const good = picked.filter(p => translationsComplete(p.cn));
   const dropped = picked.length - good.length;
-  if (dropped) console.log(`  丢弃 ${dropped} 篇（翻译成功度过低）`);
+  if (dropped) console.log(`  跳过 ${dropped} 篇（译文不完整，下一轮重试）`);
 
   /* 组装 + 下载配图 */
   fs.mkdirSync(COVERS_DIR, { recursive: true });
@@ -1320,7 +1362,7 @@ async function main() {
     }
 
     const paras = [];
-    let si = 0, n = 0;
+    let si = 0, n = 0, cleanedSentences = 0;
     for (const b of p.keep) {
       if (b.t === "img") {
         n++;
@@ -1337,9 +1379,14 @@ async function main() {
         /* 统一清洗：删掉混进来的脚本、还原翻译占位符、规范中文标点留白。
            没译出来、或清洗后只剩残句的，整段丢掉——宁可少一句，也不要空对照或乱码 */
         const para = cleanPara({ en: s, cn });
-        if (para) sentences.push(para);
+        if (para) { sentences.push(para); cleanedSentences++; }
       }
       if (sentences.length) paras.push({ sentences });
+    }
+
+    if (cleanedSentences !== p.sents.length) {
+      console.log(`  ⚠ 清洗后句子数不一致（${cleanedSentences}/${p.sents.length}），跳过并留待下次重试`);
+      continue;
     }
 
     /* 图片下载可能失败，候选阶段的图片数量不能代表最终入库数量。

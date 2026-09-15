@@ -89,6 +89,9 @@ const BOILER = [
   /\bwhy trust us\b/i, /\byou may also like\b/i, /\bsubscribe to (our|the) newsletter\b/i,
   /\bwhen you purchase through links on (our|the) site\b/i, /\bwe may earn an affiliate commission\b/i,
   /\bget full access to premium articles\b/i, /\bexclusive features and a growing list of member rewards\b/i,
+  /* 付费墙/截断提示：正文到这里就结束时，不能把按钮文案当学习内容。 */
+  /\bsign in to continue\b/i, /\bsubscribe to continue\b/i, /\bread the full (story|article)\b/i,
+  /\bunlock the full (story|article)\b/i, /\bcontinue reading (below|to read)\b/i,
   /* 征订/许可类话术（HistoryExtra、Immediate Media 等会把它们写进正文 <p>） */
   /\bwould you like to receive\b/i, /\bcarefully selected partners\b/i, /\bfrom our publisher\b/i,
   /\boffers from (our|the) (publisher|partners)\b/i, /\bkeep up with (the )?latest\b/i,
@@ -304,6 +307,11 @@ export function cleanPara(p) {
   cn = applyFixes(tidySpace(stripInlineJunk(cn))).normalize("NFC");
 
   if (!en || !cn) return null;                            // 没译出来就不给空对照
+  /* 供应商偶尔会把原文原样返回（或只回一串英文专名）。这种结果有内容，
+     但对中文阅读没有帮助；混合中英术语仍允许，只拦明显的整句回显。 */
+  const cjk = (cn.match(/[\u3400-\u9fff]/g) || []).length;
+  const latin = (cn.match(/[A-Za-z]/g) || []).length;
+  if (!cjk || (latin > 40 && latin > cjk * 2)) return null;
   if (isJunkPara(en) || isJunkPara(cn)) return null;
   /* 广告脚本被截断后只剩残句的，整段丢掉；正常短句（"So, what changed?"）保留 */
   if (hasAdCode(enRaw) && en.length < 25) return null;

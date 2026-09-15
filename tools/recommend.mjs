@@ -10,6 +10,21 @@ export const QUALITY_FORMAL_THRESHOLD = 75;
 export const SOURCE_FAILURE_LIMIT = 3;
 export const SOURCE_RECOVERY_LIMIT = 3;
 
+/* 「图片多」对明星栏目是**入选条件**，不是加分项（用户 2026-09-14 定）。
+ *
+ * 为什么必须是硬门槛：加分的量级只有 `Math.min(8, images)`，压不住一篇 0—3 图的名人短讯 ——
+ * 它在词数、段落数、时效上的得分足以过 65 分线。实测库里 3 篇明星文章分别是 2 / 3 / 3 张内嵌图，
+ * 标题是「Sean Penn 喊话」「《The Family Stone》要拍续集」这类只看名字的娱乐新闻，
+ * 正是用户明确要排除的。硬门槛把它们如实挡掉，图片专题才有位置。
+ *
+ * 为什么只对明星生效：其他栏目（足球 / AI / 成长）的价值在文字，
+ * 套同一个门槛会把没有配图的好文章挡在外面。 */
+export const STAR_MIN_IMAGES = 6;
+export function meetsImageGate(cat, images, min = STAR_MIN_IMAGES) {
+  if (cat !== "明星") return true;
+  return (Number(images) || 0) >= min;
+}
+
 const clamp = (n, min = 0, max = 100) => Math.max(min, Math.min(max, n));
 
 const DEPTH_TITLE = /\b(interview|profile|portrait|analysis|explained|deep dive|investigation|conversation|essay|guide|how to|why)\b/i;
@@ -24,17 +39,23 @@ const scoreBand = score => score >= QUALITY_FORMAL_THRESHOLD
  * 来源层级只占小部分，避免把来源名当成内容质量的替代品。
  */
 export function qualityScore({ sourceTier = 1, title = "", desc = "", date = "", words = 0,
-  paragraphs = 0, sentences = 0, cover = false, images = 0 }) {
+  capWords = 0, paragraphs = 0, sentences = 0, cover = false, images = 0 }) {
   const text = `${title} ${desc}`;
+  /* 图注词数：经典图集（--classics 入库）的正文往往只有一段百词导语，
+   * 真正把「旧照」讲清楚的是图注 —— 它们在阅读页渲染成 <figcaption>，是真实可读内容。
+   * 只按正文词数打分，芭芭拉·史翠珊那篇（92 词正文 + 1000+ 词图注、16 张老照片）
+   * 会因「words < 120 → -12」「段落 < 3 → -8」被判 54 分拒收 —— 用新闻文章的尺子量图集。
+   * 调用方不传 capWords 时（RSS 新闻路径）行为完全不变。 */
+  const readWords = words + (Number(capWords) || 0);
   let score = 50;
   score += clamp(Number(sourceTier) || 1, 1, 3) * 4;
   if (DEPTH_TITLE.test(text)) score += 9;
   if (LOW_VALUE_TITLE.test(text)) score -= 20;
 
-  if (words >= 220 && words <= 1400) score += 11;
-  else if (words >= 180 && words <= 2000) score += 6;
-  else if (words < 120) score -= 12;
-  else if (words > 2400) score -= 5;
+  if (readWords >= 220 && readWords <= 1400) score += 11;
+  else if (readWords >= 180 && readWords <= 2000) score += 6;
+  else if (readWords < 120) score -= 12;
+  else if (readWords > 2400) score -= 5;
 
   if (paragraphs >= 5) score += 5;
   else if (paragraphs >= 3) score += 2;
