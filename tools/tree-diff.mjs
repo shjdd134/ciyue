@@ -9,77 +9,30 @@
  * 一次请求（recursive）就能把整个仓库对完。
  *
  * 用法：node tools/tree-diff.mjs [--json]
- *   退出码 0 = 与远端一致（只剩 expected 的远端独有项）；1 = 有未推送改动。
- * 忽略规则读 .gitignore（支持 `!` 反选、`dir/` 前缀、`*` / `?` 通配），别去手改
- * 硬编码清单 —— 那正是本项目反复踩的「两套尺子」。 */
-import fs from 'node:fs';
+ *   退出码 0 = 与远端一致；1 = 有未推送改动（changed 或 onlyLocal）。
+ *   「远端有、本地没有」不算未推送改动（那是 CI 抓的新内容或别人推的），但会列出来。
+ *
+ * 实现全在 tools/lib-tree.mjs —— publish.mjs 的「远端残留对账」用的是同一份代码。
+ * 别在这里再写一份对账逻辑：两套尺子会让「对账说干净、发布却删东西」变成可能。 */
 import path from 'node:path';
-import crypto from 'node:crypto';
-import { execFileSync } from 'node:child_process';
+import { getToken, fetchRemoteTree, listLocalFiles, diffTrees, DEFAULT_REPO } from './lib-tree.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
-const REPO = 'shjdd134/ciyue';
 const JSON_OUT = process.argv.includes('--json');
 
-/* ---------- .gitignore 解析（git 语义：最后一条命中的规则说了算） ---------- */
-function loadIgnore(root) {
-  const lines = fs.readFileSync(path.join(root, '.gitignore'), 'utf8')
-    .split(/\r?\n/).map(s => s.trim()).filter(s => s && !s.startsWith('#'));
-  const rules = [];
-  for (const raw of lines) {
-    const neg = raw.startsWith('!');
-    const pat = neg ? raw.slice(1) : raw;
-    const dirOnly = pat.endsWith('/');
-    const body = pat.replace(/\/+$/, '');
-    /* 不含 `/` 的模式匹配任意层级的文件名（`*.log`）；含 `/` 的从仓库根锚定 */
-    const anchored = body.includes('/');
-    const rx = new RegExp(
-      (anchored ? '^' : '(?:^|/)') +
-      body.replace(/[.+^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '[^/]*').replace(/\?/g, '[^/]') +
-      (dirOnly ? '/.*$' : '(?:/.*)?$'));
-    rules.push({ neg, rx });
-  }
-  return p => {
-    let hit = false;
-    for (const r of rules) if (r.rx.test(p)) hit = !r.neg;
-    return hit;
-  };
+const token = getToken(ROOT);
+if (!token) { console.error('✗ 取不到 git token（环境变量 GITHUB_TOKEN 或 tools/_cred-get.py git）'); process.exit(2); }
+
+let remote;
+try {
+  remote = await fetchRemoteTree(token, { repo: DEFAULT_REPO });
+} catch (e) {
+  console.error('✗ ' + e.message);
+  console.error('  网络不通时这个脚本没有意义 —— 它对的就是远端。');
+  process.exit(2);
 }
-
-const ignored = loadIgnore(ROOT);
-const isIgnored = p => p === '.git' || p.startsWith('.git/') || ignored(p);
-
-/* ---------- 远端 ---------- */
-const token = execFileSync('python', ['tools/_cred-get.py', 'git'], { encoding: 'utf8', cwd: ROOT }).trim();
-if (!token) { console.error('✗ 取不到 git token（tools/_cred-get.py git）'); process.exit(2); }
-const res = await fetch(`https://api.github.com/repos/${REPO}/git/trees/main?recursive=1`,
-  { headers: { Authorization: 'Bearer ' + token } });
-const tree = await res.json();
-if (!tree.tree) { console.error('✗ 拉不到远端树：', JSON.stringify(tree).slice(0, 300)); process.exit(2); }
-const remote = new Map(tree.tree.filter(x => x.type === 'blob').map(x => [x.path, x.sha]));
-
-/* ---------- 本地 ---------- */
-const blobSha = buf => { const h = crypto.createHash('sha1'); h.update(`blob ${buf.length}\0`); h.update(buf); return h.digest('hex'); };
-const local = new Map();
-(function walk(dir) {
-  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    const abs = path.join(dir, e.name);
-    const rel = path.relative(ROOT, abs).replace(/\\/g, '/');
-    if (isIgnored(rel)) continue;
-    if (e.isDirectory()) walk(abs);
-    else local.set(rel, blobSha(fs.readFileSync(abs)));
-  }
-})(ROOT);
-
-/* ---------- 对账 ---------- */
-const changed = [], onlyLocal = [], onlyRemote = [];
-for (const [p, sha] of local) {
-  if (!remote.has(p)) onlyLocal.push(p);
-  else if (remote.get(p) !== sha) changed.push(p);
-}
-for (const p of remote.keys()) if (!local.has(p)) onlyRemote.push(p);
-const sort = a => a.sort();
-sort(changed); sort(onlyLocal); sort(onlyRemote);
+const local = listLocalFiles(ROOT);
+const { changed, onlyLocal, onlyRemote } = diffTrees(local, remote);
 
 if (JSON_OUT) {
   console.log(JSON.stringify({ remote: remote.size, local: local.size, changed, onlyLocal, onlyRemote }, null, 1));

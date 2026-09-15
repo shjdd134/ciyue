@@ -37,6 +37,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { execSync } from "node:child_process";
 import { updatePublished } from "./lib-release.mjs";
+import { fetchBlob } from "./lib-tree.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const REPO = "SHJDD134/ciyue";
@@ -160,9 +161,27 @@ const entries = [];
  * 会出现「正文传上去了、它引用的配图没传」却报发布成功 —— 线上白屏级不一致。 */
 const missing = [];
 
-const addDelete = f => {
+/* 删除前备份 —— 只备份「远端有、本地没有」的。
+ * 这类文件删掉就只剩 git 历史可捞：批次的 before/ 里没有它们，rollback.mjs 还原不回来
+ * （2026-09-15 清 40 张孤儿封面时实测确认）。本地还有副本的（本次发布归档掉的孤儿
+ * 封面、本地已删过的旧文件）不备份 —— 重推一次就回来了。 */
+const DEL_BACKUP_DIR = path.join(ROOT, ".bak", "deleted-" + new Date().toISOString().slice(0, 10));
+const backedUp = [], backupFailed = [];
+const addDelete = async f => {
   if (NEVER_PUSH.has(f)) return;
   if (!remote.has(f)) return;
+  const abs = path.join(ROOT, f);
+  if (!fs.existsSync(abs)) {
+    try {
+      const buf = await fetchBlob(T, remote.get(f), { repo: REPO });
+      const dest = path.join(DEL_BACKUP_DIR, f);
+      fs.mkdirSync(path.dirname(dest), { recursive: true });
+      fs.writeFileSync(dest, buf);
+      backedUp.push(f);
+    } catch (e) {
+      backupFailed.push(`${f}（${e.message}）`);
+    }
+  }
   entries.push({ path: f, mode: "100644", sha: null });
   console.log("删", f);
 };
@@ -179,7 +198,7 @@ const addUpload = async f => {
 };
 
 if (plan) {
-  for (const f of [...plan.delete].sort()) addDelete(f);
+  for (const f of [...plan.delete].sort()) await addDelete(f);
   for (const f of [...plan.push].sort()) await addUpload(f);
 } else {
   /* 回落：git status 路线（有前述两个坑，能用 manifest 就别用这条）
@@ -203,9 +222,22 @@ if (plan) {
   }
   for (const e of status) {
     if (e.file.endsWith("/")) continue;
-    if (e.x.includes("D")) { addDelete(e.file); continue; }
+    if (e.x.includes("D")) { await addDelete(e.file); continue; }
     await addUpload(e.file);
   }
+}
+
+/* 备份失败一律中止。「备份不了就不删」是硬约束：这些文件远端有、本地没有，删掉就只能
+ * 翻 git 历史 —— 少清几个残留，永远好过不可恢复地删掉线上文件。 */
+if (backupFailed.length) {
+  console.error(`\n✗ ${backupFailed.length} 个待删文件备份失败，拒绝推送：`);
+  for (const x of backupFailed.slice(0, 10)) console.error("   · " + x);
+  console.error("  这些文件远端有、本地没有，删掉只能靠 git 历史找回。");
+  console.error("  **远端分支未做任何改动。**");
+  process.exit(2);
+}
+if (backedUp.length) {
+  console.log(`\n删除前已备份 ${backedUp.length} 个远端独有文件 → ${path.relative(ROOT, DEL_BACKUP_DIR).replace(/\\/g, "/")}/`);
 }
 
 /* 兜底：显式清单已在上面拦过，这里管的是 git-status 回落模式下的竞态（文件边读边被删）。

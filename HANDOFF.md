@@ -9,7 +9,10 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 - **当前工作树状态（2026-09-14 晚）**：SW 策略 v43，资源版本号 `?v=46`（2026-09-14 阅读体验一轮后从 44 提升），词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **40 篇**（足球 2、AI 3、成长 11、明星 24 —— 明星已改为历史通道经典专题，见下；寓言入口保留但当前清空）。误执行 `--replace` 后已从远端事故前版本恢复原有 11 篇成长文章及配图。缓存优先/1 小时新鲜窗/304 协商回落 + 保留上一代缓存作回退；v43 为移除旧背词状态后的发布缓存版本
-  > ⚠️ **2026-09-15 更正**：本条是 09-14 晚的快照。09-15 用户拍板撤下明星/足球/AI 采集与内容，**线上现为 11 篇、全部成长**（commit `a0009649`），线上资源版本号 `?v=47`（本地工作树已到 49，尚未推送）。判断"线上现在有什么"请查远端树，不要读本节旧数字。
+  > ⚠️ **2026-09-15 晚更正**：本条是 09-14 晚的快照。09-15 用户拍板撤下明星/足球/AI 采集与内容，
+  > 随后人物栏目首批 3 篇原刊全线上线 —— **线上现为 14 篇 = 11 成长 + 3 人物全文**（Anne Hathaway /
+  > Charlize Theron / Monica Bellucci），线上资源版本号 `?v=49`。判断"线上现在有什么"请查远端树，不要读本节旧数字。
+  > 撤栏目遗留的 40 张孤儿封面与「冲刺/快筛」2 个文件也已清理，本地与远端工作树逐文件零差异。
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
   10 篇成长类旧文已由 `tools/_regroup-paras.mjs` 按原文接回段落边界（只改分组，句/译逐字节不变）；
@@ -55,9 +58,12 @@
     ├── recommend-test.mjs      推荐评分/熔断恢复单元测试
     ├── daily.mjs               GitHub Actions 每日更新入口（建批次 → 抓取 → 质检 → 发布 → 回归）
     ├── lib-release.mjs         ★ 批次快照与完整回滚（数据 + 图片）
-    ├── publish.mjs             ★ 发布：计划 → 暂存校验 → 提交，产出批次清单
+    ├── lib-tree.mjs            本地工作树 / 远端仓库对账共用库（blob sha1 + 封面引用集合计算）
+    ├── publish.mjs             ★ 发布：计划 → 暂存校验 → 提交，产出批次清单；含远端残留自动清理（§4）
     ├── rollback.mjs            ★ 回滚 CLI（--list / latest / 指定批次）
+    ├── tree-diff.mjs           本地工作树 vs 远端仓库逐文件对账，判断「该推什么」（别信 git status）
     ├── release-test.mjs        ★ 发布可靠性回归（完整回滚 / 置顶豁免 / 校验门禁 / 清单基线 / 批次自愈，自还原）
+    ├── remote-sweep-test.mjs   远端残留自动清理回归（keeper 豁免 / 删除前备份 / 无凭据降级）
     ├── examples-test.mjs       例句按需加载回归（首次 / 复用 / 失败重试 / 加载中换词）
     ├── spot-check.mjs          人工抽查材料：逐句对照页 + 四项高信噪比预检（输出 tools/_spot/）
     ├── _regroup-paras.mjs      一次性修复（2026-09-14）：按原文 HTML 把「一句一段」的旧文重分组；
@@ -99,7 +105,7 @@
 8. 文章 `paras` 兼容两种形状：旧文章使用 `{en,cn}`，新抓取文章使用 `{sentences:[{en,cn},...]}`；图片块仍为 `{img,cap}`。使用 `--replace` 更新时不要把旧文章重新混回结果。
 9. **发布只走 `publish.mjs`，不要手改 `data-articles-extra.js`**。它负责出清单、暂存校验、归档孤儿图、写推送清单；绕过它直接删文章，图片不会跟着归档，回滚也就没有依据。
 10. **`publish.mjs` 改盘之前，`.bak/releases/<批次>/before/` 必须先存在**。批次由 `daily.mjs` 建（整条管线一个批次），手工单跑 `publish.mjs` 会自建。回滚统一用 `node tools/rollback.mjs <批次|latest>`，它连图片一起还原 —— 别只拷数据文件，那正是 2026-09-13 之前的老毛病。
-11. **发布相关改动的验收标准是 `node tools/release-test.mjs` 全绿**（当前 26/26；`sw-test.js` 8/8、`qc-test.mjs` 5/5、`push-test.mjs` 5/5、`examples-test.mjs` 28/28 管失败与边界路径）。它自带还原保护，可以放心在有改动的树上跑，但它会把你的改动一并还原，所以跑之前先提交或另存。
+11. **发布相关改动的验收标准是 `node tools/release-test.mjs` 全绿**（当前 26/26；`sw-test.js` 9/9、`qc-test.mjs` 5/5、`push-test.mjs` 9/9、`remote-sweep-test.mjs` 31/31、`examples-test.mjs` 28/28 管失败与边界路径）。它自带还原保护，可以放心在有改动的树上跑，但它会把你的改动一并还原，所以跑之前先提交或另存。
 12. **推送清单的基线是「上次成功发布」而不是批次 `before/`**。`before/` 是 publish 启动那一刻拍的，先改文件再跑发布时它已经包含改动，差异恒为空 —— 这正是「改好了却推不上去」的成因。清单口径看 `.bak/published.json`（由 `_api-push.mjs` 推送成功后写入），手工改完代码走 `--files`，别去改这个文件。
 13. 正文里的撇号是排版弯引号 `’`，查词/统计前必须经 `normApos()` 归一再查表；`lemmaCands()` 按直引号 `'` 写的，不归一 `it’s` 会被切成 `it` + `s`。
 
@@ -215,6 +221,39 @@ published     上次推上远端的快照 → 出清单用（远端还缺什么�
 首次运行没有基线 → 清单按「远端一无所有」出全量，方向是偏大而不漏，安全。
 `release-test.mjs` 的 E 段专门回归这条：改好文件再发布，该文件必须在清单里。
 
+**远端残留自动清理（2026-09-15 补）**：旧 `delete[]` 只算「在 `published.json` 里、但本地盘上没有」。
+撤栏目 / 撤功能留下的残留**从来不在基线里**（它们从没被本仓库推上去过），于是对它完全隐形——
+两轮实测（撤明星/足球/AI 留下的 40 张孤儿封面、撤「冲刺/快筛」留下的 2 个文件）全是手写清单绕过去的。
+现在 `publish.mjs` 出清单时会多拉一次远端 tree，补上「远端有、本地无」的差集。
+
+**裸的差集不能直接删 —— CI 会自己往远端提交。** `daily.yml` 每天抓文章、下封面后 `git add -A`
+提交回 main，那些文件同样是「远端有、本地无、又不在基线里」。本地工作区一旦滞后于 CI，
+发布会把 CI 刚抓来的文章和封面删光，而这类文件和「该清的残留」在路径上没法区分。判决规则：
+
+```
+远端独有文件
+  ├─ assets/covers/* 且被【远端文章】引用 → 保留（keeper：多半是 CI 刚抓来的封面）
+  ├─ assets/covers/* 且无人引用          → 可清（真孤儿）
+  └─ 其余路径（源码 / 脚本 / 数据）      → 可清
+```
+
+「远端引用集合」是把**远端那几份数据文件**跑一遍算出来的，和本地的引用计算共用
+`lib-tree.mjs` 的同一段代码 —— 两套尺子会让判决错，而且错的方向是**误删 CI 抓的封面**。
+
+配套三件事：
+
+- **删除前自动备份**：`_api-push.mjs` 在删任何文件前，把远端原始内容存到 `.bak/deleted-<日期>/`。
+  必须这么做 —— 这些文件不在任何批次的 `before/` 里，`rollback.mjs` 还原不回来，删了只能去 git 历史捞。
+- **`--no-remote` 显式关闭**（离线 / CI 场景），`release-test.mjs` 用它隔离：它盯的是本地发布管线，
+  不该依赖网络、更不该真的往 `delete[]` 里塞项。远端对账本身由 `remote-sweep-test.mjs` 回归。
+- **保留项非空是信号**：说明本地工作区滞后于 CI，这时发布**会覆盖远端的新内容**，
+  按提示先 `tree-diff.mjs` 对账再决定。拉不到远端树时一律 fail-soft（跳过，不删任何远端独有文件）。
+
+⚠️ **`--keep-batches` 是给测试用的**：`pruneBatches` 按 id 字典序丢「最旧的」，而 `release-test.mjs`
+的两个种子用 `19000101-*`（最小 id）。盘上批次多于 10 个时，测试自己那几次发布就会越界，
+把种子乃至**真实批次**当最旧的清掉（2026-09-15 实测：7 真实批次 + 2 种子 + 测试 4 次发布 = 13，
+余量一超就掉 3 个）。测试现已把窗口钉死 `--keep-batches 999`，批次清理由 label 认领逻辑负责。
+
 ## 5. 日常操作
 
 ```bash
@@ -236,9 +275,10 @@ node tools/examples-test.mjs                 # 例句按需加载回归，期望
 node tools/mt-test.mjs                       # 翻译上下文 / 缓存隔离回归
 node tools/text-test.mjs                     # 原样回显英文拦截回归
 node tools/classics-test.mjs                 # 明星经典图集偏好排序回归
-node tools/sw-test.js                        # SW 离线/缓存路径，期望 8/8
+node tools/sw-test.js                        # SW 离线/缓存路径，期望 9/9
 node tools/qc-test.mjs                       # 质检门禁语义，期望 5/5
-node tools/push-test.mjs                     # 上传清单闸门，期望 5/5
+node tools/push-test.mjs                     # 上传清单闸门，期望 9/9
+node tools/remote-sweep-test.mjs             # 远端残留自动清理，期望 31/31
 
 # 词库改动后完整重建（顺序见铁律 2）+ 词频表与点词层重跑（排除表=当前词库）+ 回归
 node tools/build-wordfreq.mjs && node tools/build-tapdict.mjs
@@ -404,6 +444,17 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
   **2026-09-14 又发现同一处播种的第二个副作用**：`release-test` 收尾只还原 `published.json` 的 `files`，
   而它播种进去的 `articles`（当时 3 篇）会随收尾一起被写回 —— 若之后有人只跑 `--files` 推代码，
   这个错误值就一直留在发布基线里（已在部署记录里说明修法：走 `--manifest` 并用，或 `updatePublished()` 修）。
+- ✅ **远端残留自动清理（2026-09-15）**：`publish.mjs` 出清单时多拉一次远端 tree，
+  把「远端有、本地无」的差集补进 `delete[]` —— 旧算法只算「在 `published.json` 里但本地没有」，
+  撤栏目 / 撤功能留下的残留从没进过基线，对它完全隐形（两轮实测：40 张孤儿封面 + 2 个「冲刺/快筛」文件
+  全靠手写清单绕过）。判决规则、CI 提交的冲突与配套开关见 §4「远端残留自动清理」。
+  新增 `lib-tree.mjs`（本地 / 远端共用的对账库，杜绝「两套尺子」）、`tree-diff.mjs`
+  （判断「该推什么」，取代散在 `.tmp/probe/` 的临时脚本）、`remote-sweep-test.mjs`（31 条回归）；
+  `_api-push.mjs` 删任何文件前自动备份到 `.bak/deleted-<日期>/`。
+  顺手修掉 `release-test.mjs` 的一个假红：它的种子用 `19000101-*`（最小 id），`pruneBatches` 按 id 字典序
+  丢「最旧的」，盘上批次一多，测试自己那几次发布就会把种子**乃至真实批次**清掉
+  （实测 7 真实 + 2 种子 + 测试 4 次发布 = 13，越界即掉 3 个）——现在把窗口钉死 `--keep-batches 999`。
+  回归：release-test 26/26（稳定）· remote-sweep 31/31 · audit 182/0 · nav 30/0 · sw 9/9 · push 9/9。
 - ⏳ **P0 之后的两轮（用户 2026-09-14 规划）**：P0 一轮**已上线**（`854e2e0`，见上）；
   第二轮交互版（紧凑查词卡不遮暗全文、选中句工具条给出明确「译文」入口、生词标记强度三档、已认识词恢复普通颜色）；
   第三轮外围（缩短文章头部、读完优先进下一篇、桌面可调宽度居中正文）。
@@ -452,10 +503,11 @@ node tools/audit.js         # 期望当前 182/0 fail（含 G2 难度口径、G3
 node tools/nav-test.js      # 期望当前 30/0（2026-09-15 起；人物导航 7 条已加，旧口径 18/0）
 node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size 38267、COMMON_WORDS_size 242）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）
-node tools/sw-test.js       # 期望 8/8（离线无缓存必须给 Response，不能是 undefined）
+node tools/sw-test.js       # 期望 9/9（离线无缓存必须给 Response，不能是 undefined）
 node tools/qc-test.mjs      # 期望 5/5（空清单/目标 id 不存在都不能算通过）
 node tools/push-test.mjs    # 期望 9/9（清单点名但本地不存在必须联网前 exit 2；--manifest 与 --files 并用时清单要合并）
+node tools/remote-sweep-test.mjs # 期望 31/31（远端残留清理：keeper 豁免 / 删除前备份 / 无凭据降级）
 node tools/examples-test.mjs # 期望 28/28（例句库按需加载：首次/复用/失败重试/换词竞态）
-node tools/text-scan.js     # 通过（乱码/漏译/结构；段数会随段落分组变化，2026-09-14 后为 997）
+node tools/text-scan.js     # 通过（乱码/漏译/结构；段数会随段落分组变化，2026-09-15 后为 1008）
 python -m http.server 8123  # 浏览器打开 localhost:8123 应正常渲染
 ```
