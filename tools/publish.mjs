@@ -21,12 +21,16 @@
  */
 import fs from "node:fs";
 import path from "node:path";
-import vm from "node:vm";
 import crypto from "node:crypto";
 import {
   createBatch, releaseDir, setLatest, pruneBatches, readPublished,
   SNAPSHOT_FILES, SNAPSHOT_COVERS,
 } from "./lib-release.mjs";
+/* 远端对账 + 数据求值走共享库：tree-diff.mjs 用的是同一份，见 lib-tree.mjs 头部 */
+import {
+  getToken, fetchRemoteTree, fetchBlob, listLocalPaths, blobSha,
+  evalArticleData, referencedCovers, classifyRemoteOnly, ARTICLE_DATA_FILES,
+} from "./lib-tree.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const arg = (name, dflt) => {
@@ -116,24 +120,15 @@ const dist = {};
 kept.forEach(a => { dist[a.cat] = (dist[a.cat] || 0) + 1; });
 
 /* 被引用但磁盘上不存在的封面 —— 直接拦下，别把坏图发上线 */
-const ctx = vm.createContext({ console, window: { addEventListener() { } } });
-vm.runInContext("var window=globalThis;", ctx);
-for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-articles-extra.js", "data-articles-archive.js", "data-covers.js"]) {
-  const p = path.join(ASSETS, f);
-  if (fs.existsSync(p)) vm.runInContext(fs.readFileSync(p, "utf8"), ctx, { filename: f });
+const localSources = new Map();
+for (const f of ARTICLE_DATA_FILES) {
+  const p = path.join(ROOT, f);
+  if (fs.existsSync(p)) localSources.set(f, fs.readFileSync(p, "utf8"));
 }
-const allArticles = vm.runInContext("ARTICLES", ctx);
-const COVER_MAP = vm.runInContext("typeof COVER_MAP === 'undefined' ? {} : COVER_MAP", ctx);
+const { articles: allArticles, coverMap: COVER_MAP } = evalArticleData(localSources);
 
 /* 引用集合必须按「瘦身之后的 extra」算，否则被淘汰文章的图不算孤儿 */
-const droppedSet = new Set(droppedIds);
-const referenced = new Set();
-for (const a of allArticles) {
-  if (droppedSet.has(a.id)) continue;
-  const c = a.coverImg || COVER_MAP[a.id];
-  if (c) referenced.add(path.basename(c));
-  for (const p of a.paras || []) if (p.img) referenced.add(path.basename(p.img));
-}
+const referenced = referencedCovers(allArticles, COVER_MAP, { skipIds: new Set(droppedIds) });
 const onDisk = fs.existsSync(COVERS_DIR) ? new Set(fs.readdirSync(COVERS_DIR)) : new Set();
 const coversMissing = [...referenced].filter(f => !onDisk.has(f));
 const coversOrphan = [...onDisk].filter(f => !referenced.has(f));
@@ -145,6 +140,76 @@ if (droppedIds.length) {
   console.log(`淘汰 ${droppedIds.length} 篇：${droppedIds.slice(0, 8).join(", ")}${droppedIds.length > 8 ? " …" : ""}`);
 }
 console.log(`封面：引用 ${referenced.size} 张 · 孤儿 ${coversOrphan.length} 张 · 缺失 ${coversMissing.length} 张`);
+
+/* ---------- 1b. 远端残留对账（fail-soft） ----------
+ * 补的是 publish 原有 delete[] 的结构性盲区：delete[] 算的是「在 .bak/published.json
+ * 里、本地盘上没有」，而撤栏目 / 撤功能留下的残留**从来不在基线里**（它们没被发布过
+ * 就被删掉了），于是对 delete[] 永久隐形。2026-09-15 连踩两次 —— 40 张孤儿封面、
+ * assets/data-sprint.js + tools/build-sprint.mjs —— 两次都只能手写清单绕过去。
+ *
+ * 难在「远端有、本地没有」有**两种来源，路径上分不出**：
+ *   · 该清的残留（上面那些）
+ *   · GitHub Actions 的 daily-update 每天抓的新文章 + 新封面（本地滞后时正是这个形态）
+ * 判决依据只能是「远端自己还引用吗」，细节见 lib-tree.classifyRemoteOnly 的注释。
+ *
+ * 拿不到 token / 网络不通 / 拉不到远端数据 → **整段跳过**：既不阻断发布，也不在信息
+ * 不全时删封面（宁可漏删、下次再清）。这一点是硬要求 —— 拉不到远端数据却把 referenced
+ * 当空集用，等于把 CI 抓的封面全删了。
+ * GitHub Actions 的 ubuntu runner 上 tools/_cred-get.py 必然失败（它读的是 Windows
+ * 凭据管理器），于是 CI 的每日发布自动走跳过分支 —— 那里工作区刚 checkout 就是远端，
+ * 本来就没有残留可言。--no-remote 可显式关闭。 */
+const NO_REMOTE = process.argv.includes("--no-remote");
+const remotePlan = { only: 0, prunable: [], kept: [], note: null };
+if (NO_REMOTE) {
+  remotePlan.note = "已用 --no-remote 关闭";
+} else {
+  try {
+    const token = getToken(ROOT);
+    if (!token) throw new Error("取不到 git token");
+    const remoteMap = await fetchRemoteTree(token);
+    const localPaths = listLocalPaths(ROOT);
+    const onlyRemote = [...remoteMap.keys()].filter(p => !localPaths.has(p));
+    remotePlan.only = onlyRemote.length;
+    let remoteRef = new Set();
+    if (onlyRemote.some(p => p.startsWith(SNAPSHOT_COVERS + "/"))) {
+      /* 只在真要判封面时才拉远端数据 —— extra 六百多 KB，白拉没意义。
+       * 与本地逐字节相同的远端数据文件直接复用本地文本，省一次下载。 */
+      const sources = new Map();
+      for (const f of ARTICLE_DATA_FILES) {
+        const sha = remoteMap.get(f);
+        if (!sha) continue;                       // 远端没有这个文件
+        const p = path.join(ROOT, f);
+        sources.set(f, fs.existsSync(p) && blobSha(fs.readFileSync(p)) === sha
+          ? fs.readFileSync(p, "utf8")
+          : (await fetchBlob(token, sha)).toString("utf8"));
+      }
+      const rd = evalArticleData(sources);
+      remoteRef = referencedCovers(rd.articles, rd.coverMap);
+    }
+    const { prunable, kept } = classifyRemoteOnly(onlyRemote, { referenced: remoteRef });
+    remotePlan.prunable = prunable;
+    remotePlan.kept = kept;
+  } catch (e) {
+    remotePlan.note = "已跳过（" + e.message + "）";
+  }
+}
+if (remotePlan.note) {
+  console.log(`远端残留：${remotePlan.note} —— 本次不删任何远端独有文件`);
+} else if (!remotePlan.only) {
+  console.log("远端残留：无（远端没有本地缺的文件）");
+} else {
+  console.log(`远端残留：远端独有 ${remotePlan.only} 项 → 可清 ${remotePlan.prunable.length} 项` +
+    (remotePlan.kept.length ? ` · 保留 ${remotePlan.kept.length} 项（远端仍在引用，多半是 CI 刚抓来的封面）` : ""));
+  for (const f of remotePlan.prunable.slice(0, 12)) console.log(`   - ${f}`);
+  if (remotePlan.prunable.length > 12) console.log(`   … 另有 ${remotePlan.prunable.length - 12} 项`);
+}
+/* 保留项非空 ≈ 「远端有本地没有的图、而且远端文章正在用它」——几乎只可能是
+ * CI 已经抓了新文章而本地工作区还停在几天前。这不影响本次删除（该保留的都保留了），
+ * 但要提醒一句：本次发布会用**本地**数据覆盖远端，那些新文章会被冲掉。 */
+if (remotePlan.kept.length) {
+  console.warn(`\n⚠ 远端有 ${remotePlan.kept.length} 个文件仍被引用、但本地没有 —— 多半是 CI 已抓了新文章，而本地工作区滞后。`);
+  console.warn("  本次发布将用本地数据覆盖远端，远端那些新内容会丢。要保留就先同步远端再发布。");
+}
 
 if (DRY) { console.log("\n--dry：只出计划，未写任何文件"); process.exit(0); }
 
@@ -253,6 +318,10 @@ for (const f of (fs.existsSync(COVERS_DIR) ? fs.readdirSync(COVERS_DIR) : [])) {
 for (const f of Object.keys(prev.files)) {
   if (!fs.existsSync(path.join(ROOT, f))) del.push(f);
 }
+/* 远端独有残留：基线路线永远看不见它们（从没发布过），只能靠上面的远端对账补上。
+ * 注意这里只是把路径写进清单，真正删除是 _api-push.mjs 的事 —— 它在删之前会把
+ * 本地没有的远端文件先备份到 .bak/deleted-<日期>/。 */
+for (const f of remotePlan.prunable) if (!del.includes(f)) del.push(f);
 
 const manifest = {
   batch: id,
@@ -277,6 +346,12 @@ const manifest = {
   coversStuck: stuck,
   coversMissing,
   verified: true,
+  /* 远端对账结果。远端独有但**仍在被远端引用**的文件不删（多半是 CI 刚抓来的封面），
+   * 留在这里便于事后核对「发布删了什么、为什么没删那些」。 */
+  remoteOnly: remotePlan.only,
+  remotePruned: remotePlan.prunable,
+  remoteKept: remotePlan.kept,
+  remoteNote: remotePlan.note,
   push: push.sort(),
   delete: del.sort(),
 };
@@ -287,6 +362,11 @@ const pruned = pruneBatches(ROOT, KEEP_BATCHES);
 console.log(`\n新增 ${manifest.added.length} 篇 · 本次淘汰 ${droppedIds.length} 篇 · 保留 ${kept.length} 篇 · 归档图 ${archived.length} 张`);
 console.log(`推送清单 ${push.length} 项${del.length ? ` · 删除 ${del.length} 项` : ""}` +
   (prev.at ? `（基线：${prev.at.slice(0, 16).replace("T", " ")}${prev.commit ? " @" + String(prev.commit).slice(0, 7) : ""}）` : "（首次发布，无基线 → 全量）"));
+if (del.length) {
+  console.log(`  删除构成：基线失效 ${del.length - remotePlan.prunable.length} 项` +
+    ` · 远端残留 ${remotePlan.prunable.length} 项` +
+    (remotePlan.kept.length ? `（另有 ${remotePlan.kept.length} 项远端独有被保留：仍在被远端引用）` : ""));
+}
 if (changed()) {
   console.log(`\n  GITHUB_TOKEN=$(python tools/_cred-get.py git) node tools/_api-push.mjs "chore: 每日更新 ${id}" --manifest auto`);
 }

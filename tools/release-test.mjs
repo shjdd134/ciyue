@@ -78,7 +78,19 @@ const readExtra = () => {
   const m = fs.readFileSync(EXTRA, "utf8").match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
   return JSON.parse(m[1]);
 };
-const runPublish = args => spawnSync(node, [path.join(ROOT, "tools", "publish.mjs"), ...args], { encoding: "utf8" });
+/* 一律加 --no-remote：release-test 盯的是本地发布管线，而远端对账要联网拉真实远端树，
+ * 既让测试依赖网络，又可能真的往 delete[] 里塞项 —— 那不是这个测试该管的事。
+ * 远端对账本身由 tools/remote-sweep-test.mjs 负责。
+ *
+ * 再钉死 --keep-batches 999：pruneBatches 按 id 字典序丢「最旧的」，而本测试的两个种子
+ * 用的是 19000101-*（最小 id）。盘上批次多于 10 个时，测试自己那几次发布就会越界，
+ * 把种子——乃至真实批次——当成最旧的清掉。后果有两层：
+ *   1. keeperKept 假失败（「别人的真实批次未被误删」出现假红）；
+ *   2. 更糟的是真实发布历史会被测试吃掉。
+ * 2026-09-15 实测：盘上 7 个真实批次 + 2 个种子 + 测试 4 次发布 = 13，余量一超就掉 3 个批次。
+ * 窗口开到 999，prune 在本测试里永不触发；批次清理由下面的 label 认领逻辑负责，
+ * 那才是这个测试真正要验的东西。 */
+const runPublish = args => spawnSync(node, [path.join(ROOT, "tools", "publish.mjs"), "--no-remote", "--keep-batches", "999", ...args], { encoding: "utf8" });
 
 /* ---------- 开跑 ---------- */
 const before = fingerprint();
@@ -142,6 +154,21 @@ function seedPublished({ articles = null } = {}) {
   });
   return files;
 }
+
+/* 被中途打断时不能把半坏的 assets/ 留在盘上。
+ * 2026-09-15 实测踩到过一次：测试被中断后，工作树的文章数据停在「播种态」（只剩 6 篇）、
+ * 16 张被文章引用的封面被归档走、published.json 被写成 release-test-seed ——
+ * 这个状态下再跑一次 publish 就会把「6 篇文章」推上线。而 finally 挡不住这种中断
+ * （SIGINT/SIGTERM 直接终止进程，不会回到 finally）。所以显式接管信号：
+ * 先还原工作区与批次目录，再退出。 */
+for (const sig of ["SIGINT", "SIGTERM"]) {
+  process.on(sig, () => {
+    console.log(`\n收到 ${sig} —— 先把工作区还原再退出`);
+    try { cleanup(); } catch { /* 还原本身失败也不能拖着不退出 */ }
+    process.exit(1);
+  });
+}
+
 try {
   /* ===== D. LATEST 悬空回落（先跑，不依赖批次，只验指针逻辑） ===== */
   console.log("== D. LATEST 悬空回落 ==");
@@ -271,6 +298,15 @@ try {
 } catch (e) {
   fail(e.message);
 } finally {
+  cleanup();
+}
+
+/* ---------- 还原与收尾 ----------
+ * 抽成函数只为一个理由：信号处理器也要能调它。finally 只覆盖正常退出与抛错，
+ * 而 SIGINT / SIGTERM 会直接终止进程，finally 根本不跑。 */
+function cleanup() {
+  if (cleanup.done) return;          // 清理途中又来一次信号，原地返回
+  cleanup.done = true;
   /* 无论成败，把工作区拷回测试前状态。
    * 三段各自 try 包裹：任何一段抛错都不能连累后面的清理，
    * 否则一次指纹异常就会把测试批次目录和悬空的 LATEST 留在盘上。 */

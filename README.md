@@ -94,9 +94,12 @@ tools/           数据管线与回归测试（Node，无依赖）
   qc.mjs              内容质检 + 推荐评分门禁
   spot-check.mjs      人工抽查材料生成（对照页 + 高信噪比预检，语义层必须人看）
   lib-release.mjs     发布批次快照与完整回滚（数据 + 图片）
-  publish.mjs         发布：计划 → 暂存校验 → 提交，产出批次清单
+  lib-tree.mjs        本地工作树 / 远端仓库对账共用库（blob sha1 比对 + 封面引用集合计算）
+  publish.mjs         发布：计划 → 暂存校验 → 提交，产出批次清单；含远端残留自动清理（见 HANDOFF §4）
   rollback.mjs        回滚到指定批次
+  tree-diff.mjs       本地工作树 vs 远端仓库逐文件对账，判断「该推什么」（别信 git status）
   release-test.mjs    发布可靠性回归（完整回滚 / 置顶豁免 / 校验门禁 / 清单基线 / LATEST 指针 / 批次自愈）
+  remote-sweep-test.mjs  远端残留自动清理回归（keeper 豁免 / 删除前备份 / 无凭据降级）
   examples-test.mjs   例句按需加载回归（首次 / 复用 / 失败重试 / 加载中换词）
   sw-test.js          Service Worker 离线与缓存路径回归
   qc-test.mjs         质检门禁语义回归（空清单不算通过）
@@ -162,13 +165,15 @@ python -m http.server 8123
 
 每次更新都会先生成一个**批次**：变更前快照（数据文件 + 全部配图）→ 待发布数据写入暂存区 → 校验正文完整性与所有被引用图片 → 全部通过才落盘。任何一步失败，数据与图片一起回滚到更新前状态，线上不受影响。
 
-推送清单以**上次成功发布的状态**为基线（`.bak/published.json`，由推送脚本在成功后写入），所以「先改好文件、再跑发布」的改动一定会进清单；清单里点名的文件若本地缺失，推送会在联网之前直接中止，不会出现正文传了、配图没传却报成功。
+推送清单以**上次成功发布的状态**为基线（`.bak/published.json`，由推送脚本在成功后写入），所以「先改好文件、再跑发布」的改动一定会进清单；清单里点名的文件若本地缺失，推送会在联网之前直接中止，不会出现正文传了、配图没传却报成功。发布时还会对账一次远端树，自动清掉「撤栏目 / 撤功能」遗留的孤儿文件；**仍被远端文章引用的封面一律保留**（那多半是每日管线刚抓来的），删任何文件前都会先备份到 `.bak/deleted-<日期>/`。
 
 ```bash
-node tools/publish.mjs --dry     # 只看本次发布计划，不写文件
+node tools/publish.mjs --dry     # 只看本次发布计划，不写文件（含远端残留对账）
+node tools/tree-diff.mjs         # 本地工作树 vs 远端逐文件对账，判断「该推什么」
 node tools/rollback.mjs --list   # 列出可回滚的批次
 node tools/rollback.mjs latest   # 完整回滚（数据 + 图片，含本次新建的配图）
 node tools/release-test.mjs      # 发布可靠性回归（自带还原保护）
+node tools/remote-sweep-test.mjs # 远端残留自动清理回归（keeper 豁免 / 删除前备份 / 无凭据降级）
 node tools/sw-test.js            # Service Worker 离线/缓存路径
 node tools/push-test.mjs         # 上传清单闸门（缺文件必须中止）
 node tools/mt-test.mjs && node tools/text-test.mjs && node tools/classics-test.mjs  # 抓取/翻译专项回归
