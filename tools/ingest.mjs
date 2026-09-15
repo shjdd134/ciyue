@@ -71,6 +71,10 @@ const DRY = has("dry");
 const BACKFILL = has("backfill");
 const REPAIR = has("repair-images");
 const CLASSICS = has("classics");
+if (CLASSICS) {
+  console.error("明星栏目已于 2026-09-15 移除，经典图集采集入口已停用。");
+  process.exit(2);
+}
 const REPAIR_CATS = new Set(String(val("repair-cats", "")).split(",").map(s => s.trim()).filter(Boolean));
 const NO_FILTER = has("no-filter");
 const VERBOSE = has("verbose");
@@ -121,15 +125,6 @@ const QUOTA = (() => {
  *           inline = 正文内嵌图上限（默认 MAX_INLINE_IMG）
  *           looseImg = 裸 <img> 也算配图（Squarespace 类站点图片不包 <figure>，默认只认 figure） */
 const FEEDS = [
-  /* —— 足球 —— */
-  { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
-  { cat: "足球", name: "FourFourTwo", rss: "https://www.fourfourtwo.com/feeds.xml", max: 3 },
-  { cat: "足球", name: "Opta Analyst", rss: "https://theanalyst.com/feed", max: 3, days: 30, full: true, looseImg: true },
-
-  /* —— AI —— */
-  { cat: "AI", name: "TechCrunch AI", rss: "https://techcrunch.com/category/artificial-intelligence/feed/", max: 4 },
-  { cat: "AI", name: "AI News", rss: "https://www.artificialintelligence-news.com/feed/", max: 3 },
-
   /* —— 成长（独立博主英文长文：对人生发展有实质干货，反厚黑学/反空话——
      Dan Koe 是用户点名的类型代表，More To That 本身就是手绘插图的图文长文）——
      常青内容不受全局时效限制（days 放宽）；full = 不截断，整篇进应用。
@@ -142,15 +137,7 @@ const FEEDS = [
   { cat: "成长", name: "Aeon", rss: "https://aeon.co/feed.rss", max: 3, days: 800, full: true, looseImg: true },
   { cat: "成长", name: "Psyche", rss: "https://psyche.co/feed", max: 3, days: 800, full: true, looseImg: true },
 
-  /* —— 明星（美图向 + 经典美人深度人物特写：Guardian film feed 常出大明星访谈/人物
-     特写（Emma Stone / Sophia Loren 这类），统一评分会把访谈/特写排前；Vanity Fair / Rolling Stone 出名人
-     长文与写真报道；Hearst 全站 feed 出每日美图向内容；正文图放宽到 6 张。注：Guardian 的
-     明星 tag feed（/film/<人名>/rss）已不存在，实测 Actions 上取不到，勿再加） —— */
-  { cat: "明星", name: "The Guardian", rss: "https://www.theguardian.com/film/rss", max: 3, days: 30, full: true, looseImg: true },
-  { cat: "明星", name: "Vanity Fair", rss: "https://www.vanityfair.com/feed/rss", max: 3, days: 60, full: true, looseImg: true },
-  { cat: "明星", name: "Rolling Stone", rss: "https://www.rollingstone.com/feed/", max: 2, days: 30, full: true, looseImg: true },
-  { cat: "明星", name: "ELLE", rss: "https://www.elle.com/rss/all.xml/", max: 4, inline: 6, looseImg: true },
-  { cat: "明星", name: "Harper's Bazaar", rss: "https://www.harpersbazaar.com/rss/all.xml/", max: 4, inline: 6, looseImg: true }
+  /* 2026-09-15：明星栏目删除，足球 / AI 内容清空并停采，避免下轮重新入库。 */
 ];
 
 /* 裸图提取分类：这些分类的文章页图片不包 <figure>，extractBlocks 需要放开扫 <img> */

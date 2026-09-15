@@ -324,7 +324,7 @@ const ARTICLES = [];   // 内置种子文章已清空（2026-09-12 内容清理�
  * 抓取正文来自配置媒体的公开 RSS/文章页，英文正文不改写，中文为机器翻译学习注释。
  * 每篇 url 字段指向原文页面。 */
 
-const CATEGORIES = ["全部","足球","AI","成长","寓言","明星"];
+const CATEGORIES = ["全部","足球","AI","成长","寓言"];
 
 /* 兼容：保留旧引用名 */
 if (typeof WORDS === "undefined") var WORDS = WORDS_CORE;

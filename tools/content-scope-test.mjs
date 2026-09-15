@@ -1,0 +1,22 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import vm from 'node:vm';
+import {spawnSync} from 'node:child_process';
+import {readDecl} from './lib-text.mjs';
+const root=path.resolve(import.meta.dirname,'..');
+const excluded=new Set(['明星','足球','AI']);
+const articles=[['data.js','ARTICLES'],['data-articles-extra.js','ARTICLES_EXTRA'],['data-articles-archive.js','ARTICLES_ARCHIVE']]
+ .flatMap(([f,n])=>readDecl(path.join(root,'assets',f),n).value);
+assert.ok(articles.length>0,'必须保留可读文章');
+assert.ok(articles.every(a=>!excluded.has(a.cat)),'删除的类别不得重新进入在线文章表');
+const categories=readDecl(path.join(root,'assets/data.js'),'CATEGORIES').value;
+assert.ok(!categories.includes('明星'),'明星栏目已撤下');
+const ingest=fs.readFileSync(path.join(root,'tools/ingest.mjs'),'utf8');
+const feedLiteral=ingest.match(/const FEEDS = (\[[\s\S]*?\n\]);/)[1];
+const feeds=vm.runInNewContext(feedLiteral);
+assert.ok(feeds.length>0 && feeds.every(f=>!excluded.has(f.cat)),'停采类别不能继续出现在 RSS 配置');
+const legacy=spawnSync(process.execPath,[path.join(root,'tools/ingest.mjs'),'--classics','--dry'],{encoding:'utf8',timeout:5000});
+assert.equal(legacy.status,2,'旧经典命令必须在联网和写盘前中止');
+assert.match(legacy.stderr,/已停用/);
+console.log('content-scope-test: 6 checks passed');

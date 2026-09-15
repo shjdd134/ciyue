@@ -137,8 +137,8 @@ const eq = (name, a, b) => ok(`${name} → ${JSON.stringify(a)}`, JSON.stringify
  * =================================================================== */
 console.log('\n[A] 查词浮层不跨页残留');
 click({ tab: 'discover' });
-click({ cat: '足球' });
-click({ article: ctx('ARTICLES.filter(a=>a.cat==="足球")[0].id') });
+click({ cat: ctx('ARTICLES[0].cat') });
+click({ article: ctx('ARTICLES[0].id') });
 eq('已进入阅读页', ctx('view.name'), 'read');
 ok('history 已压入一条', st().histDepth === 1);
 
@@ -161,8 +161,8 @@ ok('排序结果写进了页面', /按需学最多/.test(screenEl.innerHTML));
  * =================================================================== */
 console.log('\n[B] 系统返回键只退一层');
 click({ act: 'set-sort', sort: 'new' });
-click({ cat: '足球' });
-click({ article: ctx('ARTICLES.filter(a=>a.cat==="足球")[0].id') });
+click({ cat: ctx('ARTICLES[0].cat') });
+click({ article: ctx('ARTICLES[0].id') });
 eq('压栈 1 层 · history 1 条', [st().depth, st().histDepth, st().histLen], [1, 1, 2]);
 
 /* 模拟用户按系统后退：浏览器先退掉一条 history，再派发 popstate */
@@ -210,7 +210,7 @@ eq('第 7 天（今天）的分钟数与记录一致', ctx('last7()[6].mins'), c
  * =================================================================== */
 console.log('\n[E] 搜索覆盖文章');
 click({ tab: 'discover' });
-ctx('searchTerm = "足球"; render()');
+ctx('searchTerm = ARTICLES[0].cat; render()');
 ok('结果里出现「相关文章」区块', /相关文章/.test(screenEl.innerHTML));
 ok('结果里列出文章卡片', /data-article="/.test(screenEl.innerHTML));
 ctx('searchTerm = "自创词xyz不存在"; render()');
@@ -714,7 +714,7 @@ const stillFlat = ctx(`ARTICLES.filter(a => {
   const flat = txt.filter(p => !Array.isArray(p.sentences));
   return txt.length >= 20 && flat.length / txt.length > 0.8;
 }).map(a => a.id)`);
-ok(`按原文段落分组的文章 ≥18/19（仍是单句段的：${stillFlat.join(", ") || "无"}）`,
+ok(`按原文段落分组（最多保留 1 篇历史待修复文章）（仍是单句段的：${stillFlat.join(", ") || "无"}）`,
   stillFlat.length <= 1);
 const multiPara = ctx(`ARTICLES.reduce((n,a) => n + (a.paras||[]).filter(p => Array.isArray(p.sentences) && p.sentences.length > 1).length, 0)`);
 ok(`多句段数量充足（${multiPara} 个 ≥2 句的段落）`, multiPara >= 300);

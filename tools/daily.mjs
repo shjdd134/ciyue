@@ -49,19 +49,14 @@ function rollback(why) {
 }
 
 /* ---------- 1. 抓取 ---------- */
-console.log("== 步骤 1/5：抓取近 7 天文章 + 明星经典图集 ==");
+console.log("== 步骤 1/5：抓取成长文章 ==");
 const okIngest = run("ingest.mjs", [
   "--append", "--days", "7", "--per", "2", "--limit", "24",
   "--candidate", "16",
-  "--quota", "足球=3,AI=3,明星=2,成长=2",
+  "--quota", "成长=2",
 ]);
 if (!okIngest) rollback("抓取步骤失败");
-/* 经典图集是明星栏目的长期供给。它依赖月度 sitemap，偶发网络/站点改版时
-   允许本日 RSS 更新继续发布，下一次运行再补扫；成功时与 RSS 一起进入同一质检门。 */
-const okClassics = run("ingest.mjs", [
-  "--append", "--classics", "--months", "8", "--classic-limit", "2", "--imgs", "16",
-]);
-if (!okClassics) console.log("  经典通道本次未完成，保留现有经典内容，继续质检 RSS 结果");
+/* 明星已移除，足球 / AI 已停采；恢复须按用户新的选题要求重新配置。 */
 
 /* ---------- 2. 质检新文章 ---------- */
 console.log("\n== 步骤 2/5：质检新文章 ==");
@@ -103,7 +98,7 @@ if (!run("publish.mjs", ["--batch", batch.id])) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-for (const t of ["recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "examples-test.mjs"]) {
+for (const t of ["content-scope-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "examples-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 
