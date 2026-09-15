@@ -1,4 +1,4 @@
-> 2026-09-15 内容清理：明星栏目删除；足球 / AI 文章清空并停采。当前 11 篇成长文章。旧版统计与明星通道说明仅作历史记录，当前工作以 WORKBUDDY-OPTIMIZATION-PLAN.md 为准。用户已授权本项目修改验证后直接推送 main。
+> 2026-09-15 人物栏目改为首批 3 篇原刊全文与摄影，成长 11 篇保留；人物明确排除赞达亚。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。原明星、足球、AI 采集仍停用。成长全文修复以 WORKBUDDY-OPTIMIZATION-PLAN.md 为准。用户已授权本项目修改验证后直接推送 main。
 
 # 词阅 WordLens — Agent 交接手册
 
@@ -9,6 +9,7 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 - **当前工作树状态（2026-09-14 晚）**：SW 策略 v43，资源版本号 `?v=46`（2026-09-14 阅读体验一轮后从 44 提升），词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **40 篇**（足球 2、AI 3、成长 11、明星 24 —— 明星已改为历史通道经典专题，见下；寓言入口保留但当前清空）。误执行 `--replace` 后已从远端事故前版本恢复原有 11 篇成长文章及配图。缓存优先/1 小时新鲜窗/304 协商回落 + 保留上一代缓存作回退；v43 为移除旧背词状态后的发布缓存版本
+  > ⚠️ **2026-09-15 更正**：本条是 09-14 晚的快照。09-15 用户拍板撤下明星/足球/AI 采集与内容，**线上现为 11 篇、全部成长**（commit `a0009649`），线上资源版本号 `?v=47`（本地工作树已到 49，尚未推送）。判断"线上现在有什么"请查远端树，不要读本节旧数字。
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
   10 篇成长类旧文已由 `tools/_regroup-paras.mjs` 按原文接回段落边界（只改分组，句/译逐字节不变）；
@@ -72,7 +73,7 @@
     ├── lib-text.mjs            文本清洗共用库（占位符/广告段/缩写/命名实体）
     ├── text-scan.js / fix-text.mjs  正文体检与回填
     ├── audit.js                回归①：数据与逻辑断言（140+ 条）
-    ├── nav-test.js             回归②：导航流 18 条
+    ├── nav-test.js             回归②：导航流 30 条
     ├── smoke.js                回归③：加载链冒烟
     ├── qc.mjs                  文章质量体检（时效/封面/段数/推荐评分门禁）
     ├── _api-push.mjs           ★ 部署推送（Git Data API 增量提交，见 §4）
@@ -448,7 +449,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 
 ```bash
 node tools/audit.js         # 期望当前 182/0 fail（含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、R 阅读排版与句子锚点）
-node tools/nav-test.js      # 期望当前 18/0
+node tools/nav-test.js      # 期望当前 30/0（2026-09-15 起；人物导航 7 条已加，旧口径 18/0）
 node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size 38267、COMMON_WORDS_size 242）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）
 node tools/sw-test.js       # 期望 8/8（离线无缓存必须给 Response，不能是 undefined）

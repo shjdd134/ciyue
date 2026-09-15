@@ -9,7 +9,7 @@
  * 判拒标准（一条不满足即拒收该文章）：
  *   F1 字段完备：id/url/cat/title/titleZh/date/paras 齐全，cat 在栏目表内
  *   F2 新鲜度：date 可解析且在近 40 天内
- *   F3 封面与配图：新闻封面存在且 < 250KB；明星正文内嵌图达到 6 张且引用文件存在
+ *   F3 封面与配图：新闻封面存在且 < 250KB；人物原刊专题的全部图片引用文件存在
  *   F4 正文：paras ≥ 3 段；每个文字段 en 非空、cn 非空且不与 en 相同、含中文
  *   F5 文面：无翻译占位符 <e:N>/<s:N>、无 U+FFFD、无不可见字符、无广告脚本/导航/纯链接段
  * 警告（不拒收，只打印）：W1 译文中英文残留偏多（只数小写起头的拉丁词，专有名词不算）、W2 段落过短
@@ -83,7 +83,7 @@ for (const a of ARTICLES) {
 
   /* F2 新鲜度（寓言为 1912 公版经典、成长为常青博主长文、明星含经年不过时的人物
      特写/档案访谈，均不参与时效判定） */
-  if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星") {
+  if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星" && a.cat !== "人物") {
     const t = a.date ? new Date(a.date).getTime() : NaN;
     if (!Number.isFinite(t)) F.push("F2 date 无法解析");
     else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
@@ -106,6 +106,17 @@ for (const a of ARTICLES) {
   /* F4/F5 正文（寓言最短只有 2 段） */
   const paras = (a.paras || []).filter(Boolean);
   const inlineImages = paras.filter(p => p && p.img).length;
+  if (a.cat === "人物") {
+    const unique = new Set([a.coverImg, ...paras.filter(p=>p?.img).map(p=>p.img)].filter(Boolean));
+    if(unique.size < 4 || a.photoCount !== unique.size) F.push('F3 人物配图不足或计数不一致');
+    if(a.readingMode === 'full') {
+      if(a.contentStatus !== 'complete' || a.review?.scope !== 'full-original-text-and-photos') F.push('F4 人物原刊正文未完成复核');
+      if(!a.sourceTextHash || !Number.isFinite(Number(a.sourceTextWords)) || Number(a.sourceTextWords)<450) F.push('F4 人物原文词数/指纹缺失');
+      const actualWords=paras.filter(p=>!p.img).flatMap(p=>(p.sentences||[]).map(s=>String(s.en||''))).join(' ').match(/[A-Za-z]+(?:['’][A-Za-z]+)?/g)||[];
+      if(Math.abs(actualWords.length-Number(a.sourceTextWords||0))>Math.max(20,Number(a.sourceTextWords||0)*0.05)) F.push(`F4 人物原文词数不一致（字段 ${a.sourceTextWords}，正文 ${actualWords.length}）`);
+    } else if(a.readingMode !== 'guide' || a.review?.status !== 'approved' || !a.review?.visualChecked || !a.review?.guideChecked || !a.review?.articleChecked) F.push('F4 人物原文未审核');
+    if(!Number.isFinite(Date.parse(a.date))) F.push('F2 人物原刊日期无效');
+  }
   if (!meetsImageGate(a.cat, inlineImages)) F.push(`F3 明星正文配图不足（${inlineImages}/${STAR_MIN_IMAGES}）`);
   if (a.cat === "明星" && a.photoCount != null && Number(a.photoCount) !== inlineImages) {
     F.push(`F3 photoCount 不一致（字段 ${a.photoCount}，正文 ${inlineImages}）`);

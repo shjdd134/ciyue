@@ -1,0 +1,39 @@
+{
+  "version": "people-v2-full",
+  "dailyLimit": 2,
+  "minPhotos": 4,
+  "maxPhotos": 24,
+  "minSourceWords": 450,
+  "threshold": 70,
+  "excludedPeople": ["Zendaya"],
+  "weights": {"person": 30, "photography": 20, "story": 20, "english": 20, "interest": 10},
+  "people": [
+    {"name":"Monica Bellucci","zh":"莫妮卡·贝鲁奇","affinity":100},
+    {"name":"Sophie Marceau","zh":"苏菲·玛索","affinity":100},
+    {"name":"Anne Hathaway","zh":"安妮·海瑟薇","affinity":100},
+    {"name":"Eva Green","zh":"伊娃·格林","affinity":95},
+    {"name":"Léa Seydoux","zh":"蕾雅·赛杜","affinity":95},
+    {"name":"Marion Cotillard","zh":"玛丽昂·歌迪亚","affinity":95},
+    {"name":"Adèle Exarchopoulos","zh":"阿黛尔·艾克萨勒霍布洛斯","affinity":90},
+    {"name":"Laetitia Casta","zh":"蕾蒂莎·科斯塔","affinity":95},
+    {"name":"Penélope Cruz","zh":"佩内洛普·克鲁兹","affinity":95},
+    {"name":"Ana de Armas","zh":"安娜·德·阿玛斯","affinity":90},
+    {"name":"Natalie Portman","zh":"娜塔莉·波特曼","affinity":90},
+    {"name":"Charlize Theron","zh":"查理兹·塞隆","affinity":90},
+    {"name":"Vicky Krieps","zh":"薇姬·克里普斯","affinity":85},
+    {"name":"Chloë Sevigny","zh":"科洛·塞维尼","affinity":80},
+    {"name":"Elle Fanning","zh":"艾丽·范宁","affinity":85},
+    {"name":"Emma Stone","zh":"艾玛·斯通","affinity":80},
+    {"name":"Amanda Seyfried","zh":"阿曼达·塞弗里德","affinity":85},
+    {"name":"Pamela Anderson","zh":"帕米拉·安德森","affinity":75}
+  ],
+  "sources": [
+    {"name":"AnOther Magazine","tier":"core","host":"www.anothermag.com","listing":"https://www.anothermag.com/interview","images":["images-prod.anothermag.com"]},
+    {"name":"W Magazine","tier":"core","host":"www.wmagazine.com","listing":"https://www.wmagazine.com/culture","images":["imgix.bustle.com"]},
+    {"name":"Vanity Fair","tier":"core","host":"www.vanityfair.com","listing":"https://www.vanityfair.com/topic/profiles","images":["media.vanityfair.com","media.vf.com"]},
+    {"name":"Numéro","tier":"supplement","host":"numero.com","listing":"https://numero.com/en/","images":["numero.com","www.numero.com"]},
+    {"name":"Vogue","tier":"supplement","host":"www.vogue.com","listing":"https://www.vogue.com/magazine","images":["assets.vogue.com"]},
+    {"name":"British Vogue","tier":"supplement","host":"www.vogue.co.uk","listing":"https://www.vogue.co.uk/arts-and-lifestyle","images":["media.vogue.co.uk"]},
+    {"name":"Interview Magazine","tier":"supplement","host":"www.interviewmagazine.com","listing":"https://www.interviewmagazine.com/film","images":["www.interviewmagazine.com","interviewmagazine.com"]}
+  ]
+}
