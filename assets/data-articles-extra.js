@@ -1,10 +1,10 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 11 篇，英文正文来自公开来源的真实原文，未做改写；
- * 中文为逐句机器翻译（DeepL 优先，有道 / MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
- * 每篇保留 url 外链可溯源。当前保留成长栏目；2026-09-15 清除明星、足球和 AI 文章。
+ * 共 14 篇；成长类保留来源英文，中文为机器翻译学习注释。
+ * 人物类 readingMode:full 保存公开原刊正文与图片；广告/导航过滤，来源与署名保留。
+ * 每篇保留 url 外链可溯源。2026-09-15 清除明星、足球和 AI 文章，新增人物原刊全文。
  *
- * 通道：成长类 RSS；明星历史通道已停用。
+ * 通道：成长类 RSS；人物 reviewed queue；明星历史通道已停用。
  */
 
 const ARTICLES_EXTRA = [
@@ -7826,6 +7826,3178 @@ const ARTICLES_EXTRA = [
       {
         "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
         "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
+      }
+    ]
+  },
+  {
+    "id": "people-anne-hathaway-mother-mary",
+    "cat": "人物",
+    "title": "Anne Hathaway Opens Up About the Most Challenging Role of Her Career",
+    "titleZh": "安妮·海瑟薇谈职业生涯中最具挑战的角色",
+    "url": "https://www.vogue.com/article/anne-hathaway-august-cover-2025-interview",
+    "source": "Vogue",
+    "date": "2025-07-07",
+    "addedAt": "2026-09-15",
+    "pin": true,
+    "readingMode": "full",
+    "contentStatus": "complete",
+    "extractorVersion": "people-full-v1",
+    "person": "Anne Hathaway",
+    "personZh": "安妮·海瑟薇",
+    "photoCount": 9,
+    "photoCredit": "Annie Leibovitz / Vogue",
+    "peopleScore": 100,
+    "peopleScoreParts": {
+      "person": 1,
+      "photography": 1,
+      "story": 1,
+      "english": 1,
+      "interest": 1
+    },
+    "peopleVersion": "people-v2-full",
+    "review": {
+      "status": "approved",
+      "visualChecked": true,
+      "guideChecked": true,
+      "articleChecked": true,
+      "at": "2026-09-15T11:57:57.355Z",
+      "scope": "full-original-text-and-photos",
+      "fingerprint": "4dcfb2a2115c7c63665a296842560ba9fd98af52279e8f3a32edb9865824dc19",
+      "photoHashes": [
+        "77d6f9ca7cb18f375da82f5d47c52e32ce7a837b60e5acef4fde217a376a387e",
+        "6229e3ceed3e5164bf2da91f434aabddbee69031083c10d0519aaa965f82ef56",
+        "93e4a4c0edfb4615a1ab9d573ef8ffb22731a461fe24ca4177a3c29cbcc5f096",
+        "657f7c933efdd1a8afe7484fc027b2923ff11ecd3be567fd5fe87e57cf793601",
+        "3b3e389dd7e241b7fc3d0b1ef2137122c78a8cc75cda45b1d5ba6283986f62f4",
+        "05cef36bf92845a7df9451ad821695626cb193940aa52cf829ce9f6c0f0f5739",
+        "c2193424c11f67c10154e8fec5fb14f2275e1576672ee2d2ccaa2f4d77d613ae",
+        "b301c2bd3b860d8a3f3ba8a6b2203fa16852a1ea399f87a7aa6cbd3f1bc017d0",
+        "fcc0bbf48b6061871d7cc98741ff56a2a13704dcd3dcaaa003cfab3ff572d9fe"
+      ]
+    },
+    "fingerprint": "4dcfb2a2115c7c63665a296842560ba9fd98af52279e8f3a32edb9865824dc19",
+    "sourceTextHash": "1928f69783a5551ae890ef5b2e802622a7e71562b42ad6e7ee77949fb96b300a",
+    "sourceTextWords": 3623,
+    "sourceParagraphs": 38,
+    "sourceImages": 9,
+    "coverImg": "assets/covers/people-anne-hathaway-mother-mary-0.jpg",
+    "cover": "linear-gradient(135deg,#eadbcc,#855349)",
+    "gradient": "linear-gradient(135deg,#eadbcc,#855349)",
+    "photoSources": [
+      "https://assets.vogue.com/photos/685995ef4c58215d1df8d3e7/16:9/w_1280,c_limit/VO0825_Cover_logo.jpg",
+      "https://assets.vogue.com/photos/685995d4fd3cb6364abedc95/master/w_960,c_limit/VO0825_CoverStory_01.jpg",
+      "https://assets.vogue.com/photos/685995d441d9e4045e437043/master/w_960,c_limit/VO0825_CoverStory_02.jpg",
+      "https://assets.vogue.com/photos/685995d4c93e475c4d4e20f0/master/w_960,c_limit/VO0825_CoverStory_03.jpg",
+      "https://assets.vogue.com/photos/685995d45ab364d88c7d0ac4/master/w_960,c_limit/VO0825_CoverStory_04.jpg",
+      "https://assets.vogue.com/photos/685995d612b3276db9d30615/master/w_960,c_limit/VO0825_CoverStory_05.jpg",
+      "https://assets.vogue.com/photos/685aad6eafc82a7e943bc0ad/master/w_960,c_limit/VO0825_CoverStory_06.jpg",
+      "https://assets.vogue.com/photos/685995d482bc010538714d16/master/w_960,c_limit/VO0825_CoverStory_07.jpg",
+      "https://assets.vogue.com/photos/685995d4bf4ab2b24cabdbb3/master/w_960,c_limit/VO0825_CoverStory_09.jpg"
+    ],
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Anne Hathaway is screaming.",
+            "cn": "安妮·海瑟薇正在尖叫。"
+          },
+          {
+            "en": "Eyes wild, skin aflame.",
+            "cn": "眼神狂野，面颊通红。"
+          },
+          {
+            "en": "Cresting, her voice vaults to a frequency you figure could shatter glass.",
+            "cn": "随着情绪达到顶峰，她的嗓音飙升至一种你觉得足以震碎玻璃的频率。"
+          },
+          {
+            "en": "“How was that?” she asks Jack Antonoff, lowering her headphones.",
+            "cn": "“感觉怎么样？”她问杰克·安东诺夫，同时摘下耳机。"
+          },
+          {
+            "en": "“Try another one?”",
+            "cn": "“再试一次？”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Sure, let’s go again,” Antonoff replies, fiddling with various buttons and levers on his monumental recording console.",
+            "cn": "“当然，再来一次，”安东诺夫回答道，一边摆弄着他那台庞大录音控制台上的各种按钮和操纵杆。"
+          },
+          {
+            "en": "“One more like that.",
+            "cn": "“再来一次，像那样。”"
+          },
+          {
+            "en": "Keep it frightening.”",
+            "cn": "“要保持那种令人毛骨悚然的感觉。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Got it: hounds of hell,” says Hathaway, nodding.",
+            "cn": "“明白了：地狱猎犬，”海瑟薇点点头说道。"
+          },
+          {
+            "en": "Ever the diligent student.",
+            "cn": "一如既往地勤奋。"
+          },
+          {
+            "en": "Then she turns to me, mischievous.",
+            "cn": "接着，她调皮地转向我。"
+          },
+          {
+            "en": "“I have no idea where all this anger is coming from….”",
+            "cn": "“我完全不知道这股愤怒是从哪里来的……”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Hathaway and Antonoff are spending this first balmy spring Saturday tucked away at a Manhattan studio because they are in the final stages of transforming famously plucky Anne Hathaway, movie star with a megawatt smile, into a moody pop diva.",
+            "cn": "海瑟薇和安东诺夫正躲在曼哈顿的一间录音棚里，度过这个初春首个温暖的周六，因为他们正处于将那位以坚韧不拔著称、笑容灿烂如阳光的电影明星安妮·海瑟薇，蜕变为一位情绪多变的流行天后的最后阶段。"
+          },
+          {
+            "en": "She’s dropped her two sons off at Little League and come here in low-glam mode (Knicks jersey, jeans) to record songs for David Lowery’s upcoming film Mother Mary, in which Hathaway plays the title character—a sort of Gaga–Taylor Swift hybrid who is, uh, having a moment.",
+            "cn": "她刚把两个儿子送到少年棒球联盟的训练场，便以低调随性的装扮（尼克斯队球衣、牛仔裤）来到这里，为大卫·洛维即将上映的电影《圣母玛丽》录制歌曲。在片中，海瑟薇饰演的正是同名主角——一个融合了Lady Gaga和泰勒·斯威夫特特质的角色，她正……嗯，处于事业的某个特殊时刻。"
+          },
+          {
+            "en": "And not “having a moment” in the sense of basking in the glow of public adoration, but something more like its opposite.",
+            "cn": "这里的“正经历一段特殊时期”并非指沉浸在公众的崇拜光环中，而是更接近于其相反的状态。"
+          },
+          {
+            "en": "Searching for her own center and finding only darkness, she has fled her tour and sought out the old friend (played by Michaela Coel) who helped craft her all-consuming public persona in the first place.",
+            "cn": "在寻找自我内心的过程中却只发现一片黑暗，她逃离了巡演，去找那位老朋友（由米凯拉·科尔饰演），正是她当初帮助塑造了那个占据她全部生活的公众形象。"
+          },
+          {
+            "en": "It’s a strange, indelible film—which won’t surprise anyone familiar with Lowery’s previous work ( The Green Knight, A Ghost Story ).",
+            "cn": "这是一部诡异而令人难忘的电影——对于熟悉洛厄里此前作品（《绿骑士》、《鬼故事》）的人来说，这并不令人意外。"
+          },
+          {
+            "en": "Hathaway coveted the part, she says, and it wound up challenging her more than any previous role.",
+            "cn": "她说，她曾非常渴望获得这个角色，而这个角色最终给她的挑战比以往任何一个角色都要大。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“What struck me right away, reading the script, is that you can’t ‘perform’ Mother Mary,” says Hathaway.",
+            "cn": "“读剧本时，我立刻意识到，圣母玛利亚这个角色是无法‘演’出来的，”海瑟薇说道。"
+          },
+          {
+            "en": "“If I got the part, I would have to become material David could craft with.” In essence, she had to make herself into a credible global pop star, one capable of executing complex choreography in a headdress and high heels and channeling the songs that Antonoff and Charli XCX were writing on her behalf.",
+            "cn": "“如果我拿到了这个角色，我就必须成为大卫可以加以雕琢的素材。”归根结底，她必须把自己打造成一位令人信服的全球流行巨星——一位既能戴着头饰、穿着高跟鞋完成复杂的舞蹈编排，又能完美诠释安东诺夫和查莉·XCX为她量身创作的歌曲的明星。"
+          },
+          {
+            "en": "But preparing for all of this wasn’t simply a matter of dance practice or learning to sing by seething and sneering and, yes, sometimes screaming.",
+            "cn": "但为这一切做准备，绝不仅仅是练习舞蹈，或是通过怒火中烧、冷笑——是的，有时甚至尖叫——来学习唱歌那么简单。"
+          },
+          {
+            "en": "“I had to submit to being a beginner,” she explains.",
+            "cn": "“我必须甘当新手，”她解释道。"
+          },
+          {
+            "en": "“The humility of that—showing up every day knowing you’re going to suck.",
+            "cn": "“这种谦卑感——每天到片场时都清楚自己会演得很糟糕。"
+          },
+          {
+            "en": "And it has to be okay.",
+            "cn": "而且必须接受这一点。”"
+          },
+          {
+            "en": "You’re not ‘bad.’ You’re just a beginner.",
+            "cn": "你并不“差”。你只是个初学者。"
+          },
+          {
+            "en": "Getting to that mindset—I had to shed some things that were hard to shed.",
+            "cn": "要达到这种心态——我不得不抛开一些难以割舍的东西。"
+          },
+          {
+            "en": "It was welcome.",
+            "cn": "这确实是件值得高兴的事。"
+          },
+          {
+            "en": "But it was hard, the way transformational experiences can be hard.”",
+            "cn": "“但这确实很艰难，就像所有能带来蜕变的经历一样艰难。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-1.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "WOMEN OF THE HOUR Hathaway photographed at The Metropolitan Museum of Art with 19th-century masterworks by John Singer Sargent (left) and Édouard Manet (right). The Met’s exhibition Sargent and Paris is on display through August 3, 2025.",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d4fd3cb6364abedc95/master/w_960,c_limit/VO0825_CoverStory_01.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Hathaway radiates enthusiasm.",
+            "cn": "海瑟薇浑身散发着热情。"
+          },
+          {
+            "en": "It seems to be her default setting.",
+            "cn": "这似乎就是她的常态。"
+          },
+          {
+            "en": "She’s aglow as she talks about struggling through nearly two years of daily dance training, 8 a.m. to 6 p.m. to start, plus singing lessons that instigated a minor identity crisis—not to mention navigating a long shoot in and around Cologne, Germany, that every participant I spoke to for this story agrees was intense.",
+            "cn": "当她谈到自己如何坚持了近两年的每日舞蹈训练——起初每天从早上8点练到下午6点，再加上曾引发她轻微身份危机的声乐课程时，脸上洋溢着光彩——更不用说在德国科隆及周边地区进行的漫长拍摄了，我为此报道采访过的每一位参与者都一致认为那段经历异常艰苦。"
+          },
+          {
+            "en": "The point is, she came out the other side remade.",
+            "cn": "关键在于，她最终蜕变重生。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I’d say, You have to show me how you’re feeling with your body,” recalls choreographer Dani Vitale.",
+            "cn": "“我会说：‘你必须用身体向我展现你的感受，’”编舞家丹尼·维塔莱回忆道。"
+          },
+          {
+            "en": "“You can’t tell me you’re angry; show me.",
+            "cn": "“你不能只是告诉我你生气了，要让我看出来。"
+          },
+          {
+            "en": "Proprioception.",
+            "cn": "本体感觉。"
+          },
+          {
+            "en": "That was the training, getting Annie out of her head.” And giving Hathaway permission to be messy, vulgar, temperamental, and—above all—imperfect.",
+            "cn": "“这就是训练，让‘安妮’从脑海中消失。”并允许海瑟薇展现出邋遢、粗俗、脾气暴躁的一面，最重要的是——不完美。"
+          },
+          {
+            "en": "“I remember that first day, being like, Oh no.",
+            "cn": "“我记得第一天，当时心想：‘哦，不。’”"
+          },
+          {
+            "en": "Because she’s like a doll, you know?",
+            "cn": "因为她就像个洋娃娃一样，你知道的？”"
+          },
+          {
+            "en": "So pretty, so graceful.",
+            "cn": "如此美丽，如此优雅。"
+          },
+          {
+            "en": "I thought, Oh God, I have to break this person. ”",
+            "cn": "“我当时想：‘天啊，我必须把这个人摧毁。’”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I finally learned how to breathe,” says Hathaway of her sessions—ongoing—with Vitale.",
+            "cn": "“我终于学会了如何呼吸，”海瑟薇在谈到她与维塔莱仍在进行的训练课程时说道。"
+          },
+          {
+            "en": "“My body was so locked up—I literally couldn’t take a deep breath.",
+            "cn": "“我的身体紧绷得像块石头——我真的连深呼吸都做不到。”"
+          },
+          {
+            "en": "I’d been trying to open that space for years and I thought it was physically impossible.",
+            "cn": "我多年来一直试图打开那个空间，却以为这在生理上根本不可能。”"
+          },
+          {
+            "en": "All my breath, it was stuck….” She makes a strangling gesture.",
+            "cn": "“我所有的气息，都卡住了……”她做了一个窒息的手势。"
+          },
+          {
+            "en": "A bit later, recalling her frustrations with her vocal coach, she stops mid-anecdote to strike a low note on the keyboard beside her.",
+            "cn": "稍后，当她回忆起与声乐教练之间的摩擦时，她讲到一半便停了下来，在身旁的键盘上弹了一个低音。"
+          },
+          {
+            "en": "Idly, I assume.",
+            "cn": "我随口猜测道。"
+          },
+          {
+            "en": "Then she explains that, just as she was reaching her breaking point, she was instructed to lie on the floor “and make sounds until something felt true.”",
+            "cn": "随后她解释说，就在她快要崩溃的时候，教练让她躺在地板上，“发出声音，直到感觉对了为止。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“My whole life, I’ve been up here,” Hathaway continues, tapping a high note on the keyboard.",
+            "cn": "“我这一生，一直都在这里，”海瑟薇继续说道，同时在键盘上弹出一个高音。"
+          },
+          {
+            "en": "“Soprano.",
+            "cn": "“女高音。"
+          },
+          {
+            "en": "My mom’s a soprano—a beautiful singer.",
+            "cn": "我妈妈是女高音——一位美妙的歌手。"
+          },
+          {
+            "en": "And I can touch those notes, but….” Hathaway plays the low note again, letting it sustain.",
+            "cn": "“我能触及那些音符，但……”海瑟薇再次奏出那个低音，让它持续回响。"
+          },
+          {
+            "en": "“It turns out, I’m down here.",
+            "cn": "“结果发现，我其实在这里。”"
+          },
+          {
+            "en": "That’s where I like to live.”",
+            "cn": "“那正是我喜欢的生活方式。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Here’s the thing about Anne Hathaway: She is incredibly nice.",
+            "cn": "关于安妮·海瑟薇，有一点必须说明：她真的非常亲切。"
+          },
+          {
+            "en": "That sounds like faint praise, but spending time with her made me question whether I’d ever met a truly nice person.",
+            "cn": "这听起来像是敷衍的赞美，但与她相处后，我不禁怀疑自己是否曾真正遇见过一个心地善良的人。"
+          },
+          {
+            "en": "I know many kind people—but you can be kind and also sometimes snarky, impatient, aggrieved, aloof, and so on, and no, I am not talking about myself.",
+            "cn": "我认识许多善良的人——但一个人可以既善良，有时又尖酸刻薄、不耐烦、心怀不满、冷漠疏离等等，不，我并不是在说我自己。"
+          },
+          {
+            "en": "But Anne Hathaway is kind and nice, and I kept waiting for her mask to slip, for her to do something not nice, but she never did.",
+            "cn": "但安妮·海瑟薇确实善良又亲切，我一直在等待她面具滑落，期待她做出些不友善的举动，但她始终没有。"
+          },
+          {
+            "en": "Not from the moment she greeted me with the kind of muscular embrace usually reserved for a long-lost loved one.",
+            "cn": "从她用那种通常只留给久别重逢的挚爱才有的有力拥抱迎接我的那一刻起，就从未有过。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-2.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "FREE MOVEMENT At the Whitney Museum of American Art with Franz Kline’s 1956 painting Mahoning.",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d441d9e4045e437043/master/w_960,c_limit/VO0825_CoverStory_02.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“No, that’s Annie,” attests Gucci Westman, Hathaway’s frequent makeup artist and friend, known as “Auntie Gucci” to Hathaway’s sons Jonathan, nine, and Jack, five.",
+            "cn": "“不，那是安妮，”古驰·韦斯特曼证实道。她是海瑟薇的常任化妆师兼好友，在海瑟薇的儿子——9岁的乔纳森和5岁的杰克——眼中，她被称为“古驰阿姨”。"
+          },
+          {
+            "en": "“Like, she doesn’t gossip.",
+            "cn": "“比如，她从不八卦。"
+          },
+          {
+            "en": "It just doesn’t occur to her to be catty—and then you don’t want to be catty around her.",
+            "cn": "她根本不会去想那些刻薄的话——所以你也不想在她面前说刻薄的话。"
+          },
+          {
+            "en": "I don’t want to give the impression she’s not fun to hang out with,” Westman quickly adds, going on to say that she and Hathaway “have the best time” vintage shopping (in Japan, recently) and are often mulling home decor, which makes sense, inasmuch as Westman was the previous tenant of Hathaway’s Manhattan home.",
+            "cn": "“我不想给人留下她不好相处的印象，” 韦斯特曼随即补充道，并提到她和海瑟薇最近在日本“玩得特别开心”，一起淘古着，还经常讨论家居装饰——这也很合理，毕竟韦斯特曼曾是海瑟薇那套曼哈顿公寓的前房客。"
+          },
+          {
+            "en": "“She’s funny, she’s curious—that’s the main word I’d use to describe her.",
+            "cn": "“她风趣，她充满好奇——这是我用来形容她的主要词汇。"
+          },
+          {
+            "en": "I just mean she looks for the good in people.”",
+            "cn": "“我的意思是，她总是能看到别人好的一面。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“You see how she treats everyone—and it’s everyone —she’s so kind,” confirms Bradley Cooper, who got to know Hathaway when their Manhattan-based families wound up forming one of the world’s most glamorous COVID pods.",
+            "cn": "“你看她对待每个人的方式——真的是每个人——她都特别善良，”布拉德利·库珀证实道。他与海瑟薇相识于曼哈顿，当时两家人的家庭意外组成了世界上最耀眼的“防疫小圈子”之一。"
+          },
+          {
+            "en": "“We started hanging out as parents, having dance parties with children in my kitchen, and I fell in love with both of them,” says Cooper, referring to Hathaway and her husband of a dozen years, Adam Shulman.",
+            "cn": "“我们最初是以父母的身份相处的，常在我家厨房里和孩子们一起跳舞，结果我不仅爱上了她，也爱上了她的丈夫，”库珀说道，他所指的是海瑟薇及其结婚十二年的丈夫亚当·舒尔曼。"
+          },
+          {
+            "en": "He seems a bit in awe of their marriage, describing it as “an emblem for that kind of commitment,” in that they “enrich” each other.",
+            "cn": "他对两人的婚姻似乎颇为钦佩，称其为“那种承诺的象征”，因为他们彼此“丰富”了对方。"
+          },
+          {
+            "en": "Which, sadly, is not terribly normal—though, according to Cooper, pretty much everything else about the Hathaway-Shulman household is.",
+            "cn": "遗憾的是，这并不太寻常——不过据库珀所说，海瑟薇-舒尔曼家里的其他方面几乎都很正常。"
+          },
+          {
+            "en": "“I hate to use that word.",
+            "cn": "“我不喜欢用那个词。"
+          },
+          {
+            "en": "But you’ve met Anne: She’s very present and grounded, I’ll put it that way.",
+            "cn": "但你见过安妮：她非常专注且脚踏实地，我就这么说吧。"
+          },
+          {
+            "en": "And kind,” he repeats, before allowing that Hathaway has daggers out in one regard: “She’s viciously intelligent.” Okay.",
+            "cn": "“而且很善良，”他重复道，随后承认海瑟薇在某一方面确实锋芒毕露：“她聪明得令人发指。”好吧。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "On meeting, Hathaway hugs me, compliments my perfume, identifies it as one she used to wear, then confesses that she’s an occasional late-night lurker on perfume Reddit.",
+            "cn": "见面时，海瑟薇拥抱了我，称赞我的香水，说那是她以前用过的一款，然后坦言自己偶尔会在深夜潜水浏览Reddit上的香水板块。"
+          },
+          {
+            "en": "She insists on getting me water—herself.",
+            "cn": "她坚持要亲自给我倒水。"
+          },
+          {
+            "en": "She invites me to sit next to her while she screams into Antonoff’s microphone.",
+            "cn": "她邀请我坐在她旁边，而她则对着安东诺夫的麦克风放声高歌。"
+          },
+          {
+            "en": "She peppers me with questions about my work, my life.",
+            "cn": "她连珠炮似地问我关于工作和生活的问题。"
+          },
+          {
+            "en": "And when she notices there’s a photo of the filmmaker Chantal Akerman on my tote bag, she flips out.",
+            "cn": "当她注意到我的托特包上印着电影导演尚塔尔·阿克曼的照片时，她顿时兴奋不已。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“No way.",
+            "cn": "“不会吧。"
+          },
+          {
+            "en": "No way.",
+            "cn": "不会吧。"
+          },
+          {
+            "en": "Spooky action, this is crazy,” she says, eyes agog.",
+            "cn": "“太不可思议了，简直太疯狂了，”她瞪大眼睛说道。"
+          },
+          {
+            "en": "“Because you have to understand, I just watched one of her films, Saute ma Ville, for the first time last night.",
+            "cn": "“因为你要明白，我昨晚才第一次看了她的电影《跳出我的城市》。”"
+          },
+          {
+            "en": "” There’s a fair amount to unpack here.",
+            "cn": "” 这里值得细细品味的地方还不少。"
+          },
+          {
+            "en": "I’ll start with “spooky action.”",
+            "cn": "我先从“幽灵般的远距离作用”说起。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The phrase “spooky action at a distance” refers to quantum entanglement, wherein particles remote from each other are mysteriously linked.",
+            "cn": "“幽灵般的远距离作用”这一术语指的是量子纠缠，即相距遥远的粒子之间会产生神秘的联系。"
+          },
+          {
+            "en": "In Mother Mary, “Spooky Action” is the name of one of the titular pop star’s songs; it also describes the relationship between Hathaway’s Mary and Coel’s fashion designer character, Sam.",
+            "cn": "在电影《母亲玛丽》中，“诡异作用”既是片中同名流行歌手的歌曲名称之一，也描述了海瑟薇饰演的玛丽与科尔饰演的时装设计师萨姆之间的关系。"
+          },
+          {
+            "en": "(“A creative connection that’s also a spiritual connection, or maybe they’re the same thing,” is how Coel encapsulates it.) The reason for Hathaway flipping out, though, is that ever since she signed on to Mother Mary, her life has been pervaded by the uncanny—spooky action to which director Lowery also attests.",
+            "cn": "（“这是一种既是创作上的联结，也是精神上的联结，或者说两者本就是一体的，”科埃尔如此概括道。） 不过，海瑟薇之所以会情绪失控，是因为自从她签约出演《圣母玛利亚》以来，她的生活便一直充斥着超自然现象——导演洛厄里也证实了这种“诡异的现象”。"
+          },
+          {
+            "en": "“This film was a doorway into believing, yes, there’s more out there,” he says.",
+            "cn": "“这部电影是一扇通往信仰的大门，它让我相信，是的，世上还有更多我们未知的奥秘，”他说。"
+          },
+          {
+            "en": "I should note that neither Lowery nor Hathaway comes across as woo-woo.",
+            "cn": "我得说明一下，洛厄里和海瑟薇都丝毫没有那种“玄学”的感觉。"
+          },
+          {
+            "en": "But on a regular basis now, Hathaway says she gets little pokes from the universe, like the coincidence of seeing Chantal Akerman’s face on my tote.",
+            "cn": "但海瑟薇表示，如今她经常会收到来自宇宙的“小提示”，比如偶然在我的托特包上看到尚塔尔·阿克曼的脸。"
+          },
+          {
+            "en": "Which she interprets as a prompt to watch more of Akerman’s films—in a theater, she clarifies.",
+            "cn": "她将此解读为一种提示，要她多看一些阿克曼的电影——她特别强调，必须是在电影院里看。"
+          },
+          {
+            "en": "“ Jeanne Dielman doesn’t seem like the kind of movie you watch at home, after the kids are in bed.”",
+            "cn": "“《珍妮·迪尔曼》看起来不像那种等孩子们睡着后在家观看的电影。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-3.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "SET IN STONE Hathaway flanked by more Sargent masterpieces at The Met. Bvlgari High Jewelry ring.",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d4c93e475c4d4e20f0/master/w_960,c_limit/VO0825_CoverStory_03.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "There are ways, Hathaway admits, that she feels like a beginner at film, never mind that she’s been a familiar face at multiplexes since she was in her teens.",
+            "cn": "海瑟薇承认，在某些方面，她感觉自己就像电影界的初学者，尽管她从十几岁起就已成为多厅影院里的熟面孔。"
+          },
+          {
+            "en": "A recent convert to the Criterion Channel, she’s playing catch-up on the art house greats.",
+            "cn": "她最近才开始关注“Criterion频道”，正在加紧补看艺术电影的经典之作。"
+          },
+          {
+            "en": "Her interest in cameras and lenses is new.",
+            "cn": "她对相机和镜头的兴趣是最近才萌生的。"
+          },
+          {
+            "en": "And acting—even that’s terra incognita, her process evolving in a manner that dovetails with her self-discovery through dance.",
+            "cn": "而表演——就连这对于她来说也是一片未知的领域，她的表演过程不断演变，与她通过舞蹈进行的自我探索相辅相成。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“When I worked with James Gray on Armageddon Time, he’d say, ‘Don’t ever try to nail it,’ ” recalls Hathaway.",
+            "cn": "“当我和詹姆斯·格雷合作《末日时刻》时，他常说：‘千万别试图把角色演得完美无缺，’”海瑟薇回忆道。"
+          },
+          {
+            "en": "Meaning, don’t plot out your performance; don’t target emotional beats.",
+            "cn": "也就是说，不要预先规划表演；不要刻意追求情感高潮。"
+          },
+          {
+            "en": "“And when you impose your shape on a performance, when there’s that scaffolding, it’s less risky,” she goes on to explain.",
+            "cn": "“当你用既定的框架来塑造表演时，当有那样的支撑结构时，风险就会小一些，”她继续解释道。"
+          },
+          {
+            "en": "“But what James wanted was a degree of transparency.",
+            "cn": "“但詹姆斯想要的是一种透明感。"
+          },
+          {
+            "en": "And that experience—it was pivotal.”",
+            "cn": "“而那次经历——堪称转折点。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Maybe it was working with Gray, maybe it was turning 40—they occurred one after the other—but something sprung loose in Hathaway in 2022.",
+            "cn": "也许是因为与格雷的合作，也许是因为年满40岁——这两件事接踵而至——但2022年，海瑟薇内心深处似乎被解开了某种枷锁。"
+          },
+          {
+            "en": "Consider a few of the next films she made: Eileen, in which she plays a queer-coded Hitchcockian bombshell with a dark secret; the May-December(ish) romance The Idea of You, which sees her climax on camera; and Mother Mary.",
+            "cn": "不妨看看她接下来参演的几部电影：《艾琳》，她在片中饰演一位暗藏黑暗秘密、带有酷儿暗示的希区柯克式性感尤物；《你的想象》，这部讲述“五月与十二月”（或类似）年龄差距的爱情片中，她甚至在镜头前达到了高潮；以及《圣母玛利亚》。"
+          },
+          {
+            "en": "Consider, as well, her relationship with the brand Versace, also cemented over this period: Has Anne Hathaway ever looked sexier or edgier than in that draped chain mail dress she wore to the Bvlgari High Jewelry launch in Venice two years ago, or modeling in the Versace Icons campaigns?",
+            "cn": "此外，不妨也看看她与范思哲（Versace）品牌的关系——这段关系同样是在这一时期建立并巩固的：安妮·海瑟薇是否曾比两年前在威尼斯宝格丽（Bvlgari）高级珠宝发布会上身穿那件褶裥链甲礼服时，或是为范思哲“Icons”系列广告大片走秀时，显得更加性感或前卫？"
+          },
+          {
+            "en": "Clearly, she’s been getting in touch with aspects of her libidinal self.",
+            "cn": "显然，她正在与自己性欲层面的自我建立联系。"
+          },
+          {
+            "en": "Feeling, not thinking.",
+            "cn": "感受，而非思考。"
+          },
+          {
+            "en": "Proprioception, speaking the language of the body, rather than using words.",
+            "cn": "本体感觉，即用身体语言而非言语来表达。"
+          },
+          {
+            "en": "But that journey began well before she found herself in a dance studio with Vitale, trying to “crack open her thoracic.” To arrive there, she had to want to find what she had locked away inside.",
+            "cn": "但这一旅程早在她与维塔莱一起在舞蹈室里尝试“打开胸腔”之前就已开始。为了达到那个境界，她必须渴望发掘自己内心深处那些被深锁的东西。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Hathaway started working with her longtime stylist, Erin Walsh, when she was pregnant with her younger son, Jack.",
+            "cn": "怀着小儿子杰克时，海瑟薇开始与她的长期造型师艾琳·沃尔什合作。"
+          },
+          {
+            "en": "“It’s interesting to meet a woman at that moment in her life because she’s powerful and vulnerable at the same time, and also at the peak of a certain kind of embodiment,” Walsh says, going on to note that she sees similarities with Hathaway today.",
+            "cn": "“在人生的那个阶段遇见一位女性很有意思，因为她既强大又脆弱，同时也正处于某种身体表现力的巅峰，”沃尔什说道，并接着指出她看到了与如今海瑟薇的相似之处。"
+          },
+          {
+            "en": "“I liken it to owning your sexuality, what it does when you step into that.",
+            "cn": "“我把它比作拥抱自己的性感，当你真正融入其中时，会发生什么变化。"
+          },
+          {
+            "en": "She moves differently.",
+            "cn": "她的举止与众不同。"
+          },
+          {
+            "en": "That’s the easiest way to explain it.”",
+            "cn": "“这就是最简单的解释方式。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-4.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "HEY, LADY Hathaway considers Amy Sherald’s Michelle LaVaughn Robinson Obama, 2018, at the Whitney Museum of American Art, New York.",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d45ab364d88c7d0ac4/master/w_960,c_limit/VO0825_CoverStory_04.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "A woman who is in a moment of transition—powerful, vulnerable, embodied in a new way.",
+            "cn": "一位正处于转型期的女性——既强大又脆弱，以一种崭新的方式展现自我。"
+          },
+          {
+            "en": "Only now, she’s giving birth to herself.",
+            "cn": "直到此刻，她才真正重生。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’ve been tiptoeing around this, but now I’ll just come out and say it: Mother Mary is a very weird movie.",
+            "cn": "我之前一直对此讳莫如深，但现在我还是直说吧：《圣母玛利亚》是一部非常怪异的电影。"
+          },
+          {
+            "en": "It’s produced by A24, features songs by Jack Antonoff and Charli XCX, and the supporting cast includes FKA twigs, Hunter Schafer, and Kaia Gerber, so it is also a very cool movie, but be forewarned, if you’re anticipating a fictionalized version of Miss Americana, or something like that, forget it.",
+            "cn": "该片由A24出品，配乐由杰克·安东诺夫和查莉·XCX操刀，配角阵容包括FKA twigs、 亨特·谢弗和凯亚·格伯，因此也是一部非常酷的电影，但请注意：如果你期待的是《美国小姐》的虚构版，或者类似的作品，那就别指望了。"
+          },
+          {
+            "en": "Much of the story turns on the making of a dress—which is spectacular—and most of the film is just Anne Hathaway and Michaela Coel hanging out in a barn.",
+            "cn": "故事的大部分情节围绕着一件礼服的制作展开——这件礼服确实令人惊叹——而影片的大部分时间里，安妮·海瑟薇和米凯拉·科尔只是在谷仓里闲逛。"
+          },
+          {
+            "en": "There are also concert sequences that pay off Hathaway’s dance training (and show off Bina Daigeler’s next-level costume design), as well as a couple demented flashbacks.",
+            "cn": "此外还有几场演唱会场景，充分展现了海瑟薇的舞蹈训练成果（同时也彰显了比娜·戴格勒超凡脱俗的服装设计），以及几段令人毛骨悚然的闪回片段。"
+          },
+          {
+            "en": "But really, the movie is made out of whatever magic Hathaway, Coel, and Lowery managed to conjure in that 13th-century barn near Bonn, day after day after day after day.",
+            "cn": "但说到底，这部电影的魔力，正是源于海瑟薇、科埃尔和洛维在波恩附近那座13世纪谷仓里，日复一日、日复一日、日复一日所创造出的奇妙氛围。"
+          },
+          {
+            "en": "It’s possible that everyone on the shoot went temporarily, mildly insane.",
+            "cn": "说不定，片场里的每个人当时都暂时、轻微地发疯了。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“It felt like shooting Apocalypse Now, ” says Lowery of a pivotal sequence near the end of the film.",
+            "cn": "“感觉就像在拍《现代启示录》，”洛维谈到影片结尾处的一段关键场景时说道。"
+          },
+          {
+            "en": "“At one point Annie broke down and said, ‘I have to apologize, because I think what’s going to come out of me will hurt you.’ And Michaela took her hands and said, ‘I love you, I trust you,’ ” Lowery recalls.",
+            "cn": "“有一次，安妮崩溃了，说：‘我必须向你道歉，因为我觉得我接下来要说的话会伤害到你。’米凯拉握住她的手说：‘我爱你，我相信你，’ ”洛厄里回忆道。"
+          },
+          {
+            "en": "“We were in various stages of that for about a week, shooting that scene.”",
+            "cn": "“我们花了大约一周时间，在拍摄那场戏时经历了这个过程的不同阶段。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“David’s writing is so vivid—we were forced into an intensity,” says Coel, who blew off steam by going to Cologne’s techno clubs.",
+            "cn": "“大卫的剧本如此生动——我们被逼入了一种极致的张力之中，”科尔说道，她曾通过去科隆的电子音乐俱乐部来释放压力。"
+          },
+          {
+            "en": "Eventually, she convinced Hathaway to join her.",
+            "cn": "最终，她说服了海瑟薇加入其中。"
+          },
+          {
+            "en": "“It’s very brave work that she’s done.",
+            "cn": "“她完成的是一项非常勇敢的表演。"
+          },
+          {
+            "en": "Look at that dance in the barn—it’s scary,” she adds, referring to one of the film’s arresting moments, a solo performance by Hathaway of surpassing emotional nudity.",
+            "cn": "“看看谷仓里的那段舞蹈——那简直令人胆战心惊，”她补充道，指的是影片中一个引人入胜的场景：海瑟薇那段情感赤裸到极致的独舞。"
+          },
+          {
+            "en": "“The physicality she had to learn in preparation for this job—and it’s not just us in the barn, it’s the crew, it’s the producers, and so of course this day was terrifying, a little monster on her shoulder, but no one realized until after the first take.",
+            "cn": "“为了准备这个角色，她必须掌握的肢体技巧——这不仅是我们这些在谷仓里的人，还包括剧组和制片人，所以那天当然令人恐惧，仿佛肩上趴着一只小怪物，但直到第一个镜头拍完后，大家才意识到这一点。"
+          },
+          {
+            "en": "And then to keep doing it—take after take.",
+            "cn": "然后还要坚持下去——一遍又一遍。"
+          },
+          {
+            "en": "That requires a lot of strength.",
+            "cn": "这需要巨大的力量。"
+          },
+          {
+            "en": "Gallons and tons.”",
+            "cn": "“加仑和吨。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“The crew, these massive German men, they all broke into tears when she was done,” recalls Vitale, who choreographed the dance.",
+            "cn": "“剧组里那些魁梧的德国大汉，当她跳完时，全都潸然泪下，”负责编舞的维塔莱回忆道。"
+          },
+          {
+            "en": "“It was the craziest day.",
+            "cn": "“那真是最疯狂的一天。"
+          },
+          {
+            "en": "I mean, everyone got challenged.",
+            "cn": "我的意思是，每个人都面临了挑战。"
+          },
+          {
+            "en": "But it made us all super close.",
+            "cn": "但这让我们所有人都变得非常亲密。"
+          },
+          {
+            "en": "It’s like David started a cult by accident.”",
+            "cn": "“这简直就像大卫无意间创立了一个邪教。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-5.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "PUTTING DOWN ROOTS On her home life in Manhattan: “Uno games, baking when there’s time, teaching the kids to dribble a basketball in the apartment without upsetting the neighbors….”",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d612b3276db9d30615/master/w_960,c_limit/VO0825_CoverStory_05.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Call it the spooky-action cult.",
+            "cn": "不妨称之为“幽灵般作用教派”。"
+          },
+          {
+            "en": "According to Vitale, she, Hathaway, Coel, Schafer, twigs, and Gerber maintain their Mother Mary group chat.",
+            "cn": "据维塔莱透露，她、海瑟薇、科尔、谢弗、特威格斯和格伯一直保持着“圣母玛利亚”群聊。"
+          },
+          {
+            "en": "Maybe they discuss the stuff everyone clammed up about when they talked to me.",
+            "cn": "也许她们正在讨论那些大家在跟我交谈时都三缄其口的話題。"
+          },
+          {
+            "en": "I don’t mean they went silent about anything specific—more like there’s a general air of “What happened on Mother Mary stays on Mother Mary.",
+            "cn": "我并不是说她们对任何具体的事情都三缄其口——更像是存在一种“在‘圣母玛利亚’群里发生的事，就留在‘圣母玛利亚’群里”的普遍氛围。"
+          },
+          {
+            "en": "” At a certain point, conversations hit a wall, or, as in my wonderful chat with costume designer Daigeler, U-turn back to friendlier subjects, like getting Iris van Herpen to design the film’s all-important frock, or Issey Miyake references in the pleating.",
+            "cn": "” 谈话到了一定程度就会陷入僵局，或者，就像我与服装设计师戴格勒的那次精彩对话一样，话题会突然转向更轻松的话题，比如邀请伊里斯·范·赫彭设计影片中那件至关重要的礼服，或者褶皱设计中对三宅一生风格的致敬。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The craziest fact I did manage to learn about the making of Mother Mary is that zero songs were ready to go at the time shooting commenced.",
+            "cn": "关于《圣母玛利亚》的制作，我确实了解到最离奇的一点是：开拍时连一首配乐都没准备好。"
+          },
+          {
+            "en": "As in, Hathaway had no idea what this fictional global pop star she was playing sounded like.",
+            "cn": "也就是说，海瑟薇完全不知道自己饰演的这位虚构的全球流行巨星声音是什么样的。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "She knew what she looked like, thanks to Lowery and Daigeler’s vision and her own contribution of “blond with fried roots.” And she grasped how Mother Mary fit into the zeitgeist, blurring the line between pop idol and actual deity, and she could imagine the character’s internal conflicts, as they were adjacent to ones she herself had navigated, coming of age in the public eye.",
+            "cn": "多亏了洛厄里和戴格勒的构想，以及她自己贡献的“发根焦黄的金发”造型，她清楚自己该呈现出怎样的形象。 她深谙“圣母玛丽”如何契合时代精神，模糊了流行偶像与真正神明之间的界限；她也能设身处地地体会这个角色的内心冲突，因为这些冲突与她自己曾在公众视线中成长时所经历的如出一辙。"
+          },
+          {
+            "en": "Where is the boundary between public and private?",
+            "cn": "公共与私人的界限在哪里？"
+          },
+          {
+            "en": "Between the life and the art?",
+            "cn": "生活与艺术之间呢？"
+          },
+          {
+            "en": "But music?",
+            "cn": "但音乐呢？"
+          },
+          {
+            "en": "No.",
+            "cn": "不。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“It was so confusing,” says Hathaway, with the glow of someone who has been surprised with an extraordinary gift.",
+            "cn": "“那真是让人摸不着头脑，”海瑟薇说道，脸上洋溢着仿佛意外收到一份非凡礼物般的喜悦。"
+          },
+          {
+            "en": "And that’s how she means it.",
+            "cn": "她正是这个意思。"
+          },
+          {
+            "en": "“I had to learn….",
+            "cn": "“我不得不学习……"
+          },
+          {
+            "en": "Because if I’d had the music a year before we ever turned a camera on, I would have tattooed every note of it on my soul, and there would have been a whole process, very specific.",
+            "cn": "因为如果能在开机前一年拿到乐谱，我本会将每一个音符都铭刻在灵魂深处，而且会经历一个非常具体、完整的准备过程。"
+          },
+          {
+            "en": "And that was not available to me.",
+            "cn": "而我并没有这样的机会。"
+          },
+          {
+            "en": "In the end,” she continues, “I am very grateful I could not take control.”",
+            "cn": "“归根结底，”她继续说道，“我非常庆幸自己当时无法掌控全局。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-6.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "GREEN DAY “You see how she treats everyone—and it’s everyone, ” says her friend Bradley Cooper. “She’s so kind.”",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685aad6eafc82a7e943bc0ad/master/w_960,c_limit/VO0825_CoverStory_06.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "It seems to have been that dance in the barn that locked the Mother Mary sound into place.",
+            "cn": "似乎正是谷仓里的那段舞蹈，让“Mother Mary”的音乐风格最终定型。"
+          },
+          {
+            "en": "As Charli XCX explains in an email, she and Antonoff were looking at footage from the shoot, and its gothic, “almost Poe-like” tone had already begun to shift their direction; then they saw the dance number.",
+            "cn": "正如查莉·XCX在电子邮件中所解释的那样，她和安东诺夫当时正在观看拍摄花絮，其中那种哥特式的、“几乎像爱伦·坡作品一样”的基调已经开始改变他们的创作方向；随后，他们看到了那段舞蹈片段。"
+          },
+          {
+            "en": "“And Anne’s movement was super graphic, very thrashing and jerky and bold in this super magical and scary way,” Charli writes.",
+            "cn": "“安妮的肢体动作极具画面感，既激烈又断续，大胆中透着一种既神奇又令人恐惧的特质，”查莉写道。"
+          },
+          {
+            "en": "“It felt volatile and gripping, so Jack and I went away and thought about that.”",
+            "cn": "“那种感觉既充满爆发力又引人入胜，所以杰克和我回去仔细思考了一番。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "So, in a sense, you might say Hathaway cowrote her Mother Mary songs.",
+            "cn": "因此，从某种意义上说，你可以认为海瑟薇是“母亲玛丽”歌曲的合著者。"
+          },
+          {
+            "en": "Or at the very least, inspired a few of the screams.",
+            "cn": "或者至少，为其中几段尖叫声提供了灵感。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "It was too nice to stay indoors, so Hathaway and I decided to walk to Adorama, a camera shop in Chelsea.",
+            "cn": "天气太好了，实在不适合待在室内，于是海瑟薇和我决定步行去切尔西的一家相机店——Adorama。"
+          },
+          {
+            "en": "She’s been getting into photography—tinkering for now, though she likes the idea of wandering the streets with a vintage Rolleiflex, the camera Vivian Maier used, snapping candids while no one’s looking.",
+            "cn": "她最近迷上了摄影——虽然目前还只是在摸索阶段，但她很喜欢这个想法：拿着维维安·迈尔用过的复古罗莱flex相机在街上闲逛，趁没人注意时抓拍生活瞬间。"
+          },
+          {
+            "en": "Fat chance.",
+            "cn": "这可能性微乎其微。"
+          },
+          {
+            "en": "On the 15-minute trek over she was asked for three autographs and two selfies—she obliged, very nicely, of course—and we also got papped.",
+            "cn": "在这15分钟的步行途中，有人向她索要了三次签名和两次合影——她当然都很亲切地应允了——而我们也被狗仔拍到了。"
+          },
+          {
+            "en": "This while she was doing her best to be discreet—bug-eye sunglasses, baseball cap.",
+            "cn": "尽管她当时竭力保持低调——戴着大眼镜片太阳镜，头戴棒球帽。"
+          },
+          {
+            "en": "Anne Hathaway has been famous for a long time.",
+            "cn": "安妮·海瑟薇成名已久。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-7.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "TAKING A BOW “She’s a curious person and she’s still learning and growing, and you have to be sort of humble to come in with that attitude,” says the director Michael Showalter.",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d482bc010538714d16/master/w_960,c_limit/VO0825_CoverStory_07.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Indeed, Hathaway’s 25 years of celebrity were a key reason Lowery wanted her for Mother Mary: She is nearly unique among actresses of her age range and stature in being able to bring a certain iconic aura to the role.",
+            "cn": "事实上，海瑟薇25年的演艺生涯正是洛维选择她饰演圣母玛利亚的关键原因：在同年龄段和同等地位的女演员中，她几乎是唯一能为这个角色注入某种标志性气场的人。"
+          },
+          {
+            "en": "Lowery’s intention was to subvert and manipulate that aura.",
+            "cn": "洛厄里的意图正是要颠覆并驾驭这种气场。"
+          },
+          {
+            "en": "But there are plenty of people—36 million following Hathaway on Instagram, to start—who very much like Anne Hathaway, star, and who want her to sparkle just as she always has.",
+            "cn": "但仍有许多人——仅Instagram上就有3600万粉丝关注海瑟薇——非常喜欢这位明星安妮·海瑟薇，并希望她能像往常一样闪耀。"
+          },
+          {
+            "en": "Vivacious, Valentino-glam Anne.",
+            "cn": "那个活泼开朗、身着瓦伦蒂诺华服的安妮。"
+          },
+          {
+            "en": "And Hathaway isn’t opposed to that, up to a point.",
+            "cn": "在某种程度上，海瑟薇并不反对这一点。"
+          },
+          {
+            "en": "She is still close to Valentino and his partner, Giancarlo Giammetti; she will undoubtedly wear the label again.",
+            "cn": "她与瓦伦蒂诺及其合伙人詹卡洛·贾梅蒂的关系依然密切；她无疑会再次身着该品牌的服装。"
+          },
+          {
+            "en": "Two of the upcoming films on her slate, The Devil Wears Prada 2 and The Princess Diaries 3, see her reprising beloved roles.",
+            "cn": "在她即将上映的电影中，《穿普拉达的女王2》和《公主日记3》这两部作品中，她将再次饰演深受观众喜爱的角色。"
+          },
+          {
+            "en": "She’s also reteaming with the Idea of You director Michael Showalter for the thriller Verity, based on Colleen Hoover’s bestseller, and reuniting with her Interstellar director Christopher Nolan to take one of the starriest roles in his very starry adaptation of The Odyssey.",
+            "cn": "她还将与《你的想法》导演迈克尔·肖沃尔特再度合作，拍摄根据科琳·胡佛畅销小说改编的惊悚片《真相》，并重聚《星际穿越》导演克里斯托弗·诺兰，在后者群星云集的《奥德赛》改编版中担纲其中一个最耀眼的角色。"
+          },
+          {
+            "en": "(Other key cast includes Matt Damon, Tom Holland, and Zendaya.) This is all stuff she knows how to do.",
+            "cn": "（其他主要演员包括马特·达蒙、汤姆·霍兰德和赞达亚。）这些她都驾轻就熟。"
+          },
+          {
+            "en": "What she also wants are more opportunities to submit—her word—to the unknown.",
+            "cn": "她还渴望获得更多机会去‘臣服’——这是她自己的说法——于未知。"
+          },
+          {
+            "en": "To begin, and begin, and begin.",
+            "cn": "开始，开始，再开始。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“She’s a curious person and she’s still learning and growing, and you have to be sort of humble to come in with that attitude,” says Showalter.",
+            "cn": "“她是一个充满好奇心的人，仍在不断学习和成长，要怀着这样的态度投入工作，就必须保持某种程度的谦逊，”肖沃尔特说道。"
+          },
+          {
+            "en": "“Which is refreshing in an A-list actor.",
+            "cn": "“对于一位一线女星来说，这确实令人耳目一新。"
+          },
+          {
+            "en": "And that is your first impression: star.",
+            "cn": "这就是你的第一印象：明星。"
+          },
+          {
+            "en": "She’s very glamorous.” Once you get past the polish and the poise and the buoyancy, however, Showalter goes on to explain, “there’s a whole other side to her most people don’t get to see.",
+            "cn": "“她非常迷人。”不过，肖沃尔特接着解释道，一旦你穿透了她的光鲜、从容和活力，“她还有另一面，这是大多数人无缘得见的。”"
+          },
+          {
+            "en": "And it’s intrinsic to who she is.",
+            "cn": "而这正是她本真的一部分。"
+          },
+          {
+            "en": "It fills out the picture.”",
+            "cn": "“这才让她的形象更加立体。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-anne-hathaway-mother-mary-8.jpg",
+        "alt": "Anne Hathaway · 图片",
+        "cap": "NEXT STEPS Two of the upcoming films on Hathaway’s slate, The Devil Wears Prada 2 and The Princess Diaries 3, see her reprising beloved roles.",
+        "credit": "Annie Leibovitz / Vogue",
+        "sourceUrl": "https://assets.vogue.com/photos/685995d4bf4ab2b24cabdbb3/master/w_960,c_limit/VO0825_CoverStory_09.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Here’s some stuff you might not know about Anne Hathaway.",
+            "cn": "以下是关于安妮·海瑟薇的一些鲜为人知的事。"
+          },
+          {
+            "en": "It’s not the stuff Showalter is talking about, just some things I’ve learned or observed.",
+            "cn": "这并不是肖沃尔特所提到的那些事，只是我了解或观察到的一些情况。"
+          },
+          {
+            "en": "She played basketball growing up and she’s crazy about the Knicks.",
+            "cn": "她小时候打过篮球，而且对尼克斯队痴迷不已。"
+          },
+          {
+            "en": "Like, so crazy that the closest she came to being not-nice to me was furrowing her brow in grave disappointment that I wasn’t following the Knicks’ exciting postseason run.",
+            "cn": "她对尼克斯队的痴迷程度之深，甚至到了这种地步：她对我最接近“不友好”的反应，就是因为我没关注尼克斯队激动人心的季后赛征程，而她因此严重失望地皱起了眉头。"
+          },
+          {
+            "en": "Leisure-wise, “hanging out” is mostly what she likes to do: chill with her kids, her husband, her friends.",
+            "cn": "说到休闲，她最喜欢做的就是“闲逛”：和孩子们、丈夫以及朋友们一起放松。"
+          },
+          {
+            "en": "“Uno games, baking when there’s time, teaching the kids to dribble a basketball in the apartment without upsetting the neighbors….” This information came to me in the form of what seems to be another of her great leisure pursuits: text messaging.",
+            "cn": "“玩UNO牌、有空时做烘焙、教孩子们在公寓里运球却不打扰邻居……”这些信息是以她另一项似乎很棒的休闲活动——发短信——的形式传到我手上的。"
+          },
+          {
+            "en": "That’s a joke, sort of.",
+            "cn": "这算是开个玩笑吧，算是。"
+          },
+          {
+            "en": "She’s insanely busy at the moment so a lot of her life, I’m guessing, is mediated through her phone.",
+            "cn": "她目前忙得不可开交，所以我猜，她生活的很大一部分都是通过手机来维系的。"
+          },
+          {
+            "en": "But when Hathaway is home, she’s “so, so grateful [her] husband is a great cook and an early riser.” (Among his many other wonderful qualities, she takes pains to note.) There’s no breaking news here.",
+            "cn": "但当海瑟薇在家时，她“真的、真的非常感激[她的]丈夫既是个出色的厨师，又是个早起的人。”（她特意指出，这只是他众多优秀品质中的一项。）这并不是什么新闻。"
+          },
+          {
+            "en": "The news is the way she’s breathing it all in.",
+            "cn": "真正值得关注的是她如何将这一切尽收眼底。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "It was when I met Hathaway at the recording studio that she’d first mentioned her mother’s singing voice; according to Hathaway, she can really belt.",
+            "cn": "就在我在录音棚见到海瑟薇时，她第一次提到了母亲的歌声；据海瑟薇说，她母亲的嗓音真的非常洪亮。"
+          },
+          {
+            "en": "And growing up in New Jersey, she’d always been frustrated that she couldn’t produce the same “effortless, powerful sound.” Later, packing up for our field trip to the camera store, she told me about her childhood forays into the world of orchestral music, a serious pursuit “until acting swallowed everything.” Right from the start, she wanted to play the trumpet.",
+            "cn": "在新泽西长大的她，一直为自己无法奏出那种“行云流水般又充满力量的声音”而感到沮丧。 后来，当我们收拾东西准备去照相馆参观时，她向我讲述了她童年时涉足管弦乐世界的经历——那曾是一段认真的追求，“直到演艺事业吞噬了一切”。从一开始，她就想吹小号。"
+          },
+          {
+            "en": "Her mother said no.",
+            "cn": "她母亲还是拒绝了。”"
+          },
+          {
+            "en": "“And I said, Why?",
+            "cn": "“我又问：‘为什么？’”"
+          },
+          {
+            "en": "And she said because of my braces.",
+            "cn": "她说，是因为我戴着牙套。”"
+          },
+          {
+            "en": "She said, You can play flute.",
+            "cn": "她说：‘你可以吹长笛。’"
+          },
+          {
+            "en": "And I told her, But I don’t like the flute….”",
+            "cn": "“我跟她说了，‘可是我不喜欢吹长笛……’”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "For a year, Hathaway was made to play flute.",
+            "cn": "整整一年，海瑟薇都被迫学习长笛。"
+          },
+          {
+            "en": "“It was awful.",
+            "cn": "“那简直太糟糕了。”"
+          },
+          {
+            "en": "And I was bad.",
+            "cn": "而且我弹得很差。"
+          },
+          {
+            "en": "And at the end of the year I went to my teacher and explained my predicament and asked, Is it too late to switch if I can convince my mom?” She continues talking as she slips into incognito mode—sunglasses, cap.",
+            "cn": "“年底的时候，我去找老师，向他说明了我的困境，然后问：‘如果我能说服妈妈，现在转学还来得及吗？’”她一边说着，一边切换到“隐身模式”——戴上墨镜，拉上帽子。"
+          },
+          {
+            "en": "“And he said, Well, there’s summer school.",
+            "cn": "“他说：‘好吧，还有暑期班呢。’"
+          },
+          {
+            "en": "And so I go home and I lay out this whole plan to my mom, and finally she realized, I really did mean it, I just wanted to play trumpet—am I shouting?” She’s not, but she apologizes anyway.",
+            "cn": "于是我回到家，把整个计划都告诉了妈妈，她终于意识到，我是认真的，我只是想吹小号——“我是不是在吼？”她其实并没有吼，但还是道了歉。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“It’s good this room is soundproof,” Hathaway adds with a laugh, tapping the foam padding on the wall with a slender, manicured finger before walking out the door.",
+            "cn": "“幸好这间屋子是隔音的，”海瑟薇笑着补充道，用她那纤细修长、修剪整齐的手指轻敲了一下墙上的泡沫衬垫，然后走向门口。"
+          },
+          {
+            "en": "“I get passionate and then I get loud.”",
+            "cn": "“我一旦投入，就会情不自禁地大声说话。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "In this story: hair, Orlando Pita; makeup, Gucci Westman; manicurist, Jin Soon Choi; tailors, Raul Zevallos and Matthew Neff for Carol Ai Studio.",
+            "cn": "本篇特辑：发型设计：奥兰多·皮塔；化妆：古驰·韦斯特曼；美甲师：崔珍顺；裁缝：拉乌尔·泽瓦洛斯和马修·内夫（代表Carol Ai Studio）。"
+          },
+          {
+            "en": "Produced by AL Studio.",
+            "cn": "由AL Studio制作。"
+          },
+          {
+            "en": "Set Design: Mary Howard.",
+            "cn": "布景设计：玛丽·霍华德。"
+          },
+          {
+            "en": "Special thanks to Central Park Conservancy, to 610 Loft & Garden at Rockefeller Center, and The Bouwerie.",
+            "cn": "特别鸣谢中央公园保护协会、洛克菲勒中心610 Loft & Garden以及The Bouwerie。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      }
+    ]
+  },
+  {
+    "id": "people-charlize-theron-another",
+    "cat": "人物",
+    "title": "Charlize Theron: “I Do Want a Little Bit of Control over My Own Destiny”",
+    "titleZh": "查理兹·塞隆：我希望掌握自己命运的一点控制权",
+    "url": "https://www.anothermag.com/fashion-beauty/16962/charlize-theron-interview-another-magazine-apex",
+    "source": "AnOther Magazine",
+    "date": "2026-02-19",
+    "addedAt": "2026-09-15",
+    "pin": true,
+    "readingMode": "full",
+    "contentStatus": "complete",
+    "extractorVersion": "people-full-v1",
+    "person": "Charlize Theron",
+    "personZh": "查理兹·塞隆",
+    "photoCount": 15,
+    "photoCredit": "Sharna Osborne / AnOther Magazine",
+    "peopleScore": 97,
+    "peopleScoreParts": {
+      "person": 0.9,
+      "photography": 1,
+      "story": 1,
+      "english": 1,
+      "interest": 1
+    },
+    "peopleVersion": "people-v2-full",
+    "review": {
+      "status": "approved",
+      "visualChecked": true,
+      "guideChecked": true,
+      "articleChecked": true,
+      "at": "2026-09-15T11:57:57.356Z",
+      "scope": "full-original-text-and-photos",
+      "fingerprint": "831398b10e99572f5f578340cce4bcdca24b3554caf36d546eeb864e9eb27c7c",
+      "photoHashes": [
+        "9158b591aca2d72f15f9c53615e89443187315ab436385affe4f36d95f8acf36",
+        "48c99e37881957b03167df203aafeab310878e61559cf09ac7344512222e92d9",
+        "c73dba115df1c347dde38cbd06db3571e92653259fcda345b77dac6c4f64e0cb",
+        "4015ef70fd7bb630ce884c059493df7a428ebdfd9d9299122a353c70800a6fce",
+        "1e4b0f6cbd6728b4a9de89b073126ce0da78da7b7c8d05cc4b195975911a5380",
+        "c82dc95a1c36423c538a5f7ce9ac96febdc397036baa04de1a9b42ee26edf579",
+        "dce28f8291fca3c1a56f0d24cbad439da1273d4428123ebef4eb45d4b82f85b6",
+        "cd12a6acf8a8a25b6bae85be9978d54b92959937fe79ae86a98c247c9dde690b",
+        "b9d82c54577d74b2798fc21e1f2456477d4db731fe1aadd051608fca1a98c0c6",
+        "787c51af2f7c622a31cd90a2fa97998d4362339a209ff17cbbbbcbaf33e1d7d8",
+        "950c2bf426637a0611f2374bc255fb3ecf2910d96dbd99096920a2ce63feac99",
+        "ffa2dddd4ae71d0a766dbfb3555b511343930d9a4c9c9fe8569f102e8d36adb9",
+        "9ac839e3463be198b59ab4ef8445cafa03455a55ae2daff17f15432315e7bc66",
+        "e410f84d1ca0b5c0f63d37030469a6705fa1c4491ac74d93ad4ab150ae150a55",
+        "ffb3cbf2f4c89f5f55ee13e644a3a6877d26dbc2336e28970d431988adb18762"
+      ]
+    },
+    "fingerprint": "831398b10e99572f5f578340cce4bcdca24b3554caf36d546eeb864e9eb27c7c",
+    "sourceTextHash": "a201b57c31adc57c86ac5abdf32641d5858b951d441201565d1bc17e1595cdce",
+    "sourceTextWords": 3892,
+    "sourceParagraphs": 62,
+    "sourceImages": 15,
+    "coverImg": "assets/covers/people-charlize-theron-another-0.jpg",
+    "cover": "linear-gradient(135deg,#eadbcc,#855349)",
+    "gradient": "linear-gradient(135deg,#eadbcc,#855349)",
+    "photoSources": [
+      "https://images-prod.anothermag.com/1200/75-598-2120-1414/azure/another-prod/460/9/469704.jpeg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469945.jpg",
+      "https://images-prod.anothermag.com/1633/azure/another-prod/460/9/469941.jpg",
+      "https://images-prod.anothermag.com/1633/azure/another-prod/460/9/469947.jpg",
+      "https://images-prod.anothermag.com/1633/azure/another-prod/460/9/469948.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469949.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469952.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469953.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469955.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469956.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469957.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469958.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469959.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469960.jpg",
+      "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469961.jpg"
+    ],
+    "paras": [
+      {
+        "img": "assets/covers/people-charlize-theron-another-0.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Charlize is wearing a cape in viscose jersey by DIOR",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1200/75-598-2120-1414/azure/another-prod/460/9/469704.jpeg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "In a wide-ranging interview, Theron tells Doreen St Félix about her formative years in Nineties Hollywood, motherhood and her decision to start producing",
+            "cn": "在一次内容广泛的访谈中，塞隆向多琳·圣费利克斯讲述了她在90年代好莱坞的成长岁月、为人母的经历以及她决定开始担任制片人的原因"
+          }
+        ],
+        "sourceTag": "heading"
+      },
+      {
+        "sentences": [
+          {
+            "en": "This story is taken from the Spring/Summer 2026 issue of AnOther Magazine:",
+            "cn": "本文摘自《AnOther Magazine》2026年春夏刊："
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "A breathless profile of the actor and producer Charlize Theron once defined her career, then 20-odd years established, as “pure stardust”.",
+            "cn": "一篇对演员兼制片人查理兹·塞隆的令人屏息的专访，曾将她已确立二十余年的职业生涯定义为“纯粹的星尘”。"
+          },
+          {
+            "en": "I beg to differ.",
+            "cn": "我不敢苟同。"
+          },
+          {
+            "en": "The better metaphor is the climb.",
+            "cn": "更贴切的比喻是攀登。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Theron is sipping kombucha.",
+            "cn": "塞隆正小口啜饮康普茶。"
+          },
+          {
+            "en": "The ostensible reason for our conversation, via video call this winter afternoon, is to discuss 2026.",
+            "cn": "在这个冬日的下午，我们通过视频通话进行这次对话，表面上的理由是讨论2026年。"
+          },
+          {
+            "en": "In the film Apex the Academy Award-winning actor will play Sasha, a rock climber who is menaced, in the badlands of Australia, by two unrelenting forces: the wily hunter character (Taron Egerton) and her own enormous grief.",
+            "cn": "在这部名为《Apex》的电影中，这位奥斯卡奖得主将饰演萨莎——一位在澳大利亚荒野中攀岩的女性，她面临着两股无情的威胁：狡猾的猎人（塔伦·埃格顿饰）以及她内心深处的巨大悲痛。"
+          },
+          {
+            "en": "Sasha is a modern woman: stubborn, powerful, individualistic, solitary.",
+            "cn": "萨莎是一位现代女性：倔强、强大、个性鲜明、独来独往。"
+          },
+          {
+            "en": "She is a variant of the characters that Theron has found herself drawn to in this phase of her career, women exacting their power through their physicality, carving out complex identities and desires outside the gendered villain/hero binary.",
+            "cn": "她正是塞隆在职业生涯这一阶段所钟情角色的变体——这些女性通过身体力量来彰显自己的力量，在超越“反派/英雄”这种性别二元对立的框架之外，塑造出复杂的身份与欲望。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "From her early years in South Africa, Theron always knew that she wanted to be a storyteller.",
+            "cn": "从在南非的早年时期起，塞隆就一直知道自己想成为一名讲故事的人。"
+          },
+          {
+            "en": "Acting became the vessel for that attraction to narrative.",
+            "cn": "表演便成为了她对叙事这种吸引力的载体。"
+          },
+          {
+            "en": "At the age of 28 she won an Academy Award for her psychologically alert portrayal of the serial killer Aileen Wuornos in Patty Jenkins’s film Monster.",
+            "cn": "28岁那年，她凭借在帕蒂·詹金斯执导的电影《魔鬼》中对连环杀手艾琳·伍诺斯那极具心理洞察力的精彩演绎，荣获奥斯卡金像奖。"
+          },
+          {
+            "en": "In some ways that performance is the urtext of Theron’s career, the masterpiece expression of her ability to camouflage her own natural glamour and inhabit the minds of others.",
+            "cn": "从某种意义上说，那次表演是塞隆演艺生涯的原典，是她能够掩饰自身天生的魅力、深入他人内心世界的绝佳体现。"
+          },
+          {
+            "en": "There isn’t a genre or a tone that she isn’t willing to approach, from cameos in Arrested Development and The Studio to scene-eating in Mad Max: Fury Road and The Old Guard.",
+            "cn": "无论什么类型或风格，她都乐于尝试，从在《发展受阻》和《工作室》中的客串，到在《疯狂的麦克斯：狂暴之路》和《老卫队》中抢尽风头的表演。"
+          },
+          {
+            "en": "She is an ambassador for the sort of immersive acting that is increasingly endangered in the age of stunt casting.",
+            "cn": "她是那种沉浸式表演的代言人——在如今这种“噱头选角”盛行的时代，这种表演方式正日益濒危。"
+          },
+          {
+            "en": "Here we discuss Theron’s formative years in Nineties Hollywood, her decision to start producing, the action-film genre, skittish financiers, motherhood, AI and dictatorial photographers.",
+            "cn": "在此，我们将探讨塞隆在90年代好莱坞的成长岁月、她决定涉足制片业的契机、动作片类型、优柔寡断的投资人、为人母的经历、人工智能以及专横的摄影师。"
+          },
+          {
+            "en": "Theron is a voluble speaker.",
+            "cn": "塞隆是个健谈的人。"
+          },
+          {
+            "en": "She doesn’t mince words.",
+            "cn": "她说话直来直去。"
+          },
+          {
+            "en": "She is also very funny.",
+            "cn": "她还非常风趣。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-1.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Charlize is wearing Dior Capture skincare and Dior Forever Skin Wear Foundation (both throughout) by DIOR BEAUTY. Cape in viscose jersey by DIOR Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469945.jpg"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-2.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Jmper and trousers in silk and cashmere and men’s boots in suede, leather and rubber by DIOR Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1633/azure/another-prod/460/9/469941.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DOREEN ST FÉLIX: I first watched Monster at a very young age.",
+            "cn": "多琳·圣费利克斯：我第一次看《怪物》的时候还非常小。"
+          },
+          {
+            "en": "I remember your performance stirring feelings in me that I did not have the language to articulate yet, feelings about women and the terror and power of agency.",
+            "cn": "我记得你的表演在我心中激起了当时还无法用语言表达的情感——那些关于女性、关于恐惧，以及关于自主能力的感受。"
+          },
+          {
+            "en": "Did I understand what acting was at the time?",
+            "cn": "那时我是否理解什么是表演？"
+          },
+          {
+            "en": "No. Later, as I learnt and became obsessed with actors, I learnt about your life, your move from South Africa to Los Angeles.",
+            "cn": "不。后来，随着我对演员这一行越来越了解并着迷，我才了解到你的生活经历，以及你从南非搬到洛杉矶的故事。"
+          },
+          {
+            "en": "What was it like for you, that jump?",
+            "cn": "对你来说，那次“跨越”是什么样的体验？"
+          },
+          {
+            "en": "Was there a moment when you realised you were at risk of assimilation – of permanently leaving where you came from?",
+            "cn": "有没有某个瞬间，让你意识到自己面临被同化的风险——即永久离开自己的故土？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CHARLIZE THERON: I completely relate to not knowing actors were actors.",
+            "cn": "查理兹·塞隆：我完全能理解那种不知道演员其实是演员的感觉。"
+          },
+          {
+            "en": "I truly believed Daryl Hannah [in Splash] was a mermaid.",
+            "cn": "我真的以为达丽尔·汉娜（在《人鱼传说》中）就是一条美人鱼。"
+          },
+          {
+            "en": "I grew up in a very, very small town – tiny.",
+            "cn": "我是在一个非常、非常小的镇上长大的——小得不能再小了。"
+          },
+          {
+            "en": "And we had a video store.",
+            "cn": "我们那里有一家录像店。"
+          },
+          {
+            "en": "I remember being about six when it opened and I had just gotten a BMX bike.",
+            "cn": "我记得那家影院开业时我大概六岁，当时我刚得到一辆BMX自行车。"
+          },
+          {
+            "en": "I would take my BMX and I would go rent movies.",
+            "cn": "我常骑着我的BMX自行车去租电影。"
+          },
+          {
+            "en": "My mom got a Beta machine and that’s when my life changed, because we didn’t have a lot of television.",
+            "cn": "妈妈买了一台贝塔录像机，我的生活从那时起就发生了改变，因为我们看电视的机会并不多。"
+          },
+          {
+            "en": "We had a few hours a day and I got very few American shows – a few sitcoms and soap operas.",
+            "cn": "每天只有几个小时的收视时间，我看到的美国节目非常少——只有几部情景喜剧和肥皂剧。"
+          },
+          {
+            "en": "We also had a drive-in theatre.",
+            "cn": "我们那里还有一家汽车影院。"
+          },
+          {
+            "en": "My mom loved watching movies, she really loved doing that with me.",
+            "cn": "我妈妈特别喜欢看电影，她真的很喜欢和我一起看。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: What were some of the films you watched with her?",
+            "cn": "DSF：你和她一起看过哪些电影？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I watched Die Hard.",
+            "cn": "CT：我看过《虎胆龙威》。"
+          },
+          {
+            "en": "I watched Fatal Attraction at a drive-in with my mom.",
+            "cn": "我和妈妈曾在汽车影院一起看过《致命诱惑》。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Wow, Fatal Attraction?",
+            "cn": "DSF：哇，《致命诱惑》？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I think back to moments I had on sets or with directors or auditions, stuff you would just never get away with [now]” – Charlize Theron",
+            "cn": "“我回想起在片场、与导演共处或试镜时的那些时刻，那些事情在[现在]是绝对无法被容忍的”——查理兹·塞隆"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: It was a long way to drive, so my mom was like, “We’re not turning back.",
+            "cn": "CT：那段路程很远，所以我妈妈说：“我们不会掉头的。"
+          },
+          {
+            "en": "We’re going to watch this movie and we’re going to make this a lesson.” I loved disappearing into worlds.",
+            "cn": "“我们要看这部电影，并从中汲取教训。”我喜欢沉浸在不同的世界里。"
+          },
+          {
+            "en": "I was a weird kid.",
+            "cn": "我小时候就是个怪孩子。"
+          },
+          {
+            "en": "I was ten years old and I loved Kramer vs Kramer.",
+            "cn": "那时我才十岁，却非常喜欢《克莱默夫妇》。"
+          },
+          {
+            "en": "In South Africa we had an industry but I didn’t know anything about it.",
+            "cn": "在南非，我们虽然有电影产业，但我对此一无所知。"
+          },
+          {
+            "en": "We didn’t have magazines that wrote about it.",
+            "cn": "当时没有杂志报道这类内容。"
+          },
+          {
+            "en": "We had one magazine that was written in English and Afrikaans, maybe two – but the one that circulated in our household had stories about people who found giant snakes in their backyard.",
+            "cn": "我们家只有一本用英语和南非语双语出版的杂志，也许有两本——但家里传阅的那本，刊登的都是人们在自家后院发现巨蛇的故事。"
+          },
+          {
+            "en": "It was never really about the entertainment business.",
+            "cn": "那本杂志从来就没真正涉及过娱乐圈。"
+          },
+          {
+            "en": "All of this stuff has really changed.",
+            "cn": "这一切真的都变了。"
+          },
+          {
+            "en": "I’m a dinosaur.",
+            "cn": "我就是个“恐龙”。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: You’re not a dinosaur.",
+            "cn": "DSF：你不是“恐龙”。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: But it’s a whole different world now.",
+            "cn": "CT：但如今的世界已经截然不同了。"
+          },
+          {
+            "en": "The concept of art was exposed to me because of my mom on every level.",
+            "cn": "正因为妈妈，我才在各个层面接触到了艺术的概念。"
+          },
+          {
+            "en": "Whether it was going to the ballet, or to the opera, my mom loved narrative.",
+            "cn": "无论是去看芭蕾舞，还是去看歌剧，我妈妈都热爱叙事。"
+          },
+          {
+            "en": "She would listen to stories on the radio every afternoon.",
+            "cn": "她每天下午都会收听广播里的故事。"
+          },
+          {
+            "en": "When I came back from school she’d make me lunch and she’d be sewing an outfit, and we would listen to the radio and I’d fall asleep to these narratives.",
+            "cn": "放学回家时，她会给我做午餐，一边缝制衣服；我们一起听广播，我总是在这些故事的陪伴下睡着。"
+          },
+          {
+            "en": "Her exposing me to storytelling at a very young age ignited this love for it.",
+            "cn": "她在我很小的时候就让我接触故事讲述，点燃了我对它的热爱。"
+          },
+          {
+            "en": "I just never knew that you could make a living from it.",
+            "cn": "我只是从未想过，原来靠这个也能谋生。"
+          },
+          {
+            "en": "When I started dance, it took me years to figure out that what I loved about dance was the storytelling.",
+            "cn": "刚开始跳舞时，我花了数年才明白，我之所以热爱舞蹈，正是因为其中的叙事。"
+          },
+          {
+            "en": "In my immature brain, I was like, I love dance, I love ballet.",
+            "cn": "在我那尚未成熟的脑海中，我当时想：我热爱舞蹈，我热爱芭蕾。"
+          },
+          {
+            "en": "But what I loved was the disappearing, like watching a movie and disappearing and having access to losing yourself.",
+            "cn": "但我真正喜欢的是那种“消失”的感觉，就像看电影时完全沉浸其中，得以彻底忘我。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-3.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1633/azure/another-prod/460/9/469947.jpg"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-4.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1633/azure/another-prod/460/9/469948.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Isn’t there something very submissive about the role of the actor, willing yourself to submit to the scene?",
+            "cn": "DSF：演员的角色难道不带有一种顺从的意味吗？即自愿臣服于场景之中？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I think there is definitely a version of having to submit, trusting the people that you’re making a movie with.",
+            "cn": "CT：我认为确实存在一种情况，即必须顺从，信任与你一起拍电影的人。"
+          },
+          {
+            "en": "I’ve made movies where I don’t and it’s very hard.",
+            "cn": "我也拍过不这样做的电影，那真的很不容易。"
+          },
+          {
+            "en": "But more than submitting, what I always aim for is this thing you find in sports, in dance – they call it “the flow” – where you’ve done the work, you’ve spent enough time with it, and hopefully on the day you’re doing it, you’re just in the flow.",
+            "cn": "但比起顺从，我一直追求的是一种在体育和舞蹈中能体验到的状态——人们称之为“心流”——当你付出了努力，投入了足够的时间，希望在表演的那一天，你能完全沉浸其中。"
+          },
+          {
+            "en": "I love chasing that feeling.",
+            "cn": "我热爱追寻那种感觉。"
+          },
+          {
+            "en": "Trying to understand a human is a complex thing and you’re constantly discovering.",
+            "cn": "试图理解一个人是一件复杂的事情，你总是在不断发现新东西。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Are there characters you’ve struggled to reach flow state with?",
+            "cn": "DSF：有没有哪些角色让你很难进入“心流状态”？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: Yeah, for sure.",
+            "cn": "CT：是的，当然。"
+          },
+          {
+            "en": "[Laughs.] You struggle a lot more than you win.",
+            "cn": "[笑] 你的挣扎远比成功多得多。"
+          },
+          {
+            "en": "Monster personifies that for me.",
+            "cn": "《怪物》对我来说就是这种默契的体现。"
+          },
+          {
+            "en": "I really felt like Patty Jenkins and I worked so well together.",
+            "cn": "我真的觉得我和帕蒂·詹金斯配合得非常默契。"
+          },
+          {
+            "en": "We were one unit.",
+            "cn": "我们是一个整体。"
+          },
+          {
+            "en": "And we spent a lot of time in Aileen’s world, with all of her letters over ten years of being on death row, with people who knew her.",
+            "cn": "我们花了很多时间沉浸在艾琳的世界里，研读她十年死囚生涯中写下的所有信件，并与那些了解她的人进行了交流。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: People she knew were open to that?",
+            "cn": "DSF：她认识的人对此持开放态度吗？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: There was one woman, Dawn Botkins, her best friend from childhood.",
+            "cn": "CT：有一位名叫道恩·博特金斯的女士，她是艾琳自幼相识的挚友。"
+          },
+          {
+            "en": "She was the one that was with her when she was executed.",
+            "cn": "正是她，在艾琳被处决时一直陪伴在她身边。"
+          },
+          {
+            "en": "She really loved her, and she was tough and direct – she didn’t want us to feel sorry for Aileen, she wanted us to be truthful.",
+            "cn": "她真的很爱艾琳，而且性格坚韧、直率——她不希望我们对艾琳感到同情，而是希望我们能真实地呈现。"
+          },
+          {
+            "en": "And Nick Broomfield was making two documentaries about her.",
+            "cn": "当时尼克·布鲁姆菲尔德正在拍摄两部关于她的纪录片。"
+          },
+          {
+            "en": "He was kind enough to share footage and talk with me because he spent a lot of time with her.",
+            "cn": "因为他曾与艾琳共处了很长时间，所以他很慷慨地与我分享了影像资料并进行了交谈。"
+          },
+          {
+            "en": "She was executed two days after I said yes to the movie.",
+            "cn": "就在我答应出演这部电影的两天后，她就被处决了。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Do you remember how you were feeling that day?",
+            "cn": "DSF：你还记得那天的心情吗？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I mean, I hadn’t started to work.",
+            "cn": "CT：我的意思是，当时我还没开始工作。"
+          },
+          {
+            "en": "Patty was talking me into doing it.",
+            "cn": "帕蒂一直在劝我接下这个角色。"
+          },
+          {
+            "en": "I was like, “You have the wrong girl.” From watching Nick’s documentary, she was so specific that if you were going to tell the story, you had to obey by that, whether it was dialect or teeth or body language.",
+            "cn": "我当时就说：“你找错人了。”从尼克的纪录片中可以看出，她对角色的塑造极其细致入微，如果你要讲述这个故事，就必须严格遵循这些细节，无论是方言、牙齿还是肢体语言。"
+          },
+          {
+            "en": "All of it was an eye-opening experience.",
+            "cn": "这一切都让我大开眼界。"
+          },
+          {
+            "en": "You don’t always get that on a movie.",
+            "cn": "在电影中并不总能获得这样的体验。"
+          },
+          {
+            "en": "Sometimes I’ve done favours for friends and I’m like, “I love you, I’m doing this for you, but I don’t connect to this world.”",
+            "cn": "有时我会帮朋友忙，心里会想：“我爱你，我这是为了你，但我跟这个圈子没什么共鸣。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-5.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Men’s trousers in virgin wool, men’s neckband and scarf in silk satin and men’s boots in suede, leather and rubber by DIOR. My Dior ear cuff in yellow and white gold by DIOR JOAILLERIE Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469949.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Your Hollywood career is three decades long, a feat in any world, but especially that fickle one.",
+            "cn": "DSF：你在好莱坞的职业生涯已长达三十年，这在任何领域都是一项壮举，尤其是在那个变幻莫测的圈子里。"
+          },
+          {
+            "en": "What’s the horizon view on what has changed since first moving to LA?",
+            "cn": "从长远来看，自您初到洛杉矶以来，您认为发生了哪些变化？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I think back to moments I had on sets or with directors or auditions, stuff you would just never get away with [now].",
+            "cn": "CT：我回想起在片场、与导演相处或参加试镜时经历的那些时刻，那些事情在[现在]是绝对行不通的。"
+          },
+          {
+            "en": "And prior to that, being a model.",
+            "cn": "再往前追溯，我做模特的时候也是如此。"
+          },
+          {
+            "en": "I told my daughters the other day about a job I had – I remember this photographer yelling at me, verbally abusing me for like 15 hours on a shoot, and just not feeling human.",
+            "cn": "前几天我跟女儿们讲起我以前的一份工作——我记得有位摄影师在拍摄现场对我大吼大叫，连续15个小时对我进行言语辱骂，当时我简直感觉自己不再像个人了。"
+          },
+          {
+            "en": "It still happens.",
+            "cn": "这种情况至今依然存在。"
+          },
+          {
+            "en": "I recently worked with a photographer who would aggressively walk up to me and put his hands on me, tying my shirt.",
+            "cn": "我最近曾与一位摄影师合作，他会咄咄逼人地走到我面前，把手搭在我身上，帮我系衬衫。"
+          },
+          {
+            "en": "I had to say something.",
+            "cn": "我不得不发声。"
+          },
+          {
+            "en": "The broad strokes are that it’s so incremental.",
+            "cn": "总体来说，这种变化是循序渐进的。"
+          },
+          {
+            "en": "I think that’s the most frustrating thing about it for women.",
+            "cn": "我认为这对女性来说是最令人沮丧的一点。"
+          },
+          {
+            "en": "It’s four steps forward and 20 steps back, but we’ve come a long way since I started, for sure.",
+            "cn": "虽然总是前进四步，后退二十步，但自打我入行以来，我们确实已经走了很长一段路。"
+          },
+          {
+            "en": "You had to squeeze your way in.",
+            "cn": "你必须挤进这个圈子。"
+          },
+          {
+            "en": "And really the only way to get in there was to be the trophy, sexy person.",
+            "cn": "而要进入那个圈子，唯一的方式就是成为那个“奖杯”，那个性感的人。"
+          },
+          {
+            "en": "The alternative for me was to go back to South Africa and I didn’t know what I was going to do.",
+            "cn": "对我来说，另一种选择是回到南非，但我不知道自己该做什么。"
+          },
+          {
+            "en": "My parents had a road-construction company.",
+            "cn": "我父母有一家道路施工公司。"
+          },
+          {
+            "en": "Was I really going to do that?",
+            "cn": "我真的要那样做吗？"
+          },
+          {
+            "en": "I was so driven by wanting to do something in the arts.",
+            "cn": "我当时对在艺术领域有所作为的渴望非常强烈。"
+          },
+          {
+            "en": "For me, there was a real focus on how can I go about this so I have longevity?",
+            "cn": "对我来说，我真正关注的是：该如何做才能让自己的演艺生涯长久下去？"
+          },
+          {
+            "en": "I saw it around me, girls working, they do three movies and they just …",
+            "cn": "我看到周围的情况，那些女孩在工作，她们拍了三部电影之后就……"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: They were disposable.",
+            "cn": "DSF：她们就像一次性用品一样。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: Exactly.",
+            "cn": "CT：没错。"
+          },
+          {
+            "en": "It came from this place of survival, where I was like, whatever I do, I better be smart about this.",
+            "cn": "这源于一种求生本能，当时我就想，无论做什么，我都得精明一点。"
+          },
+          {
+            "en": "I have to surprise people and make them go, “Wait a second, there’s more here.” I was lucky enough to get an agent who was like, “No you’re not doing that.",
+            "cn": "我必须让观众感到惊喜，让他们惊呼：‘等等，这里还有更多内容。’我很幸运遇到了一位经纪人，他直接对我说：‘不，你不能接这个。’"
+          },
+          {
+            "en": "I want to introduce you to this filmmaker.”",
+            "cn": "“我想向你介绍这位电影人。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: It seems to me it was very important for you to start producing when you did.",
+            "cn": "DSF：在我看来，你当时开始从事制片工作是非常重要的。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: Very much so.",
+            "cn": "CT：确实如此。"
+          },
+          {
+            "en": "When I started producing 25 years ago, no one took actors seriously.",
+            "cn": "25年前我开始担任制片人时，没人把演员当回事。"
+          },
+          {
+            "en": "They got a credit, they got some money.",
+            "cn": "他们只是在片尾名单上挂个名，拿点钱而已。"
+          },
+          {
+            "en": "But I was fascinated by the actual job of producing.",
+            "cn": "但我对制片这一实际工作着迷不已。"
+          },
+          {
+            "en": "The nuts and bolts of putting a movie together.",
+            "cn": "电影制作的方方面面。"
+          },
+          {
+            "en": "I was so interested in hanging out with the crew.",
+            "cn": "我非常喜欢和剧组成员们待在一起。"
+          },
+          {
+            "en": "I was not that kind of actor who would go to their trailer, disappear and come back.",
+            "cn": "我从来就不是那种一进拖车就消失，等拍完才回来的演员。"
+          },
+          {
+            "en": "I’m still not that actor.",
+            "cn": "我至今仍不是那种演员。"
+          },
+          {
+            "en": "I hate trailers.",
+            "cn": "我讨厌拖车。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-6.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Blouse in silk with ribbon in lace by DIOR. My Dior ear cuff in yellow and white gold by DIOR JOAILLERIE Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469952.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: You want to know what the best boy is doing.",
+            "cn": "DSF：你想知道“最佳男孩”在忙什么。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I’m a grown-ass woman.",
+            "cn": "CT：我可是个成熟得不能再成熟的女人。"
+          },
+          {
+            "en": "I do want a little bit of control over my own destiny in the art that I make.",
+            "cn": "在创作艺术作品时，我确实希望对自己的命运有一点掌控权。"
+          },
+          {
+            "en": "Even when it’s considered an “action movie”, I’m invested.",
+            "cn": "即使被视为一部“动作片”，我也会全身心投入。"
+          },
+          {
+            "en": "I wish sometimes I wasn’t as invested because it can make it hard.",
+            "cn": "有时我真希望自己不要投入得那么深，因为这会让我感到很艰难。"
+          },
+          {
+            "en": "It can almost become personal.",
+            "cn": "这几乎会变成私事。"
+          },
+          {
+            "en": "And so there are two parts that even me out.",
+            "cn": "因此，有两件事能让我保持平衡。"
+          },
+          {
+            "en": "There’s the actor who is very open, sensitive and can be very vulnerable.",
+            "cn": "作为演员的我，非常坦率、敏感，有时也会显得十分脆弱。"
+          },
+          {
+            "en": "Then there’s the producer who can see the film from 30,000 feet in the sky and protects the actor in me.",
+            "cn": "此外，还有一位制片人，她能从3万英尺的高空俯瞰整部电影，并保护着我作为演员的那一面。"
+          },
+          {
+            "en": "When I think of things that would have happened to a lot of movies that I was in if I hadn’t produced …",
+            "cn": "一想到如果我没有担任制片人，我参演的许多电影可能会变成什么样子……"
+          },
+          {
+            "en": "You have to have the right director who not only wants to make a great movie but understands that you have to have great actors.",
+            "cn": "必须找到合适的导演，他不仅要拍出一部好电影，还要明白必须有优秀的演员。"
+          },
+          {
+            "en": "They shouldn’t just be there to carry the plot.",
+            "cn": "演员不应该仅仅是用来推动情节发展的。"
+          },
+          {
+            "en": "Right now, attention spans are tapping out.",
+            "cn": "如今，观众的注意力正逐渐耗尽。"
+          },
+          {
+            "en": "We’re chasing this dragon.",
+            "cn": "我们正在追逐这条“龙”。"
+          },
+          {
+            "en": "You need good actors.",
+            "cn": "你需要优秀的演员。"
+          },
+          {
+            "en": "You need good scenes.",
+            "cn": "你需要精彩的场景。"
+          },
+          {
+            "en": "You need good editing.",
+            "cn": "你需要精良的剪辑。"
+          },
+          {
+            "en": "You need breaths.",
+            "cn": "你需要喘息的空间。"
+          },
+          {
+            "en": "You need space.",
+            "cn": "你需要留白。"
+          },
+          {
+            "en": "You need to push the envelope.",
+            "cn": "你需要突破界限。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Across all traditional media, the instinct is to be on the back foot.",
+            "cn": "DSF：在所有传统媒体中，人们本能地处于被动状态。"
+          },
+          {
+            "en": "We cater to the idea that attention spans are shot and cater to it defensively.",
+            "cn": "我们迎合“注意力持续时间已大幅缩短”这一观念，并采取防御性的应对方式。"
+          },
+          {
+            "en": "But there’s an alternative response.",
+            "cn": "但还有另一种反应。"
+          },
+          {
+            "en": "People are willing to sit in theatres and watch long movies.",
+            "cn": "人们愿意坐在影院里观看长片。"
+          },
+          {
+            "en": "Look at the award slate this year.",
+            "cn": "看看今年的奖项提名名单。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“I’m a grown-ass woman.",
+            "cn": "“我可是个成熟的女人。"
+          },
+          {
+            "en": "I do want a little bit of control over my own destiny in the art that I make” – Charlize Theron",
+            "cn": "“在创作艺术时，我确实希望对自己的命运有一点点掌控权”——查理兹·塞隆"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: Twenty-year-olds went to see Oppenheimer.",
+            "cn": "CT：二十岁的年轻人去看了《奥本海默》。"
+          },
+          {
+            "en": "We’re going to stop making art.",
+            "cn": "我们将不再创作艺术了。"
+          },
+          {
+            "en": "We’re just going to commercialise the fuck out of telling stories.",
+            "cn": "我们今后就只管把讲故事这事儿彻底商业化，干到极致。"
+          },
+          {
+            "en": "My argument is always that we can make movies that make people feel uncomfortable.",
+            "cn": "我一直主张，我们可以制作让观众感到不适的电影。"
+          },
+          {
+            "en": "That can be a good thing.",
+            "cn": "这可能是一件好事。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: There are emotions that are undervalued in American culture that are important to feel.",
+            "cn": "DSF：在美国文化中，有些情感被低估了，但体验这些情感却很重要。"
+          },
+          {
+            "en": "Discomfort, disgust.",
+            "cn": "不适、厌恶。"
+          },
+          {
+            "en": "You sometimes lean into what is called “unlikeability” in your roles and that is exciting to see.",
+            "cn": "你在饰演角色时有时会刻意展现所谓的“令人讨厌”的一面，这确实令人兴奋。"
+          },
+          {
+            "en": "Are you thinking about this when you play a disgruntled prom queen in Young Adult, or playing Megyn Kelly, someone that people have very strong feelings about, in Bombshell?",
+            "cn": "当你在《青春期》中饰演那位心怀不满的毕业舞会皇后，或者在《爆炸新闻》中饰演梅根·凯利——这位让人们爱恨交加的人物时，你会考虑到这一点吗？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: It’s interesting that you bring those two movies up because they’re examples of great partnerships.",
+            "cn": "CT：你提到这两部电影很有意思，因为它们正是绝佳合作关系的典范。"
+          },
+          {
+            "en": "Jason Reitman, with Young Adult, we never had any conversations about whether she’s likeable or unlikeable.",
+            "cn": "杰森·雷特曼在《青春已逝》中，我们从未讨论过她是否讨人喜欢。"
+          },
+          {
+            "en": "We talked about, “Who is this stunted person, who pretends to have grown up but is in arrested development?” [The screenwriter] Diablo Cody writes in such an honest way.",
+            "cn": "我们曾讨论过：“这个发育停滞的人究竟是谁？她假装自己已经长大，实则仍停留在发育停滞的状态？”[编剧]迪亚布洛·科迪的写作风格非常坦率。"
+          },
+          {
+            "en": "When you read it, you go, “Fuck, there’s a bit of Mavis in me.” People saw themselves in her and some didn’t want to admit it.",
+            "cn": "当你读到剧本时，你会惊呼：“靠，我身上也有点梅维斯的那种劲儿。”人们在她身上看到了自己的影子，只是有些人不愿承认罢了。"
+          },
+          {
+            "en": "But it’s OK not to be perfect.",
+            "cn": "但不完美也没关系。"
+          },
+          {
+            "en": "It’s OK not to fall in love in the third act and skip down the street.",
+            "cn": "第三幕没有坠入爱河，也没有在街上蹦蹦跳跳，这也没关系。"
+          },
+          {
+            "en": "A character like Mavis could have had the trope of, “This girl changes.",
+            "cn": "像梅维斯这样的角色本可以遵循“这个女孩改变了”这一老套情节。"
+          },
+          {
+            "en": "She learns this big lesson at the end.” But Jason and Diablo were like, “What if she doesn’t?”",
+            "cn": "“她在结局时学到了这一重要教训。”但杰森和迪亚布洛却说：“如果她没学到呢？”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Most people don’t change.",
+            "cn": "DSF：大多数人不会改变。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-7.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Men’s neckband and scarf in silk satin by DIOR Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469953.jpg"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-8.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Men’s trousers in virgin wool, men’s neckband and scarf in silk satin and men’s boots in suede, leather and rubber by DIOR. My Dior ear cuff in yellow and white gold by DIOR JOAILLERIE Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469955.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: Yeah, and it’s rare to see that in movies.",
+            "cn": "CT：是啊，而且在电影里也很少见到这种转变。"
+          },
+          {
+            "en": "There’s always this thing people would say – “They’re not going to like you.” My skin would crawl.",
+            "cn": "人们总是会说这样的话——“他们不会喜欢你的。”这让我浑身起鸡皮疙瘩。"
+          },
+          {
+            "en": "Even with Aileen in Monster, the financier called me when he saw the dailies and he was like, “You never smile.",
+            "cn": "就连在《怪物》中饰演艾琳时，制片人看了每日样片后给我打电话，说：“你从来不笑。"
+          },
+          {
+            "en": "You look so angry and mad and no one is going to like you.” He was obsessed with me not smiling.",
+            "cn": "“你看起来那么愤怒、那么生气，没人会喜欢你的。”他特别在意我不笑的样子。"
+          },
+          {
+            "en": "I have a real reaction to that, the idea that you won’t like me if I’m truthful, if I come with my warts and all.",
+            "cn": "对此我确实有切身体会——那种感觉，仿佛只要我坦诚相待，展现出自己的一切，包括缺点在内，你们就不会喜欢我。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: When you were making Monster, people dropped out, right?",
+            "cn": "DSF：拍《怪物》的时候，确实有人中途退出，对吧？"
+          },
+          {
+            "en": "The movie almost skipped theatres and went to VHS.",
+            "cn": "这部电影差点没能上映，直接以VHS形式发行。"
+          },
+          {
+            "en": "A kind of ghettoising.",
+            "cn": "一种被边缘化的待遇。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: On that one, yes.",
+            "cn": "CT：那部电影确实如此。"
+          },
+          {
+            "en": "And also, by the way, on Bombshell.",
+            "cn": "另外，顺便提一下《爆炸新闻》。"
+          },
+          {
+            "en": "Our financier pulled out six weeks before [filming began].",
+            "cn": "我们的出资方在[开拍]前六周撤资了。"
+          },
+          {
+            "en": "Maybe it was less.",
+            "cn": "也许时间更短一些。"
+          },
+          {
+            "en": "I’m so traumatised by that experience.",
+            "cn": "那次经历让我深受打击。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: And this is in 2018, the age when feminist inquiry and critique of sexist institutions were popularised all over.",
+            "cn": "DSF：这发生在2018年，当时女性主义探讨和对性别歧视机构的批判正风靡全球。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: And I didn’t want to make a movie that was judgemental.",
+            "cn": "CT：而且我不想拍一部充满评判意味的电影。"
+          },
+          {
+            "en": "It wasn’t a Megyn Kelly story.",
+            "cn": "这并不是梅根·凯利的故事。"
+          },
+          {
+            "en": "It was a story about something horrible that took place in an organisation.",
+            "cn": "这是一个关于某个组织内部发生的可怕事件的故事。"
+          },
+          {
+            "en": "That was just the beginning of the end, what happened at Fox with Roger Ailes.",
+            "cn": "福克斯电视台罗杰·艾尔斯事件的爆发，只是这场崩溃的开端。"
+          },
+          {
+            "en": "I think people automatically assumed it was going to be some terrible rendition of how much we hate Republican women.",
+            "cn": "我认为人们下意识地以为，这又会是一部渲染我们多么憎恨共和党女性的糟糕作品。"
+          },
+          {
+            "en": "That’s not what it was.",
+            "cn": "事实并非如此。"
+          },
+          {
+            "en": "That is such low- hanging fruit.",
+            "cn": "这简直是唾手可得的靶子。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: Right.",
+            "cn": "DSF：没错。"
+          },
+          {
+            "en": "At the time I feel like, in the liberal sphere, you could gain so many bona fides by just beating down on conservative white women.",
+            "cn": "当时我觉得，在自由派圈子里，只要贬低保守派的白人女性，就能获得很多政治资本。"
+          },
+          {
+            "en": "It’s kind of like so much of the Real Housewives franchise was about satirising women who were excessive, but what happened was that the show ended up being very smart.",
+            "cn": "这有点像《真实主妇》系列的大部分内容原本是为了讽刺那些行为过火的女性，但结果却是，这部剧最终展现出了极高的智慧。"
+          },
+          {
+            "en": "I’m a huge Housewives person.",
+            "cn": "我可是《主妇》系列的超级粉丝。"
+          },
+          {
+            "en": "I think you might be too.",
+            "cn": "我觉得你可能也是。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-9.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Men’s neckband and scarf in silk satin by DIOR. My Dior ear cuff in yellow and white gold by DIOR JOAILLERIE Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469956.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: It’s human behaviour, because they can’t keep it up, right?",
+            "cn": "CT：这就是人类的行为，因为她们根本无法一直保持那种状态，对吧？"
+          },
+          {
+            "en": "Again, you have to watch some of them with their warts and all, and it’s some of the best acting observation you can have.",
+            "cn": "再说一次，你必须去观察她们那些不加修饰、真实的一面，这正是你能获得的最佳表演观察素材。"
+          },
+          {
+            "en": "A lot of the time I watch it I’m like, wow, I need to remember that for a movie.",
+            "cn": "很多时候我看这些场景时都会想：哇，我得把这个记下来，以后拍电影时用上。"
+          },
+          {
+            "en": "I grew up watching women have rage, whether it was my mom or on Dynasty or Dallas.",
+            "cn": "我从小就看着女性发怒长大，无论是我的妈妈，还是《王朝》或《达拉斯》里的女性。"
+          },
+          {
+            "en": "And I think that there is more access now to seeing women having multiple emotions – the complexities of how we function and the different gears we can have.",
+            "cn": "而且我认为，现在人们更有机会看到女性展现出多样的情感——我们行为方式的复杂性，以及我们所能展现出的不同状态。"
+          },
+          {
+            "en": "I thought that when you get upset, you take your drink and throw it against the wall.",
+            "cn": "我原以为，当你生气时，就该端起酒杯砸向墙壁。"
+          },
+          {
+            "en": "That was my blueprint, watching Sue Ellen on Dallas throwing her drink and dressed gorgeously in a sequined top.",
+            "cn": "这就是我的参考模板——看着《达拉斯》里的苏·艾伦穿着华丽的亮片上衣，把酒杯砸向墙壁。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "I feel like the only honesty that I saw with that was through my mom.",
+            "cn": "我觉得，在那段经历中，我唯一看到的真诚就是通过我妈妈体现出来的。"
+          },
+          {
+            "en": "My mom had a complex relationship with my father, and I think it really informed me.",
+            "cn": "我妈妈和我爸爸的关系很复杂，我认为这确实对我产生了深远的影响。"
+          },
+          {
+            "en": "Obviously, when I was younger, I had no concept of how complicated people and relationships are.",
+            "cn": "显然，在我年轻的时候，我根本无法理解人和人际关系是多么复杂。"
+          },
+          {
+            "en": "And of course I wish that she had a wonderful marriage and didn’t have to experience all of that.",
+            "cn": "当然，我希望她能拥有美满的婚姻，不必经历那些。"
+          },
+          {
+            "en": "But I do think that in many ways it made me as an actor be more honest in portraying women.",
+            "cn": "但我确实认为，在许多方面，这让作为演员的我能够更真实地诠释女性角色。"
+          },
+          {
+            "en": "I have had great opportunities to play moms – conflicted moms.",
+            "cn": "我有幸多次饰演母亲——那些内心充满矛盾的母亲。"
+          },
+          {
+            "en": "I remember working with the director Niki Caro [on the 2005 film North Country].",
+            "cn": "我记得曾与导演妮基·卡罗合作过[2005年电影《北国风云》]。"
+          },
+          {
+            "en": "It was the first time I played a mother with a teenage son, and I talked a lot with Niki about when parents don’t have the luxury of having nannies and you’re trying to survive every single day – you’re going to have a short fuse and not always say the right thing.",
+            "cn": "这是我第一次饰演一位有青春期儿子的母亲，我和妮基聊了很多：当父母没有请保姆的余地，只能日复一日地艰难求生时——你难免会变得急躁易怒，也未必总能说出恰当的话。"
+          },
+          {
+            "en": "You’re going to do things that you might regret.",
+            "cn": "你会做出一些可能令你后悔的事。"
+          },
+          {
+            "en": "Those were the things that we showcased in that movie.",
+            "cn": "这些正是我们在电影中展现的内容。"
+          },
+          {
+            "en": "I think good artists can have empathy for the circumstances of others.",
+            "cn": "我认为优秀的艺术家能够对他人所处的境遇产生共情。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: My generation, millennials, found a lot of comfort in black and white binaries – it can become a coping mechanism.",
+            "cn": "DSF：我们这一代——千禧一代——从非黑即白的二元对立中获得了许多慰藉——这甚至可能成为一种应对机制。"
+          },
+          {
+            "en": "But what about human behaviour?",
+            "cn": "但人类的行为又该如何解释呢？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I think that’s interesting, the generation that’s raising the Alphas.",
+            "cn": "CT：我觉得这很有意思，正是这一代人在养育“阿尔法一代”。"
+          },
+          {
+            "en": "I see it in my own kids.",
+            "cn": "我从自己的孩子身上也看到了这一点。"
+          },
+          {
+            "en": "There’s a part of it that is so wonderful because you see agency, a young girl saying what she feels.",
+            "cn": "其中有一部分特别美妙，因为你能看到自主性——一个年轻女孩在表达自己的感受。"
+          },
+          {
+            "en": "But then I have moments where they’re complaining and I’m like, “Buck up.” Both my girls are so smart.",
+            "cn": "不过有时候她们在抱怨，我就会说：“振作点。”我的两个女儿都很聪明。"
+          },
+          {
+            "en": "I have a ten-year-old and a 14-year-old.",
+            "cn": "我有一个10岁的女儿和一个14岁的女儿。"
+          },
+          {
+            "en": "So it’s three women living in a house.",
+            "cn": "所以，这是一家住着三个女人的家。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: A house of women.",
+            "cn": "DSF：一个女性之家。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: And they’re at this age.",
+            "cn": "CT：而他们正值这个年纪。"
+          },
+          {
+            "en": "These are the qualities that are going to make them fucking ballers, but they’re also the qualities that are going to send me to an early grave.",
+            "cn": "正是这些特质会让他们成为他妈的顶尖人物，但这些特质也会让我英年早逝。"
+          },
+          {
+            "en": "[Laughs.]",
+            "cn": "[笑。]"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-10.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Cape in viscose jersey by DIOR Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469957.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: I want to know about your transition coming out with films after Covid shuttered the industry.",
+            "cn": "DSF：我想了解一下，在新冠疫情导致电影行业停摆后，你是如何过渡到推出新电影的。"
+          },
+          {
+            "en": "The Old Guard, the sequel to it, Apex and Christopher Nolan’s The Odyssey, out this summer.",
+            "cn": "《老卫队》、其续集《Apex》以及克里斯托弗·诺兰的《奥德赛》，都将于今年夏天上映。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: In all industries we’re struggling to recover.",
+            "cn": "CT：各行各业都在努力恢复元气。"
+          },
+          {
+            "en": "There was a lot that happened that you just don’t bounce back from.",
+            "cn": "发生了许多事，让人根本无法从中恢复过来。"
+          },
+          {
+            "en": "I feel like my attitude is proactive.",
+            "cn": "我觉得自己的态度是积极主动的。"
+          },
+          {
+            "en": "I don’t want to sit and mourn what we lost.",
+            "cn": "我不想坐着哀悼我们失去的一切。"
+          },
+          {
+            "en": "I’d rather look to the future.",
+            "cn": "我更愿意展望未来。"
+          },
+          {
+            "en": "There are changes to our industry where a lot of bodies will just not be needed because of AI, where the movie-going experience will probably not exist in theatres any more.",
+            "cn": "我们的行业正在发生变化，由于人工智能的发展，许多演员将不再被需要，而影院里的观影体验可能也将不复存在。"
+          },
+          {
+            "en": "We can get very dark about this stuff.",
+            "cn": "对于这些事情，我们可能会持非常悲观的态度。"
+          },
+          {
+            "en": "But I want to believe that you don’t have to throw out the baby with the bathwater.",
+            "cn": "但我希望相信，我们不必因噎废食。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "“There is more access now to seeing women having multiple emotions – the complexities of how we function and the different gears we can have” – Charlize Theron",
+            "cn": "“如今，观众更有机会看到女性展现出多重情感——我们行为方式的复杂性，以及我们所能切换的各种状态”——查理兹·塞隆"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: So, finding opportunities to negotiate with the encroachment?",
+            "cn": "DSF：那么，就是寻找机会来应对这种侵蚀吗？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: Finding reasonable people to reason with.",
+            "cn": "CT：寻找能理性沟通的对象。"
+          },
+          {
+            "en": "We’re at the 11th hour.",
+            "cn": "我们已到了最后关头。"
+          },
+          {
+            "en": "Our footing is a little bit off.",
+            "cn": "我们的立足点有些不稳。"
+          },
+          {
+            "en": "We made Apex as a lot was going on in the industry.",
+            "cn": "当时行业内风波不断，我们便制作了《Apex》。"
+          },
+          {
+            "en": "The script was really solid and the rewrites we developed as we were making it.",
+            "cn": "剧本非常扎实，而且我们在拍摄过程中还对剧本进行了修改完善。"
+          },
+          {
+            "en": "The director was right for this – Baltasar [Kormákur] was able to create a wild, exciting, suspenseful film while always honouring the story and the characters.",
+            "cn": "这位导演非常适合这部作品——巴尔塔萨尔[科马库尔]既能打造出狂野、刺激、悬念丛生的电影，又能始终忠于故事和角色。"
+          },
+          {
+            "en": "And Taron Egerton is in the top five actors I’ve ever worked with.",
+            "cn": "而且塔伦·埃格顿是我合作过的演员中排名前五的。"
+          },
+          {
+            "en": "This was my best experience making a movie.",
+            "cn": "这是我拍电影以来最棒的一次经历。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: The action film is ultra-American, tied to essential myths about masculinity and heroism.",
+            "cn": "DSF：动作片是极具美国特色的，它与关于阳刚之气和英雄主义的核心神话紧密相连。"
+          },
+          {
+            "en": "So you taking up the masculinised mantle, it’s a critical chapter in film.",
+            "cn": "所以，你扛起这面“阳刚”的大旗，这在电影史上是一个关键篇章。"
+          },
+          {
+            "en": "The action films you do aren’t just gender flips.",
+            "cn": "你演的动作片不仅仅是性别对调。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: That’s a lot of pressure.",
+            "cn": "CT：这压力确实很大。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-11.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Men’s coat in virgin wool with embroidered buttons, men’s trousers in virgin wool twill, hat in silk and cotton and men’s boots in suede, leather and rubber by DIOR Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469958.jpg"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-12.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469959.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: You can live up to it!",
+            "cn": "DSF：你一定能做到！"
+          },
+          {
+            "en": "But I had these moments watching Apex where I’m so aware of the trials you put your body through.",
+            "cn": "但观看《巅峰》时，有些瞬间让我真切地意识到你让身体承受了怎样的考验。"
+          },
+          {
+            "en": "The expanse, the water, the caves.",
+            "cn": "辽阔的天地、流水、洞穴。"
+          },
+          {
+            "en": "It’s like no civilisation exists except the one for you and Egerton’s character.",
+            "cn": "仿佛世上除了你和埃格顿饰演的角色所在的那片文明之外，再无其他文明存在。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: It’s very immersive.",
+            "cn": "CT：这种体验非常身临其境。"
+          },
+          {
+            "en": "Some of the locations were places that no one has shot in.",
+            "cn": "其中一些取景地是此前从未有人在那里拍摄过的。"
+          },
+          {
+            "en": "None of it is CGI.",
+            "cn": "其中没有任何电脑特效。"
+          },
+          {
+            "en": "It was just hikes down a crevasse, into a gorge, and then shooting all day and then hiking the equipment all the way back out and doing it again the next day.",
+            "cn": "就是徒步下到冰裂缝，进入峡谷，然后拍摄一整天，接着再徒步把设备全都搬出来，第二天再重复一遍。"
+          },
+          {
+            "en": "And people doing it with joy in their heart because we had a director who really shepherded us.",
+            "cn": "大家都是怀着喜悦的心情投入拍摄的，因为我们有一位真正引领我们的导演。"
+          },
+          {
+            "en": "It was like a high.",
+            "cn": "那感觉就像是飘飘欲仙。"
+          },
+          {
+            "en": "This incredible woman taught me how to climb.",
+            "cn": "这位了不起的女性教会了我如何攀登。"
+          },
+          {
+            "en": "Very few movies get made like this any more.",
+            "cn": "如今像这样拍摄的电影已经很少见了。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "I tapped out one day before wrap.",
+            "cn": "我在杀青前一天就撑不住了。"
+          },
+          {
+            "en": "I have never done that.",
+            "cn": "我以前从未这样过。"
+          },
+          {
+            "en": "I handed my physical body over to it willingly because that was the story.",
+            "cn": "我甘愿将身体交给了它，因为这就是故事的本质。"
+          },
+          {
+            "en": "I had torn intercostal muscles, I got a middle-ear infection from the water.",
+            "cn": "我的肋间肌撕裂了，还因为水导致了中耳炎。"
+          },
+          {
+            "en": "I was just exhausted.",
+            "cn": "我当时真的精疲力竭。"
+          },
+          {
+            "en": "I remember going to my trailer one night and I thought I was going insane because there was so much water in my ear.",
+            "cn": "我记得有天晚上回到我的拖车房时，因为耳朵里灌了太多水，我以为自己要疯了。"
+          },
+          {
+            "en": "I took a pretty bad pull in my elbow – there’s this big nerve that runs across your elbow that kind of popped – I had it happen on my other one three years ago, so I knew what it was and I knew I was going to have to have surgery for this.",
+            "cn": "我的肘部拉伤得相当严重——有一条横贯肘部的大神经好像“弹”了出来——三年前我的另一只肘部也发生过这种情况，所以我清楚这是怎么回事，也知道这次必须得动手术了。"
+          },
+          {
+            "en": "I laid it all out on that ice, left it all on the field.",
+            "cn": "我在冰场上倾尽全力，在赛场上拼尽一切。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "DSF: The body has its limits.",
+            "cn": "DSF：身体总有极限。"
+          },
+          {
+            "en": "Have there been more existential moments where you’ve thought, at some point I may have to pull back from action work?",
+            "cn": "你是否曾有过更多这样的存在主义时刻，觉得“某一天我可能不得不退出动作片领域”？"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "CT: I’m not going to be able to stop this process called ageing.",
+            "cn": "CT：我无法阻止这个叫做“衰老”的过程。"
+          },
+          {
+            "en": "But I am also very aware that we have access to great things we never had three decades ago.",
+            "cn": "但我也很清楚，如今我们拥有了三十年前从未有过的精彩体验。"
+          },
+          {
+            "en": "Like when my grandmother was about 52, I remember I was like, oh, that’s what grandmas looks like.",
+            "cn": "就像我奶奶52岁左右的时候，我记得当时我还想：“哦，原来奶奶就是这个样子啊。”"
+          },
+          {
+            "en": "The little curlers and the muu-muu.",
+            "cn": "那些小卷发棒和宽松连衣裙。"
+          },
+          {
+            "en": "I’m not scared of ageing.",
+            "cn": "我不怕变老。"
+          },
+          {
+            "en": "I just want mobility for as long as I can possibly have it.",
+            "cn": "我只想尽可能长久地保持行动能力。"
+          },
+          {
+            "en": "I want to be able to feel strong for as long as I possibly can.",
+            "cn": "我希望能尽可能长久地保持强健的体魄。"
+          },
+          {
+            "en": "My mom is 74 and she hikes every morning.",
+            "cn": "我妈妈今年74岁，每天早上都会去徒步。"
+          },
+          {
+            "en": "The other day she lifted a 78-pound dog into the back of her car like it was nothing.",
+            "cn": "前几天，她轻而易举地把一只78磅重的狗抱进了车后座，就好像这根本不算什么似的。"
+          },
+          {
+            "en": "I’m like, OK, I really lucked out with genetics.",
+            "cn": "我心想，好吧，我的基因真是太幸运了。"
+          },
+          {
+            "en": "And I also love that she’s at two knee replacements.",
+            "cn": "而且我也特别喜欢她已经做了两次膝关节置换手术这一点。"
+          },
+          {
+            "en": "So part of me is like, yeah, I have a surgery after every movie but that’s just making me stronger.",
+            "cn": "所以，我内心的一部分在想：是啊，我拍完每部电影都要动一次手术，但这只会让我变得更强。"
+          },
+          {
+            "en": "I’m going to be bionic by the end of it.",
+            "cn": "等这一切结束时，我就会变成半机械人了。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-13.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Cape in viscose jersey and jeans (just seen) in cotton by DIOR Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469960.jpg"
+      },
+      {
+        "img": "assets/covers/people-charlize-theron-another-14.jpg",
+        "alt": "Charlize Theron · 图片",
+        "cap": "Blouse in silk with ribbon in lace, men’s trousers in virgin wool and men’s boots in suede, leather and rubber by DIOR. My Dior cuff in yellow and white gold by DIOR JOAILLERIE Photography by Sharna Osborne. Styling by Emma Wyman",
+        "credit": "Sharna Osborne / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/2000/azure/another-prod/460/9/469961.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Casting: Greg Krelenstein.",
+            "cn": "选角：格雷格·克雷伦斯坦。"
+          },
+          {
+            "en": "Hair: Adir Abergel at A-Frame using VIRTUE LABS.",
+            "cn": "发型：A-Frame的阿迪尔·阿伯格尔，使用VIRTUE LABS产品。"
+          },
+          {
+            "en": "Make-up and skincare: DIOR BEAUTY.",
+            "cn": "妆容与护肤：DIOR BEAUTY。"
+          },
+          {
+            "en": "Manicure: Zola Ganzorigt at The Wall Group.",
+            "cn": "美甲：The Wall Group 的佐拉·甘佐里格特。"
+          },
+          {
+            "en": "Set design: Carter McNeil.",
+            "cn": "布景设计：卡特·麦克尼尔。"
+          },
+          {
+            "en": "Photographic assistants: Steve Yang and Essence Moseley.",
+            "cn": "摄影助理：史蒂夫·杨和埃森斯·莫斯利。"
+          },
+          {
+            "en": "Styling assistant: Sierra Estep.",
+            "cn": "造型助理：西耶拉·埃斯特普。"
+          },
+          {
+            "en": "Tailor: Mari Margarian.",
+            "cn": "裁缝：玛丽·马加里安。"
+          },
+          {
+            "en": "Manicure assistant: Mandy Enkh.",
+            "cn": "美甲助理：曼迪·恩克。"
+          },
+          {
+            "en": "Set-design assistant: Levi Gould.",
+            "cn": "布景设计助理：利维·古尔德。"
+          },
+          {
+            "en": "Production: PENNY.",
+            "cn": "制作：PENNY。"
+          },
+          {
+            "en": "Executive producer: Kalena Yiaueki.",
+            "cn": "执行制片人：卡莱娜·亚乌基。"
+          },
+          {
+            "en": "Head of Creative Production: Anastasia Soloveiva.",
+            "cn": "创意制作总监：阿纳斯塔西娅·索洛维耶娃。"
+          },
+          {
+            "en": "Production Coordinator: Ellen Kozarits.",
+            "cn": "制作协调员：艾伦·科扎里茨。"
+          },
+          {
+            "en": "Production assistant: Lily Cordingley.",
+            "cn": "制作助理：莉莉·科丁利。"
+          },
+          {
+            "en": "Post-production: Vrinda Jelinek",
+            "cn": "后期制作：弗琳达·杰利内克"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "This story features in the Spring/Summer 2026 issue, marking 25 years of AnOther Magazine, on sale internationally on 12 March 2026.",
+            "cn": "本文刊载于2026年春夏刊，该期杂志标志着《AnOther》杂志创刊25周年，将于2026年3月12日全球发售。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      }
+    ]
+  },
+  {
+    "id": "people-monica-bellucci-style-and-change",
+    "cat": "人物",
+    "title": "“The Way You Dress Is How You Express Yourself”: Bombshell Lessons With Monica Bellucci",
+    "titleZh": "“你的穿衣方式就是自我表达”：莫妮卡·贝鲁奇的魅力课",
+    "url": "https://www.vogue.co.uk/arts-and-lifestyle/article/monica-bellucci-interview",
+    "source": "British Vogue",
+    "date": "2022-04-22",
+    "addedAt": "2026-09-15",
+    "pin": true,
+    "readingMode": "full",
+    "contentStatus": "complete",
+    "extractorVersion": "people-full-v1",
+    "person": "Monica Bellucci",
+    "personZh": "莫妮卡·贝鲁奇",
+    "photoCount": 4,
+    "photoCredit": "John Sciulli; Ernesto Ruscio; Frédéric Meylan; Frank Micelotta Archive / British Vogue",
+    "peopleScore": 81,
+    "peopleScoreParts": {
+      "person": 1,
+      "photography": 0.5,
+      "story": 0.55,
+      "english": 1,
+      "interest": 1
+    },
+    "peopleVersion": "people-v2-full",
+    "review": {
+      "status": "approved",
+      "visualChecked": true,
+      "guideChecked": true,
+      "articleChecked": true,
+      "at": "2026-09-15T11:57:57.356Z",
+      "scope": "full-original-text-and-photos",
+      "fingerprint": "03f9333c9864d1815ba38376578e009e13eab0dc561b087e9d89e2690aae7f4c",
+      "photoHashes": [
+        "23ce97f19a4999fd6bbab9c9235a7da93509e0b34b1166f47890bd550cab67e1",
+        "770d10d9998aff06d5fbae6e8b189714d4665b57a052a68432af31c4d316947c",
+        "88a0a9baea5e72f2713020faeaeb281841abda0e1aea4a0fee23c17bfe1f3c14",
+        "887ccfa8cec4da48e9fa5ff3e6531f9a0724e1f9e90964fe1e93e53897d68e2d"
+      ]
+    },
+    "fingerprint": "03f9333c9864d1815ba38376578e009e13eab0dc561b087e9d89e2690aae7f4c",
+    "sourceTextHash": "1ac16e87c96df9b190dab659c1f606beaaed23c5077c9fa376789ac2e403aa42",
+    "sourceTextWords": 915,
+    "sourceParagraphs": 12,
+    "sourceImages": 4,
+    "coverImg": "assets/covers/people-monica-bellucci-style-and-change-0.jpg",
+    "cover": "linear-gradient(135deg,#eadbcc,#855349)",
+    "gradient": "linear-gradient(135deg,#eadbcc,#855349)",
+    "photoSources": [
+      "https://media.vogue.co.uk/photos/626021d6ee0dca012731d0fd/16:9/w_1280,c_limit/GettyImages-74802232.jpg",
+      "https://media.vogue.co.uk/photos/626279fa06e916689586a724/master/w_960,c_limit/monica2204_GettyImages-121053749.jpg",
+      "https://media.vogue.co.uk/photos/62627a0006e916689586a726/master/w_960,c_limit/monica2204_GettyImages-542358326.jpg",
+      "https://media.vogue.co.uk/photos/62602f665ff082f9adb4d1b5/master/w_960,c_limit/GettyImages-2220638.jpg"
+    ],
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Monica Bellucci does have Instagram, but you won’t find any make-up free selfies (like Gwyneth ), workouts ( Tracee ), or spoof reels ( Reese ) on her feed.",
+            "cn": "莫妮卡·贝鲁奇确实有Instagram账号，但你不会在她的动态中看到任何素颜自拍（像格温妮丝那样）、健身视频（像特蕾西那样）或恶搞短视频（像瑞茜那样）。"
+          },
+          {
+            "en": "“That distance [there once was] between the public and people in showbusiness doesn’t exist anymore,” says the former Bond girl, who, though she acknowledges the advantages of the social media age for artists eager to shape their own image, seems keen to retain her air of mystery.",
+            "cn": "“公众与演艺界人士之间[曾经存在的]那道隔阂已经不复存在了，”这位前邦德女郎说道。尽管她承认社交媒体时代为渴望塑造自身形象的艺术家带来了诸多优势，但她似乎仍热衷于保持自己的神秘感。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "And so, in place of the candid snaps and lengthy captions that are commonplace on celebrity accounts in 2022, Bellucci’s Insta is almost entirely frames from fashion shoots, or pictures of her on the red carpet in Venice or Cannes .",
+            "cn": "因此，与2022年名人账号中常见的随性快照和长篇配文不同，贝鲁奇的Instagram几乎全是时尚大片的单帧画面，或是她在威尼斯或戛纳红毯上的照片。"
+          },
+          {
+            "en": "The only small insight into her personal life?",
+            "cn": "唯一能让人一窥她私生活的线索？"
+          },
+          {
+            "en": "The occasional proud post featuring daughter Deva Cassel, a miniature Monica who has followed her mother into modelling.",
+            "cn": "偶尔会发一些充满自豪感的帖子，展示女儿德瓦·卡塞尔——这位“迷你版莫妮卡”也追随母亲的脚步踏入了模特行业。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-monica-bellucci-style-and-change-1.jpg",
+        "alt": "Monica Bellucci · 图片",
+        "cap": "Red-carpet style the Bellucci way: take one dramatic black dress, and add Cartier diamonds.",
+        "credit": "John Sciulli; Ernesto Ruscio; Frédéric Meylan; Frank Micelotta Archive / British Vogue",
+        "sourceUrl": "https://media.vogue.co.uk/photos/626279fa06e916689586a724/master/w_960,c_limit/monica2204_GettyImages-121053749.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Did Bellucci, who embarked on her own career in front of the camera as a teen, have any reservations about her 17-year-old choosing to work in a sphere that has not exactly been renowned for its careful treatment of young women?",
+            "cn": "贝鲁奇本人十几岁时就踏上了演艺之路，对于自己17岁的女儿选择进入一个向来不太以善待年轻女性著称的行业，她是否曾有过任何顾虑？"
+          },
+          {
+            "en": "“All I can do is to help her find her passion,” says Bellucci, quick to point out that Deva is still in her final year at school and just dipping her toe into fashion for now.",
+            "cn": "“我所能做的，就是帮助她找到自己的热情，”贝鲁奇说道，并随即指出，德瓦目前仍处于高三阶段，现在只是初涉时尚领域。"
+          },
+          {
+            "en": "“But I like the idea that she’s happy!”",
+            "cn": "“不过，我喜欢看到她开心的样子！”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Both of Bellucci’s girls (Léonie, the younger of her two daughters with ex-husband Vincent Cassel, is 11) like fashion, she says – perhaps unsurprising given their mum’s enduring style muse status.",
+            "cn": "贝鲁奇表示，她的两个女儿（其中与前夫文森特·卡索所生的二女儿莱奥妮现年11岁）都喜欢时尚——考虑到她们的母亲一直以来都是时尚界的缪斯，这或许并不令人意外。"
+          },
+          {
+            "en": "At 57, Monica is a regular on the front row at couture week, a firm fixture on the Euro film festival circuit, and walked the runway for Dolce & Gabbana as recently as 2018.",
+            "cn": "现年57岁的莫妮卡不仅是高级定制时装周前排的常客，也是欧洲各大电影节的常客，最近一次还是在2018年为杜嘉班纳（Dolce & Gabbana）走秀。"
+          },
+          {
+            "en": "“The way you dress is how you express yourself,” she says.",
+            "cn": "“你的着装方式就是你表达自我的方式，”她说。"
+          },
+          {
+            "en": "“That’s how fashion becomes interesting, the choices [you make].”",
+            "cn": "“正是这些选择，让时尚变得有趣。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-monica-bellucci-style-and-change-2.jpg",
+        "alt": "Monica Bellucci · 图片",
+        "cap": "The Italian screen siren photographed in Rome.",
+        "credit": "John Sciulli; Ernesto Ruscio; Frédéric Meylan; Frank Micelotta Archive / British Vogue",
+        "sourceUrl": "https://media.vogue.co.uk/photos/62627a0006e916689586a726/master/w_960,c_limit/monica2204_GettyImages-542358326.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "When reviewing Bellucci’s own sartorial choices over the course of her years in the spotlight, some clear themes emerge, chief among them the sort of sensual, seductive glamour associated with Fellini heroines , like Claudia Cardinale or Anita Ekberg.",
+            "cn": "回顾贝鲁奇在聚光灯下这些年来的着装选择，一些鲜明的主题浮现出来，其中最突出的便是那种与费里尼电影女主角（如克劳迪娅·卡迪纳莱或安妮塔·埃克伯格）相联系的性感、迷人的魅力。"
+          },
+          {
+            "en": "Low-cut dresses – almost always black – designed to enhance bombshell proportions, and rebellious waves escaping from artfully dishevelled up-dos, as though torn loose in the heat of passion, have become her signature.",
+            "cn": "那些专为凸显性感身材而设计的低胸礼服——几乎总是黑色——以及从精心打造的凌乱盘发中逸出的叛逆波浪卷，仿佛是在激情炽热中被撕扯开来一般，这些都已成为她的标志性风格。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The star – who is as partial to diamonds as she is a fabulous LBD – is part of the pantheon of screen temptresses for whom fashion is less about individuality (no directional suiting or wilfully ugly shoes for Monica), than it is good old-fashioned sex appeal.",
+            "cn": "这位女星——她对钻石的钟爱不亚于对那件绝美小黑裙的迷恋——是银幕魅惑女神中的代表人物之一。对她们而言，时尚与其说是为了彰显个性（莫妮卡从不穿前卫的西装或刻意追求怪异的鞋子），不如说是为了展现那种纯正的老派性感魅力。"
+          },
+          {
+            "en": "“Of course I dreamed [about being like those] incredible actors when I was young, those Italian leading ladies,” says Bellucci, who was born in Perugia.",
+            "cn": "“当然，我年轻时曾梦想过（像那些）了不起的演员一样，像那些意大利女主角一样，”出生于佩鲁贾的贝鲁奇说道。"
+          },
+          {
+            "en": "She also cites Lauren Bacall , Joan Crawford and Lana Turner as inspirations – all enigmatic, all knockouts.",
+            "cn": "她还提到了劳伦·巴考尔、琼·克劳馥和拉娜·特纳作为自己的灵感来源——她们都充满神秘感，个个都美得令人屏息。"
+          },
+          {
+            "en": "“Incredible,” says Bellucci of her personal pin-ups.",
+            "cn": "“太棒了，”贝鲁奇这样评价她心目中的偶像。"
+          },
+          {
+            "en": "“Talent and beauty and personality and charm.”",
+            "cn": "“才华、美貌、个性与魅力。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-monica-bellucci-style-and-change-3.jpg",
+        "alt": "Monica Bellucci · 图片",
+        "cap": "Bellucci cites the Dolce dress and Cartier necklace she wore to the premiere of Under Suspicion at Cannes in 2000 as her all-time favourite red-carpet look.",
+        "credit": "John Sciulli; Ernesto Ruscio; Frédéric Meylan; Frank Micelotta Archive / British Vogue",
+        "sourceUrl": "https://media.vogue.co.uk/photos/62602f665ff082f9adb4d1b5/master/w_960,c_limit/GettyImages-2220638.jpg"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Bellucci’s red-carpet wardrobe overflows with slinky black gowns in satin and lace, but her favourite look of all time was leopard print.",
+            "cn": "贝鲁奇的红毯衣橱里尽是丝光缎面和蕾丝制成的妩媚黑色长裙，但她有史以来最钟爱的造型却是豹纹装扮。"
+          },
+          {
+            "en": "“It’s the dress I wore in 2000 to the Under Suspicion premiere with Morgan Freeman and Gene Hackman,” she says.",
+            "cn": "“这就是2000年我与摩根·弗里曼和吉恩·哈克曼一同出席《嫌疑》首映礼时穿的那条裙子，”她说。"
+          },
+          {
+            "en": "“It makes me think about that first time in Cannes.” The feline dress was Dolce, the diamonds, Cartier.",
+            "cn": "“这让我想起了第一次在戛纳的情景。”那件猫眼连衣裙出自杜嘉班纳，钻石首饰则是卡地亚。"
+          },
+          {
+            "en": "“My favourite jewellery pieces are all from Cartier,” confides Monica, a longtime friend of the maison who is particularly fond of its signature Panthère pieces.",
+            "cn": "“我最喜欢的珠宝全都是卡地亚的，”莫妮卡坦言道。作为该品牌的长期挚友，她尤其钟爱其标志性的Panthère系列。"
+          },
+          {
+            "en": "“I love their simplicity.”",
+            "cn": "“我喜欢它们的简约。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Twenty-two years on from that screening in the south of France, Bellucci is as arresting a presence in front of the camera as ever.",
+            "cn": "自那场在法国南部举行的首映礼至今已过去二十二年，贝鲁奇在镜头前依然魅力四射，风采依旧。"
+          },
+          {
+            "en": "Her simple style essentials remain the same – “A little black dress to the knees, a long black dress, black shoes” – but when asked to divulge her beauty secrets, the answers are (sadly) a little less tangible.",
+            "cn": "她简约的穿搭必备单品始终如一——“一条及膝的小黑裙、一条黑色长裙、一双黑鞋”——但当被问及美容秘诀时，她的回答却（遗憾地）显得有些虚无缥缈。"
+          },
+          {
+            "en": "“Think young,” is how Monica sums up her approach to ageing gracefully.",
+            "cn": "“保持年轻的心态”，莫妮卡用这句话概括了她优雅老去的秘诀。"
+          },
+          {
+            "en": "It’s important to “keep being excited by [new] things” says the actor.",
+            "cn": "这位女演员表示，“对[新]事物保持热情”至关重要。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "It’s why, when director Tom Volf asked her to play legendary soprano Maria Callas on stage, Bellucci said yes.",
+            "cn": "正因如此，当导演汤姆·沃尔夫邀请她在舞台上饰演传奇女高音玛丽亚·卡拉斯时，贝鲁奇欣然应允。"
+          },
+          {
+            "en": "“I was very scared,” she says.",
+            "cn": "“我当时非常害怕，”她说。"
+          },
+          {
+            "en": "“It was to be my first time on stage, [I thought] why take this risk?",
+            "cn": "“那将是我第一次登台，[我当时想]为什么要冒这个险？"
+          },
+          {
+            "en": "But when you’re in front of an audience, you can share all the emotions.",
+            "cn": "但当你站在观众面前时，就能分享所有的情感。"
+          },
+          {
+            "en": "It’s so direct.” Bellucci has already performed Maria Callas: Letters & Memoirs , in which she reads from the personal correspondence that uncovers all of the formidable opera star’s “private life and vulnerabilities”, in Italy, France and Greece.",
+            "cn": "“这太直白了。”贝鲁奇此前已在意大利、法国和希腊上演了《玛丽亚·卡拉斯：书信与回忆录》，她在剧中朗读了这位于世人敬畏的歌剧明星的私人信件，揭示了她的“私生活与脆弱一面”。"
+          },
+          {
+            "en": "This weekend, she makes her West End debut at Her Majesty’s Theatre.",
+            "cn": "本周末，她将在女王陛下剧院迎来自己的西区首演。"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Bellucci appears to be enjoying a rich and creatively satisfying phase in her career in her late fifties.",
+            "cn": "贝鲁奇在年近六十的职业生涯中，似乎正享受着一段充实且充满创作满足感的时期。"
+          },
+          {
+            "en": "“Things are changing,” she agrees.",
+            "cn": "“情况正在发生变化，”她表示赞同。"
+          },
+          {
+            "en": "“Years ago, it would have been impossible [for a woman in this industry] to have a career after 40 even if you were talented.",
+            "cn": "“多年前，[在这个行业里]女性即使有才华，40岁后也根本不可能继续发展事业。"
+          },
+          {
+            "en": "Today, things are completely different.” Now, she says, there is recognition of the heft a woman with life experience can bring to a role.",
+            "cn": "“如今，情况已经完全不同了。”她说，现在人们已经认识到，一个拥有丰富人生阅历的女性能够为角色增添多少分量。"
+          },
+          {
+            "en": "“Just look at Judi Dench, Helen Mirren, Catherine Deneuve, Isabelle Huppert, Charlotte Rampling…”",
+            "cn": "“看看朱迪·丹奇、海伦·米伦、凯瑟琳·德纳芙、伊莎贝尔·于佩尔、夏洛特·兰普林……”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Next up for the star?",
+            "cn": "这位明星接下来有什么计划？"
+          },
+          {
+            "en": "A comedy, Mafia Mamma , with Toni Collette, and a thriller, Memory , with Liam Neeson.",
+            "cn": "一部与托妮·科莱特合作的喜剧《黑手党妈妈》，以及一部与连姆·尼森合作的惊悚片《记忆》。"
+          },
+          {
+            "en": "Fans should expect the unexpected from Bellucci, she says.",
+            "cn": "她说，影迷们应该期待贝鲁奇带来意想不到的惊喜。"
+          },
+          {
+            "en": "“For this role [in Memory ], I wanted to break the mould in which I’ve been cast so many times.” Which brings us back to those beauty secrets.",
+            "cn": "“对于《记忆》中的这个角色，我希望能打破过去多次被定型的刻板印象。”这又让我们回到了那些美容秘诀上。"
+          },
+          {
+            "en": "“You have to be ready to change.”",
+            "cn": "“你必须做好改变的准备。”"
+          }
+        ],
+        "sourceTag": "paragraph"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Monica Bellucci will appear in ‘Maria Callas: Letters & Memoirs’ at Her Majesty’s Theatre on 24 April",
+            "cn": "莫妮卡·贝鲁奇将于4月24日在女王陛下剧院出演《玛丽亚·卡拉斯：书信与回忆录》"
+          }
+        ],
+        "sourceTag": "paragraph"
       }
     ]
   }

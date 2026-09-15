@@ -1,0 +1,83 @@
+{
+  "version": "people-v2-full",
+  "dailyLimit": 2,
+  "minPhotos": 4,
+  "maxPhotos": 24,
+  "minSourceWords": 450,
+  "threshold": 70,
+  "weights": {
+    "person": 30,
+    "photography": 20,
+    "story": 20,
+    "english": 20,
+    "interest": 10
+  },
+  "sources": [
+    {
+      "name": "AnOther Magazine",
+      "tier": "core",
+      "host": "www.anothermag.com",
+      "listing": "https://www.anothermag.com/interview",
+      "images": [
+        "images-prod.anothermag.com"
+      ]
+    },
+    {
+      "name": "W Magazine",
+      "tier": "core",
+      "host": "www.wmagazine.com",
+      "listing": "https://www.wmagazine.com/culture",
+      "images": [
+        "imgix.bustle.com"
+      ]
+    },
+    {
+      "name": "Vanity Fair",
+      "tier": "core",
+      "host": "www.vanityfair.com",
+      "listing": "https://www.vanityfair.com/topic/profiles",
+      "images": [
+        "media.vanityfair.com",
+        "media.vf.com"
+      ]
+    },
+    {
+      "name": "Numéro",
+      "tier": "supplement",
+      "host": "numero.com",
+      "listing": "https://numero.com/en/",
+      "images": [
+        "numero.com",
+        "www.numero.com"
+      ]
+    },
+    {
+      "name": "Vogue",
+      "tier": "supplement",
+      "host": "www.vogue.com",
+      "listing": "https://www.vogue.com/magazine",
+      "images": [
+        "assets.vogue.com"
+      ]
+    },
+    {
+      "name": "British Vogue",
+      "tier": "supplement",
+      "host": "www.vogue.co.uk",
+      "listing": "https://www.vogue.co.uk/arts-and-lifestyle",
+      "images": [
+        "media.vogue.co.uk"
+      ]
+    },
+    {
+      "name": "Interview Magazine",
+      "tier": "supplement",
+      "host": "www.interviewmagazine.com",
+      "listing": "https://www.interviewmagazine.com/film",
+      "images": [
+        "www.interviewmagazine.com",
+        "interviewmagazine.com"
+      ]
+    }
+  ]
+}

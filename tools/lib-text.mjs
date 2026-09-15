@@ -139,8 +139,11 @@ export function goodPara(t) {
 
 /* 句末缩写：句号不是句尾。原先只覆盖了 Mr/Dr/U.S 等少数几个，
    新闻里高频的 Capt. / Sen. / Sgt. / Dec. 会把一句话从中间劈成两段，
-   译文也就跟着变成半截话——看起来就像"翻译坏了"。 */
-const ABBR = /\b(Mr|Mrs|Ms|Messrs|Dr|Drs|Prof|Sr|Jr|St|No|Nos|vs|etc|Co|Inc|Ltd|Corp|Bros|Assoc|Univ|Dept|Govt|Est|Vol|Fig|approx|Ave|Blvd|Rd|Capt|Cpl|Sgt|Lt|Col|Gen|Adm|Maj|Cmdr|Pvt|Sen|Rep|Gov|Rev|Hon|Gen|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e)\./g;
+   译文也就跟着变成半截话——看起来就像"翻译坏了"。
+   **导出**给 lib-people 的原文分句器共用：人物栏目自己写过一份不带缩写表的
+   分句器，结果原刊里的 "8 a.m. to 6 p.m." 被劈成 "8 a." / "m." / "to 6 p." /
+   "m." 四个碎片（碎片译出来还是英文，被 qc 的 F4 抓了个正着）。同一把尺子只有一份。 */
+export const ABBR = /\b(Mr|Mrs|Ms|Messrs|Dr|Drs|Prof|Sr|Jr|St|No|Nos|vs|etc|Co|Inc|Ltd|Corp|Bros|Assoc|Univ|Dept|Govt|Est|Vol|Fig|approx|Ave|Blvd|Rd|Capt|Cpl|Sgt|Lt|Col|Gen|Adm|Maj|Cmdr|Pvt|Sen|Rep|Gov|Rev|Hon|Gen|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e)\./g;
 
 export function splitSentences(paras) {
   const out = [];

@@ -703,6 +703,7 @@ const toast = msg => {
   setTimeout(() => el.remove(), 1600);
 };
 const CAT_META = {
+  "人物":   { icon: "sparkle", bg: "linear-gradient(135deg,#d4b89c,#855349)" },
   "足球":   { icon: "ball",    bg: "linear-gradient(135deg,#10B981,#047857)" },
   "AI":     { icon: "sparkle", bg: "linear-gradient(135deg,#A78BFA,#4F46E5)" },
   "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" },
@@ -817,10 +818,11 @@ const articleCard = a => {
   const tzh = zhTitle(a);
   const done = S.finished.includes(a.id);   // 已读标记：finished 是「已打卡」的去重列表
   return `
-  <div class="article${done ? " read" : ""}" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读文章：${esc(clean(a.title))}${tzh ? `，${esc(tzh)}` : ""}${done ? "，已读" : ""}">
+  <div class="article${a.cat === "人物" ? " people-card" : ""}${done ? " read" : ""}" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读文章：${esc(clean(a.title))}${tzh ? `，${esc(tzh)}` : ""}${done ? "，已读" : ""}">
     ${thumbHtml(a, img)}
     <div class="col grow" style="gap:6px">
-      <span class="tag">${esc(clean(a.cat))}${when ? ` · ${when}` : ""}</span>
+      <span class="tag">${a.cat === "人物" ? `ICONS · ${Number(a.photoCount) || 0} 张摄影 · ${a.readingMode === "full" ? "原刊全文" : "中英导读"}` : esc(clean(a.cat))}${when ? ` · ${when}` : ""}</span>
+      ${a.personZh ? `<span class="people-name">${esc(a.personZh)}</span>` : ""}
       <div class="t">${esc(clean(a.title))}${done ? ` <span class="read-dot" title="已读完">已读</span>` : ""}</div>
       ${tzh ? `<div class="t-zh">${esc(tzh)}</div>` : ""}
       <span class="meta">${esc(srcName(a))} · ${estMinutes(a)} 分钟 · 需学 ${needLbl} 词 · 低频词 ${(unknownRateOf(a) * 100).toFixed(0)}%</span>
@@ -1021,6 +1023,7 @@ function renderDiscover() {
     const items = sortArticles(ARTICLES.filter(a => a.cat === catFilter));
     const meta = CAT_META[catFilter] || { icon: "doc", bg: "var(--brand)" };
     return `<section class="cat-section">
+        ${catFilter === "人物" ? `<div class="people-intro"><span>THE PEOPLE ISSUE</span><h2>人物 · Icons</h2><p>银幕人生，镜头之美。读原刊正文，看成组摄影。</p><p>正文按原刊段落呈现，广告与导航块自动过滤。</p></div>` : ""}
       <div class="cat-head">
         <div class="left">
           <span class="ic" style="background:${meta.bg}">${svg(meta.icon, 15)}</span>
@@ -1322,7 +1325,7 @@ function renderMe() {
         中学基础：KyleBing/english-vocabulary 分级词库；其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。<br>
         真题词频：liut969/CET《英语四级真题高频词汇》（近 5 年 30 套真题统计）· exam-data/CETVocabulary（约 200 套试卷词频，CC BY-NC-SA 4.0）。<br>
         单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章。<br>
-        当前收录成长主题英文文章，版权归原媒体和作者所有，可一键打开原文核对。
+        当前收录成长主题英文文章与人物原刊全文。人物正文按公开页面抓取并过滤广告/导航，图片保留来源与摄影署名；原文变化时需重新复核。
       </div>
       <div style="height:6px"></div>
     </div>`;
@@ -1365,8 +1368,9 @@ function renderRead() {
       const cap = clean(p.cap || "");
       const capCn = clean(p.capCn || "");
       return `<figure class="para-img">
-        <img src="${esc(p.img)}" alt="" loading="lazy" />
+        <img src="${esc(p.img)}" alt="${esc(p.alt || "")}" loading="lazy" decoding="async" />
         ${cap ? `<figcaption aria-label="图片说明">${highlightEn(esc(cap))}${capCn ? `<span class="caption-cn">${esc(capCn)}</span>` : ""}</figcaption>` : ""}
+        ${p.credit ? `<figcaption class="photo-credit">${esc(p.credit)}</figcaption>` : ""}
       </figure>`;
     }
     /* 一段话 = 一个文本流：句子是内联 span，句间只有一个空格。
@@ -1388,7 +1392,7 @@ function renderRead() {
     <div class="read-top">
       <span class="icon-btn" data-act="go-back" role="button" tabindex="0" aria-label="返回上一页">${svg("back", 18)}</span>
       <div class="center">
-        <span>双语阅读</span>
+        <span>${a.cat === "人物" ? (a.readingMode === "full" ? "人物摄影 · 原刊全文" : "人物摄影 · 中英导读") : "双语阅读"}</span>
         <span class="src">${esc(clean(a.cat))} · ${esc(clean(a.source))}</span>
         <span class="read-hud" id="read-hud">0% · 剩余约 ${dur} 分钟</span>
       </div>
@@ -1405,7 +1409,9 @@ function renderRead() {
           <span class="dot"></span><span>${dur} 分钟 · ${tier.label}</span>
           <span class="dot"></span><span>需学 ${hitsLbl} 词 · 低频词 ${ratePct}%</span>
         </div>
-        <div class="read-cover${cover ? " has-img" : ""}" style="${cover ? `background-image:url('${esc(cover)}')` : `background:${esc(a.gradient)}`}">
+        ${a.cat === "人物" ? `<div class="people-reading-note"><b>${a.readingMode === "full" ? "原刊正文 · 广告已过滤" : "本站导读 · 原刊全文入口"}</b><p>${a.readingMode === "full" ? `正文按公开原刊页面抓取，保留原文段落与图片；广告、导航和推广块已排除。原刊：${esc(srcName(a))}。` : "以下为词阅编辑导读与摄影预览。完整人物访谈请到原刊阅读；本站进度记录的是导读与图片浏览位置。"}</p><a href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">查看 ${esc(srcName(a))} 原刊页面 ↗</a></div>` : ""}
+        <div class="read-cover${cover ? " has-img" : ""}${a.cat === "人物" ? " people-cover" : ""}" style="${cover && a.cat !== "人物" ? `background-image:url('${esc(cover)}')` : `background:${esc(a.gradient)}`}">
+          ${cover && a.cat === "人物" ? `<img src="${esc(cover)}" alt="${esc(a.person || a.title)}" decoding="async" />` : ""}
           <span class="mark">${esc(srcName(a))}</span>
           <div class="play" data-act="read-all">${svg("speaker", 18)}</div>
         </div>
@@ -1418,7 +1424,7 @@ function renderRead() {
         <div class="ico">${svg("check", 22)}</div>
         ${S.read.includes(a.id)
           ? `<h3>已读完 · 累计第 ${readTimes} 次</h3>`
-          : `<h3>读完了？打个卡</h3>`}
+          : `<h3>${a.readingMode === "guide" ? "导读与摄影看完了？" : "读完了？打个卡"}</h3>`}
         <div class="stat-chips">
           <span class="st-chip"><b>${dur}</b><i>分钟</i></span>
           <span class="st-chip"><b>${hitsLbl}</b><i>个需学词</i></span>
@@ -1444,7 +1450,7 @@ function renderRead() {
         ${S.read.includes(a.id)
           ? `<p>这篇加入了你的阅读历史，可以在「我的」里再次回顾。</p>`
           : `<p>标记为已读后会加入你的阅读日历，连续打卡有积分加成。</p>
-          <button class="btn" data-act="punch-in">${svg("check", 16)} 打卡 · 今日读毕</button>`}
+          <button class="btn" data-act="punch-in">${svg("check", 16)} ${a.readingMode === "guide" ? "标记导读已读" : "打卡 · 今日读毕"}</button>`}
         <div class="finish-nav">
           <button data-act="go-back">${svg("back", 15)} 返回${fromLabel}</button>
           ${nx ? `<button data-act="next-article">下一篇 ${svg("arrow", 14)}</button>`

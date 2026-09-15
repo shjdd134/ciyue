@@ -949,12 +949,12 @@ async function repairImages() {
 function writeExtra(all) {
   const body = `/* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 ${all.length} 篇，英文正文来自公开来源的真实原文，未做改写；
- * 中文为逐句机器翻译（DeepL 优先，有道 / MyMemory 兜底），仅作学习注释；封面图与正文图取自原图床，本地留档。
+ * 共 ${all.length} 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => a.source.split(" · ")[0]))].join(" / ")}
  *
- * 通道：RSS（FEEDS）+ 历史通道（--classics，Vogue 月度 sitemap 的经典图集）。
- * 历史通道的文章带 pin: true —— 经典专题不按 30 天过期，且不占栏目配额。
+ * 通道：成长 RSS + 人物 reviewed queue（tools/people.mjs）；旧明星历史通道已停用。
+ * pin: true 的专题不按 30 天过期，且不占栏目配额。
  */
 
 const ARTICLES_EXTRA = ${JSON.stringify(all, null, 2)};

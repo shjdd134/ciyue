@@ -57,6 +57,9 @@ const okIngest = run("ingest.mjs", [
 ]);
 if (!okIngest) rollback("抓取步骤失败");
 /* 明星已移除，足球 / AI 已停采；恢复须按用户新的选题要求重新配置。 */
+console.log('人物栏目：发现候选并发布已核对原刊正文与图片（每日新稿最多 2 篇）');
+if (!run('people.mjs', ['--discover'])) console.warn('人物候选发现未完成，保留现有内容');
+if (!run('people.mjs', ['--publish-reviewed', '--batch', batch.id])) rollback('人物发布步骤失败');
 
 /* ---------- 2. 质检新文章 ---------- */
 console.log("\n== 步骤 2/5：质检新文章 ==");
@@ -98,7 +101,7 @@ if (!run("publish.mjs", ["--batch", batch.id])) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-for (const t of ["content-scope-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "examples-test.mjs"]) {
+for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "examples-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 

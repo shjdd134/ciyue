@@ -135,5 +135,18 @@ ok('阅读记录页面包含已打开的文章', screenEl.innerHTML.includes('hi
 click({ act: 'go-back' });
 eq('阅读记录可返回来路', at().view, 'me');
 
+console.log('\n[7] 人物专题与原刊入口');
+click({tab:'discover'});
+click({cat:'人物'});
+ok('人物栏目显示专属介绍',screenEl.innerHTML.includes('人物 · Icons'));
+const peopleId=ctx('ARTICLES.find(a=>a.cat==="人物")?.id');
+ok('人物专题存在',!!peopleId);
+click({article:peopleId});
+ok('明确原文范围',screenEl.innerHTML.includes('原刊正文') || screenEl.innerHTML.includes('本站导读 · 原刊全文入口'));
+ok('原刊入口可见',screenEl.innerHTML.includes('查看 Vogue 原刊页面') || screenEl.innerHTML.includes('查看 AnOther Magazine 原刊页面') || screenEl.innerHTML.includes('完整原文 ↗'));
+ok('图片带摄影署名',screenEl.innerHTML.includes('photo-credit'));
+click({act:'go-back'});
+eq('返回人物分类',[at().view,at().cat],['discover','人物']);
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);
