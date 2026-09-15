@@ -1,10 +1,11 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 14 篇；成长类保留来源英文，中文为机器翻译学习注释。
- * 人物类 readingMode:full 保存公开原刊正文与图片；广告/导航过滤，来源与署名保留。
- * 每篇保留 url 外链可溯源。2026-09-15 清除明星、足球和 AI 文章，新增人物原刊全文。
+ * 共 11 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue
  *
- * 通道：成长类 RSS；人物 reviewed queue；明星历史通道已停用。
+ * 通道：成长 RSS + 人物 reviewed queue（tools/people.mjs）；旧明星历史通道已停用。
+ * pin: true 的专题不按 30 天过期，且不占栏目配额。
  */
 
 const ARTICLES_EXTRA = [
@@ -28,6 +29,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "As corny as this may sound, I’ve always wanted to become a force to be reckoned with.",
         "cn": "虽然这话听起来可能有些老套，但我一直都想成为一个不可小觑的力量。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "An absolute unit of an individual.",
+            "cn": "一个人的绝对单位。"
+          }
+        ]
       },
       {
         "en": "Not just having a nice and muscular body, but to be fully developed in every domain of life.",
@@ -54,6 +63,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Mind, body, spirit, relationships, money.",
             "cn": "心灵、身体、精神、人际关系、金钱。"
+          },
+          {
+            "en": "This desire has drastically influenced my life.",
+            "cn": "这种渴望极大地影响了我的生活。"
           }
         ]
       },
@@ -84,6 +97,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "After writing about my findings online for the past 5 years, I’ve noticed critical overlapping patterns that have begun to form a new philosophy for today’s world.",
         "cn": "在过去的5年里，我一直在网上分享自己的研究成果，并注意到一些关键的重叠模式，这些模式正逐渐形成一种适用于当今世界的新哲学。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "That’s where HUMAN 3.0 comes in.",
+            "cn": "而“HUMAN 3.0”正是为此而生。"
+          }
+        ]
       },
       {
         "sentences": [
@@ -137,7 +158,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If you like the H3.0 model, use it.",
-            "cn": "如果你喜欢H3.0型号，就用它吧。"
+            "cn": "如果你喜欢HUMAN 3.0型号，就用它吧。"
           }
         ]
       },
@@ -198,6 +219,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "On a more important note, very few touch on areas such as work and money, which is surprising, as those dominate most people’s minds and lives.",
             "cn": "更重要的是，很少有人涉及工作和金钱等话题，这令人惊讶，因为这些话题占据了大多数人的思想和生活。"
+          },
+          {
+            "en": "Today, we will lay the foundation of HUMAN 3.0.",
+            "cn": "今天，我们将为“HUMAN 3.0”奠定基础。"
           }
         ]
       },
@@ -241,7 +266,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Once you understand this model, you can begin to map where your current level of development lies within each quadrant (your Archetype) and what your overall development looks like (your Metatype).",
-            "cn": "一旦理解了这一模型，你就可以开始确定自己当前的发展水平在每个象限中的位置（即你的“原型”），以及你的整体发展状况（即你的“元类型”）。"
+            "cn": "一旦理解了这一模型，你就可以开始确定自己当前的发展层级在每个象限中的位置（即你的“原型”），以及你的整体发展状况（即你的“元类型”）。"
           },
           {
             "en": "Then, you can attempt to move further toward a 3.0+ Level Metatype – one who has maximized all areas of life.",
@@ -255,7 +280,39 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "The foundation of Human 3.0 is four quadrants that represent the four domains of life.",
-        "cn": "“人类3.0”的基石是四个象限，它们代表了生活的四个领域。"
+        "cn": "“HUMAN 3.0”的基石是四个象限，它们代表了生活的四个领域。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Mind (Personal Mental World) – Your thoughts, emotions, beliefs, and internal world.",
+            "cn": "心灵（个人精神世界）——你的思想、情感、信念以及内心世界。"
+          },
+          {
+            "en": "Body (Personal Physical World) – Your behavior and physical appearance.",
+            "cn": "身体（个人物理世界）——你的行为和外在形象。"
+          },
+          {
+            "en": "Includes nutrition, training, hobbies, habits, grooming, communication, apparel, etc.",
+            "cn": "包括营养、训练、爱好、习惯、仪容、沟通、着装等。"
+          },
+          {
+            "en": "Spirit (Collective Mental World) – Your relationship to your environment, community, culture, family, friends, colleagues, and reality.",
+            "cn": "精神（集体精神世界）——你与环境、社区、文化、家庭、朋友、同事以及现实的关系。"
+          },
+          {
+            "en": "How you derive meaning and connection.",
+            "cn": "你如何从中获得意义与联结。"
+          },
+          {
+            "en": "Vocation (Collective Physical World) – Your relationship to systems, structures, and social institutions like education, career, and the economy.",
+            "cn": "天职（集体物质世界）——你与教育、职业和经济等系统、结构及社会机构之间的关系。"
+          },
+          {
+            "en": "How you fit into and contribute to society.",
+            "cn": "你如何融入社会并为社会做出贡献。"
+          }
+        ]
       },
       {
         "en": "Adapted from Ken Wilber’s AQAL model, the quadrants represent the four fundamental perspectives, creating a generalized map of all knowledge and experience.",
@@ -331,7 +388,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "In your own personal evolution, you have the desire to reach your potential → you take a step into the unknown and are introduced to complexity → you acquire knowledge and skill to solve problems that prevent forward movement (or stagnate and let chaos consume you) → your identity expands and ascends to a new level → the process repeats unless you get stuck.",
-        "cn": "在你的个人成长历程中，你渴望发挥自己的潜能 → 你迈出一步走向未知，从而接触到复杂性 → 你掌握知识和技能，以解决阻碍前进的问题（否则就会停滞不前，任由混乱吞噬自己）→ 你的自我认同得以拓展，并提升到一个新的层次 → 除非你陷入僵局，否则这个过程会不断重复。"
+        "cn": "在你的个人成长历程中，你渴望发挥自己的潜能 → 你迈出一步走向未知，从而接触到复杂性 → 你掌握知识和技能，以解决阻碍前进的问题（否则就会停滞不前，任由混乱吞噬自己）→ 你的自我认同得以拓展，并提升到一个新的层级 → 除非你陷入僵局，否则这个过程会不断重复。"
       },
       {
         "sentences": [
@@ -347,17 +404,49 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "Within each quadrant, there are 3 macro levels of development that represent low consciousness (1.0), mid consciousness (2.0), and high consciousness (3.0).",
-        "cn": "在每个象限内，都有3个宏观发展层次，分别代表低意识（1.0）、中意识（2.0）和高意识（3.0）。"
+        "cn": "在每个象限内，都有3个宏观发展层级，分别代表低意识（1.0）、中意识（2.0）和高意识（3.0）。"
       },
       {
         "sentences": [
           {
             "en": "These levels are adapted from various models in developmental psychology, such as Spiral Dynamics and the 9 Stages of Ego Development, which are already well-researched overlays of many psychological theories.",
-            "cn": "这些层次借鉴了发展心理学中的多种模型，例如“螺旋动力学”和“自我发展的9个阶段”，这些模型是基于许多心理理论而构建的、已经经过充分研究的框架。"
+            "cn": "这些层级借鉴了发展心理学中的多种模型，例如“螺旋动力学”和“自我发展的9个阶段”，这些模型是基于许多心理理论而构建的、已经经过充分研究的框架。"
           },
           {
             "en": "In short, these have shown that our mind (our values, beliefs, and worldview that influence how we think and make decisions) evolves through predictable stages over time.",
             "cn": "简而言之，这些研究表明，我们的思维（即影响我们思考和决策方式的价值观、信念和世界观）会随着时间的推移，经历一系列可预测的阶段而发展。"
+          },
+          {
+            "en": "Human 1.0 (The Conformist) – Values established authority and traditions.",
+            "cn": "人类1.0（顺从者）——重视既定的权威和传统。"
+          },
+          {
+            "en": "Characterized by narrow-mindedness, black and white thinking, and believing there is only “one right way,” which often stems from childhood conditioning.",
+            "cn": "其特征表现为思想狭隘、非黑即白的思维方式，以及坚信只有“唯一正确的道路”，这些往往源于童年时期的心理定型。"
+          },
+          {
+            "en": "Human 2.0 (The Individualist) – Rejects the norm and pursues their own goals.",
+            "cn": "人类2.0（个人主义者）——拒绝遵循常规，追求自己的目标。"
+          },
+          {
+            "en": "Has the desire to acquire status and be perceived as valuable.",
+            "cn": "渴望获得地位并被视为有价值的人。"
+          },
+          {
+            "en": "They are less narrow-minded, but now believe that their way is the one right way.",
+            "cn": "他们虽然不再那么狭隘，但现在却认为自己的方式才是唯一正确的。"
+          },
+          {
+            "en": "Human 3.0 (The Synthesist) – Able to adopt multiple perspectives, connect various patterns of reality, and strategize new paths.",
+            "cn": "人类 3.0（综合者）——能够采用多种视角，连接各种现实模式，并规划新的路径。"
+          },
+          {
+            "en": "They understand that all perspectives hold truths that can be synthesized for more holistic and mutually beneficial results.",
+            "cn": "他们明白，所有视角都蕴含着真理，通过综合这些真理，可以获得更全面且互利共赢的结果。"
+          },
+          {
+            "en": "They can display what some may perceive as level 1 traits, such as narrow-mindedness, but it is an intentional choice to tune out noise.",
+            "cn": "他们可能会表现出某些人眼中属于第 1 层级的特征，例如思想狭隘，但这实则是为了屏蔽干扰而做出的有意识选择。"
           }
         ]
       },
@@ -369,7 +458,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "In Human 3.0, this happens when one reaches a new level in a specific quadrant.",
-            "cn": "在“人类3.0”中，当一个人在特定象限达到新层次时，就会发生这种情况。"
+            "cn": "在“HUMAN 3.0”中，当一个人在特定象限达到新层级时，就会发生这种情况。"
           },
           {
             "en": "Someone can become an Individualist in Mind, which may cause a shift in focus toward Spirit, where they are still at the Conformist stage and submit to authority.",
@@ -379,7 +468,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "The descriptions of each level take different shapes in each quadrant, like how a 3.0 Synthesist in the Vocation quadrant (Lower Right) can effectively leverage AI to pursue their life’s work, while a 1.0 Conformist believes AI is purely evil due to a lack of knowledge, skill, and experience.",
-        "cn": "每个层级的描述在各个象限中呈现出不同的形态，例如，位于“志业”象限（右下）的3.0级“综合者”能够有效利用人工智能来追求毕生事业，而1.0级“顺从者”则因缺乏相关知识、技能和经验，认为人工智能纯粹是邪恶的。"
+        "cn": "每个层级的描述在各个象限中呈现出不同的形态，例如，位于“天职”象限（右下）的3.0级“综合者”能够有效利用人工智能来追求毕生事业，而1.0级“顺从者”则因缺乏相关知识、技能和经验，认为人工智能纯粹是邪恶的。"
       },
       {
         "en": "In the Body quadrant (Upper Right), a low consciousness individual has no understanding of the nutrition they put in their body, leading to obesity and sloth, because they haven’t acquired the Traits to make better decisions, while a high consciousness individual understands how various nutrients interact with their body and can tweak their diet to help serve their goals.",
@@ -389,11 +478,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "These levels reflect your complexity of self in any given domain.",
-            "cn": "这些层次反映了你在特定领域中的自我复杂性。"
+            "cn": "这些层级反映了你在特定领域中的自我复杂性。"
           },
           {
             "en": "The entire Human 3.0 graph represents you.",
-            "cn": "整个“Human 3.0”图谱就是你本人的写照。"
+            "cn": "整个“HUMAN 3.0”图谱就是你本人的写照。"
           },
           {
             "en": "The more complex you are (by cultivating perspective and expanding consciousness), the more interesting life becomes, because you can choose the challenges you wish to take on.",
@@ -409,7 +498,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Note: Lower or higher levels are not “bad” or “good,” they are points along someone’s individual journey.",
-            "cn": "注：水平高低并非“好”或“坏”，而是个人成长历程中的不同阶段。"
+            "cn": "注：层级高低并非“好”或“坏”，而是个人成长历程中的不同阶段。"
           },
           {
             "en": "A person who is “high consciousness” is not better, just more developed, and that development has it’s obvious perks.",
@@ -421,7 +510,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "You do not leave any given level.",
-            "cn": "你不会离开任何一个关卡。"
+            "cn": "你不会离开任何一个层级。"
           },
           {
             "en": "You transcend and include the one before it.",
@@ -430,6 +519,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "You acquire a greater perspective that allows you to leverage the knowledge, skill, and tools that you acquired during the lower stages.",
             "cn": "你会获得更广阔的视野，从而能够充分利用在较低阶段所掌握的知识、技能和工具。"
+          },
+          {
+            "en": "We will discuss more examples in depth below.",
+            "cn": "下面我们将深入探讨更多实例。"
           }
         ]
       },
@@ -441,17 +534,33 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Within each level, there are 3 phases of development that one must go through to reach the next level.",
-            "cn": "在每个级别中，都有3个发展阶段，必须经历这些阶段才能晋升到下一个级别。"
+            "cn": "在每个层级中，都有3个发展阶段，必须经历这些阶段才能晋升到下一个层级。"
           },
           {
             "en": "Phases represent vertical development, moving up a level or regressing back down.",
-            "cn": "阶段代表垂直发展，即向上提升一个层次或向下退步。"
+            "cn": "阶段代表垂直发展，即向上提升一个层级或向下退步。"
           }
         ]
       },
       {
         "en": "There are 3 general patterns that we can observe when an individual goes through a profound change:",
         "cn": "当一个人经历深刻变化时，我们可以观察到以下3种普遍模式："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Dissonance (Phase 1) – Once an individual has “gotten their taste” of their current stage of life, and if they do not get numbed by narrow-mindedness and comfort, they will feel tired of where they are, but unsure of what kind of life comes next.",
+            "cn": "认知失调（第一阶段）——当一个人“尝到了”当前人生阶段的滋味后，如果他们没有被狭隘和安逸麻痹，就会对现状感到厌倦，却又对接下来会过上怎样的生活感到迷茫。"
+          },
+          {
+            "en": "Uncertainty (Phase 2) – If that individual becomes aware enough of their distaste, they take an uncertain step into the unknown and open themselves up to new knowledge and skill.",
+            "cn": "不确定性（第二阶段）——如果该个体充分意识到自己的厌恶感，就会迈出充满不确定性的一步，走向未知领域，并敞开心扉接纳新的知识和技能。"
+          },
+          {
+            "en": "Discovery (Phase 3) – Like navigating a map, they discover the education, tools, resources, and insights that allow them to reach the next level of development.",
+            "cn": "发现（第三阶段）——就像在地图上导航一样，他们会发现能够帮助自己达到下一发展层次的教育、工具、资源和见解。"
+          }
+        ]
       },
       {
         "en": "For terminology’s sake, we can map specific areas of one’s life by appending the phase they are in to the level they are in within a particular domain.",
@@ -465,7 +574,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The “2” represents the Individualist level, and “.1” represents that they have almost exhausted that stage and must take an uncertain step toward level 3 to discover what lies in their next chapter.",
-            "cn": "“2”代表“个人主义”阶段，而“.1”则表示他们已几乎走完该阶段，必须迈出充满不确定性的一步，向第3阶段迈进，以探索自己人生下一章的未知篇章。"
+            "cn": "“2”代表“个人主义”层级，而“.1”则表示他们已几乎走完该阶段，必须迈出充满不确定性的一步，向下一阶段迈进，以探索自己人生下一章的未知篇章。"
           },
           {
             "en": "For the Vocation quadrant, this could mean that they have pursued a new career, but realized they were climbing the wrong ladder, and need to make a shift toward discovering their calling.",
@@ -485,19 +594,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "This is self-deception and traps people in their current stage, preventing them from progressing further until they solve the remaining problems that exist at their current level.",
-            "cn": "这是一种自我欺骗，会将人们困在当前阶段，使他们无法更进一步，直到解决当前阶段尚存的问题为止。"
+            "cn": "这是一种自我欺骗，会将人们困在当前阶段，使他们无法更进一步，直到解决当前层级尚存的问题为止。"
           }
         ]
       },
       {
         "en": "This False Transformation can happen when one develops themself in one domain (like the domain of mind) and they assume they have advanced in another (like the domain of spirit or vocation).",
-        "cn": "当一个人在某个领域（如心灵领域）进行自我发展时，却误以为自己在另一个领域（如精神领域或志业领域）也取得了进步，就会出现这种“虚假转变”。"
+        "cn": "当一个人在某个领域（如心灵领域）进行自我发展时，却误以为自己在另一个领域（如精神领域或天职领域）也取得了进步，就会出现这种“虚假转变”。"
       },
       {
         "sentences": [
           {
             "en": "Individuals can also regress to a lower level during a temporary period of stress or when a problem outside their current level comes into their life.",
-            "cn": "在暂时面临压力时，或者当生活中出现超出其当前水平的问题时，个人也可能退回到较低的水平。"
+            "cn": "在暂时面临压力时，或者当生活中出现超出其当前层级的问题时，个人也可能退回到较低的层级。"
           },
           {
             "en": "This explains why you may look back to a time where “things felt better” and you yearn to bring that sensation back to the present.",
@@ -573,11 +682,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If you attempt to jump to a new level of development without the skill and experience to do so, you will become anxious and fail.",
-            "cn": "如果你在缺乏相应技能和经验的情况下，试图跃升到一个新的发展阶段，你就会感到焦虑，最终以失败告终。"
+            "cn": "如果你在缺乏相应技能和经验的情况下，试图跃升到一个新的层级，你就会感到焦虑，最终以失败告终。"
           },
           {
             "en": "If you do not attempt to move up a level at all, you will grow bored and resort to comfort and distraction.",
-            "cn": "如果你完全不尝试提升一个层次，就会感到厌倦，进而寻求安逸和消遣。"
+            "cn": "如果你完全不尝试提升一个层级，就会感到厌倦，进而寻求安逸和消遣。"
           }
         ]
       },
@@ -603,7 +712,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "When you reach the Dissonance Phase of any Level, you gain the ability to leverage a “Channel.”",
-        "cn": "当你达到任何等级的“不和谐阶段”时，你将获得利用“通道”的能力。"
+        "cn": "当你达到任何层级的“不和谐阶段”时，你将获得利用“通道”的能力。"
       },
       {
         "sentences": [
@@ -629,7 +738,35 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Usually, a person becomes “obsessed” with learning or building, and that results in rapid experience gain moving them quickly toward their next Level of development within a specific quadrant.",
-            "cn": "通常，一个人会“痴迷”于学习或创造，从而迅速积累经验，快速迈向特定象限内的下一个发展阶段。"
+            "cn": "通常，一个人会“痴迷”于学习或创造，从而迅速积累经验，快速迈向特定象限内的下一个层级。"
+          },
+          {
+            "en": "Mind – Becoming immersed in a deep meditative state (skill) or following a line of thought that keeps you up at night, resulting in a plethora of ideas that light up your brain (knowledge).",
+            "cn": "心智——沉浸于深度冥想状态（技能），或追随某条令你彻夜难眠的思路，从而产生大量点亮大脑的灵感（知识）。"
+          },
+          {
+            "en": "Body – You find a new diet, supplement, or methodology and binge watch all possible content you can about it (knowledge).",
+            "cn": "身体——你发现了一种新的饮食方案、营养补充剂或训练方法，并疯狂观看所有相关内容（知识）。"
+          },
+          {
+            "en": "You become obsessed with running or lifting for a 3 month period, making more gains than you ever have before (skill).",
+            "cn": "你会在3个月内全心投入跑步或力量训练，取得前所未有的进步（技能）。"
+          },
+          {
+            "en": "Finding a philosophy that “clicks” with your current phase of life.",
+            "cn": "找到一种与你当前人生阶段“契合”的生活哲学。"
+          },
+          {
+            "en": "Vocation – Reaching a point of maximum clarity that quickly leads into an exciting career change, product launch, or creative stint (skill).",
+            "cn": "天职——达到一种极致的清晰状态，这会迅速促使你做出令人兴奋的职业转变、推出新产品，或开启一段创作历程（技能）。"
+          },
+          {
+            "en": "You find the perfect opportunity and can’t stop learning the required skills to start a business (knowledge).",
+            "cn": "你发现了绝佳的机会，却无法停止学习创业所需的技能（知识）。"
+          },
+          {
+            "en": "The process for entering a Channel is as follows.",
+            "cn": "进入一个“通道”的过程如下。"
           }
         ]
       },
@@ -637,7 +774,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "First, you must reach the Dissonance phase after you fully acclimate to the Level you are in.",
-            "cn": "首先，你必须在完全适应当前等级后，才能进入“不和谐”阶段。"
+            "cn": "首先，你必须在完全适应当前层级后，才能进入“不和谐”阶段。"
           },
           {
             "en": "Once you grow tired of where you are, and if you don’t become numb to your problems, you use your distaste as fuel to push into the unknown.",
@@ -729,7 +866,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "For most people, especially in Level 1, they are death sentences.",
-            "cn": "对大多数人来说，尤其是第一级，这些无异于死刑判决。"
+            "cn": "对大多数人来说，尤其是第 1 层级，这些无异于死刑判决。"
           }
         ]
       },
@@ -751,7 +888,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "In future letters and videos, we can use the Human 3.0 Graph to understand people (like Jordan Peterson, Andrew Tate, or Alan Watts), or to overcome problems in your life, like not being able to make money or find a partner.",
-        "cn": "在今后的信件和视频中，我们可以利用“人类3.0图谱”来理解某些人（比如乔丹·彼得森、安德鲁·泰特或艾伦·瓦茨），或者解决你生活中的问题，比如无法赚钱或找不到伴侣。"
+        "cn": "在今后的信件和视频中，我们可以利用“HUMAN 3.0图谱”来理解某些人（比如乔丹·彼得森、安德鲁·泰特或艾伦·瓦茨），或者解决你生活中的问题，比如无法赚钱或找不到伴侣。"
       },
       {
         "en": "If you have a specific request for a problem you’re facing or a person you want to understand, reply to this letter.",
@@ -760,6 +897,18 @@ const ARTICLES_EXTRA = [
       {
         "en": "In this model, I’ve included what are called Archetypes and Metatypes.",
         "cn": "在这个模型中，我纳入了所谓的“原型”和“元类型”。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Archetypes – patterns of people that show up in specific quadrants and levels within those quadrants.",
+            "cn": "原型——出现在特定象限及其内部各层级中的人类行为模式。"
+          },
+          {
+            "en": "Metatypes – the synthesis of a single person’s four archetypes within each quadrant.",
+            "cn": "元类型——单个个体在每个象限内四种原型的综合体现。"
+          }
+        ]
       },
       {
         "en": "Think of Metatypes as a sort of personality test, but for one’s self-development.",
@@ -805,7 +954,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Like how an Incel typically has higher estrogen levels from diet and environment, and how social structures in the Vocation quadrant have led to processed food and microplastics, which further exacerbate that problem on a mass scale.",
-            "cn": "就像“Incel”群体通常因饮食和环境因素导致雌激素水平较高一样，而“职业”象限中的社会结构又催生了加工食品和微塑料，这进一步在更大范围内加剧了这一问题。"
+            "cn": "就像“Incel”群体通常因饮食和环境因素导致雌激素层级较高一样，而“天职”象限中的社会结构又催生了加工食品和微塑料，这进一步在更大范围内加剧了这一问题。"
           }
         ]
       },
@@ -813,7 +962,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Job → Career → Calling is one of many progressions in the Vocation quadrant.",
-            "cn": "“工作 → 职业 → 使命”是“职业”象限中的众多发展路径之一。"
+            "cn": "“工作 → 职业 → 使命”是“天职”象限中的众多发展路径之一。"
           },
           {
             "en": "Relating to work, this can start with anything nowadays.",
@@ -825,7 +974,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The key insight about the progression through each level is that they start with low consciousness (Conformist) and have the ability to progress to high consciousness (Synthesist).",
-            "cn": "关于各层级发展进程的关键见解在于：它们都始于低层次的意识（顺从者），并具备向高层次意识（综合者）发展的能力。"
+            "cn": "关于各层级发展进程的关键见解在于：它们都始于低层级的意识（顺从者），并具备向高层级意识（综合者）发展的能力。"
           }
         ]
       },
@@ -837,7 +986,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Then they rediscover a new perspective on God and loop back around to the truths that were contained in Level 1.",
-            "cn": "随后，他们重新发现了关于上帝的新视角，并回到了第一级所包含的真理之上。"
+            "cn": "随后，他们重新发现了关于上帝的新视角，并回到了第 1 层级所包含的真理之上。"
           }
         ]
       },
@@ -847,11 +996,19 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "One can elevate a Level 1 primitive state to Level 3 status, and some often reduce genuine Level 3 development to being primitive thinking.",
-        "cn": "人们可以将第1级的原始状态提升至第3级，而有些人却常常将真正的第3级发展贬低为原始思维。"
+        "cn": "人们可以将第 1 层级的原始状态提升至第 3 层级，而有些人却常常将真正的第3级发展贬低为原始思维。"
       },
       {
         "en": "In other words, a “bible thumper” with lack of knowledge and experience beyond their childhood conditioning finds it difficult to take a mystic seriously, when the mystic often holds the same truths, but from a more comprehensive perspective.",
         "cn": "换句话说，一个仅凭童年时期的灌输就自诩为“圣经狂热分子”、却缺乏知识和经验的人，往往难以认真对待一位神秘主义者——尽管这位神秘主义者所秉持的真理与前者并无二致，只是视角更为全面。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "If it helps, think of the IQ bell curve meme.",
+            "cn": "如果这样想能帮助理解，不妨联想到智商正态分布曲线（IQ bell curve）这个网络梗。"
+          }
+        ]
       },
       {
         "sentences": [
@@ -878,6 +1035,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "(You can see this in the opaque white shape on the map.)",
             "cn": "（您可以在地图上看到那个不透明的白色形状。）"
+          },
+          {
+            "en": "This specific example of a person would be at Human 2.0.",
+            "cn": "此具体示例中的人处于“人类 2.0”阶段。"
+          },
+          {
+            "en": "For every point in Level 1, they receive 1 point.",
+            "cn": "在第1级中的每个点，该人将获得1分。"
+          },
+          {
+            "en": "For every point in Level 2, they receive 2.",
+            "cn": "在第2级中的每个点，他们将获得2分。"
+          },
+          {
+            "en": "For every point in Level 3, they receive 3.",
+            "cn": "在第3级中的每个点，他们将获得3分。"
           }
         ]
       },
@@ -888,6 +1061,26 @@ const ARTICLES_EXTRA = [
       {
         "en": "In this example, we can create a description for their development within each quadrant as follows:",
         "cn": "在此示例中，我们可以针对每个象限内的开发情况编写如下描述："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Mind – No longer lives by a script and is close to construct level awareness.",
+            "cn": "心智——不再按既定剧本行事，已接近建构层级的觉知。"
+          },
+          {
+            "en": "Body – Ungroomed and has poor habits, but occasionally exudes confidence.",
+            "cn": "身体——仪容不整且习惯欠佳，但偶尔会流露出自信。"
+          },
+          {
+            "en": "Spirit – Believes in the literal interpretation of God, but is tolerant of atheist friends and peers.",
+            "cn": "精神——相信对上帝的字面解释，但能包容无神论的朋友和同龄人。"
+          },
+          {
+            "en": "Vocation – Has a valuable set of education and skills, but is focused on a safe and fulfilling career.",
+            "cn": "天职——拥有宝贵的教育背景和技能，但专注于一份安全且充实的职业。"
+          }
+        ]
       },
       {
         "en": "If we were to map more than just 3 Archetypes per quadrant, this would become a lot more complex and comprehensive, but we will save that for future letters.",
@@ -919,7 +1112,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "This is only the foundation of the Human 3.0 model, so we have a lot more nuance to unpack.",
-        "cn": "这仅仅是“人类3.0”模型的基础，因此我们还有许多细节需要深入探讨。"
+        "cn": "这仅仅是“HUMAN 3.0”模型的基础，因此我们还有许多细节需要深入探讨。"
       },
       {
         "en": "Future-proof yourself with 2-4 premium guides, prompts, and strategies per month.",
@@ -997,6 +1190,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Dumb people often run laps around smart people because they take the stupid risks that shift the trajectory of their lives.",
             "cn": "愚蠢的人往往能把聪明人甩在身后，因为他们会冒那些愚蠢的风险，从而改变自己的人生轨迹。"
+          },
+          {
+            "en": "Genius-level thinking isn’t about book smarts.",
+            "cn": "天才级别的思维并非源于书本上的知识。"
           }
         ]
       },
@@ -1009,6 +1206,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Their mind can’t sift through the overwhelm, anxiety, and stress so it continues to beat them down until they give up completely.",
             "cn": "他们的头脑无法梳理这些压倒性的情绪、焦虑和压力，于是这些情绪便不断将他们压垮，直到他们彻底放弃。"
+          },
+          {
+            "en": "The good news is, thinking is a skill, and skills can be practiced.",
+            "cn": "好消息是，思考是一种技能，而技能是可以通过练习掌握的。"
           }
         ]
       },
@@ -1039,6 +1240,26 @@ const ARTICLES_EXTRA = [
       {
         "en": "This may sound obvious, but you have to think to solve a problem or achieve a goal.",
         "cn": "这听起来可能显而易见，但要想解决问题或实现目标，就必须动脑思考。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You need to identify a problem.",
+            "cn": "你需要先找出问题所在。"
+          },
+          {
+            "en": "You need to understand it deeply.",
+            "cn": "你需要深入理解它。"
+          },
+          {
+            "en": "You need to hypothesize a reasonable goal.",
+            "cn": "你需要设定一个合理的目标。"
+          },
+          {
+            "en": "You need to create and execute a strategy to achieve the goal.",
+            "cn": "你需要制定并执行一项战略来实现目标。"
+          }
+        ]
       },
       {
         "sentences": [
@@ -1085,8 +1306,36 @@ const ARTICLES_EXTRA = [
         "cn": "尽管威尔伯曾表示他的模型并非万能之选，但我可以肯定地说，该模型正是那些“隐藏的瑰宝”之一——大多数人之所以不重视它，仅仅是因为他们无法跳出自身的世界观框架。"
       },
       {
+        "sentences": [
+          {
+            "en": "AQAL stands for All Quadrants, All Levels.",
+            "cn": "AQAL代表“所有象限，所有层次”。"
+          }
+        ]
+      },
+      {
         "en": "Wilber found, through decades of study and 3 year sabbaticals, that all knowledge and experience mapped into four interconnected quadrants:",
         "cn": "威尔伯通过数十年的研究和3年的学术休假发现，所有的知识和经验都可以划分为四个相互关联的象限："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Individual Interior (Upper Left): Your personal thoughts, emotions, beliefs, and consciousness",
+            "cn": "个体内在（左上）：你的个人思想、情感、信念和意识"
+          },
+          {
+            "en": "Individual Exterior (Upper Right): Your behaviors, actions, and physical brain states",
+            "cn": "个体外部（右上）：你的行为、举动和大脑的生理状态"
+          },
+          {
+            "en": "Collective Interior (Lower Left): Shared culture, values, and group consciousness",
+            "cn": "集体内在（左下）：共享的文化、价值观和群体意识"
+          },
+          {
+            "en": "Collective Exterior (Lower Right): Systems, structures, and social institutions",
+            "cn": "集体外部（右下）：体系、结构和社会制度"
+          }
+        ]
       },
       {
         "en": "For becoming a genius-level thinker, the utility of this model is that when you are facing any form of challenge, you can systematically examine it from all four quadrants or perspectives.",
@@ -1125,6 +1374,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Certain problems are best solved from certain perspectives, and if you can’t access the right one, you will experience unnecessary pain in life.",
             "cn": "某些问题最好从特定的角度来解决，如果你无法找到正确的角度，生活就会变得多此一举地痛苦。"
+          },
+          {
+            "en": "To make this clear, let’s run through a difficult example.",
+            "cn": "为了说明这一点，让我们通过一个棘手的例子来分析。"
           }
         ]
       },
@@ -1145,6 +1398,14 @@ const ARTICLES_EXTRA = [
         "cn": "如果你听说过日本的“IKIGAI”概念，不妨把AQAL模型想象成它的加强版，尤其是在这个语境下。"
       },
       {
+        "sentences": [
+          {
+            "en": "Now, thinking is a conversation with yourself.",
+            "cn": "现在，思考就是与自己的一场对话。"
+          }
+        ]
+      },
+      {
         "en": "Idiotic thinking is a conversation that turns into an argument and ends fast because you latch onto one answer.",
         "cn": "愚蠢的思维方式是指：一场对话演变成争论，却很快结束，因为你死守着一个答案不放。"
       },
@@ -1161,12 +1422,92 @@ const ARTICLES_EXTRA = [
         "cn": "以下是我想出的几个例子（请注意，这需要时间。"
       },
       {
+        "sentences": [
+          {
+            "en": "It may be wise to pull out a pen and paper.",
+            "cn": "最好还是准备好纸和笔。"
+          },
+          {
+            "en": "What are my core values and what truly matters to me?",
+            "cn": "我的核心价值观是什么？什么对我来说真正重要？"
+          },
+          {
+            "en": "What activities make me feel most alive and energized?",
+            "cn": "哪些活动能让我感到最充满活力和干劲？"
+          },
+          {
+            "en": "What fears or limiting beliefs are holding me back?",
+            "cn": "是什么恐惧或限制性信念在阻碍我前进？"
+          },
+          {
+            "en": "What does my intuition tell me when I quiet the mental noise?",
+            "cn": "当我平息内心的杂念时，我的直觉在告诉我什么？"
+          },
+          {
+            "en": "What are my natural talents and developed skills?",
+            "cn": "我的天赋和已培养的技能有哪些？"
+          },
+          {
+            "en": "What does my behavior reveal about my true preferences?",
+            "cn": "我的行为揭示了我真正的偏好是什么？"
+          },
+          {
+            "en": "What were some of my favorite things as a child?",
+            "cn": "我小时候最喜欢些什么？"
+          },
+          {
+            "en": "What concrete steps am I taking and what life is that leading to?",
+            "cn": "我正在采取哪些具体行动？这些行动将引领我走向怎样的人生？"
+          },
+          {
+            "en": "What do my parents or religious leaders expect of me in terms of their idea of success?",
+            "cn": "根据他们对成功的看法，我的父母或宗教领袖对我有什么期望？"
+          },
+          {
+            "en": "How do my friends influence my career aspirations and life path?",
+            "cn": "我的朋友们如何影响我的职业抱负和人生道路？"
+          },
+          {
+            "en": "How does the language I speak and digital culture I am exposed to influence my opportunities?",
+            "cn": "我所说的语言和接触到的数字文化如何影响我的机会？"
+          },
+          {
+            "en": "What shared values am I drawn to?",
+            "cn": "我被哪些共同价值观所吸引？"
+          },
+          {
+            "en": "What are the current opportunities for jobs, careers, or entrepreneurship in today’s world?",
+            "cn": "当今世界在就业、职业发展或创业方面有哪些机遇？"
+          },
+          {
+            "en": "How does the education system or internet shape my path?",
+            "cn": "教育体系或互联网如何塑造我的发展道路？"
+          },
+          {
+            "en": "What technological or social trends are creating new opportunities?",
+            "cn": "哪些技术或社会趋势正在创造新的机遇？"
+          },
+          {
+            "en": "What systemic barriers or advantages do I face?",
+            "cn": "我面临哪些制度性障碍或优势？"
+          }
+        ]
+      },
+      {
         "en": "By using this model, you turn the question of “what do I do with my life?” into a comprehensive map that reveals how your authentic self, actual capabilities, personal calling, economic realities, and cultural contexts all interplay.",
         "cn": "通过运用这一模型，你可以将“我该如何规划自己的人生？”这一问题转化为一张全面的地图，展现出你的真实自我、实际能力、个人使命、经济现实以及文化背景之间的相互作用。"
       },
       {
         "en": "Rather than ending up with the answer of “I don’t know” or “I’m not interested in anything,” you may end up with a few realizations.",
         "cn": "与其最终得到“我不知道”或“我对什么都不感兴趣”这样的答案，你可能会从中获得一些启发。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You might discover you value creativity over financial security.",
+            "cn": "你可能会发现，比起经济保障，你更看重创造力。"
+          }
+        ]
       },
       {
         "en": "You might discover that the fear of disappointing your parents is hindering your authentic desires.",
@@ -1185,8 +1526,24 @@ const ARTICLES_EXTRA = [
         "cn": "这些是发人深省、足以改变人生的领悟，而这些领悟你可能无法靠自己去领悟。"
       },
       {
+        "sentences": [
+          {
+            "en": "And while that’s powerful, that’s only the first half of this model.",
+            "cn": "虽然这非常有力量，但这仅仅是该模型的上半部分。"
+          }
+        ]
+      },
+      {
         "en": "You could say that what humans selected for are genetics selected for memetics—our genetics selected for radical neuroplasticity and the capacity to have much more significant software upgrades that could change our capacity without needing hardware upgrades.",
         "cn": "可以说，人类所选择的，其实是基因在模因学层面上所选择的——我们的基因所选择的，是极强的神经可塑性，以及进行更重大的“软件升级”的能力，这种升级无需“硬件升级”就能改变我们的能力。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "When I first came across this, I was blown away.",
+            "cn": "当我第一次看到这一点时，我深受震撼。"
+          }
+        ]
       },
       {
         "en": "It made so much sense that it felt like my mind had expanded into a new dimension of thinking.",
@@ -1289,6 +1646,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This makes it difficult for them to think outside of their stage, and even more difficult to solve personal and systemic problems that lead to beneficial progress for humanity.",
             "cn": "这使得他们难以跳出自己的局限去思考，更难以解决那些能够推动人类取得有益进步的个人和系统性问题。"
+          },
+          {
+            "en": "This is why smart people are incredibly dumb.",
+            "cn": "这就是为什么聪明人有时会显得极其愚蠢。"
           }
         ]
       },
@@ -1335,6 +1696,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "When it comes to figuring out what you want in life, accepting that you are in a modern stage of development can allow you to zoom out a layer, notice your shortcomings, and account for them when acting toward a better life.",
         "cn": "在思考自己的人生目标时，承认自己正处于现代发展阶段，能让你从更宏观的角度审视问题，察觉自身的不足，并在为追求更美好生活而行动时加以考量。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "We could continue talking about it for hours upon hours.",
+            "cn": "关于这个话题，我们可以聊上好几个小时。"
+          }
+        ]
       },
       {
         "en": "My challenge to you is to pursue this knowledge in your own time, by your own curiosity, because it will only enhance your ability to take control of your life.",
@@ -1394,6 +1763,14 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Earlier this week, I wrote HUMAN 3.0 – A Map To Reach The 1%.",
+            "cn": "本周早些时候，我撰写了《HUMAN 3.0——通往1%的路线图》。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "I’ve been baffled by the responses everyone has had to it.",
             "cn": "大家对此的反应让我感到困惑。"
           },
@@ -1411,7 +1788,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I wanted to create a knowledge base for H3.0 that I could use to explore various topics and problems with AI.",
-            "cn": "我想为 H3.0 创建一个知识库，以便通过它来探索人工智能领域的各种主题和问题。"
+            "cn": "我想为 HUMAN 3.0 创建一个知识库，以便通过它来探索人工智能领域的各种主题和问题。"
           },
           {
             "en": "30 hours of obsession later, I realized a vastly underutilized use case for AI, which is managing large swaths of knowledge that you already have.",
@@ -1425,15 +1802,39 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "The foundational article about HUMAN 3.0 was my own mind’s synthesis of various models I’ve studied previously, but I wanted to see all the connections.",
-        "cn": "关于“人类3.0”的那篇奠基性文章，是我对之前研究过的各种模型进行综合整理后的成果，但我希望能看到其中的所有关联。"
+        "cn": "关于“HUMAN 3.0”的那篇奠基性文章，是我对之前研究过的各种模型进行综合整理后的成果，但我希望能看到其中的所有关联。"
       },
       {
         "en": "I knew there was much, much more to the model than what could fit in a nice little article.",
         "cn": "我知道，这个模型所包含的内容远比一篇简短的文章所能涵盖的要多得多。"
       },
       {
+        "sentences": [
+          {
+            "en": "My own personal principles that I’ve written about extensively in various books and articles, including but not limited to the digital economy",
+            "cn": "我个人秉持的原则——我在各类书籍和文章中对此有大量论述，内容不仅限于数字经济"
+          },
+          {
+            "en": "Daniel Schmachtenberger’s “Metacrisis” context to explain the civilizational importance of reaching your potential",
+            "cn": "丹尼尔·施马赫滕贝格（Daniel Schmachtenberger）提出的“元危机”（Metacrisis）框架，用以阐释发挥个人潜能对文明的重要性"
+          },
+          {
+            "en": "Mihaly Csikszentmihalyi’s flow psychology and synthesis of his mentors teachings (Jung, Maslow, etc)",
+            "cn": "米哈里·契克森米哈赖的“心流”心理学及其导师（荣格、马斯洛等）思想的综合"
+          },
+          {
+            "en": "Steven Kotler’s expansion on flow psychology into neuroscience and human performance",
+            "cn": "史蒂文·科特勒将“心流心理学”拓展至神经科学和人类表现领域的论述"
+          },
+          {
+            "en": "The connections to various developmental psychology models throughout the entirety of H3.0",
+            "cn": "HUMAN 3.0全书中与各种发展心理学模型的关联"
+          }
+        ]
+      },
+      {
         "en": "Now it feels like HUMAN 3.0 is coherent, meaningful, and built on top of theories that I believe are at the leading edge of mind, body, spirit, and vocation.",
-        "cn": "现在我觉得“人类3.0”这一理念既连贯又富有深意，而且是建立在我认为处于身心、精神与职业领域最前沿的理论基础之上的。"
+        "cn": "现在我觉得“HUMAN 3.0”这一理念既连贯又富有深意，而且是建立在我认为处于身心、精神与天职领域最前沿的理论基础之上的。"
       },
       {
         "en": "I am not good at writing skimmable and condensed knowledge (I often can’t shut up about these things, I’ll save that for a book on this), so most of this is with the help of AI, although I have read over it at least 15 times and refined it with my own discernment.",
@@ -1463,7 +1864,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Feed it people you want to understand.",
-            "cn": "把它给那些你想了解的人看。"
+            "cn": "把你想了解的人的资料喂给它。"
           },
           {
             "en": "Feed it your current sitaution and watch a path toward your potential reveal itself.",
@@ -1484,8 +1885,56 @@ const ARTICLES_EXTRA = [
         "cn": "“四大象限”——必须全面发展的生活维度/视角："
       },
       {
+        "sentences": [
+          {
+            "en": "Mind (Interior Individual): How you make sense of reality – thinking, emotions, beliefs, awareness",
+            "cn": "心灵（内在个体）：你如何理解现实——思维、情感、信念、觉知"
+          },
+          {
+            "en": "Body (Exterior Individual): How you embody potential – health, energy, movement, presence",
+            "cn": "身体（外在个体）：如何将潜能付诸实践——健康、能量、运动、存在感"
+          },
+          {
+            "en": "Spirit (Interior Collective): How you connect and create meaning – relationships, purpose, community, transcendence",
+            "cn": "精神（内在集体）：你如何建立联系并创造意义——人际关系、人生目标、社群、超越"
+          },
+          {
+            "en": "Vocation (Exterior Collective): How you create value and impact – career, money, systems, legacy",
+            "cn": "天职（外部集体）：你如何创造价值与影响力——职业、金钱、体系、遗产"
+          }
+        ]
+      },
+      {
         "en": "The Three Levels – Stages of consciousness development within each quadrant:",
-        "cn": "三个层次——每个象限内意识发展的阶段："
+        "cn": "三个层级——每个象限内意识发展的阶段："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Level 1.0 – Conformist: External authority, rule-based thinking, security through tradition, assigned perspective",
+            "cn": "1.0 级——顺从者：外部权威、基于规则的思维、通过传统寻求安全感、被赋予的视角"
+          },
+          {
+            "en": "Level 2.0 – Individualist: Internal authority, rational thinking, security through achievement, personal perspective",
+            "cn": "2.0 级——个人主义者：内在权威、理性思维、通过成就获得安全感、个人视角"
+          },
+          {
+            "en": "Level 3.0 – Synthesist: Contextual wisdom, paradoxical thinking, security through acceptance, multi-perspectival",
+            "cn": "第3.0层级——综合者：情境智慧、悖论思维、通过接纳获得安全感、多视角思考"
+          },
+          {
+            "en": "Phase X.1 – Dissonance: Old ways stop working, restlessness emerges, feeling lost and like you don’t belong in current level",
+            "cn": "X.1阶段——不和谐：旧有方式不再奏效，焦躁不安油然而生，感到迷失，仿佛不属于当前层次"
+          },
+          {
+            "en": "Phase X.2 – Uncertainty: Identity dissolves, maximum growth potential and risk, must step into the unknown or experience more pain",
+            "cn": "X.2阶段——不确定性：身份认同消解，成长潜力与风险达到顶峰，必须迈向未知，否则将承受更多痛苦"
+          },
+          {
+            "en": "Phase X.3 – Discovery: New patterns stabilize at higher complexity, new identity starts to solidify, peak clarity and enjoyment",
+            "cn": "X.3 阶段——发现：新的模式在更高的复杂性层面趋于稳定，新的身份开始巩固，清晰度与愉悦感达到巅峰"
+          }
+        ]
       },
       {
         "en": "Channels: Periods of intense, obsessive development in specific quadrants – natural acceleration periods that can compress years of growth into months.",
@@ -1508,12 +1957,44 @@ const ARTICLES_EXTRA = [
         "cn": "元类型：不同的象限组合如何形成可识别的类型（高管、战士僧侣、教授、企业家等）"
       },
       {
+        "sentences": [
+          {
+            "en": "Life is problem-solving – Each solution reveals new, more interesting problems",
+            "cn": "生活就是解决问题——每一个解决方案都会揭示出新的、更有趣的问题"
+          },
+          {
+            "en": "Integration over balance – Don’t force balance; solve problems systematically until integration emerges",
+            "cn": "整合重于平衡——不要强求平衡；有条不紊地解决问题，直到整合自然形成"
+          },
+          {
+            "en": "Development is fractal – Same patterns appear at individual, relationship, organizational, and societal scales",
+            "cn": "发展具有分形特性——相同的模式会出现在个体、人际关系、组织和社会的各个层面Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Transcend and include – Higher levels don’t abandon lower capacities but integrate them",
+            "cn": "超越与包容——更高的层级不会抛弃较低的能力，而是将其整合其中"
+          },
+          {
+            "en": "You can’t skip levels – Each stage provides necessary foundation for the next",
+            "cn": "你无法跳过任何层级——每个阶段都为下一阶段奠定了必要的基础"
+          }
+        ]
+      },
+      {
         "en": "The model’s power lies in its practicality: identify your core problem, determine which quadrant is the constraint, apply minimum effective development, and let solutions cascade naturally.",
         "cn": "该模型的优势在于其实用性：找出核心问题，确定哪个象限是制约因素，采取最低限度的有效开发，并让解决方案自然地层层展开。"
       },
       {
         "en": "The goal is designing the right lifestyle – creating a life where work becomes play, health is default, relationships nourish, and meaning is abundant.",
         "cn": "目标是设计出理想的生活方式——创造一种生活，让工作变得像玩耍一样轻松，健康成为常态，人际关系充满滋养，且充满意义。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Why This Matters: The Metacrisis",
+            "cn": "为何这至关重要：元危机"
+          }
+        ]
       },
       {
         "sentences": [
@@ -1547,7 +2028,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Flow Science Validation: Mihaly Csikszentmihalyi’s research on psychic entropy provides a psychological parallel – without ordering consciousness through engaged action, chaos naturally increases.",
-            "cn": "流科学验证：米哈里·契克森米哈赖关于“心理熵”的研究提供了一个心理学上的类比——如果不通过积极行动来整饬意识，混乱就会自然加剧。"
+            "cn": "心流科学的验证：米哈里·契克森米哈赖关于“心理熵”的研究提供了一个心理学上的类比——如果不通过积极行动来整饬意识，混乱就会自然加剧。"
           },
           {
             "en": "The metacrisis represents civilizational psychic entropy, where our collective attention has become disordered, creating systemic dysfunction.",
@@ -1568,6 +2049,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "When humans follow assignments rather than creating their own path, they become tools that can be replaced, substrate that can be consumed, and rivalrous actors competing for programmed goals.",
             "cn": "当人类只是执行任务，而非开辟自己的道路时，他们便沦为可以被替换的工具、可以被消耗的资源，以及为预设目标而相互竞争的参与者。"
+          },
+          {
+            "en": "The Three Core Generator Functions",
+            "cn": "三大核心生成功能"
           }
         ]
       },
@@ -1580,6 +2065,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "In rivalrous systems, actors compete for scarce resources or positions, creating destructive races.",
             "cn": "在竞争性系统中，参与者为争夺稀缺资源或职位而相互竞争，从而引发破坏性的竞争。"
+          },
+          {
+            "en": "Arms races: Nations spending trillions on weapons instead of healthcare because others might attack",
+            "cn": "军备竞赛：各国因担心遭受攻击，将数万亿美元投入武器采购而非医疗保健"
+          },
+          {
+            "en": "Corporate competition: Companies externalizing costs (pollution, worker exploitation) to compete on price",
+            "cn": "企业竞争：企业通过将成本（污染、剥削劳工）转嫁给外部来参与价格竞争"
+          },
+          {
+            "en": "Social media: Platforms competing for attention by making content more addictive, harming mental health",
+            "cn": "社交媒体：平台通过让内容更具成瘾性来争夺用户注意力，从而损害心理健康"
+          },
+          {
+            "en": "Academic publishing: Researchers hoarding data to publish first, slowing scientific progress",
+            "cn": "学术出版：研究人员囤积数据以抢先发表，从而延缓了科学进步"
           }
         ]
       },
@@ -1587,7 +2088,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Flow Science Insight: Research shows that flow states naturally create anti-rivalrous dynamics.",
-            "cn": "《流动科学洞见》：研究表明，流动状态会自然形成一种非竞争性的动态。"
+            "cn": "流动科学洞见：研究表明，心流状态会自然形成一种非竞争性的动态。"
           },
           {
             "en": "When in flow, people shift from extrinsic competition to intrinsic satisfaction.",
@@ -1595,7 +2096,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Csikszentmihalyi found that cultures with more flow activities show greater cooperation and reduced zero-sum thinking.",
-            "cn": "奇克森特米哈伊发现，拥有更多“心流”活动的文化中，合作程度更高，零和思维则更少。"
+            "cn": "契克森米哈赖发现，拥有更多“心流”活动的文化中，合作程度更高，零和思维则更少。"
           }
         ]
       },
@@ -1624,6 +2125,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "The “substrate” is what something needs to exist—soil for plants, attention for media, trust for markets.",
             "cn": "所谓“基质”，就是某物存在所必需的条件——对植物而言是土壤，对媒体而言是关注，对市场而言是信任。"
+          },
+          {
+            "en": "Industrial agriculture: Depleting topsoil that took millennia to form",
+            "cn": "工业化农业：耗尽了历经数千年才形成的表层土壤"
+          },
+          {
+            "en": "Attention economy: Tech platforms consuming human cognitive capacity faster than it recovers",
+            "cn": "注意力经济：科技平台消耗人类认知能力的速度超过其恢复速度"
+          },
+          {
+            "en": "Financial capitalism: Extracting value from real economy faster than value is created",
+            "cn": "金融资本主义：从实体经济中榨取价值的速度，快于价值的创造速度"
+          },
+          {
+            "en": "Social media: Destroying social trust and cohesion required for democracy",
+            "cn": "社交媒体：摧毁民主所必需的社会信任与凝聚力"
           }
         ]
       },
@@ -1660,6 +2177,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "Each generation of technology enables the next, creating exponential curves.",
             "cn": "每一代技术都为下一代技术铺平道路，从而形成指数增长曲线。"
+          },
+          {
+            "en": "AI systems: Doubling in capability every few months while regulation takes years",
+            "cn": "人工智能系统：能力每隔几个月便翻一番，而监管却需要数年时间"
+          },
+          {
+            "en": "Genetic engineering: CRISPR making gene editing accessible before we understand consequences",
+            "cn": "基因工程：CRISPR技术让基因编辑变得触手可及，却在后果尚未明朗之前"
+          },
+          {
+            "en": "Social media algorithms: Evolving faster than we can study their psychological impacts",
+            "cn": "社交媒体算法：其演变速度远超我们研究其心理影响的能力"
+          },
+          {
+            "en": "Automated weapons: Removing human decision-making from life-and-death choices",
+            "cn": "自动化武器：将人类决策从生死抉择中剥离"
           }
         ]
       },
@@ -1676,6 +2209,18 @@ const ARTICLES_EXTRA = [
           {
             "en": "As AI makes technical skills commoditized, the ability to think clearly (through writing) and create coherent narratives becomes irreplaceable.",
             "cn": "随着人工智能使技术技能变得司空见惯，通过写作进行清晰思考以及构建连贯叙事的能力变得不可替代。"
+          },
+          {
+            "en": "Rivalrous dynamics + Exponential tech = Arms races with existential weapons",
+            "cn": "竞争动态 + 指数级技术 = 围绕生存型武器的军备竞赛"
+          },
+          {
+            "en": "Substrate consumption + Rivalrous dynamics = Tragedy of the commons at planetary scale",
+            "cn": "基质消耗 + 竞争性动态 = 行星级公地悲剧"
+          },
+          {
+            "en": "Exponential tech + Substrate consumption = Accelerating extraction until collapse",
+            "cn": "指数级技术 + 基质消耗 = 加速榨取直至崩溃"
           }
         ]
       },
@@ -1694,18 +2239,78 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "The Third Option: Anti-Rivalrous Civilization",
+            "cn": "第三种选择：非竞争性文明"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Anti-rivalrous dynamics go beyond “win-win” (positive-sum).",
             "cn": "非竞争性动态超越了“双赢”（正和）的范畴。"
           },
           {
             "en": "In anti-rivalrous systems, your success literally requires my success—we’re structurally coupled for mutual thriving.",
             "cn": "在非竞争性系统中，你的成功实际上离不开我的成功——我们从结构上紧密相连，彼此依存，共同繁荣。"
+          },
+          {
+            "en": "Organs in your body: Heart can’t succeed if liver fails",
+            "cn": "人体内的器官：如果肝脏衰竭，心脏就无法正常运作"
+          },
+          {
+            "en": "Parent-child relationships: Child’s wellbeing enhances parent’s wellbeing",
+            "cn": "亲子关系：孩子的幸福感能提升父母的幸福感"
+          },
+          {
+            "en": "Blockchain software: Each node added increases security and resilience for all participants",
+            "cn": "区块链软件：每个新增节点都能增强所有参与者的安全性和韧性"
+          },
+          {
+            "en": "Regenerative agriculture: Each farm improves conditions for neighbors",
+            "cn": "再生农业：每一家农场都能改善邻近农场的状况"
+          },
+          {
+            "en": "Future economic models: Where helping others directly rewards you",
+            "cn": "未来经济模式：帮助他人能直接获得回报"
+          },
+          {
+            "en": "Creator Economy: Where solving your problems creates solutions for others",
+            "cn": "创作者经济：解决自身问题的同时也为他人创造解决方案"
           }
         ]
       },
       {
         "en": "The window for creating this third option—an anti-rivalrous, regenerative civilization—is rapidly narrowing.",
         "cn": "创造这一第三种选择——一个非竞争性、具有再生能力的文明——的时机正在迅速缩小。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Why Individual Development Matters Now:",
+            "cn": "为何个人发展此刻至关重要："
+          },
+          {
+            "en": "We cannot build anti-rivalrous systems with rivalrous minds",
+            "cn": "我们无法用充满竞争心态的思维来构建非竞争性系统"
+          },
+          {
+            "en": "Collective intelligence requires individually sovereign thinkers",
+            "cn": "集体智慧需要拥有独立思考能力的个体"
+          },
+          {
+            "en": "Complex global problems require humans who can think systemically",
+            "cn": "复杂的全球性问题需要能够进行系统性思考的人类"
+          },
+          {
+            "en": "The power of our technology demands proportional wisdom",
+            "cn": "我们技术的强大需要与之相称的智慧"
+          },
+          {
+            "en": "Partial development (excellent in one area, deficient in others) perpetuates the very dynamics threatening civilization",
+            "cn": "片面发展（某一方面卓越，其他方面却存在缺陷）只会延续那些威胁文明的动态"
+          }
+        ]
       },
       {
         "sentences": [
@@ -1747,7 +2352,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "HUMAN 3.0 provides a map for systematic problem-solving across all life domains, creating integrated development where each dimension supports rather than sacrifices the others.",
-            "cn": "《HUMAN 3.0》为跨所有生活领域的系统性问题解决提供了蓝图，从而实现综合发展，使各个维度相互支持，而非相互牺牲。"
+            "cn": "HUMAN 3.0 为跨所有生活领域的系统性问题解决提供了蓝图，从而实现综合发展，使各个维度相互支持，而非相互牺牲。"
           }
         ]
       },
@@ -1755,7 +2360,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Performance Foundation: Steven Kotler’s research with the Flow Research Collective has studied thousands of high performers from diverse fields.",
-            "cn": "《表现力基础》：史蒂文·科特勒与“心流研究集体”合作开展的研究，对来自不同领域的数千名高绩效者进行了深入研究。"
+            "cn": "表现力基础：史蒂文·科特勒与“心流研究集体”合作开展的研究，对来自不同领域的数千名高绩效者进行了深入研究。"
           },
           {
             "en": "While specific performance improvements vary widely by domain and measurement method, his work consistently shows that flow states significantly enhance performance.",
@@ -1771,7 +2376,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Creative problem-solving tasks show marked improvement in flow states, though exact percentages depend on the specific study and metrics used.",
-            "cn": "在解决创造性问题的任务中，进入“心流状态”的比例显著提高，不过具体百分比取决于具体的研究及所采用的衡量标准。"
+            "cn": "在解决创造性问题的任务中，心流状态下的表现显著提升，不过具体百分比取决于具体的研究及所采用的衡量标准。"
           },
           {
             "en": "Most importantly, Kotler’s identification of flow triggers provides a systematic approach to accessing these states rather than leaving them to chance.",
@@ -1779,7 +2384,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "His emphasis on the “challenge-skills sweet spot” – where challenge slightly exceeds current ability – aligns with Human 3.0’s phase system and Csikszentmihalyi’s original flow model.",
-            "cn": "他所强调的“挑战与技能的黄金平衡点”——即挑战程度略高于当前能力——与《人类3.0》的阶段体系以及契克森米哈赖的原始“心流”模型相契合。"
+            "cn": "他所强调的“挑战与技能的黄金平衡点”——即挑战程度略高于当前能力——与HUMAN 3.0的阶段体系以及契克森米哈赖的原始“心流”模型相契合。"
           }
         ]
       },
@@ -1787,7 +2392,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Developmental Psychology Validation: The Human 3.0 level system aligns with multiple validated developmental frameworks.",
-            "cn": "发展心理学验证：“人类3.0”分级体系与多个经过验证的发展框架相一致。"
+            "cn": "发展心理学验证：“HUMAN 3.0”分级体系与多个经过验证的发展框架相一致。"
           },
           {
             "en": "Clare Graves’ research spanning 30 years and thousands of subjects, which became Spiral Dynamics, demonstrates that human consciousness evolves through predictable stages from survival-based (Beige/Purple) through conformist (Blue) to achievement (Orange) to integral (Yellow/Turquoise).",
@@ -1868,6 +2473,30 @@ const ARTICLES_EXTRA = [
           {
             "en": "Only integrated development can break these patterns.",
             "cn": "只有综合发展才能打破这些模式。"
+          },
+          {
+            "en": "The Problem with Existing Models",
+            "cn": "现有模型的问题"
+          },
+          {
+            "en": "Spiral Dynamics maps consciousness but ignores the body and money",
+            "cn": "螺旋动力学虽然描绘了意识，却忽略了身体和金钱"
+          },
+          {
+            "en": "Religious frameworks address meaning but often reject material success",
+            "cn": "宗教框架关注意义，却往往排斥物质上的成功"
+          },
+          {
+            "en": "Business methodologies optimize profit while destroying health and relationships",
+            "cn": "商业方法论在优化利润的同时，却破坏了健康和人际关系"
+          },
+          {
+            "en": "Fitness culture perfects the body while consciousness remains primitive",
+            "cn": "健身文化虽追求身体的完美，但意识层面却仍停留在原始状态"
+          },
+          {
+            "en": "Spiritual teachings transcend while practical life collapses",
+            "cn": "灵性教义追求超越，而现实生活却日渐崩塌"
           }
         ]
       },
@@ -1875,7 +2504,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Autotelic Personality Solution: Csikszentmihalyi discovered that individuals with “autotelic personalities” – those who can transform any situation into an opportunity for flow – naturally develop across domains.",
-            "cn": "“自足型人格”的解决方案：奇克森特米哈伊发现，“自足型人格”者——即那些能够将任何情况转化为进入“心流”状态机会的人——会在各个领域中自然而然地发展起来。"
+            "cn": "“自足型人格”的解决方案：契克森米哈赖发现，“自足型人格”者——即那些能够将任何情况转化为进入“心流”状态机会的人——会在各个领域中自然而然地发展起来。"
           },
           {
             "en": "Autotelic literally means “self-directed” or “having purpose in itself.” These individuals don’t need external rewards; they find intrinsic satisfaction in growth itself.",
@@ -1924,6 +2553,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "We need models that develop all dimensions simultaneously.",
             "cn": "我们需要能够同时发展所有维度的模型。"
+          },
+          {
+            "en": "AI becoming a cognitive amplifier/replacement",
+            "cn": "人工智能正成为认知增强器/替代者"
+          },
+          {
+            "en": "Social media creating parallel reality layers",
+            "cn": "社交媒体正在创造平行现实层"
+          },
+          {
+            "en": "Remote work dissolving geographic constraints",
+            "cn": "远程工作消解了地理限制"
+          },
+          {
+            "en": "Psychedelics becoming mainstream development tools",
+            "cn": "迷幻剂正成为主流的发展工具"
           }
         ]
       },
@@ -1992,6 +2637,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "Similarly, improving physical health increases mental clarity enables better decisions creates resources for further development.",
             "cn": "同样，改善身体健康能增强思维清晰度，从而有助于做出更明智的决策，并为进一步发展创造条件。"
+          },
+          {
+            "en": "Simplicity → Complexity (natural unfolding)",
+            "cn": "简单 → 复杂（自然演进）"
+          },
+          {
+            "en": "Complexity → Chaos (entropy increase)",
+            "cn": "复杂性 → 混沌（熵增加）"
+          },
+          {
+            "en": "Chaos → Order (structure creation)",
+            "cn": "混沌 → 秩序（结构的形成）"
+          },
+          {
+            "en": "Order → New Simplicity (transcendent integration)",
+            "cn": "秩序 → 新的简约（超越性整合）"
           }
         ]
       },
@@ -2058,12 +2719,60 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Transcend and Include: Higher levels don’t abandon lower capacities",
+            "cn": "超越与包容：更高层级不会抛弃较低能力"
+          },
+          {
+            "en": "Minimum Effective Dose: Solve the constraint, don’t perfect everything",
+            "cn": "最小有效剂量：解决瓶颈，而非事事求完美"
+          },
+          {
+            "en": "Cascade Dynamics: One breakthrough enables multiple advances",
+            "cn": "级联动力学：一次突破可推动多项进展"
+          },
+          {
+            "en": "Lifestyle Integration: Development becomes default, not discipline",
+            "cn": "生活方式整合：发展成为常态，而非一种纪律"
+          },
+          {
+            "en": "Purpose-Profit Unity: Value creation and personal development are inseparable",
+            "cn": "目的与利润的统一：价值创造与个人发展密不可分"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Developmental Arc: Human consciousness evolves through interaction with techno-economic conditions.",
             "cn": "发展轨迹：人类意识通过与技术经济条件的互动而演进。"
           },
           {
             "en": "Each individual’s growth through Human 3.0 levels recapitulates humanity’s 200,000-year journey—what took millennia collectively can be traversed in decades individually.",
-            "cn": "每个人通过“人类3.0”各阶段的成长，重现了人类20万年的发展历程——人类集体历经数千年才走过的路，个人只需数十年即可走完。"
+            "cn": "每个人通过“HUMAN 3.0”各层级的成长，重现了人类20万年的发展历程——人类集体历经数千年才走过的路，个人只需数十年即可走完。"
+          },
+          {
+            "en": "Foraging Era (200,000-10,000 BCE): Beige/Purple consciousness, pre-Level 1, egalitarian bands with anti-rivalrous dynamics",
+            "cn": "采集时代（公元前200,000—10,000年）：米色/紫色意识，第1级之前，具有反竞争动态的平等主义部落Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Horticultural Era (10,000-4,000 BCE): Purple/Red consciousness, Level 1.0 emergence, mythology and ritual",
+            "cn": "园艺时代（公元前10,000—4,000年）：米色/紫色意识，1.0级意识的萌芽，神话与仪式"
+          },
+          {
+            "en": "Agrarian Era (4,000 BCE-1750 CE): Blue consciousness, Level 1.0 dominant for 6,000 years, conformist religious structures",
+            "cn": "农业时代（公元前4,000年—公元1750年）：蓝色意识，1.0层级主导了6,000年，顺从的宗教结构"
+          },
+          {
+            "en": "Industrial Era (1750-1950): Orange consciousness, Level 2.0 emergence, rational individualism and achievement",
+            "cn": "工业时代（1750-1950）：橙色意识，2.0 层级初现，理性个人主义与成就"
+          },
+          {
+            "en": "Informational Era (1950-present): Green/Yellow consciousness, Level 2.0 mature/3.0 emerging, pluralism and systems thinking",
+            "cn": "信息时代（1950年至今）：绿色/黄色意识，2.0级成熟/3.0级萌芽，多元主义与系统思维Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Integral-Planetary Era (Emerging): Yellow/Turquoise consciousness, Level 3.0/4.0, anti-rivalrous regenerative systems",
+            "cn": "整体-行星时代（正在兴起）：黄色/绿松石色意识，3.0/4.0层级，非竞争性再生系统"
           }
         ]
       },
@@ -2079,7 +2788,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Most humanity remains at Blue/traditional (Level 1.0) or Orange/modern (Level 2.0), creating our “culture wars.”",
-            "cn": "大多数人类仍停留在蓝色/传统（1.0级）或橙色/现代（2.0级）阶段，这导致了我们的“文化战争”。"
+            "cn": "大多数人类仍停留在蓝色/传统（1.0 层级）或橙色/现代（2.0 层级），这导致了我们的“文化战争”。"
           }
         ]
       },
@@ -2095,7 +2804,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We have the maps (developmental psychology), tools (flow triggers, channels), and urgency (existential risk) to accelerate development.",
-            "cn": "我们拥有加速发展的蓝图（发展心理学）、工具（流动触发点、渠道）以及紧迫感（生存风险）。"
+            "cn": "我们拥有加速发展的蓝图（发展心理学）、工具（流动触发点、通道）以及紧迫感（生存风险）。"
           },
           {
             "en": "Individual growth isn’t personal improvement—it’s participating in humanity’s phase transition.",
@@ -2112,6 +2821,18 @@ const ARTICLES_EXTRA = [
           {
             "en": "These quadrants provide a complete map of human experience – interior/exterior and individual/collective.",
             "cn": "这四个象限勾勒出了人类体验的完整图景——内在与外在、个体与集体。"
+          },
+          {
+            "en": "Core Question: “How do I make sense of reality?”",
+            "cn": "核心问题：“我该如何理解现实？”"
+          },
+          {
+            "en": "Cognitive frameworks and mental models",
+            "cn": "认知框架与思维模式"
+          },
+          {
+            "en": "Shadow work and unconscious patterns",
+            "cn": "阴影工作与潜意识模式"
           }
         ]
       },
@@ -2144,6 +2865,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "“Writing is how you explore idea space when pure thinking falls flat.” The act of writing literally rewires neural pathways, strengthening metacognition and abstract reasoning.",
             "cn": "“当纯粹的思考陷入僵局时，写作便是探索思想空间的方式。”写作这一行为从字面上来说会重塑神经通路，从而增强元认知和抽象推理能力。"
+          },
+          {
+            "en": "Quality of thinking (binary vs paradoxical)",
+            "cn": "思维质量（二元思维与悖论思维）"
+          },
+          {
+            "en": "Ability to hold multiple perspectives",
+            "cn": "保持多重视角的能力"
+          },
+          {
+            "en": "Speed of learning and adaptation",
+            "cn": "学习与适应的速度"
+          },
+          {
+            "en": "Integration of intuition and logic",
+            "cn": "直觉与逻辑的融合"
           }
         ]
       },
@@ -2164,14 +2901,46 @@ const ARTICLES_EXTRA = [
         "cn": "与“元危机”的相关性：当今时代的“思维”象限必须发展施马赫滕贝格所说的“主权”——即在叙事战、算法操纵和信息过载的情况下仍能独立思考的能力。"
       },
       {
+        "sentences": [
+          {
+            "en": "Epistemic Humility: Recognizing the limits of your knowledge (essential when anyone can seem expert online)",
+            "cn": "认识论上的谦逊：认识到自身知识的局限（在网络上人人看似专家的时代，这一点至关重要）"
+          },
+          {
+            "en": "Sense-making: Distinguishing signal from noise in exponentially increasing information",
+            "cn": "意义构建：在呈指数级增长的信息中区分信号与噪音"
+          },
+          {
+            "en": "Generator Function Thinking: Seeing root causes not just symptoms (why does this problem keep recurring?)",
+            "cn": "生成函数思维：看到根本原因，而不仅仅是表象（为什么这个问题会不断重演？）"
+          },
+          {
+            "en": "Construct Awareness: Recognizing how your frameworks shape what you can see",
+            "cn": "构建意识：认识到你的思维框架如何塑造了你的视野"
+          }
+        ]
+      },
+      {
         "en": "Without developed Mind quadrant, you become a vector for misinformation, perpetuate harmful narratives, and make decisions that externalize harm to others.",
         "cn": "如果“心智”象限没有得到发展，你就会成为虚假信息的传播者，助长有害的叙事，并做出将伤害转嫁给他人、使他人受损的决定。"
       },
       {
         "sentences": [
           {
+            "en": "Core Question: “How do I embody my potential?”",
+            "cn": "核心问题：“我如何将自身潜能付诸实践？”"
+          },
+          {
+            "en": "Body language and physical presence",
+            "cn": "肢体语言与身体存在感"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Embodiment Research: Flow studies began with athletes and physical performers.",
-            "cn": "《身体化研究：心流研究》最初是从运动员和肢体表演者入手的。"
+            "cn": "身体化研究：心流研究最初是从运动员和肢体表演者入手的。"
           },
           {
             "en": "Rock climbers, dancers, and surgeons showed that the body serves as a gateway to optimal consciousness.",
@@ -2196,8 +2965,40 @@ const ARTICLES_EXTRA = [
         "cn": "与“元危机”的相关性：“身体”象限代表着我们技术文明正在消耗的人类生物基质。"
       },
       {
+        "sentences": [
+          {
+            "en": "Substrate Preservation: Your body is part of the biosphere being degraded.",
+            "cn": "基质保护：你的身体是正在遭受退化的生物圈的一部分。"
+          },
+          {
+            "en": "Caring for it models caring for the larger living system",
+            "cn": "关爱它，就是关爱更广阔的生命系统"
+          },
+          {
+            "en": "Antifragility: Building resilience for increasing systemic shocks (economic, ecological, social)",
+            "cn": "反脆弱性：为应对日益加剧的系统性冲击（经济、生态、社会）而建立韧性"
+          },
+          {
+            "en": "Embodied Cognition: The body thinks too—disconnection from it disconnects from natural intelligence",
+            "cn": "具身认知：身体也会思考——与身体脱节，就意味着与自然智慧脱节"
+          },
+          {
+            "en": "Stress Resilience: Chronic stress from civilizational anxiety requires robust nervous system regulation",
+            "cn": "压力韧性：源于文明焦虑的慢性压力需要强健的神经系统调节"
+          }
+        ]
+      },
+      {
         "en": "A neglected Body quadrant makes you fragile to coming disruptions and disconnects you from the somatic wisdom needed to navigate complexity.",
         "cn": "如果忽视了身体的某个象限，你会变得容易受到即将到来的干扰的影响，并会与应对复杂局面所需的躯体智慧脱节。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Core Question: “How do I connect and create meaning?”",
+            "cn": "核心问题：“我如何建立联结并创造意义？”"
+          }
+        ]
       },
       {
         "en": "The Meaning-Making Framework: Csikszentmihalyi’s research reveals that meaning isn’t found but created through engaged action.",
@@ -2215,7 +3016,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Group Flow Dynamics: Research on team flow identifies 10 specific triggers for collective transcendence, including shared goals, equal participation, and familiar communication.",
-            "cn": "群体流动动力学：关于团队流动的研究指出了10个引发集体超越的具体诱因，包括共同目标、平等参与和熟悉的沟通方式。"
+            "cn": "群体心流动力学：关于团队心流的研究指出了10个引发集体超越的具体诱因，包括共同目标、平等参与和熟悉的沟通方式。"
           },
           {
             "en": "These findings validate ancient spiritual practices of communal ritual and modern community building approaches.",
@@ -2225,15 +3026,71 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "The Levels of Purpose Framework: Spirit development progresses through predictable stages:",
-        "cn": "“目标层次框架”：灵性发展会经历一系列可预测的阶段："
+        "cn": "“目标层级框架”：灵性发展会经历一系列可预测的阶段："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Survival: Purpose is meeting basic needs",
+            "cn": "生存：目的在于满足基本需求"
+          },
+          {
+            "en": "Status: Purpose is achievement and recognition",
+            "cn": "地位：人生目标在于成就与认可"
+          },
+          {
+            "en": "Creativity: Purpose is self-expression and discovery",
+            "cn": "创造力：目的在于自我表达与探索"
+          },
+          {
+            "en": "Contribution: Purpose is serving something greater",
+            "cn": "贡献：人生目标是服务于更崇高的事业"
+          }
+        ]
       },
       {
         "en": "This progression can’t be skipped—each level provides foundation for the next.",
-        "cn": "这个学习过程不能跳过——每个级别都为下一个级别奠定了基础。"
+        "cn": "这个学习过程不能跳过——每个层级都为下一个层级奠定了基础。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Capacity for intimacy and vulnerability",
+            "cn": "建立亲密关系与展现脆弱的能力"
+          },
+          {
+            "en": "Ability to create meaning from suffering",
+            "cn": "从苦难中创造意义的能力"
+          }
+        ]
       },
       {
         "en": "Metacrisis Relevance: The Spirit quadrant addresses what Schmachtenberger calls the “wisdom crisis”—we have the power of gods without the love and wisdom of gods.",
-        "cn": "与“元危机”的相关性：《精神》象限探讨了施马赫滕贝格所称的“智慧危机”——我们拥有神一般的力量，却缺乏神一般的爱与智慧。"
+        "cn": "与“元危机”的相关性：精神象限探讨了施马赫滕贝格所称的“智慧危机”——我们拥有神一般的力量，却缺乏神一般的爱与智慧。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Dharma Inquiry: Finding “right relationship with life” not just personal meaning",
+            "cn": "法之探究：寻找“与生命的正确关系”，而不仅仅是个人意义"
+          },
+          {
+            "en": "Anti-Rivalrous Relating: Relationships where both must succeed for either to thrive",
+            "cn": "非竞争性关系：双方必须共同成功，其中任何一方才能蓬勃发展"
+          },
+          {
+            "en": "Meaning Generation: Creating significance in a world where traditional structures have collapsed",
+            "cn": "意义生成：在传统结构崩塌的世界中创造意义"
+          },
+          {
+            "en": "Death Integration: Accepting mortality in an age of existential risk",
+            "cn": "死亡整合：在存在性风险时代接受死亡这一事实"
+          },
+          {
+            "en": "Sacred Activism: Service from love not guilt, addressing root causes not just symptoms",
+            "cn": "神圣行动主义：出于爱而非内疚的服务，解决根本原因而非仅治标不治本"
+          }
+        ]
       },
       {
         "sentences": [
@@ -2244,6 +3101,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "With it, we develop the wisdom to wield exponential technology beneficially.",
             "cn": "凭借它，我们能够培养出将指数级技术用于造福人类的智慧。"
+          },
+          {
+            "en": "Core Question: “How do I create value and impact?”",
+            "cn": "核心问题：“我如何创造价值并产生影响？”"
           }
         ]
       },
@@ -2251,7 +3112,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Impossible Achievement Framework: Kotler’s formula for achieving “impossible” goals – Motivation × Learning × Creativity × Flow – provides scientific backing for Vocation quadrant development.",
-            "cn": "“不可能的成就框架”：科特勒实现“不可能”目标的公式——动力 × 学习 × 创造力 × 心流——为“职业象限”的发展提供了科学依据。"
+            "cn": "“不可能的成就框架”：科特勒实现“不可能”目标的公式——动力 × 学习 × 创造力 × 心流——为“天职象限”的发展提供了科学依据。"
           },
           {
             "en": "His research shows that stacking these multipliers creates exponential rather than linear growth, explaining how some individuals achieve 10x or 100x results.",
@@ -2280,6 +3141,34 @@ const ARTICLES_EXTRA = [
           {
             "en": "Your unique identity and experience become your competitive advantage.",
             "cn": "您独特的身份和经历将成为您的竞争优势。"
+          },
+          {
+            "en": "Your past self—people on the same journey",
+            "cn": "过去的自己——与你同行的伙伴们"
+          },
+          {
+            "en": "The problems you’ve personally overcome",
+            "cn": "你亲身克服的难题"
+          },
+          {
+            "en": "Your transformation story provides proof",
+            "cn": "你的蜕变故事就是最好的证明"
+          },
+          {
+            "en": "Job: Survival mechanism, necessary evil, following assignments",
+            "cn": "工作：生存机制、必要之恶、完成任务"
+          },
+          {
+            "en": "Career: Development path, achievement focus, building expertise",
+            "cn": "职业：发展路径、成就导向、积累专业知识"
+          },
+          {
+            "en": "Calling: Work you can’t pull away from, play disguised as work",
+            "cn": "天职：那种让你无法抽身的工作，是伪装成工作的游戏"
+          },
+          {
+            "en": "Value creation independent of time",
+            "cn": "不受时间限制的价值创造"
           }
         ]
       },
@@ -2301,7 +3190,31 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "Metacrisis Relevance: The Vocation quadrant must evolve from extraction to regeneration, from rivalry to collaboration.",
-        "cn": "与“元危机”的相关性：“职业”象限必须从“榨取”转向“再生”，从“竞争”转向“协作”。"
+        "cn": "与“元危机”的相关性：“天职”象限必须从“榨取”转向“再生”，从“竞争”转向“协作”。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Positive-Sum Thinking: Creating value for all stakeholders not just shareholders",
+            "cn": "正和思维：为所有利益相关者创造价值，而不仅仅是股东"
+          },
+          {
+            "en": "Regenerative Economics: Building businesses that restore rather than deplete",
+            "cn": "再生经济：建立能够恢复资源而非耗尽资源的企业"
+          },
+          {
+            "en": "Systems Building: Creating structures that enable others’ success",
+            "cn": "系统构建：建立能够促成他人成功的架构Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Generator Function Solutions: Addressing root causes not profitable symptoms",
+            "cn": "生成器功能解决方案：解决根本原因，而非仅治标不治本的利润问题Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Legacy Orientation: Seven-generation thinking not quarterly earnings",
+            "cn": "传承导向：七代人的长远眼光，而非季度盈利"
+          }
+        ]
       },
       {
         "sentences": [
@@ -2312,6 +3225,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Transforming how we create and distribute value is essential for civilizational transition.",
             "cn": "改变我们创造和分配价值的方式，对于文明转型至关重要。"
+          },
+          {
+            "en": "The Three Levels Of Development",
+            "cn": "发展的三个层级"
           }
         ]
       },
@@ -2327,7 +3244,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Assignment Life: At Level 1.0, life consists of completing assignments given by others—school assigns learning, employers assign work, society assigns values.",
-            "cn": "“任务人生”：在1.0阶段，生活就是完成他人布置的任务——学校布置学习任务，雇主布置工作任务，社会则赋予价值观。"
+            "cn": "“任务人生”：在 1.0 层级，生活就是完成他人布置的任务——学校布置学习任务，雇主布置工作任务，社会则赋予价值观。"
           },
           {
             "en": "“You work on these assignments without struggle or conscious thought, leading to a mechanical and replaceable role in a society filled to the brim with people who try to prove their happiness to hide their internal misery.”",
@@ -2347,7 +3264,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "This level isn’t “bad”—it’s foundational.",
-            "cn": "这个水平并不“差”——它是基础性的。"
+            "cn": "这个层级并不“差”——它是基础性的。"
           }
         ]
       },
@@ -2364,6 +3281,30 @@ const ARTICLES_EXTRA = [
           {
             "en": "Flow states are rare because the challenge-skill balance is externally imposed rather than internally regulated.",
             "cn": "“心流”状态之所以罕见，是因为挑战与技能之间的平衡是由外部强加的，而非由内部调节的。"
+          },
+          {
+            "en": "Thinking in slogans and soundbites",
+            "cn": "以口号和短句进行思考"
+          },
+          {
+            "en": "Inability to question received wisdom",
+            "cn": "无法质疑既定观念"
+          },
+          {
+            "en": "Needs constant validation of beliefs",
+            "cn": "需要不断验证自己的信念"
+          },
+          {
+            "en": "Health as absence of immediate pain",
+            "cn": "健康被定义为没有即时疼痛"
+          },
+          {
+            "en": "Love as possession or transaction",
+            "cn": "爱即占有或交易"
+          },
+          {
+            "en": "Work as necessary evil (Job stage)",
+            "cn": "工作作为必要的恶（工作阶段）"
           }
         ]
       },
@@ -2380,12 +3321,48 @@ const ARTICLES_EXTRA = [
           {
             "en": "Like childhood, it’s a necessary stage that becomes problematic only when extended indefinitely.",
             "cn": "就像童年一样，这是一个必要的阶段，只有当它无限期地延续下去时，才会变得棘手。"
+          },
+          {
+            "en": "Life crisis that rules can’t solve",
+            "cn": "现行规则无法解决的人生危机"
+          },
+          {
+            "en": "Spiral Dynamics: Blue (Traditional/Conformist)",
+            "cn": "螺旋动力学：蓝色（传统/顺从型）"
+          },
+          {
+            "en": "Kegan: Order 3 (Socialized Mind)",
+            "cn": "基根：第三阶（社会化思维）"
+          },
+          {
+            "en": "Cook-Greuter: Conformist to Expert",
+            "cn": "库克-格鲁特：从顺从者到专家"
           }
         ]
       },
       {
         "en": "Metacrisis Relationship: Level 1.0 consciousness perpetuates the metacrisis unconsciously:",
         "cn": "元危机关系：1.0级意识在无意识中延续着元危机："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Cannot see generator functions (problems seem isolated)",
+            "cn": "无法识别生成功能（问题看似孤立）"
+          },
+          {
+            "en": "Participates in rivalrous dynamics without awareness",
+            "cn": "在未察觉的情况下参与竞争性动态"
+          },
+          {
+            "en": "Consumes substrate thinking it’s infinite",
+            "cn": "消耗底物，却以为它是无限的"
+          },
+          {
+            "en": "Believes technology will save us or destroy us (binary thinking)",
+            "cn": "相信技术将拯救我们或毁灭我们（非此即彼的思维）"
+          }
+        ]
       },
       {
         "sentences": [
@@ -2410,8 +3387,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Pluralistic worldview (multiple valid perspectives)",
+            "cn": "多元世界观（多种有效视角）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Agency Shift: This level marks the shift from employee to entrepreneur mindset—not necessarily in profession but in consciousness.",
-            "cn": "“思维转变”：这一阶段标志着从雇员思维向企业家思维的转变——这种转变未必体现在职业上，而是在意识层面。"
+            "cn": "“思维转变”：这一层级标志着从雇员思维向企业家思维的转变——这种转变未必体现在职业上，而是在意识层面。"
           },
           {
             "en": "You stop accepting assignments and start creating your own goals.",
@@ -2463,7 +3448,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Status Game: Level 2 is driven by status needs, which Koe validates: “You don’t start making more because you want to change the world.",
-            "cn": "《地位游戏：第2级》的核心驱动力是地位需求，科伊对此予以了肯定：“你赚得更多，并不是因为你想改变世界。"
+            "cn": "地位游戏：第 2 级的核心驱动力是地位需求，科伊对此予以了肯定：“你赚得更多，并不是因为你想改变世界。"
           },
           {
             "en": "You start because you want to survive.",
@@ -2472,6 +3457,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "Once that purpose is actualized, you make more because you want to be accepted and perceived as valuable.”",
             "cn": "“一旦实现了这一目标，你就会做得更多，因为你想被接纳，并被视为有价值的人。”"
+          },
+          {
+            "en": "Integration of science and reason",
+            "cn": "科学与理性的融合"
+          },
+          {
+            "en": "Work as self-expression (Career stage)",
+            "cn": "工作作为自我表达（职业阶段）"
           }
         ]
       },
@@ -2488,12 +3481,56 @@ const ARTICLES_EXTRA = [
           {
             "en": "The necessary individuation before genuine integration.",
             "cn": "在实现真正融合之前，必须先完成个体化。"
+          },
+          {
+            "en": "Isolation from rejecting all tradition",
+            "cn": "因拒绝所有传统而陷入孤立"
+          },
+          {
+            "en": "Missing wisdom in what was rejected",
+            "cn": "被摒弃之物中蕴藏的智慧"
+          },
+          {
+            "en": "Creating new dogma while rejecting old",
+            "cn": "在摒弃旧教条的同时又创造了新教条"
+          },
+          {
+            "en": "Kegan: Order 4 (Self-Authoring Mind)",
+            "cn": "基根：第四阶（自我建构型思维）"
+          },
+          {
+            "en": "Cook-Greuter: Achiever to Individualist",
+            "cn": "库克-格鲁特：从成就者到个人主义者"
           }
         ]
       },
       {
         "en": "Metacrisis Relationship: Level 2.0 can see problems but solutions often make things worse:",
         "cn": "“元危机”关系：2.0级能够发现问题，但解决方案往往会使情况变得更糟："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Recognizes surface issues (climate change, inequality)",
+            "cn": "认识到表面问题（气候变化、不平等）"
+          },
+          {
+            "en": "Attempts positive-sum solutions but within rivalrous framework",
+            "cn": "尝试寻求正和解决方案，但仍受限于竞争性框架"
+          },
+          {
+            "en": "Optimizes personal sustainability while system remains extractive",
+            "cn": "在系统仍具掠夺性的同时优化个人可持续性"
+          },
+          {
+            "en": "Develops sovereignty but may become isolated",
+            "cn": "发展主权，但可能陷入孤立"
+          },
+          {
+            "en": "Uses exponential tech for competitive advantage",
+            "cn": "利用指数级技术获取竞争优势"
+          }
+        ]
       },
       {
         "sentences": [
@@ -2507,13 +3544,21 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The very success drive that enabled Level 2 development becomes barrier to Level 3.",
-            "cn": "正是那种推动第二阶段发展的成功动力，却成了第三阶段发展的障碍。"
+            "cn": "正是那种推动第 2 层级发展的成功动力，却成了第 3 层级发展的障碍。"
           }
         ]
       },
       {
         "en": "The integration of previous levels into a higher-order consciousness that can hold paradox, create new frameworks, and design anti-rivalrous systems.",
-        "cn": "将前几个层次整合到一种更高层次的意识中，这种意识能够容纳悖论、构建新的框架，并设计出非竞争性系统。"
+        "cn": "将前几个层级整合到一种更高层级的意识中，这种意识能够容纳悖论、构建新的框架，并设计出非竞争性系统。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Holographic worldview (part contains whole)",
+            "cn": "全息世界观（部分包含整体）"
+          }
+        ]
       },
       {
         "sentences": [
@@ -2567,7 +3612,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Flow-Complexity Spiral: At this level, flow states catalyze complexity growth, which enables deeper flow, creating an upward spiral.",
-            "cn": "“流动-复杂性螺旋”：在这个层面上，流动状态会催化复杂性的增长，而复杂性的增长又促使流动状态进一步深化，从而形成一个向上螺旋。"
+            "cn": "“心流-复杂性螺旋”：在这个层面上，心流状态会催化复杂性的增长，而复杂性的增长又促使心流状态进一步深化，从而形成一个向上螺旋。"
           },
           {
             "en": "These individuals can access what Kotler calls “macro-flow” – extended periods of peak performance lasting days or weeks.",
@@ -2577,7 +3622,35 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "The Interest Cycle Mastery: Level 3 individuals consciously navigate the development cycle:",
-        "cn": "《兴趣周期精通指南》：第3级的人能够有意识地驾驭发展周期："
+        "cn": "兴趣周期精通指南：第3级的人能够有意识地驾驭发展周期："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Lost Phase: Embraced as necessary disorientation before growth",
+            "cn": "迷失阶段：将其视为成长前必要的迷失感"
+          },
+          {
+            "en": "Interested Phase: Cultivated through deliberate exploration",
+            "cn": "“兴趣阶段”：通过有意识的探索加以培养"
+          },
+          {
+            "en": "Obsessed Phase: Channeled into productive creation",
+            "cn": "痴迷阶段：将其转化为富有成效的创造"
+          },
+          {
+            "en": "Integration: Each cycle adds to cumulative wisdom",
+            "cn": "整合：每个周期都为累积的智慧增添新的内容"
+          },
+          {
+            "en": "Integration of all intelligence types",
+            "cn": "所有智能类型的整合"
+          },
+          {
+            "en": "Work as play (Calling realized)",
+            "cn": "工作即游戏（使命得以实现）"
+          }
+        ]
       },
       {
         "sentences": [
@@ -2600,6 +3673,34 @@ const ARTICLES_EXTRA = [
           {
             "en": "Serves as bridge between levels, translator between worldviews, and creator of new structures.",
             "cn": "既是不同层级之间的桥梁，也是不同世界观之间的翻译者，更是新结构的创造者。"
+          },
+          {
+            "en": "Can appear as Level 1 when useful (strategic simplicity)",
+            "cn": "在需要时可表现为第1级（战略上的简约）"
+          },
+          {
+            "en": "Can engage Level 2 games while seeing through them",
+            "cn": "能够参与第二层级的博弈，同时洞悉其本质"
+          },
+          {
+            "en": "Creates contexts where others can develop",
+            "cn": "创造他人得以发展的情境"
+          },
+          {
+            "en": "Holds paradox without resolution need",
+            "cn": "容纳悖论而无需解决"
+          },
+          {
+            "en": "Generates meaning independent of outcome",
+            "cn": "生成与结果无关的意义"
+          },
+          {
+            "en": "Kegan: Order 5 (Self-Transforming Mind)",
+            "cn": "基根：第5阶（自我转化型思维）"
+          },
+          {
+            "en": "Cook-Greuter: Strategist to Construct-Aware",
+            "cn": "库克-格鲁特：从战略家到“构筑觉知者”"
           }
         ]
       },
@@ -2607,7 +3708,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "This is the minimum level for designing third attractor solutions.",
-            "cn": "这是设计第三吸引子解所需的最低水平。"
+            "cn": "这是设计第三吸引子解所需的最低层级。"
           },
           {
             "en": "Can work within existing systems while building alternatives.",
@@ -2630,8 +3731,20 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Distributed identity (individual/collective boundary dissolves)",
+            "cn": "分布式身份（个体与集体的界限消融）"
+          },
+          {
+            "en": "Fractal worldview (patterns repeat at every scale)",
+            "cn": "分形世界观（模式在各个尺度上重复）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Developmental Origin: Emerges after extensive time at Level 3, often catalyzed by profound spiritual opening or civilizational perspective shift.",
-            "cn": "发展起源：在第三阶段经历较长时间后出现，通常由深刻的灵性觉醒或文明视角的转变所触发。"
+            "cn": "发展起源：在第 3 层级经历较长时间后出现，通常由深刻的灵性觉醒或文明视角的转变所触发。"
           },
           {
             "en": "Recognizes development itself as cosmic process.",
@@ -2652,6 +3765,34 @@ const ARTICLES_EXTRA = [
           {
             "en": "Solutions emerge spontaneously through you rather than from you.",
             "cn": "解决方案是通过你自然而然地浮现出来的，而不是由你主动产生的。"
+          },
+          {
+            "en": "Experiences anti-rivalry as natural state",
+            "cn": "将“反竞争”视为自然状态"
+          },
+          {
+            "en": "Catalyzes development in others by presence",
+            "cn": "通过自身存在催化他人的发展"
+          },
+          {
+            "en": "Operates from future pulling present",
+            "cn": "从未来出发，牵引当下"
+          },
+          {
+            "en": "Spiral Dynamics: Coral and beyond",
+            "cn": "螺旋动力学：珊瑚阶段及更远阶段"
+          },
+          {
+            "en": "Experiences humanity as single organism",
+            "cn": "将人类视为一个整体"
+          },
+          {
+            "en": "Downloads solutions from larger intelligence",
+            "cn": "从更高智慧中下载解决方案"
+          },
+          {
+            "en": "Transcends fear of civilizational death",
+            "cn": "超越对文明消亡的恐惧"
           }
         ]
       },
@@ -2687,7 +3828,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You’ve “gotten your taste” of your level.",
-            "cn": "你已经“领略”了该关卡的滋味。"
+            "cn": "你已经“领略”了该层级的滋味。"
+          },
+          {
+            "en": "Subtle dissatisfaction with current level",
+            "cn": "对当前层级的隐约不满"
           }
         ]
       },
@@ -2752,6 +3897,18 @@ const ARTICLES_EXTRA = [
           {
             "en": "The discomfort creates seeking energy that, when focused, becomes obsessive learning/building.",
             "cn": "这种不适感催生了探索的动力，当这种动力得到集中时，便会转化为一种执着的学习与创造。"
+          },
+          {
+            "en": "Notice what you’re drawn toward",
+            "cn": "留意你被什么所吸引"
+          },
+          {
+            "en": "Level 1: Usually weeks to months",
+            "cn": "第1级：通常需要数周至数月"
+          },
+          {
+            "en": "Level 3: Can maintain productive dissonance indefinitely",
+            "cn": "第3级：能够无限期地保持富有成效的认知失调"
           }
         ]
       },
@@ -2807,7 +3964,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Phase X.2 uncertainty forces this release.",
-            "cn": "由于Phase X.2存在不确定性，因此不得不发布此版本。"
+            "cn": "阶段 X.2 的不确定性会迫使这种“松手”发生。"
           },
           {
             "en": "The prefrontal cortex, exhausted from trying to maintain old patterns, finally lets go, allowing new configurations to emerge.",
@@ -2865,7 +4022,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "The crystallization of new patterns, abilities, and identity at a higher level of complexity.",
-        "cn": "在更高层次的复杂性中，新的模式、能力和身份的形成。"
+        "cn": "在更高层级的复杂性中，新的模式、能力和身份的形成。"
       },
       {
         "sentences": [
@@ -2927,7 +4084,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "This is the spiral nature of development—each completion leads to new beginning at higher level.",
-            "cn": "这就是发展的螺旋式特征——每一次完成都会引领我们迈向更高层次的新起点。"
+            "cn": "这就是发展的螺旋式特征——每一次完成都会引领我们迈向更高层级的新起点。"
           }
         ]
       },
@@ -2967,7 +4124,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The key is maintaining the challenge-skill balance at the edge of capability, what Csikszentmihalyi calls the “flow channel.”",
-            "cn": "关键在于在能力边界上保持挑战与技能的平衡，即奇克森特米哈伊所说的“心流通道”。"
+            "cn": "关键在于在能力边界上保持挑战与技能的平衡，即契克森米哈赖所说的“心流通道”。"
           }
         ]
       },
@@ -3000,6 +4157,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "Experience alone doesn’t create wisdom—it needs reflection and framework to become transformative.",
             "cn": "仅凭经验并不能产生智慧——只有通过反思和建立思维框架，经验才能带来蜕变。"
+          },
+          {
+            "en": "100 hours: Functional competence",
+            "cn": "100小时：职能胜任力"
+          },
+          {
+            "en": "1,000 hours: Professional capability",
+            "cn": "1,000小时：专业能力"
+          },
+          {
+            "en": "10,000 hours: Mastery foundation",
+            "cn": "10,000小时：精通的基础"
+          },
+          {
+            "en": "20,000+ hours: Innovation ability",
+            "cn": "20,000+ 小时：创新能力"
           }
         ]
       },
@@ -3007,7 +4180,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Creativity Connection: Csikszentmihalyi’s Systems Model shows that true skill (beyond mere competence) requires interaction between Person × Domain × Field.",
-            "cn": "《创造力的联系》：契克森米哈赖的系统模型表明，真正的技能（超越了单纯的能力）需要“个人 × 领域 × 领域”之间的相互作用。"
+            "cn": "创造力的联系：契克森米哈赖的系统模型表明，真正的技能（超越了单纯的能力）需要“个人 × 领域 × 领域”之间的相互作用。"
           },
           {
             "en": "You need personal capability, domain knowledge, AND field validation.",
@@ -3028,6 +4201,18 @@ const ARTICLES_EXTRA = [
           {
             "en": "“Every day, you need priority tasks that move the lever toward your projects, goals, and vision.”",
             "cn": "“每天，你都需要一些优先任务，这些任务能推动你朝着项目、目标和愿景迈进。”"
+          },
+          {
+            "en": "Adjacent quadrants: Moderate transfer",
+            "cn": "相邻象限：适度迁移"
+          },
+          {
+            "en": "Opposite quadrants: Low transfer",
+            "cn": "对立象限：迁移度低"
+          },
+          {
+            "en": "Meta-skills: Universal transfer",
+            "cn": "元技能：普适性迁移"
           }
         ]
       },
@@ -3088,8 +4273,24 @@ const ARTICLES_EXTRA = [
         "cn": "转型路径：选择一个象限 → 90天承诺 → 打好基础 → 稳步拓展"
       },
       {
+        "sentences": [
+          {
+            "en": "The Specialist (One Quadrant Mastered)",
+            "cn": "专家（精通一个象限）"
+          }
+        ]
+      },
+      {
         "en": "Transformation Path: Apply excellence methodology to weakest quadrant → find synergies → integrate gradually",
         "cn": "转型路径：将卓越方法论应用于最薄弱的象限 → 发掘协同效应 → 逐步整合"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Executive (Mind + Vocation)",
+            "cn": "高管（思维+天职）"
+          }
+        ]
       },
       {
         "en": "Strengths: Disciplined practice, embodied presence, service orientation",
@@ -3104,12 +4305,28 @@ const ARTICLES_EXTRA = [
         "cn": "弱点：身体虚弱、财务不稳、执行不力"
       },
       {
+        "sentences": [
+          {
+            "en": "The Entrepreneur (Body + Vocation)",
+            "cn": "企业家（身体 + 天职）"
+          }
+        ]
+      },
+      {
         "en": "Strengths: Powerful execution, strategic dominance, resource abundance",
         "cn": "优势：强大的执行力、战略优势、丰富的资源"
       },
       {
         "en": "Development Path: Add Mind for systems thinking and complexity navigation",
         "cn": "发展路径：培养系统思维与应对复杂性问题的能力"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Renaissance Human (All Quadrants)",
+            "cn": "文艺复兴式人才（所有象限）"
+          }
+        ]
       },
       {
         "en": "Development Path: Choose specialization areas while maintaining integration",
@@ -3123,7 +4340,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Channels are like developmental wormholes – high-risk, high-reward periods of intensive growth.",
-            "cn": "渠道就像是发展中的“虫洞”——这是高风险、高回报的快速增长期。"
+            "cn": "通道就像是发展中的“虫洞”——这是高风险、高回报的快速增长期。"
           }
         ]
       },
@@ -3131,11 +4348,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Obsession Framework: Channels embody the “obsessed” phase at its peak—”You dive deeper into that crevice of reality.",
-            "cn": "《痴迷框架》：频道体现了“痴迷”阶段达到顶峰时的状态——“你更深入地潜入现实的那个缝隙之中。”"
+            "cn": "痴迷框架：频道体现了“痴迷”阶段达到顶峰时的状态——“你更深入地潜入现实的那个缝隙之中。”"
           },
           {
             "en": "You can’t stop learning and building toward your goal.” This state can last months, creating exponential development.",
             "cn": "“你不能停止学习，也不能停止朝着目标迈进。”这种状态可能持续数月，从而带来指数级的成长。"
+          },
+          {
+            "en": "Mind: Becoming immersed in deep thought that keeps you up for nights, resulting in breakthrough frameworks",
+            "cn": "思维：沉浸于彻夜难眠的深度思考中，从而构思出突破性的思维框架"
+          },
+          {
+            "en": "Body: Finding a training methodology and making more gains in 3 months than years prior",
+            "cn": "身体：找到一套训练方法，3个月内取得的进步超过了过去几年的总和"
+          },
+          {
+            "en": "Spirit: Honeymoon phases, mystical experiences, finding philosophy that transforms worldview",
+            "cn": "精神层面：经历“蜜月期”，体验神秘感，找到能重塑世界观的哲学理念"
+          },
+          {
+            "en": "Vocation: Maximum clarity leading to product launch, business pivot, or creative breakthrough",
+            "cn": "天职：极致的清晰度，从而推动产品发布、业务转型或创意突破"
           }
         ]
       },
@@ -3147,21 +4380,49 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "A Channel might contain hundreds of individual flow experiences over months, creating sustained transformation.",
-            "cn": "一个渠道可能在数月内包含数百种不同的体验，从而带来持续的转变。"
+            "cn": "一个通道可能在数月内包含数百种不同的体验，从而带来持续的转变。"
           },
           {
             "en": "The key difference: Channels involve fundamental identity reorganization, while flow states can occur within existing identity structures.",
-            "cn": "关键区别在于：通道涉及根本性的身份重组，而流动状态则可能在现有的身份结构中发生。"
+            "cn": "关键区别在于：通道涉及根本性的身份重组，而心流状态则可能在现有的身份结构中发生。"
           }
         ]
       },
       {
         "en": "General Flow Triggers: Kotler’s complete trigger list can intentionally activate Channels:",
-        "cn": "一般流程触发器：科特勒的完整触发器列表可有意触发渠道："
+        "cn": "一般流程触发器：科特勒的完整触发器列表可有意触发通道："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Environmental triggers: High consequences, rich environments, deep embodiment, unpredictability",
+            "cn": "环境触发因素：高后果、丰富的环境、深度身临其境感、不可预测性"
+          },
+          {
+            "en": "Psychological triggers: Intense focus, clear goals, immediate feedback, challenge-skill ratio",
+            "cn": "心理触发因素：高度专注、明确的目标、即时反馈、挑战与技能的比率"
+          },
+          {
+            "en": "Social triggers: Shared goals, shared risk, close listening, equal participation",
+            "cn": "社会触发因素：共同目标、共同风险、专注倾听、平等参与"
+          },
+          {
+            "en": "Creative triggers: Pattern recognition, lateral connections",
+            "cn": "创意触发点：模式识别、横向联想"
+          }
+        ]
       },
       {
         "en": "The Interest-Based Entry: Channels often emerge from following genuine interest: “The secret is to try everything until you find that one thing that you can’t pull yourself away from.”",
         "cn": "基于兴趣的切入点：兴趣往往源于对真正感兴趣事物的探索：“诀窍在于尝试一切，直到找到那件让你欲罢不能的事情。”"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Glitches: High-Risk Accelerants",
+            "cn": "故障：高风险的催化剂"
+          }
+        ]
       },
       {
         "sentences": [
@@ -3240,6 +4501,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "With advances in LLMs and artificial intelligence tools, code has begun to take the shape of natural language.”",
             "cn": "“随着大型语言模型（LLMs）和人工智能工具的进步，代码已开始呈现出自然语言的形态。”"
+          },
+          {
+            "en": "Cognitive Atrophy: Outsourcing thinking entirely",
+            "cn": "认知萎缩：将思考完全外包"
           }
         ]
       },
@@ -3260,6 +4525,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Those who master this balance gain massive advantage; those who fail become appendages of machine intelligence.",
             "cn": "能够掌握这种平衡的人将获得巨大的优势；而未能做到的人则会沦为机器智能的附庸。"
+          },
+          {
+            "en": "Body (energy) → Spirit (connection) → Mind (clarity) → Vocation (resources) → Body (investment)",
+            "cn": "身体（能量）→ 精神（联结）→ 思维（清晰）→ 天职（资源）→ 身体（投入）"
           }
         ]
       },
@@ -3272,6 +4541,26 @@ const ARTICLES_EXTRA = [
           {
             "en": "Small gains compound across quadrants.",
             "cn": "各象限的小幅增长相互叠加。"
+          },
+          {
+            "en": "Vocation (challenge) → Mind (learning) → Body (implementation) → Spirit (meaning) → Vocation (mastery)",
+            "cn": "天职（挑战）→ 心智（学习）→ 身体（实践）→ 精神（意义）→ 天职（精通）"
+          },
+          {
+            "en": "Excellence in one domain provides laboratory for others.",
+            "cn": "在一个领域中的卓越表现，为其他领域提供了实践平台。"
+          },
+          {
+            "en": "Mind (understanding) → Vocation (application) → Spirit (purpose) → Body (embodiment) → Mind (wisdom)",
+            "cn": "心智（理解）→ 天职（应用）→ 精神（目的）→ 身体（体现）→ 心智（智慧）"
+          },
+          {
+            "en": "Knowledge becomes wisdom through complete circulation.",
+            "cn": "知识通过完整的循环转化为智慧。"
+          },
+          {
+            "en": "Low Vocation → Survival stress → No Body energy → Spirit isolation → Mind fog → Worse Vocation",
+            "cn": "低职业热忱 → 生存压力 → 身体能量枯竭 → 精神孤立 → 思维混沌 → 职业状况恶化"
           }
         ]
       },
@@ -3283,7 +4572,35 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“Money is often the one thing holding people back from reaching their next level of personal development.”",
-            "cn": "“金钱往往是阻碍人们迈向个人发展新阶段的唯一因素。”"
+            "cn": "“金钱往往是阻碍人们迈向个人发展新层级的唯一因素。”"
+          },
+          {
+            "en": "High Vocation → Time scarcity → Body neglect → Spirit emptiness → Mind narrowing → Vocation plateau",
+            "cn": "高度职业热忱 → 时间匮乏 → 忽视身体 → 精神空虚 → 思维狭隘 → 职业发展停滞"
+          },
+          {
+            "en": "Success in one quadrant consuming others, eventual collapse.",
+            "cn": "一个象限的成功会吞噬其他象限，最终导致崩溃。"
+          },
+          {
+            "en": "High Spirit → Reality avoidance → Vocation neglect → Body deterioration → Mind delusion → False Spirit",
+            "cn": "高精神 → 逃避现实 → 忽视职业 → 身体衰退 → 思维迷失 → 虚假精神"
+          },
+          {
+            "en": "Transcendence without foundation, castle in the sky.",
+            "cn": "脱离基础的超越，不过是空中楼阁。"
+          },
+          {
+            "en": "High Mind → Analysis paralysis → Vocation procrastination → Spirit intellectualization → Body disconnection",
+            "cn": "高谈阔论 → 分析瘫痪 → 职业拖延 → 精神理论化 → 身体脱节"
+          },
+          {
+            "en": "Understanding without implementation, professor syndrome.",
+            "cn": "知而不行，即“教授综合征”。"
+          },
+          {
+            "en": "The Anti-Vision Assessment (Start Here)",
+            "cn": "反愿景评估（从这里开始）"
           }
         ]
       },
@@ -3296,6 +4613,182 @@ const ARTICLES_EXTRA = [
           {
             "en": "The anti-vision provides immediate clarity when positive vision remains unclear.",
             "cn": "当积极愿景尚不明确时，反向愿景能立即带来清晰的认识。"
+          },
+          {
+            "en": "What mental states do you absolutely refuse to accept?",
+            "cn": "有哪些心理状态是你绝对无法接受的？"
+          },
+          {
+            "en": "What cognitive limitations frustrate you most?",
+            "cn": "哪些认知局限最让你感到沮丧？"
+          },
+          {
+            "en": "What thinking patterns in others disgust you?",
+            "cn": "他人的哪些思维模式让你感到厌恶？"
+          },
+          {
+            "en": "What intellectual stagnation terrifies you?",
+            "cn": "什么样的智力停滞令你感到恐惧？"
+          },
+          {
+            "en": "What physical state do you refuse to accept?",
+            "cn": "你拒绝接受哪种身体状态？"
+          },
+          {
+            "en": "What health problems terrify you?",
+            "cn": "哪些健康问题让你感到恐惧？"
+          },
+          {
+            "en": "What physical limitations anger you?",
+            "cn": "哪些身体上的局限会让你感到愤怒？"
+          },
+          {
+            "en": "What aging pattern do you reject?",
+            "cn": "你拒绝哪种衰老模式？"
+          },
+          {
+            "en": "What relationship dynamics do you refuse to repeat?",
+            "cn": "你拒绝重蹈哪些人际关系模式的覆辙？"
+          },
+          {
+            "en": "What meaningless existence do you reject?",
+            "cn": "你拒绝怎样的无意义存在？"
+          },
+          {
+            "en": "What spiritual emptiness haunts you?",
+            "cn": "什么样的精神空虚在困扰着你？"
+          },
+          {
+            "en": "What work situation makes you feel dead inside?",
+            "cn": "什么样的职场状况会让你感到内心死寂？"
+          },
+          {
+            "en": "What financial state do you refuse to accept?",
+            "cn": "你拒绝接受什么样的财务状况？"
+          },
+          {
+            "en": "What professional identity repulses you?",
+            "cn": "哪种职业身份让你感到反感？"
+          },
+          {
+            "en": "Can I hold paradox without needing resolution?",
+            "cn": "我能否在不寻求解决的情况下，包容这种矛盾？"
+          },
+          {
+            "en": "Do I think in systems or isolated facts?",
+            "cn": "我是从系统角度思考，还是只关注孤立的事实？"
+          },
+          {
+            "en": "How quickly do I update beliefs with new evidence?",
+            "cn": "我根据新证据更新信念的速度有多快？"
+          },
+          {
+            "en": "Can I explain complex ideas simply?",
+            "cn": "我能否用简单的方式解释复杂的想法？"
+          },
+          {
+            "en": "Do I seek perspectives that challenge mine?",
+            "cn": "我会主动寻求那些挑战我现有观点的视角吗？"
+          },
+          {
+            "en": "Is my internal narrative supportive or destructive?",
+            "cn": "我的内在叙事是积极支持性的，还是消极破坏性的？"
+          },
+          {
+            "en": "Can I observe my thoughts without being them?",
+            "cn": "我能否在不被思绪所困的情况下观察自己的思绪？"
+          },
+          {
+            "en": "Do I have energy throughout the day?",
+            "cn": "我整天都有精力吗？"
+          },
+          {
+            "en": "Can I perform basic human movements well?",
+            "cn": "我能否流畅地完成基本的人类动作？"
+          },
+          {
+            "en": "Do I understand my nutritional needs?",
+            "cn": "我是否了解自己的营养需求？"
+          },
+          {
+            "en": "Is my sleep consistently restorative?",
+            "cn": "我的睡眠是否始终能让人恢复精力？"
+          },
+          {
+            "en": "Can I rely on my body under stress?",
+            "cn": "在压力下，我能依靠自己的身体吗？"
+          },
+          {
+            "en": "Am I aging well for my chronological age?",
+            "cn": "以我的实际年龄来看，我的衰老状况是否良好？"
+          },
+          {
+            "en": "Do I have relationships that nourish me?",
+            "cn": "我是否拥有能滋养我的关系？"
+          },
+          {
+            "en": "Can I be vulnerable with others?",
+            "cn": "我能否在他人面前展现脆弱的一面？"
+          },
+          {
+            "en": "Can I create meaning from suffering?",
+            "cn": "我能否从痛苦中创造意义？"
+          },
+          {
+            "en": "Do I feel connected to something greater?",
+            "cn": "我是否感到与某种更宏大的存在相连？"
+          },
+          {
+            "en": "Is love present in my daily life?",
+            "cn": "我的日常生活中是否充满了爱？"
+          },
+          {
+            "en": "Can I generate income independent of time?",
+            "cn": "我能否获得不受时间限制的收入？"
+          },
+          {
+            "en": "Do I create more value than I capture?",
+            "cn": "我创造的价值是否超过了我所获取的价值？"
+          },
+          {
+            "en": "Am I building systems or just working?",
+            "cn": "我是在构建系统，还是仅仅在工作？"
+          },
+          {
+            "en": "Do I understand market dynamics?",
+            "cn": "我是否理解市场动态？"
+          },
+          {
+            "en": "Is my professional growth accelerating?",
+            "cn": "我的职业成长是否在加速？"
+          },
+          {
+            "en": "Do I understand the generator functions creating global problems?",
+            "cn": "我是否理解了引发全球性问题的生成函数？"
+          },
+          {
+            "en": "Can I see how my actions perpetuate or solve systemic issues?",
+            "cn": "我能否看清自己的行为是在加剧还是在解决系统性问题？"
+          },
+          {
+            "en": "Am I developing sovereignty or increasing dependency?",
+            "cn": "我是在培养自主性，还是在加深依赖性？"
+          },
+          {
+            "en": "Do my solutions address root causes or symptoms?",
+            "cn": "我的解决方案是针对根本原因还是表面症状？"
+          },
+          {
+            "en": "Is my success coupled to collective thriving?",
+            "cn": "我的成功是否与集体的繁荣息息相关？"
+          },
+          {
+            "en": "Am I building resilience for systemic shocks?",
+            "cn": "我是否在为系统性冲击构建韧性？"
+          },
+          {
+            "en": "Can I hold hope without denial, concern without panic?",
+            "cn": "我能否在不否认现实的情况下保持希望，在不恐慌的情况下保持关切？"
           }
         ]
       },
@@ -3328,6 +4821,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Trying to develop higher capacities while in survival mode is neurobiologically impossible – the amygdala hijack prevents prefrontal cortex function.",
             "cn": "在生存模式下试图发展更高层次的能力在神经生物学上是不可能的——杏仁核劫持会阻碍前额叶皮层的功能。"
+          },
+          {
+            "en": "Career advancement → Calling discovery",
+            "cn": "职业晋升 → 发现人生使命"
           }
         ]
       },
@@ -3366,12 +4863,48 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Vocation consuming all time/energy (most common)",
+            "cn": "天职占据了所有时间和精力（最常见）"
+          },
+          {
+            "en": "Health crisis demanding all resources",
+            "cn": "健康危机耗尽所有资源"
+          },
+          {
+            "en": "Financial emergency forcing survival mode",
+            "cn": "财务危机迫使进入生存模式"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Don’t revolutionize everything.",
             "cn": "不要对一切都进行彻底的变革。"
           },
           {
             "en": "Find the smallest change that creates breathing room.",
             "cn": "找出能带来喘息之机的最小改变。"
+          },
+          {
+            "en": "If work consumes everything: One hour daily for skill development",
+            "cn": "如果工作占据了全部时间：每天花一小时提升技能"
+          },
+          {
+            "en": "If health is failing: 10 minutes morning movement",
+            "cn": "如果健康状况不佳：早晨进行10分钟的运动"
+          },
+          {
+            "en": "If relationships broken: One genuine connection weekly",
+            "cn": "若人际关系破裂：每周建立一次真诚的联系"
+          },
+          {
+            "en": "If finances desperate: 30 minutes daily on income skill",
+            "cn": "若经济拮据：每天花30分钟提升创收技能"
+          },
+          {
+            "en": "If meaning absent: 5 minutes contemplation",
+            "cn": "若缺乏意义：5分钟静思"
           }
         ]
       },
@@ -3395,7 +4928,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You build the business to have more time, only to discover you have low energy—the real constraint was Body, not Vocation.",
-            "cn": "你创办企业本是为了拥有更多时间，却发现自己精力不济——真正的制约因素是“身体”，而非“事业”。"
+            "cn": "你创办企业本是为了拥有更多时间，却发现自己精力不济——真正的制约因素是“身体”，而非“天职”。"
+          },
+          {
+            "en": "The Writing Practice (All Levels)",
+            "cn": "写作练习（所有层级）"
           }
         ]
       },
@@ -3412,6 +4949,42 @@ const ARTICLES_EXTRA = [
           {
             "en": "Writing checks all three boxes.”",
             "cn": "“这完全符合这三项要求。”"
+          },
+          {
+            "en": "5 min: Anti-vision clarity (what you refuse today)",
+            "cn": "5分钟：反愿景的清晰度（你今天拒绝什么）"
+          },
+          {
+            "en": "10 min: Problem identification and solution design",
+            "cn": "10分钟：问题识别与解决方案设计"
+          },
+          {
+            "en": "10 min: Value creation (who you can help today)",
+            "cn": "10 分钟：创造价值（今天你能帮助谁）"
+          },
+          {
+            "en": "5 min: Public sharing (post, message, or article)",
+            "cn": "5 分钟：公开分享（帖子、消息或文章）"
+          },
+          {
+            "en": "10 min: Physical movement (your choice, not assigned)",
+            "cn": "10 分钟：身体活动（自行选择，非指定）"
+          },
+          {
+            "en": "15 min: Learning (reading/audio – self-selected)",
+            "cn": "15 分钟：学习（阅读/音频——自主选择）"
+          },
+          {
+            "en": "10 min: Work preparation (your projects)",
+            "cn": "10 分钟：工作准备（你的项目）"
+          },
+          {
+            "en": "10 min: Relationship connection (authentic)",
+            "cn": "10 分钟：人际联结（真诚）"
+          },
+          {
+            "en": "10 min: Reflection/planning (your goals)",
+            "cn": "10 分钟：反思/规划（你的目标）"
           }
         ]
       },
@@ -3436,6 +5009,18 @@ const ARTICLES_EXTRA = [
           {
             "en": "The evening stack facilitates memory consolidation (review), reduces anxiety (preparation), and triggers parasympathetic recovery (relaxation).",
             "cn": "晚间组合有助于记忆巩固（复习）、缓解焦虑（准备）并促进副交感神经系统的恢复（放松）。"
+          },
+          {
+            "en": "20 min: Deep work on YOUR project",
+            "cn": "20 分钟：专注于你自己的项目的深度工作"
+          },
+          {
+            "en": "30 min: Physical training (intrinsic motivation)",
+            "cn": "30 分钟：体能训练（内在动机）"
+          },
+          {
+            "en": "30 min: Creative work/writing in public",
+            "cn": "30 分钟：在公共场合进行创意工作/写作"
           }
         ]
       },
@@ -3458,6 +5043,50 @@ const ARTICLES_EXTRA = [
       {
         "en": "This technological shift has made pursuing your life’s work not just possible but practical:",
         "cn": "这一技术变革使得追求毕生事业不仅成为可能，而且变得切实可行："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Zero marginal cost distribution: Share your work with one person or one million for the same effort",
+            "cn": "边际成本为零的分发：无论分享给一个人还是百万人，所需付出的努力都是一样的"
+          },
+          {
+            "en": "Permissionless leverage: No gatekeepers, publishers, or institutions required for access to audience",
+            "cn": "无需许可的杠杆效应：无需守门人、出版商或机构即可触达受众"
+          },
+          {
+            "en": "Compound growth: Content created once continues working while you sleep, building audience 24/7",
+            "cn": "复利式增长：内容一旦创作完成，便会在你睡眠时持续发挥作用，全天候不间断地拓展受众"
+          },
+          {
+            "en": "Global reach: Access to entire planet’s population, finding the specific people who resonate with your message",
+            "cn": "全球覆盖：触达全球受众，精准定位与您的信息产生共鸣的人群"
+          },
+          {
+            "en": "AI amplification: Tools that multiply creative output, handling repetitive tasks while you focus on unique perspective",
+            "cn": "AI 赋能：借助工具成倍提升创作产出，由其处理重复性任务，让你专注于独到视角"
+          },
+          {
+            "en": "Direct monetization: Platforms enabling instant payment from supporters without intermediaries",
+            "cn": "直接变现：平台支持支持者无需中介即可即时付款"
+          },
+          {
+            "en": "Education platform (courses, coaching, communities)",
+            "cn": "教育平台（课程、辅导、社区）"
+          },
+          {
+            "en": "Software products (using no-code tools or AI assistance)",
+            "cn": "软件产品（使用无代码工具或人工智能辅助）"
+          },
+          {
+            "en": "Physical products (print-on-demand, dropshipping, small batch manufacturing)",
+            "cn": "实物产品（按需印刷、代发货、小批量生产）"
+          },
+          {
+            "en": "Write about your interests daily",
+            "cn": "每天写写你的兴趣爱好"
+          }
+        ]
       },
       {
         "sentences": [
@@ -3493,11 +5122,11 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "Transcend and Include: Higher levels don’t abandon lower capabilities but integrate them with greater choice and wisdom.",
-        "cn": "超越与包容：更高的层次并非抛弃较低的能力，而是以更广阔的选择和更深邃的智慧将其融入其中。"
+        "cn": "超越与包容：更高的层级并非抛弃较低的能力，而是以更广阔的选择和更深邃的智慧将其融入其中。"
       },
       {
         "en": "Reality Has Levels: What’s true at one level may be false at another.",
-        "cn": "现实具有层次性：在一个层面上成立的真理，在另一个层面上可能就是谬误。"
+        "cn": "现实具有层级性：在一个层面上成立的真理，在另一个层面上可能就是谬误。"
       },
       {
         "en": "Consciousness Creates Reality: As consciousness develops, the reality you inhabit literally changes.",
@@ -3539,7 +5168,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Map is Not Territory: Human 3.0 is a model, not reality.",
-            "cn": "“地图并非疆域”：《人类3.0》是一个模型，而非现实。"
+            "cn": "“地图并非疆域”：HUMAN 3.0是一个模型，而非现实。"
           },
           {
             "en": "Use it when useful, discard when not.",
@@ -3551,7 +5180,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Game is Infinite: There’s no final level, no ultimate achievement.",
-            "cn": "游戏是无穷无尽的：没有最终关卡，也没有终极成就。"
+            "cn": "游戏是无穷无尽的：没有最终层级，也没有终极成就。"
           },
           {
             "en": "The joy is in playing, not winning.",
@@ -3854,367 +5483,6 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "gr-greg-brockman-inside-the-72-hours-that-almost-",
-    "cat": "成长",
-    "title": "Greg Brockman: Inside the 72 Hours That Almost Killed OpenAI",
-    "titleZh": "格雷格·布罗克曼：《几乎让 OpenAI 覆灭的72小时内幕》",
-    "source": "Farnam Street · 2026-04-22",
-    "date": "2026-04-22",
-    "minutes": 3,
-    "url": "https://fs.blog/knowledge-project-podcast/greg-brockman/",
-    "cover": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
-    "gradient": "linear-gradient(135deg,#f9d3c6 0%,#c6677e 100%)",
-    "coverImg": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost-.jpg",
-    "paras": [
-      {
-        "sentences": [
-          {
-            "en": "Greg Brockman is the co-founder and President of OpenAI, the company behind ChatGPT and GPT-5.",
-            "cn": "格雷格·布罗克曼是OpenAI的联合创始人兼总裁，该公司正是ChatGPT和GPT-5的开发者。"
-          },
-          {
-            "en": "He was the first engineer at Stripe before leaving in 2015 to help start OpenAI.",
-            "cn": "他是Stripe的第一位工程师，后于2015年离职，协助创立了OpenAI。"
-          }
-        ]
-      },
-      {
-        "en": "In this rare conversation, Greg goes inside the moments that built, and nearly broke, the most important AI company in the world.",
-        "cn": "在这场难得的对话中，格雷格深入剖析了那些既造就了这家全球最重要的AI公司，又险些将其摧毁的关键时刻。"
-      },
-      {
-        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--1.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--2.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--3.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-greg-brockman-inside-the-72-hours-that-almost--4.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "Greg explains how the original Napa offsite produced the three-step technical plan OpenAI has followed for a decade and the real reason OpenAI had to abandon its pure nonprofit structure.",
-            "cn": "格雷格解释了最初那次在纳帕举行的闭门会议如何制定出了OpenAI过去十年一直遵循的三步技术计划，以及OpenAI不得不放弃其纯非营利组织结构的真正原因。"
-          },
-          {
-            "en": "He then walks through the 72 hours after Sam Altman was fired: where he was when he got the board call, why he quit the same day, how the “Phoenix” backup company was designed at Sam’s house the next morning, and the moment Ilya Sutskever’s tweet changed everything.",
-            "cn": "随后，他详细讲述了萨姆·阿尔特曼被解雇后的72小时：他接到董事会电话时身在何处，为何当天就辞职，次日清晨在萨姆家中是如何构思出“凤凰”这一备用方案的，以及伊利亚·苏茨克维尔的那条推文如何改变了一切。"
-          }
-        ]
-      },
-      {
-        "en": "From there, the conversation turns forward: whether we’re in a global AI race, how much of OpenAI’s own code is now written by AI (“it’s hard to know what percent is not “), why OpenAI stopped showing reasoning traces, what a compute-constrained world means for who gets access to AGI, and Greg’s answer to the question everyone is really asking: What happens to your job?",
-        "cn": "随后，话题转向了未来：我们是否正处于一场全球人工智能竞赛之中，OpenAI 当前有多少代码是由人工智能编写的（“很难说有多少百分比不是由 AI 编写的”），OpenAI 为何停止展示推理轨迹，在计算资源受限的世界中，谁能获得通用人工智能（AGI）的访问权限，以及格雷格对大家真正关心的问题给出的答案：你的工作会怎样？"
-      },
-      {
-        "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
-        "cn": "请前往“会员专区”，查看文字记录及其他仅限会员的内容。"
-      },
-      {
-        "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create …",
-        "cn": "大卫·巴祖基（David Baszucki）是Roblox的联合创始人兼首席执行官，该平台基于一个简单的理念：为用户提供创作所需的工具和激励……"
-      },
-      {
-        "sentences": [
-          {
-            "en": "This summer, I’m revisiting one of my favorite episodes.",
-            "cn": "今年夏天，我打算重温我最喜欢的其中一集。"
-          },
-          {
-            "en": "If you haven’t heard it, now is the time.",
-            "cn": "如果你还没听过，现在正是时候。"
-          },
-          {
-            "en": "If you have, it’s a classic and …",
-            "cn": "如果你看过，那这可是部经典之作，而且……"
-          }
-        ]
-      },
-      {
-        "en": "Rockefeller became the richest man the world had ever known by thinking differently about business, competition, and family.",
-        "cn": "洛克菲勒之所以能成为有史以来最富有的人，是因为他对商业、竞争和家庭有着与众不同的见解。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "A podcast about mastering the best of what other people have already figured out.",
-            "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
-          },
-          {
-            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
-            "cn": "“知识项目”致力于发掘那些永不过时的见解和经验教训。"
-          },
-          {
-            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
-            "cn": "每集节目结束后，你都会收获切实可行的见解，这些见解将帮助你取得更好的成果，过上更有意义的生活。"
-          }
-        ]
-      },
-      {
-        "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
-        "cn": "Farnam Street 参与了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
-      }
-    ]
-  },
-  {
-    "id": "gr-roblox-ceo-how-to-make-better-decisions-by-fix",
-    "cat": "成长",
-    "title": "Roblox CEO: How to Make Better Decisions by Fixing Yourself First",
-    "titleZh": "Roblox 首席执行官：如何通过先完善自己来做出更好的决策",
-    "source": "Farnam Street · 2026-08-13",
-    "date": "2026-08-13",
-    "minutes": 3,
-    "url": "https://fs.blog/knowledge-project-podcast/david-baszucki/",
-    "cover": "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
-    "gradient": "linear-gradient(135deg,#d9d2ff 0%,#6c5ce7 100%)",
-    "coverImg": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix.jpg",
-    "paras": [
-      {
-        "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create together.",
-        "cn": "大卫·巴祖基是Roblox的联合创始人兼首席执行官，该平台基于一个简单的理念：为用户提供工具和激励，让他们能够共同进行创作。"
-      },
-      {
-        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-1.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-2.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-3.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-roblox-ceo-how-to-make-better-decisions-by-fix-4.jpg",
-        "cap": ""
-      },
-      {
-        "en": "In this short conversation, he shares how a health decision saved his son’s life and how it changed how he eats, why bureaucracy compounds unless you actively destroy it, monitoring your mind before making decisions, and why the best products often improve by removing complexity.",
-        "cn": "在这段简短的对话中，他讲述了一个健康决策如何挽救了儿子的生命，以及这如何改变了他自己的饮食习惯；解释了为何官僚主义会不断累积——除非你主动打破它；探讨了在做出决策前如何观察自己的思维状态；并阐述了为何最好的产品往往通过消除复杂性而得到改进。"
-      },
-      {
-        "en": "+ Members get the longer, extended version of this conversation, with additional content not included in the public release.",
-        "cn": "+ 会员可获取本次对话的加长版，其中包含公开版本中未收录的额外内容。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "++ Note: Shane and guests may hold positions in assets discussed in this episode.",
-            "cn": "++ 注：肖恩及其嘉宾可能持有本期节目中讨论的资产。"
-          },
-          {
-            "en": "This podcast is not investment advice, and is intended for informational and entertainment purposes only.",
-            "cn": "本播客不构成投资建议，仅供参考和娱乐之用。"
-          },
-          {
-            "en": "Nothing in this conversation should be considered investment advice, financial guidance, or a recommendation to buy or sell any security.",
-            "cn": "本对话中的任何内容均不应被视为投资建议、财务指导，或对买卖任何证券的推荐。"
-          },
-          {
-            "en": "Always do your own due diligence or consult with a qualified financial advisor before making investment decisions.",
-            "cn": "在做出投资决策之前，请务必自行进行尽职调查，或咨询合格的财务顾问。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "++ Note: This episode discusses health and medical topics for informational purposes only.",
-            "cn": "++ 注：本期节目讨论健康和医疗相关话题，仅供参考。"
-          },
-          {
-            "en": "Shane and his guest are not medical professionals, and nothing in this conversation should be considered medical advice.",
-            "cn": "谢恩及其嘉宾均非医疗专业人士，本对话中的任何内容均不应被视为医疗建议。"
-          },
-          {
-            "en": "Please do your own research and consult a qualified healthcare professional before making decisions about your health.",
-            "cn": "在就健康问题做出决定之前，请自行进行调研，并咨询合格的医疗保健专业人员。"
-          }
-        ]
-      },
-      {
-        "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
-        "cn": "请前往“会员专区”，查看文字记录及其他仅限会员的内容。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "This summer, I’m revisiting one of my favorite episodes.",
-            "cn": "今年夏天，我打算重温我最喜欢的其中一集。"
-          },
-          {
-            "en": "If you haven’t heard it, now is the time.",
-            "cn": "如果你还没听过，现在正是时候。"
-          },
-          {
-            "en": "If you have, it’s a classic and …",
-            "cn": "如果你看过，那这可是部经典之作，而且……"
-          }
-        ]
-      },
-      {
-        "en": "Rockefeller became the richest man the world had ever known by thinking differently about business, competition, and family.",
-        "cn": "洛克菲勒之所以能成为有史以来最富有的人，是因为他对商业、竞争和家庭有着与众不同的见解。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "It drifts there one comfortable lie at a time.",
-            "cn": "它就这样一次又一次地飘向那里，每个谎言都让人感到舒适。"
-          },
-          {
-            "en": "Kaz Nejatian took over Opendoor when it was just months away from …",
-            "cn": "当Opendoor距离……仅剩几个月时，卡兹·内贾蒂安接手了该公司……"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "A podcast about mastering the best of what other people have already figured out.",
-            "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
-          },
-          {
-            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
-            "cn": "“知识项目”致力于发掘那些永不过时的见解和经验教训。"
-          },
-          {
-            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
-            "cn": "每集节目结束后，你都会收获切实可行的见解，这些见解将帮助你取得更好的成果，过上更有意义的生活。"
-          }
-        ]
-      },
-      {
-        "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
-        "cn": "Farnam Street 参与了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
-      }
-    ]
-  },
-  {
-    "id": "gr-the-mindset-behind-building-a-great-little-bus",
-    "cat": "成长",
-    "title": "The Mindset Behind Building a Great Little Business | Brad Jacobs",
-    "titleZh": "打造一家优秀的小企业的思维方式 | 布拉德·雅各布斯",
-    "source": "Farnam Street · 2026-07-30",
-    "date": "2026-07-30",
-    "minutes": 2,
-    "url": "https://fs.blog/knowledge-project-podcast/brad-jacobs-2/",
-    "cover": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
-    "gradient": "linear-gradient(135deg,#cdeafd 0%,#2b7bb9 100%)",
-    "coverImg": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus.jpg",
-    "paras": [
-      {
-        "sentences": [
-          {
-            "en": "This summer, I’m revisiting one of my favorite episodes.",
-            "cn": "今年夏天，我打算重温我最喜欢的其中一集。"
-          },
-          {
-            "en": "If you haven’t heard it, now is the time.",
-            "cn": "如果你还没听过，现在正是时候。"
-          },
-          {
-            "en": "If you have, it’s a classic and worth listening to again.",
-            "cn": "如果你听过的话，这是一部经典之作，值得再次聆听。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-1.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-2.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-3.jpg",
-        "cap": ""
-      },
-      {
-        "img": "assets/covers/gr-the-mindset-behind-building-a-great-little-bus-4.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "Brad Jacobs has built eight billion-dollar companies, completed more than 500 acquisitions, and created extraordinary returns for shareholders over four decades.",
-            "cn": "布拉德·雅各布斯在四十多年间创立了八家市值达10亿美元的公司，完成了500多起收购，并为股东创造了非凡的回报。"
-          },
-          {
-            "en": "Few people understand how great businesses are built better than he does.",
-            "cn": "很少有人比他更了解如何打造伟大的企业。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "This conversation is about the principles behind that success.",
-            "cn": "这次对话探讨的是这一成功背后的原则。"
-          },
-          {
-            "en": "Brad explains how he spots trends before they become obvious, why psychology matters as much as strategy, and how he thinks about acquisitions, hiring, capital allocation, decision-making, and building organizations that consistently outperform.",
-            "cn": "布拉德阐述了他是如何在趋势显而易见之前就将其捕捉到的，为什么心理学与战略同样重要，以及他是如何思考并购、招聘、资本配置、决策，以及如何打造能够持续表现优异的组织。"
-          }
-        ]
-      },
-      {
-        "en": "He also shares lessons from therapy, meditation, and decades of leadership that changed how he manages people and makes decisions.",
-        "cn": "他还分享了从心理治疗、冥想以及数十年的领导经验中汲取的经验教训，这些经历改变了他管理团队和做出决策的方式。"
-      },
-      {
-        "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
-        "cn": "请前往“会员专区”，查看文字记录及其他仅限会员的内容。"
-      },
-      {
-        "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create …",
-        "cn": "大卫·巴祖基（David Baszucki）是Roblox的联合创始人兼首席执行官，该平台基于一个简单的理念：为用户提供创作所需的工具和激励……"
-      },
-      {
-        "en": "Rockefeller became the richest man the world had ever known by thinking differently about business, competition, and family.",
-        "cn": "洛克菲勒之所以能成为有史以来最富有的人，是因为他对商业、竞争和家庭有着与众不同的见解。"
-      },
-      {
-        "en": "It drifts there one comfortable lie at a time.",
-        "cn": "它就这样一次又一次地飘向那里，每个谎言都让人感到舒适。"
-      },
-      {
-        "en": "Kaz Nejatian took over Opendoor when it was just months away from …",
-        "cn": "当Opendoor距离……仅剩几个月时，卡兹·内贾蒂安接手了该公司……"
-      },
-      {
-        "sentences": [
-          {
-            "en": "A podcast about mastering the best of what other people have already figured out.",
-            "cn": "一档关于如何掌握他人已总结出的最佳经验的播客。"
-          },
-          {
-            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
-            "cn": "“知识项目”致力于发掘那些永不过时的见解和经验教训。"
-          },
-          {
-            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
-            "cn": "每集节目结束后，你都会收获切实可行的见解，这些见解将帮助你取得更好的成果，过上更有意义的生活。"
-          }
-        ]
-      },
-      {
-        "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
-        "cn": "Farnam Street 参与了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
-      }
-    ]
-  },
-  {
     "id": "gr-listening-is-the-silencing-of-the-mind",
     "cat": "成长",
     "title": "Listening Is the Silencing of the Mind",
@@ -4318,12 +5586,20 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "What makes a great conversation?",
+            "cn": "什么样的对话才算精彩？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "If you sit with this question long enough, you’ll find that it’s not necessarily the back-and-forth nature of a conversation that makes it great.",
             "cn": "如果你花足够长的时间思考这个问题，就会发现，一场对话之所以精彩，并不一定在于它那种一问一答的性质。"
           },
           {
             "en": "It’s not the sustained rally of point-after-point that makes it compelling.",
-            "cn": "让它引人入胜的，并不是那种接二连三、持续不断的连胜。"
+            "cn": "让它引人入胜的，并不是球一来一往能打多久。"
           }
         ]
       },
@@ -4360,6 +5636,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "We desperately want to have a response ready so that we don’t have to deal with the elevated heart rate that can accompany the absence of sound.",
             "cn": "我们迫切希望准备好相应的应对措施，这样就不用面对因缺乏声音而可能引发的心率加快了。"
+          },
+          {
+            "en": "What makes silence uncomfortable?",
+            "cn": "是什么让沉默让人感到不适？"
           }
         ]
       },
@@ -4380,6 +5660,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "By giving yourself the space to still your mind, you allow clarity to seep in, one light ray at a time.",
             "cn": "通过给自己留出静心沉思的空间，你会让清明之光一缕一缕地渗入心间。"
+          },
+          {
+            "en": "Expectations shift, however, when you’re in a social setting.",
+            "cn": "然而，当你身处社交场合时，这种期待就会发生转变。"
           }
         ]
       },
@@ -4735,6 +6019,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This doesn’t change the fact that they are on that island with you, but the absence of that knowledge leads to the assumption that they are in pristine health while you are not.",
             "cn": "这并不改变他们与你同在那个岛上的事实，但正因为不知道这一点，才会让人误以为他们身体非常健康，而你却并非如此。"
+          },
+          {
+            "en": "And it is this very assumption that makes you feel alone.",
+            "cn": "而正是这种先入为主的假设，让你感到孤独。"
           }
         ]
       },
@@ -4867,6 +6155,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "To say that tinnitus has required adjustments is an understatement, but thanks to mental training and the passage of time, I’ve been able to cultivate equanimity alongside it.",
             "cn": "说耳鸣让我不得不做出调整，这还算轻描淡写；但多亏了心理训练和时间的流逝，我得以在与耳鸣共处的同时培养出泰然自若的心态。"
+          },
+          {
+            "en": "My ears, however, would have other plans for me in store.",
+            "cn": "然而，我的耳朵似乎为我准备了另一套计划。"
           }
         ]
       },
@@ -5382,6 +6674,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "That gap between what I collected and what I could actually find and use again bothered me for a very long time.",
             "cn": "我收集到的东西与实际能找到并再次利用的东西之间的差距，长期以来一直困扰着我。"
+          },
+          {
+            "en": "How did you come up with the idea for Linkflare?",
+            "cn": "你是如何想到Linkflare这个创意的？"
           }
         ]
       },
@@ -5513,7 +6809,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And because knowledge fades when you never meet it again, spaced repetition is built in: the app resurfaces your cards for a short review right around the time you’d otherwise forget them.",
-            "cn": "而且，由于知识一旦不再接触就会逐渐淡忘，因此该应用内置了间隔复习功能：就在你即将忘记这些卡片的时候，应用会重新展示它们，供你进行简短复习。"
+            "cn": "而且，由于知识一旦不再接触就会逐渐淡忘，因此该应用内置了间隔重复功能：就在你即将忘记这些卡片的时候，应用会重新展示它们，供你进行简短复习。"
           },
           {
             "en": "The reviewing happens in the same place as the collecting, with no extra app in between.",
@@ -5605,7 +6901,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "During the day, saving is a reflex.",
-            "cn": "白天，省钱已成为一种本能。"
+            "cn": "白天，保存是一种本能。"
           },
           {
             "en": "I come across a paper or a blog post, click the browser extension, done.",
@@ -5713,7 +7009,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And none of it costs you anything at save time: you press one button and the rest fills itself in.",
-            "cn": "而且这一切在节省时间方面完全不花你一分钱：你只需按一下按钮，其余的就会自动填好。"
+            "cn": "而且这一切在保存时完全不花你一分钱：你只需按一下按钮，其余的就会自动填好。"
           }
         ]
       },
@@ -5825,11 +7121,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "There are excellent flashcard apps, but hardly anyone sits down after reading an article to author flashcards about it.",
-            "cn": "虽然有不少优秀的单词卡应用，但几乎没有人会在读完一篇文章后特意坐下来制作相关的单词卡。"
+            "cn": "虽然有不少优秀的闪卡应用，但几乎没有人会在读完一篇文章后特意坐下来制作相关的闪卡。"
           },
           {
             "en": "So in practice, spaced repetition stays locked inside vocabulary drills and exam prep, while the knowledge we deliberately gather as adults gets nothing.",
-            "cn": "因此，实际上，间隔复习法仍局限于词汇练习和考试准备之中，而我们成年后有意识地积累的知识却未能从中受益。"
+            "cn": "因此，实际上，间隔重复仍局限于词汇练习和考试准备之中，而我们成年后有意识地积累的知识却未能从中受益。"
           }
         ]
       },
@@ -5946,6 +7242,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "The connecting and the doubting still happen in a human head, and they work with whatever you’ve actually retained.",
             "cn": "这种联系与怀疑依然发生在人的脑海中，并且会基于你实际记住的内容进行运作。"
+          },
+          {
+            "en": "Who exactly is Linkflare designed for?",
+            "cn": "Linkflare究竟是为谁设计的？"
           }
         ]
       },
@@ -5984,6 +7284,14 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "What about you, how do you personally use Linkflare?",
+            "cn": "你呢？你个人是如何使用Linkflare的？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Everything I’ve described is from my real account, but here’s a bit more of it.",
             "cn": "我刚才描述的都是我真实账户的情况，不过这里还有一点补充。"
           },
@@ -6013,7 +7321,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Either of us saves something in passing, and both of us see it.",
-            "cn": "我们中任何一个人都会在路过时顺手拿走某样东西，而我们俩都看到了。"
+            "cn": "我们中任何一个人都会在路过时顺手保存某样东西，而我们俩都看到了。"
           }
         ]
       },
@@ -6029,7 +7337,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And lately, because Linkflare has an MCP server, I sometimes let Claude quiz me on my own cards in the middle of a work day.",
-            "cn": "而且最近，因为Linkflare有一台MCP服务器，我有时会在工作日的中间让克劳德用我自己的卡片考考我。"
+            "cn": "而且最近，因为Linkflare有一台MCP服务器，我有时会在工作日的中间让Claude用我自己的卡片考考我。"
           },
           {
             "en": "Being interrogated by my own library is still a slightly surreal experience.",
@@ -6317,6 +7625,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "It’s like working with an assistant who’s been in all your meetings, read all your documents, and knows what you’re trying to accomplish, without you having to explain any of it.",
             "cn": "这就像是与一位助理共事，他参加过你所有的会议，读过你所有的文件，并且清楚你想达成什么目标，而你无需向他解释任何事情。"
+          },
+          {
+            "en": "What’s the difference between a general AI assistant and Littlebird?",
+            "cn": "通用AI助手与Littlebird有什么区别？"
           }
         ]
       },
@@ -6369,6 +7681,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "You say “draft a proposal for [client]” and it already knows who the client is, what you’ve discussed with them, and what materials exist that it can build from.",
             "cn": "你只需说“为[客户]起草一份提案”，它就已经知道客户是谁、你与客户讨论过什么，以及有哪些现有材料可以作为基础。"
+          },
+          {
+            "en": "Let’s talk about how Littlebird works in more detail.",
+            "cn": "接下来让我们更详细地探讨一下 Littlebird 的运作方式。"
           }
         ]
       },
@@ -6492,7 +7808,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Recall is usually the entry point.",
-            "cn": "回调通常是切入点。"
+            "cn": "回想通常是切入点。"
           },
           {
             "en": "Things like “What did we agree on in that call last Thursday?” or “Where did I see that article about market sizing?” get instant answers without the scavenger hunt.",
@@ -6533,6 +7849,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "It’s about the quality of how you spend your time, not just the quantity.",
             "cn": "关键在于你如何利用时间，而不仅仅是时间的长短。"
+          },
+          {
+            "en": "What are some of the most powerful use cases you’ve seen?",
+            "cn": "你见过哪些最具影响力的应用案例？"
           }
         ]
       },
@@ -6593,6 +7913,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "It’s become how a lot of them start the week—like having a chief of staff who writes you a memo before you’ve had coffee.",
             "cn": "这已经成了他们中许多人开启新的一周的方式——就像有个幕僚长在你还没喝上咖啡之前就给你写了一份备忘录。"
+          },
+          {
+            "en": "What about you, how do you personally use Littlebird?",
+            "cn": "那你呢？你个人是如何使用 Littlebird 的？"
           }
         ]
       },
@@ -6739,14 +8063,22 @@ const ARTICLES_EXTRA = [
     "cat": "成长",
     "title": "How to fix your entire life in 1 day",
     "titleZh": "如何在一天内彻底改变你的人生",
-    "source": "Dan Koe · 2026-01-13",
-    "date": "2026-01-13",
+    "source": "Dan Koe · 2025-12-23",
+    "date": "2025-12-23",
     "minutes": 36,
-    "url": "http://localhost:8123/.tmp/oneoff/essay.html",
+    "url": "https://letters.thedankoe.com/p/how-to-fix-your-entire-life-in-1",
     "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
     "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
     "coverImg": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day.jpg",
     "paras": [
+      {
+        "sentences": [
+          {
+            "en": "You’re probably going to quit your new years resolution.",
+            "cn": "你很可能最终会放弃你的新年决心。"
+          }
+        ]
+      },
       {
         "en": "Most people do (studies show 80-90% failure rates) because most people don’t actually want to change on a deep, internal level.",
         "cn": "大多数人确实如此（研究表明失败率在80%至90%之间），因为大多数人实际上并不想在内心深处真正做出改变。"
@@ -6824,6 +8156,14 @@ const ARTICLES_EXTRA = [
         "cn": "如果你觉得无聊，可以跳到下一节，如有需要，再回来填空。"
       },
       {
+        "sentences": [
+          {
+            "en": "I – You aren’t where you want to be because you aren’t the person who would be there",
+            "cn": "我——你之所以没能达到理想的状态，是因为你还不是那个能达到理想状态的人"
+          }
+        ]
+      },
+      {
         "en": "When it comes to New Year’s resolutions, people only focus on one of the two requirements for success:",
         "cn": "说到新年决心，人们往往只关注成功所需的两个条件中的一个："
       },
@@ -6838,6 +8178,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "Most people set a surface-level goal, hype themselves up to remain disciplined for the first few weeks, then go back to their old ways without much struggle, because they were trying to build a great life on a rotting foundation.",
         "cn": "大多数人只会设定一个肤浅的目标，在前几周靠自我激励来保持自律，随后便毫不费力地故态复萌，因为他们试图在腐朽的地基上建造美好的人生。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "If this doesn’t make sense, let’s run through an example.",
+            "cn": "如果这听起来不太通顺，让我们通过一个例子来解释一下。"
+          }
+        ]
       },
       {
         "en": "It can be a bodybuilder with a great physique, a founder/CEO worth hundreds of millions, or a charismatic dude who can chat up a group without a shred of anxiety entering his mind space.",
@@ -6888,6 +8236,14 @@ const ARTICLES_EXTRA = [
         "cn": "我忍住了没对她说：“如果我不觉得开心，我为什么要这么做呢？”"
       },
       {
+        "sentences": [
+          {
+            "en": "Do not take this next sentence lightly.",
+            "cn": "请不要轻视接下来这句话。"
+          }
+        ]
+      },
+      {
         "en": "If you want a specific outcome in life, you must have the lifestyle that creates that outcome long before you reach it.",
         "cn": "如果你想在生活中获得特定的结果，就必须在达到那个结果之前很久，就养成能够带来这种结果的生活方式。"
       },
@@ -6901,7 +8257,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "and find a reason with a higher gravitational pull than the one tying you to your previous ways, then you will go straight back to where you started, and you can unhappily say that you wasted the resource you will never get back: time.",
-        "cn": "如果你找到的理由，其吸引力比将你束缚在旧习惯中的那种更强，那么你就会直接回到原点，届时你只能遗憾地承认，自己浪费了永远无法挽回的资源：时间。"
+        "cn": "而且如果你找不到一个理由，其吸引力比将你束缚在旧习惯中的那种更强，那么你就会直接回到原点，届时你只能遗憾地承认，自己浪费了永远无法挽回的资源：时间。"
       },
       {
         "en": "When you truly change yourself, all of your habits that don’t move the needle toward your goal become disgusting, because you have a deep and profound awareness of what kind of life those actions compound into.",
@@ -6924,6 +8280,14 @@ const ARTICLES_EXTRA = [
         "cn": "而且，这远比你想象的要深得多。"
       },
       {
+        "sentences": [
+          {
+            "en": "II – You aren’t where you want to be because you don’t want to be there",
+            "cn": "II——你之所以没能到达理想的位置，是因为你根本不想去那里"
+          }
+        ]
+      },
+      {
         "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-3.jpg",
         "cap": ""
       },
@@ -6942,6 +8306,18 @@ const ARTICLES_EXTRA = [
       {
         "en": "When you think about it, this is kinda obvious, but when we dig into it, most people don’t want to hear it.",
         "cn": "仔细想想，这其实挺显而易见的，但一旦深入探讨，大多数人却不愿听。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You take a step forward because you want to reach a certain location.",
+            "cn": "你迈出一步，是因为你想抵达某个地方。"
+          },
+          {
+            "en": "You scratch your nose because you want to make the itch go away.",
+            "cn": "你挠鼻子，是因为你想让那股痒感消失。"
+          }
+        ]
       },
       {
         "en": "Those ones are clear, but most of the time, your goals are unconscious.",
@@ -6968,6 +8344,14 @@ const ARTICLES_EXTRA = [
         "cn": "如果你嘴上说想辞掉这份死胡同般的工作，却又在没有正当理由的情况下继续留任，你可能会开始认为自己不够勇敢，或者觉得自己从来就不是一个“敢于冒险的人”，但事实是，你追求的不过是安全感、可预测性，以及一个借口——这样在生活中那些同样从事死胡同工作的人眼中，你就不会显得像个失败者。"
       },
       {
+        "sentences": [
+          {
+            "en": "The lesson here is that real change requires changing your goals.",
+            "cn": "这里要汲取的教训是：真正的改变需要改变你的目标。"
+          }
+        ]
+      },
+      {
         "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-4.jpg",
         "cap": ""
       },
@@ -6990,6 +8374,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "Now let’s dig a bit deeper, because if you don’t understand this, it only becomes more difficult to get out.",
         "cn": "现在让我们深入探讨一下，因为如果你不理解这一点，想要摆脱困境只会变得更加困难。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "III – You aren’t where you want to be because you’re afraid to be there",
+            "cn": "III——你之所以没能到达理想之地，是因为你害怕抵达那里"
+          }
+        ]
       },
       {
         "en": "The important thing for you to remember is that it does not matter in the least how you got the idea or where it came from.",
@@ -7016,6 +8408,14 @@ const ARTICLES_EXTRA = [
         "cn": "这就是身份的构成："
       },
       {
+        "sentences": [
+          {
+            "en": "You perceive reality through the lens of that goal",
+            "cn": "你通过那个目标的视角来感知现实"
+          }
+        ]
+      },
+      {
         "en": "You only notice “important” information and ideas that allows you to achieve that goal (learning)",
         "cn": "你只会注意到那些能帮助你实现该目标（学习）的“重要”信息和观点。"
       },
@@ -7030,6 +8430,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "That behavior becomes a part of who you think you are (”I am the type of person who...”)",
         "cn": "这种行为会成为你自我认知的一部分（“我就是那种……的人”）。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You defend your identity to maintain psychological consistency",
+            "cn": "你捍卫自己的身份认同，是为了维持心理的一致性"
+          }
+        ]
       },
       {
         "en": "Your identity shapes new goals, restarting the cycle, and if that identity is disadvantageous toward a good life, this gets bad very quick",
@@ -7080,6 +8488,18 @@ const ARTICLES_EXTRA = [
         "cn": "在互联网上，不难看到一场思想之战，而参与者则是个人和群体的身份认同。"
       },
       {
+        "sentences": [
+          {
+            "en": "When your body feels threatened, you go into fight or flight.",
+            "cn": "当你的身体感到受到威胁时，你会进入“战斗或逃跑”状态。"
+          },
+          {
+            "en": "When your identity feels threatened, the same thing happens.",
+            "cn": "当你的身份认同感到受到威胁时，同样的情况也会发生。"
+          }
+        ]
+      },
+      {
         "en": "If you are heavily identified with a political ideology (by the process we talked about just before), you will feel threatened when someone challenges your beliefs.",
         "cn": "如果你（通过我们刚才讨论过的过程）对某种政治意识形态产生了强烈的认同感，那么当有人质疑你的信念时，你就会感到受到威胁。"
       },
@@ -7098,6 +8518,18 @@ const ARTICLES_EXTRA = [
       {
         "en": "The same thing happens when you unconsciously see yourself as a lawyer, a gamer, or somebody else who would not take the actions to achieve a better life.",
         "cn": "当你下意识地把自己看作一名律师、一名游戏玩家，或是其他不会采取行动来改善生活的人时，也会发生同样的情况。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "IV – The life you want lies within a specific level of mind",
+            "cn": "IV——你所向往的生活，存在于特定的意识层面之中"
+          },
+          {
+            "en": "The mind evolves through predictable stages over time.",
+            "cn": "随着时间的推移，思维会经历可预测的阶段而不断演进。"
+          }
+        ]
       },
       {
         "en": "When you’re born, you’re like a little survival sponge that absorbs whatever beliefs you can (which are heavily dictated by your culture) so that you can feel safe and secure.",
@@ -7197,7 +8629,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "Those closer to 8 are reading this are doing so to either learn something or pass time.",
-        "cn": "那些年龄接近8岁、正在阅读本文的人，要么是为了学点东西，要么是为了打发时间。"
+        "cn": "那些接近第 8 阶段、正在阅读本文的人，要么是为了学点东西，要么是为了打发时间。"
       },
       {
         "en": "Those closer to 4 are really looking for a change.",
@@ -7212,12 +8644,36 @@ const ARTICLES_EXTRA = [
         "cn": "好在，无论你处于哪个阶段其实都无所谓，因为跨越任何一个阶段都遵循着一种规律。"
       },
       {
+        "sentences": [
+          {
+            "en": "V – Intelligence is the ability to get what you want out of life",
+            "cn": "V – 智慧就是从生活中获得你想要的东西的能力"
+          }
+        ]
+      },
+      {
         "en": "The only real test of intelligence is if you get what you want out of life.",
         "cn": "衡量智力的唯一真正标准，在于你能否从生活中获得自己想要的东西。"
       },
       {
+        "sentences": [
+          {
+            "en": "There is a formula for success.",
+            "cn": "成功是有公式可循的。"
+          }
+        ]
+      },
+      {
         "en": "One ingredient is opportunity (which many people like to mistake as “privilege” - because they the other ingredients).",
         "cn": "其中一个要素是机会（许多人常将其误认为“特权”——因为他们缺乏其他要素）。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The last ingredient is intelligence.",
+            "cn": "最后一个要素就是“智慧”。"
+          }
+        ]
       },
       {
         "en": "If you have high agency but low opportunity, it doesn’t matter how likely you are to act toward a goal, because it isn’t a goal that will bear much fruit.",
@@ -7244,8 +8700,28 @@ const ARTICLES_EXTRA = [
         "cn": "控制论源自希腊语单词“kybernetikos”，意为“掌舵”或“擅长掌舵”。"
       },
       {
+        "sentences": [
+          {
+            "en": "It’s also known as “the art of getting what you want.”",
+            "cn": "它也被称为“获得所求之物的艺术”。"
+          }
+        ]
+      },
+      {
         "en": "So, if Naval’s definition of intelligence is getting what you want out of life, understanding cybernetics helps you do that much faster.",
         "cn": "因此，如果纳瓦尔对“智慧”的定义是实现人生目标，那么了解控制论就能帮助你更快地实现这一目标。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Cybernetics illustrates the properties of intelligent systems.",
+            "cn": "控制论阐明了智能系统的特性。"
+          },
+          {
+            "en": "And act again based on that feedback.",
+            "cn": "并根据这一反馈再次采取行动。"
+          }
+        ]
       },
       {
         "en": "You can judge intelligence based on the system’s ability to iterate and persist with trial and error.",
@@ -7262,6 +8738,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "The pancreas excreting insulin after blood glucose spikes.",
         "cn": "血糖骤升后，胰腺会分泌胰岛素。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "What does this have to do with getting what you want out of life?",
+            "cn": "这与实现你的人生目标有什么关系呢？"
+          }
+        ]
       },
       {
         "en": "Acting, sensing, comparing, and understanding the system from a meta-perspective is fundamental to high intelligence.",
@@ -7320,8 +8804,32 @@ const ARTICLES_EXTRA = [
         "cn": "万物都是一个更大整体的一部分。"
       },
       {
+        "sentences": [
+          {
+            "en": "Goals determine how you see the world.",
+            "cn": "目标决定了你如何看待世界。"
+          },
+          {
+            "en": "Goals determine what you consider “success” or “failure.”",
+            "cn": "目标决定了你如何定义“成功”或“失败”。"
+          }
+        ]
+      },
+      {
         "en": "You can try to “enjoy the journey,” but if you pursue the wrong goal, you will not enjoy it.",
         "cn": "你可以试着“享受这段旅程”，但如果追求的是错误的目标，你就无法享受其中。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your mind is the operating system for reality.",
+            "cn": "你的思维是现实的操作系统。"
+          },
+          {
+            "en": "That system is composed of goals.",
+            "cn": "该系统由目标构成。"
+          }
+        ]
       },
       {
         "en": "For most people, those goals are assigned to them.",
@@ -7332,12 +8840,56 @@ const ARTICLES_EXTRA = [
         "cn": "像代码行一样被编程到你的潜意识中。"
       },
       {
+        "sentences": [
+          {
+            "en": "A known path that doesn’t work.",
+            "cn": "一条众所周知却行不通的道路。"
+          },
+          {
+            "en": "Set new, higher goals to expand your mind",
+            "cn": "设定新的、更高的目标来拓展你的思维"
+          },
+          {
+            "en": "Embrace the chaos and allow for growth",
+            "cn": "拥抱混乱，为成长留出空间"
+          },
+          {
+            "en": "Study the generalized principles of nature",
+            "cn": "研究自然的普遍规律"
+          },
+          {
+            "en": "That leads us into the next section perfectly.",
+            "cn": "这将完美地引出下一部分。"
+          },
+          {
+            "en": "VI – How to launch into a completely new life (in 1 day)",
+            "cn": "第六部分——如何（在一天内）开启崭新的人生"
+          }
+        ]
+      },
+      {
         "en": "The best periods of my life always came after a period of getting absolutely fed up with the lack of progress I was making.",
         "cn": "我人生中最美好的时光，总是出现在我对自己的停滞不前感到彻底厌倦之后。"
       },
       {
+        "sentences": [
+          {
+            "en": "How do you become aware of your conditioning?",
+            "cn": "如何觉察自己的思维定式？"
+          }
+        ]
+      },
+      {
         "en": "How do you reach profound insights and truths that change the trajectory of your life?",
         "cn": "如何获得能够改变人生轨迹的深刻见解和真理？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Through the simple, but often painful act of questioning.",
+            "cn": "通过这种简单却往往痛苦的自问过程。"
+          }
+        ]
       },
       {
         "en": "Something that so few people do, and you can tell by how they speak or give their thoughts on a specific topic.",
@@ -7592,6 +9144,18 @@ const ARTICLES_EXTRA = [
         "cn": "如果你已经是那样的人了，这周你会做的一件事是什么？"
       },
       {
+        "sentences": [
+          {
+            "en": "Answer all of those first thing in the morning tomorrow.",
+            "cn": "明天一早醒来，请先回答所有这些问题。"
+          },
+          {
+            "en": "These journaling exercises are cute, but we want real change.",
+            "cn": "这些日记练习虽然有趣，但我们想要的是真正的改变。"
+          }
+        ]
+      },
+      {
         "en": "Frankly, that’s not going to happen if you don’t break the current unconscious patterns that are keeping you the same.",
         "cn": "坦白说，如果你不打破那些让你停滞不前的现有潜意识模式，这种情况是不会发生的。"
       },
@@ -7624,8 +9188,28 @@ const ARTICLES_EXTRA = [
         "cn": "这类安排越随机、与你的日程安排冲突越少，就越好。"
       },
       {
+        "sentences": [
+          {
+            "en": "11:00am: What am I avoiding right now by doing what I’m doing?",
+            "cn": "上午11:00：我此刻做这些事，究竟是在逃避什么？"
+          }
+        ]
+      },
+      {
         "en": "1:30pm: If someone filmed the last two hours, what would they conclude I want from my life?",
         "cn": "下午1:30：如果有人录下了过去这两个小时，他们会得出什么结论，认为我的人生追求是什么？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "3:15pm: Am I moving toward the life I hate or the life I want?",
+            "cn": "下午3:15：我是在走向自己讨厌的生活，还是自己想要的生活？"
+          },
+          {
+            "en": "5:00pm: What’s the most important thing I’m pretending isn’t important?",
+            "cn": "下午5:00：我假装不重要的事情中，哪一件才是最重要的？"
+          }
+        ]
       },
       {
         "en": "7:30pm: What did I do today out of identity protection rather than genuine desire?",
@@ -7636,12 +9220,28 @@ const ARTICLES_EXTRA = [
         "cn": "（提示：这几乎就是你所做的所有事情）"
       },
       {
+        "sentences": [
+          {
+            "en": "9:00pm: When did I feel most alive today?",
+            "cn": "晚上9:00：今天什么时候我感觉最充满活力？"
+          }
+        ]
+      },
+      {
         "en": "To add a bit more fuel to the fire, schedule these questions during times where you are either commuting, walking, or lying around.",
         "cn": "为了让事情更添一把火，不妨在通勤、散步或闲躺时安排这些提问。"
       },
       {
         "en": "What would change if I stopped needing people to see me as [the identity you wrote in question 10]?",
         "cn": "如果我不再需要别人把我看作[你在第10题中写下的身份]，情况会有什么变化？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Where in my life am I trading aliveness for safety?",
+            "cn": "在我的生活中，我正在哪里用“活力”来换取“安全”？"
+          }
+        ]
       },
       {
         "en": "What’s the smallest version of the person I want to become that I could be tomorrow?",
@@ -7654,6 +9254,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "Now, we need to make those known, integrate them into who we are, and act on them to begin solidifying our journey to a new level of mind.",
         "cn": "现在，我们需要让这些理念广为人知，将其融入我们的内在，并付诸行动，从而开始巩固我们迈向更高精神境界的旅程。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "After today, what feels most true about why you’ve been stuck?",
+            "cn": "经过今天，关于你为何陷入停滞，什么感觉最真实？"
+          }
+        ]
       },
       {
         "en": "The internal pattern or belief that has been running the show.",
@@ -7674,6 +9282,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "Write a single sentence that captures what you’re building toward, knowing it will evolve.",
         "cn": "请用一句话概括你正在努力实现的目标，同时要明白这个目标会不断演变。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Lastly, we need to create goals.",
+            "cn": "最后，我们需要设定目标。"
+          }
+        ]
       },
       {
         "en": "Again, these aren’t goals that you set for the sake of achievement, because goals are just projections.",
@@ -7712,6 +9328,14 @@ const ARTICLES_EXTRA = [
         "cn": "每日反思：明天你可以安排2-3项时间块任务，这些任务是“正在成为的你”一定会去做的？"
       },
       {
+        "sentences": [
+          {
+            "en": "But we have one last piece to lock it all in.",
+            "cn": "但我们还有最后一步，将这一切牢牢锁定。"
+          }
+        ]
+      },
+      {
         "en": "The optimal state of inner experience is one in which there is order in consciousness.",
         "cn": "内在体验的最佳状态，是意识中存在秩序的状态。"
       },
@@ -7722,6 +9346,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "The pursuit of a goal brings order in awareness because a person must concentrate attention on the task at hand and momentarily forget everything else.",
         "cn": "追求目标能使意识变得有条理，因为人必须将注意力集中在眼前的任务上，暂时忘却其他一切。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You now have all of the components that lead to a good life.",
+            "cn": "现在，你已经拥有了通往美好生活的所有要素。"
+          }
+        ]
       },
       {
         "en": "Now, it may be helpful to organize all of your insights into one coherent plan.",
@@ -7780,6 +9412,14 @@ const ARTICLES_EXTRA = [
         "cn": "你不会看到其他任何选项。"
       },
       {
+        "sentences": [
+          {
+            "en": "You turn your life into a video game.",
+            "cn": "你将把生活变成一款电子游戏。"
+          }
+        ]
+      },
+      {
         "en": "Because games are the poster child for obsession, enjoyment, and flow states.",
         "cn": "因为游戏正是痴迷、乐趣和心流状态的典型代表。"
       },
@@ -7788,12 +9428,32 @@ const ARTICLES_EXTRA = [
         "cn": "它们具备所有有助于集中注意力、保持思维清晰的关键要素，因此，如果我们反向推导出这些要素，就能进入一种享受更深、分心更少、成功更多的状态。"
       },
       {
+        "sentences": [
+          {
+            "en": "At least until the game evolves.",
+            "cn": "至少在游戏演变之前是如此。"
+          }
+        ]
+      },
+      {
         "en": "Your anti-vision is what’s at stake.",
         "cn": "你的“反愿景”才是关键所在。"
       },
       {
         "en": "What happens if you lose or give up.",
         "cn": "如果你失败或放弃了，会发生什么？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your 1 year goal is the mission.",
+            "cn": "你的1年目标就是使命。"
+          },
+          {
+            "en": "This is your sole priority in life.",
+            "cn": "这就是你生命中唯一的优先事项。"
+          }
+        ]
       },
       {
         "en": "Your 1 month project is the boss fight.",
@@ -7826,6 +9486,34 @@ const ARTICLES_EXTRA = [
       {
         "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
         "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"The only reason that you don't have what you want is because you didn't really want it.",
+            "cn": "“你得不到想要的东西，唯一的原因是你并没有真正想要它。"
+          },
+          {
+            "en": "The only reason that you have the thing that you do is because you couldn't live without it.",
+            "cn": "你拥有现在所拥有的一切，唯一的原因就是没有它你就无法生存。"
+          },
+          {
+            "en": "And, the only reason that you are where you are is because somewhere within, it is OK to be there.\"",
+            "cn": "而且，你之所以身处当下，唯一的原因是——你内心深处，其实已经接受了身在此处。”"
+          },
+          {
+            "en": "I realized this year that I'm not where I want to be because I am actually afraid to be there, and on a level it felt safer to just stay where I am (even though I've been complaining about it for a long time now).",
+            "cn": "今年我意识到，之所以没能达到自己想要的位置，是因为我其实害怕去那里，而且从某种程度上来说，呆在原地反而让我感觉更安全（尽管我对此抱怨了很久）。"
+          },
+          {
+            "en": "It was a tough pill to swallow.",
+            "cn": "这确实很难接受。"
+          },
+          {
+            "en": "Looking forward to working through your framework tomorrow.",
+            "cn": "期待明天能按照你的框架来推进工作。"
+          }
+        ]
       }
     ]
   },
@@ -7917,8 +9605,7 @@ const ARTICLES_EXTRA = [
             "en": "“Try another one?”",
             "cn": "“再试一次？”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -7934,8 +9621,7 @@ const ARTICLES_EXTRA = [
             "en": "Keep it frightening.”",
             "cn": "“要保持那种令人毛骨悚然的感觉。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -7955,8 +9641,7 @@ const ARTICLES_EXTRA = [
             "en": "“I have no idea where all this anger is coming from….”",
             "cn": "“我完全不知道这股愤怒是从哪里来的……”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -7966,7 +9651,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She’s dropped her two sons off at Little League and come here in low-glam mode (Knicks jersey, jeans) to record songs for David Lowery’s upcoming film Mother Mary, in which Hathaway plays the title character—a sort of Gaga–Taylor Swift hybrid who is, uh, having a moment.",
-            "cn": "她刚把两个儿子送到少年棒球联盟的训练场，便以低调随性的装扮（尼克斯队球衣、牛仔裤）来到这里，为大卫·洛维即将上映的电影《圣母玛丽》录制歌曲。在片中，海瑟薇饰演的正是同名主角——一个融合了Lady Gaga和泰勒·斯威夫特特质的角色，她正……嗯，处于事业的某个特殊时刻。"
+            "cn": "她刚把两个儿子送到少年棒球联盟的训练场，便以低调随性的装扮（尼克斯队球衣、牛仔裤）来到这里，为大卫·洛维即将上映的电影《母亲玛丽》录制歌曲。在片中，海瑟薇饰演的正是同名主角——一个融合了Lady Gaga和泰勒·斯威夫特特质的角色，她正……嗯，处于事业的某个特殊时刻。"
           },
           {
             "en": "And not “having a moment” in the sense of basking in the glow of public adoration, but something more like its opposite.",
@@ -7978,14 +9663,13 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It’s a strange, indelible film—which won’t surprise anyone familiar with Lowery’s previous work ( The Green Knight, A Ghost Story ).",
-            "cn": "这是一部诡异而令人难忘的电影——对于熟悉洛厄里此前作品（《绿骑士》、《鬼故事》）的人来说，这并不令人意外。"
+            "cn": "这是一部诡异而令人难忘的电影——对于熟悉洛维此前作品（《绿骑士》、《鬼故事》）的人来说，这并不令人意外。"
           },
           {
             "en": "Hathaway coveted the part, she says, and it wound up challenging her more than any previous role.",
             "cn": "她说，她曾非常渴望获得这个角色，而这个角色最终给她的挑战比以往任何一个角色都要大。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8029,8 +9713,7 @@ const ARTICLES_EXTRA = [
             "en": "But it was hard, the way transformational experiences can be hard.”",
             "cn": "“但这确实很艰难，就像所有能带来蜕变的经历一样艰难。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-1.jpg",
@@ -8057,8 +9740,7 @@ const ARTICLES_EXTRA = [
             "en": "The point is, she came out the other side remade.",
             "cn": "关键在于，她最终蜕变重生。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8087,6 +9769,10 @@ const ARTICLES_EXTRA = [
             "cn": "因为她就像个洋娃娃一样，你知道的？”"
           },
           {
+            "en": "I thought, Oh God, I have to break this person.",
+            "cn": "我当时心想：‘天哪，我得把这个人“摧毁”才行。’”"
+          },
+          {
             "en": "So pretty, so graceful.",
             "cn": "如此美丽，如此优雅。"
           },
@@ -8094,8 +9780,7 @@ const ARTICLES_EXTRA = [
             "en": "I thought, Oh God, I have to break this person. ”",
             "cn": "“我当时想：‘天啊，我必须把这个人摧毁。’”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8127,8 +9812,7 @@ const ARTICLES_EXTRA = [
             "en": "Then she explains that, just as she was reaching her breaking point, she was instructed to lie on the floor “and make sounds until something felt true.”",
             "cn": "随后她解释说，就在她快要崩溃的时候，教练让她躺在地板上，“发出声音，直到感觉对了为止。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8156,8 +9840,7 @@ const ARTICLES_EXTRA = [
             "en": "That’s where I like to live.”",
             "cn": "“那正是我喜欢的生活方式。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8181,8 +9864,7 @@ const ARTICLES_EXTRA = [
             "en": "Not from the moment she greeted me with the kind of muscular embrace usually reserved for a long-lost loved one.",
             "cn": "从她用那种通常只留给久别重逢的挚爱才有的有力拥抱迎接我的那一刻起，就从未有过。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-2.jpg",
@@ -8217,8 +9899,7 @@ const ARTICLES_EXTRA = [
             "en": "I just mean she looks for the good in people.”",
             "cn": "“我的意思是，她总是能看到别人好的一面。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8250,8 +9931,7 @@ const ARTICLES_EXTRA = [
             "en": "And kind,” he repeats, before allowing that Hathaway has daggers out in one regard: “She’s viciously intelligent.” Okay.",
             "cn": "“而且很善良，”他重复道，随后承认海瑟薇在某一方面确实锋芒毕露：“她聪明得令人发指。”好吧。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8275,8 +9955,7 @@ const ARTICLES_EXTRA = [
             "en": "And when she notices there’s a photo of the filmmaker Chantal Akerman on my tote bag, she flips out.",
             "cn": "当她注意到我的托特包上印着电影导演尚塔尔·阿克曼的照片时，她顿时兴奋不已。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8304,8 +9983,7 @@ const ARTICLES_EXTRA = [
             "en": "I’ll start with “spooky action.”",
             "cn": "我先从“幽灵般的远距离作用”说起。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8319,7 +9997,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "(“A creative connection that’s also a spiritual connection, or maybe they’re the same thing,” is how Coel encapsulates it.) The reason for Hathaway flipping out, though, is that ever since she signed on to Mother Mary, her life has been pervaded by the uncanny—spooky action to which director Lowery also attests.",
-            "cn": "（“这是一种既是创作上的联结，也是精神上的联结，或者说两者本就是一体的，”科埃尔如此概括道。） 不过，海瑟薇之所以会情绪失控，是因为自从她签约出演《圣母玛利亚》以来，她的生活便一直充斥着超自然现象——导演洛厄里也证实了这种“诡异的现象”。"
+            "cn": "（“这是一种既是创作上的联结，也是精神上的联结，或者说两者本就是一体的，”科尔如此概括道。） 不过，海瑟薇之所以会情绪失控，是因为自从她签约出演《母亲玛丽》以来，她的生活便一直充斥着超自然现象——导演洛维也证实了这种“诡异的现象”。"
           },
           {
             "en": "“This film was a doorway into believing, yes, there’s more out there,” he says.",
@@ -8327,7 +10005,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I should note that neither Lowery nor Hathaway comes across as woo-woo.",
-            "cn": "我得说明一下，洛厄里和海瑟薇都丝毫没有那种“玄学”的感觉。"
+            "cn": "我得说明一下，洛维和海瑟薇都丝毫没有那种“玄学”的感觉。"
           },
           {
             "en": "But on a regular basis now, Hathaway says she gets little pokes from the universe, like the coincidence of seeing Chantal Akerman’s face on my tote.",
@@ -8341,8 +10019,7 @@ const ARTICLES_EXTRA = [
             "en": "“ Jeanne Dielman doesn’t seem like the kind of movie you watch at home, after the kids are in bed.”",
             "cn": "“《珍妮·迪尔曼》看起来不像那种等孩子们睡着后在家观看的电影。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-3.jpg",
@@ -8369,8 +10046,7 @@ const ARTICLES_EXTRA = [
             "en": "And acting—even that’s terra incognita, her process evolving in a manner that dovetails with her self-discovery through dance.",
             "cn": "而表演——就连这对于她来说也是一片未知的领域，她的表演过程不断演变，与她通过舞蹈进行的自我探索相辅相成。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8394,8 +10070,7 @@ const ARTICLES_EXTRA = [
             "en": "And that experience—it was pivotal.”",
             "cn": "“而那次经历——堪称转折点。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8405,7 +10080,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Consider a few of the next films she made: Eileen, in which she plays a queer-coded Hitchcockian bombshell with a dark secret; the May-December(ish) romance The Idea of You, which sees her climax on camera; and Mother Mary.",
-            "cn": "不妨看看她接下来参演的几部电影：《艾琳》，她在片中饰演一位暗藏黑暗秘密、带有酷儿暗示的希区柯克式性感尤物；《你的想象》，这部讲述“五月与十二月”（或类似）年龄差距的爱情片中，她甚至在镜头前达到了高潮；以及《圣母玛利亚》。"
+            "cn": "不妨看看她接下来参演的几部电影：《艾琳》，她在片中饰演一位暗藏黑暗秘密、带有酷儿暗示的希区柯克式性感尤物；《你的想法》，这部讲述“五月与十二月”（或类似）年龄差距的爱情片中，她甚至在镜头前达到了高潮；以及《母亲玛丽》。"
           },
           {
             "en": "Consider, as well, her relationship with the brand Versace, also cemented over this period: Has Anne Hathaway ever looked sexier or edgier than in that draped chain mail dress she wore to the Bvlgari High Jewelry launch in Venice two years ago, or modeling in the Versace Icons campaigns?",
@@ -8427,8 +10102,7 @@ const ARTICLES_EXTRA = [
             "en": "But that journey began well before she found herself in a dance studio with Vitale, trying to “crack open her thoracic.” To arrive there, she had to want to find what she had locked away inside.",
             "cn": "但这一旅程早在她与维塔莱一起在舞蹈室里尝试“打开胸腔”之前就已开始。为了达到那个境界，她必须渴望发掘自己内心深处那些被深锁的东西。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8452,8 +10126,7 @@ const ARTICLES_EXTRA = [
             "en": "That’s the easiest way to explain it.”",
             "cn": "“这就是最简单的解释方式。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-4.jpg",
@@ -8472,14 +10145,13 @@ const ARTICLES_EXTRA = [
             "en": "Only now, she’s giving birth to herself.",
             "cn": "直到此刻，她才真正重生。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
           {
             "en": "I’ve been tiptoeing around this, but now I’ll just come out and say it: Mother Mary is a very weird movie.",
-            "cn": "我之前一直对此讳莫如深，但现在我还是直说吧：《圣母玛利亚》是一部非常怪异的电影。"
+            "cn": "我之前一直对此讳莫如深，但现在我还是直说吧：《母亲玛丽》是一部非常怪异的电影。"
           },
           {
             "en": "It’s produced by A24, features songs by Jack Antonoff and Charli XCX, and the supporting cast includes FKA twigs, Hunter Schafer, and Kaia Gerber, so it is also a very cool movie, but be forewarned, if you’re anticipating a fictionalized version of Miss Americana, or something like that, forget it.",
@@ -8495,14 +10167,13 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But really, the movie is made out of whatever magic Hathaway, Coel, and Lowery managed to conjure in that 13th-century barn near Bonn, day after day after day after day.",
-            "cn": "但说到底，这部电影的魔力，正是源于海瑟薇、科埃尔和洛维在波恩附近那座13世纪谷仓里，日复一日、日复一日、日复一日所创造出的奇妙氛围。"
+            "cn": "但说到底，这部电影的魔力，正是源于海瑟薇、科尔和洛维在波恩附近那座13世纪谷仓里，日复一日、日复一日、日复一日所创造出的奇妙氛围。"
           },
           {
             "en": "It’s possible that everyone on the shoot went temporarily, mildly insane.",
             "cn": "说不定，片场里的每个人当时都暂时、轻微地发疯了。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8512,14 +10183,13 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“At one point Annie broke down and said, ‘I have to apologize, because I think what’s going to come out of me will hurt you.’ And Michaela took her hands and said, ‘I love you, I trust you,’ ” Lowery recalls.",
-            "cn": "“有一次，安妮崩溃了，说：‘我必须向你道歉，因为我觉得我接下来要说的话会伤害到你。’米凯拉握住她的手说：‘我爱你，我相信你，’ ”洛厄里回忆道。"
+            "cn": "“有一次，安妮崩溃了，说：‘我必须向你道歉，因为我觉得我接下来要说的话会伤害到你。’米凯拉握住她的手说：‘我爱你，我相信你，’ ”洛维回忆道。"
           },
           {
             "en": "“We were in various stages of that for about a week, shooting that scene.”",
             "cn": "“我们花了大约一周时间，在拍摄那场戏时经历了这个过程的不同阶段。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8555,8 +10225,7 @@ const ARTICLES_EXTRA = [
             "en": "Gallons and tons.”",
             "cn": "“加仑和吨。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8580,8 +10249,7 @@ const ARTICLES_EXTRA = [
             "en": "It’s like David started a cult by accident.”",
             "cn": "“这简直就像大卫无意间创立了一个邪教。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-5.jpg",
@@ -8612,27 +10280,25 @@ const ARTICLES_EXTRA = [
             "en": "” At a certain point, conversations hit a wall, or, as in my wonderful chat with costume designer Daigeler, U-turn back to friendlier subjects, like getting Iris van Herpen to design the film’s all-important frock, or Issey Miyake references in the pleating.",
             "cn": "” 谈话到了一定程度就会陷入僵局，或者，就像我与服装设计师戴格勒的那次精彩对话一样，话题会突然转向更轻松的话题，比如邀请伊里斯·范·赫彭设计影片中那件至关重要的礼服，或者褶皱设计中对三宅一生风格的致敬。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
           {
             "en": "The craziest fact I did manage to learn about the making of Mother Mary is that zero songs were ready to go at the time shooting commenced.",
-            "cn": "关于《圣母玛利亚》的制作，我确实了解到最离奇的一点是：开拍时连一首配乐都没准备好。"
+            "cn": "关于《母亲玛丽》的制作，我确实了解到最离奇的一点是：开拍时连一首配乐都没准备好。"
           },
           {
             "en": "As in, Hathaway had no idea what this fictional global pop star she was playing sounded like.",
             "cn": "也就是说，海瑟薇完全不知道自己饰演的这位虚构的全球流行巨星声音是什么样的。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
           {
             "en": "She knew what she looked like, thanks to Lowery and Daigeler’s vision and her own contribution of “blond with fried roots.” And she grasped how Mother Mary fit into the zeitgeist, blurring the line between pop idol and actual deity, and she could imagine the character’s internal conflicts, as they were adjacent to ones she herself had navigated, coming of age in the public eye.",
-            "cn": "多亏了洛厄里和戴格勒的构想，以及她自己贡献的“发根焦黄的金发”造型，她清楚自己该呈现出怎样的形象。 她深谙“圣母玛丽”如何契合时代精神，模糊了流行偶像与真正神明之间的界限；她也能设身处地地体会这个角色的内心冲突，因为这些冲突与她自己曾在公众视线中成长时所经历的如出一辙。"
+            "cn": "多亏了洛维和戴格勒的构想，以及她自己贡献的“发根焦黄的金发”造型，她清楚自己该呈现出怎样的形象。 她深谙“母亲玛丽”如何契合时代精神，模糊了流行偶像与真正神明之间的界限；她也能设身处地地体会这个角色的内心冲突，因为这些冲突与她自己曾在公众视线中成长时所经历的如出一辙。"
           },
           {
             "en": "Where is the boundary between public and private?",
@@ -8650,8 +10316,7 @@ const ARTICLES_EXTRA = [
             "en": "No.",
             "cn": "不。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8679,8 +10344,7 @@ const ARTICLES_EXTRA = [
             "en": "In the end,” she continues, “I am very grateful I could not take control.”",
             "cn": "“归根结底，”她继续说道，“我非常庆幸自己当时无法掌控全局。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-6.jpg",
@@ -8707,8 +10371,7 @@ const ARTICLES_EXTRA = [
             "en": "“It felt volatile and gripping, so Jack and I went away and thought about that.”",
             "cn": "“那种感觉既充满爆发力又引人入胜，所以杰克和我回去仔细思考了一番。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8720,8 +10383,7 @@ const ARTICLES_EXTRA = [
             "en": "Or at the very least, inspired a few of the screams.",
             "cn": "或者至少，为其中几段尖叫声提供了灵感。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8749,8 +10411,7 @@ const ARTICLES_EXTRA = [
             "en": "Anne Hathaway has been famous for a long time.",
             "cn": "安妮·海瑟薇成名已久。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-7.jpg",
@@ -8767,7 +10428,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Lowery’s intention was to subvert and manipulate that aura.",
-            "cn": "洛厄里的意图正是要颠覆并驾驭这种气场。"
+            "cn": "洛维的意图正是要颠覆并驾驭这种气场。"
           },
           {
             "en": "But there are plenty of people—36 million following Hathaway on Instagram, to start—who very much like Anne Hathaway, star, and who want her to sparkle just as she always has.",
@@ -8805,8 +10466,7 @@ const ARTICLES_EXTRA = [
             "en": "To begin, and begin, and begin.",
             "cn": "开始，开始，再开始。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8834,8 +10494,7 @@ const ARTICLES_EXTRA = [
             "en": "It fills out the picture.”",
             "cn": "“这才让她的形象更加立体。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-anne-hathaway-mother-mary-8.jpg",
@@ -8886,8 +10545,7 @@ const ARTICLES_EXTRA = [
             "en": "The news is the way she’s breathing it all in.",
             "cn": "真正值得关注的是她如何将这一切尽收眼底。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8919,8 +10577,7 @@ const ARTICLES_EXTRA = [
             "en": "And I told her, But I don’t like the flute….”",
             "cn": "“我跟她说了，‘可是我不喜欢吹长笛……’”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8948,8 +10605,7 @@ const ARTICLES_EXTRA = [
             "en": "And so I go home and I lay out this whole plan to my mom, and finally she realized, I really did mean it, I just wanted to play trumpet—am I shouting?” She’s not, but she apologizes anyway.",
             "cn": "于是我回到家，把整个计划都告诉了妈妈，她终于意识到，我是认真的，我只是想吹小号——“我是不是在吼？”她其实并没有吼，但还是道了歉。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8961,8 +10617,7 @@ const ARTICLES_EXTRA = [
             "en": "“I get passionate and then I get loud.”",
             "cn": "“我一旦投入，就会情不自禁地大声说话。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -8982,8 +10637,7 @@ const ARTICLES_EXTRA = [
             "en": "Special thanks to Central Park Conservancy, to 610 Loft & Garden at Rockefeller Center, and The Bouwerie.",
             "cn": "特别鸣谢中央公园保护协会、洛克菲勒中心610 Loft & Garden以及The Bouwerie。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       }
     ]
   },
@@ -9144,7 +10798,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "At the age of 28 she won an Academy Award for her psychologically alert portrayal of the serial killer Aileen Wuornos in Patty Jenkins’s film Monster.",
-            "cn": "28岁那年，她凭借在帕蒂·詹金斯执导的电影《魔鬼》中对连环杀手艾琳·伍诺斯那极具心理洞察力的精彩演绎，荣获奥斯卡金像奖。"
+            "cn": "28岁那年，她凭借在帕蒂·詹金斯执导的电影《女魔头》中对连环杀手艾琳·伍诺斯那极具心理洞察力的精彩演绎，荣获奥斯卡金像奖。"
           },
           {
             "en": "In some ways that performance is the urtext of Theron’s career, the masterpiece expression of her ability to camouflage her own natural glamour and inhabit the minds of others.",
@@ -9152,7 +10806,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "There isn’t a genre or a tone that she isn’t willing to approach, from cameos in Arrested Development and The Studio to scene-eating in Mad Max: Fury Road and The Old Guard.",
-            "cn": "无论什么类型或风格，她都乐于尝试，从在《发展受阻》和《工作室》中的客串，到在《疯狂的麦克斯：狂暴之路》和《老卫队》中抢尽风头的表演。"
+            "cn": "无论什么类型或风格，她都乐于尝试，从在《发展受阻》和《工作室》中的客串，到在《疯狂的麦克斯：狂暴之路》和《永生守卫》中抢尽风头的表演。"
           },
           {
             "en": "She is an ambassador for the sort of immersive acting that is increasingly endangered in the age of stunt casting.",
@@ -9195,7 +10849,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "DOREEN ST FÉLIX: I first watched Monster at a very young age.",
-            "cn": "多琳·圣费利克斯：我第一次看《怪物》的时候还非常小。"
+            "cn": "多琳·圣费利克斯：我第一次看《女魔头》的时候还非常小。"
           },
           {
             "en": "I remember your performance stirring feelings in me that I did not have the language to articulate yet, feelings about women and the terror and power of agency.",
@@ -9228,7 +10882,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I truly believed Daryl Hannah [in Splash] was a mermaid.",
-            "cn": "我真的以为达丽尔·汉娜（在《人鱼传说》中）就是一条美人鱼。"
+            "cn": "我真的以为达丽尔·汉娜（在《美人鱼》中）就是一条美人鱼。"
           },
           {
             "en": "I grew up in a very, very small town – tiny.",
@@ -9473,7 +11127,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Monster personifies that for me.",
-            "cn": "《怪物》对我来说就是这种默契的体现。"
+            "cn": "《女魔头》对我来说就是这种默契的体现。"
           },
           {
             "en": "I really felt like Patty Jenkins and I worked so well together.",
@@ -9915,7 +11569,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Are you thinking about this when you play a disgruntled prom queen in Young Adult, or playing Megyn Kelly, someone that people have very strong feelings about, in Bombshell?",
-            "cn": "当你在《青春期》中饰演那位心怀不满的毕业舞会皇后，或者在《爆炸新闻》中饰演梅根·凯利——这位让人们爱恨交加的人物时，你会考虑到这一点吗？"
+            "cn": "当你在《青少年》中饰演那位心怀不满的毕业舞会皇后，或者在《爆炸新闻》中饰演梅根·凯利——这位让人们爱恨交加的人物时，你会考虑到这一点吗？"
           }
         ],
         "sourceTag": "paragraph"
@@ -9928,7 +11582,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Jason Reitman, with Young Adult, we never had any conversations about whether she’s likeable or unlikeable.",
-            "cn": "杰森·雷特曼在《青春已逝》中，我们从未讨论过她是否讨人喜欢。"
+            "cn": "杰森·雷特曼在《青少年》中，我们从未讨论过她是否讨人喜欢。"
           },
           {
             "en": "We talked about, “Who is this stunted person, who pretends to have grown up but is in arrested development?” [The screenwriter] Diablo Cody writes in such an honest way.",
@@ -9992,7 +11646,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Even with Aileen in Monster, the financier called me when he saw the dailies and he was like, “You never smile.",
-            "cn": "就连在《怪物》中饰演艾琳时，制片人看了每日样片后给我打电话，说：“你从来不笑。"
+            "cn": "就连在《女魔头》中饰演艾琳时，制片人看了每日样片后给我打电话，说：“你从来不笑。"
           },
           {
             "en": "You look so angry and mad and no one is going to like you.” He was obsessed with me not smiling.",
@@ -10009,7 +11663,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "DSF: When you were making Monster, people dropped out, right?",
-            "cn": "DSF：拍《怪物》的时候，确实有人中途退出，对吧？"
+            "cn": "DSF：拍《女魔头》的时候，确实有人中途退出，对吧？"
           },
           {
             "en": "The movie almost skipped theatres and went to VHS.",
@@ -10286,7 +11940,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The Old Guard, the sequel to it, Apex and Christopher Nolan’s The Odyssey, out this summer.",
-            "cn": "《老卫队》、其续集《Apex》以及克里斯托弗·诺兰的《奥德赛》，都将于今年夏天上映。"
+            "cn": "《永生守卫》、其续集《Apex》以及克里斯托弗·诺兰的《奥德赛》，都将于今年夏天上映。"
           }
         ],
         "sourceTag": "paragraph"
@@ -10431,7 +12085,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But I had these moments watching Apex where I’m so aware of the trials you put your body through.",
-            "cn": "但观看《巅峰》时，有些瞬间让我真切地意识到你让身体承受了怎样的考验。"
+            "cn": "但观看《Apex》时，有些瞬间让我真切地意识到你让身体承受了怎样的考验。"
           },
           {
             "en": "The expanse, the water, the caves.",
@@ -10725,7 +12379,7 @@ const ARTICLES_EXTRA = [
     },
     "fingerprint": "03f9333c9864d1815ba38376578e009e13eab0dc561b087e9d89e2690aae7f4c",
     "sourceTextHash": "1ac16e87c96df9b190dab659c1f606beaaed23c5077c9fa376789ac2e403aa42",
-    "sourceTextWords": 915,
+    "sourceTextWords": 1058,
     "sourceParagraphs": 12,
     "sourceImages": 4,
     "coverImg": "assets/covers/people-monica-bellucci-style-and-change-0.jpg",
@@ -10747,9 +12401,12 @@ const ARTICLES_EXTRA = [
           {
             "en": "“That distance [there once was] between the public and people in showbusiness doesn’t exist anymore,” says the former Bond girl, who, though she acknowledges the advantages of the social media age for artists eager to shape their own image, seems keen to retain her air of mystery.",
             "cn": "“公众与演艺界人士之间[曾经存在的]那道隔阂已经不复存在了，”这位前邦德女郎说道。尽管她承认社交媒体时代为渴望塑造自身形象的艺术家带来了诸多优势，但她似乎仍热衷于保持自己的神秘感。"
+          },
+          {
+            "en": "And so, in place of the candid snaps and lengthy captions that are commonplace on celebrity accounts in 2022, Bellucci’s Insta is almost entirely frames from fashion shoots, or pictures of her on the red carpet in Venice or Cannes.",
+            "cn": "因此，与2022年名人账号中常见的随性快照和冗长配文不同，贝卢奇的Instagram几乎完全由时尚大片中的镜头，或是她在威尼斯或戛纳红毯上的照片组成。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10765,8 +12422,7 @@ const ARTICLES_EXTRA = [
             "en": "The occasional proud post featuring daughter Deva Cassel, a miniature Monica who has followed her mother into modelling.",
             "cn": "偶尔会发一些充满自豪感的帖子，展示女儿德瓦·卡塞尔——这位“迷你版莫妮卡”也追随母亲的脚步踏入了模特行业。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-monica-bellucci-style-and-change-1.jpg",
@@ -10789,8 +12445,7 @@ const ARTICLES_EXTRA = [
             "en": "“But I like the idea that she’s happy!”",
             "cn": "“不过，我喜欢看到她开心的样子！”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10809,9 +12464,12 @@ const ARTICLES_EXTRA = [
           {
             "en": "“That’s how fashion becomes interesting, the choices [you make].”",
             "cn": "“正是这些选择，让时尚变得有趣。”"
+          },
+          {
+            "en": "When reviewing Bellucci’s own sartorial choices over the course of her years in the spotlight, some clear themes emerge, chief among them the sort of sensual, seductive glamour associated with Fellini heroines, like Claudia Cardinale or Anita Ekberg.",
+            "cn": "回顾贝卢奇在聚光灯下这些年来的着装选择，一些鲜明的主题浮现出来，其中最突出的便是那种与费里尼女主角（如克劳迪娅·卡迪纳莱或安妮塔·埃克伯格）相联系的性感、魅惑的魅力。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-monica-bellucci-style-and-change-2.jpg",
@@ -10830,8 +12488,7 @@ const ARTICLES_EXTRA = [
             "en": "Low-cut dresses – almost always black – designed to enhance bombshell proportions, and rebellious waves escaping from artfully dishevelled up-dos, as though torn loose in the heat of passion, have become her signature.",
             "cn": "那些专为凸显性感身材而设计的低胸礼服——几乎总是黑色——以及从精心打造的凌乱盘发中逸出的叛逆波浪卷，仿佛是在激情炽热中被撕扯开来一般，这些都已成为她的标志性风格。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10842,6 +12499,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "“Of course I dreamed [about being like those] incredible actors when I was young, those Italian leading ladies,” says Bellucci, who was born in Perugia.",
             "cn": "“当然，我年轻时曾梦想过（像那些）了不起的演员一样，像那些意大利女主角一样，”出生于佩鲁贾的贝鲁奇说道。"
+          },
+          {
+            "en": "She also cites Lauren Bacall, Joan Crawford and Lana Turner as inspirations – all enigmatic, all knockouts.",
+            "cn": "她还提到了劳伦·巴考尔、琼·克劳馥和拉娜·特纳作为灵感来源——她们都充满神秘感，个个都美得令人屏息。”"
           },
           {
             "en": "She also cites Lauren Bacall , Joan Crawford and Lana Turner as inspirations – all enigmatic, all knockouts.",
@@ -10855,8 +12516,7 @@ const ARTICLES_EXTRA = [
             "en": "“Talent and beauty and personality and charm.”",
             "cn": "“才华、美貌、个性与魅力。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-monica-bellucci-style-and-change-3.jpg",
@@ -10887,8 +12547,7 @@ const ARTICLES_EXTRA = [
             "en": "“I love their simplicity.”",
             "cn": "“我喜欢它们的简约。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10908,8 +12567,7 @@ const ARTICLES_EXTRA = [
             "en": "It’s important to “keep being excited by [new] things” says the actor.",
             "cn": "这位女演员表示，“对[新]事物保持热情”至关重要。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10930,6 +12588,10 @@ const ARTICLES_EXTRA = [
             "cn": "但当你站在观众面前时，就能分享所有的情感。"
           },
           {
+            "en": "It’s so direct.” Bellucci has already performed Maria Callas: Letters & Memoirs, in which she reads from the personal correspondence that uncovers all of the formidable opera star’s “private life and vulnerabilities”, in Italy, France and Greece.",
+            "cn": "这种体验是如此直接。”贝盧奇此前已在意大利、法国和希腊上演过《玛丽亚·卡拉斯：书信与回忆录》，她在剧中朗读这位于传奇歌剧明星的私人信件，揭示了这位巨星“私生活与脆弱的一面”。"
+          },
+          {
             "en": "It’s so direct.” Bellucci has already performed Maria Callas: Letters & Memoirs , in which she reads from the personal correspondence that uncovers all of the formidable opera star’s “private life and vulnerabilities”, in Italy, France and Greece.",
             "cn": "“这太直白了。”贝鲁奇此前已在意大利、法国和希腊上演了《玛丽亚·卡拉斯：书信与回忆录》，她在剧中朗读了这位于世人敬畏的歌剧明星的私人信件，揭示了她的“私生活与脆弱一面”。"
           },
@@ -10937,8 +12599,7 @@ const ARTICLES_EXTRA = [
             "en": "This weekend, she makes her West End debut at Her Majesty’s Theatre.",
             "cn": "本周末，她将在女王陛下剧院迎来自己的西区首演。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10961,9 +12622,12 @@ const ARTICLES_EXTRA = [
           {
             "en": "“Just look at Judi Dench, Helen Mirren, Catherine Deneuve, Isabelle Huppert, Charlotte Rampling…”",
             "cn": "“看看朱迪·丹奇、海伦·米伦、凯瑟琳·德纳芙、伊莎贝尔·于佩尔、夏洛特·兰普林……”"
+          },
+          {
+            "en": "A comedy, Mafia Mamma, with Toni Collette, and a thriller, Memory, with Liam Neeson.",
+            "cn": "一部与托妮·科莱特合作的喜剧《黑手党妈妈》，以及一部与连姆·尼森合作的惊悚片《记忆》。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10987,8 +12651,7 @@ const ARTICLES_EXTRA = [
             "en": "“You have to be ready to change.”",
             "cn": "“你必须做好改变的准备。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -10996,8 +12659,7 @@ const ARTICLES_EXTRA = [
             "en": "Monica Bellucci will appear in ‘Maria Callas: Letters & Memoirs’ at Her Majesty’s Theatre on 24 April",
             "cn": "莫妮卡·贝鲁奇将于4月24日在女王陛下剧院出演《玛丽亚·卡拉斯：书信与回忆录》"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       }
     ]
   }
