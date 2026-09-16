@@ -164,19 +164,19 @@ const DATA_SOURCE_HEALTH = {
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 1433,
-      "lastAt": "2026-09-13T12:43:21.474Z",
+      "lastLatencyMs": 322,
+      "lastAt": "2026-09-16T00:53:56.635Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 5,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 307,
-      "lastAt": "2026-09-13T12:45:49.531Z",
+      "lastLatencyMs": 168,
+      "lastAt": "2026-09-16T00:54:00.127Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 32,
       "disabled": false
     },
     "image": {
@@ -188,57 +188,57 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-13T12:45:49.531Z"
+    "updatedAt": "2026-09-16T00:54:00.127Z"
   },
   "Farnam Street": {
     "url": "https://fs.blog/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 1127,
-      "lastAt": "2026-09-13T12:43:22.602Z",
+      "lastLatencyMs": 79,
+      "lastAt": "2026-09-16T00:53:56.736Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 5,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 1079,
-      "lastAt": "2026-09-13T12:45:53.559Z",
+      "lastLatencyMs": 18,
+      "lastAt": "2026-09-16T00:54:00.529Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 32,
       "disabled": false
     },
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 535,
-      "lastAt": "2026-09-13T12:47:56.832Z",
+      "lastLatencyMs": 455,
+      "lastAt": "2026-09-16T00:54:22.330Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 20,
+      "consecutiveSuccesses": 30,
       "disabled": false
     },
-    "updatedAt": "2026-09-13T12:47:56.832Z"
+    "updatedAt": "2026-09-16T00:54:22.330Z"
   },
   "More To That": {
     "url": "https://moretothat.com/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 1006,
-      "lastAt": "2026-09-13T12:43:26.760Z",
+      "lastLatencyMs": 118,
+      "lastAt": "2026-09-16T00:53:56.856Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 5,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 696,
-      "lastAt": "2026-09-13T12:45:59.271Z",
+      "lastLatencyMs": 250,
+      "lastAt": "2026-09-16T00:54:02.465Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 24,
       "disabled": false
     },
     "image": {
@@ -250,26 +250,26 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-13T12:45:59.271Z"
+    "updatedAt": "2026-09-16T00:54:02.465Z"
   },
   "Ness Labs": {
     "url": "https://nesslabs.com/feed/",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 1802,
-      "lastAt": "2026-09-13T12:43:28.563Z",
+      "lastLatencyMs": 744,
+      "lastAt": "2026-09-16T00:53:57.601Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 5,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 236,
-      "lastAt": "2026-09-13T12:46:01.178Z",
+      "lastLatencyMs": 92,
+      "lastAt": "2026-09-16T00:54:03.533Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 24,
       "disabled": false
     },
     "image": {
@@ -281,26 +281,26 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-13T12:46:01.178Z"
+    "updatedAt": "2026-09-16T00:54:03.533Z"
   },
   "Aeon": {
     "url": "https://aeon.co/feed.rss",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 2055,
-      "lastAt": "2026-09-13T12:43:30.619Z",
+      "lastLatencyMs": 270,
+      "lastAt": "2026-09-16T00:53:57.872Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 5,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 97,
-      "lastAt": "2026-09-13T12:46:02.078Z",
+      "lastLatencyMs": 22,
+      "lastAt": "2026-09-16T00:54:04.176Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 32,
       "disabled": false
     },
     "image": {
@@ -312,26 +312,26 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-13T12:46:02.078Z"
+    "updatedAt": "2026-09-16T00:54:04.176Z"
   },
   "Psyche": {
     "url": "https://psyche.co/feed",
     "rss": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 754,
-      "lastAt": "2026-09-13T12:43:31.374Z",
+      "lastLatencyMs": 257,
+      "lastAt": "2026-09-16T00:53:58.130Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 4,
+      "consecutiveSuccesses": 5,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 104,
-      "lastAt": "2026-09-13T12:46:02.841Z",
+      "lastLatencyMs": 19,
+      "lastAt": "2026-09-16T00:54:04.924Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 16,
+      "consecutiveSuccesses": 32,
       "disabled": false
     },
     "image": {
@@ -343,7 +343,7 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 8,
       "disabled": false
     },
-    "updatedAt": "2026-09-13T12:47:52.167Z"
+    "updatedAt": "2026-09-16T00:54:04.924Z"
   },
   "The Guardian": {
     "url": "https://www.theguardian.com/film/rss",
