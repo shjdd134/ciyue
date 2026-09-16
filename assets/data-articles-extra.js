@@ -1248,6 +1248,14 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "But here’s the thing: you don’t need to be smart to think like a genius.",
+            "cn": "但关键在于：你并不需要天资聪颖，也能像天才一样思考。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "In fact, you don’t want to be like most smart people.",
             "cn": "事实上，你并不想变得和大多数聪明人一样。"
           },
@@ -6755,6 +6763,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "Western medicine offers little in the way of ear-related symptoms, as the approach is localized entirely to what they can see in the ear canal itself.",
             "cn": "西医在治疗与耳朵相关的症状方面收效甚微，因为其治疗方法完全局限于耳道内肉眼可见的病变。"
+          },
+          {
+            "en": "As expected, I received a half-hearted diagnosis of Eustachian tube dysfunction (which is the first thing that pops up if you were to search my symptoms online), along with a recommendation for over-the-counter sinus medications to help clear it.",
+            "cn": "不出所料，我得到的只是一个敷衍了事的“咽鼓管功能障碍”诊断（如果你在网上搜索我的症状，这通常是第一个跳出来的结果），同时还被建议服用非处方鼻窦药物来缓解症状。"
+          },
+          {
+            "en": "While my sense of smell may have improved slightly, my ears have found little relief.",
+            "cn": "虽然我的嗅觉可能略有改善，但耳朵却几乎没有得到缓解。"
           }
         ]
       },

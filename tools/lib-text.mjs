@@ -140,7 +140,14 @@ function looksTruncatedTeaser(t) {
 }
 
 /* 广告脚本 / 页面埋点碎片：Hearst、Variety 等会把它们写进 <p> 里 */
-const CODE_JUNK = /\.push\s*\(|defineSlot|blogherads|pmcCnx|window\.pmc|googletag|document\.|function\s*\(|=>\s*\{|@media|!important|\{[\s\S]*\}/;
+/* 2026-09-16 修：`function\s*\(` 缺 `\b`，而它是**子串匹配** ——
+ * `dysfunction (which is the first thing that pops up…` 里的 `function (` 命中了它，
+ * 于是 illness 那篇（讲**耳咽管功能障碍**，正文里 dysfunction 反复出现）的
+ * **332 字符完整正文段被当成 JS 代码整段丢掉**。
+ * `AD_CODE` 里同一族规则本来就写作 `\bfunction\s*\(\s*\)\s*\{`，这条是漏了边界的旧版。
+ * 同时把 `document\.` 收严：原文里 `…a legal document. The next…` 这种**英文句末的
+ * document.** 同样会被整段误伤，限定到 DOM API 才安全。 */
+const CODE_JUNK = /\.push\s*\(|defineSlot|blogherads|pmcCnx|window\.pmc|googletag|\bdocument\.\s*(getElementById|querySelector|write)|\bfunction\s*\(|=>\s*\{|@media|!important|\{[\s\S]*\}/;
 
 const NAV_HINT = /\b(as it happened|latest news and rumours|match report|not got sky|champions league scores|full match|watch highlights|teams \| stats|sign in|log in|get sky sports|subscribe to|sign up for our)\b/i;
 
@@ -171,8 +178,31 @@ function looksLikeNav(t) {
  * 旧尺子只算长度，不看它是不是内容。放宽后「纯标签」排除规则仍然生效
  * （`Read The Koe Letters` / `August 31, 2025` 照样被挡，差分实测 13 篇零垃圾）。 */
 const LIST_MIN_LEN = 12;
-const LIST_MIN_LETTERS = 10;
+const LIST_MIN_LETTERS = 8;
+/* 列表项的「分隔符」判定 —— `goodListItem` 与 `explainReject` **共用这一份**（别再抄）。
+ * 2026-09-16 补编号前缀：HUMAN 3.0 那两份文档的小标题与清单项几乎全带编号
+ * （`1) Quadrants` / `2. Substrate Consumption` / `3) Postmodern`），
+ * 旧写法只认冒号 / 箭头 / 长破折号，把它们判成「纯标签」整条删掉 ——
+ * 原文写着「1) Quadrants 2) Levels …」而库里一个都没有。编号是原文的结构标记。 */
+const hasListItemSep = s => /[:：→]|\s[–—]\s|^\s*(?:\d+[).]|[IVX]{1,5}[).]|[-•*·–—])\s/.test(s);
 const LIST_DATE = /^[A-Z][a-z]+\.?\s+\d{1,2},\s*\d{4}$/;
+
+/* 段闸与句闸的阈值 —— **单点出口，不许再抄第二份**。
+ * 教训（2026-09-16）：`.tmp/diag-fulltext.mjs` 的 `why()` 归因函数自己写死了一份
+ * （`s.length < 22` / `< 30` / 字母 `< 20`），改完阈值后它把「纯标签闸」误报成
+ * 「长度闸 (<22)」，整张归因表系统性错位 —— 而诊断表的唯一价值就是归因。
+ * 需要这些数字的工具一律 `import { GATES }`。 */
+const PARA_MIN = 15;            /* 段整体长度下限（原 30，2026-09-16 放宽） */
+const PARA_SHORT = 70;          /* 「短段」分界 */
+const PARA_SHORT_LETTERS = 12;  /* 短段要求的最少字母 */
+const PARA_LONG_LETTERS = 50;   /* 长段要求的最少字母 */
+const SENT_MIN = 12;            /* splitSentences 的句长下限（原 30） */
+export const GATES = {
+  listMinLen: LIST_MIN_LEN, listMinLetters: LIST_MIN_LETTERS,
+  paraMin: PARA_MIN, paraShort: PARA_SHORT,
+  paraShortLetters: PARA_SHORT_LETTERS, paraLongLetters: PARA_LONG_LETTERS,
+  sentMin: SENT_MIN,
+};
 
 /** 列表项/小标题专用的「是不是内容」判定（比正文宽松，但仍有下限与标签排除） */
 export function goodListItem(t) {
@@ -182,7 +212,7 @@ export function goodListItem(t) {
   if (LIST_DATE.test(s)) return false;
   /* 纯标签：没有句末标点、没有冒号/破折号/箭头充当「条目 → 说明」的分隔，且不足 5 词 */
   const words = s.split(/\s+/).filter(Boolean);
-  const hasSep = /[:：→]|\s[–—]\s/.test(s);
+  const hasSep = hasListItemSep(s);
   if (!hasSep && words.length < 5 && !/[.!?]$/.test(s)) return false;
   /* 全大写或首字母大写的短串（`Read The Koe Letters`）——4 词以内且实词全大写开头 */
   if (words.length <= 4 && !hasSep && words.every(w => /^[A-Z0-9]/.test(w))) return false;
@@ -205,9 +235,9 @@ export function goodPara(t, opts = {}) {
   /* 2026-09-16 放宽 30 → 15。30 字符约等于英语 5–6 词，把作者刻意断开的强调短句
    * 整段删掉了（`One ingredient is agency.` 24 / `This will be comprehensive.` 27）。
    * 差分实测 13 篇原文：放宽后节点 +15 / −0，逐条审过全是正文。 */
-  if (!s || s.length < 15) return false;
+  if (!s || s.length < PARA_MIN) return false;
   const letters = (s.match(/[A-Za-z]/g) || []).length;
-  if (s.length < 70) {
+  if (s.length < PARA_SHORT) {
     /* 30–70 字符的**短段**：网文的重点句就是这个长度 ——
        `I didn’t want to be an NPC.`（27）、`This is why smart people are incredibly dumb.`（44）、
        `You need to identify a problem.`（31），以及访谈里的提问
@@ -216,9 +246,9 @@ export function goodPara(t, opts = {}) {
        「这道理太有道理了」这种没有指代对象的译文。
        但仍要求它**看起来确实是句子**：以句末标点收尾 + 字母够多；
        `One email a week, no spam, ever. See our Privacy policy.` 这类仍会被下面的 BOILER 挡掉。 */
-    if (letters < 12) return false;
+    if (letters < PARA_SHORT_LETTERS) return false;
     if (!/[.!?…]["'”’)]?$/.test(s)) return false;
-  } else if (letters < 55) {
+  } else if (letters < PARA_LONG_LETTERS) {
     return false;
   }
   if (BOILER.some(re => re.test(s))) return false;
@@ -231,6 +261,49 @@ export function goodPara(t, opts = {}) {
   if ((s.match(/\|/g) || []).length >= 2) return false;
   if (/^[A-Z][^.!?]{0,40}$/.test(s)) return false;
   return true;
+}
+
+/** 归因：null = 通过；否则返回人可读的拒绝原因。
+ *
+ *  **存在理由**：诊断脚本一度自己抄了一份判定条件与阈值。2026-09-16 改阈值后，
+ *  那张归因表整片错位 —— 把「纯标签闸」报成「长度闸 (<22)」，而诊断表的全部价值
+ *  就在归因上。所以判定与归因必须同源：改规则时改这一处 + `goodPara`，别写第三份。
+ *
+ *  与 `goodPara`/`goodListItem` 的判定顺序严格一致，`BOILER` / `CODE_JUNK` 各自
+ *  回带命中的那条正则 —— 「特征闸」不再是一句废话。 */
+export function explainReject(t, opts = {}) {
+  const s = String(t || "").trim();
+  const list = !!(opts && opts.list);
+  const letters = (s.match(/[A-Za-z]/g) || []).length;
+  const words = s.split(/\s+/).filter(Boolean);
+  const hasSep = hasListItemSep(s);
+  if (!s) return "空";
+  if (list) {
+    if (s.length < LIST_MIN_LEN) return `li 长度闸 (<${LIST_MIN_LEN}，实际 ${s.length})`;
+    if (s.length > 900) return "li 超长闸 (>900)";
+    if (letters < LIST_MIN_LETTERS) return `li 字母闸 (<${LIST_MIN_LETTERS}，实际 ${letters})`;
+    if (LIST_DATE.test(s)) return "li 日期型标签";
+    if (!hasSep && words.length < 5 && !/[.!?]$/.test(s)) return "li 纯标签闸 (无分隔符 且 <5 词 且无句末标点)";
+    if (words.length <= 4 && !hasSep && words.every(w => /^[A-Z0-9]/.test(w))) return "li 标题型标签 (≤4 词、全大写开头)";
+  } else {
+    if (s.length < PARA_MIN) return `段长度闸 (<${PARA_MIN}，实际 ${s.length})`;
+    if (s.length < PARA_SHORT) {
+      if (letters < PARA_SHORT_LETTERS) return `短段字母闸 (<${PARA_SHORT_LETTERS}，实际 ${letters})`;
+      if (!/[.!?…]["'”’)]?$/.test(s)) return "短段标点闸 (短段且无句末标点)";
+    } else if (letters < PARA_LONG_LETTERS) {
+      return `段字母闸 (≥${PARA_SHORT} 且字母<${PARA_LONG_LETTERS}，实际 ${letters})`;
+    }
+  }
+  const b = BOILER.find(re => re.test(s)); if (b) return `BOILER /${b.source}/`;
+  const c = s.match(CODE_JUNK); if (c) return `CODE_JUNK /${c[0].trim()}/  ← 注意 function\\( 这类子串误伤`;
+  if (hasAdCode(s)) return "AD_CODE";
+  if (isJunkPara(s)) return "isJunkPara (导航前缀 / 纯链接)";
+  if (NAV_HINT.test(s)) return "NAV_HINT";
+  if (looksLikeNav(s)) return "looksLikeNav (无句末标点 且 ≥6 词 且大写词>50%)";
+  if ((s.match(/\|/g) || []).length >= 2) return "竖线分隔 (≥2)";
+  if (!list && looksTruncatedTeaser(s)) return "截断预告 (省略号结尾)";
+  if (!list && /^[A-Z][^.!?]{0,40}$/.test(s)) return "大写开头短串";
+  return null;
 }
 
 /* ---------------- 2.6 断句 ----------------
@@ -259,7 +332,7 @@ export function splitSentences(paras) {
        * （`Where do you wake up?` / `What have you missed?` / `Who gave up on you?`）——
        * 一篇讲「一天改变人生」的实操文，练习的提问一句不剩。
        * 12 是下限而非 0：`I.e.` 这类残片仍要挡掉，译出来是噪音。 */
-      .filter(s => s.length > 12 && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
+      .filter(s => s.length > SENT_MIN && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
       /* 引文出处（`– Alfred Adler` / `– Naval Ravikant`）不是句子。放宽到 12 之后
        * 它们正好够长会混进来，单独挡掉；40 字符以上放行，免得误杀以破折号起头的正文。 */
       .filter(s => !/^[–—-]\s*\S/.test(s) || s.length > 40)
