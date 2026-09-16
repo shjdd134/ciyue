@@ -67,6 +67,13 @@ export function stripInlineJunk(t) {
  * → 导航前缀 → 导航条形状 → 竖线/短标题。 */
 
 const BOILER = [
+  /* 社交分享按钮。2026-09-16 补：`Pin It on Pinterest`（More To That 页脚，位于原文 83%）
+     恰好 19 字符，越过列表档 12 字符的长度闸；而「纯标签闸」由 5 词放宽到 2 词之后，
+     它 4 词的形态也不再被拦 —— 两条旧防线同时失效，靠这条补上。
+     裸单词形态（Facebook / Twitter / Gmail）仍由长度闸挡，这里只补短语。 */
+  /\bpin it on pinterest\b/i, /\bshare on (facebook|x|twitter|linkedin)\b/i, /\btweet (this|it)\b/i,
+  /\bpost (this|it) (on|to)\b/i, /\bemail (this|it)\b/i, /\bprint (this|it)\b/i,
+  /^page not found$/i,
   /\bchrome browser\b/i, /\baccessibilit/i, /\bsubscri(b|pt)/i, /\bsign up\b/i, /\bnewsletter\b/i,
   /\bfollow us\b/i, /\bshare (this|on)\b/i, /\bclick here\b/i, /\bread more\b/i, /\badvertisement\b/i,
   /\ball rights reserved\b/i, /\bcopyright\b/i, /\bphoto(graph)? (by|credit)/i, /\bgetty images\b/i,
@@ -154,6 +161,13 @@ const NAV_HINT = /\b(as it happened|latest news and rumours|match report|not got
 /* 栏目/导航条：没有句末标点、且大写词占比过高的一串词 */
 function looksLikeNav(t) {
   if (/[.!?…”"']$/.test(t)) return false;
+  /* 有结构分隔符（冒号 / 箭头 / 编号 / 长破折号）= 「条目 → 说明」的行文格式 = 内容。
+   * 导航条不写冒号。2026-09-16 实测 kb-human30 有 25 条正文条目死在这条规则下：
+   * `Biological: Seed → Plant → Ecosystem → Stable Forest`、
+   * `Ego Development: E4 (Conformist) to E5 (Self-Aware)`、
+   * `Historical Stages and Human 3.0 Correlations:` —— 大写词占比确实过 50%，
+   * 但它们是四象限 / 发展模型对照表的一行，不是栏目菜单。 */
+  if (hasListItemSep(t)) return false;
   const ws = t.split(/\s+/).filter(Boolean);
   if (ws.length < 6) return false;
   const cap = ws.filter(w => /^[A-Z0-9]/.test(w)).length;
@@ -186,6 +200,15 @@ const LIST_MIN_LETTERS = 8;
  * 原文写着「1) Quadrants 2) Levels …」而库里一个都没有。编号是原文的结构标记。 */
 const hasListItemSep = s => /[:：→]|\s[–—]\s|^\s*(?:\d+[).]|[IVX]{1,5}[).]|[-•*·–—])\s/.test(s);
 const LIST_DATE = /^[A-Z][a-z]+\.?\s+\d{1,2},\s*\d{4}$/;
+/* 纯标签闸的词数下限。2026-09-16 由 5 降到 2。
+ * 实证：Dan Koe《HUMAN 3.0 完整知识库》后半是清单式框架文档，
+ * `Sleep and recovery`(3 词) / `Emotional regulation and intelligence`(4 词) /
+ * `Nutrition and metabolic health`(4 词) 这类**名词短语条目**被 5 词闸整片删掉 ——
+ * 468 条 / 1,227 词，读者看到「Mind 象限包含以下能力」然后一条没列。
+ * 降到 2 之后仍能挡 `Dan Koe`（2 词，但同时被 LIST_MIN_LEN 的长度闸挡）。
+ * 真正的站点导航不靠这条 —— 那些在 extractBlocks 的 inNav 阶段就被排掉了
+ * （实测 `Read The Koe Letters` 从未进入候选节点）。 */
+const LIST_MIN_WORDS = 2;
 
 /* 段闸与句闸的阈值 —— **单点出口，不许再抄第二份**。
  * 教训（2026-09-16）：`.tmp/diag-fulltext.mjs` 的 `why()` 归因函数自己写死了一份
@@ -198,39 +221,60 @@ const PARA_SHORT_LETTERS = 12;  /* 短段要求的最少字母 */
 const PARA_LONG_LETTERS = 50;   /* 长段要求的最少字母 */
 const SENT_MIN = 12;            /* splitSentences 的句长下限（原 30） */
 export const GATES = {
-  listMinLen: LIST_MIN_LEN, listMinLetters: LIST_MIN_LETTERS,
+  listMinLen: LIST_MIN_LEN, listMinLetters: LIST_MIN_LETTERS, listMinWords: LIST_MIN_WORDS,
   paraMin: PARA_MIN, paraShort: PARA_SHORT,
   paraShortLetters: PARA_SHORT_LETTERS, paraLongLetters: PARA_LONG_LETTERS,
   sentMin: SENT_MIN,
 };
 
-/** 列表项/小标题专用的「是不是内容」判定（比正文宽松，但仍有下限与标签排除） */
-export function goodListItem(t) {
+/** 列表项/小标题专用的「是不是内容」判定（比正文宽松，但仍有下限与标签排除）
+ *  @param {string} t
+ *  @param {{head?: boolean}} [opts] head=true 表示这是 <h2>/<h3>/<h4>，也就是**作者写的小标题**。
+ *
+ *  head 档为什么必须单独开（2026-09-16 实测 kb-human30）：
+ *    `A Complete Framework for Modern Multidimensional Human Development`(h2)、
+ *    `MIND QUADRANT (Upper Left – Interior Individual)`(h3)、
+ *    `Historical Context: Consciousness Evolution Through Time`(h3)
+ *    这类标题**没有句末标点、且大写词占比过半**，被 `looksLikeNav` 判成栏目导航整条删掉。
+ *    差分实测：kb-human30 有 29 条正文小标题死在这条规则下，原文的 PART I/II 骨架整个消失。
+ *    标题是作者亲手写的结构标记，形态本来就不像句子（短、无标点、多 Title Case），
+ *    拿「像不像导航」的形态判据去量它，量出来的只能是误报。
+ *    所以 head 档只保留**内容性**排除（BOILER / CODE_JUNK / AD / 垃圾 / NAV_HINT），
+ *    跳过全部形态闸（纯标签闸、标题型标签、looksLikeNav）。
+ *    站点导航仍由 extractBlocks 的 inNav 在提取阶段排掉 —— 那才是它的正确位置。 */
+export function goodListItem(t, opts = {}) {
+  const head = !!(opts && opts.head);
   const s = String(t || "").trim();
   if (!s || s.length < LIST_MIN_LEN || s.length > 900) return false;
   if ((s.match(/[A-Za-z]/g) || []).length < LIST_MIN_LETTERS) return false;
   if (LIST_DATE.test(s)) return false;
-  /* 纯标签：没有句末标点、没有冒号/破折号/箭头充当「条目 → 说明」的分隔，且不足 5 词 */
   const words = s.split(/\s+/).filter(Boolean);
   const hasSep = hasListItemSep(s);
-  if (!hasSep && words.length < 5 && !/[.!?]$/.test(s)) return false;
-  /* 全大写或首字母大写的短串（`Read The Koe Letters`）——4 词以内且实词全大写开头 */
+  /* 纯标签：没有句末标点、没有冒号/破折号/箭头充当「条目 → 说明」的分隔，且词数极少。
+   * 只对 <li> 生效 —— head 档跳过它。 */
+  if (!head && !hasSep && words.length < LIST_MIN_WORDS && !/[.!?]$/.test(s)) return false;
+  /* 标题型标签：≤4 词、全大写开头、无分隔符。同样只对 <li> 生效。
+   * 2026-09-16 反复：这条一开始对 head 也生效，结果 kb-human30 的两词小标题
+   * （`Core Framework` / `Key Dynamics` / `Core Principles` / `Core Thesis`）
+   * 全被判成栏目名删掉 —— 而它原本要挡的页脚分享按钮 `Pin It on Pinterest`
+   * 恰恰**不受这条约束**（`on` 是小写，`every()` 不成立），早就由 BOILER 的
+   * `pin it on pinterest` 接管了。一条既拦不住目标、又误杀正文的规则不该留着。 */
   if (words.length <= 4 && !hasSep && words.every(w => /^[A-Z0-9]/.test(w))) return false;
   if (BOILER.some(re => re.test(s))) return false;
   if (CODE_JUNK.test(s)) return false;
   if (hasAdCode(s)) return false;
   if (isJunkPara(s)) return false;
   if (NAV_HINT.test(s)) return false;
-  if (looksLikeNav(s)) return false;
+  if (!head && looksLikeNav(s)) return false;
   if ((s.match(/\|/g) || []).length >= 2) return false;
   return true;
 }
 
 /** 这一段是不是值得给读者看的正文（逐段判定，与文章体裁无关）
  *  @param {string} t
- *  @param {{list?: boolean}} [opts] list=true 时按列表项标准判（见 goodListItem 的说明） */
+ *  @param {{list?: boolean, head?: boolean}} [opts] list=true 时按列表项标准判（见 goodListItem 的说明） */
 export function goodPara(t, opts = {}) {
-  if (opts && opts.list) return goodListItem(t);
+  if (opts && opts.list) return goodListItem(t, opts);
   const s = String(t || "").trim();
   /* 2026-09-16 放宽 30 → 15。30 字符约等于英语 5–6 词，把作者刻意断开的强调短句
    * 整段删掉了（`One ingredient is agency.` 24 / `This will be comprehensive.` 27）。
@@ -247,7 +291,14 @@ export function goodPara(t, opts = {}) {
        但仍要求它**看起来确实是句子**：以句末标点收尾 + 字母够多；
        `One email a week, no spam, ever. See our Privacy policy.` 这类仍会被下面的 BOILER 挡掉。 */
     if (letters < PARA_SHORT_LETTERS) return false;
-    if (!/[.!?…]["'”’)]?$/.test(s)) return false;
+    /* 2026-09-16：原先只认句末标点，把**带结构分隔符的小节标题**整条删掉。
+     * kb-human30 实测死在闸下 146 条：`1. Rivalrous Dynamics` / `Mind 1.0:` /
+     * `The Phase System - How transitions happen within each level:` /
+     * `Core Principles` —— 都是作者用 <p> 写的编号小节标题与引导行。
+     * 它们确实没有句末标点（标题本来就没有），但**有分隔符**（编号 / 冒号 / 长破折号），
+     * 这与「一坨没标点的导航词」形态不同。所以放行 hasListItemSep 的那一类，
+     * 分隔符判定与列表档共用同一份（别抄第二个）。 */
+    if (!/[.!?…]["'”’)]?$/.test(s) && !hasListItemSep(s)) return false;
   } else if (letters < PARA_LONG_LETTERS) {
     return false;
   }
@@ -259,7 +310,12 @@ export function goodPara(t, opts = {}) {
   if (looksLikeNav(s)) return false;
   if (looksTruncatedTeaser(s)) return false;
   if ((s.match(/\|/g) || []).length >= 2) return false;
-  if (/^[A-Z][^.!?]{0,40}$/.test(s)) return false;
+  /* 大写开头的短串：`Get Sky Sports` 这类导航。2026-09-16 补 `!hasSep` ——
+   * kb-human30 实测有 94 条正文引导行死在这条下（`Life exhibits a fundamental pattern:` /
+   * `This pattern appears at every scale:` / `Examples of Anti-Rivalrous Systems:`），
+   * 它们以大写开头、短、没有句末标点（引号后接列表，标点在下一行），形态恰好撞上。
+   * 加上「无分隔符」这个必要条件后，带冒号的引导行放行，纯导航短串仍被挡。 */
+  if (!hasListItemSep(s) && /^[A-Z][^.!?]{0,40}$/.test(s)) return false;
   return true;
 }
 
@@ -274,6 +330,7 @@ export function goodPara(t, opts = {}) {
 export function explainReject(t, opts = {}) {
   const s = String(t || "").trim();
   const list = !!(opts && opts.list);
+  const head = !!(opts && opts.head);
   const letters = (s.match(/[A-Za-z]/g) || []).length;
   const words = s.split(/\s+/).filter(Boolean);
   const hasSep = hasListItemSep(s);
@@ -283,13 +340,13 @@ export function explainReject(t, opts = {}) {
     if (s.length > 900) return "li 超长闸 (>900)";
     if (letters < LIST_MIN_LETTERS) return `li 字母闸 (<${LIST_MIN_LETTERS}，实际 ${letters})`;
     if (LIST_DATE.test(s)) return "li 日期型标签";
-    if (!hasSep && words.length < 5 && !/[.!?]$/.test(s)) return "li 纯标签闸 (无分隔符 且 <5 词 且无句末标点)";
+    if (!head && !hasSep && words.length < LIST_MIN_WORDS && !/[.!?]$/.test(s)) return `li 纯标签闸 (无分隔符 且 <${LIST_MIN_WORDS} 词 且无句末标点)`;
     if (words.length <= 4 && !hasSep && words.every(w => /^[A-Z0-9]/.test(w))) return "li 标题型标签 (≤4 词、全大写开头)";
   } else {
     if (s.length < PARA_MIN) return `段长度闸 (<${PARA_MIN}，实际 ${s.length})`;
     if (s.length < PARA_SHORT) {
       if (letters < PARA_SHORT_LETTERS) return `短段字母闸 (<${PARA_SHORT_LETTERS}，实际 ${letters})`;
-      if (!/[.!?…]["'”’)]?$/.test(s)) return "短段标点闸 (短段且无句末标点)";
+      if (!/[.!?…]["'”’)]?$/.test(s) && !hasSep) return "短段标点闸 (短段且无句末标点且无分隔符)";
     } else if (letters < PARA_LONG_LETTERS) {
       return `段字母闸 (≥${PARA_SHORT} 且字母<${PARA_LONG_LETTERS}，实际 ${letters})`;
     }
@@ -299,10 +356,10 @@ export function explainReject(t, opts = {}) {
   if (hasAdCode(s)) return "AD_CODE";
   if (isJunkPara(s)) return "isJunkPara (导航前缀 / 纯链接)";
   if (NAV_HINT.test(s)) return "NAV_HINT";
-  if (looksLikeNav(s)) return "looksLikeNav (无句末标点 且 ≥6 词 且大写词>50%)";
+  if (!head && looksLikeNav(s)) return "looksLikeNav (无句末标点 且 ≥6 词 且大写词>50%)";
   if ((s.match(/\|/g) || []).length >= 2) return "竖线分隔 (≥2)";
   if (!list && looksTruncatedTeaser(s)) return "截断预告 (省略号结尾)";
-  if (!list && /^[A-Z][^.!?]{0,40}$/.test(s)) return "大写开头短串";
+  if (!list && !hasSep && /^[A-Z][^.!?]{0,40}$/.test(s)) return "大写开头短串 (无分隔符)";
   return null;
 }
 

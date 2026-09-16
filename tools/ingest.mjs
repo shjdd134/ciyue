@@ -40,7 +40,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import vm from "node:vm";
 import {
-  cleanInvisible, cleanPara, cleanTitleZh, goodPara, putTitleZh, splitSentences, tidySpace, wordCount,
+  cleanInvisible, cleanPara, cleanTitleZh, explainReject, goodPara, putTitleZh, splitSentences, tidySpace, wordCount,
 } from "./lib-text.mjs";
 import { translateTexts } from "./lib-mt.mjs";
 import { applyGlossary } from "./lib-glossary.mjs";
@@ -82,6 +82,10 @@ const REPAIR_CATS = new Set(String(val("repair-cats", "")).split(",").map(s => s
    抄的那份一漂，「线上为什么少了这句」就再也查不清。
    用法：node tools/ingest.mjs --dump-blocks .tmp/orig/kb-human30.html [--loose] */
 const DUMP_BLOCKS = val("dump-blocks", "");
+/* 候选节点诊断：输出**过闸前**的每个节点 + 被拒原因（同源 explainReject）。
+   与 --dump-blocks 的差别是「能看到闸拦掉了什么」，这是 661 行缺口归因的关键。
+   用法：node tools/ingest.mjs --dump-nodes .tmp/orig/kb-human30.html [--loose] */
+const DUMP_NODES = val("dump-nodes", "");
 /* 补回被提取器漏掉的正文（只增不改，见 refillMissing 的说明） */
 const REFILL = has("refill");
 /* 下架：按 id 剔除已入库的文章（编辑层决定，不靠时效/配额自然淘汰）。
@@ -526,7 +530,23 @@ function regionsByToken(html, tokenRe, semantic = true) {
 function junkRegions(html) { return regionsByToken(html, REGION_TOKEN); }
 function commentRegions(html) { return regionsByToken(html, COMMENT_TOKEN, false); }
 
-function extractBlocks(html, looseImg = false) {
+/* 标题归一化：只比「字母数字序列」，忽略大小写、标点、弯引号、破折号差异。
+ * 用途是把「页面主标题的 <h1>」与文章 title 字段对上 —— 实测这两者在各站点
+ * 是**逐字相同**的（`A Complete Knowledge Base Of HUMAN 3.0` /
+ * `HUMAN 3.0 – A Map To Reach The Top 1%` / `Never forget what matters … Linkflare`），
+ * 差别只在 HTML 实体与空白，所以归一化后直接相等判定即可，不需要模糊匹配。 */
+const normHeading = s => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+
+/* 候选节点收集（**只收集，不过闸**）。
+ *
+ * 2026-09-16 抽出来：`--dump-blocks` 输出的是**已过闸**的块，用它无法回答
+ * 「这一行到底是被闸拦了、还是压根没被提取」—— 实测 kb-human30 有 661 行
+ * 缺口，dump-blocks 里一条都找不到，于是诊断表把「闸拦的」整片报成
+ * 「提取器没提的」，把结论指向错误的修法（改容器 vs 改尺子）。
+ * 诊断必须能同时看到「候选」与「过闸」，所以收集与过滤拆开。
+ * 需要候选节点一律调这个函数，别再在外面抄一份正则。 */
+function collectNodes(html, looseImg = false, pageTitle = "") {
+  const pageHead = pageTitle ? normHeading(pageTitle) : "";
   /* 先划出 figure 的字符区间，避免同一段被 <p> 和 <figure> 重复计入 */
   const figs = [...html.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/gi)]
     .map(m => ({ at: m.index, end: m.index + m[0].length, inner: m[1] }));
@@ -559,9 +579,20 @@ function extractBlocks(html, looseImg = false) {
    * More To That 全文里只有 2 个 h4，内容是 `Resources` 与 `Follow More To That:`，
    * 那是页脚导航，本来就被 goodListItem 的标签型规则挡掉。保留是为了覆盖
    * 未来把正文小标题写成 h4 的站点，代价只是正则多一个分支。 */
-  for (const m of html.matchAll(/<(li|h2|h3|h4)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
+  for (const m of html.matchAll(/<(li|h1|h2|h3|h4)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
     if (inFig(m.index) || inNav(m.index) || inCmt(m.index)) continue;
-    nodes.push({ at: m.index, kind: "item", inner: m[2] });
+    const tag = m[1].toLowerCase();
+    /* head 标记 <h1>/<h2>/<h3>/<h4>：作者写的结构标题走「标题档」，不看形态闸。
+     * 2026-09-16 实测 kb-human30 的 PART I/II 骨架（29 条标题）被判成栏目导航删掉，
+     * 详见 goodListItem 的注释。
+     * h1 是 2026-09-16 二次实测补的：那份知识库用 <h1> 写部级标题
+     * （`PART I: PHILOSOPHICAL & HISTORICAL FOUNDATION` … PART VI 共 6 条 / 28 词）。
+     * 但 <h1> 在绝大多数站点是**页面主标题**（`How To Think Like A Genius …`），
+     * 收了就会和 title 字段重复、在阅读页正文开头再念一遍标题 —— 所以与
+     * pageTitle 相同的那一条直接跳过（正文内的部级 h1 保留）。
+     * 归一化只比字母数字序列（见 normHeading），实测四份原文的 h1 与 title 逐字相同。 */
+    if (tag === "h1" && pageHead && normHeading(stripTags(m[2])) === pageHead) continue;
+    nodes.push({ at: m.index, kind: "item", head: tag !== "li", inner: m[2] });
   }
 
   /* 引用块。**先纠正一个误判**：Dan Koe 那篇的 6 段 blockquote 内容其实早就进库了 ——
@@ -592,6 +623,11 @@ function extractBlocks(html, looseImg = false) {
   }
 
   nodes.sort((a, b) => a.at - b.at);
+  return nodes;
+}
+
+function extractBlocks(html, looseImg = false, pageTitle = "") {
+  const nodes = collectNodes(html, looseImg, pageTitle);
 
   const seenText = new Set();
   const seenImg = new Set();
@@ -600,7 +636,8 @@ function extractBlocks(html, looseImg = false) {
     if (n.kind === "p" || n.kind === "item") {
       const t = stripTags(n.inner);
       const list = n.kind === "item";
-      if (!goodPara(t, { list })) continue;
+      const opts = list ? { list, head: !!n.head } : {};
+      if (!goodPara(t, opts)) continue;
       const key = t.slice(0, 60);
       if (seenText.has(key)) continue;
       seenText.add(key);
@@ -1036,7 +1073,7 @@ async function repairImages() {
     const html = await get(a.url, 2, 60000);   // 名刊页面重，放宽单次超时
     if (!html) { console.log(`· ${a.id.padEnd(40)} 页面取不到，保持原样`); coverFail++; continue; }
 
-    const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat));
+    const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat), a.title);
     const inlineSrcs = blocks.filter(b => b.t === "img").map(b => b.src);
 
     /* 封面的取图优先级：og:image → 正文第一张图（与首次生成时一致） */
@@ -1132,11 +1169,43 @@ async function repairImages() {
 /* ---------------- 诊断：打印一份 HTML 的提取结果 ---------------- */
 async function dumpBlocks() {
   const html = fs.readFileSync(path.resolve(ROOT, DUMP_BLOCKS), "utf8");
-  const blocks = extractBlocks(html, has("loose"));
+  const blocks = extractBlocks(html, has("loose"), val("title", ""));
   const texts = blocks.filter(b => b.t === "p");
   const words = texts.reduce((n, b) => n + wordCount(b.v), 0);
   console.error(`提取：文字块 ${texts.length}（列表/标题 ${texts.filter(b => b.item).length}）· 图 ${blocks.length - texts.length} · 词 ${words}`);
   process.stdout.write(JSON.stringify(blocks, null, 1));
+}
+
+/* ---------------- 诊断：候选节点 + 拒绝原因（--dump-nodes） ----------------
+ *
+ * 与 --dump-blocks 的分工：
+ *   --dump-blocks → 过闸之后的块（回答「入库了什么」）
+ *   --dump-nodes  → 过闸之前的候选 + 每条为什么被拒（回答「丢的是什么、被谁的刀」）
+ *
+ * 归因走 lib-text 的 `explainReject`，**不在这里写第二份判定**。
+ * 重复剔除单列（`dup`）：它是「提取到了、但前一条已经收过」，不是闸拦的，
+ * 混进拒绝原因会让「特征闸」看起来命中率虚高。
+ */
+async function dumpNodes() {
+  const html = fs.readFileSync(path.resolve(ROOT, DUMP_NODES), "utf8");
+  const nodes = collectNodes(html, has("loose"), val("title", ""));
+  const seen = new Set();
+  const rows = [];
+  for (const n of nodes) {
+    if (n.kind !== "p" && n.kind !== "item") continue;
+    const t = stripTags(n.inner);
+    const list = n.kind === "item";
+    const why = explainReject(t, list ? { list, head: !!n.head } : {});
+    let dup = false;
+    if (!why) { const k = t.slice(0, 60); if (seen.has(k)) dup = true; else seen.add(k); }
+    rows.push({ kind: n.kind, head: !!n.head, list, pos: n.at, len: t.length, words: wordCount(t), why: why || (dup ? "重复剔除" : null), t });
+  }
+  const tally = {};
+  for (const r of rows) if (r.why) tally[r.why] = (tally[r.why] || 0) + 1;
+  const kept = rows.filter(r => !r.why);
+  console.error(`候选节点 ${rows.length} → 过闸 ${kept.length} | 被拒 ${rows.length - kept.length}`);
+  Object.entries(tally).sort((a, b) => b[1] - a[1]).forEach(([k, v]) => console.error(`   ${String(v).padStart(4)}  ${k}`));
+  process.stdout.write(JSON.stringify(rows, null, 1));
 }
 
 /* ---------------- 补回被提取器漏掉的正文（--refill） ----------------
@@ -1220,7 +1289,7 @@ async function refillMissing() {
     const html = await get(a.url, 2, 60000);
     if (!html) { console.log(`· ${a.id.padEnd(42)} 原文取不到，跳过`); summary.push({ id: a.id, status: "fetch-fail" }); continue; }
 
-    const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat));
+    const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat), a.title);
     const orig = [];
     blocks.forEach((b, bi) => {
       if (b.t !== "p") return;
@@ -1671,7 +1740,7 @@ async function main() {
     const html = await getTracked(feed, "article", item.link);
     if (!html) { skip(item, "页面取不到"); continue; }
     if (!sourceUsable(feed)) { skip(item, "来源正文熔断"); continue; }
-      const blocks = extractBlocks(html, LOOSE_CATS.has(feed.cat));
+      const blocks = extractBlocks(html, LOOSE_CATS.has(feed.cat), item.title);
       const allSents = blocks.filter(b => b.t === "p").flatMap(b => splitSentences([b.v]));
     if (!difficultyOk(allSents)) { skip(item, `难度不符(${allSents.length}句/${allSents.reduce((n, s) => n + wordCount(s), 0)}词)`); continue; }
 
@@ -1851,9 +1920,9 @@ async function main() {
   console.log(`\n下一步：node tools/ingest.mjs --backfill   给 data.js 里的文章补封面图`);
 }
 
-const job = DUMP_BLOCKS ? dumpBlocks() : PRUNE ? prune() : REFILL ? refillMissing() : CLASSICS ? classics() : BACKFILL ? backfill() : REPAIR ? repairImages() : main();
+const job = DUMP_NODES ? dumpNodes() : DUMP_BLOCKS ? dumpBlocks() : PRUNE ? prune() : REFILL ? refillMissing() : CLASSICS ? classics() : BACKFILL ? backfill() : REPAIR ? repairImages() : main();
 job.then(() => {
-  if (!BACKFILL && !REPAIR && !REFILL && !DUMP_BLOCKS && !PRUNE) saveSourceHealth();
+  if (!BACKFILL && !REPAIR && !REFILL && !DUMP_BLOCKS && !DUMP_NODES && !PRUNE) saveSourceHealth();
 }).catch(e => {
   if (!BACKFILL && !REPAIR && !PRUNE) saveSourceHealth();
   console.error("失败：", e);

@@ -251,6 +251,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "I will not be able to cover all of the details that this model contains in this introduction.",
             "cn": "在这篇简介中，我无法详尽介绍该模型所包含的所有细节。"
+          },
+          {
+            "en": "HUMAN 3.0 – A Model To Maximize Your Potential",
+            "cn": "HUMAN 3.0——一个助你发挥潜能的模型"
           }
         ]
       },
@@ -765,6 +769,10 @@ const ARTICLES_EXTRA = [
             "cn": "通常，一个人会“痴迷”于学习或创造，从而迅速积累经验，快速迈向特定象限内的下一个层级。"
           },
           {
+            "en": "A few examples would be:",
+            "cn": "以下列举几个例子："
+          },
+          {
             "en": "Mind – Becoming immersed in a deep meditative state (skill) or following a line of thought that keeps you up at night, resulting in a plethora of ideas that light up your brain (knowledge).",
             "cn": "心智——沉浸于深度冥想状态（技能），或追随某条令你彻夜难眠的思路，从而产生大量点亮大脑的灵感（知识）。"
           },
@@ -929,6 +937,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "If you feel lost, you are probably in a Dissonance phase, and if you stick it out, you can find your next Channel and fall back in love with life.",
         "cn": "如果你感到迷茫，那你很可能正处于“不和谐”阶段；只要坚持下去，你就能找到下一个“通道”，并重新爱上生活。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Archetypes & Metatypes",
+            "cn": "原型与元类型"
+          }
+        ]
       },
       {
         "en": "In future letters and videos, we can use the Human 3.0 Graph to understand people (like Jordan Peterson, Andrew Tate, or Alan Watts), or to overcome problems in your life, like not being able to make money or find a partner.",
@@ -1171,6 +1187,14 @@ const ARTICLES_EXTRA = [
         "cn": "这仅仅是“HUMAN 3.0”模型的基础，因此我们还有许多细节需要深入探讨。"
       },
       {
+        "sentences": [
+          {
+            "en": "When You’re Ready, Here’s How I Can Help You:",
+            "cn": "当你准备好了，我将通过以下方式为你提供帮助："
+          }
+        ]
+      },
+      {
         "en": "Future-proof yourself with 2-4 premium guides, prompts, and strategies per month.",
         "cn": "每月获取 2 至 4 份优质指南、提示和策略，为未来做好准备。"
       },
@@ -1316,6 +1340,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "It doesn’t matter if you’re trying to figure out what you want to do with your life, become a spiritually enlightened monk, or build a billion-dollar company, this model will drastically shorten how quickly you can achieve those things.",
         "cn": "无论你是想弄清楚自己的人生方向，成为一名精神觉醒的僧侣，还是想创立一家市值十亿美元的公司，这个模型都能大幅缩短你实现这些目标所需的时间。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "This Map Of All Knowledge Is Mind-Blowing",
+            "cn": "这张“万有知识图谱”令人叹为观止"
+          }
+        ]
       },
       {
         "en": "“I don’t have to agree with everything you say, but I should attempt at least to understand it, for the opposite of mutual understanding is, quite simply, war.”",
@@ -1520,6 +1552,10 @@ const ARTICLES_EXTRA = [
             "cn": "最好还是准备好纸和笔。"
           },
           {
+            "en": "Individual Interior (Upper Left) – Your Inner World",
+            "cn": "个人内在（左上）——你的内心世界"
+          },
+          {
             "en": "What are my core values and what truly matters to me?",
             "cn": "我的核心价值观是什么？什么对我来说真正重要？"
           },
@@ -1536,6 +1572,10 @@ const ARTICLES_EXTRA = [
             "cn": "当我平息内心的杂念时，我的直觉在告诉我什么？"
           },
           {
+            "en": "Individual Exterior (Upper Right) – Your Actions & Capabilities",
+            "cn": "个体外在（右上角）——你的行动与能力"
+          },
+          {
             "en": "What are my natural talents and developed skills?",
             "cn": "我的天赋和已培养的技能有哪些？"
           },
@@ -1550,6 +1590,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "What concrete steps am I taking and what life is that leading to?",
             "cn": "我正在采取哪些具体行动？这些行动将引领我走向怎样的人生？"
+          },
+          {
+            "en": "Collective Interior (Lower Left) – Cultural & Social Context",
+            "cn": "集体内在（左下角）——文化与社会背景"
           },
           {
             "en": "What do my parents or religious leaders expect of me in terms of their idea of success?",
@@ -1570,6 +1614,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "What do I find meaningful?",
             "cn": "我认为什么是有意义的？"
+          },
+          {
+            "en": "Collective Exterior (Lower Right) – Systems & Structures",
+            "cn": "集体外部（右下角）——系统与结构"
           },
           {
             "en": "What are the current opportunities for jobs, careers, or entrepreneurship in today’s world?",
@@ -1626,6 +1674,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "And while that’s powerful, that’s only the first half of this model.",
             "cn": "虽然这非常有力量，但这仅仅是该模型的上半部分。"
+          },
+          {
+            "en": "Why Smart People Are Incredibly Dumb",
+            "cn": "为什么聪明人会如此愚蠢"
           }
         ]
       },
@@ -1822,6 +1874,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Thank you for reading.",
             "cn": "感谢阅读。"
+          },
+          {
+            "en": "When You’re Ready, Here’s How I Can Help You:",
+            "cn": "当你准备好了，以下是我能为你提供的帮助："
           }
         ]
       },
@@ -1947,6 +2003,14 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "In specific, I wanted to include:",
+            "cn": "具体来说，我想包含："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "My own personal principles that I’ve written about extensively in various books and articles, including but not limited to the digital economy",
             "cn": "我个人秉持的原则——我在各类书籍和文章中对此有大量论述，内容不仅限于数字经济"
           },
@@ -2025,6 +2089,14 @@ const ARTICLES_EXTRA = [
         "cn": "将以下全部内容复制粘贴到AI中，或者阅读一下，尽情享受吧（内容很长）："
       },
       {
+        "sentences": [
+          {
+            "en": "A Complete Framework for Modern Multidimensional Human Development",
+            "cn": "现代多维度人类发展的完整框架"
+          }
+        ]
+      },
+      {
         "en": "HUMAN 3.0 maps human development as systematic problem-solving across four fundamental life dimensions, through three developmental levels consisting of phases and other dynamics, allowing one to maximize their potential.",
         "cn": "“HUMAN 3.0”将人类发展视为贯穿四大基本生活维度的系统性问题解决过程，通过由各个阶段及其他动态要素构成的三个发展层次，帮助人们充分发挥自身潜能。"
       },
@@ -2069,6 +2141,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Level 3.0 – Synthesist: Contextual wisdom, paradoxical thinking, security through acceptance, multi-perspectival",
             "cn": "第3.0层级——综合者：情境智慧、悖论思维、通过接纳获得安全感、多视角思考"
+          },
+          {
+            "en": "The Phase System – How transitions happen within each level:",
+            "cn": "阶段系统——各层次内部的过渡机制："
           },
           {
             "en": "Phase X.1 – Dissonance: Old ways stop working, restlessness emerges, feeling lost and like you don’t belong in current level",
@@ -2201,6 +2277,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "The Three Core Generator Functions",
             "cn": "三大核心生成功能"
+          },
+          {
+            "en": "Rivalrous Dynamics",
+            "cn": "竞争性动力"
           }
         ]
       },
@@ -2261,6 +2341,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This “you are the niche” approach naturally evolves beyond competition.",
             "cn": "这种“你就是细分市场”的做法自然会超越竞争。"
+          },
+          {
+            "en": "Substrate Consumption",
+            "cn": "基质消耗"
           }
         ]
       },
@@ -2313,6 +2397,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "When work becomes calling, it generates rather than depletes energy.",
             "cn": "当工作成为使命时，它会带来能量，而不是消耗能量。"
+          },
+          {
+            "en": "Exponential Technology",
+            "cn": "指数级技术"
           }
         ]
       },
@@ -2359,6 +2447,10 @@ const ARTICLES_EXTRA = [
             "cn": "随着人工智能使技术技能变得司空见惯，通过写作进行清晰思考以及构建连贯叙事的能力变得不可替代。"
           },
           {
+            "en": "These three dynamics interact catastrophically:",
+            "cn": "这三种动态相互作用，将产生灾难性后果："
+          },
+          {
             "en": "Rivalrous dynamics + Exponential tech = Arms races with existential weapons",
             "cn": "竞争动态 + 指数级技术 = 围绕生存型武器的军备竞赛"
           },
@@ -2401,6 +2493,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "In anti-rivalrous systems, your success literally requires my success—we’re structurally coupled for mutual thriving.",
             "cn": "在非竞争性系统中，你的成功实际上离不开我的成功——我们从结构上紧密相连，彼此依存，共同繁荣。"
+          },
+          {
+            "en": "Examples of Anti-Rivalrous Systems:",
+            "cn": "反竞争系统的例子："
           },
           {
             "en": "Organs in your body: Heart can’t succeed if liver fails",
@@ -2485,6 +2581,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This guide provides a practical framework for that development.",
             "cn": "本指南为此项发展提供了一个切实可行的框架。"
+          },
+          {
+            "en": "PART I: PHILOSOPHICAL & HISTORICAL FOUNDATION",
+            "cn": "第一部分：哲学与历史基础"
           }
         ]
       },
@@ -2703,6 +2803,10 @@ const ARTICLES_EXTRA = [
             "cn": "我们需要能够同时发展所有维度的模型。"
           },
           {
+            "en": "Most developmental models emerged before:",
+            "cn": "大多数发展模型都诞生于此前："
+          },
+          {
             "en": "AI becoming a cognitive amplifier/replacement",
             "cn": "人工智能正成为认知增强器/替代者"
           },
@@ -2713,6 +2817,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Remote work dissolving geographic constraints",
             "cn": "远程工作消解了地理限制"
+          },
+          {
+            "en": "Cryptocurrency challenging economic fundamentals",
+            "cn": "加密货币对经济基本面的挑战"
           },
           {
             "en": "Psychedelics becoming mainstream development tools",
@@ -2787,6 +2895,14 @@ const ARTICLES_EXTRA = [
             "cn": "同样，改善身体健康能增强思维清晰度，从而有助于做出更明智的决策，并为进一步发展创造条件。"
           },
           {
+            "en": "Evolution as Problem-Solving",
+            "cn": "进化即解决问题"
+          },
+          {
+            "en": "Life exhibits a fundamental pattern:",
+            "cn": "生命展现出一种根本模式："
+          },
+          {
             "en": "Simplicity → Complexity (natural unfolding)",
             "cn": "简单 → 复杂（自然演进）"
           },
@@ -2801,6 +2917,26 @@ const ARTICLES_EXTRA = [
           {
             "en": "Order → New Simplicity (transcendent integration)",
             "cn": "秩序 → 新的简约（超越性整合）"
+          },
+          {
+            "en": "This pattern appears at every scale:",
+            "cn": "这种模式在各个尺度上都存在："
+          },
+          {
+            "en": "Biological: Seed → Plant → Ecosystem → Stable Forest",
+            "cn": "生物学层面：种子 → 植物 → 生态系统 → 稳定的森林"
+          },
+          {
+            "en": "Psychological: Child → Adolescent → Adult → Elder",
+            "cn": "心理层面：儿童 → 青少年 → 成年人 → 老年人"
+          },
+          {
+            "en": "Societal: Tribe → Civilization → Empire → Transformation",
+            "cn": "社会层面：部落 → 文明 → 帝国 → 转型"
+          },
+          {
+            "en": "Personal: Problem → Struggle → Solution → Integration",
+            "cn": "个人层面：问题 → 挣扎 → 解决方案 → 整合"
           }
         ]
       },
@@ -2867,6 +3003,14 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Key principles:",
+            "cn": "核心原则："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Transcend and Include: Higher levels don’t abandon lower capacities",
             "cn": "超越与包容：更高层级不会抛弃较低能力"
           },
@@ -2885,6 +3029,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Purpose-Profit Unity: Value creation and personal development are inseparable",
             "cn": "目的与利润的统一：价值创造与个人发展密不可分"
+          },
+          {
+            "en": "Historical Context: Consciousness Evolution Through Time",
+            "cn": "历史背景：意识随时间的演化"
           }
         ]
       },
@@ -2897,6 +3045,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Each individual’s growth through Human 3.0 levels recapitulates humanity’s 200,000-year journey—what took millennia collectively can be traversed in decades individually.",
             "cn": "每个人通过“HUMAN 3.0”各层级的成长，重现了人类20万年的发展历程——人类集体历经数千年才走过的路，个人只需数十年即可走完。"
+          },
+          {
+            "en": "Historical Stages and Human 3.0 Correlations:",
+            "cn": "历史阶段与“HUMAN 3.0”的对应关系："
           },
           {
             "en": "Foraging Era (200,000-10,000 BCE): Beige/Purple consciousness, pre-Level 1, egalitarian bands with anti-rivalrous dynamics",
@@ -2957,6 +3109,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Individual growth isn’t personal improvement—it’s participating in humanity’s phase transition.",
             "cn": "个人的成长并非个人进步——而是参与人类的相变。"
+          },
+          {
+            "en": "PART II: HUMAN 3.0 MODEL ARCHITECTURE",
+            "cn": "第二部分：HUMAN 3.0模型架构"
           }
         ]
       },
@@ -2971,12 +3127,48 @@ const ARTICLES_EXTRA = [
             "cn": "这四个象限勾勒出了人类体验的完整图景——内在与外在、个体与集体。"
           },
           {
+            "en": "MIND QUADRANT (Upper Left – Interior Individual)",
+            "cn": "“心灵象限”（左上角——内在个体）"
+          },
+          {
+            "en": "Domain: Personal Mental World",
+            "cn": "领域：个人心理世界"
+          },
+          {
             "en": "Core Question: “How do I make sense of reality?”",
             "cn": "核心问题：“我该如何理解现实？”"
           },
           {
             "en": "Cognitive frameworks and mental models",
             "cn": "认知框架与思维模式"
+          },
+          {
+            "en": "Emotional regulation and intelligence",
+            "cn": "情绪调节与情商"
+          },
+          {
+            "en": "Belief systems and worldviews",
+            "cn": "信念体系与世界观"
+          },
+          {
+            "en": "Metacognition and construct awareness",
+            "cn": "元认知与建构意识"
+          },
+          {
+            "en": "Pattern recognition and synthesis",
+            "cn": "模式识别与综合"
+          },
+          {
+            "en": "Creativity and imagination",
+            "cn": "创造力与想象力"
+          },
+          {
+            "en": "Knowledge acquisition and integration",
+            "cn": "知识获取与整合"
+          },
+          {
+            "en": "Trauma processing and integration",
+            "cn": "创伤处理与整合"
           },
           {
             "en": "Shadow work and unconscious patterns",
@@ -3015,8 +3207,16 @@ const ARTICLES_EXTRA = [
             "cn": "“当纯粹的思考陷入僵局时，写作便是探索思想空间的方式。”写作这一行为从字面上来说会重塑神经通路，从而增强元认知和抽象推理能力。"
           },
           {
+            "en": "Observable Markers:",
+            "cn": "可观察指标："
+          },
+          {
             "en": "Quality of thinking (binary vs paradoxical)",
             "cn": "思维质量（二元思维与悖论思维）"
+          },
+          {
+            "en": "Emotional resilience under stress",
+            "cn": "压力下的情绪韧性"
           },
           {
             "en": "Ability to hold multiple perspectives",
@@ -3025,6 +3225,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "Speed of learning and adaptation",
             "cn": "学习与适应的速度"
+          },
+          {
+            "en": "Depth of self-awareness",
+            "cn": "自我觉察的深度"
+          },
+          {
+            "en": "Capacity for abstract reasoning",
+            "cn": "抽象推理能力"
           },
           {
             "en": "Integration of intuition and logic",
@@ -3041,6 +3249,34 @@ const ARTICLES_EXTRA = [
           {
             "en": "High-quality cognitive work happens when challenge exceeds skill by approximately 4%.",
             "cn": "当挑战程度比技能水平高出约4%时，就能产生高质量的认知工作。"
+          },
+          {
+            "en": "Common Pathologies:",
+            "cn": "常见病理："
+          },
+          {
+            "en": "Analysis paralysis",
+            "cn": "分析瘫痪"
+          },
+          {
+            "en": "Spiritual bypassing",
+            "cn": "精神逃避"
+          },
+          {
+            "en": "Intellectual arrogance",
+            "cn": "知识上的傲慢"
+          },
+          {
+            "en": "Dissociation from body/reality",
+            "cn": "与身体/现实的分离"
+          },
+          {
+            "en": "Overthinking simple problems",
+            "cn": "对简单问题过度思考"
+          },
+          {
+            "en": "Knowledge without implementation",
+            "cn": "空谈理论而不付诸实践"
           }
         ]
       },
@@ -3083,12 +3319,60 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "BODY QUADRANT (Upper Right – Exterior Individual)",
+            "cn": "身体象限（右上角——外在个体）"
+          },
+          {
+            "en": "Domain: Personal Physical World",
+            "cn": "领域：个人物理世界"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Core Question: “How do I embody my potential?”",
             "cn": "核心问题：“我如何将自身潜能付诸实践？”"
           },
           {
+            "en": "Physical health and vitality",
+            "cn": "身体健康与活力"
+          },
+          {
+            "en": "Movement and athletic capacity",
+            "cn": "运动与体能"
+          },
+          {
+            "en": "Nutrition and metabolic health",
+            "cn": "营养与代谢健康"
+          },
+          {
+            "en": "Sleep and recovery",
+            "cn": "睡眠与恢复"
+          },
+          {
+            "en": "Energy management",
+            "cn": "能量管理"
+          },
+          {
+            "en": "Appearance and presentation",
+            "cn": "外貌与仪态"
+          },
+          {
             "en": "Body language and physical presence",
             "cn": "肢体语言与身体存在感"
+          },
+          {
+            "en": "Sexual health and expression",
+            "cn": "性健康与表达"
+          },
+          {
+            "en": "Nervous system regulation",
+            "cn": "神经系统调节"
+          },
+          {
+            "en": "Aging and longevity",
+            "cn": "衰老与长寿"
           }
         ]
       },
@@ -3115,6 +3399,62 @@ const ARTICLES_EXTRA = [
       {
         "en": "This isn’t just about athletics – it applies to any physical skill from surgery to craftsmanship.",
         "cn": "这不仅仅关乎体育运动——它适用于从外科手术到手工艺的任何身体技能。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Energy levels throughout day",
+            "cn": "全天能量层级"
+          },
+          {
+            "en": "Movement quality and capacity",
+            "cn": "动作质量与能力"
+          },
+          {
+            "en": "Body composition and biomarkers",
+            "cn": "身体成分与生物标志物"
+          },
+          {
+            "en": "Recovery speed from stress/illness",
+            "cn": "压力/疾病后的恢复速度"
+          },
+          {
+            "en": "Physical confidence and presence",
+            "cn": "身体自信与气场"
+          },
+          {
+            "en": "Consistency of healthy practices",
+            "cn": "健康习惯的坚持"
+          },
+          {
+            "en": "Intuitive body awareness",
+            "cn": "直觉性的身体感知"
+          },
+          {
+            "en": "Orthorexia (obsessive “health”)",
+            "cn": "正食症（对“健康”的强迫性追求）"
+          },
+          {
+            "en": "Exercise addiction",
+            "cn": "运动成瘾"
+          },
+          {
+            "en": "Body dysmorphia",
+            "cn": "身体畸形恐惧症"
+          },
+          {
+            "en": "Biohacking without basics",
+            "cn": "缺乏基础的生物黑客"
+          },
+          {
+            "en": "Aesthetic without function",
+            "cn": "仅追求美学而忽视功能"
+          },
+          {
+            "en": "Ignoring medical fundamentals",
+            "cn": "忽视医学基础"
+          }
+        ]
       },
       {
         "en": "Metacrisis Relevance: The Body quadrant represents the human biological substrate that our technological civilization is consuming.",
@@ -3159,8 +3499,60 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "SPIRIT QUADRANT (Lower Left – Interior Collective)",
+            "cn": "精神象限（左下角——内在集体）"
+          },
+          {
+            "en": "Domain: Collective Mental World",
+            "cn": "领域：集体精神世界"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Core Question: “How do I connect and create meaning?”",
             "cn": "核心问题：“我如何建立联结并创造意义？”"
+          },
+          {
+            "en": "Intimate relationships and love",
+            "cn": "亲密关系与爱情"
+          },
+          {
+            "en": "Family dynamics and healing",
+            "cn": "家庭动态与疗愈"
+          },
+          {
+            "en": "Community belonging and service",
+            "cn": "社区归属与服务"
+          },
+          {
+            "en": "Cultural identity and navigation",
+            "cn": "文化认同与适应"
+          },
+          {
+            "en": "Meaning-making and purpose",
+            "cn": "意义构建与人生目标"
+          },
+          {
+            "en": "Death contemplation and acceptance",
+            "cn": "对死亡的思考与接纳"
+          },
+          {
+            "en": "Transcendent experiences",
+            "cn": "超验体验"
+          },
+          {
+            "en": "Collective consciousness",
+            "cn": "集体意识"
+          },
+          {
+            "en": "Archetypal patterns",
+            "cn": "原型模式简体中文（大陆）"
+          },
+          {
+            "en": "Sacred and secular integration",
+            "cn": "神圣与世俗的融合"
           }
         ]
       },
@@ -3219,12 +3611,60 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Relationship depth and stability",
+            "cn": "人际关系的深度与稳定性"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Capacity for intimacy and vulnerability",
             "cn": "建立亲密关系与展现脆弱的能力"
           },
           {
+            "en": "Community involvement and impact",
+            "cn": "社区参与与影响力"
+          },
+          {
+            "en": "Comfort with existential questions",
+            "cn": "对存在主义问题的从容应对"
+          },
+          {
             "en": "Ability to create meaning from suffering",
             "cn": "从苦难中创造意义的能力"
+          },
+          {
+            "en": "Integration of peak experiences",
+            "cn": "巅峰体验的整合"
+          },
+          {
+            "en": "Service orientation",
+            "cn": "服务导向"
+          },
+          {
+            "en": "Spiritual materialism",
+            "cn": "精神物质主义"
+          },
+          {
+            "en": "Codependency disguised as love",
+            "cn": "伪装成爱的共生依赖"
+          },
+          {
+            "en": "Tribalism and fundamentalism",
+            "cn": "部落主义与原教旨主义"
+          },
+          {
+            "en": "Meaning addiction (constant seeking)",
+            "cn": "意义成瘾（持续追寻）"
+          },
+          {
+            "en": "Community hopping",
+            "cn": "频繁更换社群"
+          },
+          {
+            "en": "Performative spirituality",
+            "cn": "表演式灵性"
           }
         ]
       },
@@ -3275,8 +3715,56 @@ const ARTICLES_EXTRA = [
             "cn": "凭借它，我们能够培养出将指数级技术用于造福人类的智慧。"
           },
           {
+            "en": "VOCATION QUADRANT (Lower Right – Exterior Collective)",
+            "cn": "天职象限（右下角——外部集体）"
+          },
+          {
+            "en": "Domain: Collective Physical World",
+            "cn": "领域：集体物质世界"
+          },
+          {
             "en": "Core Question: “How do I create value and impact?”",
             "cn": "核心问题：“我如何创造价值并产生影响？”"
+          },
+          {
+            "en": "Career and professional development",
+            "cn": "职业与专业发展"
+          },
+          {
+            "en": "Business and entrepreneurship",
+            "cn": "商业与创业"
+          },
+          {
+            "en": "Money and resource management",
+            "cn": "金钱与资源管理"
+          },
+          {
+            "en": "Systems thinking and leverage",
+            "cn": "系统思维与杠杆效应"
+          },
+          {
+            "en": "Technology and tool mastery",
+            "cn": "技术与工具的掌握"
+          },
+          {
+            "en": "Market dynamics and timing",
+            "cn": "市场动态与时机把握"
+          },
+          {
+            "en": "Value creation and capture",
+            "cn": "价值创造与获取"
+          },
+          {
+            "en": "Legacy and generational wealth",
+            "cn": "遗产与代际财富"
+          },
+          {
+            "en": "Economic philosophy",
+            "cn": "经济哲学"
+          },
+          {
+            "en": "Societal contribution",
+            "cn": "社会贡献"
           }
         ]
       },
@@ -3313,6 +3801,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Your unique identity and experience become your competitive advantage.",
             "cn": "您独特的身份和经历将成为您的竞争优势。"
+          },
+          {
+            "en": "The Value Creation Framework:",
+            "cn": "价值创造框架："
           },
           {
             "en": "Who can you help the most?",
@@ -3355,6 +3847,10 @@ const ARTICLES_EXTRA = [
             "cn": "你的蜕变故事就是最好的证明"
           },
           {
+            "en": "The Work Evolution Path:",
+            "cn": "工作进化之路："
+          },
+          {
             "en": "Job: Survival mechanism, necessary evil, following assignments",
             "cn": "工作：生存机制、必要之恶、完成任务"
           },
@@ -3367,8 +3863,36 @@ const ARTICLES_EXTRA = [
             "cn": "天职：那种让你无法抽身的工作，是伪装成工作的游戏"
           },
           {
+            "en": "Income generation capacity",
+            "cn": "创收能力"
+          },
+          {
             "en": "Value creation independent of time",
             "cn": "不受时间限制的价值创造"
+          },
+          {
+            "en": "System building abilities",
+            "cn": "系统构建能力"
+          },
+          {
+            "en": "Financial literacy and management",
+            "cn": "财务素养与管理能力"
+          },
+          {
+            "en": "Professional reputation",
+            "cn": "专业声誉"
+          },
+          {
+            "en": "Market understanding",
+            "cn": "市场洞察力"
+          },
+          {
+            "en": "Innovation and problem-solving",
+            "cn": "创新与问题解决能力"
+          },
+          {
+            "en": "Scalability of impact",
+            "cn": "影响力的可扩展性"
           }
         ]
       },
@@ -3385,6 +3909,26 @@ const ARTICLES_EXTRA = [
           {
             "en": "The amount of money you make correlates directly with the level of problems you solve and your ability to inspire people to care about your solution.",
             "cn": "你的收入与所解决问题的难度以及你激励他人关注你的解决方案的能力直接相关。"
+          },
+          {
+            "en": "Money without meaning",
+            "cn": "没有意义的金钱"
+          },
+          {
+            "en": "Exploitation disguised as business",
+            "cn": "伪装成商业的剥削"
+          },
+          {
+            "en": "Tool obsession without execution",
+            "cn": "沉迷工具却不付诸实践"
+          },
+          {
+            "en": "Title inflation",
+            "cn": "头衔虚高"
+          },
+          {
+            "en": "Pyramid scheme participation",
+            "cn": "参与传销"
           }
         ]
       },
@@ -3451,6 +3995,38 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Consciousness Structure:",
+            "cn": "意识结构："
+          },
+          {
+            "en": "Pre-rational/mythic thinking",
+            "cn": "前理性/神话式思维"
+          },
+          {
+            "en": "External authority dependence",
+            "cn": "对外部权威的依赖"
+          },
+          {
+            "en": "Binary worldview (good/evil, us/them)",
+            "cn": "二元世界观（善/恶，我们/他们）"
+          },
+          {
+            "en": "Literal interpretation of symbols",
+            "cn": "对符号的字面解释"
+          },
+          {
+            "en": "Rule-based morality",
+            "cn": "基于规则的道德观"
+          },
+          {
+            "en": "Security through conformity",
+            "cn": "通过顺从获得安全感"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Assignment Life: At Level 1.0, life consists of completing assignments given by others—school assigns learning, employers assign work, society assigns values.",
             "cn": "“任务人生”：在 1.0 层级，生活就是完成他人布置的任务——学校布置学习任务，雇主布置工作任务，社会则赋予价值观。"
           },
@@ -3495,6 +4071,10 @@ const ARTICLES_EXTRA = [
             "cn": "“心流”状态之所以罕见，是因为挑战与技能之间的平衡是由外部强加的，而非由内部调节的。"
           },
           {
+            "en": "Quadrant Manifestations:",
+            "cn": "象限表现："
+          },
+          {
             "en": "Thinking in slogans and soundbites",
             "cn": "以口号和短句进行思考"
           },
@@ -3503,20 +4083,76 @@ const ARTICLES_EXTRA = [
             "cn": "无法质疑既定观念"
           },
           {
+            "en": "Confusing memorization with understanding",
+            "cn": "将死记硬背与理解混为一谈"
+          },
+          {
+            "en": "Triggered by different perspectives",
+            "cn": "因不同视角而产生情绪反应"
+          },
+          {
             "en": "Needs constant validation of beliefs",
             "cn": "需要不断验证自己的信念"
+          },
+          {
+            "en": "Unconscious eating and movement",
+            "cn": "无意识的饮食和运动"
           },
           {
             "en": "Health as absence of immediate pain",
             "cn": "健康被定义为没有即时疼痛"
           },
           {
+            "en": "Following fads without understanding",
+            "cn": "不加理解地追随潮流"
+          },
+          {
+            "en": "Disconnection from body signals",
+            "cn": "与身体信号脱节"
+          },
+          {
+            "en": "Aging as inevitable decline",
+            "cn": "衰老即不可避免的衰退"
+          },
+          {
+            "en": "Belonging through compliance",
+            "cn": "通过顺从而获得归属感"
+          },
+          {
             "en": "Love as possession or transaction",
             "cn": "爱即占有或交易"
           },
           {
+            "en": "God as punitive parent",
+            "cn": "将上帝视为惩罚性的父母"
+          },
+          {
+            "en": "Meaning from external validation",
+            "cn": "来自外部认可的意义"
+          },
+          {
+            "en": "Death as ultimate terror",
+            "cn": "死亡作为终极恐惧"
+          },
+          {
             "en": "Work as necessary evil (Job stage)",
             "cn": "工作作为必要的恶（工作阶段）"
+          },
+          {
+            "en": "Money as scarce resource",
+            "cn": "金钱作为稀缺资源"
+          },
+          {
+            "en": "Success as security",
+            "cn": "成功即安全感"
+          },
+          {
+            "en": "Following career templates",
+            "cn": "遵循职业模板"
+          },
+          {
+            "en": "Retirement as only escape",
+            "cn": "退休是唯一的出路"
           }
         ]
       },
@@ -3535,12 +4171,40 @@ const ARTICLES_EXTRA = [
             "cn": "就像童年一样，这是一个必要的阶段，只有当它无限期地延续下去时，才会变得棘手。"
           },
           {
+            "en": "Transcendence Triggers:",
+            "cn": "超越触发点："
+          },
+          {
             "en": "Life crisis that rules can’t solve",
             "cn": "现行规则无法解决的人生危机"
           },
           {
+            "en": "Exposure to different worldviews",
+            "cn": "接触不同的世界观"
+          },
+          {
+            "en": "Betrayal by trusted authority",
+            "cn": "受信赖的权威的背叛"
+          },
+          {
+            "en": "Success that feels empty",
+            "cn": "感到空虚的成功"
+          },
+          {
+            "en": "Sustained suffering despite compliance",
+            "cn": "尽管顺从却仍遭受持续痛苦"
+          },
+          {
+            "en": "Developmental Model Correlations:",
+            "cn": "发展模型关联："
+          },
+          {
             "en": "Spiral Dynamics: Blue (Traditional/Conformist)",
             "cn": "螺旋动力学：蓝色（传统/顺从型）"
+          },
+          {
+            "en": "Ego Development: E4 (Conformist) to E5 (Self-Aware)",
+            "cn": "自我发展：从 E4（顺从型）到 E5（自我觉察型）"
           },
           {
             "en": "Kegan: Order 3 (Socialized Mind)",
@@ -3569,6 +4233,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Consumes substrate thinking it’s infinite",
             "cn": "消耗底物，却以为它是无限的"
+          },
+          {
+            "en": "Trusts institutional narratives uncritically",
+            "cn": "不加批判地信任制度性叙事"
           },
           {
             "en": "Believes technology will save us or destroy us (binary thinking)",
@@ -3603,8 +4271,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Rational/modern thinking",
+            "cn": "理性/现代思维"
+          },
+          {
+            "en": "Internal authority development",
+            "cn": "内在权威的培养"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Pluralistic worldview (multiple valid perspectives)",
             "cn": "多元世界观（多种有效视角）"
+          },
+          {
+            "en": "Symbolic interpretation emerging",
+            "cn": "象征性解读正在形成"
+          },
+          {
+            "en": "Consequence-based morality",
+            "cn": "后果主义道德观"
+          },
+          {
+            "en": "Security through achievement",
+            "cn": "通过成就获得安全感"
           }
         ]
       },
@@ -3675,8 +4367,60 @@ const ARTICLES_EXTRA = [
             "cn": "“一旦实现了这一目标，你就会做得更多，因为你想被接纳，并被视为有价值的人。”"
           },
           {
+            "en": "Critical thinking development",
+            "cn": "批判性思维的发展"
+          },
+          {
+            "en": "Questioning everything (often compulsively)",
+            "cn": "对一切提出质疑（往往是强迫性的）"
+          },
+          {
+            "en": "Building personal philosophy",
+            "cn": "构建个人哲学"
+          },
+          {
             "en": "Integration of science and reason",
             "cn": "科学与理性的融合"
+          },
+          {
+            "en": "Metacognition emerging",
+            "cn": "元认知的萌芽"
+          },
+          {
+            "en": "Optimization and tracking",
+            "cn": "优化与追踪"
+          },
+          {
+            "en": "Health as performance metric",
+            "cn": "健康作为绩效指标"
+          },
+          {
+            "en": "Experimenting with protocols",
+            "cn": "协议实验"
+          },
+          {
+            "en": "Biohacking and enhancement",
+            "cn": "生物黑客与能力增强"
+          },
+          {
+            "en": "Anti-aging as battle",
+            "cn": "抗衰老作为一场战斗"
+          },
+          {
+            "en": "Relationships as self-discovery",
+            "cn": "将人际关系视为自我发现"
+          },
+          {
+            "en": "Love as personal growth",
+            "cn": "爱情即个人成长"
+          },
+          {
+            "en": "God as personal choice/rejection",
+            "cn": "上帝作为个人选择/拒绝"
+          },
+          {
+            "en": "Meaning from achievement",
+            "cn": "成就带来的意义"
           },
           {
             "en": "Death as problem to solve",
@@ -3685,6 +4429,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "Work as self-expression (Career stage)",
             "cn": "工作作为自我表达（职业阶段）"
+          },
+          {
+            "en": "Money as scoreboard",
+            "cn": "金钱即记分牌"
+          },
+          {
+            "en": "Success as differentiation",
+            "cn": "成功即差异化"
+          },
+          {
+            "en": "Creating own path",
+            "cn": "开辟自己的道路"
+          },
+          {
+            "en": "Financial independence as goal",
+            "cn": "以财务独立为目标"
           }
         ]
       },
@@ -3703,8 +4463,20 @@ const ARTICLES_EXTRA = [
             "cn": "在实现真正融合之前，必须先完成个体化。"
           },
           {
+            "en": "Shadow Aspects:",
+            "cn": "阴影面："
+          },
+          {
+            "en": "Contrarianism disguised as wisdom",
+            "cn": "伪装成智慧的反叛主义"
+          },
+          {
             "en": "Isolation from rejecting all tradition",
             "cn": "因拒绝所有传统而陷入孤立"
+          },
+          {
+            "en": "Exhaustion from constant optimization",
+            "cn": "因不断优化而导致的精疲力竭"
           },
           {
             "en": "Missing wisdom in what was rejected",
@@ -3717,6 +4489,30 @@ const ARTICLES_EXTRA = [
           {
             "en": "Success that still feels empty",
             "cn": "依然感到空虚的成功"
+          },
+          {
+            "en": "Recognizing patterns across opposites",
+            "cn": "在对立面中识别规律"
+          },
+          {
+            "en": "Exhaustion from constant striving",
+            "cn": "因不断奋斗而感到的精疲力竭"
+          },
+          {
+            "en": "Desire for deeper connection",
+            "cn": "对更深层联结的渴望"
+          },
+          {
+            "en": "Hitting optimization limits",
+            "cn": "触及优化极限"
+          },
+          {
+            "en": "Spiral Dynamics: Orange (Achievement) to Green (Pluralistic)",
+            "cn": "螺旋动力学：从橙色（成就）到绿色（多元主义）"
+          },
+          {
+            "en": "Ego Development: E6 (Conscientious) to E7 (Individualist)",
+            "cn": "自我发展：E6（尽责型）至E7（个人主义型）"
           },
           {
             "en": "Kegan: Order 4 (Self-Authoring Mind)",
@@ -3783,8 +4579,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Trans-rational/integral thinking",
+            "cn": "超理性/整体性思维"
+          },
+          {
+            "en": "Distributed authority (contextual)",
+            "cn": "分布式权威（情境性）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Holographic worldview (part contains whole)",
             "cn": "全息世界观（部分包含整体）"
+          },
+          {
+            "en": "Living symbol creation",
+            "cn": "活符号的创造"
+          },
+          {
+            "en": "Wisdom-based navigation",
+            "cn": "基于智慧的导航"
+          },
+          {
+            "en": "Security through acceptance",
+            "cn": "通过接纳实现安全"
           }
         ]
       },
@@ -3875,8 +4695,64 @@ const ARTICLES_EXTRA = [
             "cn": "整合：每个周期都为累积的智慧增添新的内容"
           },
           {
+            "en": "Paradox as fundamental",
+            "cn": "悖论即根本"
+          },
+          {
+            "en": "Perspective as tool",
+            "cn": "视角作为工具"
+          },
+          {
+            "en": "Creating new frameworks",
+            "cn": "构建新框架"
+          },
+          {
             "en": "Integration of all intelligence types",
             "cn": "所有智能类型的整合"
+          },
+          {
+            "en": "Construct awareness mastery",
+            "cn": "构建觉知掌握"
+          },
+          {
+            "en": "Intuitive optimization",
+            "cn": "直觉优化"
+          },
+          {
+            "en": "Health as wholeness",
+            "cn": "健康即整体"
+          },
+          {
+            "en": "Body as teacher",
+            "cn": "身体即导师"
+          },
+          {
+            "en": "Enhancement with wisdom",
+            "cn": "以智慧实现增强简体中文（大陆）"
+          },
+          {
+            "en": "Aging as refinement",
+            "cn": "将衰老视为精进"
+          },
+          {
+            "en": "Relationships as practice",
+            "cn": "人际关系即修行"
+          },
+          {
+            "en": "Love as recognition",
+            "cn": "爱即认可"
+          },
+          {
+            "en": "God as direct experience",
+            "cn": "上帝作为直接体验"
+          },
+          {
+            "en": "Meaning creation capacity",
+            "cn": "创造意义的能力"
+          },
+          {
+            "en": "Death as transformation",
+            "cn": "死亡即蜕变"
           },
           {
             "en": "Work as play (Calling realized)",
@@ -3885,6 +4761,18 @@ const ARTICLES_EXTRA = [
           {
             "en": "Money as energy for creation",
             "cn": "金钱作为创造的能量"
+          },
+          {
+            "en": "Success as contribution",
+            "cn": "成功即贡献"
+          },
+          {
+            "en": "Creating new games",
+            "cn": "创造新游戏简体中文（大陆）"
+          },
+          {
+            "en": "Generational wealth thinking",
+            "cn": "代际财富思维"
           }
         ]
       },
@@ -3915,6 +4803,10 @@ const ARTICLES_EXTRA = [
             "cn": "意识的艺术家。"
           },
           {
+            "en": "Integration Capacities:",
+            "cn": "整合能力："
+          },
+          {
             "en": "Can appear as Level 1 when useful (strategic simplicity)",
             "cn": "在需要时可表现为第1级（战略上的简约）"
           },
@@ -3935,6 +4827,14 @@ const ARTICLES_EXTRA = [
             "cn": "生成与结果无关的意义"
           },
           {
+            "en": "Continued Evolution:",
+            "cn": "持续进化："
+          },
+          {
+            "en": "Level 3 isn’t the end but a new beginning.",
+            "cn": "第3层级并非终点，而是一个新的开始。"
+          },
+          {
             "en": "Level 4: Unity consciousness",
             "cn": "第4层：统一意识"
           },
@@ -3947,12 +4847,48 @@ const ARTICLES_EXTRA = [
             "cn": "第6级及以上：未知潜能"
           },
           {
+            "en": "Spiral Dynamics: Yellow (Integral) to Turquoise (Holistic)",
+            "cn": "螺旋动力学：从黄色（整体）到绿松石色（整体性）"
+          },
+          {
+            "en": "Ego Development: E8 (Autonomous) to E9 (Construct-Aware)",
+            "cn": "自我发展：E8（自主型）到 E9（结构觉知型）"
+          },
+          {
             "en": "Kegan: Order 5 (Self-Transforming Mind)",
             "cn": "基根：第5阶（自我转化型思维）"
           },
           {
             "en": "Cook-Greuter: Strategist to Construct-Aware",
             "cn": "库克-格鲁特：从战略家到“构筑觉知者”"
+          },
+          {
+            "en": "Metacrisis Relationship:",
+            "cn": "元危机关系："
+          },
+          {
+            "en": "Level 3.0 can actually design solutions to the metacrisis:",
+            "cn": "3.0级实际上能够为元危机设计解决方案："
+          },
+          {
+            "en": "Sees generator functions clearly",
+            "cn": "能清晰地识别生成函数"
+          },
+          {
+            "en": "Creates anti-rivalrous systems",
+            "cn": "构建非竞争性系统"
+          },
+          {
+            "en": "Builds bridges between paradigms",
+            "cn": "在范式之间架起桥梁"
+          },
+          {
+            "en": "Synthesizes across domains",
+            "cn": "实现跨领域综合Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Enables others’ development",
+            "cn": "促进他人的发展"
           }
         ]
       },
@@ -3973,6 +4909,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Creates contexts where rivalrous actors can discover collaboration.",
             "cn": "营造一种环境，使处于竞争关系中的各方能够发现合作的机会。"
+          },
+          {
+            "en": "LEVEL 4.0 – THE EVOLUTIONARY (Post-Integral)",
+            "cn": "4.0 层级——进化型（后整体）"
           }
         ]
       },
@@ -3983,12 +4923,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Post-rational/metamodern thinking",
+            "cn": "后理性/元现代思维"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Distributed identity (individual/collective boundary dissolves)",
             "cn": "分布式身份（个体与集体的界限消融）"
           },
           {
             "en": "Fractal worldview (patterns repeat at every scale)",
             "cn": "分形世界观（模式在各个尺度上重复）"
+          },
+          {
+            "en": "Reality as creative participation",
+            "cn": "现实即创造性参与"
+          },
+          {
+            "en": "Love-wisdom integration",
+            "cn": "爱与智慧的融合"
+          },
+          {
+            "en": "Security through flow",
+            "cn": "通过流动获得安全感"
           }
         ]
       },
@@ -4019,8 +4979,100 @@ const ARTICLES_EXTRA = [
             "cn": "解决方案是通过你自然而然地浮现出来的，而不是由你主动产生的。"
           },
           {
+            "en": "Thought as collective process",
+            "cn": "思想作为集体过程"
+          },
+          {
+            "en": "Direct knowing/gnosis",
+            "cn": "直接知觉/直觉"
+          },
+          {
+            "en": "Creating while channeling",
+            "cn": "在通灵的同时进行创造"
+          },
+          {
+            "en": "Trans-conceptual awareness",
+            "cn": "超概念意识"
+          },
+          {
+            "en": "Meta-systematic thinking",
+            "cn": "元系统思维"
+          },
+          {
+            "en": "Body as Earth expression",
+            "cn": "身体作为地球的表达"
+          },
+          {
+            "en": "Regenerative presence",
+            "cn": "再生性临在"
+          },
+          {
+            "en": "Healing through being",
+            "cn": "通过存在实现治愈"
+          },
+          {
+            "en": "Cellular consciousness",
+            "cn": "细胞意识"
+          },
+          {
+            "en": "Death as continuation",
+            "cn": "死亡即延续"
+          },
+          {
+            "en": "Universal love embodied",
+            "cn": "具象化的普世之爱"
+          },
+          {
+            "en": "Others’ success as own",
+            "cn": "他人的成功即自己的成功"
+          },
+          {
+            "en": "Divine as obvious",
+            "cn": "神性显而易见"
+          },
+          {
+            "en": "Meaning as given",
+            "cn": "意义即已赋予"
+          },
+          {
+            "en": "Life/death unity",
+            "cn": "生与死的统一"
+          },
+          {
+            "en": "Work as cosmic service",
+            "cn": "劳动即宇宙服务"
+          },
+          {
+            "en": "Wealth as circulation",
+            "cn": "财富即流通"
+          },
+          {
+            "en": "Success as evolution",
+            "cn": "成功即进化"
+          },
+          {
+            "en": "Creating new realities",
+            "cn": "创造新现实"
+          },
+          {
+            "en": "Civilizational architecture",
+            "cn": "文明架构"
+          },
+          {
+            "en": "Unique Capacities:",
+            "cn": "独特能力："
+          },
+          {
             "en": "Experiences anti-rivalry as natural state",
             "cn": "将“反竞争”视为自然状态"
+          },
+          {
+            "en": "Generates solutions spontaneously",
+            "cn": "自发产生解决方案（简体中文（大陆））"
+          },
+          {
+            "en": "Holds planetary/cosmic perspective",
+            "cn": "具备行星级/宇宙级视野"
           },
           {
             "en": "Catalyzes development in others by presence",
@@ -4047,6 +5099,14 @@ const ARTICLES_EXTRA = [
             "cn": "库克-格鲁特：统一阶段"
           },
           {
+            "en": "Level 4.0 embodies the third attractor:",
+            "cn": "4.0 级体现了第三个吸引子："
+          },
+          {
+            "en": "Is anti-rivalrous by nature",
+            "cn": "其本质上具有非竞争性"
+          },
+          {
             "en": "Experiences humanity as single organism",
             "cn": "将人类视为一个整体"
           },
@@ -4057,6 +5117,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Transcends fear of civilizational death",
             "cn": "超越对文明消亡的恐惧"
+          },
+          {
+            "en": "Operates from evolutionary perspective",
+            "cn": "从进化视角出发运作"
           }
         ]
       },
@@ -4069,6 +5133,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Their very existence demonstrates possibility and creates morphic field for others’ development.",
             "cn": "他们的存在本身就证明了可能性，并为他人的发展创造了形态场。"
+          },
+          {
+            "en": "The Phase System (In Each Level)",
+            "cn": "阶段系统（各层级）"
           }
         ]
       },
@@ -4101,6 +5169,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "Subtle dissatisfaction with current level",
             "cn": "对当前层级的隐约不满"
+          },
+          {
+            "en": "Feeling of “something missing”",
+            "cn": "“总觉得缺了点什么”的感觉"
+          },
+          {
+            "en": "Boredom despite external success",
+            "cn": "尽管在外在成就上取得成功，却感到厌倦"
+          },
+          {
+            "en": "Restlessness without clear direction",
+            "cn": "没有明确方向的焦躁不安"
+          },
+          {
+            "en": "Past strategies stop working",
+            "cn": "过去的策略不再奏效"
           }
         ]
       },
@@ -4183,8 +5267,32 @@ const ARTICLES_EXTRA = [
             "cn": "这种不适感催生了探索的动力，当这种动力得到集中时，便会转化为一种执着的学习与创造。"
           },
           {
+            "en": "Navigation Strategies:",
+            "cn": "导航策略："
+          },
+          {
+            "en": "Don’t medicate the discomfort",
+            "cn": "不要用药物麻痹这种不适感"
+          },
+          {
+            "en": "Journal about what’s missing",
+            "cn": "在日记中记录缺失的部分"
+          },
+          {
             "en": "Notice what you’re drawn toward",
             "cn": "留意你被什么所吸引"
+          },
+          {
+            "en": "Accept confusion as gateway",
+            "cn": "将困惑视为通往新境界的门户"
+          },
+          {
+            "en": "Prepare for uncertainty",
+            "cn": "为不确定性做好准备"
+          },
+          {
+            "en": "Duration Patterns:",
+            "cn": "持续时间模式："
           },
           {
             "en": "Level 1: Usually weeks to months",
@@ -4237,6 +5345,26 @@ const ARTICLES_EXTRA = [
           {
             "en": "You must take a step into the unknown.",
             "cn": "你必须迈出一步，走向未知。"
+          },
+          {
+            "en": "Old identity dissolving",
+            "cn": "旧身份正在消融"
+          },
+          {
+            "en": "Competence temporarily lost",
+            "cn": "能力暂时丧失"
+          },
+          {
+            "en": "Increased anxiety/excitement",
+            "cn": "焦虑/兴奋感增强"
+          },
+          {
+            "en": "Everything feels possible/impossible",
+            "cn": "一切似乎皆有可能/不可能"
+          },
+          {
+            "en": "Time distortion common",
+            "cn": "时间扭曲现象常见"
           }
         ]
       },
@@ -4297,6 +5425,74 @@ const ARTICLES_EXTRA = [
           {
             "en": "Trial and error becomes your guide.",
             "cn": "试错将成为你的指引。"
+          },
+          {
+            "en": "Common Mistakes:",
+            "cn": "常见错误："
+          },
+          {
+            "en": "Retreating to previous level",
+            "cn": "退回上一阶段"
+          },
+          {
+            "en": "Jumping to false certainty",
+            "cn": "草率下结论"
+          },
+          {
+            "en": "Overwhelming experimentation",
+            "cn": "实验规模过大简体中文（大陆）"
+          },
+          {
+            "en": "Seeking external saviors",
+            "cn": "寻求外部救星"
+          },
+          {
+            "en": "Forcing premature closure",
+            "cn": "强行过早结束"
+          },
+          {
+            "en": "Embrace “don’t know” mind",
+            "cn": "拥抱“未知”的心态"
+          },
+          {
+            "en": "Small experiments, fast feedback",
+            "cn": "小规模实验，快速反馈"
+          },
+          {
+            "en": "Maintain minimum stability",
+            "cn": "保持最低限度的稳定性"
+          },
+          {
+            "en": "Find uncertainty mentors",
+            "cn": "寻找不确定性导师"
+          },
+          {
+            "en": "Trust the process",
+            "cn": "相信这个过程"
+          },
+          {
+            "en": "Support Requirements:",
+            "cn": "支持要求："
+          },
+          {
+            "en": "Community that accepts uncertainty",
+            "cn": "能够接纳不确定性的社区"
+          },
+          {
+            "en": "Financial runway if possible",
+            "cn": "如有可能，应确保有足够的资金储备"
+          },
+          {
+            "en": "Physical health maintenance",
+            "cn": "保持身体健康"
+          },
+          {
+            "en": "Mental health support",
+            "cn": "心理健康支持"
+          },
+          {
+            "en": "Spiritual practices",
+            "cn": "精神修习"
           }
         ]
       },
@@ -4331,6 +5527,30 @@ const ARTICLES_EXTRA = [
       {
         "en": "The crystallization of new patterns, abilities, and identity at a higher level of complexity.",
         "cn": "在更高层级的复杂性中，新的模式、能力和身份的形成。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "New pattern recognition",
+            "cn": "新模式识别"
+          },
+          {
+            "en": "Sudden clarity moments",
+            "cn": "顿悟时刻"
+          },
+          {
+            "en": "Integration experiences",
+            "cn": "整合体验"
+          },
+          {
+            "en": "Confidence rebuilding",
+            "cn": "重建自信"
+          },
+          {
+            "en": "Vision crystallization",
+            "cn": "愿景的凝练"
+          }
+        ]
       },
       {
         "sentences": [
@@ -4391,8 +5611,52 @@ const ARTICLES_EXTRA = [
             "cn": "“秘诀在于培养一套技能和思维方式，它们对你的生活影响如此深远，以至于你情不自禁地想要与他人分享。”"
           },
           {
+            "en": "Integration Work:",
+            "cn": "整合工作："
+          },
+          {
+            "en": "Document what worked",
+            "cn": "记录有效的方法"
+          },
+          {
+            "en": "Identify key principles",
+            "cn": "识别关键原则"
+          },
+          {
+            "en": "Build sustainable practices",
+            "cn": "建立可持续的实践"
+          },
+          {
+            "en": "Share with others",
+            "cn": "与他人分享"
+          },
+          {
+            "en": "Prepare for next cycle",
+            "cn": "为下一个周期做好准备"
+          },
+          {
+            "en": "False Discovery Indicators:",
+            "cn": "假发现指标："
+          },
+          {
+            "en": "Evangelical certainty",
+            "cn": "传教士般的确信"
+          },
+          {
             "en": "Unable to explain to others",
             "cn": "无法向他人解释"
+          },
+          {
+            "en": "Practices require constant willpower",
+            "cn": "实践需要持续的意志力"
+          },
+          {
+            "en": "Regression under stress",
+            "cn": "压力下的倒退简体中文（大陆）"
+          },
+          {
+            "en": "Missing previous level benefits",
+            "cn": "失去前一阶段的收益"
           },
           {
             "en": "The cycle repeats.",
@@ -4409,6 +5673,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This is the spiral nature of development—each completion leads to new beginning at higher level.",
             "cn": "这就是发展的螺旋式特征——每一次完成都会引领我们迈向更高层级的新起点。"
+          },
+          {
+            "en": "The Trait System (Moving Through Phases)",
+            "cn": "特质体系（穿越各个阶段）"
           }
         ]
       },
@@ -4421,6 +5689,34 @@ const ARTICLES_EXTRA = [
           {
             "en": "These represent horizontal development within vertical stages (phases are vertical development).",
             "cn": "这些代表了垂直阶段内的水平发展（而各阶段则属于垂直发展）。"
+          },
+          {
+            "en": "KNOWLEDGE (Theoretical Understanding)",
+            "cn": "知识（理论理解）"
+          },
+          {
+            "en": "Acquisition Methods:",
+            "cn": "获取方法："
+          },
+          {
+            "en": "Reading and research",
+            "cn": "阅读与研究"
+          },
+          {
+            "en": "Courses and education",
+            "cn": "课程与教育"
+          },
+          {
+            "en": "Mentorship and modeling",
+            "cn": "导师指导与榜样学习"
+          },
+          {
+            "en": "Pattern recognition",
+            "cn": "模式识别Simplified Chinese (Mainland)"
+          },
+          {
+            "en": "Conceptual frameworks",
+            "cn": "概念框架"
           }
         ]
       },
@@ -4443,8 +5739,72 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Without Experience Creates:",
+            "cn": "缺乏经验会导致："
+          },
+          {
+            "en": "“Fat personal trainer” syndrome",
+            "cn": "“胖私人教练”综合征"
+          },
+          {
+            "en": "Impostor syndrome",
+            "cn": "冒名顶替综合征"
+          },
+          {
+            "en": "False expertise",
+            "cn": "虚假专长"
+          },
+          {
+            "en": "Teaching without embodiment",
+            "cn": "脱离实践的教学"
+          },
+          {
+            "en": "Integration Requirements:",
+            "cn": "整合要求："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Must be tested in reality",
             "cn": "必须经受现实的检验"
+          },
+          {
+            "en": "Needs failure feedback",
+            "cn": "需要失败反馈"
+          },
+          {
+            "en": "Requires personal application",
+            "cn": "需要亲自实践"
+          },
+          {
+            "en": "Benefits from teaching others",
+            "cn": "通过教导他人获益"
+          },
+          {
+            "en": "Deepens through practice",
+            "cn": "通过实践加深理解"
+          },
+          {
+            "en": "EXPERIENCE (Practical Application)",
+            "cn": "经验（实践应用）"
+          },
+          {
+            "en": "Direct experimentation",
+            "cn": "直接实验"
+          },
+          {
+            "en": "Trial and error",
+            "cn": "试错法"
+          },
+          {
+            "en": "Immersion environments",
+            "cn": "沉浸式环境"
+          },
+          {
+            "en": "Deliberate practice",
+            "cn": "刻意练习"
           }
         ]
       },
@@ -4473,6 +5833,50 @@ const ARTICLES_EXTRA = [
           {
             "en": "This forces rapid iteration and improvement.",
             "cn": "这促使我们进行快速迭代和改进。"
+          },
+          {
+            "en": "Without Knowledge Creates:",
+            "cn": "缺乏知识会导致："
+          },
+          {
+            "en": "Accidental success",
+            "cn": "偶然的成功"
+          },
+          {
+            "en": "Inability to replicate",
+            "cn": "无法复制"
+          },
+          {
+            "en": "Context dependence",
+            "cn": "依赖于具体情境"
+          },
+          {
+            "en": "Plateau hitting",
+            "cn": "陷入瓶颈"
+          },
+          {
+            "en": "Teaching limitations",
+            "cn": "教学局限性"
+          },
+          {
+            "en": "Needs conceptual framework",
+            "cn": "需要概念框架"
+          },
+          {
+            "en": "Benefits from theory",
+            "cn": "理论带来的益处简体中文（大陆）"
+          },
+          {
+            "en": "Requires reflection",
+            "cn": "需要反思"
+          },
+          {
+            "en": "Improves with understanding",
+            "cn": "随着理解的加深而提升"
+          },
+          {
+            "en": "Scales through principles",
+            "cn": "通过原则实现规模化"
           }
         ]
       },
@@ -4489,6 +5893,38 @@ const ARTICLES_EXTRA = [
           {
             "en": "Experience alone doesn’t create wisdom—it needs reflection and framework to become transformative.",
             "cn": "仅凭经验并不能产生智慧——只有通过反思和建立思维框架，经验才能带来蜕变。"
+          },
+          {
+            "en": "SKILL (Mastery Integration)",
+            "cn": "技能（精通与整合）"
+          },
+          {
+            "en": "Characteristics:",
+            "cn": "特征："
+          },
+          {
+            "en": "Unconscious competence",
+            "cn": "无意识胜任"
+          },
+          {
+            "en": "Contextual adaptation",
+            "cn": "情境适应"
+          },
+          {
+            "en": "Creative application",
+            "cn": "创造性应用"
+          },
+          {
+            "en": "Teaching ability",
+            "cn": "教学能力"
+          },
+          {
+            "en": "Innovation capacity",
+            "cn": "创新能力"
+          },
+          {
+            "en": "Development Timeline:",
+            "cn": "发展时间表："
           },
           {
             "en": "10 hours: Basic familiarity",
@@ -4539,6 +5975,10 @@ const ARTICLES_EXTRA = [
             "cn": "“每天，你都需要一些优先任务，这些任务能推动你朝着项目、目标和愿景迈进。”"
           },
           {
+            "en": "Skill Transfer Patterns:",
+            "cn": "技能迁移模式："
+          },
+          {
             "en": "Within quadrant: High transfer",
             "cn": "象限内：高迁移度"
           },
@@ -4573,6 +6013,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Meta-skills (learning to learn, adapting to change, holding complexity) become more valuable than specific technical skills.",
             "cn": "元技能（学会学习、适应变化、应对复杂性）比具体的技术技能更为重要。"
+          },
+          {
+            "en": "The Workaholic (Vocation Overdeveloped)",
+            "cn": "工作狂（职业发展过度）"
           }
         ]
       },
@@ -4581,8 +6025,28 @@ const ARTICLES_EXTRA = [
         "cn": "生活模式：每周工作80多个小时，几乎住在办公室里，人际关系仅限于工作圈"
       },
       {
+        "sentences": [
+          {
+            "en": "Costs: Health deterioration, emotional emptiness, spiritual void",
+            "cn": "代价：健康恶化、情感空虚、精神空洞"
+          }
+        ]
+      },
+      {
         "en": "Transformation Path: Delegate 20% → invest in Body → discover Spirit → integrate Mind",
         "cn": "转变之路：授权20% → 投资于身体 → 探索精神 → 整合心灵"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Seeker (Spirit Overdeveloped)",
+            "cn": "寻求者（精神过度发展）"
+          },
+          {
+            "en": "Pattern: Constant workshops, retreats, teachers, practices",
+            "cn": "模式：不断参加工作坊、静修、追随导师、进行各种修行"
+          }
+        ]
       },
       {
         "en": "Costs: Financial instability, ungrounded theories, implementation failure",
@@ -4593,20 +6057,68 @@ const ARTICLES_EXTRA = [
         "cn": "蜕变之路：选择一项修行 → 坚持90天 → 在天职中扎根 → 强健体魄"
       },
       {
+        "sentences": [
+          {
+            "en": "The Optimizer (Mind Overdeveloped)",
+            "cn": "优化者（心智过度发达）"
+          },
+          {
+            "en": "Pattern: Endless research, perfect systems, analysis paralysis",
+            "cn": "模式：无休止的研究、追求完美的体系、分析瘫痪"
+          },
+          {
+            "en": "Costs: No execution, social isolation, physical neglect",
+            "cn": "代价：缺乏行动、社交孤立、忽视身体健康"
+          }
+        ]
+      },
+      {
         "en": "Transformation Path: Ship something imperfect → learn from feedback → connect with others → embody knowledge",
         "cn": "转型路径：推出不完美的产品 → 从反馈中学习 → 与他人建立联系 → 将知识付诸实践"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Athlete (Body Overdeveloped)",
+            "cn": "“运动员”（身体过度发展）"
+          }
+        ]
       },
       {
         "en": "Pattern: Training 3+ hours daily, macro counting, recovery optimization",
         "cn": "方案：每天训练3小时以上，计算宏量营养素，优化恢复"
       },
       {
+        "sentences": [
+          {
+            "en": "Costs: Cognitive atrophy, emotional suppression, purpose absence",
+            "cn": "代价：认知萎缩、情感压抑、缺乏人生目标"
+          }
+        ]
+      },
+      {
         "en": "Transformation Path: Train others → study methodology → explore meaning → create value",
         "cn": "转型路径：培训他人 → 研究方法论 → 探索意义 → 创造价值"
       },
       {
+        "sentences": [
+          {
+            "en": "The Drifter (All Underdeveloped)",
+            "cn": "“漂泊者”（所有领域均未发展）"
+          }
+        ]
+      },
+      {
         "en": "Pattern: No consistent practice, random experiments, constant starting over",
         "cn": "模式：没有固定的做法，随意尝试，不断从头再来"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Costs: No momentum, no expertise, no stability, no growth",
+            "cn": "代价：缺乏势头、缺乏专业知识、缺乏稳定性、缺乏成长"
+          }
+        ]
       },
       {
         "en": "Transformation Path: Pick ONE quadrant → 90 day commitment → build foundation → expand slowly",
@@ -4617,6 +6129,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "The Specialist (One Quadrant Mastered)",
             "cn": "专家（精通一个象限）"
+          },
+          {
+            "en": "Pattern: World-class in one area, infantile in others",
+            "cn": "模式：某一方面达到世界级水平，其他方面却像婴儿一样稚嫩"
+          },
+          {
+            "en": "Costs: Fragile success, narrow perspective, cascade vulnerability",
+            "cn": "代价：脆弱的成功、狭隘的视野、多重脆弱性"
           }
         ]
       },
@@ -4627,8 +6147,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Metatypes (Quadrant Combinations)",
+            "cn": "元类型（象限组合）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Executive (Mind + Vocation)",
             "cn": "高管（思维+天职）"
+          },
+          {
+            "en": "Strengths: Strategic thinking, system building, value creation",
+            "cn": "优势：战略思维、系统构建、价值创造"
+          },
+          {
+            "en": "Weaknesses: Emotional blindness, physical neglect, meaning absence",
+            "cn": "弱点：情感盲点、忽视身体、缺乏意义"
+          },
+          {
+            "en": "Development Path: Add Body for sustainability, Spirit for purpose",
+            "cn": "发展路径：增添“身体”以实现可持续性，增添“精神”以确立目标"
+          },
+          {
+            "en": "The Warrior Monk (Body + Spirit)",
+            "cn": "武僧（身体 + 精神）"
           }
         ]
       },
@@ -4643,8 +6187,20 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Development Path: Add Vocation for resources, Mind for sophistication",
+            "cn": "发展路径：融入“天职”以获取资源，融入“心智”以提升精深程度"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Professor (Mind + Spirit)",
             "cn": "教授（心智 + 精神）"
+          },
+          {
+            "en": "Strengths: Deep understanding, meaning making, wisdom cultivation",
+            "cn": "优势：深刻理解、赋予意义、智慧修养"
           }
         ]
       },
@@ -4655,14 +6211,78 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Development Path: Add Body for vitality, Vocation for implementation",
+            "cn": "发展路径：融入“身体”以获得活力，融入“天职”以实现落地"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "The Entrepreneur (Body + Vocation)",
             "cn": "企业家（身体 + 天职）"
+          },
+          {
+            "en": "Strengths: Execution power, market success, energy abundance",
+            "cn": "优势：执行力、市场成功、充沛的能量"
+          },
+          {
+            "en": "Weaknesses: Shallow thinking, relationship poverty, meaning deficit",
+            "cn": "弱点：思维浅薄、人际关系匮乏、意义缺失"
+          },
+          {
+            "en": "Development Path: Add Mind for depth, Spirit for connection",
+            "cn": "发展路径：增添“心”以求深度，增添“灵”以求联结"
+          },
+          {
+            "en": "The Titan (Mind + Body + Vocation)",
+            "cn": "泰坦（心智 + 身体 + 天职）"
           }
         ]
       },
       {
         "en": "Strengths: Powerful execution, strategic dominance, resource abundance",
         "cn": "优势：强大的执行力、战略优势、丰富的资源"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Weaknesses: Spiritual emptiness, relational poverty",
+            "cn": "弱点：精神空虚、人际匮乏"
+          },
+          {
+            "en": "Development Path: Add Spirit for meaning and connection",
+            "cn": "发展路径：融入“精神”维度以获得意义与联结"
+          },
+          {
+            "en": "The Sage Operator (Mind + Spirit + Vocation)",
+            "cn": "智者实践者（心智 + 精神 + 天职）"
+          },
+          {
+            "en": "Strengths: Wise strategy, meaningful work, systemic impact",
+            "cn": "优势：明智的战略、有意义的工作、系统性影响"
+          },
+          {
+            "en": "Weaknesses: Physical fragility, energy limitations",
+            "cn": "弱点：身体脆弱、精力有限"
+          },
+          {
+            "en": "Development Path: Add Body for sustained execution power",
+            "cn": "发展路径：融入“身体”以获得持续的执行力"
+          },
+          {
+            "en": "The Embodied Mystic (Body + Spirit + Vocation)",
+            "cn": "具身的神秘主义者（身体 + 精神 + 天职）"
+          },
+          {
+            "en": "Strengths: Grounded service, sustainable practice, abundant energy",
+            "cn": "优势：脚踏实地的服务、可持续的实践、充沛的能量"
+          },
+          {
+            "en": "Weaknesses: Cognitive limitations, strategic blindness",
+            "cn": "弱点：认知局限、战略盲点"
+          }
+        ]
       },
       {
         "en": "Development Path: Add Mind for systems thinking and complexity navigation",
@@ -4673,12 +6293,36 @@ const ARTICLES_EXTRA = [
           {
             "en": "The Renaissance Human (All Quadrants)",
             "cn": "文艺复兴式人才（所有象限）"
+          },
+          {
+            "en": "Strengths: Fluid integration, natural balance, effortless excellence",
+            "cn": "优势：流畅的整合、自然的平衡、游刃有余的卓越"
+          },
+          {
+            "en": "Weaknesses: May lack extreme expertise in any single domain",
+            "cn": "弱点：可能在任何单一领域缺乏极致的专业知识"
           }
         ]
       },
       {
         "en": "Development Path: Choose specialization areas while maintaining integration",
         "cn": "发展路径：在保持整体协调的同时选择专业领域"
+      },
+      {
+        "sentences": [
+          {
+            "en": "PART III: ADVANCED DYNAMICS",
+            "cn": "第三部分：高级动力学"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Channel Mechanics (Complete System)",
+            "cn": "通道机制（完整系统）"
+          }
+        ]
       },
       {
         "sentences": [
@@ -4703,6 +6347,10 @@ const ARTICLES_EXTRA = [
             "cn": "“你不能停止学习，也不能停止朝着目标迈进。”这种状态可能持续数月，从而带来指数级的成长。"
           },
           {
+            "en": "A few examples:",
+            "cn": "几个例子："
+          },
+          {
             "en": "Mind: Becoming immersed in deep thought that keeps you up for nights, resulting in breakthrough frameworks",
             "cn": "思维：沉浸于彻夜难眠的深度思考中，从而构思出突破性的思维框架"
           },
@@ -4717,6 +6365,30 @@ const ARTICLES_EXTRA = [
           {
             "en": "Vocation: Maximum clarity leading to product launch, business pivot, or creative breakthrough",
             "cn": "天职：极致的清晰度，从而推动产品发布、业务转型或创意突破"
+          },
+          {
+            "en": "Natural Triggers:",
+            "cn": "自然触发因素："
+          },
+          {
+            "en": "Life crisis forcing growth",
+            "cn": "生活危机迫使成长简体中文 (大陆)"
+          },
+          {
+            "en": "Meeting transformational person",
+            "cn": "邂逅具有变革性的人"
+          },
+          {
+            "en": "Discovering passionate interest",
+            "cn": "发现充满激情的兴趣"
+          },
+          {
+            "en": "Hitting rock bottom",
+            "cn": "跌至谷底"
+          },
+          {
+            "en": "Unexpected success opening doors",
+            "cn": "意想不到的成功打开了新大门"
           }
         ]
       },
@@ -4733,6 +6405,30 @@ const ARTICLES_EXTRA = [
           {
             "en": "The key difference: Channels involve fundamental identity reorganization, while flow states can occur within existing identity structures.",
             "cn": "关键区别在于：通道涉及根本性的身份重组，而心流状态则可能在现有的身份结构中发生。"
+          },
+          {
+            "en": "Intentional Triggers:",
+            "cn": "有意触发因素："
+          },
+          {
+            "en": "Public commitment/accountability",
+            "cn": "公开承诺/问责制"
+          },
+          {
+            "en": "Dramatic environment change",
+            "cn": "环境的剧变"
+          },
+          {
+            "en": "Joining intensive program",
+            "cn": "加入高强度项目"
+          },
+          {
+            "en": "Taking on “impossible project”",
+            "cn": "承担“不可能的项目”"
+          },
+          {
+            "en": "Eliminating all distractions",
+            "cn": "消除一切干扰"
           }
         ]
       },
@@ -4763,6 +6459,98 @@ const ARTICLES_EXTRA = [
       {
         "en": "The Interest-Based Entry: Channels often emerge from following genuine interest: “The secret is to try everything until you find that one thing that you can’t pull yourself away from.”",
         "cn": "基于兴趣的切入点：兴趣往往源于对真正感兴趣事物的探索：“诀窍在于尝试一切，直到找到那件让你欲罢不能的事情。”"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Time distortion (flow states)",
+            "cn": "时间扭曲（心流状态）"
+          },
+          {
+            "en": "Obsessive focus without effort",
+            "cn": "毫不费力却全神贯注"
+          },
+          {
+            "en": "Physical energy surge",
+            "cn": "身体能量的激增"
+          },
+          {
+            "en": "Idea flooding/downloads",
+            "cn": "灵感喷涌/下载"
+          },
+          {
+            "en": "Social withdrawal needs",
+            "cn": "需要社交退缩"
+          },
+          {
+            "en": "Sleep pattern changes",
+            "cn": "睡眠模式变化"
+          },
+          {
+            "en": "Appetite fluctuations",
+            "cn": "食欲波动"
+          },
+          {
+            "en": "Sustaining Factors:",
+            "cn": "维持因素："
+          },
+          {
+            "en": "Clear vision/mission",
+            "cn": "清晰的愿景/使命"
+          },
+          {
+            "en": "Progress feedback loops",
+            "cn": "进展反馈循环"
+          },
+          {
+            "en": "Community support",
+            "cn": "社区支持"
+          },
+          {
+            "en": "Resource availability",
+            "cn": "资源可用性"
+          },
+          {
+            "en": "Health maintenance",
+            "cn": "健康维护"
+          },
+          {
+            "en": "Stress management",
+            "cn": "压力管理"
+          },
+          {
+            "en": "Integration practices",
+            "cn": "整合实践"
+          },
+          {
+            "en": "Gradual energy decline",
+            "cn": "能量逐渐下降"
+          },
+          {
+            "en": "Attention shifting naturally",
+            "cn": "注意力自然转移"
+          },
+          {
+            "en": "Feeling of completion",
+            "cn": "完成感"
+          },
+          {
+            "en": "New problem emergence",
+            "cn": "新问题的出现"
+          },
+          {
+            "en": "Exhaustion requiring rest",
+            "cn": "需要休息的疲惫"
+          },
+          {
+            "en": "Life demanding attention",
+            "cn": "生活需要关注"
+          },
+          {
+            "en": "Integration need arising",
+            "cn": "整合需求的产生"
+          }
+        ]
       },
       {
         "sentences": [
@@ -4837,6 +6625,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "The question isn’t whether to use them but how to use them wisely—if at all.",
             "cn": "问题不在于是否使用它们，而在于如何明智地使用它们——如果真的要使用的话。"
+          },
+          {
+            "en": "AI as the Meta-Glitch",
+            "cn": "人工智能作为“元故障”"
           }
         ]
       },
@@ -4855,8 +6647,128 @@ const ARTICLES_EXTRA = [
             "cn": "“随着大型语言模型（LLMs）和人工智能工具的进步，代码已开始呈现出自然语言的形态。”"
           },
           {
+            "en": "AI Enhancement by Quadrant:",
+            "cn": "Quadrant 人工智能增强："
+          },
+          {
+            "en": "Mind Enhancement:",
+            "cn": "思维增强："
+          },
+          {
+            "en": "Infinite knowledge access",
+            "cn": "无限知识获取"
+          },
+          {
+            "en": "Pattern recognition amplification",
+            "cn": "模式识别增强"
+          },
+          {
+            "en": "Idea synthesis acceleration",
+            "cn": "创意合成加速"
+          },
+          {
+            "en": "Language/framework generation",
+            "cn": "语言/框架生成"
+          },
+          {
+            "en": "Metacognitive augmentation",
+            "cn": "元认知增强"
+          },
+          {
+            "en": "Body Optimization:",
+            "cn": "身体优化："
+          },
+          {
+            "en": "Personalized protocol generation",
+            "cn": "个性化方案生成"
+          },
+          {
+            "en": "Real-time form analysis",
+            "cn": "实时动作分析"
+          },
+          {
+            "en": "Recovery optimization",
+            "cn": "恢复优化简体中文（大陆）"
+          },
+          {
+            "en": "Nutrition planning",
+            "cn": "营养规划"
+          },
+          {
+            "en": "Longevity modeling",
+            "cn": "长寿建模"
+          },
+          {
+            "en": "Spirit Navigation:",
+            "cn": "精神导航："
+          },
+          {
+            "en": "Philosophical exploration",
+            "cn": "哲学探索"
+          },
+          {
+            "en": "Shadow work assistance",
+            "cn": "阴影工作辅助"
+          },
+          {
+            "en": "Relationship pattern analysis",
+            "cn": "关系模式分析"
+          },
+          {
+            "en": "Meaning framework creation",
+            "cn": "意义框架构建"
+          },
+          {
+            "en": "Death contemplation support",
+            "cn": "死亡沉思支持"
+          },
+          {
+            "en": "Vocation Acceleration:",
+            "cn": "职业加速："
+          },
+          {
+            "en": "Skill learning compression",
+            "cn": "技能学习压缩"
+          },
+          {
+            "en": "Market analysis capability",
+            "cn": "市场分析能力"
+          },
+          {
+            "en": "Content generation scaling",
+            "cn": "内容生成规模化"
+          },
+          {
+            "en": "Automation implementation",
+            "cn": "自动化实施"
+          },
+          {
+            "en": "System design assistance",
+            "cn": "系统设计辅助"
+          },
+          {
+            "en": "AI-Specific Risks:",
+            "cn": "AI特有的风险："
+          },
+          {
             "en": "Cognitive Atrophy: Outsourcing thinking entirely",
             "cn": "认知萎缩：将思考完全外包"
+          },
+          {
+            "en": "Identity Confusion: Can’t distinguish self from AI",
+            "cn": "身份认同混乱：无法区分自我与人工智能"
+          },
+          {
+            "en": "Reality Dissociation: Living in AI-mediated reality",
+            "cn": "现实解离：生活在由AI中介的现实中"
+          },
+          {
+            "en": "Capability Illusion: Mistaking AI’s abilities for own",
+            "cn": "能力错觉：将人工智能的能力误认为自身的能力"
+          },
+          {
+            "en": "Dependency Formation: Cannot function without AI",
+            "cn": "依赖形成：没有人工智能就无法运作"
           }
         ]
       },
@@ -4879,6 +6791,14 @@ const ARTICLES_EXTRA = [
             "cn": "能够掌握这种平衡的人将获得巨大的优势；而未能做到的人则会沦为机器智能的附庸。"
           },
           {
+            "en": "Cross-Quadrant Dynamics (Complete Patterns)",
+            "cn": "跨象限动力学（完整模式）"
+          },
+          {
+            "en": "The Virtuous Spiral:",
+            "cn": "良性螺旋："
+          },
+          {
             "en": "Body (energy) → Spirit (connection) → Mind (clarity) → Vocation (resources) → Body (investment)",
             "cn": "身体（能量）→ 精神（联结）→ 思维（清晰）→ 天职（资源）→ 身体（投入）"
           }
@@ -4895,6 +6815,10 @@ const ARTICLES_EXTRA = [
             "cn": "各象限的小幅增长相互叠加。"
           },
           {
+            "en": "The Excellence Loop:",
+            "cn": "卓越循环："
+          },
+          {
             "en": "Vocation (challenge) → Mind (learning) → Body (implementation) → Spirit (meaning) → Vocation (mastery)",
             "cn": "天职（挑战）→ 心智（学习）→ 身体（实践）→ 精神（意义）→ 天职（精通）"
           },
@@ -4903,12 +6827,20 @@ const ARTICLES_EXTRA = [
             "cn": "在一个领域中的卓越表现，为其他领域提供了实践平台。"
           },
           {
+            "en": "The Integration Wave:",
+            "cn": "整合浪潮："
+          },
+          {
             "en": "Mind (understanding) → Vocation (application) → Spirit (purpose) → Body (embodiment) → Mind (wisdom)",
             "cn": "心智（理解）→ 天职（应用）→ 精神（目的）→ 身体（体现）→ 心智（智慧）"
           },
           {
             "en": "Knowledge becomes wisdom through complete circulation.",
             "cn": "知识通过完整的循环转化为智慧。"
+          },
+          {
+            "en": "The Poverty Trap:",
+            "cn": "贫困陷阱："
           },
           {
             "en": "Low Vocation → Survival stress → No Body energy → Spirit isolation → Mind fog → Worse Vocation",
@@ -4927,12 +6859,20 @@ const ARTICLES_EXTRA = [
             "cn": "“金钱往往是阻碍人们迈向个人发展新层级的唯一因素。”"
           },
           {
+            "en": "The Success Trap:",
+            "cn": "成功的陷阱："
+          },
+          {
             "en": "High Vocation → Time scarcity → Body neglect → Spirit emptiness → Mind narrowing → Vocation plateau",
             "cn": "高度职业热忱 → 时间匮乏 → 忽视身体 → 精神空虚 → 思维狭隘 → 职业发展停滞"
           },
           {
             "en": "Success in one quadrant consuming others, eventual collapse.",
             "cn": "一个象限的成功会吞噬其他象限，最终导致崩溃。"
+          },
+          {
+            "en": "The Spiritual Bypass:",
+            "cn": "精神逃避："
           },
           {
             "en": "High Spirit → Reality avoidance → Vocation neglect → Body deterioration → Mind delusion → False Spirit",
@@ -4943,12 +6883,20 @@ const ARTICLES_EXTRA = [
             "cn": "脱离基础的超越，不过是空中楼阁。"
           },
           {
+            "en": "The Optimization Trap:",
+            "cn": "优化陷阱："
+          },
+          {
             "en": "High Mind → Analysis paralysis → Vocation procrastination → Spirit intellectualization → Body disconnection",
             "cn": "高谈阔论 → 分析瘫痪 → 职业拖延 → 精神理论化 → 身体脱节"
           },
           {
             "en": "Understanding without implementation, professor syndrome.",
             "cn": "知而不行，即“教授综合征”。"
+          },
+          {
+            "en": "PART IV: ASSESSMENT METHODOLOGY",
+            "cn": "第四部分：评估方法论"
           },
           {
             "en": "The Anti-Vision Assessment (Start Here)",
@@ -4967,6 +6915,10 @@ const ARTICLES_EXTRA = [
             "cn": "当积极愿景尚不明确时，反向愿景能立即带来清晰的认识。"
           },
           {
+            "en": "Mind Anti-Vision:",
+            "cn": "思维反愿景："
+          },
+          {
             "en": "What mental states do you absolutely refuse to accept?",
             "cn": "有哪些心理状态是你绝对无法接受的？"
           },
@@ -4981,6 +6933,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "What intellectual stagnation terrifies you?",
             "cn": "什么样的智力停滞令你感到恐惧？"
+          },
+          {
+            "en": "Body Anti-Vision:",
+            "cn": "身体反愿景："
           },
           {
             "en": "What physical state do you refuse to accept?",
@@ -4999,6 +6955,10 @@ const ARTICLES_EXTRA = [
             "cn": "你拒绝哪种衰老模式？"
           },
           {
+            "en": "Spirit Anti-Vision:",
+            "cn": "精神反愿景："
+          },
+          {
             "en": "What relationship dynamics do you refuse to repeat?",
             "cn": "你拒绝重蹈哪些人际关系模式的覆辙？"
           },
@@ -5015,6 +6975,10 @@ const ARTICLES_EXTRA = [
             "cn": "你害怕什么样的孤立？"
           },
           {
+            "en": "Vocation Anti-Vision:",
+            "cn": "职业反愿景："
+          },
+          {
             "en": "What work situation makes you feel dead inside?",
             "cn": "什么样的职场状况会让你感到内心死寂？"
           },
@@ -5029,6 +6993,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "What legacy would shame you?",
             "cn": "什么样的遗泽会让你感到羞耻？"
+          },
+          {
+            "en": "Mind Quadrant Assessment:",
+            "cn": "心灵象限评估："
           },
           {
             "en": "Can I hold paradox without needing resolution?",
@@ -5059,6 +7027,10 @@ const ARTICLES_EXTRA = [
             "cn": "我能否在不被思绪所困的情况下观察自己的思绪？"
           },
           {
+            "en": "Body Quadrant Assessment:",
+            "cn": "身体象限评估："
+          },
+          {
             "en": "Do I have energy throughout the day?",
             "cn": "我整天都有精力吗？"
           },
@@ -5085,6 +7057,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Am I aging well for my chronological age?",
             "cn": "以我的实际年龄来看，我的衰老状况是否良好？"
+          },
+          {
+            "en": "Spirit Quadrant Assessment:",
+            "cn": "精神象限评估："
           },
           {
             "en": "Do I have relationships that nourish me?",
@@ -5115,6 +7091,10 @@ const ARTICLES_EXTRA = [
             "cn": "我的日常生活中是否充满了爱？"
           },
           {
+            "en": "Vocation Quadrant Assessment:",
+            "cn": "天职象限评估："
+          },
+          {
             "en": "Does my work feel like play?",
             "cn": "我的工作是否像玩耍一样？"
           },
@@ -5141,6 +7121,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Will my work outlive me?",
             "cn": "我的工作会比我更长久吗？"
+          },
+          {
+            "en": "Metacrisis-Specific Assessment:",
+            "cn": "针对元危机的专项评估："
           },
           {
             "en": "Do I understand the generator functions creating global problems?",
@@ -5171,6 +7155,150 @@ const ARTICLES_EXTRA = [
             "cn": "我能否在不否认现实的情况下保持希望，在不恐慌的情况下保持关切？"
           },
           {
+            "en": "Level 1.0 Behaviors (Assignment Followers):",
+            "cn": "1.0 级行为（任务追随者）："
+          },
+          {
+            "en": "Quotes others constantly",
+            "cn": "不断引用他人言论"
+          },
+          {
+            "en": "Triggered by disagreement",
+            "cn": "因意见不合而情绪波动"
+          },
+          {
+            "en": "Follows trends blindly",
+            "cn": "盲目追随潮流"
+          },
+          {
+            "en": "Needs external validation",
+            "cn": "需要外部认可"
+          },
+          {
+            "en": "Avoids uncertainty",
+            "cn": "规避不确定性"
+          },
+          {
+            "en": "Black-and-white thinking",
+            "cn": "非黑即白的思维方式"
+          },
+          {
+            "en": "Blames circumstances",
+            "cn": "归咎于环境"
+          },
+          {
+            "en": "Waits for instructions",
+            "cn": "等待指示"
+          },
+          {
+            "en": "Level 2.0 Behaviors (Agency Developers):",
+            "cn": "2.0级行为（代理开发者）："
+          },
+          {
+            "en": "Questions everything",
+            "cn": "对一切提出质疑"
+          },
+          {
+            "en": "Seeks optimization",
+            "cn": "追求优化"
+          },
+          {
+            "en": "Values independence",
+            "cn": "重视独立性"
+          },
+          {
+            "en": "Measures constantly",
+            "cn": "持续监测"
+          },
+          {
+            "en": "Experiments deliberately",
+            "cn": "有针对性地进行实验"
+          },
+          {
+            "en": "Builds personal systems",
+            "cn": "构建个人系统简体中文（大陆）"
+          },
+          {
+            "en": "Takes responsibility",
+            "cn": "勇于担当"
+          },
+          {
+            "en": "Creates own path",
+            "cn": "开辟自己的道路"
+          },
+          {
+            "en": "Level 3.0 Behaviors (Integrated Creators):",
+            "cn": "3.0级行为（整合型创造者）："
+          },
+          {
+            "en": "Embraces paradox",
+            "cn": "拥抱悖论"
+          },
+          {
+            "en": "Creates frameworks",
+            "cn": "构建框架"
+          },
+          {
+            "en": "Teaches others",
+            "cn": "教导他人"
+          },
+          {
+            "en": "Integrates opposites",
+            "cn": "整合对立面"
+          },
+          {
+            "en": "Generates meaning",
+            "cn": "生成意义简体中文（大陆）"
+          },
+          {
+            "en": "Builds communities",
+            "cn": "构建社区"
+          },
+          {
+            "en": "Enables development",
+            "cn": "推动发展"
+          },
+          {
+            "en": "Solves interesting problems",
+            "cn": "解决有趣的问题"
+          },
+          {
+            "en": "Level 4.0 Behaviors (Evolutionary Embodiment):",
+            "cn": "4.0级行为（进化具身）："
+          },
+          {
+            "en": "Operates from unity consciousness",
+            "cn": "基于统一意识运作"
+          },
+          {
+            "en": "Solutions emerge spontaneously",
+            "cn": "解决方案自发涌现"
+          },
+          {
+            "en": "Catalyzes by presence",
+            "cn": "通过存在感起催化作用"
+          },
+          {
+            "en": "Transcends fear",
+            "cn": "超越恐惧"
+          },
+          {
+            "en": "Creates reality",
+            "cn": "创造现实"
+          },
+          {
+            "en": "Serves evolution",
+            "cn": "服务于进化"
+          },
+          {
+            "en": "Embodies future",
+            "cn": "体现未来"
+          },
+          {
+            "en": "PART V: DEVELOPMENT STRATEGIES",
+            "cn": "第五部分：发展战略"
+          },
+          {
             "en": "Life is problem-solving.",
             "cn": "生活就是解决问题。"
           }
@@ -5189,6 +7317,34 @@ const ARTICLES_EXTRA = [
           {
             "en": "“Your purpose is the inception of your suffering, and you have the option to choose what you suffer for.”",
             "cn": "“你的目的就是你痛苦的开端，而你可以选择为了什么而受苦。”"
+          },
+          {
+            "en": "Survival Problems (Must solve first):",
+            "cn": "生存问题（必须首先解决）："
+          },
+          {
+            "en": "Health crises",
+            "cn": "健康危机"
+          },
+          {
+            "en": "Financial emergency",
+            "cn": "财务紧急情况"
+          },
+          {
+            "en": "Relationship violence",
+            "cn": "亲密关系暴力"
+          },
+          {
+            "en": "Mental health crisis",
+            "cn": "心理健康危机"
+          },
+          {
+            "en": "Addiction active",
+            "cn": "成瘾（活跃）"
+          },
+          {
+            "en": "Housing instability",
+            "cn": "住房不稳定"
           }
         ]
       },
@@ -5207,8 +7363,128 @@ const ARTICLES_EXTRA = [
             "cn": "在生存模式下试图发展更高层次的能力在神经生物学上是不可能的——杏仁核劫持会阻碍前额叶皮层的功能。"
           },
           {
+            "en": "Stability Problems (Foundation building):",
+            "cn": "稳定性问题（基础建设）："
+          },
+          {
+            "en": "Income generation",
+            "cn": "创收"
+          },
+          {
+            "en": "Health basics",
+            "cn": "健康基础"
+          },
+          {
+            "en": "Relationship repair",
+            "cn": "修复人际关系"
+          },
+          {
+            "en": "Mental regulation",
+            "cn": "情绪调节"
+          },
+          {
+            "en": "Habit formation",
+            "cn": "习惯养成"
+          },
+          {
+            "en": "Skill development",
+            "cn": "技能培养"
+          },
+          {
+            "en": "Community finding",
+            "cn": "寻找社区"
+          },
+          {
+            "en": "Growth Problems (Development focus):",
+            "cn": "成长问题（发展重点）："
+          },
+          {
             "en": "Career advancement → Calling discovery",
             "cn": "职业晋升 → 发现人生使命"
+          },
+          {
+            "en": "Fitness optimization",
+            "cn": "体能优化"
+          },
+          {
+            "en": "Intimacy deepening",
+            "cn": "亲密关系深化"
+          },
+          {
+            "en": "Consciousness expansion",
+            "cn": "意识拓展"
+          },
+          {
+            "en": "Wealth building beyond survival",
+            "cn": "超越生存的财富积累"
+          },
+          {
+            "en": "Purpose clarification",
+            "cn": "明确人生目标"
+          },
+          {
+            "en": "Legacy creation",
+            "cn": "创造遗产"
+          },
+          {
+            "en": "Integration Problems (Advanced challenges):",
+            "cn": "整合问题（高级挑战）："
+          },
+          {
+            "en": "Quadrant balancing",
+            "cn": "象限平衡"
+          },
+          {
+            "en": "Lifestyle design",
+            "cn": "生活方式设计"
+          },
+          {
+            "en": "System building",
+            "cn": "系统构建"
+          },
+          {
+            "en": "Community leadership",
+            "cn": "社区领导力"
+          },
+          {
+            "en": "Generational impact",
+            "cn": "代际影响"
+          },
+          {
+            "en": "Wisdom cultivation",
+            "cn": "智慧修养"
+          },
+          {
+            "en": "Death preparation",
+            "cn": "临终准备"
+          },
+          {
+            "en": "Metacrisis Problems (Civilizational):",
+            "cn": "元危机问题（文明层面）："
+          },
+          {
+            "en": "Sovereignty development",
+            "cn": "主权发展"
+          },
+          {
+            "en": "Anti-rivalrous practice",
+            "cn": "非竞争性实践"
+          },
+          {
+            "en": "Regenerative creation",
+            "cn": "再生性创造"
+          },
+          {
+            "en": "Systems thinking",
+            "cn": "系统思维"
+          },
+          {
+            "en": "Community resilience",
+            "cn": "社区韧性"
+          },
+          {
+            "en": "Transition contribution",
+            "cn": "转型贡献"
           },
           {
             "en": "What specifically hurts?",
@@ -5229,6 +7505,62 @@ const ARTICLES_EXTRA = [
           {
             "en": "What have you tried?",
             "cn": "你尝试过什么？"
+          },
+          {
+            "en": "Minimum effective dose",
+            "cn": "最小有效剂量"
+          },
+          {
+            "en": "Daily/weekly practices",
+            "cn": "每日/每周实践"
+          },
+          {
+            "en": "Measurement criteria",
+            "cn": "评估标准"
+          },
+          {
+            "en": "Support requirements",
+            "cn": "支持要求"
+          },
+          {
+            "en": "Timeline realistic",
+            "cn": "时间线（现实可行）"
+          },
+          {
+            "en": "Start smallest viable",
+            "cn": "从最小可行产品开始"
+          },
+          {
+            "en": "Build consistency first",
+            "cn": "首先确保一致性"
+          },
+          {
+            "en": "Add complexity gradually",
+            "cn": "逐步增加复杂性"
+          },
+          {
+            "en": "Track leading indicators",
+            "cn": "跟踪领先指标"
+          },
+          {
+            "en": "Adjust based on feedback",
+            "cn": "根据反馈进行调整"
+          },
+          {
+            "en": "Make automatic",
+            "cn": "实现自动化"
+          },
+          {
+            "en": "Link to identity",
+            "cn": "与身份关联简体中文（大陆）"
+          },
+          {
+            "en": "Build on success",
+            "cn": "在成功基础上继续推进"
+          },
+          {
+            "en": "Identify next problem",
+            "cn": "确定下一个问题"
           }
         ]
       },
@@ -5265,12 +7597,24 @@ const ARTICLES_EXTRA = [
           {
             "en": "Development emerges from intelligent problem-solving, not forced balance.",
             "cn": "发展源于明智地解决问题，而非强行寻求平衡。"
+          },
+          {
+            "en": "Step 1: Identify Primary Constraint",
+            "cn": "第一步：识别主要制约因素"
           }
         ]
       },
       {
         "en": "What’s the ONE thing that, if solved, would unlock multiple quadrants?",
         "cn": "如果解决了哪一件事，就能同时打开多个领域的大门？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Common constraints:",
+            "cn": "常见制约因素："
+          }
+        ]
       },
       {
         "sentences": [
@@ -5283,8 +7627,20 @@ const ARTICLES_EXTRA = [
             "cn": "健康危机耗尽所有资源"
           },
           {
+            "en": "Relationship crisis creating chaos",
+            "cn": "导致混乱的人际关系危机"
+          },
+          {
             "en": "Financial emergency forcing survival mode",
             "cn": "财务危机迫使进入生存模式"
+          },
+          {
+            "en": "Meaning crisis paralyzing action",
+            "cn": "意义危机导致行动瘫痪"
+          },
+          {
+            "en": "Step 2: Apply Minimum Effective Development",
+            "cn": "步骤2：应用“最小有效发展法”"
           }
         ]
       },
@@ -5317,6 +7673,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "If meaning absent: 5 minutes contemplation",
             "cn": "若缺乏意义：5分钟静思"
+          },
+          {
+            "en": "Step 3: Use Freed Resources for Next Constraint",
+            "cn": "第三步：将腾出的资源用于解决下一个瓶颈"
           }
         ]
       },
@@ -5329,6 +7689,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This creates an upward spiral where solving each problem provides resources for the next.",
             "cn": "这形成了一个良性循环，解决每一个问题都能为下一个问题提供资源。"
+          },
+          {
+            "en": "Step 4: Recognize Cascade Opportunities",
+            "cn": "第4步：识别连锁机遇"
           }
         ]
       },
@@ -5367,6 +7731,10 @@ const ARTICLES_EXTRA = [
             "cn": "“这完全符合这三项要求。”"
           },
           {
+            "en": "Morning Writing Stack (30 minutes):",
+            "cn": "晨间写作组合（30分钟）："
+          },
+          {
             "en": "5 min: Anti-vision clarity (what you refuse today)",
             "cn": "5分钟：反愿景的清晰度（你今天拒绝什么）"
           },
@@ -5381,6 +7749,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "5 min: Public sharing (post, message, or article)",
             "cn": "5 分钟：公开分享（帖子、消息或文章）"
+          },
+          {
+            "en": "Level 1 → 2 Transition Practices",
+            "cn": "第1级→第2级过渡练习"
+          },
+          {
+            "en": "The Agency Development Stack (60 minutes):",
+            "cn": "自主能力发展方案（60 分钟）："
           },
           {
             "en": "5 min: Gratitude practice",
@@ -5419,6 +7795,10 @@ const ARTICLES_EXTRA = [
             "cn": "该流程能激活所有主要神经化学系统，从而确保日常表现达到最佳状态。"
           },
           {
+            "en": "Evening Stack (30 minutes):",
+            "cn": "晚间组合（30分钟）："
+          },
+          {
             "en": "10 min: Day review",
             "cn": "10 分钟：当日回顾"
           },
@@ -5443,6 +7823,14 @@ const ARTICLES_EXTRA = [
             "cn": "晚间组合有助于记忆巩固（复习）、缓解焦虑（准备）并促进副交感神经系统的恢复（放松）。"
           },
           {
+            "en": "Level 2 → 3 Transition Practices",
+            "cn": "第2级→第3级过渡练习"
+          },
+          {
+            "en": "The Creator Stack (90 minutes):",
+            "cn": "“创作者组合”（90 分钟）："
+          },
+          {
             "en": "20 min: Deep work on YOUR project",
             "cn": "20 分钟：专注于你自己的项目的深度工作"
           },
@@ -5457,6 +7845,62 @@ const ARTICLES_EXTRA = [
           {
             "en": "10 min: System refinement",
             "cn": "10 分钟：系统优化"
+          },
+          {
+            "en": "Integration Stack (Throughout day):",
+            "cn": "整合组合（全天）："
+          },
+          {
+            "en": "Micro-meditations between tasks",
+            "cn": "任务间隙的微冥想"
+          },
+          {
+            "en": "Walking meetings/calls",
+            "cn": "边走边开会/通话"
+          },
+          {
+            "en": "Teaching while learning",
+            "cn": "边学边教"
+          },
+          {
+            "en": "Work as spiritual practice",
+            "cn": "工作即精神修行简体中文（大陆）"
+          },
+          {
+            "en": "Exercise as meditation",
+            "cn": "运动即冥想"
+          },
+          {
+            "en": "The Flow Stack (Flexible):",
+            "cn": "“流动体系”（灵活版）："
+          },
+          {
+            "en": "Follow energy naturally",
+            "cn": "顺其自然地追随能量"
+          },
+          {
+            "en": "Create more than consume",
+            "cn": "创造多于消耗简体中文（大陆）"
+          },
+          {
+            "en": "Teach through being",
+            "cn": "以身作则"
+          },
+          {
+            "en": "Solve interesting problems",
+            "cn": "解决有趣的问题"
+          },
+          {
+            "en": "Build enabling structures",
+            "cn": "构建赋能型结构"
+          },
+          {
+            "en": "Play infinite games",
+            "cn": "玩无限游戏简体中文（大陆）"
+          },
+          {
+            "en": "The Digital Leverage Path (Vocation Development)",
+            "cn": "数字杠杆之路（职业发展）"
           }
         ]
       },
@@ -5507,6 +7951,10 @@ const ARTICLES_EXTRA = [
             "cn": "直接变现：平台支持支持者无需中介即可即时付款"
           },
           {
+            "en": "The individual can now build what previously required teams:",
+            "cn": "现在，个人可以独立完成过去需要团队协作才能实现的事情："
+          },
+          {
             "en": "Education platform (courses, coaching, communities)",
             "cn": "教育平台（课程、辅导、社区）"
           },
@@ -5519,8 +7967,80 @@ const ARTICLES_EXTRA = [
             "cn": "实物产品（按需印刷、代发货、小批量生产）"
           },
           {
+            "en": "Phase 1: Build Audience (Level 2.0)",
+            "cn": "第一阶段：建立受众群体（2.0 级）"
+          },
+          {
             "en": "Write about your interests daily",
             "cn": "每天写写你的兴趣爱好"
+          },
+          {
+            "en": "Share your learning journey",
+            "cn": "分享你的学习历程"
+          },
+          {
+            "en": "Document problems and solutions",
+            "cn": "记录问题与解决方案"
+          },
+          {
+            "en": "Engage with others’ content",
+            "cn": "与他人的内容互动"
+          },
+          {
+            "en": "Provide value before selling",
+            "cn": "先提供价值，再销售"
+          },
+          {
+            "en": "Phase 2: Create Products (Level 2.5)",
+            "cn": "第二阶段：创建产品（2.5级）"
+          },
+          {
+            "en": "Package your solutions",
+            "cn": "将解决方案打包"
+          },
+          {
+            "en": "Start with information products",
+            "cn": "从信息产品入手"
+          },
+          {
+            "en": "Test with small group",
+            "cn": "在小范围内进行测试"
+          },
+          {
+            "en": "Iterate based on feedback",
+            "cn": "根据反馈进行迭代"
+          },
+          {
+            "en": "Scale what works",
+            "cn": "将行之有效的方法进行规模化"
+          },
+          {
+            "en": "Phase 3: Systems & Scale (Level 3.0)",
+            "cn": "第三阶段：系统与规模化（3.0级）"
+          },
+          {
+            "en": "Automate repetitive tasks",
+            "cn": "将重复性任务自动化"
+          },
+          {
+            "en": "Build recurring revenue",
+            "cn": "建立经常性收入"
+          },
+          {
+            "en": "Create without burnout",
+            "cn": "在不导致倦怠的情况下进行创作"
+          },
+          {
+            "en": "Enable others’ success",
+            "cn": "助力他人成功"
+          },
+          {
+            "en": "Design regenerative business",
+            "cn": "设计再生型企业"
+          },
+          {
+            "en": "PART VI: FINAL SYNTHESIS",
+            "cn": "第六部分：最终综述"
           }
         ]
       },
@@ -5933,6 +8453,14 @@ const ARTICLES_EXTRA = [
         "cn": "请记住：“你的目标就是你痛苦的起点，而你可以选择为了什么而受苦。”"
       },
       {
+        "sentences": [
+          {
+            "en": "When You’re Ready, Here’s How I Can Help You:",
+            "cn": "当你准备好了，以下是我能为你提供的帮助："
+          }
+        ]
+      },
+      {
         "img": "assets/covers/gr-a-complete-knowledge-base-of-human-3-0-1.jpg",
         "cap": ""
       },
@@ -6006,6 +8534,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "When you’re having a conversation with someone, we imagine it to look something like this.",
         "cn": "当你与某人交谈时，我们想象中的场景大概是这样的。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "But in reality, this is what’s happening:",
+            "cn": "但实际上，发生的情况是这样的："
+          }
+        ]
       },
       {
         "img": "assets/covers/gr-listening-is-the-silencing-of-the-mind-1.jpg",
@@ -6144,6 +8680,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "We desperately want to have a response ready so that we don’t have to deal with the elevated heart rate that can accompany the absence of sound.",
             "cn": "我们迫切希望准备好相应的应对措施，这样就不用面对因缺乏声音而可能引发的心率加快了。"
+          },
+          {
+            "en": "But another thing worth asking is the following:",
+            "cn": "但还有另一个值得思考的问题是："
           },
           {
             "en": "What makes silence uncomfortable?",
@@ -6304,6 +8844,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "I could either be explicit about it:",
             "cn": "我也可以直接说明这一点："
+          },
+          {
+            "en": "Or I could be brief to signal that I need a moment:",
+            "cn": "或者，我也可以简短地表示需要片刻时间："
           }
         ]
       },
@@ -6476,6 +9020,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "And when conversation becomes a vehicle for kindness, you will notice just how powerful each one can be.",
             "cn": "而当对话成为传递善意的载体时，你就会发现，每一次对话都蕴含着多么强大的力量。"
+          },
+          {
+            "en": "For more stories and reflections of this nature:",
+            "cn": "更多此类故事与感悟："
+          },
+          {
+            "en": "You Are Not Your Anxiety: A Journey Into the Anxious Brain",
+            "cn": "《你不是你的焦虑：一场探索焦虑大脑的旅程》"
           }
         ]
       }
@@ -6495,6 +9047,14 @@ const ARTICLES_EXTRA = [
     "coverImg": "assets/covers/gr-tales-from-the-island-of-illness.jpg",
     "paras": [
       {
+        "sentences": [
+          {
+            "en": "When you’re sick, it feels like this is the case:",
+            "cn": "生病时，你会觉得情况就是这样："
+          }
+        ]
+      },
+      {
         "img": "assets/covers/gr-tales-from-the-island-of-illness-1.jpg",
         "cap": ""
       },
@@ -6511,6 +9071,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "You start thinking that everyone else must be getting along just fine, and that you’re the lone exception in a world full of healthy and vibrant people.",
             "cn": "你会开始觉得，其他人肯定都过得很好，而在这个充满健康活力的世界里，只有你是个例外。"
+          },
+          {
+            "en": "But in reality, the landscape looks more like this:",
+            "cn": "但现实情况其实更像是这样："
           }
         ]
       },
@@ -6967,6 +9531,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Is this just the beginning of a further decline in my ears?”",
             "cn": "“这难道只是我听力进一步下降的开始吗？”"
+          },
+          {
+            "en": "And to each of these inquiries, the answer is the same:",
+            "cn": "对于每一个疑问，答案都是一样的："
           }
         ]
       },
@@ -7027,6 +9595,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Regardless, the central message of the chapter still stands, which is on the inevitability of pain and the way we respond to it.",
             "cn": "无论如何，本章的核心观点依然成立，即痛苦是不可避免的，以及我们应对痛苦的方式。"
+          },
+          {
+            "en": "Here’s a relevant excerpt:",
+            "cn": "以下是相关节选："
           }
         ]
       },
@@ -7075,6 +9647,22 @@ const ARTICLES_EXTRA = [
           {
             "en": "Fortunately, you can prepare an answer long before that question is asked.",
             "cn": "幸运的是，你可以在这个问题被提出之前很久就做好准备。"
+          },
+          {
+            "en": "When you’re unwell, the ability to beat worry is a superpower:",
+            "cn": "当你身体不适时，战胜忧虑的能力就是一种超能力："
+          },
+          {
+            "en": "The ability to reframe fear is another asset as well:",
+            "cn": "能够重新定义恐惧也是一项宝贵的能力："
+          },
+          {
+            "en": "Learning how to manage anxiety is a must.",
+            "cn": "学会管理焦虑是必不可少的。"
+          },
+          {
+            "en": "Here’s a huge post on that:",
+            "cn": "这里有一篇关于此主题的长文："
           }
         ]
       }
@@ -8708,6 +11296,14 @@ const ARTICLES_EXTRA = [
     "coverImg": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day.jpg",
     "paras": [
       {
+        "sentences": [
+          {
+            "en": "do this before 2026",
+            "cn": "在2026年之前做到这一点"
+          }
+        ]
+      },
+      {
         "en": "You’re probably going to quit your new years resolution.",
         "cn": "你很可能最终会放弃你的新年决心。"
       },
@@ -9668,6 +12264,22 @@ const ARTICLES_EXTRA = [
         "cn": "一条众所周知却行不通的道路。"
       },
       {
+        "sentences": [
+          {
+            "en": "To become more intelligent, you must:",
+            "cn": "要想变得更聪明，你必须："
+          },
+          {
+            "en": "Reject the known path",
+            "cn": "摒弃这条众所周知的道路"
+          },
+          {
+            "en": "Dive into the unknown",
+            "cn": "投身未知"
+          }
+        ]
+      },
+      {
         "en": "Set new, higher goals to expand your mind",
         "cn": "设定新的、更高的目标来拓展你的思维"
       },
@@ -9678,6 +12290,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "Study the generalized principles of nature",
         "cn": "研究自然的普遍规律"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Become a deep generalist",
+            "cn": "成为一名深度通才"
+          }
+        ]
       },
       {
         "en": "That leads us into the next section perfectly.",
@@ -9808,6 +12428,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "You can’t place the climax at the start of the book and expect it to be interesting.",
             "cn": "你不能把高潮放在书的开头，还指望它会引人入胜。"
+          },
+          {
+            "en": "Part 1) Morning – Psychological Excavation – Vision & Anti-Vision",
+            "cn": "第一部分）早晨——心理挖掘——愿景与反愿景"
           }
         ]
       },
@@ -10096,6 +12720,14 @@ const ARTICLES_EXTRA = [
         "cn": "明天一早醒来，请先回答所有这些问题。"
       },
       {
+        "sentences": [
+          {
+            "en": "Part 2) Throughout The Day – Interrupting Autopilot – Breaking Unconscious Patterns",
+            "cn": "第二部分）全天实践——中断自动驾驶模式——打破无意识的模式"
+          }
+        ]
+      },
+      {
         "en": "These journaling exercises are cute, but we want real change.",
         "cn": "这些日记练习虽然有趣，但我们想要的是真正的改变。"
       },
@@ -10198,6 +12830,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "What’s the smallest version of the person I want to become that I could be tomorrow?",
         "cn": "明天，我能成为的、理想中那个自己的最小版本是什么？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Part 3) Evening – Synthesizing Insight – Entering A Season Of Progress",
+            "cn": "第三部分）傍晚——整合洞见——迈入进步的阶段"
+          }
+        ]
       },
       {
         "sentences": [
@@ -10330,6 +12970,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "But we have one last piece to lock it all in.",
         "cn": "但我们还有最后一步，将这一切牢牢锁定。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "VII – Turn Your Life Into A Video Game",
+            "cn": "第七章——将生活变成电子游戏"
+          }
+        ]
       },
       {
         "sentences": [
@@ -10518,6 +13166,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
         "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Discussion about this post",
+            "cn": "关于这篇帖子的讨论"
+          }
+        ]
       },
       {
         "sentences": [
