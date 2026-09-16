@@ -17,6 +17,17 @@
   > （brockman / roblox / brad-jacobs，正文只有导语 + Amazon 联盟声明），
   > **线上现为 11 篇 = 8 成长 + 3 人物全文**，远端 171 个 blob，基线 commit `355b59a`。
   > 成长 8 篇＝Dan Koe×4（含 knowledge-base 全文修复）+ More To That×2 + Ness Labs×2。
+  > ⚠️ **2026-09-16 更正（本批次 `3ca7dd8`）**：内容层又修了两轮，主题都是「提取器把真正文当垃圾丢掉」。
+  > ① `c6a083c` 修 `CODE_JUNK` 缺词边界（`/function\s*\(/` 命中 `dys·function (`，illness 篇 332 字符正文段被当成 JS 丢掉）。
+  > ② 本轮 `3ca7dd8` 收全「清单式文档」：`goodListItem` 纯标签闸词数 5→2；`<p>` 短段标点闸放行带分隔符的引导行
+  >   （`1. Rivalrous Dynamics` / `Mind 1.0:` / `Life exhibits a fundamental pattern:`）；
+  >   新增「标题档」—— `<h1>/<h2>/<h3>/<h4>` 是作者的结构标题，不再套形态闸
+  >   （`looksLikeNav` 曾把 `MIND QUADRANT (Upper Left – Interior Individual)` 判成栏目菜单删掉，kb-human30 因此丢了整个 PART I~VI 骨架）；
+  >   提取器补扫 `<h1>`，与 `title` 相同的那条跳过（否则正文开头会把文章标题再念一遍）。
+  >   **独立口径复核**（6-gram，不 import 项目代码）：kb-human30 缺口 **2,335 词 → 243 词**，剩下的全是导航 / 页脚 / `Encompasses:` 这类极短标签。
+  >   14 份原文新旧规则差分：**fs.blog 播客页与 Ness Labs 落地页零变化**（负向测试通过），合计 +623 句 / +2,324 词；`--refill` 两轮补回 617 + 6 句。
+  >   **线上 11 篇 = 成长 8 + 人物 3**，**3,255 句 / 41,100 词**（此前 2,632 句 / 38,774 词）；`audit` 186/0 · `qc --all` 11 合格 / 0 拒收。
+  >   判断"线上现在有什么"仍以远端树为准，不要读本节旧数字。
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
   10 篇成长类旧文已由 `tools/_regroup-paras.mjs` 按原文接回段落边界（只改分组，句/译逐字节不变）；
