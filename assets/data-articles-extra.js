@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 11 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 13 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
- * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue / Farnam Street
  *
  * 通道：成长 RSS + 人物 reviewed queue（tools/people.mjs）；旧明星历史通道已停用。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
@@ -12658,6 +12658,298 @@ const ARTICLES_EXTRA = [
           {
             "en": "Monica Bellucci will appear in ‘Maria Callas: Letters & Memoirs’ at Her Majesty’s Theatre on 24 April",
             "cn": "莫妮卡·贝鲁奇将于4月24日在女王陛下剧院出演《玛丽亚·卡拉斯：书信与回忆录》"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-the-mindset-that-unlocks-your-full-potential-d",
+    "cat": "成长",
+    "title": "The Mindset That Unlocks Your Full Potential | Dr. Gio Valiante",
+    "titleZh": "释放你全部潜能的心态 | 吉奥·瓦利安特博士",
+    "source": "Farnam Street · 2026-06-30",
+    "date": "2026-06-30",
+    "minutes": 2,
+    "url": "https://fs.blog/knowledge-project-podcast/performance-psychologist-mindset/",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 62.86,
+    "serverScore": 81.14,
+    "paras": [
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-2.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "Practical techniques for developing presence and reducing distraction.",
+            "cn": "培养专注力、减少分心的实用技巧。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-3.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "Rebuilding confidence by focusing on small wins instead of chasing big recoveries.",
+            "cn": "通过专注于小胜利而非追求大逆转来重建自信。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-the-mindset-that-unlocks-your-full-potential-d-4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "We discuss why most people never reach their potential, how confidence and fear shape performance, and what separates those who consistently excel from those who stay stuck.",
+            "cn": "我们探讨了为什么大多数人永远无法发挥自己的潜力，自信和恐惧如何影响表现，以及那些持续表现出色的人与那些停滞不前的人之间有何不同。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He shares practical strategies for building better habits, overcoming self-imposed limits, staying focused under pressure, and creating the conditions for long-term success.",
+            "cn": "他分享了培养更好习惯、突破自我设限、在压力下保持专注以及为长期成功创造条件的实用策略。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you’ve ever felt capable of more, this episode will help you understand what’s holding you back and what to do about it.",
+            "cn": "如果你曾觉得自己有更大的潜力，这一集将帮助你了解是什么在阻碍你，以及该如何应对。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "+ Members get the longer, extended version of this conversation, with additional content not included in the public release.",
+            "cn": "+ 会员可获取本次对话的加长版，其中包含公开版本未收录的额外内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
+            "cn": "请前往“会员专区”查看文字记录及其他会员专属内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "We all know the Steve Jobs who came back in the late 1990s and saved Apple from becoming a footnote.",
+            "cn": "我们都熟悉那位在20世纪90年代末重返苹果、将公司从濒临被遗忘的边缘拯救回来的史蒂夫·乔布斯。"
+          },
+          {
+            "en": "And we’ve all heard the story of …",
+            "cn": "而且我们都听说过……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create …",
+            "cn": "大卫·巴祖基是Roblox的联合创始人兼首席执行官，该平台围绕一个简单理念构建：为用户提供创作所需的工具和激励……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This summer, I’m revisiting one of my favorite episodes.",
+            "cn": "今年夏天，我将重温我最喜欢的其中一集。"
+          },
+          {
+            "en": "If you haven’t heard it, now is the time.",
+            "cn": "如果你还没听过，现在正是时候。"
+          },
+          {
+            "en": "If you have, it’s a classic and …",
+            "cn": "如果你听过，那绝对是一部经典之作……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A podcast about mastering the best of what other people have already figured out.",
+            "cn": "一档旨在掌握他人已总结出的最佳智慧的播客。"
+          },
+          {
+            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
+            "cn": "《知识项目》专注于那些永不过时的洞见和教训。"
+          },
+          {
+            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
+            "cn": "每集节目都会为你带来可付诸实践的见解，助你取得更好的成果，过上更有意义的生活。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
+            "cn": "Farnam Street 参与了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该联盟广告计划旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-proven-better-new-mark-pincus-on-the-rules-of-",
+    "cat": "成长",
+    "title": "Proven, Better, New: Mark Pincus on the Rules of Innovation",
+    "titleZh": "经实践验证，更优，创新”：马克·平库斯谈创新法则",
+    "source": "Farnam Street · 2026-05-28",
+    "date": "2026-05-28",
+    "minutes": 2,
+    "url": "https://fs.blog/knowledge-project-podcast/mark-pincus/",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of-.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 64.34,
+    "serverScore": 80.7,
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Mark Pincus is the creator behind Farmville and Words with Friends.",
+            "cn": "马克·平库斯是《Farmville》和《Words with Friends》的缔造者。"
+          },
+          {
+            "en": "He built Zynga into one of the biggest gaming companies in the world and helped shape the early era of social products on the internet.",
+            "cn": "他将Zynga打造成为全球最大的游戏公司之一，并帮助塑造了互联网社交产品的早期时代。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--1.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--2.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--3.jpg",
+        "cap": ""
+      },
+      {
+        "img": "assets/covers/gr-proven-better-new-mark-pincus-on-the-rules-of--4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "In this conversation, he breaks down how to spot winning ideas early, why most startups build the wrong thing, and why you should always copy what’s proven.",
+            "cn": "在这段对话中，他详细剖析了如何尽早发现成功的创意、为什么大多数初创企业会开发错误的产品，以及为什么你应该始终借鉴那些已被验证的方法。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He shares lessons from building Zynga, missing the opportunity behind social networking before Facebook took off, navigating platform risk during Zynga’s explosive growth, and rebuilding his life when he thought everything was lost.",
+            "cn": "他分享了创建Zynga的经验教训、在Facebook崛起前错失社交网络机遇的经历、Zynga爆发式增长期间应对平台风险的经验，以及在以为一切都已失去时重建人生的历程。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "+ Members get the longer, extended version of this conversation, with additional content not included in the public release.",
+            "cn": "+ 会员可获取本次对话的完整扩展版，其中包含公开版本未收录的额外内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Head over to the Members Only area to access transcripts and other Member Only content.",
+            "cn": "请前往“会员专区”查看文字记录及其他会员专属内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "We all know the Steve Jobs who came back in the late 1990s and saved Apple from becoming a footnote.",
+            "cn": "我们都熟悉那位在20世纪90年代末重返苹果、将苹果从濒临被遗忘的边缘拯救出来的史蒂夫·乔布斯。"
+          },
+          {
+            "en": "And we’ve all heard the story of …",
+            "cn": "我们也听过……的故事"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "David Baszucki is the co-founder and CEO of Roblox, a platform built around a simple idea: give people the tools and incentives to create …",
+            "cn": "大卫·巴祖基是Roblox的联合创始人兼首席执行官，该平台围绕一个简单理念构建：为用户提供创作所需的工具和激励……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This summer, I’m revisiting one of my favorite episodes.",
+            "cn": "今年夏天，我将重温我最喜欢的其中一集。"
+          },
+          {
+            "en": "If you haven’t heard it, now is the time.",
+            "cn": "如果你还没听过，现在正是时候。"
+          },
+          {
+            "en": "If you have, it’s a classic and …",
+            "cn": "如果你听过，那它绝对是一部经典之作，而且……"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A podcast about mastering the best of what other people have already figured out.",
+            "cn": "这是一档关于掌握他人已总结出的最佳智慧的播客。"
+          },
+          {
+            "en": "The Knowledge Project focuses on insights and lessons that never expire.",
+            "cn": "《知识项目》专注于那些永不过时的洞见与启示。"
+          },
+          {
+            "en": "You’ll walk away from every episode with actionable insights that help you get better results and live a more meaningful life.",
+            "cn": "每集节目都会带给你切实可行的见解，帮助你取得更好的成果，过上更有意义的生活。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
+            "cn": "Farnam Street 参与了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
           }
         ]
       }
