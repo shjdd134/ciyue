@@ -1,10 +1,10 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 13 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 15 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
- * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue / Farnam Street
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue / Farnam Street / FourFourTwo
  *
- * 通道：成长 RSS + 人物 reviewed queue（tools/people.mjs）；旧明星历史通道已停用。
+ * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
  */
 
@@ -12950,6 +12950,438 @@ const ARTICLES_EXTRA = [
           {
             "en": "Farnam Street participates in the Amazon Services LLC Associates Program, an affiliate advertising program designed to provide a means for sites to earn advertising commissions by linking to Amazon.",
             "cn": "Farnam Street 参与了亚马逊服务有限责任公司（Amazon Services LLC）的联盟计划，该计划是一项联盟广告计划，旨在通过网站链接至亚马逊，为网站提供赚取广告佣金的途径。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ft-how-to-watch-coventry-city-vs-brighton-for-fre",
+    "cat": "足球",
+    "title": "How to watch Coventry City vs Brighton for FREE: Live streams as Sky Blues aim to kick-start Premier League campaign",
+    "titleZh": "如何免费观看考文垂城对阵布莱顿的比赛：直播指南——“天蓝军团”力争在英超赛季开局取得突破",
+    "source": "FourFourTwo · 2026-09-13",
+    "date": "2026-09-13",
+    "minutes": 3,
+    "url": "https://www.fourfourtwo.com/competition/how-to-watch-coventry-city-vs-brighton-premier-league-2026-27-free",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/ft-how-to-watch-coventry-city-vs-brighton-for-fre.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 63.59,
+    "serverScore": 80.92,
+    "translation": {
+      "status": "machine-checked",
+      "issues": [],
+      "providers": {
+        "deepl": 24
+      },
+      "cacheNamespace": "article-context-v3"
+    },
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Your membership journey starts here.",
+            "cn": "您的会员之旅从这里开始。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Keep exploring and earning more as a member.",
+            "cn": "成为会员，继续探索并获取更多福利。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Quick quizzes for football fans.",
+            "cn": "专为足球迷准备的快速问答。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Football-themed crossword challenges.",
+            "cn": "足球主题填字游戏挑战。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Explore your membership benefits.",
+            "cn": "探索您的会员权益。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
+            "cn": "每周精选精彩内容、趣味活动和足球问答，直送您的收件箱。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Unlock instant access to exclusive member features.",
+            "cn": "立即解锁专属会员功能。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fantastic football content straight to your inbox!",
+            "cn": "精彩足球内容直达您的收件箱！"
+          },
+          {
+            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
+            "cn": "从最新的转会消息、趣味问答、视频、专题报道到与足坛巨星的专访，以及更多精彩内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Frank Lampard's side are yet to pick up a point since returning to the top flight",
+            "cn": "弗兰克·兰帕德的球队自重返顶级联赛以来尚未取得任何积分"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-how-to-watch-coventry-city-vs-brighton-for-fre-1.jpg",
+        "cap": "Brighton captain Lewis Dunk takes his side to Coventry City (Image credit: Getty Images)"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Watch Coventry City vs Brighton for free this weekend as the Sky Blues look for their first points since returning to the Premier League.",
+            "cn": "本周末，免费观看考文垂城对阵布莱顿的比赛，届时“天蓝军团”将力争自重返英超以来首获积分。"
+          },
+          {
+            "en": "FourFourTwo has all the details on live streams and TV channels, wherever you are in the world.",
+            "cn": "无论您身处世界何处，《FourFourTwo》都为您提供了直播和电视频道的详细信息。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Frank Lampard's side have endured a tough start to their first top-flight season for 25 years, but they will take heart from their performance in their 1-0 defeat at Manchester City last weekend.",
+            "cn": "弗兰克·兰帕德执教的球队在时隔25年重返顶级联赛后，开局阶段经历了艰难的考验，但上周末客场0-1负于曼城一役中的表现，将为他们注入信心。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Meanwhile, the Seagulls' opening three games have produced a win, a draw and a defeat, with Fabian Hurzeler's men hunting their first points on the road.",
+            "cn": "与此同时，“海鸥军团”开季三战一胜一平一负，法比安·胡尔策勒麾下的球队正力争在客场取得赛季首分。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Read on as FourFourTwo brings you all the information you need to watch Coventry City vs Brighton online and from anywhere, including for free, in this Sunday afternoon Premier League 2026/27 fixture.",
+            "cn": "请继续阅读，FourFourTwo 将为您带来本周日下午 2026/27 赛季英超联赛考文垂城对阵布莱顿比赛的全部观看指南，包括如何在任何地点（包括免费）在线观看本场比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Coventry City vs Brighton isn't technically available to watch for free, but there is a way that viewers in the US can stream the game at no cost.",
+            "cn": "严格来说，考文垂城对阵布莱顿的比赛无法免费观看，但美国观众仍有一种方法可以免费在线观看这场比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Live coverage in the States is on USA Network, which is available on YouTube TV that currently comes with a 21-day free trial for new customers.",
+            "cn": "美国地区的直播由 USA Network 提供，该频道可在 YouTube TV 上观看，目前新用户可享受 21 天的免费试用。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Use a VPN to access your free Coventry City vs Brighton stream from anywhere in the world.",
+            "cn": "使用 VPN，您即可从世界任何地方免费观看考文垂城对阵布莱顿的直播。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You don't have to miss Coventry City vs Brighton.",
+            "cn": "您不必错过考文垂城对阵布莱顿的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The solution to your geo-restriction nightmares is a Virtual Private Network ( VPN), a piece of software that can set your devices to appear to be in any country in the world.",
+            "cn": "解决地理限制噩梦的良方就是虚拟专用网络（VPN），这是一种能够让您的设备看起来仿佛位于世界任何一个国家的软件。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "FourFourTwo's tech-obsessed office-mates over at Tom's Guide know everything there is to know about VPNs, and they rate NordVPN as the best VPN you can buy.",
+            "cn": "《FourFourTwo》旗下、同样痴迷科技的《Tom's Guide》团队对VPN了如指掌，他们将NordVPN评为市面上最值得购买的VPN。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "磊 World's best VPN service  Fast, secure, easy to use ✅ Unblocks USA Network  Stream Coventry City vs Brighton",
+            "cn": "磊 全球最佳VPN服务  速度快、安全、易用 ✅ 解除USA Network的限制  在线观看考文垂城对阵布莱顿"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fans in the UK can watch Coventry City vs Brighton live on Sky Sports.",
+            "cn": "英国球迷可通过 Sky Sports 观看考文垂城对阵布莱顿的直播。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Sky Sports Main Event and Sky Sports Premier League will broadcast the Premier League clash, with kick-off at 2:00pm BST.",
+            "cn": "Sky Sports Main Event 和 Sky Sports Premier League 将直播这场英超对决，比赛将于英国夏令时下午 2:00 开球。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ft-how-to-watch-arsenal-vs-crystal-palace-for-fre",
+    "cat": "足球",
+    "title": "How to watch Arsenal vs Crystal Palace for FREE: Live streams and TV channels for WSL clash at Emirates Stadium",
+    "titleZh": "如何免费观看阿森纳对阵水晶宫的比赛：酋长球场 WSL 对决的直播和电视频道",
+    "source": "FourFourTwo · 2026-09-13",
+    "date": "2026-09-13",
+    "minutes": 3,
+    "url": "https://www.fourfourtwo.com/competition/watch-arsenal-vs-crystal-palace-wsl-2026-27-free",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/ft-how-to-watch-arsenal-vs-crystal-palace-for-fre.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 100,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 63.65,
+    "serverScore": 80.91,
+    "translation": {
+      "status": "machine-checked",
+      "issues": [],
+      "providers": {
+        "deepl": 24
+      },
+      "cacheNamespace": "article-context-v3"
+    },
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Your membership journey starts here.",
+            "cn": "您的会员之旅从这里开始。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Keep exploring and earning more as a member.",
+            "cn": "成为会员，继续探索并获取更多福利。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Quick quizzes for football fans.",
+            "cn": "专为足球迷准备的快速问答。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Football-themed crossword challenges.",
+            "cn": "足球主题填字游戏挑战。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Explore your membership benefits.",
+            "cn": "探索您的会员权益。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
+            "cn": "每周精选精彩内容、趣味活动和足球问答，直达您的收件箱。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Unlock instant access to exclusive member features.",
+            "cn": "立即解锁会员专属内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fantastic football content straight to your inbox!",
+            "cn": "精彩足球内容直达您的收件箱！"
+          },
+          {
+            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
+            "cn": "从最新的转会消息、趣味问答、视频、专题报道到对足坛巨星的专访，以及更多精彩内容。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-how-to-watch-arsenal-vs-crystal-palace-for-fre-1.jpg",
+        "cap": "Alessia Russo's Arsenal welcome the newly promoted Palace to the Emirates (Image credit: Alex Burstow/Arsenal "
+      },
+      {
+        "sentences": [
+          {
+            "en": "Watch Arsenal Women vs Crystal Palace Women as the Gunners look to continue their winning start in the WSL, with all the broadcast details right here in this guide.",
+            "cn": "观看阿森纳女足对阵水晶宫女足的比赛，见证“枪手”力争在WSL中延续开局连胜的势头，本指南将为您提供完整的转播详情。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "After a victory in their opening WSL fixture, Renee Slegers' Arsenal will want to continue their winning form in north London.",
+            "cn": "在女子超级联赛揭幕战中获胜后，由蕾妮·斯莱格斯执教的阿森纳队希望在北伦敦延续胜势。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As they face newly-promoted Crystal Palace, they will be hoping for three points in their first home game of the season to continue their title charge.",
+            "cn": "面对新晋升的水晶宫队，她们希望在赛季首场主场比赛中拿下三分，继续向冠军发起冲击。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "FourFourTwo has all the information on live streams and TV channels so you can watch Arsenal vs Chelsea in the WSL online, on TV, and from anywhere.",
+            "cn": "《FourFourTwo》汇集了所有关于直播流和电视频道的信息，让您无论身处何地，都能通过网络或电视观看WSL阿森纳对阵切尔西的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Women's Super League fans in both the UK and the US can watch Arsenal vs Crystal Palace for free.",
+            "cn": "无论是在英国还是美国的女子超级联赛球迷，均可免费观看阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the UK, the game will be live on BBC Two and BBC iPlayer, with this fixture the second of 19 WSL matches shown by the free-to-air broadcaster across the 2026/27 season.",
+            "cn": "在英国，这场比赛将在BBC Two和BBC iPlayer上直播，这也是该免费电视台在2026/27赛季转播的19场WSL比赛中的第二场。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Meanwhile, US viewers can watch Arsenal vs Crystal Palace at no cost on CBS Sports Golazo Network, which will show selected WSL fixtures throughout the campaign.",
+            "cn": "此外，美国观众还可以在 CBS Sports Golazo Network 上免费观看阿森纳对阵水晶宫的比赛，该平台将在整个赛季中播出精选的 WSL 赛事。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Use a VPN to access your free Arsenal vs Crystal Palace stream from anywhere in the world.",
+            "cn": "使用 VPN，您即可从世界任何地方免费观看阿森纳对阵水晶宫的直播。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You don't have to miss Arsenal vs Crystal Palace.",
+            "cn": "您完全不必错过阿森纳对阵水晶宫的比赛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The solution to your geo-restriction nightmares is a Virtual Private Network ( VPN), a piece of software that can set your devices to appear to be in any country in the world.",
+            "cn": "解决地理限制难题的良方就是虚拟专用网络（VPN）——这是一款能够让您的设备“伪装”成位于世界任何国家的软件。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "FourFourTwo's tech-obsessed office-mates over at Tom's Guide know everything there is to know about VPNs, and they rate NordVPN as the best VPN you can buy.",
+            "cn": "《FourFourTwo》旗下《Tom's Guide》的那些痴迷科技的同事们对VPN了如指掌，他们将NordVPN评为市面上最值得购买的VPN。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "磊 World's best VPN service  Fast, secure, easy to use ✅ Unblocks BBC iPlayer and CBS Sports Golazo Network  Stream Arsenal vs Crystal Palace from anywhere",
+            "cn": "NordVPN 全球最佳VPN服务  速度快、安全可靠、易于使用 ✅ 解锁BBC iPlayer和CBS Sports Golazo Network  随时随地在线观看阿森纳对阵水晶宫的比赛"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As mentioned above, Arsenal vs Crystal Palace is live on BBC Two and BBC iPlayer in the UK.",
+            "cn": "如上所述，阿森纳对阵水晶宫的比赛将在英国的BBC Two和BBC iPlayer上进行直播。"
+          },
+          {
+            "en": "You just need a TV Licence and a BBC iPlayer registration to watch online, with kick-off at 2:45pm BST.",
+            "cn": "您只需持有电视许可证并注册BBC iPlayer账号即可在线观看，比赛将于英国夏令时下午2:45开球。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Watch Arsenal vs Crystal Palace for free on BBC iPlayer via NordVPN.",
+            "cn": "通过 NordVPN 在 BBC iPlayer 上免费观看阿森纳对阵水晶宫的比赛。"
           }
         ]
       }
