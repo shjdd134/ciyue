@@ -8,6 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "50");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -118,7 +119,6 @@ const save = () => localStorage.setItem(STORE, JSON.stringify(S));
 
 /* ---------------- 阅读统计 ----------------
  * 阅读时长、读完篇数和连续阅读天数都从本地记录计算。 */
-const EXAM_DATE = "2026-12-19";        // 下一次四级笔试（12 月第三个周六）
 const ymd = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 /* 时区：四级是国内考试，「今天」属于哪个日期、问候语的小时、考试倒计时，
  * 一律按北京时间（Asia/Shanghai）取，不随宿主时区漂移——否则海外/跨时区设备
@@ -184,8 +184,19 @@ function readingStreakDays() {
   return n;
 }
 
-/* 考试日锚定北京时间当天零点（+08:00），对「真实的现在」求差——与宿主时区无关 */
-const daysToExam = () => Math.max(0, Math.ceil((Date.parse(`${EXAM_DATE}T00:00:00+08:00`) - Date.now()) / 86400000));
+/* 考试日锚定北京时间当天零点（+08:00），对「真实的现在」求差——与宿主时区无关。
+ * 日期移到 data-config.js，支持一次配置多场；全部过期时明确提示待更新，不显示误导性的 0 天。 */
+const EXAM_DATES = (typeof WORDLENS_CONFIG !== "undefined" && Array.isArray(WORDLENS_CONFIG.examDates))
+  ? WORDLENS_CONFIG.examDates.filter(x => /^\d{4}-\d{2}-\d{2}$/.test(String(x))).sort() : [];
+const nextExamDate = () => EXAM_DATES.find(x => Date.parse(`${x}T23:59:59+08:00`) >= Date.now()) || null;
+const daysToExam = () => {
+  const date = nextExamDate();
+  return date ? Math.max(0, Math.ceil((Date.parse(`${date}T00:00:00+08:00`) - Date.now()) / 86400000)) : null;
+};
+const examCountdownLabel = () => {
+  const days = daysToExam();
+  return days == null ? "考试日待更新" : `距四级考试还有 ${days} 天`;
+};
 
 /* 近 7 天（含今天）每天的阅读分钟数，没有记录的当天补 0 */
 function last7() {
@@ -233,8 +244,33 @@ const KW_TRIE = buildTrie(KEYWORDS);
 
 /* 点词翻译层（data-tapdict.js，构建产物）：全库高频词的释义 + 猜不回的词形还原表。
  * 学习词不在 TAPDICT 里（走 WORDS 完整查词卡），但 TAP_REVERSE 的原形可以指向学习词。 */
-const TAP = typeof TAPDICT === "undefined" ? null : TAPDICT;
-const TAPR = typeof TAP_REVERSE === "undefined" ? null : TAP_REVERSE;
+let TAP = typeof TAPDICT === "undefined" ? null : TAPDICT;
+let TAPR = typeof TAP_REVERSE === "undefined" ? null : TAP_REVERSE;
+let tapLoadStarted = Boolean(TAP && TAPR);
+let tapLoadPromise = null;
+
+/* 点词大表不阻塞首页：进入阅读页后才加载。失败时仍保留四级词库查词，
+ * 不能因为点词层离线而让正文或核心查词不可用。 */
+function ensureTapdict() {
+  if (TAP && TAPR) return Promise.resolve(true);
+  if (tapLoadPromise) return tapLoadPromise;
+  if (typeof document === "undefined" || !document.head) return Promise.resolve(false);
+  tapLoadStarted = true;
+  tapLoadPromise = new Promise(resolve => {
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = `assets/data-tapdict.js?v=${encodeURIComponent(ASSET_VERSION)}`;
+    s.dataset.wlTapdict = "1";
+    s.onload = () => {
+      TAP = typeof window !== "undefined" && window.TAPDICT ? window.TAPDICT : null;
+      TAPR = typeof window !== "undefined" && window.TAP_REVERSE ? window.TAP_REVERSE : null;
+      resolve(Boolean(TAP && TAPR));
+    };
+    s.onerror = () => { s.remove(); resolve(false); };
+    document.head.appendChild(s);
+  });
+  return tapLoadPromise;
+}
 
 /* 常见词表（data-wordfreq.js，构建产物）：语料词频 f ≤ 2500 但**不在**学习词表里的词。
  * 必须单独存：学习词表主动剔除了 the / of / and 这类纯功能词，而它们恰恰占正文
@@ -375,6 +411,11 @@ function isProperNoun(text, index, token) {
 }
 
 function computeArticleMetrics(a) {
+  const base = typeof window !== "undefined" && window.ARTICLE_METRICS
+    ? window.ARTICLE_METRICS[a.id] : null;
+  /* 新用户首页直接读预计算值，避免为每张卡扫描全文；已标记认识后只重算 needLearn，
+     words/低频词占比仍沿用同一份基准数据，展示口径不会因懒加载点词表而漂移。 */
+  if (base && !(S.known || []).length) return { ...base };
   const knownSet = new Set(S.known || []);
   const need = new Set();
   let tokens = 0, unknown = 0;
@@ -401,6 +442,7 @@ function computeArticleMetrics(a) {
       }
     }
   });
+  if (base) return { words: base.words, needLearn: need.size, unknown: base.unknown, rate: base.rate };
   return { words: tokens, needLearn: need.size, unknown, rate: tokens ? unknown / tokens : 0 };
 }
 
@@ -551,6 +593,24 @@ function pushNav(extra) {
   if (histOk) {
     try { history.pushState({ wl: navStack.length }, ""); histDepth++; } catch (e) { /* 沙箱 iframe 等环境忽略 */ }
   }
+}
+
+/* 可复制的阅读链接：文章 id 比数组下标稳定，刷新/新会话仍能打开同一篇。 */
+function readUrlFor(id) {
+  if (typeof location === "undefined") return "";
+  try {
+    const u = new URL(location.href);
+    u.searchParams.set("v", "read");
+    u.searchParams.delete("a");
+    u.searchParams.set("id", id);
+    return `${u.pathname}${u.search}${u.hash}`;
+  } catch { return ""; }
+}
+function syncReadUrl(id) {
+  if (!histOk || !id) return;
+  const url = readUrlFor(id);
+  if (!url) return;
+  try { history.replaceState({ ...(history.state || {}), articleId: id }, "", url); } catch { /* 沙箱环境忽略 */ }
 }
 
 /* 根级切换（点底部 tab / 回首页 / 去生词本）：栈清空，避免返回键退到无关页面。
@@ -905,7 +965,7 @@ function renderHome() {
       <div class="row between">
         <div class="col" style="gap:4px">
           <div class="h1">${greet}</div>
-          <div class="muted">距四级考试还有 ${daysToExam()} 天 · 已读完 ${done} 篇 · 累计 ${mins} 分钟</div>
+          <div class="muted">${examCountdownLabel()} · 已读完 ${done} 篇 · 累计 ${mins} 分钟</div>
         </div>
         <div class="icon-btn" style="background:var(--brand-soft);border:0;color:var(--brand)" aria-hidden="true">${svg("user", 18)}</div>
       </div>
@@ -1802,10 +1862,10 @@ function ensureExamples() {
   exState = "loading";
   exPromise = new Promise(resolve => {
     const s = document.createElement("script");
-    /* 版本号跟着主脚本走（app.js 自己是 assets/app.js?v=44），省得换 ?v= 时要改两处，
+    /* 版本号跟着主脚本走（当前资源版本由 data-config.js 统一声明），省得换 ?v= 时要改两处，
        也避免例句库与其余资源版本脱钩。取值失败就不带 query，靠 SWR + ETag 协商。 */
     const m = document.currentScript && String(document.currentScript.src).match(/[?&]v=([^&]+)/);
-    s.src = EXAMPLES_FILE + (m ? "?v=" + m[1] : "");
+    s.src = EXAMPLES_FILE + "?v=" + encodeURIComponent(m ? m[1] : ASSET_VERSION);
     s.onload = () => {
       exState = typeof window.__ADDED_EXAMPLES__ === "number" ? "ready" : "failed";
       resolve(exState === "ready");
@@ -2011,6 +2071,11 @@ function render() {
   screen.className = "screen " + themeCls;
 
   if (view.name === "read") {
+    if (!TAP && !tapLoadStarted) {
+      ensureTapdict().then(ok => {
+        if (ok && view.name === "read") { clearArticleCaches(); render(); }
+      });
+    }
     if (!readTimer) readTimer = setInterval(() => {
       /* 活跃阅读计时：页面隐藏或 60 秒无交互不累计 */
       if (document.hidden || Date.now() - lastActiveAt > 60000) return;
@@ -2093,6 +2158,7 @@ document.addEventListener("click", e => {
     S.lastRead = { id: activeArticle.id, y: resumeY, pct: savedPct, at: Date.now() };
     save();
     view = { name: "read" };
+    syncReadUrl(activeArticle.id);
     render(); return;
   }
 
@@ -2166,7 +2232,7 @@ document.addEventListener("click", e => {
       /* 「上次读到」跟着换文：旧篇位置已在离开时落盘，这里重置到新篇开头 */
       S.lastRead = { id: nx.id, y: 0, pct: 0, at: Date.now() }; save();
       resumeAnchor = null;   // 新篇从开头读：不能把上一篇的句子锚点套到这篇的正文上
-      view = { name: "read" }; render();
+      view = { name: "read" }; syncReadUrl(nx.id); render();
       toast(`下一篇 · ${nx.cat}｜${(nx.titleZh || nx.title).slice(0, 14)}…`);
       break;
     }
@@ -2359,9 +2425,25 @@ document.addEventListener("keydown", e => {
     const v = p.get("v");
     if (v === "discover") view = { name: "discover" };
     else if (v === "read") {
+      const rawId = p.get("id");
       const idx = +(p.get("a") || 0);
-      activeArticle = ARTICLES[idx] || ARTICLES[0];
-      view = { name: "read" };
+      const candidate = rawId ? ARTICLES.find(a => a.id === rawId) : (ARTICLES[idx] || ARTICLES[0]);
+      if (!candidate) {
+        activeArticle = null;
+        view = { name: "discover" };
+      } else {
+        activeArticle = candidate;
+        view = { name: "read" };
+        touchReadHistory(activeArticle.id);
+        const savedPos = (S.readPos || {})[activeArticle.id];
+        resumeY = (savedPos && Number.isFinite(Number(savedPos.y))) ? Number(savedPos.y) : 0;
+        resumeAnchor = (savedPos && Number.isFinite(savedPos.pi))
+          ? { pi: savedPos.pi, si: savedPos.si || 0, off: savedPos.off || 0 } : null;
+        const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
+        S.lastRead = { id: activeArticle.id, y: resumeY, pct: savedPct, at: Date.now() };
+        save();
+        syncReadUrl(activeArticle.id);
+      }
     } else if (v === "me") view = { name: "me" };
     const c = p.get("cat");
     if (c && CATEGORIES.includes(c)) catFilter = c;
@@ -2397,7 +2479,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v43");
+      const cache = await caches.open("wordlens-cache-v50");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

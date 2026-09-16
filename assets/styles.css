@@ -240,6 +240,8 @@ body {
 .chip {
   display: inline-flex;
   align-items: center;
+  flex: none;
+  white-space: nowrap;
   padding: 6px 10px;
   border-radius: 999px;
   background: var(--brand-soft);
@@ -558,6 +560,7 @@ body {
   display: flex; flex-direction: column; gap: 12px;
 }
 .read-hero .pills { display: flex; gap: 8px; }
+.read-hero .pills > * { flex: none; white-space: nowrap; }
 .read-hero h1.title {
   font-family: var(--font-en);
   font-size: 24px; font-weight: 700; line-height: 32px;
@@ -573,6 +576,7 @@ body {
 }
 .read-hero .byline {
   display: flex; gap: 8px; align-items: center;
+  flex-wrap: wrap;
   font-size: 12px; color: var(--text-3);
 }
 .read-hero .byline .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); }
@@ -625,6 +629,7 @@ body {
 }
 .read-finish .st-chip {
   display: inline-flex; align-items: center; gap: 4px;
+  white-space: nowrap;
   font-size: 11px; color: var(--text-2);
   background: rgba(255,255,255,.78); border: 1px solid var(--brand-soft);
   padding: 4px 10px; border-radius: 999px;
@@ -1111,6 +1116,24 @@ body {
   .example-box { padding: 10px; gap: 5px; }
   .example-box .en { font-size: 12.5px; line-height: 19px; }
   .example-box .cn { font-size: 12px; line-height: 18px; }
+}
+
+/* 宽屏不再把内容锁在 390px 手机壳里：保留圆角作为预览容器，正文限制阅读行长，
+   让 1280px 桌面有真正可读的版心；移动端规则仍由上面的媒体查询接管。 */
+@media (min-width: 900px) {
+  body { padding: 36px clamp(24px, 5vw, 80px); align-items: flex-start; }
+  .phone {
+    width: min(1080px, 100%);
+    height: min(900px, calc(100vh - 72px));
+    border-radius: 26px;
+    box-shadow: 0 28px 70px -24px rgba(20, 22, 60, .42), 0 0 0 6px #171724;
+  }
+  .screen > .view { width: 100%; max-width: 1040px; align-self: center; }
+  .read-hero, .read-body, .read-finish { width: 100%; max-width: 860px; align-self: center; }
+  .read-body { padding-left: 42px; padding-right: 42px; }
+  .read-hero { padding-left: 42px; padding-right: 42px; }
+  .read-cover { max-width: 860px; }
+  .cats, .cats-wrap { max-width: 100%; }
 }
 
 /* ---------- 阅读页：护眼 / 夜间主题（只染阅读页） ---------- */
