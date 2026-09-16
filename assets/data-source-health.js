@@ -7,12 +7,12 @@ const DATA_SOURCE_HEALTH = {
   "Sky Sports": {
     "url": "https://www.skysports.com/rss/11095",
     "rss": {
-      "ok": true,
-      "lastStatus": 200,
-      "lastLatencyMs": 2990,
-      "lastAt": "2026-09-16T06:32:17.262Z",
-      "consecutiveFailures": 0,
-      "consecutiveSuccesses": 5,
+      "ok": false,
+      "lastStatus": 0,
+      "lastLatencyMs": 2,
+      "lastAt": "2026-09-16T11:56:18.039Z",
+      "consecutiveFailures": 1,
+      "consecutiveSuccesses": 0,
       "disabled": false
     },
     "article": {
@@ -33,17 +33,17 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-16T06:32:48.107Z"
+    "updatedAt": "2026-09-16T11:56:18.039Z"
   },
   "FourFourTwo": {
     "url": "https://www.fourfourtwo.com/feeds.xml",
     "rss": {
-      "ok": true,
-      "lastStatus": 200,
-      "lastLatencyMs": 21701,
-      "lastAt": "2026-09-16T06:32:38.994Z",
-      "consecutiveFailures": 0,
-      "consecutiveSuccesses": 3,
+      "ok": false,
+      "lastStatus": 0,
+      "lastLatencyMs": 3,
+      "lastAt": "2026-09-16T11:56:22.126Z",
+      "consecutiveFailures": 1,
+      "consecutiveSuccesses": 0,
       "disabled": false
     },
     "article": {
@@ -64,7 +64,7 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 5,
       "disabled": false
     },
-    "updatedAt": "2026-09-16T06:35:09.608Z"
+    "updatedAt": "2026-09-16T11:56:22.126Z"
   },
   "Opta Analyst": {
     "url": "https://theanalyst.com/feed",
