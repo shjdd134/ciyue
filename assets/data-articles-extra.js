@@ -1,6 +1,6 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 10 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 11 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue
  *
@@ -8055,6 +8055,1593 @@ const ARTICLES_EXTRA = [
             "cn": "将循证策略应用到日常生活中，开展自己的微型实验，并与其他充满好奇心的人交流。"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "gr-how-to-fix-your-entire-life-in-1-day",
+    "cat": "成长",
+    "title": "How to fix your entire life in 1 day",
+    "titleZh": "如何在一天内彻底改变你的人生",
+    "source": "Dan Koe · 2025-12-23",
+    "date": "2025-12-23",
+    "minutes": 36,
+    "url": "https://letters.thedankoe.com/p/how-to-fix-your-entire-life-in-1",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day.jpg",
+    "paras": [
+      {
+        "en": "You’re probably going to quit your new years resolution.",
+        "cn": "你很可能最终会放弃你的新年决心。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Most people do (studies show 80-90% failure rates) because most people don’t actually want to change on a deep, internal level.",
+            "cn": "大多数人确实如此（研究表明失败率在80%至90%之间），因为大多数人实际上并不想在内心深处真正做出改变。"
+          },
+          {
+            "en": "That is, they go about changing their life in the completely wrong way.",
+            "cn": "也就是说，他们改变生活的方式完全错了。"
+          },
+          {
+            "en": "They create a new years resolution because everyone else does – humans want to impress others more than they want to impress themselves...",
+            "cn": "他们制定新年计划，只是因为其他人都在这么做——人类想要给别人留下好印象，远胜于想要让自己满意……"
+          },
+          {
+            "en": "we create a superficial meaning out of status games – but they don’t meet the requirements for true change, which goes a lot deeper than convincing yourself you’re going to be more disciplined or productive this year.",
+            "cn": "我们从“地位游戏”中创造出一种肤浅的意义——但这些并不能满足真正改变的要求，真正的改变远比说服自己“今年要更有纪律性或更高效”要深得多。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’m not here to talk down on you.",
+            "cn": "我来这里不是为了贬低你。"
+          },
+          {
+            "en": "I’ve quit 10 times more goals than I’ve set.",
+            "cn": "我放弃的目标数量是我设定目标数量的10倍。"
+          },
+          {
+            "en": "I think that should be the case for most people.",
+            "cn": "我认为对大多数人来说应该就是这样。"
+          },
+          {
+            "en": "But the fact that people try to change their lives and utterly fail almost every time holds true.",
+            "cn": "但人们试图改变生活却几乎每次都彻底失败这一事实，确实如此。"
+          },
+          {
+            "en": "So much so that it’s a meme for the gym to be crowded during January and return back to normal in February.",
+            "cn": "甚至已经形成了一种网络梗：一月份健身房总是人满为患，到了二月份又恢复如常。"
+          }
+        ]
+      },
+      {
+        "en": "However, as much as I think new years resolutions are stupid, it’s always wise to reflect on the life you hate so you can launch yourself toward something that much better, as we will discuss.",
+        "cn": "不过，尽管我觉得新年决心很蠢，但正如我们将要讨论的那样，反思自己讨厌的生活总是明智之举，这样你才能朝着更美好的未来迈进。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Human nature is a b*tch, and the worst feeling is when you make a promise to yourself and can’t help but break it.",
+            "cn": "人性真是个婊子，最糟糕的感觉莫过于对自己许下承诺，却又情不自禁地违背了它。"
+          },
+          {
+            "en": "You start to feel helpless, and if you don’t know what you’re doing, you may continue the cycle for years on end: always wanting to change, but never being able to.",
+            "cn": "你会开始感到无助，如果不知道该怎么做，这种循环可能会持续好几年：总是想改变，却始终无法做到。"
+          }
+        ]
+      },
+      {
+        "en": "So whether you want to start the business, transform your body, or take the risk toward a more meaningful life without quitting after 2 weeks, I want to share 7 ideas you probably haven’t heard before on behavior change, psychology, and productivity so you can do just that in 2026.",
+        "cn": "因此，无论你是想创业、塑造身材，还是愿意冒险追求更有意义的生活（而不是两周后就半途而废），我都想与你分享7个关于行为改变、心理学和效率提升的见解——这些内容你可能从未听过——希望你能借此在2026年实现这些目标。"
+      },
+      {
+        "en": "This isn’t one of those letters that you read through and forget about.",
+        "cn": "这可不是那种读完就忘的信。"
+      },
+      {
+        "en": "This is something you will want to bookmark, take notes on, and set aside time to think about.",
+        "cn": "这篇文章值得你收藏、做笔记，并专门抽出时间来思考。"
+      },
+      {
+        "en": "The protocol at the end – to dig deep into your psyche and uncover what you truly want in life – will take about a full day to complete, with effects that last far longer than that.",
+        "cn": "文末介绍的这个流程——深入探索你的内心，发掘你对人生的真正渴望——大约需要一整天的时间来完成，而其效果将远不止于此。"
+      },
+      {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-1.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "All I ask is that you dedicate your full attention to this.",
+            "cn": "我只希望你能全神贯注地做这件事。"
+          },
+          {
+            "en": "If you get bored skip to the next section and go back to fill in the blanks if you need to.",
+            "cn": "如果你觉得无聊，可以跳到下一节，如有需要，再回来填空。"
+          }
+        ]
+      },
+      {
+        "en": "I – You aren’t where you want to be because you aren’t the person who would be there",
+        "cn": "I——你之所以没能达到理想的状态，是因为你还不是那个能达到理想状态的人"
+      },
+      {
+        "en": "When it comes to New Year’s resolutions, people only focus on one of the two requirements for success:",
+        "cn": "说到新年决心，人们往往只关注成功所需的两个条件中的一个："
+      },
+      {
+        "en": "Changing your actions to make progress toward the goal (least important, second order)",
+        "cn": "改变你的行为，以朝目标推进（最不重要，第二序）"
+      },
+      {
+        "en": "Changing who you are so that your behavior naturally follows (most important, first order)",
+        "cn": "改变你是什么样的人，让行为自然而然地随之改变（最重要，第一序）"
+      },
+      {
+        "en": "Most people set a surface-level goal, hype themselves up to remain disciplined for the first few weeks, then go back to their old ways without much struggle, because they were trying to build a great life on a rotting foundation.",
+        "cn": "大多数人只会设定一个肤浅的目标，在前几周靠自我激励来保持自律，随后便毫不费力地故态复萌，因为他们试图在腐朽的地基上建造美好的人生。"
+      },
+      {
+        "en": "If this doesn’t make sense, let’s run through an example.",
+        "cn": "如果这听起来不太通顺，让我们通过一个例子来解释一下。"
+      },
+      {
+        "en": "It can be a bodybuilder with a great physique, a founder/CEO worth hundreds of millions, or a charismatic dude who can chat up a group without a shred of anxiety entering his mind space.",
+        "cn": "他可能是身材健美的健美运动员，身家数亿的创始人/CEO，也可能是那位能从容不迫地与一群人畅谈、心中毫无焦虑的魅力型人物。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Do you think the bodybuilder has to “grind” to eat healthy?",
+            "cn": "你认为健美运动员必须“拼命努力”才能吃得健康吗？"
+          },
+          {
+            "en": "Does the CEO have to discipline themselves to show up and lead the team?",
+            "cn": "首席执行官是否必须严格要求自己，坚持到岗并领导团队？"
+          },
+          {
+            "en": "To you, it may seem like that on the surface, but the truth is that they can’t see themselves living any other way.",
+            "cn": "在你看来，表面上或许是这样，但事实是，他们无法想象自己过着其他样子的生活。"
+          },
+          {
+            "en": "The bodybuilder has to grind to eat unhealthily.",
+            "cn": "而健美运动员要吃不健康的东西，反倒得硬撑着。"
+          },
+          {
+            "en": "The CEO has to force themself to lie in bed past their alarm clock, and they hate every second of it.",
+            "cn": "这位首席执行官不得不强迫自己躺在床上，直到闹钟响了之后，而他讨厌这每一秒。"
+          }
+        ]
+      },
+      {
+        "en": "To some people, my own lifestyle seems a bit extreme and disciplined.",
+        "cn": "在某些人眼里，我的生活方式似乎有些极端且纪律严明。"
+      },
+      {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-2.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "To me, it’s natural, and I don’t say that to contrast it with any other kind of lifestyle.",
+            "cn": "对我来说，这是很自然的事，我这么说并不是为了把它与任何其他生活方式加以对比。"
+          },
+          {
+            "en": "I simply enjoy living this way.",
+            "cn": "我就是喜欢这种生活方式。"
+          },
+          {
+            "en": "When my mom tells me that I should take a break, go out, and have some fun...",
+            "cn": "每当我妈妈告诉我，我应该休息一下，出去走走，放松一下……"
+          },
+          {
+            "en": "I hold my tongue from telling her, “If I weren’t having fun, why would I be doing what I’m doing?”",
+            "cn": "我忍住了没对她说：“如果我不觉得开心，我为什么要这么做呢？”"
+          }
+        ]
+      },
+      {
+        "en": "Do not take this next sentence lightly.",
+        "cn": "请不要轻视接下来这句话。"
+      },
+      {
+        "en": "If you want a specific outcome in life, you must have the lifestyle that creates that outcome long before you reach it.",
+        "cn": "如果你想在生活中获得特定的结果，就必须在达到那个结果之前很久，就养成能够带来这种结果的生活方式。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "If someone says they want to lose 30 pounds, I often don’t believe them.",
+            "cn": "如果有人说想减掉30磅，我通常不会相信。"
+          },
+          {
+            "en": "Not because I don’t think they are capable, but because there are too many times when that same person says “they can’t wait until they’re done losing weight so they can start to enjoy life again.” I hate to break it to you, but if you don’t adopt the lifestyle that led to you losing the weight, for life,",
+            "cn": "并不是因为我觉得他们做不到，而是因为有太多时候，同一个人会说：“真盼着能早点瘦下来，这样就能重新开始享受生活了。”虽然我不想让你失望，但如果你不终身坚持那种让你成功减重的生活方式，"
+          },
+          {
+            "en": "and find a reason with a higher gravitational pull than the one tying you to your previous ways, then you will go straight back to where you started, and you can unhappily say that you wasted the resource you will never get back: time.",
+            "cn": "而且如果你找不到一个理由，其吸引力比将你束缚在旧习惯中的那种更强，那么你就会直接回到原点，届时你只能遗憾地承认，自己浪费了永远无法挽回的资源：时间。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When you truly change yourself, all of your habits that don’t move the needle toward your goal become disgusting, because you have a deep and profound awareness of what kind of life those actions compound into.",
+            "cn": "当你真正改变自己时，所有无法推动你向目标迈进的习惯都会让你感到厌恶，因为你深刻而透彻地意识到，这些行为日积月累会造就怎样的生活。"
+          },
+          {
+            "en": "You are okay with your current standards because you are not fully aware of what they are or what they lead to.",
+            "cn": "你之所以能接受自己目前的标准，是因为你并没有完全意识到这些标准究竟是什么，以及它们会带来什么后果。"
+          },
+          {
+            "en": "We will discuss how to uncover this, but we need to build up to that.",
+            "cn": "我们将讨论如何查明这一点，但需要先逐步铺垫。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You say you want to “become financially free” and “get healthy,” but your actions show otherwise for a reason.",
+            "cn": "你说你想“实现财务自由”和“保持健康”，但你的行为却表明事实并非如此，这自有其原因。"
+          },
+          {
+            "en": "And it goes a lot deeper than you think.",
+            "cn": "而且，这远比你想象的要深得多。"
+          }
+        ]
+      },
+      {
+        "en": "II – You aren’t where you want to be because you don’t want to be there",
+        "cn": "II——你之所以没能到达理想的位置，是因为你根本不想去那里"
+      },
+      {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-3.jpg",
+        "cap": ""
+      },
+      {
+        "en": "Life happens at the level of events, not of words.",
+        "cn": "生活发生在事件层面，而非言语层面。"
+      },
+      {
+        "en": "If you want to change who you are, you must understand how the mind works so that you can start to reprogram it.",
+        "cn": "如果你想改变自己，就必须了解心智的运作方式，这样才能开始对它重新编程。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The first step to understanding the mind is to understand that all behavior is goal-oriented.",
+            "cn": "理解心智的第一步，是认识到所有行为都是目标导向的。"
+          },
+          {
+            "en": "When you think about it, this is kinda obvious, but when we dig into it, most people don’t want to hear it.",
+            "cn": "仔细想想，这其实挺显而易见的，但一旦深入探讨，大多数人却不愿听。"
+          }
+        ]
+      },
+      {
+        "en": "You take a step forward because you want to reach a certain location.",
+        "cn": "你迈出一步，是因为你想抵达某个地方。"
+      },
+      {
+        "en": "You scratch your nose because you want to make the itch go away.",
+        "cn": "你挠鼻子，是因为你想让那股痒感消失。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Those ones are clear, but most of the time, your goals are unconscious.",
+            "cn": "这些目标很明确，但大多数时候，你的目标是潜意识的。"
+          },
+          {
+            "en": "You may not realize that when you sit on the couch in the middle of the day, you are trying to burn time before your next responsibility, as one simple example.",
+            "cn": "你可能没有意识到——举个简单的例子——当你在白天坐在沙发上时，其实是在消磨时间，等着下一件事到来。"
+          }
+        ]
+      },
+      {
+        "en": "On an even more unconscious and complex level, you pursue goals that can harm you, but you justify your actions in a way that is socially acceptable and doesn’t make you seem like a loser.",
+        "cn": "在更深层、更复杂的潜意识层面，你会追求那些可能伤害自己的目标，但你会以一种社会上能被接受、且不会让你显得像个失败者的方式来为自己的行为辩解。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "As an example, if you can’t stop procrastinating your work, you may justify it with the fact that you “lack discipline,” but in reality, you are attempting to achieve a goal like you always are.",
+            "cn": "举个例子，如果你总是拖延工作，可能会以“缺乏自律”为借口来为自己开脱，但实际上，你和往常一样，仍在努力实现某个目标。"
+          },
+          {
+            "en": "In this case, that goal could be to protect yourself from the judgment that comes from finishing and sharing your work.",
+            "cn": "在这种情况下，这个目标可能是为了避免因完成并分享自己的作品而招致的评判。"
+          }
+        ]
+      },
+      {
+        "en": "If you say you want to quit your dead-end job, but stay in it without any real reason, you may start to think you don’t have enough courage, or that you were never really a “risk taker,” but the truth is that you are pursuing the goal of safety, predictability, and an excuse to not look like a failure to everyone else in your life who also works a dead-end job.",
+        "cn": "如果你嘴上说想辞掉这份死胡同般的工作，却又在没有正当理由的情况下继续留任，你可能会开始认为自己不够勇敢，或者觉得自己从来就不是一个“敢于冒险的人”，但事实是，你追求的不过是安全感、可预测性，以及一个借口——这样在生活中那些同样从事死胡同工作的人眼中，你就不会显得像个失败者。"
+      },
+      {
+        "en": "The lesson here is that real change requires changing your goals.",
+        "cn": "这里要汲取的教训是：真正的改变需要改变你的目标。"
+      },
+      {
+        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-4.jpg",
+        "cap": ""
+      },
+      {
+        "sentences": [
+          {
+            "en": "I don’t mean setting some surface level goal because the act of doing that serves an unconscious goal that is actually harming you.",
+            "cn": "我并不是说要设定一些肤浅的目标，因为这样做实际上是在为一个潜意识中的目标服务，而这个目标反而会伤害你。"
+          },
+          {
+            "en": "That’s been ran through enough in the productivity space.",
+            "cn": "在生产力领域，这一点已经被讨论得够多了。"
+          },
+          {
+            "en": "I mean changing your point of view.",
+            "cn": "我的意思是改变你的观点。"
+          },
+          {
+            "en": "A goal is a projection into the future that acts as a lens of perception which allows you to notice information, ideas, and resources that aid in you achieving that goal.",
+            "cn": "目标是对未来的展望，它如同一个认知的透镜，让你能够注意到有助于实现该目标的信息、想法和资源。"
+          }
+        ]
+      },
+      {
+        "en": "Now let’s dig a bit deeper, because if you don’t understand this, it only becomes more difficult to get out.",
+        "cn": "现在让我们深入探讨一下，因为如果你不理解这一点，想要摆脱困境只会变得更加困难。"
+      },
+      {
+        "en": "III – You aren’t where you want to be because you’re afraid to be there",
+        "cn": "III——你之所以没能到达理想之地，是因为你害怕抵达那里"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The important thing for you to remember is that it does not matter in the least how you got the idea or where it came from.",
+            "cn": "你需要记住的一点是，这个想法是如何产生的、从哪里来的，这些都完全不重要。"
+          },
+          {
+            "en": "You may never have met a professional hypnotist.",
+            "cn": "你可能从未见过专业的催眠师。"
+          },
+          {
+            "en": "You may never have been formally hypnotized.",
+            "cn": "你可能从未接受过正式的催眠。"
+          },
+          {
+            "en": "But if you have accepted an idea - from yourself, your teachers, your parents, friends, advertisements, from any other source - and further, if you are firmly convinced that idea is true, it has the same power over you as the hypnotist’s words have over the hypnotized subject.",
+            "cn": "但是，如果你已经接受了一个观念——无论这个观念来自你自己、老师、父母、朋友、广告，还是其他任何来源——而且，如果你坚信这个观念是正确的，那么它对你的影响力，就如同催眠师的话语对被催眠者所产生的影响一样。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Here’s how you’ve become who you are today, and how you will become who you will be tomorrow.",
+            "cn": "这就是你如何成为今天的自己，以及你将如何成为明天的自己。"
+          },
+          {
+            "en": "This is the anatomy of identity:",
+            "cn": "这就是身份的构成："
+          }
+        ]
+      },
+      {
+        "en": "You perceive reality through the lens of that goal",
+        "cn": "你通过那个目标的视角来感知现实"
+      },
+      {
+        "en": "You only notice “important” information and ideas that allows you to achieve that goal (learning)",
+        "cn": "你只会注意到那些能帮助你实现该目标（学习）的“重要”信息和观点。"
+      },
+      {
+        "en": "You act toward that goal and receive feedback that you are progressing toward it",
+        "cn": "你朝着这个目标采取行动，并收到反馈，得知自己正在朝着该目标迈进"
+      },
+      {
+        "en": "You repeat that behavior until it becomes automatic and unconscious (conditioning)",
+        "cn": "你不断重复这种行为，直到它成为一种自动且无意识的反应（条件反射）"
+      },
+      {
+        "en": "That behavior becomes a part of who you think you are (”I am the type of person who...”)",
+        "cn": "这种行为会成为你自我认知的一部分（“我就是那种……的人”）。"
+      },
+      {
+        "en": "You defend your identity to maintain psychological consistency",
+        "cn": "你捍卫自己的身份认同，是为了维持心理的一致性"
+      },
+      {
+        "en": "Your identity shapes new goals, restarting the cycle, and if that identity is disadvantageous toward a good life, this gets bad very quick",
+        "cn": "你的身份会塑造新的目标，从而重新启动这一循环；如果这种身份不利于过上美好生活，情况就会很快变得糟糕。"
+      },
+      {
+        "en": "The unfortunate reality is that you must break the cycle between steps 6 and 7, but this process starts when you are a child.",
+        "cn": "不幸的是，现实情况是，你必须打破第6步和第7步之间的循环，但这个过程早在你还是孩子的时候就已经开始了。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You are dependent on your parents to teach you how to survive.",
+            "cn": "你依赖父母教你如何生存。"
+          },
+          {
+            "en": "And since the way most people teach is through reward and punishment, unless you adopt their beliefs and values, you will be punished.",
+            "cn": "而且，由于大多数人都是通过奖惩的方式来教育他人的，因此，除非你接受他们的信念和价值观，否则就会受到惩罚。"
+          },
+          {
+            "en": "You don’t actually think for yourself until you see through this.",
+            "cn": "除非看透这一点，否则你其实并没有真正独立思考。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But your parents have also gone through this process throughout their entire lives.",
+            "cn": "但你的父母也一直在这一过程中度过他们的一生。"
+          },
+          {
+            "en": "That’s where it can get dangerous.",
+            "cn": "这正是危险所在。"
+          },
+          {
+            "en": "Your parents, unless they broke the pattern themselves, were conditioned by the culturally accepted ideas of success from the Industrial age.",
+            "cn": "你的父母——除非他们自己打破了这种模式——否则都受工业时代那些被文化认可的成功观念所塑造。"
+          },
+          {
+            "en": "They also carry the best and worst conditioning from their parents and their parents’ parents.",
+            "cn": "他们还背负着来自父母乃至祖父母的最好与最坏的条件反射。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "To take it a layer deeper, once you fulfill your physical survival needs (which is quite easy to do in today’s world, you’re practically born into safety), you start to survive on the conceptual or ideological level.",
+            "cn": "再深入一层来看，一旦满足了生理上的生存需求（在当今世界，这相当容易，你几乎是从安全环境中出生的），你就开始在概念或意识形态层面寻求生存了。"
+          },
+          {
+            "en": "You may not try to protect and reproduce your body, but you absolutely protect and reproduce your mind.",
+            "cn": "你或许不会试图保护和延续自己的身体，但你绝对会保护和延续自己的心灵。"
+          },
+          {
+            "en": "It’s not difficult to see the war of ideas on the internet, and the participants are individual and group identities.",
+            "cn": "在互联网上，不难看到一场思想之战，而参与者则是个人和群体的身份认同。"
+          }
+        ]
+      },
+      {
+        "en": "When your body feels threatened, you go into fight or flight.",
+        "cn": "当你的身体感到受到威胁时，你会进入“战斗或逃跑”状态。"
+      },
+      {
+        "en": "When your identity feels threatened, the same thing happens.",
+        "cn": "当你的身份认同感到受到威胁时，同样的情况也会发生。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you are heavily identified with a political ideology (by the process we talked about just before), you will feel threatened when someone challenges your beliefs.",
+            "cn": "如果你（通过我们刚才讨论过的过程）对某种政治意识形态产生了强烈的认同感，那么当有人质疑你的信念时，你就会感到受到威胁。"
+          },
+          {
+            "en": "You feel, emotionally, like you were just slapped in the face.",
+            "cn": "从情感上来说，你感觉就像刚被人扇了一巴掌。"
+          },
+          {
+            "en": "Since most people don’t analyze their emotions for truth, you tend to get stuck in echo chambers and double down on claims that harm yourself and others.",
+            "cn": "由于大多数人不会深入剖析自己的情绪以探求真相，因此人们往往会陷入“回音室”，并愈发坚持那些既伤害自己又伤害他人的说法。"
+          }
+        ]
+      },
+      {
+        "en": "If you were raised in a religious household, and did not think for yourself, you will fight and attack others who threaten your psychological safety within that little bubble.",
+        "cn": "如果你是在一个虔诚的宗教家庭中长大的，且从未独立思考过，那么当有人威胁到你在那个小圈子里的心理安全时，你就会与之对抗并攻击对方。"
+      },
+      {
+        "en": "The same thing happens when you unconsciously see yourself as a lawyer, a gamer, or somebody else who would not take the actions to achieve a better life.",
+        "cn": "当你下意识地把自己看作一名律师、一名游戏玩家，或是其他不会采取行动来改善生活的人时，也会发生同样的情况。"
+      },
+      {
+        "en": "IV – The life you want lies within a specific level of mind",
+        "cn": "IV——你所向往的生活，存在于特定的心智层级之中"
+      },
+      {
+        "en": "The mind evolves through predictable stages over time.",
+        "cn": "随着时间的推移，思维会经历可预测的阶段而不断演进。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "When you’re born, you’re like a little survival sponge that absorbs whatever beliefs you can (which are heavily dictated by your culture) so that you can feel safe and secure.",
+            "cn": "人一出生，就像一块小小的“生存海绵”，会尽可能地吸收各种信念（这些信念在很大程度上受文化影响），以此获得安全感。"
+          },
+          {
+            "en": "And if you don’t be careful, your mind may crystalize and it may make it difficult to live a meaningful life.",
+            "cn": "而且，如果你不留心，你的心智可能会固化，让你难以过上有意义的生活。"
+          }
+        ]
+      },
+      {
+        "en": "This has been documented enough in models like Maslow’s Hierarchy, Greuter’s stages of ego development, and Spiral Dynamics, each building off of one another, but it’s also not difficult to observe in society.",
+        "cn": "马斯洛需求层次理论、格鲁特自我发展阶段理论以及螺旋动力学等模型对此已有充分论述，这些理论彼此相互承前启后，但在社会中也不难观察到这种现象。"
+      },
+      {
+        "en": "I’ve talked about these many times, and synthesized them into my own Human 3.0 model, but here’s the 80/20 of the 9 stages of ego development as a refresher (because repetition helps reveal things you didn’t notice before, and there are new people reading these letters):",
+        "cn": "我曾多次谈及这些内容，并将其整合到我自己的“人类3.0”模型中，但为了让大家温故知新，这里简要概述一下自我发展九个阶段中的80/20原则（因为重复有助于发现之前未曾注意到的细节，而且也有新读者在阅读这些信件）："
+      },
+      {
+        "sentences": [
+          {
+            "en": "Impulsive — No separation between impulse and action.",
+            "cn": "冲动——冲动与行动之间没有界限。"
+          },
+          {
+            "en": "A toddler hits when angry because the feeling and the behavior are the same thing.",
+            "cn": "幼儿生气时会打人，因为这种情绪和这种行为本质上是同一回事。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Self-Protective — The world is dangerous and you learn to look out for yourself.",
+            "cn": "自我保护——这个世界充满危险，你学会了保护自己。"
+          },
+          {
+            "en": "A kid learns to hide report cards, lie about chores, and figure out what adults want to hear.",
+            "cn": "一个孩子学会了藏起成绩单、撒谎说自己做了家务，以及揣摩大人想听什么。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Conformist — You are your group and its rules feel like reality itself.",
+            "cn": "顺从者——你就是你所在的群体，而该群体的规则在你看来就是现实本身。"
+          },
+          {
+            "en": "Someone who genuinely cannot fathom why anyone would vote differently than their family or group.",
+            "cn": "指那些真心无法理解，为什么有人会投出与自己的家人或群体不同的票的人。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Self-Aware — You notice you have an inner life that doesn’t match the exterior.",
+            "cn": "自我觉察——你意识到自己的内心世界与外表并不一致。"
+          },
+          {
+            "en": "Sitting in church and realizing you’re not sure you believe what everyone around you seems to believe, but not knowing what to do with that feeling yet.",
+            "cn": "坐在教堂里，突然意识到自己并不确定是否相信周围每个人似乎都相信的东西，却又不知道该如何面对这种感觉。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Conscientious — You build your own system of principles and hold yourself accountable to them.",
+            "cn": "尽责——你建立起自己的一套原则体系，并恪守这些原则。"
+          },
+          {
+            "en": "Leaving your family’s religion after careful study and adopting a personal philosophy you can defend, or building a career plan with clear milestones because you believe the right effort yields the right results.",
+            "cn": "经过深思熟虑后，放弃家族的宗教信仰，转而接受一种自己能够捍卫的个人哲学；或者制定一份包含明确里程碑的职业规划，因为你相信付出应有的努力就会收获相应的成果。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Individualist — You see that your principles were shaped by context and start holding them more loosely.",
+            "cn": "个人主义者——你意识到自己的原则是由具体情境所塑造的，于是开始对这些原则持更开放的态度。"
+          },
+          {
+            "en": "Realizing your political views have more to do with where you grew up than objective truth, or noticing that your ambitious career goals were really about earning your father’s approval.",
+            "cn": "意识到自己的政治观点更多取决于成长环境，而非客观真理；或者发现自己那些雄心勃勃的职业目标，其实只是为了赢得父亲的认可。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Strategist — You work with systems while aware of your own involvement in them.",
+            "cn": "战略家——你在与系统打交道的同时，也意识到自己身处其中。"
+          },
+          {
+            "en": "Leading an organization while actively questioning your own blind spots, or engaging in politics knowing your perspective is partial and shaped by bias you can’t fully see.",
+            "cn": "在领导一个组织的同时，积极审视自身的盲点；或者在参与政治活动时，明知自己的视角存在偏颇，且受到自己无法完全察觉的偏见所影响。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Construct-Aware — You see all frameworks, including your identity, as useful fictions.",
+            "cn": "构造觉知——你将所有框架，包括你的身份认同，都视为有用的虚构。"
+          },
+          {
+            "en": "Holding your spiritual beliefs with metaphorically not literally, knowing the map is not the territory, or watching yourself play the role of “founder” or “thought leader” with a kind of gentle amusement.",
+            "cn": "以比喻而非字面意义来对待自己的精神信仰，明白“地图并非领土”，或者带着一种温和的幽默感，观察自己扮演“创始人”或“思想领袖”的角色。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Unitive — Separation between self and life dissolves.",
+            "cn": "合一——自我与生命之间的隔阂消融。"
+          },
+          {
+            "en": "Work, rest, and play feel like the same thing.",
+            "cn": "工作、休息和娱乐感觉都是一回事。"
+          },
+          {
+            "en": "There’s no one left who needs to become something, just presence responding to what arises.",
+            "cn": "已经没有人需要成为什么了，只有当下的存在，对所生起的一切作出回应。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "For most people reading this, I would assume you hover between 4 and 8, which is a huge gap.",
+            "cn": "对于正在阅读本文的大多数人来说，我猜你们大致处在第 4 到第 8 阶段之间，这中间的跨度可不小。"
+          },
+          {
+            "en": "Those closer to 8 are reading this are doing so to either learn something or pass time.",
+            "cn": "那些接近第 8 阶段、正在阅读本文的人，要么是为了学点东西，要么是为了打发时间。"
+          },
+          {
+            "en": "Those closer to 4 are really looking for a change.",
+            "cn": "那些更接近第 4 阶段的人，才是在真正寻求改变。"
+          },
+          {
+            "en": "You feel like you are meant for more, but you can’t make sense of everything yet, because there’s obviously a lot at play.",
+            "cn": "你觉得自己注定能成就更大的事业，但目前还无法理清头绪，因为显然有太多因素在起作用。"
+          }
+        ]
+      },
+      {
+        "en": "The good thing is, it doesn’t really matter what stage you are in, because moving through any of them follows a pattern.",
+        "cn": "好在，无论你处于哪个阶段其实都无所谓，因为跨越任何一个阶段都遵循着一种规律。"
+      },
+      {
+        "en": "V – Intelligence is the ability to get what you want out of life",
+        "cn": "V——智慧就是从生活中获得你想要的东西的能力"
+      },
+      {
+        "en": "The only real test of intelligence is if you get what you want out of life.",
+        "cn": "衡量智力的唯一真正标准，在于你能否从生活中获得自己想要的东西。"
+      },
+      {
+        "en": "There is a formula for success.",
+        "cn": "成功是有公式可循的。"
+      },
+      {
+        "en": "One ingredient is opportunity (which many people like to mistake as “privilege” - because they the other ingredients).",
+        "cn": "其中一个要素是机会（许多人常将其误认为“特权”——因为他们缺乏其他要素）。"
+      },
+      {
+        "en": "The last ingredient is intelligence.",
+        "cn": "最后一个要素就是“智慧”。"
+      },
+      {
+        "en": "If you have high agency but low opportunity, it doesn’t matter how likely you are to act toward a goal, because it isn’t a goal that will bear much fruit.",
+        "cn": "如果你拥有高能动性却机会稀少，那么你为实现目标采取行动的可能性有多大并不重要，因为那并不是一个能结出多少果实的目标。"
+      },
+      {
+        "en": "If you have opportunity and agency but low intelligence, then you will never be fully able to benefit from that opportunity.",
+        "cn": "如果你既有机会也有能动性，但智慧不足，那么你就永远无法充分利用那份机会。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "First, we’ve talked about agency before here.",
+            "cn": "首先，我们之前在这里已经讨论过“能动性”这一概念。"
+          },
+          {
+            "en": "In terms of opportunity, I can’t tell you to change your physical location, but if you don’t see the abundance of digital opportunity right in front of you, I don’t know what to tell you.",
+            "cn": "说到机遇，我不能建议你改变地理位置，但如果你连眼前这些数不胜数的数字化机遇都视而不见，那我真不知道该怎么跟你说才好了。"
+          }
+        ]
+      },
+      {
+        "en": "With that said, I want to focus on what intelligence is in the context of these two other ingredients and this letter.",
+        "cn": "话虽如此，我想重点探讨一下，在其他这两个要素以及这封信的语境下，“智慧”究竟意味着什么。"
+      },
+      {
+        "en": "Cybernetics comes from the greek word kybernetikos which means “to steer” or “good at steering.”",
+        "cn": "控制论源自希腊语单词“kybernetikos”，意为“掌舵”或“擅长掌舵”。"
+      },
+      {
+        "en": "It’s also known as “the art of getting what you want.”",
+        "cn": "它也被称为“获得所求之物的艺术”。"
+      },
+      {
+        "en": "So, if Naval’s definition of intelligence is getting what you want out of life, understanding cybernetics helps you do that much faster.",
+        "cn": "因此，如果纳瓦尔对智慧的定义就是从生活中获得你想要的东西，那么了解控制论能帮你更快地做到这一点。"
+      },
+      {
+        "en": "Cybernetics illustrates the properties of intelligent systems.",
+        "cn": "控制论阐明了智能系统的特性。"
+      },
+      {
+        "en": "And act again based on that feedback.",
+        "cn": "并根据这一反馈再次采取行动。"
+      },
+      {
+        "en": "You can judge intelligence based on the system’s ability to iterate and persist with trial and error.",
+        "cn": "可以根据系统在试错过程中进行迭代和坚持的能力来判断其智能水平。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "A ship blown off course that corrects toward its destination.",
+            "cn": "一艘因风吹偏离航向后，又重新调整航向驶向目的地的船。"
+          },
+          {
+            "en": "A thermostat sensing a change in heat and turning on.",
+            "cn": "温控器感应到温度变化后启动。"
+          },
+          {
+            "en": "The pancreas excreting insulin after blood glucose spikes.",
+            "cn": "血糖骤升后，胰腺会分泌胰岛素。"
+          }
+        ]
+      },
+      {
+        "en": "What does this have to do with getting what you want out of life?",
+        "cn": "这与实现你的人生目标有什么关系呢？"
+      },
+      {
+        "en": "Acting, sensing, comparing, and understanding the system from a meta-perspective is fundamental to high intelligence.",
+        "cn": "从元视角去行动、感知、比较并理解系统，是高智慧的基础。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "High intelligence is the ability to iterate, persist, and understand the big picture.",
+            "cn": "高智慧指的是迭代、坚持并把握全局的能力。"
+          },
+          {
+            "en": "The mark of low intelligence is the inability to learn from your mistakes.",
+            "cn": "低智慧的一个标志，就是无法从错误中吸取教训。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Low-intelligence people get stuck on problems rather than solving them.",
+            "cn": "低智慧的人会困在问题里，而不是去解决它。"
+          },
+          {
+            "en": "Like a writer who fails to build a readership and quits because they lack the ability to try new things, experiment, and figure out a process that works for them (to think that there isn’t an effective process you can create is verifiably false, no matter your limiting beliefs, hence being low intelligence.)",
+            "cn": "（认为不存在你能创造出来的有效方法，这种想法是可被证伪的谬误——无论你抱有什么样的限制性信念，这正是智慧低下的表现。）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "High intelligence is realizing any problem can be solved on a large enough timescale.",
+            "cn": "高智慧是意识到：只要时间跨度足够长，任何问题都能被解决。"
+          },
+          {
+            "en": "The reality is that you can achieve any goal you set your mind to.",
+            "cn": "事实上，只要你下定决心，任何目标都能实现。"
+          },
+          {
+            "en": "This isn’t something that can be disproven within reason.",
+            "cn": "这并非在合理范围内能够被证伪的事情。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Intelligence is realizing that there is a series of choices you can make which lead to achieving the goal you want.",
+            "cn": "智慧在于意识到，你可以做出一系列选择，从而实现你想要的目标。"
+          },
+          {
+            "en": "You understand that ideas are hierarchical and that you can’t go from papyrus to Google docs in one fell swoop.",
+            "cn": "你明白，想法是有层次的，不可能一蹴而就地从纸莎草纸直接跳到谷歌文档。"
+          },
+          {
+            "en": "Even if that goal is impossible right now, you simply don’t have the resources – which may be invented over the next few years – to achieve that thing.",
+            "cn": "即使这个目标目前还无法实现，你也根本没有实现它的资源——不过这些资源也许会在未来几年内被发明出来。"
+          }
+        ]
+      },
+      {
+        "en": "When I talk about “goals,” and as I will continue repeating, I am not speaking from the typical lens of self-help, although that’s a helpful lens to adopt at times.",
+        "cn": "当我谈论“目标”时——而且我今后也会不断重申这一点——我并不是从典型的自我帮助视角出发，尽管这种视角有时确实很有帮助。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "I am speaking from the lens of teleology or the Greek kosmos – that everything serves a purpose.",
+            "cn": "我是从目的论或希腊语中的“kosmos”（即万物皆有其目的）这一视角来谈的。"
+          },
+          {
+            "en": "That everything is a part of a greater whole.",
+            "cn": "万物都是一个更大整体的一部分。"
+          }
+        ]
+      },
+      {
+        "en": "Goals determine how you see the world.",
+        "cn": "目标决定了你如何看待世界。"
+      },
+      {
+        "en": "Goals determine what you consider “success” or “failure.”",
+        "cn": "目标决定了你如何定义“成功”或“失败”。"
+      },
+      {
+        "en": "You can try to “enjoy the journey,” but if you pursue the wrong goal, you will not enjoy it.",
+        "cn": "你可以试着“享受这段旅程”，但如果追求的是错误的目标，你就无法享受其中。"
+      },
+      {
+        "en": "Your mind is the operating system for reality.",
+        "cn": "你的思维是现实的操作系统。"
+      },
+      {
+        "en": "That system is composed of goals.",
+        "cn": "该系统由目标构成。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "For most people, those goals are assigned to them.",
+            "cn": "对大多数人来说，这些目标是别人为他们设定的。"
+          },
+          {
+            "en": "Programmed like lines of code in your psyche.",
+            "cn": "像代码行一样被编程到你的潜意识中。"
+          }
+        ]
+      },
+      {
+        "en": "A known path that doesn’t work.",
+        "cn": "一条众所周知却行不通的道路。"
+      },
+      {
+        "en": "Set new, higher goals to expand your mind",
+        "cn": "设定新的、更高的目标来拓展你的思维"
+      },
+      {
+        "en": "Embrace the chaos and allow for growth",
+        "cn": "拥抱混乱，为成长留出空间"
+      },
+      {
+        "en": "Study the generalized principles of nature",
+        "cn": "研究自然的普遍规律"
+      },
+      {
+        "en": "That leads us into the next section perfectly.",
+        "cn": "这将完美地引出下一部分。"
+      },
+      {
+        "en": "VI – How to launch into a completely new life (in 1 day)",
+        "cn": "VI——如何（在一天内）开启崭新的人生"
+      },
+      {
+        "en": "The best periods of my life always came after a period of getting absolutely fed up with the lack of progress I was making.",
+        "cn": "我人生中最美好的时光，总是出现在我对自己的停滞不前感到彻底厌倦之后。"
+      },
+      {
+        "en": "How do you become aware of your conditioning?",
+        "cn": "如何觉察自己的条件反射？"
+      },
+      {
+        "en": "How do you reach profound insights and truths that change the trajectory of your life?",
+        "cn": "如何获得能够改变人生轨迹的深刻见解和真理？"
+      },
+      {
+        "en": "Through the simple, but often painful act of questioning.",
+        "cn": "通过这种简单却往往痛苦的自问过程。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Something that so few people do, and you can tell by how they speak or give their thoughts on a specific topic.",
+            "cn": "这是极少有人会做的事，从他们说话的方式或对某个具体话题的看法中就能看出来。"
+          },
+          {
+            "en": "Questioning is thinking, and very few people do it.",
+            "cn": "质疑就是思考，而能做到这一点的人寥寥无几。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I want to give you a comprehensive protocol that you can use every year to reset your life and launch into a season of intense progress.",
+            "cn": "我想向你提供一套全面的方案，你可以每年使用它来重置生活，并开启一段飞速进步的时期。"
+          },
+          {
+            "en": "This protocol helps you ask the right questions.",
+            "cn": "这套方案能帮你提出正确的问题。"
+          }
+        ]
+      },
+      {
+        "en": "These questions will cover the macro to the micro: where you want to be, what you need to do to get there, and what you can do immediately to start moving the needle toward that reality.",
+        "cn": "这些问题将涵盖从宏观到微观的各个层面：你希望达到什么目标，为了实现这一目标需要做什么，以及你可以立即采取哪些行动来推动这一目标的实现。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "This will require one full day to complete, so I recommend you follow along with the exact protocol.",
+            "cn": "这需要一整天才能完成，因此我建议你严格按照该流程操作。"
+          },
+          {
+            "en": "You will need a pen, paper, and an open mind.",
+            "cn": "你需要一支笔、一张纸和一颗开放的心。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When I observe patterns in people who successfully flip their identity, it happens fast after a build up of tension.",
+            "cn": "当我观察那些成功转换身份的人的模式时，发现这种转变往往是在紧张情绪逐渐积累之后迅速发生的。"
+          },
+          {
+            "en": "Specifically, I’ve noticed 3 phases that people then to go through.",
+            "cn": "具体来说，我注意到人们通常会经历以下三个阶段。"
+          }
+        ]
+      },
+      {
+        "en": "Dissonance – They feel like they don’t belong in their current life, and become sufficiently fed up with their lack of progress.",
+        "cn": "不协调感——他们觉得自己不属于当下的人生，并对自身缺乏进步感到十分厌倦。"
+      },
+      {
+        "en": "Uncertainty – They don’t know what comes next, so they either experiment or get lost and feel worse.",
+        "cn": "不确定性——他们不知道接下来会发生什么，因此要么尝试探索，要么迷失方向，从而感到更加糟糕。"
+      },
+      {
+        "en": "Discovery – They discover what they want to pursue and make 6 years of progress in 6 months.",
+        "cn": "探索——他们发现自己想要追求的目标，并在6个月内取得了相当于6年的进步。"
+      },
+      {
+        "en": "So, our goal with this protocol is to help you reach the point of dissonance, navigate through uncertainty, and discover what it truly is that you want to achieve, so much so that the clarity is overwhelming and distractions no longer hold their weight.",
+        "cn": "因此，这套方案的目标是帮你抵达「不协调感」的临界点，穿过不确定性，发现自己真正想要实现的是什么——直到这份清晰强烈到让干扰再也站不住脚。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "This protocol is structured so that it can be completed in one day.",
+            "cn": "本方案的设计旨在确保其可在一天内完成。"
+          },
+          {
+            "en": "In the morning, you do a psychological excavation to uncover your own hidden motives.",
+            "cn": "早上，你要进行一次心理探索，以发掘自己隐藏的动机。"
+          },
+          {
+            "en": "During the day, you prompt yourself with interrupts to keep you out of autopilot and contemplate your life.",
+            "cn": "白天，你可以通过一些“中断”来提醒自己，避免陷入“自动驾驶”状态，并思考自己的人生。"
+          },
+          {
+            "en": "At night, you synthesize the insights into a direction you will start to move in tomorrow.",
+            "cn": "到了晚上，你会将这些洞见整合成一个方向，明天便开始朝着这个方向前进。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I cannot guarantee that this will work for everyone, because I cannot guarantee that everyone reading this is in the right chapter of their own story that would make these points impactful.",
+            "cn": "我无法保证这对每个人都有效，因为我无法保证每位阅读本文的人都正处于自己人生故事中那个能让这些观点产生深远影响的阶段。"
+          },
+          {
+            "en": "You can’t place the climax at the start of the book and expect it to be interesting.",
+            "cn": "你不能把高潮放在书的开头，还指望它会引人入胜。"
+          }
+        ]
+      },
+      {
+        "en": "First we must create a new frame, or lens of perception, for your mind to operate from.",
+        "cn": "首先，我们必须为你的思维建立一个新的框架，或者说一种新的认知视角，作为其运作的基础。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "This is like creating a new shell, leaving your old one, and slowly growing into it over time.",
+            "cn": "这就像是创造一个新的外壳，抛开旧的，然后随着时间的推移慢慢适应它。"
+          },
+          {
+            "en": "It won’t feel like it fits at first.",
+            "cn": "起初可能会觉得不太合适。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Set aside 15-30 minutes (the length of one YouTube video...",
+            "cn": "请预留15-30分钟（相当于一部YouTube视频的时长……"
+          },
+          {
+            "en": "you can do it) to think about and answer these questions.",
+            "cn": "（你可以做到的）思考并回答这些问题。"
+          },
+          {
+            "en": "Do not attempt to outsource this contemplation to AI.",
+            "cn": "切勿试图将这种思考外包给人工智能。"
+          },
+          {
+            "en": "I want you to break past the limiter that is on your mind.",
+            "cn": "我希望你能突破心中那道限制。"
+          },
+          {
+            "en": "If you can’t answer these immediately, come back to them later.",
+            "cn": "如果你无法立即回答这些问题，稍后再回来看看。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What is the dull and persistent dissatisfaction you’ve learned to live with?",
+            "cn": "你已经学会与之共处的那种沉闷而持久的不满是什么？"
+          },
+          {
+            "en": "Not the deep suffering but what you’ve learned to tolerate.",
+            "cn": "不是那种深切的痛苦，而是你已经学会忍受的。"
+          },
+          {
+            "en": "(If you don’t hate it, you will tolerate it)",
+            "cn": "（如果你不讨厌它，你就会容忍它）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What do you complain about repeatedly but never actually change?",
+            "cn": "你总是在抱怨什么，却始终没有真正改变？"
+          },
+          {
+            "en": "Write down the three complaints you’ve voiced most often in the past year.",
+            "cn": "请写下过去一年里你最常提到的三条抱怨。"
+          }
+        ]
+      },
+      {
+        "en": "For each complaint: What would someone who watched your behavior (not your words) conclude that you actually want?",
+        "cn": "对于每一条抱怨：如果一个人只观察你的行为（而非你的言语），他会认为你真正想要的是什么？"
+      },
+      {
+        "en": "What truth about your current life would be unbearable to admit to someone you deeply respect?",
+        "cn": "关于你当前的生活，有什么真相是你无法向自己深为敬重的人坦白的？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Those questions are meant to make you aware of the pain in your current life.",
+            "cn": "这些问题旨在让你意识到自己当前生活中所经历的痛苦。"
+          },
+          {
+            "en": "Now, we need to turn those into what I call an “anti-vision,” which is a brutal awareness of the life you do not want to live.",
+            "cn": "现在，我们需要将这些转化为我所谓的“反愿景”，即对你不想过的那种生活的残酷认知。"
+          },
+          {
+            "en": "That way, you can use that negative energy to aim your efforts in a positive direction and act from a place of intrinsic motivation.",
+            "cn": "这样一来，你就可以利用这种负面能量，将努力导向积极的方向，并基于内在动机采取行动。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If absolutely nothing changes for the next five years, describe an average Tuesday.",
+            "cn": "如果未来五年一切都保持不变，请描述一个普通的星期二。"
+          },
+          {
+            "en": "What’s the first thing you think about?",
+            "cn": "你首先会想到什么？"
+          },
+          {
+            "en": "What do you do between 9am and 6pm?",
+            "cn": "上午9点到下午6点之间，你都在做什么？"
+          }
+        ]
+      },
+      {
+        "en": "What do people say about you when you’re not in the room?",
+        "cn": "当你不在场时，大家会怎么评价你？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "You’re at the end of your life.",
+            "cn": "你已到了生命的尽头。"
+          },
+          {
+            "en": "What did you never let yourself feel, try, or become?",
+            "cn": "你曾经不曾允许自己去感受、尝试或成为什么？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Who in your life is already living the future you just described?",
+            "cn": "在你身边，有谁已经过上了你刚才描述的那种未来生活？"
+          },
+          {
+            "en": "Someone five, ten, twenty years ahead on the same trajectory?",
+            "cn": "在同一发展轨迹上，比我们领先五、十、二十年的人？"
+          },
+          {
+            "en": "What do you feel when you think about becoming them?",
+            "cn": "一想到要成为他们那样的人，你有什么感受？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What identity would you have to give up to actually change?",
+            "cn": "为了真正改变，你必须放弃怎样的身份？"
+          },
+          {
+            "en": "(”I am the type of person who...”) What would it cost you socially to no longer be that person?",
+            "cn": "（“我属于那种……的人”）如果不再做那样的人，你在社交方面会付出什么代价？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What is the most embarrassing reason you haven’t changed?",
+            "cn": "你至今仍未改变的最尴尬的原因是什么？"
+          },
+          {
+            "en": "The one that makes you sound weak, scared, or lazy rather than reasonable?",
+            "cn": "那种让你听起来显得软弱、胆怯或懒惰，而不是合情合理的那种？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If your current behavior is a form of self-protection, what exactly are you protecting?",
+            "cn": "如果你的当前行为是一种自我保护，那么你究竟在保护什么呢？"
+          },
+          {
+            "en": "And what is that protection costing you?",
+            "cn": "那么，这种保护要让你付出多少代价呢？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you answered those truthfully, and if you are in the right chapter of your life, you will feel a deep sense of dis-ease and possibly disgust for how you are currently living.",
+            "cn": "如果你如实回答了这些问题，而且正处于人生的正确阶段，那么你会对自己当前的生活方式感到一种深深的不安，甚至可能产生厌恶之情。"
+          },
+          {
+            "en": "Now, we need to orient that energy in a positive direction.",
+            "cn": "现在，我们需要将这种能量引导到积极的方向上。"
+          },
+          {
+            "en": "We need to create a minimum viable vision, because your vision is like a product.",
+            "cn": "我们需要制定一个“最小可行愿景”，因为你的愿景就像一款产品。"
+          },
+          {
+            "en": "It starts out unclear, but with time and experience, it grows stronger and more potent.",
+            "cn": "起初它并不明显，但随着时间的推移和经验的积累，它会变得越来越强烈、越来越有力。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Forget practicality for a minute.",
+            "cn": "暂时抛开实用性不谈。"
+          },
+          {
+            "en": "If you could snap your fingers and be living a different life in three years, not what’s realistic, what you actually want?",
+            "cn": "如果你能一挥手，三年后就过上截然不同的人生——不考虑现实情况，而是你真正想要的——会是怎样的？"
+          },
+          {
+            "en": "What does an average Tuesday look like?",
+            "cn": "一个普通的星期二通常是怎样的？"
+          },
+          {
+            "en": "Same level of detail as question 5.",
+            "cn": "详细程度与第5题相同。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What would you have to believe about yourself for that life to feel natural rather than forced?",
+            "cn": "你必须对自己抱有什么样的信念，才能让那种生活感觉自然而然，而不是勉强为之？"
+          },
+          {
+            "en": "Write the identity statement: “I am the type of person who...”",
+            "cn": "写下这段自我认同陈述：“我是一个……的人。”"
+          }
+        ]
+      },
+      {
+        "en": "What is one thing you would do this week if you were already that person?",
+        "cn": "如果你已经是那样的人了，这周你会做的一件事是什么？"
+      },
+      {
+        "en": "Answer all of those first thing in the morning tomorrow.",
+        "cn": "明天一早醒来，请先回答所有这些问题。"
+      },
+      {
+        "en": "These journaling exercises are cute, but we want real change.",
+        "cn": "这些日记练习虽然有趣，但我们想要的是真正的改变。"
+      },
+      {
+        "en": "Frankly, that’s not going to happen if you don’t break the current unconscious patterns that are keeping you the same.",
+        "cn": "坦白说，如果你不打破那些让你停滞不前的现有潜意识模式，这种情况是不会发生的。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Throughout the day, I want you to contemplate on everything you journaled in part one.",
+            "cn": "今天一整天，我希望你能仔细思考你在第一部分日记中写下的所有内容。"
+          },
+          {
+            "en": "Beyond that, I don’t want you to forget to contemplate.",
+            "cn": "除此之外，我不希望你忘记静心思考。"
+          },
+          {
+            "en": "You aren’t going to change by doing the same thing for the rest of your life.",
+            "cn": "如果你一辈子都做着同样的事情，你就无法改变自己。"
+          },
+          {
+            "en": "You need to consciously force a pattern break.",
+            "cn": "你需要有意识地打破这种模式。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Take the time right now to create reminders or calendar events in your phone.",
+            "cn": "现在就花点时间在手机上设置提醒或日历事件吧。"
+          },
+          {
+            "en": "Include the question in the reminder or event so that you can immediately start thinking about it.",
+            "cn": "将问题添加到提醒或事件中，这样你就可以立即开始思考这个问题。"
+          }
+        ]
+      },
+      {
+        "en": "The more random and non-conflicting with your schedule there are, the better.",
+        "cn": "这类安排越随机、与你的日程安排冲突越少，就越好。"
+      },
+      {
+        "en": "11:00am: What am I avoiding right now by doing what I’m doing?",
+        "cn": "上午11:00：我此刻做这些事，究竟是在逃避什么？"
+      },
+      {
+        "en": "1:30pm: If someone filmed the last two hours, what would they conclude I want from my life?",
+        "cn": "下午1:30：如果有人录下了过去这两个小时，他们会得出什么结论，认为我的人生追求是什么？"
+      },
+      {
+        "en": "3:15pm: Am I moving toward the life I hate or the life I want?",
+        "cn": "下午3:15：我是在走向自己讨厌的生活，还是自己想要的生活？"
+      },
+      {
+        "en": "5:00pm: What’s the most important thing I’m pretending isn’t important?",
+        "cn": "下午5:00：我假装不重要的事情中，哪一件才是最重要的？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "7:30pm: What did I do today out of identity protection rather than genuine desire?",
+            "cn": "晚上7:30：今天我做了哪些事，是出于保护个人身份的目的，而不是出于真正的意愿？"
+          },
+          {
+            "en": "(Hint: it’s most things you do)",
+            "cn": "（提示：这几乎就是你所做的所有事情）"
+          }
+        ]
+      },
+      {
+        "en": "9:00pm: When did I feel most alive today?",
+        "cn": "晚上9:00：今天什么时候我感觉最充满活力？"
+      },
+      {
+        "en": "To add a bit more fuel to the fire, schedule these questions during times where you are either commuting, walking, or lying around.",
+        "cn": "为了让事情更添一把火，不妨在通勤、散步或闲躺时安排这些提问。"
+      },
+      {
+        "en": "What would change if I stopped needing people to see me as [the identity you wrote in question 10]?",
+        "cn": "如果我不再需要别人把我看作[你在第10题中写下的身份]，情况会有什么变化？"
+      },
+      {
+        "en": "Where in my life am I trading aliveness for safety?",
+        "cn": "在我的生活中，我正在哪里用“活力”来换取“安全”？"
+      },
+      {
+        "en": "What’s the smallest version of the person I want to become that I could be tomorrow?",
+        "cn": "明天，我能成为的、理想中那个自己的最小版本是什么？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you followed that process, I would be surprised if you didn’t have at least one profound insight that could alter the course of your life.",
+            "cn": "如果你按照那个流程操作，如果最终没有获得至少一个足以改变你人生轨迹的深刻见解，我反而会感到惊讶。"
+          },
+          {
+            "en": "Now, we need to make those known, integrate them into who we are, and act on them to begin solidifying our journey to a new level of mind.",
+            "cn": "现在，我们需要让这些洞见变得清晰，把它们融入我们的内在，并付诸行动，开始巩固我们迈向更高心智层级的旅程。"
+          }
+        ]
+      },
+      {
+        "en": "After today, what feels most true about why you’ve been stuck?",
+        "cn": "经过今天，关于你为何陷入停滞，什么感觉最真实？"
+      },
+      {
+        "en": "The internal pattern or belief that has been running the show.",
+        "cn": "一直主导着一切的内在模式或信念。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Write a single sentence that captures what you refuse to let your life become.",
+            "cn": "请用一句话概括你绝不允许自己的人生变成什么样。"
+          },
+          {
+            "en": "This is your anti-vision compressed.",
+            "cn": "这是你那“反愿景”的浓缩版。"
+          },
+          {
+            "en": "It should make you feel something when you read it.",
+            "cn": "读到这里，你应该会有所感触。"
+          }
+        ]
+      },
+      {
+        "en": "Write a single sentence that captures what you’re building toward, knowing it will evolve.",
+        "cn": "请用一句话概括你正在努力实现的目标，同时要明白这个目标会不断演变。"
+      },
+      {
+        "en": "Lastly, we need to create goals.",
+        "cn": "最后，我们需要设定目标。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Again, these aren’t goals that you set for the sake of achievement, because goals are just projections.",
+            "cn": "同样，这些并不是为了达成而设定的目标，因为目标只不过是预设的设想罢了。"
+          },
+          {
+            "en": "They are unreliable and make you feel bound to something that will inevitably change.",
+            "cn": "它们不可靠，会让你感觉被束缚在某种注定会改变的事物上。"
+          },
+          {
+            "en": "Instead, think of goals as a point of view.",
+            "cn": "相反，不妨将目标视为一种视角。"
+          },
+          {
+            "en": "A lens that you can exchange to enter the right state of mind to perform the action that will lead away from the life you don’t want.",
+            "cn": "一种可以更换的视角，让你进入正确的心理状态，从而采取行动，摆脱你不想要的生活。"
+          },
+          {
+            "en": "Do not worry about some kind of finish line, because as we will find, it doesn’t exist.",
+            "cn": "别担心什么“终点线”，因为正如我们将要发现的那样，它根本不存在。"
+          },
+          {
+            "en": "Enjoyment is found in progress.",
+            "cn": "乐趣在于进步。"
+          }
+        ]
+      },
+      {
+        "en": "One-year lens: What would have to be true in one year for you to know you’ve broken the old pattern?",
+        "cn": "「一年视角」：一年之后必须发生什么，你才能确定自己已经打破了旧的模式？"
+      },
+      {
+        "en": "One-month lens: What would have to be true in one month for the one-year lens to remain possible?",
+        "cn": "「一个月视角」：一个月内必须发生什么，才能让「一年视角」依然成立？"
+      },
+      {
+        "en": "Daily lens: What are 2-3 actions you can timeblock tomorrow that the person you’re becoming would simply do?",
+        "cn": "「每日视角」：明天你可以用时间块安排哪 2-3 个行动，是「正在成为的你」自然而然就会去做的？"
+      },
+      {
+        "en": "But we have one last piece to lock it all in.",
+        "cn": "但我们还有最后一步，将这一切牢牢锁定。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "The optimal state of inner experience is one in which there is order in consciousness.",
+            "cn": "内在体验的最佳状态，是意识中存在秩序的状态。"
+          },
+          {
+            "en": "This happens when psychic energy—or attention—is invested in realistic goals, and when skills match the opportunities for action.",
+            "cn": "当心理能量——或注意力——投入到切合实际的目标上，且技能与行动机会相匹配时，就会出现这种情况。"
+          },
+          {
+            "en": "The pursuit of a goal brings order in awareness because a person must concentrate attention on the task at hand and momentarily forget everything else.",
+            "cn": "追求目标能使意识变得有条理，因为人必须将注意力集中在眼前的任务上，暂时忘却其他一切。"
+          }
+        ]
+      },
+      {
+        "en": "You now have all of the components that lead to a good life.",
+        "cn": "现在，你已经拥有了通往美好生活的所有要素。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Now, it may be helpful to organize all of your insights into one coherent plan.",
+            "cn": "现在，将所有见解整理成一个连贯的计划可能会有所帮助。"
+          },
+          {
+            "en": "Pull out a new page and write down these 6 components:",
+            "cn": "翻到新的一页，写下以下6个要素："
+          }
+        ]
+      },
+      {
+        "en": "Anti-vision – What is the bane of my existence, or the life I never want to experience again?",
+        "cn": "反愿景——我生命中的祸根是什么，也就是那种我再也不愿经历的生活？"
+      },
+      {
+        "en": "Vision – What is the ideal life that I think I want and can improve as I work toward it?",
+        "cn": "愿景——我认为自己想要的理想生活是什么？在为之奋斗的过程中，我又能如何不断完善它？"
+      },
+      {
+        "en": "1 year goal – What will my life look like in 1 year time, and is that closer to the life I want?",
+        "cn": "1年目标——1年后我的生活会是什么样子？这离我理想中的生活更近了吗？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "1 month project – What do I need to learn?",
+            "cn": "为期1个月的项目——我需要学习什么？"
+          },
+          {
+            "en": "What skills do I need to acquire?",
+            "cn": "我需要掌握哪些技能？"
+          },
+          {
+            "en": "What can I build that will move me closer to the one year goal?",
+            "cn": "我能做些什么，才能让自己更接近这一年的目标？"
+          }
+        ]
+      },
+      {
+        "en": "Daily levers – What are the priority, needle-moving tasks that bring my project closer to completion?",
+        "cn": "每日杠杆——哪些是关键任务，能实实在在推动我的项目接近完成？"
+      },
+      {
+        "en": "Constraints – What am I not willing to sacrifice to achieve my vision from the ground up?",
+        "cn": "限制条件——为了从零开始实现我的愿景，有哪些是我不愿意牺牲的？"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Because these components literally create your own little world.",
+            "cn": "因为这些组件确实能为你打造一个属于你自己的小世界。"
+          },
+          {
+            "en": "If you are meant to pursue this hierarchy of goals at this stage of your life, you will have no other option but to become obsessed.",
+            "cn": "如果你注定要在人生的这个阶段追求这一系列目标，那么你别无选择，只能对此痴迷不已。"
+          },
+          {
+            "en": "You will feel the pull to something greater.",
+            "cn": "你会感到一种被更宏大的事物所吸引的力量。"
+          },
+          {
+            "en": "You will not see anything else as an option.",
+            "cn": "你不会看到其他任何选项。"
+          }
+        ]
+      },
+      {
+        "en": "You turn your life into a video game.",
+        "cn": "你将把生活变成一款电子游戏。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Because games are the poster child for obsession, enjoyment, and flow states.",
+            "cn": "因为游戏正是痴迷、乐趣和心流状态的典型代表。"
+          },
+          {
+            "en": "They have all the components that lead to focus and clarity, so if we reverse engineer what those components are, we can live in a state of deeper enjoyment, less distractions, and more success.",
+            "cn": "它们具备所有有助于集中注意力、保持思维清晰的关键要素，因此，如果我们反向推导出这些要素，就能进入一种享受更深、分心更少、成功更多的状态。"
+          }
+        ]
+      },
+      {
+        "en": "At least until the game evolves.",
+        "cn": "至少在游戏演变之前是如此。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your anti-vision is what’s at stake.",
+            "cn": "你的反愿景就是你押上的赌注。"
+          },
+          {
+            "en": "What happens if you lose or give up.",
+            "cn": "如果你失败或放弃了，会发生什么？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your 1 year goal is the mission.",
+            "cn": "你的1年目标就是使命。"
+          },
+          {
+            "en": "This is your sole priority in life.",
+            "cn": "这就是你生命中唯一的优先事项。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your 1 month project is the boss fight.",
+            "cn": "你这个为期1个月的项目就是与BOSS的对决。"
+          },
+          {
+            "en": "How you gain XP and acquire loot.",
+            "cn": "如何获得经验值和战利品。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your daily levers are the quests.",
+            "cn": "你的每日杠杆就是任务。"
+          },
+          {
+            "en": "The daily process that unlocks new opportunities.",
+            "cn": "那个能解锁新机会的日常流程。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your constraints are the rules.",
+            "cn": "你的限制就是规则。"
+          },
+          {
+            "en": "The limitations that encourage creativity.",
+            "cn": "那些激发创造力的限制。"
+          }
+        ]
+      },
+      {
+        "en": "All of these act as a concentric set of circles, like a forcefield, that guard your mind from distractions and shiny objects.",
+        "cn": "所有这些就像一组同心圆，如同一个力场，保护你的思维免受干扰和诱惑的侵扰。"
+      },
+      {
+        "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
+        "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
       }
     ]
   },

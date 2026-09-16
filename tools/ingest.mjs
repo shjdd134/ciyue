@@ -162,14 +162,18 @@ FEEDS.forEach(f => { if (!FEED_BY_CAT[f.cat]) FEED_BY_CAT[f.cat] = f; });
  * 开头是导语、末句是「Farnam Street participates in the Amazon Services LLC
  * Associates Program…」联盟广告声明。既不是文章，也不含可学习内容。
  * 根因（staticSkipReason 的播客正则漏判）已同批修掉，这里是存量清理。
- * 以及无法恢复段落的失效来源、足球直播观看指南。名单留空不是错误；新候选还会由
+ * 以及足球直播观看指南。名单留空不是错误；新候选还会由
  * recommend.mjs 的 unreadableReason 内容门禁再次拦截。
+ *
+ * 2026-09-16 移除 gr-how-to-fix-your-entire-life-in-1-day：它只被误诊了一次 ——
+ * 当初列入的判据是「无法恢复连续段落」，但原文（letters.thedankoe.com）从来没有不可达，
+ * 缺的只是「按原文重分组」这一步。用 _regroup-paras.mjs 接回段落后单句段占比
+ * 86.9% → 60.1%（命中率 98%），已恢复正常，留着它反而会挡住一篇好文。
  */
 const DROP_LIST = [
   { id: "gr-greg-brockman-inside-the-72-hours-that-almost-", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
   { id: "gr-roblox-ceo-how-to-make-better-decisions-by-fix", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
   { id: "gr-the-mindset-behind-building-a-great-little-bus", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
-  { id: "gr-how-to-fix-your-entire-life-in-1-day", why: "正文来源失效，无法恢复连续段落" },
   { id: "gr-the-mindset-that-unlocks-your-full-potential-d", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
   { id: "gr-proven-better-new-mark-pincus-on-the-rules-of-", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
   { id: "ft-how-to-watch-coventry-city-vs-brighton-for-fre", why: "足球直播/观看指南，不是连续阅读文章" },
