@@ -26,7 +26,7 @@ function makeCaches() {
     _old: old,
     async match(req, options = {}) {
       const url = typeof req === "string" ? new URL(req, ORIGIN + "/").href : (req.url || String(req));
-      if (options.cacheName === "wordlens-cache-v43") return store.get(url);
+      if (options.cacheName === "wordlens-cache-v50") return store.get(url);
       return store.get(url) || old.get(url);
     },
     async open() {
@@ -37,7 +37,7 @@ function makeCaches() {
         },
       };
     },
-    async keys() { return ["wordlens-cache-v43"]; },
+    async keys() { return ["wordlens-cache-v50"]; },
     async delete() { return true; },
   };
 }

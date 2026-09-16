@@ -1,4 +1,4 @@
-> 2026-09-15 人物栏目改为首批 3 篇原刊全文与摄影，成长 11 篇保留；人物明确排除赞达亚。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。原明星、足球、AI 采集仍停用。成长全文修复以 WORKBUDDY-OPTIMIZATION-PLAN.md 为准。用户已授权本项目修改验证后直接推送 main。
+> 2026-09-16 当前策略：每日自动采集只跑足球 RSS 与人物审核队列；成长存量保留但 RSS 暂停，AI 与旧明星采集停用。人物明确排除赞达亚。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。用户已授权本项目修改验证后直接推送 main。
 
 # 词阅 WordLens — Agent 交接手册
 
@@ -10,9 +10,13 @@
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 - **当前工作树状态（2026-09-14 晚）**：SW 策略 v43，资源版本号 `?v=46`（2026-09-14 阅读体验一轮后从 44 提升），词库全库 **4,082 词**（基础层 2,069 + 核心层 2,013），文章 **40 篇**（足球 2、AI 3、成长 11、明星 24 —— 明星已改为历史通道经典专题，见下；寓言入口保留但当前清空）。误执行 `--replace` 后已从远端事故前版本恢复原有 11 篇成长文章及配图。缓存优先/1 小时新鲜窗/304 协商回落 + 保留上一代缓存作回退；v43 为移除旧背词状态后的发布缓存版本
   > ⚠️ **2026-09-15 晚更正**：本条是 09-14 晚的快照。09-15 用户拍板撤下明星/足球/AI 采集与内容，
-  > 随后人物栏目首批 3 篇原刊全线上线 —— **线上现为 14 篇 = 11 成长 + 3 人物全文**（Anne Hathaway /
+  > 随后人物栏目首批 3 篇原刊全线上线 —— **线上当时为 14 篇 = 11 成长 + 3 人物全文**（Anne Hathaway /
   > Charlize Theron / Monica Bellucci），线上资源版本号 `?v=49`。判断"线上现在有什么"请查远端树，不要读本节旧数字。
   > 撤栏目遗留的 40 张孤儿封面与「冲刺/快筛」2 个文件也已清理，本地与远端工作树逐文件零差异。
+  > ⚠️ **2026-09-15 深夜再更正（本批次）**：语义层修复批次下架了 3 篇 fs.blog 播客页
+  > （brockman / roblox / brad-jacobs，正文只有导语 + Amazon 联盟声明），
+  > **线上现为 11 篇 = 8 成长 + 3 人物全文**，远端 171 个 blob，基线 commit `355b59a`。
+  > 成长 8 篇＝Dan Koe×4（含 knowledge-base 全文修复）+ More To That×2 + Ness Labs×2。
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
   10 篇成长类旧文已由 `tools/_regroup-paras.mjs` 按原文接回段落边界（只改分组，句/译逐字节不变）；
@@ -72,8 +76,8 @@
     ├── qc-test.mjs             质检门禁语义回归（空清单 / 目标 id 不存在都不算通过）
     ├── push-test.mjs           上传清单闸门回归（清单点名文件缺失必须在联网前中止）
     ├── translate-titles.mjs    标题中文翻译回填（--dry / --redo / --only）
-    ├── lib-mt.mjs              翻译共用库：DeepL 主力→有道兜底→MyMemory 末位（文章上下文 + 隔离缓存）
-    ├── mt-test.mjs             翻译上下文 / 缓存隔离回归
+    ├── lib-mt.mjs              翻译共用库：DeepL 主力→有道兜底→MyMemory 末位（文章上下文 + 版本化缓存 + 引擎记录）
+    ├── mt-test.mjs             翻译上下文 / 缓存隔离 / 源语言与引擎元数据回归
     ├── text-test.mjs           译文原样回显过滤回归
     ├── classics-test.mjs       明星经典图集偏好排序回归
     ├── lib-text.mjs            文本清洗共用库（占位符/广告段/缩写/命名实体）
@@ -257,11 +261,22 @@ published     上次推上远端的快照 → 出清单用（远端还缺什么�
 ## 5. 日常操作
 
 ```bash
-# 抓新文章（足球/AI/明星/成长走 RSS，寓言走公版静态导入）
-node tools/ingest.mjs --append --quota "足球=3,AI=3,明星=2,成长=2" --limit 10 --days 30   # --dry 预览；全量替换用 --replace
+# 抓新文章（当前仅足球走 RSS；成长 RSS 暂停，人物走 people.mjs 审核队列，寓言走公版静态导入）
+node tools/ingest.mjs --append --quota "足球=2" --limit 10 --days 30   # --dry 预览；全量替换用 --replace
 node tools/translate-titles.mjs --dry        # 标题翻译回填
 node tools/text-scan.js --full               # 正文体检；有问题则 fix-text.mjs --dry 后去掉 --dry
 node tools/qc.mjs --ids-file .tmp/new-ids.txt  # 文章质量体检（不带参数会直接报错）
+
+# 正文补全 / 下架 / 提取器诊断（2026-09-15 语义层修复批次新增）
+node tools/ingest.mjs --refill               # 按当前提取器补回漏掉的正文句（只增不改；--dry 先看）
+node tools/ingest.mjs --refill --refill-ids monica   # 只处理某篇；会顺带同步人物篇 sourceTextWords 字段
+node tools/ingest.mjs --prune                # 按 ingest.mjs 的 DROP_LIST 下架（--dry 先看）
+node tools/ingest.mjs --dump-blocks .tmp/orig/x.html   # 用真提取器抽 blocks 打印，查「线上为什么少这句」
+
+# 中文层术语校正（规则表 tools/term-glossary.json，68+ 条）
+node tools/fix-cn.mjs --dry                  # 逐条列出会改哪句（先看再改）
+node tools/fix-cn.mjs                        # 落盘（幂等：重复执行 0 改动）
+node tools/spot-check.mjs                    # 生成人工抽查材料 tools/_spot/<日期>/（语义层只能人看）
 
 # 手工整条走一遍（等价于 Actions 干的事，一步失败自动完整回滚）
 node tools/daily.mjs
@@ -279,6 +294,9 @@ node tools/sw-test.js                        # SW 离线/缓存路径，期望 9
 node tools/qc-test.mjs                       # 质检门禁语义，期望 5/5
 node tools/push-test.mjs                     # 上传清单闸门，期望 9/9
 node tools/remote-sweep-test.mjs             # 远端残留自动清理，期望 31/31
+node tools/verify-live.mjs                   # ★ 推送**之后**核验线上真实产物（别用 curl，见下）
+node tools/verify-live.mjs --wait 600        # 推送后立刻跑：等部署/CDN 追平（最多 10 分钟）
+node tools/verify-live-test.mjs              # verify-live 的负向回归（本地假站点，不联网），期望 18/18
 
 # 词库改动后完整重建（顺序见铁律 2）+ 词频表与点词层重跑（排除表=当前词库）+ 回归
 node tools/build-wordfreq.mjs && node tools/build-tapdict.mjs
@@ -287,7 +305,9 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 
 - 每日自动更新由 GitHub Actions（`.github/workflows/daily.yml`）定时跑 `daily.mjs`，无需人工干预。
 - 可用源清单与被墙名单（BBC/Guardian/NPR 可用性等）写在 `ingest.mjs` FEEDS 注释与会话记忆里； ESPN/Smithsonian 需 Googlebot UA。
+- **「线上到底是不是这一份」只有一个入口**：`node tools/verify-live.mjs`。三层职责别混：`_api-push.mjs` 推（仓库层·写）、`remote-sweep-test.mjs` 对账远端仓库（仓库层·读·要 token）、`verify-live.mjs` 核验 GitHub Pages（公网层·读·**不要 token**）。**别再手打 curl**：2026-09-15 实测 curl 报 `HTTP=200 bytes=555733` 拿到的却是**截断文件**（正文戛然而止、无收尾 `];`），差一点把「下载被截断」误判成「线上没更新」；curl 在本沙箱写文件还有 `ERROR on write` 的老毛病。本沙箱访问 Pages **单次请求实测约 24s**（延迟高、带宽不缺），所以核验靠并行 + 重试压时间，一轮 20~90s 属正常。它查六类：可达/未截断、篇目与本地一致（含逐字节）、已知坏模式（localhost·书名号·模型名当书名）、`index.html` 版本号与资源清单、`sw.js` 缓存名、配图可达（防封面漏推断图）。`LIVE_BASE=http://127.0.0.1:PORT/` 可核验任意站点 —— `verify-live-test.mjs` 就靠它用三个本地假站点证明这些守卫**该红时会红**。
 - 改数据源后记得同步：build 脚本顶部注释 + README「数据来源」段 + App「关于」区块。
+- **译名/术语只有一处事实源**：`tools/term-glossary.json`（规则**以英文原句为条件**——同一个中文词可能对应两个英文术语，无条件全局替换必然误伤，见文件内 `$comment`）。改它是改「中文层」而不是改译文：DeepL 现在仍把 "Feed it people" 译成「把它给…看」，重译救不了，只能后处理。`applyGlossary` 在 `ingest.mjs`（增量入库）与 `people.mjs`（人物全文）两条通道上都挂了；足球的老板/主教练规则限定 `ft-` 文章。存量数据用 `fix-cn.mjs` 刷。`audit.js` 的 `[G9]` 会遍历规则表逐条回验已发布数据 —— **新增一条规则就自动多一道守卫**，不需要另写断言。规则里 `to` 包含 `from` 的写法永远不可能幂等，`lib-glossary.mjs` 在加载期直接抛错拦下。
 
 ## 6. 现状与遗留任务
 
@@ -455,14 +475,44 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
   丢「最旧的」，盘上批次一多，测试自己那几次发布就会把种子**乃至真实批次**清掉
   （实测 7 真实 + 2 种子 + 测试 4 次发布 = 13，越界即掉 3 个）——现在把窗口钉死 `--keep-batches 999`。
   回归：release-test 26/26（稳定）· remote-sweep 31/31 · audit 182/0 · nav 30/0 · sw 9/9 · push 9/9。
+- ✅ **语义层修复批次（2026-09-15 深夜，用户「按你的意见来全部优化」）**：把当天的语义审计
+  （`SEMANTIC-AUDIT-2026-09-15.md`）9 条建议全部落地。四块：
+  ① **提取器**：`extractBlocks` 增收 `<li>`/`<h2>`/`<h3>`，`goodPara` 放开 30–70 字短句，
+     `navRegions` 换成**深度配对的 `junkRegions`**（旧的非贪婪截断会把导航留成空壳继续漏），
+     并补了站点外壳类 BOILER（check your inbox / mindful makers / Amazon 联盟声明…）。
+  ② **中文层术语表**：新增 `term-glossary.json` + `lib-glossary.mjs` + `fix-cn.mjs`，
+     规则**以英文原句为条件**（「阶段」既是 Phase 的正确译法又是 Level 的错译，无条件替换必误伤）。
+     存量刷了 106+ 处 P0/P1（方向反转、release/rally/Recall 多义词、书名号小标题 ×9、
+     Level↔层级、flow→心流、Vocation→天职、HUMAN 3.0 模型名不套书名号、片名归一）。
+     幂等由 `lib-glossary.mjs` 加载期守卫保证（`to` 含 `from` 的写法直接抛错）。
+  ③ **下架**：3 篇 fs.blog Knowledge Project 播客页（只有导语 + Amazon 联盟声明）—— 根因是
+     `staticSkipReason` 的播客正则 `/\/podcast\//` 要求斜杠前缀，而实际路径是 `…-podcast/…`，
+     **这条规则从来没命中过**；已改为按路径段匹配，并加 `ingest.mjs --prune` + `DROP_LIST` 清存量。
+     线上 14 → **11 篇**，远端 186 → 171 个 blob。
+  ④ **守卫**：`audit.js [G9]` 三道（术语表逐条回验 / 标题体句子不得套书名号 / 不得出现 localhost 链接），
+     用**合成坏样本验证过会失败**（不是只验证「当前通过」）。
+  回归：audit **185/0** · nav 30/0 · qc 11 篇 0 拒收 · text-scan 通过 · remote-sweep 31/31（发布后）
+  · sw 9/9 · qc-test 5/5 · push 9/9 · examples 28/28 · recommend 16/0 · mt/text/classics/people 全绿。
+  预发布期 `remote-sweep-test` 的「本地/远端引用一致」会**故意红一次**（本地已删、远端未推），
+  这是预期状态，推送后自动转绿。
 - ⏳ **P0 之后的两轮（用户 2026-09-14 规划）**：P0 一轮**已上线**（`854e2e0`，见上）；
   第二轮交互版（紧凑查词卡不遮暗全文、选中句工具条给出明确「译文」入口、生词标记强度三档、已认识词恢复普通颜色）；
   第三轮外围（缩短文章头部、读完优先进下一篇、桌面可调宽度居中正文）。
   验收方式用户定的是**同一篇长文试读 15–20 分钟**，比较「是否频繁调字号 / 查完词是否要找回原句 / 是否误触 / 是否容易读累」，**阅读速度只作参考**。
-- ⏳ **旧文可能有整句漏译（2026-09-14 发现，未处理）**：对照原文 HTML 抽查 thedankoe 那篇，
-  原文 105 个 `<p>` 拆句约 207 句，而已发布数据只有 182 句；抽查到原文 "I didn't want to be an NPC."
-  在已发布数据中不存在。这不是排版问题，是旧管线的内容丢失，属第三轮内容质量。核实方法：
-  按 `_regroup-paras.mjs` 的定位逻辑逐句比对原文，统计每篇缺失句数与缺失位置。
+- ✅ **旧文整句漏译已修复（2026-09-15 语义层批次）**：原发现 thedankoe 一篇原文约 207 句、
+  已发布只有 182 句，且 "I didn't want to be an NPC." 整句不在库里。根因有两条：
+  ① 提取器只认 `<p>`/`<figure>`，**`<li>`/`<h2>`/`<h3>` 从未抽取**（实测 14 篇共漏 349 块 / 3,069 词）；
+  ② `goodPara` 的 70 字符门槛把「以句末标点结尾的 30–70 字短句」整类丢掉（Dan Koe 的招牌短句、
+  访谈里的 `<p><strong>Question?</strong></p>` 都栽在这）。修完后用 `ingest.mjs --refill`
+  按「只增不改」补译回填：**14 篇共补 434 句（2,076 → 2,510 ），零原句丢失、零坏译**
+  （LCS 对齐定位缺失句 + 写盘前断言「库内原句一字不少」，断言不过整篇跳过）。
+  验收：`audit.js` 单体段守卫、`text-scan.js`、`qc.mjs --all` 全绿。
+- ⏳ **成长栏目人工复核（2026-09-15 起）**：语义层只能人看，机器预检刻意只留高信噪比的
+  数字 / 单向否定 / 标题 / 专名清单（放宽到「全部数字 + 双向否定」时命中率 35%，纯噪音 ——
+  实测「单位凭空出现」这类新规则在 2,455 句上命中 253 处，全是误报，故不采纳）。
+  流程：`node tools/spot-check.mjs` 生成 `tools/_spot/<日期>/`（逐句对照 + 三态模板 + 检查单），
+  按检查单逐项过；检查单已补上本批次学到的失败模式（方向/主语反转、多义词按语境取义、术语统一）。
+  术语统一这半边现在有机械兜底：`audit.js [G9]` 遍历 `term-glossary.json` 逐条回验。
 - ⏳ **L3「真题高频验收」队列未接入**：数据 `tools/.examples-cache/cet4-sprint.json`（2159 词冲刺池）已入库，产品设想是考前验收模式（不背只测），未写任何前端代码。
 - ⏳ **内容验收：结构已验干净，语义仍无人看**（标准 2026-09-13 调整）：
   机器能验的已验完 —— `qc.mjs --all` 19 篇合格 0 拒收；en/cn 句数逐篇配平、无重复标题、
@@ -499,7 +549,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 ## 7. 快速自检（接手后先跑一遍）
 
 ```bash
-node tools/audit.js         # 期望当前 182/0 fail（含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、R 阅读排版与句子锚点）
+node tools/audit.js         # 期望当前 186/0 fail（含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点）
 node tools/nav-test.js      # 期望当前 30/0（2026-09-15 起；人物导航 7 条已加，旧口径 18/0）
 node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size 38267、COMMON_WORDS_size 242）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）
@@ -508,6 +558,7 @@ node tools/qc-test.mjs      # 期望 5/5（空清单/目标 id 不存在都不�
 node tools/push-test.mjs    # 期望 9/9（清单点名但本地不存在必须联网前 exit 2；--manifest 与 --files 并用时清单要合并）
 node tools/remote-sweep-test.mjs # 期望 31/31（远端残留清理：keeper 豁免 / 删除前备份 / 无凭据降级）
 node tools/examples-test.mjs # 期望 28/28（例句库按需加载：首次/复用/失败重试/换词竞态）
+node tools/verify-live-test.mjs # 期望 18/18（本地假站点证明线上核验该红时会红；不联网）
 node tools/text-scan.js     # 通过（乱码/漏译/结构；段数会随段落分组变化，2026-09-15 后为 1008）
 python -m http.server 8123  # 浏览器打开 localhost:8123 应正常渲染
 ```

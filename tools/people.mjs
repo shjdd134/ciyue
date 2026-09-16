@@ -2,7 +2,7 @@
 /* 人物栏目抓取与发布
  * --discover             发现候选，不发布
  * --prepare [--cached]   下载原刊 HTML/图片并测量正文，写入 .tmp/people
- * --publish-reviewed     发布已审核的原刊正文与图片（每日新稿最多 2 篇）
+ * --publish-reviewed     发布已审核的原刊正文与图片（每日新稿最多 1 篇）
  *
  * 公开页面中能读到的正文按原刊段落保存；明显广告、导航和推广块由提取器过滤。
  * 页面有订阅/登录限制时暂缓，不绕过访问控制。 */
@@ -13,6 +13,7 @@ import {execFileSync} from 'node:child_process';
 import {PEOPLE_CONFIG as config, canonical, extractProfile, discoverLinks, selectDaily, sourceFor, imageKey} from './lib-people.mjs';
 import {readDecl, writeDecl} from './lib-text.mjs';
 import {translateTexts} from './lib-mt.mjs';
+import {applyGlossary} from './lib-glossary.mjs';
 import {createBatch} from './lib-release.mjs';
 
 const root=path.resolve(import.meta.dirname,'..'), temp=path.join(root,'.tmp','people');
@@ -51,6 +52,20 @@ async function profile(url, useCache=cached) {
   return extractProfile(fs.readFileSync(dest,'utf8'),url);
 }
 function fingerprint(p){return hash(JSON.stringify({title:p.title,date:p.date,sourceTextHash:p.sourceTextHash,images:p.images.map(x=>imageKey(x.url))}));}
+function translationAudit(source, translated){
+  const issues=[];
+  if(!Array.isArray(translated) || translated.length!==source.length)issues.push(`句数不一致（原文 ${source.length} / 译文 ${translated?.length||0}）`);
+  source.forEach((en,i)=>{
+    const cn=String(translated?.[i]||'').trim();
+    if(!cn)issues.push(`第 ${i+1} 句为空`);
+    else if(cn.toLowerCase()===String(en||'').trim().toLowerCase())issues.push(`第 ${i+1} 句疑似原文回显`);
+    /* 数字只做告警，不因中文改写日期/小数格式而误阻发布。 */
+    const nums=String(en||'').match(/\b\d+(?:[.,]\d+)?%?\b/g)||[];
+    const missing=nums.filter(n=>!cn.includes(n));
+    if(missing.length)issues.push(`第 ${i+1} 句数字待核对：${missing.join(', ')}`);
+  });
+  return {status:issues.some(x=>/为空|句数不一致|原文回显/.test(x))?'blocked':'machine-checked',issues,sentenceCount:source.length};
+}
 function validateItem(item, requireApproved=false) {
   if(!/^people-[a-z0-9-]+$/.test(item.id))throw new Error('无效人物 ID');
   if(!item.titleZh || !item.photoCredit)throw new Error('标题中文或摄影署名缺失');
@@ -64,14 +79,25 @@ function sourcePhotoMap(p, photos) {
 async function toFullParas(item,p,photos) {
   const textBlocks=p.blocks.filter(b=>b.type==='text');
   const sourceSentences=textBlocks.flatMap(b=>b.sentences);
-  const translated=await translateTexts(sourceSentences,{cacheNamespace:'people-full-v1',cacheKey:item.id+'\n'+p.sourceTextHash,context:batch=>`${p.title}\n${p.person?.name||''}\n${batch.map(x=>x.t).join(' ')}`,
+  const translationProviders={};
+  const translated=await translateTexts(sourceSentences,{cacheNamespace:'people-full-v2',cacheKey:item.id+'\n'+p.sourceTextHash,sourceLang:'EN',
+    context:batch=>{
+      const around=new Set();
+      for(const x of batch){const i=Number(x.i);for(const j of [i-2,i-1,i,i+1,i+2])if(sourceSentences[j])around.add(sourceSentences[j]);}
+      return [`Article title: ${p.title}`,`Person: ${p.person?.name||''}`,item.source?`Source: ${item.source}`:'',[...around].join(' ')].filter(Boolean).join('\n');
+    },
+    onProvider:(name,count)=>{translationProviders[name]=(translationProviders[name]||0)+count;},
     onTick:(done,total)=>{if(total)console.log(`  翻译 ${item.id}: ${done}/${total}`);}});
+  const translation=translationAudit(sourceSentences,translated);
+  if(translation.status==='blocked')throw new Error(`译文完整性检查未通过：${translation.issues.slice(0,6).join('；')}`);
   let cursor=0;
   const paras=[];
   const imageMap=sourcePhotoMap(p,photos);
   for(const block of p.blocks){
     if(block.type==='text'){
-      const sentences=block.sentences.map(en=>({en,cn:translated[cursor++]||''}));
+      /* 术语/专名校正：人物篇的片名、人名是最容易整类译错的地方（Monster→《魔鬼》），
+         规则以英文原句为条件，在此统一按回标准译名。 */
+      const sentences=block.sentences.map(en=>({en,cn:applyGlossary(translated[cursor++]||'',en,item.id)}));
       paras.push({sentences,sourceTag:block.tag});
     }else if(block.type==='image'){
       const photo=imageMap.get(imageKey(block.url));
@@ -81,7 +107,7 @@ async function toFullParas(item,p,photos) {
   /* og:image 常常只作为封面，不在 article figure 内；其余遗漏图追加，避免抓取器静默丢图。 */
   const used=new Set(paras.filter(x=>x.img).map(x=>x.sourceUrl));
   for(const photo of photos.slice(1))if(!used.has(photo.sourceUrl))paras.push({img:photo.rel,alt:`${p.person?.name||p.title} · 图片`,cap:'',credit:item.photoCredit,sourceUrl:photo.sourceUrl});
-  return paras;
+  return {paras,translation:{...translation,providers:translationProviders,cacheNamespace:'people-full-v2'}};
 }
 
 if(mode==='discover'){
@@ -127,9 +153,11 @@ if(mode==='discover'){
       if(imageErrors.length) throw new Error(`图片下载失败 ${imageErrors.length} 张：${imageErrors.slice(0,4).join('；')}`);
       if(mode==='publish' && JSON.stringify(item.review.photoHashes)!==JSON.stringify(photos.map(x=>x.sha256)))throw new Error('图片与已核对版本不一致');
       const entry={...p,...item,sourceTitle:p.title,person:p.person,score:p.score,eligible:p.eligible,fingerprint:fp,photos};
-      entry.paras=mode==='publish'
+      const translatedContent=mode==='publish'
         ? await toFullParas(item,p,photos.map(x=>({...x,rel:'assets/covers/'+path.basename(x.file)})))
-        : [];
+        : {paras:[],translation:null};
+      entry.paras=translatedContent.paras;
+      entry.translation=translatedContent.translation;
       prepared.push(entry);
       console.log(`${entry.person.name}: ${entry.photos.length} 图 · ${entry.sourceParagraphs} 段原文 · 选题分 ${entry.score}`);
     }catch(e){failed.push({id:item.id,error:e.message.slice(0,1600)});console.warn(`暂缓 ${item.id}: ${e.message.slice(0,500)}`);}
@@ -155,7 +183,7 @@ if(mode==='discover'){
         return {id:p.id,cat:'人物',title:p.title,titleZh:p.titleZh,url:p.url,source:p.source,date:p.date,addedAt:day,pin:true,
           readingMode:'full',contentStatus:'complete',extractorVersion:'people-full-v1',person:p.person.name,personZh:p.person.zh,
           photoCount:photos.length,photoCredit:p.photoCredit,peopleScore:p.score,peopleScoreParts:p.scoreParts,peopleVersion:config.version,
-          review:{...p.review,scope:'full-original-text-and-photos'},fingerprint:p.fingerprint,sourceTextHash:p.sourceTextHash,sourceTextWords:p.words,sourceParagraphs:p.sourceParagraphs,sourceImages:p.images.length,
+          review:{...p.review,scope:'full-original-text-and-photos'},translation:p.translation,fingerprint:p.fingerprint,sourceTextHash:p.sourceTextHash,sourceTextWords:p.words,sourceParagraphs:p.sourceParagraphs,sourceImages:p.images.length,
           coverImg:photos[0]?.rel||'',cover:'linear-gradient(135deg,#eadbcc,#855349)',gradient:'linear-gradient(135deg,#eadbcc,#855349)',photoSources:photos.map(x=>x.sourceUrl),paras};
       });
       writeDecl(file,'ARTICLES_EXTRA',[...baseCurrent,...additions]);

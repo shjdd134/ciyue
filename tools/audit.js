@@ -383,7 +383,8 @@ click({ tab: 'home' });
 ok('首页文章卡渲染中文标题', /class="t-zh"/.test(screenEl.innerHTML));
 click({ tab: 'discover' });
 ok('发现页文章卡渲染中文标题', /class="t-zh"/.test(screenEl.innerHTML));
-ok('发现页精选渲染中文标题', /class="feat-title-zh"/.test(screenEl.innerHTML));
+const featureZh = ctx('zhTitle(ARTICLES.slice().sort((a,b) => String(b.date || "").localeCompare(String(a.date || ""))).find(a => coverOf(a)))');
+ok('发现页精选渲染中文标题', screenEl.innerHTML.includes('class="editorial-copy"') && screenEl.innerHTML.includes(`<h2>${featureZh}</h2>`));
 click({ article: arts[0].id });
 ok('阅读页渲染中文标题', /class="title-zh"/.test(screenEl.innerHTML));
 
@@ -963,6 +964,68 @@ console.log('\n[G6] 内容更新通知的处理');
   if (changed.length) changed.slice(0, 3).forEach(r => console.log('    有例句：' + r));
   /* 还原必须干净，否则后面所有指标断言都跟着错 */
   ok('例句已还原（后续断言不被污染）', ctx('WORDS.filter(w => w.example || w.exampleCn).length') === nWords);
+}
+
+/* ---------------- [G9] 中文层术语与链接卫生 ----------------
+ * 三道守卫，针对的都是「机器翻译稳定复现、重译救不了、只能靠中文层后处理纠正」的错误
+ * （规则表见 tools/term-glossary.json，背景见 SEMANTIC-AUDIT-2026-09-15.md）：
+ *   G9a 术语表规则在已发布数据上不得有残留 —— 遍历规则表逐条回验，而不是把结论抄成
+ *       断言。这样新增一条术语规则就自动多一道守卫：规则表是唯一事实源，断言不会漂。
+ *   G9b 标题体句子（英文以冒号结尾、≤10 词）的中文不得套书名号 —— DeepL 会把
+ *       "The Obsession Framework:" 这类小标题误判成作品名，知识库篇实测 9 处。
+ *   G9c 数据里不得出现 localhost / 127.0.0.1 / file:// —— 选题时用过本地临时页
+ *       （gr-how-to-fix-your-entire-life 的 url 曾是 http://localhost:8123/.tmp/...）。
+ */
+{
+  const glossary = JSON.parse(fs.readFileSync(path.join(base, 'tools', 'term-glossary.json'), 'utf8'));
+  const inScope = (r, id) => !r.art || r.art.some(p => String(id).startsWith(p));
+  const sents = [];
+  for (const a of ctx('ARTICLES')) {
+    for (const p of (a.paras || [])) {
+      if (p.img) continue;
+      for (const s of (Array.isArray(p.sentences) ? p.sentences : [p])) {
+        if (s && s.en) sents.push({ id: a.id, en: String(s.en), cn: String(s.cn || '') });
+      }
+    }
+  }
+
+  const residual = [];
+  for (const kind of ['fixes', 'terms']) {
+    for (const r of glossary[kind] || []) {
+      if (r.set != null) continue;              // 整句替换没有「旧译法串」可回验
+      for (const s of sents) {
+        if (!inScope(r, s.id)) continue;
+        if (!new RegExp(r.en, 'i').test(s.en)) continue;
+        if (r.unless && new RegExp(r.unless, 'i').test(s.en)) continue;
+        for (const [from] of r.cn || []) if (s.cn.includes(from)) residual.push(`${kind}「${from}」@${s.id}`);
+      }
+    }
+  }
+  for (const r of glossary.global || []) {
+    for (const s of sents) {
+      if (inScope(r, s.id) && s.cn.includes(r.from)) residual.push(`global「${r.from}」@${s.id}`);
+    }
+  }
+  const nRules = (glossary.fixes || []).length + (glossary.terms || []).length + (glossary.global || []).length;
+  ok(`术语表 ${nRules} 条规则在 ${sents.length} 句译文上零残留`, residual.length === 0);
+  if (residual.length) console.log(`    命中：${residual.slice(0, 8).join('、')}`);
+
+  const headBad = sents.filter(s =>
+    /:\s*$/.test(s.en.trim()) && s.en.trim().split(/\s+/).length <= 10 && /《/.test(s.cn));
+  ok('标题体句子（英文以冒号结尾）的中文没有书名号', headBad.length === 0);
+  headBad.slice(0, 4).forEach(s => console.log(`    ${s.id}：${s.en} → ${s.cn}`));
+
+  /* 文章标题同理：标题本身就是这篇文章的名字，再套书名号等于说它是另一部作品。
+   * 真需要引用某部作品时（少见）再给这一条加白名单 —— 现在 11 篇标题全干净。 */
+  const titleBad = ctx('ARTICLES').filter(a => /《/.test(String(a.titleZh || '')))
+    .map(a => `${a.id}：${a.titleZh}`);
+  ok('文章标题（titleZh）没有书名号', titleBad.length === 0);
+  titleBad.slice(0, 4).forEach(t => console.log(`    ${t}`));
+
+  const localHits = [];
+  for (const a of ctx('ARTICLES')) if (/localhost|127\.0\.0\.1|file:\/\//.test(JSON.stringify(a))) localHits.push(a.id);
+  ok('文章数据里没有 localhost / 127.0.0.1 / file:// 链接', localHits.length === 0);
+  if (localHits.length) console.log(`    命中：${localHits.join('、')}`);
 }
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);

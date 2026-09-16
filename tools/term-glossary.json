@@ -1,0 +1,437 @@
+{
+  "$comment": [
+    "词阅 —— 译名与术语校正表（中文层后处理）。生成产物不手改，本文件的规则由 tools/fix-cn.mjs 应用。",
+    "",
+    "**规则一律以英文原句为条件**（`en` 字段）。原因：同一个中文词往往对应两个不同的英文术语 ——",
+    "「阶段」既可能是 Phase（本库唯一正确译法）也可能是 Level（被译错的），无条件全局替换必然误伤。",
+    "先匹配英文、再动中文，才能保证只改该改的那一句。",
+    "",
+    "字段：",
+    "  fixes[]  —— 句级修正。en 命中后，按 set 整句替换，或按 cn 做「子串/正则 → 替换」。",
+    "  terms[]  —— 术语统一。en 命中后，把该句里走偏的译法换回唯一译法；unless 命中则跳过。",
+    "  global[] —— 无需英文条件的专名归一（片名、人名）。这些字符串在本库里无歧义；art 可限定范围。",
+    "",
+    "用法：node tools/fix-cn.mjs --dry   看逐条改动（先看再改）",
+    "      node tools/fix-cn.mjs         落盘",
+    "幂等：同一条规则对同一句重复执行不会二次改动。"
+  ],
+  "version": 2,
+
+  "fixes": [
+    {
+      "why": "P0 方向反了：同篇 15/17 句把 feed it 译成「向它输入」，本句却译成「把它给…看」。",
+      "en": "^Feed it people you want to understand",
+      "set": "把你想了解的人的资料喂给它。"
+    },
+    {
+      "why": "P0 主语换了：原意是「任务的表现提升」，译成了「进入心流的比例提高」。",
+      "en": "^Creative problem-solving tasks show marked improvement in flow states",
+      "cn": [["进入“心流状态”的比例显著提高", "心流状态下的表现显著提升"]]
+    },
+    {
+      "why": "P0 release 被当成软件发版；紧接着的 273「释放机制」、275「最终放手」都是同一个 release。",
+      "en": "^Phase X\\.2 uncertainty forces this release",
+      "set": "阶段 X.2 的不确定性会迫使这种“松手”发生。"
+    },
+    {
+      "why": "P0 乒乓球比喻里 rally = 连续对打/回合，不是「连胜」。",
+      "en": "^It’s not the sustained rally",
+      "cn": [["那种接二连三、持续不断的连胜", "球一来一往能打多久"]]
+    },
+    {
+      "why": "P0 8 是自我发展的阶段编号（承 88 句 9 stages、108 句 between 4 and 8），不是年龄；同段 110 句「分数接近 4」反而译对了。",
+      "en": "^Those closer to 8",
+      "cn": [["年龄接近8岁", "接近第 8 阶段"]]
+    },
+    {
+      "why": "P0 因果倒置：英文的 don’t 同时管 adopt 和 find，译文在段界处丢了否定词，find 反被当成正条件。",
+      "en": "^and find a reason with a higher gravitational pull",
+      "cn": [["如果你找到的理由", "而且如果你找不到一个理由"]]
+    },
+    {
+      "why": "P1 书签工具语境：save = 保存，不是省钱 / 节省时间 / 拿走。三处同源，是 MT 的语境误判。",
+      "en": "^During the day, saving is a reflex",
+      "set": "白天，保存是一种本能。"
+    },
+    {
+      "why": "P1 同上：at save time = 在保存时。",
+      "en": "^And none of it costs you anything at save time",
+      "cn": [["在节省时间方面", "在保存时"]]
+    },
+    {
+      "why": "P1 同上：saves something = 保存某样东西。",
+      "en": "^Either of us saves something in passing",
+      "cn": [["顺手拿走某样东西", "顺手保存某样东西"]]
+    },
+    {
+      "why": "P1 Recall 被译成编程术语「回调」；同篇另一句 recall 已译「回忆」。",
+      "en": "^Recall is usually the entry point",
+      "set": "回想通常是切入点。"
+    },
+
+    {
+      "why": "小标题被套书名号（P1，知识库篇共 9 处）。下面 9 条是逐条核对过的小标题。",
+      "en": "^Flow Science Insight:",
+      "cn": [["《流动科学洞见》", "流动科学洞见"]]
+    },
+    {
+      "why": "小标题去书名号。",
+      "en": "^Performance Foundation:",
+      "cn": [["《表现力基础》", "表现力基础"]]
+    },
+    {
+      "why": "P1 小标题被当书名号，句读错乱（冒号被吃进书名号里）。",
+      "en": "^The Embodiment Research:",
+      "cn": [["《身体化研究：心流研究》最初", "身体化研究：心流研究最初"]]
+    },
+    {
+      "why": "P1 专名被加书名号：Body quadrant / Spirit quadrant 是象限名。",
+      "en": "^Metacrisis Relevance: The Spirit quadrant",
+      "cn": [["《精神》象限", "精神象限"]]
+    },
+    {
+      "why": "小标题去书名号。",
+      "en": "^The Status Game: Level 2",
+      "cn": [["《地位游戏：第2级》", "地位游戏：第 2 级"]]
+    },
+    {
+      "why": "小标题去书名号。",
+      "en": "^The Interest Cycle Mastery:",
+      "cn": [["《兴趣周期精通指南》", "兴趣周期精通指南"]]
+    },
+    {
+      "why": "小标题去书名号。",
+      "en": "^The Creativity Connection:",
+      "cn": [["《创造力的联系》", "创造力的联系"]]
+    },
+    {
+      "why": "小标题去书名号。",
+      "en": "^The Obsession Framework:",
+      "cn": [["《痴迷框架》", "痴迷框架"]]
+    },
+    {
+      "why": "HUMAN 3.0 是模型名不是书名，本句主语就是它，加书名号变成了「引用一部作品」。",
+      "en": "^HUMAN 3\\.0 provides a map for systematic problem-solving",
+      "cn": [["《HUMAN 3.0》为", "HUMAN 3.0 为"]]
+    },
+
+    {
+      "why": "P1 层级/阶段撞车：Level 被译成「阶段」，与 Phase 的唯一译法「阶段」混为一谈。这两篇的骨架就是「三层级 × 三阶段」。",
+      "en": "^Within each level, there are 3 phases of development",
+      "cn": [["在每个级别中", "在每个层级中"], ["下一个级别", "下一个层级"]]
+    },
+    {
+      "why": "P1 同上：moving up a level 的 level 被译成「层次」，与 Phase 的「阶段」区分度不够。",
+      "en": "^Phases represent vertical development",
+      "cn": [["向上提升一个层次", "向上提升一个层级"]]
+    },
+    {
+      "why": "P1 同上：本句的「阶段」来自 level，而同一句里的 exhausted that stage 才是 stage。",
+      "en": "^The “2” represents the Individualist level",
+      "cn": [["“2”代表“个人主义”阶段", "“2”代表“个人主义”层级"], ["向第3阶段迈进", "向下一阶段迈进"]]
+    },
+    {
+      "why": "P1 同上：level 被译成「关卡」（游戏词串味）。",
+      "en": "^You do not leave any given level",
+      "cn": [["任何一个关卡", "任何一个层级"]]
+    },
+    {
+      "why": "P1 同上：acclimate to the Level you are in 的 Level 译成了「等级」。",
+      "en": "^First, you must reach the Dissonance phase after you fully acclimate",
+      "cn": [["完全适应当前等级后", "完全适应当前层级后"]]
+    },
+    {
+      "why": "P1 同上：When you reach the Dissonance Phase of any Level —— Level 译成「等级」。",
+      "en": "^When you reach the Dissonance Phase of any Level",
+      "cn": [["任何等级的“不和谐阶段”", "任何层级的“不和谐阶段”"]]
+    },
+    {
+      "why": "P1 同上：especially in Level 1 译成「尤其是第一级」。",
+      "en": "^For most people, especially in Level 1",
+      "cn": [["尤其是第一级", "尤其是第 1 层级"]]
+    },
+    {
+      "why": "P1 同上：Level 1 被译成「第一级」。",
+      "en": "^Then they rediscover a new perspective on God",
+      "cn": [["第一级所包含的真理", "第 1 层级所包含的真理"]]
+    },
+    {
+      "why": "P1 同上：一句里两个 Level 都译成「第N级」。",
+      "en": "^One can elevate a Level 1 primitive state",
+      "cn": [["第1级的原始状态提升至第3级", "第 1 层级的原始状态提升至第 3 层级"]]
+    },
+    {
+      "why": "P1 同上：reach a new level 译成「新的发展阶段」。",
+      "en": "^If you attempt to jump to a new level of development",
+      "cn": [["跃升到一个新的发展阶段", "跃升到一个新的层级"]]
+    },
+    {
+      "why": "P1 同上：move up a level 译成「提升一个层次」。",
+      "en": "^If you do not attempt to move up a level at all",
+      "cn": [["提升一个层次", "提升一个层级"]]
+    },
+
+    {
+      "why": "P1 flow 相关的术语：flow science / flow research / group flow 被译成「流动科学 / 流研究 / 群体流动」，与全文的「心流」不一致。",
+      "en": "^Release Mechanism: Flow science shows",
+      "cn": [["流动科学表明", "心流科学表明"]]
+    },
+    {
+      "why": "P1 同上。目标串刻意避开原串：「心流科学验证」里含「流科学验证」，第二次执行会变成「心心流科学验证」——规则表里 to 包含 from 的写法永远不可能幂等，fix-cn.mjs 在加载期就会拦下这种规则。",
+      "en": "^Flow Science Validation:",
+      "cn": [["流科学验证：", "心流科学的验证："]]
+    },
+    {
+      "why": "P1 同上。",
+      "en": "^Group Flow Dynamics:",
+      "cn": [["群体流动动力学", "群体心流动力学"], ["关于团队流动的研究", "关于团队心流的研究"]]
+    },
+    {
+      "why": "P1 同上。目标串避开原串以保证幂等（见上一条）。",
+      "en": "^Flow research shows that this shift correlates",
+      "cn": [["流研究表明", "心流研究显示"]]
+    },
+    {
+      "why": "P1 同上：Flow-Complexity Spiral 是专名。",
+      "en": "^The Flow-Complexity Spiral:",
+      "cn": [["“流动-复杂性螺旋”", "“心流-复杂性螺旋”"], ["流动状态会催化", "心流状态会催化"], ["又促使流动状态进一步深化", "又促使心流状态进一步深化"]]
+    },
+    {
+      "why": "P1 同上：flow states 在知识库篇有「流动状态」的写法。",
+      "en": "^The key difference: Channels involve",
+      "cn": [["而流动状态则可能", "而心流状态则可能"]]
+    },
+    {
+      "why": "P1 同上。",
+      "en": "^Flow Science Insight:",
+      "cn": [["流动状态会自然形成", "心流状态会自然形成"]]
+    },
+
+    {
+      "why": "P1 层级/阶段分离续：terms 规则刻意不动「阶段」（那是 Phase 的地盘），于是从 level 来、又不含 phase/stage 的「阶段」会漏网。这几句逐句钉住，只改该改的那半句。",
+      "en": "^They can display what some may perceive as level 1 traits",
+      "cn": [["属于第一阶段的特征", "属于第 1 层级的特征"]]
+    },
+    {
+      "why": "P1 同上：next Level of development 译成「下一个发展阶段」。",
+      "en": "^Usually, a person becomes “obsessed” with learning or building",
+      "cn": [["下一个发展阶段", "下一个层级"]]
+    },
+    {
+      "why": "P1 同上：本句 stage 与 level 并存 —— 第一个「当前阶段」是 stage（正确），第二个才是 level，只改后者。",
+      "en": "^This is self-deception and traps people in their current stage",
+      "cn": [["直到解决当前阶段尚存的问题", "直到解决当前层级尚存的问题"]]
+    },
+    {
+      "why": "P1 同上（知识库篇）：skip levels 的 levels 译成「阶段」，与紧随其后的 Each stage 混成同一个词。",
+      "en": "^You can’t skip levels",
+      "cn": [["你无法跳过任何阶段", "你无法跳过任何层级"]]
+    },
+    {
+      "why": "P1 同上：growth through Human 3.0 levels 译成「各阶段」。",
+      "en": "^Each individual’s growth through Human 3\\.0 levels",
+      "cn": [["各阶段的成长", "各层级的成长"]]
+    },
+    {
+      "why": "P1 同上：Level 1.0 / Level 2.0 译成「1.0级 / 2.0级」，句尾还多出一个「阶段」。",
+      "en": "^Most humanity remains at Blue/traditional",
+      "cn": [["（1.0级）或橙色/现代（2.0级）阶段", "（1.0 层级）或橙色/现代（2.0 层级）"]]
+    },
+    {
+      "why": "P1 同上：At Level 1.0 译成「在1.0阶段」。",
+      "en": "^The Assignment Life: At Level 1\\.0",
+      "cn": [["在1.0阶段", "在 1.0 层级"]]
+    },
+    {
+      "why": "P1 同上：This level marks… 译成「这一阶段标志着」。",
+      "en": "^The Agency Shift: This level marks the shift",
+      "cn": [["这一阶段标志着", "这一层级标志着"]]
+    },
+    {
+      "why": "P1 同上：Level 2 / Level 3 同句，两个都译成「阶段」。",
+      "en": "^The very success drive that enabled Level 2 development",
+      "cn": [["推动第二阶段发展的成功动力，却成了第三阶段发展的障碍", "推动第 2 层级发展的成功动力，却成了第 3 层级发展的障碍"]]
+    },
+    {
+      "why": "P1 同上：at Level 3 译成「在第三阶段」。",
+      "en": "^Developmental Origin: Emerges after extensive time at Level 3",
+      "cn": [["在第三阶段经历较长时间后出现", "在第 3 层级经历较长时间后出现"]]
+    },
+    {
+      "why": "P1 同上：next level of personal development 译成「个人发展新阶段」。",
+      "en": "^“Money is often the one thing holding people back",
+      "cn": [["个人发展新阶段", "个人发展新层级"]]
+    }
+  ],
+
+  "terms": [
+    {
+      "concept": "Level（HUMAN 3.0 三层级）",
+      "why": "路线图篇所有含 Level 的句子，把残留的「层次/水平/级别/等级/关卡」统一到「层级」。刻意**不动「阶段」**——那是 Phase 的地盘（本库 Phase 唯一译法就是阶段），把阶段一起改会把「3个发展阶段」写成「3个发展层级」。句子同时出现 phase 的整句跳过，宁可留一个不改，也不冒险。",
+      "en": "\\blevels?\\b",
+      "unless": "\\bphases?\\b",
+      "cn": [["层次", "层级"], ["水平", "层级"], ["级别", "层级"], ["等级", "层级"], ["关卡", "层级"]],
+      "art": ["gr-human-3-0-a-map-to-reach-the-top-1", "gr-a-complete-knowledge-base-of-human-3-0"]
+    },
+    {
+      "concept": "Csikszentmihalyi",
+      "why": "同一人两种译名；「契克森米哈赖」是通用译名且在本库占 11 处。",
+      "en": "Csikszentmihalyi",
+      "cn": [["奇克森特米哈伊", "契克森米哈赖"]]
+    },
+    {
+      "concept": "Channel（HUMAN 3.0 的通道）",
+      "why": "「渠道」是分销词。注意要放过 Criterion 频道（那是流媒体服务名，不是这个术语）。",
+      "en": "Channel",
+      "unless": "Criterion",
+      "cn": [["渠道", "通道"]]
+    },
+    {
+      "concept": "Vocation（象限名）",
+      "why": "同一象限名三译（天职/志业/职业），正文里「天职」最多，统一到它。注意「职业」单独出现时**不能全局替换**：它也可能就是 career/profession（如 “a fulfilling career” 那句里两个「职业」，只有第一个是 Vocation）。所以只钉住 1:1 的象限名，箭头链里「职业热忱/职业拖延」这类描述状态的写法保留 —— 改成「天职」反而读不通。",
+      "en": "Vocation",
+      "cn": [["志业", "天职"], ["“职业”象限", "“天职”象限"], ["职业象限", "天职象限"]]
+    },
+    {
+      "why": "P1 Vocation 象限名残留（1:1 可替换的六处）。箭头链里的描述性写法刻意不动，见上一条。",
+      "en": "^Vocation \\(Collective Physical World\\)",
+      "cn": [["职业（集体物质世界）", "天职（集体物质世界）"]]
+    },
+    {
+      "why": "P1 同上：本句第二个「职业」是 career，只改第一个（象限名）。",
+      "en": "^Vocation – Has a valuable set of education and skills",
+      "cn": [["职业——拥有宝贵的教育背景", "天职——拥有宝贵的教育背景"]]
+    },
+    {
+      "why": "P1 同上：mind/spirit/vocation 四象限并列处。",
+      "en": "at the leading edge of mind, body, spirit, and vocation",
+      "cn": [["精神与职业领域最前沿", "精神与天职领域最前沿"]]
+    },
+    {
+      "why": "P1 同上：象限摘要行。",
+      "en": "^Vocation: Maximum clarity leading to product launch",
+      "cn": [["职业使命：极致的清晰度", "天职：极致的清晰度"]]
+    },
+    {
+      "why": "P1 同上。",
+      "en": "^Vocation consuming all time/energy",
+      "cn": [["职业占据了所有时间和精力", "天职占据了所有时间和精力"]]
+    },
+    {
+      "why": "P1 同上：英文 not Vocation，译文写成「事业」，四象限里没有这个词。",
+      "en": "the real constraint was Body",
+      "cn": [["而非“事业”", "而非“天职”"]]
+    },
+    {
+      "concept": "spaced repetition",
+      "why": "同一术语两译。",
+      "en": "spaced repetition",
+      "cn": [["间隔复习法", "间隔重复"], ["间隔复习", "间隔重复"]]
+    },
+    {
+      "concept": "flashcard",
+      "why": "同一术语两译。",
+      "en": "flashcard",
+      "cn": [["单词卡", "闪卡"]]
+    },
+    {
+      "concept": "HUMAN 3.0 的写法",
+      "why": "同一模型名 8 种写法（人类3.0 / Human 3.0 / H3.0 / 《人类3.0》…）。只在两篇 HUMAN 3.0 文章里统一成 HUMAN 3.0。",
+      "en": "HUMAN 3\\.0|Human 3\\.0|H3\\.0",
+      "cn": [["《人类3.0》", "HUMAN 3.0"], ["《HUMAN 3.0》", "HUMAN 3.0"], ["人类3.0", "HUMAN 3.0"], ["H3.0", "HUMAN 3.0"], ["Human 3.0", "HUMAN 3.0"]],
+      "art": ["gr-human-3-0-a-map-to-reach-the-top-1", "gr-a-complete-knowledge-base-of-human-3-0"]
+    },
+    {
+      "concept": "足球主教练",
+      "why": "英文明确为 manager/head coach 时，不能沿用把 owner/boss 误译成主帅的旧替换。",
+      "en": "\\b(manager|head coach)\\b",
+      "unless": "\\b(owner|co-owner)\\b",
+      "cn": [["球队老板", "主教练"], ["俱乐部老板", "主教练"], ["老板", "主教练"]],
+      "art": ["ft-"]
+    },
+    {
+      "concept": "足球俱乐部所有者",
+      "why": "英文明确为 owner 时保留所有权含义，不把老板改成主帅。",
+      "en": "\\b(owner|co-owner)\\b",
+      "unless": "\\b(manager|head coach)\\b",
+      "cn": [["主帅", "老板"], ["主教练", "老板"]],
+      "art": ["ft-"]
+    },
+    {
+      "concept": "manager 译为经理时的安全校正",
+      "why": "同句出现 owner 时不做老板的全局猜测，只把明确的「经理」校正为主教练。",
+      "en": "\\b(manager|head coach)\\b",
+      "cn": [["经理", "主教练"]],
+      "art": ["ft-"]
+    },
+    {
+      "concept": "Martin Ødegaard",
+      "why": "常见音译漂移统一为厄德高；仅在英文原句确认该球员时生效。",
+      "en": "(?:^|[^A-Za-z])(?:Martin\\s+)?(?:Ødegaard|Odegaard)(?:$|[^A-Za-z])",
+      "cn": [["奥德加尔", "厄德高"], ["奥德加德", "厄德高"], ["奥德加", "厄德高"]],
+      "art": ["ft-"]
+    },
+    {
+      "concept": "Mikel Arteta",
+      "why": "人名括号残留只在英文确认为 Arteta 时清理，避免全局误改。",
+      "en": "\\bMikel\\s+Arteta\\b",
+      "cn": [["阿尔特塔（Mikel Arteta）", "阿尔特塔"], ["阿尔特塔（ Mikel Arteta ）", "阿尔特塔"]],
+      "art": ["ft-"]
+    }
+  ],
+
+  "global": [
+    {
+      "why": "Monster (2003) 的通用译名是《女魔头》。原文同篇还出现过《魔鬼》（= devil，完全错配）与《怪物》两种写法，且都不是这部片。",
+      "from": "《魔鬼》", "to": "《女魔头》", "art": ["people-charlize-theron-another"]
+    },
+    {
+      "why": "同上（另一处写法）。",
+      "from": "《怪物》", "to": "《女魔头》", "art": ["people-charlize-theron-another"]
+    },
+    {
+      "why": "Splash (1984) 的通用译名是《美人鱼》；《人鱼传说》是 1994 年港片，指向另一部电影。",
+      "from": "《人鱼传说》", "to": "《美人鱼》"
+    },
+    {
+      "why": "Young Adult (2011) 的通用译名是《青少年》（puberty 才是青春期）；同篇两种写法。",
+      "from": "《青春期》", "to": "《青少年》"
+    },
+    {
+      "why": "同上（另一种写法）。",
+      "from": "《青春已逝》", "to": "《青少年》"
+    },
+    {
+      "why": "同篇其它 3 处都是《Apex》，1 处译成《巅峰》，统一为《Apex》（保留原名的加书名号形式）。",
+      "from": "《巅峰》", "to": "《Apex》"
+    },
+    {
+      "why": "The Idea of You 的通用译名是《你的想法》；《你的想象》是同一篇里的另一种写法。",
+      "from": "《你的想象》", "to": "《你的想法》"
+    },
+    {
+      "why": "The Old Guard 的 Netflix 官方中文名是《永生守卫》。",
+      "from": "《老卫队》", "to": "《永生守卫》"
+    },
+    {
+      "why": "Mother Mary 一片在本库有四种写法，统一到《母亲玛丽》。",
+      "from": "《圣母玛利亚》", "to": "《母亲玛丽》", "art": ["people-anne-hathaway-mother-mary"]
+    },
+    {
+      "why": "同上。",
+      "from": "圣母玛丽", "to": "母亲玛丽", "art": ["people-anne-hathaway-mother-mary"]
+    },
+    {
+      "why": "Michaela Coel 在本库两种写法，统一到出现更多的「科尔」。",
+      "from": "科埃尔", "to": "科尔", "art": ["people-anne-hathaway-mother-mary"]
+    },
+    {
+      "why": "David Lowery 在本库两种写法，统一到通用译名「洛维」。",
+      "from": "洛厄里", "to": "洛维", "art": ["people-anne-hathaway-mother-mary"]
+    },
+    {
+      "why": "Claude 是产品名，中文社区通用保留英文，不译「克劳德」。",
+      "from": "克劳德", "to": "Claude"
+    }
+  ]
+}

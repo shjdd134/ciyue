@@ -34,8 +34,8 @@ assert(extractProfile(splitHtml,base).words>500,'多个 article 容器应选择�
 const approved={...good,eligible:true,id:'people-anne',url:base,review:{status:'approved',visualChecked:true,guideChecked:true,articleChecked:true}};
 const second={...approved,id:'people-charlize',url:'https://www.anothermag.com/interview/123/charlize',person:personFor('Charlize Theron')};
 const third={...approved,id:'people-monica',url:'https://www.vogue.co.uk/article/monica',person:personFor('Monica Bellucci')};
-assert.equal(selectDaily([approved,second,third],[],'2026-09-15',99).length,2);
-assert.equal(selectDaily([approved,second],[{...approved,cat:'人物',addedAt:'2026-09-15'}],'2026-09-15').length,1);
+assert.equal(selectDaily([approved,second,third],[],'2026-09-15',99).length,1);
+assert.equal(selectDaily([approved,second],[{...approved,cat:'人物',addedAt:'2026-09-15'}],'2026-09-15').length,0);
 assert.equal(selectDaily([approved,second],[{...approved,cat:'人物',addedAt:'2026-09-15'},{...second,cat:'人物',addedAt:'2026-09-15'}],'2026-09-15').length,0);
 assert.equal(selectDaily([{...approved,review:{...approved.review,visualChecked:false}}],[],'2026-09-15').length,0);
 assert.equal(selectDaily([approved],[{...approved,url:base+'?utm_source=x'}],'2026-09-15').length,0);

@@ -101,8 +101,43 @@ const BOILER = [
      抓的是这一系，不挡就会每篇都带 3 段广告尾巴。 */
   /\bvogue (runway )?app has expanded\b/i, /\bvogue business (member|membership)\b/i,
   /\bnever miss a story\b/i, /\bto your preferred sources\b/i,
-  /\b(become|join) a [a-z]+ (business )?member\b/i, /\bthe ultimate resource for\b/i
+  /\b(become|join) a [a-z]+ (business )?member\b/i, /\bthe ultimate resource for\b/i,
+  /* 播客/资讯站的节目落地页：把「免责声明 + 会员推广 + 联盟计划」整段写在 <p> 里。
+     2026-09-15 语义验收实测 fs.blog 的三篇节目页 —— 一篇 359 词里 11 句（52%）是这类
+     模板，读起来像文章、qc 的 F4/F5 一条都抓不到（不是链接、不是广告脚本、没占位符），
+     于是「本播客不构成投资建议」就成了学习内容。 */
+  /\bnot investment advice\b/i, /\bfor informational purposes only\b/i,
+  /\bfor informational and entertainment purposes\b/i, /\byour own due diligence\b/i,
+  /\b(not|aren't) medical professionals?\b/i, /\bconsult (a|with a) qualified (financial advisor|healthcare professional)\b/i,
+  /\bmember(s)? only (area|content)\b/i, /\bget transcripts\b/i, /\bearly access, ad-free\b/i,
+  /\blearn more or sign up now\b/i, /\baffiliate (advertising|program)\b/i,
+  /\bassociates program\b/i, /\bearn advertising commissions\b/i,
+  /\bthis (podcast|episode) discusses\b/i, /\bmay hold positions in (assets|securities)\b/i,
+  /\bget the longer, extended version\b/i, /\ba podcast about mastering the best of what\b/i,
+  /\bwalk away from every episode with actionable insights\b/i,
+  /\bthe knowledge project focuses on insights and lessons\b/i,
+  /* 站点外壳写进 <li>/<h2> 的残渣（2026-09-15 补提取器时实测）：
+     More To That 的订阅弹窗（「Thanks! Check your inbox…」）、Ness Labs 的
+     newsletter 条幅与页脚标语、跨篇导流（「Related Reading on the 9 Stages…」）。
+     这些比正文段的同类话术更短，长度闸挡不住，只有文本特征能认。 */
+  /\bcheck your inbox\b/i, /\bmindful makers\b/i, /^don[’']t work more\b/i,
+  /\bmade a \d+-page ebook\b/i, /^related reading on the\b/i, /\bthinking in stories\b/i,
+  /\bpaid substack articles\b/i, /\bjoin \d[\d,]*\+? (mindful|creative|curious|smart)\b/i,
+  /* 放开 30–70 字符短段后浮出来的赞助/订阅尾巴（2026-09-15 实测）：
+     fs.blog 页脚的 Syrus Partners 赞助行、AnOther 的周更导流。 */
+  /^\+\s*check out\b/i, /\bgranola notes\b/i, /\bwe buy amazing businesses\b/i,
+  /\bbest of [\w.-]+\.(com|org|net|co\.uk)\b/i, /\bpublished every (friday|thursday|monday|week)\b/i
 ];
+
+/* 「别的集的预告」：节目页常在正文尾挂几条相关集的摘要，原文自己就被截断了（句尾 "…"）。
+   这类段落短、且以省略号收尾 —— 逐条判定就是「半截话」，译出来读者也接不上。
+   语义验收实测 fs.blog 一篇里混进了 3 条（含其他节目的开头句）。
+   **省略号前必须有空格**：信息流截断是在词边界上切的（"away from …" / "the story of …"），
+   而作者本人打的省略号是紧贴在词上的（"have some fun..."）。实测放宽到「任意省略号结尾」
+   会误杀 Dan Koe 那篇的 2 段正常正文（138 词、77 词，都是完整句），所以按这个区别卡。 */
+function looksTruncatedTeaser(t) {
+  return t.length < 240 && /\s(?:…|\.\.\.)\s*$/.test(t);
+}
 
 /* 广告脚本 / 页面埋点碎片：Hearst、Variety 等会把它们写进 <p> 里 */
 const CODE_JUNK = /\.push\s*\(|defineSlot|blogherads|pmcCnx|window\.pmc|googletag|document\.|function\s*\(|=>\s*\{|@media|!important|\{[\s\S]*\}/;
@@ -118,18 +153,74 @@ function looksLikeNav(t) {
   return cap / ws.length > 0.5;
 }
 
-/** 这一段是不是值得给读者看的正文（逐段判定，与文章体裁无关） */
-export function goodPara(t) {
-  if (!t || t.length < 70) return false;
-  if ((t.match(/[A-Za-z]/g) || []).length < 55) return false;
-  if (BOILER.some(re => re.test(t))) return false;
-  if (CODE_JUNK.test(t)) return false;
-  if (hasAdCode(t)) return false;
-  if (isJunkPara(t)) return false;
-  if (NAV_HINT.test(t)) return false;
-  if (looksLikeNav(t)) return false;
-  if ((t.match(/\|/g) || []).length >= 2) return false;
-  if (/^[A-Z][^.!?]{0,40}$/.test(t)) return false;
+/* 列表项（<li>）与小标题（<h2>/<h3>）走一套更松的长度门槛。
+ *
+ * 为什么必须另开一档：`<HUMAN 3.0> 完整知识库` 是一份**清单式参考文档** —— 原文 740 个
+ * `<li>` 的中位数只有 **29.5 字符**（`Emotional regulation and intelligence`、
+ * `Complexity → Chaos (entropy increase)`），按正文的 70 字符闸算，**661 条会被整条丢掉**，
+ * 实测 1,912 词。读者看到的是「有三个层级」讲了、层级本身一条没列。
+ * 而列表项又天然比正文段短，把 70 字符闸放宽到全局会放进栏目菜单 —— 所以门槛绑在
+ * 「这是个列表项」这个事实上，而不是把正文的标准调松。
+ *
+ * 长度之外还要挡掉「像标签而不像内容」的条目（`Read The Koe Letters` / `Dan Koe` /
+ * `August 31, 2025`）：无标点、无冒号且词数极少的一律不要。 */
+const LIST_MIN_LEN = 22;
+const LIST_MIN_LETTERS = 16;
+const LIST_DATE = /^[A-Z][a-z]+\.?\s+\d{1,2},\s*\d{4}$/;
+
+/** 列表项/小标题专用的「是不是内容」判定（比正文宽松，但仍有下限与标签排除） */
+export function goodListItem(t) {
+  const s = String(t || "").trim();
+  if (!s || s.length < LIST_MIN_LEN || s.length > 900) return false;
+  if ((s.match(/[A-Za-z]/g) || []).length < LIST_MIN_LETTERS) return false;
+  if (LIST_DATE.test(s)) return false;
+  /* 纯标签：没有句末标点、没有冒号/破折号/箭头充当「条目 → 说明」的分隔，且不足 5 词 */
+  const words = s.split(/\s+/).filter(Boolean);
+  const hasSep = /[:：→]|\s[–—]\s/.test(s);
+  if (!hasSep && words.length < 5 && !/[.!?]$/.test(s)) return false;
+  /* 全大写或首字母大写的短串（`Read The Koe Letters`）——4 词以内且实词全大写开头 */
+  if (words.length <= 4 && !hasSep && words.every(w => /^[A-Z0-9]/.test(w))) return false;
+  if (BOILER.some(re => re.test(s))) return false;
+  if (CODE_JUNK.test(s)) return false;
+  if (hasAdCode(s)) return false;
+  if (isJunkPara(s)) return false;
+  if (NAV_HINT.test(s)) return false;
+  if (looksLikeNav(s)) return false;
+  if ((s.match(/\|/g) || []).length >= 2) return false;
+  return true;
+}
+
+/** 这一段是不是值得给读者看的正文（逐段判定，与文章体裁无关）
+ *  @param {string} t
+ *  @param {{list?: boolean}} [opts] list=true 时按列表项标准判（见 goodListItem 的说明） */
+export function goodPara(t, opts = {}) {
+  if (opts && opts.list) return goodListItem(t);
+  const s = String(t || "").trim();
+  if (!s || s.length < 30) return false;
+  const letters = (s.match(/[A-Za-z]/g) || []).length;
+  if (s.length < 70) {
+    /* 30–70 字符的**短段**：网文的重点句就是这个长度 ——
+       `I didn’t want to be an NPC.`（27）、`This is why smart people are incredibly dumb.`（44）、
+       `You need to identify a problem.`（31），以及访谈里的提问
+       `How did you come up with the idea for Linkflare?`（45）。
+       原先 <70 整段丢，等于把作者刻意断开的短句全部删掉，还会让后文出现
+       「这道理太有道理了」这种没有指代对象的译文。
+       但仍要求它**看起来确实是句子**：以句末标点收尾 + 字母够多；
+       `One email a week, no spam, ever. See our Privacy policy.` 这类仍会被下面的 BOILER 挡掉。 */
+    if (letters < 20) return false;
+    if (!/[.!?…]["'”’)]?$/.test(s)) return false;
+  } else if (letters < 55) {
+    return false;
+  }
+  if (BOILER.some(re => re.test(s))) return false;
+  if (CODE_JUNK.test(s)) return false;
+  if (hasAdCode(s)) return false;
+  if (isJunkPara(s)) return false;
+  if (NAV_HINT.test(s)) return false;
+  if (looksLikeNav(s)) return false;
+  if (looksTruncatedTeaser(s)) return false;
+  if ((s.match(/\|/g) || []).length >= 2) return false;
+  if (/^[A-Z][^.!?]{0,40}$/.test(s)) return false;
   return true;
 }
 

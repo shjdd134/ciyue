@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "50");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "51");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -880,14 +880,34 @@ const articleCard = a => {
   return `
   <div class="article${a.cat === "人物" ? " people-card" : ""}${done ? " read" : ""}" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读文章：${esc(clean(a.title))}${tzh ? `，${esc(tzh)}` : ""}${done ? "，已读" : ""}">
     ${thumbHtml(a, img)}
-    <div class="col grow" style="gap:6px">
-      <span class="tag">${a.cat === "人物" ? `ICONS · ${Number(a.photoCount) || 0} 张摄影 · ${a.readingMode === "full" ? "原刊全文" : "中英导读"}` : esc(clean(a.cat))}${when ? ` · ${when}` : ""}</span>
+    <div class="col grow article-copy" style="gap:6px">
+      <span class="tag">${esc(clean(a.cat))}<span class="tag-separator">/</span>${esc(srcName(a))}${a.cat === "人物" ? ` · ${Number(a.photoCount) || 0} 张摄影` : ""}</span>
       ${a.personZh ? `<span class="people-name">${esc(a.personZh)}</span>` : ""}
       <div class="t">${esc(clean(a.title))}${done ? ` <span class="read-dot" title="已读完">已读</span>` : ""}</div>
       ${tzh ? `<div class="t-zh">${esc(tzh)}</div>` : ""}
-      <span class="meta">${esc(srcName(a))} · ${estMinutes(a)} 分钟 · 需学 ${needLbl} 词 · 低频词 ${(unknownRateOf(a) * 100).toFixed(0)}%</span>
+      <span class="meta article-meta"><span>${estMinutes(a)} 分钟阅读 · 需学 ${needLbl} 词</span><span>${when ? esc(when) : diffTier(articleStats(a).rate).label}</span></span>
     </div>
   </div>`;
+};
+
+/* 共用杂志封面：正文与摄影分栏，长标题不压在照片上。 */
+const editorialFeature = (a, label = "本期精选") => {
+  if (!a) return "";
+  const cover = coverOf(a);
+  return `<section class="editorial-feature${a.cat === "人物" ? " is-portrait" : ""}">
+    <div class="editorial-copy">
+      <div class="eyebrow"><span class="edition-dot"></span>${label}<span class="eyebrow-divider">/</span>${esc(a.cat)}</div>
+      <h2>${esc(zhTitle(a) || clean(a.title))}</h2>
+      <p class="editorial-en" lang="en">${esc(clean(a.title))}</p>
+      <div class="editorial-credit">${esc(srcName(a))}<span>·</span>${estMinutes(a)} 分钟阅读${a.photoCount ? `<span>·</span>${a.photoCount} 张摄影` : ""}</div>
+      <button class="editorial-cta" data-article="${esc(a.id)}">读这篇文章 ${svg("arrow", 16)}</button>
+    </div>
+    <button class="editorial-photo" data-article="${esc(a.id)}" aria-label="阅读精选：${esc(clean(a.title))}">
+      ${cover ? `<img src="${esc(cover)}" alt="${esc(a.personZh || a.person || a.cat)}" fetchpriority="high" decoding="async">` : `<span class="cover-monogram" aria-hidden="true">W.</span>`}
+      <span class="photo-label">${a.cat === "人物" ? "THE PEOPLE ISSUE" : "THE READING EDIT"}</span>
+      <span class="photo-arrow" aria-hidden="true">↗</span>
+    </button>
+  </section>`;
 };
 
 /* ---------------- 页面：首页 ---------------- */
@@ -958,16 +978,27 @@ function renderHome() {
   const reads = pickDailyReads();
   const done = S.finished.length;
   const mins = Object.values(S.minsByDay || {}).reduce((a, b) => a + b, 0);
+  const lead = ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || reads[0];
+  const categories = CATEGORIES.filter(c => c !== "全部" && ARTICLES.some(a => a.cat === c));
   /* 阅读主页：上次读到 → 今日推荐 → 分类入口 → 轻量阅读统计 */
   return `
     ${statusbar()}
-    <div class="view">
-      <div class="row between">
-        <div class="col" style="gap:4px">
-          <div class="h1">${greet}</div>
-          <div class="muted">${examCountdownLabel()} · 已读完 ${done} 篇 · 累计 ${mins} 分钟</div>
-        </div>
-        <div class="icon-btn" style="background:var(--brand-soft);border:0;color:var(--brand)" aria-hidden="true">${svg("user", 18)}</div>
+    <div class="view home-view">
+      <header class="page-intro home-intro">
+        <div><div class="eyebrow">A LITTLE READING, EVERY DAY</div><h1>读英文，也读世界<span class="title-period">。</span></h1><p>${greet}，从一篇好文章开始，让英语走进日常。</p></div>
+        <div class="reading-date"><span>YOUR DAILY PAGES</span><b>${new Date().toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "long", day: "numeric" })}</b><small>${examCountdownLabel()}</small></div>
+      </header>
+      ${editorialFeature(lead)}
+
+      <div class="home-reading-layout">
+      <section class="home-picks">
+        <div class="section-heading"><div><span class="eyebrow">PICKED FOR YOU</span><h2>今日推荐</h2></div><button class="text-action" data-act="home-reroll">${svg("refresh", 14)} 换一批</button></div>
+        <div class="article-grid">${reads.map(articleCard).join("")}</div>
+      </section>
+      <aside class="reading-sidebar">
+      <div class="section-heading"><div><span class="eyebrow">YOUR READING SPACE</span><h2>留一点时间给阅读</h2></div></div>
+      <div class="reading-stats">
+        <div><strong>${done}</strong><span>已读完 / 篇</span></div><div><strong>${mins}</strong><span>累计阅读 / 分钟</span></div>
       </div>
 
       ${last ? `<button class="card resume-card" data-article="${last.id}" role="button" tabindex="0" aria-label="继续阅读：${esc(clean(last.title))}">
@@ -986,25 +1017,14 @@ function renderHome() {
         <span class="rc-meta"><span class="chip">${ARTICLES.length} 篇可选</span><span class="rc-go">去挑一篇 ${svg("arrow", 12)}</span></span>
       </button>`}
 
-      <div class="row between">
-        <span class="h3">今日推荐</span>
-        <span class="link" data-act="home-reroll" role="button" tabindex="0">换一批</span>
+      <div class="reading-note"><span class="note-icon">${svg("book", 24)}</span><p>不急着读完，<br>让每一次阅读都有收获。</p><span>点词查义 · 中英对照 · 自动续读</span></div>
+      </aside>
       </div>
-      ${reads.map(articleCard).join("")}
-
-      <div class="card col" style="gap:10px">
-        <div class="row between">
-          <span class="h3">分类</span>
-          <span class="link" data-act="go-discover" role="button" tabindex="0">全部文章</span>
-        </div>
-        <div class="cats" role="tablist" aria-label="文章分类">
-          ${CATEGORIES.filter(c => c === "全部" || ARTICLES.some(a => a.cat === c)).map(c => {
-            const n = c === "全部" ? ARTICLES.length : ARTICLES.filter(a => a.cat === c).length;
-            return `<button class="cat" data-cat="${c}" data-go="1" role="tab">${c} <span style="font-family:var(--font-num);font-size:11px">${n}</span></button>`;
-          }).join("")}
-        </div>
-      </div>
-      <div style="height:6px"></div>
+      <section class="home-topics">
+        <div class="section-heading"><div><span class="eyebrow">FOLLOW YOUR CURIOSITY</span><h2>从兴趣出发</h2></div><button class="text-action" data-act="go-discover">全部文章 ${svg("arrow", 14)}</button></div>
+        <div class="topic-grid">${categories.map(c => `<button class="topic-link" data-cat="${c}" data-go="1"><span class="topic-icon">${svg((CAT_META[c] || {}).icon || "book", 24)}</span><span class="grow"><b>${esc(c)}</b><small>${c === "人物" ? "人物访谈与镜头里的故事" : c === "足球" ? "走进绿茵场内外" : "关于思考、生活与自我成长"}</small></span><span class="topic-count">${ARTICLES.filter(a => a.cat === c).length} 篇 ${svg("arrow", 14)}</span></button>`).join("")}</div>
+      </section>
+      <footer class="editorial-footer"><span>WordLens / 词阅</span><span>One good read at a time.</span></footer>
     </div>`;
 }
 const PAGE = 20;
@@ -1042,7 +1062,7 @@ function renderDiscover() {
   const catGridHtml = isAll ? `<section class="cat-browse">
     <div class="sec-head">
       <span class="sec-t">按分类浏览</span>
-      <span class="sec-s">共 ${ARTICLES.length} 篇 · 一屏可选</span>
+      <span class="sec-s">${ARTICLES.length} 篇，慢慢读</span>
     </div>
     <div class="cat-grid">
       ${catList.map(cat => {
@@ -1083,7 +1103,7 @@ function renderDiscover() {
     const items = sortArticles(ARTICLES.filter(a => a.cat === catFilter));
     const meta = CAT_META[catFilter] || { icon: "doc", bg: "var(--brand)" };
     return `<section class="cat-section">
-        ${catFilter === "人物" ? `<div class="people-intro"><span>THE PEOPLE ISSUE</span><h2>人物 · Icons</h2><p>银幕人生，镜头之美。读原刊正文，看成组摄影。</p><p>正文按原刊段落呈现，广告与导航块自动过滤。</p></div>` : ""}
+        ${catFilter === "人物" ? `<div class="people-intro"><span>THE PEOPLE ISSUE</span><h2>人物，和他们的世界。</h2><p>银幕之外的人生，镜头之中的故事。读原刊正文，看成组摄影。</p></div>` : ""}
       <div class="cat-head">
         <div class="left">
           <span class="ic" style="background:${meta.bg}">${svg(meta.icon, 15)}</span>
@@ -1133,38 +1153,16 @@ function renderDiscover() {
     </button>`;
   })() : "";
 
-  const featImg = featured ? coverOf(featured) : "";
-  const featZh = featured ? zhTitle(featured) : "";
-  const featuredHtml = featured ? `<div class="discover-feat" data-article="${featured.id}" role="button" tabindex="0" aria-label="今日精选：${esc(clean(featured.title))}${featZh ? `，${esc(featZh)}` : ""}">
-    <div class="feat-cover${featImg ? " has-img" : ""}" style="${featImg ? `background-image:url('${esc(featImg)}')` : `background:${esc(featured.gradient)}`}">
-      <span class="feat-mark">${esc(srcName(featured))} · 今日精选</span>
-      ${featured.date ? `<span class="feat-when">${esc(fmtWhen(featured.date))}</span>` : ""}
-      <div class="feat-titles">
-        <div class="feat-title">${esc(clean(featured.title))}</div>
-        ${featZh ? `<div class="feat-title-zh">${esc(featZh)}</div>` : ""}
-      </div>
-    </div>
-    <div class="feat-body">
-      <div class="row" style="gap:6px;flex-wrap:wrap">
-        <span class="chip">${esc(featured.cat)}</span>
-        <span class="chip green">${diffTier(articleStats(featured).rate).label}</span>
-        <span class="chip">${estMinutes(featured)} 分钟</span>
-        <span class="chip">需学 ${hitsOf(featured)} 词</span>
-      </div>
-      <button class="feat-cta" data-article="${featured.id}">开始阅读 ${svg("arrow", 14)}</button>
-    </div>
-  </div>` : "";
-
   return `
     ${statusbar()}
-    <div class="view view-flow">
-      <div class="row between">
-        <span class="h1">发现</span>
+    <div class="view view-flow discover-view">
+      <header class="page-intro">
+        <div><div class="eyebrow">THE READING COLLECTION</div><h1>发现好文章<span class="title-period">。</span></h1><p>循着好奇心，找到下一篇想读的故事。</p></div>
         <div class="row" style="gap:8px">
           <span class="icon-btn" data-act="theme" title="切换深浅色" role="button" tabindex="0" aria-label="切换深浅色">${svg(S.theme === "dark" ? "sun" : "moon", 16)}</span>
           <span class="icon-btn${sortBy === "new" ? "" : " active"}" data-act="filter" title="排序：${SORTS[sortBy]}" role="button" tabindex="0" aria-label="切换文章排序，当前为${SORTS[sortBy]}">${svg("filter", 16)}</span>
         </div>
-      </div>
+      </header>
       <div class="search">${svg("search", 16)}
         <input id="q" placeholder="搜索单词、短语或文章" value="${esc(searchTerm)}" aria-label="搜索单词、短语或文章" />
       </div>
@@ -1181,8 +1179,8 @@ function renderDiscover() {
       ${artHitsHtml}
       ${emptyHtml}
       ${lastHtml}
+      ${featured ? editorialFeature(featured, "编辑精选") : ""}
       ${catGridHtml}
-      ${featuredHtml}
       ${isAll ? `<div class="lib">
         <div class="ic">${svg("cards", 20)}</div>
         <div class="col grow" style="gap:4px">
@@ -1192,7 +1190,7 @@ function renderDiscover() {
       </div>` : ""}
       ${latestHtml}
       ${catListHtml}
-      <div style="height:6px"></div>
+      <footer class="editorial-footer"><span>WordLens / 词阅</span><span>Stay curious. Keep reading.</span></footer>
     </div>`;
 }
 
@@ -1282,10 +1280,10 @@ function renderReadHistory() {
   }).join("");
   return `${statusbar()}
     <div class="view view-flow history-view">
-      <div class="row between">
-        <span class="h1">阅读记录</span>
+      <header class="page-intro">
+        <div><div class="eyebrow">PAGES YOU HAVE VISITED</div><h1>阅读记录<span class="title-period">。</span></h1><p>上次读到的地方，随时可以接着读。</p></div>
         <span class="icon-btn" data-act="go-back" role="button" tabindex="0" aria-label="返回">${svg("back", 16)}</span>
-      </div>
+      </header>
       <div class="search history-search">${svg("search", 16)}<input id="history-q" placeholder="搜索读过的文章" value="${esc(historyQuery)}" aria-label="搜索读过的文章" /></div>
       <div class="history-filters">${seg("all", "全部")} ${seg("unfinished", "未读完")} ${seg("finished", "已读完")}<span class="muted-2">共 ${all.length} 篇</span></div>
       ${rows || `<div class="card history-empty">${all.length ? "没有符合条件的记录" : "还没有阅读记录，先去发现页读一篇吧"}</div>`}
@@ -1300,16 +1298,16 @@ function renderMe() {
   const notebookWords = wordsOf(S.notebook || []);
   return `
     ${statusbar()}
-    <div class="view">
-      <div class="row between">
-        <span class="h1">我的</span>
+    <div class="view me-view">
+      <header class="page-intro">
+        <div><div class="eyebrow">MY READING JOURNAL</div><h1>我的阅读手记<span class="title-period">。</span></h1><p>每读一点，都会留下自己的足迹。</p></div>
         <span class="icon-btn" data-act="theme" role="button" tabindex="0" aria-label="切换深浅色" title="切换深浅色">${svg(S.theme === "dark" ? "sun" : "moon", 16)}</span>
-      </div>
+      </header>
 
-      <div class="card row" style="gap:14px;padding:16px">
+      <div class="card row reader-profile" style="gap:14px;padding:16px">
         <div style="width:50px;height:50px;border-radius:25px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center" aria-hidden="true">${svg("user", 22)}</div>
         <div class="col grow" style="gap:4px">
-          <div class="h2">同学</div>
+          <div class="h2">每一页，都是新的开始</div>
           <div class="muted">已读完 ${S.finished.length} 篇 · 词库 ${WORDS.length.toLocaleString()} 词</div>
         </div>
       </div>
@@ -1323,7 +1321,7 @@ function renderMe() {
       ${installEvt ? `<button class="btn-primary" data-act="pwa-install" style="width:100%">${svg("check", 16)} 添加到主屏幕</button>` : ""}
       ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2" style="font-size:12px">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
 
-      <div class="card col" style="gap:12px">
+      <div class="card col overview-card" style="gap:12px">
         <div class="row between"><span class="h2">阅读总览</span><span class="muted-2">近 7 天</span></div>
         <div class="stat-grid">
            <div class="stat"><div class="n">${readingStreakDays()}</div><div class="l">连续阅读天</div></div>
@@ -1333,7 +1331,7 @@ function renderMe() {
         </div>
       </div>
 
-      <div class="card col" style="gap:12px">
+      <div class="card col chart-card" style="gap:12px">
         <div class="row between"><span class="h2">近 7 天阅读</span><span class="muted-2">日均 ${avg} 分钟</span></div>
         <div class="bars">
           ${week.map(d => `<div class="bar-col">
@@ -1360,8 +1358,9 @@ function renderMe() {
           <div class="grow d">${w.pos} ${esc(w.def)}</div>
         </div>`).join("")}` : ""}
 
+      <section class="journal-settings">
       <div class="row between" style="margin-top:4px">
-        <span class="h3">数据</span>
+        <span class="h3">数据与备份</span>
         <span class="row" style="gap:14px">
           <span class="link" data-act="export-data" role="button" tabindex="0">导出备份</span>
           <span class="link" data-act="import-data" role="button" tabindex="0">导入备份</span>
@@ -1374,7 +1373,9 @@ function renderMe() {
         <span class="h3">危险操作</span>
         <span class="link danger" data-act="ask-reset" role="button" tabindex="0">清空阅读记录</span>
       </div>
+      </section>
 
+      <section class="journal-about">
       <div class="row between" style="margin-top:10px">
         <span class="h3">关于</span>
       </div>
@@ -1387,7 +1388,8 @@ function renderMe() {
         单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章。<br>
         当前收录成长主题英文文章与人物原刊全文。人物正文按公开页面抓取并过滤广告/导航，图片保留来源与摄影署名；原文变化时需重新复核。
       </div>
-      <div style="height:6px"></div>
+      </section>
+      <footer class="editorial-footer"><span>WordLens / 词阅</span><span>A journal of your curiosity.</span></footer>
     </div>`;
 }
 
@@ -1462,6 +1464,7 @@ function renderRead() {
 
     <div class="view read-scroll ${fsCls}${S.showCn ? "" : " no-cn"}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
+        <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
         ${aZh ? `<div class="title-zh">${esc(aZh)}</div>` : ""}
         <div class="byline">
@@ -2011,9 +2014,11 @@ function renderSortSheet() {
 const TABS = [["home", "首页", "home"], ["discover", "发现", "compass"], ["me", "我的", "user"]];
 const tabbar = () => {
   const cur = view.name === "history" ? "me" : (["home", "discover", "me"].includes(view.name) ? view.name : "home");
-  return `<div class="tabbar"><div class="pill">
-    ${TABS.map(([k, label, ic]) => `<button data-tab="${k}" class="${k === cur ? "on" : ""}">${svg(ic, 18)}<span>${label}</span></button>`).join("")}
-  </div></div>`;
+  return `<nav class="tabbar" aria-label="主导航"><div class="nav-inner">
+    <button class="nav-brand" data-tab="home" aria-label="词阅 WordLens 首页"><span class="brand-icon">${svg("book", 23)}</span><span>词阅 <b>WordLens</b></span></button>
+    <div class="pill">${TABS.map(([k, label, ic]) => `<button data-tab="${k}" class="${k === cur ? "on" : ""}" ${k === cur ? 'aria-current="page"' : ""}>${svg(ic, 18)}<span>${label}</span></button>`).join("")}</div>
+    <div class="nav-end"><span>ENGLISH, WITH CURIOSITY</span><button class="icon-btn" data-act="theme" aria-label="切换深浅色">${svg(S.theme === "dark" ? "sun" : "moon", 18)}</button></div>
+  </div></nav>`;
 };
 
 /* ---------------- 主渲染 ---------------- */
@@ -2479,7 +2484,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v50");
+      const cache = await caches.open("wordlens-cache-v51");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

@@ -2,6 +2,7 @@
 import {
   QUALITY_CANDIDATE_THRESHOLD, QUALITY_FORMAL_THRESHOLD, STAR_MIN_IMAGES, classifySourceHealth,
   difficultyBaseScore, emptySourceHealth, meetsImageGate, qualityScore, serverScore, updateSourceHealth,
+  unreadableReason,
 } from "./recommend.mjs";
 
 let pass = 0;
@@ -65,7 +66,9 @@ ok("明星栏目缺图数字段按 0 处理", meetsImageGate("明星", undefined
 ok("其他栏目不受图片门槛影响（成长 0 图仍可进）", meetsImageGate("成长", 0) === true);
 ok("其他栏目不受图片门槛影响（足球 2 图仍可进）", meetsImageGate("足球", 2) === true);
 ok("门槛可显式放宽（--imgs 之类的调参口）", meetsImageGate("明星", 3, 3) === true);
+ok("足球直播指南会被内容门禁挡下", Boolean(unreadableReason({ cat: "足球", title: "How to watch the match FREE: Live streams" })));
+ok("普通足球报道不被内容门禁误伤", !unreadableReason({ cat: "足球", title: "Why the new midfield changed the season" }));
+ok("播客落地页会被内容门禁挡下", Boolean(unreadableReason({ cat: "成长", url: "https://fs.blog/knowledge-project-podcast/example/" })));
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
 process.exit(fail ? 1 : 0);
-

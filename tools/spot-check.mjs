@@ -7,7 +7,7 @@
  * “段落过短”，在播客转写里天然成立）刻意不做 —— 噪音多了人就懒得看了。
  *
  * 用法：
- *   node tools/spot-check.mjs                 # 按规则自动选 4 篇
+ *   node tools/spot-check.mjs                 # 按当前配额自动选足球 2 篇 + 人物 1 篇
  *   node tools/spot-check.mjs --id <文章id>    # 指定文章（可多次）
  *   node tools/spot-check.mjs --all           # 全部文章
  * 产出：tools/_spot/<日期>/index.html（对照材料）+ report.md（记录模板）
@@ -54,12 +54,11 @@ if (args.includes("--all")) {
 } else if (ids.length) {
   picked = ids.map(id => ARTICLES.find(a => a.id === id)).filter(Boolean);
 } else {
-  const g = ARTICLES.filter(a => a.cat === "成长").sort((x, y) => wordsOf(y) - wordsOf(x));
-  const first = g[0];
-  const second = g.find(a => a !== first && a.source !== first.source) || g[1];
-  const news = ARTICLES.filter(a => a.cat !== "成长" && a.cat !== "明星").sort((x, y) => wordsOf(y) - wordsOf(x))[0];
-  const star = ARTICLES.filter(a => a.cat === "明星").sort((x, y) => wordsOf(y) - wordsOf(x))[0];
-  picked = [first, second, news, star].filter(Boolean);
+  /* 当前每日范围：足球最多抽 2 篇、人物最多抽 1 篇；成长存量不参与新增翻译抽查。
+     --all / --id 仍可显式检查历史栏目。 */
+  const football = ARTICLES.filter(a => a.cat === "足球").sort((x, y) => wordsOf(y) - wordsOf(x)).slice(0, 2);
+  const people = ARTICLES.filter(a => a.cat === "人物").sort((x, y) => wordsOf(y) - wordsOf(x)).slice(0, 1);
+  picked = [...football, ...people];
 }
 
 /* ---------- 预检：只做高信噪比的四项 ---------- */
@@ -139,10 +138,13 @@ const CHECKS = [
   "数字 / 日期 / 百分比没有译错",
   "否定关系没有反转（not / no / never 是否落在译文里）",
   "人名、机构名全篇译法统一",
+  "术语全篇统一（层级 vs 阶段、心流、通道、天职 —— 见 tools/term-glossary.json）",
+  "方向 / 主语没有反转：谁对谁做了什么（实测把 feed it 译成「把它给…看」、把任务表现译成「进入心流的比例」）",
   "没有整句漏译、没有半句断掉",
   "中段没有被截断（正文长度与原文规模相称）",
   "配图贴在相关段落旁，不是随手插的",
   "长句读得通，不是词对词的硬译",
+  "多义词按语境取义（release 在人生语境里是「松手」不是「软件发版」、rally 不是「连胜」）",
 ];
 
 let html = `<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
@@ -179,6 +181,7 @@ for (const a of picked) {
   html += `<div class="card">
   <h2>${esc(a.titleZh || a.title)}</h2>
   <div class="meta">${esc(a.cat)} · ${esc(a.source || "")} · ${words} 词 / ${n} 句 · ${esc(a.id)}</div>
+  ${a.translation ? `<div class="meta">翻译完整性：${esc(a.translation.status || "unknown")} · 引擎：${esc(Object.keys(a.translation.providers || {}).join("、") || "未记录")}${a.translation.issues?.length ? ` · 告警 ${a.translation.issues.length} 条` : ""}</div>` : ""}
   <div class="meta"><b>正文类型：${bodyType}</b> —— 全文查中间与结尾是否缺失；节选查起止边界是否完整、是否标注了节选。</div>
   <div class="checks"><b>检查单</b><ul>${CHECKS.map(c => `<li>${esc(c)}</li>`).join("")}</ul></div>`;
 
@@ -212,6 +215,7 @@ for (const a of picked) {
 
   reportLines.push(`## ${a.titleZh || a.title}`, "",
     `- 标识：\`${a.id}\`　栏目：${a.cat}　来源：${a.source}　规模：${words} 词 / ${n} 句`,
+    ...(a.translation ? [`- 翻译完整性：${a.translation.status || "unknown"}；引擎：${Object.keys(a.translation.providers || {}).join("、") || "未记录"}；告警：${a.translation.issues?.length || 0} 条`] : []),
     `- 正文类型：☐ 全文　☐ 节选（若是节选：☐ 边界完整　☐ 已标注节选）`,
     `- 结论：☐ 通过　☐ 发现问题　☐ 未核实`, "",
     `| 检查项 | 结果 | 位置 | 依据 |`, `| --- | --- | --- | --- |`,

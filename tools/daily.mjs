@@ -49,15 +49,18 @@ function rollback(why) {
 }
 
 /* ---------- 1. 抓取 ---------- */
-console.log("== 步骤 1/5：抓取成长文章 ==");
+console.log("== 步骤 1/5：抓取足球文章 + 处理人物栏目 ==");
+/* 先清理存量的不可读页面（直播指南、播客落地页、已失效正文），再抓当天候选。
+ * 成长 RSS 仍暂停；这一步只做阅读质量清理，不改变版权或栏目策略。 */
+if (!run("ingest.mjs", ["--prune"])) rollback("存量不可读文章清理失败");
 const okIngest = run("ingest.mjs", [
   "--append", "--days", "7", "--per", "2", "--limit", "24",
   "--candidate", "16",
-  "--quota", "成长=2",
+  "--quota", "足球=2",
 ]);
 if (!okIngest) rollback("抓取步骤失败");
-/* 明星已移除，足球 / AI 已停采；恢复须按用户新的选题要求重新配置。 */
-console.log('人物栏目：发现候选并发布已核对原刊正文与图片（每日新稿最多 2 篇）');
+/* 成长 RSS 暂停；旧明星 / AI 已停采。人物栏目走独立的候选发现与审核发布队列。 */
+console.log('人物栏目：发现候选并发布已核对原刊正文与图片（每日新稿最多 1 篇）');
 if (!run('people.mjs', ['--discover'])) console.warn('人物候选发现未完成，保留现有内容');
 if (!run('people.mjs', ['--publish-reviewed', '--batch', batch.id])) rollback('人物发布步骤失败');
 
@@ -94,6 +97,7 @@ if (fs.existsSync(path.join(ROOT, "tools", ".examples-cache", "cet4.jsonl"))) {
 } else {
   console.log("  runner 无例句缓存，跳过重生成，保留现有 data-examples.js");
 }
+if (!run("build-article-metrics.mjs")) rollback("文章统计生成失败");
 
 /* ---------- 4. 发布（计划 / 暂存 / 校验 / 提交 / 归档孤儿图） ---------- */
 console.log("\n== 步骤 4/5：发布 ==");
@@ -101,7 +105,7 @@ if (!run("publish.mjs", ["--batch", batch.id])) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs"]) {
+for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 
@@ -109,3 +113,5 @@ const pruned = pruneBatches(ROOT, 10);
 if (pruned.length) console.log(`已清理旧批次：${pruned.join(", ")}`);
 console.log(`\n✓ 每日更新完成（批次 ${batch.id}）`);
 console.log(`  推送：GITHUB_TOKEN=$(python tools/_cred-get.py git) node tools/_api-push.mjs "chore: 每日更新 ${batch.id}" --manifest auto`);
+console.log(`  核验：node tools/verify-live.mjs --wait 600    # 推送**之后**跑，确认线上真的追平；别再用 curl 手打`);
+console.log(`        本沙箱访问 Pages 单次请求实测约 24s，一轮 20~90s 属正常；--covers 0 可只查数据文件`);

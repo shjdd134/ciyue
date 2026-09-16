@@ -91,11 +91,22 @@ const TITLE_FIXES = new Map([
   ["his-these-adorable-critically-endangered-pygmy-rac", "科苏梅尔这群可爱又极度濒危的侏儒浣熊，正互相教对方把垃圾变成玩具球"],
   ["his-ale-terror-and-a-martyr-s-death-what-not-to-mi", "啤酒、恐怖与殉道者之死：贝叶挂毯上不容错过的东西"],
   ["his-the-bayeux-tapestry-has-returned-to-the-uk-and", "贝叶挂毯重返英国——你可以这样看到它"],
+
+  /* --- 成长：DeepL 给「整体标题」套了书名号（2026-09-15 语义层批次） ---
+   * 书名号在中文里表示「一部作品的名字」。文章自己的标题再套一层，等于告诉读者
+   * 这是引用的另一部作品；而且全库其它标题都没有书名号，只有这两条有，看着就是漏改。
+   * HUMAN 3.0 这里更别扭：它是模型名不是书名，套上之后和《HUMAN 3.0——迈入前1%的路线图》
+   * 那篇的写法自相矛盾（那篇没有书名号）。正文里的同类问题由 term-glossary.json 兜底。 */
+  ["gr-a-complete-knowledge-base-of-human-3-0", "HUMAN 3.0 完整知识库"],
+  ["gr-tales-from-the-island-of-illness", "疾病之岛的故事"],
+  /* 括号里那句是文章自己的副标题（The Map Of All Knowledge），不是引用的另一部作品，
+   * 同一类问题：标题体不该出现书名号。 */
+  ["gr-how-to-think-like-a-genius-the-map-of-all-know", "如何像天才一样思考（所有知识地图）"],
 ]);
 
 /* ---------------- 主流程 ---------------- */
 
-const jobs = [];        // 需要送翻译的：{ sec, idx, title }
+const jobs = [];        // 需要送翻译的：{ sec, idx, title, id, url, desc, source }
 const preFixed = [];    // 校对表直接命中的：{ sec, idx, zh }
 const loaded = [];
 
@@ -118,7 +129,7 @@ for (const sec of SECTIONS) {
     }
     const has = String(a.titleZh || "").trim();
     if (has && !REDO) return;
-    jobs.push({ sec, idx, title });
+    jobs.push({ sec, idx, title, id: a.id, url: a.url, desc: a.desc, source: a.source });
   });
 }
 
@@ -127,6 +138,19 @@ console.log(`待译标题：${jobs.length} 条 · 校对表命中：${preFixed.l
 const translated = [];
 if (jobs.length) {
   const result = await translateTexts(jobs.map(j => j.title), {
+    maxLines: 1,
+    maxChars: 900,
+    cacheNamespace: "title-context-v2",
+    cacheKey: (title, i) => jobs[i]?.url || jobs[i]?.id || title,
+    sourceLang: "EN",
+    context: batch => {
+      const j = jobs[batch[0]?.i];
+      return [
+        j?.title ? `Article title: ${j.title}` : "",
+        j?.desc ? `Article summary: ${j.desc}` : "",
+        j?.source ? `Source: ${j.source}` : "",
+      ].filter(Boolean).join("\n");
+    },
     onTick: (d, t) => process.stdout.write(`\r  翻译中 ${d}/${t}   `),
   });
   console.log("\r" + " ".repeat(30) + "\r");

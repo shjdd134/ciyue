@@ -29,7 +29,7 @@ daily 在成长采集后运行人物候选发现与已审核队列发布。无�
 2. 把选中的文章加入 `tools/people-reviewed.json`，填写原刊标题的准确中文与摄影署名，审核状态先为 pending。
 3. `node tools/people.mjs --prepare`：下载原刊与照片至 `.tmp/people/`，不改文章库；使用 `--cached` 可复用已保存 HTML。Windows 可用 PYTHON 环境变量指定 Python；Actions 使用已有 Python/Pillow。
 4. 看原刊核对正文边界，逐张看图片，剔除广告和错图后才能批准。运行 `node tools/people-review.mjs` 同步 prepared.json 中的 fingerprint 与照片原始字节哈希 photoHashes；未核对不得把 review 状态改为 approved。哈希用于发现后续变更，不代替复核。
-5. `node tools/people.mjs --publish-reviewed`：重新取页面，核对文字/照片指纹，逐段翻译并发布 `readingMode:full` 原刊内容；本地已有快照时可加 `--cached`。首次运行会把旧导读迁移为全文；后续每日最多新增 2 篇。原刊变化时暂缓该候选，保留旧库。
+5. `node tools/people.mjs --publish-reviewed`：重新取页面，核对文字/照片指纹，逐段翻译并发布 `readingMode:full` 原刊内容；本地已有快照时可加 `--cached`。首次运行会把旧导读迁移为全文；后续每日最多新增 1 篇。原刊变化时暂缓该候选，保留旧库。
 
 **发现与已审核队列发布自动运行，新增候选的选题和导读复核仍需人工或代理完成。** 队列用完会停在候选阶段，不保证每天新增文章，不能宣称每天全自动生成两篇。
 

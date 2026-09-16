@@ -84,12 +84,14 @@ export function deepLKey() {
 }
 
 /**
- * DeepL（主力引擎，质量最好）：一次送一批文本（text 数组），返回按序译文。
+ * DeepL（主力引擎）：一次送一批文本（text 数组），返回按序译文。
  * key 以 :fx 结尾 = 免费档，走 api-free.deepl.com。返回 null 表示本次不可用，调用方降级有道。
  */
-export function createDeepL(key) {
+export function createDeepL(key, options = {}) {
   key = key || deepLKey();
   if (!key) return null;
+  const sourceLang = options.sourceLang || "EN";
+  const glossaryId = options.glossaryId || "";
   const base = key.endsWith(":fx") ? "https://api-free.deepl.com" : "https://api.deepl.com";
   return async function deepl(lines, context = "") {
     for (let i = 0; i < 2; i++) {
@@ -99,8 +101,10 @@ export function createDeepL(key) {
           headers: { "Authorization": "DeepL-Auth-Key " + key, "Content-Type": "application/json" },
           body: JSON.stringify({
             text: lines,
+            source_lang: sourceLang,
             target_lang: "ZH",
             preserve_formatting: true,
+            ...(glossaryId ? { glossary_id: glossaryId } : {}),
             ...(context ? { context } : {}),
           }),
           signal: AbortSignal.timeout(30000),
@@ -166,9 +170,11 @@ export function createMyMemory() {
  *   - maxChars   单次请求的原文总长上限（有道对 q 有长度限制）
  *   - maxLines   单次请求的行数上限
  *   - onTick     (done, total) => void，进度回调
+ *   - onProvider (provider, count) => void，记录实际使用的引擎
  *   - cacheNamespace  缓存方案名；切换上下文/术语表时递增，避免复用旧译文
- *   - cacheKey   当前文章或文档的稳定标识；有上下文的翻译应按文章隔离
+ *   - cacheKey   当前文章或文档的稳定标识，也可按 (text, index) 返回文章键
  *   - context    DeepL 的上下文字符串，或接收当前批次 [{i,t}] 的函数
+ *   - cacheVersion / sourceLang / glossaryId  使翻译方案变更可追溯且可失效
  */
 export async function translateTexts(texts, opts = {}) {
   const {
@@ -179,9 +185,27 @@ export async function translateTexts(texts, opts = {}) {
     cacheNamespace = "legacy",
     cacheKey = "",
     context = "",
+    cacheVersion = "mt-v2",
+    sourceLang = "EN",
+    glossaryId = "",
+    acceptTranslation = null,
+    onProvider = null,
   } = opts;
 
-  const keyFor = t => hash(`${cacheNamespace}\n${cacheKey}\n${t}`);
+  /* cacheKey 可以按句子下标变化。标题批次因此能逐篇隔离上下文，
+     而正文仍可用整篇 URL/文章指纹作为稳定键。 */
+  const keyForCache = typeof cacheKey === "function" ? cacheKey : () => cacheKey;
+  const keyFor = (t, i) => hash(`${cacheVersion}\n${cacheNamespace}\n${keyForCache(t, i)}\n${t}`);
+  const cachedText = value => typeof value === "string" ? value : String(value?.text || "");
+  const defaultAccept = (cn, source) => {
+    const out = String(cn || "").trim();
+    const src = String(source || "").trim();
+    if (!out || /^(?:MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID)$/i.test(out)) return false;
+    /* 供应商在失败时偶尔原样回显英文；不把这种结果写入缓存，下一轮才有机会重试。 */
+    if (src && out.toLowerCase() === src.toLowerCase() && /[A-Za-z]/.test(src)) return false;
+    return true;
+  };
+  const isAccepted = acceptTranslation || defaultAccept;
   const contextFor = batch => {
     const raw = typeof context === "function" ? context(batch) : context;
     /* DeepL context 不应无限膨胀；标题和相邻句子足够消歧，过长反而增加请求失败率。 */
@@ -192,11 +216,17 @@ export async function translateTexts(texts, opts = {}) {
   const out = new Array(texts.length).fill("");
   const todo = [];
   texts.forEach((t, i) => {
-    const key = keyFor(t);
+    const key = keyFor(t, i);
     /* legacy 且无上下文时兼容旧缓存；文章上下文方案故意不回退，确保旧译文不会遮住新译文。 */
     const legacy = cacheNamespace === "legacy" && !cacheKey && !context ? cache[hash(t)] : "";
-    if (cache[key]) out[i] = cache[key];
-    else if (legacy) out[i] = legacy;
+    const cached = cachedText(cache[key]);
+    if (cached && isAccepted(cached, t)) {
+      out[i] = cached;
+      if (onProvider && cache[key]?.provider) onProvider(cache[key].provider, 1);
+    } else if (legacy && isAccepted(legacy, t)) {
+      out[i] = legacy;
+      if (onProvider) onProvider("legacy-cache", 1);
+    }
     else todo.push({ i, t });
   });
 
@@ -211,33 +241,40 @@ export async function translateTexts(texts, opts = {}) {
   }
   if (cur.length) batches.push(cur);
 
-  const dl = createDeepL();
+  const dl = createDeepL(null, { sourceLang, glossaryId });
   const mm = createMyMemory();
   let done = 0;
   const total = todo.length;
 
   for (const batch of batches) {
     let lines = [];
+    let provider = "";
     /* DeepL 主力：text 数组一次一批，返回天然按序，不存在「行数对不上」的问题 */
     if (dl) {
       const dlOut = await dl(
         batch.map(b => b.t.replace(/\s*\n\s*/g, " ")),
         contextFor(batch),
       );
-      if (dlOut) lines = dlOut;
+      if (dlOut && dlOut.every((line, i) => isAccepted(line, batch[i].t))) {
+        lines = dlOut;
+        provider = "deepl";
+      }
     }
     if (lines.length !== batch.length) {
       lines = [];
       if (batch.length === 1) {
         lines = [await youdao(batch[0].t) || ""];
+        if (lines[0]) provider = "youdao";
       } else {
         const joined = batch.map(b => b.t.replace(/\s*\n\s*/g, " ")).join("\n");
         let many = await youdao(joined);
         lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
+        if (lines.length === batch.length) provider = "youdao";
         if (lines.length !== batch.length) {          // 多半被限流截断，歇一下整批重试
           await sleep(2500);
           many = await youdao(joined);
           lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
+          if (lines.length === batch.length) provider = "youdao";
         }
         if (lines.length !== batch.length) {          // 仍不齐：退回逐条，保证一一对应
           lines = [];
@@ -245,18 +282,23 @@ export async function translateTexts(texts, opts = {}) {
             lines.push(await youdao(b.t) || "");
             await sleep(700);
           }
+          if (lines.some(Boolean)) provider = "youdao";
         }
       }
     }
 
     batch.forEach((b, k) => {
       const cn = lines[k] || "";
-      if (cn) { cache[keyFor(b.t)] = cn; out[b.i] = cn; }
+      if (isAccepted(cn, b.t)) {
+        cache[keyFor(b.t, b.i)] = { text: cn, provider: provider || "unknown", profile: cacheNamespace, version: cacheVersion };
+        out[b.i] = cn;
+      }
     });
 
     done += batch.length;
     saveCache(cacheFile, cache);                    // 逐批落盘，中断也不丢已译部分
     if (onTick) onTick(done, total);
+    if (provider && onProvider) onProvider(provider, batch.length);
     await sleep(900);
   }
 
@@ -264,7 +306,11 @@ export async function translateTexts(texts, opts = {}) {
   for (const item of todo) {
     if (out[item.i]) continue;
     const cn = await mm(item.t);
-    if (cn) { cache[keyFor(item.t)] = cn; out[item.i] = cn; }
+    if (isAccepted(cn, item.t)) {
+      cache[keyFor(item.t, item.i)] = { text: cn, provider: "mymemory", profile: cacheNamespace, version: cacheVersion };
+      out[item.i] = cn;
+      if (onProvider) onProvider("mymemory", 1);
+    }
   }
   saveCache(cacheFile, cache);
 

@@ -43,6 +43,7 @@ import {
   cleanInvisible, cleanPara, cleanTitleZh, goodPara, putTitleZh, splitSentences, tidySpace, wordCount,
 } from "./lib-text.mjs";
 import { translateTexts } from "./lib-mt.mjs";
+import { applyGlossary } from "./lib-glossary.mjs";
 /* 历史通道（明星栏目经典专题）的发现与提取口径 —— 与 fetch-classics.mjs 同一份实现。
  * 「数 <figure> 而非 <img>」「老模板图 URL 无扩展名」「不能只取第一个 srcset」
  * 「跨站去重不能靠图注文本或图片 id」四个坑的说明都在那个文件里。 */
@@ -51,7 +52,7 @@ import {
 } from "./lib-classics.mjs";
 import {
   QUALITY_CANDIDATE_THRESHOLD, SCORE_VERSION, STAR_MIN_IMAGES, classifySourceHealth, difficultyBaseScore,
-  emptySourceHealth, meetsImageGate, qualityScore, serverScore, updateSourceHealth,
+  emptySourceHealth, meetsImageGate, qualityScore, serverScore, updateSourceHealth, unreadableReason,
 } from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -76,6 +77,16 @@ if (CLASSICS) {
   process.exit(2);
 }
 const REPAIR_CATS = new Set(String(val("repair-cats", "")).split(",").map(s => s.trim()).filter(Boolean));
+/* 诊断入口：把本地 HTML 按**当前**提取器抽成 blocks 打印出来。
+   重建已发布文章（补回漏掉的正文）必须用真正的 extractBlocks，而不是在别处抄一份 ——
+   抄的那份一漂，「线上为什么少了这句」就再也查不清。
+   用法：node tools/ingest.mjs --dump-blocks .tmp/orig/kb-human30.html [--loose] */
+const DUMP_BLOCKS = val("dump-blocks", "");
+/* 补回被提取器漏掉的正文（只增不改，见 refillMissing 的说明） */
+const REFILL = has("refill");
+/* 下架：按 id 剔除已入库的文章（编辑层决定，不靠时效/配额自然淘汰）。
+   用途见 DROP_LIST 的注释。用法：node tools/ingest.mjs --prune [--dry] */
+const PRUNE = has("prune");
 const NO_FILTER = has("no-filter");
 const VERBOSE = has("verbose");
 const APPEND = has("append");
@@ -125,19 +136,13 @@ const QUOTA = (() => {
  *           inline = 正文内嵌图上限（默认 MAX_INLINE_IMG）
  *           looseImg = 裸 <img> 也算配图（Squarespace 类站点图片不包 <figure>，默认只认 figure） */
 const FEEDS = [
-  /* —— 成长（独立博主英文长文：对人生发展有实质干货，反厚黑学/反空话——
-     Dan Koe 是用户点名的类型代表，More To That 本身就是手绘插图的图文长文）——
-     常青内容不受全局时效限制（days 放宽）；full = 不截断，整篇进应用。
-     Dan Koe 的 WordPress 站 2025-08 后停更，活跃更新在 Substack 镜像 future/proof */
-  { cat: "成长", name: "Dan Koe", rss: "https://letters.thedankoe.com/feed", max: 3, days: 800, full: true },
-  { cat: "成长", name: "Farnam Street", rss: "https://fs.blog/feed/", max: 3, days: 400, full: true },
-  { cat: "成长", name: "More To That", rss: "https://moretothat.com/feed/", max: 2, days: 800, full: true, flatUrl: true, looseImg: true },
-  { cat: "成长", name: "Ness Labs", rss: "https://nesslabs.com/feed/", max: 2, days: 400, full: true, flatUrl: true },
-  /* Aeon / Psyche 均为 Aeon Media 旗下的长文刊物；条款允许个人非商业使用 RSS。 */
-  { cat: "成长", name: "Aeon", rss: "https://aeon.co/feed.rss", max: 3, days: 800, full: true, looseImg: true },
-  { cat: "成长", name: "Psyche", rss: "https://psyche.co/feed", max: 3, days: 800, full: true, looseImg: true },
+  /* —— 足球 ——
+     成长 RSS 暂停：已有成长文章保留，由 publish.mjs 的常青规则保护，
+     但本入口不再发现或追加成长文章。 */
+  { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
+  { cat: "足球", name: "FourFourTwo", rss: "https://www.fourfourtwo.com/feeds.xml", max: 3 },
 
-  /* 2026-09-15：明星栏目删除，足球 / AI 内容清空并停采，避免下轮重新入库。 */
+  /* AI、旧明星及其经典历史通道均停用；人物 · Icons 由 tools/people.mjs 独立处理。 */
 ];
 
 /* 裸图提取分类：这些分类的文章页图片不包 <figure>，extractBlocks 需要放开扫 <img> */
@@ -145,6 +150,31 @@ const LOOSE_CATS = new Set(FEEDS.filter(f => f.looseImg).map(f => f.cat));
 /* 每个分类的抓取配置（repair 等按文章 cat 回查） */
 const FEED_BY_CAT = {};
 FEEDS.forEach(f => { if (!FEED_BY_CAT[f.cat]) FEED_BY_CAT[f.cat] = f; });
+
+/* 下架名单（编辑层剔除）——只对**已经入库**的文章生效，防止它们被重新采回。
+ *
+ * 为什么需要一份名单、而不是靠 staticSkipReason：
+ *   staticSkipReason 拦的是「还没入库的候选」，对已经躺在 data-articles-extra.js 里的
+ *   文章无能为力。而成长/寓言是常青栏目（不受 30 天时效淘汰、配额 60），一旦入库就
+ *   永久在线。于是「源页面本身没有正文」的那类页面（播客页、活动页）会一直挂着。
+ *
+ * 本批存量问题包括 fs.blog 的 Knowledge Project 播客页 —— 正文 17—21 句，
+ * 开头是导语、末句是「Farnam Street participates in the Amazon Services LLC
+ * Associates Program…」联盟广告声明。既不是文章，也不含可学习内容。
+ * 根因（staticSkipReason 的播客正则漏判）已同批修掉，这里是存量清理。
+ * 以及无法恢复段落的失效来源、足球直播观看指南。名单留空不是错误；新候选还会由
+ * recommend.mjs 的 unreadableReason 内容门禁再次拦截。
+ */
+const DROP_LIST = [
+  { id: "gr-greg-brockman-inside-the-72-hours-that-almost-", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
+  { id: "gr-roblox-ceo-how-to-make-better-decisions-by-fix", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
+  { id: "gr-the-mindset-behind-building-a-great-little-bus", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
+  { id: "gr-how-to-fix-your-entire-life-in-1-day", why: "正文来源失效，无法恢复连续段落" },
+  { id: "gr-the-mindset-that-unlocks-your-full-potential-d", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
+  { id: "gr-proven-better-new-mark-pincus-on-the-rules-of-", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
+  { id: "ft-how-to-watch-coventry-city-vs-brighton-for-fre", why: "足球直播/观看指南，不是连续阅读文章" },
+  { id: "ft-how-to-watch-arsenal-vs-crystal-palace-for-fre", why: "足球直播/观看指南，不是连续阅读文章" },
+];
 
 /* ---------------- 来源健康度 ----------------
  * 健康度是运行状态，不参与文章内容展示。RSS/正文连续失败 3 次时熔断来源，
@@ -437,6 +467,46 @@ function optimizeImages() {
  * `lib-text.mjs` 的 2.5 / 2.6 节 —— 明星栏目的历史通道要在「出清单」阶段就用
  * 同一把尺子预测正文词数，各自的实现会漂（详见那个文件头的说明）。 */
 
+/* 非正文区域的字符区间：导航菜单、订阅弹窗、页脚条幅里的 <li>/<h2> 也是 li/h，
+ * 但那是站点外壳，不是文章。只对新增的 li / h2 / h3 生效 —— <p> 那条路径一个字不改。
+ *
+ * **按标签深度配对**，不用非贪婪截断：`[\s\S]*?</div>` 会在第一个嵌套 </div> 处收尾，
+ * 结果只排掉一个空壳，弹窗里的 <h2> 照样进正文（More To That 的 et_bloom 订阅框
+ * 「"How do you find your ideas?"」就是这么漏进来的，实测）。
+ *
+ * 判定两类：语义标签（nav/header/footer/aside）整块排除；其余标签看 class/id 里有没有
+ * 结构性记号 —— WordPress 菜单固定的 `menu-item`、Elegant Themes 的 `et_bloom`、
+ * GeneratePress 的 `site-footer`、以及 sidebar / widget / related-posts 这一族。 */
+const REGION_TAGS = ["nav", "header", "footer", "aside", "div", "section", "ul", "ol", "form", "li"];
+const REGION_TOKEN = /(?:^|[\s"'_-])(?:menu-item[a-z-]*|sub-menu|site-navigation|main-navigation|primary-menu|nav-links|post-navigation|et_bloom[a-z_]*|newsletter[a-z_-]*|convertkit[a-z_-]*|ck_form[a-z_]*|mc4wp[a-z_-]*|mailpoet[a-z_-]*|sidebar|widget-area|related-posts|jp-relatedposts|sharedaddy|breadcrumb[a-z_-]*|pagination|table-of-contents|site-footer)(?:[\s"'_-]|$)/i;
+const REGION_ATTR = /(?:class|id)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
+
+function junkRegions(html) {
+  const out = [];
+  const open = new RegExp(`<(${REGION_TAGS.join("|")})\\b([^>]*)>`, "gi");
+  const tagRe = new Map();
+  let m;
+  while ((m = open.exec(html))) {
+    const tag = m[1].toLowerCase();
+    const attrs = m[2] || "";
+    const semantic = tag === "nav" || tag === "header" || tag === "footer" || tag === "aside";
+    const structural = semantic || REGION_TOKEN.test(
+      [...attrs.matchAll(REGION_ATTR)].map(x => x[1] || x[2] || "").join(" ")
+    );
+    if (!structural) continue;
+    if (!tagRe.has(tag)) tagRe.set(tag, new RegExp(`<${tag}\\b[^>]*>|</${tag}\\s*>`, "gi"));
+    const tok = tagRe.get(tag);
+    tok.lastIndex = m.index;
+    let depth = 0, end = -1, t;
+    while ((t = tok.exec(html))) {
+      if (t[0][1] === "/") { if (--depth === 0) { end = t.index + t[0].length; break; } }
+      else depth++;
+    }
+    if (end > 0) out.push([m.index, end]);
+  }
+  return out;
+}
+
 function extractBlocks(html, looseImg = false) {
   /* 先划出 figure 的字符区间，避免同一段被 <p> 和 <figure> 重复计入 */
   const figs = [...html.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/gi)]
@@ -448,6 +518,17 @@ function extractBlocks(html, looseImg = false) {
   for (const m of html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
     if (inFig(m.index)) continue;
     nodes.push({ at: m.index, kind: "p", inner: m[1] });
+  }
+
+  /* 列表项与小标题。2026-09-15 语义验收实测：只认 <p> 会让清单式文档整篇丢主体 ——
+   * 《HUMAN 3.0》完整知识库原文有 740 个 <li>（中位 29.5 字符）与 78 个 <h2>/<h3>，
+   * 1,912 词进不了库，「三层级 / 三阶段」讲了却一条没列。
+   * li 会被当成一个独立的文字块（渲染上等于原文档的一行），并走 goodPara 的列表档。 */
+  const navs = junkRegions(html);
+  const inNav = i => navs.some(([a, b]) => i >= a && i < b);
+  for (const m of html.matchAll(/<(li|h2|h3)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
+    if (inFig(m.index) || inNav(m.index)) continue;
+    nodes.push({ at: m.index, kind: "item", inner: m[2] });
   }
 
   /* Hearst（ELLE/Bazaar 等）不写 <figure>，图裸放在 <div> 里：looseImg 时补扫 figure 外的独立 <img>。
@@ -467,13 +548,14 @@ function extractBlocks(html, looseImg = false) {
   const seenImg = new Set();
   const out = [];
   for (const n of nodes) {
-    if (n.kind === "p") {
+    if (n.kind === "p" || n.kind === "item") {
       const t = stripTags(n.inner);
-      if (!goodPara(t)) continue;
+      const list = n.kind === "item";
+      if (!goodPara(t, { list })) continue;
       const key = t.slice(0, 60);
       if (seenText.has(key)) continue;
       seenText.add(key);
-      out.push({ t: "p", v: t });
+      out.push({ t: "p", v: t, ...(list ? { item: true } : {}) });
     } else {
       const imgs = [...n.inner.matchAll(/<img\b[^>]*>/gi)].map(x => x[0]);
       if (!imgs.length) continue;
@@ -526,33 +608,20 @@ function difficultyOk(sents) {
 }
 
 /* ---------------- 译文后处理 ----------------
- * MyMemory 会在中文里插入 "（ English ）" 形式的原文并留下多余空格，
- * 另外对少数高频体育用语译错。这里做轻量规范化，不改动语义。 */
+ * MyMemory 会在中文里插入 "（ English ）" 形式的原文并留下多余空格。
+ * 这里只做格式清理；涉及老板/主帅、胜者/冠军、人名等事实的修订必须同时
+ * 检查英文原句，交给 applyGlossary 的英文条件规则，不能用中文全局替换。 */
 const CN_POST = [
   [/（\s*([^（）]{1,70}?)\s*）/g, "（$1）"],
-  [/([\u4e00-\u9fa5]{2,8})的老板/g, "$1主帅"],
-  [/比赛冠军/g, "取胜功臣"],
-  [/奥德加尔|奥德加德/g, "厄德高"],
-  [/阿尔特塔（ ?Mikel Arteta ?）/g, "阿尔特塔"],
   [/\s{2,}/g, " "],
   [/^\s+|\s+$/g, ""]
 ];
-const CN_POST_BY_CAT = {
-  足球: [
-    [/阿森纳老板|球队老板/g, "主帅"],
-    [/([\u4e00-\u9fa5]{2,8})老板/g, "$1主帅"]
-  ]
-};
-const postEdit = (s, cat) => {
-  let t = CN_POST.reduce((x, [re, to]) => x.replace(re, to), String(s));
-  (CN_POST_BY_CAT[cat] || []).forEach(([re, to]) => { t = t.replace(re, to); });
-  return t;
-};
+const postEdit = s => CN_POST.reduce((x, [re, to]) => x.replace(re, to), String(s));
 
-/* ---------------- 翻译（有道为主、MyMemory 兜底，带磁盘缓存） ----------------
+/* ---------------- 翻译（DeepL 主力、有道 / MyMemory 兜底，带版本化缓存） ----------------
  * 引擎与缓存都在 tools/lib-mt.mjs：正文、标题（translate-titles.mjs）共用同一份
  * tools/.mt-cache.json，同一句话不会重复请求。MyMemory 免费额度按 IP 每天重置，
- * 抓到十几篇就会打满；有道公开接口质量更好，且支持一次多句（换行分隔）。
+ * 抓到十几篇就会打满；有道作为降级路径支持一次多句（换行分隔）。
  */
 /* ---------------- 已有数据 ---------------- */
 
@@ -635,21 +704,70 @@ function articleContext(feed, item, texts, batch) {
   const around = new Set();
   for (const b of batch || []) {
     const i = Number(b.i);
-    for (const j of [i - 1, i, i + 1]) {
+    /* 句前后各两句通常能覆盖完整主语/指代和比分说明；即使部分句子命中缓存，
+       b.i 仍是原文下标，所以不会因非连续批次而错配上下文。 */
+    for (const j of [i - 2, i - 1, i, i + 1, i + 2]) {
       if (j >= 0 && j < texts.length && texts[j]) around.add(texts[j]);
     }
   }
   return [
     item?.title ? `Article title: ${item.title}` : "",
+    item?.desc ? `Article summary: ${item.desc}` : "",
     feed?.name ? `Source: ${feed.name}` : "",
     [...around].join(" "),
   ].filter(Boolean).join("\n");
+}
+
+/* 标题不能与不同文章混批，否则一篇标题的专名会影响另一篇标题。
+ * 每次最多送一个标题，并把导语/来源作为消歧上下文；cacheKeyFor 仍按文章隔离。 */
+async function translateArticleTitles(articles) {
+  const jobs = articles.filter(a => !a.titleZh && a.title);
+  if (!jobs.length) return { ok: 0, total: 0 };
+  const result = await translateTexts(jobs.map(a => a.title), {
+    maxLines: 1,
+    maxChars: 900,
+    cacheNamespace: "title-context-v2",
+    cacheKey: (title, i) => jobs[i]?.url || jobs[i]?.id || title,
+    context: batch => {
+      const a = jobs[batch[0]?.i];
+      return [
+        a?.title ? `Article title: ${a.title}` : "",
+        a?.desc ? `Article summary: ${a.desc}` : "",
+        a?.source ? `Source: ${a.source}` : "",
+      ].filter(Boolean).join("\n");
+    },
+  });
+  let ok = 0;
+  jobs.forEach((a, i) => {
+    const zh = cleanTitleZh(applyGlossary(postEdit(result[i] || ""), a.title, a.id), a.title);
+    if (!zh) return;
+    const idx = articles.indexOf(a);
+    if (idx >= 0) articles[idx] = putTitleZh(a, zh);
+    ok++;
+  });
+  return { ok, total: jobs.length };
 }
 
 /* 翻译结果必须逐项存在。之前只按 85% 比例放行，cleanPara 又会静默删掉
  * 空译文，最终读者看到的是缺句的中英对照，且很难追查是哪次接口截断。 */
 const translationsComplete = xs => Array.isArray(xs) && xs.length > 0
   && xs.every(x => typeof x === "string" && x.trim().length > 0);
+
+function translationAudit(source, translated) {
+  const issues = [];
+  if (!Array.isArray(translated) || translated.length !== source.length) {
+    issues.push(`句数不一致（原文 ${source.length} / 译文 ${translated?.length || 0}）`);
+  }
+  source.forEach((en, i) => {
+    const cn = String(translated?.[i] || "").trim();
+    if (!cn) issues.push(`第 ${i + 1} 句为空`);
+    else if (cn.toLowerCase() === String(en || "").trim().toLowerCase()) issues.push(`第 ${i + 1} 句疑似原文回显`);
+    const nums = String(en || "").match(/\b\d+(?:[.,]\d+)?%?\b/g) || [];
+    const missing = nums.filter(n => !cn.includes(n));
+    if (missing.length) issues.push(`第 ${i + 1} 句数字待核对：${missing.join(", ")}`);
+  });
+  return { status: issues.some(x => /为空|句数不一致|原文回显/.test(x)) ? "blocked" : "machine-checked", issues };
+}
 
 function scoreItem({ feed, item, words, capWords, cover, imgs, sents, paragraphs }) {
   const quality = qualityScore({
@@ -679,9 +797,15 @@ function scoreItem({ feed, item, words, capWords, cover, imgs, sents, paragraphs
 
 function staticSkipReason(feed, item) {
   if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(item.link)) return "软文";
+  if (feed.cat === "足球" && /how to watch|live streams?|tv channels?|watch online|use a vpn|free stream/i.test(item.title)) return "足球观看指南";
   if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|watch online|how to watch|livestream|streaming|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b|boxing fight|football game/i.test(item.title)) return "非美图向";
   if (feed.cat === "成长" && /passive income|get rich|dropship|side hustle|\bcrypto\b|\bnft\b|\$\d[\d,.]*\s*(\/|a|per)?\s*(month|day|hr|hour)/i.test(item.title)) return "搞钱标题";
-  if (feed.cat === "成长" && /\/podcast\//i.test(item.link)) return "播客页";
+  /* 「播客页」这条 2026-09-15 修过一次：原正则 `/\/podcast\//` 要求 podcast 前面是
+     斜杠，而 fs.blog 的路径是 `knowledge-project-podcast/greg-brockman/` —— 前面是
+     连字符，于是整条规则从来没命中过。结果 3 个 Knowledge Project 播客页（只有导语，
+     末句还是 Amazon Associates 联盟声明）以「成长」常青栏目的身份长期挂在线上。
+     现在按「路径段」匹配：段名以 podcast 结尾（可带连字符前缀）/ 前后是斜杠。 */
+  if (feed.cat === "成长" && /(^|\/)[-a-z]*podcasts?\//i.test(item.link)) return "播客页";
   if (/techcrunch (disrupt|sessions|events?)\b/i.test(item.title)) return "活动推广";
   try {
     const seg = new URL(item.link).pathname.split("/").filter(Boolean);
@@ -691,7 +815,20 @@ function staticSkipReason(feed, item) {
 }
 
 function selectCandidates(candidates) {
-  const eligible = candidates.filter(c => c.qualityScore >= QUALITY_CANDIDATE_THRESHOLD);
+  const eligible = candidates.filter(c => {
+    if (c.qualityScore < QUALITY_CANDIDATE_THRESHOLD) return false;
+    const reason = unreadableReason({
+      cat: c.feed?.cat,
+      title: c.item?.title,
+      url: c.item?.link,
+      paras: (c.keep || []).filter(b => b.t === "p").map(b => ({ en: b.v })),
+    });
+    if (reason) {
+      if (VERBOSE) console.log(`    · 内容门禁挡下[${reason}] ${cleanTitle(c.item.title).slice(0, 46)}`);
+      return false;
+    }
+    return true;
+  });
   /* 明星栏目的图片硬门槛（用户 2026-09-14 定）：正文内嵌图 ≥6 张才算候选。
      门槛用「从正文抽到的有效图」而不是 RSS 里声明的图数 —— 后者常是推荐位缩略图。
      被它挡下的是「2—3 张图的明星短讯」，正是「只有一张配图的短消息」那类。 */
@@ -943,6 +1080,240 @@ async function repairImages() {
   console.log(`写出 ${path.relative(ROOT, OUT_FILE)}`);
 }
 
+/* ---------------- 诊断：打印一份 HTML 的提取结果 ---------------- */
+async function dumpBlocks() {
+  const html = fs.readFileSync(path.resolve(ROOT, DUMP_BLOCKS), "utf8");
+  const blocks = extractBlocks(html, has("loose"));
+  const texts = blocks.filter(b => b.t === "p");
+  const words = texts.reduce((n, b) => n + wordCount(b.v), 0);
+  console.error(`提取：文字块 ${texts.length}（列表/标题 ${texts.filter(b => b.item).length}）· 图 ${blocks.length - texts.length} · 词 ${words}`);
+  process.stdout.write(JSON.stringify(blocks, null, 1));
+}
+
+/* ---------------- 补回被提取器漏掉的正文（--refill） ----------------
+ *
+ * 起因：`extractBlocks` 原先只认 `<p>`，`<li>` / `<h2>` / `<h3>` 从来没被提取过。
+ * 《HUMAN 3.0》完整知识库是一份清单式文档，因此整篇丢了 309 个列表条目
+ * （实测 2,328 词）——「三层级 / 三阶段」被讲了，层级本身一条没列；正文层的
+ * `goodPara`（长度 <70 丢、字母 <55 丢）与 `splitSentences`（<30 字符丢）又各补一刀。
+ * 语义验收实测全库合计 349 块 / 3,069 词有原文、没进库。
+ *
+ * 策略是**只增不改**：
+ *   1. 重新抓原文（用当前 a.url）；
+ *   2. 用**当前**提取器重抽，得到带块序号的原文句子序列；
+ *   3. 与库内句子做 LCS 对齐 —— 只挑「原文有、库里没有」的；
+ *   4. 补译这些句子，按锚点插回原位（同段就插进同一组，跨段就作为新组插在后面）。
+ * 库内既有句子一个字节都不动，所以这个操作**不可能造成内容回退**，
+ * 最坏情况是没补上。跑完必须跑 audit + qc 复检。
+ *
+ * 用法：
+ *   node tools/ingest.mjs --refill --dry              只列「打算补什么」，不写盘、不翻译
+ *   node tools/ingest.mjs --refill                     补译并写盘
+ *   node tools/ingest.mjs --refill --refill-ids kb     只补 id 含 kb 的篇
+ */
+
+/* 句子比对用的归一化：弯撇号/弯引号/空白差异不算差异（正文撇号是弯的 ’） */
+const normSent = s => String(s || "")
+  .replace(/[‘’]/g, "'").replace(/[“”]/g, '"')
+  .replace(/\s+/g, " ").trim().toLowerCase();
+
+/** 最长公共子序列对齐（a=原文句序，b=库内句序），返回 [origIdx, pubIdx] 配对 */
+function alignLcs(a, b) {
+  const n = a.length, m = b.length, W = m + 1;
+  if (!n || !m) return [];
+  const dp = new Uint32Array((n + 1) * W);
+  for (let i = n - 1; i >= 0; i--) {
+    for (let j = m - 1; j >= 0; j--) {
+      dp[i * W + j] = a[i] === b[j]
+        ? dp[(i + 1) * W + j + 1] + 1
+        : Math.max(dp[(i + 1) * W + j], dp[i * W + j + 1]);
+    }
+  }
+  const pairs = [];
+  let i = 0, j = 0;
+  while (i < n && j < m) {
+    if (a[i] === b[j]) { pairs.push([i, j]); i++; j++; }
+    else if (dp[(i + 1) * W + j] >= dp[i * W + j + 1]) i++;
+    else j++;
+  }
+  return pairs;
+}
+
+/* 人物篇的 `sourceTextWords` / `sourceParagraphs` 是 qc F4 用来对账「字段 vs 正文」的。
+ * 只要库内正文变了（补句、人工修订）字段就会漂，所以每篇收尾都按库内正文重算一次。
+ * 口径与 qc.mjs F4 完全一致（同一个正则），`sourceTextHash` 刻意不动 ——
+ * 源页面本身没变，动了会让人物管线的指纹比对误判成「来源变更、需要重审」。
+ * 返回改了几处（0 = 本来就一致）。 */
+function syncPeopleSourceFields(a) {
+  if (a.sourceTextWords == null) return 0;
+  let n = 0;
+  const joined = a.paras.filter(p => !p.img)
+    .flatMap(p => (p.sentences || []).map(s => String(s.en || ""))).join(" ");
+  const ws = (joined.match(/[A-Za-z]+(?:['’][A-Za-z]+)?/g) || []).length;
+  if (a.sourceTextWords !== ws) { a.sourceTextWords = ws; n++; }
+  const ps = a.paras.filter(p => !p.img).length;
+  if (a.sourceParagraphs !== ps) { a.sourceParagraphs = ps; n++; }
+  return n;
+}
+
+async function refillMissing() {
+  const src = fs.readFileSync(OUT_FILE, "utf8");
+  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
+  if (!m) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
+  const list = JSON.parse(m[2]);
+  const keys = String(val("refill-ids", "")).split(",").map(s => s.trim()).filter(Boolean);
+  const targets = keys.length ? list.filter(a => keys.some(k => a.id.includes(k))) : list;
+  console.log(`补正文：${targets.length} / ${list.length} 篇${DRY ? "（--dry，不写盘不翻译）" : ""}\n`);
+
+  const summary = [];
+  let fieldFixed = 0;
+  for (const a of targets) {
+    const html = await get(a.url, 2, 60000);
+    if (!html) { console.log(`· ${a.id.padEnd(42)} 原文取不到，跳过`); summary.push({ id: a.id, status: "fetch-fail" }); continue; }
+
+    const blocks = extractBlocks(html, LOOSE_CATS.has(a.cat));
+    const orig = [];
+    blocks.forEach((b, bi) => {
+      if (b.t !== "p") return;
+      for (const s of splitSentences([b.v])) orig.push({ en: s, block: bi, item: !!b.item });
+    });
+
+    const pub = [];
+    a.paras.forEach((p, pi) => {
+      if (p.img) return;
+      if (Array.isArray(p.sentences)) p.sentences.forEach((s, si) => pub.push({ en: s.en, pi, si }));
+      else pub.push({ en: p.en, pi, si: -1 });
+    });
+
+    const pairs = alignLcs(orig.map(x => normSent(x.en)), pub.map(x => normSent(x.en)));
+    const pubOfOrig = new Map(pairs);
+    const missing = [];
+    orig.forEach((x, i) => { if (!pubOfOrig.has(i)) missing.push(i); });
+
+    /* 锚点：每个缺失句插在「它之前最后一句已对齐句」之后；没有则插到最前（-1） */
+    const anchorOf = new Map();
+    let lastPub = -1, oi = 0;
+    for (let k = 0; k < orig.length; k++) {
+      if (pubOfOrig.has(k)) { lastPub = pubOfOrig.get(k); continue; }
+      anchorOf.set(k, lastPub);
+    }
+
+    if (!missing.length) {
+      const fixed = syncPeopleSourceFields(a);
+      fieldFixed += fixed;
+      console.log(`· ${a.id.padEnd(42)} 无缺失（库内 ${pub.length} 句 / 原文 ${orig.length} 句）${fixed ? ` · 已同步 source 字段 ${fixed} 处` : ""}`);
+      summary.push({ id: a.id, status: "clean", fieldFixed: fixed });
+      continue;
+    }
+
+    console.log(`· ${a.id.padEnd(42)} 缺失 ${String(missing.length).padStart(3)} 句 / ${missing.reduce((n, i) => n + wordCount(orig[i].en), 0)} 词`);
+    if (DRY) {
+      missing.slice(0, 40).forEach(i => console.log(`    [${orig[i].block}] ${orig[i].en.slice(0, 118)}`));
+      if (missing.length > 40) console.log(`    …另有 ${missing.length - 40} 句`);
+      summary.push({ id: a.id, status: "missing", n: missing.length, words: missing.reduce((n, i) => n + wordCount(orig[i].en), 0) });
+      continue;
+    }
+
+    /* 补译（走同一份 .mt-cache.json；已译过的句子不会重复请求） */
+    const texts = missing.map(i => orig[i].en);
+    const zhs = await translateTexts(texts, {
+      maxLines: 4, maxChars: 1200,
+      cacheNamespace: "refill-v1",
+      cacheKey: a.url,
+      context: batch => [a.title, a.source, ...batch.flatMap(b => {
+        const o = missing[b.i];
+        return orig.slice(Math.max(0, o - 2), o).map(x => x.en);
+      })].join(" "),
+    });
+
+    /* 组装：anchor(库内句下标) → 要插入的新句 */
+    const afterK = new Map();
+    let dropped = 0;
+    missing.forEach((oi2, n) => {
+      const en = orig[oi2].en;
+      const cn = applyGlossary(postEdit(zhs[n] || "", a.cat), en, a.id);
+      const para = cleanPara({ en, cn });
+      if (!para) { dropped++; return; }
+      const k = anchorOf.get(oi2);
+      if (!afterK.has(k)) afterK.set(k, []);
+      afterK.get(k).push(para);
+    });
+    if (dropped) console.log(`    跳过 ${dropped} 句（译文缺失，下轮重试）`);
+
+    /* 原位插回：同组插进组内，跨组作为新组插在后面。库内原句对象原样引用，不改不删。 */
+    const kByKey = new Map();
+    pub.forEach((p, k) => kByKey.set(`${p.pi}:${p.si}`, k));
+    const out = [];
+    if (afterK.has(-1)) out.push({ sentences: afterK.get(-1) });
+    a.paras.forEach((p, pi) => {
+      if (p.img) { out.push(p); return; }
+      if (Array.isArray(p.sentences)) {
+        const sents = [];
+        p.sentences.forEach((s, si) => {
+          sents.push(s);
+          const k = kByKey.get(`${pi}:${si}`);
+          if (k != null && afterK.has(k)) sents.push(...afterK.get(k));
+        });
+        out.push({ sentences: sents });
+      } else {
+        out.push(p);
+        const k = kByKey.get(`${pi}:-1`);
+        if (k != null && afterK.has(k)) out.push({ sentences: afterK.get(k) });
+      }
+    });
+
+    /* 安全断言：库内原句必须一字不少地还在（只增不改的兜底检查） */
+    const before = pub.map(p => normSent(p.en)).sort();
+    const after = [];
+    out.forEach(p => {
+      if (p.img) return;
+      (Array.isArray(p.sentences) ? p.sentences : [p]).forEach(s => after.push(normSent(s.en)));
+    });
+    const have = new Map();
+    after.forEach(s => have.set(s, (have.get(s) || 0) + 1));
+    let lost = 0;
+    for (const s of before) { const c = have.get(s) || 0; if (!c) lost++; else have.set(s, c - 1); }
+    if (lost) { console.log(`    ✗ 断言失败：有 ${lost} 句原句会丢失，本篇跳过不写`); summary.push({ id: a.id, status: "assert-fail" }); continue; }
+
+    a.paras = out;
+    fieldFixed += syncPeopleSourceFields(a);
+    summary.push({ id: a.id, status: "refilled", added: after.length - before.length, dropped });
+  }
+
+  const added = summary.reduce((n, s) => n + (s.added || 0), 0);
+  console.log(`\n合计补回 ${added} 句${fieldFixed ? `，同步人物篇 source 字段 ${fieldFixed} 处` : ""}`);
+  if (DRY) { console.log("--dry：未写盘、未翻译。"); return; }
+  if (!added && !fieldFixed) { console.log("无变化，未写盘。"); return; }
+  fs.writeFileSync(OUT_FILE, src.slice(0, m.index) + m[1] + JSON.stringify(list, null, 2) + m[3] + src.slice(m.index + m[0].length));
+  console.log(`写出 ${path.relative(ROOT, OUT_FILE)}`);
+}
+
+/* ---------------- 模式六：下架（按 DROP_LIST 剔除） ----------------
+ * 只删不留：命中 id 的整条移除，其余原样。写盘走 writeExtra —— 它是唯一的产物出口，
+ * 头注释的「共 N 篇」与来源清单都由它重算；手写一份头必然与生成器漂开。
+ * 图片不在这一步删：publish.mjs 会把「不再被引用」的封面判为孤儿并归档（先复制后删），
+ * 于是删除也有批次快照兜底、可回滚，并自动进「删除清单」交给远端一并清掉。
+ */
+async function prune() {
+  const src = fs.readFileSync(OUT_FILE, "utf8");
+  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
+  if (!m) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
+  const list = JSON.parse(m[2]);
+  const drop = new Map(DROP_LIST.map(d => [d.id, d.why]));
+  const removed = list.filter(a => drop.has(a.id));
+  const kept = list.filter(a => !drop.has(a.id));
+  const miss = [...drop.keys()].filter(id => !list.some(a => a.id === id));
+
+  console.log(`下架：名单 ${drop.size} 篇 · 命中 ${removed.length} 篇 · 库内 ${list.length} → ${kept.length} 篇\n`);
+  removed.forEach(a => console.log(`  - ${a.id}\n      理由：${drop.get(a.id)}`));
+  if (miss.length) console.log(`\n  （名单里 ${miss.length} 篇不在库内，可能已清过：${miss.join(", ")}）`);
+  if (!removed.length) { console.log("\n没有可下架的文章，未写盘。"); return; }
+  if (DRY) { console.log("\n--dry：未写盘。"); return; }
+  writeExtra(kept);
+  console.log(`\n写出 ${path.relative(ROOT, OUT_FILE)}：${kept.length} 篇`);
+  console.log("下一步：node tools/publish.mjs --dry   看发布计划（孤儿封面会被归档并列入删除清单）");
+}
+
 /* ---------------- 写盘 ---------------- */
 
 /* RSS 通道与历史通道共用同一份产物格式。两个通道写两个头会漂，所以只有这一个出口。 */
@@ -953,7 +1324,7 @@ function writeExtra(all) {
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => a.source.split(" · ")[0]))].join(" / ")}
  *
- * 通道：成长 RSS + 人物 reviewed queue（tools/people.mjs）；旧明星历史通道已停用。
+ * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
  */
 
@@ -1098,7 +1469,7 @@ async function classics() {
     const translated = await translateTexts(allTexts, {
       maxLines: 4,
       maxChars: 1200,
-      cacheNamespace: "article-context-v2",
+      cacheNamespace: "article-context-v3",
       cacheKey: t.url,
       context: batch => articleContext(feed, { title: t.m.title }, allTexts, batch),
     });
@@ -1194,18 +1565,9 @@ async function classics() {
   if (!articles.length) { console.log("\n没有成功入库的专题。"); return; }
   optimizeImages();
 
-  const needZh = articles.filter(a => !a.titleZh && a.title);
-  if (needZh.length) {
-    await sleep(3000);   // 正文刚翻完，接口还在限流窗口里
-    const zhs = await translateTexts(needZh.map(a => a.title));
-    let zhOk = 0;
-    needZh.forEach((a, i) => {
-      const zh = cleanTitleZh(zhs[i], a.title);
-      if (!zh) return;
-      articles[articles.indexOf(a)] = putTitleZh(a, zh);
-      zhOk++;
-    });
-    console.log(`\n  标题中文：${zhOk}/${needZh.length}${zhOk < needZh.length ? "（有未译出的，跑 node tools/translate-titles.mjs 可补）" : ""}`);
+  const titleResult = await translateArticleTitles(articles);
+  if (titleResult.total) {
+    console.log(`\n  标题中文：${titleResult.ok}/${titleResult.total}${titleResult.ok < titleResult.total ? "（有未译出的，跑 node tools/translate-titles.mjs 可补）" : ""}`);
   }
 
   const newIds = new Set(articles.map(a => a.id));
@@ -1281,6 +1643,8 @@ async function main() {
     });
     enriched.push({
         feed, item, keep: keep2, sents, words, cover, imgs,
+        sourceSentenceCount: allSents.length,
+        sourceTruncated: allSents.length > sents.length,
         slug: slug(cleanTitle(item.title)), ...scored,
     });
     console.log(`· ${cleanTitle(item.title).slice(0, 46)}  质量 ${scored.qualityScore}（${scored.qualityBand}）· 难度 ${scored.difficultyBaseScore} · 服务端 ${scored.serverScore}  [${sents.length} 句 / ${words} 词${imgs ? " / 有内嵌图" : ""}]`);
@@ -1315,19 +1679,23 @@ async function main() {
   const total = picked.reduce((n, p) => n + p.sents.length, 0);
   let done = 0;
   for (const p of picked) {
+    const translationProviders = {};
     p.cn = await translateTexts(p.sents, {
       maxLines: 4,
       maxChars: 1200,
-      cacheNamespace: "article-context-v2",
+      cacheNamespace: "article-context-v3",
       cacheKey: p.item.link,
+      sourceLang: "EN",
       context: batch => articleContext(p.feed, p.item, p.sents, batch),
+      onProvider: (name, count) => { translationProviders[name] = (translationProviders[name] || 0) + count; },
     });
+    p.translation = { ...translationAudit(p.sents, p.cn), providers: translationProviders, cacheNamespace: "article-context-v3" };
     done += p.sents.length;
     process.stdout.write(`\r  翻译进度 ${done}/${total}`);
   }
   console.log();
 
-  const good = picked.filter(p => translationsComplete(p.cn));
+  const good = picked.filter(p => translationsComplete(p.cn) && p.translation?.status !== "blocked");
   const dropped = picked.length - good.length;
   if (dropped) console.log(`  跳过 ${dropped} 篇（译文不完整，下一轮重试）`);
 
@@ -1362,7 +1730,10 @@ async function main() {
       }
       const sentences = [];
       for (const s of b.sents) {
-        const cn = postEdit(p.cn[si++] || "", p.feed.cat);
+        /* 术语校正接在机翻后处理之后：规则以英文原句为条件，把 DeepL 在术语层面的
+           漂移（Level→阶段、save→省钱、flow→流动）当场按回去。不接这一步，
+           存量修正过的错会在下一批抓取里原样重生。 */
+        const cn = applyGlossary(postEdit(p.cn[si++] || "", p.feed.cat), s, id);
         /* 统一清洗：删掉混进来的脚本、还原翻译占位符、规范中文标点留白。
            没译出来、或清洗后只剩残句的，整段丢掉——宁可少一句，也不要空对照或乱码 */
         const para = cleanPara({ en: s, cn });
@@ -1400,6 +1771,9 @@ async function main() {
       qualityBand: p.qualityBand,
       difficultyBaseScore: p.difficultyBaseScore,
       serverScore: p.serverScore,
+      sourceSentenceCount: p.sourceSentenceCount || p.sents.length,
+      sourceTruncated: Boolean(p.sourceTruncated),
+      translation: p.translation,
       paras
     });
   }
@@ -1408,19 +1782,9 @@ async function main() {
 
   /* 标题中文：列表卡片、发现页精选、阅读页都在英文标题下渲染这行小字，
      抓取时一并补上（同一套引擎与缓存，标题短，命中缓存的居多） */
-  const needZh = articles.filter(a => !a.titleZh && a.title);
-  if (needZh.length) {
-    /* 正文刚翻完，接口还在限流窗口里，先歇一下再送标题，免得整批被拒 */
-    await sleep(3000);
-    const zhs = await translateTexts(needZh.map(a => a.title));
-    let zhOk = 0;
-    needZh.forEach((a, i) => {
-      const zh = cleanTitleZh(zhs[i], a.title);
-      if (!zh) return;
-      articles[articles.indexOf(a)] = putTitleZh(a, zh);
-      zhOk++;
-    });
-    console.log(`  标题中文：${zhOk}/${needZh.length}${zhOk < needZh.length ? "（有未译出的，跑 node tools/translate-titles.mjs 可补）" : ""}`);
+  const titleResult = await translateArticleTitles(articles);
+  if (titleResult.total) {
+    console.log(`  标题中文：${titleResult.ok}/${titleResult.total}${titleResult.ok < titleResult.total ? "（有未译出的，跑 node tools/translate-titles.mjs 可补）" : ""}`);
   }
 
   /* --append：把这一批叠加到上次成果之上（按 id 去重）；不加则整份覆盖 */
@@ -1438,11 +1802,11 @@ async function main() {
   console.log(`\n下一步：node tools/ingest.mjs --backfill   给 data.js 里的文章补封面图`);
 }
 
-const job = CLASSICS ? classics() : BACKFILL ? backfill() : REPAIR ? repairImages() : main();
+const job = DUMP_BLOCKS ? dumpBlocks() : PRUNE ? prune() : REFILL ? refillMissing() : CLASSICS ? classics() : BACKFILL ? backfill() : REPAIR ? repairImages() : main();
 job.then(() => {
-  if (!BACKFILL && !REPAIR) saveSourceHealth();
+  if (!BACKFILL && !REPAIR && !REFILL && !DUMP_BLOCKS && !PRUNE) saveSourceHealth();
 }).catch(e => {
-  if (!BACKFILL && !REPAIR) saveSourceHealth();
+  if (!BACKFILL && !REPAIR && !PRUNE) saveSourceHealth();
   console.error("失败：", e);
   process.exit(1);
 });

@@ -22,6 +22,7 @@ export const SNAPSHOT_FILES = [
   "assets/data-covers.js",
   "assets/data-examples.js",
   "assets/data-source-health.js",
+  "assets/data-article-metrics.js",
   "sw.js",
 ];
 /* 快照内的图片目录（仓库相对） */

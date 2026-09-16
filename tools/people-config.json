@@ -1,6 +1,6 @@
 {
   "version": "people-v2-full",
-  "dailyLimit": 2,
+  "dailyLimit": 1,
   "minPhotos": 4,
   "maxPhotos": 24,
   "minSourceWords": 450,

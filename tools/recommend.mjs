@@ -30,6 +30,32 @@ const clamp = (n, min = 0, max = 100) => Math.max(min, Math.min(max, n));
 const DEPTH_TITLE = /\b(interview|profile|portrait|analysis|explained|deep dive|investigation|conversation|essay|guide|how to|why)\b/i;
 const LOW_VALUE_TITLE = /\b(quiz|odds|betting|watch live|live stream|transfer rumou?rs?|gossip|horoscope|shop|deal|sale|giveaway|sponsored|roundup)\b/i;
 
+/* 内容门禁：只拦「不是连续可读文章」的页面，不按版权或转载属性做判断。
+ * 质量分是排序信号，不能替代正文语义检查；这层专门处理直播指南、播客落地页、
+ * 会员墙等在 RSS 中看起来像文章、实际不适合阅读训练的存量/新抓页面。 */
+export function unreadableReason(article = {}) {
+  const cat = String(article.cat || "");
+  const title = String(article.title || "");
+  const url = String(article.url || article.link || "");
+  const paras = Array.isArray(article.paras) ? article.paras : [];
+  const body = paras.flatMap(p => {
+    if (!p || p.img) return [];
+    if (Array.isArray(p.sentences)) return p.sentences.map(s => String(s?.en || ""));
+    return [String(p.en || "")];
+  }).join(" ");
+  const text = `${title} ${url} ${body}`;
+  if (cat === "足球" && /how to watch|watch .*?(?:live|online)|live streams?|tv channels?|use a vpn|free stream/i.test(text)) {
+    return "足球直播/观看指南，不是连续阅读文章";
+  }
+  if (cat === "成长" && /knowledge-project-podcast|\/podcasts?\//i.test(url)) {
+    return "播客落地页，不是文章正文";
+  }
+  if (cat === "成长" && /members only|amazon services llc associates program|affiliate disclosure/i.test(body)) {
+    return "会员墙或联盟声明占主体";
+  }
+  return "";
+}
+
 const scoreBand = score => score >= QUALITY_FORMAL_THRESHOLD
   ? "formal"
   : score >= QUALITY_CANDIDATE_THRESHOLD ? "candidate" : "reject";
@@ -142,4 +168,3 @@ export function updateSourceHealth(entry = emptySourceHealth(), kind, event = {}
   next.updatedAt = stage.lastAt;
   return next;
 }
-

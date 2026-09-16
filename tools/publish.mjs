@@ -77,6 +77,33 @@ const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
 if (!m) fail("extra 文件结构异常，无法解析 ARTICLES_EXTRA");
 let list;
 try { list = JSON.parse(m[1]); } catch (e) { fail("ARTICLES_EXTRA 不是合法 JSON：" + e.message); }
+const titlePairs = [["“", "”"], ["「", "」"], ["『", "』"], ["（", "）"]];
+for (const a of list) {
+  const title = String(a.titleZh || "");
+  if (!/[\u4e00-\u9fff]/.test(title)) fail(`文章中文标题缺少汉字：${a.id}`);
+  for (const [open, close] of titlePairs) {
+    if ([...title].filter(x => x === open).length !== [...title].filter(x => x === close).length) {
+      fail(`文章中文标题标点未配对：${a.id}`);
+    }
+  }
+}
+
+/* 发布前挡住会破坏渲染/缓存一致性的静态残留。版权、转载和许可证文件不在这里检查。 */
+const indexHtml = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+if (/\bdata-page-node-id\s*=/i.test(indexHtml)) fail("index.html 仍含 data-page-node-id 残留");
+const assetVersions = [...indexHtml.matchAll(/(?:src|href)="[^"]+\?v=(\d+)"/g)].map(x => x[1]);
+const versionSet = new Set(assetVersions);
+const swText = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
+const swVersion = swText.match(/wordlens-cache-v(\d+)/)?.[1] || "";
+const appText = fs.readFileSync(path.join(ROOT, "assets", "app.js"), "utf8");
+const warmVersion = appText.match(/caches\.open\("wordlens-cache-v(\d+)"\)/)?.[1] || "";
+const lazyVersion = appText.match(/data-tapdict\.js\?v=([^`"']+)/)?.[1] || "";
+const configText = fs.readFileSync(path.join(ROOT, "assets", "data-config.js"), "utf8");
+const configVersion = configText.match(/assetVersion:\s*["'](\d+)["']/)?.[1] || "";
+if (versionSet.size > 1 || (versionSet.size && (!swVersion || !warmVersion || !versionSet.has(swVersion)
+  || !configVersion || !versionSet.has(configVersion) || (lazyVersion && !lazyVersion.includes("ASSET_VERSION"))))) {
+  fail(`资源版本不一致：index=${[...versionSet].join(",")} sw=${swVersion || "?"} warm=${warmVersion || "?"}`);
+}
 
 const isPinned = a => a.pin === true;
 const isEvergreenCat = a => EVERGREEN_CATS.has(a.cat);

@@ -18,7 +18,7 @@ import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
 import { cleanInvisible } from "./lib-text.mjs";
-import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES } from "./recommend.mjs";
+import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES, unreadableReason } from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const IDS_FILE = (() => {
@@ -67,6 +67,16 @@ const NAV_PREFIX = /^\s*(Related Stories|Related Articles|Popular on|Trending|Re
 const BARE_LINK = /^\s*(https?:\/\/|pic\.twitter\.com|www\.)\S*(\s+(https?:\/\/|pic\.twitter\.com|www\.)\S*)*\s*$/i;
 const PLACEHOLDER = /<\/?[es]:\d+>/;
 const CN_RE = /[\u4e00-\u9fff]/;
+const TITLE_PAIRS = [["“", "”"], ["「", "」"], ["『", "』"], ["（", "）"]];
+function titlePunctuationIssue(title) {
+  const s = String(title || "");
+  for (const [open, close] of TITLE_PAIRS) {
+    const nOpen = [...s].filter(c => c === open).length;
+    const nClose = [...s].filter(c => c === close).length;
+    if (nOpen !== nClose) return `${open}${close} 未配对`;
+  }
+  return "";
+}
 
 const now = Date.now();
 const DAY = 86400000;
@@ -80,6 +90,10 @@ for (const a of ARTICLES) {
   /* F1 字段 */
   for (const k of ["id", "url", "cat", "title", "titleZh", "date"]) if (!String(a[k] || "").trim()) F.push(`F1 缺字段 ${k}`);
   if (!CATS.has(a.cat)) F.push(`F1 未知栏目「${a.cat}」`);
+  const contentIssue = unreadableReason(a);
+  if (contentIssue) F.push(`F1 内容不可读：${contentIssue}`);
+  const titleIssue = titlePunctuationIssue(a.titleZh);
+  if (titleIssue) F.push(`F5 标题标点异常：${titleIssue}`);
 
   /* F2 新鲜度（寓言为 1912 公版经典、成长为常青博主长文、明星含经年不过时的人物
      特写/档案访谈，均不参与时效判定） */
@@ -137,6 +151,18 @@ for (const a of ARTICLES) {
     }
   });
   if (paras.length < (a.cat === "寓言" ? 2 : 3)) F.push(`F4 只有 ${paras.length} 段`);
+  /* 新翻译入口会写入完整性审计；旧存量文章没有该字段，保持向后兼容。
+     blocked 只表示机器检查已发现硬性缺口，不能进入发布结果。 */
+  if (a.translation?.status === "blocked") F.push("F4 翻译完整性审计未通过");
+  if (Number.isFinite(Number(a.sourceSentenceCount)) && Number(a.sourceSentenceCount) > 0 && !a.sourceTruncated) {
+    const expected = Number(a.sourceSentenceCount);
+    const actual = textParas.length;
+    if (actual < expected * 0.95) F.push(`F4 正文句数缺失超过 5%（记录 ${expected} / 正文 ${actual}）`);
+  }
+  if (Number.isFinite(Number(a.translation?.sentenceCount))
+      && Number(a.translation.sentenceCount) !== textParas.length) {
+    F.push(`F4 翻译句数记录不一致（记录 ${a.translation.sentenceCount} / 正文 ${textParas.length}）`);
+  }
   for (let i = 0; i < textParas.length; i++) {
     const { p, label } = textParas[i];
     const en = String(p.en || ""), cn = String(p.cn || "");
