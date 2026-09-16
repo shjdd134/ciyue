@@ -5,6 +5,10 @@
 
 # 例句源数据缓存（44MB）；重新拉取命令见 tools/build-examples.mjs 顶部注释
 tools/.examples-cache/
+# 正文覆盖率对账（audit-coverage.mjs）的原文快照缓存。判定的是「库里 vs 当时的原文」，
+# 缓存命中就不联网 —— 反复跑结果必须一致，所以缓存是正确性的一部分而不是提速手段。
+# 体积大（每篇几十到几百 KB 的整页 HTML），不入库。
+tools/.coverage-cache/
 # 例外：两张小表是构建的必需输入，随仓库走
 #   cet4-hf.json      17KB  真题高频表，build-core-vocab.mjs 用
 #   cet4-sprint.json  36KB  冲刺池（真题表 ∪ CETVocabulary 词频），build-words-mid.mjs 用

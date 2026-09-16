@@ -173,6 +173,10 @@ FEEDS.forEach(f => { if (!FEED_BY_CAT[f.cat]) FEED_BY_CAT[f.cat] = f; });
  * 当初列入的判据是「无法恢复连续段落」，但原文（letters.thedankoe.com）从来没有不可达，
  * 缺的只是「按原文重分组」这一步。用 _regroup-paras.mjs 接回段落后单句段占比
  * 86.9% → 60.1%（命中率 98%），已恢复正常，留着它反而会挡住一篇好文。
+ *
+ * 2026-09-16 新增两篇 Ness Labs 的 Tools for Thought 落地页（`*-featured-tool`）：
+ * 它们是赞助厂商访谈，正文含真实问答、长度也够，所以躲过了所有长度/形态闸，以「成长」
+ * 身份在线。根治规则已加到 staticSkipReason（拦未入库候选），这里是存量清理。
  */
 const DROP_LIST = [
   { id: "gr-greg-brockman-inside-the-72-hours-that-almost-", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
@@ -182,6 +186,8 @@ const DROP_LIST = [
   { id: "gr-proven-better-new-mark-pincus-on-the-rules-of-", why: "fs.blog 播客页：仅导语 + Amazon 联盟声明" },
   { id: "ft-how-to-watch-coventry-city-vs-brighton-for-fre", why: "足球直播/观看指南，不是连续阅读文章" },
   { id: "ft-how-to-watch-arsenal-vs-crystal-palace-for-fre", why: "足球直播/观看指南，不是连续阅读文章" },
+  { id: "gr-never-forget-what-matters-with-dr-david-urbans", why: "Ness Labs 厂商访谈落地页：首句 Tools for Thought 模板 + 末 4 段订阅推广" },
+  { id: "gr-stop-explaining-yourself-to-your-ai-with-alex-", why: "Ness Labs 厂商访谈落地页：首句 Tools for Thought 模板 + 末 4 段订阅推广" },
 ];
 
 /* ---------------- 来源健康度 ----------------
@@ -883,6 +889,14 @@ function scoreItem({ feed, item, words, capWords, cover, imgs, sents, paragraphs
 
 function staticSkipReason(feed, item) {
   if (/\/sponsored\/|\/partner[-_]?content\/|\/advertorial\//i.test(item.link)) return "软文";
+  /* 「厂商访谈落地页」2026-09-16 新增。Ness Labs 的 Tools for Thought 系列，每篇的路径都是
+     `nesslabs.com/<tool>-featured-tool?utm_source=rss…`：首句固定是「Welcome to this edition
+     of our Tools for Thought series…」，末 4 段固定是 Ness Letters 订阅推广 + 课程/社群广告。
+     正文里的问答是真内容，但整页的存在目的就是给赞助工具做介绍 —— 不是文章。
+     拦在**候选层**而不是段落层：段落级的 BOILER 只能删掉首句与末段，中间问答照样入库，
+     整篇仍会以「成长」常青栏目（配额 60、不受 30 天时效淘汰）的身份永久在线。
+     本批两篇就是这么漏进来的 —— 长度够、结尾不带省略号，`looksTruncatedTeaser` 也放行。 */
+  if (/[-_]featured[-_]tool(?:\/|$|\?)/i.test(item.link)) return "厂商访谈落地页";
   if (feed.cat === "足球" && /how to watch|live streams?|tv channels?|watch online|use a vpn|free stream/i.test(item.title)) return "足球观看指南";
   if (feed.cat === "明星" && /horoscope|shop|deal|sale|giveaway|watch:|watch online|how to watch|livestream|streaming|quiz|releases|\bbag\b|\bbags\b|sneaker|\bboots?\b|jeans|sweater|runway|collection\b|boxing fight|football game/i.test(item.title)) return "非美图向";
   if (feed.cat === "成长" && /passive income|get rich|dropship|side hustle|\bcrypto\b|\bnft\b|\$\d[\d,.]*\s*(\/|a|per)?\s*(month|day|hr|hour)/i.test(item.title)) return "搞钱标题";

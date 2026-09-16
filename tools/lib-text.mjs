@@ -84,7 +84,17 @@ const BOILER = [
   /^Disrupt \d{4}:/i, /\btake over \d+ industry stages\b/i,
   /* 各站点的浏览器/兼容性提示与推广位（CBS 等会把它们塞进 <p>） */
   /\bbrowser is not fully supported\b/i, /\bupgrade to a modern browser\b/i, /\bmicrosoft\.com\/edge\b/i,
-  /\boptimal experience\b/i, /\bavailable to download\b/i, /\bmore than \d+ languages\b/i,
+  /* `optimal experience` 2026-09-16 收窄 —— 原文太通用，心流理论里
+     **`optimal experience`（最优体验）是 Csikszentmihalyi 的核心术语**，
+     它把 kb-human30 的一条真正文整段杀掉了：
+     「Scientific Foundation: Four decades of flow research validate this integrated approach.
+      Csikszentmihalyi's studies … show that **optimal experience** requires balance …」
+     实测扫全部 14 份原文样本，含该短语的段落**只有这 1 条** —— 也就是说这条规则
+     在样本里从未拦过任何噪声，命中即误伤。现在要求与浏览器/下载语境同现
+     （同句内前后 80 字符），原意保留、误伤消失。 */
+  /\boptimal experience\b[^.!?]{0,80}\b(browser|chrome|edge|safari|firefox|download|install|upgrade)\b/i,
+  /\b(browser|chrome|edge|safari|firefox|download|install|upgrade)\b[^.!?]{0,80}\boptimal experience\b/i,
+  /\bavailable to download\b/i, /\bmore than \d+ languages\b/i,
   /\bskip to (main )?content\b/i, /\benable javascript\b/i, /\byour (browser|device) (does not|doesn't)\b/i,
   /\bcookie(s)? (policy|settings|preferences)\b/i, /\bmanage your (privacy|preferences)\b/i,
   /\bthis (site|website) is protected by\b/i, /\bwe use cookies\b/i, /\bconsent\b/i,
@@ -219,12 +229,25 @@ const PARA_MIN = 15;            /* 段整体长度下限（原 30，2026-09-16 �
 const PARA_SHORT = 70;          /* 「短段」分界 */
 const PARA_SHORT_LETTERS = 12;  /* 短段要求的最少字母 */
 const PARA_LONG_LETTERS = 50;   /* 长段要求的最少字母 */
-const SENT_MIN = 12;            /* splitSentences 的句长下限（原 30） */
+/* splitSentences 的句长下限。原 30 → 12（2026-09-16 上午）→ **2**（同日下午）。
+   降到 2 的判据是全量实测：全库存量 2,936 句里，12 挡掉的只有 28 条，
+   其中 9 条是 `I.e.` 残片 —— 而那不是长度问题，是 ABBR 漏了 `i` 标志（已单独修掉）；
+   其余 19 条**全是真内容**：
+     · 人物访谈的短对话：`No.` / `No way.` / `But music?` / `CT: Exactly.` /
+       `DSF: Right.` / `[Laughs.]`（Anne Hathaway、Charlize Theron 两篇共 9 条）
+     · Dan Koe 的排比：`Get the job.` / `Play victim.`
+     · More To That 的 `All right.`、知识库的 `Crazy.` / `1) Quadrants` / `And so on.`
+   一次访谈里「No.」「Exactly.」被抹掉，读者看到的是答非所问 —— 这类损失比多收几个
+   短串严重得多。留 2 而不是 0：单字符残片（`A.` / `b.`）仍要挡，译出来是噪音。 */
+const SENT_MIN = 2;
+/* splitSentences 的整段兜底门槛（2026-09-16 新增）。见 splitSentences 内的注释：
+   整段切完全丢时，若原段 ≥ 这个长度就把原句留下来；40 以下仍按老规矩丢残片。 */
+const SENT_FLOOR = 40;
 export const GATES = {
   listMinLen: LIST_MIN_LEN, listMinLetters: LIST_MIN_LETTERS, listMinWords: LIST_MIN_WORDS,
   paraMin: PARA_MIN, paraShort: PARA_SHORT,
   paraShortLetters: PARA_SHORT_LETTERS, paraLongLetters: PARA_LONG_LETTERS,
-  sentMin: SENT_MIN,
+  sentMin: SENT_MIN, sentFloor: SENT_FLOOR,
 };
 
 /** 列表项/小标题专用的「是不是内容」判定（比正文宽松，但仍有下限与标签排除）
@@ -372,16 +395,26 @@ export function explainReject(t, opts = {}) {
    译文也就跟着变成半截话——看起来就像"翻译坏了"。
    **导出**给 lib-people 的原文分句器共用：人物栏目自己写过一份不带缩写表的
    分句器，结果原刊里的 "8 a.m. to 6 p.m." 被劈成 "8 a." / "m." / "to 6 p." /
-   "m." 四个碎片（碎片译出来还是英文，被 qc 的 F4 抓了个正着）。同一把尺子只有一份。 */
-export const ABBR = /\b(Mr|Mrs|Ms|Messrs|Dr|Drs|Prof|Sr|Jr|St|No|Nos|vs|etc|Co|Inc|Ltd|Corp|Bros|Assoc|Univ|Dept|Govt|Est|Vol|Fig|approx|Ave|Blvd|Rd|Capt|Cpl|Sgt|Lt|Col|Gen|Adm|Maj|Cmdr|Pvt|Sen|Rep|Gov|Rev|Hon|Gen|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e)\./g;
+   "m." 四个碎片（碎片译出来还是英文，被 qc 的 F4 抓了个正着）。同一把尺子只有一份。
+   2026-09-16 补 `i` 标志：原正则只写 `/g`，于是**只有小写形态被保护** ——
+   `i.e.` 不切分而 `I.e.` 被切成 4 字符残片，连带后面的整段说明也被拆散
+   （dankoe 一篇里 `I.e. <说明>` 出现 9 次，每次都被切成残片 + 半句）。
+   `e.g.` / `E.g.` 同理。大小写不该改变「这是不是缩写」的判断。
+   **同时移除 `No|Nos`**：加了 `i` 之后 `no.` 也开始被保护，而它是极常见的句末词 ——
+   实测代价（Anne Hathaway 篇）：`“I remember that first day, being like, Oh no.` 与
+   `Because she's like a doll, you know?` 被粘成一句；`Her mother said no. “And I said, Why?`
+   同理。全样本差分（24 份原文）显示 `/gi` 相对 `/g` 的净效果：**修好 9 条、粘坏 2 条，
+   全部来自 `I.e.` 这一项，其余项零差异** —— 所以只摘掉 `No|Nos`（`No. 5` 这种编号
+   被切开只是多一个 3 字符片段，代价远小于粘句）。将来若发现别的项也误伤，
+   同样按「全样本差分 + 逐条定性」移除，不要凭印象猜。 */
+export const ABBR = /\b(Mr|Mrs|Ms|Messrs|Dr|Drs|Prof|Sr|Jr|St|vs|etc|Co|Inc|Ltd|Corp|Bros|Assoc|Univ|Dept|Govt|Est|Vol|Fig|approx|Ave|Blvd|Rd|Capt|Cpl|Sgt|Lt|Col|Gen|Adm|Maj|Cmdr|Pvt|Sen|Rep|Gov|Rev|Hon|Gen|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e)\./gi;
 
 export function splitSentences(paras) {
   const out = [];
   for (const p of paras) {
     const guarded = p.replace(ABBR, m => m.replace(/\./g, "·"));
-    const parts = guarded
-      .split(/(?<=[.!?…])\s+/)
-      .map(s => s.trim())
+    const raw = guarded.split(/(?<=[.!?…])\s+/).map(s => s.trim()).filter(Boolean);
+    let parts = raw
       /* 广告脚本/导航碎片不送翻译：省额度，也避免它们被译成中文混进正文 */
       /* 2026-09-16 放宽 30 → 12。**这是最狠也最没道理的一刀**：段落已经过 goodPara
        * 判过「这是不是正文」，这里又按字符数把段内的句子切一遍 —— 同一件事判两次，
@@ -392,8 +425,19 @@ export function splitSentences(paras) {
       .filter(s => s.length > SENT_MIN && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
       /* 引文出处（`– Alfred Adler` / `– Naval Ravikant`）不是句子。放宽到 12 之后
        * 它们正好够长会混进来，单独挡掉；40 字符以上放行，免得误杀以破折号起头的正文。 */
-      .filter(s => !/^[–—-]\s*\S/.test(s) || s.length > 40)
-      .map(s => s.replace(/·/g, "."));
+      .filter(s => !/^[–—-]\s*\S/.test(s) || s.length > 40);
+    /* 兜底（2026-09-16）：**整段切完不能一句不剩**。
+     * 上面那道闸的职责是「筛句内残片」，但它没有段落上下文 —— 一旦一段由纯短句组成
+     * （排比、清单式），它就把整段连同段落一起删了，等于把自己从「筛句子」升级成
+     * 「筛段落」。实测代价：Dan Koe 那篇的
+     * `<em>Go to school. Get the job. Get offended. Play victim. Retire at 65.</em>`
+     * （67 字符 / 5 个短句）整段蒸发 —— 那是正文里最有力的一句排比，读者看到的是它凭空消失。
+     * 兜底时仍过 `/[A-Za-z]/` 与 isJunkPara/hasAdCode（只放弃长度闸），
+     * 且原段要 ≥ SENT_FLOOR(40) 字符：`I.e.` 之类残片段不足 40，照旧丢掉。 */
+    if (!parts.length && p.trim().length >= SENT_FLOOR) {
+      parts = raw.filter(s => /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s));
+    }
+    parts = parts.map(s => s.replace(/·/g, "."));
     for (const s of parts) {
       if (s.length <= 420) { out.push(s); continue; }
       const chunks = s.split(/(?<=[,;:])\s+/);

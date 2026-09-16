@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 11 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 9 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
- * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Ness Labs / Vogue / AnOther Magazine / British Vogue
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Vogue / AnOther Magazine / British Vogue
  *
  * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
@@ -297,6 +297,14 @@ const ARTICLES_EXTRA = [
       {
         "en": "We will discuss those later in this letter, but for now, let’s understand the foundation.",
         "cn": "我们将在本信的后文中讨论这些问题，但现在，让我们先了解其基础。"
+      },
+      {
+        "sentences": [
+          {
+            "en": "1) Quadrants",
+            "cn": "1) 象限"
+          }
+        ]
       },
       {
         "en": "The foundation of Human 3.0 is four quadrants that represent the four domains of life.",
@@ -799,6 +807,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Finding a philosophy that “clicks” with your current phase of life.",
             "cn": "找到一种与你当前人生阶段“契合”的生活哲学。"
+          },
+          {
+            "en": "And so on.",
+            "cn": "诸如此类。"
           },
           {
             "en": "Vocation – Reaching a point of maximum clarity that quickly leads into an exciting career change, product launch, or creative stint (skill).",
@@ -1973,6 +1985,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "In the Metatype prompt, I’ve had people respond that it brought them to tears.",
             "cn": "在“元类型”提示中，有人告诉我，这让他们感动得流下了眼泪。"
+          },
+          {
+            "en": "Crazy.",
+            "cn": "太疯狂了。"
           }
         ]
       },
@@ -2601,6 +2617,14 @@ const ARTICLES_EXTRA = [
           {
             "en": "HUMAN 3.0 provides a map for systematic problem-solving across all life domains, creating integrated development where each dimension supports rather than sacrifices the others.",
             "cn": "HUMAN 3.0 为跨所有生活领域的系统性问题解决提供了蓝图，从而实现综合发展，使各个维度相互支持，而非相互牺牲。"
+          },
+          {
+            "en": "Scientific Foundation: Four decades of flow research validate this integrated approach.",
+            "cn": "科学基础：四十年的“心流”研究验证了这种综合方法。"
+          },
+          {
+            "en": "Csikszentmihalyi’s studies across thousands of subjects show that optimal experience requires balance – those who achieve flow in multiple life domains report higher life satisfaction than single-domain experts.",
+            "cn": "契克森米哈赖对数千名受试者的研究表明，最佳体验需要平衡——那些在多个生活领域中达到“心流”状态的人，其生活满意度高于仅在单一领域中达到“心流”状态的专家。"
           }
         ]
       },
@@ -3939,6 +3963,14 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
+            "en": "Key shifts:",
+            "cn": "关键转变："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
             "en": "Positive-Sum Thinking: Creating value for all stakeholders not just shareholders",
             "cn": "正和思维：为所有利益相关者创造价值，而不仅仅是股东"
           },
@@ -4833,6 +4865,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Level 3 isn’t the end but a new beginning.",
             "cn": "第3层级并非终点，而是一个新的开始。"
+          },
+          {
+            "en": "Beyond lies:",
+            "cn": "谎言的彼端："
           },
           {
             "en": "Level 4: Unity consciousness",
@@ -7345,6 +7381,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Housing instability",
             "cn": "住房不稳定"
+          },
+          {
+            "en": "Legal issues",
+            "cn": "法律问题"
           }
         ]
       },
@@ -7553,6 +7593,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "Link to identity",
             "cn": "与身份关联简体中文（大陆）"
+          },
+          {
+            "en": "Teach others",
+            "cn": "教导他人"
           },
           {
             "en": "Build on success",
@@ -8864,6 +8908,10 @@ const ARTICLES_EXTRA = [
           {
             "en": "This makes the silence feel welcome, and opens up the breathing room required to process the dialogue in a mindful manner.",
             "cn": "这让人感到沉默是件好事，并为以正念的方式消化对话提供了必要的喘息空间。"
+          },
+          {
+            "en": "All right.",
+            "cn": "好的。"
           }
         ]
       },
@@ -9669,1620 +9717,6 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "gr-never-forget-what-matters-with-dr-david-urbans",
-    "cat": "成长",
-    "title": "Never forget what matters with Dr David Urbansky, founder of Linkflare",
-    "titleZh": "与 Linkflare 创始人大卫·乌尔班斯基博士一起，永远不要忘记什么才是最重要的",
-    "source": "Ness Labs · 2026-09-08",
-    "date": "2026-09-08",
-    "minutes": 22,
-    "url": "https://nesslabs.com/linkflare-featured-tool?utm_source=rss&utm_medium=rss&utm_campaign=linkflare-featured-tool",
-    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
-    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
-    "coverImg": "assets/covers/gr-never-forget-what-matters-with-dr-david-urbans.jpg",
-    "paras": [
-      {
-        "sentences": [
-          {
-            "en": "Welcome to this edition of our Tools for Thought series, where we interview founders on a mission to help us think better and work smarter.",
-            "cn": "欢迎阅读本期“思考工具”系列，我们将采访那些致力于帮助我们更好地思考、更聪明地工作的创始人。"
-          },
-          {
-            "en": "Dr David Urbansky is the founder of Linkflare, a universal bookmark manager that helps you save links, read distraction-free, and never forget the information that matters to you.",
-            "cn": "大卫·乌尔班斯基博士是 Linkflare 的创始人，这是一款通用书签管理器，可帮助您保存链接、在无干扰的环境中阅读，并确保您永远不会遗忘那些对您重要的信息。"
-          }
-        ]
-      },
-      {
-        "en": "In this interview, we talked about why saving information is not the same as remembering it, how to turn bookmarks into useful knowledge, why spaced repetition belongs in a bookmarking tool, how automation can reduce the work of organizing information, why personal knowledge may matter even more in the age of AI, and much more.",
-        "cn": "在这篇访谈中，我们探讨了以下问题：为何保存信息不等于记住信息；如何将书签转化为有用的知识；为何间隔重复功能应成为书签工具的一部分；自动化如何减少整理信息的工作量；为何在人工智能时代，个人知识可能显得更为重要；以及更多相关话题。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Enjoy the read!",
-            "cn": "祝您阅读愉快！"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-never-forget-what-matters-with-dr-david-urbans-1.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "Hi David, thank you for joining us.",
-            "cn": "嗨，大卫，感谢你加入我们。"
-          },
-          {
-            "en": "You believe that bookmarks should be more than a collection of saved links.",
-            "cn": "你认为书签不应该仅仅是一堆保存的链接。"
-          },
-          {
-            "en": "Why does that matter?",
-            "cn": "这为什么重要？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "I’m the kind of person who keeps lists of everything.",
-            "cn": "我就是那种凡事都要列清单的人。"
-          },
-          {
-            "en": "I’ve been running my life on David Allen’s Getting Things Done for years, so I have to-do lists, someday-maybe lists, lists of things to remember.",
-            "cn": "多年来，我一直按照大卫·艾伦的《搞定》来规划生活，因此我制作了待办事项清单、“有朝一日或许会做”清单以及需要记住的事情清单。"
-          },
-          {
-            "en": "And it doesn’t stop at tasks: movies I want to watch, recipes I want to try, books, places we might visit one day.",
-            "cn": "而且这不仅仅限于待办事项：我想看的电影、想尝试的食谱、书籍，还有我们将来可能去的地方。"
-          },
-          {
-            "en": "Capturing things is how I close open loops.",
-            "cn": "记录事物是我完成未完成事项的方式。"
-          },
-          {
-            "en": "Once something is written down, my head can let it go.",
-            "cn": "只要把事情写下来，我脑子里就能放下了。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The problem was never the capturing, it was where everything ended up.",
-            "cn": "问题从来不在于捕捉，而在于最终这些东西都去了哪里。"
-          },
-          {
-            "en": "The movies lived in watchlists on three different streaming platforms.",
-            "cn": "这些电影被收藏在三个不同流媒体平台的“待看列表”中。"
-          },
-          {
-            "en": "The recipes sat in chat threads.",
-            "cn": "这些食谱就放在聊天记录里。"
-          },
-          {
-            "en": "Interesting quotes and facts went into a notebook or onto sticky notes, and book takeaways into OneNote, where I’ve kept my lists for twenty years now.",
-            "cn": "有趣的引语和事实我会记在笔记本上或便签上，而读书心得则记录在OneNote里——我在那里整理这些清单已经二十年了。"
-          },
-          {
-            "en": "Every app is happy to hold its own little list.",
-            "cn": "每个应用都乐于拥有自己的一份小清单。"
-          },
-          {
-            "en": "None of them talk to each other, and none of them care whether you ever come back.",
-            "cn": "他们彼此之间都不说话，而且谁也不在乎你是否还会回来。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "But coming back is the whole point.",
-            "cn": "但归来才是重点。"
-          },
-          {
-            "en": "A bookmark is a small promise to your future self: I will read this, cook this, remember this.",
-            "cn": "书签是对未来自己的一个小小承诺：我会读这本书、做这道菜、记住这一点。"
-          },
-          {
-            "en": "Most tools let you break that promise silently.",
-            "cn": "大多数工具都会让你在不知不觉中违背这一承诺。"
-          },
-          {
-            "en": "I’d finish a book full of ideas, write down the takeaways, and six months later I couldn’t find the notes, let alone remember the ideas.",
-            "cn": "我读完一本充满灵感的书后，会把收获写下来，但半年后却找不到那些笔记，更别说还记得那些想法了。"
-          },
-          {
-            "en": "Saving something feels productive in the moment, but saving is not remembering.",
-            "cn": "保存某样东西在当下会让人觉得很有成就感，但保存并不等于记住。"
-          },
-          {
-            "en": "That gap between what I collected and what I could actually find and use again bothered me for a very long time.",
-            "cn": "我收集到的东西与实际能找到并再次利用的东西之间的差距，长期以来一直困扰着我。"
-          },
-          {
-            "en": "How did you come up with the idea for Linkflare?",
-            "cn": "你是如何想到Linkflare这个创意的？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "My whole career has been about teaching machines to read the web.",
-            "cn": "我的整个职业生涯都致力于教机器阅读网络内容。"
-          },
-          {
-            "en": "I did my PhD on web content extraction and assessment, and afterwards I built data APIs for developers.",
-            "cn": "我的博士研究课题是网页内容提取与评估，之后我为开发人员构建了数据API。"
-          },
-          {
-            "en": "The biggest one, spoonacular, takes recipes and food content and turns them into structured information: ingredients, amounts, nutrition, cooking times.",
-            "cn": "其中最大的平台“Spoonacular”会将食谱和美食内容转化为结构化信息：包括食材、用量、营养成分和烹饪时间。"
-          },
-          {
-            "en": "So for about fifteen years my job was helping companies turn messy web pages into clean data they could build products on.",
-            "cn": "因此，在过去的十五年里，我的工作就是帮助企业将杂乱无章的网页转化为结构清晰的数据，以便他们能够在此基础上开发产品。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Meanwhile, my own saved knowledge was a junk drawer.",
-            "cn": "与此同时，我保存下来的知识就像一个杂物抽屉。"
-          },
-          {
-            "en": "My bookmarks were plain URL strings.",
-            "cn": "我的书签只是普通的URL字符串。"
-          },
-          {
-            "en": "My reading backlog lived in Pocket.",
-            "cn": "我的待读书单都保存在Pocket里。"
-          },
-          {
-            "en": "My lists were scattered across half a dozen apps.",
-            "cn": "我的待办事项清单分散在六款应用里。"
-          },
-          {
-            "en": "At some point the irony became hard to ignore: I was pointing extraction technology at the web all day for other people’s products, and never at the thing I personally cared about most, which is my own library.",
-            "cn": "不知从何时起，这种讽刺变得难以忽视：我整天都在用数据提取技术处理网络上的内容，为他人的产品服务，却从未将它用于我个人最在乎的东西——那就是我自己的代码库。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Pocket shutting down was the final push.",
-            "cn": "Pocket 关闭成了压垮骆驼的最后一根稻草。"
-          },
-          {
-            "en": "I had years of saved reading in there, and suddenly the platform underneath it was simply gone.",
-            "cn": "那里存着我多年来积累的阅读资料，可突然间，支撑它们的平台就这么消失了。"
-          },
-          {
-            "en": "That made something very clear to me: what we save is only as durable as the app we save it into.",
-            "cn": "这让我深刻认识到：我们保存的内容能否持久，完全取决于我们用来保存它的应用程序的稳定性。"
-          },
-          {
-            "en": "So I built Linkflare, which is essentially everything I know about understanding web content, pointed at your personal library.",
-            "cn": "于是，我开发了Linkflare——它基本上凝聚了我对理解网络内容的所有认知，并将其应用于你的个人书库。"
-          },
-          {
-            "en": "When you save a link, the system should understand what it is, pull out the parts that matter, and help you actually come back to it.",
-            "cn": "当你保存一个链接时，系统应该能识别其内容，提取关键信息，并帮助你日后轻松返回该链接。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Most bookmarking tools are good at saving content.",
-            "cn": "大多数书签工具都擅长保存内容。"
-          },
-          {
-            "en": "Linkflare seems much more focused on what happens after you save them.",
-            "cn": "Linkflare 似乎更关注保存后的情况。"
-          },
-          {
-            "en": "Can you tell us more about that?",
-            "cn": "你能详细说说吗？"
-          },
-          {
-            "en": "Saving is the easy part.",
-            "cn": "保存只是最简单的一步。"
-          },
-          {
-            "en": "Every tool can store a URL.",
-            "cn": "任何工具都能存储一个URL。"
-          }
-        ]
-      },
-      {
-        "en": "The question I find much more interesting is what all those saved things should turn into later.",
-        "cn": "我觉得更有趣的问题是，所有这些保存下来的东西以后会变成什么样。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Sometimes the answer is very practical.",
-            "cn": "有时答案非常务实。"
-          },
-          {
-            "en": "My fiancée and I save recipes all week, and on the weekend they become an actual meal plan instead of a pile of screenshots.",
-            "cn": "我和未婚妻整周都在收藏食谱，到了周末，这些食谱就变成了一份真正的餐单，而不是一堆截图。"
-          },
-          {
-            "en": "Before a movie night we don’t scroll through streaming menus for half an hour, we open our shared watch list, sort by rating and pick something.",
-            "cn": "在电影之夜开始前，我们不会花半小时在流媒体菜单里翻来翻去，而是打开我们的共享观看列表，按评分排序，然后选一部片子。"
-          },
-          {
-            "en": "And when friends are over, there’s even a little movie-night voting mode, so everyone gets a say.",
-            "cn": "当朋友来家里做客时，甚至还有一个“电影之夜”投票模式，这样大家都能发表意见。"
-          },
-          {
-            "en": "None of that works if a bookmark is just a dead string.",
-            "cn": "如果书签只是一个无意义的字符串，那么这些方法统统行不通。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "But the deeper answer is about memory.",
-            "cn": "但更深层的答案与记忆有关。"
-          },
-          {
-            "en": "When I read an article and highlight the two paragraphs that actually matter, those highlights shouldn’t be buried in an archive.",
-            "cn": "当我阅读一篇文章并标记出其中真正重要的两段内容时，这些标记不应被埋没在存档中。"
-          },
-          {
-            "en": "In Linkflare they can become knowledge cards, small pieces of knowledge in your own words, still connected to their source.",
-            "cn": "在Linkflare中，它们可以转化为“知识卡片”——用你自己的话表述的简短知识片段，同时仍与来源保持关联。"
-          },
-          {
-            "en": "And because knowledge fades when you never meet it again, spaced repetition is built in: the app resurfaces your cards for a short review right around the time you’d otherwise forget them.",
-            "cn": "而且，由于知识一旦不再接触就会逐渐淡忘，因此该应用内置了间隔重复功能：就在你即将忘记这些卡片的时候，应用会重新展示它们，供你进行简短复习。"
-          },
-          {
-            "en": "The reviewing happens in the same place as the collecting, with no extra app in between.",
-            "cn": "评审与收集在同一个地方进行，中间无需额外的应用程序。"
-          },
-          {
-            "en": "That’s the loop I care about.",
-            "cn": "这就是我所关注的循环。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Save something in two seconds, actually read it, connect it to what you know, and remember it.",
-            "cn": "花两秒钟记下某件事，真正读一读，将其与已知知识联系起来，然后记住它。"
-          },
-          {
-            "en": "Most tools stop after the first step.",
-            "cn": "大多数工具在完成第一步后就会停止。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "People already have browser bookmarks, read-later apps, notes, and knowledge-management tools.",
-            "cn": "人们已经拥有浏览器书签、稍后阅读应用、笔记和知识管理工具。"
-          },
-          {
-            "en": "What do you think is missing from that workflow?",
-            "cn": "你觉得这个工作流程中还缺了什么？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Each of those tools holds one shard of the workflow.",
-            "cn": "这些工具中的每一个都承载着工作流中的一块碎片。"
-          },
-          {
-            "en": "Browser bookmarks are just a title and a URL, no context, no memory.",
-            "cn": "浏览器书签仅仅包含一个标题和一个网址，没有上下文，也没有记忆。"
-          },
-          {
-            "en": "Read-later apps quietly fill up with things you’re never going to read.",
-            "cn": "“稍后阅读”类应用里悄无声息地堆满了你永远不会去读的内容。"
-          },
-          {
-            "en": "Notes apps hold pasted links nobody ever clicks again.",
-            "cn": "备忘录应用里存着那些没人会再点击的已粘贴链接。"
-          },
-          {
-            "en": "And the knowledge-management tools are wonderful for your own thinking, but they’re an awkward home for the constant stream of things you find.",
-            "cn": "知识管理工具虽然对个人思考大有裨益，但对于你不断发现的各种信息流来说，却并不是一个理想的归宿。"
-          },
-          {
-            "en": "The way I’d put it: Obsidian is where your own thoughts live.",
-            "cn": "如果让我来形容的话：Obsidian 就是你思想栖息的地方。"
-          },
-          {
-            "en": "Linkflare is where the web’s knowledge lives, and gets remembered.",
-            "cn": "Linkflare 是网络知识的栖息地，也是知识被铭记的地方。"
-          },
-          {
-            "en": "They complement each other well.",
-            "cn": "它们相得益彰。"
-          },
-          {
-            "en": "Open tabs are the same story.",
-            "cn": "打开的标签页也是同样的道理。"
-          }
-        ]
-      },
-      {
-        "en": "If something looks interesting, I save it and close the tab with a clear conscience, because I know I’ll find it again.",
-        "cn": "如果有什么东西看起来很有意思，我会把它保存下来，然后心安理得地关闭标签页，因为我知道我以后还能找到它。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Let’s talk about how Linkflare works in more detail.",
-            "cn": "让我们更详细地谈谈Linkflare的工作原理。"
-          },
-          {
-            "en": "What does the experience look like for someone using it day to day?",
-            "cn": "对于日常使用者来说，这种体验是怎样的？"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-never-forget-what-matters-with-dr-david-urbans-2.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "During the day, saving is a reflex.",
-            "cn": "白天，保存是一种本能。"
-          },
-          {
-            "en": "I come across a paper or a blog post, click the browser extension, done.",
-            "cn": "我看到一篇论文或博客文章，点击浏览器扩展程序，就搞定了。"
-          },
-          {
-            "en": "My fiancée sends me a recipe on TikTok, I share it to Linkflare, and it extracts the actual recipe out of the video: ingredients, steps, servings.",
-            "cn": "我的未婚妻在TikTok上发给我一个食谱，我把它分享到Linkflare，它就能从视频中提取出具体的食谱内容：食材、步骤、份量。"
-          },
-          {
-            "en": "There’s an oven-baked Big Mac wrap in my account right now that started as a TikTok video she sent me, and we’ve cooked it many times since.",
-            "cn": "我账号里现在有一道烤箱版巨无霸卷饼，最初是她发给我的一个TikTok视频，从那以后我们已经做过很多次了。"
-          },
-          {
-            "en": "I hear about a film, save it from IMDb, and it lands in the watch list with its rating and where it’s streaming.",
-            "cn": "我听说了一部电影，从IMDb上保存下来，它就会连同评分和播放平台信息一起被加入到“待看列表”中。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The important part is that Linkflare does the librarian work to save time.",
-            "cn": "关键在于，Linkflare 承担了图书管理员的工作，从而节省了时间。"
-          },
-          {
-            "en": "It recognizes what kind of thing you saved, an article, a recipe, a movie, a place, fills in the right metadata, and my rules do the filing.",
-            "cn": "它能识别你保存的是什么内容——文章、食谱、电影还是地点——并自动填写相应的元数据，然后由我设定的规则来完成归档。"
-          },
-          {
-            "en": "Videos, for example, go automatically into my inbox to watch later.",
-            "cn": "例如，视频会自动进入我的收件箱，供我稍后观看。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "In the evening I read saved articles in the clean reader view, or I have one read aloud to me while I go for a walk.",
-            "cn": "晚上，我会在“Clean Reader”视图中阅读收藏的文章，或者一边散步一边听其中一篇被朗读出来。"
-          },
-          {
-            "en": "Whatever I highlight along the way is waiting for me afterwards, ready to become something more permanent.",
-            "cn": "无论我在途中标注了什么，事后都会在那里等着我，随时准备变成更持久的存在。"
-          }
-        ]
-      },
-      {
-        "en": "One of the distinctive ideas in Linkflare is that different bookmarks become useful in different ways.",
-        "cn": "Linkflare 的一大独特理念在于，不同的书签会以不同的方式发挥作用。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "How does that work?",
-            "cn": "这究竟是如何运作的呢？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "A recipe and a movie need different things from a bookmarking tool.",
-            "cn": "食谱和电影对书签工具的需求各不相同。"
-          },
-          {
-            "en": "“I’ll cook this” needs different help than “I’ll watch this” or “I’ll read this”, so Linkflare treats them differently.",
-            "cn": "“我来做这个”需要的帮助与“我来看这个”或“我来读这个”不同，因此Linkflare会区别对待它们。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "When you save something, it figures out what it is and enriches it.",
-            "cn": "当你保存某样东西时，它会识别出这是什么，并对其进行丰富。"
-          },
-          {
-            "en": "Recipes get ingredients, cooking times and nutrition information, even when the source is a video with no written recipe anywhere.",
-            "cn": "即使来源是一段没有任何书面食谱的视频，系统也能提取其中的食材、烹饪时间和营养信息。"
-          },
-          {
-            "en": "Movies and shows get the director, the IMDb rating and where you can currently stream them.",
-            "cn": "电影和电视剧会显示导演、IMDb评分以及目前可以在哪些平台观看。"
-          },
-          {
-            "en": "Books get the author and page count, places get a map, products get the current price and can alert you when it drops.",
-            "cn": "书籍会显示作者和页数，地点会显示地图，商品会显示当前价格，并在价格下降时向您发送提醒。"
-          },
-          {
-            "en": "Articles get a reading time, a distraction-free reader, and audio if you’d rather listen than read.",
-            "cn": "文章会显示预计阅读时间，并提供无干扰阅读模式；如果您更喜欢听而不是读，还可以收听音频。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "That metadata is exactly what makes a collection useful later.",
-            "cn": "正是这些元数据，才使得该收藏集在日后变得有用。"
-          },
-          {
-            "en": "When we can’t decide what to watch, I sort our watch list by IMDb rating and we pick from the top.",
-            "cn": "当我们不知道看什么好时，我会按IMDb评分对我们的待看清单进行排序，然后从排在前面的片子中挑选。"
-          },
-          {
-            "en": "When I want to bake something ambitious on a weekend, I check the time first: there’s a sourdough bread in my account that takes 60 hours from start to finish.",
-            "cn": "每当我想在周末做些比较费工夫的烘焙时，我都会先看看时间：我的食谱里有一款酸面团面包，从开始到完成需要60个小时。"
-          },
-          {
-            "en": "That’s exactly the kind of thing you’d never find again in a chat thread.",
-            "cn": "这正是你在聊天帖子里再也找不到的那种内容。"
-          },
-          {
-            "en": "And none of it costs you anything at save time: you press one button and the rest fills itself in.",
-            "cn": "而且这一切在保存时完全不花你一分钱：你只需按一下按钮，其余的就会自动填好。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-never-forget-what-matters-with-dr-david-urbans-3.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "You offer quite a bit of automation, from metadata and AI tagging to organization rules.",
-            "cn": "你们提供了相当多的自动化功能，从元数据和人工智能标注到整理规则。"
-          },
-          {
-            "en": "How do you balance automation with letting people organize things their own way?",
-            "cn": "如何在自动化与让人们按自己的方式进行组织之间取得平衡？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "My rule is that automation prepares and the user decides.",
-            "cn": "我的原则是：自动化负责准备，用户负责决策。"
-          },
-          {
-            "en": "Linkflare fills in everything it can on its own: the type, the metadata, a preview image, tags if you turn on automatic tagging.",
-            "cn": "Linkflare 会自动填写所有能填的内容：类型、元数据、预览图，以及（如果您启用了自动标记功能）标签。"
-          },
-          {
-            "en": "But every field it writes is editable, so it never turns into a black box.",
-            "cn": "但它写入的每个字段都是可编辑的，因此它永远不会变成一个“黑匣子”。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "On top of that there’s automation you author yourself, which I like even better: rules.",
-            "cn": "除此之外，还有你可以自己编写的自动化功能，而我更喜欢的是：规则。"
-          },
-          {
-            "en": "“Everything from YouTube goes to the inbox.” “Recipes go into Cooking.” You describe the rule once and the filing happens forever after.",
-            "cn": "“YouTube 上的所有内容都会进入收件箱。”“食谱会进入‘烹饪’文件夹。”你只需设置一次规则，之后文件就会自动归档。"
-          },
-          {
-            "en": "And when the built-in metadata isn’t enough, you can define your own structured fields, a number, a date, a text, whatever matches how you think, and filter and sort by them like everything else.",
-            "cn": "如果内置的元数据不够用，你可以定义自己的结构化字段——无论是数字、日期还是文本，只要符合你的思维方式即可——并像处理其他内容一样，根据这些字段进行筛选和排序。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "I tried hard not to impose my own organizational religion on anyone.",
-            "cn": "我竭力避免将我自己的组织理念强加于人。"
-          },
-          {
-            "en": "Some people maintain a meticulous tree of collections, others throw everything into one big pool and rely on search and filters.",
-            "cn": "有些人会精心维护一个分类树，而另一些人则把所有内容都扔进一个大池子里，依靠搜索和筛选功能。"
-          },
-          {
-            "en": "Both work fine.",
-            "cn": "这两种方式都行得通。"
-          },
-          {
-            "en": "The point is that organizing never becomes a second job.",
-            "cn": "关键在于，整理工作绝不会变成一份第二份工作。"
-          },
-          {
-            "en": "You already did the interesting part when you decided something was worth keeping.",
-            "cn": "当你决定某样东西值得保留时，有趣的部分就已经完成了。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Linkflare has spaced repetition built in, which most people associate with flashcard apps and language learning.",
-            "cn": "Linkflare 内置了间隔重复功能，大多数人通常会将其与闪卡应用和语言学习联系在一起。"
-          },
-          {
-            "en": "Why bring memory practice into a bookmarking tool?",
-            "cn": "为什么要将记忆练习功能加入书签工具中？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Because the forgetting curve doesn’t care where you learned something.",
-            "cn": "因为遗忘曲线并不在乎你是在哪里学到的。"
-          },
-          {
-            "en": "Read a brilliant article on Monday, and by Friday most of it is gone.",
-            "cn": "周一读了一篇精彩的文章，到了周五，内容却已大半忘光了。"
-          },
-          {
-            "en": "That’s just how memory works when you never revisit material.",
-            "cn": "如果你从未重温过这些内容，记忆就是这样运作的。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "That always struck me as a waste.",
-            "cn": "我一直觉得这很浪费。"
-          },
-          {
-            "en": "We put real effort into finding and reading good things, and then let almost all of it evaporate.",
-            "cn": "我们费尽心思去发掘和阅读好内容，却让其中绝大多数都付诸东流。"
-          },
-          {
-            "en": "There are excellent flashcard apps, but hardly anyone sits down after reading an article to author flashcards about it.",
-            "cn": "虽然有不少优秀的闪卡应用，但几乎没有人会在读完一篇文章后特意坐下来制作相关的闪卡。"
-          },
-          {
-            "en": "The friction is too high.",
-            "cn": "使用门槛太高了。"
-          },
-          {
-            "en": "So in practice, spaced repetition stays locked inside vocabulary drills and exam prep, while the knowledge we deliberately gather as adults gets nothing.",
-            "cn": "因此，实际上，间隔重复仍局限于词汇练习和考试准备之中，而我们成年后有意识地积累的知识却未能从中受益。"
-          },
-          {
-            "en": "So we removed the friction.",
-            "cn": "因此，我们消除了这些障碍。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "While you read in Linkflare, you highlight.",
-            "cn": "在 Linkflare 中阅读时，你可以进行高亮标注。"
-          },
-          {
-            "en": "Highlights and takeaways become knowledge cards, which you organize into topics.",
-            "cn": "重点内容和要点会转化为知识卡片，你可以将它们按主题进行整理。"
-          },
-          {
-            "en": "Any card you want to keep, you toggle into review, and the review queue does the rest: it brings each card back right around the time you’d otherwise forget it, at growing intervals.",
-            "cn": "任何你想保留的卡片，只需切换到“复习”模式，剩下的就交给复习队列来处理：它会以逐渐拉长的间隔，在你快要忘记的时候将每张卡片重新展示给你。"
-          },
-          {
-            "en": "You can grade yourself, or have Linkflare generate a quiz question about the card and evaluate your answer.",
-            "cn": "你可以自己打分，也可以让Linkflare根据该卡片生成一道测验题，并评估你的答案。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Reviewing your own material also feels completely different from studying somebody else’s deck.",
-            "cn": "复习自己的资料，与学习别人的讲义相比，感觉也截然不同。"
-          },
-          {
-            "en": "You picked every single card, so every question is about something you once cared enough to save.",
-            "cn": "你抽中了每一张卡片，所以每个问题都关乎你曾经足够在乎而保存下来的某样东西。"
-          },
-          {
-            "en": "A few minutes between two work sessions.",
-            "cn": "两次工作会议之间的几分钟。"
-          },
-          {
-            "en": "It never feels like homework, but fun and thanks to some AI always different and fresh.",
-            "cn": "这完全不像是在做作业，反而很有趣，而且多亏了人工智能，每次体验都不同且充满新鲜感。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-never-forget-what-matters-with-dr-david-urbans-4.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "With search engines and AI assistants one keystroke away, some people would argue we don’t need to remember anything anymore.",
-            "cn": "既然只需按一下键盘就能使用搜索引擎和人工智能助手，有些人会认为我们已经不需要记住任何东西了。"
-          },
-          {
-            "en": "Why do you think internalizing knowledge still matters?",
-            "cn": "你认为为什么内化知识仍然很重要？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Knowledge you carry is the only knowledge you can think with.",
-            "cn": "你所掌握的知识，是你唯一能够用来思考的知识。"
-          },
-          {
-            "en": "Connections don’t happen in a database, they happen in your head.",
-            "cn": "联系并非发生在数据库中，而是发生在你的脑海里。"
-          },
-          {
-            "en": "You notice that an idea in an article contradicts something from a book you read last year, or that a concept from biology maps beautifully onto a problem at work.",
-            "cn": "你会发现，某篇文章中的一个观点与去年读过的一本书中的内容相矛盾，或者生物学中的某个概念与工作中遇到的问题完美契合。"
-          },
-          {
-            "en": "If neither of them is in your memory, no search engine will produce that spark for you.",
-            "cn": "如果这两者都不在你记忆中，那么没有任何搜索引擎能为你点燃那道火花。"
-          },
-          {
-            "en": "There’s a social side too.",
-            "cn": "此外，这还涉及社交层面。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Everyone can look facts up now, which is exactly why carrying knowledge has become rarer and more interesting.",
-            "cn": "如今人人都能查阅事实，正因如此，掌握知识才变得愈发罕见，也愈发引人入胜。"
-          },
-          {
-            "en": "The most interesting person in the room isn’t the one who can google or ChatGPT fastest.",
-            "cn": "房间里最有趣的人，并不是那个能最快使用谷歌或ChatGPT的人。"
-          },
-          {
-            "en": "It’s the person who can tell you the story behind the fact, connect it to what you just said, and pull in something surprising from a completely different field.",
-            "cn": "这样的人能够为你讲述事实背后的故事，将其与你刚才所说的话联系起来，并从一个完全不同的领域中引入一些出人意料的观点。"
-          },
-          {
-            "en": "That’s taking advantage of your curious mind.",
-            "cn": "这就是在利用你那颗好奇的心。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "I actually think AI assistants make remembering more valuable, not less.",
-            "cn": "其实我认为，AI助手让记忆变得更有价值，而不是更不值钱。"
-          },
-          {
-            "en": "When answers are cheap, what sets people apart is judgment, taste, and the things they really know.",
-            "cn": "当答案唾手可得时，区分人们的是判断力、品味以及他们真正掌握的知识。"
-          },
-          {
-            "en": "The assistants are great at retrieving.",
-            "cn": "这些助手在检索方面非常出色。"
-          },
-          {
-            "en": "The connecting and the doubting still happen in a human head, and they work with whatever you’ve actually retained.",
-            "cn": "这种联系与怀疑依然发生在人的脑海中，并且会基于你实际记住的内容进行运作。"
-          },
-          {
-            "en": "Who exactly is Linkflare designed for?",
-            "cn": "Linkflare究竟是为谁设计的？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Curious people and lifelong learners, first of all.",
-            "cn": "首先，是那些充满好奇心的人和终身学习者。"
-          },
-          {
-            "en": "People who read and watch and save a lot, and want it to make them smarter, which only works if you remember any of it later.",
-            "cn": "那些大量阅读、观看和收藏内容，并希望借此让自己变得更聪明的人——但这只有在你日后还能记得其中任何一部分时才有效。"
-          },
-          {
-            "en": "They’re the ones who get the most out of highlights, knowledge cards, and the review queue.",
-            "cn": "正是他们最能充分利用重点标注、知识卡片和复习队列。"
-          },
-          {
-            "en": "And people who like order.",
-            "cn": "还有那些喜欢条理的人。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "If you recognize yourself in the mess I described earlier — movie lists on the streaming platforms, books in one app, recipes in chat threads, articles in a read-it-later tool, notes in a PKM system — Linkflare is one tidy home for all of those lists.",
-            "cn": "如果你发现自己正处于我刚才描述的那种混乱状态——流媒体平台上的电影清单、某个应用里的书籍、聊天记录中的食谱、稍后阅读工具里的文章、个人知识管理（PKM）系统中的笔记——那么 Linkflare 就是将所有这些清单整合到一个整洁空间的理想之选。"
-          },
-          {
-            "en": "No clutter, and everything stays findable.",
-            "cn": "没有杂乱，所有东西都能轻松找到。"
-          },
-          {
-            "en": "And families.",
-            "cn": "还有家人。"
-          }
-        ]
-      },
-      {
-        "en": "Some of the most-used collections in my own household are the shared ones.",
-        "cn": "在我家，使用频率最高的收藏品中，有些是大家共用的。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "What about you, how do you personally use Linkflare?",
-            "cn": "你呢？你个人是如何使用Linkflare的？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Everything I’ve described is from my real account, but here’s a bit more of it.",
-            "cn": "我刚才描述的都是我真实账户的情况，不过这里还有一点补充。"
-          },
-          {
-            "en": "The daily backbone is the inbox: newsletters and feeds land there, and I work through it in idle moments.",
-            "cn": "收件箱是我日常工作的核心：新闻通讯和资讯都会发送到那里，我会在闲暇时逐一处理。"
-          },
-          {
-            "en": "Our watch list currently holds about sixty movies and shows, sorted by IMDb rating, which has ended more than one “what should we watch” discussion in under a minute.",
-            "cn": "我们的待看清单目前收录了大约六十部电影和电视剧，按IMDb评分排序，这让“我们看什么好”的讨论往往在不到一分钟内就有了定论。"
-          },
-          {
-            "en": "Recipes my fiancée and I save during the week turn into the weekend’s cooking.",
-            "cn": "我和未婚妻在工作日收藏的食谱，到了周末就会变成我们的烹饪菜单。"
-          },
-          {
-            "en": "When we plan a trip, everything goes into a vacation collection, sights, restaurants, hotels, so the itinerary basically assembles itself.",
-            "cn": "每当我们计划旅行时，所有内容都会被整理到一个“度假收藏”中，包括景点、餐厅、酒店等，因此行程基本上会自动规划出来。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The collection I cherish most is the one we share for our son: things we’d like to get him, places we want to take him.",
-            "cn": "我最珍视的收藏，是我们为儿子共同整理的那份清单：我们想给他买的东西，以及想带他去的地方。"
-          },
-          {
-            "en": "Either of us saves something in passing, and both of us see it.",
-            "cn": "我们中任何一个人都会在路过时顺手保存某样东西，而我们俩都看到了。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "On the knowledge side, I turn book takeaways and article highlights into knowledge cards.",
-            "cn": "在知识方面，我会将书籍的要点和文章的重点整理成知识卡片。"
-          },
-          {
-            "en": "My review habit is nothing heroic: around ten cards a week, in the moments between work sessions when I would otherwise just check email.",
-            "cn": "我的复习习惯没什么了不起的：每周大约十张卡片，就在工作间隙——如果不是这样，我大概只会去查查邮件。"
-          },
-          {
-            "en": "And lately, because Linkflare has an MCP server, I sometimes let Claude quiz me on my own cards in the middle of a work day.",
-            "cn": "而且最近，因为Linkflare有一台MCP服务器，我有时会在工作日的中间让Claude用我自己的卡片考考我。"
-          },
-          {
-            "en": "Being interrogated by my own library is still a slightly surreal experience.",
-            "cn": "被自己图书馆盘问，仍然是一种略显超现实的体验。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "And since we’re at Ness Labs: the highlight in the screenshot below is from one of yours, “The Omnipotence Dilemma”, a line about committing to your curiosity instead of chasing every thread at once — more or less the philosophy behind the whole product.",
-            "cn": "既然提到了Ness Labs：下图截图中的亮点出自你们的一篇文章《全能困境》，其中有一句提到要专注于自己的好奇心，而不是同时追逐每一个线索——这基本上就是整个产品背后的理念。"
-          },
-          {
-            "en": "Any highlight can be turned into a share card like that straight from the app.",
-            "cn": "任何精彩片段都可以直接在应用中像这样转换成分享卡。"
-          }
-        ]
-      },
-      {
-        "en": "Looking ahead, how do you see Linkflare and personal knowledge management evolving over the next few years?",
-        "cn": "展望未来，您认为Linkflare和个人知识管理在未来几年内将如何发展？"
-      },
-      {
-        "sentences": [
-          {
-            "en": "The second: your library should start working for you.",
-            "cn": "第二点：你的书库应该开始为你服务。"
-          },
-          {
-            "en": "Linkflare has an MCP server, which means AI assistants can, with your permission, search your bookmarks, save new ones, and quiz you on your knowledge cards.",
-            "cn": "Linkflare 拥有一个 MCP 服务器，这意味着在征得您同意的情况下，AI 助手可以搜索您的书签、保存新书签，并就您的知识卡片向您提问。"
-          },
-          {
-            "en": "I find that direction far more interesting than generic chatbots, because this assistant knows what you’ve collected over the years, not just the internet at large.",
-            "cn": "我觉得这种方向比普通的聊天机器人有趣得多，因为这个助手知道你这些年来收集了什么，而不仅仅是互联网上的内容。"
-          },
-          {
-            "en": "“What was that article about sleep I saved last year, and what did I highlight in it?” should simply have an answer.",
-            "cn": "“我去年保存的那篇关于睡眠的文章讲了什么，里面我标注了哪些内容？”这个问题本该有个简单的答案。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Beyond that, I want the connections to get deeper.",
-            "cn": "除此之外，我还希望这种联系能更加深入。"
-          },
-          {
-            "en": "The tool should notice that something you save today relates to something you highlighted months ago, and tell you.",
-            "cn": "该工具应该能察觉到，你今天保存的内容与几个月前标记的内容有关联，并提醒你。"
-          },
-          {
-            "en": "I think the next years of personal knowledge management will be less about capturing more, because everyone has capture solved, and much more about resurfacing better — showing you the right memory at the moment you can use it, from a library you own.",
-            "cn": "我认为，未来几年个人知识管理将不再侧重于“捕捉更多信息”——因为信息捕捉的问题已经得到了解决——而是更侧重于“更好地重新呈现”——从你拥有的知识库中，在你需要的时候向你展示恰到好处的记忆。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Thank you so much for your time, David!",
-            "cn": "大卫，非常感谢您抽出时间！"
-          },
-          {
-            "en": "Where can people learn more about Linkflare?",
-            "cn": "大家可以在哪里了解更多关于Linkflare的信息？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Everything starts on our website, and you can use it for free.",
-            "cn": "一切都始于我们的网站，您可以免费使用它。"
-          },
-          {
-            "en": "I’m on X and on Bluesky as well, and I’d love to hear how you organize your corner of the web.",
-            "cn": "我既在X上，也在Bluesky上，很想听听你是如何整理你那片网络空间的。"
-          }
-        ]
-      },
-      {
-        "en": "For Ness Labs readers we’ve set up something small: the code NESSLABS gets you 30 days of Linkflare Pro for free.",
-        "cn": "我们为Ness Labs的读者准备了一份小礼物：使用优惠码NESSLABS，即可免费获得30天的Linkflare Pro服务。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "And if you only try one thing, make it a tiny experiment, in proper Ness Labs fashion: for one week, save everything interesting into the inbox instead of leaving tabs open, and spend five minutes a day reviewing what you captured.",
-            "cn": "如果你只能尝试一件事，那就按照Ness Labs一贯的风格，做个小小的实验：在一周内，把所有有趣的内容都保存到收件箱里，而不是让标签页一直保持打开状态，然后每天花五分钟回顾你收集的内容。"
-          },
-          {
-            "en": "Watch what it does to your focus, and to how much you remember.",
-            "cn": "观察它对你的专注力以及记忆量的影响。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "As a knowledge worker, your brain is your most important tool.",
-            "cn": "作为一名知识工作者，你的大脑是你最重要的工具。"
-          },
-          {
-            "en": "Learn how to develop an experimental mindset and think like a scientist by reading Tiny Experiments.",
-            "cn": "通过阅读《微型实验》，学习如何培养实验思维，像科学家一样思考。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Want to invest into your productivity and your mental health?",
-            "cn": "想提升工作效率并改善心理健康吗？"
-          },
-          {
-            "en": "Join the Ness Labs learning community with online courses, workshops, and 1:1 matching.",
-            "cn": "加入 Ness Labs 学习社区，参与在线课程、研讨会和一对一匹配活动。"
-          }
-        ]
-      },
-      {
-        "en": "The Ness Letters are packed with science-backed strategies to be more productive and creative without sacrificing your mental health.",
-        "cn": "《内斯信件》中充满了经科学验证的策略，帮助你在不损害心理健康的前提下，提升工作效率和创造力。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Ness Labs provides content, coaching, courses and community to help makers put their minds at work.",
-            "cn": "Ness Labs 提供内容、指导、课程和社区，帮助创客发挥创造力。"
-          },
-          {
-            "en": "Apply evidence-based strategies to your daily life, run your own tiny experiments, and connect with fellow curious minds.",
-            "cn": "将循证策略应用到日常生活中，开展自己的微型实验，并与其他充满好奇心的人交流。"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "gr-stop-explaining-yourself-to-your-ai-with-alex-",
-    "cat": "成长",
-    "title": "Stop explaining yourself to your AI with Alex Green, cofounder of Littlebird",
-    "titleZh": "与 Littlebird 联合创始人亚历克斯·格林一起，别再向你的 AI 解释自己了",
-    "source": "Ness Labs · 2026-03-26",
-    "date": "2026-03-26",
-    "minutes": 15,
-    "url": "https://nesslabs.com/littlebird-featured-tool?utm_source=rss&utm_medium=rss&utm_campaign=littlebird-featured-tool",
-    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
-    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
-    "coverImg": "assets/covers/gr-stop-explaining-yourself-to-your-ai-with-alex-.jpg",
-    "paras": [
-      {
-        "sentences": [
-          {
-            "en": "Welcome to this edition of our Tools for Thought series, where we interview founders on a mission to help us think better and work smarter.",
-            "cn": "欢迎阅读本期“思考工具”系列，我们将采访那些致力于帮助我们更好地思考、更聪明地工作的创始人。"
-          },
-          {
-            "en": "Alex Green is the cofounder and chief product & technology officer of Littlebird, an AI assistant designed to close the gap between your memory and your computer.",
-            "cn": "亚历克斯·格林是 Littlebird 的联合创始人兼首席产品与技术官，Littlebird 是一款旨在弥合人脑记忆与计算机之间差距的人工智能助手。"
-          },
-          {
-            "en": "By giving AI the ability to see what you see, Littlebird helps you work faster without breaking your flow.",
-            "cn": "通过让人工智能看到你所看到的内容，Littlebird 能帮助你更快地工作，同时不打断你的工作节奏。"
-          }
-        ]
-      },
-      {
-        "en": "In this interview, we discussed the potential of a true general AI assistant, why context is king, how to use AI as a thought partner in all sorts of personal and professional situations, as well as some of the most powerful use cases Alex has seen, and much more.",
-        "cn": "在本次访谈中，我们探讨了真正通用人工智能助手的潜力、为何“上下文”至关重要、如何在各种个人和职业场景中将人工智能作为思维伙伴，以及亚历克斯所见过的最具影响力的应用案例等诸多内容。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Enjoy the read!",
-            "cn": "祝您阅读愉快！"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-stop-explaining-yourself-to-your-ai-with-alex--1.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "Hi Alex, thank you for joining us.",
-            "cn": "嗨，亚历克斯，感谢你加入我们。"
-          },
-          {
-            "en": "Let’s start with a philosophical question.",
-            "cn": "让我们先从一个哲学问题开始吧。"
-          },
-          {
-            "en": "At its best, how do you envision AI helping humans focus on impact?",
-            "cn": "在最理想的情况下，你认为人工智能将如何帮助人类专注于产生影响？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "AI models are genuinely incredible, but they have no idea what you’re working on.",
-            "cn": "AI模型确实非常了不起，但它们根本不知道你在做什么。"
-          },
-          {
-            "en": "So you end up spending ten minutes copying and pasting context into a chat window just to get a useful answer.",
-            "cn": "结果你不得不花十分钟把上下文复制粘贴到聊天窗口里，就为了得到一个有用的答案。"
-          },
-          {
-            "en": "You’re doing prep work for a tool that’s supposed to save you time.",
-            "cn": "你正在为一款本该帮你节省时间的工具做准备工作。"
-          },
-          {
-            "en": "That’s backwards.",
-            "cn": "这完全本末倒置。"
-          }
-        ]
-      },
-      {
-        "en": "And meanwhile, every app and platform you use is optimized to keep you engaged, not to help you accomplish what you actually set out to do.",
-        "cn": "与此同时，你使用的每一款应用和平台都经过优化，旨在让你持续使用，而不是帮助你完成你原本真正想做的事情。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "The vision I keep coming back to is that AI should work for you.",
-            "cn": "我一直秉持的愿景是：人工智能应该为你服务。"
-          },
-          {
-            "en": "At its best, it sits between you and the constant flood of information—the Slack messages, the emails, the meeting notes, the browser tabs—and shows you what actually matters right now so you can focus on the work that requires your judgment and creativity.",
-            "cn": "在最佳状态下，它能置身于你与源源不断的信息洪流之间——无论是 Slack 消息、电子邮件、会议记录还是浏览器标签页——并向你展示当下真正重要的内容，让你能够专注于那些需要你运用判断力和创造力的工作。"
-          },
-          {
-            "en": "The stuff only you can do.",
-            "cn": "那些只有你能完成的工作。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Littlebird helps users build a memory of everything you do.",
-            "cn": "Littlebird 帮助用户记录生活中的一切。"
-          },
-          {
-            "en": "Can you talk about how the idea for the product first came together?",
-            "cn": "你能谈谈这个产品的创意最初是如何形成的吗？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The problem we kept hitting was this disconnect between how AI works and how people actually work.",
-            "cn": "我们不断遇到的问题，正是人工智能的工作原理与人们实际的工作方式之间存在的脱节。"
-          },
-          {
-            "en": "Your work doesn’t live in one place.",
-            "cn": "你的作品并不局限于某一个地方。"
-          },
-          {
-            "en": "It’s scattered across Slack, Google Docs, emails, websites, meeting notes.",
-            "cn": "这些内容散落在 Slack、Google Docs、电子邮件、网站和会议记录中。"
-          },
-          {
-            "en": "But every AI tool either operates in a silo (great at one thing like summarizing a meeting but blind to everything else) or it’s a blank canvas that knows nothing about you until you spend a few minutes getting it up to speed.",
-            "cn": "但每款人工智能工具要么是孤立运行的（擅长某一项任务，比如总结会议内容，却对其他事情一无所知），要么就像一张空白画布，在你花几分钟时间让它熟悉情况之前，它对你一无所知。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "What was missing was an AI that has the full context of your work.",
-            "cn": "缺失的正是能够全面掌握你工作背景的人工智能。"
-          },
-          {
-            "en": "Your projects, your priorities, the decisions you’ve made, the conversations you’ve had.",
-            "cn": "你的项目、你的优先事项、你做出的决定、你进行的对话。"
-          },
-          {
-            "en": "An AI that doesn’t need to be “caught up” because it’s been paying attention all along.",
-            "cn": "一种无需“赶上”的AI，因为它一直都在关注。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "So we built Littlebird to work quietly in the background, seeing what you see on your screen and creating a secure memory of your work.",
-            "cn": "因此，我们开发了 Littlebird，让它在后台静默运行，实时捕捉您屏幕上的内容，并生成您工作内容的安全备份。"
-          },
-          {
-            "en": "When you need to recall something or create something new, the context is already there.",
-            "cn": "当你需要回忆某件事或创造新事物时，相关背景已经存在了。"
-          },
-          {
-            "en": "It’s like working with an assistant who’s been in all your meetings, read all your documents, and knows what you’re trying to accomplish, without you having to explain any of it.",
-            "cn": "这就像是与一位助理共事，他参加过你所有的会议，读过你所有的文件，并且清楚你想达成什么目标，而你无需向他解释任何事情。"
-          },
-          {
-            "en": "What’s the difference between a general AI assistant and Littlebird?",
-            "cn": "通用AI助手与Littlebird有什么区别？"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-stop-explaining-yourself-to-your-ai-with-alex--2.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "I don’t think anyone else has successfully built a general AI assistant, so I reject the premise.",
-            "cn": "我认为还没有人成功开发出通用人工智能助手，因此我不同意这一前提。"
-          },
-          {
-            "en": "We’ve built Littlebird to be a full “second mind.” The idea is to have as much context about your life as possible in one place, accessible to collaborate with AI.",
-            "cn": "我们打造 Littlebird 的初衷，是将其打造成一个完整的“第二大脑”。其理念在于将您生活中的尽可能多的背景信息汇聚于一处，以便与人工智能进行协作。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "But to get at what I think the question is really asking: the biggest issue with existing tools is that even the smartest model gives you generic output if it doesn’t know what you’re working on.",
-            "cn": "但要说出我认为这个问题真正想问的是什么：现有工具最大的问题在于，即使是最智能的模型，如果它不知道你在做什么，给出的也只是通用结果。"
-          },
-          {
-            "en": "You can work around this by manually feeding it information, but then you’re spending time doing prep work, and you’re also having to decide what’s relevant, which is its own kind of work.",
-            "cn": "你可以通过手动输入信息来解决这个问题，但这样一来，不仅要花时间做准备工作，还得判断哪些信息是相关的，这本身也算是一项工作。"
-          },
-          {
-            "en": "And everything’s disconnected, even though your actual work is deeply interconnected.",
-            "cn": "而且一切都彼此脱节，尽管你实际的工作之间有着密切的联系。"
-          },
-          {
-            "en": "The document you’re writing relates to a meeting from last week, which relates to an email thread, which relates to a project goal.",
-            "cn": "你正在撰写的这份文件与上周的一次会议有关，而该会议又与一封电子邮件的讨论串有关，该讨论串则与一个项目目标有关。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Littlebird already knows the context from everything you’ve seen, discussed, and worked on.",
-            "cn": "Littlebird 已经通过你所看到、讨论和处理过的一切了解了相关背景。"
-          },
-          {
-            "en": "So when you ask it something, it has the full picture.",
-            "cn": "因此，当你向它提问时，它就能全面掌握情况。"
-          },
-          {
-            "en": "You say “draft a proposal for [client]” and it already knows who the client is, what you’ve discussed with them, and what materials exist that it can build from.",
-            "cn": "你只需说“为[客户]起草一份提案”，它就已经知道客户是谁、你与客户讨论过什么，以及有哪些现有材料可以作为基础。"
-          },
-          {
-            "en": "Let’s talk about how Littlebird works in more detail.",
-            "cn": "接下来让我们更详细地探讨一下 Littlebird 的运作方式。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Littlebird works quietly in the background—it’s an AI that has read everything you have and remembers it.",
-            "cn": "Littlebird 在后台默默工作——它是一款人工智能，读过你读过的所有内容，并且都牢记于心。"
-          },
-          {
-            "en": "You’re responding to emails in Gmail, coordinating with your team in Slack, taking a Zoom call, browsing a few articles.",
-            "cn": "你正在Gmail里回复邮件，在Slack上与团队协调工作，参加Zoom视频会议，同时浏览几篇文章。"
-          },
-          {
-            "en": "In the past, all that context would disappear the moment you closed the tab or moved on.",
-            "cn": "过去，一旦你关闭标签页或转到其他页面，所有这些上下文信息就会立即消失。"
-          },
-          {
-            "en": "Littlebird remembers.",
-            "cn": "Littlebird 会为你记住这一切。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Say you’re heading into a client call.",
-            "cn": "假设你正准备参加一次客户电话会议。"
-          },
-          {
-            "en": "Littlebird transcribes the conversation in real time and afterwards summarizes everything: key points, decisions, and next steps—so nothing falls through the cracks.",
-            "cn": "Littlebird 会实时转录对话内容，并在会后对所有内容进行总结：要点、决策和后续步骤——确保没有任何细节被遗漏。"
-          },
-          {
-            "en": "That shift alone changes how you show up.",
-            "cn": "仅这一转变，就足以改变你的表现方式。"
-          },
-          {
-            "en": "Instead of splitting your attention between listening and note-taking, you can be present in conversations.",
-            "cn": "这样一来，你就无需在倾听和做笔记之间分心，而是能够全身心投入到对话中。"
-          },
-          {
-            "en": "You ask better questions and engage with the people in the room instead of with your notes app.",
-            "cn": "你会提出更好的问题，并与在场的人互动，而不是盯着你的笔记应用。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "After the call wraps, you ask Littlebird to draft a follow-up email.",
-            "cn": "电话会议结束后，你让Littlebird起草一封跟进邮件。"
-          },
-          {
-            "en": "You don’t need to explain who the client is or what was discussed.",
-            "cn": "你不必说明客户是谁，也不必说明讨论了什么内容。"
-          },
-          {
-            "en": "It was there.",
-            "cn": "答案原本就在那里。"
-          },
-          {
-            "en": "Littlebird pulls from what it knows and drafts something that actually sounds like you.",
-            "cn": "Littlebird 会根据它掌握的信息，起草出真正符合你风格的内容。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Then you move on to one of the action items from that call.",
-            "cn": "然后，你继续处理那次电话会议中确定的一项待办事项。"
-          },
-          {
-            "en": "You start a new chat: “Draft a project brief for the website redesign.” Littlebird already knows the scope because it saw the initial proposal you sent last week, the feedback the client shared over email, and the inspiration sites you bookmarked that morning.",
-            "cn": "你发起了一条新聊天消息：“起草一份网站改版项目简报。”Littlebird 已经了解项目范围，因为它看到了你上周发送的初步提案、客户通过电子邮件反馈的意见，以及你当天早上收藏的参考网站。"
-          },
-          {
-            "en": "It gives you a starting point grounded in your actual work; something that reflects the real decisions and conversations behind the project.",
-            "cn": "它为你提供了一个立足于实际工作的起点；这个起点反映了项目背后真实的决策和对话。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "You’re also always in control of what Littlebird sees.",
-            "cn": "此外，您还可以随时控制 Littlebird 所看到的内容。"
-          },
-          {
-            "en": "You can pause context collection at any time, exclude specific apps or domains, or delete data that’s already been collected.",
-            "cn": "您可以随时暂停上下文数据收集，排除特定应用或域名，或删除已收集的数据。"
-          },
-          {
-            "en": "We think about data control as foundational, not an afterthought.",
-            "cn": "我们认为数据控制是基础，而不是事后才考虑的事。"
-          },
-          {
-            "en": "If people don’t trust the tool, they won’t use it honestly, and then it can’t actually help them.",
-            "cn": "如果人们不信任这个工具，他们就不会诚实地使用它，那样的话，它实际上就无法帮助他们。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-stop-explaining-yourself-to-your-ai-with-alex--3.jpg",
-        "cap": ""
-      },
-      {
-        "en": "Who is using Littlebird today and what are some of the main ways they’re using it?",
-        "cn": "目前有哪些人在使用 Littlebird？他们主要通过哪些方式使用它？"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Our users are busy knowledge workers whose work spans a bunch of different tools and conversations throughout the day: founders, freelancers, marketers, consultants, developers.",
-            "cn": "我们的用户是一群忙碌的知识工作者，他们每天的工作涉及多种不同的工具和沟通渠道：创始人、自由职业者、市场营销人员、顾问、开发人员。"
-          },
-          {
-            "en": "What they share isn’t a job title, it’s a frustration that a lot of people feel but haven’t quite named yet: the hardest part of knowledge work isn’t the actual thinking.",
-            "cn": "他们共同之处并非职位头衔，而是许多人都有这种感受却尚未明确说出的挫败感：知识型工作的最难之处并不在于实际的思考。"
-          },
-          {
-            "en": "It’s everything around it.",
-            "cn": "真正困难的，是围绕在思考周围的一切。"
-          },
-          {
-            "en": "Finding what you need, remembering what was said, reconstructing context that existed in your head two days ago but has since been buried under fifty other things.",
-            "cn": "找到你需要的东西，记住别人说过的话，重构两天前还存在于脑海中、但如今已被其他五十件事掩埋的上下文。"
-          },
-          {
-            "en": "A few patterns have emerged.",
-            "cn": "其中已显现出一些规律。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Recall is usually the entry point.",
-            "cn": "回想通常是切入点。"
-          },
-          {
-            "en": "Things like “What did we agree on in that call last Thursday?” or “Where did I see that article about market sizing?” get instant answers without the scavenger hunt.",
-            "cn": "像“上周四那通电话里我们达成了什么共识？”或者“那篇关于市场规模的文章我是在哪里看到的？”这类问题，都能立即得到答案，无需费劲去翻找。"
-          },
-          {
-            "en": "That alone is worth a lot.",
-            "cn": "仅此一点就价值不菲。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Pretty quickly, most users start leaning on Littlebird as a drafting partner.",
-            "cn": "很快，大多数用户就开始将Littlebird作为起草助手来依赖了。"
-          },
-          {
-            "en": "Because it already knows the context behind their work, they can go from “I need to write this” to a strong first draft in minutes—one that reflects the actual details of their projects and the language they use.",
-            "cn": "由于系统已经了解他们工作的背景，他们只需几分钟就能从“我需要写这个”直接完成一份内容扎实的初稿——这份初稿既反映了他们项目的实际细节，也符合他们惯用的表达方式。"
-          },
-          {
-            "en": "That matters enormously if you’re someone who spends half your day writing and communicating.",
-            "cn": "如果你每天有一半时间都花在写作和沟通上，这一点就显得尤为重要。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "We also hear a lot from users that Littlebird has changed how they experience meetings.",
-            "cn": "我们还经常听到用户反馈，Littlebird 改变了他们参加会议的体验。"
-          },
-          {
-            "en": "When you’re not frantically trying to capture everything, you can actually listen.",
-            "cn": "当你不再忙着拼命记录一切时，你其实可以静下心来倾听。"
-          },
-          {
-            "en": "That one hits differently than a productivity metric.",
-            "cn": "这一点与生产力指标带来的感受截然不同。"
-          },
-          {
-            "en": "It’s about the quality of how you spend your time, not just the quantity.",
-            "cn": "关键在于你如何利用时间，而不仅仅是时间的长短。"
-          },
-          {
-            "en": "What are some of the most powerful use cases you’ve seen?",
-            "cn": "你见过哪些最具影响力的应用案例？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "A few stand out because they’re only possible when the tool actually knows what you’ve been working on.",
-            "cn": "其中有几项功能尤为突出，因为只有当工具真正了解你一直在处理什么时，这些功能才可能实现。"
-          },
-          {
-            "en": "The first is meeting prep.",
-            "cn": "首先是会议准备。"
-          },
-          {
-            "en": "Before any important conversation, most people scramble through old notes and email threads trying to piece together where things stand.",
-            "cn": "在进行任何重要对话之前，大多数人都会匆忙翻阅旧笔记和邮件往来，试图理清当前的状况。"
-          },
-          {
-            "en": "With Littlebird, you just ask: “Prep me for my 2 pm.” It pulls from everything relevant (e.g. past calls, email threads, shared documents) and gives you a rundown in seconds.",
-            "cn": "使用 Littlebird，您只需说一句：“帮我准备下午2点的会议。”它会调取所有相关信息（例如以往的通话记录、邮件往来、共享文档），并在几秒钟内为您提供一份简要概述。"
-          },
-          {
-            "en": "People notice when you remember the details.",
-            "cn": "当你记得细节时，别人会注意到。"
-          },
-          {
-            "en": "That kind of trust compounds over time, and it’s hard to put a number on how much that’s worth.",
-            "cn": "这种信任会随着时间的推移而日益加深，其价值之高难以用数字来衡量。"
-          },
-          {
-            "en": "The second is planning.",
-            "cn": "第二点是规划。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Whether it’s a project, a trip, or a new initiative, Littlebird already knows what you’ve been researching and thinking about.",
-            "cn": "无论是项目、旅行还是新计划，Littlebird 早已知道你一直在研究和思考什么。"
-          },
-          {
-            "en": "One example I love: a user asked Littlebird to outline a three-day Lisbon itinerary based on flights and articles they’d been browsing the day before.",
-            "cn": "我特别喜欢的一个例子是：一位用户请 Littlebird 根据他前一天浏览过的航班信息和文章，为他规划一份为期三天的里斯本行程。"
-          },
-          {
-            "en": "It gave them a plan built from their own research and preferences, ready to use right away.",
-            "cn": "这为他们提供了一份基于自身研究和偏好制定的计划，可以立即付诸实践。"
-          },
-          {
-            "en": "That’s only possible because Littlebird was paying attention when they were doing the research.",
-            "cn": "这之所以能实现，是因为Littlebird在进行研究时一直非常专注。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The third is Routines, which are automated briefings you can set up to run on a schedule.",
-            "cn": "第三项是“例行任务”，即您可以设置按计划运行的自动化简报。"
-          },
-          {
-            "en": "A lot of our users have a weekly report that runs every Monday morning covering priorities, what happened the previous week, and anything that needs attention.",
-            "cn": "我们很多用户每周一早上都会生成一份周报，内容涵盖当周重点事项、上周发生的情况以及需要关注的事项。"
-          },
-          {
-            "en": "It’s become how a lot of them start the week—like having a chief of staff who writes you a memo before you’ve had coffee.",
-            "cn": "这已经成了他们中许多人开启新的一周的方式——就像有个幕僚长在你还没喝上咖啡之前就给你写了一份备忘录。"
-          },
-          {
-            "en": "What about you, how do you personally use Littlebird?",
-            "cn": "那你呢？你个人是如何使用 Littlebird 的？"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/gr-stop-explaining-yourself-to-your-ai-with-alex--4.jpg",
-        "cap": ""
-      },
-      {
-        "sentences": [
-          {
-            "en": "Honestly, I don’t really think about it as a separate tool anymore.",
-            "cn": "说实话，我现在已经不再把它当作一个独立的工具来看待了。"
-          },
-          {
-            "en": "It’s just part of how I work.",
-            "cn": "它已经融入了我的工作方式。"
-          },
-          {
-            "en": "I use it all day as a thought partner—for learning about unfamiliar concepts, doing research, getting a second opinion on tricky situations, prioritizing, and tracking tasks.",
-            "cn": "我整天都把它当作一个“思考伙伴”——用来了解陌生的概念、进行研究、在棘手的情况下寻求第二意见、确定优先级以及跟踪任务。"
-          },
-          {
-            "en": "But the thing I rely on most is getting a quick read on where different projects stand.",
-            "cn": "但我最依赖的是快速掌握各个项目的进展情况。"
-          },
-          {
-            "en": "As a co-founder running product and engineering, I’m constantly context-switching, and before I jump into a conversation or meeting, I’ll ask Littlebird for a status update on whatever we’re about to discuss.",
-            "cn": "作为负责产品和工程的联合创始人，我需要不断切换工作状态；在加入讨论或会议之前，我都会向 Littlebird 查询即将讨论事项的最新进展。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "I also use Meeting Notes heavily.",
-            "cn": "我也经常使用“会议笔记”功能。"
-          },
-          {
-            "en": "I have a lot of syncs throughout the week, and at some point the individual conversations blur together.",
-            "cn": "这一周我有很多同步安排，到后来，各项对话就混在一起了。"
-          },
-          {
-            "en": "Being able to ask “what themes have come up in my team conversations this week?” or “are there any recurring blockers?” is genuinely useful.",
-            "cn": "能够提出“本周团队讨论中出现了哪些主题？”或“是否有反复出现的阻碍因素？”这类问题，确实非常有用。"
-          },
-          {
-            "en": "It helps me see patterns I’d miss if I were just relying on my own memory.",
-            "cn": "这有助于我发现一些仅凭记忆可能忽略的规律。"
-          }
-        ]
-      },
-      {
-        "en": "Our goal is to build a universal assistant, and I think Littlebird already does a pretty good job of fulfilling that promise.",
-        "cn": "我们的目标是打造一款万能助手，而我认为Littlebird在实现这一目标方面已经做得相当不错了。"
-      },
-      {
-        "en": "Looking ahead, how do you see Littlebird evolving over the next few years?",
-        "cn": "展望未来，您认为Littlebird在未来几年内将如何发展？"
-      },
-      {
-        "en": "We’re still very early, and there’s a lot of room to go deeper on what we’ve already built before chasing the next thing.",
-        "cn": "我们仍处于非常早期的阶段，在着手下一项工作之前，还有很大的空间可以进一步深化我们已经构建的内容。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Beyond that, we’re thinking a lot about how Littlebird can be more proactive.",
-            "cn": "除此之外，我们还在深入思考如何让Littlebird变得更加主动。"
-          },
-          {
-            "en": "Right now, you ask and it answers.",
-            "cn": "现在，你一问，它就回答。"
-          },
-          {
-            "en": "There’s a future where it brings you things before you ask.",
-            "cn": "未来，它会在你开口之前就为你送上所需之物。"
-          },
-          {
-            "en": "“Here’s what you need to know before your 2 pm,” or “this email from last week is probably relevant to what you’re working on right now.” More like a great collaborator tapping you on the shoulder at exactly the right moment.",
-            "cn": "“这是你在下午2点之前需要了解的内容”，或者“上周这封邮件可能与你当前的工作有关”。这就像一位出色的合作伙伴在恰到好处的时候轻轻拍了拍你的肩膀。"
-          },
-          {
-            "en": "We’re building something that is truly an extension of your mind, something that helps you achieve your highest goals, focus, and cut through the noise.",
-            "cn": "我们正在打造一款真正能延伸您思维的工具，它能帮助您实现最高目标、保持专注，并过滤掉干扰。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Thank you so much for your time, Alex!",
-            "cn": "亚历克斯，非常感谢你抽出时间！"
-          },
-          {
-            "en": "Where can people learn more about Littlebird?",
-            "cn": "大家可以在哪里了解更多关于Littlebird的信息？"
-          }
-        ]
-      },
-      {
-        "en": "You can download and get started for free on our website, or follow our updates on X, LinkedIn, and Instagram.",
-        "cn": "您可以在我们的网站上免费下载并开始使用，或者在 X、LinkedIn 和 Instagram 上关注我们的最新动态。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "As a knowledge worker, your brain is your most important tool.",
-            "cn": "作为一名知识工作者，你的大脑是你最重要的工具。"
-          },
-          {
-            "en": "Learn how to develop an experimental mindset and think like a scientist by reading Tiny Experiments.",
-            "cn": "通过阅读《微型实验》，学习如何培养实验思维，像科学家一样思考。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Want to invest into your productivity and your mental health?",
-            "cn": "想提升工作效率并改善心理健康吗？"
-          },
-          {
-            "en": "Join the Ness Labs learning community with online courses, workshops, and 1:1 matching.",
-            "cn": "加入 Ness Labs 学习社区，参与在线课程、研讨会和一对一匹配活动。"
-          }
-        ]
-      },
-      {
-        "en": "The Ness Letters are packed with science-backed strategies to be more productive and creative without sacrificing your mental health.",
-        "cn": "《内斯信件》中充满了经科学验证的策略，帮助你在不损害心理健康的前提下，提升工作效率和创造力。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Ness Labs provides content, coaching, courses and community to help makers put their minds at work.",
-            "cn": "Ness Labs 提供内容、指导、课程和社区，帮助创客发挥创造力。"
-          },
-          {
-            "en": "Apply evidence-based strategies to your daily life, run your own tiny experiments, and connect with fellow curious minds.",
-            "cn": "将循证策略应用到日常生活中，开展自己的微型实验，并与其他充满好奇心的人交流。"
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "gr-how-to-fix-your-entire-life-in-1-day",
     "cat": "成长",
     "title": "How to fix your entire life in 1 day",
@@ -11890,8 +10324,8 @@ const ARTICLES_EXTRA = [
             "cn": "非黑即白的思维方式。"
           },
           {
-            "en": "A toddler hits when angry because the feeling and the behavior are the same thing.",
-            "cn": "幼儿生气时会打人，因为这种情绪和这种行为本质上是同一回事。"
+            "en": "I.e. A toddler hits when angry because the feeling and the behavior are the same thing.",
+            "cn": "也就是说，幼儿生气时会打人，因为对他们来说，情绪和行为是同一回事。"
           }
         ]
       },
@@ -11902,8 +10336,8 @@ const ARTICLES_EXTRA = [
             "cn": "自我保护——这个世界充满危险，你学会了保护自己。"
           },
           {
-            "en": "A kid learns to hide report cards, lie about chores, and figure out what adults want to hear.",
-            "cn": "一个孩子学会了藏起成绩单、撒谎说自己做了家务，以及揣摩大人想听什么。"
+            "en": "I.e. A kid learns to hide report cards, lie about chores, and figure out what adults want to hear.",
+            "cn": "也就是说，一个孩子学会了藏起成绩单、谎报家务完成情况，并摸清大人们想听什么。"
           }
         ]
       },
@@ -11914,8 +10348,8 @@ const ARTICLES_EXTRA = [
             "cn": "顺从者——你就是你所在的群体，而该群体的规则在你看来就是现实本身。"
           },
           {
-            "en": "Someone who genuinely cannot fathom why anyone would vote differently than their family or group.",
-            "cn": "指那些真心无法理解，为什么有人会投出与自己的家人或群体不同的票的人。"
+            "en": "I.e. Someone who genuinely cannot fathom why anyone would vote differently than their family or group.",
+            "cn": "也就是说，有人真的无法理解，为什么有人会在投票时与自己的家人或群体持不同意见。"
           }
         ]
       },
@@ -11926,8 +10360,8 @@ const ARTICLES_EXTRA = [
             "cn": "自我觉察——你意识到自己的内心世界与外表并不一致。"
           },
           {
-            "en": "Sitting in church and realizing you’re not sure you believe what everyone around you seems to believe, but not knowing what to do with that feeling yet.",
-            "cn": "坐在教堂里，突然意识到自己并不确定是否相信周围每个人似乎都相信的东西，却又不知道该如何面对这种感觉。"
+            "en": "I.e. Sitting in church and realizing you’re not sure you believe what everyone around you seems to believe, but not knowing what to do with that feeling yet.",
+            "cn": "也就是说，坐在教堂里，你意识到自己并不确定是否相信周围人似乎都相信的东西，但又不知道该如何处理这种感觉。"
           }
         ]
       },
@@ -11938,8 +10372,8 @@ const ARTICLES_EXTRA = [
             "cn": "尽责——你建立起自己的一套原则体系，并恪守这些原则。"
           },
           {
-            "en": "Leaving your family’s religion after careful study and adopting a personal philosophy you can defend, or building a career plan with clear milestones because you believe the right effort yields the right results.",
-            "cn": "经过深思熟虑后，放弃家族的宗教信仰，转而接受一种自己能够捍卫的个人哲学；或者制定一份包含明确里程碑的职业规划，因为你相信付出应有的努力就会收获相应的成果。"
+            "en": "I.e. Leaving your family’s religion after careful study and adopting a personal philosophy you can defend, or building a career plan with clear milestones because you believe the right effort yields the right results.",
+            "cn": "也就是说，经过仔细研究后脱离家族宗教，转而采纳一种你能捍卫的个人哲学；或者制定包含明确里程碑的职业规划，因为你相信正确的努力会带来正确的结果。"
           }
         ]
       },
@@ -11950,8 +10384,8 @@ const ARTICLES_EXTRA = [
             "cn": "个人主义者——你意识到自己的原则是由具体情境所塑造的，于是开始对这些原则持更开放的态度。"
           },
           {
-            "en": "Realizing your political views have more to do with where you grew up than objective truth, or noticing that your ambitious career goals were really about earning your father’s approval.",
-            "cn": "意识到自己的政治观点更多取决于成长环境，而非客观真理；或者发现自己那些雄心勃勃的职业目标，其实只是为了赢得父亲的认可。"
+            "en": "I.e. Realizing your political views have more to do with where you grew up than objective truth, or noticing that your ambitious career goals were really about earning your father’s approval.",
+            "cn": "也就是说，意识到自己的政治观点更多取决于成长环境，而非客观真理；或者察觉到自己雄心勃勃的职业目标，其实是为了赢得父亲的认可。"
           }
         ]
       },
@@ -11962,8 +10396,8 @@ const ARTICLES_EXTRA = [
             "cn": "战略家——你在与系统打交道的同时，也意识到自己身处其中。"
           },
           {
-            "en": "Leading an organization while actively questioning your own blind spots, or engaging in politics knowing your perspective is partial and shaped by bias you can’t fully see.",
-            "cn": "在领导一个组织的同时，积极审视自身的盲点；或者在参与政治活动时，明知自己的视角存在偏颇，且受到自己无法完全察觉的偏见所影响。"
+            "en": "I.e. Leading an organization while actively questioning your own blind spots, or engaging in politics knowing your perspective is partial and shaped by bias you can’t fully see.",
+            "cn": "也就是说，在领导一个组织的同时积极审视自身的盲点，或者在参与政治博弈时，明知自己的视角是片面的，且受到自身未能完全察觉的偏见所影响。"
           }
         ]
       },
@@ -11974,8 +10408,8 @@ const ARTICLES_EXTRA = [
             "cn": "构造觉知——你将所有框架，包括你的身份认同，都视为有用的虚构。"
           },
           {
-            "en": "Holding your spiritual beliefs with metaphorically not literally, knowing the map is not the territory, or watching yourself play the role of “founder” or “thought leader” with a kind of gentle amusement.",
-            "cn": "以比喻而非字面意义来对待自己的精神信仰，明白“地图并非领土”，或者带着一种温和的幽默感，观察自己扮演“创始人”或“思想领袖”的角色。"
+            "en": "I.e. Holding your spiritual beliefs with metaphorically not literally, knowing the map is not the territory, or watching yourself play the role of “founder” or “thought leader” with a kind of gentle amusement.",
+            "cn": "也就是说，将精神信仰视为隐喻而非字面意义；明白“地图并非领土”；或是带着一种温和的自嘲，观察自己扮演“创始人”或“思想领袖”的角色。"
           }
         ]
       },
@@ -11986,8 +10420,8 @@ const ARTICLES_EXTRA = [
             "cn": "合一——自我与生命之间的隔阂消融。"
           },
           {
-            "en": "Work, rest, and play feel like the same thing.",
-            "cn": "工作、休息和娱乐感觉都是一回事。"
+            "en": "I.e. Work, rest, and play feel like the same thing.",
+            "cn": "也就是说，工作、休息和玩乐感觉上并无二致。"
           },
           {
             "en": "There’s no one left who needs to become something, just presence responding to what arises.",
@@ -12250,8 +10684,16 @@ const ARTICLES_EXTRA = [
             "cn": "去上学。"
           },
           {
+            "en": "Get the job.",
+            "cn": "找到工作。"
+          },
+          {
             "en": "Get offended.",
             "cn": "感到委屈。"
+          },
+          {
+            "en": "Play victim.",
+            "cn": "扮演受害者。"
           },
           {
             "en": "Retire at 65.",
@@ -14367,7 +12809,7 @@ const ARTICLES_EXTRA = [
     },
     "fingerprint": "831398b10e99572f5f578340cce4bcdca24b3554caf36d546eeb864e9eb27c7c",
     "sourceTextHash": "a201b57c31adc57c86ac5abdf32641d5858b951d441201565d1bc17e1595cdce",
-    "sourceTextWords": 3892,
+    "sourceTextWords": 3915,
     "sourceParagraphs": 62,
     "sourceImages": 15,
     "coverImg": "assets/covers/people-charlize-theron-another-0.jpg",
@@ -14404,8 +12846,7 @@ const ARTICLES_EXTRA = [
             "en": "In a wide-ranging interview, Theron tells Doreen St Félix about her formative years in Nineties Hollywood, motherhood and her decision to start producing",
             "cn": "在一次内容广泛的访谈中，塞隆向多琳·圣费利克斯讲述了她在90年代好莱坞的成长岁月、为人母的经历以及她决定开始担任制片人的原因"
           }
-        ],
-        "sourceTag": "heading"
+        ]
       },
       {
         "sentences": [
@@ -14413,8 +12854,7 @@ const ARTICLES_EXTRA = [
             "en": "This story is taken from the Spring/Summer 2026 issue of AnOther Magazine:",
             "cn": "本文摘自《AnOther Magazine》2026年春夏刊："
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14430,8 +12870,7 @@ const ARTICLES_EXTRA = [
             "en": "The better metaphor is the climb.",
             "cn": "更贴切的比喻是攀登。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14455,8 +12894,7 @@ const ARTICLES_EXTRA = [
             "en": "She is a variant of the characters that Theron has found herself drawn to in this phase of her career, women exacting their power through their physicality, carving out complex identities and desires outside the gendered villain/hero binary.",
             "cn": "她正是塞隆在职业生涯这一阶段所钟情角色的变体——这些女性通过身体力量来彰显自己的力量，在超越“反派/英雄”这种性别二元对立的框架之外，塑造出复杂的身份与欲望。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14500,8 +12938,7 @@ const ARTICLES_EXTRA = [
             "en": "She is also very funny.",
             "cn": "她还非常风趣。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-1.jpg",
@@ -14532,6 +12969,14 @@ const ARTICLES_EXTRA = [
             "cn": "那时我是否理解什么是表演？"
           },
           {
+            "en": "No.",
+            "cn": "不。"
+          },
+          {
+            "en": "Later, as I learnt and became obsessed with actors, I learnt about your life, your move from South Africa to Los Angeles.",
+            "cn": "后来，随着我不断学习并逐渐痴迷于演员这一行，我了解了你的生活，以及你从南非移居洛杉矶的经历。"
+          },
+          {
             "en": "No. Later, as I learnt and became obsessed with actors, I learnt about your life, your move from South Africa to Los Angeles.",
             "cn": "不。后来，随着我对演员这一行越来越了解并着迷，我才了解到你的生活经历，以及你从南非搬到洛杉矶的故事。"
           },
@@ -14543,8 +12988,7 @@ const ARTICLES_EXTRA = [
             "en": "Was there a moment when you realised you were at risk of assimilation – of permanently leaving where you came from?",
             "cn": "有没有某个瞬间，让你意识到自己面临被同化的风险——即永久离开自己的故土？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14588,8 +13032,7 @@ const ARTICLES_EXTRA = [
             "en": "My mom loved watching movies, she really loved doing that with me.",
             "cn": "我妈妈特别喜欢看电影，她真的很喜欢和我一起看。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14597,8 +13040,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: What were some of the films you watched with her?",
             "cn": "DSF：你和她一起看过哪些电影？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14610,8 +13052,7 @@ const ARTICLES_EXTRA = [
             "en": "I watched Fatal Attraction at a drive-in with my mom.",
             "cn": "我和妈妈曾在汽车影院一起看过《致命诱惑》。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14619,8 +13060,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: Wow, Fatal Attraction?",
             "cn": "DSF：哇，《致命诱惑》？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14628,8 +13068,7 @@ const ARTICLES_EXTRA = [
             "en": "“I think back to moments I had on sets or with directors or auditions, stuff you would just never get away with [now]” – Charlize Theron",
             "cn": "“我回想起在片场、与导演共处或试镜时的那些时刻，那些事情在[现在]是绝对无法被容忍的”——查理兹·塞隆"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14673,8 +13112,7 @@ const ARTICLES_EXTRA = [
             "en": "I’m a dinosaur.",
             "cn": "我就是个“恐龙”。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14682,8 +13120,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: You’re not a dinosaur.",
             "cn": "DSF：你不是“恐龙”。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14727,8 +13164,7 @@ const ARTICLES_EXTRA = [
             "en": "But what I loved was the disappearing, like watching a movie and disappearing and having access to losing yourself.",
             "cn": "但我真正喜欢的是那种“消失”的感觉，就像看电影时完全沉浸其中，得以彻底忘我。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-3.jpg",
@@ -14750,8 +13186,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: Isn’t there something very submissive about the role of the actor, willing yourself to submit to the scene?",
             "cn": "DSF：演员的角色难道不带有一种顺从的意味吗？即自愿臣服于场景之中？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14775,8 +13210,7 @@ const ARTICLES_EXTRA = [
             "en": "Trying to understand a human is a complex thing and you’re constantly discovering.",
             "cn": "试图理解一个人是一件复杂的事情，你总是在不断发现新东西。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14784,8 +13218,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: Are there characters you’ve struggled to reach flow state with?",
             "cn": "DSF：有没有哪些角色让你很难进入“心流状态”？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14813,8 +13246,7 @@ const ARTICLES_EXTRA = [
             "en": "And we spent a lot of time in Aileen’s world, with all of her letters over ten years of being on death row, with people who knew her.",
             "cn": "我们花了很多时间沉浸在艾琳的世界里，研读她十年死囚生涯中写下的所有信件，并与那些了解她的人进行了交流。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14822,8 +13254,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: People she knew were open to that?",
             "cn": "DSF：她认识的人对此持开放态度吗？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14851,8 +13282,7 @@ const ARTICLES_EXTRA = [
             "en": "She was executed two days after I said yes to the movie.",
             "cn": "就在我答应出演这部电影的两天后，她就被处决了。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14860,8 +13290,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: Do you remember how you were feeling that day?",
             "cn": "DSF：你还记得那天的心情吗？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14889,8 +13318,7 @@ const ARTICLES_EXTRA = [
             "en": "Sometimes I’ve done favours for friends and I’m like, “I love you, I’m doing this for you, but I don’t connect to this world.”",
             "cn": "有时我会帮朋友忙，心里会想：“我爱你，我这是为了你，但我跟这个圈子没什么共鸣。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-5.jpg",
@@ -14909,8 +13337,7 @@ const ARTICLES_EXTRA = [
             "en": "What’s the horizon view on what has changed since first moving to LA?",
             "cn": "从长远来看，自您初到洛杉矶以来，您认为发生了哪些变化？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14982,8 +13409,7 @@ const ARTICLES_EXTRA = [
             "en": "I saw it around me, girls working, they do three movies and they just …",
             "cn": "我看到周围的情况，那些女孩在工作，她们拍了三部电影之后就……"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -14991,8 +13417,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: They were disposable.",
             "cn": "DSF：她们就像一次性用品一样。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15012,8 +13437,7 @@ const ARTICLES_EXTRA = [
             "en": "I want to introduce you to this filmmaker.”",
             "cn": "“我想向你介绍这位电影人。”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15021,8 +13445,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: It seems to me it was very important for you to start producing when you did.",
             "cn": "DSF：在我看来，你当时开始从事制片工作是非常重要的。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15062,8 +13485,7 @@ const ARTICLES_EXTRA = [
             "en": "I hate trailers.",
             "cn": "我讨厌拖车。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-6.jpg",
@@ -15078,8 +13500,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: You want to know what the best boy is doing.",
             "cn": "DSF：你想知道“最佳男孩”在忙什么。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15159,8 +13580,7 @@ const ARTICLES_EXTRA = [
             "en": "You need to push the envelope.",
             "cn": "你需要突破界限。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15184,8 +13604,7 @@ const ARTICLES_EXTRA = [
             "en": "Look at the award slate this year.",
             "cn": "看看今年的奖项提名名单。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15197,8 +13616,7 @@ const ARTICLES_EXTRA = [
             "en": "I do want a little bit of control over my own destiny in the art that I make” – Charlize Theron",
             "cn": "“在创作艺术时，我确实希望对自己的命运有一点点掌控权”——查理兹·塞隆"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15222,8 +13640,7 @@ const ARTICLES_EXTRA = [
             "en": "That can be a good thing.",
             "cn": "这可能是一件好事。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15243,8 +13660,7 @@ const ARTICLES_EXTRA = [
             "en": "Are you thinking about this when you play a disgruntled prom queen in Young Adult, or playing Megyn Kelly, someone that people have very strong feelings about, in Bombshell?",
             "cn": "当你在《青少年》中饰演那位心怀不满的毕业舞会皇后，或者在《爆炸新闻》中饰演梅根·凯利——这位让人们爱恨交加的人物时，你会考虑到这一点吗？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15280,8 +13696,7 @@ const ARTICLES_EXTRA = [
             "en": "She learns this big lesson at the end.” But Jason and Diablo were like, “What if she doesn’t?”",
             "cn": "“她在结局时学到了这一重要教训。”但杰森和迪亚布洛却说：“如果她没学到呢？”"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15289,8 +13704,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: Most people don’t change.",
             "cn": "DSF：大多数人不会改变。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-7.jpg",
@@ -15328,8 +13742,7 @@ const ARTICLES_EXTRA = [
             "en": "I have a real reaction to that, the idea that you won’t like me if I’m truthful, if I come with my warts and all.",
             "cn": "对此我确实有切身体会——那种感觉，仿佛只要我坦诚相待，展现出自己的一切，包括缺点在内，你们就不会喜欢我。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15345,8 +13758,7 @@ const ARTICLES_EXTRA = [
             "en": "A kind of ghettoising.",
             "cn": "一种被边缘化的待遇。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15370,8 +13782,7 @@ const ARTICLES_EXTRA = [
             "en": "I’m so traumatised by that experience.",
             "cn": "那次经历让我深受打击。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15379,8 +13790,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: And this is in 2018, the age when feminist inquiry and critique of sexist institutions were popularised all over.",
             "cn": "DSF：这发生在2018年，当时女性主义探讨和对性别歧视机构的批判正风靡全球。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15412,8 +13822,7 @@ const ARTICLES_EXTRA = [
             "en": "That is such low- hanging fruit.",
             "cn": "这简直是唾手可得的靶子。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15437,8 +13846,7 @@ const ARTICLES_EXTRA = [
             "en": "I think you might be too.",
             "cn": "我觉得你可能也是。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-9.jpg",
@@ -15477,8 +13885,7 @@ const ARTICLES_EXTRA = [
             "en": "That was my blueprint, watching Sue Ellen on Dallas throwing her drink and dressed gorgeously in a sequined top.",
             "cn": "这就是我的参考模板——看着《达拉斯》里的苏·艾伦穿着华丽的亮片上衣，把酒杯砸向墙壁。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15526,8 +13933,7 @@ const ARTICLES_EXTRA = [
             "en": "I think good artists can have empathy for the circumstances of others.",
             "cn": "我认为优秀的艺术家能够对他人所处的境遇产生共情。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15539,8 +13945,7 @@ const ARTICLES_EXTRA = [
             "en": "But what about human behaviour?",
             "cn": "但人类的行为又该如何解释呢？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15568,8 +13973,7 @@ const ARTICLES_EXTRA = [
             "en": "So it’s three women living in a house.",
             "cn": "所以，这是一家住着三个女人的家。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15577,8 +13981,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: A house of women.",
             "cn": "DSF：一个女性之家。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15594,8 +13997,7 @@ const ARTICLES_EXTRA = [
             "en": "[Laughs.]",
             "cn": "[笑。]"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-10.jpg",
@@ -15614,8 +14016,7 @@ const ARTICLES_EXTRA = [
             "en": "The Old Guard, the sequel to it, Apex and Christopher Nolan’s The Odyssey, out this summer.",
             "cn": "《永生守卫》、其续集《Apex》以及克里斯托弗·诺兰的《奥德赛》，都将于今年夏天上映。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15651,8 +14052,7 @@ const ARTICLES_EXTRA = [
             "en": "But I want to believe that you don’t have to throw out the baby with the bathwater.",
             "cn": "但我希望相信，我们不必因噎废食。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15660,8 +14060,7 @@ const ARTICLES_EXTRA = [
             "en": "“There is more access now to seeing women having multiple emotions – the complexities of how we function and the different gears we can have” – Charlize Theron",
             "cn": "“如今，观众更有机会看到女性展现出多重情感——我们行为方式的复杂性，以及我们所能切换的各种状态”——查理兹·塞隆"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15669,8 +14068,7 @@ const ARTICLES_EXTRA = [
             "en": "DSF: So, finding opportunities to negotiate with the encroachment?",
             "cn": "DSF：那么，就是寻找机会来应对这种侵蚀吗？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15706,8 +14104,7 @@ const ARTICLES_EXTRA = [
             "en": "This was my best experience making a movie.",
             "cn": "这是我拍电影以来最棒的一次经历。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15723,8 +14120,7 @@ const ARTICLES_EXTRA = [
             "en": "The action films you do aren’t just gender flips.",
             "cn": "你演的动作片不仅仅是性别对调。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15732,8 +14128,7 @@ const ARTICLES_EXTRA = [
             "en": "CT: That’s a lot of pressure.",
             "cn": "CT：这压力确实很大。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-11.jpg",
@@ -15767,8 +14162,7 @@ const ARTICLES_EXTRA = [
             "en": "It’s like no civilisation exists except the one for you and Egerton’s character.",
             "cn": "仿佛世上除了你和埃格顿饰演的角色所在的那片文明之外，再无其他文明存在。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15804,8 +14198,7 @@ const ARTICLES_EXTRA = [
             "en": "Very few movies get made like this any more.",
             "cn": "如今像这样拍摄的电影已经很少见了。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15841,8 +14234,7 @@ const ARTICLES_EXTRA = [
             "en": "I laid it all out on that ice, left it all on the field.",
             "cn": "我在冰场上倾尽全力，在赛场上拼尽一切。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15854,8 +14246,7 @@ const ARTICLES_EXTRA = [
             "en": "Have there been more existential moments where you’ve thought, at some point I may have to pull back from action work?",
             "cn": "你是否曾有过更多这样的存在主义时刻，觉得“某一天我可能不得不退出动作片领域”？"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -15911,8 +14302,7 @@ const ARTICLES_EXTRA = [
             "en": "I’m going to be bionic by the end of it.",
             "cn": "等这一切结束时，我就会变成半机械人了。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "img": "assets/covers/people-charlize-theron-another-13.jpg",
@@ -15994,8 +14384,7 @@ const ARTICLES_EXTRA = [
             "en": "Post-production: Vrinda Jelinek",
             "cn": "后期制作：弗琳达·杰利内克"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       },
       {
         "sentences": [
@@ -16003,8 +14392,7 @@ const ARTICLES_EXTRA = [
             "en": "This story features in the Spring/Summer 2026 issue, marking 25 years of AnOther Magazine, on sale internationally on 12 March 2026.",
             "cn": "本文刊载于2026年春夏刊，该期杂志标志着《AnOther》杂志创刊25周年，将于2026年3月12日全球发售。"
           }
-        ],
-        "sourceTag": "paragraph"
+        ]
       }
     ]
   },
