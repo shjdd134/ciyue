@@ -485,7 +485,19 @@ const REGION_TAGS = ["nav", "header", "footer", "aside", "div", "section", "ul",
 const REGION_TOKEN = /(?:^|[\s"'_-])(?:menu-item[a-z-]*|sub-menu|site-navigation|main-navigation|primary-menu|nav-links|post-navigation|et_bloom[a-z_]*|newsletter[a-z_-]*|convertkit[a-z_-]*|ck_form[a-z_]*|mc4wp[a-z_-]*|mailpoet[a-z_-]*|sidebar|widget-area|related-posts|jp-relatedposts|sharedaddy|breadcrumb[a-z_-]*|pagination|table-of-contents|site-footer)(?:[\s"'_-]|$)/i;
 const REGION_ATTR = /(?:class|id)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi;
 
-function junkRegions(html) {
+/* 评论区专用（窄集合，不含语义标签、不含 sidebar/widget 一族）。
+ *
+ * 为什么不能直接拿 REGION_TOKEN 去排 `<p>`：2026-09-16 实测，More To That 与 fs.blog
+ * 的整页 HTML 里正文容器带着 sidebar / widget 一类的 class，一排下去
+ * `illness` 与 `listening` 从 35 块直接变 **0 块**（整篇正文蒸发）。作者的注释
+ * 「<p> 那条路径一个字不改」是对的。
+ * 而评论区有稳定的 class 记号（Substack：`div.comment-list` → `div.comment-body`），
+ * 单独一份窄集合，只排它 —— 这才是那 6 句读者评论混进库的真正入口。 */
+const COMMENT_TOKEN = /(?:^|[\s"'_-])(?:post-comments|comments-area|comment-list|comment-body|comment-form|comment-reply|comment-content|comment-meta)(?:[\s"'_-]|$)/i;
+
+/* 划出命中某个 token 的标签区间。semantic=true 时语义标签（nav/header/footer/aside）
+ * 整块算非正文 —— 只有 li/h2/h3/h4 那条路径这么用；`<p>` 走 semantic=false 的窄集合。 */
+function regionsByToken(html, tokenRe, semantic = true) {
   const out = [];
   const open = new RegExp(`<(${REGION_TAGS.join("|")})\\b([^>]*)>`, "gi");
   const tagRe = new Map();
@@ -493,8 +505,8 @@ function junkRegions(html) {
   while ((m = open.exec(html))) {
     const tag = m[1].toLowerCase();
     const attrs = m[2] || "";
-    const semantic = tag === "nav" || tag === "header" || tag === "footer" || tag === "aside";
-    const structural = semantic || REGION_TOKEN.test(
+    const semanticHit = semantic && (tag === "nav" || tag === "header" || tag === "footer" || tag === "aside");
+    const structural = semanticHit || tokenRe.test(
       [...attrs.matchAll(REGION_ATTR)].map(x => x[1] || x[2] || "").join(" ")
     );
     if (!structural) continue;
@@ -511,6 +523,9 @@ function junkRegions(html) {
   return out;
 }
 
+function junkRegions(html) { return regionsByToken(html, REGION_TOKEN); }
+function commentRegions(html) { return regionsByToken(html, COMMENT_TOKEN, false); }
+
 function extractBlocks(html, looseImg = false) {
   /* 先划出 figure 的字符区间，避免同一段被 <p> 和 <figure> 重复计入 */
   const figs = [...html.matchAll(/<figure\b[^>]*>([\s\S]*?)<\/figure>/gi)]
@@ -519,20 +534,50 @@ function extractBlocks(html, looseImg = false) {
   const nodes = figs.map(f => ({ at: f.at, kind: "fig", inner: f.inner }));
   const inFig = i => figs.some(f => i >= f.at && i < f.end);
 
+  /* 评论区要排，但**只能用窄集合**排。
+   * 起因：`<p>` 分支原本只查 figure —— Substack 的读者评论（`div.comment-list` →
+   * `div.comment-body`）被当正文抓进库，Dan Koe 那篇末尾的 6 句就是别人引用
+   * Kapil Gupta 的留言；手工删掉之后下一次 `--refill` 又补回来（refill 只认自己
+   * 尺子量出的缺失），成了死循环。
+   * 但换成整个 REGION_TOKEN 会把正文排空（`illness` / `listening` 从 35 块变 0 块，
+   * 见 COMMENT_TOKEN 的说明），所以用 commentRegions 这个只认评论区 class 的窄集合。 */
+  const navs = junkRegions(html);
+  const cmts = commentRegions(html);
+  const inNav = i => navs.some(([a, b]) => i >= a && i < b);
+  const inCmt = i => cmts.some(([a, b]) => i >= a && i < b);
+
   for (const m of html.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)) {
-    if (inFig(m.index)) continue;
+    if (inFig(m.index) || inCmt(m.index)) continue;
     nodes.push({ at: m.index, kind: "p", inner: m[1] });
   }
 
   /* 列表项与小标题。2026-09-15 语义验收实测：只认 <p> 会让清单式文档整篇丢主体 ——
    * 《HUMAN 3.0》完整知识库原文有 740 个 <li>（中位 29.5 字符）与 78 个 <h2>/<h3>，
    * 1,912 词进不了库，「三层级 / 三阶段」讲了却一条没列。
-   * li 会被当成一个独立的文字块（渲染上等于原文档的一行），并走 goodPara 的列表档。 */
-  const navs = junkRegions(html);
-  const inNav = i => navs.some(([a, b]) => i >= a && i < b);
-  for (const m of html.matchAll(/<(li|h2|h3)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
-    if (inFig(m.index) || inNav(m.index)) continue;
+   * li 会被当成一个独立的文字块（渲染上等于原文档的一行），并走 goodPara 的列表档。
+   * h4 一并补进来（与 h2/h3 同档）。2026-09-16 实测：这一条对现有 14 篇**零影响** ——
+   * More To That 全文里只有 2 个 h4，内容是 `Resources` 与 `Follow More To That:`，
+   * 那是页脚导航，本来就被 goodListItem 的标签型规则挡掉。保留是为了覆盖
+   * 未来把正文小标题写成 h4 的站点，代价只是正则多一个分支。 */
+  for (const m of html.matchAll(/<(li|h2|h3|h4)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
+    if (inFig(m.index) || inNav(m.index) || inCmt(m.index)) continue;
     nodes.push({ at: m.index, kind: "item", inner: m[2] });
+  }
+
+  /* 引用块。**先纠正一个误判**：Dan Koe 那篇的 6 段 blockquote 内容其实早就进库了 ——
+   * `<p>` 正则是全页扫描，引用块内层的 `<p>` 本来就会被抓到（2026-09-16 实测，
+   * Naval Ravikant / Alfred Adler / Maxwell Maltz 与「控制论来自 kybernetikos」全部已在块中）。
+   * 所以这一条对现有 14 篇是**零影响**的保险，不是缺口修复。
+   * 保留的理由：把文本直接放在 `<blockquote>` 里、不套 `<p>` 的站点不少，那种情况下
+   * 提取器会整块丢引用。新增分支走**普通档**（引用是完整句子，不是列表条目，
+   * 走列表档会被「条目 vs 标签」的规则误判）。
+   * 内层有 <p> 就逐个展平：一个 <blockquote> 只产出一个块，会让断句、分栏、译文对齐全错位。 */
+  for (const m of html.matchAll(/<blockquote\b[^>]*>([\s\S]*?)<\/blockquote>/gi)) {
+    if (inFig(m.index) || inNav(m.index) || inCmt(m.index)) continue;
+    const inner = m[1];
+    const ps = [...inner.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)];
+    if (ps.length) for (const p of ps) nodes.push({ at: m.index + p.index, kind: "p", inner: p[1] });
+    else nodes.push({ at: m.index, kind: "p", inner });
   }
 
   /* Hearst（ELLE/Bazaar 等）不写 <figure>，图裸放在 <div> 里：looseImg 时补扫 figure 外的独立 <img>。

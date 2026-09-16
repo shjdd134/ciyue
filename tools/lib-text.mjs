@@ -164,8 +164,14 @@ function looksLikeNav(t) {
  *
  * 长度之外还要挡掉「像标签而不像内容」的条目（`Read The Koe Letters` / `Dan Koe` /
  * `August 31, 2025`）：无标点、无冒号且词数极少的一律不要。 */
-const LIST_MIN_LEN = 22;
-const LIST_MIN_LETTERS = 16;
+/* 2026-09-16 放宽 22/16 → 12/10。
+ * 实证：Dan Koe《How to fix your entire life in 1 day》的清单条目
+ * `Reject the known path`(21) / `Dive into the unknown`(21) / `To have a goal.`(15)
+ * 被 22 字符闸整条删掉 —— 原文写着「要变得更智慧，你必须：」，然后一条没列。
+ * 旧尺子只算长度，不看它是不是内容。放宽后「纯标签」排除规则仍然生效
+ * （`Read The Koe Letters` / `August 31, 2025` 照样被挡，差分实测 13 篇零垃圾）。 */
+const LIST_MIN_LEN = 12;
+const LIST_MIN_LETTERS = 10;
 const LIST_DATE = /^[A-Z][a-z]+\.?\s+\d{1,2},\s*\d{4}$/;
 
 /** 列表项/小标题专用的「是不是内容」判定（比正文宽松，但仍有下限与标签排除） */
@@ -196,7 +202,10 @@ export function goodListItem(t) {
 export function goodPara(t, opts = {}) {
   if (opts && opts.list) return goodListItem(t);
   const s = String(t || "").trim();
-  if (!s || s.length < 30) return false;
+  /* 2026-09-16 放宽 30 → 15。30 字符约等于英语 5–6 词，把作者刻意断开的强调短句
+   * 整段删掉了（`One ingredient is agency.` 24 / `This will be comprehensive.` 27）。
+   * 差分实测 13 篇原文：放宽后节点 +15 / −0，逐条审过全是正文。 */
+  if (!s || s.length < 15) return false;
   const letters = (s.match(/[A-Za-z]/g) || []).length;
   if (s.length < 70) {
     /* 30–70 字符的**短段**：网文的重点句就是这个长度 ——
@@ -207,7 +216,7 @@ export function goodPara(t, opts = {}) {
        「这道理太有道理了」这种没有指代对象的译文。
        但仍要求它**看起来确实是句子**：以句末标点收尾 + 字母够多；
        `One email a week, no spam, ever. See our Privacy policy.` 这类仍会被下面的 BOILER 挡掉。 */
-    if (letters < 20) return false;
+    if (letters < 12) return false;
     if (!/[.!?…]["'”’)]?$/.test(s)) return false;
   } else if (letters < 55) {
     return false;
@@ -244,7 +253,16 @@ export function splitSentences(paras) {
       .split(/(?<=[.!?…])\s+/)
       .map(s => s.trim())
       /* 广告脚本/导航碎片不送翻译：省额度，也避免它们被译成中文混进正文 */
-      .filter(s => s.length > 30 && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
+      /* 2026-09-16 放宽 30 → 12。**这是最狠也最没道理的一刀**：段落已经过 goodPara
+       * 判过「这是不是正文」，这里又按字符数把段内的句子切一遍 —— 同一件事判两次，
+       * 第二次没有上下文。Dan Koe 那篇被切掉 53 句，包括一整串自我提问
+       * （`Where do you wake up?` / `What have you missed?` / `Who gave up on you?`）——
+       * 一篇讲「一天改变人生」的实操文，练习的提问一句不剩。
+       * 12 是下限而非 0：`I.e.` 这类残片仍要挡掉，译出来是噪音。 */
+      .filter(s => s.length > 12 && /[A-Za-z]/.test(s) && !hasAdCode(s) && !isJunkPara(s))
+      /* 引文出处（`– Alfred Adler` / `– Naval Ravikant`）不是句子。放宽到 12 之后
+       * 它们正好够长会混进来，单独挡掉；40 字符以上放行，免得误杀以破折号起头的正文。 */
+      .filter(s => !/^[–—-]\s*\S/.test(s) || s.length > 40)
       .map(s => s.replace(/·/g, "."));
     for (const s of parts) {
       if (s.length <= 420) { out.push(s); continue; }
