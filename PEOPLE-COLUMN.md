@@ -44,3 +44,13 @@ daily 在成长采集后运行人物候选发现与已审核队列发布。无�
 运行 people-test、content-scope-test、qc --all、audit、nav-test、smoke，检查人物入口、署名、原文按钮、全文段落与返回分类。沿用发布 manifest，并显式补齐新代码、配置、审核队列、图片脚本与文档。原始 HTML、大图及复核截图仅保留在 `.tmp/`，不公开提交。
 
 成长类全文提取与翻译仍按 WORKBUDDY-OPTIMIZATION-PLAN.md 修复。本次新栏目不代表那项修复已经完成。
+
+## 偏好名单存哪（2026-09-17 起）
+
+人物偏好名单（`people[]` 与 `excludedPeople[]`）**不在公开仓库里**：本仓库是 public，GitHub Pages 还直接以 200 提供整个仓库根目录，名单推上去就等于公开。
+
+- **本地**：`tools/people-config.local.json`（已进 `.gitignore`）
+- **CI**：仓库 Secret `PEOPLE_PRIVATE_JSON`（内容与该本地文件相同）
+- **公开的** `tools/people-config.json` **只留运行参数** —— 配额、图片门槛、来源白名单；不再含名单。
+
+`tools/lib-people.mjs` 顶部按「环境变量 → 本地文件 → 空名单+告警」的顺序装载，并在公开文件里一旦检出 `people` / `excludedPeople` 就直接抛错；`tools/people-test.mjs` 有同向的结构断言。**要加人、改 affinity、调排除名单，改的是 `.local.json`。**

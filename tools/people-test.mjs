@@ -1,5 +1,24 @@
 import assert from 'node:assert/strict';
-import {PEOPLE_CONFIG as config,personFor,excludedPerson,scoreProfile,extractProfile,discoverLinks,canonical,sourceFor,selectDaily,splitOriginalSentences} from './lib-people.mjs';
+import {PEOPLE_CONFIG as config,personFor,excludedPerson,scoreProfile,extractProfile,discoverLinks,canonical,sourceFor,selectDaily,splitOriginalSentences,PEOPLE_PRIVATE_SOURCE} from './lib-people.mjs';
+import fs from 'node:fs';
+
+/* ① 名单必须先到位。空名单会让下面十几条断言失去意义（personFor 全返回 null，报错还很难懂），
+ *    所以先给一句能照着做的提示，再往下跑。 */
+if (!config.people.length) {
+  console.error(`people-test: 偏好名单为空（来源 ${PEOPLE_PRIVATE_SOURCE}），测试无法进行。`);
+  console.error('  本地：创建 tools/people-config.local.json（含 people[] 与 excludedPeople[]）');
+  console.error('  CI  ：配置仓库 Secret PEOPLE_PRIVATE_JSON（内容与该文件相同）');
+  process.exit(1);
+}
+/* ② 反向守卫：公开仓库里那份 people-config.json 决不允许再出现名单。
+ *    2026-09-17 拆分后才需要这条 —— 它防的是「名单被无意中加回公开文件」。
+ *    注意别把断言写成「文件里不含 Monica Bellucci」这种：那只是人名黑名单，漏一个新名字就失效；
+ *    这里卡的是**结构**（字段名），加回名单必然带字段，跑不过。 */
+{
+  const pubRaw = fs.readFileSync(new URL('./people-config.json', import.meta.url), 'utf8');
+  assert(!/"people"\s*:/.test(pubRaw), 'people-config.json（公开）不允许含 people 字段');
+  assert(!/"excludedPeople"\s*:/.test(pubRaw), 'people-config.json（公开）不允许含 excludedPeople 字段');
+}
 const good={title:'Anne Hathaway on her career',person:personFor('Anne Hathaway'),english:true,hasArticle:true,blocked:false,words:1200,depth:25,images:Array.from({length:8},(_,i)=>({url:'https://assets.vogue.com/photos/'+i+'/a.jpg'}))};
 assert.equal(scoreProfile(good).score,100);
 assert(scoreProfile(good).eligible);

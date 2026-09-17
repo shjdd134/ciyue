@@ -4,7 +4,45 @@ import fs from 'node:fs';
 import crypto from 'node:crypto';
 import {decodeEntities} from './lib-mt.mjs';
 import {ABBR} from './lib-text.mjs';
-export const PEOPLE_CONFIG = JSON.parse(fs.readFileSync(new URL('./people-config.json', import.meta.url), 'utf8'));
+/* 人物配置分两层装载 —— 2026-09-17 拆分，原因是仓库 public 且 Pages 直接服务整个根目录，
+ * 「推上去」＝「贴在公网」，而 people[] / excludedPeople 是用户的**个人偏好**，不该在公开仓库里。
+ *
+ *   公开层 tools/people-config.json      运行参数（配额 / 图片门槛 / 来源白名单）—— 随仓库走
+ *   私有层 people[] + excludedPeople     按下列顺序取，命中即止：
+ *     ① process.env.PEOPLE_PRIVATE_JSON   CI：GitHub Actions Secret 注入
+ *     ② tools/people-config.local.json    本地：已在 .gitignore（*.local.json）
+ *     ③ 都没有 → 空名单 + 告警（**不抛错**：只改了配置、secret 还没建的那段时间不能让 CI 变红）
+ *
+ * 顺序是固定的，排查「线上为什么没匹配到人」先看这里。公开层若又出现 people / excludedPeople，
+ * 直接抛错 —— 那是「刚挪走又被加回来」的信号，必须在跑起来之前就炸。 */
+const _cfgPath = new URL('./people-config.json', import.meta.url);
+const _baseConfig = JSON.parse(fs.readFileSync(_cfgPath, 'utf8'));
+if (_baseConfig.people || _baseConfig.excludedPeople) {
+  throw new Error('people-config.json 不允许含 people / excludedPeople：名单属私有层，'
+    + '本地放 tools/people-config.local.json，CI 走 Secret PEOPLE_PRIVATE_JSON —— 见 lib-people.mjs 顶部注释');
+}
+function loadPrivatePeople() {
+  const env = process.env.PEOPLE_PRIVATE_JSON;
+  if (env && env.trim()) {
+    try { return { src: 'env:PEOPLE_PRIVATE_JSON', data: JSON.parse(env) }; }
+    catch (e) { console.warn('people: PEOPLE_PRIVATE_JSON 不是合法 JSON，已忽略 — ' + e.message); }
+  }
+  try {
+    return { src: 'file:people-config.local.json',
+      data: JSON.parse(fs.readFileSync(new URL('./people-config.local.json', import.meta.url), 'utf8')) };
+  } catch { /* 没有本地文件是正常情况（CI 靠 secret） */ }
+  return { src: '(未配置)', data: {} };
+}
+const _private = loadPrivatePeople();
+const _peopleList = Array.isArray(_private.data.people) ? _private.data.people : [];
+const _excludedList = Array.isArray(_private.data.excludedPeople) ? _private.data.excludedPeople : [];
+if (!_peopleList.length) {
+  console.warn(`people: 偏好名单为空（来源 ${_private.src}）—— 本次不会匹配到任何人物。`
+    + '本地请创建 tools/people-config.local.json；CI 请配置 Secret PEOPLE_PRIVATE_JSON。');
+}
+export const PEOPLE_CONFIG = {..._baseConfig, people: _peopleList, excludedPeople: _excludedList};
+/* 供测试与排查用：名单从哪来的 */
+export const PEOPLE_PRIVATE_SOURCE = _private.src;
 export const plain = s => decodeEntities(String(s || '').replace(/<script\b[\s\S]*?<\/script>/gi,' ').replace(/<style\b[\s\S]*?<\/style>/gi,' ').replace(/<[^>]*>/g,' ')).replace(/\s+/g,' ').trim();
 const fold = s => plain(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function attrs(tag) {

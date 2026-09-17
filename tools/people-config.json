@@ -79,5 +79,6 @@
         "interviewmagazine.com"
       ]
     }
-  ]
+  ],
+  "_comment": "运行参数（配额 / 图片门槛 / 来源白名单），随仓库走。人物偏好名单属私有层，见 lib-people.mjs 顶部注释。"
 }
