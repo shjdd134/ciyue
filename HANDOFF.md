@@ -1,4 +1,4 @@
-> 2026-09-16 当前策略：每日自动采集只跑足球 RSS 与人物审核队列；成长存量保留但 RSS 暂停，AI 与旧明星采集停用。人物明确排除赞达亚。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。用户已授权本项目修改验证后直接推送 main。
+> 2026-09-17 当前策略：**RSS 采集已全部停用**（足球于本日停采，全部足球文与封面一并撤下），每日自动采集只剩人物审核队列；成长存量保留但 RSS 暂停，AI 与旧明星采集停用。人物明确排除赞达亚。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。用户已授权本项目修改验证后直接推送 main。
 
 # 词阅 WordLens — Agent 交接手册
 
@@ -63,6 +63,29 @@
   >   `ft-arsenal-report-…`（正常转会报道）。按用户决定撤下，线上回到 **9 篇 = 成长 6 + 人物 3**，**2,955 句 / 36,044 词**。
   >   ⑦ **推前必读**：远端 main 可能已被 CI 的 daily 提交推前（48 张封面重抓、`data-source-health.js`、`.mt-cache.json`、`data-article-metrics.js`）。
   >   **这几类属于 CI 自己的产物，本地不要推**，否则会把 pipeline 的新输出回退；`data-article-metrics.js` 例外 —— 正文一改就必须本地重跑 `build-article-metrics.mjs` 再推。
+  > ⚠️ **2026-09-17 足球栏目停采 + 存量撤下（紧接上一条）**：足球 RSS 是最后一条还在跑的 RSS 通道，本日停用。
+  >   ① **根因层**：`tools/ingest.mjs` 的 `FEEDS` **清空**。数组为空不是错误 —— `main()` 会在
+  >   「没有进入候选池的文章」处正常退出（实测 `exit 0`）。
+  >   **停采理由（实测，不是口味）**：同一来源好坏混杂。`ft-manchester-united-…`（FourFourTwo）正文 21 段里
+  >   **前 10 段全是会员/订阅推广模板**（"Fancy some of this?" / "Your membership journey starts here." /
+  >   "Quick quizzes for football fans." / "Explore your membership benefits." …），只有第 11~21 段是报道；
+  >   而同批的 `ft-arsenal-…` 是正常转会报道。**整句级推广对长度闸/形态闸完全免疫**，只能事后质检剔。
+  >   ② **配置层**：`tools/daily.mjs` 撤掉 `--quota 足球=2`。**保留 `ingest.mjs --append` 调用** ——
+  >   它是唯一会写 `data-source-health.js` 的入口（`saveSourceHealth()` 挂在 `job.then()` 上，总会执行），
+  >   停采后正需要它把足球来源从健康度里剪掉。
+  >   ③ **健康度改为跟随 FEEDS**：`ingest.mjs` 新增反向剪枝 —— `loadSourceHealth()` 会把文件里**全部历史条目**
+  >   读进来，原先只有「FEEDS 有的就补上」的加法，于是停采的源永远留在文件里（实测残留 **18 条**死源）。
+  >   现在维持「健康度条目 == 当前配置来源」这个不变式，`data-source-health.js` 从 14KB 收敛为
+  >   `const DATA_SOURCE_HEALTH = {}`。**安全性**：应用侧 `index.html` / `app.js` / `sw.js` **完全不读**这个文件，
+  >   它只是抓取通道的运行状态，不参与任何内容展示。
+  >   ④ **存量撤下**：线上 2 篇足球文已随上一批数据推送撤下；这 8 张足球封面本批由 `publish.mjs` 判为孤儿
+  >   （`remotePruned: 8` / `remoteKept: 0`）并从远端删除 —— 上一批它们还是「保留」侧，因为当时远端文章仍在引用。
+  >   ⑤ **守卫反转（防误加回来）**：`content-scope-test.mjs` 原断言「每日 RSS 只能配足球」→
+  >   改为「**FEEDS 必须为空**」+「daily 不得再传 `--quota`」，仍是 **10 项断言全过**。
+  >   `spot-check.mjs` 默认抽样从「足球 2 + 人物 1」改为「人物 1」。
+  >   ⑥ **文档同步**：`README` 首行 / 内容栏目 / 数据来源（新增「足球为何停采」段）/ daily.yml 段，
+  >   与 `ingest.mjs` 的 `FEEDS` 注释、`writeExtra` 头注释、`MAX_INLINE_IMG` 注释。
+  >   **线上仍为 9 篇 = 成长 6 + 人物 3，2,955 句 / 36,044 词；封面 56 张**（远端 64 → 56）。
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
   10 篇成长类旧文已由 `tools/_regroup-paras.mjs` 按原文接回段落边界（只改分组，句/译逐字节不变）；

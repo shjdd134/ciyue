@@ -7,7 +7,7 @@
  * “段落过短”，在播客转写里天然成立）刻意不做 —— 噪音多了人就懒得看了。
  *
  * 用法：
- *   node tools/spot-check.mjs                 # 按当前配额自动选足球 2 篇 + 人物 1 篇
+ *   node tools/spot-check.mjs                 # 按当前范围自动选人物 1 篇（足球 RSS 已停采）
  *   node tools/spot-check.mjs --id <文章id>    # 指定文章（可多次）
  *   node tools/spot-check.mjs --all           # 全部文章
  * 产出：tools/_spot/<日期>/index.html（对照材料）+ report.md（记录模板）
@@ -54,11 +54,10 @@ if (args.includes("--all")) {
 } else if (ids.length) {
   picked = ids.map(id => ARTICLES.find(a => a.id === id)).filter(Boolean);
 } else {
-  /* 当前每日范围：足球最多抽 2 篇、人物最多抽 1 篇；成长存量不参与新增翻译抽查。
-     --all / --id 仍可显式检查历史栏目。 */
-  const football = ARTICLES.filter(a => a.cat === "足球").sort((x, y) => wordsOf(y) - wordsOf(x)).slice(0, 2);
+  /* 当前每日范围：人物最多抽 1 篇。足球 RSS 已于 2026-09-17 停采，没有新稿可抽；
+     成长存量不参与新增翻译抽查。--all / --id 仍可显式检查历史栏目。 */
   const people = ARTICLES.filter(a => a.cat === "人物").sort((x, y) => wordsOf(y) - wordsOf(x)).slice(0, 1);
-  picked = [...football, ...people];
+  picked = people;
 }
 
 /* ---------- 预检：只做高信噪比的四项 ---------- */

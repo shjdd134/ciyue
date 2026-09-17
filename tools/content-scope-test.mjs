@@ -18,10 +18,12 @@ assert.ok(!categories.includes('明星'),'明星栏目已撤下');
 const ingest=fs.readFileSync(path.join(root,'tools/ingest.mjs'),'utf8');
 const feedLiteral=ingest.match(/const FEEDS = (\[[\s\S]*?\n\]);/)[1];
 const feeds=vm.runInNewContext(feedLiteral);
-assert.ok(feeds.length>0 && feeds.every(f=>!excluded.has(f.cat)),'停采类别不能继续出现在 RSS 配置');
-assert.ok(feeds.every(f=>f.cat==='足球'),'每日 RSS 目前只能配置足球');
+assert.ok(feeds.every(f=>!excluded.has(f.cat)),'停采类别不能继续出现在 RSS 配置');
+/* 2026-09-17：足球 RSS 也停了 → FEEDS 必须是空数组。
+ * 这条断言是**防误加回来**的（原来写的是「每日 RSS 只能配足球」，方向已反转）。 */
+assert.equal(feeds.length,0,'足球 RSS 已停采：FEEDS 必须为空，文章入口只剩 tools/people.mjs');
 const daily=fs.readFileSync(path.join(root,'tools','daily.mjs'),'utf8');
-assert.match(daily,/"--quota",\s*"足球=2"/,'每日足球配额必须为 2');
+assert.ok(!/"--quota"/.test(daily),'足球配额已撤下：daily.mjs 不应再传 --quota');
 assert.equal(PEOPLE_CONFIG.dailyLimit,1,'每日人物配额必须为 1');
 const legacy=spawnSync(process.execPath,[path.join(root,'tools/ingest.mjs'),'--classics','--dry'],{encoding:'utf8',timeout:5000});
 assert.equal(legacy.status,2,'旧经典命令必须在联网和写盘前中止');

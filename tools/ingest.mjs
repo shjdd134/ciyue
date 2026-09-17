@@ -20,7 +20,7 @@
  *   node tools/ingest.mjs --candidate 12    每个源最多富化多少个候选（默认 12）
  *   node tools/ingest.mjs --backfill         为已有文章补抓封面图（写 assets/data-covers.js）
  *   node tools/ingest.mjs --repair-images    只修复已抓文章的封面与正文图，不重跑翻译
- *   node tools/ingest.mjs --repair-images --repair-cats 足球,AI,明星  只修复指定栏目
+ *   node tools/ingest.mjs --repair-images --repair-cats 成长  只修复指定栏目
  *   node tools/ingest.mjs --no-filter        放宽难度筛选
  *
  * 历史通道（明星栏目经典图集，非 RSS）：
@@ -106,7 +106,7 @@ const MAX_SENTS = +val("sents", 24);
 const MAX_WORDS = +val("words", 540);
 const CANDIDATE_LIMIT = Math.max(1, +val("candidate", 12));
 const SOURCE_DIVERSITY_CAP = 2;              // 同一来源每批最多入选 2 篇
-const MAX_INLINE_IMG = 4;   /* 图文并茂：各栏目默认正文内嵌图上限（明星在 FEEDS 里放宽到 6） */
+const MAX_INLINE_IMG = 4;   /* 图文并茂：各栏目默认正文内嵌图上限（明星历史通道曾放宽到 6，该通道已停用） */
 
 /* 历史通道（--classics）专属参数 */
 const CL_MONTHS = Math.max(1, +val("months", 8));
@@ -144,13 +144,21 @@ const QUOTA = (() => {
  *           inline = 正文内嵌图上限（默认 MAX_INLINE_IMG）
  *           looseImg = 裸 <img> 也算配图（Squarespace 类站点图片不包 <figure>，默认只认 figure） */
 const FEEDS = [
-  /* —— 足球 ——
-     成长 RSS 暂停：已有成长文章保留，由 publish.mjs 的常青规则保护，
-     但本入口不再发现或追加成长文章。 */
-  { cat: "足球", name: "Sky Sports", rss: "https://www.skysports.com/rss/11095", max: 6 },
-  { cat: "足球", name: "FourFourTwo", rss: "https://www.fourfourtwo.com/feeds.xml", max: 3 },
-
-  /* AI、旧明星及其经典历史通道均停用；人物 · Icons 由 tools/people.mjs 独立处理。 */
+  /* 2026-09-17：足球 RSS 停采（用户决定撤下足球栏目新闻抓取）→ 本数组清空。
+   *
+   * 为什么停：同一个来源好坏混杂，只能靠事后质检剔，成本高于收益。当日 2 篇足球文实测 ——
+   *   · `ft-manchester-united-…`（FourFourTwo）正文 21 段里**前 10 段全是会员/订阅推广模板**
+   *     （"Fancy some of this?" / "Your membership journey starts here." /
+   *      "Quick quizzes for football fans." / "Explore your membership benefits." …），
+   *     只有第 11~21 段是报道。长度/形态闸全部放行，因为那 10 段本身是完整句子。
+   *   · `ft-arsenal-…` 是正常转会报道（Rodrygo ACL 伤愈 / January window）。
+   * 也就是说「按来源整批判」不成立，得逐篇看正文首段 —— 这类噪声不该由每日流程承担。
+   *
+   * 停采后的文章入口：只剩 tools/people.mjs（人物 · Icons 原刊全文）一条。
+   * 历史：成长 RSS 暂停（存量保留，由 publish.mjs 常青规则保护）；
+   *       AI、旧明星及其经典历史通道已停用；足球 RSS 于本日停用。
+   * 注意 FEEDS 为空不是错误 —— main() 会在「没有候选」处正常退出，
+   * content-scope-test.mjs 有一条断言专门守「这里必须是空的」，防止误加回来。 */
 ];
 
 /* 裸图提取分类：这些分类的文章页图片不包 <figure>，extractBlocks 需要放开扫 <img> */
@@ -212,6 +220,16 @@ let sourceHealth = loadSourceHealth();
 for (const feed of FEEDS) {
   if (!sourceHealth[feed.name]) sourceHealth[feed.name] = emptySourceHealth(feed.rss);
   else sourceHealth[feed.name].url = feed.rss;
+}
+/* 停采的来源要从健康度里退场（2026-09-17）：loadSourceHealth 会把文件里的历史条目全部读进来，
+ * 上面那段只做「FEEDS 有的就补上」的**加法** —— 于是停采的源会永远留在 data-source-health.js 里，
+ * 下一个人读文件会以为它们还在采（实测停采后仍有 18 条历史来源）。这里反向剪一次，
+ * 维持「健康度条目 == 当前配置的来源」这个不变式。
+ * 安全性：应用侧（index.html / app.js / sw.js）**完全不读**这个文件 —— 它只是抓取通道的运行状态，
+ * 不参与任何内容展示（见文件头注释与 lib-release 的 SNAPSHOT_FILES 说明）。 */
+const liveSources = new Set(FEEDS.map(f => f.name));
+for (const name of Object.keys(sourceHealth)) {
+  if (!liveSources.has(name)) delete sourceHealth[name];
 }
 
 function sourceEntry(feed) {
@@ -1446,7 +1464,9 @@ function writeExtra(all) {
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => a.source.split(" · ")[0]))].join(" / ")}
  *
- * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
+ * 通道：人物 reviewed queue（tools/people.mjs）。足球 / 成长 RSS 与 AI / 旧明星历史通道均已停用 ——
+ *       2026-09-17 起 FEEDS 为空，本脚本不再抓取任何 RSS；仍保留 --prune / --refill /
+ *       --dump-* 这些**不依赖 FEEDS** 的存量维护入口。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
  */
 
