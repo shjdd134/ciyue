@@ -10,6 +10,9 @@
  *   · 文件齐 → 不该被这道闸拦下（会继续走到网络层，因假 token 而 401）
  *   · --manifest 与 --files 并用 → 两条清单合并后再过同一道闸（2026-09-14 新增）：
  *     并用的意义是让发布基线的 articles[] 也能更新，见 _api-push.mjs 头部注释。
+ *   · NEVER_PUSH / *.local.* / 含个人偏好的计划稿 → 硬拦截（2026-09-17 新增）：
+ *     这条管的是「文件在本地、也被点名，但不许外传」，与「本地缺文件」是两条路。
+ *     仓库是 public 且 Pages 服务整个仓库根目录，漏一个就等于贴在公网上。
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -65,6 +68,28 @@ console.log("\n== 3. --manifest 与 --files 并用（清单合并） ==");
 
   const ok = run(okMf, ["--files", "assets/styles.css,index.html"]);
   check("manifest 齐 + files 齐 → 不被存在性闸拦下", !/本地不存在/.test(ok.out), "code=" + ok.code);
+}
+
+console.log("\n== 4. NEVER_PUSH 硬拦截（2026-09-17 新增） ==");
+{
+  /* 这一段盯的是「文件确实在本地、也确实被清单点名，但性质上不许外传」——
+   * 与第 1/3 段的「本地缺文件」是两条完全不同的路，别混。
+   * 顺序断言是重点：拦截必须发生在**存在性检查之前**。否则文件一旦被改名或移走，
+   * 只剩「本地不存在」的报错，看起来像路径写错，泄露风险会被误判。
+   * 背景：2026-09-17 那份人物计划稿（含 30 人偏好清单）就是这样经 --files 上了 public 仓库。 */
+  const doc = run(okMf, ["--files", "PEOPLE-ICONS-CHANGE-PLAN-2026-09-17.md"]);
+  check("含个人偏好的计划稿 → 退出 2", doc.code === 2, "code=" + doc.code);
+  check("报的是「绝不推送」而不是「本地不存在」", /绝不推送/.test(doc.out), doc.out.slice(0, 300));
+  check("同样在取 token 之前中止", !/401|Bad credentials|git credential/.test(doc.out));
+
+  const local = run(okMf, ["--files", "whatever.local.md"]);
+  check("*.local.* 后缀 → 退出 2 且报「绝不推送」", local.code === 2 && /绝不推送/.test(local.out), "code=" + local.code);
+
+  const key = run(okMf, ["--files", "tools/.deepl-key"]);
+  check("密钥类路径 → 退出 2 且报「绝不推送」", key.code === 2 && /绝不推送/.test(key.out), "code=" + key.code);
+
+  const fine = run(okMf, ["--files", "HANDOFF.md"]);
+  check("普通文档不受这条闸影响", !/绝不推送/.test(fine.out), "code=" + fine.code);
 }
 
 fs.rmSync(badMf, { force: true });

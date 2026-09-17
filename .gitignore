@@ -34,5 +34,12 @@ tools/_aesop-raw.html
 .zcode/
 .workbuddy/
 
+# 本地专用产物（个人偏好清单、私人备注）—— 统一后缀 *.local.*。
+# 仓库是 public，GitHub Pages 还直接以 200 提供整个仓库根目录 → 推上去就等于公开。
+# 两道保障：这里 gitignore 兜底，tools/_api-push.mjs 的 NEVER_PUSH_PATTERNS 硬拦截推送。
+# 2026-09-17 事故：PEOPLE-ICONS-CHANGE-PLAN-2026-09-17.md（含 30 人偏好清单）经 --files 上了远端。
+*.local.md
+*.local.json
+
 # 人工抽查材料（spot-check.mjs 生成，逐句对照 + 记录模板），属一次性产物
 tools/_spot/

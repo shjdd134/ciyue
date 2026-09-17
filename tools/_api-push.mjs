@@ -43,6 +43,12 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const REPO = "SHJDD134/ciyue";
 const API = `https://api.github.com/repos/${REPO}`;
 const MSG = process.argv[2] || "update";
+/* 绝不允许进远端的文件。**这是硬拦截，不是「存在性豁免」** ——
+ * 2026-09-17 修正：原实现只在「清单点名的文件本地不存在」时把它排除在外，
+ * 也就是说如果谁用 --files 手滑点名了 tools/.deepl-key（本地确实存在），它照样会被传上远端。
+ * 现在改成两件事都做：① 缺失时不报错 ② 出现在推送/删除清单里就直接中止。
+ * 仓库是 public（实测 private:false），Pages 还直接以 200 提供整个仓库根目录 ——
+ * 在这里漏一个文件，等于把它贴在公网上。 */
 const NEVER_PUSH = new Set(["tools/.ecdict-blob.json", "tools/.deepl-key", "tools/.dashscope-key", "tools/_aesop-raw.html"]);
 
 const argOf = name => {
@@ -50,6 +56,23 @@ const argOf = name => {
   return i > 0 && process.argv[i + 1] ? process.argv[i + 1] : null;
 };
 const normalize = s => s.replace(/\\/g, "/").replace(/^\.\//, "");
+
+/* 路径模式兜底 —— 有些东西不适合写死成具体文件名（会不断新增），但性质上永不许外传：
+ *   · *.local.*          本地专用产物（个人偏好、私人清单），约定俗成的后缀
+ *   · people-preferences* / people-icons-change-plan-*.md
+ *                        含「核心参考 + 明确喜欢 + 次级候选 + 排除名单」这类个人偏好的文档。
+ *                        2026-09-17 事故：这份计划稿经 --files 推上 public 仓库，
+ *                        Pages 立刻以 200 提供、正文含 30 人偏好清单，任何人都能读。
+ *                        这类文件的正确形态是改名为 *.local.md 留在本地（见 .gitignore）。 */
+const NEVER_PUSH_PATTERNS = [
+  /\.local\.[a-z0-9]+$/i,
+  /^people-icons-change-plan-.*\.md$/i,
+  /^people-preferences/i,
+];
+const isNeverPush = f => {
+  const n = normalize(f).toLowerCase();
+  return NEVER_PUSH.has(n) || NEVER_PUSH_PATTERNS.some(re => re.test(n));
+};
 
 /* ---------- 变更清单 ---------- */
 let plan = null;            // { push:Set, delete:Set, source: string }
@@ -109,8 +132,18 @@ if (mfPlan && extraFiles) {
  * 会出现「正文传上去了、它引用的配图没传」却报发布成功 —— 线上 404。
  * 放在这里而不是上传循环里：省掉一半 blob 调用，也让「清单坏了」早暴露。 */
 if (plan) {
+  /* ① 硬拦截：NEVER_PUSH / NEVER_PUSH_PATTERNS 命中的路径不许出现在任何清单里。
+   *    放在存在性检查之前 —— 这条优先级更高，且同样必须早于取 token。 */
+  const leaked = [...plan.push].map(normalize).filter(isNeverPush);
+  if (leaked.length) {
+    console.error(`\n✗ 清单里 ${leaked.length} 个文件属于「绝不推送」，已拒绝：`);
+    for (const f of leaked.slice(0, 20)) console.error("   · " + f);
+    console.error("  这些东西的形态应该是 *.local.*（本地专用）或改走安全通道。");
+    console.error("  **远端分支未做任何改动，token 都还没取。**");
+    process.exit(2);
+  }
   const absent = [...plan.push].map(normalize)
-    .filter(f => !NEVER_PUSH.has(f) && !fs.existsSync(path.join(ROOT, f)));
+    .filter(f => !isNeverPush(f) && !fs.existsSync(path.join(ROOT, f)));
   if (absent.length) {
     console.error(`\n✗ 清单里 ${absent.length} 个文件本地不存在，拒绝推送：`);
     for (const f of absent.slice(0, 20)) console.error("   · " + f);
