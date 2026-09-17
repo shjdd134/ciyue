@@ -1,0 +1,51 @@
+[
+  { "why": "英文 5 句 vs 中文行 3 只有 4 个从句；第 5 句的译文在下一行（也许，有点“混蛋”？），块边界该吞下它",
+    "enFrom": 3, "enTo": 4, "cnFrom": 3, "cnTo": 4 },
+
+  { "why": "官方中文把金句「因为你这个人。」挪到了段落前面（中文行 42），单调对齐在这里必然错位，整段手配。",
+    "enFrom": 43, "enTo": 43, "cnFrom": 41, "cnTo": 41 },
+
+  { "why": "接上条：行 42 的金句归入这里；且官方把 One thing really stuck / The words kept repeating 合并成一句中文 —— 单调 DP 无法表达，整段手配。标 shared 的两句 = 官方译文没有独立对应句，复用前句。",
+    "enFrom": 44, "enTo": 48, "cnFrom": 42, "cnTo": 44,
+    "pairs": [
+      ["One thing really stuck with me.", "这句话在我脑海中萦绕了很久很久。"],
+      ["“Because of who you are.”", "“因为你这个人。”"],
+      ["The words kept repeating in my head.", "这句话在我脑海中萦绕了很久很久。", "shared"],
+      ["I kicked the ball against the fence for hours, and I remember at some point I actually said out loud, “Everything is going to be O.K.", "我冲着栅栏踢了很久的球，我记得自己还对自己说：“没事的，"],
+      ["In two months, I’m going to be in the first team.", "两个月后，我就能到一队。"],
+      ["No matter what, I am not coming back home a failure.", "无论如何，我都不会以一个失败者的身份回到家，"],
+      ["No matter what.”", "不会的。”"],
+      ["I went back to Genk after the summer break, and I had just been moved up to the second team.", "暑假之后我回到Genk, 当时我刚刚被升到二队。"],
+      ["I was a nobody, really.", "我是个无名小卒，真的。"],
+      ["But I was training like…", "但是我当时拼了命的训练…"],
+      ["pfffff.", "真的。"],
+      ["I had so much fire inside me.", "我心里面充满了斗志。"],
+      ["It was mad.", "我心里面充满了斗志。", "shared"]
+    ] },
+
+  { "why": "「然后，我踢进了…第一个进球。」整体属于 One goal.，块边界默认把「然后，我踢进了…」留给了上一句",
+    "enFrom": 49, "enTo": 50, "cnFrom": 45, "cnTo": 46,
+    "pairs": [
+      ["I remember the exact moment everything changed.", "我清晰的记得那个改变一切的时刻。"],
+      ["We played on a Friday night.", "我们周五晚上有场比赛，"],
+      ["I started on the bench.", "我一开始是在替补席上。"],
+      ["When I came on in the second half, I just went crazy.", "下半场我上场之后，我整个人都疯狂了。"],
+      ["One goal.", "然后，我踢进了…第一个进球。"]
+    ] },
+
+  { "why": "进球计数段必须一句对一句。中文的引号跨行（“他们不要你了…”第二个进球。），机器切会把 ” 切到下一句开头，手配时顺手归位引号",
+    "enFrom": 51, "enTo": 58, "cnFrom": 47, "cnTo": 54,
+    "pairs": [
+      ["They don’t want you anymore.", "“他们不要你了…”"],
+      ["Two goals.", "第二个进球。"],
+      ["Too quiet.", "“你太安静了…”"],
+      ["Three goals.", "第三个进球。"],
+      ["Too difficult.", "“你太难相处了…”"],
+      ["Four goals.", "第四个进球。"],
+      ["They don’t want you anymore.", "“他们不要你了…”"],
+      ["Five goals.", "第五个进球。"]
+    ] },
+
+  { "why": "金句收尾，单独成块",
+    "enFrom": 59, "enTo": 59, "cnFrom": 55, "cnTo": 55 }
+]

@@ -43,3 +43,10 @@ tools/_aesop-raw.html
 
 # 人工抽查材料（spot-check.mjs 生成，逐句对照 + 记录模板），属一次性产物
 tools/_spot/
+
+# 足球栏目（football.mjs）：raw/ 是原刊 HTML + 抓取缓存，只喂构建、不该进公开仓库；
+# 栏目根下的 <id>.json 是**产出物**，要入库（与 raw/ 同目录是刻意的，靠这条只排除 raw/）。
+# anchor-dict.json（ECDICT 释义词典，50KB）只服务于已废弃的锚点实验（见 lib-align.mjs 注释），
+# 也一并排除 —— 真要复现实验用 .tmp/sweep-gloss.mjs 的思路重建即可。
+tools/_football/raw/
+tools/_football/anchor-dict.json

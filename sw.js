@@ -13,7 +13,7 @@
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-cache-v51";
+const CACHE = "wordlens-cache-v52";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {

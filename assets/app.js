@@ -2484,7 +2484,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v51");
+      const cache = await caches.open("wordlens-cache-v52");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };
