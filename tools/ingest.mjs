@@ -1447,7 +1447,17 @@ async function prune() {
   console.log(`下架：名单 ${drop.size} 篇 · 命中 ${removed.length} 篇 · 库内 ${list.length} → ${kept.length} 篇\n`);
   removed.forEach(a => console.log(`  - ${a.id}\n      理由：${drop.get(a.id)}`));
   if (miss.length) console.log(`\n  （名单里 ${miss.length} 篇不在库内，可能已清过：${miss.join(", ")}）`);
-  if (!removed.length) { console.log("\n没有可下架的文章，未写盘。"); return; }
+  if (!removed.length) {
+    /* 没得可下架，但**仍要过一遍 writeExtra** —— 它是唯一产物出口，头注释的「共 N 篇」与
+     * 来源清单都由它重算。为什么要在这里补：FEEDS 停采后 main() 会在「候选为空」处早退
+     * （见本文件末尾），产物再没有别的机会自更新头注释 —— 实测 2026-09-17 清空 FEEDS 之后，
+     * 生成物头上一直写着「足球 RSS」，与其自身的 9 篇内容自相矛盾。这里不新增文件内容，
+     * kept === list 时正文逐字节不变，只有头注释被重算。--dry 依旧不写盘。 */
+    if (DRY) { console.log("\n没有可下架的文章；--dry 未写盘。"); return; }
+    writeExtra(kept);
+    console.log("\n没有可下架的文章；已用生成器重算产物头注释。");
+    return;
+  }
   if (DRY) { console.log("\n--dry：未写盘。"); return; }
   writeExtra(kept);
   console.log(`\n写出 ${path.relative(ROOT, OUT_FILE)}：${kept.length} 篇`);

@@ -4,7 +4,9 @@
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Vogue / AnOther Magazine / British Vogue
  *
- * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
+ * 通道：人物 reviewed queue（tools/people.mjs）。足球 / 成长 RSS 与 AI / 旧明星历史通道均已停用 ——
+ *       2026-09-17 起 FEEDS 为空，本脚本不再抓取任何 RSS；仍保留 --prune / --refill /
+ *       --dump-* 这些**不依赖 FEEDS** 的存量维护入口。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
  */
 
