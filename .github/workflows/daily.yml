@@ -47,6 +47,9 @@ jobs:
         run: node tools/daily.mjs
         env:
           DEEPL_KEY: ${{ secrets.DEEPL_KEY }}
+          DASHSCOPE_API_KEY: ${{ secrets.DASHSCOPE_API_KEY }}
+          DASHSCOPE_BASE_URL: ${{ vars.DASHSCOPE_BASE_URL }}
+          QWEN_MT_MODEL: ${{ vars.QWEN_MT_MODEL }}
 
       - name: 提交数据更新
         id: commit

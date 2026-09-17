@@ -1,10 +1,9 @@
 /* 词阅 WordLens —— 机器翻译库
  *
  * 抓取流水线（tools/ingest.mjs）翻正文、标题翻译（tools/translate-titles.mjs）翻标题，
- * 共用同一份磁盘缓存与同一套接口调用策略：DeepL 为主、有道兜底、MyMemory 末位。
+ * 共用同一份磁盘缓存与接口策略：DeepL 优先，Qwen-MT 补齐失败项。
  *
- * 有道公开接口支持「一次多行」，返回也按行对应，把请求数压到 1/N；
- * 行数对不上时（被限流截断）先退避整批重试，仍不行才逐行重发。
+ * 只复用启用引擎的明确来源缓存；失败项保持空串，由入库完整性门槛拦截。
  */
 
 import fs from "node:fs";
@@ -54,23 +53,6 @@ export function decodeEntities(s) {
     .normalize("NFC");
 }
 
-/* ---------------- 网络 ---------------- */
-
-async function get(url, tries = 3, timeout = 25000) {
-  for (let i = 0; i < tries; i++) {
-    try {
-      const res = await fetch(url, {
-        headers: { "User-Agent": UA, "Accept-Language": "en-US,en;q=0.9" },
-        signal: AbortSignal.timeout(timeout),
-      });
-      if (res.ok) return await res.text();
-      if (res.status === 403 || res.status === 404) return "";
-    } catch { /* 重试 */ }
-    await sleep(600 * (i + 1));
-  }
-  return "";
-}
-
 /* ---------------- 翻译引擎 ---------------- */
 
 /** DeepL 密钥：环境变量优先（GitHub Actions secret），本地回落 tools/.deepl-key（不入库） */
@@ -85,7 +67,7 @@ export function deepLKey() {
 
 /**
  * DeepL（主力引擎）：一次送一批文本（text 数组），返回按序译文。
- * key 以 :fx 结尾 = 免费档，走 api-free.deepl.com。返回 null 表示本次不可用，调用方降级有道。
+ * key 以 :fx 结尾 = 免费档，走 api-free.deepl.com。返回 null 表示本次不可用。
  */
 export function createDeepL(key, options = {}) {
   key = key || deepLKey();
@@ -120,42 +102,81 @@ export function createDeepL(key, options = {}) {
   };
 }
 
-/** 有道（公开演示接口）：一次可送多行，返回值按行对应 */
-export async function youdao(text, tries = 4) {
-  for (let i = 0; i < tries; i++) {
-    const body = await get(`https://aidemo.youdao.com/trans?from=en&to=zh-CHS&q=${encodeURIComponent(text)}`, 1);
-    if (!body) { await sleep(1200 * (i + 1)); continue; }
-    let j;
-    try { j = JSON.parse(body); } catch { return ""; }
-    const code = String(j.errorCode || "");
-    if (code === "0") return decodeEntities((j.translation || []).join("").trim());
-    if (code === "411") { await sleep(2500 * (i + 1)); continue; }   // 频率过快，退避
-    return "";
-  }
-  return "";
+/** 百炼密钥只在 Node 抓取流程读取，不进入浏览器代码。 */
+export function qwenMTKey() {
+  // 本项目本地配置优先，避免继承其他项目的旧环境变量；Actions 没有该文件，使用 Secret。
+  try {
+    const local = fs.readFileSync(path.join(import.meta.dirname, ".dashscope-key"), "utf8").trim();
+    if (local) return local;
+  } catch { /* 使用环境变量 */ }
+  return process.env.DASHSCOPE_API_KEY?.trim() || "";
 }
 
-/** MyMemory 兜底：免费额度按 IP 每日重置，打满后本次不再重试 */
-export function createMyMemory() {
-  let dead = false;
-  return async function myMemory(text) {
-    if (dead) return "";
-    const url = `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|zh-CN&de=wordlens.ingest%40example.com`;
-    const body = await get(url, 2);
-    if (!body) return "";
-    let cn = "";
-    try {
-      const j = JSON.parse(body);
-      if (j.responseStatus === 200) cn = decodeEntities(j.responseData.translatedText || "");
-      if (j.quotaFinished || /MYMEMORY WARNING/i.test(cn)) {
-        dead = true;
-        console.warn("  ! MyMemory 当日配额已用尽，本次只用有道");
-        return "";
+/** 只向北京地域的百炼官方接口发送密钥，拒绝 URL 中的凭据及其他地址。 */
+export function qwenMTBaseURL(value = process.env.DASHSCOPE_BASE_URL || "https://dashscope.aliyuncs.com/compatible-mode/v1") {
+  try {
+    const url = new URL(String(value).trim().replace(/\/+$/, ""));
+    if (url.protocol !== "https:" || url.username || url.password || url.port || url.search || url.hash ||
+        url.pathname !== "/compatible-mode/v1" ||
+        !(url.hostname === "dashscope.aliyuncs.com" || /^[a-z0-9-]+\.cn-beijing\.maas\.aliyuncs\.com$/.test(url.hostname))) throw new Error();
+    return url.href;
+  } catch { throw new Error("DASHSCOPE_BASE_URL 必须是北京地域百炼官方 HTTPS 地址，路径为 /compatible-mode/v1"); }
+}
+
+/** 单句调用，避免翻译模型合并或丢失批次中的句子；返回数组仍与原文严格对齐。 */
+export function createQwenMT(key, options = {}) {
+  key = key || qwenMTKey();
+  if (!key) return null;
+  const model = options.model || process.env.QWEN_MT_MODEL?.trim() || "qwen-mt-plus";
+  if (!["qwen-mt-plus", "qwen-mt-flash", "qwen-mt-lite"].includes(model)) throw new Error("QWEN_MT_MODEL 只支持 qwen-mt-plus / qwen-mt-flash / qwen-mt-lite");
+  const base = qwenMTBaseURL(options.baseURL);
+  const sourceLang = options.sourceLang || "EN";
+  let unavailable = false;
+  const translator = async function qwenMT(lines, context = "") {
+    const out = new Array(lines.length).fill("");
+    for (let k = 0; k < lines.length && !unavailable; k++) {
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const res = await fetch(base + "/chat/completions", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              model,
+              messages: [{ role: "user", content: lines[k] }],
+              translation_options: {
+                source_lang: sourceLang === "EN" ? "English" : sourceLang === "AUTO" ? "auto" : sourceLang,
+                target_lang: "Chinese",
+                ...(context ? { domains: "This text is from an English article for language learners. Translate faithfully into natural simplified Chinese, preserving names, numbers and negation. Use the following background only to disambiguate the source text: " + context } : {}),
+              },
+            }),
+            redirect: "error",
+            signal: AbortSignal.timeout(30000),
+          });
+          if (res.status === 429 || res.status >= 500) {
+            if (attempt === 0) { await sleep(2000); continue; }
+          }
+          if (!res.ok) {
+            console.warn("  ! Qwen-MT HTTP", res.status);
+            // 鉴权、权限、额度或参数错误：本轮停止请求，避免每句重复打失败接口。
+            if ([400, 401, 402, 403, 404].includes(res.status)) unavailable = true;
+            break;
+          }
+          const data = await res.json();
+          const choice = data.choices?.[0];
+          // 截断、内容过滤、结构缺失都不能当作完整译文入库。
+          if (choice?.finish_reason === "stop" && typeof choice.message?.content === "string") {
+            out[k] = decodeEntities(choice.message.content.trim());
+          }
+          break;
+        } catch {
+          if (attempt === 0) await sleep(1500);
+        }
       }
-    } catch { return ""; }
-    if (!cn || /MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID/i.test(cn)) return "";
-    return cn;
+    }
+    return out;
   };
+  translator.model = model;
+  return translator;
 }
 
 /* ---------------- 批量翻译 ---------------- */
@@ -167,10 +188,11 @@ export function createMyMemory() {
  * @param {string[]} texts
  * @param {object} opts
  *   - cacheFile  磁盘缓存路径，默认 tools/.mt-cache.json
- *   - maxChars   单次请求的原文总长上限（有道对 q 有长度限制）
+ *   - maxChars   单次请求的原文总长上限
  *   - maxLines   单次请求的行数上限
  *   - onTick     (done, total) => void，进度回调
  *   - onProvider (provider, count) => void，记录实际使用的引擎
+ *   - providers  请求顺序，默认 ["deepl", "qwen-mt"]；只尝试配置了密钥的引擎
  *   - cacheNamespace  缓存方案名；切换上下文/术语表时递增，避免复用旧译文
  *   - cacheKey   当前文章或文档的稳定标识，也可按 (text, index) 返回文章键
  *   - context    DeepL 的上下文字符串，或接收当前批次 [{i,t}] 的函数
@@ -190,17 +212,22 @@ export async function translateTexts(texts, opts = {}) {
     glossaryId = "",
     acceptTranslation = null,
     onProvider = null,
+    providers = ["deepl", "qwen-mt"],
+    qwenKey = "",
   } = opts;
+  if (!Array.isArray(providers) || !providers.length || providers.some(p => !["deepl", "qwen-mt"].includes(p))) {
+    throw new Error("providers 必须是 deepl / qwen-mt 的非空数组");
+  }
+  const qwenModel = process.env.QWEN_MT_MODEL?.trim() || "qwen-mt-plus";
 
   /* cacheKey 可以按句子下标变化。标题批次因此能逐篇隔离上下文，
      而正文仍可用整篇 URL/文章指纹作为稳定键。 */
   const keyForCache = typeof cacheKey === "function" ? cacheKey : () => cacheKey;
   const keyFor = (t, i) => hash(`${cacheVersion}\n${cacheNamespace}\n${keyForCache(t, i)}\n${t}`);
-  const cachedText = value => typeof value === "string" ? value : String(value?.text || "");
   const defaultAccept = (cn, source) => {
     const out = String(cn || "").trim();
     const src = String(source || "").trim();
-    if (!out || /^(?:MYMEMORY WARNING|QUERY LENGTH LIMIT|INVALID)$/i.test(out)) return false;
+    if (!out) return false;
     /* 供应商在失败时偶尔原样回显英文；不把这种结果写入缓存，下一轮才有机会重试。 */
     if (src && out.toLowerCase() === src.toLowerCase() && /[A-Za-z]/.test(src)) return false;
     return true;
@@ -217,15 +244,14 @@ export async function translateTexts(texts, opts = {}) {
   const todo = [];
   texts.forEach((t, i) => {
     const key = keyFor(t, i);
-    /* legacy 且无上下文时兼容旧缓存；文章上下文方案故意不回退，确保旧译文不会遮住新译文。 */
-    const legacy = cacheNamespace === "legacy" && !cacheKey && !context ? cache[hash(t)] : "";
-    const cached = cachedText(cache[key]);
+    /* 旧纯字符串、来源不明及停用引擎的缓存必须重译。 */
+    const entry = cache[key];
+    const allowed = providers.includes(entry?.provider) &&
+      (entry.provider !== "qwen-mt" || entry.model === qwenModel);
+    const cached = allowed ? String(entry.text || "") : "";
     if (cached && isAccepted(cached, t)) {
       out[i] = cached;
-      if (onProvider && cache[key]?.provider) onProvider(cache[key].provider, 1);
-    } else if (legacy && isAccepted(legacy, t)) {
-      out[i] = legacy;
-      if (onProvider) onProvider("legacy-cache", 1);
+      if (onProvider) onProvider(entry.provider, 1);
     }
     else todo.push({ i, t });
   });
@@ -241,76 +267,50 @@ export async function translateTexts(texts, opts = {}) {
   }
   if (cur.length) batches.push(cur);
 
-  const dl = createDeepL(null, { sourceLang, glossaryId });
-  const mm = createMyMemory();
+  if (!todo.length) return out;
+  const engines = providers.map(provider => ({
+    provider,
+    translate: provider === "deepl" ? createDeepL(null, { sourceLang, glossaryId }) : createQwenMT(qwenKey, { sourceLang }),
+  })).filter(engine => engine.translate);
   let done = 0;
   const total = todo.length;
 
-  for (const batch of batches) {
-    let lines = [];
-    let provider = "";
-    /* DeepL 主力：text 数组一次一批，返回天然按序，不存在「行数对不上」的问题 */
-    if (dl) {
-      const dlOut = await dl(
-        batch.map(b => b.t.replace(/\s*\n\s*/g, " ")),
-        contextFor(batch),
-      );
-      if (dlOut && dlOut.every((line, i) => isAccepted(line, batch[i].t))) {
-        lines = dlOut;
-        provider = "deepl";
-      }
-    }
-    if (lines.length !== batch.length) {
-      lines = [];
-      if (batch.length === 1) {
-        lines = [await youdao(batch[0].t) || ""];
-        if (lines[0]) provider = "youdao";
-      } else {
-        const joined = batch.map(b => b.t.replace(/\s*\n\s*/g, " ")).join("\n");
-        let many = await youdao(joined);
-        lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
-        if (lines.length === batch.length) provider = "youdao";
-        if (lines.length !== batch.length) {          // 多半被限流截断，歇一下整批重试
-          await sleep(2500);
-          many = await youdao(joined);
-          lines = many ? many.split(/\n+/).map(s => s.trim()).filter(Boolean) : [];
-          if (lines.length === batch.length) provider = "youdao";
-        }
-        if (lines.length !== batch.length) {          // 仍不齐：退回逐条，保证一一对应
-          lines = [];
-          for (const b of batch) {
-            lines.push(await youdao(b.t) || "");
-            await sleep(700);
-          }
-          if (lines.some(Boolean)) provider = "youdao";
-        }
-      }
-    }
+  if (!engines.length) {
+    console.warn(`  ! 未配置翻译密钥：${todo.length} 项待译。请设置 DEEPL_KEY 或 DASHSCOPE_API_KEY（本地也可使用 tools/.deepl-key / tools/.dashscope-key）。`);
+    if (onTick) onTick(total, total);
+    return out;
+  }
 
-    batch.forEach((b, k) => {
-      const cn = lines[k] || "";
-      if (isAccepted(cn, b.t)) {
-        cache[keyFor(b.t, b.i)] = { text: cn, provider: provider || "unknown", profile: cacheNamespace, version: cacheVersion };
-        out[b.i] = cn;
-      }
-    });
+  for (const batch of batches) {
+    let accepted = 0;
+    for (const engine of engines) {
+      const pending = batch.filter(b => !out[b.i]);
+      if (!pending.length) break;
+      const lines = await engine.translate(
+        pending.map(b => b.t.replace(/\s*\n\s*/g, " ")),
+        contextFor(pending),
+      ) || [];
+      let providerCount = 0;
+      pending.forEach((b, k) => {
+        const cn = lines[k] || "";
+        if (isAccepted(cn, b.t)) {
+          cache[keyFor(b.t, b.i)] = {
+            text: cn, provider: engine.provider, profile: cacheNamespace, version: cacheVersion,
+            ...(engine.provider === "qwen-mt" ? { model: engine.translate.model } : {}),
+          };
+          out[b.i] = cn;
+          accepted++;
+          providerCount++;
+        }
+      });
+      if (providerCount && onProvider) onProvider(engine.provider, providerCount);
+    }
 
     done += batch.length;
     saveCache(cacheFile, cache);                    // 逐批落盘，中断也不丢已译部分
     if (onTick) onTick(done, total);
-    if (provider && onProvider) onProvider(provider, batch.length);
+    if (accepted < batch.length) console.warn(`  ! 本批 ${batch.length - accepted}/${batch.length} 项未译出或未通过检查，留待重试。`);
     await sleep(900);
-  }
-
-  /* 有道没译出来的，再给 MyMemory 一次机会 */
-  for (const item of todo) {
-    if (out[item.i]) continue;
-    const cn = await mm(item.t);
-    if (isAccepted(cn, item.t)) {
-      cache[keyFor(item.t, item.i)] = { text: cn, provider: "mymemory", profile: cacheNamespace, version: cacheVersion };
-      out[item.i] = cn;
-      if (onProvider) onProvider("mymemory", 1);
-    }
   }
   saveCache(cacheFile, cache);
 

@@ -21,6 +21,7 @@ tools/.examples-cache/*
 
 # 本地密钥，绝不入库
 tools/.deepl-key
+tools/.dashscope-key
 tools/.ecdict-blob.json
 
 # 抓取残留 / 会话产物 —— 不参与构建、不该进公开仓库。

@@ -43,7 +43,7 @@ const ROOT = path.resolve(import.meta.dirname, "..");
 const REPO = "SHJDD134/ciyue";
 const API = `https://api.github.com/repos/${REPO}`;
 const MSG = process.argv[2] || "update";
-const NEVER_PUSH = new Set(["tools/.ecdict-blob.json", "tools/.deepl-key", "tools/_aesop-raw.html"]);
+const NEVER_PUSH = new Set(["tools/.ecdict-blob.json", "tools/.deepl-key", "tools/.dashscope-key", "tools/_aesop-raw.html"]);
 
 const argOf = name => {
   const i = process.argv.indexOf("--" + name);

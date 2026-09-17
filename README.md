@@ -64,7 +64,28 @@
 
 ### 译文
 
-文章译文由机器翻译（DeepL 优先，有道 / MyMemory 兜底）生成，仅作阅读辅助，不保证准确性；足球请求会带上文章标题、来源及前后句，人物请求会带上标题、人物名及前后句，标题按文章单独带导语上下文，缓存按文章、文本方案版本隔离并记录实际引擎。后处理只做格式清理，足球老板/主帅等术语必须由英文条件规则校正；译文会做句数、空译、原文回显和数字告警检查，未通过完整性门槛的文章不入库。单词例句中文来自上述开源词库，非机器生成。
+新增文章的机器翻译优先使用 DeepL，失败项交给已配置的阿里云百炼 Qwen-MT（默认 `qwen-mt-plus`）；不再使用有道或 MyMemory。DeepL 接收文章标题、来源及前后句作为上下文，Qwen-MT 将这些背景通过 `translation_options.domains` 传入，每次只翻译一个句子以保持对齐。缓存按文章、文本方案版本隔离，记录引擎及 Qwen 模型，拒绝来源不明和停用引擎的缓存。后处理只做格式清理，足球老板/主帅等术语由英文条件规则校正；译文会做句数、空译、原文回显和数字告警检查，Qwen-MT 标记为截断的结果不会采用。仍未译出的句子保持空串，未通过完整性门槛的文章不入库。存量文章不会因为新增引擎而自动重译；译文仅作阅读辅助，准确性仍需人工抽查。单词例句中文来自上述开源词库。
+
+#### 配置阿里云百炼翻译
+
+接入只运行在本地 Node 抓取脚本及 GitHub Actions，浏览器直接读取生成的译文，不使用 API Key。需要北京地域的百炼 API Key，普通阿里云 AccessKey 不适用。
+
+1. 本地执行 `powershell -NoProfile -File tools/set-qwen-key.ps1`，在隐藏输入提示中粘贴 Key。保存到 `tools/.dashscope-key`，已加入 Git 忽略和 API 发布脚本禁止上传名单。该项目文件优先于全局 `DASHSCOPE_API_KEY`，避免其他项目的旧变量覆盖。
+2. 执行 `node tools/qwen-mt-check.mjs` 只检查配置；加 `--live` 才请求一个示例句，不修改文章或共享缓存。
+3. 每日自动更新需要在仓库 Actions Secret 中配置 `DASHSCOPE_API_KEY`。可选仓库变量 `QWEN_MT_MODEL` 支持 `qwen-mt-plus` / `qwen-mt-flash` / `qwen-mt-lite`；`DASHSCOPE_BASE_URL` 默认 `https://dashscope.aliyuncs.com/compatible-mode/v1`，也支持北京业务空间专属域名。
+
+北京地域新人免费额度有效期为 90 天，不能仅凭 Key 判断余额或剩余有效期。仅想使用免费额度时，在百炼控制台为所选模型开启“免费额度用完即停”；已认证账户未开启时，额度用尽会自动按量付费。调用使用实时 API，未使用不抵扣新人免费额度的云端 Batch API。参见[百炼免费额度说明](https://help.aliyun.com/zh/model-studio/new-free-quota)。
+
+#### 用 TTime 做人工校译
+
+TTime 是桌面端的划词翻译和 OCR 工具，不作为 PWA 的运行时依赖。可以按下面的流程把它当作第二审校界面：
+
+1. 运行 `node tools/spot-check.mjs --all`，打开生成的 `tools/_spot/<日期>/index.html`，先看机器预检标出的数字、否定和专名问题。
+2. 在 TTime 设置中配置 DeepL；如果要做独立对照，另选 OpenAI、Gemini 或 Google 翻译，不要把同一个 DeepL 结果当作复核证据。TTime 支持划词翻译（默认 `Alt + E`）和截图 OCR（默认 `Alt + Shift + W`），可逐句选中英文后对照，也可核对配图里的文字。
+3. 确认是稳定的术语问题时，加入 `tools/term-glossary.json`，先运行 `node tools/fix-cn.mjs --dry`，确认范围后再落盘；标题问题放进 `tools/translate-titles.mjs` 的校对表。单句人工判断仍要在抽查报告中记录。
+4. 修改后运行 `node tools/mt-test.mjs && node tools/text-test.mjs && node tools/spot-check.mjs --all`，再进行发布前的完整质检。
+
+TTime 的源码适合作为桌面翻译/OCR 交互参考。当前公开仓库是 Electron 桌面应用，未提供可直接供本站调用的批量翻译接口；仓库许可证还对商用和运营类似服务附加了授权条件，因此这里采用人工校译流程，不复制其源码或把它嵌进站点。
 
 > **如任何权利人认为本项目使用的内容不当，请提 Issue 联系，我们会立即下架相关内容。**
 

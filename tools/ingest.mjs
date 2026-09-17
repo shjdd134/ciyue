@@ -6,7 +6,7 @@
  *
  * 原则：
  *   - 英文正文 100% 来自真实报道原文，不做任何改写或虚构（与项目"拒绝 AI 写文"一致）
- *   - 中文为逐句机器翻译（DeepL 优先，有道 / MyMemory 兜底），仅作学习注释
+ *   - 中文为逐句机翻：DeepL 优先，配置百炼后由 Qwen-MT 补齐失败项；不完整文章留待重试
  *   - 只收近 N 天的文章，每篇保留 url 外链与来源，可追溯
  *   - 配图来自原报道自己的图床（RSS enclosure / og:image / 正文 figure），本地留档
  *
@@ -44,6 +44,10 @@ import {
 } from "./lib-text.mjs";
 import { translateTexts } from "./lib-mt.mjs";
 import { applyGlossary } from "./lib-glossary.mjs";
+/* 对账字段重算（sourceTextWords / sourceParagraphs）—— 与 _dedup-sentences.mjs 等
+ * 维护脚本共用同一份口径。原先这段逻辑只写在本文件里，但动正文的不止 ingest，
+ * 各写一份必然漂成两把尺子（2026-09-17 抽出）。 */
+import { syncPeopleSourceFields } from "./lib-article-fields.mjs";
 /* 历史通道（明星栏目经典专题）的发现与提取口径 —— 与 fetch-classics.mjs 同一份实现。
  * 「数 <figure> 而非 <img>」「老模板图 URL 无扩展名」「不能只取第一个 srcset」
  * 「跨站去重不能靠图注文本或图片 id」四个坑的说明都在那个文件里。 */
@@ -700,7 +704,7 @@ function difficultyOk(sents) {
 }
 
 /* ---------------- 译文后处理 ----------------
- * MyMemory 会在中文里插入 "（ English ）" 形式的原文并留下多余空格。
+ * 旧供应商可能在中文里插入 "（ English ）" 形式的原文并留下多余空格。
  * 这里只做格式清理；涉及老板/主帅、胜者/冠军、人名等事实的修订必须同时
  * 检查英文原句，交给 applyGlossary 的英文条件规则，不能用中文全局替换。 */
 const CN_POST = [
@@ -710,10 +714,9 @@ const CN_POST = [
 ];
 const postEdit = s => CN_POST.reduce((x, [re, to]) => x.replace(re, to), String(s));
 
-/* ---------------- 翻译（DeepL 主力、有道 / MyMemory 兜底，带版本化缓存） ----------------
- * 引擎与缓存都在 tools/lib-mt.mjs：正文、标题（translate-titles.mjs）共用同一份
- * tools/.mt-cache.json，同一句话不会重复请求。MyMemory 免费额度按 IP 每天重置，
- * 抓到十几篇就会打满；有道作为降级路径支持一次多句（换行分隔）。
+/* ---------------- 翻译（DeepL 优先，Qwen-MT 备选，带版本化缓存） ----------------
+ * 引擎与缓存都在 tools/lib-mt.mjs：正文、标题共用同一份 tools/.mt-cache.json，
+ * 同一句话不会重复请求。两个引擎都失败的句子保持空串，完整性门槛阻止文章入库。
  */
 /* ---------------- 已有数据 ---------------- */
 
@@ -1272,21 +1275,8 @@ function alignLcs(a, b) {
 }
 
 /* 人物篇的 `sourceTextWords` / `sourceParagraphs` 是 qc F4 用来对账「字段 vs 正文」的。
- * 只要库内正文变了（补句、人工修订）字段就会漂，所以每篇收尾都按库内正文重算一次。
- * 口径与 qc.mjs F4 完全一致（同一个正则），`sourceTextHash` 刻意不动 ——
- * 源页面本身没变，动了会让人物管线的指纹比对误判成「来源变更、需要重审」。
- * 返回改了几处（0 = 本来就一致）。 */
-function syncPeopleSourceFields(a) {
-  if (a.sourceTextWords == null) return 0;
-  let n = 0;
-  const joined = a.paras.filter(p => !p.img)
-    .flatMap(p => (p.sentences || []).map(s => String(s.en || ""))).join(" ");
-  const ws = (joined.match(/[A-Za-z]+(?:['’][A-Za-z]+)?/g) || []).length;
-  if (a.sourceTextWords !== ws) { a.sourceTextWords = ws; n++; }
-  const ps = a.paras.filter(p => !p.img).length;
-  if (a.sourceParagraphs !== ps) { a.sourceParagraphs = ps; n++; }
-  return n;
-}
+ * 实现已抽到 tools/lib-article-fields.mjs —— **动正文的不止 ingest**（删重复句、重分组、
+ * 人工修订都会让字段漂），只有共用一份口径才不会两边打架。这里保留调用点不变。 */
 
 async function refillMissing() {
   const src = fs.readFileSync(OUT_FILE, "utf8");

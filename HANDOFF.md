@@ -102,7 +102,7 @@
     ├── qc-test.mjs             质检门禁语义回归（空清单 / 目标 id 不存在都不算通过）
     ├── push-test.mjs           上传清单闸门回归（清单点名文件缺失必须在联网前中止）
     ├── translate-titles.mjs    标题中文翻译回填（--dry / --redo / --only）
-    ├── lib-mt.mjs              翻译共用库：DeepL 主力→有道兜底→MyMemory 末位（文章上下文 + 版本化缓存 + 引擎记录）
+    ├── lib-mt.mjs              翻译共用库：DeepL 优先，Qwen-MT 补齐失败项（文章上下文 + 版本化缓存 + 引擎/模型记录）
     ├── mt-test.mjs             翻译上下文 / 缓存隔离 / 源语言与引擎元数据回归
     ├── text-test.mjs           译文原样回显过滤回归
     ├── classics-test.mjs       明星经典图集偏好排序回归
@@ -115,6 +115,7 @@
     ├── _api-push.mjs           ★ 部署推送（Git Data API 增量提交，见 §4）
     ├── _cred-get.py            读取 GitHub 凭据（Windows 凭据管理器，勿删）
     ├── .deepl-key              DeepL Free API key（明文，勿提交、勿外传）
+    ├── .dashscope-key          北京百炼 API key（明文，本项目文件优先；勿提交、勿外传）
     ├── .ecdict-blob.json       ECDICT 全量语料 88MB（gitignored，词库/词频/点词层重建必需）
     ├── .examples-cache/        例句/词表多源缓存 44MB（gitignored，重建必需）
     ├── .mt-cache.json          翻译缓存 500KB
