@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 9 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 11 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
- * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Vogue / AnOther Magazine / British Vogue
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Vogue / AnOther Magazine / British Vogue / FourFourTwo
  *
  * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
@@ -14722,6 +14722,432 @@ const ARTICLES_EXTRA = [
           {
             "en": "Monica Bellucci will appear in ‘Maria Callas: Letters & Memoirs’ at Her Majesty’s Theatre on 24 April",
             "cn": "莫妮卡·贝鲁奇将于4月24日在女王陛下剧院出演《玛丽亚·卡拉斯：书信与回忆录》"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ft-manchester-united-will-win-nothing-this-year-c",
+    "cat": "足球",
+    "title": "Manchester United will win nothing this year, claims former Ballon d'Or winner",
+    "titleZh": "前金球奖得主称：曼联今年将一无所获",
+    "source": "FourFourTwo · 2026-09-16",
+    "date": "2026-09-16",
+    "minutes": 2,
+    "url": "https://www.fourfourtwo.com/person/player/manchester-united-cannot-compete-and-will-win-nothing-this-year-claims-former-ballon-dor-winner",
+    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
+    "coverImg": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 96.86,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 60.1,
+    "serverScore": 79.77,
+    "sourceSentenceCount": 48,
+    "sourceTruncated": true,
+    "translation": {
+      "status": "machine-checked",
+      "issues": [],
+      "providers": {
+        "deepl": 24
+      },
+      "cacheNamespace": "article-context-v3"
+    },
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "'Fancy some of this?'",
+            "cn": "“感兴趣吗？”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your membership journey starts here.",
+            "cn": "您的会员之旅从这里开始。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Keep exploring and earning more as a member.",
+            "cn": "成为会员，继续探索并赚取更多奖励。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Quick quizzes for football fans.",
+            "cn": "专为足球迷准备的快速问答。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Football-themed crossword challenges.",
+            "cn": "足球主题填字游戏挑战。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Explore your membership benefits.",
+            "cn": "探索您的会员权益。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
+            "cn": "每周将最精彩的功能、趣味内容和足球问答直接送达您的收件箱。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Unlock instant access to exclusive member features.",
+            "cn": "立即解锁会员专属功能。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Want to add more newsletters?",
+            "cn": "想订阅更多新闻通讯吗？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fantastic football content straight to your inbox!",
+            "cn": "精彩足球内容直达您的收件箱！"
+          },
+          {
+            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
+            "cn": "涵盖最新转会动态、趣味问答、视频、专题报道以及对足坛巨星的专访，还有更多精彩内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Former Ballon d'Or winner Ruud Gullit believes it will be another barren season for Manchester United",
+            "cn": "前金球奖得主鲁德·古利特认为，曼联本赛季将再次颗粒无收"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c-1.jpg",
+        "cap": "Manchester United are years behind their competitors, believes Ruud Gullit. (Image credit: Dan Mullan/Getty Im"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Former Ballon d'Or winner Ruud Gullit has claimed Manchester United will not win major silverware this term, having 'missed the boat' years ago to be in Premier League title contention.",
+            "cn": "前金球奖得主鲁德·古利特表示，曼联本赛季将无法赢得重要奖杯，因为他们早在多年前就“错失良机”，已无力争夺英超冠军。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Michael Carrick 's men endured a potentially damaging derby loss at Old Trafford last weekend, to a 10-man Manchester City side that scored and kept a clean sheet after Phil Foden saw red.",
+            "cn": "上周末，迈克尔·卡里克率领的球队在老特拉福德遭遇了一场可能造成严重影响的德比战失利，对手是菲尔·福登被红牌罚下后仍能进球并保持零封的10人曼城队。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Now, the Dutchman has stated that Manchester United are 'in a hole' and will not beat their competitors to the Premier League trophy, or any silverware for that matter.",
+            "cn": "如今，这位荷兰人表示，曼联正“深陷泥潭”，不仅无法在英超冠军争夺中击败竞争对手，甚至任何奖杯都难以问鼎。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c-2.jpg",
+        "cap": "Gullit is a serial winner (Image credit: Getty Images)"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Speaking with ComeOn, Gullit slammed the Red Devils' lack of quality claiming that Arsenal, Manchester City, Liverpool an d Chelsea all possess better players.",
+            "cn": "在接受ComeOn采访时，古利特猛烈抨击了“红魔”阵容质量不足的问题，声称阿森纳、曼城、利物浦和切尔西都拥有更出色的球员。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Dutchman then added that Manchester United \"missed the boat\" years ago, and that the club has fallen dramatically since their days of Premier League and Champions League success under Sir Alex Ferguson.",
+            "cn": "这位荷兰人随后补充道，曼联早在几年前就“错失良机”，自弗格森爵士执教时期在英超和欧冠取得辉煌成就以来，该俱乐部的状态已大幅下滑。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c-3.jpg",
+        "cap": "'Fancy some of this?' (Image credit: Getty Images)"
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"Manchester United?",
+            "cn": "“曼联？"
+          },
+          {
+            "en": "They cannot compete this year,\" Gullit claimed.",
+            "cn": "“他们今年无法参与竞争，”古利特断言道。"
+          },
+          {
+            "en": "\"Not yet.",
+            "cn": "“至少目前还不行。”"
+          },
+          {
+            "en": "I think they still lack a little bit of quality, as we can see they cannot control a game.",
+            "cn": "“我认为他们仍然缺乏一点实力，正如我们所见，他们无法掌控比赛。”"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"That is not something that is going to be easy to fix.",
+            "cn": "“这绝非易事。”"
+          },
+          {
+            "en": "Because it does depend on a lot of individual quality, not just the team quality.",
+            "cn": "因为这很大程度上取决于球员个人的素质，而不仅仅是球队的整体实力。”"
+          },
+          {
+            "en": "If they want to achieve things again, it will take some time.",
+            "cn": "如果他们想再次取得成就，还需要一些时间。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ft-arsenal-report-gunners-remain-in-talks-with-re",
+    "cat": "足球",
+    "title": "Arsenal report: Gunners remain in talks with Real Madrid superstar",
+    "titleZh": "阿森纳报道：枪手仍在与皇马巨星进行谈判",
+    "source": "FourFourTwo · 2026-09-16",
+    "date": "2026-09-16",
+    "minutes": 2,
+    "url": "https://www.fourfourtwo.com/transfer/arsenal-remain-in-talks-with-real-madrid-superstar-ahead-of-january-transfer-window-report",
+    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
+    "coverImg": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re.jpg",
+    "scoreVersion": "v2",
+    "qualityScore": 96.86,
+    "qualityBand": "formal",
+    "difficultyBaseScore": 60.1,
+    "serverScore": 79.77,
+    "sourceSentenceCount": 38,
+    "sourceTruncated": true,
+    "translation": {
+      "status": "machine-checked",
+      "issues": [
+        "第 22 句数字待核对：25"
+      ],
+      "providers": {
+        "deepl": 24
+      },
+      "cacheNamespace": "article-context-v3"
+    },
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Rodrygo is recovering from an ACL tear, but could be targeted for a Premier League move in January.",
+            "cn": "罗德里戈正在从前交叉韧带撕裂中恢复，但可能成为1月转会窗口英超球队的引援目标。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Arsenal have been long-time admirers of Rodrygo.",
+            "cn": "阿森纳长期以来一直对罗德里戈青睐有加。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Gunners let Gabriel Martinelli go this summer.",
+            "cn": "阿森纳今夏放走了加布里埃尔·马丁内利。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Your membership journey starts here.",
+            "cn": "您的会员之旅从这里开始。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Keep exploring and earning more as a member.",
+            "cn": "成为会员，继续探索并获得更多收益。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Quick quizzes for football fans.",
+            "cn": "专为足球迷准备的快速问答。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Football-themed crossword challenges.",
+            "cn": "足球主题填字游戏挑战。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Explore your membership benefits.",
+            "cn": "探索您的会员权益。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
+            "cn": "每周将最精彩的内容、趣味活动和足球问答直接送达您的收件箱。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Unlock instant access to exclusive member features.",
+            "cn": "立即解锁会员专属内容。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Want to add more newsletters?",
+            "cn": "想订阅更多电子报吗？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Fantastic football content straight to your inbox!",
+            "cn": "精彩足球内容直达您的收件箱！"
+          },
+          {
+            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
+            "cn": "涵盖最新的转会新闻、趣味问答、视频、专题报道以及对足坛巨星的专访，还有更多精彩内容。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re-1.jpg",
+        "cap": "Arsenal are hoping to raid Real Madrid, to reinforce their left flank. (Image credit: Getty Images)"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Arsenal are reportedly in talks with the camp of Real Madrid superstar Rodryo.",
+            "cn": "据报道，阿森纳目前正与皇家马德里超级巨星罗德里奥的经纪团队进行谈判。"
+          },
+          {
+            "en": "The 25-year-old is back running after enduring an ACL tear in March.",
+            "cn": "这位25岁的球员在3月遭遇前交叉韧带撕裂后，现已恢复跑步训练。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Prior to his sidelining, the Brazilian was among the Gunners' firmest targets for left-sided attackers.",
+            "cn": "在受伤缺阵之前，这位巴西球员曾是“枪手”在左路进攻球员位置上的头号引援目标之一。"
+          },
+          {
+            "en": "His return date has been tentatively pencilled in for January 2027.",
+            "cn": "他的回归日期暂定为2027年1月。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Mikel Arteta 's side also entered talks with the 25-year-old's fellow countryman and team-mate, Vinicius Junior, in the summer.",
+            "cn": "米克尔·阿尔特塔的球队今年夏天还曾与这位25岁球员的同胞兼队友维尼修斯·儒尼奥尔展开过谈判。"
+          },
+          {
+            "en": "Now, Arsenal appear to have been brought full-circle — back to Rodrygo.",
+            "cn": "如今，阿森纳的引援目标似乎又回到了原点——罗德里戈。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re-2.jpg",
+        "cap": "Rodrygo is recovering from an ACL tear, but could be targeted for a Premier League move in January. (Image cre"
+      },
+      {
+        "sentences": [
+          {
+            "en": "If pursuing two of Real Madrid 's attacking Brazilians wasn't enough, the Gunners also enquired previously about blossoming youngster Endrick.",
+            "cn": "仿佛追求皇马的两名巴西进攻球员还不够，枪手此前还曾打听过正在崭露头角的新星恩德里克的情况。"
+          },
+          {
+            "en": "Now, it appears that only Rodrygo remains a realistic Arsenal target.",
+            "cn": "如今，罗德里戈似乎已成为阿森纳唯一现实的引援目标。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "According to a report from TEAMtalk, the Gunners are in talks with the 25-year-old's camp ahead of his projected January 2027 return date; however, the Brazilian believes he can return sooner.",
+            "cn": "据TEAMtalk报道，在罗德里戈预计2027年1月复出的日期到来之前，阿森纳正与其团队进行谈判；不过，这位巴西球员相信自己能更早复出。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re-3.jpg",
+        "cap": "Arsenal have been long-time admirers of Rodrygo. (Image credit: Diego Souto/Getty Images)"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Real Madrid's medical staff are behaving cautiously in their treatment of Rodrygo, with a 'New Year' return being targeted, but the 25-year-old is determined to beat that timeframe.",
+            "cn": "皇家马德里的医疗团队在罗德里戈的治疗上保持谨慎，目标是让他于“新年”复出，但这位25岁的球员决心提前实现这一目标。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Brazilian aims to be back on the pitch before Christmas, with Arsenal retaining strong interest in the La Liga star for his quality and versatility.",
+            "cn": "这位巴西球员希望在圣诞节前重返赛场，而阿森纳也因其出色的实力和多面手特质，一直对这位西甲球星保持着浓厚的兴趣。"
           }
         ]
       }

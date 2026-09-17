@@ -7,21 +7,21 @@ const DATA_SOURCE_HEALTH = {
   "Sky Sports": {
     "url": "https://www.skysports.com/rss/11095",
     "rss": {
-      "ok": false,
-      "lastStatus": 0,
-      "lastLatencyMs": 2,
-      "lastAt": "2026-09-16T11:56:18.039Z",
-      "consecutiveFailures": 1,
-      "consecutiveSuccesses": 0,
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 208,
+      "lastAt": "2026-09-17T00:58:06.043Z",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 1,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 583,
-      "lastAt": "2026-09-16T06:32:48.107Z",
+      "lastLatencyMs": 614,
+      "lastAt": "2026-09-17T00:58:11.702Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 32,
+      "consecutiveSuccesses": 48,
       "disabled": false
     },
     "image": {
@@ -33,38 +33,38 @@ const DATA_SOURCE_HEALTH = {
       "consecutiveSuccesses": 0,
       "disabled": false
     },
-    "updatedAt": "2026-09-16T11:56:18.039Z"
+    "updatedAt": "2026-09-17T00:58:11.702Z"
   },
   "FourFourTwo": {
     "url": "https://www.fourfourtwo.com/feeds.xml",
     "rss": {
-      "ok": false,
-      "lastStatus": 0,
-      "lastLatencyMs": 3,
-      "lastAt": "2026-09-16T11:56:22.126Z",
-      "consecutiveFailures": 1,
-      "consecutiveSuccesses": 0,
+      "ok": true,
+      "lastStatus": 200,
+      "lastLatencyMs": 120,
+      "lastAt": "2026-09-17T00:58:06.183Z",
+      "consecutiveFailures": 0,
+      "consecutiveSuccesses": 1,
       "disabled": false
     },
     "article": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 1218,
-      "lastAt": "2026-09-16T06:34:47.132Z",
+      "lastLatencyMs": 17,
+      "lastAt": "2026-09-17T00:58:15.742Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 28,
+      "consecutiveSuccesses": 44,
       "disabled": false
     },
     "image": {
       "ok": true,
       "lastStatus": 200,
-      "lastLatencyMs": 211,
-      "lastAt": "2026-09-16T06:35:09.608Z",
+      "lastLatencyMs": 27,
+      "lastAt": "2026-09-17T00:58:33.817Z",
       "consecutiveFailures": 0,
-      "consecutiveSuccesses": 5,
+      "consecutiveSuccesses": 13,
       "disabled": false
     },
-    "updatedAt": "2026-09-16T11:56:22.126Z"
+    "updatedAt": "2026-09-17T00:58:33.817Z"
   },
   "Opta Analyst": {
     "url": "https://theanalyst.com/feed",
