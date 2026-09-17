@@ -105,7 +105,10 @@ if (!run("publish.mjs", ["--batch", batch.id])) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs"]) {
+/* 末位两项是 2026-09-17 新增的内容完整性守卫：
+ *   guards-test.mjs —— 重复句守卫 + 书名号专名守卫的**负向测试**（守卫会被证明「会响」才可信）
+ *      它内部已经用真实数据跑了 audit-dups / audit-cn-titles 的正样本，不必再单独列这两个脚本。 */
+for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 

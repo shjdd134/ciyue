@@ -1,8 +1,8 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 11 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 9 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
- * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Vogue / AnOther Magazine / British Vogue / FourFourTwo
+ * 每篇保留 url 外链可溯源。来源：Dan Koe / More To That / Vogue / AnOther Magazine / British Vogue
  *
  * 通道：足球 RSS + 人物 reviewed queue（tools/people.mjs）；成长 RSS 暂停，旧明星历史通道已停用。
  * pin: true 的专题不按 30 天过期，且不占栏目配额。
@@ -754,7 +754,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Think of a Channel as an exciting quest in a video game.",
-            "cn": "不妨将“频道”看作是电子游戏中一场激动人心的冒险。"
+            "cn": "不妨将“通道”看作是电子游戏中一场激动人心的冒险。"
           },
           {
             "en": "A rabbit hole of knowledge or skill.",
@@ -854,7 +854,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You experiment enough until you find the Channel that you get sucked into.",
-            "cn": "你不断尝试，直到找到那个让你沉迷其中的频道。"
+            "cn": "你不断尝试，直到找到那个让你沉迷其中的通道。"
           }
         ]
       },
@@ -880,7 +880,7 @@ const ARTICLES_EXTRA = [
       },
       {
         "en": "There are certain tactics to force yourself into a Channel that we will call “Glitches” – like a glitch in the matrix, if the matrix were the boundaries of Level 1 and 2 until you create your own in Level 3.",
-        "cn": "有一些策略可以迫使自己进入某个“通道”，我们将这些策略称为“故障”——就像《黑客帝国》中的“故障”一样，如果把第一层和第二层的边界比作“矩阵”，那么在第三层中，你将创造出属于自己的“矩阵”。"
+        "cn": "有一些策略可以迫使自己进入某个“通道”，我们将这些策略称为“故障”——就像“矩阵”中的一个“故障”一样，如果把第一层和第二层的边界比作“矩阵”，那么在第三层中，你将创造出属于自己的“矩阵”。"
       },
       {
         "sentences": [
@@ -6376,7 +6376,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Obsession Framework: Channels embody the “obsessed” phase at its peak—”You dive deeper into that crevice of reality.",
-            "cn": "痴迷框架：频道体现了“痴迷”阶段达到顶峰时的状态——“你更深入地潜入现实的那个缝隙之中。”"
+            "cn": "痴迷框架：通道体现了“痴迷”阶段达到顶峰时的状态——“你更深入地潜入现实的那个缝隙之中。”"
           },
           {
             "en": "You can’t stop learning and building toward your goal.” This state can last months, creating exponential development.",
@@ -6600,7 +6600,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The Nature of Glitches: Glitches are mechanisms that can force rapid development by breaking through normal consciousness constraints.",
-            "cn": "故障的本质：故障是一种能够突破正常意识限制、从而推动快速发展机制。"
+            "cn": "故障的本质：故障是一种能够突破正常意识限制、从而推动快速发展的机制。"
           },
           {
             "en": "Like exploiting bugs in video game code, they bypass normal progression rules—with corresponding risks.",
@@ -11675,7 +11675,7 @@ const ARTICLES_EXTRA = [
     },
     "fingerprint": "4dcfb2a2115c7c63665a296842560ba9fd98af52279e8f3a32edb9865824dc19",
     "sourceTextHash": "1928f69783a5551ae890ef5b2e802622a7e71562b42ad6e7ee77949fb96b300a",
-    "sourceTextWords": 3637,
+    "sourceTextWords": 3623,
     "sourceParagraphs": 38,
     "sourceImages": 9,
     "coverImg": "assets/covers/people-anne-hathaway-mother-mary-0.jpg",
@@ -11761,7 +11761,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She’s dropped her two sons off at Little League and come here in low-glam mode (Knicks jersey, jeans) to record songs for David Lowery’s upcoming film Mother Mary, in which Hathaway plays the title character—a sort of Gaga–Taylor Swift hybrid who is, uh, having a moment.",
-            "cn": "她刚把两个儿子送到少年棒球联盟的训练场，便以低调随性的装扮（尼克斯队球衣、牛仔裤）来到这里，为大卫·洛维即将上映的电影《母亲玛丽》录制歌曲。在片中，海瑟薇饰演的正是同名主角——一个融合了Lady Gaga和泰勒·斯威夫特特质的角色，她正……嗯，处于事业的某个特殊时刻。"
+            "cn": "她刚把两个儿子送到少年棒球联盟的训练场，便以低调随性的装扮（尼克斯队球衣、牛仔裤）来到这里，为大卫·洛维即将上映的电影《圣母玛利亚》录制歌曲。在片中，海瑟薇饰演的正是同名主角——一个融合了Lady Gaga和泰勒·斯威夫特特质的角色，她正……嗯，处于事业的某个特殊时刻。"
           },
           {
             "en": "And not “having a moment” in the sense of basking in the glow of public adoration, but something more like its opposite.",
@@ -11885,14 +11885,6 @@ const ARTICLES_EXTRA = [
           {
             "en": "I thought, Oh God, I have to break this person.",
             "cn": "我当时心想：‘天哪，我得把这个人“摧毁”才行。’”"
-          },
-          {
-            "en": "So pretty, so graceful.",
-            "cn": "如此美丽，如此优雅。"
-          },
-          {
-            "en": "I thought, Oh God, I have to break this person. ”",
-            "cn": "“我当时想：‘天啊，我必须把这个人摧毁。’”"
           }
         ]
       },
@@ -12107,11 +12099,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "In Mother Mary, “Spooky Action” is the name of one of the titular pop star’s songs; it also describes the relationship between Hathaway’s Mary and Coel’s fashion designer character, Sam.",
-            "cn": "在电影《母亲玛丽》中，“诡异作用”既是片中同名流行歌手的歌曲名称之一，也描述了海瑟薇饰演的玛丽与科尔饰演的时装设计师萨姆之间的关系。"
+            "cn": "在电影《圣母玛利亚》中，“诡异作用”既是片中同名流行歌手的歌曲名称之一，也描述了海瑟薇饰演的玛丽与科尔饰演的时装设计师萨姆之间的关系。"
           },
           {
             "en": "(“A creative connection that’s also a spiritual connection, or maybe they’re the same thing,” is how Coel encapsulates it.) The reason for Hathaway flipping out, though, is that ever since she signed on to Mother Mary, her life has been pervaded by the uncanny—spooky action to which director Lowery also attests.",
-            "cn": "（“这是一种既是创作上的联结，也是精神上的联结，或者说两者本就是一体的，”科尔如此概括道。） 不过，海瑟薇之所以会情绪失控，是因为自从她签约出演《母亲玛丽》以来，她的生活便一直充斥着超自然现象——导演洛维也证实了这种“诡异的现象”。"
+            "cn": "（“这是一种既是创作上的联结，也是精神上的联结，或者说两者本就是一体的，”科尔如此概括道。） 不过，海瑟薇之所以会情绪失控，是因为自从她签约出演《圣母玛利亚》以来，她的生活便一直充斥着超自然现象——导演洛维也证实了这种“诡异的现象”。"
           },
           {
             "en": "“This film was a doorway into believing, yes, there’s more out there,” he says.",
@@ -12194,7 +12186,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Consider a few of the next films she made: Eileen, in which she plays a queer-coded Hitchcockian bombshell with a dark secret; the May-December(ish) romance The Idea of You, which sees her climax on camera; and Mother Mary.",
-            "cn": "不妨看看她接下来参演的几部电影：《艾琳》，她在片中饰演一位暗藏黑暗秘密、带有酷儿暗示的希区柯克式性感尤物；《你的想法》，这部讲述“五月与十二月”（或类似）年龄差距的爱情片中，她甚至在镜头前达到了高潮；以及《母亲玛丽》。"
+            "cn": "不妨看看她接下来参演的几部电影：《艾琳》，她在片中饰演一位暗藏黑暗秘密、带有酷儿暗示的希区柯克式性感尤物；《对你的想象》，这部讲述“五月与十二月”（或类似）年龄差距的爱情片中，她甚至在镜头前达到了高潮；以及《圣母玛利亚》。"
           },
           {
             "en": "Consider, as well, her relationship with the brand Versace, also cemented over this period: Has Anne Hathaway ever looked sexier or edgier than in that draped chain mail dress she wore to the Bvlgari High Jewelry launch in Venice two years ago, or modeling in the Versace Icons campaigns?",
@@ -12265,7 +12257,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I’ve been tiptoeing around this, but now I’ll just come out and say it: Mother Mary is a very weird movie.",
-            "cn": "我之前一直对此讳莫如深，但现在我还是直说吧：《母亲玛丽》是一部非常怪异的电影。"
+            "cn": "我之前一直对此讳莫如深，但现在我还是直说吧：《圣母玛利亚》是一部非常怪异的电影。"
           },
           {
             "en": "It’s produced by A24, features songs by Jack Antonoff and Charli XCX, and the supporting cast includes FKA twigs, Hunter Schafer, and Kaia Gerber, so it is also a very cool movie, but be forewarned, if you’re anticipating a fictionalized version of Miss Americana, or something like that, forget it.",
@@ -12400,7 +12392,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The craziest fact I did manage to learn about the making of Mother Mary is that zero songs were ready to go at the time shooting commenced.",
-            "cn": "关于《母亲玛丽》的制作，我确实了解到最离奇的一点是：开拍时连一首配乐都没准备好。"
+            "cn": "关于《圣母玛利亚》的制作，我确实了解到最离奇的一点是：开拍时连一首配乐都没准备好。"
           },
           {
             "en": "As in, Hathaway had no idea what this fictional global pop star she was playing sounded like.",
@@ -12412,7 +12404,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "She knew what she looked like, thanks to Lowery and Daigeler’s vision and her own contribution of “blond with fried roots.” And she grasped how Mother Mary fit into the zeitgeist, blurring the line between pop idol and actual deity, and she could imagine the character’s internal conflicts, as they were adjacent to ones she herself had navigated, coming of age in the public eye.",
-            "cn": "多亏了洛维和戴格勒的构想，以及她自己贡献的“发根焦黄的金发”造型，她清楚自己该呈现出怎样的形象。 她深谙“母亲玛丽”如何契合时代精神，模糊了流行偶像与真正神明之间的界限；她也能设身处地地体会这个角色的内心冲突，因为这些冲突与她自己曾在公众视线中成长时所经历的如出一辙。"
+            "cn": "多亏了洛维和戴格勒的构想，以及她自己贡献的“发根焦黄的金发”造型，她清楚自己该呈现出怎样的形象。 她深谙“圣母玛利亚”如何契合时代精神，模糊了流行偶像与真正神明之间的界限；她也能设身处地地体会这个角色的内心冲突，因为这些冲突与她自己曾在公众视线中成长时所经历的如出一辙。"
           },
           {
             "en": "Where is the boundary between public and private?",
@@ -12491,7 +12483,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "So, in a sense, you might say Hathaway cowrote her Mother Mary songs.",
-            "cn": "因此，从某种意义上说，你可以认为海瑟薇是“母亲玛丽”歌曲的合著者。"
+            "cn": "因此，从某种意义上说，你可以认为海瑟薇是“圣母玛利亚”歌曲的合著者。"
           },
           {
             "en": "Or at the very least, inspired a few of the screams.",
@@ -12566,7 +12558,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She’s also reteaming with the Idea of You director Michael Showalter for the thriller Verity, based on Colleen Hoover’s bestseller, and reuniting with her Interstellar director Christopher Nolan to take one of the starriest roles in his very starry adaptation of The Odyssey.",
-            "cn": "她还将与《你的想法》导演迈克尔·肖沃尔特再度合作，拍摄根据科琳·胡佛畅销小说改编的惊悚片《真相》，并重聚《星际穿越》导演克里斯托弗·诺兰，在后者群星云集的《奥德赛》改编版中担纲其中一个最耀眼的角色。"
+            "cn": "她还将与《对你的想象》导演迈克尔·肖沃尔特再度合作，拍摄根据科琳·胡佛畅销小说改编的惊悚片《真相》，并重聚《星际穿越》导演克里斯托弗·诺兰，在后者群星云集的《奥德赛》改编版中担纲其中一个最耀眼的角色。"
           },
           {
             "en": "(Other key cast includes Matt Damon, Tom Holland, and Zendaya.) This is all stuff she knows how to do.",
@@ -14390,7 +14382,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "This story features in the Spring/Summer 2026 issue, marking 25 years of AnOther Magazine, on sale internationally on 12 March 2026.",
-            "cn": "本文刊载于2026年春夏刊，该期杂志标志着《AnOther》杂志创刊25周年，将于2026年3月12日全球发售。"
+            "cn": "本文刊载于2026年春夏刊，该期杂志标志着《AnOther Magazine》创刊25周年，将于2026年3月12日全球发售。"
           }
         ]
       }
@@ -14439,7 +14431,7 @@ const ARTICLES_EXTRA = [
     },
     "fingerprint": "03f9333c9864d1815ba38376578e009e13eab0dc561b087e9d89e2690aae7f4c",
     "sourceTextHash": "1ac16e87c96df9b190dab659c1f606beaaed23c5077c9fa376789ac2e403aa42",
-    "sourceTextWords": 1063,
+    "sourceTextWords": 915,
     "sourceParagraphs": 12,
     "sourceImages": 4,
     "coverImg": "assets/covers/people-monica-bellucci-style-and-change-0.jpg",
@@ -14464,16 +14456,12 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And so, in place of the candid snaps and lengthy captions that are commonplace on celebrity accounts in 2022, Bellucci’s Insta is almost entirely frames from fashion shoots, or pictures of her on the red carpet in Venice or Cannes.",
-            "cn": "因此，与2022年名人账号中常见的随性快照和冗长配文不同，贝卢奇的Instagram几乎完全由时尚大片中的镜头，或是她在威尼斯或戛纳红毯上的照片组成。"
+            "cn": "因此，与2022年名人账号中常见的随性快照和冗长配文不同，贝鲁奇的Instagram几乎完全由时尚大片中的镜头，或是她在威尼斯或戛纳红毯上的照片组成。"
           }
         ]
       },
       {
         "sentences": [
-          {
-            "en": "And so, in place of the candid snaps and lengthy captions that are commonplace on celebrity accounts in 2022, Bellucci’s Insta is almost entirely frames from fashion shoots, or pictures of her on the red carpet in Venice or Cannes .",
-            "cn": "因此，与2022年名人账号中常见的随性快照和长篇配文不同，贝鲁奇的Instagram几乎全是时尚大片的单帧画面，或是她在威尼斯或戛纳红毯上的照片。"
-          },
           {
             "en": "The only small insight into her personal life?",
             "cn": "唯一能让人一窥她私生活的线索？"
@@ -14527,7 +14515,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "When reviewing Bellucci’s own sartorial choices over the course of her years in the spotlight, some clear themes emerge, chief among them the sort of sensual, seductive glamour associated with Fellini heroines, like Claudia Cardinale or Anita Ekberg.",
-            "cn": "回顾贝卢奇在聚光灯下这些年来的着装选择，一些鲜明的主题浮现出来，其中最突出的便是那种与费里尼女主角（如克劳迪娅·卡迪纳莱或安妮塔·埃克伯格）相联系的性感、魅惑的魅力。"
+            "cn": "回顾贝鲁奇在聚光灯下这些年来的着装选择，一些鲜明的主题浮现出来，其中最突出的便是那种与费里尼女主角（如克劳迪娅·卡迪纳莱或安妮塔·埃克伯格）相联系的性感、魅惑的魅力。"
           }
         ]
       },
@@ -14540,10 +14528,6 @@ const ARTICLES_EXTRA = [
       },
       {
         "sentences": [
-          {
-            "en": "When reviewing Bellucci’s own sartorial choices over the course of her years in the spotlight, some clear themes emerge, chief among them the sort of sensual, seductive glamour associated with Fellini heroines , like Claudia Cardinale or Anita Ekberg.",
-            "cn": "回顾贝鲁奇在聚光灯下这些年来的着装选择，一些鲜明的主题浮现出来，其中最突出的便是那种与费里尼电影女主角（如克劳迪娅·卡迪纳莱或安妮塔·埃克伯格）相联系的性感、迷人的魅力。"
-          },
           {
             "en": "Low-cut dresses – almost always black – designed to enhance bombshell proportions, and rebellious waves escaping from artfully dishevelled up-dos, as though torn loose in the heat of passion, have become her signature.",
             "cn": "那些专为凸显性感身材而设计的低胸礼服——几乎总是黑色——以及从精心打造的凌乱盘发中逸出的叛逆波浪卷，仿佛是在激情炽热中被撕扯开来一般，这些都已成为她的标志性风格。"
@@ -14562,11 +14546,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She also cites Lauren Bacall, Joan Crawford and Lana Turner as inspirations – all enigmatic, all knockouts.",
-            "cn": "她还提到了劳伦·巴考尔、琼·克劳馥和拉娜·特纳作为灵感来源——她们都充满神秘感，个个都美得令人屏息。”"
-          },
-          {
-            "en": "She also cites Lauren Bacall , Joan Crawford and Lana Turner as inspirations – all enigmatic, all knockouts.",
-            "cn": "她还提到了劳伦·巴考尔、琼·克劳馥和拉娜·特纳作为自己的灵感来源——她们都充满神秘感，个个都美得令人屏息。"
+            "cn": "她还提到了劳伦·巴考尔、琼·克劳馥和拉娜·特纳作为灵感来源——她们都充满神秘感，个个都美得令人屏息。"
           },
           {
             "en": "“Incredible,” says Bellucci of her personal pin-ups.",
@@ -14649,11 +14629,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It’s so direct.” Bellucci has already performed Maria Callas: Letters & Memoirs, in which she reads from the personal correspondence that uncovers all of the formidable opera star’s “private life and vulnerabilities”, in Italy, France and Greece.",
-            "cn": "这种体验是如此直接。”贝盧奇此前已在意大利、法国和希腊上演过《玛丽亚·卡拉斯：书信与回忆录》，她在剧中朗读这位于传奇歌剧明星的私人信件，揭示了这位巨星“私生活与脆弱的一面”。"
-          },
-          {
-            "en": "It’s so direct.” Bellucci has already performed Maria Callas: Letters & Memoirs , in which she reads from the personal correspondence that uncovers all of the formidable opera star’s “private life and vulnerabilities”, in Italy, France and Greece.",
-            "cn": "“这太直白了。”贝鲁奇此前已在意大利、法国和希腊上演了《玛丽亚·卡拉斯：书信与回忆录》，她在剧中朗读了这位于世人敬畏的歌剧明星的私人信件，揭示了她的“私生活与脆弱一面”。"
+            "cn": "这种体验是如此直接。”贝鲁奇此前已在意大利、法国和希腊上演过《玛丽亚·卡拉斯：书信与回忆录》，她在剧中朗读这位传奇歌剧明星的私人信件，揭示了这位巨星“私生活与脆弱的一面”。"
           },
           {
             "en": "This weekend, she makes her West End debut at Her Majesty’s Theatre.",
@@ -14696,14 +14672,6 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Next up for the star?",
-            "cn": "这位明星接下来有什么计划？"
-          },
-          {
-            "en": "A comedy, Mafia Mamma , with Toni Collette, and a thriller, Memory , with Liam Neeson.",
-            "cn": "一部与托妮·科莱特合作的喜剧《黑手党妈妈》，以及一部与连姆·尼森合作的惊悚片《记忆》。"
-          },
-          {
             "en": "Fans should expect the unexpected from Bellucci, she says.",
             "cn": "她说，影迷们应该期待贝鲁奇带来意想不到的惊喜。"
           },
@@ -14722,432 +14690,6 @@ const ARTICLES_EXTRA = [
           {
             "en": "Monica Bellucci will appear in ‘Maria Callas: Letters & Memoirs’ at Her Majesty’s Theatre on 24 April",
             "cn": "莫妮卡·贝鲁奇将于4月24日在女王陛下剧院出演《玛丽亚·卡拉斯：书信与回忆录》"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ft-manchester-united-will-win-nothing-this-year-c",
-    "cat": "足球",
-    "title": "Manchester United will win nothing this year, claims former Ballon d'Or winner",
-    "titleZh": "前金球奖得主称：曼联今年将一无所获",
-    "source": "FourFourTwo · 2026-09-16",
-    "date": "2026-09-16",
-    "minutes": 2,
-    "url": "https://www.fourfourtwo.com/person/player/manchester-united-cannot-compete-and-will-win-nothing-this-year-claims-former-ballon-dor-winner",
-    "cover": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
-    "gradient": "linear-gradient(135deg,#c7f0e4 0%,#0e9f6e 100%)",
-    "coverImg": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c.jpg",
-    "scoreVersion": "v2",
-    "qualityScore": 96.86,
-    "qualityBand": "formal",
-    "difficultyBaseScore": 60.1,
-    "serverScore": 79.77,
-    "sourceSentenceCount": 48,
-    "sourceTruncated": true,
-    "translation": {
-      "status": "machine-checked",
-      "issues": [],
-      "providers": {
-        "deepl": 24
-      },
-      "cacheNamespace": "article-context-v3"
-    },
-    "paras": [
-      {
-        "sentences": [
-          {
-            "en": "'Fancy some of this?'",
-            "cn": "“感兴趣吗？”"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Your membership journey starts here.",
-            "cn": "您的会员之旅从这里开始。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Keep exploring and earning more as a member.",
-            "cn": "成为会员，继续探索并赚取更多奖励。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Quick quizzes for football fans.",
-            "cn": "专为足球迷准备的快速问答。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Football-themed crossword challenges.",
-            "cn": "足球主题填字游戏挑战。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Explore your membership benefits.",
-            "cn": "探索您的会员权益。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
-            "cn": "每周将最精彩的功能、趣味内容和足球问答直接送达您的收件箱。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Unlock instant access to exclusive member features.",
-            "cn": "立即解锁会员专属功能。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Want to add more newsletters?",
-            "cn": "想订阅更多新闻通讯吗？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Fantastic football content straight to your inbox!",
-            "cn": "精彩足球内容直达您的收件箱！"
-          },
-          {
-            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
-            "cn": "涵盖最新转会动态、趣味问答、视频、专题报道以及对足坛巨星的专访，还有更多精彩内容。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Former Ballon d'Or winner Ruud Gullit believes it will be another barren season for Manchester United",
-            "cn": "前金球奖得主鲁德·古利特认为，曼联本赛季将再次颗粒无收"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c-1.jpg",
-        "cap": "Manchester United are years behind their competitors, believes Ruud Gullit. (Image credit: Dan Mullan/Getty Im"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Former Ballon d'Or winner Ruud Gullit has claimed Manchester United will not win major silverware this term, having 'missed the boat' years ago to be in Premier League title contention.",
-            "cn": "前金球奖得主鲁德·古利特表示，曼联本赛季将无法赢得重要奖杯，因为他们早在多年前就“错失良机”，已无力争夺英超冠军。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Michael Carrick 's men endured a potentially damaging derby loss at Old Trafford last weekend, to a 10-man Manchester City side that scored and kept a clean sheet after Phil Foden saw red.",
-            "cn": "上周末，迈克尔·卡里克率领的球队在老特拉福德遭遇了一场可能造成严重影响的德比战失利，对手是菲尔·福登被红牌罚下后仍能进球并保持零封的10人曼城队。”"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Now, the Dutchman has stated that Manchester United are 'in a hole' and will not beat their competitors to the Premier League trophy, or any silverware for that matter.",
-            "cn": "如今，这位荷兰人表示，曼联正“深陷泥潭”，不仅无法在英超冠军争夺中击败竞争对手，甚至任何奖杯都难以问鼎。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c-2.jpg",
-        "cap": "Gullit is a serial winner (Image credit: Getty Images)"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Speaking with ComeOn, Gullit slammed the Red Devils' lack of quality claiming that Arsenal, Manchester City, Liverpool an d Chelsea all possess better players.",
-            "cn": "在接受ComeOn采访时，古利特猛烈抨击了“红魔”阵容质量不足的问题，声称阿森纳、曼城、利物浦和切尔西都拥有更出色的球员。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The Dutchman then added that Manchester United \"missed the boat\" years ago, and that the club has fallen dramatically since their days of Premier League and Champions League success under Sir Alex Ferguson.",
-            "cn": "这位荷兰人随后补充道，曼联早在几年前就“错失良机”，自弗格森爵士执教时期在英超和欧冠取得辉煌成就以来，该俱乐部的状态已大幅下滑。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/ft-manchester-united-will-win-nothing-this-year-c-3.jpg",
-        "cap": "'Fancy some of this?' (Image credit: Getty Images)"
-      },
-      {
-        "sentences": [
-          {
-            "en": "\"Manchester United?",
-            "cn": "“曼联？"
-          },
-          {
-            "en": "They cannot compete this year,\" Gullit claimed.",
-            "cn": "“他们今年无法参与竞争，”古利特断言道。"
-          },
-          {
-            "en": "\"Not yet.",
-            "cn": "“至少目前还不行。”"
-          },
-          {
-            "en": "I think they still lack a little bit of quality, as we can see they cannot control a game.",
-            "cn": "“我认为他们仍然缺乏一点实力，正如我们所见，他们无法掌控比赛。”"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "\"That is not something that is going to be easy to fix.",
-            "cn": "“这绝非易事。”"
-          },
-          {
-            "en": "Because it does depend on a lot of individual quality, not just the team quality.",
-            "cn": "因为这很大程度上取决于球员个人的素质，而不仅仅是球队的整体实力。”"
-          },
-          {
-            "en": "If they want to achieve things again, it will take some time.",
-            "cn": "如果他们想再次取得成就，还需要一些时间。"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "ft-arsenal-report-gunners-remain-in-talks-with-re",
-    "cat": "足球",
-    "title": "Arsenal report: Gunners remain in talks with Real Madrid superstar",
-    "titleZh": "阿森纳报道：枪手仍在与皇马巨星进行谈判",
-    "source": "FourFourTwo · 2026-09-16",
-    "date": "2026-09-16",
-    "minutes": 2,
-    "url": "https://www.fourfourtwo.com/transfer/arsenal-remain-in-talks-with-real-madrid-superstar-ahead-of-january-transfer-window-report",
-    "cover": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
-    "gradient": "linear-gradient(135deg,#cdd8ff 0%,#4a5fbf 100%)",
-    "coverImg": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re.jpg",
-    "scoreVersion": "v2",
-    "qualityScore": 96.86,
-    "qualityBand": "formal",
-    "difficultyBaseScore": 60.1,
-    "serverScore": 79.77,
-    "sourceSentenceCount": 38,
-    "sourceTruncated": true,
-    "translation": {
-      "status": "machine-checked",
-      "issues": [
-        "第 22 句数字待核对：25"
-      ],
-      "providers": {
-        "deepl": 24
-      },
-      "cacheNamespace": "article-context-v3"
-    },
-    "paras": [
-      {
-        "sentences": [
-          {
-            "en": "Rodrygo is recovering from an ACL tear, but could be targeted for a Premier League move in January.",
-            "cn": "罗德里戈正在从前交叉韧带撕裂中恢复，但可能成为1月转会窗口英超球队的引援目标。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Arsenal have been long-time admirers of Rodrygo.",
-            "cn": "阿森纳长期以来一直对罗德里戈青睐有加。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The Gunners let Gabriel Martinelli go this summer.",
-            "cn": "阿森纳今夏放走了加布里埃尔·马丁内利。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Your membership journey starts here.",
-            "cn": "您的会员之旅从这里开始。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Keep exploring and earning more as a member.",
-            "cn": "成为会员，继续探索并获得更多收益。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Quick quizzes for football fans.",
-            "cn": "专为足球迷准备的快速问答。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Football-themed crossword challenges.",
-            "cn": "足球主题填字游戏挑战。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Explore your membership benefits.",
-            "cn": "探索您的会员权益。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The best features, fun and footballing quizzes, straight to your inbox every week.",
-            "cn": "每周将最精彩的内容、趣味活动和足球问答直接送达您的收件箱。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Unlock instant access to exclusive member features.",
-            "cn": "立即解锁会员专属内容。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Want to add more newsletters?",
-            "cn": "想订阅更多电子报吗？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Fantastic football content straight to your inbox!",
-            "cn": "精彩足球内容直达您的收件箱！"
-          },
-          {
-            "en": "From the latest transfer news, quizzes, videos, features and interviews with the biggest names in the game, plus lots more.",
-            "cn": "涵盖最新的转会新闻、趣味问答、视频、专题报道以及对足坛巨星的专访，还有更多精彩内容。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re-1.jpg",
-        "cap": "Arsenal are hoping to raid Real Madrid, to reinforce their left flank. (Image credit: Getty Images)"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Arsenal are reportedly in talks with the camp of Real Madrid superstar Rodryo.",
-            "cn": "据报道，阿森纳目前正与皇家马德里超级巨星罗德里奥的经纪团队进行谈判。"
-          },
-          {
-            "en": "The 25-year-old is back running after enduring an ACL tear in March.",
-            "cn": "这位25岁的球员在3月遭遇前交叉韧带撕裂后，现已恢复跑步训练。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Prior to his sidelining, the Brazilian was among the Gunners' firmest targets for left-sided attackers.",
-            "cn": "在受伤缺阵之前，这位巴西球员曾是“枪手”在左路进攻球员位置上的头号引援目标之一。"
-          },
-          {
-            "en": "His return date has been tentatively pencilled in for January 2027.",
-            "cn": "他的回归日期暂定为2027年1月。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Mikel Arteta 's side also entered talks with the 25-year-old's fellow countryman and team-mate, Vinicius Junior, in the summer.",
-            "cn": "米克尔·阿尔特塔的球队今年夏天还曾与这位25岁球员的同胞兼队友维尼修斯·儒尼奥尔展开过谈判。"
-          },
-          {
-            "en": "Now, Arsenal appear to have been brought full-circle — back to Rodrygo.",
-            "cn": "如今，阿森纳的引援目标似乎又回到了原点——罗德里戈。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re-2.jpg",
-        "cap": "Rodrygo is recovering from an ACL tear, but could be targeted for a Premier League move in January. (Image cre"
-      },
-      {
-        "sentences": [
-          {
-            "en": "If pursuing two of Real Madrid 's attacking Brazilians wasn't enough, the Gunners also enquired previously about blossoming youngster Endrick.",
-            "cn": "仿佛追求皇马的两名巴西进攻球员还不够，枪手此前还曾打听过正在崭露头角的新星恩德里克的情况。"
-          },
-          {
-            "en": "Now, it appears that only Rodrygo remains a realistic Arsenal target.",
-            "cn": "如今，罗德里戈似乎已成为阿森纳唯一现实的引援目标。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "According to a report from TEAMtalk, the Gunners are in talks with the 25-year-old's camp ahead of his projected January 2027 return date; however, the Brazilian believes he can return sooner.",
-            "cn": "据TEAMtalk报道，在罗德里戈预计2027年1月复出的日期到来之前，阿森纳正与其团队进行谈判；不过，这位巴西球员相信自己能更早复出。"
-          }
-        ]
-      },
-      {
-        "img": "assets/covers/ft-arsenal-report-gunners-remain-in-talks-with-re-3.jpg",
-        "cap": "Arsenal have been long-time admirers of Rodrygo. (Image credit: Diego Souto/Getty Images)"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Real Madrid's medical staff are behaving cautiously in their treatment of Rodrygo, with a 'New Year' return being targeted, but the 25-year-old is determined to beat that timeframe.",
-            "cn": "皇家马德里的医疗团队在罗德里戈的治疗上保持谨慎，目标是让他于“新年”复出，但这位25岁的球员决心提前实现这一目标。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The Brazilian aims to be back on the pitch before Christmas, with Arsenal retaining strong interest in the La Liga star for his quality and versatility.",
-            "cn": "这位巴西球员希望在圣诞节前重返赛场，而阿森纳也因其出色的实力和多面手特质，一直对这位西甲球星保持着浓厚的兴趣。"
           }
         ]
       }

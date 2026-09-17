@@ -1,0 +1,77 @@
+{
+  "$comment": [
+    "词阅 WordLens —— 重复句白名单。",
+    "",
+    "tools/audit-dups.mjs 用**正确的展平器 + 三步归一**（引号→标点→空白，顺序不可换）查全库重复句，",
+    "与这份白名单比对：**出现未登记的新重复 → 报错**。",
+    "",
+    "白名单里的 12 组都是「刻意保留」的：10 组是 Dan Koe 三篇共享的页脚/订阅块（跨篇，每篇一份），",
+    "2 组经回原文核对确认是作者本意重复。真正常见的缺陷形态（提取副本）带**重新分词的空白痕迹**，",
+    "例如 `Memoirs,` vs `Memoirs ,`、`person.` vs `person. ”` —— 2026-09-17 已按此判据删掉 8 句，",
+    "工具见 tools/_dedup-sentences.mjs。",
+    "",
+    "count 参与比对：同一句出现次数变了（例如新增第 4 篇 Dan Koe 文章）也会报错，逼人工过一遍。"
+  ],
+  "groups": [
+    {
+      "en": "Join 120,000+ getting mindf*cked every Saturday morning while reading about the mind, the internet, and the future.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "When You’re Ready, Here’s How I Can Help You:",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "Future-proof yourself with 2-4 premium guides, prompts, and strategies per month.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "These are my personal systems.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "Find meaning, reinvent yourself, and create your ideal future.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "Now available on Amazon.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "I am an author, creator, and founder.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "As a previous brand advisor for influencers and creators, I now teach writing, discovering your life’s work, and making a creative income.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "I dive deep into human potential, lifestyle design, and one-person businesses to give you a unique, digestible way of improving your life.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "Join 120,000+ changing their life with theory and practice about the mind, the internet, and the future.",
+      "count": 3,
+      "why": "Dan Koe 三篇共享的页脚/订阅块 —— 每篇文章结尾各有一份，属页面结构（不是提取缺陷），不应去重"
+    },
+    {
+      "en": "Every person who develops real sovereignty, wisdom, and integration contributes to the possibility of a viable future.",
+      "count": 2,
+      "why": "回原文核对：该串在原文里本就出现 2 次（作者本意重复），不是提取副本"
+    },
+    {
+      "en": "Support Requirements:",
+      "count": 2,
+      "why": "回原文核对：该串在原文里本就出现 2 次（作者本意重复），不是提取副本"
+    }
+  ]
+}
