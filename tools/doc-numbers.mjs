@@ -128,6 +128,12 @@ const SPOTS = [
   },
   {
     label: "发布基线 commit",
+    /* soft：**故意不判死**。commit 是「最近一次成功推送」的产物 —— _api-push 每次推送都会
+     * 改写 .bak/published.json 的 commit，而推送清单**从不包含 HANDOFF.md**（文档要人工跟）。
+     * 也就是「推送成功」这个动作本身就让文档 commit 立刻失配，硬校验必然红、且红得毫无意义
+     * （2026-09-18 实测：推完 2e3a5f3 之后本校验立刻报「文档写 46648a2」）。
+     * §0.1 仍保留 commit 值作为参考点，但只提示、不阻塞发布。 */
+    soft: true,
     re: /\|\s*发布基线\s*\|[^|]*\*\*`?([0-9a-f]{7,40})`?\*\*/,
     want: measured.baseline.slice(0, 7),
     hint: `表里应写 \`${measured.baseline.slice(0, 7)}\`（来自 .bak/published.json）`,
@@ -158,6 +164,8 @@ for (const s of SPOTS) {
   const same = want.length === gotArr.length && want.every((w, i) => w === gotArr[i]);
   if (same) {
     console.log(`  ✓ ${s.label.padEnd(14)} ${gotArr.join(" / ")}`);
+  } else if (s.soft) {
+    console.log(`  · ${s.label.padEnd(14)} 文档写 ${gotArr.join(" / ")}，实测 ${want.join(" / ")}（提示 · 每次推送都会变，文档要人工跟）`);
   } else {
     hardFail++;
     console.log(`  ✗ ${s.label.padEnd(14)} 文档写 ${gotArr.join(" / ")}，实测 ${want.join(" / ")}`);
