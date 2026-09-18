@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "53");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "54");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1472,6 +1472,7 @@ function renderRead() {
           <span class="dot"></span><span>${dur} 分钟 · ${tier.label}</span>
           <span class="dot"></span><span>需学 ${hitsLbl} 词 · 低频词 ${ratePct}%</span>
         </div>
+        ${a.translationCredit ? `<div class="translation-credit">${esc(a.translationCredit)}</div>` : ""}
         ${a.cat === "人物" ? `<div class="people-reading-note"><b>${a.readingMode === "full" ? "原刊正文 · 广告已过滤" : "本站导读 · 原刊全文入口"}</b><p>${a.readingMode === "full" ? `正文按公开原刊页面抓取，保留原文段落与图片；广告、导航和推广块已排除。原刊：${esc(srcName(a))}。` : "以下为词阅编辑导读与摄影预览。完整人物访谈请到原刊阅读；本站进度记录的是导读与图片浏览位置。"}</p><a href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">查看 ${esc(srcName(a))} 原刊页面 ↗</a></div>` : ""}
         <div class="read-cover${cover ? " has-img" : ""}${a.cat === "人物" ? " people-cover" : ""}" style="${cover && a.cat !== "人物" ? `background-image:url('${esc(cover)}')` : `background:${esc(a.gradient)}`}">
           ${cover && a.cat === "人物" ? `<img src="${esc(cover)}" alt="${esc(a.person || a.title)}" decoding="async" />` : ""}
@@ -2484,7 +2485,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v53");
+      const cache = await caches.open("wordlens-cache-v54");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

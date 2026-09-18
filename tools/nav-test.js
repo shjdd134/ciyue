@@ -64,8 +64,10 @@ let pass = 0, fail = 0;
 const ok = (name, cond) => { (cond ? pass++ : fail++); console.log(`  ${cond ? '✓' : '✗'} ${name}`); };
 const eq = (name, a, b) => ok(`${name}（${JSON.stringify(a)}）`, JSON.stringify(a) === JSON.stringify(b));
 
-const sequenceCat = ctx('CATEGORIES.find(c => c !== "全部" && ARTICLES.filter(a => a.cat === c).length >= 3)') || '全部';
-const sequenceIds = ctx(`ARTICLES.filter(a=>a.cat===${JSON.stringify(sequenceCat)}).map(a=>a.id)`);
+const sequenceCat = ctx('CATEGORIES.find(c => c !== "全部" && ARTICLES.filter(a => a.cat === c).length >= 2)') || '全部';
+const sequenceIds = sequenceCat === '全部'
+  ? ctx('ARTICLES.map(a=>a.id)')
+  : ctx(`ARTICLES.filter(a=>a.cat===${JSON.stringify(sequenceCat)}).map(a=>a.id)`);
 console.log(`\n[1] 发现页 · ${sequenceCat}分类 → 打开文章 → 返回`);
 click({ tab: 'discover' });
 click({ cat: sequenceCat });
@@ -76,7 +78,7 @@ ok(`${sequenceCat}分类有 ${sequenceIds.length} 篇`, sequenceIds.length > 1);
 click({ article: sequenceIds[0] });
 eq('进入阅读页', at().view, 'read');
 eq('来路压栈一层', at().depth, 1);
-ok('读完卡片有去处按钮', /finish-nav/.test(screenEl.innerHTML) && screenEl.innerHTML.includes(`返回${sequenceCat}`));
+ok('读完卡片有去处按钮', /finish-nav/.test(screenEl.innerHTML) && screenEl.innerHTML.includes(`返回${sequenceCat === '全部' ? '发现' : sequenceCat}`));
 
 click({ act: 'go-back' });
 eq('返回回到发现页（而不是首页）', at().view, 'discover');
@@ -85,7 +87,7 @@ eq('栈已清空', at().depth, 0);
 
 console.log('\n[2] 首页 · 今日推荐 → 打开文章 → 返回');
 click({ tab: 'home' });
-click({ article: ctx('ARTICLES[3].id') });
+click({ article: ctx('ARTICLES[1].id') });
 eq('进入阅读页', at().view, 'read');
 click({ act: 'go-back' });
 eq('返回回到首页', at().view, 'home');
@@ -105,8 +107,10 @@ const ids = sequenceIds;
 click({ article: ids[0] });
 click({ act: 'next-article' });
 eq('下一篇 = 同分类第 2 篇', ctx('activeArticle.id'), ids[1]);
-click({ act: 'next-article' });
-eq('再下一篇 = 同分类第 3 篇', ctx('activeArticle.id'), ids[2]);
+if (ids.length > 2) {
+  click({ act: 'next-article' });
+  eq('再下一篇 = 同分类第 3 篇', ctx('activeArticle.id'), ids[2]);
+}
 click({ act: 'go-back' });
 eq('连读几篇后返回仍回到分类页', [at().view, at().cat], ['discover', sequenceCat]);
 

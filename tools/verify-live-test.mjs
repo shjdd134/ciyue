@@ -68,7 +68,9 @@ async function main() {
 
   /* ---------- 造三份 fixture（都是「线上」那一侧） ---------- */
   const fixtureBase = path.join(TMP, "vl-fixtures");
-  fs.rmSync(fixtureBase, { recursive: true, force: true });
+  /* 2026-09-18：rmSync 曾被本机 node 的 safe-delete shim 拦截崩溃（断言全判完却死在清理上，
+   * 「结果：N 通过」都打不出来 → release 里被误判为「测试崩溃」）。清理失败不影响判定。 */
+  try { fs.rmSync(fixtureBase, { recursive: true, force: true }); } catch {}
   const put = (mode, files) => {
     const d = path.join(fixtureBase, mode);
     fs.mkdirSync(d, { recursive: true });
@@ -159,7 +161,7 @@ async function main() {
 
   /* 全部通过才清 fixture —— 失败时留着好排查 */
   const bad = results.filter(r => !r[1]).length;
-  if (!bad) fs.rmSync(fixtureBase, { recursive: true, force: true });
+  if (!bad) { try { fs.rmSync(fixtureBase, { recursive: true, force: true }); } catch {} }
 
   const passed = results.length - bad;
   console.log(`\n结果：${passed} 通过 / ${bad} 失败`);

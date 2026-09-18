@@ -189,8 +189,11 @@ for (const a of ARTICLES) {
      * 省略号句（原文 is `….` → 译文 `……`）、1 处是一字一顿的碎片句（原文 `That?!”` → 译文 `？！`），
      * 译文全部正确 —— 只查汉字（\u4e00-\u9fff）必然把 `……` / `？！` 判成「无中文」。
      * 加「必须含拉丁字母」这个条件，等于把判据收回到它本来的语义：照抄了英文才算漏译。
-     * 同一判据在 tools/text-scan.js 也用过（那里的同批假阳性已按此法修掉），两把尺子必须一致。 */
-    if (!CN_RE.test(cn) && LATIN_RE.test(cn)) F.push(`F4 ${label} 译文无中文（照抄英文，疑似漏译）`);
+     * 同一判据在 tools/text-scan.js 也用过（那里的同批假阳性已按此法修掉），两把尺子必须一致。
+     * 2026-09-18 二次收紧（两把尺子同步）：访谈「HM: ...」碎片的译文「HM：……」（说话人
+     * 缩写 + 省略号）不算漏译；带实际英文内容的照抄仍必须报。全库实测命中仅 Weisz 篇 1 处。 */
+    const SPEAKER_ELLIPSIS = /^(?:[A-Z]{1,3})\s*[：:]\s*[…。.]*$/;
+    if (!CN_RE.test(cn) && LATIN_RE.test(cn) && !SPEAKER_ELLIPSIS.test(cn.trim())) F.push(`F4 ${label} 译文无中文（照抄英文，疑似漏译）`);
     for (const [name, txt] of [["en", en], ["cn", cn]]) {
       if (PLACEHOLDER.test(txt)) F.push(`F5 ${label} ${name} 残留翻译占位符`);
       if (txt.includes("\uFFFD")) F.push(`F5 ${label} ${name} 含替换字符 U+FFFD`);

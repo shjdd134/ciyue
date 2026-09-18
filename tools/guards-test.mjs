@@ -122,8 +122,11 @@ const check = (label, ok, detail = "") => { results.push({ label, ok, detail });
  * 跑真脚本 —— 全程不碰 assets/ 里的真数据。 */
 {
   const sampleDir = path.join(TMP, "tscan-assets");
+  /* 2026-09-18：rmSync 曾被本机 node 的 safe-delete shim 拦截崩溃（12 项全过却死在清理上，
+   * 连汇总都没打印 → release 里被误判为「测试崩溃」）。清理失败不影响判定，吞掉留目录即可。 */
+  const rmBestEffort = p => { try { fs.rmSync(p, { recursive: true, force: true }); } catch {} };
   const runScan = sentences => {
-    fs.rmSync(sampleDir, { recursive: true, force: true });
+    rmBestEffort(sampleDir);
     fs.mkdirSync(sampleDir, { recursive: true });
     const art = [{
       id: "tscan-sample", title: "样本", source: "样本", date: "2026-09-18", category: "成长",
@@ -148,20 +151,26 @@ const check = (label, ok, detail = "") => { results.push({ label, ok, detail });
     { en: "He is sh**.", cn: "他不行。" },
     { en: "….", cn: "……" },
     { en: "That?!", cn: "？！" },
+    { en: "HM: ...", cn: "HM：……" },
   ]);
   check("F1 脏话打码星号（f***ed / sh**）不再被当成 markdown",
     countOf(outFalsePositive, "markdown") === 0, "markdown " + countOf(outFalsePositive, "markdown") + " 处");
   check("F2 分句碎片（`….` 的译文 `……`）不再被当成漏译",
     countOf(outFalsePositive, "translate") === 0, "translate " + countOf(outFalsePositive, "translate") + " 处");
+  check("F5 说话人缩写+省略号碎片（`HM: ...` 的译文 `HM：……`）不再被当成漏译",
+    countOf(outFalsePositive, "translate") === 0, "translate " + countOf(outFalsePositive, "translate") + " 处");
 
   const outTruePositive = runScan([
     { en: "This is **bold** text.", cn: "这是**粗体**文字。" },
     { en: "This sentence was never translated.", cn: "This sentence was never translated." },
+    { en: "Yeah, but not the wording, the design you used.", cn: "HM: Yeah, but not the wording, the design you used." },
   ]);
   check("F3 真 markdown（`**bold**`）仍然报错（收紧没把它一起放过）",
     countOf(outTruePositive, "markdown") >= 1, "markdown " + countOf(outTruePositive, "markdown") + " 处");
   check("F4 真漏译（cn 照抄英文没翻）仍然报错",
     countOf(outTruePositive, "translate") >= 1, "translate " + countOf(outTruePositive, "translate") + " 处");
+  check("F6 带实际英文内容的说话人碎片（`HM: Yeah…` 照抄）仍然报错",
+    countOf(outTruePositive, "translate") >= 2, "translate " + countOf(outTruePositive, "translate") + " 处");
 }
 
 /* ---------- 汇总 ---------- */
@@ -171,5 +180,5 @@ for (const r of results) {
   if (r.ok) pass++;
 }
 console.log(`\n${pass}/${results.length} 通过`);
-fs.rmSync(TMP, { recursive: true, force: true });
+try { fs.rmSync(TMP, { recursive: true, force: true }); } catch {}
 process.exit(pass === results.length ? 0 : 1);

@@ -3,7 +3,7 @@
  *
  * 语料：Project Gutenberg #11339《AESOP'S FABLES》(V. S. Vernon Jones 译, 1912, Arthur Rackham 插画)
  *       公有领域，正文 100% 原文；插画同为公版，下载留档。
- * 产出：精选 ~32 篇经典，逐句翻译（DeepL 优先，Qwen-MT 备选），追加进 assets/data-articles-extra.js，分类「寓言」。
+ * 产出：精选 ~32 篇经典，逐句翻译（Qwen-MT 优先，DeepL 备选；2026-09-17 对调），追加进 assets/data-articles-extra.js，分类「寓言」。
  * 篇目不随时间轮换（经典不动），跑一次即可；加 --force 可重建。
  *
  * 前置：curl 已把 11339-h.htm 存到 tools/_aesop-raw.html
@@ -158,7 +158,7 @@ async function main() {
   const head = `/* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
  * 共 ${all.length} 篇，英文正文来自公开 RSS / 公版书的真实原文，未做改写；
- * 中文为逐句机器翻译（DeepL 优先，Qwen-MT 备选），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
+ * 中文为逐句机器翻译（Qwen-MT 优先，DeepL 备选），仅作学习注释；封面图与正文图取自原报道图床，本地留档。
  * 每篇保留 url 外链可溯源。来源：${[...new Set(all.map(a => (a.source || "").split(" · ")[0]).filter(Boolean))].join(" / ")}
  */
 

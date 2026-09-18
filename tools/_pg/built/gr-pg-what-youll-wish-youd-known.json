@@ -1,0 +1,1702 @@
+[
+ {
+  "sentences": [
+   {
+    "en": "(I wrote this talk for a high school.",
+    "cn": "（我给一个高中写了这篇文章。"
+   },
+   {
+    "en": "I never actually gave it, because the school authorities vetoed the plan to invite me.)",
+    "cn": "但我没真正去演讲过，因为学校负责人取消了邀请我）"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "When I said I was speaking at a high school, my friends were curious.",
+    "cn": "当我说我要去一个高中演讲时，我的朋友们都很好奇。"
+   },
+   {
+    "en": "What will you say to high school students?",
+    "cn": "你会跟高中生说些什么？"
+   },
+   {
+    "en": "So I asked them, what do you wish someone had told you in high school?",
+    "cn": "所以，我问他们，你会希望你在高中的时候有人能告诉你什么？"
+   },
+   {
+    "en": "Their answers were remarkably similar.",
+    "cn": "他们的答案惊人的相似。"
+   },
+   {
+    "en": "So I'm going to tell you what we all wish someone had told us.",
+    "cn": "所以我将要告诉你们，我们都希望有人能早点告诉我们的东西。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I'll start by telling you something you don't have to know in high school: what you want to do with your life.",
+    "cn": "开始的时候，先告诉你在高中并不需要知道的东西：你以后打算干什么？"
+   },
+   {
+    "en": "People are always asking you this, so you think you're supposed to have an answer.",
+    "cn": "人们总是这样问你，所以你想你要有个答案。"
+   },
+   {
+    "en": "But adults ask this mainly as a conversation starter.",
+    "cn": "但成年人大多数这样问主要是为了挑起话头。"
+   },
+   {
+    "en": "They want to know what sort of person you are, and this question is just to get you talking.",
+    "cn": "他们想知道你到底是个怎样的人，这个问题只是让你开口说话。他们问你的方式，"
+   },
+   {
+    "en": "They ask it the way you might poke a hermit crab in a tide pool, to see what it does.",
+    "cn": "就好像你用棍子戳一戳潮水里的寄生蟹（藏在贝壳里的一种螃蟹），看看它有什么反应。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "If I were back in high school and someone asked about my plans, I'd say that my first priority was to learn what the options were.",
+    "cn": "如果我回到高中，有人问起我的未来计划，我会说，我首要的事情就是去弄懂有哪些选择。"
+   },
+   {
+    "en": "You don't need to be in a rush to choose your life's work.",
+    "cn": "你不必急于选择一辈子的事业。"
+   },
+   {
+    "en": "What you need to do is discover what you like.",
+    "cn": "你需要做的是发现你喜爱的是什么。"
+   },
+   {
+    "en": "You have to work on stuff you like if you want to be good at what you do.",
+    "cn": "如果你希望把你的事业做好的话，你不得不去做你喜欢的事情。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "It might seem that nothing would be easier than deciding what you like, but it turns out to be hard, partly because it's hard to get an accurate picture of most jobs.",
+    "cn": "这看起来没有什么比发现自己喜爱的事情还更简单了，但事实上很困难，一部分原因是对大多数职业你很难有个准确的认识。"
+   },
+   {
+    "en": "Being a doctor is not the way it's portrayed on TV.",
+    "cn": "从事医生的职业，和电视里演的可不一样。幸运地是，"
+   },
+   {
+    "en": "Fortunately you can also watch real doctors, by volunteering in hospitals. [1]",
+    "cn": "通过在医院里当义工，你可以观察到真正的医生。[1]"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "But there are other jobs you can't learn about, because no one is doing them yet.",
+    "cn": "但有一些其它的工作你是没法了解的，因为还没有人去从事呢。"
+   },
+   {
+    "en": "Most of the work I've done in the last ten years didn't exist when I was in high school.",
+    "cn": "在过去十年里我大部分所干的工作，在我高中的时候压根还没有出现。"
+   },
+   {
+    "en": "The world changes fast, and the rate at which it changes is itself speeding up.",
+    "cn": "世界变化得很快，同时变化的速率也在加快。"
+   },
+   {
+    "en": "In such a world it's not a good idea to have fixed plans.",
+    "cn": "在这样的世界里，有确定的计划并不是好主意。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "And yet every May, speakers all over the country fire up the Standard Graduation Speech, the theme of which is: don't give up on your dreams.",
+    "cn": "然而每年的五月份，全世界的演说家在各个高中发表毕业演讲，主题是：不要放弃你的梦想。"
+   },
+   {
+    "en": "I know what they mean, but this is a bad way to put it, because it implies you're supposed to be bound by some plan you made early on.",
+    "cn": "我知道他们想要表达什么意思，但这样表达很糟糕，因为这暗示了你应该固定在一个很早就想好了的计划。"
+   },
+   {
+    "en": "The computer world has a name for this: premature optimization.",
+    "cn": "计算机的世界对此有个专业的词：过早优化。"
+   },
+   {
+    "en": "And it is synonymous with disaster.",
+    "cn": "它几乎是灾难的同义词。"
+   },
+   {
+    "en": "These speakers would do better to say simply, don't give up.",
+    "cn": "这些演说家还不如简简单单地说“不要放弃”来得更好呢。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "What they really mean is, don't get demoralized.",
+    "cn": "他们真正的意思是：不要消沉意志。"
+   },
+   {
+    "en": "Don't think that you can't do what other people can.",
+    "cn": "不要认为你不能做到别人能做到的事情。"
+   },
+   {
+    "en": "And I agree you shouldn't underestimate your potential.",
+    "cn": "我同意你不应该低估你的潜能。"
+   },
+   {
+    "en": "People who've done great things tend to seem as if they were a race apart.",
+    "cn": "做出伟大事业的人看起来像是另一种人类。"
+   },
+   {
+    "en": "And most biographies only exaggerate this illusion, partly due to the worshipful attitude biographers inevitably sink into, and partly because, knowing how the story ends, they can't help streamlining the plot till it seems like the subject's life was a matter of destiny, the mere unfolding of some innate genius.",
+    "cn": "大多数传记也夸大了这种错觉，一部分是因为传记作者不可避免地陷入对主人公的崇拜，另外一部分原因是，知道故事的结局，并不能串起所有的情节，除非主人公的人生看起来像某种命运，是某些内在的天才禀赋的简单展开而已。"
+   },
+   {
+    "en": "In fact I suspect if you had the sixteen year old Shakespeare or Einstein in school with you, they'd seem impressive, but not totally unlike your other friends.",
+    "cn": "事实上，如果16岁的莎士比亚或爱因斯坦和你一个学校，我怀疑他们看起来可能令人印象深刻，但并不完全和你的其他朋友不一样。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Which is an uncomfortable thought.",
+    "cn": "这多么令人不安。"
+   },
+   {
+    "en": "If they were just like us, then they had to work very hard to do what they did.",
+    "cn": "如果他们和你我一样，那他们不得不付出极大的努力去取得他们的成就。"
+   },
+   {
+    "en": "And that's one reason we like to believe in genius.",
+    "cn": "而这就是我们相信天才的原因：我们可以为懒惰找借口。"
+   },
+   {
+    "en": "It gives us an excuse for being lazy.",
+    "cn": "如果这些人能取得他们的成就，"
+   },
+   {
+    "en": "If these guys were able to do what they did only because of some magic Shakespeareness or Einsteinness, then it's not our fault if we can't do something as good.",
+    "cn": "仅仅是因为某些神奇的莎士比亚气息或者爱因斯坦气息，所以我们不能取得同样伟大的成就并不是我们的错。"
+   },
+   {
+    "en": "I'm not saying there's no such thing as genius.",
+    "cn": "我不是在说世上完全没有天才这种东西。"
+   },
+   {
+    "en": "But if you're trying to choose between two theories and one gives you an excuse for being lazy, the other one is probably right.",
+    "cn": "但如果你必须从两个理论中做出选择，一个理论给你懒惰的理由，那么另外一个理论更可能是正确的选择。"
+   },
+   {
+    "en": "So far we've cut the Standard Graduation Speech down from \"don't give up on your dreams\" to \"what someone else can do, you can do.\" But it needs to be cut still further.",
+    "cn": "目前为止，我们可以把毕业演讲从“不要放弃你的梦想”分解成“其他人可以做到的，你也行”。但仍然可以继续分解。"
+   },
+   {
+    "en": "There is some variation in natural ability.",
+    "cn": "天生的能力多多少少有差异。"
+   },
+   {
+    "en": "Most people overestimate its role, but it does exist.",
+    "cn": "虽然很多人都高估了它，但确实存在。"
+   },
+   {
+    "en": "If I were talking to a guy four feet tall whose ambition was to play in the NBA, I'd feel pretty stupid saying, you can do anything if you really try. [2]",
+    "cn": "如果一个1米6的人的梦想是去 NBA 打球，我对他说，“只要你努力你就能做到”，我会感觉特别傻。[2]"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "We need to cut the Standard Graduation Speech down to, \"what someone else with your abilities can do, you can do; and don't underestimate your abilities.\" But as so often happens, the closer you get to the truth, the messier your sentence gets.",
+    "cn": "我们需要把毕业演讲分解成，“有着和你能力相同的人可以做到的，你也可以做到；同时不要低估你的能力。”这就像经常发生的一样，你越接近真理，你的句子变得越长。"
+   },
+   {
+    "en": "We've taken a nice, neat (but wrong) slogan, and churned it up like a mud puddle.",
+    "cn": "我们把一个优美简洁(但错误)的口号，搅拌成了一堆烂泥。"
+   },
+   {
+    "en": "It doesn't make a very good speech anymore.",
+    "cn": "但没有把这个演讲变得更好。"
+   },
+   {
+    "en": "But worse still, it doesn't tell you what to do anymore.",
+    "cn": "糟糕的是，依然没有告诉你该做什么。和你有同等能力的人？"
+   },
+   {
+    "en": "Someone with your abilities?",
+    "cn": "你的能力是什么？"
+   },
+   {
+    "en": "What are your abilities?",
+    "cn": "保持上风"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I think the solution is to work in the other direction.",
+    "cn": "我想，解决的方案是反方向去行动。"
+   },
+   {
+    "en": "Instead of working back from a goal, work forward from promising situations.",
+    "cn": "与其从一个目标倒退着去行动，不如一直往有前途的方向前进。"
+   },
+   {
+    "en": "This is what most successful people actually do anyway.",
+    "cn": "这其实也是大多数成功者的做法。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "In the graduation-speech approach, you decide where you want to be in twenty years, and then ask: what should I do now to get there?",
+    "cn": "临近毕业演讲时，你决定了未来的20年你将要去哪里，然后问：我怎样做才能到达那里？"
+   },
+   {
+    "en": "I propose instead that you don't commit to anything in the future, but just look at the options available now, and choose those that will give you the most promising range of options afterward.",
+    "cn": "我建议你不要对未来做出任何承诺，而是看看目前有哪些选项，然后挑那些能让你前途最广阔的选项。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "It's not so important what you work on, so long as you're not wasting your time.",
+    "cn": "你现在做什么并不重要，只要你没有在浪费时间。"
+   },
+   {
+    "en": "Work on things that interest you and increase your options, and worry later about which you'll take.",
+    "cn": "做那些最吸引你的事情，增加选项，之后再忧虑到底要选哪个。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Suppose you're a college freshman deciding whether to major in math or economics.",
+    "cn": "假如你是大一新生，正在犹豫该修数学还是经济。"
+   },
+   {
+    "en": "Well, math will give you more options: you can go into almost any field from math.",
+    "cn": "那么，数学或者能给你更多的选择：修了数学后，你几乎可以进入任何领域。"
+   },
+   {
+    "en": "If you major in math it will be easy to get into grad school in economics, but if you major in economics it will be hard to get into grad school in math.",
+    "cn": "如果你主修数学，你很容易去读经济方面的研究生。但如果你修的是经济，会很难考取数学方面的研究生。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Flying a glider is a good metaphor here.",
+    "cn": "滑翔机在这里是个好比喻。"
+   },
+   {
+    "en": "Because a glider doesn't have an engine, you can't fly into the wind without losing a lot of altitude.",
+    "cn": "滑翔机没有发动机，所以你要降低很多高度才能在空中滑翔。"
+   },
+   {
+    "en": "If you let yourself get far downwind of good places to land, your options narrow uncomfortably.",
+    "cn": "如果你离理想的着落地点太远的下风位置，你的选择余地就比较狭窄了。"
+   },
+   {
+    "en": "As a rule you want to stay upwind.",
+    "cn": "所以作为原则，你要始终处于上风位。"
+   },
+   {
+    "en": "So I propose that as a replacement for \"don't give up on your dreams.\" Stay upwind.",
+    "cn": "所以我建议，替代“不要放弃你的梦想”的是“保持上风”。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "How do you do that, though?",
+    "cn": "那你怎么做呢？"
+   },
+   {
+    "en": "Even if math is upwind of economics, how are you supposed to know that as a high school student?",
+    "cn": "即使数学要比经济学占上风一点，你作为一个高中生又怎么能知道呢？"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Well, you don't, and that's what you need to find out.",
+    "cn": "嗯，你确实不知道，这就是你要自己搞明白的。"
+   },
+   {
+    "en": "Look for smart people and hard problems.",
+    "cn": "去寻找聪明人和困难的问题。"
+   },
+   {
+    "en": "Smart people tend to clump together, and if you can find such a clump, it's probably worthwhile to join it.",
+    "cn": "聪明人倾向于扎堆，如果你能找到发现这样一个群体，那加入他们是值得的。"
+   },
+   {
+    "en": "But it's not straightforward to find these, because there is a lot of faking going on.",
+    "cn": "但并不容易真的找到，因为这里有一些虚假的类似群体。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "To a newly arrived undergraduate, all university departments look much the same.",
+    "cn": "对一个新来的大学生来说，所有的大学院系都看起来差不多。"
+   },
+   {
+    "en": "The professors all seem forbiddingly intellectual and publish papers unintelligible to outsiders.",
+    "cn": "教授们看起来很有才智，发表了很多对外行来说无法理解的论文。"
+   },
+   {
+    "en": "But while in some fields the papers are unintelligible because they're full of hard ideas, in others they're deliberately written in an obscure way to seem as if they're saying something important.",
+    "cn": "但当有些论文看起来难懂是因为它们遍布着复杂的想法时，另外一些论文故意写得很费解，让它们看起来像是在讲着很重要的东西。"
+   },
+   {
+    "en": "This may seem a scandalous proposition, but it has been experimentally verified, in the famous Social Text affair.",
+    "cn": "这看起来是诽谤的主张，但实验性地被证明了，在著名的 Social Text 事件中。"
+   },
+   {
+    "en": "Suspecting that the papers published by literary theorists were often just intellectual-sounding nonsense, a physicist deliberately wrote a paper full of intellectual-sounding nonsense, and submitted it to a literary theory journal, which published it.",
+    "cn": "因为怀疑文学理论杂志社出版的论文都是一些看起来很高深的但毫无意义的东西，一个物理学家故意写了一篇看起来很高深但毫无意义的论文，发给了一个文学理论杂志社，杂志社发表了它。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "The best protection is always to be working on hard problems.",
+    "cn": "最好的自我保护方法总是去钻研困难的问题。"
+   },
+   {
+    "en": "Writing novels is hard.",
+    "cn": "写小说是困难的。"
+   },
+   {
+    "en": "Reading novels isn't.",
+    "cn": "读小说不是。"
+   },
+   {
+    "en": "Hard means worry: if you're not worrying that something you're making will come out badly, or that you won't be able to understand something you're studying, then it isn't hard enough.",
+    "cn": "困难意味着焦虑：如果你并没有担心你做出来的东西会很糟糕，或者没有在担心理解不了正在学习的东西，那就不够难。"
+   },
+   {
+    "en": "There has to be suspense.",
+    "cn": "焦虑是一定要有的。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Well, this seems a grim view of the world, you may think.",
+    "cn": "所以，你或许想，这真是一个无情的世界。"
+   },
+   {
+    "en": "What I'm telling you is that you should worry?",
+    "cn": "我正在告诉你的是你应该焦虑吗？"
+   },
+   {
+    "en": "Yes, but it's not as bad as it sounds.",
+    "cn": "是的，但并不像听起来那么糟糕。"
+   },
+   {
+    "en": "It's exhilarating to overcome worries.",
+    "cn": "战胜焦虑是令人兴奋的。"
+   },
+   {
+    "en": "You don't see faces much happier than people winning gold medals.",
+    "cn": "你不可能看见比获得奥运金牌的人更开心的笑脸了。"
+   },
+   {
+    "en": "And you know why they're so happy?",
+    "cn": "你知道他们为什么如此开心吗？"
+   },
+   {
+    "en": "Relief.",
+    "cn": "压力的释放。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I'm not saying this is the only way to be happy.",
+    "cn": "我并不是在说这是唯一的开心方式。"
+   },
+   {
+    "en": "Just that some kinds of worry are not as bad as they sound.",
+    "cn": "只不过在说有些焦虑并不像听起来那么糟糕。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "In practice, \"stay upwind\" reduces to \"work on hard problems.\" And you can start today.",
+    "cn": "野心实际中，“保持上风”可以分解为“钻研困难的问题”。"
+   },
+   {
+    "en": "I wish I'd grasped that in high school.",
+    "cn": "你今天就可以开始。"
+   },
+   {
+    "en": "Most people like to be good at what they do.",
+    "cn": "我真希望我高中的时候就知道这个。"
+   },
+   {
+    "en": "In the so-called real world this need is a powerful force.",
+    "cn": "大多数人都希望擅长自己的工作。"
+   },
+   {
+    "en": "But high school students rarely benefit from it, because they're given a fake thing to do.",
+    "cn": "在所谓的真实世界，这个欲望是强大的动力。"
+   },
+   {
+    "en": "When I was in high school, I let myself believe that my job was to be a high school student.",
+    "cn": "但高中生没有从中受益，因为他们被要求去做无意义的东西。当我在高中的时候，"
+   },
+   {
+    "en": "And so I let my need to be good at what I did be satisfied by merely doing well in school.",
+    "cn": "我让自己相信我的工作是当个好高中生。所以，我的欲望就止步于把学校的功课学好。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "If you'd asked me in high school what the difference was between high school kids and adults, I'd have said it was that adults had to earn a living.",
+    "cn": "如果你问高中时候的我，高中年纪的孩子和成人的区别是什么，我会说，成人需要谋生。"
+   },
+   {
+    "en": "Wrong.",
+    "cn": "错。"
+   },
+   {
+    "en": "It's that adults take responsibility for themselves.",
+    "cn": "而是成人必须要为自己负责。"
+   },
+   {
+    "en": "Making a living is only a small part of it.",
+    "cn": "谋生只是一小部分。"
+   },
+   {
+    "en": "Far more important is to take intellectual responsibility for oneself.",
+    "cn": "远为重要的是，为自己的智力负责。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "If I had to go through high school again, I'd treat it like a day job.",
+    "cn": "如果我重新回到高中时光，我会把它当做是白天的日常工作。"
+   },
+   {
+    "en": "I don't mean that I'd slack in school.",
+    "cn": "我并不是说我会在学校混日子。"
+   },
+   {
+    "en": "Working at something as a day job doesn't mean doing it badly.",
+    "cn": "当做日常工作并不是说随便应付。"
+   },
+   {
+    "en": "It means not being defined by it.",
+    "cn": "而是说不要被它局限了。"
+   },
+   {
+    "en": "I mean I wouldn't think of myself as a high school student, just as a musician with a day job as a waiter doesn't think of himself as a waiter.",
+    "cn": "我意思是我不会认为自己仅仅是个高中生，像一个白天有份服务员工作的音乐家并不会把他自己当做服务员。"
+   },
+   {
+    "en": "[3] And when I wasn't working at my day job I'd start trying to do real work.",
+    "cn": "[3]然后当我完成日常工作后，我开始我真正的工作了。"
+   },
+   {
+    "en": "When I ask people what they regret most about high school, they nearly all say the same thing: that they wasted so much time.",
+    "cn": "当我问起人们对高中时期最后悔的事情的时候，他们所有人都在说着同样的事情：他们浪费了太多的时间。"
+   },
+   {
+    "en": "If you're wondering what you're doing now that you'll regret most later, that's probably it. [4]",
+    "cn": "如果你想知道你现在做的什么事情会是你以后最后悔的，那很可能是这个。[4]"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Some people say this is inevitable — that high school students aren't capable of getting anything done yet.",
+    "cn": "有些人说这是不可避免的——高中生还没有能力做成什么事情呢。"
+   },
+   {
+    "en": "But I don't think this is true.",
+    "cn": "但我认为不对。"
+   },
+   {
+    "en": "And the proof is that you're bored.",
+    "cn": "证据是你开始感到无聊。"
+   },
+   {
+    "en": "You probably weren't bored when you were eight.",
+    "cn": "你很可能八岁的时候从不感觉无聊。"
+   },
+   {
+    "en": "When you're eight it's called \"playing\" instead of \"hanging out,\" but it's the same thing.",
+    "cn": "当你八岁的时候，叫“玩耍”而不是“打发时间”，但事实上是同一个东西。"
+   },
+   {
+    "en": "And when I was eight, I was rarely bored.",
+    "cn": "当我八岁的时候，我几乎从不无聊。"
+   },
+   {
+    "en": "Give me a back yard and a few other kids and I could play all day.",
+    "cn": "给我一片后花园和几个小伙伴，我能玩上一整天。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "The reason this got stale in middle school and high school, I now realize, is that I was ready for something else.",
+    "cn": "我现在意识到了，在中学或高中感觉到无聊的原因是，我已经准备好干点其它事情了。"
+   },
+   {
+    "en": "Childhood was getting old.",
+    "cn": "童年已经老了。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I'm not saying you shouldn't hang out with your friends — that you should all become humorless little robots who do nothing but work.",
+    "cn": "我可不是说你不应该和你朋友出去玩打发时间——像机器般的不懂得开玩笑的整天工作着。"
+   },
+   {
+    "en": "Hanging out with friends is like chocolate cake.",
+    "cn": "出去和朋友浪就像巧克力蛋糕。"
+   },
+   {
+    "en": "You enjoy it more if you eat it occasionally than if you eat nothing but chocolate cake for every meal.",
+    "cn": "比起你每一顿都吃巧克力蛋糕来说，你偶尔吃一吃可能更享受。"
+   },
+   {
+    "en": "No matter how much you like chocolate cake, you'll be pretty queasy after the third meal of it.",
+    "cn": "不管你多么喜欢巧克力蛋糕，吃到第三顿的时候，你会感觉相当反胃。"
+   },
+   {
+    "en": "And that's what the malaise one feels in high school is: mental queasiness. [5]",
+    "cn": "这就是一个高中生能在学校里感觉到的那种无聊乏味：精神上的反胃。[5]"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "You may be thinking, we have to do more than get good grades.",
+    "cn": "你或许在想，除了好成绩，我们还要做其它事情。"
+   },
+   {
+    "en": "We have to have extracurricular activities.",
+    "cn": "我们有课外活动。"
+   },
+   {
+    "en": "But you know perfectly well how bogus most of these are.",
+    "cn": "但你很清楚大多数这些课外活动多没意义。"
+   },
+   {
+    "en": "Collecting donations for a charity is an admirable thing to do, but it's not hard.",
+    "cn": "组织给慈善机构的捐钱活动很令人赞赏，但并不难。"
+   },
+   {
+    "en": "It's not getting something done.",
+    "cn": "这并没有做成真正的事情。"
+   },
+   {
+    "en": "What I mean by getting something done is learning how to write well, or how to program computers, or what life was really like in preindustrial societies, or how to draw the human face from life.",
+    "cn": "我说的做成真正的事情是说，学习如何把文章写好，或者如何编程，或者去了解工业时代之前的生活是怎样的，或者如何描绘生活中的人脸。"
+   },
+   {
+    "en": "This sort of thing rarely translates into a line item on a college application.",
+    "cn": "这样的事情很少能写进大学申请里。腐败"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "It's dangerous to design your life around getting into college, because the people you have to impress to get into college are not a very discerning audience.",
+    "cn": "围绕着进入大学的目标，来规划你的人生很危险，因为你要去打动的人并不是很有洞察力的听众。"
+   },
+   {
+    "en": "At most colleges, it's not the professors who decide whether you get in, but admissions officers, and they are nowhere near as smart.",
+    "cn": "在大多数大学，并不是教授来决定是否录取你，而是录取办公室的老师，"
+   },
+   {
+    "en": "They're the NCOs of the intellectual world.",
+    "cn": "这些人可和聪明毫不相干。"
+   },
+   {
+    "en": "They can't tell how smart you are.",
+    "cn": "他们是智力世界里较低等的人群。"
+   },
+   {
+    "en": "The mere existence of prep schools is proof of that.",
+    "cn": "他们并不能判断你有多聪明。预科学校就是证据。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Few parents would pay so much for their kids to go to a school that didn't improve their admissions prospects.",
+    "cn": "如果没有增加孩子的入学希望的话，很少的家长会为孩子付那么多钱去上预科学校。"
+   },
+   {
+    "en": "Prep schools openly say this is one of their aims.",
+    "cn": "预科学校公开地宣称，这就是他们的目标之一。"
+   },
+   {
+    "en": "But what that means, if you stop to think about it, is that they can hack the admissions process: that they can take the very same kid and make him seem a more appealing candidate than he would if he went to the local public school. [6]",
+    "cn": "但如果你停下来想的话，这意味着他们有办法对大学录取耍手段：他们能把同样的孩子，让他变成更有吸引力的候选人，比起他去上当地的公立高中来说。[6]"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Right now most of you feel your job in life is to be a promising college applicant.",
+    "cn": "现在你们中大多数都会觉得生活中主要的职责，就是让自己成为更有前途的大学候选人。"
+   },
+   {
+    "en": "But that means you're designing your life to satisfy a process so mindless that there's a whole industry devoted to subverting it.",
+    "cn": "但这意味着你正在让你的生活去取悦这样一个欠考虑的制度——有整套的产业链来愚弄它。"
+   },
+   {
+    "en": "No wonder you become cynical.",
+    "cn": "难怪你成了愤世嫉俗的人。"
+   },
+   {
+    "en": "The malaise you feel is the same that a producer of reality TV shows or a tobacco industry executive feels.",
+    "cn": "你感觉到的无聊乏味正是电视广告编剧或者烟草产业的经理感觉到的那样。"
+   },
+   {
+    "en": "And you don't even get paid a lot.",
+    "cn": "而且，你并没有薪水。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "So what do you do?",
+    "cn": "所以那该怎么做呢？"
+   },
+   {
+    "en": "What you should not do is rebel.",
+    "cn": "不应该做的是叛逆。"
+   },
+   {
+    "en": "That's what I did, and it was a mistake.",
+    "cn": "这是当时我做的，但我觉得这错了。"
+   },
+   {
+    "en": "I didn't realize exactly what was happening to us, but I smelled a major rat.",
+    "cn": "我当时并没有意识到正在发生什么，我只是感觉有东西不对劲。"
+   },
+   {
+    "en": "And so I just gave up.",
+    "cn": "所以我干脆放弃了。显然地，"
+   },
+   {
+    "en": "Obviously the world sucked, so why bother?",
+    "cn": "世界糟透了，为什么要去理睬它？"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "When I discovered that one of our teachers was herself using Cliff's Notes, it seemed par for the course.",
+    "cn": "我发现我们的一个老师，他自己也在用小说精析(译者注：读这个就能应付考试，可以跳过教纲指定的原著)。"
+   },
+   {
+    "en": "Surely it meant nothing to get a good grade in such a class.",
+    "cn": "这意味着在这样的课程里取得好成绩毫无意义。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "In retrospect this was stupid.",
+    "cn": "回想起来，这很愚蠢。"
+   },
+   {
+    "en": "It was like someone getting fouled in a soccer game and saying, hey, you fouled me, that's against the rules, and walking off the field in indignation.",
+    "cn": "这好像某人在足球场上被坑了一把然后说，嘿，你坑了我，这是犯规的，然后愤怒地离开球场。"
+   },
+   {
+    "en": "Fouls happen.",
+    "cn": "犯规经常发生。"
+   },
+   {
+    "en": "The thing to do when you get fouled is not to lose your cool.",
+    "cn": "当你被犯规的时候，不要失去你的风度。"
+   },
+   {
+    "en": "Just keep playing.",
+    "cn": "继续比赛。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "By putting you in this situation, society has fouled you.",
+    "cn": "放在这里，社会对你“犯规”了。"
+   },
+   {
+    "en": "Yes, as you suspect, a lot of the stuff you learn in your classes is crap.",
+    "cn": "是的，就像你怀疑的那样，大部分你在课堂上学到的都是胡扯。"
+   },
+   {
+    "en": "And yes, as you suspect, the college admissions process is largely a charade.",
+    "cn": "而且，就像你怀疑的那样，大学的录取也是一场戏。"
+   },
+   {
+    "en": "But like many fouls, this one was unintentional.",
+    "cn": "但就像其它犯规一样，这个也是无意的。"
+   },
+   {
+    "en": "[7] So just keep playing.",
+    "cn": "[7]所以要继续比赛。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Rebellion is almost as stupid as obedience.",
+    "cn": "叛逆就像服从一样愚蠢。"
+   },
+   {
+    "en": "In either case you let yourself be defined by what they tell you to do.",
+    "cn": "两种情况，要么你去做他们要你去做的，要么偏偏不去做，你都被局限了。"
+   },
+   {
+    "en": "The best plan, I think, is to step onto an orthogonal vector.",
+    "cn": "我想最好的方法是，踏入一个正交向量。"
+   },
+   {
+    "en": "Don't just do what they tell you, and don't just refuse to.",
+    "cn": "不要仅仅去做他们告诉你的，也不要单纯地拒绝。"
+   },
+   {
+    "en": "Instead treat school as a day job.",
+    "cn": "相反，把学校当做日常工作。"
+   },
+   {
+    "en": "As day jobs go, it's pretty sweet.",
+    "cn": "当干完白天的日常工作后，会是多么美好。"
+   },
+   {
+    "en": "You're done at 3 o'clock, and you can even work on your own stuff while you're there.",
+    "cn": "下午三点钟就没课了，你可以继续呆在那里干你真正的工作。好奇心"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "And what's your real job supposed to be?",
+    "cn": "那你真正的工作应该是怎样的呢？"
+   },
+   {
+    "en": "Unless you're Mozart, your first task is to figure that out.",
+    "cn": "除非你是莫扎特这样的天才，否则首要的就是去弄明白。"
+   },
+   {
+    "en": "What are the great things to work on?",
+    "cn": "有什么值得做的伟大事业呢？"
+   },
+   {
+    "en": "Where are the imaginative people?",
+    "cn": "想象力丰富的人在哪里？"
+   },
+   {
+    "en": "And most importantly, what are you interested in?",
+    "cn": "更重要地是，你的兴趣何在？"
+   },
+   {
+    "en": "The word \"aptitude\" is misleading, because it implies something innate.",
+    "cn": "“天资”这个词有点误导人，它暗示了某种天生的能力。"
+   },
+   {
+    "en": "The most powerful sort of aptitude is a consuming interest in some question, and such interests are often acquired tastes.",
+    "cn": "最强大的天资就是对某些问题有着持续的兴趣，这样的兴趣往往是可以后天习得的。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "A distorted version of this idea has filtered into popular culture under the name \"passion.\" I recently saw an ad for waiters saying they wanted people with a \"passion for service.\" The real thing is not something one could have for waiting on tables.",
+    "cn": "这个观点变形的一种版本，名字叫“激情”，渗透到了流行文化中。我最近看到招聘服务员的一则广告，他们想要那些“对服务充满激情”的人。实际上，这里不是一个人可以在餐桌边服务的时候拥有的态度。"
+   },
+   {
+    "en": "And passion is a bad word for it.",
+    "cn": "激情这个词放在这里并不好。"
+   },
+   {
+    "en": "A better name would be curiosity.",
+    "cn": "更好的名字是好奇。"
+   },
+   {
+    "en": "Kids are curious, but the curiosity I mean has a different shape from kid curiosity.",
+    "cn": "孩子们是好奇的，但我说的好奇心和孩子们的好奇心有一些外在的差异。"
+   },
+   {
+    "en": "Kid curiosity is broad and shallow; they ask why at random about everything.",
+    "cn": "孩子的好奇心虽宽却浅，他们对万事万物都随机性地问为什么。"
+   },
+   {
+    "en": "In most adults this curiosity dries up entirely.",
+    "cn": "对大部分成年人，这样的好奇心都枯竭了。"
+   },
+   {
+    "en": "It has to: you can't get anything done if you're always asking why about everything.",
+    "cn": "不得不这样：如果你一直对各种东西在问为什么，你无法完成任何事情。"
+   },
+   {
+    "en": "But in ambitious adults, instead of drying up, curiosity becomes narrow and deep.",
+    "cn": "但对于有野心的成年人来说，好奇心没有枯竭，而是变得收缩和深入。"
+   },
+   {
+    "en": "The mud flat morphs into a well.",
+    "cn": "泥塘变成了深井。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Curiosity turns work into play.",
+    "cn": "好奇心把工作变成了游戏。"
+   },
+   {
+    "en": "For Einstein, relativity wasn't a book full of hard stuff he had to learn for an exam.",
+    "cn": "对于爱因斯坦来说，相对论并不是一本复杂难懂的书，必须去学会好能应付考试。"
+   },
+   {
+    "en": "It was a mystery he was trying to solve.",
+    "cn": "而是他尝试去破解的谜题。"
+   },
+   {
+    "en": "So it probably felt like less work to him to invent it than it would seem to someone now to learn it in a class.",
+    "cn": "所以对他而言，去发明它，比起要在教室里学会这套理论的学生来说，更像游戏一些。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "One of the most dangerous illusions you get from school is the idea that doing great things requires a lot of discipline.",
+    "cn": "另外一个你在学校里学到的危险错觉是，做出杰出的工作需要大量的自制力。"
+   },
+   {
+    "en": "Most subjects are taught in such a boring way that it's only by discipline that you can flog yourself through them.",
+    "cn": "大多数课程都是以很无聊的方式来教学，所以你不得不通过自制力来鞭策自己去通过。"
+   },
+   {
+    "en": "So I was surprised when, early in college, I read a quote by Wittgenstein saying that he had no self-discipline and had never been able to deny himself anything, not even a cup of coffee.",
+    "cn": "所以当我刚进大学的时候，读到 Wittgenstein 说的一句话：他几乎毫无自制力，从来无法克制任何东西，哪怕尽管是一杯咖啡，我大为惊奇。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Now I know a number of people who do great work, and it's the same with all of them.",
+    "cn": "现在我认识了很多做出杰出工作的人了，这对他们来说同样适用。"
+   },
+   {
+    "en": "They have little discipline.",
+    "cn": "他们没有多少自制力。"
+   },
+   {
+    "en": "They're all terrible procrastinators and find it almost impossible to make themselves do anything they're not interested in.",
+    "cn": "他们全都是超级可怕的拖延症患者，发现几乎没有办法让他们去做任何不感兴趣的事情。"
+   },
+   {
+    "en": "One still hasn't sent out his half of the thank-you notes from his wedding, four years ago.",
+    "cn": "有一位还没发出他四年前举办的婚礼的答谢卡，"
+   },
+   {
+    "en": "Another has 26,000 emails in her inbox.",
+    "cn": "另一位邮箱里有 26000 封邮件。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I'm not saying you can get away with zero self-discipline.",
+    "cn": "我没有在说你可以一点自制力都没有。"
+   },
+   {
+    "en": "You probably need about the amount you need to go running.",
+    "cn": "你需要的量能支撑你去跑步就行了。"
+   },
+   {
+    "en": "I'm often reluctant to go running, but once I do, I enjoy it.",
+    "cn": "我通常很不愿意去跑步，但我一旦去跑了，我会乐在其中。"
+   },
+   {
+    "en": "And if I don't run for several days, I feel ill.",
+    "cn": "如果我几天没跑，我会觉得自己病怏怏的。"
+   },
+   {
+    "en": "It's the same with people who do great things.",
+    "cn": "这对做出杰出工作的人同样使用。"
+   },
+   {
+    "en": "They know they'll feel bad if they don't work, and they have enough discipline to get themselves to their desks to start working.",
+    "cn": "如果不工作的话，他们知道自己会感觉很糟糕，同时他们有着足够的自制力让自己走到桌子前开始干活。"
+   },
+   {
+    "en": "But once they get started, interest takes over, and discipline is no longer necessary.",
+    "cn": "但一旦他们开始干活，兴趣开始支配他们，不再需要自律。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Do you think Shakespeare was gritting his teeth and diligently trying to write Great Literature?",
+    "cn": "你是否认为莎士比亚一边咬牙切齿，一边勤奋地写着 Great Literature 吗？"
+   },
+   {
+    "en": "Of course not.",
+    "cn": "当然不。"
+   },
+   {
+    "en": "He was having fun.",
+    "cn": "他在找乐子。"
+   },
+   {
+    "en": "That's why he's so good.",
+    "cn": "这就是为什么他如此杰出。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "If you want to do good work, what you need is a great curiosity about a promising question.",
+    "cn": "如果你想做出杰出的工作，所有你需要的是对一个很有前景的问题有着巨大的好奇心。"
+   },
+   {
+    "en": "The critical moment for Einstein was when he looked at Maxwell's equations and said, what the hell is going on here?",
+    "cn": "对爱因斯坦来说，最关键的时刻是当他看着麦克斯韦的平衡方程式，心里嘀咕着，这究竟是怎么回事？"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "It can take years to zero in on a productive question, because it can take years to figure out what a subject is really about.",
+    "cn": "需要很多年的时间全神贯注于一个有前景的问题，因为需要很多年来搞清楚一个课题究竟是探讨什么的。"
+   },
+   {
+    "en": "To take an extreme example, consider math.",
+    "cn": "举个极端的例子，想想数学。"
+   },
+   {
+    "en": "Most people think they hate math, but the boring stuff you do in school under the name \"mathematics\" is not at all like what mathematicians do.",
+    "cn": "大多数人都认为他们讨厌数学，但你在学校里学的那个冠以“数学”之名的玩意儿和数学家研究的东西完全不同。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "The great mathematician G. H. Hardy said he didn't like math in high school either.",
+    "cn": "伟大的数学家 G.H. Hardy 说他在中学时代也不喜欢数学。"
+   },
+   {
+    "en": "He only took it up because he was better at it than the other students.",
+    "cn": "他去学仅仅是因为他比其他同学要更擅长些。"
+   },
+   {
+    "en": "Only later did he realize math was interesting — only later did he start to ask questions instead of merely answering them correctly.",
+    "cn": "直到后来他才意识到数学是有趣的——后来他才开始问问题，而不是仅仅去正确地回答它们。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "When a friend of mine used to grumble because he had to write a paper for school, his mother would tell him: find a way to make it interesting.",
+    "cn": "当我的一个朋友过去因为他要写作业而嘀咕抱怨时，他妈妈告诉他：去找一个方法让写作业变得有趣。"
+   },
+   {
+    "en": "That's what you need to do: find a question that makes the world interesting.",
+    "cn": "这也是你需要去做的：去找到一个问题，让世界变得有趣。"
+   },
+   {
+    "en": "People who do great things look at the same world everyone else does, but notice some odd detail that's compellingly mysterious.",
+    "cn": "做出杰出工作的人和其他人看到的是同样的世界，但注意到了一些古怪的细节，那些细节有着难以抗拒的魔力。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "And not only in intellectual matters.",
+    "cn": "然而不单单是知识上。"
+   },
+   {
+    "en": "Henry Ford's great question was, why do cars have to be a luxury item?",
+    "cn": "亨利·福特的伟大问题是，为什么汽车一定要是奢侈品呢？"
+   },
+   {
+    "en": "What would happen if you treated them as a commodity?",
+    "cn": "如果你把它们做成普通商品会怎么样？"
+   },
+   {
+    "en": "Franz Beckenbauer's was, in effect, why does everyone have to stay in his position?",
+    "cn": "贝肯鲍尔（足球皇帝）的问题是，为什么每个人都得留在自己的位置上呢？"
+   },
+   {
+    "en": "Why can't defenders score goals too?",
+    "cn": "为什么后卫不能也去射门呢？当下"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "If it takes years to articulate great questions, what do you do now, at sixteen?",
+    "cn": "如果需要很多年来精确表达伟大的问题，那 16 岁的你应该怎么做呢？"
+   },
+   {
+    "en": "Work toward finding one.",
+    "cn": "努力去寻找一个。"
+   },
+   {
+    "en": "Great questions don't appear suddenly.",
+    "cn": "伟大的问题不会突然出现。"
+   },
+   {
+    "en": "They gradually congeal in your head.",
+    "cn": "它们渐渐地凝结在你的脑中。"
+   },
+   {
+    "en": "And what makes them congeal is experience.",
+    "cn": "让它们凝结的是经历。"
+   },
+   {
+    "en": "So the way to find great questions is not to search for them — not to wander about thinking, what great discovery shall I make?",
+    "cn": "所以去寻找伟大的问题的方法不是去故意寻觅他们——不是去想，我有没什么伟大的发现呢？"
+   },
+   {
+    "en": "You can't answer that; if you could, you'd have made it.",
+    "cn": "你不能回答；如果你能回答，你早就发现了。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "The way to get a big idea to appear in your head is not to hunt for big ideas, but to put in a lot of time on work that interests you, and in the process keep your mind open enough that a big idea can take roost.",
+    "cn": "让伟大的点子出现在你脑海里的方法不是去寻觅，而是投入大量的时间去做你感兴趣的事情，过程中保持开放的大脑以至于伟大的点子能生根发芽。爱因斯坦，"
+   },
+   {
+    "en": "Einstein, Ford, and Beckenbauer all used this recipe.",
+    "cn": "福特和贝肯鲍尔都是用的这个方法。"
+   },
+   {
+    "en": "They all knew their work like a piano player knows the keys.",
+    "cn": "他们很清楚他们的工作，就像钢琴家一样很清楚琴键。"
+   },
+   {
+    "en": "So when something seemed amiss to them, they had the confidence to notice it.",
+    "cn": "如果看起来有什么差错的时候，他们有信心去把握住。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Put in time how and on what?",
+    "cn": "那投入大量时间去做什么以及怎么做呢？"
+   },
+   {
+    "en": "Just pick a project that seems interesting: to master some chunk of material, or to make something, or to answer some question.",
+    "cn": "挑个自己感兴趣的项目就行了：精通一些知识，或者创造点东西，或者去解决某些问题。"
+   },
+   {
+    "en": "Choose a project that will take less than a month, and make it something you have the means to finish.",
+    "cn": "挑选一个项目不需要一个月的时间，然后创造点你能完成的东西。"
+   },
+   {
+    "en": "Do something hard enough to stretch you, but only just, especially at first.",
+    "cn": "做那些难到突破你极限的事情，至少初期要这样。"
+   },
+   {
+    "en": "If you're deciding between two projects, choose whichever seems most fun.",
+    "cn": "如果你正在两个项目中抉择，去挑最有趣的那个。"
+   },
+   {
+    "en": "If one blows up in your face, start another.",
+    "cn": "如果一个项目搞砸了，开始另外一个。"
+   },
+   {
+    "en": "Repeat till, like an internal combustion engine, the process becomes self-sustaining, and each project generates the next one.",
+    "cn": "持续如此，像内燃机一样，这过程是自我持续的，每个项目都孕育着下一个项目。"
+   },
+   {
+    "en": "(This could take years.)",
+    "cn": "（这需要好几年时间）"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "It may be just as well not to do a project \"for school,\" if that will restrict you or make it seem like work.",
+    "cn": "或许最好不要去做学校的项目，如果那会限制你，或者让你感觉像在应付老师一样。如果你想，"
+   },
+   {
+    "en": "Involve your friends if you want, but not too many, and only if they're not flakes.",
+    "cn": "可以拉上你的朋友们，但不要太多，而且仅当他们不是一时热血而已。"
+   },
+   {
+    "en": "Friends offer moral support (few startups are started by one person), but secrecy also has its advantages.",
+    "cn": "朋友们更多的是精神支持（很少的创业公司是一个人创立的），"
+   },
+   {
+    "en": "There's something pleasing about a secret project.",
+    "cn": "但秘密进行同样有它的好处。"
+   },
+   {
+    "en": "And you can take more risks, because no one will know if you fail.",
+    "cn": "秘密进行一个项目某些方面是很爽的。如果你失败了，没有人会知道。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Don't worry if a project doesn't seem to be on the path to some goal you're supposed to have.",
+    "cn": "不要担心一个项目看起来没有在通向你最终的目标的道路上。"
+   },
+   {
+    "en": "Paths can bend a lot more than you think.",
+    "cn": "这道路可能远比你想象的更曲折。"
+   },
+   {
+    "en": "So let the path grow out the project.",
+    "cn": "所以，让道路从项目中生长出来。"
+   },
+   {
+    "en": "The most important thing is to be excited about it, because it's by doing that you learn.",
+    "cn": "最重要的是一路上，你在不断学习。"
+   },
+   {
+    "en": "Don't disregard unseemly motivations.",
+    "cn": "不要忽视看起来不好的动机。"
+   },
+   {
+    "en": "One of the most powerful is the desire to be better than other people at something.",
+    "cn": "其中强大的一个动机是想要在某些方面胜过别人的愿望。"
+   },
+   {
+    "en": "Hardy said that's what got him started, and I think the only unusual thing about him is that he admitted it.",
+    "cn": "Hardy 说这就是让他开始去学数学的原因，我想这里唯一不同寻常之处就是他竟然承认了这一点。"
+   },
+   {
+    "en": "Another powerful motivator is the desire to do, or know, things you're not supposed to.",
+    "cn": "另外一个强大的动机是渴望去做或搞清楚你并没有要求去做或弄懂的。"
+   },
+   {
+    "en": "Closely related is the desire to do something audacious.",
+    "cn": "类似的动机还有渴望去做某些大胆放肆的事。"
+   },
+   {
+    "en": "Sixteen year olds aren't supposed to write novels.",
+    "cn": "没有人要求 16岁的人会写小说。"
+   },
+   {
+    "en": "So if you try, anything you achieve is on the plus side of the ledger; if you fail utterly, you're doing no worse than expectations. [8]",
+    "cn": "但如果你试了，任何你做成的都是给你加分了；如果最终失败了，你也不会比期望的更差。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Beware of bad models.",
+    "cn": "小心坏榜样。"
+   },
+   {
+    "en": "Especially when they excuse laziness.",
+    "cn": "尤其是他们为懒惰找了借口的时候。"
+   },
+   {
+    "en": "When I was in high school I used to write \"existentialist\" short stories like ones I'd seen by famous writers.",
+    "cn": "当我在高中的时候，我常常写“现实主义”的短文，像很有名气的作家写的那样。"
+   },
+   {
+    "en": "My stories didn't have a lot of plot, but they were very deep.",
+    "cn": "我的文章并没有很多情节，但它们内涵很深。"
+   },
+   {
+    "en": "And they were less work to write than entertaining ones would have been.",
+    "cn": "它们比写幽默讽刺的文章花费更少的精力。"
+   },
+   {
+    "en": "I should have known that was a danger sign.",
+    "cn": "我本应该知道这是一个危险的信号。"
+   },
+   {
+    "en": "And in fact I found my stories pretty boring; what excited me was the idea of writing serious, intellectual stuff like the famous writers.",
+    "cn": "而且事实上我发现的文章相当无聊；当时让我兴奋的是，我在想我可以像那些著名作家一样写些严肃高深的东西。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Now I have enough experience to realize that those famous writers actually sucked.",
+    "cn": "现在我有足够的经验说那些很有名气的作家其实真的很逊。"
+   },
+   {
+    "en": "Plenty of famous people do; in the short term, the quality of one's work is only a small component of fame.",
+    "cn": "很多著名人物也是这样；简而言之，一个人的作品质量，只是决定他的名气大小的一小部分。"
+   },
+   {
+    "en": "I should have been less worried about doing something that seemed cool, and just done something I liked.",
+    "cn": "我本应该不那么担心自己写些看起来很酷的东西，去做自己喜欢的事。"
+   },
+   {
+    "en": "That's the actual road to coolness anyway.",
+    "cn": "这才是通向“酷”的真正道路。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "A key ingredient in many projects, almost a project on its own, is to find good books.",
+    "cn": "很多项目的一个关键因素，也占了一个项目的大部分的是，"
+   },
+   {
+    "en": "Most books are bad.",
+    "cn": "去找好的书。"
+   },
+   {
+    "en": "Nearly all textbooks are bad.",
+    "cn": "大多数书都很糟糕。"
+   },
+   {
+    "en": "[9] So don't assume a subject is to be learned from whatever book on it happens to be closest.",
+    "cn": "差不多所有的教科书都是糟糕的。[9]所以不要假设一个学科可以从教科书上学到。"
+   },
+   {
+    "en": "You have to search actively for the tiny number of good books.",
+    "cn": "你不得不积极地去寻找一小部分的好书。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "The important thing is to get out there and do stuff.",
+    "cn": "重要的是走出来去做东西。"
+   },
+   {
+    "en": "Instead of waiting to be taught, go out and learn.",
+    "cn": "与其等着被教，不如主动去学。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Your life doesn't have to be shaped by admissions officers.",
+    "cn": "你的人生不该被招生办公室的老师决定。"
+   },
+   {
+    "en": "It could be shaped by your own curiosity.",
+    "cn": "而应该被你自己的好奇心决定。"
+   },
+   {
+    "en": "It is for all ambitious adults.",
+    "cn": "有野心的成年人就是这样的。"
+   },
+   {
+    "en": "And you don't have to wait to start.",
+    "cn": "你不需要等待出发。"
+   },
+   {
+    "en": "In fact, you don't have to wait to be an adult.",
+    "cn": "实际上，你不需要等待成为一个成年人。"
+   },
+   {
+    "en": "There's no switch inside you that magically flips when you turn a certain age or graduate from some institution.",
+    "cn": "你身体里没有切换开关，等你到达某个年龄或者从某个机构毕业的时候，让你神奇地改变。"
+   },
+   {
+    "en": "You start being an adult when you decide to take responsibility for your life.",
+    "cn": "当你决定为你的人生负责的时候，你就变为成年人了。"
+   },
+   {
+    "en": "You can do that at any age. [10]",
+    "cn": "在任何年龄，你都可以这么做。[10]"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "This may sound like bullshit.",
+    "cn": "这听起来纯属屁话。"
+   },
+   {
+    "en": "I'm just a minor, you may think, I have no money, I have to live at home, I have to do what adults tell me all day long.",
+    "cn": "你或许想，我仅仅是个微小的个体，我没钱，我必须要呆在家里，我必须要做大人们叫我去做的事情。"
+   },
+   {
+    "en": "Well, most adults labor under restrictions just as cumbersome, and they manage to get things done.",
+    "cn": "很好，大部分成年人都在某些约束下拘束地劳动，但他们想办法去做成事情。"
+   },
+   {
+    "en": "If you think it's restrictive being a kid, imagine having kids.",
+    "cn": "如果你觉得作为一个孩子有诸多约束的话，想想自己有孩子时。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "The only real difference between adults and high school kids is that adults realize they need to get things done, and high school kids don't.",
+    "cn": "成年人和高中生孩子的唯一真正的区别是，成年人意识到了他们必须把事情搞定，但高中生没意识到。"
+   },
+   {
+    "en": "That realization hits most people around 23.",
+    "cn": "这种领悟一般是在 23 岁的时候降临到大多数人身上。"
+   },
+   {
+    "en": "But I'm letting you in on the secret early.",
+    "cn": "但我现在提前告诉你这个秘密。"
+   },
+   {
+    "en": "So get to work.",
+    "cn": "所以，开始干吧。"
+   },
+   {
+    "en": "Maybe you can be the first generation whose greatest regret from high school isn't how much time you wasted.",
+    "cn": "或许你们可以成为高中毕业后不会遗憾浪费了如此多的时间的第一代人。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[1] A doctor friend warns that even this can give an inaccurate picture.",
+    "cn": "[1] 一个医生朋友提醒说去医生当志愿者都未必能知道医生到达是干什么的。"
+   },
+   {
+    "en": "\"Who knew how much time it would take up, how little autonomy one would have for endless years of training, and how unbelievably annoying it is to carry a beeper?\"",
+    "cn": "“谁知道一个人需要如此多的时间，如此少的自由来去应对长年累月的医学培训，又有谁知道整天带着传呼机是多么难以置信的烦人？”"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[2] His best bet would probably be to become dictator and intimidate the NBA into letting him play.",
+    "cn": "[2] 这个1米6的男孩最好的打算或许是成为独裁者，去恐吓 NBA 让他进去打球。"
+   },
+   {
+    "en": "So far the closest anyone has come is Secretary of Labor.",
+    "cn": "因为多年来最靠近这个的就是劳动委员会。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[3] A day job is one you take to pay the bills so you can do what you really want, like play in a band, or invent relativity.",
+    "cn": "[3] 白天的日常工作就是那些你能赚够钱养活自己去做你真正喜欢的事情，像在乐队里弹唱或者发明相对论。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "Treating high school as a day job might actually make it easier for some students to get good grades.",
+    "cn": "把高中当做日常工作或许对一些学生来说更容易去取得好成绩。"
+   },
+   {
+    "en": "If you treat your classes as a game, you won't be demoralized if they seem pointless.",
+    "cn": "如果你把课堂当做一种游戏，当它们看起来毫无意义的时候你不会沮丧。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "However bad your classes, you need to get good grades in them to get into a decent college.",
+    "cn": "然而无论你的课程多么糟糕，你需要取得好成绩来进入好大学。"
+   },
+   {
+    "en": "And that is worth doing, because universities are where a lot of the clumps of smart people are these days.",
+    "cn": "这是值得做的，因为目前而言，大学是许多聪明人扎堆的地方。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[4] The second biggest regret was caring so much about unimportant things.",
+    "cn": "[4]第二个最大的遗憾就是太在乎根本不重要的东西。"
+   },
+   {
+    "en": "And especially about what other people thought of them.",
+    "cn": "尤其是在乎其他人怎么看待你。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I think what they really mean, in the latter case, is caring what random people thought of them.",
+    "cn": "我想后者，他们的真正意思是，无论什么人对你的看法，你都在乎。"
+   },
+   {
+    "en": "Adults care just as much what other people think, but they get to be more selective about the other people.",
+    "cn": "成年人也在乎别的人咋想，但他们对别的人更加精挑细选。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "I have about thirty friends whose opinions I care about, and the opinion of the rest of the world barely affects me.",
+    "cn": "我大概有三十个朋友的意见可以在乎，世界上其他人的意见很少能影响我。"
+   },
+   {
+    "en": "The problem in high school is that your peers are chosen for you by accidents of age and geography, rather than by you based on respect for their judgement.",
+    "cn": "高中的问题是，你的同学都是随机选给你的，来自不同的地方，而不是根据你的判断，你自己挑选的。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[5] The key to wasting time is distraction.",
+    "cn": "[5]浪费时间的关键在于分心。"
+   },
+   {
+    "en": "Without distractions it's too obvious to your brain that you're not doing anything with it, and you start to feel uncomfortable.",
+    "cn": "如果没有分心，对你的大脑来说你并没有在做什么事情，你开始感觉不舒服。"
+   },
+   {
+    "en": "If you want to measure how dependent you've become on distractions, try this experiment: set aside a chunk of time on a weekend and sit alone and think.",
+    "cn": "如果你想测量下你多么依赖分心，尝试这个实验：拿出周末的一段时间，独自坐着思考。"
+   },
+   {
+    "en": "You can have a notebook to write your thoughts down in, but nothing else: no friends, TV, music, phone, IM, email, Web, games, books, newspapers, or magazines.",
+    "cn": "你可以有个笔记本来写下你的想法，但没有其它的东西：没有朋友，电视，音乐，手机，聊天工具，邮件，网页，游戏，数，报纸或杂志。"
+   },
+   {
+    "en": "Within an hour most people will feel a strong craving for distraction.",
+    "cn": "不用一个小时，大多数人都会对分心非常渴望。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[6] I don't mean to imply that the only function of prep schools is to trick admissions officers.",
+    "cn": "[6]我没有在暗示预科学校的作用就仅仅是耍弄招生办公室的老师，"
+   },
+   {
+    "en": "They also generally provide a better education.",
+    "cn": "他们通常也提供了更好的教育。"
+   },
+   {
+    "en": "But try this thought experiment: suppose prep schools supplied the same superior education but had a tiny (.001) negative effect on college admissions.",
+    "cn": "但实验性地想想如果预科学校提供同样优越的教育，但对大学申请有很小(0.001)的负面影响。"
+   },
+   {
+    "en": "How many parents would still send their kids to them?",
+    "cn": "有多少家长愿意把他们的孩子送去呢？"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "It might also be argued that kids who went to prep schools, because they've learned more, are better college candidates.",
+    "cn": "或许有人会争论想去上预科学校的孩子，因为他们想学得更多，所以本来就是更好的大学候选人。"
+   },
+   {
+    "en": "But this seems empirically false.",
+    "cn": "但这实际上是错的。"
+   },
+   {
+    "en": "What you learn in even the best high school is rounding error compared to what you learn in college.",
+    "cn": "尽管你在最好的高中，教的东西相对于大学里教的几乎是错的。"
+   },
+   {
+    "en": "Public school kids arrive at college with a slight disadvantage, but they start to pull ahead in the sophomore year.",
+    "cn": "公立学校到大学有一点点的劣势，但他们在第二年的时候开始迎头而上。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "(I'm not saying public school kids are smarter than preppies, just that they are within any given college.",
+    "cn": "（我没有在说公立学校的孩子都比预科学校的孩子更聪明，仅是说在同一所大学。"
+   },
+   {
+    "en": "That follows necessarily if you agree prep schools improve kids' admissions prospects.)",
+    "cn": "如果你同意预科学校增加了孩子被录取的希望，那么便会有这个结论。）"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[7] Why does society foul you?",
+    "cn": "[7]为什么社会愚弄你呢？"
+   },
+   {
+    "en": "Indifference, mainly.",
+    "cn": "大体上是无意的。"
+   },
+   {
+    "en": "There are simply no outside forces pushing high school to be good.",
+    "cn": "没有外在的力量来推动高中变得更好。"
+   },
+   {
+    "en": "The air traffic control system works because planes would crash otherwise.",
+    "cn": "航空运输控制系统运行得很好，否则飞机会发生坠机。"
+   },
+   {
+    "en": "Businesses have to deliver because otherwise competitors would take their customers.",
+    "cn": "公司必须交付产品，否则竞争对手会夺走客户。"
+   },
+   {
+    "en": "But no planes crash if your school sucks, and it has no competitors.",
+    "cn": "但如果你的学校很糟糕，不会坠机，也没有竞争对手。"
+   },
+   {
+    "en": "High school isn't evil; it's random; but random is pretty bad.",
+    "cn": "高中并不是有罪的；它是随机的；随机的通常很糟糕。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[8] And then of course there is money.",
+    "cn": "[8]另外一个动机是钱。"
+   },
+   {
+    "en": "It's not a big factor in high school, because you can't do much that anyone wants.",
+    "cn": "在高中并不是一个强大的因素，因为你还不能做很多人想要的东西。"
+   },
+   {
+    "en": "But a lot of great things were created mainly to make money.",
+    "cn": "不过很多杰出的东西大体上都是为了钱才被创造出来的。"
+   },
+   {
+    "en": "Samuel Johnson said \"no man but a blockhead ever wrote except for money.\" (Many hope he was exaggerating.)",
+    "cn": "Samuel Johnson 说过“只有傻瓜才不会为了钱而去写作。”（很多人希望他夸大了。）"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[9] Even college textbooks are bad.",
+    "cn": "[9]尽管大学教科书很糟糕。"
+   },
+   {
+    "en": "When you get to college, you'll find that (with a few stellar exceptions) the textbooks are not written by the leading scholars in the field they describe.",
+    "cn": "当你去大学的时候，你也会发现教科书（除了一些）并不是相关领域的前沿学者写的。"
+   },
+   {
+    "en": "Writing college textbooks is unpleasant work, done mostly by people who need the money.",
+    "cn": "写大学教科书不是一个愉快的工作，大体上是那些需要钱的人写的。"
+   },
+   {
+    "en": "It's unpleasant because the publishers exert so much control, and there are few things worse than close supervision by someone who doesn't understand what you're doing.",
+    "cn": "不愉快是因为出版商施加了很多的限制，然而几乎没有什么东西比密切的又不懂你的工作的监管更糟糕了。"
+   },
+   {
+    "en": "This phenomenon is apparently even worse in the production of high school textbooks.",
+    "cn": "高中教科书的出版中，这个现象就更严重了。"
+   }
+  ]
+ },
+ {
+  "sentences": [
+   {
+    "en": "[10] Your teachers are always telling you to behave like adults.",
+    "cn": "[10]你们的老师总是告诉你们要表现得像个成年人。"
+   },
+   {
+    "en": "I wonder if they'd like it if you did.",
+    "cn": "我想知道他们是否真的希望如此。"
+   },
+   {
+    "en": "You may be loud and disorganized, but you're very docile compared to adults.",
+    "cn": "你们或许大声争吵没有纪律，但你们比起成年人来说温顺太多。"
+   },
+   {
+    "en": "If you actually started acting like adults, it would be just as if a bunch of adults had been transposed into your bodies.",
+    "cn": "如果你们真的表现得像个成年人，像是一群成年人转移到你们的身体里。"
+   },
+   {
+    "en": "Imagine the reaction of an FBI agent or taxi driver or reporter to being told they had to ask permission to go the bathroom, and only one person could go at a time.",
+    "cn": "想象一下FBI特工或出租车司机或者记者被告知说，你们必须经过同意才能上厕所，而且必须每次去一个。"
+   },
+   {
+    "en": "To say nothing of the things you're taught.",
+    "cn": "更不用说你被教的知识了。"
+   },
+   {
+    "en": "If a bunch of actual adults suddenly found themselves trapped in high school, the first thing they'd do is form a union and renegotiate all the rules with the administration.",
+    "cn": "如果一群成年人发现他们被困在一所高中里，第一件他们会做的事就是成立工会，"
+   },
+   {
+    "en": "Thanks to Ingrid Bassett, Trevor Blackwell, Rich Draves, Dan Giffin, Sarah Harlin, Jessica Livingston, Jackie McDonough, Robert Morris, Mark Nitzberg, Lisa Randall, and Aaron Swartz for reading drafts of this, and to many others for talking to me about high school.",
+    "cn": "和学校负责人重新谈判一下管理规定。感谢 Ingrid Bassett, Trevor Blackwell, Rich Draves, Dan Giffin, Sarah Harlin, Jessica Livingston, Jackie McDonough, Robert Morris, Mark Nitzberg, Lisa Randall, 和 Aaron Swartz 读了初稿，还有其他和我聊高中的人。"
+   }
+  ]
+ }
+]

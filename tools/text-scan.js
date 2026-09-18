@@ -151,8 +151,12 @@ for (const [group, list] of GROUPS) {
            * `….` / `…………..` 的译文是 `……`（正确），皮克篇 p37「一字一顿」被逐词切开后
            * `That?!` 的译文落在 `？！`（也正确，中文的「那」在前一块）。
            * 真正的漏译形态是「译文里没有中文、却带着拉丁字母」= 把原文照抄进 cn 没翻。
-           * 反例（必须仍报）：cn = "This is a test."（无中文、有字母）。 */
-          if (!CJK.test(cn) && en.trim() && /[A-Za-z]/.test(cn)) add("translate", "译文无中文（疑似漏译）", group, id, sat);
+           * 反例（必须仍报）：cn = "This is a test."（无中文、有字母）。
+           * 2026-09-18 二次收紧：访谈里 "HM: ..." 这类「说话人缩写 + 省略号」碎片的译文
+           * "HM：……"（Weisz 篇 p76，全库实测仅此 1 处）——说话人标签保留原文缩写是对的，
+           * 不算漏译；带实际英文内容的（"HM: Yeah, ..." → 译文照抄正文）仍必须报。 */
+          const SPEAKER_ELLIPSIS = /^(?:[A-Z]{1,3})\s*[：:]\s*[…。.]*$/;
+          if (!CJK.test(cn) && en.trim() && /[A-Za-z]/.test(cn) && !SPEAKER_ELLIPSIS.test(cn.trim())) add("translate", "译文无中文（疑似漏译）", group, id, sat);
           if (en.trim() && cn.trim() === en.trim()) add("translate", "译文与原文相同", group, id, sat);
         }
 

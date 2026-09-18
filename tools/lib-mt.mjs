@@ -1,7 +1,10 @@
 /* 词阅 WordLens —— 机器翻译库
  *
  * 抓取流水线（tools/ingest.mjs）翻正文、标题翻译（tools/translate-titles.mjs）翻标题，
- * 共用同一份磁盘缓存与接口策略：DeepL 优先，Qwen-MT 补齐失败项。
+ * 共用同一份磁盘缓存与接口策略：Qwen-MT 优先，DeepL 补齐失败项。
+ * （2026-09-17 对调：英译中 Qwen-MT 质量持平且成本约低一个数量级，还支持术语干预；
+ *   DeepL 免费额度从主力降为替补后基本用不完，且作为独立引擎保留交叉验证价值。
+ *   已入库译文不受影响——缓存按 (text, 文章键) 命中，与引擎顺序无关。）
  *
  * 只复用启用引擎的明确来源缓存；失败项保持空串，由入库完整性门槛拦截。
  */
@@ -66,7 +69,7 @@ export function deepLKey() {
 }
 
 /**
- * DeepL（主力引擎）：一次送一批文本（text 数组），返回按序译文。
+ * DeepL（替补引擎）：一次送一批文本（text 数组），返回按序译文。
  * key 以 :fx 结尾 = 免费档，走 api-free.deepl.com。返回 null 表示本次不可用。
  */
 export function createDeepL(key, options = {}) {
@@ -123,7 +126,7 @@ export function qwenMTBaseURL(value = process.env.DASHSCOPE_BASE_URL || "https:/
   } catch { throw new Error("DASHSCOPE_BASE_URL 必须是北京地域百炼官方 HTTPS 地址，路径为 /compatible-mode/v1"); }
 }
 
-/** 单句调用，避免翻译模型合并或丢失批次中的句子；返回数组仍与原文严格对齐。 */
+/** 单句调用（Qwen-MT 主力引擎，2026-09-17 起）；避免翻译模型合并或丢失批次中的句子，返回数组仍与原文严格对齐。 */
 export function createQwenMT(key, options = {}) {
   key = key || qwenMTKey();
   if (!key) return null;
@@ -181,6 +184,82 @@ export function createQwenMT(key, options = {}) {
 
 /* ---------------- 批量翻译 ---------------- */
 
+const LLM_SYS = "你是一位专业的文学翻译。把用户给出的编号英文句子逐句翻译成简体中文：每行保留原编号，一行一句；不合并、不拆分、不增删句子，不输出任何解释或额外内容。译文自然口语化、忠实原意，保留人名与数字。如果某句只有标点（如 … / — / ?!），输出行也只保留对应中文标点，编号照写。";
+
+/* 解析「1. 译文」编号行；缺失、多余或空译文都视为对不齐，整批作废。
+ * 这是精翻通道的对齐闸门：大模型不可信的不是译文，而是「悄悄少译/合并一句」。 */
+function parseNumbered(content, n) {
+  const map = new Map();
+  const text = String(content || "").replace(/```[a-z]*/gi, "").replace(/```/g, "");
+  for (const raw of text.split(/\r?\n/)) {
+    const m = raw.match(/^\s*[\[（(]?(\d{1,3})\s*[\].、)）：:]\s*(.+)$/) || raw.match(/^\s*(\d{1,3})\s*[:：]\s*(.+)$/);
+    if (!m) continue;
+    const i = Number(m[1]) - 1;
+    if (i >= 0 && i < n && !map.has(i)) map.set(i, m[2].trim());
+  }
+  if (map.size !== n || [...map.values()].some(t => !t)) return null;
+  const out = new Array(n);
+  for (const [i, t] of map) out[i] = t;
+  return out;
+}
+
+/**
+ * 精翻引擎（2026-09-17 新增）：通用 Qwen 大模型（默认 qwen-max），适合文学性强的整篇精翻。
+ * 与 qwen-mt 共用同一把百炼密钥和官方接口；编号行协议保证逐句对齐，对不齐的批次整批作废（返回全空串），
+ * 由 translateTexts 回落给下一个引擎。单次请求（整批一个 prompt），超时放宽到 120s。
+ */
+export function createQwenLLM(key, options = {}) {
+  key = key || qwenMTKey();
+  if (!key) return null;
+  const model = options.model || process.env.QWEN_LLM_MODEL?.trim() || "qwen-max";
+  if (!/^qwen[a-z0-9._-]*$/i.test(model)) throw new Error("QWEN_LLM_MODEL 只支持百炼 qwen 系模型名（如 qwen-max / qwen-plus）");
+  const base = qwenMTBaseURL(options.baseURL);
+  let unavailable = false;
+  const translator = async function qwenLLM(lines, context = "") {
+    if (unavailable) return lines.map(() => "");
+    const numbered = lines.map((t, i) => `${i + 1}. ${t}`).join("\n");
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const res = await fetch(base + "/chat/completions", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model,
+            temperature: 0.3,
+            messages: [
+              { role: "system", content: LLM_SYS },
+              { role: "user", content: (context ? `背景（仅用于消歧，不要翻译本行）：${context}\n\n` : "") + numbered },
+            ],
+          }),
+          redirect: "error",
+          signal: AbortSignal.timeout(120000),
+        });
+        if (res.status === 429 || res.status >= 500) {
+          if (attempt === 0) { await sleep(2000); continue; }
+        }
+        if (!res.ok) {
+          console.warn("  ! Qwen-LLM HTTP", res.status);
+          // 鉴权、权限、额度或参数错误：本轮停止请求，避免每批重复打失败接口。
+          if ([400, 401, 402, 403, 404].includes(res.status)) unavailable = true;
+          break;
+        }
+        const data = await res.json();
+        const choice = data.choices?.[0];
+        if (choice?.finish_reason !== "stop" || typeof choice.message?.content !== "string") break;
+        const parsed = parseNumbered(choice.message.content, lines.length);
+        if (parsed) return parsed;
+        if (attempt === 0) { await sleep(1500); continue; }   // 对不齐重试一次，再不行整批作废
+        break;
+      } catch {
+        if (attempt === 0) await sleep(1500);
+      }
+    }
+    return lines.map(() => "");
+  };
+  translator.model = model;
+  return translator;
+}
+
 /**
  * 批量翻译一组文本，返回与入参等长的译文数组（译不出来的位置是空串）。
  * 命中缓存的直接复用；未命中的按 maxChars/maxLines 攒批，一次请求译多行。
@@ -192,7 +271,7 @@ export function createQwenMT(key, options = {}) {
  *   - maxLines   单次请求的行数上限
  *   - onTick     (done, total) => void，进度回调
  *   - onProvider (provider, count) => void，记录实际使用的引擎
- *   - providers  请求顺序，默认 ["deepl", "qwen-mt"]；只尝试配置了密钥的引擎
+ *   - providers  请求顺序，默认 ["qwen-mt", "deepl"]；只尝试配置了密钥的引擎
  *   - cacheNamespace  缓存方案名；切换上下文/术语表时递增，避免复用旧译文
  *   - cacheKey   当前文章或文档的稳定标识，也可按 (text, index) 返回文章键
  *   - context    DeepL 的上下文字符串，或接收当前批次 [{i,t}] 的函数
@@ -212,13 +291,18 @@ export async function translateTexts(texts, opts = {}) {
     glossaryId = "",
     acceptTranslation = null,
     onProvider = null,
-    providers = ["deepl", "qwen-mt"],
+    providers = ["qwen-mt", "deepl"],
     qwenKey = "",
+    llmKey = "",
   } = opts;
-  if (!Array.isArray(providers) || !providers.length || providers.some(p => !["deepl", "qwen-mt"].includes(p))) {
-    throw new Error("providers 必须是 deepl / qwen-mt 的非空数组");
+  if (!Array.isArray(providers) || !providers.length || providers.some(p => !["deepl", "qwen-mt", "qwen-llm"].includes(p))) {
+    throw new Error("providers 必须是 deepl / qwen-mt / qwen-llm 的非空数组");
   }
   const qwenModel = process.env.QWEN_MT_MODEL?.trim() || "qwen-mt-plus";
+  const llmModel = process.env.QWEN_LLM_MODEL?.trim() || "qwen-max";
+
+  /* qwen 系引擎的缓存条目带 model：模型换了旧译文就作废，DeepL 条目无 model 恒有效。 */
+  const currentModel = p => (p === "qwen-mt" ? qwenModel : p === "qwen-llm" ? llmModel : undefined);
 
   /* cacheKey 可以按句子下标变化。标题批次因此能逐篇隔离上下文，
      而正文仍可用整篇 URL/文章指纹作为稳定键。 */
@@ -247,7 +331,7 @@ export async function translateTexts(texts, opts = {}) {
     /* 旧纯字符串、来源不明及停用引擎的缓存必须重译。 */
     const entry = cache[key];
     const allowed = providers.includes(entry?.provider) &&
-      (entry.provider !== "qwen-mt" || entry.model === qwenModel);
+      (entry.provider === "deepl" || entry.model === currentModel(entry.provider));
     const cached = allowed ? String(entry.text || "") : "";
     if (cached && isAccepted(cached, t)) {
       out[i] = cached;
@@ -270,7 +354,9 @@ export async function translateTexts(texts, opts = {}) {
   if (!todo.length) return out;
   const engines = providers.map(provider => ({
     provider,
-    translate: provider === "deepl" ? createDeepL(null, { sourceLang, glossaryId }) : createQwenMT(qwenKey, { sourceLang }),
+    translate: provider === "deepl" ? createDeepL(null, { sourceLang, glossaryId })
+      : provider === "qwen-llm" ? createQwenLLM(llmKey, { model: llmModel })
+      : createQwenMT(qwenKey, { sourceLang }),
   })).filter(engine => engine.translate);
   let done = 0;
   const total = todo.length;
@@ -296,7 +382,7 @@ export async function translateTexts(texts, opts = {}) {
         if (isAccepted(cn, b.t)) {
           cache[keyFor(b.t, b.i)] = {
             text: cn, provider: engine.provider, profile: cacheNamespace, version: cacheVersion,
-            ...(engine.provider === "qwen-mt" ? { model: engine.translate.model } : {}),
+            ...(engine.provider !== "deepl" ? { model: engine.translate.model } : {}),
           };
           out[b.i] = cn;
           accepted++;

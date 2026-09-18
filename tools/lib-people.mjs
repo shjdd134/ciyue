@@ -77,6 +77,9 @@ export function imageKey(url) {
 const AD_OR_NAV = /^(?:advertisement|sponsored|subscribe(?: now| to)?|sign up(?: for)?|newsletter|save this story|shop(?: now| the story)?|buy now|related stories|related articles|more from|read more|read next|you may also like|all access|unlock|skip to|terms of use|privacy policy)\b/i;
 const AD_FRAGMENT = /(?:advertisement|sponsored content|newsletter|subscribe to|sign up for|save this story|shop the story|all access|unlock this article|related stories|more from vogue|more from another)/i;
 const TAG_BLOCK = /<(figure|p|h2|h3|blockquote|li)\b[^>]*>[\s\S]*?<\/\1>/gi;
+/* WordPress 经典排版的图注 <p id="caption-attachment-…">：它不是正文，混进正文流
+ * 会重复计词（图注已经算图片的 credit），两个来源（Interview 2026-09-17 实测）都会踩。 */
+const CAPTION_BLOCK = /\bid=["']caption-[-\w]+["']/i;
 function isTextBlock(text, title='') {
   const t=plain(text);
   if(!t || t===title || t.length<2) return false;
@@ -135,10 +138,36 @@ function figureCaption(raw) {
     || '');
 }
 
-function extractBlocks(article, title, source, base, addImage) {
+/* 从 <img> 属性判定「是否正文内容图」：srcset 有 ≥960w 档、或 width 属性 ≥500、
+ * 或 imgix 式 ?w= 查询（×dpr）≥500 才算。头像/图标/像素陷阱按 URL 特征排除。
+ * ignoreQueryW：stripImgQuery 来源（W Magazine/Bustle）的 ?w=375 只是版面缩略参数，
+ * 去参后是原图，不能拿它判尺寸——否则整版照片会被误杀（2026-09-17 Eva Green 实测）。 */
+function qualifyImg(a, ignoreQueryW=false) {
+  const set=[...(a.srcset||a['data-srcset']||'').matchAll(/(https:\/\/\S+?)\s+(\d+)w/g)].map(x=>({url:x[1],w:+x[2]})).sort((x,y)=>x.w-y.w);
+  const pick=set.find(x=>x.w>=960)||set.at(-1);
+  const url=pick?.url||a['data-src']||a.src||'';
+  if(!url) return null;
+  let w=pick?.w||+(a.width||0)||0;
+  if(!w && !ignoreQueryW){ const mw=String(url).match(/[?&]w=(\d+)/); const dpr=String(url).match(/[?&]dpr=(\d+)/); w=mw?(+mw[1])*(dpr?+dpr[1]:1):0; }
+  if(w && w<500) return null;
+  if(/favicon|logo|icon|avatar|pixel|spacer|sprite|facebook\.com\/tr/i.test(url)) return null;
+  if(/pin it|logo|icon|advert(?:isement)?|sponsored|promo|newsletter|subscribe/i.test(a.alt||'')) return null;
+  return {url};
+}
+
+function extractBlocks(article, title, source, base, addImage, plainImgHits=[]) {
   const blocks=[];
+  let hit=0;
+  /* 片尾制作名单段（W Magazine 实测："Hair by Shay Ashual at Art Partner; makeup by …
+   * Set design by … / Produced by Red Hook Labs. Executive producer …"）以摄制职名开头，
+   * 不是正文。只按「段首职名 + by」判定，避免误杀正文里引用的 Produced by 片语。 */
+  const CREDIT_START=/^(?:hair|makeup|manicure|styling|set design|grooming|wardrobe|casting|produced|executive producer|line producer|digital technician|special thanks)\b[^\n]{0,40}?\bby\b/i;
+  /* plainImgs 来源（Interview/W Magazine 等）的图不在 <figure> 里，是裸 <img>：
+   * 按文档偏移与文本块交织，保证阅读页图文顺序与原刊一致。 */
+  const flush=limit=>{ while(hit<plainImgHits.length && plainImgHits[hit].index<limit){ const h=plainImgHits[hit++]; const before=addImage(h.url,h.caption); if(before) blocks.push({type:'image',...before}); } };
   for (const m of article.matchAll(TAG_BLOCK)) {
-    const kind=m[1].toLowerCase(), raw=m[0];
+    flush(m.index);
+    const kind=m[1].toLowerCase(), raw=m[0], end=m.index+m[0].length;
     if(kind==='figure') {
       const tag=raw.slice(0,raw.indexOf('>')+1), fa=attrs(tag);
       const caption=figureCaption(raw);
@@ -152,13 +181,18 @@ function extractBlocks(article, title, source, base, addImage) {
         const before=addImage(rawUrl,caption);
         if(before) blocks.push({type:'image',...before});
       }
+      flush(end);
       continue;
     }
+    if(CAPTION_BLOCK.test(raw)) continue;
     const text=plain(raw);
-    if(!isTextBlock(text,title)) continue;
+    if(!isTextBlock(text,title)){ flush(end); continue; }
+    if(CREDIT_START.test(text)){ flush(end); continue; }
     const heading=kind==='h2'||kind==='h3';
     blocks.push({type:'text',tag:heading?'heading':'paragraph',text,sentences:splitOriginalSentences(text)});
+    flush(end);
   }
+  flush(Infinity);
   return blocks;
 }
 export function extractProfile(html, url) {
@@ -168,8 +202,23 @@ export function extractProfile(html, url) {
   for(const m of html.matchAll(/<meta\b[^>]*>/gi)){const a=attrs(m[0]);meta[a.property||a.name]=a.content;}
   const title=plain(html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || meta['og:title']);
   const article=selectArticle(html,title);
-  const body=article.replace(/<script\b[\s\S]*?<\/script>/gi,'').replace(/<style\b[\s\S]*?<\/style>/gi,'').replace(/<noscript\b[\s\S]*?<\/noscript>/gi,'');
-  const text=[...body.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map(m=>plain(m[1])).filter(t=>isTextBlock(t,title)).join('\n');
+  /* plainImgs 来源（Bustle 系 W Magazine）把正文 <img> 放在 <noscript> 里做无 JS 回退，
+   * 一律剥离会整版丢图；对这类来源改为**展开** noscript 保留内容（2026-09-17 Eva Green 实测）。 */
+  let body=article.replace(/<script\b[\s\S]*?<\/script>/gi,'').replace(/<style\b[\s\S]*?<\/style>/gi,'')
+    .replace(/<noscript\b[^>]*>([\s\S]*?)<\/noscript>/gi, source.plainImgs ? '$1' : '');
+  /* 图注查询要在剥离 <figcaption> 之前建好索引（Bustle 的 aria-describedby 目标就在里面） */
+  const bodyForCaption=body;
+  /* <aside>（Interview 的 popular-posts 挂件）、<section class="related">（相关文章区，
+   * 与 popular-posts 是两份不同容器，实测 Megan Fox 页各有一份）与 <figcaption>
+   * （W Magazine 的制作人员名单 "Hair by … at Art Partner; Produced by Red Hook Labs…"
+   * 全在图注容器里）都不是正文——不剥的话 2026-09-18 实测混进正文 9 组重复句守卫全红。
+   * 图注单独由 plainImgHits 的 aria-describedby 查询供给（用未剥离的 bodyForCaption），
+   * 不经过文本块路径。 */
+  const bodyText=body
+    .replace(/<aside\b[\s\S]*?<\/aside>/gi,' ')
+    .replace(/<section\b[^>]*class="[^"]*\brelated\b[^"]*"[^>]*>[\s\S]*?<\/section>/gi,' ')
+    .replace(/<figcaption\b[\s\S]*?<\/figcaption>/gi,' ');
+  const text=[...bodyText.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].filter(m=>!CAPTION_BLOCK.test(m[0])).map(m=>plain(m[1])).filter(t=>isTextBlock(t,title)).join('\n');
   const lang=attrs(html.match(/<html\b[^>]*>/i)?.[0]||'').lang || '';
   const english=/^en(?:-|$)/i.test(lang);
   const images=[],seen=new Set();
@@ -178,6 +227,9 @@ export function extractProfile(html, url) {
     try{
       const u=new URL(raw,url);
       if(u.protocol!=='https:' || !source.images.includes(u.hostname))return;
+      /* imgix 式 CDN 的 ?w=&h=&fit= 是版面裁剪参数：去掉拿原图（清晰度对封面很重要），
+       * 且两处（收集 + blocks 回调）必须同规则去参，否则 imageKey 对不上。 */
+      if(source.stripImgQuery) u.search='';
       if(/shoppingunit|magstack|subscribe|newsletter|promo|banner|advert/i.test(decodeURIComponent(u.pathname)))return;
       const key=imageKey(u.href);if(seen.has(key))return null;
       seen.add(key); const item={url:u.href,credit}; images.push(item); return item;
@@ -199,6 +251,20 @@ export function extractProfile(html, url) {
       add(pick?.url||a['data-src']||a.src,caption);
     }
   }
+  /* plainImgs 来源：正文图是裸 <img>（不在 <figure> 里），按文档顺序单独收集。
+   * 既要进 images[]（计数/下载），也要带 body 偏移记录下来供 extractBlocks 交织排布。 */
+  const plainImgHits=[];
+  if(source.plainImgs){
+    for(const m of bodyText.matchAll(/<img\b[^>]*>/gi)){
+      const a=attrs(m[0]);
+      const q=qualifyImg(a, !!source.stripImgQuery);
+      if(!q)continue;
+      const desc=a['aria-describedby'];
+      const caption=desc?plain(bodyForCaption.match(new RegExp('id="'+desc.replace(/[.$]/g,'\\$&')+'"[^>]*>([\\s\\S]*?)<','i'))?.[1]||''):'';
+      add(q.url,caption);
+      plainImgHits.push({index:m.index,url:q.url,caption});
+    }
+  }
   const person=personFor(title);
   const depth=(text.match(/\b(career|childhood|acting|actor|actress|film|cinema|mother|life|role|character|grew up|story|interview)\b/gi)||[]).length;
   const blocked=/"isAccessibleForFree"\s*:\s*(?:false|"false")/i.test(html) || /subscribe to (?:read|continue)|unlock (?:this|the full) (?:article|story)/i.test(text);
@@ -207,9 +273,10 @@ export function extractProfile(html, url) {
   /* 第二次扫描保留正文与图片的文档顺序。图片已在上面的 whitelist/dedupe 中计数，
    * 所以这里用 imageKey 对齐到同一个对象，避免把推广图片重新塞回来。 */
   const blockSeen=new Set();
-  const blocks=extractBlocks(body,title,source,url,(raw,credit='')=>{
+  const blocks=extractBlocks(bodyText,title,source,url,(raw,credit='')=>{
     try{
       const u=new URL(raw,url); if(u.protocol!=='https:'||!source.images.includes(u.hostname))return null;
+      if(source.stripImgQuery) u.search='';
       if(/shoppingunit|magstack|subscribe|newsletter|promo|banner|advert/i.test(decodeURIComponent(u.pathname)))return null;
       const key=imageKey(u.href); if(blockSeen.has(key))return null;
       const match=images.find(x=>imageKey(x.url)===key);
@@ -218,7 +285,7 @@ export function extractProfile(html, url) {
       if(credit && !match.credit)match.credit=credit;
       return match;
     }catch{return null;}
-  });
+  }, plainImgHits);
   /* 正文词数必须量「真正会被发布的文本」——qc 就是拿发布后的 paragraphs 复算这个数
    * （qc.mjs F4）。原先在 <p> 上量、却把 <figure> 里的 <p> 当图注排除掉，两把尺子
    * 必然对不上：Monica 那篇量出 964、发布正文只有 915，差 49。改成量 blocks 的文本块，

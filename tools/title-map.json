@@ -18,48 +18,581 @@
     "  note     备注"
   ],
   "titles": [
-    { "zh": "圣母玛利亚", "en": "Mother Mary", "verified": "2026-09-17 百度百科「中文名：圣母玛利亚」+ 豆瓣 subject 36323221；中国台湾译名「魅影巨星」" },
-    { "zh": "青少年", "en": "Young Adult", "verified": "2026-09-17 时光网：严格来说《青少年》/Young Adult (2011)" },
-    { "zh": "美国小姐", "en": "Miss Americana", "verified": "2026-09-17 快懂百科：《美国小姐》，又名《美国甜心小姐》" },
-    { "zh": "对你的想象", "en": "The Idea of You", "verified": "2026-09-17 豆瓣主标题 / 百度百科「中文名：对你的想象」；其他译名：关于你的想法、概念中的你" },
-    { "zh": "女魔头", "en": "Monster", "verified": "2003 派蒂·杰金斯影片通行译名" },
-    { "zh": "永生守卫", "en": "The Old Guard", "verified": "Netflix 官方中文名" },
-    { "zh": "奥德赛", "en": "The Odyssey", "verified": "2026-09-17 同篇《对你的想象》并列处指向诺兰新片" },
-    { "zh": "星际穿越", "en": "Interstellar", "verified": "2014 诺兰影片通行译名；原文 reuniting with Interstellar director Christopher Nolan" },
-    { "zh": "黑手党妈妈", "en": "Mafia Mamma", "verified": "2023 影片通行译名" },
-    { "zh": "记忆", "en": "Memory", "verified": "2022 连姆·尼森影片；同句与 Mafia Mamma 并列" },
-    { "zh": "玛丽亚·卡拉斯：书信与回忆录", "en": "Maria Callas: Letters & Memoirs", "verified": "舞台演出名，原文并列出现" },
-    { "zh": "穿普拉达的女王2", "en": "The Devil Wears Prada 2", "verified": "原文并列 The Devil Wears Prada 2 / The Princess Diaries 3" },
-    { "zh": "公主日记3", "en": "The Princess Diaries 3", "verified": "同上" },
-    { "zh": "真相", "en": "Verity", "verified": "原文 for the thriller Verity" },
-    { "zh": "艾琳", "en": "Eileen", "verified": "原文 Consider a few of the next films she made: Eileen" },
-    { "zh": "现代启示录", "en": "Apocalypse Now", "verified": "原文 shooting Apocalypse Now" },
-    { "zh": "绿骑士", "en": "The Green Knight", "verified": "原文 Lowery's previous work (The Green Knight, A Ghost Story)" },
-    { "zh": "鬼故事", "en": "A Ghost Story", "verified": "同上" },
-    { "zh": "末日时刻", "en": "Armageddon Time", "verified": "原文 When I worked with James Gray on Armageddon Time" },
-    { "zh": "爆炸新闻", "en": "Bombshell", "verified": "原文 playing Megyn Kelly 所在句" },
-    { "zh": "疯狂的麦克斯：狂暴之路", "en": "Mad Max: Fury Road", "verified": "原文 scene-eating in Mad Max: Fury Road" },
-    { "zh": "发展受阻", "en": "Arrested Development", "verified": "原文 cameos in Arrested Development" },
-    { "zh": "工作室", "en": "The Studio", "verified": "原文 cameos in Arrested Development and The Studio" },
-    { "zh": "Apex", "en": "Apex", "verified": "原文 In the film Apex the Academy Award-winning actor will play Sasha" },
-    { "zh": "克莱默夫妇", "en": "Kramer vs Kramer", "verified": "原文 I loved Kramer vs Kramer" },
-    { "zh": "虎胆龙威", "en": "Die Hard", "verified": "原文 I watched Die Hard" },
-    { "zh": "致命诱惑", "en": "Fatal Attraction", "verified": "原文 I watched Fatal Attraction at a drive-in" },
-    { "zh": "奥本海默", "en": "Oppenheimer", "verified": "原文 Twenty-year-olds went to see Oppenheimer" },
-    { "zh": "美人鱼", "en": "Splash", "verified": "原文 Daryl Hannah [in Splash] was a mermaid" },
-    { "zh": "北国风云", "en": "North Country", "verified": "原文 the 2005 film North Country" },
-    { "zh": "珍妮·迪尔曼", "en": "Jeanne Dielman", "verified": "原文 Jeanne Dielman doesn't seem like the kind of movie you watch at home" },
-    { "zh": "跳出我的城市", "en": "Saute ma Ville", "verified": "", "note": "待核：法文原名 Saute ma Ville（阿克曼短片），中文通行译名另有《我的城市》" },
-    { "zh": "嫌疑", "en": "Under Suspicion", "verified": "", "note": "待核：2000 年影片，中文通行译名另有《疑云重重》" },
-    { "zh": "王朝", "en": "Dynasty", "verified": "原文 on Dynasty or Dallas（与《达拉斯》并列的美剧）" },
-    { "zh": "达拉斯", "en": "Dallas", "verified": "同上" },
-    { "zh": "真实主妇", "en": "Real Housewives", "verified": "原文 the Real Housewives franchise" },
-    { "zh": "主妇", "en": "Housewives", "verified": "原文 I'm a huge Housewives person" },
-    { "zh": "内心的指南针", "en": "The Inner Compass", "verified": "原文 reading The Inner Compass" },
-    { "zh": "你不是你的焦虑：一场探索焦虑大脑的旅程", "en": "You Are Not Your Anxiety: A Journey Into the Anxious Brain", "verified": "原文完整书名" },
-    { "zh": "HUMAN 3.0——通往1%的路线图", "en": "HUMAN 3.0 – A Map To Reach The 1%", "verified": "原文 I wrote HUMAN 3.0 – A Map To Reach The 1%" },
-    { "zh": "AnOther Magazine", "en": "AnOther Magazine", "verified": "原文 the Spring/Summer 2026 issue of AnOther Magazine" },
-    { "zh": "闪灵", "en": "The Shining", "verified": "2026-09-18 登记：1979 库布里克影片通行译名；原文 the famous scene with Jack Nicholson in The Shining" },
-    { "zh": "球员论坛报", "en": "The Players’ Tribune", "verified": "2026-09-18 登记：The Players' Tribune 的通行中文名（体育媒体网站）；原文 Welcome to The Players' Tribune Global." }
+    {
+      "zh": "圣母玛利亚",
+      "en": "Mother Mary",
+      "verified": "2026-09-17 百度百科「中文名：圣母玛利亚」+ 豆瓣 subject 36323221；中国台湾译名「魅影巨星」"
+    },
+    {
+      "zh": "青少年",
+      "en": "Young Adult",
+      "verified": "2026-09-17 时光网：严格来说《青少年》/Young Adult (2011)"
+    },
+    {
+      "zh": "美国小姐",
+      "en": "Miss Americana",
+      "verified": "2026-09-17 快懂百科：《美国小姐》，又名《美国甜心小姐》"
+    },
+    {
+      "zh": "对你的想象",
+      "en": "The Idea of You",
+      "verified": "2026-09-17 豆瓣主标题 / 百度百科「中文名：对你的想象」；其他译名：关于你的想法、概念中的你"
+    },
+    {
+      "zh": "女魔头",
+      "en": "Monster",
+      "verified": "2003 派蒂·杰金斯影片通行译名"
+    },
+    {
+      "zh": "永生守卫",
+      "en": "The Old Guard",
+      "verified": "Netflix 官方中文名"
+    },
+    {
+      "zh": "奥德赛",
+      "en": "The Odyssey",
+      "verified": "2026-09-17 同篇《对你的想象》并列处指向诺兰新片"
+    },
+    {
+      "zh": "星际穿越",
+      "en": "Interstellar",
+      "verified": "2014 诺兰影片通行译名；原文 reuniting with Interstellar director Christopher Nolan"
+    },
+    {
+      "zh": "黑手党妈妈",
+      "en": "Mafia Mamma",
+      "verified": "2023 影片通行译名"
+    },
+    {
+      "zh": "记忆",
+      "en": "Memory",
+      "verified": "2022 连姆·尼森影片；同句与 Mafia Mamma 并列"
+    },
+    {
+      "zh": "玛丽亚·卡拉斯：书信与回忆录",
+      "en": "Maria Callas: Letters & Memoirs",
+      "verified": "舞台演出名，原文并列出现"
+    },
+    {
+      "zh": "穿普拉达的女王2",
+      "en": "The Devil Wears Prada 2",
+      "verified": "原文并列 The Devil Wears Prada 2 / The Princess Diaries 3"
+    },
+    {
+      "zh": "公主日记3",
+      "en": "The Princess Diaries 3",
+      "verified": "同上"
+    },
+    {
+      "zh": "真相",
+      "en": "Verity",
+      "verified": "原文 for the thriller Verity"
+    },
+    {
+      "zh": "艾琳",
+      "en": "Eileen",
+      "verified": "原文 Consider a few of the next films she made: Eileen"
+    },
+    {
+      "zh": "现代启示录",
+      "en": "Apocalypse Now",
+      "verified": "原文 shooting Apocalypse Now"
+    },
+    {
+      "zh": "绿骑士",
+      "en": "The Green Knight",
+      "verified": "原文 Lowery's previous work (The Green Knight, A Ghost Story)"
+    },
+    {
+      "zh": "鬼故事",
+      "en": "A Ghost Story",
+      "verified": "同上"
+    },
+    {
+      "zh": "末日时刻",
+      "en": "Armageddon Time",
+      "verified": "原文 When I worked with James Gray on Armageddon Time"
+    },
+    {
+      "zh": "爆炸新闻",
+      "en": "Bombshell",
+      "verified": "原文 playing Megyn Kelly 所在句"
+    },
+    {
+      "zh": "疯狂的麦克斯：狂暴之路",
+      "en": "Mad Max: Fury Road",
+      "verified": "原文 scene-eating in Mad Max: Fury Road"
+    },
+    {
+      "zh": "发展受阻",
+      "en": "Arrested Development",
+      "verified": "原文 cameos in Arrested Development"
+    },
+    {
+      "zh": "工作室",
+      "en": "The Studio",
+      "verified": "原文 cameos in Arrested Development and The Studio"
+    },
+    {
+      "zh": "Apex",
+      "en": "Apex",
+      "verified": "原文 In the film Apex the Academy Award-winning actor will play Sasha"
+    },
+    {
+      "zh": "克莱默夫妇",
+      "en": "Kramer vs Kramer",
+      "verified": "原文 I loved Kramer vs Kramer"
+    },
+    {
+      "zh": "虎胆龙威",
+      "en": "Die Hard",
+      "verified": "原文 I watched Die Hard"
+    },
+    {
+      "zh": "致命诱惑",
+      "en": "Fatal Attraction",
+      "verified": "原文 I watched Fatal Attraction at a drive-in"
+    },
+    {
+      "zh": "奥本海默",
+      "en": "Oppenheimer",
+      "verified": "原文 Twenty-year-olds went to see Oppenheimer"
+    },
+    {
+      "zh": "美人鱼",
+      "en": "Splash",
+      "verified": "原文 Daryl Hannah [in Splash] was a mermaid"
+    },
+    {
+      "zh": "北国风云",
+      "en": "North Country",
+      "verified": "原文 the 2005 film North Country"
+    },
+    {
+      "zh": "珍妮·迪尔曼",
+      "en": "Jeanne Dielman",
+      "verified": "原文 Jeanne Dielman doesn't seem like the kind of movie you watch at home"
+    },
+    {
+      "zh": "跳出我的城市",
+      "en": "Saute ma Ville",
+      "verified": "",
+      "note": "待核：法文原名 Saute ma Ville（阿克曼短片），中文通行译名另有《我的城市》"
+    },
+    {
+      "zh": "嫌疑",
+      "en": "Under Suspicion",
+      "verified": "",
+      "note": "待核：2000 年影片，中文通行译名另有《疑云重重》"
+    },
+    {
+      "zh": "王朝",
+      "en": "Dynasty",
+      "verified": "原文 on Dynasty or Dallas（与《达拉斯》并列的美剧）"
+    },
+    {
+      "zh": "达拉斯",
+      "en": "Dallas",
+      "verified": "同上"
+    },
+    {
+      "zh": "真实主妇",
+      "en": "Real Housewives",
+      "verified": "原文 the Real Housewives franchise"
+    },
+    {
+      "zh": "主妇",
+      "en": "Housewives",
+      "verified": "原文 I'm a huge Housewives person"
+    },
+    {
+      "zh": "内心的指南针",
+      "en": "The Inner Compass",
+      "verified": "原文 reading The Inner Compass"
+    },
+    {
+      "zh": "你不是你的焦虑：一场探索焦虑大脑的旅程",
+      "en": "You Are Not Your Anxiety: A Journey Into the Anxious Brain",
+      "verified": "原文完整书名"
+    },
+    {
+      "zh": "HUMAN 3.0——通往1%的路线图",
+      "en": "HUMAN 3.0 – A Map To Reach The 1%",
+      "verified": "原文 I wrote HUMAN 3.0 – A Map To Reach The 1%"
+    },
+    {
+      "zh": "AnOther Magazine",
+      "en": "AnOther Magazine",
+      "verified": "原文 the Spring/Summer 2026 issue of AnOther Magazine"
+    },
+    {
+      "zh": "闪灵",
+      "en": "The Shining",
+      "verified": "2026-09-18 登记：1979 库布里克影片通行译名；原文 the famous scene with Jack Nicholson in The Shining"
+    },
+    {
+      "zh": "球员论坛报",
+      "en": "The Players’ Tribune",
+      "verified": "2026-09-18 登记：The Players' Tribune 的通行中文名（体育媒体网站）；原文 Welcome to The Players' Tribune Global."
+    },
+    {
+      "zh": "旧约",
+      "en": "Old Testament",
+      "note": "圣经篇章，非影视作品"
+    },
+    {
+      "zh": "AnOther",
+      "en": "AnOther",
+      "note": "刊物名；部分句子只写 AnOther，部分写 AnOther Magazine"
+    },
+    {
+      "zh": "第八页",
+      "en": "Page Eight",
+      "note": "David Hare 政治惊悚剧 (2011)"
+    },
+    {
+      "zh": "举报人",
+      "en": "Whistleblower",
+      "note": "The Whistleblower (2010)，Weisz 主演"
+    },
+    {
+      "zh": "吹哨人",
+      "en": "Whistleblower",
+      "note": "同上的另一译名（机翻不一致，保留现状）"
+    },
+    {
+      "zh": "梦幻之家",
+      "en": "Dream House",
+      "note": "Jim Sherman (2011)，与 Daniel Craig 合作"
+    },
+    {
+      "zh": "生命之树",
+      "en": "Tree of Life",
+      "note": "Terrence Malick (2011)"
+    },
+    {
+      "zh": "轻微占有",
+      "en": "Slight Possession",
+      "note": "Weisz 早期舞台剧"
+    },
+    {
+      "zh": "这就是生活",
+      "en": "That’s Life",
+      "note": "Sinatra 名曲"
+    },
+    {
+      "zh": "红潮",
+      "en": "Reds",
+      "note": "Beatty (1981)"
+    },
+    {
+      "zh": "慢下来，亚瑟",
+      "en": "Slow Down Arthur",
+      "note": "书名"
+    },
+    {
+      "zh": "无可救药的浪漫主义者寻找肮脏卑鄙的……",
+      "en": "Incurable Romantic Seeks Dirty Filthy",
+      "note": "画作名，原句即带省略号"
+    },
+    {
+      "zh": "毁灭欲",
+      "en": "Appetite for Destruction",
+      "note": "Guns N’ Roses 专辑"
+    },
+    {
+      "zh": "变形金刚",
+      "en": "Transformers",
+      "note": "cn 合并了相邻句译文，片名在相邻句",
+      "loose": true
+    },
+    {
+      "zh": "变形金刚2：复仇之战",
+      "en": "Transformers: Revenge of the Fallen",
+      "note": "同上",
+      "loose": true
+    },
+    {
+      "zh": "变形金刚3",
+      "en": "Transformers",
+      "note": "原刊仅缩写提及第三部"
+    },
+    {
+      "zh": "如何交朋友并影响他人",
+      "en": "How to Lose Friends and Alienate People",
+      "note": "机翻把 How to Lose Friends and Alienate People (2008) 误写成卡内基书名，登记实际片名，译文层待修"
+    },
+    {
+      "zh": "珍妮弗的肉体",
+      "en": "Jennifer’s Body",
+      "note": ""
+    },
+    {
+      "zh": "乔纳·赫克斯",
+      "en": "Jonah Hex",
+      "note": ""
+    },
+    {
+      "zh": "激情戏",
+      "en": "Passion Play",
+      "note": ""
+    },
+    {
+      "zh": "小马宝莉",
+      "en": "My Little Pony",
+      "note": ""
+    },
+    {
+      "zh": "Interview",
+      "en": "Interview",
+      "note": "刊物自指"
+    },
+    {
+      "zh": "宿醉",
+      "en": "The Hangover",
+      "note": ""
+    },
+    {
+      "zh": "无聊至死",
+      "en": "Bored to Death",
+      "note": ""
+    },
+    {
+      "zh": "Set It Up",
+      "en": "Set It Up",
+      "note": ""
+    },
+    {
+      "zh": "Not Okay",
+      "en": "Not Okay",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "The Outfit",
+      "en": "The Outfit",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "蒂芙尼的礼物",
+      "en": "Something From Tiffany’s",
+      "note": "官译《有你真甜》之外的机翻字面，保留现状"
+    },
+    {
+      "zh": "Something from Tiffany’s",
+      "en": "Something from Tiffany’s",
+      "note": ""
+    },
+    {
+      "zh": "Something From Tiffany’s",
+      "en": "Something From Tiffany’s",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "Devotion",
+      "en": "Devotion",
+      "note": ""
+    },
+    {
+      "zh": "忠誠",
+      "en": "Devotion",
+      "note": "Devotion (2022) 通行港台译名《忠诚》"
+    },
+    {
+      "zh": "忠勇之家",
+      "en": "Devotion",
+      "loose": true,
+      "note": "机翻把 Devotion 误译作《忠勇之家》(Mrs. Miniver)；语料里与 Devotion 同指，登记为 loose 并留待译文层修正"
+    },
+    {
+      "zh": "Everybody Wants Some!!",
+      "en": "Everybody Wants Some!!",
+      "note": ""
+    },
+    {
+      "zh": "壮志凌云",
+      "en": "Top Gun",
+      "note": ""
+    },
+    {
+      "zh": "吉米·坎摩尔直播秀",
+      "en": "Jimmy Kimmel Live",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "怦然心动",
+      "en": "Set It Up",
+      "loose": true,
+      "note": "机翻把 Set It Up 另译作《怦然心动》，与 Flipped 撞名；按原刊语境同指"
+    },
+    {
+      "zh": "为你打造",
+      "en": "Set It Up",
+      "loose": true,
+      "note": "机翻对 Set It Up 的另一种字面化译法"
+    },
+    {
+      "zh": "租个男友来搭戏",
+      "en": "Set It Up",
+      "loose": true,
+      "note": "机翻对 Set It Up 的另一种字面化译法"
+    },
+    {
+      "zh": "007：幽灵党",
+      "en": "Spectre",
+      "note": ""
+    },
+    {
+      "zh": "007",
+      "en": "Spectre",
+      "loose": true,
+      "note": "原刊行文用 Spectre / Bond，缩写 007 不逐字出现"
+    },
+    {
+      "zh": "蓝色是最温暖的颜色",
+      "en": "Blue Is the Warmest Colour",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "龙虾",
+      "en": "The Lobster",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "狗牙",
+      "en": "Dogtooth",
+      "note": ""
+    },
+    {
+      "zh": "W",
+      "en": "W",
+      "note": "刊物自指"
+    },
+    {
+      "zh": "皇家赌场",
+      "en": "Casino Royale",
+      "note": ""
+    },
+    {
+      "zh": "惊悚故事",
+      "en": "Penny Dreadful",
+      "note": "Penny Dreadful 的字面直译"
+    },
+    {
+      "zh": "潘妮·德雷德福尔",
+      "en": "Penny Dreadful",
+      "note": "音译"
+    },
+    {
+      "zh": "佩格琳小姐的奇异儿童之家",
+      "en": "Miss Peregrine",
+      "note": "机翻字面，通行译名《佩小姐的奇幻城堡》"
+    },
+    {
+      "zh": "佩小姐的奇幻城堡",
+      "en": "Miss Peregrine",
+      "note": ""
+    },
+    {
+      "zh": "佩雷格林少女异乡奇遇",
+      "en": "Miss Peregrine",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "怪屋女孩",
+      "en": "Miss Peregrine",
+      "loose": true,
+      "note": "同片另一译名；该句英文未逐字出现"
+    },
+    {
+      "zh": "佩雷格林小姐的奇幻之家……",
+      "en": "Miss Peregrine",
+      "note": "原句即带省略号"
+    },
+    {
+      "zh": "女巫小姐",
+      "en": "Miss Peregrine",
+      "note": ""
+    },
+    {
+      "zh": "黑暗阴影",
+      "en": "Dark Shadows",
+      "note": ""
+    },
+    {
+      "zh": "梦幻岛",
+      "en": "Fantasy Island",
+      "note": ""
+    },
+    {
+      "zh": "男性·女性",
+      "en": "Masculin Féminin",
+      "note": "Godard (1966)"
+    },
+    {
+      "zh": "巴黎最后的探戈",
+      "en": "Last Tango in Paris",
+      "note": ""
+    },
+    {
+      "zh": "梦中人",
+      "en": "The Dreamers",
+      "note": "Bertolucci (2003)，Green 出道作"
+    },
+    {
+      "zh": "梦之安魂曲",
+      "en": "Requiem for a Dream",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "300勇士：帝国崛起",
+      "en": "300: Rise of an Empire",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "罪恶之城2：为女杀伐",
+      "en": "Sin City: A Dame to Kill For",
+      "note": ""
+    },
+    {
+      "zh": "庞贝大灾难",
+      "en": "Pompeii",
+      "note": "cn 合并相邻句",
+      "loose": true
+    },
+    {
+      "zh": "地狱之轮",
+      "en": "Penny Dreadful",
+      "note": "Penny Dreadful 的又一机翻变体"
+    },
+    {
+      "zh": "007：大战皇家赌场",
+      "en": "Casino Royale",
+      "note": "cn 合并了相邻句译文，片名在相邻句",
+      "loose": true
+    },
+    {
+      "zh": "罪恶之城2",
+      "en": "Sin City",
+      "note": "Sin City: A Dame to Kill For 的简称"
+    },
+    {
+      "zh": "潘妮·德雷德福",
+      "en": "Penny Dreadful",
+      "note": "音译变体"
+    },
+    {
+      "zh": "佩雷格林小姐的奇异之家",
+      "en": "Miss Peregrine",
+      "note": "同片又一机翻译名"
+    }
   ]
 }

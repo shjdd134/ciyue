@@ -13,7 +13,7 @@ try {
   const translator = createQwenMT(key);
   if (!translator) throw new Error("请先运行 powershell -NoProfile -File tools/set-qwen-key.ps1");
   console.log(`模型：${translator.model}`);
-  console.log("默认顺序：DeepL 优先，Qwen-MT 补齐失败项。");
+  console.log("默认顺序：Qwen-MT 优先，DeepL 补齐失败项（2026-09-17 对调）。");
   if (process.argv.includes("--live")) {
     const source = "The team did not win, despite scoring two goals.";
     const [cn] = await translator([source], "This is a football match report.");

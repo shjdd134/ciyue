@@ -13,6 +13,7 @@ process.env.DEEPL_KEY = "fixture:fx";
 process.env.DASHSCOPE_API_KEY = "fixture-qwen";
 process.env.DASHSCOPE_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1";
 process.env.QWEN_MT_MODEL = "qwen-mt-plus";
+process.env.QWEN_LLM_MODEL = "qwen-max";
 let mode = "normal";
 const qwenRequests = [];
 
@@ -24,6 +25,15 @@ globalThis.fetch = async (url, init = {}) => {
     const body = JSON.parse(init.body);
     qwenRequests.push(body);
     if (mode === "quota") return { ok: false, status: 403 };
+    if (mode === "llm" || mode === "llm-bad") {
+      // 精翻协议：正常模式按编号逐行返回；llm-bad 把两句并进一行，模拟「悄悄合并」。
+      const src = body.messages[1].content.split("\n")
+        .map(l => l.match(/^\s*\d+\.\s*(.+)$/)).filter(Boolean).map(m => m[1]);
+      const content = mode === "llm"
+        ? src.map((t, i) => `${i + 1}. 千问精翻：${t}`).join("\n")
+        : `1. 千问精翻：${src.join(" ")}`;
+      return { ok: true, status: 200, async json() { return { choices: [{ finish_reason: "stop", message: { content } }] }; } };
+    }
     return {
       ok: true, status: 200,
       async json() { return { choices: [{
@@ -54,7 +64,7 @@ globalThis.fetch = async (url, init = {}) => {
 try {
   const { translateTexts: translateRaw, createQwenMT, qwenMTBaseURL } = await import("./lib-mt.mjs");
   // Keep test credentials isolated from a configured local key.
-  const translateAll = (texts, opts) => translateRaw(texts, { qwenKey: "fixture-qwen", ...opts });
+  const translateAll = (texts, opts) => translateRaw(texts, { qwenKey: "fixture-qwen", llmKey: "fixture-qwen", ...opts });
   // Existing DeepL-only regressions remain isolated even if a local Qwen key exists.
   const translateTexts = (texts, opts) => translateAll(texts, { providers: ["deepl"], ...opts });
   const texts = ["She won the award.", "The actor thanked her."];
@@ -107,17 +117,18 @@ try {
   assert.equal(foreignUrls.length, 0);
   try { fs.rmSync(echoFile, { force: true }); } catch { /* cleanup */ }
 
-  // In the default route DeepL stays first; only rejected items reach Qwen.
+  // In the default route Qwen-MT goes first (2026-09-17 swap); the mock accepts
+  // every sentence, so DeepL receives nothing.
   mode = "normal";
   const providers = {};
   const mixed = await translateAll(["A good sentence.", "Echo a fallback sentence."], {
     cacheFile, cacheKey: "mixed", context: "Article title: A match report",
     onProvider: (provider, count) => { providers[provider] = (providers[provider] || 0) + count; },
   });
-  assert.deepEqual(mixed, ["译文：A good sentence.", "千问译文：Echo a fallback sentence."]);
-  assert.deepEqual(providers, { deepl: 1, "qwen-mt": 1 });
-  assert.equal(qwenRequests.length, 1);
-  assert.deepEqual(qwenRequests[0].messages, [{ role: "user", content: "Echo a fallback sentence." }]);
+  assert.deepEqual(mixed, ["千问译文：A good sentence.", "千问译文：Echo a fallback sentence."]);
+  assert.deepEqual(providers, { "qwen-mt": 2 });
+  assert.equal(qwenRequests.length, 2);
+  assert.deepEqual(qwenRequests[0].messages, [{ role: "user", content: "A good sentence." }]);
   assert.deepEqual(qwenRequests[0].translation_options.source_lang, "English");
   assert.equal(qwenRequests[0].translation_options.target_lang, "Chinese");
   assert.match(qwenRequests[0].translation_options.domains, /A match report/);
@@ -130,14 +141,18 @@ try {
 
   // Changing the Qwen model invalidates its cache without invalidating DeepL entries.
   process.env.QWEN_MT_MODEL = "qwen-mt-flash";
+  const deepLBefore = requests.length;
   await translateAll(["A good sentence.", "Echo a fallback sentence."], { cacheFile, cacheKey: "mixed" });
-  assert.equal(requests.at(-1).text.length, 1);
+  assert.equal(requests.length, deepLBefore, "DeepL must not be touched while Qwen is healthy");
+  assert.equal(qwenRequests.at(-2).model, "qwen-mt-flash");
   assert.equal(qwenRequests.at(-1).model, "qwen-mt-flash");
   process.env.QWEN_MT_MODEL = "qwen-mt-plus";
 
-  // A whole DeepL outage falls back to independent single-text requests in order.
+  // A whole first-engine outage falls back to the second engine in order.
+  // providers is passed explicitly: the default route is Qwen-first and the Qwen
+  // mock never fails here, so this preserves DeepL-down fallback coverage.
   mode = "deepl-down";
-  const outage = await translateAll(["First source.", "Second source."], { cacheFile, cacheKey: "outage" });
+  const outage = await translateAll(["First source.", "Second source."], { cacheFile, cacheKey: "outage", providers: ["deepl", "qwen-mt"] });
   assert.deepEqual(outage, ["千问译文：First source.", "千问译文：Second source."]);
   assert.equal(qwenRequests.at(-2).messages[0].content, "First source.");
   assert.equal(qwenRequests.at(-1).messages[0].content, "Second source.");
@@ -149,6 +164,31 @@ try {
   assert.deepEqual(await translateAll(["Reject this echo."], { cacheFile, cacheKey: "qwen-echo", providers: ["qwen-mt"] }), [""]);
   const finalCache = Object.values(JSON.parse(fs.readFileSync(cacheFile, "utf8")));
   assert.ok(!finalCache.some(entry => /Must stay complete|Reject this echo/.test(entry.text)));
+
+  // The premium LLM channel returns numbered lines; strict alignment or the batch is void.
+  mode = "llm";
+  const refined = await translateAll(["First refined sentence.", "Second refined one."], {
+    cacheFile, cacheKey: "llm", providers: ["qwen-llm"], context: "Article title: A literary essay",
+  });
+  assert.deepEqual(refined, ["千问精翻：First refined sentence.", "千问精翻：Second refined one."]);
+  assert.equal(qwenRequests.at(-1).model, "qwen-max");
+  assert.equal(qwenRequests.at(-1).messages[0].role, "system");
+  assert.match(qwenRequests.at(-1).messages[1].content, /1\. First refined sentence\./);
+  const cachedLLM = Object.values(JSON.parse(fs.readFileSync(cacheFile, "utf8"))).find(e => e.provider === "qwen-llm");
+  assert.equal(cachedLLM.model, "qwen-max");
+
+  // Misaligned LLM output voids the whole batch and falls through to DeepL.
+  mode = "llm-bad";
+  const badLLM = await translateAll(["Align me.", "And me."], { cacheFile, cacheKey: "llm-bad", providers: ["qwen-llm", "deepl"] });
+  assert.deepEqual(badLLM, ["译文：Align me.", "译文：And me."]);
+  assert.ok(qwenRequests.at(-1).messages[1].content.includes("Align me."));
+
+  // Changing the LLM model invalidates qwen-llm cache entries.
+  mode = "llm";
+  process.env.QWEN_LLM_MODEL = "qwen-plus";
+  await translateAll(["First refined sentence.", "Second refined one."], { cacheFile, cacheKey: "llm", providers: ["qwen-llm"] });
+  assert.equal(qwenRequests.at(-1).model, "qwen-plus");
+  process.env.QWEN_LLM_MODEL = "qwen-max";
 
   // Quota/auth failures stop subsequent sentences and batches in the same run.
   mode = "quota";
@@ -162,7 +202,7 @@ try {
   for (const unsafe of ["http://dashscope.aliyuncs.com/compatible-mode/v1", "https://example.test/compatible-mode/v1", "https://user:password@dashscope.aliyuncs.com/compatible-mode/v1", "https://dashscope.aliyuncs.com/compatible-mode/v1?key=fixture", "https://dashscope.aliyuncs.com.attacker.test/compatible-mode/v1"]) {
     assert.throws(() => qwenMTBaseURL(unsafe));
   }
-  console.log("mt-test: DeepL priority / Qwen fallback / cache / truncation / quota checks passed");
+  console.log("mt-test: Qwen priority / DeepL fallback / cache / truncation / quota checks passed");
 } finally {
   try { fs.rmSync(cacheFile, { force: true }); } catch { /* cleanup */ }
 }

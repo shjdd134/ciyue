@@ -50,3 +50,6 @@ tools/_spot/
 # 也一并排除 —— 真要复现实验用 .tmp/sweep-gloss.mjs 的思路重建即可。
 tools/_football/raw/
 tools/_football/anchor-dict.json
+
+# 精翻通道（llm-refine.mjs）：_refine/ 是大模型精翻草稿 + 人工审校材料，本地专用不公开。
+tools/_refine/

@@ -139,12 +139,19 @@ if(mode==='discover'){
       const fp=fingerprint(p);
       if(mode==='publish' && item.review.fingerprint!==fp)throw new Error('原刊结构发生变化，须重新核对');
       const photos=[], imageErrors=[];
+      const sleep=ms=>new Promise(r=>setTimeout(r,ms));
       for(const [i,img] of p.images.entries()){
         const raw=path.join(temp,item.id+'-'+i+'.raw'),dest=path.join(temp,item.id+'-'+i+'.jpg');
         const signature=hash(img.url),stamp=dest+'.source';
         if(!fs.existsSync(raw)||!fs.existsSync(dest)||!fs.existsSync(stamp)||fs.readFileSync(stamp,'utf8')!==signature){
-          try { await download(img.url,raw,true); }
-          catch(e) { imageErrors.push(`图片 ${i+1}/${p.images.length}：${img.url}（${e.message}）`); continue; }
+          /* imgix 冷缓存渲染可能 20s+ 才出图，单次 30s 超时会稳定假失败 → 3 次退避重试
+           * （2026-09-17 Eva Green 实测：535KB 的图连挂两轮，第 3 次秒过）。 */
+          let ok=false,err=null;
+          for(let attempt=0;attempt<3 && !ok;attempt++){
+            try { await download(img.url,raw,true); ok=true; }
+            catch(e){ err=e; if(attempt<2) await sleep(2000*(attempt+1)); }
+          }
+          if(!ok){ imageErrors.push(`图片 ${i+1}/${p.images.length}：${img.url}（${err.message}）`); continue; }
           execFileSync(process.env.PYTHON||'python',[path.join(root,'tools/people-image.py'),raw,dest],{timeout:20000,stdio:'pipe'});
           fs.writeFileSync(stamp,signature);
         }

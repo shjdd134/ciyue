@@ -580,6 +580,11 @@ body {
   font-size: 12px; color: var(--text-3);
 }
 .read-hero .byline .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); }
+/* 译文署名（PG 三篇起：translationCredit 数据层留痕，页面在 byline 下方展示） */
+.read-hero .translation-credit {
+  font-size: 11px; line-height: 1.6; color: var(--text-3);
+  padding-bottom: 14px; margin-top: 6px;
+}
 
 .read-cover {
   height: 140px; border-radius: 16px;

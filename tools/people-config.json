@@ -29,7 +29,9 @@
       "listing": "https://www.wmagazine.com/culture",
       "images": [
         "imgix.bustle.com"
-      ]
+      ],
+      "plainImgs": true,
+      "stripImgQuery": true
     },
     {
       "name": "Vanity Fair",
@@ -77,7 +79,8 @@
       "images": [
         "www.interviewmagazine.com",
         "interviewmagazine.com"
-      ]
+      ],
+      "plainImgs": true
     }
   ],
   "_comment": "运行参数（配额 / 图片门槛 / 来源白名单），随仓库走。人物偏好名单属私有层，见 lib-people.mjs 顶部注释。"

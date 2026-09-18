@@ -10,7 +10,7 @@
       "visualChecked": true,
       "guideChecked": true,
       "articleChecked": true,
-      "at": "2026-09-16T06:37:06.969Z",
+      "at": "2026-09-18T07:32:27.278Z",
       "scope": "full-original-text-and-photos",
       "fingerprint": "4dcfb2a2115c7c63665a296842560ba9fd98af52279e8f3a32edb9865824dc19",
       "photoHashes": [
@@ -41,86 +41,135 @@
     ]
   },
   {
-    "id": "people-charlize-theron-another",
-    "url": "https://www.anothermag.com/fashion-beauty/16962/charlize-theron-interview-another-magazine-apex",
-    "title": "Charlize Theron: “I Do Want a Little Bit of Control over My Own Destiny”",
-    "titleZh": "查理兹·塞隆：我希望掌握自己命运的一点控制权",
-    "photoCredit": "Sharna Osborne / AnOther Magazine",
+    "id": "people-lea-seydoux-bond-girl",
+    "url": "https://www.anothermag.com/fashion-beauty/7971/lea-seydoux-on-being-a-modern-bond-girl",
+    "titleZh": "蕾雅·赛杜谈成为现代邦女郎",
+    "photoCredit": "Collier Schorr / AnOther Magazine",
     "review": {
       "status": "approved",
       "visualChecked": true,
       "guideChecked": true,
       "articleChecked": true,
-      "at": "2026-09-16T06:37:06.970Z",
+      "at": "2026-09-18T07:32:27.278Z",
       "scope": "full-original-text-and-photos",
-      "fingerprint": "831398b10e99572f5f578340cce4bcdca24b3554caf36d546eeb864e9eb27c7c",
+      "fingerprint": "30c9d5ec4083c7f4d72a461281f5cb33ab0b98de7845ab2fbf4fdff93516a9ae",
       "photoHashes": [
-        "9158b591aca2d72f15f9c53615e89443187315ab436385affe4f36d95f8acf36",
-        "48c99e37881957b03167df203aafeab310878e61559cf09ac7344512222e92d9",
-        "c73dba115df1c347dde38cbd06db3571e92653259fcda345b77dac6c4f64e0cb",
-        "4015ef70fd7bb630ce884c059493df7a428ebdfd9d9299122a353c70800a6fce",
-        "1e4b0f6cbd6728b4a9de89b073126ce0da78da7b7c8d05cc4b195975911a5380",
-        "c82dc95a1c36423c538a5f7ce9ac96febdc397036baa04de1a9b42ee26edf579",
-        "dce28f8291fca3c1a56f0d24cbad439da1273d4428123ebef4eb45d4b82f85b6",
-        "cd12a6acf8a8a25b6bae85be9978d54b92959937fe79ae86a98c247c9dde690b",
-        "b9d82c54577d74b2798fc21e1f2456477d4db731fe1aadd051608fca1a98c0c6",
-        "787c51af2f7c622a31cd90a2fa97998d4362339a209ff17cbbbbcbaf33e1d7d8",
-        "950c2bf426637a0611f2374bc255fb3ecf2910d96dbd99096920a2ce63feac99",
-        "ffa2dddd4ae71d0a766dbfb3555b511343930d9a4c9c9fe8569f102e8d36adb9",
-        "9ac839e3463be198b59ab4ef8445cafa03455a55ae2daff17f15432315e7bc66",
-        "e410f84d1ca0b5c0f63d37030469a6705fa1c4491ac74d93ad4ab150ae150a55",
-        "ffb3cbf2f4c89f5f55ee13e644a3a6877d26dbc2336e28970d431988adb18762"
+        "567e074986c8a3d95b6bd69e649a009778d073f26f4f4579beb0f208d3252540",
+        "cb7ddb5bfec9a93f009bd28a6b647cc22e1c7d6b43ac5bd5a314d38fae0bbc83",
+        "1759db025368acae6494dffcc62e9cdd082a0dc8e0a0a50f13b7d9957690b7fa",
+        "2eff6df045925b67406f2cc45b5ad4f213ac3476adb0100d69198689640f2393",
+        "b81b1a41a1a70c802132cc7116747776433d2ba70a574853c0538c193ea9dbe0"
       ]
-    },
-    "guide": [
-      {
-        "en": "Charlize Theron reflects on her early Hollywood years, motherhood and her work as a producer.",
-        "cn": "查理兹·塞隆回顾好莱坞早期经历、母亲身份，以及担任制片人的工作。"
-      },
-      {
-        "en": "The interview explores how she makes creative decisions and approaches the women she plays.",
-        "cn": "访谈探讨她如何做出创作决定，以及如何理解自己饰演的女性。"
-      },
-      {
-        "en": "Reading focus: What changes when an actor also becomes a producer?",
-        "cn": "阅读思考：当演员同时成为制片人，会发生什么变化？"
-      }
-    ]
+    }
   },
   {
-    "id": "people-monica-bellucci-style-and-change",
-    "url": "https://www.vogue.co.uk/arts-and-lifestyle/article/monica-bellucci-interview",
-    "title": "“The Way You Dress Is How You Express Yourself”: Bombshell Lessons With Monica Bellucci",
-    "titleZh": "“你的穿衣方式就是自我表达”：莫妮卡·贝鲁奇的魅力课",
-    "photoCredit": "John Sciulli; Ernesto Ruscio; Frédéric Meylan; Frank Micelotta Archive / British Vogue",
+    "id": "people-zoey-deutch-rom-com",
+    "url": "https://www.interviewmagazine.com/film/zoey-deutch-and-glen-powell-are-reviving-the-rom-com",
+    "titleZh": "佐伊·多伊奇与格伦·鲍威尔：正在复兴爱情喜剧",
+    "photoCredit": "Christian Coppola / Interview Magazine",
     "review": {
       "status": "approved",
       "visualChecked": true,
       "guideChecked": true,
       "articleChecked": true,
-      "at": "2026-09-16T06:37:06.970Z",
+      "at": "2026-09-18T07:32:27.278Z",
       "scope": "full-original-text-and-photos",
-      "fingerprint": "03f9333c9864d1815ba38376578e009e13eab0dc561b087e9d89e2690aae7f4c",
+      "fingerprint": "49a5f6a54ac1ecfee477335230c28a54a28f92c5c49c9775a2534b3a008234b9",
       "photoHashes": [
-        "23ce97f19a4999fd6bbab9c9235a7da93509e0b34b1166f47890bd550cab67e1",
-        "770d10d9998aff06d5fbae6e8b189714d4665b57a052a68432af31c4d316947c",
-        "88a0a9baea5e72f2713020faeaeb281841abda0e1aea4a0fee23c17bfe1f3c14",
-        "887ccfa8cec4da48e9fa5ff3e6531f9a0724e1f9e90964fe1e93e53897d68e2d"
+        "be2161d49cd48b1a9df548a19d4b3ea8e800a9ac0ab27c0d7e9928383aadce3c",
+        "b38cf3c118d7ce6dad391552e4784367450288de621e76b271d941510d9538f0",
+        "095225757843b93d53fbc85c150da4f366bd3385450c5c4b9e14d3acf1ba8a6f",
+        "1f075d578baa7a72998da27f491813d8dfffc4c00897ac1ca0cf880f56a87125",
+        "7a6fb4c30fdf128493352f60d8efa5765cb7352a109ac8b89c8ce1c7ad68dc55",
+        "3b36c367412cbc85cbff415b2ac5a7e6a2ee2b0606198a100094e83e0bff28f8",
+        "15b0361f0be0f9b5755cf34ec4c3da17757f5e17e56e95b3fdb794af79fdc531",
+        "4c4d832c78b76ff15d03f12a2c2bc3ad0f2aa94b6bf023135aa70f2d15f66a67"
       ]
-    },
-    "guide": [
-      {
-        "en": "Monica Bellucci discusses personal style, public image and staying open to new experiences.",
-        "cn": "莫妮卡·贝鲁奇谈到个人风格、公众形象，以及对新体验保持开放。"
-      },
-      {
-        "en": "Her move into theatre brings a fresh challenge after years in front of the camera.",
-        "cn": "在镜头前工作多年后，走上剧场舞台给她带来了新的挑战。"
-      },
-      {
-        "en": "Reading focus: How can experience and curiosity shape a creative career?",
-        "cn": "阅读思考：阅历和好奇心如何影响创作生涯？"
-      }
-    ]
+    }
+  },
+  {
+    "id": "people-megan-fox-interview",
+    "url": "https://www.interviewmagazine.com/film/megan-fox-2",
+    "titleZh": "梅根·福克斯专访",
+    "photoCredit": "Craig McDean / Interview Magazine",
+    "review": {
+      "status": "approved",
+      "visualChecked": true,
+      "guideChecked": true,
+      "articleChecked": true,
+      "at": "2026-09-18T07:32:27.278Z",
+      "scope": "full-original-text-and-photos",
+      "fingerprint": "78c25f75b57893bbfeaafabbd8d4e021f972818d12876367fd23467008b676b9",
+      "photoHashes": [
+        "e96f9a91d8e9fa07b5247e005f7826dc9756110324642b098c32700d2a13d587",
+        "4142fbcf227c916f9c47995872e50440b75580252ad7f320aef7546ec48cc7d9",
+        "2a6b5b1ab19cab83a4f5e060d14cd8e8b63378d7135a5ad7ff9280af9154c5cf",
+        "6f0a03a3948c07f3608eac2b1989caaf15a412a1dc1cbe6d7e8a60d94cdb230d",
+        "e969091a5d920fe65f1aa04e862acbf57ccca2c7e6a672e8c2aec72986fb0c76",
+        "eeaf27f2f96f13b8f1908a3fdbc002ca44bc5ffafa404169c30e3dbdd954f2df",
+        "be8a6371433c38a8ebf7571e55f610f36d54037cd252a9e91a2c3143de627522",
+        "07283f61c0dd2ac86f76a40bc831fb5c831d3646d943763a77128aa7ebdb38ce"
+      ]
+    }
+  },
+  {
+    "id": "people-eva-green-tim-burton",
+    "url": "https://www.wmagazine.com/story/eva-green-actress-tim-burton-film",
+    "titleZh": "蒂姆·伯顿的新缪斯：伊娃·格林闪亮登场",
+    "photoCredit": "W Magazine",
+    "review": {
+      "status": "approved",
+      "visualChecked": true,
+      "guideChecked": true,
+      "articleChecked": true,
+      "at": "2026-09-18T07:32:27.278Z",
+      "scope": "full-original-text-and-photos",
+      "fingerprint": "3e1490ad11ec74b71c698009d4af3d863101f33c8934055d2067e539b7608227",
+      "photoHashes": [
+        "3e5142d1def259bcd41eb9616288a08f5594c01e950705a7625b0a07c4dc8c0c",
+        "780ae0dd62a953db485337702777b278ece588c28db0a5bac00ebf96ba8ff6fe",
+        "1d7053f4352c0816240abd15481d97fa80169e283927126574172a14bd882821",
+        "d337bc94c71ad301450d2862c630471cdace45e063770c1fbca909aa42916553",
+        "a815cf76f16e4579ef0d74f3f92b9da2cc49b8da468567aae83b3781ddce4654",
+        "992ad534d1be96d2051f123408dfcb3c3e73275d81872b4246fff4e886e0bc26",
+        "bc69140affdd3dce4e6766dc30e1b9a9485239e35cdb8fca4466fe83a8641100"
+      ]
+    }
+  },
+  {
+    "id": "people-rachel-weisz-archive",
+    "url": "https://www.anothermag.com/fashion-beauty/12535/rachel-weisz-interviewed-by-artist-and-writer-harland-miller-aw11-cover-story",
+    "titleZh": "档案回顾：蕾切尔·薇兹对谈艺术家哈兰·米勒",
+    "photoCredit": "Craig McDean / AnOther Magazine",
+    "review": {
+      "status": "approved",
+      "visualChecked": true,
+      "guideChecked": true,
+      "articleChecked": true,
+      "at": "2026-09-18T07:32:27.278Z",
+      "scope": "full-original-text-and-photos",
+      "fingerprint": "1701fa879c13d8c9b94956d0ae3b6681614f6e48a532f8359f1ad24a37fe68f1",
+      "photoHashes": [
+        "5980d4f238d6e6467f0ffc4a22cefa1aa20054715eacab9b0df8929f9c32c350",
+        "34f5ac53ed54dc0aa2ed2a0bd55b6a2346f957be10af07c1539731d8fa3074bf",
+        "a6e7f2c7ad136d3d12cb101929bbde7d8f021b7840ad6266a5118fcb45da2c32",
+        "d6f35dde6d60dea36a027561efb9978b91565ef108e2afbb07be7602a40af6f1",
+        "8c4cf2e2c412c6c03d16cd10a16e26aca348ca04882d5eafe475722d2110518a",
+        "fd4499944b6a44702232103ad63bb18c047694694c9a9125654a1be3f0e5dc94",
+        "51d040b82b7ea072f007e9253eea21e7e071061330f4328adfdc91c287c65294",
+        "c9a1f5e54806c3178cb16399726b0948e111cc9b159ede21b924d14b003d2f8e",
+        "7adb3a25d875f1322e2e965f2fb98315fb6a7ff011ddf493dd00e839585175be",
+        "1cda464dde1413afc5fdf5052448a03d8853f8ca3efc3b58b5ee196532a8588a",
+        "d5635f95f452c508b5a7618180d4702f5bb690501ee7ba0996f93aa52d964437",
+        "2865cb8bc70e080da91a579d4da0846c429021e3bd2a78650631b1ee4c628e0f",
+        "072e2476ea2ac02ceaa9b384b9e30f94920613b997ea1b6c1f79c8c58076ab58",
+        "23f9f9b74e268a86d4cb15a473321ece134e2598ae02d547710ed3e2323951de",
+        "84933c1022dbb7e3f05c5bbdec2993c8fee1fac4f9d187408ea7369d4f1daaa6",
+        "b0a85c3aedcaf6d7808c5fb6a9b917d1d7d3e38b8da9752922dc1d4cf1864301",
+        "bf7480e799708d5109f28f77e6f603cf3aaf7968c810dde61f8a5b4896997056",
+        "8ad915db73b73ed16c0dd91f74863ba620f9d565016ecf489533105362a8f9e3",
+        "85691391c30add775db08f96f8b22e96c093606b39f06c3e809d15b78d5b9f24"
+      ]
+    }
   }
 ]
