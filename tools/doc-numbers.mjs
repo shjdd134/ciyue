@@ -76,6 +76,17 @@ for (const a of g.articles) {
   else unknownIds.push(a.id);
 }
 
+/* 已发布基线：.bak/published.json 的 `articles[]` 是**线上篇数**的代理。
+ * 推送时记录，且纯 `--files` 路线不覆盖它（见 lib-release.mjs 的 updatePublished），
+ * 所以它读到的就是「上一次发布出去的那批文章」。用来区分「文档写错」和「本地领先远端」。
+ * 路径可被环境变量覆盖 —— 专给负向测试用（tools/doc-numbers-test.mjs），
+ * 否则测「基线变动」就得改真实的 .bak/published.json，那是本项目的红线（别手改）。 */
+const PUBLISHED_PATH = process.env.WORDLENS_PUBLISHED || path.join(ROOT, ".bak", "published.json");
+const published = (() => {
+  try { return JSON.parse(fs.readFileSync(PUBLISHED_PATH, "utf8")); }
+  catch { return null; }
+})();
+
 const measured = {
   articles: g.articles.length,
   byCat,
@@ -84,12 +95,36 @@ const measured = {
   words,
   keywords: g.keywords.length,
   version: readVersion(ROOT),
-  baseline: (() => {
-    try { return JSON.parse(fs.readFileSync(path.join(ROOT, ".bak", "published.json"), "utf8")).commit || ""; }
-    catch { return ""; }
-  })(),
+  baseline: published?.commit || "",
+  publishedArticles: Array.isArray(published?.articles) ? published.articles.length : null,
   articlesPerCat: CATS.map(c => byCat[c.key] || 0).join(" + "),
 };
+
+/* 「线上口径」的精确值：用基线的文章 id 从工作树里筛出「线上那批」，算出它们的篇/句/词。
+ * 实测（2026-09-18）：基线 6 个 id 筛出 6 篇 → 1,751 句 / 22,125 词，与 §0.1 文档**一字不差**。
+ * 有了精确值，「文档写的是不是线上值」才能严格判定 —— 只验不等式（如「小于工作树」）
+ * 抓不住「写成一个明显偏小的错数」这类错误。
+ * 基线 articles 与线上文章表同源：走 manifest 推送时两者一起更新，走纯 --files 时两者都不动。 */
+const publishedIds = new Set((published?.articles || []).map(a => typeof a === "string" ? a : a?.id).filter(Boolean));
+let pubSentences = 0, pubWords = 0, pubMatched = 0;
+for (const a of g.articles) {
+  if (!publishedIds.has(a.id)) continue;
+  pubMatched++;
+  for (const p of a.paras || []) {
+    for (const s of sentencesOf(p)) {
+      pubSentences++;
+      const m = String(s.en || "").match(TOKEN);
+      if (m) pubWords += m.length;
+    }
+  }
+}
+/* 基线里有 id 在工作树里找不到（文章被下架 / 基线过时）→ 线上口径不可信，别拿它当判据，
+ * 此时 remoteCheck 一律返回 false 走硬失败 —— 宁可报「无法确认」，也不放过。 */
+const publishedUsable = publishedIds.size > 0 && pubMatched === publishedIds.size;
+
+/* 本地工作树是否领先已发布基线 —— 即「有未发布批次」。
+ * 判断依据：工作树篇数 > 线上篇数。两者相等时下面的硬校验照旧全部生效。 */
+const unpublishedAhead = publishedUsable && measured.articles > publishedIds.size;
 
 if (JSON_OUT) {
   console.log(JSON.stringify(measured, null, 1));
@@ -97,7 +132,9 @@ if (JSON_OUT) {
 }
 
 /* ---------------- ① 硬校验：HANDOFF §0.1 结构化锚点 ---------------- */
-const handoff = fs.readFileSync(path.join(ROOT, "HANDOFF.md"), "utf8");
+/* 路径同样可被覆盖 —— 负向测试要注入「写错数字的文档」，不能拿真的 HANDOFF.md 冒险。 */
+const HANDOFF_PATH = process.env.WORDLENS_HANDOFF || path.join(ROOT, "HANDOFF.md");
+const handoff = fs.readFileSync(HANDOFF_PATH, "utf8");
 const comma = n => n.toLocaleString("en-US");
 
 const SPOTS = [
@@ -105,6 +142,9 @@ const SPOTS = [
     label: "文章篇数",
     re: /\|\s*文章\s*\|\s*\*\*(\d+)\s*篇/,
     want: String(measured.articles),
+    /* §0.1 的表头是「权威现状」= **线上**现状，所以本地领先基线时正确值不是工作树篇数，
+     * 而是线上篇数（= 基线 articles 数）。判据见下方的 remoteCheck 分支。 */
+    remoteCheck: got => publishedUsable && got[0] === String(publishedIds.size),
     hint: `表里应写 **${measured.articles} 篇 = 成长 ${byCat["成长"] || 0} + 人物 ${byCat["人物"] || 0} + 足球 ${byCat["足球"] || 0}**`,
   },
   {
@@ -112,6 +152,8 @@ const SPOTS = [
     re: /\|\s*句子\s*\/\s*词数\s*\|\s*\*\*([\d,]+)\s*句\s*\/\s*([\d,]+)\s*词/,
     want: [comma(measured.sentences), comma(measured.words)],
     got: m => [m[1], m[2]],
+    /* 用「线上那批」精确复算出的句词数做判据 —— 不验不等式，只认精确值。 */
+    remoteCheck: got => publishedUsable && got[0] === comma(pubSentences) && got[1] === comma(pubWords),
     hint: `表里应写 **${comma(measured.sentences)} 句 / ${comma(measured.words)} 词**`,
   },
   {
@@ -146,10 +188,15 @@ console.log(`  句/词  ${comma(measured.sentences)} 句 / ${comma(measured.word
 console.log(`  词库   ${comma(measured.keywords)} 词`);
 console.log(`  版本   v${measured.version}`);
 console.log(`  基线   ${measured.baseline ? measured.baseline.slice(0, 7) : "(读不到 .bak/published.json)"}`);
+if (unpublishedAhead) {
+  console.log(`  ⚠ 本地领先线上 ${measured.articles - publishedIds.size} 篇（工作树 ${measured.articles} > 线上 ${publishedIds.size}）—— 篇数/句词数按「线上口径」校验`);
+  console.log(`     线上口径（基线 ${publishedIds.size} 篇 id 复算）= ${comma(pubSentences)} 句 / ${comma(pubWords)} 词`);
+}
 if (unknownIds.length) console.log(`  ⚠ ${unknownIds.length} 篇 id 前缀不在栏目契约内：${unknownIds.join(", ")}`);
 
 console.log("\n① 硬校验 —— HANDOFF §0.1 权威现状表");
 let hardFail = 0;
+const remoteNoted = [];
 for (const s of SPOTS) {
   const m = handoff.match(s.re);
   if (!m) {
@@ -166,6 +213,19 @@ for (const s of SPOTS) {
     console.log(`  ✓ ${s.label.padEnd(14)} ${gotArr.join(" / ")}`);
   } else if (s.soft) {
     console.log(`  · ${s.label.padEnd(14)} 文档写 ${gotArr.join(" / ")}，实测 ${want.join(" / ")}（提示 · 每次推送都会变，文档要人工跟）`);
+  } else if (s.remoteCheck && unpublishedAhead) {
+    /* §0.1 记的是**线上**现状（表头原话：要看现状只读这一节），而实测值来自本地工作树。
+     * 本地有未发布批次时这两个参照系本该分叉 —— 所以这时只要求文档符合「线上口径」，
+     * 不再要求等于工作树。反向保证：两者相等时（unpublishedAhead 为假）照旧走下面的硬失败。 */
+    if (s.remoteCheck(gotArr)) {
+      remoteNoted.push(s.label);
+      console.log(`  · ${s.label.padEnd(14)} 文档写 ${gotArr.join(" / ")}（提示 · 本地工作树 ${want.join(" / ")}，领先线上 ${measured.articles - publishedIds.size} 篇 —— §0.1 记的是**线上**值）`);
+    } else {
+      hardFail++;
+      console.log(`  ✗ ${s.label.padEnd(14)} 文档写 ${gotArr.join(" / ")}，本地工作树 ${want.join(" / ")}`);
+      console.log(`      本地有未发布批次（工作树 ${measured.articles} 篇 > 线上 ${publishedIds.size} 篇）时该值只能取「线上」口径 —— 这里既不是线上口径、也不是工作树口径。`);
+      console.log(`      ${s.hint}`);
+    }
   } else {
     hardFail++;
     console.log(`  ✗ ${s.label.padEnd(14)} 文档写 ${gotArr.join(" / ")}，实测 ${want.join(" / ")}`);
@@ -199,6 +259,11 @@ if (hardFail) {
   console.error(`\n✗ HANDOFF §0.1 有 ${hardFail} 处与实测不符 —— 它是「权威现状」入口，必须改。`);
   console.error(`  注意：只动 §0.1；§0.2 是历史溯源，里面的旧数字是**故意**保留的，不要改。`);
   process.exit(1);
+}
+if (remoteNoted.length) {
+  console.log(`\n✓ HANDOFF §0.1 与「线上」一致 —— ${remoteNoted.length} 项（${remoteNoted.join(" / ")}）因本地有未发布批次而按线上口径校验。`);
+  console.log(`  → 这批改动发布之后，回来把 §0.1 的这几项改成上面的「本地工作树」值。`);
+  process.exit(0);
 }
 console.log("\n✓ HANDOFF §0.1 与实测一致");
 process.exit(0);

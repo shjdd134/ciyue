@@ -21,6 +21,12 @@ import { cleanInvisible } from "./lib-text.mjs";
 import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES, unreadableReason } from "./recommend.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
+/* ASSETS 可被环境变量覆盖 —— 专给负向测试用：tools/qc-test.mjs 第 4 节会造一个隔离数据目录，
+ * 注入「该拒」的样本（无 pin 的旧文 / 照抄英文的译文 / 直播指南），确认判据仍然会响。
+ * 不覆盖时就是真实 assets。**--prune 的写入也走这里** —— 否则测试跑 --prune 会改到真实数据。 */
+const ASSETS = process.env.WORDLENS_QC_ASSETS
+  ? path.resolve(process.env.WORDLENS_QC_ASSETS)
+  : path.join(ROOT, "assets");
 const IDS_FILE = (() => {
   const i = process.argv.indexOf("--ids-file");
   return i > 0 ? path.resolve(ROOT, process.argv[i + 1]) : null;
@@ -33,7 +39,7 @@ const STRICT_IDS = process.argv.includes("--strict-ids");
 const ctx = vm.createContext({ console, window: { addEventListener() {} } });
 vm.runInContext("var window=globalThis;", ctx);
 for (const f of ["data.js", "data-words-bulk-a.js", "data-words-full.js", "data-articles-extra.js", "data-articles-archive.js", "data-covers.js"]) {
-  vm.runInContext(fs.readFileSync(path.join(ROOT, "assets", f), "utf8"), ctx, { filename: f });
+  vm.runInContext(fs.readFileSync(path.join(ASSETS, f), "utf8"), ctx, { filename: f });
 }
 const ARTICLES = vm.runInContext("ARTICLES", ctx);
 const CATEGORIES = vm.runInContext("CATEGORIES", ctx) || [];
@@ -67,6 +73,8 @@ const NAV_PREFIX = /^\s*(Related Stories|Related Articles|Popular on|Trending|Re
 const BARE_LINK = /^\s*(https?:\/\/|pic\.twitter\.com|www\.)\S*(\s+(https?:\/\/|pic\.twitter\.com|www\.)\S*)*\s*$/i;
 const PLACEHOLDER = /<\/?[es]:\d+>/;
 const CN_RE = /[\u4e00-\u9fff]/;
+/* 拉丁字母 —— 用来区分「译文是纯标点（合法）」与「译文照抄了英文（漏译）」。用法见 F4 判据处的注释。 */
+const LATIN_RE = /[A-Za-z]/;
 const TITLE_PAIRS = [["“", "”"], ["「", "」"], ["『", "』"], ["（", "）"]];
 function titlePunctuationIssue(title) {
   const s = String(title || "");
@@ -96,8 +104,15 @@ for (const a of ARTICLES) {
   if (titleIssue) F.push(`F5 标题标点异常：${titleIssue}`);
 
   /* F2 新鲜度（寓言为 1912 公版经典、成长为常青博主长文、明星含经年不过时的人物
-     特写/档案访谈，均不参与时效判定） */
-  if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星" && a.cat !== "人物") {
+     特写/档案访谈，均不参与时效判定）
+
+     另外认 `pin: true` —— publish.mjs:16 的定义就是「带 pin 的文章永久豁免淘汰（不受日期与
+     配额影响）」，即编辑已显式表态这篇要长期保留。qc 若不认 pin，就会出现「publish 放行、
+     qc 拒收」的两把尺子：实测（2026-09-18）足球四篇（C 罗 / 德布劳内 / 皮克 / 厄德高，
+     1317–3273 天前）全部带 pin、全部靠 pin 过 publish 的 30 天闸，却被 qc 按 40 天判「偏旧」。
+     pin 是按篇的精确豁免，比按栏目的 `cat` 豁免更严 —— 这不是放松闸门，是修掉两个策略的冲突。
+     反向影响：库内 6 篇里，非 pin 的文章一篇都不会因此变得免检。 */
+  if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星" && a.cat !== "人物" && a.pin !== true) {
     const t = a.date ? new Date(a.date).getTime() : NaN;
     if (!Number.isFinite(t)) F.push("F2 date 无法解析");
     else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
@@ -169,7 +184,13 @@ for (const a of ARTICLES) {
     if (!en.trim()) { F.push(`F4 ${label} en 为空`); continue; }
     if (!cn.trim()) { F.push(`F4 ${label} 漏译（cn 为空）`); continue; }
     if (cn === en) F.push(`F4 ${label} 译文与原文相同`);
-    if (!CN_RE.test(cn)) F.push(`F4 ${label} 译文无中文`);
+    /* 「译文无中文」只该拦「照抄英文没翻」，不该拦「原文本身就只有标点」。
+     * 实测（2026-09-18）：fb-gerard-pique-a-long-story 报出 6 处本条，逐句核对后 5 处是
+     * 省略号句（原文 is `….` → 译文 `……`）、1 处是一字一顿的碎片句（原文 `That?!”` → 译文 `？！`），
+     * 译文全部正确 —— 只查汉字（\u4e00-\u9fff）必然把 `……` / `？！` 判成「无中文」。
+     * 加「必须含拉丁字母」这个条件，等于把判据收回到它本来的语义：照抄了英文才算漏译。
+     * 同一判据在 tools/text-scan.js 也用过（那里的同批假阳性已按此法修掉），两把尺子必须一致。 */
+    if (!CN_RE.test(cn) && LATIN_RE.test(cn)) F.push(`F4 ${label} 译文无中文（照抄英文，疑似漏译）`);
     for (const [name, txt] of [["en", en], ["cn", cn]]) {
       if (PLACEHOLDER.test(txt)) F.push(`F5 ${label} ${name} 残留翻译占位符`);
       if (txt.includes("\uFFFD")) F.push(`F5 ${label} ${name} 含替换字符 U+FFFD`);
@@ -214,7 +235,7 @@ if (STRICT_IDS && missingIds.length) {
 /* ---------- 剔除不合格者 ---------- */
 if (PRUNE && bad.length) {
   const drop = new Set(bad.map(b => b.id));
-  const FILE = path.join(ROOT, "assets", "data-articles-extra.js");
+  const FILE = path.join(ASSETS, "data-articles-extra.js");
   const src = fs.readFileSync(FILE, "utf8");
   const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
   if (!m) { console.error("extra 文件结构异常，无法剔除"); process.exit(2); }

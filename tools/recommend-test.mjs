@@ -69,6 +69,24 @@ ok("门槛可显式放宽（--imgs 之类的调参口）", meetsImageGate("明�
 ok("足球直播指南会被内容门禁挡下", Boolean(unreadableReason({ cat: "足球", title: "How to watch the match FREE: Live streams" })));
 ok("普通足球报道不被内容门禁误伤", !unreadableReason({ cat: "足球", title: "Why the new midfield changed the season" }));
 ok("播客落地页会被内容门禁挡下", Boolean(unreadableReason({ cat: "成长", url: "https://fs.blog/knowledge-project-podcast/example/" })));
+/* 带正文的长文不能被直播判据误伤 —— 判据只准打 title + url。
+ * 实测（2026-09-18）：判据打 body 时，`watch .*?(?:live|online)` 在 fb-gerard-pique-a-long-story
+ * 里从「watch television in Madrid」一路跨 700+ 字符，命中「the media world that we live in today」
+ * 的 live → 一篇自述长文被判成直播指南、被 qc 拒收。
+ * 关键：上面三条真阳性用例全都只给 title，测不出这个洞 —— 反向样本必须带正文。 */
+ok("自述长文正文含 watch…live 不被误判为直播指南", !unreadableReason({
+  cat: "足球",
+  title: "A Long Story",
+  url: "https://www.theplayerstribune.com/articles/gerard-pique-a-long-story",
+  paras: [{ sentences: [
+    { en: "If you watch television in Madrid, they'll tell you a very different story about me." },
+    { en: "There are things going on in our lives, in the media world that we live in today." },
+  ] }],
+}));
+ok("URL 形态的直播指南仍被挡下（判据收窄后没有失守）", Boolean(unreadableReason({
+  cat: "足球",
+  url: "https://example.com/how-to-watch-el-clasico-live-stream",
+})));
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败`);
 process.exit(fail ? 1 : 0);

@@ -30,6 +30,15 @@ const clamp = (n, min = 0, max = 100) => Math.max(min, Math.min(max, n));
 const DEPTH_TITLE = /\b(interview|profile|portrait|analysis|explained|deep dive|investigation|conversation|essay|guide|how to|why)\b/i;
 const LOW_VALUE_TITLE = /\b(quiz|odds|betting|watch live|live stream|transfer rumou?rs?|gossip|horoscope|shop|deal|sale|giveaway|sponsored|roundup)\b/i;
 
+/* 足球直播/观看指南的形态。两处坑，都是 2026-09-18 实测修掉的：
+ *  1. 分隔符必须同时接受空格与连字符。原来写的是字面空格（`watch .*?`、`live streams?`），
+ *     而 URL 里的形态是 `how-to-watch-el-clasico-live-stream` —— 一条都匹配不上。
+ *     判断一个页面是不是直播指南，URL 往往比标题更早暴露它。
+ *  2. `.{0,40}?` 的跨度上限是必须的。无上限时（原写法 `watch .*?`）它会在长正文里跨几百字符去
+ *     找 live/online，而 live 是超高频词（live in / live-action / we live）—— 长文里必然误命中。
+ *     配套约束：本判据只准打 title + url，绝不准打 body（见 unreadableReason 里的注释）。 */
+const LIVE_GUIDE_RE = /how[\s-]+to[\s-]+watch|watch[\s-]+.{0,40}?(?:live|online)|live[\s-]+streams?|tv[\s-]+channels?|use[\s-]+a[\s-]+vpn|free[\s-]+stream/i;
+
 /* 内容门禁：只拦「不是连续可读文章」的页面，不按版权或转载属性做判断。
  * 质量分是排序信号，不能替代正文语义检查；这层专门处理直播指南、播客落地页、
  * 会员墙等在 RSS 中看起来像文章、实际不适合阅读训练的存量/新抓页面。 */
@@ -43,8 +52,13 @@ export function unreadableReason(article = {}) {
     if (Array.isArray(p.sentences)) return p.sentences.map(s => String(s?.en || ""));
     return [String(p.en || "")];
   }).join(" ");
-  const text = `${title} ${url} ${body}`;
-  if (cat === "足球" && /how to watch|watch .*?(?:live|online)|live streams?|tv channels?|use a vpn|free stream/i.test(text)) {
+  /* 直播指南的判据只准打 title + url，绝不准打 body。
+   * 实测（2026-09-18）：`watch .*?(?:live|online)` 放在正文上，在 fb-gerard-pique-a-long-story 里
+   * 从「watch television in Madrid」一路跨 700+ 字符，收在「the media world that we live in today」
+   * 的 `live` 上 —— 一篇自述长文被判成直播指南，qc 据此拒收。
+   * 直播指南的特征本来就在标题与 URL（"How to watch … live"、URL 里的 how-to-watch），正文里没有。 */
+  const head = `${title} ${url}`;
+  if (cat === "足球" && LIVE_GUIDE_RE.test(head)) {
     return "足球直播/观看指南，不是连续阅读文章";
   }
   if (cat === "成长" && /knowledge-project-podcast|\/podcasts?\//i.test(url)) {

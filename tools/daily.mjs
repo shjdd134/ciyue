@@ -117,7 +117,7 @@ console.log("\n== 步骤 5/5：回归 ==");
  *   doc-numbers.mjs 故意**不**进这份清单：它硬校验 HANDOFF §0.1 的篇数/句词数，
  *      而每日抓到新文章必然改篇数 —— 放进来会让 daily 每天判自己失败并回滚。
  *      它属于「人工发布层」（tools/release.mjs 第 4 步已调用），不属于无人值守流程。 */
-for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs", "version-test.mjs"]) {
+for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs", "version-test.mjs", "doc-numbers-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 

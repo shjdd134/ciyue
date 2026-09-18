@@ -165,7 +165,8 @@ const GATES = [
   ["version.mjs", ["--check"], "资源版本号五处一致（复核）"],
   ["version-test.mjs", [], "version.mjs 负向测试（守卫会响才算数）"],
   ["cache-version-test.mjs", [], "缓存/资源版本（独立尺子）"],
-  ["doc-numbers.mjs", [], "HANDOFF §0.1 与实测一致"],
+  ["doc-numbers.mjs", [], "HANDOFF §0.1 与「线上」一致（本地领先时按线上口径校验）"],
+  ["doc-numbers-test.mjs", [], "doc-numbers 负向测试（值写错/锚点失配/同步态都必须判死）"],
 ];
 for (const [script, args, label] of GATES) {
   const r = runQuiet(script, args);
@@ -179,8 +180,10 @@ for (const [script, args, label] of GATES) {
 
 /* ---------- 5/6 全量回归（可选） ---------- */
 if (has("--full")) {
-  /* 这份清单与 daily.mjs 第 5 步保持同步（daily 现为 21 项，含 2026-09-18 加的 version-test.mjs）。
-   * 此处刻意少列 version-test.mjs —— 它已在第 4 步闸门跑过，重复跑没有额外信息。 */
+  /* 这份清单与 daily.mjs 第 5 步保持同步（daily 现为 22 项，含 2026-09-18 加的 version-test.mjs
+   * 与 doc-numbers-test.mjs）。
+   * 此处刻意少列 version-test.mjs / doc-numbers-test.mjs —— 两者已在第 4 步闸门跑过，
+   * 重复跑没有额外信息。 */
   step("5/6 全量回归（与 daily.mjs 第 5 步同步，20 项）");
   const ALL = ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs",
     "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js",
