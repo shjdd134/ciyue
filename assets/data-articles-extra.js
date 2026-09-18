@@ -9800,7 +9800,7 @@ const ARTICLES_EXTRA = [
     "url": "https://www.paulgraham.com/hs.html",
     "cover": "linear-gradient(135deg,#fde68a 0%,#d97706 100%)",
     "gradient": "linear-gradient(135deg,#fde68a 0%,#d97706 100%)",
-    "coverImg": null,
+    "coverImg": "assets/covers/gr-pg-what-youll-wish-youd-known.jpg",
     "translationCredit": "中文译文：lzwjava / paul-graham-essays-cn（GitHub 社区译本，CC BY-SA 4.0）",
     "paras": [
       {
@@ -11516,7 +11516,7 @@ const ARTICLES_EXTRA = [
     "url": "https://www.paulgraham.com/love.html",
     "cover": "linear-gradient(135deg,#fecaca 0%,#dc2626 100%)",
     "gradient": "linear-gradient(135deg,#fecaca 0%,#dc2626 100%)",
-    "coverImg": null,
+    "coverImg": "assets/covers/gr-pg-how-to-do-what-you-love.jpg",
     "translationCredit": "中文译文：王亮（2006，社区公认译本）",
     "paras": [
       {
@@ -12752,7 +12752,7 @@ const ARTICLES_EXTRA = [
     "url": "https://www.paulgraham.com/greatwork.html",
     "cover": "linear-gradient(135deg,#bfdbfe 0%,#2563eb 100%)",
     "gradient": "linear-gradient(135deg,#bfdbfe 0%,#2563eb 100%)",
-    "coverImg": null,
+    "coverImg": "assets/covers/gr-pg-how-to-do-great-work.jpg",
     "translationCredit": "中文译文：untymen.com（社区译本）",
     "paras": [
       {
