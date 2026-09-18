@@ -107,10 +107,17 @@ if (!run("publish.mjs", ["--batch", batch.id])) rollback("发布步骤失败");
 
 /* ---------- 5. 全量回归 ---------- */
 console.log("\n== 步骤 5/5：回归 ==");
-/* 末位两项是 2026-09-17 新增的内容完整性守卫：
+/* 末位三项是内容/工具完整性守卫：
  *   guards-test.mjs —— 重复句守卫 + 书名号专名守卫的**负向测试**（守卫会被证明「会响」才可信）
- *      它内部已经用真实数据跑了 audit-dups / audit-cn-titles 的正样本，不必再单独列这两个脚本。 */
-for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs"]) {
+ *      它内部已经用真实数据跑了 audit-dups / audit-cn-titles 的正样本，不必再单独列这两个脚本。
+ *   version-test.mjs —— 资源版本号守卫（tools/version.mjs）的**负向测试**，19 项。
+ *      2026-09-18 加：它当场抓出两处既有校验的盲区 —— sw.js 头注释还写 v51、
+ *      app.js:11 的 ASSET_VERSION 回退默认值还写 "51"，而 cache-version-test.mjs 两处都不看。
+ *      注意它**故意**会改四个文件再还原（try/finally 保证），在 runner 上同样安全。
+ *   doc-numbers.mjs 故意**不**进这份清单：它硬校验 HANDOFF §0.1 的篇数/句词数，
+ *      而每日抓到新文章必然改篇数 —— 放进来会让 daily 每天判自己失败并回滚。
+ *      它属于「人工发布层」（tools/release.mjs 第 4 步已调用），不属于无人值守流程。 */
+for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs", "version-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
 

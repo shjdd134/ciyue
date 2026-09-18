@@ -16,7 +16,10 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const ASSETS = path.join(ROOT, "assets");
+/* ASSETS 可被环境变量覆盖 —— 专给负向测试用：tools/guards-test.mjs 的 F 节会造一个
+ * 隔离样本目录（只含 1 篇人造文章），注进假阳性 / 真阳性样本后跑本脚本，
+ * 确认判据收紧后假阳性不报、真阳性仍报。2026-09-18 加。 */
+const ASSETS = process.env.WORDLENS_TEXTSCAN_ASSETS || path.join(ROOT, "assets");
 const FULL = process.argv.includes("--full");
 
 function load(file, name) {
@@ -67,7 +70,17 @@ const RULES = [
     /* â€™ / Ã© / ï¼ˆ 这类：一个拉丁扩展字母紧跟着另一个扩展/符号字符 */
     re: /[\u00C2-\u00DF\u00E0-\u00FF][\u0080-\u00BF\u20AC\u201A\u201E\u2026\u2018\u2019\u201C\u201D\u2122]/g,
   },
-  { id: "markdown", label: "残留 Markdown 标记", re: /(?:\*\*|__|\[[^\]]*\]\([^)]*\))/g },
+  {
+    id: "markdown",
+    label: "残留 Markdown 标记",
+    /* 2026-09-18 修正：原来裸匹配 `**`，把脏话的自我审查星号全打成 markdown ——
+     * 实测 5 处假阳性全是 The Players' Tribune 原文的打码写法：f***ed / F*****g / sh**。
+     * 判据加「`**` 前不得紧邻字母或星号」：真 markdown 的 `**` 总落在词界（`**bold**`
+     * 前面是行首 / 空格 / 标点），打码星号总嵌在词内（`f***ed` 的 `**` 前是 f）
+     * 或连成 ≥3 颗（`F*****g`）。
+     * 反例（必须仍报）：`**bold**` —— 前是行首/空格 → 命中。负向测试见 guards-test.mjs F 节。 */
+    re: /(?<![A-Za-z*])\*\*(?!\*)|__|\[[^\]]*\]\([^)]*\)/g,
+  },
 ];
 
 const CJK = /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u3040-\u30FF]/;
@@ -134,7 +147,12 @@ for (const [group, list] of GROUPS) {
         if (!en.trim()) add("struct", "原文为空", group, id, sat);
         if (!cn.trim()) add("translate", "译文缺失", group, id, sat);
         else {
-          if (!CJK.test(cn) && en.trim()) add("translate", "译文无中文（疑似漏译）", group, id, sat);
+          /* 2026-09-18 修正：原判据「cn 里没有 CJK 就算漏译」实测 6 处假阳性全是分句碎片 ——
+           * `….` / `…………..` 的译文是 `……`（正确），皮克篇 p37「一字一顿」被逐词切开后
+           * `That?!` 的译文落在 `？！`（也正确，中文的「那」在前一块）。
+           * 真正的漏译形态是「译文里没有中文、却带着拉丁字母」= 把原文照抄进 cn 没翻。
+           * 反例（必须仍报）：cn = "This is a test."（无中文、有字母）。 */
+          if (!CJK.test(cn) && en.trim() && /[A-Za-z]/.test(cn)) add("translate", "译文无中文（疑似漏译）", group, id, sat);
           if (en.trim() && cn.trim() === en.trim()) add("translate", "译文与原文相同", group, id, sat);
         }
 

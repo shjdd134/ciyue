@@ -72,6 +72,21 @@
       "en": "Support Requirements:",
       "count": 2,
       "why": "回原文核对：该串在原文里本就出现 2 次（作者本意重复），不是提取副本"
+    },
+    {
+      "en": "“Because of who you are.”",
+      "count": 2,
+      "why": "fb-kevin-de-bruyne-let-me-talk p27-s2 / p30-s1 —— 受访者复述外界对自己的评价，两句中文标点不同（。vs …）证明是两处独立句子，不是提取副本"
+    },
+    {
+      "en": "They don’t want you anymore.",
+      "count": 2,
+      "why": "fb-kevin-de-bruyne-let-me-talk p29-s1 / p29-s7 —— 同一段内相隔 6 句的语气复沓（受访者强调），两处位置独立、非复制粘贴"
+    },
+    {
+      "en": "No, come on, of course I’m joking!",
+      "count": 2,
+      "why": "fb-gerard-pique-a-long-story p4-s2 / p41-s2 —— 首尾呼应同一句玩笑，跨 37 段的刻意结构（作者/受访者本意）"
     }
   ]
 }
