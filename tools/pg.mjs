@@ -36,6 +36,7 @@ const ARTICLES = [
     date: '2005-01-01',
     minutes: 22,
     url: 'https://www.paulgraham.com/hs.html',
+    coverImg: 'assets/covers/gr-pg-what-youll-wish-youd-known.jpg',
     gradient: 'linear-gradient(135deg,#fde68a 0%,#d97706 100%)',
     translationCredit: '中文译文：lzwjava / paul-graham-essays-cn（GitHub 社区译本，CC BY-SA 4.0）',
     en: { type: 'pg', file: 'pg-hs.html' },
@@ -48,6 +49,7 @@ const ARTICLES = [
     date: '2006-01-01',
     minutes: 19,
     url: 'https://www.paulgraham.com/love.html',
+    coverImg: 'assets/covers/gr-pg-how-to-do-what-you-love.jpg',
     gradient: 'linear-gradient(135deg,#fecaca 0%,#dc2626 100%)',
     translationCredit: '中文译文：王亮（2006，社区公认译本）',
     en: { type: 'pg', file: 'pg-love.html' },
@@ -60,6 +62,7 @@ const ARTICLES = [
     date: '2023-07-01',
     minutes: 48,
     url: 'https://www.paulgraham.com/greatwork.html',
+    coverImg: 'assets/covers/gr-pg-how-to-do-great-work.jpg',
     gradient: 'linear-gradient(135deg,#bfdbfe 0%,#2563eb 100%)',
     translationCredit: '中文译文：untymen.com（社区译本）',
     en: { type: 'pg', file: 'pg-greatwork.html', noNotes: true },
@@ -446,7 +449,9 @@ if (mode === 'extract') {
       id: a.id, cat: '成长', title: a.title, titleZh: a.titleZh,
       source: `Paul Graham · ${a.date.slice(0, 10)}`,
       date: a.date, minutes: a.minutes, url: a.url,
-      cover: a.gradient, gradient: a.gradient, coverImg: null,
+      /* 2026-09-18：三篇配用户提供的海报封面（1122×1402 竖图，CSS cover 裁切）；
+       * gradient 保留作无图兜底。 */
+      cover: a.gradient, gradient: a.gradient, coverImg: a.coverImg || null,
       translationCredit: a.translationCredit,
       paras: built,
     };
