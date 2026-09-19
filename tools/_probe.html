@@ -50,7 +50,7 @@ const has = s => body().includes(s);
   /* 截图专用：直接落到指定文章（v=one&id=...） */
   if (params.get("id")) {
     const art = ARTICLES.find(a => a.id === params.get("id"));
-    if (art) { activeArticle = art; view = { name: "read" }; S.showCn = true; render(); }
+    if (art) { activeArticle = art; view = { name: "read" }; S.cnMode = "all"; render(); }
     lines.push("已打开 " + params.get("id"));
   }
 
@@ -154,7 +154,7 @@ const has = s => body().includes(s);
       "his-thieves-broke-into-a-french-museum-and-made-of"
     ];
     const BAD = /&lt;[es]:\d+&gt;|<[es]:\d+>|blogherads|pmcCnx|defineSlot|setSubAdUnitPath|switchToHarmonyPlayer|isEventAdScheduledTime|t\.co\/|pic\.twitter|https?:\/\/\S+\.(js|css)/;
-    S.showCn = true;
+    S.cnMode = "all";
     for (const id of ids) {
       const art = ARTICLES.find(a => a.id === id);
       if (!art) { lines.push("E? 找不到文章 " + id); continue; }

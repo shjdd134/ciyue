@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "57");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "58");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -63,10 +63,17 @@ const STORE = "wordlens.v1";
 /* 词汇高亮的四个档位。集中定义一次，设置面板渲染、状态校验、集合取用都读它 ——
  * 「合法档位有哪几个」这件事写两遍，两边就会走散。 */
 const HL_MODES = ["off", "core", "cet4", "all"];
+/* 中文对照的三个档位。合法值同样只写一遍，迁移 / 校验 / 面板渲染共读。
+ * off 与 tap 的差别**只在点句**：off 档点句只选中（出喇叭、可朗读）不弹译文，
+ * tap 档点句弹出该句译文。这两档以前是同一个（布尔 showCn=false 时点句必弹中文），
+ * 结果是「只想纯读英文」的读者每次点句都被中文打断，躲不开。 */
+const CN_MODES = ["off", "tap", "all"];
 const defaultState = {
   theme: "light",
   notebook: [],     // 生词本（阅读加入）
-  showCn: false,
+  /* 中文对照：off 关闭（纯英文）| tap 点句显示 | all 逐句对照。默认 tap ——
+     中文永久显示会让人条件反射直接读中文，tap 才是「先读英文、卡住再借中文」。 */
+  cnMode: "tap",
   fontSize: 0,
   readTheme: "",     // 阅读页护眼主题："" | "paper" | "night"
   /* 词汇高亮范围（2026-09-19 由布尔量升级）："off" 关闭 | "core" 四级核心 |
@@ -101,6 +108,15 @@ function normalizeState(raw) {
   }
   delete next.kwHighlight;
   if (!HL_MODES.includes(next.highlightMode)) next.highlightMode = "core";
+  /* 中文对照迁移：旧版是布尔量 showCn。旧的「显示」档每句都挂中文，等于 all；
+     旧的「隐藏」档点句会弹译文，语义上等于 tap。**不能把旧的「隐藏」映射成 off** ——
+     那会让老用户点句时突然看不到中文，以为功能坏了（off 是新引入的档位，
+     只有用户自己去设置里选才该生效）。非法值回落 tap（默认档）。 */
+  if (src.cnMode === undefined && src.showCn !== undefined) {
+    next.cnMode = src.showCn ? "all" : "tap";
+  }
+  delete next.showCn;
+  if (!CN_MODES.includes(next.cnMode)) next.cnMode = "tap";
   next.readDays = Array.isArray(next.readDays) ? next.readDays.slice() : [];
   next.minsByDay = (next.minsByDay && typeof next.minsByDay === "object") ? Object.assign({}, next.minsByDay) : {};
   next.secByDay = (next.secByDay && typeof next.secByDay === "object") ? Object.assign({}, next.secByDay) : {};
@@ -631,6 +647,12 @@ function clipContext(sentence, word) {
  * 收藏按钮在卡片里、不在句子节点内，closest('.sentence') 拿不到语境，
  * 所以必须在打开卡片那一刻把语境截下来存住。 */
 let sheetCtx = null;
+
+/* 段级「本段对照」已展开的段落索引（按当前文章重置）。
+ * 这是**临时阅读状态**，故意不落 localStorage：段落索引只对当前文章有意义，
+ * 落盘会让状态结构随篇数膨胀，而且「上次展开的是哪一段」并不是读者希望被记住的东西。 */
+const paraOpen = new Set();
+let paraOpenArt = null;
 
 /* ---------------- 词汇高亮：三档词集 ----------------
  * 高亮与查词是**两个方向相反**的系统，必须分开：
@@ -1619,6 +1641,9 @@ const fbSeg = (act, v, label, on) =>
 
 function renderRead() {
   const a = activeArticle;
+  /* 换文章就重置段级展开：段落索引只对当前文章有意义，留着会让新文章里
+     第 N 段莫名其妙地处于展开态。 */
+  if (paraOpenArt !== a.id) { paraOpen.clear(); paraOpenArt = a.id; }
   const fsCls = ["fs-0", "fs-1", "fs-2"][S.fontSize] || "fs-0";
   const cover = coverOf(a);
   const total = sentCount(a);
@@ -1662,10 +1687,20 @@ function renderRead() {
       const cnText = clean(s.cn);
       if (!enText && !cnText) return "";        // 两端都空的句子不占位置
       const en = highlightEn(esc(enText));
-      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}" role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" data-act="para-speak" data-pi="${i}" data-si="${si}" role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span>${cnText ? `<span class="cn">${esc(cnText)}</span>` : ""}</span>`;
+      /* 译文是句子的**相邻兄弟**节点，不是子节点。旧写法把 .cn 塞进 .sentence 里，
+         三个后果：① <span> 内套块级元素，HTML 内容模型违规（浏览器容错成「一句一行」，
+         段落感全丢）；② 句子按钮的 aria-label 把整段中文也算进可访问名称，读屏中英混读；
+         ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。 */
+      const cn = cnText ? `<span class="cn">${esc(cnText)}</span>` : "";
+      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}" role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" data-act="para-speak" data-pi="${i}" data-si="${si}" role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
-    return `<p class="para">${parts.join(" ")}</p>`;
+    /* 段级「本段对照」按钮只在「点句显示」档出现：逐句对照档已经全部展开、
+       关闭翻译档要保持纯英文的干净，这两档都不需要它。 */
+    const cnBtn = (S.cnMode === "tap" && sentencesOf(p).some(s => clean(s.cn)))
+      ? `<button class="para-cn-btn" data-act="para-cn" data-pi="${i}" aria-expanded="${paraOpen.has(i)}">${paraOpen.has(i) ? "收起本段翻译" : "显示本段翻译"}</button>`
+      : "";
+    return `<p class="para${paraOpen.has(i) ? " cn-open" : ""}" data-pi="${i}">${parts.join(" ")}${cnBtn}</p>`;
   }).join("");
 
   return `
@@ -1677,11 +1712,11 @@ function renderRead() {
         <span class="src">${esc(clean(a.cat))} · ${esc(clean(a.source))}</span>
         <span class="read-hud" id="read-hud">0% · 剩余约 ${dur} 分钟</span>
       </div>
-      <span class="icon-btn" data-act="toggle-cn" role="button" tabindex="0" style="color:${S.showCn ? 'var(--brand)' : 'var(--text-2)'}" title="译" aria-label="${S.showCn ? "隐藏中文对照" : "显示中文对照"}" aria-pressed="${S.showCn}">${svg("globe", 18)}</span>
+      <span class="icon-btn" data-act="toggle-cn" role="button" tabindex="0" style="color:${S.cnMode !== "off" ? 'var(--brand)' : 'var(--text-2)'}" title="译" aria-label="${S.cnMode === "all" ? "收起中文对照" : "展开中文对照"}" aria-pressed="${S.cnMode === "all"}">${svg("globe", 18)}</span>
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${fsCls}${S.showCn ? "" : " no-cn"}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
+    <div class="view read-scroll ${fsCls}${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
@@ -1698,7 +1733,7 @@ function renderRead() {
           <span class="mark">${esc(srcName(a))}</span>
           <div class="play" data-act="read-all">${svg("speaker", 18)}</div>
         </div>
-        ${!S.hintSeen && !S.showCn ? `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>` : ""}
+        ${!S.hintSeen && S.cnMode === "tap" && !paraOpen.size ? `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>` : ""}
       </div>
 
       <div class="read-body" id="read-body">${paras}</div>
@@ -1745,7 +1780,7 @@ function renderRead() {
 
 
     <div class="fab-bar" id="fab-bar">
-      <button data-act="toggle-cn" class="${S.showCn ? 'active' : ''}" title="译" aria-label="${S.showCn ? "隐藏中文对照" : "显示中文对照"}" aria-pressed="${S.showCn}">${svg("globe", 18)}</button>
+      <button data-act="toggle-cn" class="${S.cnMode === "all" ? 'active' : ''}" title="译" aria-label="${S.cnMode === "all" ? "收起中文对照" : "展开中文对照"}" aria-pressed="${S.cnMode === "all"}">${svg("globe", 18)}</button>
       <button data-act="read-settings" class="${S.fontSize > 0 || S.readTheme ? 'active' : ''}" title="阅读设置" aria-label="阅读设置（字号 / 对照 / 底色）"><span class="fab-aa">Aa</span></button>
       <button data-act="fab-more" title="更多工具" aria-label="更多工具"><span style="font-family:var(--font-num);font-weight:700;letter-spacing:1px">···</span></button>
     </div>
@@ -1802,12 +1837,17 @@ function renderReadSettingsSheet() {
             ${seg("set-fs", "fs", 2, "特大", S.fontSize === 2)}
           </div>
         </div>
+        <!-- 中文对照三档。off 与 tap 的差别**只在点句**（是否弹出该句译文），
+             所以两个标签必须写清楚「关闭」和「点句显示」的区别 —— 都叫「隐藏」
+             的话用户会以为两档一样，然后抱怨点句时中文乱蹦。 -->
         <div class="rd-row"><span class="rd-lab">中文对照</span>
-          <div class="rd-segs">
-            ${seg("set-cn", "cn", 1, "逐句显示", S.showCn)}
-            ${seg("set-cn", "cn", 0, "隐藏", !S.showCn)}
+          <div class="rd-segs three">
+            ${seg("set-cn", "cn", "off", "关闭", S.cnMode === "off")}
+            ${seg("set-cn", "cn", "tap", "点句显示", S.cnMode === "tap")}
+            ${seg("set-cn", "cn", "all", "逐句对照", S.cnMode === "all")}
           </div>
         </div>
+        <div class="rd-hint">关闭 = 纯英文，点句只朗读　·　点句显示 = 只展开你点的那句中文（默认）　·　逐句对照 = 每句下面都跟中文</div>
         <div class="rd-row"><span class="rd-lab">底色</span>
           <div class="rd-segs">
             ${seg("set-theme", "theme", "default", "亮色", S.readTheme === "")}
@@ -1969,7 +2009,12 @@ function rememberReadPos(cont, artId) {
  * 改后把同一句按原偏移放回去。 */
 function applyReadClasses(cont) {
   if (cont && cont.classList) {
-    cont.classList.toggle("no-cn", !S.showCn);
+    /* no-cn 的语义是「不逐句全展开」：off 与 tap 两档都加，两档的差别交给
+       cn-off / cn-tap 细分（点句是否弹译文）。整段展开的段落单独挂 cn-open，
+       那是渲染时按 paraOpen 补的，这里不管。 */
+    cont.classList.toggle("no-cn", S.cnMode !== "all");
+    cont.classList.toggle("cn-off", S.cnMode === "off");
+    cont.classList.toggle("cn-tap", S.cnMode === "tap");
     /* 高亮档调到「关闭」：正文的目标词色全部退回普通文本（.no-kw 只改颜色，
        词仍然可点可查 —— 关的是「标色」，不是「查词能力」；自己收藏的生词色
        也照旧保留，那是读者自己的标记）。 */
@@ -2076,7 +2121,8 @@ function importData(file) {
       if (wrapped && j.app !== "wordlens") throw new Error("不是词阅备份");
       const st = wrapped ? j.state : j;
       if (!st || typeof st !== "object" || Array.isArray(st)) throw new Error("格式不对");
-      const knownKeys = ["theme", "notebook", "showCn", "fontSize", "readTheme", "read", "finished", "known", "readDays", "secByDay", "minsByDay", "lastRead", "readPos", "readHistory", "articleFeedback"];
+      /* showCn 与 cnMode 都列进来：前者识别 v57 及更早导出的备份，后者识别新版 */
+      const knownKeys = ["theme", "notebook", "showCn", "cnMode", "fontSize", "readTheme", "read", "finished", "known", "readDays", "secByDay", "minsByDay", "lastRead", "readPos", "readHistory", "articleFeedback"];
       if (!knownKeys.some(k => Object.prototype.hasOwnProperty.call(st, k))) throw new Error("不是有效进度");
       S = normalizeState(st);
       save(); render();
@@ -2570,10 +2616,17 @@ document.addEventListener("click", e => {
     }
     case "speak":
       e.stopPropagation(); speak(t.dataset.word); break;
-    case "toggle-cn":
-      changeReadSetting(() => { S.showCn = !S.showCn; });
-      syncReadSettingsSheet("cn", S.showCn ? 1 : 0);
-      toast(S.showCn ? "显示中文对照" : "隐藏中文对照"); break;
+    case "toggle-cn": {
+      /* 「译」是阅读中的即时开关：逐句对照 ↔ 收起（收起回到「点句显示」）。
+         它**不循环三档** —— 循环切换在词汇高亮上已经吃过亏（想回上一档得连点，
+         也不知道后面还有几档）。「关闭翻译」档下点它直接给 all：用户主动点「译」，
+         意图就是「我要看中文」。关闭 / 点句显示之间的取舍属于长期偏好，在设置面板里选。 */
+      const next = S.cnMode === "all" ? "tap" : "all";
+      changeReadSetting(() => { S.cnMode = next; });
+      syncReadSettingsSheet("cn", next);
+      toast(next === "all" ? "逐句对照已展开" : "已收起 · 点句看译文");
+      break;
+    }
     /* 阅读设置面板：把字号/对照/底色摊开成三组直接点选。
      * 旧版「字号」按钮是循环切换 —— 点一下换一档、想回上一档要再点两下，
      * 也看不到一共有几档。 */
@@ -2588,9 +2641,10 @@ document.addEventListener("click", e => {
       break;
     }
     case "set-cn": {
-      const on = t.dataset.cn === "1";
-      if (S.showCn !== on) changeReadSetting(() => { S.showCn = on; });
-      syncReadSettingsSheet("cn", on ? 1 : 0);
+      const v = t.dataset.cn;
+      if (!CN_MODES.includes(v) || S.cnMode === v) break;
+      changeReadSetting(() => { S.cnMode = v; });
+      syncReadSettingsSheet("cn", v);
       break;
     }
     case "set-theme": {
@@ -2620,13 +2674,36 @@ document.addEventListener("click", e => {
     }
     case "para-peek": {
       /* 点一句 = 选中它：喇叭只在选中的句子上出现，长文里不再满屏小图标。
-       * 一次只留一个选中句；隐藏中文时，选中同时把这句译文点出来。 */
+       * 一次只留一个选中句。译文是否跟着弹出，取决于中文对照档位：
+       *   tap 档 → 弹出（这就是「点句显示」的定义）
+       *   off 档 → 只选中、不弹中文。这是 off 与 tap 的**唯一**差别，也是这一档
+       *            存在的全部理由：纯英文阅读时不该被中文打断。
+       *   all 档 / 整段已展开 → 中文本来就在，不必 peek。 */
       const on = !t.classList.contains("sel");
       $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
       if (on) {
         t.classList.add("sel");
-        if (!S.showCn) t.classList.add("peek");
+        const para = t.closest ? t.closest(".para") : null;
+        const open = !!(para && para.classList.contains("cn-open"));
+        if (S.cnMode === "tap" && !open) t.classList.add("peek");
       }
+      break;
+    }
+    case "para-cn": {
+      /* 段级「本段对照」：卡在某一段时整段展开，不必一句一句点。
+       * 只切这一段，不影响其他段，也不改全局档位。 */
+      e.stopPropagation();
+      const para = t.closest ? t.closest(".para") : null;
+      if (!para) break;
+      const pi = +t.dataset.pi;
+      const open = !para.classList.contains("cn-open");
+      para.classList.toggle("cn-open", open);
+      if (open) paraOpen.add(pi); else paraOpen.delete(pi);
+      /* 收起时必须清掉段内残留的 peek —— peek 与 cn-open 各自都会让 .cn 显示，
+         不清的话「收起」之后还留着一句中文明晃晃挂着。 */
+      if (!open) [...para.querySelectorAll(".sentence.peek")].forEach(n => n.classList.remove("peek"));
+      t.textContent = open ? "收起本段翻译" : "显示本段翻译";
+      t.setAttribute("aria-expanded", String(open));
       break;
     }
     case "para-speak": {
@@ -2873,7 +2950,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v57");
+      const cache = await caches.open("wordlens-cache-v58");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

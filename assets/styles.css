@@ -685,8 +685,9 @@ body {
  * 现在 .para 是段落级的文本流，句子是内联 span，句与句之间只有空格 ——
  * 换行由行宽自然决定（「一段文字能自然连读，句间没有不必要的视觉停顿」）。
  *
- * 逐句译文 .cn 在段内是块级元素：它会打断文本流，把译文插在该句下方，
- * 这正是双语对照需要的效果；隐藏中文时它不占位，段落仍是连续的一段。
+ * 逐句译文 .cn 是句子的**相邻兄弟**节点（2026-09-19 从 .sentence 内部拆出来）：
+ * 块级元素，插在该句下方、必然打断文本流 —— 这正是双语对照要的效果。
+ * 非「逐句对照」档它 display:none，段落仍然是连续的一段。
  */
 .read-body {
   padding: 16px var(--rd-pad) 8px;
@@ -703,14 +704,21 @@ body {
 /* 句子的热区：整句可点（选句 / 在隐藏中文时点出该句译文），
    行内元素竖向内边距不会撑开行距，所以只做圆角与背景提示 */
 .read-body .para .sentence.sel { background: rgba(108, 92, 231, .07); border-radius: 4px; }
-/* 隐藏译文模式：点单句显该句译文；段落内其他句子保持收起 */
+/* 非全展开（off / tap 两档）：句子可点选，段内译文默认收起 */
 .read-scroll.no-cn .sentence { cursor: pointer; }
 .read-scroll.no-cn .para .cn { display: none; }
 /* 中文标题也一并收掉：选了「纯英文阅读」就不该在开头先给一句中文 */
 .read-scroll.no-cn .read-hero .title-zh { display: none; }
-.read-scroll.no-cn .sentence.peek .cn {
+/* 「点句显示」档：点中的那句，译文从相邻兄弟位置展开。
+   用 .sentence.peek + .cn 而不是 .sentence.peek .cn —— 译文现在是句子的兄弟节点。
+   「关闭翻译」档**故意不写**这条规则，所以点句只选中、不弹中文；
+   这正是 off 与 tap 的唯一差别，也是 off 档存在的理由。 */
+.read-scroll.cn-tap .sentence.peek + .cn {
   display: block; animation: peekIn .28s ease;
 }
+/* 段级「本段对照」展开的那一段：整段译文显形。必须排在 .no-cn .para .cn 之后 ——
+   两条规则特异性相同（都是 4 个类），靠出现顺序决定胜负。 */
+.read-scroll .para.cn-open .cn { display: block; }
 @keyframes peekIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: none; }
@@ -741,6 +749,20 @@ body {
 .sentence:hover > .para-tts,
 .para.playing .para-tts { opacity: 1; pointer-events: auto; }
 .para-tts:hover, .sentence.sel > .para-tts { color: var(--brand); background: var(--brand-soft); }
+
+/* 段级「本段对照」按钮：只在「点句显示」档渲染。
+ * 长文一段一个（最长的文章 213 段），所以做得极轻：右对齐、11px、低对比度。
+ * 块级元素默认撑满整行、margin-left:auto 会失效，所以要配 width:max-content。 */
+.read-body .para-cn-btn {
+  display: block; width: max-content; margin: 7px 0 0 auto;
+  font-family: var(--font-cn); font-size: 11px; line-height: 1;
+  color: var(--text-3); background: none; border: 0;
+  padding: 5px 3px; border-radius: 6px; cursor: pointer;
+  opacity: .7; transition: opacity .15s, color .15s;
+}
+.read-body .para-cn-btn:hover,
+.read-body .para-cn-btn:focus-visible { opacity: 1; color: var(--brand); }
+.read-body .para-cn-btn[aria-expanded="true"] { opacity: 1; color: var(--brand); }
 
 /* ---------- 正文内嵌配图 ---------- */
 .read-body .para-img {
@@ -919,6 +941,10 @@ body {
    —— 压一档字号与高度，让四个标签都完整显示、不换行、不被截断 */
 .rd-set .rd-segs.four { gap: 5px; }
 .rd-set .rd-segs.four .rd-seg { height: 36px; font-size: 12px; border-radius: 10px; white-space: nowrap; }
+/* 中文对照三档：「点句显示」「逐句对照」四个字放进标准分段块会折行，
+   与四档高亮同样压到 36px / 12px。 */
+.rd-set .rd-segs.three { gap: 5px; }
+.rd-set .rd-segs.three .rd-seg { height: 36px; font-size: 12px; border-radius: 10px; white-space: nowrap; }
 
 /* ---------- 排序面板 ---------- */
 .sort-opt {

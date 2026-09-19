@@ -126,6 +126,11 @@ vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandb
 
 const ctx = e => vm.runInContext(e, sandbox);
 const click = ds => handlers.click({ target: { closest: () => grow(ds) }, stopPropagation: noop });
+/* clickEl(el)：传入自定义元素桩。需要读 classList / closest 实际状态的动作
+   （para-peek 的 .sel/.peek、para-cn 的 .para）必须走这一条 —— click() 造的 target
+   压根没有 classList 属性，拿它测这些分支会当场抛错；就算补个 noop 版，桩永远
+   回答「没有这个类」，守卫就变成永远安静的假守卫。 */
+const clickEl = el => handlers.click({ target: el, stopPropagation: noop });
 const st = () => ({
   view: ctx('view.name'),
   depth: ctx('navStack.length'),
@@ -301,10 +306,10 @@ ctx(`var __nestedProbe = { id: "nested-probe", title: "Nested", source: "test", 
 ]};`);
 ok('嵌套段落展开为两句', ctx('textSentences(__nestedProbe).length') === 2);
 ok('嵌套段落统计词数', ctx('articleStats(__nestedProbe).words') > 0);
-ctx('activeArticle = __nestedProbe; view = {name:"read"}; S.showCn = true;');
+ctx('activeArticle = __nestedProbe; view = {name:"read"}; S.cnMode = "all";');
 const nestedRead = ctx('renderRead()');
 ok('嵌套段落阅读渲染句子节点', nestedRead.includes('class="sentence"') && nestedRead.includes('data-si="1"'));
-ctx('activeArticle = ARTICLES[0]; view = {name:"home"}; S.showCn = false;');
+ctx('activeArticle = ARTICLES[0]; view = {name:"home"}; S.cnMode = "tap";');
 
 /* ===================================================================
  * G2. 难度指标口径（原来的生词率分子分母量纲不一致）
@@ -939,9 +944,10 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
 
 /* 阅读页原地设置（对照/字号/底色）不切走视图，也不整页重渲染
    —— 整页 render 等于把阅读位置打回开头。滚动位置由句子锚点保证，见 [R]。 */
-ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.showCn = false; S.fontSize = 0; S.readTheme = ""; window.__renderCalls = 0;');
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "tap"; S.fontSize = 0; S.readTheme = ""; window.__renderCalls = 0;');
 click({ act: "toggle-cn" });
-ok(`阅读页「中英对照」不切走视图（状态翻转）`, ctx('view.name') === 'read' && ctx('S.showCn') === true);
+/* toggle-cn 是「逐句对照 ↔ 收起」的即时开关，**不循环三档**：tap → all（off 也 → all）。 */
+ok(`阅读页「中英对照」不切走视图（切到逐句对照）`, ctx('view.name') === 'read' && ctx('S.cnMode') === 'all');
 click({ act: "read-settings" });
 ok('「阅读设置」按钮打开设置浮层', overlays.length === 1);
 ok('设置面板把字号三档全列出来（不是点一下轮一档）',
@@ -953,15 +959,17 @@ click({ act: "set-theme", theme: "night" });
 ok('直接点「夜间」即生效（不再循环切换）', ctx('S.readTheme') === 'night' && ctx('window.__renderCalls') === 0);
 click({ act: "close-sheet" });
 ok('关掉设置浮层', overlays.length === 0);
-ctx('activeArticle = null; view = {name:"home"}; S.showCn = false; S.fontSize = 0; S.readTheme = ""; window.__renderCalls = 0;');
+ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap"; S.fontSize = 0; S.readTheme = ""; window.__renderCalls = 0;');
 
 /* ===================================================================
  * R. 阅读排版与位置（逐句分行 / 段间装饰 / 首字下沉 / 句子锚点）
  * =================================================================== */
 console.log('\n[R] 阅读排版与位置');
 const readHtml = ctx('(activeArticle = ARTICLES[0], renderRead())');
+/* 段落标签现在带 data-pi（段级「本段对照」要按段索引定位），所以正则要允许附加属性 ——
+   这一条在 2026-09-19 加 data-pi 时确实变红过，是真守卫。 */
 ok('英文按段落连续排版（句子是内联 span，不是逐句块级）',
-  /<p class="para">/.test(readHtml) && /<p class="para">[^<]*<span class="sentence"/.test(readHtml) && !/<div class="sentence"/.test(readHtml));
+  /<p class="para[^"]*"[^>]*><span class="sentence"/.test(readHtml) && !/<div class="sentence"/.test(readHtml));
 ok('正文不再有 .en 容器（逐句分行的载体已移除）', !/<div class="en( |")/.test(readHtml));
 ok('每句带句子坐标（data-pi / data-si），锚点能定位到句',
   /class="sentence" data-act="para-peek" data-pi="0" data-si="0"/.test(readHtml));
@@ -1000,6 +1008,141 @@ ok(`按原文段落分组（最多保留 1 篇历史待修复文章）（仍是�
   stillFlat.length <= 1);
 const multiPara = ctx(`ARTICLES.reduce((n,a) => n + (a.paras||[]).filter(p => Array.isArray(p.sentences) && p.sentences.length > 1).length, 0)`);
 ok(`多句段数量充足（${multiPara} 个 ≥2 句的段落）`, multiPara >= 50);
+
+/* ===================================================================
+ * S. 中文对照三档（2026-09-19：布尔 showCn → off / tap / all）
+ * -------------------------------------------------------------------
+ * 用户原话：「段落负责阅读流，句子负责交互和翻译。」
+ * off 与 tap 的差别**只在点句**：off 点句只选中（出喇叭）不弹译文，tap 弹。
+ * 这两档以前是同一个（showCn=false 时点句必弹中文），纯英文读者躲不开。
+ * =================================================================== */
+console.log('\n[S] 中文对照三档');
+const cssCn = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, "");
+
+ok('中文对照三档集中定义（off / tap / all），合法值只写一遍',
+  ctx('JSON.stringify(CN_MODES)') === JSON.stringify(['off', 'tap', 'all']));
+ok('默认档是「点句显示」',
+  ctx('defaultState.cnMode') === 'tap');
+
+/* 迁移：旧的布尔 showCn。旧「显示」每句都挂中文 = all；旧「隐藏」点句会弹译文 = tap。
+   ⚠️ 旧「隐藏」**绝不能**映射成 off —— 老用户在设置里从没选过「关闭」，
+   点句突然看不到中文只会以为坏了。 */
+const cnMig = ctx(`(() => {
+  const g = s => normalizeState(s).cnMode;
+  return { on: g({ showCn: true }), off: g({ showCn: false }),
+           bogus: g({ cnMode: "nope" }), keepOff: g({ cnMode: "off" }), keepTap: g({ cnMode: "tap" }),
+           dropped: normalizeState({ showCn: true }).showCn === undefined };
+})()`);
+ok('旧 showCn=true 迁移到 all（旧「显示」= 每句都挂中文）', cnMig.on === 'all');
+ok('★ 旧 showCn=false 迁移到 tap 而不是 off（点句仍能看译文）', cnMig.off === 'tap');
+ok('非法档位回落 tap，旧字段 showCn 被清掉',
+  cnMig.bogus === 'tap' && cnMig.keepOff === 'off' && cnMig.keepTap === 'tap' && cnMig.dropped === true);
+
+/* 容器 class：no-cn = 「不逐句全展开」（off / tap 都加），cn-off / cn-tap 细分点句行为 */
+const cnCls = ctx(`(() => {
+  activeArticle = ARTICLES[0]; view = {name:"read"};
+  const at = m => { S.cnMode = m; return (renderRead().match(/class="view read-scroll ([^"]*)"/) || [,""])[1]; };
+  return { off: at("off"), tap: at("tap"), all: at("all") };
+})()`);
+ok(`三档容器 class 正确（off="${cnCls.off}" · tap="${cnCls.tap}" · all="${cnCls.all}"）`,
+  /\bno-cn\b/.test(cnCls.off) && /\bcn-off\b/.test(cnCls.off) &&
+  /\bno-cn\b/.test(cnCls.tap) && /\bcn-tap\b/.test(cnCls.tap) &&
+  !/\bno-cn\b/.test(cnCls.all) && !/\bcn-off\b|\bcn-tap\b/.test(cnCls.all));
+
+/* ★ 点句行为：off 与 tap 的唯一差别。用真元素桩走真实 click 委托分支，
+   不看渲染字符串 —— 渲染里 .peek 是运行时才加的。 */
+/* 事件分发入口是 e.target.closest("[data-act],[data-tab],…")，
+   所以桩的 closest 必须对**那个选择器**返回它自己（带 dataset.act 才走得进分支），
+   对 ".para" 才返回段落桩。只返回一个空对象的话，app.js 在外面就
+   `undefined.dataset.tab` 当场炸 —— 那样测的就不是分支逻辑了。 */
+const DATA_ACT_SEL = "[data-act],[data-tab],[data-article],[data-cat]";
+const mkSentStub = (paraOpen = false) => {
+  const set = new Set();
+  const el = {
+    _set: set, dataset: { act: "para-peek" },
+    textContent: "", setAttribute() {},
+    classList: {
+      add: c => set.add(c), remove: c => set.delete(c),
+      toggle: (c, on) => { (on === undefined ? !set.has(c) : on) ? set.add(c) : set.delete(c); },
+      contains: c => set.has(c),
+    },
+    closest: sel => sel === DATA_ACT_SEL ? el : { classList: { contains: c => paraOpen && c === "cn-open" } },
+  };
+  return el;
+};
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "tap";');
+const sentTap = mkSentStub();
+clickEl(sentTap);
+ok('★ 「点句显示」档点句同时选中并弹出该句译文（.sel + .peek）',
+  sentTap._set.has("sel") && sentTap._set.has("peek"));
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "off";');
+const sentOff = mkSentStub();
+clickEl(sentOff);
+ok('★ 「关闭翻译」档点句只选中、不弹中文（这是 off 与 tap 的唯一差别）',
+  sentOff._set.has("sel") && !sentOff._set.has("peek"));
+/* 整段已展开时不必再 peek：中文本来就在眼前 */
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "tap";');
+const sentOpen = mkSentStub(true);
+clickEl(sentOpen);
+ok('整段已展开时点句不重复 peek（译文本来就在）',
+  sentOpen._set.has("sel") && !sentOpen._set.has("peek"));
+
+/* 段级「本段对照」按钮 */
+const cnBtnHtml = ctx(`(() => {
+  activeArticle = ARTICLES[0]; view = {name:"read"};
+  const at = m => { S.cnMode = m; return renderRead(); };
+  return { tap: at("tap"), all: at("all"), off: at("off") };
+})()`);
+ok('段级「本段对照」按钮只在「点句显示」档渲染',
+  /data-act="para-cn"/.test(cnBtnHtml.tap) && !/data-act="para-cn"/.test(cnBtnHtml.all) && !/data-act="para-cn"/.test(cnBtnHtml.off));
+ok('按钮默认态是「显示本段翻译」且 aria-expanded=false',
+  /aria-expanded="false"[^>]*>显示本段翻译</.test(cnBtnHtml.tap));
+/* ★ 结构守卫：译文必须是句子的**相邻兄弟**节点。
+   判据取「两个连续 </span> 之后紧跟 <span class="cn">」—— .sentence 的最后一个子节点
+   是 .para-tts，所以兄弟写法必然是 `</span></span><span class="cn">`；
+   若 .cn 被移回 .sentence 内部，就只剩一个 </span>，这个计数会归零。
+   （用 `</span><span class="cn">` 判会假绿 —— para-tts 的闭合标签恰好长这样。） */
+const cnOpenN = (cnBtnHtml.all.match(/<span class="cn">/g) || []).length;
+const cnSibN = (cnBtnHtml.all.match(/<\/span><\/span><span class="cn">/g) || []).length;
+ok(`★ 译文是句子的相邻兄弟节点（${cnSibN}/${cnOpenN} 个译文紧跟句子闭合标签）`,
+  cnOpenN > 20 && cnSibN === cnOpenN);
+
+const mkParaStub = peeks => {
+  const set = new Set();
+  return {
+    _set: set,
+    classList: {
+      add: c => set.add(c), remove: c => set.delete(c),
+      toggle: (c, on) => { (on === undefined ? !set.has(c) : on) ? set.add(c) : set.delete(c); },
+      contains: c => set.has(c),
+    },
+    querySelectorAll: () => peeks,
+  };
+};
+ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "tap"; paraOpen.clear();');
+const paraStub = mkParaStub([]);
+const peekSent = { _set: new Set(["peek"]), classList: { remove(c) { peekSent._set.delete(c); }, contains: c => peekSent._set.has(c) } };
+paraStub.querySelectorAll = () => [peekSent];
+const cnBtnStub = { dataset: { act: "para-cn", pi: "0" }, textContent: "显示本段翻译",
+  setAttribute(k, v) { this._attr = v; },
+  closest: sel => sel === DATA_ACT_SEL ? cnBtnStub : paraStub };
+clickEl(cnBtnStub);
+ok('点「显示本段翻译」整段展开（para 加 cn-open / 索引进 paraOpen / 按钮转「收起」）',
+  paraStub._set.has("cn-open") && ctx('paraOpen.has(0)') === true &&
+  cnBtnStub.textContent === "收起本段翻译" && cnBtnStub._attr === "true");
+clickEl(cnBtnStub);
+ok('★ 再点收起：清掉段内残留 .peek（否则收起后还留一句中文挂着）',
+  !paraStub._set.has("cn-open") && ctx('paraOpen.has(0)') === false &&
+  cnBtnStub.textContent === "显示本段翻译" && !peekSent._set.has("peek"));
+
+/* CSS：档位差别的落点 */
+ok('「点句显示」的译文展开用相邻兄弟选择器（+ 而不是空格）',
+  /\.read-scroll\.cn-tap \.sentence\.peek \+ \.cn/.test(cssCn) && !/\.sentence\.peek \.cn/.test(cssCn));
+ok('★ CSS 里没有「关闭翻译」档的 peek 规则（off 与 tap 的差别就落在这里）',
+  !/\.read-scroll\.cn-off[^{]*\.peek[^{]*\{/.test(cssCn));
+ok('段级 .para.cn-open .cn 规则排在 .no-cn .para .cn 之后（同特异性靠出现顺序取胜）',
+  cssCn.indexOf('.para.cn-open .cn') > cssCn.indexOf('.no-cn .para .cn') && cssCn.indexOf('.para.cn-open .cn') > 0);
+ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap"; paraOpen.clear(); paraOpenArt = null;');
 
 /* 句子锚点：off = 该句顶部相对滚动容器视口的偏移；还原时把同一句放回同一偏移 */
 const mkSent = (pi, si, top, bottom) => ({
