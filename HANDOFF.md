@@ -9,23 +9,32 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 
-### 0.1 ★ 权威现状（2026-09-17 — **要看现状只读这一节**）
+### 0.1 ★ 权威现状（2026-09-18 — **要看现状只读这一节**）
+
+> 🔴 **这张表由 `node tools/doc-numbers.mjs` 校验**：篇数 / 句词数 / 版本 / 词库是硬校验（对不上 `exit 1`）；
+> 基线 commit 是**提示项** —— 每次推送都会改写它，而推送清单从不含本文件（文档要人工跟），
+> 硬校验它必然红（2026-09-18 实测）。
+> 所以：**改数据就必须改这张表**；**想确认这张表没骗人，跑那个脚本，不要读这张表。**
 
 | 项 | 值 |
 | --- | --- |
-| 文章 | **9 篇 = 成长 6 + 人物 3** |
-| 句子 / 词数 | **2,955 句 / 36,044 词** |
-| 封面 | 56 张（远端 blob 共 186 个） |
-| 发布基线 | `.bak/published.json` = **`f1f601e`**（2026-09-17 16:02） |
-| 资源版本 | `?v=51` · SW 缓存名 `wordlens-cache-v51` |
+| 文章 | **14 篇 = 成长 4 + 人物 6 + 足球 4** |
+| 句子 / 词数 | **3,913 句 / 54,088 词** |
+| 封面 | 65 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
+| 发布基线 | `.bak/published.json` = **`d6851176`**（2026-09-18 15:1x，人物批次 20260918-151030 后） |
+| 资源版本 | `?v=55` · SW 缓存名 `wordlens-cache-v55` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013） |
-| 采集策略 | **RSS 采集已全部停用**；每日只剩人物审核队列（≤1 篇）。成长 RSS 暂停，AI / 旧明星 / 足球停用 |
-| 成长 6 篇 | Dan Koe×4（map-to-reach-the-top / think-like-a-genius / knowledge-base / how-to-fix-your-entire-life）+ More To That×2（listening / illness） |
-| 人物 3 篇 | Anne Hathaway / Charlize Theron / Monica Bellucci（`readingMode:"full"` 原刊全文） |
+| 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。成长 RSS 暂停，AI / 旧明星停用 |
+| 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
+| 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
+| 足球 4 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
 | 寓言 | 入口保留，当前为空 |
 
 **「线上现在有什么」永远以远端树为准**（`node tools/tree-diff.mjs`）。本表只是索引 ——
-与远端不一致时**以远端为准**，并回来更正本表。
+与远端不一致时**以远端为准**，并回来更正本表。**篇数只信 `tree-diff` 与 `.bak/releases/*` 批次快照，任何文档（含本表）都不可信。**
+
+> ⚠️ **2026-09-18 纠正**：本节原写「9 篇 = 成长 6 + 人物 3 · 足球已全部撤下 · 基线 `f1f601e`」——
+> 那是 **09-17 16:27 的快照，此后没再更新**，落后了两个批次。更正经过与时间线见 §0.2 末条。
 
 ### 0.2 历史更正记录（**只用于溯源，不要当现状读**）
 
@@ -112,6 +121,26 @@
   >   ⑥ **文档同步**：`README` 首行 / 内容栏目 / 数据来源（新增「足球为何停采」段）/ daily.yml 段，
   >   与 `ingest.mjs` 的 `FEEDS` 注释、`writeExtra` 头注释、`MAX_INLINE_IMG` 注释。
   >   **线上仍为 9 篇 = 成长 6 + 人物 3，2,955 句 / 36,044 词；封面 56 张**（远端 64 → 56）。
+> ⚠️ **2026-09-18 更正（文档层，无代码 / 数据改动）**：§0.1 的「权威现状」表在 09-17 16:27 之后**没再更新**，
+>   仍写「9 篇 = 成长 6 + 人物 3 · 足球已全部撤下 · 基线 `f1f601e`」，而实测早已是
+>   **6 篇 = 成长 1 + 人物 1 + 足球 4 · 基线 `46648a2`**。**这不是数据错，是文档落后了两个批次。**
+>   实测时间线（`.bak/releases/*/before/assets/data-articles-extra.js` 批次快照 —— 全仓库最硬的证据，
+>   每批 publish 都会把变更前状态整棵存下来）：
+>   ```
+>   16:17–16:39  9 篇（成长 6 + 人物 3）
+>   16:40–16:57  2 篇   ← 另一 agent 奉用户命「删正文与图片」，用户确认（.workbuddy/memory/2026-09-17.md 第 9 轮）
+>   19:38        6 篇   ← 足球四篇精翻 --inject 上线（带 pin:true，豁免 30 天过期闸）
+>   19:40        推送 46648a2，verify-live 15/0 全绿
+>   ```
+>   **6 篇是用户逐批确认的结果，不是事故** —— 足球四篇上线时用户当场问过「怎么是六篇」并接受了解释。
+>   → **教训：篇数只信 `tree-diff`（GitHub API 比全仓库）与批次快照；文档表格会漂移，而漂移此前没有任何机制报警。**
+>   本轮补上这个机制（三个新工具，未改动任何业务数据）：
+>   · `tools/doc-numbers.mjs` —— 把 §0.1 的篇数 / 句词数 / 版本 / 词库 / 基线做**硬校验**，不一致 exit 1；
+>     叙述性文档（README）里的数字只列出来供人工核对，**不自动改写**（改叙述句会制造更难发现的错）。
+>   · `tools/version.mjs` —— 资源版本号**五处**单一来源，`--bump` / `--sync` / `--check`。
+>   · `tools/version-test.mjs` —— **19 项负向测试**。它当场抓出两处**既有校验的盲区**：
+>     `sw.js` 头注释还写着 `（v51，阅读界面改版）`、`app.js:11` 的 `ASSET_VERSION` 回退默认值还写 `"51"`，
+>     而 `cache-version-test.mjs` 只查 `caches.open`，两处都不看 —— 所以它们长期没人发现。
 
 ### 0.3 机制速查（不随批次变）
 
@@ -173,8 +202,9 @@
     ├── qc-test.mjs             质检门禁语义回归（空清单 / 目标 id 不存在都不算通过）
     ├── push-test.mjs           上传清单闸门回归（清单点名文件缺失必须在联网前中止）
     ├── translate-titles.mjs    标题中文翻译回填（--dry / --redo / --only）
-    ├── lib-mt.mjs              翻译共用库：DeepL 优先，Qwen-MT 补齐失败项（文章上下文 + 版本化缓存 + 引擎/模型记录）
-    ├── mt-test.mjs             翻译上下文 / 缓存隔离 / 源语言与引擎元数据回归
+    ├── lib-mt.mjs              翻译共用库：Qwen-MT 优先，DeepL 补齐失败项（2026-09-17 对调；文章上下文 + 版本化缓存 + 引擎/模型记录）；另有 qwen-llm 精翻引擎（编号行协议、对不齐整批作废、缓存按模型隔离，默认不进产线）
+    ├── llm-refine.mjs          精翻通道 CLI：单篇 → qwen-max 逐句精翻 → tools/_refine/（已 gitignore）三栏审校草稿，人工确认后才进 build，绝不自动改线上
+    ├── mt-test.mjs             翻译上下文 / 缓存隔离 / 源语言与引擎元数据回归（含 qwen-llm 协议测试）
     ├── text-test.mjs           译文原样回显过滤回归
     ├── classics-test.mjs       明星经典图集偏好排序回归
     ├── lib-text.mjs            文本清洗共用库（占位符/广告段/缩写/命名实体）

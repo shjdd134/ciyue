@@ -637,7 +637,10 @@ const sheetW0 = ctx('WORDS[0].word');
 click({ act: "lookup", word: sheetW0 });
 click({ act: "add-note", word: sheetW0 });
 ok(`查词卡「加入生词本」零整页渲染（阅读位置不丢）`, ctx('window.__renderCalls') === 0);
-ok(`生词确实入了本（${sheetW0}）`, ctx(`S.notebook.includes(${JSON.stringify(sheetW0)})`));
+/* ⚠️ notebook 自「生词带语境」迁移起存对象（{word,addedAt,articleId,firstCtx,seen,...}），
+ * 断言必须按 word 字段比。原先写的是 S.notebook.includes("perform") ——
+ * 对对象数组恒为 false，这条守卫从迁移那天起就是假红（184/2 里的 1 条）。 */
+ok(`生词确实入了本（${sheetW0}）`, ctx(`S.notebook.some(it => it.word === ${JSON.stringify(sheetW0)})`));
 
 const sheetW1 = ctx('WORDS[1].word');
 click({ act: "mark-known", word: sheetW1 });
@@ -655,6 +658,124 @@ ok('我的页不再显示复习入口', !/今日复习|开始复习|FSRS/.test(m
 ok('完整词卡不再提供加入复习', !/data-act="add-review"|加入复习/.test(ctx('renderSheet("comprehensive")')));
 
 ctx(`S.known.length = 0; S.notebook.length = 0;`);
+
+/* ===================================================================
+ * [Q2] 词汇学习闭环：生词带语境 + 遇词统计 + 三态标色
+ * 这一段的每条断言都配了反例方向 —— 守卫必须「能响」才算数：
+ *   迁移断言若把兜底默认值写错会红；幂等断言去掉 articles 去重键会红；
+ *   三态断言把 known 优先级写反会红。只写「当前通过」的断言是假守卫。
+ * =================================================================== */
+console.log('\n[Q2] 词汇学习闭环（生词语境 / 遇词统计 / 三态标色）');
+{
+  /* 本段在 [R] 之前执行，css 常量还没定义（它后面才读）；块内自己读一份，
+     块级 const 会遮蔽外层同名变量，不冲突。 */
+  const css = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8');
+  /* ---- 老数据迁移：字符串 → v2 对象 → v3 带语境 ---- */
+  const mig = ctx(`(() => ({
+    s1: normalizeState({ notebook: ["perform"] }).notebook[0],
+    s2: normalizeState({ notebook: [{ word: "perform", addedAt: 111, articleId: "art-x" }] }).notebook[0],
+    s3: normalizeState({ notebook: [{ word: "perform", addedAt: 111, articleId: "art-x",
+          firstCtx: { en: "A b.", cn: "甲。" }, seen: 5, lookups: 4, articles: ["art-x", "art-y"] }] }).notebook[0],
+    bad: normalizeState({ notebook: ["perform", null, { nope: 1 }, "perform"] }).notebook.length,
+  }))()`);
+  ok('迁移：字符串条目升级为对象，seen/lookups 兜底 1（不是 0）',
+    mig.s1 && mig.s1.word === 'perform' && mig.s1.seen === 1 && mig.s1.lookups === 1 && Array.isArray(mig.s1.articles) && mig.s1.firstCtx === null);
+  ok('迁移：v2 对象条目补齐字段且不丢 articleId / addedAt',
+    mig.s2 && mig.s2.articleId === 'art-x' && mig.s2.addedAt === 111 && mig.s2.firstCtx === null && mig.s2.articles.length === 1 && mig.s2.articles[0] === 'art-x');
+  ok('迁移：已有次数与语境原样保留（不被默认值覆盖）',
+    mig.s3 && mig.s3.seen === 5 && mig.s3.lookups === 4 && mig.s3.firstCtx.en === 'A b.' && mig.s3.articles.length === 2);
+  ok('迁移：脏条目（null / 缺 word）被剔除，重复词合并为一条', mig.bad === 1);
+
+  /* ---- 遇词统计：本篇出现几次就记几次，且同一篇只记一次 ---- */
+  const enc = ctx(`(() => {
+    const a = ARTICLES[0];
+    S.known = []; S.notebook = [];
+    buildEncounter(a);
+    const keys = Object.keys(ENCOUNTER);
+    const k = keys[0];
+    const n = ENCOUNTER[k].n;
+    const ctxEn = ENCOUNTER[k].ctx ? ENCOUNTER[k].ctx.en : "";
+    S.notebook.push({ word: k, addedAt: Date.now(), articleId: "", srcTitle: "",
+      firstCtx: null, seen: 0, lookups: 0, lastSeenAt: 0, articles: [] });
+    recordEncounters(a);
+    const first = S.notebook[0].seen;
+    const ctxSaved = S.notebook[0].firstCtx ? S.notebook[0].firstCtx.en : "";
+    recordEncounters(a);                       // 再跑一次：模拟重渲染
+    const second = S.notebook[0].seen;
+    const arts = S.notebook[0].articles.length;
+    /* 没收藏的词不该被记账（体积可控的前提） */
+    S.notebook = []; buildEncounter(a); recordEncounters(a);
+    const leaked = S.notebook.length;
+    S.known = []; S.notebook = [];
+    return { keyCount: keys.length, k, n, ctxEn, first, second, arts, ctxSaved, leaked };
+  })()`);
+  ok(`遇词表覆盖本篇学习词（${enc.keyCount} 个词元）`, enc.keyCount > 0);
+  ok(`遇词记账：${enc.k} 在本篇出现 ${enc.n} 次 → seen = ${enc.n}`, enc.first === enc.n);
+  ok('遇词记账顺手存下首见语境（原句）', !!enc.ctxSaved && enc.ctxSaved === enc.ctxEn);
+  ok('遇词记账幂等：同一篇重渲染两次，seen 不变、articles 不重复',
+    enc.second === enc.first && enc.arts === 1);
+  ok('未收藏的词不记账（localStorage 不膨胀）', enc.leaked === 0);
+
+  /* ---- 正文三态：四级词 / 生词 / 已掌握（已掌握必须压过生词） ---- */
+  const tri = ctx(`(() => {
+    const k = WORDS[0].word;
+    S.known = []; S.notebook = [];
+    const text = "The " + k + " and " + k + ".";
+    const base = highlightEn(text);
+    S.notebook = [{ word: k, addedAt: 1, articleId: "", srcTitle: "", firstCtx: null,
+      seen: 3, lookups: 2, lastSeenAt: 1, articles: [] }];
+    const wb = highlightEn(text);
+    S.known = [k];
+    const kn = highlightEn(text);
+    S.known = []; S.notebook = [];
+    return { base, wb, kn };
+  })()`);
+  ok('三态：未收藏 → 只有四级词色（无 wb / known）',
+    /class="kw"/.test(tri.base) && !/\bwb\b/.test(tri.base) && !/known/.test(tri.base));
+  ok('三态：收藏后 → 生词态 .wb', /class="kw[^"]*\bwb\b/.test(tri.wb));
+  ok('三态：已掌握压过生词（带 known 且**不带** wb）—— 优先级写反就会红',
+    /known/.test(tri.kn) && !/\bwb\b/.test(tri.kn));
+
+  /* ---- 查词卡：本句含义 + 生词态按钮 ---- */
+  const sheet = ctx(`(() => {
+    const k = WORDS[0].word;
+    S.known = []; S.notebook = [];
+    const plain = renderSheet(k, { en: "She was " + k + " to accept.", cn: "她不情愿接受。" });
+    const noCtx = renderSheet(k);
+    S.notebook = [{ word: k, addedAt: 1, articleId: "", srcTitle: "", firstCtx: { en: "Old " + k + ".", cn: "旧的。" },
+      seen: 4, lookups: 3, lastSeenAt: 1, articles: ["a", "b"] }];
+    const nb = renderSheet(k, { en: "A " + k + ".", cn: "甲。" });
+    const more = (() => { sheetMore = true; const h = renderSheet(k, { en: "A " + k + ".", cn: "甲。" }); sheetMore = false; return h; })();
+    S.known = []; S.notebook = [];
+    return { plain, noCtx, nb, more };
+  })()`);
+  ok('查词卡显示「本句含义」（原句 + 译文都在）',
+    sheet.plain.includes('本句含义') && sheet.plain.includes('to accept') && sheet.plain.includes('她不情愿接受'));
+  ok('没有上下文的查词（词汇页/图注）不渲染空语境块', !sheet.noCtx.includes('本句含义'));
+  ok(`生词卡显示次数（遇到 4 次 / 查询 3 次 / 来自 2 篇）`,
+    sheet.nb.includes('遇到 4 次') && sheet.nb.includes('查询 3 次') && sheet.nb.includes('来自 2 篇'));
+  ok('生词卡主按钮换成「我已认识」，不再是「加入生词本」',
+    sheet.nb.includes('我已认识') && !sheet.nb.includes('加入生词本'));
+  ok('展开卡给出「第一次遇到」的多语境原句',
+    sheet.more.includes('第一次遇到') && /Old <mark class="w-hl">/.test(sheet.more));
+
+  /* ---- 高亮开关 ---- */
+  /* renderRead 要读 activeArticle：本段排在 [R]（阅读页设置）之前，那边才设它，这里先补上 */
+  ctx('activeArticle = ARTICLES[0]; view = { name: "read" };');
+  const kwOff = ctx(`(() => {
+    S.kwHighlight = false; const off = renderRead();
+    S.kwHighlight = true;  const on = renderRead();
+    return { off: off.includes('no-kw'), on: on.includes('no-kw') };
+  })()`);
+  ok('阅读页按 S.kwHighlight 决定是否挂 .no-kw', kwOff.off === true && kwOff.on === false);
+  ok('样式：关高亮后生词色仍在（只关四级词色，不关自己收藏的词）',
+    /\.read-scroll\.no-kw \.kw\.wb/.test(css));
+  ok('样式：生词色用琥珀 token，不是硬编码色值',
+    /\.kw\.wb\s*\{[^}]*var\(--amber\)/.test(css) && /\.kw\.wb\.rep::after/.test(css));
+
+  ctx('S.known.length = 0; S.notebook.length = 0; S.kwHighlight = true; sheetMore = false;');
+}
+
 
 /* 阅读页原地设置（对照/字号/底色）不切走视图，也不整页重渲染
    —— 整页 render 等于把阅读位置打回开头。滚动位置由句子锚点保证，见 [R]。 */
@@ -837,7 +958,9 @@ console.log('\n[G4] 本篇生词本按词匹配');
     const listed = ctx(`(() => {
       const keepArt = activeArticle, keepNb = S.notebook;
       activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(neg.art)});
-      S.notebook = [${JSON.stringify(neg.x)}];
+      /* 条目必须是**真实形状**（对象）—— renderArticleNotebookSheet 读的是 item.word，
+         塞字符串进去会得到 "undefined" 而静默不匹配，那样测的不是代码而是测试自己的错。 */
+      S.notebook = [{ word: ${JSON.stringify(neg.x)}, addedAt: Date.now(), articleId: "" }];
       const html = renderArticleNotebookSheet();
       S.notebook = keepNb; activeArticle = keepArt;
       return html.includes('data-word="' + ${JSON.stringify(neg.x)} + '"');
@@ -861,7 +984,7 @@ console.log('\n[G4] 本篇生词本按词匹配');
     const listed = ctx(`(() => {
       const keepArt = activeArticle, keepNb = S.notebook;
       activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(pos.art)});
-      S.notebook = [${JSON.stringify(pos.kw)}];
+      S.notebook = [{ word: ${JSON.stringify(pos.kw)}, addedAt: Date.now(), articleId: "" }];
       const html = renderArticleNotebookSheet();
       S.notebook = keepNb; activeArticle = keepArt;
       return html.includes('data-word="' + ${JSON.stringify(pos.kw)} + '"');

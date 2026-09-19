@@ -213,6 +213,36 @@ body {
 .history-status b { color: var(--brand); font-weight: 600; }
 .history-empty { text-align: center; color: var(--text-2); font-size: 13px; padding: 28px 18px; }
 
+/* ---------- 记词本 ---------- */
+.notebook-view { gap: 12px; }
+.nb-list { display: flex; flex-direction: column; gap: 8px; }
+.nb-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 1px solid var(--border); border-radius: var(--r-md); padding: 12px;
+  background: var(--card); box-shadow: var(--shadow-1);
+}
+.nb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
+.nb-main:active { opacity: .7; }
+.nb-word-row { display: flex; align-items: baseline; gap: 8px; }
+.nb-word { font-family: var(--font-en); font-size: 15px; font-weight: 600; color: var(--text-1); }
+.nb-phonetic { font-family: var(--font-en); font-size: 11px; color: var(--text-3); }
+.nb-def { font-size: 12px; color: var(--text-2); line-height: 16px; }
+.nb-from { margin-top: 4px; }
+.nb-source {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: var(--text-3); background: var(--bg);
+  border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px;
+  cursor: pointer; font-family: var(--font-cn);
+}
+.nb-source:hover { color: var(--brand); border-color: var(--brand); }
+.nb-del {
+  flex: none; width: 28px; height: 28px; border-radius: 14px;
+  border: 1px solid var(--border); background: var(--card);
+  color: var(--text-3); cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.nb-del:hover { color: var(--red); border-color: var(--red); background: var(--red-bg); }
+.nb-empty { text-align: center; color: var(--text-2); font-size: 13px; padding: 28px 18px; }
+
 .h1 { font-size: 22px; font-weight: 700; letter-spacing: -.3px; color: var(--text-1); }
 .h2 { font-size: 16px; font-weight: 600; }
 .h3 { font-size: 15px; font-weight: 600; }
@@ -1291,3 +1321,86 @@ body {
 /* FAB 随滚动方向淡出 */
 .fab-bar { transition: opacity .25s, transform .25s; }
 .fab-bar.hide { opacity: 0; transform: translateY(18px); pointer-events: none; }
+
+/* ---------- 词汇学习闭环（2026-09-19） ----------
+ * 正文里三种「被标出来的词」，层次靠视觉重量拉开，不靠颜色数量：
+ *   四级词  .kw       紫色字，加粗 —— 考试会考
+ *   生词    .kw.wb    琥珀色块 —— 我不会（自己收藏的）
+ *   已掌握  .kw.known 灰色常规 —— 认识了
+ * 一篇文章 30% 的字都是彩色会严重干扰阅读，所以只有「自己收藏的词」才配底色；
+ * 其余一律只用颜色不用色块。已掌握与生词在 JS 侧互斥（known 优先），
+ * 同一个 span 不会同时带 .known 和 .wb，这里不必再写特异性压制。 */
+.kw.wb {
+  color: var(--amber);
+  background: var(--amber-bg);
+  font-weight: 700;
+}
+/* 反复遇到（本篇出现 ≥2 次）的生词点一个小圆点：它提示的不是「这词难」，
+   而是「你已经见过好几次了」—— 比单纯变色多一层信息。 */
+.kw.wb.rep::after {
+  content: "";
+  display: inline-block;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--amber);
+  margin-left: 2px;
+  vertical-align: super;
+}
+/* 关掉四级词高亮：正文回到普通文本 —— 但**生词色保留**。
+ * 生词是读者自己一个个收进来的，那是「我的标记」，不该被一个开关一起抹掉；
+ * 会干扰阅读的是满篇紫字，不是自己收的那几个词。 */
+.read-scroll.no-kw .kw { color: inherit; font-weight: inherit; }
+.read-scroll.no-kw .kw.wb { color: var(--amber); background: var(--amber-bg); font-weight: 700; }
+.read-scroll.no-kw .kw.wb.rep::after { display: inline-block; }
+
+/* 查词卡 / 词汇页里的「本句含义」块：把词典释义落到具体那句话上 */
+.ctx, .ctx-first {
+  display: flex; flex-direction: column; gap: 4px;
+  background: var(--card-2); border-radius: var(--r-sm);
+  padding: 10px 12px;
+}
+.ctx-first { margin-top: 6px; }
+.ctx-lab {
+  font-family: var(--font-cn); font-size: 11px; font-weight: 600;
+  color: var(--text-3); letter-spacing: .3px;
+}
+.ctx-en { font-family: var(--font-en); font-size: 13.5px; line-height: 20px; color: var(--text-1); }
+.ctx-cn { font-size: 12px; line-height: 19px; color: var(--text-2); }
+.ctx-meta { font-family: var(--font-cn); font-size: 11px; font-weight: 600; color: var(--amber); }
+/* 句中目标词：与例句库共用 .w-hl，但语境块里用琥珀色与生词色呼应 */
+.ctx .w-hl, .ctx-first .w-hl, .nb-ctx .w-hl {
+  background: none; color: var(--amber); font-weight: 700;
+}
+
+/* 词汇页：今日概览三格 */
+.vocab-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  border: 1px solid var(--border); border-radius: var(--r-md);
+  background: var(--card); padding: 14px 10px; box-shadow: var(--shadow-1);
+}
+.vs-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.vs-cell b { font-family: var(--font-num); font-size: 21px; font-weight: 700; color: var(--text-1); }
+.vs-cell i { font-family: var(--font-cn); font-style: normal; font-size: 11px; color: var(--text-3); }
+
+/* 词汇页：分组（需要重点学习 / 学习中 / 已掌握） */
+.nb-group { display: flex; flex-direction: column; gap: 8px; }
+.nb-group-head { display: flex; align-items: baseline; justify-content: space-between; }
+.nb-group-title { font-family: var(--font-cn); font-size: 13px; font-weight: 600; color: var(--text-1); }
+
+/* 生词条目里的原句：复习的锚点，不是装饰 —— 所以字号跟正文保持可读性 */
+.nb-ctx {
+  margin-top: 6px; padding: 8px 10px; border-radius: 10px;
+  background: var(--card-2); display: flex; flex-direction: column; gap: 3px;
+}
+.nb-ctx-en { font-family: var(--font-en); font-size: 12.5px; line-height: 18px; color: var(--text-1); }
+.nb-ctx-cn { font-size: 11.5px; line-height: 17px; color: var(--text-2); }
+
+.nb-stats { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
+.nb-stats span {
+  font-family: var(--font-cn); font-size: 11px; color: var(--text-3);
+  background: var(--bg); border-radius: 999px; padding: 2px 7px;
+}
+.nb-known-tag {
+  font-family: var(--font-cn); font-size: 10.5px; font-weight: 600;
+  color: var(--green); background: var(--green-bg);
+  border-radius: 999px; padding: 1px 7px;
+}
