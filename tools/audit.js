@@ -1008,9 +1008,10 @@ ok('选中的句子有可见的左边线（inset 阴影，不用 border-left 挤
 
 /* ---- 正文「一句一行」试点（.para-flow，2026-09-19 用户拍板句距 10px）----
  * 中文对照档每句跟一个块级译文、本来就一行一句；纯英文档句子是 inline，整段连排 ——
- * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁四件事：
+ * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁五件事：
  *   ① 试点边界不越界（名单外一篇都不改）；② 句距 10px；③ **段距 18px 原封不动**；
- *   ④ 译文下边距归零。③ 是这轮最容易改错的一条：句距和段距一起拉大正是这个方案
+ *   ④ 译文下边距归零；⑤ 交互只剩「点句出译文 / 再点收起」——试点篇不渲染段级按钮、
+ *      句末留 10px 点击余量。③ 是这轮最容易改错的一条：句距和段距一起拉大正是这个方案
  * 第一次翻车的方式（样张实测段距 18→30 + 句距 0→20，观感直接散掉）。④ 不归零，
  * 双语档「译文 → 下句」会变成 10+10=20px，比纯英档松一截，两档就不是同一节奏了。 */
 const flowIds = ctx('[...PARA_FLOW_ARTICLES]');
@@ -1029,6 +1030,10 @@ const flowSent = (cssBare.match(/\.read-scroll\.para-flow \.para \.sentence\s*\{
 const flowGap = (cssBare.match(/\.read-scroll\.para-flow \.para \.sentence ~ \.sentence\s*\{([^}]*)\}/) || [, ''])[1];
 ok('试点把句子转成块级（一句一行、句间 10px）',
   /display:\s*block/.test(flowSent) && /margin-top:\s*10px/.test(flowGap));
+/* 块级句子撑满整行：右端零留白则文字顶到边，行尾也没有可点的余量。
+   10px 与句距同值 —— 留白既是视觉收口，也是点句出译文的点击余量。 */
+ok('★ 试点句末右留 10px（撑满整行的块级句，右端要留出点击余量）',
+  /padding-right:\s*10px/.test(flowSent) && !/padding-right:\s*0/.test(flowSent));
 ok('★ 试点不碰段距（句距和段距一起拉大 → 段落层次糊掉，样张实测过）',
   /\.read-body \.para\s*\{[^}]*margin:\s*0 0 18px/.test(cssBare));
 const flowCn = (cssBare.match(/\.read-scroll\.para-flow \.para \.cn\s*\{([^}]*)\}/) || [, ''])[1];
@@ -1121,6 +1126,17 @@ const sentTap = mkSentStub();
 clickEl(sentTap);
 ok('★ 「点句显示」档点句同时选中并弹出该句译文（.sel + .peek）',
   sentTap._set.has("sel") && sentTap._set.has("peek"));
+/* 同一句再点一次 = 收起译文。用户明确要的交互只有这一种（试点篇连段级按钮都没有，
+   没有第二个入口兜底），所以必须钉死：干净地清掉 .sel/.peek，不留第三种状态。
+   沙箱的 querySelectorAll 对非 sheet 选择器返回空数组，「清掉所有已选中句」那个循环
+   会跑空 —— 不补桩就是「再点无效」的假红。桩只认 .sentence.sel，用完立刻还原
+   （同 fakeKw 的做法），避免污染后面所有用 $$ 的断言。 */
+const __prevQSASel = sandbox.document.querySelectorAll;
+sandbox.document.querySelectorAll = s => (String(s).includes('.sentence.sel') ? [sentTap] : __prevQSASel(s));
+clickEl(sentTap);
+ok('★ 同一句再点一次收起该句译文（.sel 与 .peek 一起清掉）',
+  !sentTap._set.has("sel") && !sentTap._set.has("peek"));
+sandbox.document.querySelectorAll = __prevQSASel;
 ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "off";');
 const sentOff = mkSentStub();
 clickEl(sentOff);
@@ -1133,9 +1149,11 @@ clickEl(sentOpen);
 ok('整段已展开时点句不重复 peek（译文本来就在）',
   sentOpen._set.has("sel") && !sentOpen._set.has("peek"));
 
-/* 段级「本段对照」按钮 */
+/* 段级「本段对照」按钮。
+ * 探针固定取**非试点篇**：试点篇故意不渲染这个按钮（见下），拿 ARTICLES[0] 撞运气
+ * 会在名单变化时莫名假红 —— 名字里的规则要能自己站住，不靠数组顺序。 */
 const cnBtnHtml = ctx(`(() => {
-  activeArticle = ARTICLES[0]; view = {name:"read"};
+  activeArticle = ARTICLES.find(a => !PARA_FLOW_ARTICLES.has(a.id)); view = {name:"read"};
   const at = m => { S.cnMode = m; return renderRead(); };
   return { tap: at("tap"), all: at("all"), off: at("off") };
 })()`);
@@ -1143,6 +1161,18 @@ ok('段级「本段对照」按钮只在「点句显示」档渲染',
   /data-act="para-cn"/.test(cnBtnHtml.tap) && !/data-act="para-cn"/.test(cnBtnHtml.all) && !/data-act="para-cn"/.test(cnBtnHtml.off));
 ok('按钮默认态是「显示本段翻译」且 aria-expanded=false',
   /aria-expanded="false"[^>]*>显示本段翻译</.test(cnBtnHtml.tap));
+/* 试点篇：整篇一个段级按钮都不许有（含「显示本段翻译」「收起本段翻译」两种文案）。
+   交互只留一种 —— 点句出译文、再点收起。这条和上面那条互为边界：
+   少了它，试点篇与普通篇的差别就没人盯着，按钮会在某次重构里悄悄回来。 */
+const flowBtnHtml = ctx(`(() => {
+  activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(flowIds[0])}); view = {name:"read"};
+  const at = m => { S.cnMode = m; return renderRead(); };
+  return { tap: at("tap"), all: at("all"), off: at("off") };
+})()`);
+ok('★ 试点篇不渲染段级「本段对照」按钮（三档下都不许出现）',
+  !/data-act="para-cn"/.test(flowBtnHtml.tap) && !/data-act="para-cn"/.test(flowBtnHtml.all) && !/data-act="para-cn"/.test(flowBtnHtml.off));
+ok('★ 试点不越界：名单外文章的段级按钮照旧渲染',
+  /data-act="para-cn"/.test(cnBtnHtml.tap));
 /* ★ 结构守卫：译文必须是句子的**相邻兄弟**节点。
    判据取「两个连续 </span> 之后紧跟 <span class="cn">」—— .sentence 的最后一个子节点
    是 .para-tts，所以兄弟写法必然是 `</span></span><span class="cn">`；

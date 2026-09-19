@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "60");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "61");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -71,8 +71,9 @@ const CN_MODES = ["off", "tap", "all"];
 /* 正文「一句一行」的试点名单（2026-09-19 用户拍板句距 10px，先在一篇文章上看效果）。
  * 中文对照档每句后面跟一个块级译文，句子自然就一行一句；纯英文档句子仍是 inline，
  * 于是整段连排 —— 同一个 App 里两种排版节奏不一样，用户要的是「英文时和双语时一样」。
- * 名单内的文章走 .para-flow（在 styles.css）：句子转块级、句间 10px，**段距 18px 不动**
- * （句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过）。
+ * 名单内的文章走 .para-flow（在 styles.css）：句子转块级、句间 10px、句末右留 10px，
+ * **段距 18px 不动**（句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过），
+ * 并且**不渲染段级「本段对照」按钮** —— 交互只留「点句出译文 / 再点收起」。
  * 铺开 = 把 id 加进来；清空 = 全部退回原来的连排。句子在 DOM 里仍是内联 <span>，
  * 只是 CSS 改显示方式，所以这条试点不触碰任何结构断言。 */
 const PARA_FLOW_ARTICLES = new Set(["fb-gerard-pique-a-long-story"]);
@@ -1704,8 +1705,11 @@ function renderRead() {
     }).filter(Boolean);
     if (!parts.length) return "";
     /* 段级「本段对照」按钮只在「点句显示」档出现：逐句对照档已经全部展开、
-       关闭翻译档要保持纯英文的干净，这两档都不需要它。 */
-    const cnBtn = (S.cnMode === "tap" && sentencesOf(p).some(s => clean(s.cn)))
+       关闭翻译档要保持纯英文的干净，这两档都不需要它。
+       「一句一行」试点篇（PARA_FLOW_ARTICLES）**不渲染它**：句子已经一句一行、
+       点句即出译文，每段尾巴再挂一行「显示本段翻译」是重复的入口，也在视觉上
+       把段落切成一块一块的。去掉之后交互只剩一种：点句出译文、再点收起。 */
+    const cnBtn = (S.cnMode === "tap" && !PARA_FLOW_ARTICLES.has(a.id) && sentencesOf(p).some(s => clean(s.cn)))
       ? `<button class="para-cn-btn" data-act="para-cn" data-pi="${i}" aria-expanded="${paraOpen.has(i)}">${paraOpen.has(i) ? "收起本段翻译" : "显示本段翻译"}</button>`
       : "";
     return `<p class="para${paraOpen.has(i) ? " cn-open" : ""}" data-pi="${i}">${parts.join(" ")}${cnBtn}</p>`;
@@ -2958,7 +2962,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v60");
+      const cache = await caches.open("wordlens-cache-v61");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

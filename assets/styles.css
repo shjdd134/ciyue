@@ -716,7 +716,10 @@ body {
  * 哪里是新段 —— 段落层次整个糊掉，全篇变成一长串等距的句子。10px 有明确停顿，
  * 又远小于 18px。也刻意不跟段距一起拉：两个同时变大才是「散」的来源，
  * 段落间距本来就没毛病（第一版样张把段距也拉到 30px，观感就是那样崩的）。 */
-.read-scroll.para-flow .para .sentence { display: block; padding-right: 0; }
+/* 句末右端留 10px：块级句子撑满整行，右端零留白时文字顶到边、手指也没落点。
+ * 10px 与句距同值 —— 留白既是「这行到头了」的视觉收口，也是点句出译文的点击余量
+ * （整行都是热区，右端那点空也照点）。 */
+.read-scroll.para-flow .para .sentence { display: block; padding-right: 10px; }
 /* 只给同段的后续句子加空隙 —— 第一个句子加了，段首会平白多出 10px。
    用通用兄弟 `~` 而不是相邻 `+`：中间隔着已展开的 .cn 时同样要成立。 */
 .read-scroll.para-flow .para .sentence ~ .sentence { margin-top: 10px; }
