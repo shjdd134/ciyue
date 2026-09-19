@@ -864,6 +864,75 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
   ok('词汇页：生词卡带语境原句，且不显示次数',
     nbPage.news.includes('甲。') && !/遇到 \d+ 次|查询 \d+ 次/.test(nbPage.news));
 
+  /* ---- 高亮档位 ↔ 学习记录的边界（2026-09-19 用户定的红线） ----
+   * 原话：「词库是系统给你的分类，已认识是用户自己的学习记录；系统分类可以变，
+   * 用户记录不能跟着丢。」两件事要锁死：① 切档不改 S.known；② 已认识的词在任何
+   * 档位下都不再标色。这两条一旦破，用户标了几百个词，换个档位就全被重新点亮。 */
+  /* 必须挑**大纲内**的词：它在 core / cet4 / all 三档都在高亮范围里，
+     只有这样「切档后仍不亮」才证明是 known 在压制，而不是它掉出了高亮范围。 */
+  const hlW = ctx(`CORE_WORDS.filter(c => c.word.length >= 4 && !STOPWORD_HIGHLIGHT.has(c.word))[0].word`);
+  const W = JSON.stringify(hlW);
+  /* 判定必须**按类名 token**，不能用 /class="word kw"/ 这种子串匹配 ——
+     子串只在「元素恰好只有 word + kw 两个类」时成立；一旦 known 或 wb 也挂上，
+     真实类名变成 word known kw，子串就匹配不上，守卫会在真出问题时**假绿**。
+     实测：把高亮表达式里的 !known && !wb 删掉后，子串版断言照样全绿（漏报）。
+     所以这里定位到本词那个 span，取出 class 属性再 split 成 token 判 'kw'。 */
+  ctx(`S.notebook = []; S.known = [${W}]; S.highlightMode = "core";
+    window.__litAt = m => {
+      S.highlightMode = m;
+      const mm = highlightEn("The " + ${W} + " end.")
+        .match(new RegExp('<span class="([^"]*)"[^>]*data-word="' + ${W} + '"'));
+      return !!mm && mm[1].split(/\\s+/).includes("kw");
+    };
+    window.__clsAt = m => {
+      S.highlightMode = m;
+      const mm = highlightEn("The " + ${W} + " end.")
+        .match(new RegExp('<span class="([^"]*)"[^>]*data-word="' + ${W} + '"'));
+      return mm ? mm[1].split(/\\s+/) : [];
+    };`);
+  const knownBefore = ctx('JSON.stringify(S.known)');
+  const litCore = ctx('window.__litAt("core")');
+  const litCet4 = ctx('window.__litAt("cet4")');
+  const litAll = ctx('window.__litAt("all")');
+  ok('已认识的词切到任何档位都不再高亮（core / cet4 / all 全不亮）',
+    litCore === false && litCet4 === false && litAll === false);
+  /* 走真实切档路径（set-hl 的委托分支）而不是直接给 S.highlightMode 赋值 ——
+     赋值永远不可能改 known，那样测的只是「赋值运算符不会写数组」，
+     测不出 case 分支里有没有手贱清 known。所以这一步必须在宿主侧 click。 */
+  ctx(`S.highlightMode = "core"; S.known = [${W}];`);
+  click({ act: "set-hl", hl: "all" });
+  const afterMode = ctx('S.highlightMode');
+  const knownAfter = ctx('JSON.stringify(S.known)');
+  const clsAfter = ctx('window.__clsAt("all").join(" ")');
+  ok('★ 切档不触碰 S.known（用户的学习记录不随词库分类变化而丢失）',
+    knownAfter === knownBefore && afterMode === "all" &&
+    clsAfter.includes("known") && !clsAfter.includes("kw"));
+  ctx('S.known = []; S.notebook = []; S.highlightMode = "core";');
+
+  /* ---- 两处入口渲染同一套四档单选 ---- */
+  const hlPanels = ctx(`(() => {
+    S.highlightMode = "cet4";
+    const fab = renderFabSheet(), set = renderReadSettingsSheet();
+    S.highlightMode = "core";
+    return { fab, set };
+  })()`);
+  ok('「···」阅读工具面板列出全部四档（不再只能在「Aa 阅读设置」里改）',
+    ["off", "core", "cet4", "all"].every(m => new RegExp(`data-act="set-hl"[^>]*data-hl="${m}"`).test(hlPanels.fab)));
+  ok('两个面板各渲染 4 个档位、且当前档只标记一个 .on',
+    (hlPanels.fab.match(/data-hl="/g) || []).length === 4 &&
+    (hlPanels.set.match(/data-hl="/g) || []).length === 4 &&
+    (hlPanels.fab.match(/class="hl-opt on"/g) || []).length === 1 &&
+    /class="hl-opt on"[^>]*data-hl="cet4"/.test(hlPanels.fab));
+  ok('面板写明「切档不会把已认识的词重新点亮」（用户最需要打消的顾虑摆在明面上）',
+    hlPanels.fab.includes('切档不会把它重新点亮'));
+  /* 选择器必须同时认 .rd-seg 与 .hl-opt：高亮档现在有两处入口，
+     只认一种的话，「···」面板里点了另一档、选中态会停在旧档（点了像没反应）。 */
+  ok('样式：四档单选有 .hl-opt / .hl-dot，选中态是实心圆点',
+    /\.hl-opt\.on \.hl-dot::after/.test(cssRules) && /\.hl-dot\s*\{[^}]*border-radius:\s*50%/.test(cssRules) &&
+    /\.hl-opt\s*\{[^}]*cursor:\s*pointer/.test(cssRules));
+  ok('同步函数同时认 .rd-seg 与 .hl-opt（否则另一处入口的选中态不同步）',
+    /\.rd-seg, \.hl-opt/.test(ctx('syncReadSettingsSheet.toString()')));
+
   ctx('S.known.length = 0; S.notebook.length = 0; S.highlightMode = "core"; sheetMore = false; vocabTab = "new"; activeArticle = null; view = { name: "home" };');
 }
 

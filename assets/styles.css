@@ -1378,10 +1378,40 @@ body {
 .vt.on { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); }
 .vt.on b { color: var(--brand); }
 
-/* 阅读设置里那行档位说明：四个档位选哪个有实际差别，用户得看得懂区别 */
-.rd-hint {
+/* 词汇高亮：四档竖排单选（「Aa 阅读设置」与「··· 阅读工具」两处共用同一套 markup）
+ * 为什么竖排而不是横排四段：每档要带一句「什么时候该用它」，四段横排塞不下，
+ * 挤到最后只能砍成两个字 —— 用户就回到「不知道后面还有几档」的老问题。
+ * 圆点用 border + ::after 画，不引图片、不引 unicode 符号（字号与基线不统一）。 */
+.hl-list { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
+.hl-opt {
+  display: flex; align-items: flex-start; gap: 10px; width: 100%;
+  padding: 9px 10px; border: 1px solid transparent; border-radius: 10px;
+  background: transparent; cursor: pointer; text-align: left;
+  font-family: var(--font-cn); color: var(--text-1);
+}
+.hl-opt:active { background: var(--brand-soft); }
+.hl-opt.on { background: var(--brand-soft); border-color: var(--brand-2, var(--brand)); }
+.hl-dot {
+  width: 15px; height: 15px; border-radius: 50%; flex: 0 0 auto;
+  border: 1.5px solid var(--text-3); margin-top: 2px; position: relative;
+}
+.hl-opt.on .hl-dot { border-color: var(--brand); }
+.hl-opt.on .hl-dot::after {
+  content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--brand);
+}
+.hl-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.hl-txt b { font-size: 13px; font-weight: 600; line-height: 19px; }
+.hl-opt.on .hl-txt b { color: var(--brand); }
+.hl-txt i { font-style: normal; font-size: 11px; line-height: 16px; color: var(--text-3); }
+/* 「···」面板里的分组标题 + 收尾说明：档位与「已认识」的关系要摆在明面上，
+   否则用户会怀疑「切档会不会把我标熟的词又点亮」—— 这正是最需要打消的顾虑。 */
+.sheet-sec {
+  font-family: var(--font-cn); font-size: 12px; color: var(--text-2);
+  margin: 14px 0 4px; padding-top: 12px; border-top: 1px solid var(--line);
+}
+.hl-note {
   font-family: var(--font-cn); font-size: 11px; line-height: 17px;
-  color: var(--text-3); margin-top: -2px;
+  color: var(--text-3); margin-top: 8px;
 }
 
 /* 生词条目里的原句：复习的锚点，不是装饰 —— 所以字号跟正文保持可读性 */

@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "56");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "57");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -393,6 +393,14 @@ function highlightEn(text) {
          * 已认识的词不再有任何标色 —— 用户明确说过认识了，就不该再拦眼睛；
          * 生词（自己收藏过的）走琥珀色块，与「高亮词」的紫色字拉开层次：
          * 正文里的紫色是「考试会考」，琥珀块才是「这个我不会」。
+         *
+         * ★ 为什么「已认识」要压过「生词」：一个词可以同时在生词本和已认识列表里
+         *   （点「我已认识」只写 S.known，生词条目连带语境原句一起保留，用户以后
+         *   还能回看「我以前在哪个句子里不会这个词」）。既然记录保留，显示就必须
+         *   听已认识的 —— 否则「标了已认识却还是琥珀色」会让人以为没生效。
+         * ★ 本条与档位无关：切档只改 highlightSet()，known / wb 两项不参与，
+         *   所以已认识的词在任何档位下都保持普通颜色，不会被重新点亮。
+         *
          * 这里对生词本做 O(n) 的 find()：一篇长文里这一行执行数百次、生词本
          * 数百条，实测毫秒级；换成缓存 Set 要在四处增删点手动失效，漏一处
          * 就是错标色，这点开销不值得换那个风险。 */
@@ -1744,6 +1752,33 @@ function renderRead() {
   `;
 }
 
+/* ---------------- 词汇高亮档位：竖排单选 ----------------
+ * 为什么不做成「点一下循环切一档」：四档要连点才能回头，而且切完看不见自己落在哪档
+ * —— 旧的字号按钮就是这么设计的，2026-09-19 废掉时已经写明过一次，别走回头路。
+ * 为什么不做成横排 seg：四档各带一句适用场景，横排塞不下会挤成火星文，倒退回「不知道
+ * 后面还有几档」。摊开直选，选之前就看到全部选项与代价。
+ *
+ * 文案分两层：粗体是档名（扫一眼就够），浅色小字是「什么时候该用它」。
+ * 默认档标在说明里，不额外加标记 —— 用户改过之后「默认」就不再是当前值，标出来反而误导。 */
+const HL_MODES_INFO = {
+  off: ["关闭高亮", "所有词正常显示，仍可点词查义 · 适合纯阅读"],
+  core: ["四级核心", "约 2000 个高频真题重点词 · 信息密度最合适（默认）"],
+  cet4: ["全部四级", "完整 CET-4 大纲 4500+ 词 · 适合考前扫漏词"],
+  all: ["四级 + 基础", "再加初高中基础词 · 最激进的一档"],
+};
+function hlModeList() {
+  return `<div class="hl-list" role="radiogroup" aria-label="词汇高亮范围">
+    ${HL_MODES.map(m => {
+      const on = S.highlightMode === m;
+      return `<button class="hl-opt${on ? " on" : ""}" data-act="set-hl" data-hl="${m}"
+        role="radio" aria-checked="${on}" aria-pressed="${on}">
+        <span class="hl-dot" aria-hidden="true"></span>
+        <span class="hl-txt"><b>${esc(HL_MODES_INFO[m][0])}</b><i>${esc(HL_MODES_INFO[m][1])}</i></span>
+      </button>`;
+    }).join("")}
+  </div>`;
+}
+
 /* 阅读设置浮层：字号 / 中文对照 / 底色 三组「直接点选」。
  * 旧版只有一个字号按钮，点一下循环切一档、还弹 toast 报当前档位 —— 想回到上一档
  * 得再点两下，也不知道后面还有几档。这里把三档摊开，选之前就看到全部选项。
@@ -1782,16 +1817,9 @@ function renderReadSettingsSheet() {
         </div>
         <!-- 高亮是四档范围而不是开关：完整四级大纲里一大半词用户早就认识，
              默认「四级核心」（约 2000 个高频/真题重点词）。要看得更宽再往上调档；
-             关掉只是不标色 —— **点词查义在任何档位下都一样**。 -->
-        <div class="rd-row"><span class="rd-lab">词汇高亮</span>
-          <div class="rd-segs four">
-            ${seg("set-hl", "hl", "off", "关闭", S.highlightMode === "off")}
-            ${seg("set-hl", "hl", "core", "四级核心", S.highlightMode === "core")}
-            ${seg("set-hl", "hl", "cet4", "全部四级", S.highlightMode === "cet4")}
-            ${seg("set-hl", "hl", "all", "四级+基础", S.highlightMode === "all")}
-          </div>
-        </div>
-        <div class="rd-hint">四级核心 ≈ 2000 个高频/真题重点词　·　全部四级 = 完整大纲 4500+ 词　·　四级+基础 另标出中学词</div>
+             关掉只是不标色 —— **点词查义在任何档位下都一样**。
+             切换档位只改 S.highlightMode，**绝不触碰 S.known**（见 renderFabSheet 的说明）。 -->
+        <div class="rd-row"><span class="rd-lab">词汇高亮</span>${hlModeList()}</div>
         <div class="rd-row"><span class="rd-lab">朗读口音</span>
           <div class="rd-segs">
             ${seg("set-accent", "accent", "en-US", "美音", S.accent !== "en-GB")}
@@ -1805,6 +1833,15 @@ function renderReadSettingsSheet() {
 /* 「···」更多工具面板：低频功能收进来，阅读页保持安静 */
 function renderFabSheet() {
   const a = activeArticle;
+  /* 词汇高亮档位放在这里，而不是只在「Aa 阅读设置」里 —— 阅读时想临时调范围是
+   * 「随手改一下」的动作，不该逼用户先想到「这是阅读设置」再点进去翻。
+   *
+   * ★ 一条硬边界：切档只改 S.highlightMode（纯显示参数），**绝不触碰 S.known**。
+   *   S.known 是用户的学习记录（我认了这个词），S.highlightMode 是系统的分类开关。
+   *   「词库是系统给你的分类，已认识是用户自己的学习记录；系统分类可以变，
+   *     用户记录不能跟着丢。」—— 所以从核心档切到全部四级，已标认识的词必须保持
+   *   普通颜色，不能因为范围变大就被重新点亮。
+   *   audit.js 有守卫锁死这一条（切档前后 S.known 必须逐字节相同）。 */
   return `
     <div class="sheet-mask" data-act="close-sheet"></div>
     <div class="sheet" role="dialog" aria-label="阅读工具">
@@ -1814,6 +1851,9 @@ function renderFabSheet() {
         <button class="sheet-item" data-act="article-notebook">${svg("bookmark", 16)} 本篇生词本</button>
         ${a.url ? `<a class="sheet-item" href="${esc(a.url)}" target="_blank" rel="noopener">${svg("arrow", 16)} 查看原文</a>` : ""}
       </div>
+      <div class="sheet-sec">词汇高亮</div>
+      ${hlModeList()}
+      <div class="hl-note">标为「已认识」的词在任何档位下都不再标色 —— 切档不会把它重新点亮。</div>
     </div>`;
 }
 
@@ -1956,11 +1996,14 @@ function syncReadSettingsSheet(kind, val) {
   const root = $(".phone > .sheet");
   if (!root || !root.querySelectorAll) return;
   const attr = kind === "theme" ? "data-theme" : `data-${kind}`;
-  [...root.querySelectorAll(".rd-seg")].forEach(b => {
+  /* 高亮档位有两处入口（本面板 与 「···」阅读工具面板），两处都渲染 .hl-opt，
+     所以选择器必须同时认两种 —— 只认 .rd-seg 会让另一处的选中态停在旧档（点了没反应）。 */
+  [...root.querySelectorAll(".rd-seg, .hl-opt")].forEach(b => {
     if (!b.hasAttribute || !b.hasAttribute(attr)) return;
     const on = b.getAttribute(attr) === String(val);
     b.classList.toggle("on", on);
     b.setAttribute("aria-pressed", String(on));
+    b.setAttribute("aria-checked", String(on));
   });
 }
 
@@ -2561,7 +2604,9 @@ document.addEventListener("click", e => {
       const v = t.dataset.hl;
       if (!HL_MODES.includes(v) || S.highlightMode === v) break;
       /* 走 changeReadSetting 而不是直接改 class：它会先抓句子锚点、改完再还原，
-         换档不会把读者甩回文章开头（与字号 / 对照同一套机制）。 */
+         换档不会把读者甩回文章开头（与字号 / 对照同一套机制）。
+         ★ 这里只写 S.highlightMode，**不动 S.known** —— 见 renderFabSheet 上的说明。
+         想「顺手清掉已认识」只能用户自己再点一次「取消已认识」，系统不替他决定。 */
       changeReadSetting(() => { S.highlightMode = v; });
       syncReadSettingsSheet("hl", v);
       break;
@@ -2828,7 +2873,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v56");
+      const cache = await caches.open("wordlens-cache-v57");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };
