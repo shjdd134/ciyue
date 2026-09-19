@@ -1006,40 +1006,52 @@ const selRule = (cssBare.match(/\.read-body \.para \.sentence\.sel\s*\{([^}]*)\}
 ok('选中的句子有可见的左边线（inset 阴影，不用 border-left 挤动文字）',
   /box-shadow:\s*inset/.test(selRule) && !/border-left/.test(selRule));
 
-/* ---- 正文「一句一行」试点（.para-flow，2026-09-19 用户拍板句距 10px）----
+/* ---- 正文「一句一行」（.para-flow，2026-09-19 从单篇试点铺开到全站）----
  * 中文对照档每句跟一个块级译文、本来就一行一句；纯英文档句子是 inline，整段连排 ——
- * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁五件事：
- *   ① 试点边界不越界（名单外一篇都不改）；② 句距 10px；③ **段距 18px 原封不动**；
- *   ④ 译文下边距归零；⑤ 交互只剩「点句出译文 / 再点收起」——试点篇不渲染段级按钮、
- *      句末留 10px 点击余量。③ 是这轮最容易改错的一条：句距和段距一起拉大正是这个方案
- * 第一次翻车的方式（样张实测段距 18→30 + 句距 0→20，观感直接散掉）。④ 不归零，
- * 双语档「译文 → 下句」会变成 10+10=20px，比纯英档松一截，两档就不是同一节奏了。 */
-const flowIds = ctx('[...PARA_FLOW_ARTICLES]');
-ok('正文「一句一行」试点名单非空，且 id 都是真实文章',
-  flowIds.length > 0 && ctx(`(${JSON.stringify(flowIds)}).every(id => ARTICLES.some(a => a.id === id))`));
-const flowIn = ctx(`(activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(flowIds[0])}), /class="view read-scroll[^"]*para-flow/.test(renderRead()))`);
-const flowOutId = ctx('ARTICLES.map(a => a.id).find(id => !PARA_FLOW_ARTICLES.has(id)) || null');
-/* 名单覆盖全部文章时 flowOutId 为 null —— 那是「已经铺开」，该来改这条守卫而不是让它静默通过 */
-const flowOut = flowOutId === null ? null
-  : ctx(`(activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(flowOutId)}), /class="view read-scroll[^"]*para-flow/.test(renderRead()))`);
-ok('★ 试点只作用于名单内的文章（名单内带 para-flow，名单外一篇都不改）',
-  flowIn === true && flowOut === false);
+ * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁六件事：
+ *   ① 全站生效（每篇都带 para-flow，退出名单 PARA_FLOW_OFF 默认为空）；
+ *   ② 句距 10px + 句末右留 10px；③ **段距 18px 原封不动**；
+ *   ④ 译文块三个数值（下边距归零 / 上下内边距 12px / 不用品牌紫）；
+ *   ⑤ 交互只剩「点句出译文 / 再点收起」——任何档位都不渲染段级按钮。
+ * ③ 是这套方案第一次翻车的方式（样张实测段距 18→30 + 句距 0→20，观感直接散掉），
+ * ④ 的上下内边距 6 → 12px 是第二次（译文贴在英文上，用户原话「别扭」）—— 两条都留着。 */
+const flowOffIds = ctx('[...PARA_FLOW_OFF]');
+ok('正文「一句一行」的退出名单默认为空（＝全站生效），名单里的 id 都是真实文章',
+  flowOffIds.length === 0 && flowOffIds.every(id => ctx(`ARTICLES.some(a => a.id === ${JSON.stringify(id)})`)));
+/* 抽 3 篇（首 / 中 / 尾）验覆盖。只验一篇的话，名单反转写错方向时「第一篇恰好中」
+   就能混过去 —— 这是「永远沉默的守卫」的经典形状。 */
+const flowAll = ctx('ARTICLES.map(a => a.id)');
+const flowSample = [flowAll[0], flowAll[Math.floor(flowAll.length / 2)], flowAll[flowAll.length - 1]]
+  .filter((id, i, arr) => id && arr.indexOf(id) === i);
+const flowHits = flowSample.map(id => ctx(
+  `(activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(id)}), /class="view read-scroll[^"]*para-flow/.test(renderRead()))`));
+ok(`★ 每篇文章都走「一句一行」（抽样 ${flowHits.filter(Boolean).length}/${flowSample.length} 篇带 para-flow）`,
+  flowSample.length === 3 && flowHits.every(h => h === true));
 ctx('activeArticle = null;');
 
 const flowSent = (cssBare.match(/\.read-scroll\.para-flow \.para \.sentence\s*\{([^}]*)\}/) || [, ''])[1];
 const flowGap = (cssBare.match(/\.read-scroll\.para-flow \.para \.sentence ~ \.sentence\s*\{([^}]*)\}/) || [, ''])[1];
-ok('试点把句子转成块级（一句一行、句间 10px）',
+ok('「一句一行」把句子转成块级（一句一行、句间 10px）',
   /display:\s*block/.test(flowSent) && /margin-top:\s*10px/.test(flowGap));
 /* 块级句子撑满整行：右端零留白则文字顶到边，行尾也没有可点的余量。
    10px 与句距同值 —— 留白既是视觉收口，也是点句出译文的点击余量。 */
-ok('★ 试点句末右留 10px（撑满整行的块级句，右端要留出点击余量）',
+ok('★ 句末右留 10px（撑满整行的块级句，右端要留出点击余量）',
   /padding-right:\s*10px/.test(flowSent) && !/padding-right:\s*0/.test(flowSent));
-ok('★ 试点不碰段距（句距和段距一起拉大 → 段落层次糊掉，样张实测过）',
+ok('★ 不碰段距（句距和段距一起拉大 → 段落层次糊掉，样张实测过）',
   /\.read-body \.para\s*\{[^}]*margin:\s*0 0 18px/.test(cssBare));
 const flowCn = (cssBare.match(/\.read-scroll\.para-flow \.para \.cn\s*\{([^}]*)\}/) || [, ''])[1];
-ok('试点下译文下边距归零（否则双语档比纯英档松 10px，两档节奏不一致）',
+ok('译文下边距归零（否则双语档比纯英档松 10px，两档节奏不一致）',
   /margin:\s*6px 0 0/.test(flowCn));
-ok('试点下选中句的左边线留出装订线（块级盒里 inset 阴影会压在首字上）',
+/* 6px 时译文是「贴在英文屁股上的一条」—— 用户 2026-09-19 的原话是「别扭」。
+   12px 来自他随后发来的参考图：译文文字带只占框高的三分之一。 */
+ok('★ 译文块上下内边距 12px（6px 时译文贴在英文上，观感挤）',
+  /padding:\s*12px 14px 12px 12px/.test(flowCn));
+/* 紫色在正文里已经有两个语义（高亮词、选中句），译文块再抢一次就是第三种 ——
+   满屏紫正是「别扭」的另一半来源。参考图里译文块是中性底、没有左边框。 */
+ok('★ 译文块不再抢品牌紫（无左边框 + 中性底，紫留给高亮词与选中句）',
+  /border-left:\s*0/.test(flowCn) && !/var\(--brand\)/.test(flowCn)
+  && /background:\s*rgba\(125,\s*122,\s*148/.test(flowCn));
+ok('选中句的左边线留出装订线（块级盒里 inset 阴影会压在首字上）',
   /\.read-scroll\.para-flow \.para \.sentence\.sel\s*\{[^}]*margin-left:\s*-10px/.test(cssBare));
 /* & 会被 esc() 转成 &amp;，分词不能钻进实体里（否则页面显示的是 "&amp;" 而不是 "&"） */
 const ampHtml = ctx('highlightEn(esc("Buddhism & Christianity"))');
@@ -1107,7 +1119,7 @@ ok(`三档容器 class 正确（off="${cnCls.off}" · tap="${cnCls.tap}" · all=
    对 ".para" 才返回段落桩。只返回一个空对象的话，app.js 在外面就
    `undefined.dataset.tab` 当场炸 —— 那样测的就不是分支逻辑了。 */
 const DATA_ACT_SEL = "[data-act],[data-tab],[data-article],[data-cat]";
-const mkSentStub = (paraOpen = false) => {
+const mkSentStub = () => {
   const set = new Set();
   const el = {
     _set: set, dataset: { act: "para-peek" },
@@ -1117,7 +1129,7 @@ const mkSentStub = (paraOpen = false) => {
       toggle: (c, on) => { (on === undefined ? !set.has(c) : on) ? set.add(c) : set.delete(c); },
       contains: c => set.has(c),
     },
-    closest: sel => sel === DATA_ACT_SEL ? el : { classList: { contains: c => paraOpen && c === "cn-open" } },
+    closest: sel => (sel === DATA_ACT_SEL ? el : null),
   };
   return el;
 };
@@ -1126,7 +1138,7 @@ const sentTap = mkSentStub();
 clickEl(sentTap);
 ok('★ 「点句显示」档点句同时选中并弹出该句译文（.sel + .peek）',
   sentTap._set.has("sel") && sentTap._set.has("peek"));
-/* 同一句再点一次 = 收起译文。用户明确要的交互只有这一种（试点篇连段级按钮都没有，
+/* 同一句再点一次 = 收起译文。用户明确要的交互只有这一种（段级按钮已删除，
    没有第二个入口兜底），所以必须钉死：干净地清掉 .sel/.peek，不留第三种状态。
    沙箱的 querySelectorAll 对非 sheet 选择器返回空数组，「清掉所有已选中句」那个循环
    会跑空 —— 不补桩就是「再点无效」的假红。桩只认 .sentence.sel，用完立刻还原
@@ -1142,83 +1154,46 @@ const sentOff = mkSentStub();
 clickEl(sentOff);
 ok('★ 「关闭翻译」档点句只选中、不弹中文（这是 off 与 tap 的唯一差别）',
   sentOff._set.has("sel") && !sentOff._set.has("peek"));
-/* 整段已展开时不必再 peek：中文本来就在眼前 */
-ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "tap";');
-const sentOpen = mkSentStub(true);
-clickEl(sentOpen);
-ok('整段已展开时点句不重复 peek（译文本来就在）',
-  sentOpen._set.has("sel") && !sentOpen._set.has("peek"));
-
-/* 段级「本段对照」按钮。
- * 探针固定取**非试点篇**：试点篇故意不渲染这个按钮（见下），拿 ARTICLES[0] 撞运气
- * 会在名单变化时莫名假红 —— 名字里的规则要能自己站住，不靠数组顺序。 */
+/* 段级「本段对照」按钮 2026-09-19 整套删除（app.js 的 cnBtn 渲染与 case "para-cn"、
+   styles.css 的 .para-cn-btn 全没了）。探针遍历「首篇 / 末篇 × 三档」共 6 份渲染结果，
+   确认一个都不再出现 —— 这条既守住「按钮不会在某次重构里悄悄回来」，也守住
+   app.js 里别留下没有入口的悬空分支（两种按钮文案一并作为判据）。 */
 const cnBtnHtml = ctx(`(() => {
-  activeArticle = ARTICLES.find(a => !PARA_FLOW_ARTICLES.has(a.id)); view = {name:"read"};
-  const at = m => { S.cnMode = m; return renderRead(); };
-  return { tap: at("tap"), all: at("all"), off: at("off") };
+  view = {name:"read"};
+  const ids = [ARTICLES[0].id, ARTICLES[ARTICLES.length - 1].id];
+  return ids.map(id => {
+    activeArticle = ARTICLES.find(a => a.id === id);
+    return ["tap", "all", "off"].map(m => { S.cnMode = m; return renderRead(); }).join("");
+  }).join("");
 })()`);
-ok('段级「本段对照」按钮只在「点句显示」档渲染',
-  /data-act="para-cn"/.test(cnBtnHtml.tap) && !/data-act="para-cn"/.test(cnBtnHtml.all) && !/data-act="para-cn"/.test(cnBtnHtml.off));
-ok('按钮默认态是「显示本段翻译」且 aria-expanded=false',
-  /aria-expanded="false"[^>]*>显示本段翻译</.test(cnBtnHtml.tap));
-/* 试点篇：整篇一个段级按钮都不许有（含「显示本段翻译」「收起本段翻译」两种文案）。
-   交互只留一种 —— 点句出译文、再点收起。这条和上面那条互为边界：
-   少了它，试点篇与普通篇的差别就没人盯着，按钮会在某次重构里悄悄回来。 */
-const flowBtnHtml = ctx(`(() => {
-  activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(flowIds[0])}); view = {name:"read"};
-  const at = m => { S.cnMode = m; return renderRead(); };
-  return { tap: at("tap"), all: at("all"), off: at("off") };
-})()`);
-ok('★ 试点篇不渲染段级「本段对照」按钮（三档下都不许出现）',
-  !/data-act="para-cn"/.test(flowBtnHtml.tap) && !/data-act="para-cn"/.test(flowBtnHtml.all) && !/data-act="para-cn"/.test(flowBtnHtml.off));
-ok('★ 试点不越界：名单外文章的段级按钮照旧渲染',
-  /data-act="para-cn"/.test(cnBtnHtml.tap));
+ok('★ 任何文章、任何档位都不再渲染段级「本段对照」按钮',
+  /class="view read-scroll/.test(cnBtnHtml) && !/data-act="para-cn"/.test(cnBtnHtml)
+  && !/本段翻译/.test(cnBtnHtml));
 /* ★ 结构守卫：译文必须是句子的**相邻兄弟**节点。
    判据取「两个连续 </span> 之后紧跟 <span class="cn">」—— .sentence 的最后一个子节点
    是 .para-tts，所以兄弟写法必然是 `</span></span><span class="cn">`；
    若 .cn 被移回 .sentence 内部，就只剩一个 </span>，这个计数会归零。
    （用 `</span><span class="cn">` 判会假绿 —— para-tts 的闭合标签恰好长这样。） */
-const cnOpenN = (cnBtnHtml.all.match(/<span class="cn">/g) || []).length;
-const cnSibN = (cnBtnHtml.all.match(/<\/span><\/span><span class="cn">/g) || []).length;
+const cnOpenN = (cnBtnHtml.match(/<span class="cn">/g) || []).length;
+const cnSibN = (cnBtnHtml.match(/<\/span><\/span><span class="cn">/g) || []).length;
 ok(`★ 译文是句子的相邻兄弟节点（${cnSibN}/${cnOpenN} 个译文紧跟句子闭合标签）`,
   cnOpenN > 20 && cnSibN === cnOpenN);
 
-const mkParaStub = peeks => {
-  const set = new Set();
-  return {
-    _set: set,
-    classList: {
-      add: c => set.add(c), remove: c => set.delete(c),
-      toggle: (c, on) => { (on === undefined ? !set.has(c) : on) ? set.add(c) : set.delete(c); },
-      contains: c => set.has(c),
-    },
-    querySelectorAll: () => peeks,
-  };
-};
-ctx('activeArticle = ARTICLES[0]; view = {name:"read"}; S.cnMode = "tap"; paraOpen.clear();');
-const paraStub = mkParaStub([]);
-const peekSent = { _set: new Set(["peek"]), classList: { remove(c) { peekSent._set.delete(c); }, contains: c => peekSent._set.has(c) } };
-paraStub.querySelectorAll = () => [peekSent];
-const cnBtnStub = { dataset: { act: "para-cn", pi: "0" }, textContent: "显示本段翻译",
-  setAttribute(k, v) { this._attr = v; },
-  closest: sel => sel === DATA_ACT_SEL ? cnBtnStub : paraStub };
-clickEl(cnBtnStub);
-ok('点「显示本段翻译」整段展开（para 加 cn-open / 索引进 paraOpen / 按钮转「收起」）',
-  paraStub._set.has("cn-open") && ctx('paraOpen.has(0)') === true &&
-  cnBtnStub.textContent === "收起本段翻译" && cnBtnStub._attr === "true");
-clickEl(cnBtnStub);
-ok('★ 再点收起：清掉段内残留 .peek（否则收起后还留一句中文挂着）',
-  !paraStub._set.has("cn-open") && ctx('paraOpen.has(0)') === false &&
-  cnBtnStub.textContent === "显示本段翻译" && !peekSent._set.has("peek"));
+/* 段级整段展开的点击守卫（mkParaStub + case "para-cn"）随按钮一起删除 ——
+   留下没有入口的分支只会腐烂，留下测它的守卫则会在删代码时假红。 */
 
 /* CSS：档位差别的落点 */
 ok('「点句显示」的译文展开用相邻兄弟选择器（+ 而不是空格）',
   /\.read-scroll\.cn-tap \.sentence\.peek \+ \.cn/.test(cssCn) && !/\.sentence\.peek \.cn/.test(cssCn));
 ok('★ CSS 里没有「关闭翻译」档的 peek 规则（off 与 tap 的差别就落在这里）',
   !/\.read-scroll\.cn-off[^{]*\.peek[^{]*\{/.test(cssCn));
-ok('段级 .para.cn-open .cn 规则排在 .no-cn .para .cn 之后（同特异性靠出现顺序取胜）',
-  cssCn.indexOf('.para.cn-open .cn') > cssCn.indexOf('.no-cn .para .cn') && cssCn.indexOf('.para.cn-open .cn') > 0);
-ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap"; paraOpen.clear(); paraOpenArt = null;');
+/* 删功能要删干净：app.js 里的状态（paraOpen / 白名单）与 CSS 里的类（cn-open /
+   .para-cn-btn）都不能留 —— 悬空分支不会自己报错，只会在下次重构时误导人。
+   用 typeof 而不是 grep 源码：vm 里访问未声明变量返回 "undefined"，声明了就一定不返回。 */
+ok('★ 段级「本段对照」的残骸清干净（app.js 无 paraOpen / 白名单，CSS 无 .para-cn-btn / .cn-open）',
+  ctx('typeof paraOpen') === 'undefined' && ctx('typeof PARA_FLOW_ARTICLES') === 'undefined'
+  && !/para-cn-btn/.test(cssBare) && !/\.para\.cn-open/.test(cssBare));
+ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap";');
 
 /* 句子锚点：off = 该句顶部相对滚动容器视口的偏移；还原时把同一句放回同一偏移 */
 const mkSent = (pi, si, top, bottom) => ({

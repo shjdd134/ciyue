@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "61");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "62");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -68,15 +68,20 @@ const HL_MODES = ["off", "core", "cet4", "all"];
  * tap 档点句弹出该句译文。这两档以前是同一个（布尔 showCn=false 时点句必弹中文），
  * 结果是「只想纯读英文」的读者每次点句都被中文打断，躲不开。 */
 const CN_MODES = ["off", "tap", "all"];
-/* 正文「一句一行」的试点名单（2026-09-19 用户拍板句距 10px，先在一篇文章上看效果）。
- * 中文对照档每句后面跟一个块级译文，句子自然就一行一句；纯英文档句子仍是 inline，
- * 于是整段连排 —— 同一个 App 里两种排版节奏不一样，用户要的是「英文时和双语时一样」。
- * 名单内的文章走 .para-flow（在 styles.css）：句子转块级、句间 10px、句末右留 10px，
- * **段距 18px 不动**（句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过），
- * 并且**不渲染段级「本段对照」按钮** —— 交互只留「点句出译文 / 再点收起」。
- * 铺开 = 把 id 加进来；清空 = 全部退回原来的连排。句子在 DOM 里仍是内联 <span>，
- * 只是 CSS 改显示方式，所以这条试点不触碰任何结构断言。 */
-const PARA_FLOW_ARTICLES = new Set(["fb-gerard-pique-a-long-story"]);
+/* 正文「一句一行」—— 2026-09-19 在皮克一篇上看完效果，用户拍板全站铺开。
+ * 中文对照档每句后面跟一个块级译文，句子自然就一行一句；纯英文档句子原来是 inline，
+ * 整段连排成一坨 —— 同一个 App 里两种排版节奏不一样，用户要的是「英文时和双语时一样」。
+ * 所有文章都走 .para-flow（styles.css）：句子转块级、句间 10px、句末右留 10px，
+ * **段距 18px 不动**（句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过）。
+ *
+ * 交互只有一种：**点句出译文 / 再点收起**。段级「显示本段翻译」按钮已按用户要求删除 ——
+ * 一句一行之后每段尾巴再挂一行小字，是把段落重新切碎，而且和点句是重复入口。
+ *
+ * PARA_FLOW_OFF 是**应急退出名单**：默认全站生效，把某篇 id 加进来即退回连排。
+ * 用黑名单而不是白名单，是因为白名单每抓一篇新文章都要手工补一次 —— 忘了补就是
+ * 「新文章排版跟别的不一样」，这种静默不一致没有守卫能替你发现。
+ * 句子在 DOM 里仍是内联 <span>，只是 CSS 改显示方式，所以这条不触碰结构断言。 */
+const PARA_FLOW_OFF = new Set([]);
 const defaultState = {
   theme: "light",
   notebook: [],     // 生词本（阅读加入）
@@ -656,12 +661,6 @@ function clipContext(sentence, word) {
  * 收藏按钮在卡片里、不在句子节点内，closest('.sentence') 拿不到语境，
  * 所以必须在打开卡片那一刻把语境截下来存住。 */
 let sheetCtx = null;
-
-/* 段级「本段对照」已展开的段落索引（按当前文章重置）。
- * 这是**临时阅读状态**，故意不落 localStorage：段落索引只对当前文章有意义，
- * 落盘会让状态结构随篇数膨胀，而且「上次展开的是哪一段」并不是读者希望被记住的东西。 */
-const paraOpen = new Set();
-let paraOpenArt = null;
 
 /* ---------------- 词汇高亮：三档词集 ----------------
  * 高亮与查词是**两个方向相反**的系统，必须分开：
@@ -1650,9 +1649,6 @@ const fbSeg = (act, v, label, on) =>
 
 function renderRead() {
   const a = activeArticle;
-  /* 换文章就重置段级展开：段落索引只对当前文章有意义，留着会让新文章里
-     第 N 段莫名其妙地处于展开态。 */
-  if (paraOpenArt !== a.id) { paraOpen.clear(); paraOpenArt = a.id; }
   const fsCls = ["fs-0", "fs-1", "fs-2"][S.fontSize] || "fs-0";
   const cover = coverOf(a);
   const total = sentCount(a);
@@ -1704,15 +1700,9 @@ function renderRead() {
       return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}" role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" data-act="para-speak" data-pi="${i}" data-si="${si}" role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
-    /* 段级「本段对照」按钮只在「点句显示」档出现：逐句对照档已经全部展开、
-       关闭翻译档要保持纯英文的干净，这两档都不需要它。
-       「一句一行」试点篇（PARA_FLOW_ARTICLES）**不渲染它**：句子已经一句一行、
-       点句即出译文，每段尾巴再挂一行「显示本段翻译」是重复的入口，也在视觉上
-       把段落切成一块一块的。去掉之后交互只剩一种：点句出译文、再点收起。 */
-    const cnBtn = (S.cnMode === "tap" && !PARA_FLOW_ARTICLES.has(a.id) && sentencesOf(p).some(s => clean(s.cn)))
-      ? `<button class="para-cn-btn" data-act="para-cn" data-pi="${i}" aria-expanded="${paraOpen.has(i)}">${paraOpen.has(i) ? "收起本段翻译" : "显示本段翻译"}</button>`
-      : "";
-    return `<p class="para${paraOpen.has(i) ? " cn-open" : ""}" data-pi="${i}">${parts.join(" ")}${cnBtn}</p>`;
+    /* 段落里不再挂任何按钮：段级「显示本段翻译」在 2026-09-19 被用户要求删除。
+       一句一行之后，每段尾巴那行小字既把段落重新切碎，又和「点句出译文」重复。 */
+    return `<p class="para" data-pi="${i}">${parts.join(" ")}</p>`;
   }).join("");
 
   return `
@@ -1728,7 +1718,7 @@ function renderRead() {
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${fsCls}${PARA_FLOW_ARTICLES.has(a.id) ? " para-flow" : ""}${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
+    <div class="view read-scroll ${fsCls}${PARA_FLOW_OFF.has(a.id) ? "" : " para-flow"}${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
@@ -1745,7 +1735,7 @@ function renderRead() {
           <span class="mark">${esc(srcName(a))}</span>
           <div class="play" data-act="read-all">${svg("speaker", 18)}</div>
         </div>
-        ${!S.hintSeen && S.cnMode === "tap" && !paraOpen.size ? `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>` : ""}
+        ${!S.hintSeen && S.cnMode === "tap" ? `<div class="peek-hint">${svg("tap", 14)} 轻触英文看译文 · 点任意单词查释义</div>` : ""}
       </div>
 
       <div class="read-body" id="read-body">${paras}</div>
@@ -2022,8 +2012,7 @@ function rememberReadPos(cont, artId) {
 function applyReadClasses(cont) {
   if (cont && cont.classList) {
     /* no-cn 的语义是「不逐句全展开」：off 与 tap 两档都加，两档的差别交给
-       cn-off / cn-tap 细分（点句是否弹译文）。整段展开的段落单独挂 cn-open，
-       那是渲染时按 paraOpen 补的，这里不管。 */
+       cn-off / cn-tap 细分（点句是否弹译文）。 */
     cont.classList.toggle("no-cn", S.cnMode !== "all");
     cont.classList.toggle("cn-off", S.cnMode === "off");
     cont.classList.toggle("cn-tap", S.cnMode === "tap");
@@ -2690,34 +2679,17 @@ document.addEventListener("click", e => {
        *   tap 档 → 弹出（这就是「点句显示」的定义）
        *   off 档 → 只选中、不弹中文。这是 off 与 tap 的**唯一**差别，也是这一档
        *            存在的全部理由：纯英文阅读时不该被中文打断。
-       *   all 档 / 整段已展开 → 中文本来就在，不必 peek。 */
+       *   all 档 → 中文本来就在，不必 peek。 */
       const on = !t.classList.contains("sel");
       $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
       if (on) {
         t.classList.add("sel");
-        const para = t.closest ? t.closest(".para") : null;
-        const open = !!(para && para.classList.contains("cn-open"));
-        if (S.cnMode === "tap" && !open) t.classList.add("peek");
+        if (S.cnMode === "tap") t.classList.add("peek");
       }
       break;
     }
-    case "para-cn": {
-      /* 段级「本段对照」：卡在某一段时整段展开，不必一句一句点。
-       * 只切这一段，不影响其他段，也不改全局档位。 */
-      e.stopPropagation();
-      const para = t.closest ? t.closest(".para") : null;
-      if (!para) break;
-      const pi = +t.dataset.pi;
-      const open = !para.classList.contains("cn-open");
-      para.classList.toggle("cn-open", open);
-      if (open) paraOpen.add(pi); else paraOpen.delete(pi);
-      /* 收起时必须清掉段内残留的 peek —— peek 与 cn-open 各自都会让 .cn 显示，
-         不清的话「收起」之后还留着一句中文明晃晃挂着。 */
-      if (!open) [...para.querySelectorAll(".sentence.peek")].forEach(n => n.classList.remove("peek"));
-      t.textContent = open ? "收起本段翻译" : "显示本段翻译";
-      t.setAttribute("aria-expanded", String(open));
-      break;
-    }
+    /* 段级「本段对照」（case "para-cn"）2026-09-19 随按钮一起删除：
+       一句一行之后，整段展开既没有入口也没有必要 —— 点句出译文是唯一交互。 */
     case "para-speak": {
       e.stopPropagation();
       const a2 = activeArticle; const pi = +t.dataset.pi; const si = +t.dataset.si || 0;
@@ -2962,7 +2934,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v61");
+      const cache = await caches.open("wordlens-cache-v62");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

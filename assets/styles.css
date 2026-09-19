@@ -706,11 +706,12 @@ body {
  * 句间 3px 远小于 18px 的段距，不会被读成「一句一张卡片」；但扫读时能看出句子
  * 在哪里结束。这是「句子是交互与翻译的最小单位」在排版上的落点。 */
 .read-body .para .sentence { display: inline; padding-right: 3px; }
-/* ---------- 「一句一行」试点（.para-flow，2026-09-19） ----------
+/* ---------- 「一句一行」（.para-flow，2026-09-19 起全站生效） ----------
  * 中文对照档每句后面跟一个块级译文，句子自然一行一句；纯英文档句子是 inline，
  * 整段连排成一坨 —— 同一个 App 两种排版节奏，用户要的是「英文时和双语时一样」。
- * 这里让名单内的文章两档共用同一节奏：句子转块级、句间 10px，**段距 18px 不动**。
- * 只挂在 PARA_FLOW_ARTICLES 里的文章上（app.js），先在一篇上看真实效果再决定铺开。
+ * 所有文章两档共用同一节奏：句子转块级、句间 10px，**段距 18px 不动**。
+ * 出口留在 app.js 的 PARA_FLOW_OFF —— 黑名单，加 id 即退回连排（白名单每抓一篇
+ * 新文章都要手工补一次，忘了就是「新文章跟别的不一样」，而这种不一致没人会发现）。
  *
  * 句距为什么定 10px：段距保持 18px。句距一旦逼近段距（样张试过 16px），读者分不清
  * 哪里是新段 —— 段落层次整个糊掉，全篇变成一长串等距的句子。10px 有明确停顿，
@@ -728,10 +729,26 @@ body {
    底纹多出 10px 装订线。跨行的句子左边线是一条贯穿的竖线（盒子高度），
    比 inline 时代「每行一小段」更像个被括起来的整句。 */
 .read-scroll.para-flow .para .sentence.sel { margin-left: -10px; padding-left: 10px; }
-/* 译文下边距归零：「译文 → 下一句」改由那 10px 句距负责。不撤掉的话
-   「上句译文 → 下句英文」= 10 + 10 = 20px，中英对照档比纯英文档松一截 ——
-   而两档同一节奏正是这次要改的东西。 */
-.read-scroll.para-flow .para .cn { margin: 6px 0 0; }
+/* 译文块（.cn）在这个节奏下的三个数值，都按用户 2026-09-19 发来的参考图折
+ * （图宽 1409、英文字高 31 图素 → 本 App fs-0 的 --rd-en: 19px，缩放 ≈0.61）：
+ *
+ * ① 下边距归零 —— 「译文 → 下一句」改由那 10px 句距负责。不撤掉的话
+ *    「上句译文 → 下句英文」= 10 + 10 = 20px，中英对照档比纯英文档松一截，
+ *    而两档同一节奏正是这次要改的东西。（参考图实测 ≈11px，与 10px 句距同源。）
+ * ② 上下内边距 6 → 12px。参考图里译文文字带只占框高的三分之一，框上下各 ≈19 图素
+ *    ≈ 11.6px。原来 6px 时译文是「贴在英文屁股上的一条」，用户的原话是「别扭」。
+ * ③ 去掉基础样式里那根 2px 品牌紫左边框，底色也从淡紫换成中性 —— 紫色在正文里
+ *    已经承担了高亮词和选中句两个语义，译文块再抢一次紫，整页就只剩一种颜色在喊。
+ *    底色 ≈3.5% 黑（参考图框底 #F0EFE9 对页底 #F8F7F3 差 8/255），圆角沿用基础样式。
+ *    左内边距 12px 顶替原来的 border 2px + padding 12px，译文文字位置逐像素不动。 */
+.read-scroll.para-flow .para .cn {
+  margin: 6px 0 0;
+  padding: 12px 14px 12px 12px;
+  border-left: 0;
+  background: rgba(125, 122, 148, .07);
+}
+/* 护眼主题的页面底是暖黄（#F6EFDD），中性灰叠上去会发脏，换同浓度的暖色。 */
+.screen.rt-paper .read-scroll.para-flow .para .cn { background: rgba(150, 120, 60, .075); }
 /* 当前选中的这一句：左边线 + 轻微底纹。
  * 旧实现只有 7% 透明度的背景 —— 浅色主题下几乎不可见，「点了一句」等于没有确认。
  * 左边线用 inset 阴影而不是 border-left：border 会把整段文字挤动（重排），
@@ -754,9 +771,6 @@ body {
 .read-scroll.cn-tap .sentence.peek + .cn {
   display: block; animation: peekIn .28s ease;
 }
-/* 段级「本段对照」展开的那一段：整段译文显形。必须排在 .no-cn .para .cn 之后 ——
-   两条规则特异性相同（都是 4 个类），靠出现顺序决定胜负。 */
-.read-scroll .para.cn-open .cn { display: block; }
 @keyframes peekIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: none; }
@@ -794,19 +808,9 @@ body {
 .para.playing .para-tts { display: inline-flex; }
 .para-tts:hover, .sentence.sel > .para-tts { color: var(--brand); background: var(--brand-soft); }
 
-/* 段级「本段对照」按钮：只在「点句显示」档渲染。
- * 长文一段一个（最长的文章 213 段），所以做得极轻：右对齐、11px、低对比度。
- * 块级元素默认撑满整行、margin-left:auto 会失效，所以要配 width:max-content。 */
-.read-body .para-cn-btn {
-  display: block; width: max-content; margin: 7px 0 0 auto;
-  font-family: var(--font-cn); font-size: 11px; line-height: 1;
-  color: var(--text-3); background: none; border: 0;
-  padding: 5px 3px; border-radius: 6px; cursor: pointer;
-  opacity: .7; transition: opacity .15s, color .15s;
-}
-.read-body .para-cn-btn:hover,
-.read-body .para-cn-btn:focus-visible { opacity: 1; color: var(--brand); }
-.read-body .para-cn-btn[aria-expanded="true"] { opacity: 1; color: var(--brand); }
+/* 段级「本段对照」按钮（.para-cn-btn）2026-09-19 整套删除 ——
+ * 一句一行之后，每段尾巴那行小字既把段落重新切碎，又和「点句出译文」重复入口。
+ * 相关的 cn-open / paraOpen / case "para-cn" 在 app.js 里一并移除。 */
 
 /* ---------- 正文内嵌配图 ---------- */
 .read-body .para-img {
