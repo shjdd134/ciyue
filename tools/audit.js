@@ -988,8 +988,23 @@ ok('滚动容器自身不再加横向留白', /\.view\.read-scroll\s*\{\s*paddin
 ok('英文默认 19px / 行高 32px（约 1.7 倍）', /--rd-en:\s*19px;\s*--rd-en-lh:\s*32px/.test(css));
 ok('中文字号跟随正文档位（不再固定 13.5px）',
   /--rd-cn:\s*14px/.test(css) && !/\.read-body \.para \.cn\s*\{[^}]*13\.5px/.test(css));
-ok('朗读喇叭默认隐藏、选中句子才出现（长文不再满屏小图标）',
-  /\.para-tts\s*\{[^}]*opacity:\s*0/.test(css) && /\.sentence\.sel > \.para-tts/.test(css));
+/* 这条断言的是「默认看不见」这个**意图**，不是实现手段。
+ * 旧版写死 `opacity: 0`，等于把「用 opacity 实现隐形」锁成唯一合法解 ——
+ * 而 opacity 不改变布局：22×22 + 5px margin 的盒子照样在流里占 27px。
+ * 于是每个句末都拖出一段看不见的空白，句子在行末结束时这块空白被折到下一行行首、
+ * 把首字推开。2026-09-19 用 Edge 无头截图实拍到：`for my Barça teammates.      But my`。
+ * 守卫锁错了实现细节，它自己就成了 bug 的保护伞。
+ * 现在反向锁死：默认必须是 display:none，且禁止 opacity:0 回归。
+ * 判定前剥注释 —— 上面这段说明里就有「opacity: 0」这几个字。 */
+const cssBare = css.replace(/\/\*[\s\S]*?\*\//g, '');
+const ttsRule = (cssBare.match(/\.para-tts\s*\{([^}]*)\}/) || [, ''])[1];
+ok('朗读喇叭默认不显示、选中句子才出现（display 切换，不靠 opacity 占位）',
+  /display:\s*none/.test(ttsRule) && !/opacity:\s*0/.test(ttsRule) && /\.sentence\.sel > \.para-tts/.test(cssBare));
+/* 选中一句要有看得见的反馈。旧实现只有 7% 透明度背景，浅色主题下等于没有确认。
+ * 左边线用 inset 阴影实现：border-left 会把整段文字挤动一次（行内重排）。 */
+const selRule = (cssBare.match(/\.read-body \.para \.sentence\.sel\s*\{([^}]*)\}/) || [, ''])[1];
+ok('选中的句子有可见的左边线（inset 阴影，不用 border-left 挤动文字）',
+  /box-shadow:\s*inset/.test(selRule) && !/border-left/.test(selRule));
 /* & 会被 esc() 转成 &amp;，分词不能钻进实体里（否则页面显示的是 "&amp;" 而不是 "&"） */
 const ampHtml = ctx('highlightEn(esc("Buddhism & Christianity"))');
 ok('正文里的 & 不被拆成实体（highlightEn 跳过实体段）',

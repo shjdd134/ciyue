@@ -700,10 +700,22 @@ body {
   margin: 0 0 18px;
 }
 .read-body .para:last-child { margin-bottom: 0; }
-.read-body .para .sentence { display: inline; }
-/* 句子的热区：整句可点（选句 / 在隐藏中文时点出该句译文），
-   行内元素竖向内边距不会撑开行距，所以只做圆角与背景提示 */
-.read-body .para .sentence.sel { background: rgba(108, 92, 231, .07); border-radius: 4px; }
+/* 句子边界：句末留 3px 水平空隙。
+ * inline 元素的水平 padding 只在元素首尾出现（跨行时 padding-right 落在最后一行
+ * 末尾），不像 margin 那样在每行行首重复缩进。段落感保留 —— 换行仍由行宽决定，
+ * 句间 3px 远小于 18px 的段距，不会被读成「一句一张卡片」；但扫读时能看出句子
+ * 在哪里结束。这是「句子是交互与翻译的最小单位」在排版上的落点。 */
+.read-body .para .sentence { display: inline; padding-right: 3px; }
+/* 当前选中的这一句：左边线 + 轻微底纹。
+ * 旧实现只有 7% 透明度的背景 —— 浅色主题下几乎不可见，「点了一句」等于没有确认。
+ * 左边线用 inset 阴影而不是 border-left：border 会把整段文字挤动（重排），
+ * inset shadow 不占位。inline 元素跨行时每个行盒都会画到这条线，于是整句被
+ * 一根竖线括起来 —— 正好对应「我现在看的就是这一句」。 */
+.read-body .para .sentence.sel {
+  background: rgba(108, 92, 231, .09);
+  box-shadow: inset 2px 0 0 var(--brand);
+  border-radius: 3px;
+}
 /* 非全展开（off / tap 两档）：句子可点选，段内译文默认收起 */
 .read-scroll.no-cn .sentence { cursor: pointer; }
 .read-scroll.no-cn .para .cn { display: none; }
@@ -735,19 +747,25 @@ body {
   border-radius: 2px;
   margin: 6px 0 10px;
 }
-/* 单句朗读小喇叭：默认不出现。
- * 旧版每句都挂一个半透明喇叭，长文里满屏小图标 —— 读的时候是噪音。
- * 现在只在「选中这一句」或鼠标停在该句上时出现（触摸屏靠点选，桌面靠悬停）。 */
+/* 单句朗读小喇叭：默认**不占位**。
+ * 旧版每句挂一个半透明喇叭，长文里满屏小图标 —— 读的时候是噪音。
+ * 上一版改成 opacity:0，噪音是没了，但留下一个更隐蔽的坑：**opacity 不改变布局**，
+ * 那个 22×22 + margin-left:5px 的盒子照样在流里占 27px。于是每个句子末尾都拖着
+ * 一段看不见的空白；句子在行末结束时，这块空白被折到下一行行首、把首字推开。
+ * 截图实测（Edge 无头 + .bak/preview.html）：正文出现
+ * `for my Barça teammates.      But my`，新段落首行并多出 27px 缩进 ——
+ * 整段因此参差不齐，这正是「读起来像被切碎了」的来源。
+ * 现在用 display 切换：不显示时完全不占位。
+ * 也刻意不做 hover 展开 —— inline 元素突然出现会让整段重排、文字跟着鼠标跑，会抖。 */
 .para-tts {
-  display: inline-flex; align-items: center; justify-content: center;
-  margin-left: 5px; width: 22px; height: 22px; border-radius: 11px;
-  color: var(--text-3); opacity: 0; pointer-events: none;
-  vertical-align: middle; transition: opacity .15s, color .15s, background .15s;
-  cursor: pointer;
+  display: none;
+  align-items: center; justify-content: center;
+  margin-left: 4px; width: 22px; height: 22px; border-radius: 11px;
+  color: var(--text-3); vertical-align: middle;
+  transition: color .15s, background .15s; cursor: pointer;
 }
 .sentence.sel > .para-tts,
-.sentence:hover > .para-tts,
-.para.playing .para-tts { opacity: 1; pointer-events: auto; }
+.para.playing .para-tts { display: inline-flex; }
 .para-tts:hover, .sentence.sel > .para-tts { color: var(--brand); background: var(--brand-soft); }
 
 /* 段级「本段对照」按钮：只在「点句显示」档渲染。
