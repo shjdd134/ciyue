@@ -142,20 +142,29 @@ const clipParas = (html, n) => {
   while (i < n) { const k = html.indexOf('</p>', cur); if (k < 0) break; cur = k + 4; i++; }
   return html.slice(start, cur);
 };
+/* 容器 class 从**真渲染输出**里抽，不手搓。
+ * 手搓等于把 app.js 拼接容器 class 的那行复制一份 —— 那边一改这边就静默走散。
+ * 2026-09-19 加 .para-flow 时实测踩到：预览里 off/tap 两档仍然连排，
+ * 因为工具自己拼的 class 里根本没有这一个，看着像功能没生效。
+ * 预览工具的职责是「如实呈现」，不是「复述一遍实现」。 */
+const capture = n => {
+  const h = screenEl.innerHTML;
+  const m = h.match(/class="(view read-scroll[^"]*)"/);
+  return { cls: m ? m[1] : 'view read-scroll', html: clipParas(h, n) };
+};
 
 const shots = [];
 for (const mode of MODES) {
   ctx(`activeArticle = ARTICLES.find(x => x.id === ${JSON.stringify(artId)}); view = { name: "read" }; S.cnMode = ${JSON.stringify(mode)}; S.highlightMode = "core"; render();`);
-  shots.push({ mode, html: clipParas(screenEl.innerHTML, CLAMP) });
+  const cap = capture(CLAMP);
+  shots.push({ mode, cls: cap.cls, html: cap.html });
 }
 /* 额外一档：选中第一句（看选中反馈 —— 左边线 / 底纹 / 喇叭） */
 ctx(`activeArticle = ARTICLES.find(x => x.id === ${JSON.stringify(artId)}); view = { name: "read" }; S.cnMode = "tap"; S.highlightMode = "core"; render();`);
 {
-  const tapped = clipParas(screenEl.innerHTML, CLAMP).replace('<span class="sentence"', '<span class="sentence sel peek"');
-  shots.push({ mode: 'tap · 选中第 1 句', html: tapped });
+  const cap = capture(CLAMP);
+  shots.push({ mode: 'tap · 选中第 1 句', cls: cap.cls, html: cap.html.replace('<span class="sentence"', '<span class="sentence sel peek"') });
 }
-
-const cls = m => `view read-scroll${m.includes('all') ? '' : ' no-cn'}${m.startsWith('off') ? ' cn-off' : ' cn-tap'}`;
 const out = path.join(base, '.bak', 'preview.html');
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, `<!doctype html><html><head><meta charset="utf-8"><title>正文渲染预览</title>
@@ -169,7 +178,7 @@ fs.writeFileSync(out, `<!doctype html><html><head><meta charset="utf-8"><title>�
   .view{position:static!important;height:auto!important;overflow:visible!important}
   .read-body{padding-top:4px}
 </style></head><body>
-${shots.map(s => `<div class="col"><h2>${s.mode}</h2><div class="frame"><div class="${cls(s.mode)}">${s.html}</div></div></div>`).join('\n')}
+${shots.map(s => `<div class="col"><h2>${s.mode}</h2><div class="frame"><div class="${s.cls}">${s.html}</div></div></div>`).join('\n')}
 </body></html>`);
 console.log(`文章 ${artId} → ${out}`);
 console.log('截图：msedge.exe --headless=new --disable-gpu --hide-scrollbars '

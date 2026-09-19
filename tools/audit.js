@@ -1005,6 +1005,37 @@ ok('朗读喇叭默认不显示、选中句子才出现（display 切换，不�
 const selRule = (cssBare.match(/\.read-body \.para \.sentence\.sel\s*\{([^}]*)\}/) || [, ''])[1];
 ok('选中的句子有可见的左边线（inset 阴影，不用 border-left 挤动文字）',
   /box-shadow:\s*inset/.test(selRule) && !/border-left/.test(selRule));
+
+/* ---- 正文「一句一行」试点（.para-flow，2026-09-19 用户拍板句距 10px）----
+ * 中文对照档每句跟一个块级译文、本来就一行一句；纯英文档句子是 inline，整段连排 ——
+ * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁四件事：
+ *   ① 试点边界不越界（名单外一篇都不改）；② 句距 10px；③ **段距 18px 原封不动**；
+ *   ④ 译文下边距归零。③ 是这轮最容易改错的一条：句距和段距一起拉大正是这个方案
+ * 第一次翻车的方式（样张实测段距 18→30 + 句距 0→20，观感直接散掉）。④ 不归零，
+ * 双语档「译文 → 下句」会变成 10+10=20px，比纯英档松一截，两档就不是同一节奏了。 */
+const flowIds = ctx('[...PARA_FLOW_ARTICLES]');
+ok('正文「一句一行」试点名单非空，且 id 都是真实文章',
+  flowIds.length > 0 && ctx(`(${JSON.stringify(flowIds)}).every(id => ARTICLES.some(a => a.id === id))`));
+const flowIn = ctx(`(activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(flowIds[0])}), /class="view read-scroll[^"]*para-flow/.test(renderRead()))`);
+const flowOutId = ctx('ARTICLES.map(a => a.id).find(id => !PARA_FLOW_ARTICLES.has(id)) || null');
+/* 名单覆盖全部文章时 flowOutId 为 null —— 那是「已经铺开」，该来改这条守卫而不是让它静默通过 */
+const flowOut = flowOutId === null ? null
+  : ctx(`(activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(flowOutId)}), /class="view read-scroll[^"]*para-flow/.test(renderRead()))`);
+ok('★ 试点只作用于名单内的文章（名单内带 para-flow，名单外一篇都不改）',
+  flowIn === true && flowOut === false);
+ctx('activeArticle = null;');
+
+const flowSent = (cssBare.match(/\.read-scroll\.para-flow \.para \.sentence\s*\{([^}]*)\}/) || [, ''])[1];
+const flowGap = (cssBare.match(/\.read-scroll\.para-flow \.para \.sentence ~ \.sentence\s*\{([^}]*)\}/) || [, ''])[1];
+ok('试点把句子转成块级（一句一行、句间 10px）',
+  /display:\s*block/.test(flowSent) && /margin-top:\s*10px/.test(flowGap));
+ok('★ 试点不碰段距（句距和段距一起拉大 → 段落层次糊掉，样张实测过）',
+  /\.read-body \.para\s*\{[^}]*margin:\s*0 0 18px/.test(cssBare));
+const flowCn = (cssBare.match(/\.read-scroll\.para-flow \.para \.cn\s*\{([^}]*)\}/) || [, ''])[1];
+ok('试点下译文下边距归零（否则双语档比纯英档松 10px，两档节奏不一致）',
+  /margin:\s*6px 0 0/.test(flowCn));
+ok('试点下选中句的左边线留出装订线（块级盒里 inset 阴影会压在首字上）',
+  /\.read-scroll\.para-flow \.para \.sentence\.sel\s*\{[^}]*margin-left:\s*-10px/.test(cssBare));
 /* & 会被 esc() 转成 &amp;，分词不能钻进实体里（否则页面显示的是 "&amp;" 而不是 "&"） */
 const ampHtml = ctx('highlightEn(esc("Buddhism & Christianity"))');
 ok('正文里的 & 不被拆成实体（highlightEn 跳过实体段）',

@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "59");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "60");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -68,6 +68,14 @@ const HL_MODES = ["off", "core", "cet4", "all"];
  * tap 档点句弹出该句译文。这两档以前是同一个（布尔 showCn=false 时点句必弹中文），
  * 结果是「只想纯读英文」的读者每次点句都被中文打断，躲不开。 */
 const CN_MODES = ["off", "tap", "all"];
+/* 正文「一句一行」的试点名单（2026-09-19 用户拍板句距 10px，先在一篇文章上看效果）。
+ * 中文对照档每句后面跟一个块级译文，句子自然就一行一句；纯英文档句子仍是 inline，
+ * 于是整段连排 —— 同一个 App 里两种排版节奏不一样，用户要的是「英文时和双语时一样」。
+ * 名单内的文章走 .para-flow（在 styles.css）：句子转块级、句间 10px，**段距 18px 不动**
+ * （句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过）。
+ * 铺开 = 把 id 加进来；清空 = 全部退回原来的连排。句子在 DOM 里仍是内联 <span>，
+ * 只是 CSS 改显示方式，所以这条试点不触碰任何结构断言。 */
+const PARA_FLOW_ARTICLES = new Set(["fb-gerard-pique-a-long-story"]);
 const defaultState = {
   theme: "light",
   notebook: [],     // 生词本（阅读加入）
@@ -1716,7 +1724,7 @@ function renderRead() {
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${fsCls}${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
+    <div class="view read-scroll ${fsCls}${PARA_FLOW_ARTICLES.has(a.id) ? " para-flow" : ""}${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
@@ -2950,7 +2958,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v59");
+      const cache = await caches.open("wordlens-cache-v60");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };
