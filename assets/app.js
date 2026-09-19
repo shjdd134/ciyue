@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "55");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "56");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -60,13 +60,19 @@ function hlWord(sentence, word) {
 
 /* ---------------- 状态 ---------------- */
 const STORE = "wordlens.v1";
+/* 词汇高亮的四个档位。集中定义一次，设置面板渲染、状态校验、集合取用都读它 ——
+ * 「合法档位有哪几个」这件事写两遍，两边就会走散。 */
+const HL_MODES = ["off", "core", "cet4", "all"];
 const defaultState = {
   theme: "light",
   notebook: [],     // 生词本（阅读加入）
   showCn: false,
   fontSize: 0,
   readTheme: "",     // 阅读页护眼主题："" | "paper" | "night"
-  kwHighlight: true, // 正文四级词高亮：关掉后正文不着色，但词仍然可点可查
+  /* 词汇高亮范围（2026-09-19 由布尔量升级）："off" 关闭 | "core" 四级核心 |
+     "cet4" 全部四级 | "all" 四级+基础。默认 core —— 完整大纲里大量词用户早就认识，
+     默认就全染会毁掉阅读。关掉任何一档都只影响标色，点词查义照常。 */
+  highlightMode: "core",
   accent: "en-US",   // 朗读口音：en-US 美音 | en-GB 英音（en-GB 不是所有系统都装了语音）
   read: [],         // 累计读过（含重复）
   finished: [],     // 已打卡的去重列表
@@ -88,6 +94,13 @@ function normalizeState(raw) {
   if (!Array.isArray(src.readDays) && Array.isArray(src.studyDays)) next.readDays = src.studyDays.slice();
   delete next.streak; delete next.minutes; delete next.tab;
   delete next.studied; delete next.wrong; delete next.daily; delete next.fsrs; delete next.studyDays;
+  /* 高亮范围迁移：旧版是布尔量 kwHighlight（显示 / 隐藏），语义上就是 core / off 两态，
+     直接映射；完全没有这个字段的历史状态保留默认档。非法值一律回落 core。 */
+  if (src.highlightMode === undefined && src.kwHighlight !== undefined) {
+    next.highlightMode = src.kwHighlight ? "core" : "off";
+  }
+  delete next.kwHighlight;
+  if (!HL_MODES.includes(next.highlightMode)) next.highlightMode = "core";
   next.readDays = Array.isArray(next.readDays) ? next.readDays.slice() : [];
   next.minsByDay = (next.minsByDay && typeof next.minsByDay === "object") ? Object.assign({}, next.minsByDay) : {};
   next.secByDay = (next.secByDay && typeof next.secByDay === "object") ? Object.assign({}, next.secByDay) : {};
@@ -97,32 +110,24 @@ function normalizeState(raw) {
       if (!next.secByDay[k]) next.secByDay[k] = Math.round((+m || 0) * 60);
     }
   }
-  /* 记词本数据迁移：v1 只存单词字符串，v2 存 { word, addedAt, articleId }，
-     v3（2026-09-19 词汇闭环）起每条生词都带上「在哪里遇到的、那句话、遇到几次」——
-     这是整个功能的价值所在：复习时回忆的是语境，不是孤零零一个中文释义。
-     三个版本逐级补齐，缺什么补什么，用户已有的收藏一个都不会丢。 */
+  /* 生词条目迁移。四个历史版本逐级降级到 v4：
+     v1 字符串 → v2 { word, addedAt, articleId } → v3 带 firstCtx 与遇词统计 →
+     v4（2026-09-19 收紧）只留「词 / 语境 / 出处」。
+     v3 的 seen / lookups / lastSeenAt / articles 一并丢弃：那批数字回答不了
+     「这个词是什么」和「我当时在哪个语境不会」，留着只让状态越来越重 ——
+     阅读型词汇工具的核心只有三个动作（看词 → 点词查义 → 不会就收藏），
+     不是给用户记流水账。老用户的收藏与语境全部保留，一个都不丢。 */
   const rawNb = Array.isArray(next.notebook) ? next.notebook : [];
   next.notebook = rawNb.map(item => {
     if (typeof item === "string") item = { word: item };
     if (!item || typeof item !== "object" || !item.word) return null;
-    const addedAt = item.addedAt || Date.now();
-    const ctx = item.firstCtx && item.firstCtx.en
-      ? { en: String(item.firstCtx.en), cn: String(item.firstCtx.cn || "") }
-      : null;
-    /* seen / lookups 兜底为 1 而不是 0：条目能存在，说明至少遇到过一次、查过一次。
-       从 0 起算会让老条目在词汇页里显示「遇到 0 次」，比缺数据更难看。 */
+    const c = item.context || item.firstCtx || null;
     return {
       word: String(item.word),
-      addedAt,
+      addedAt: item.addedAt || Date.now(),
       articleId: item.articleId || "",
-      srcTitle: item.srcTitle || "",
-      firstCtx: ctx,
-      seen: Math.max(1, +item.seen || 1),
-      lookups: Math.max(1, +item.lookups || 1),
-      lastSeenAt: item.lastSeenAt || addedAt,
-      /* 遇到过这个词的文章 id（去重）。它同时充当「本篇是否已记账」的幂等键：
-         同一篇文章反复重渲染（切字号、标认识、TAP 词表异步到达）不会把 seen 越加越高。 */
-      articles: Array.isArray(item.articles) ? item.articles.filter(Boolean) : (item.articleId ? [item.articleId] : []),
+      articleTitle: item.articleTitle || item.srcTitle || "",
+      context: c && c.en ? { en: String(c.en), cn: String(c.cn || "") } : null,
     };
   }).filter(Boolean);
   /* 同一个词只留一条。词表在语义上是集合，重复条目会让「移出生词本」删不干净 ——
@@ -244,16 +249,15 @@ function last7() {
   return out;
 }
 
-/* ---------------- 关键词 Trie（用于文章高亮） ----------------
- * 把 KEYWORDS 装进前缀树；匹配时只在单词边界、完整词才算命中。
+/* ---------------- 关键词 Trie（用于**查词**） ----------------
+ * 把学习词表装进前缀树；匹配时只在单词边界、完整词才算命中。
  * 这样既快（O(字母数)），又避免 startsWith 把 'rod' 当成 'Rodriguez'。
- * 同时把太短的虚词/功能词从高亮词表里剔除，避免正文中每个 'a'/'with'/'that'
- * 都变紫（这些词虽然在 CET4 考纲里，但不该在阅读时逐处高亮）。
  *
- * 策略：
- *   - 长度 < 4 的词不进 trie（a/an/in/on...）
- *   - 常见英文功能词（with/that/this/from...）显式剔除
- *   - 匹配采用「完整 token 等于一个 KEYWORDS 条目才算命中」，最严格 */
+ * ⚠️ 这个 trie 只回答「这个词能不能点、点开查什么」，**不回答「标不标色」**。
+ * 2026-09-19 之前它还顺带承担高亮过滤（长度 < 4 的词与功能词整片剔除），
+ * 副作用是 work / get / know / one 这些词既进不了 trie（被高亮规则挡掉）、
+ * 又被点词层排除（它们是学习词），于是点了没反应 —— 实测正文 16% 的 token
+ * 点不动。高亮范围现在由 highlightSet() + isHighlightable() 单独决定。 */
 const STOPWORD_HIGHLIGHT = new Set([
   // 1-3 字母
   "a","an","as","at","be","by","do","go","he","hi","if","in","is","it","me","my","no","of","oh","on","or","so","to","up","us","we","i","am",
@@ -264,7 +268,7 @@ const STOPWORD_HIGHLIGHT = new Set([
 function buildTrie(words) {
   const root = {};
   for (const w of words) {
-    if (!w || w.length < 4 || STOPWORD_HIGHLIGHT.has(w)) continue;
+    if (!w) continue;
     let node = root;
     for (let i = 0; i < w.length; i++) {
       const c = w[i];
@@ -282,6 +286,12 @@ let TAP = typeof TAPDICT === "undefined" ? null : TAPDICT;
 let TAPR = typeof TAP_REVERSE === "undefined" ? null : TAP_REVERSE;
 let tapLoadStarted = Boolean(TAP && TAPR);
 let tapLoadPromise = null;
+
+/* 文章级补充词典（data-articles-words.js，构建产物）：ECDICT 里当代语料词频为 0 的
+ * 那批词（are / an / don't / you're / i'm / were…）。build-tapdict.mjs 对 frq=0 的
+ * 条目整个跳过，而这批恰恰是正文里出现次数最多的一类 —— 「最常见的词反而点不动」
+ * 就是这么来的。它随首屏加载（几十 KB），不进 TAPDICT 的懒加载队列。 */
+let AW = typeof ARTICLE_WORDS === "undefined" ? null : ARTICLE_WORDS;
 
 /* 点词大表不阻塞首页：进入阅读页后才加载。失败时仍保留四级词库查词，
  * 不能因为点词层离线而让正文或核心查词不可用。 */
@@ -338,7 +348,9 @@ const kwOf = w => {           // 词在 KEYWORDS（学习词）里则返回词�
 };
 
 /* 任意 token → 查词目标：三段式 {学习词 kw} / {点词层 w} / null（专有名词等不包）。
- * 顺序固定：学习词 Trie → 反向词形表 → 后缀规则还原出的学习词 → 点词层直接命中 → 规则还原的点词层词。
+ * 顺序固定：学习词 Trie → 反向词形表 → 后缀规则还原出的学习词 → 点词层直接命中 →
+ * 规则还原的点词层词 → 文章级补充词典（直/还原）。最后这层是兜底，只收 TAPDICT
+ * 明确没有的词，命中必然是「点词层因 frq=0 丢弃」的功能词，不存在覆盖质量问题。
  * 还原出的学习词必须先于点词层直接命中：performing 在 ECDICT 有独立词条（n.表演），
  * 但用户点它要回到的是学习词 perform 的完整卡。 */
 function resolveToken(low) {
@@ -352,13 +364,19 @@ function resolveToken(low) {
   for (const c of cands) { if (kwOf(c)) return { kw: c }; }
   if (TAP && TAP[low]) return { w: low };
   for (const c of cands) { if (TAP && TAP[c]) return { w: c }; }
+  if (AW && AW[low]) return { w: low };
+  for (const c of cands) { if (AW && AW[c]) return { w: c }; }
   return null;
 }
 
-/* 在英文段落里把可查词的 token 包成 span（data-act="lookup"）：
- * - 词库词（含变形，如 performing→perform）：紫色 .kw，点开完整查词卡（可入生词本）
- * - 点词层普通词：.tw 无持久标色，点开轻量释义卡
- * - 专有名词 / 词库未收录：保持纯文本
+/* 在英文段落里把 token 包成可点 span（data-act="lookup"）：
+ * - **凡是 resolveToken 能解析的 token 都可点**，不再要求它先被高亮 ——
+ *   「能查的词」与「该高亮的词」是两个集合，绑在一起就会出现
+ *   「看得见颜色才点得动」的怪现象（旧版正文里 16% 的 token 点了没反应）。
+ * - 基础类 .word 只标记「可点」，视觉上与正文完全一致（只有光标变化），
+ *   不让整篇文章看起来像一页超链接。
+ * - 高亮态另加 .kw（当前档位的目标词），生词 .wb，已认识 .known —— 三者互斥。
+ * - 专有名词 / 任何词典都查不到的词：保持纯文本。
  * 匹配含所有格（Japan's 整体归到 japan），避免 's 断在 span 外。 */
 function highlightEn(text) {
   /* esc() 先把 & < > " 转成实体（&amp; / &lt; / &gt; / &quot;），分词时不能把它们
@@ -370,23 +388,21 @@ function highlightEn(text) {
       : seg.replace(/[A-Za-z]+(?:['\u2018\u2019][A-Za-z]+)?/g, m => {
         const r = resolveToken(normApos(m).toLowerCase());
         if (!r) return m;
-        if (r.kw) {
-          const k = r.kw;
-          /* 三态互斥，优先级：已掌握 > 生词 > 四级词。
-           * 已掌握的词不再有任何标色 —— 用户明确说过认识了，就不该再拦眼睛；
-           * 生词（自己收藏过的）走琥珀色块，和「四级词」的紫色字拉开层次：
-           * 正文里的紫色是「考试会考」，琥珀块才是「这个我不会」。
-           * 反复遇到（本篇出现 ≥2 次）的生词再点一个小圆点 —— 它提醒的是
-           * 「这词你已经见过好几次了，还值得收藏吗」，比单纯变色更有信息量。
-           * 这里对生词本做 O(n) 的 some()：一篇长文里 kw 约数百次 × 生词本数百条，
-           实测在毫秒级；换成缓存 Set 要在四处增删点手动失效，漏一处就是错标色，
-           这点开销不值得换那个风险。 */
-          const known = S.known.includes(k);
-          const wb = !known && inNotebook(k);
-          const rep = wb && ENCOUNTER[k] && ENCOUNTER[k].n > 1;
-          return `<span class="kw${known ? " known" : ""}${wb ? " wb" : ""}${rep ? " rep" : ""}" data-act="lookup" data-word="${k}">${m}</span>`;
-        }
-        return `<span class="tw" data-act="lookup" data-word="${r.w}">${m}</span>`;
+        const k = r.kw || r.w;
+        /* 四态互斥，优先级：已认识 > 生词 > 高亮词 > 普通可点词。
+         * 已认识的词不再有任何标色 —— 用户明确说过认识了，就不该再拦眼睛；
+         * 生词（自己收藏过的）走琥珀色块，与「高亮词」的紫色字拉开层次：
+         * 正文里的紫色是「考试会考」，琥珀块才是「这个我不会」。
+         * 这里对生词本做 O(n) 的 find()：一篇长文里这一行执行数百次、生词本
+         * 数百条，实测毫秒级；换成缓存 Set 要在四处增删点手动失效，漏一处
+         * 就是错标色，这点开销不值得换那个风险。 */
+        const known = S.known.includes(k);
+        const wb = !known && inNotebook(k);
+        const hl = !known && !wb && isHighlightable(k) && highlightSet().has(k);
+        const cls = "word" + (known ? " known" : "") + (wb ? " wb" : "") + (hl ? " kw" : "");
+        /* data-form 存**原文词形**（如 adopted），data-word 存词元（adopt）：
+         * 查词卡要把「你点的那个词」显示出来，直接显示词元会让人以为点错了。 */
+        return `<span class="${cls}" data-act="lookup" data-word="${esc(k)}" data-form="${esc(m)}">${m}</span>`;
       })
   ).join("");
 }
@@ -574,74 +590,78 @@ const wordsOf = list => list.map(x => WORD_BY.get(typeof x === "string" ? x : x.
 const nbItem = word => S.notebook.find(item => item.word === word) || null;
 const inNotebook = word => !!nbItem(word);
 
-/* 当前文章的遇词表：{ 词元: { n: 本篇出现次数, ctx: 首次出现的那句 } }。
- * 每次 renderRead 由 buildEncounter() 重建，正文高亮（反复遇到的小圆点）与
- * 查词卡的「本句含义」都读它 —— 正文只渲染一次，全文也就只该扫这一次。 */
-let ENCOUNTER = Object.create(null);
-
-/* 扫全文统计每个学习词在**本篇**出现几次、第一次出现在哪一句。
- * 与 computeArticleMetrics 同走 resolveToken 归一：直接比对原文会让
- * performing / performs 各算一次，也会漏掉 kids → kid 这种变形。
- * 只收词库内的词（r.kw）—— 词库外的高频词读者不会收藏，收了也没有词卡可看。 */
-function buildEncounter(a) {
-  ENCOUNTER = Object.create(null);
-  if (!a || !Array.isArray(a.paras)) return ENCOUNTER;
-  a.paras.forEach((p, pi) => {
-    if (p && p.img) return;                       // 配图块不算词频
-    sentencesOf(p).forEach((s, si) => {
-      const text = clean(s && s.en);
-      if (!text) return;
-      WORD_TOKEN_RE.lastIndex = 0;
-      let m;
-      while ((m = WORD_TOKEN_RE.exec(text))) {
-        const r = resolveToken(normApos(m[0]).toLowerCase());
-        if (!r || !r.kw) continue;
-        const e = ENCOUNTER[r.kw] || (ENCOUNTER[r.kw] = { n: 0, pi, si, ctx: null });
-        e.n++;
-        if (!e.ctx) e.ctx = { en: text, cn: clean(s.cn || ""), pi, si };
-      }
-    });
-  });
-  return ENCOUNTER;
+/* ---------------- 生词语境截取 ----------------
+ * 生词本里存整句，常带着一堆与目标词无关的从句 —— 复习时真正帮上忙的只有
+ * 目标词周围那几个词。规则：
+ *   句子 ≤ CLIP_KEEP 个词 → 整句留存（短句本身就是完整语境，截了反而看不懂）
+ *   更长的句子           → 截目标词前后各 CLIP_AROUND 个词，两端加省略号
+ * 实测样本（25 词长句，目标词 strategy）：
+ *   After several difficult months, the company finally adopted a completely
+ *   different strategy to attract younger customers who were increasingly
+ *   moving to competing platforms.
+ *   → adopted a completely different strategy to attract younger customers
+ * 目标词找不到时整句返回 —— 宁可多留，也不留半个断句。
+ *
+ * ⚠️ 中文译文**不跟着截**：机器翻译是按句产出的，没有词级对齐信息，
+ * 凭空截一半中文只会得到半句看不懂的话。少给一点英文、给一整句中文，
+ * 比两边都残缺对用户更有用。 */
+const CLIP_KEEP = 22, CLIP_AROUND = 7;
+function clipContext(sentence, word) {
+  const text = clean(sentence || "").trim();
+  if (!text) return "";
+  const words = text.split(/\s+/);
+  if (words.length <= CLIP_KEEP) return text;
+  const forms = new Set(wordForms(word).map(f => f.toLowerCase()));
+  const idx = words.findIndex(w => forms.has(w.replace(/^[^A-Za-z]+|[^A-Za-z]+$/g, "").toLowerCase()));
+  if (idx < 0) return text;
+  const from = Math.max(0, idx - CLIP_AROUND);
+  const to = Math.min(words.length, idx + CLIP_AROUND + 1);
+  return (from > 0 ? "… " : "") + words.slice(from, to).join(" ") + (to < words.length ? " …" : "");
 }
 
-/* 把本篇的遇词记账到生词本条目上。只统计**已经在生词本里**的词 ——
- * 没收藏的词累计了也没人看，白让 localStorage 膨胀。
- * 幂等键是本篇文章 id：条目里的 `articles` 已含它就直接跳过，所以
- * 切字号 / 标认识 / TAP 词表异步到达引发的重渲染不会把 seen 越加越高。
- * 不改文章指标，因此不必清 STATS_CACHE（那张表不读 notebook）。 */
-function recordEncounters(a) {
-  if (!a || !a.id) return;
-  let dirty = false;
-  for (const [kw, e] of Object.entries(ENCOUNTER)) {
-    const item = nbItem(kw);
-    if (!item || item.articles.includes(a.id)) continue;
-    item.articles.push(a.id);
-    item.seen = (item.seen || 0) + e.n;
-    item.lastSeenAt = Date.now();
-    /* 首次遇到的那句话只在「还没存过语境」时补 —— 老条目（v2 收藏）没有语境，
-       第一次在新版本里读到就该把它补上，之后不再被后来的句子覆盖。 */
-    if (!item.firstCtx && e.ctx) {
-      item.firstCtx = { en: e.ctx.en, cn: e.ctx.cn };
-      if (!item.srcTitle) item.srcTitle = clean(a.title || "");
-      if (!item.articleId) item.articleId = a.id;
-    }
-    dirty = true;
-  }
-  if (dirty) save();
-}
+/* 当前查词卡对应的语境（{ en, cn } | null），由 lookup 动作写入、add-note 读取。
+ * 收藏按钮在卡片里、不在句子节点内，closest('.sentence') 拿不到语境，
+ * 所以必须在打开卡片那一刻把语境截下来存住。 */
+let sheetCtx = null;
+
+/* ---------------- 词汇高亮：三档词集 ----------------
+ * 高亮与查词是**两个方向相反**的系统，必须分开：
+ *   查词范围要尽可能大（点谁都该有反应），高亮范围要非常克制（染一片就毁阅读）。
+ * 旧实现让两者共用一个 KW_TRIE，STOPWORD_HIGHLIGHT 同时管住两边 ——
+ * 结果 work / get / know / one 这类词既被 trie 挡在高亮外、又因为是学习词被点词层
+ * 排除，两头落空：正文里 16% 的 token 点了没反应（实测 54,088 个 token，8,663 个点不动）。
+ * 现在拆开：本节这些集合**只管标色**，查词走下面的 KW_TRIE。 */
+const CORE_SET = new Set(WORDS.filter(w => /^List /.test(w.list || "") || w.list === "四级核心" || w.list === undefined).map(w => w.word.toLowerCase()));
+const MID_SET = new Set(WORDS.filter(w => w.list === "中学基础").map(w => w.word.toLowerCase()));
+/* 完整大纲（data-words-cet4.js，4544 词）保持**独立词表**，不并进 WORDS ——
+ * 它比核心层多出 1551 词，但那批词的释义 TAPDICT 里已经能查到；复制进 WORDS
+ * 只会让词库页排序、难度统计、例句覆盖三处跟着漂，收益为零。 */
+const CET4_SET = new Set([...CORE_SET, ...(typeof WORDS_CET4 === "undefined" ? [] : WORDS_CET4).map(w => String(w).toLowerCase())]);
+const ALL_SET = new Set([...CET4_SET, ...MID_SET]);
+const EMPTY_SET = new Set();
+/* 取当前档位的集合。集合本身是常量（档位没变就不重建），直接返回预建的那个 ——
+ * 一篇长文要对它做数千次 has()，每次现拷贝一份 Set 是纯浪费。 */
+const highlightSet = () => S.highlightMode === "off" ? EMPTY_SET
+  : S.highlightMode === "cet4" ? CET4_SET
+    : S.highlightMode === "all" ? ALL_SET
+      : CORE_SET;
+
+/* 高亮的第二道闸：太短的词与高频功能词不标色 —— with / that / this 全在四级大纲里，
+ * 但逐处染色只会把正文变成花布。注意这道闸**只作用于高亮**，绝不作用于查词：
+ * 这些词照样能点开、照样能查。 */
+const isHighlightable = w => w.length >= 4 && !STOPWORD_HIGHLIGHT.has(w);
 
 /* 就地刷新正文里某个词的标色，不做整页 render —— 重渲染会把阅读滚动位置打回开头。
- * 三态规则必须与 highlightEn 完全一致（已掌握 > 生词 > 四级词），
- * 否则会出现「卡片关了但正文颜色没跟上」的割裂感。 */
+ * 规则必须与 highlightEn 完全一致（已认识 > 生词 > 高亮词），否则会出现
+ * 「卡片关了但正文颜色没跟上」的割裂感。 */
 function paintWord(k) {
   const known = S.known.includes(k);
   const wb = !known && inNotebook(k);
-  const rep = wb && ENCOUNTER[k] && ENCOUNTER[k].n > 1;
-  $$(`.kw[data-word="${k}"]`).forEach(n => {
+  const hl = !known && !wb && isHighlightable(k) && highlightSet().has(k);
+  $$(`.word[data-word="${k}"]`).forEach(n => {
     n.classList.toggle("known", known);
     n.classList.toggle("wb", wb);
-    n.classList.toggle("rep", rep);
+    n.classList.toggle("kw", hl);
   });
 }
 
@@ -1420,84 +1440,55 @@ function renderReadHistory() {
  * 复习时回忆的应该是「哦，这是我在那篇 C 罗的文章里见过的词」，
  * 而不是「strategy = 策略」这种无锚点的机械重复 —— 前者记忆强度高得多。
  * 分组也不是装饰：需要重点学习 = 反复遇到却还在查的词，那是真正卡住人的那几个。 */
+/* 生词行。只有四件事值得占地方：词、释义、**你遇见它的那半句话**、出处。
+ * 语境是整条记录的价值所在 —— 复习时回忆的是「我在那篇文章里见过它」，
+ * 而不是孤零零一个中文释义。数字（遇到几次 / 查过几次）刻意不显示：
+ * 它们是行为的副产品，不构成任何可靠判断，摆在卡片上只会让人以为自己该焦虑。 */
 function nbRowHTML(it, known) {
   const w = WORD_BY.get(it.word);
   if (!w) return "";
   const shortDef = String(w.def || "").split("\n")[0] || w.def;
   const artId = it.articleId && ARTICLES.some(a => a.id === it.articleId) ? it.articleId : "";
-  const artTitle = it.srcTitle || (artId ? clean(ARTICLES.find(a => a.id === artId).title || "") : "");
-  const ctx = it.firstCtx && it.firstCtx.en
+  const artTitle = it.articleTitle || (artId ? clean(ARTICLES.find(a => a.id === artId).title || "") : "");
+  const c = it.context;
+  const ctx = c && c.en
     ? `<div class="nb-ctx">
-        <div class="nb-ctx-en">${hlWord(it.firstCtx.en, it.word)}</div>
-        ${it.firstCtx.cn ? `<div class="nb-ctx-cn">${esc(it.firstCtx.cn)}</div>` : ""}
+        <div class="nb-ctx-en">${hlWord(c.en, it.word)}</div>
+        ${c.cn ? `<div class="nb-ctx-cn">${esc(c.cn)}</div>` : ""}
       </div>`
     : "";
-  /* 三个数各有各的意思：遇到几次 = 这词在这批语料里有多常见；
-     查了几次 = 它对你有多难；来自几篇 = 你已经在几种语境里见过它。 */
-  const stats = `<div class="nb-stats">
-      <span>遇到 ${it.seen} 次</span><span>查询 ${it.lookups} 次</span>
-      ${it.articles.length > 1 ? `<span>来自 ${it.articles.length} 篇</span>` : ""}
-    </div>`;
   return `<div class="nb-row" data-word="${esc(w.word)}">
     <div class="nb-main" data-act="lookup" data-word="${esc(w.word)}">
       <div class="nb-word-row">
         <span class="nb-word">${esc(w.word)}</span>
         <span class="nb-phonetic">${esc(w.phonetic || "")}</span>
-        ${known ? `<span class="nb-known-tag">已掌握</span>` : ""}
+        ${known ? `<span class="nb-known-tag">已认识</span>` : ""}
       </div>
       <div class="nb-def">${esc(w.pos || "")} ${esc(shortDef)}</div>
       ${ctx}
-      ${stats}
       ${artTitle && artId ? `<div class="nb-from"><button class="nb-source" data-act="nb-open-art" data-id="${esc(artId)}" title="${esc(artTitle)}">${esc(artTitle)}</button></div>` : ""}
     </div>
     <button class="nb-del" data-act="remove-note" data-word="${esc(w.word)}" aria-label="移除 ${esc(w.word)}">${svg("close", 14)}</button>
   </div>`;
 }
 
+/* 词汇页只回答两个问题：「这个生词是什么」（生词 Tab）、「哪些我已经认识了」
+ * （已认识 Tab）。刻意不做「需要重点学习」这类分级 —— 遇到过几次、查过几次
+ * 都是行为的副产品，不构成任何可靠的掌握度证据，硬造一个榜单只会误导。
+ * vocabTab 是页内状态（不落盘）：进来默认看生词，切 Tab 不该被记成偏好。 */
+let vocabTab = "new";
 function renderNotebook() {
   const items = [...S.notebook].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
   const knownSet = new Set(S.known || []);
   const usable = items.filter(it => WORD_BY.has(it.word));
   const learning = usable.filter(it => !knownSet.has(it.word));
-  const mastered = usable.filter(it => knownSet.has(it.word));
-  const today = todayKey();
-  const addedToday = usable.filter(it => ymdTZ(new Date(it.addedAt || 0)) === today).length;
-  /* 需要重点学习：查得越多说明它越反复地拦住你。门槛卡在「查过 2 次以上或
-     遇到过 3 次以上」—— 只用了一两次的词还谈不上「重点」，列出来只会稀释注意力。 */
-  const focus = [...learning]
-    .filter(it => (it.lookups || 0) >= 2 || (it.seen || 0) >= 3)
-    .sort((a, b) => (b.lookups || 0) - (a.lookups || 0) || (b.seen || 0) - (a.seen || 0))
-    .slice(0, 5);
-
-  const statsBlock = `<div class="vocab-stats">
-    <div class="vs-cell"><b>${addedToday}</b><i>今日新增</i></div>
-    <div class="vs-cell"><b>${learning.length}</b><i>学习中</i></div>
-    <div class="vs-cell"><b>${mastered.length}</b><i>已掌握</i></div>
-  </div>`;
-
-  const focusBlock = focus.length ? `
-    <div class="nb-group">
-      <div class="nb-group-head"><span class="nb-group-title">需要重点学习</span><span class="muted-2">遇到多 · 查询多</span></div>
-      ${focus.map(it => nbRowHTML(it, false)).join("")}
-    </div>` : "";
-
-  /* 重点区里已经出现过的词不再在「学习中」重复一遍 —— 同一屏里同一个词出现两次，
-     读者会怀疑是不是两条不同的记录。 */
-  const focusSet = new Set(focus.map(it => it.word));
-  const rest = learning.filter(it => !focusSet.has(it.word));
-  const learningBlock = rest.length ? `
-    <div class="nb-group">
-      <div class="nb-group-head"><span class="nb-group-title">学习中</span><span class="muted-2">${rest.length} 个</span></div>
-      ${rest.map(it => nbRowHTML(it, false)).join("")}
-    </div>` : "";
-
-  const masteredBlock = mastered.length ? `
-    <div class="nb-group">
-      <div class="nb-group-head"><span class="nb-group-title">已掌握</span><span class="muted-2">${mastered.length} 个</span></div>
-      ${mastered.map(it => nbRowHTML(it, true)).join("")}
-    </div>` : "";
-
-  const empty = `<div class="card nb-empty">还没有生词 · 阅读时点单词，卡片里就能收藏<br><span class="muted-2">收藏时会把那句话一起存下来</span></div>`;
+  const known = usable.filter(it => knownSet.has(it.word));
+  /*「已认识」只算**收藏过**的词：S.known 里还有一批在正文里直接标认识、
+     从没进过生词本的词，那是阅读行为，不属于词汇本。 */
+  const list = vocabTab === "known" ? known : learning;
+  const empty = vocabTab === "known"
+    ? `<div class="card nb-empty">还没有标为已认识的词<br><span class="muted-2">在生词卡里点「我已认识」，它就会移到这里</span></div>`
+    : `<div class="card nb-empty">还没有生词 · 阅读时点单词，卡片里就能收藏<br><span class="muted-2">收藏时会把那句话一起存下来</span></div>`;
 
   return `${statusbar()}
     <div class="view view-flow notebook-view">
@@ -1505,8 +1496,11 @@ function renderNotebook() {
         <div><div class="eyebrow">WORDS YOU COLLECTED</div><h1>我的词汇<span class="title-period">。</span></h1><p>阅读时收藏的词，连同遇见它的那句话。</p></div>
         <span class="icon-btn" data-act="go-back" role="button" tabindex="0" aria-label="返回">${svg("back", 16)}</span>
       </header>
-      ${usable.length ? statsBlock : ""}
-      ${usable.length ? (focusBlock + learningBlock + masteredBlock) : empty}
+      <div class="vocab-tabs">
+        <button class="vt${vocabTab === "new" ? " on" : ""}" data-act="vocab-tab" data-tab="new">生词 <b>${learning.length}</b></button>
+        <button class="vt${vocabTab === "known" ? " on" : ""}" data-act="vocab-tab" data-tab="known">已认识 <b>${known.length}</b></button>
+      </div>
+      ${list.length ? `<div class="nb-list">${list.map(it => nbRowHTML(it, vocabTab === "known")).join("")}</div>` : empty}
     </div>`;
 }
 
@@ -1617,13 +1611,6 @@ const fbSeg = (act, v, label, on) =>
 
 function renderRead() {
   const a = activeArticle;
-  /* 两件事都必须在 paras 渲染之前完成：
-   *   ① buildEncounter 建本篇遇词表 —— highlightEn 是边渲染边读 ENCOUNTER 的
-   *      （反复遇到的小圆点、卡片里的「本句含义」都靠它）；
-   *   ② recordEncounters 把本篇遇词记到生词本上，幂等键是文章 id，
-   *      所以 TAP 词表异步到达 / 打卡 / 标认识引发的重渲染不会把次数越加越高。 */
-  buildEncounter(a);
-  recordEncounters(a);
   const fsCls = ["fs-0", "fs-1", "fs-2"][S.fontSize] || "fs-0";
   const cover = coverOf(a);
   const total = sentCount(a);
@@ -1686,7 +1673,7 @@ function renderRead() {
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${fsCls}${S.showCn ? "" : " no-cn"}${S.kwHighlight ? "" : " no-kw"}" id="read-scroll" data-art="${esc(a.id)}">
+    <div class="view read-scroll ${fsCls}${S.showCn ? "" : " no-cn"}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
@@ -1793,13 +1780,18 @@ function renderReadSettingsSheet() {
             ${seg("set-theme", "theme", "night", "夜间", S.readTheme === "night")}
           </div>
         </div>
-        <!-- 想纯粹地读一篇、不被标色提醒时可以关掉高亮 —— 关的只是颜色，点词查词照常 -->
-        <div class="rd-row"><span class="rd-lab">四级词高亮</span>
-          <div class="rd-segs">
-            ${seg("set-kw", "kw", 1, "显示", !!S.kwHighlight)}
-            ${seg("set-kw", "kw", 0, "隐藏", !S.kwHighlight)}
+        <!-- 高亮是四档范围而不是开关：完整四级大纲里一大半词用户早就认识，
+             默认「四级核心」（约 2000 个高频/真题重点词）。要看得更宽再往上调档；
+             关掉只是不标色 —— **点词查义在任何档位下都一样**。 -->
+        <div class="rd-row"><span class="rd-lab">词汇高亮</span>
+          <div class="rd-segs four">
+            ${seg("set-hl", "hl", "off", "关闭", S.highlightMode === "off")}
+            ${seg("set-hl", "hl", "core", "四级核心", S.highlightMode === "core")}
+            ${seg("set-hl", "hl", "cet4", "全部四级", S.highlightMode === "cet4")}
+            ${seg("set-hl", "hl", "all", "四级+基础", S.highlightMode === "all")}
           </div>
         </div>
+        <div class="rd-hint">四级核心 ≈ 2000 个高频/真题重点词　·　全部四级 = 完整大纲 4500+ 词　·　四级+基础 另标出中学词</div>
         <div class="rd-row"><span class="rd-lab">朗读口音</span>
           <div class="rd-segs">
             ${seg("set-accent", "accent", "en-US", "美音", S.accent !== "en-GB")}
@@ -1938,9 +1930,10 @@ function rememberReadPos(cont, artId) {
 function applyReadClasses(cont) {
   if (cont && cont.classList) {
     cont.classList.toggle("no-cn", !S.showCn);
-    /* 关掉四级词高亮：正文的紫字全部退回普通文本色（.no-kw 只改颜色，
-       词仍然可点可查 —— 关的是「标色」，不是「查词能力」）。 */
-    cont.classList.toggle("no-kw", !S.kwHighlight);
+    /* 高亮档调到「关闭」：正文的目标词色全部退回普通文本（.no-kw 只改颜色，
+       词仍然可点可查 —— 关的是「标色」，不是「查词能力」；自己收藏的生词色
+       也照旧保留，那是读者自己的标记）。 */
+    cont.classList.toggle("no-kw", S.highlightMode === "off");
     [0, 1, 2].forEach(n => cont.classList.toggle(`fs-${n}`, S.fontSize === n));
   }
   const screen = $("#screen");
@@ -2167,57 +2160,51 @@ function attachExample(word) {
  * 只给词典释义时，一个词挂五六个中文义项，读者仍然不知道该取哪一个 ——
  * 语境才是让释义落到实处的东西，所以两块都要给（词典义在上，语境义在下）。
  * 句中目标词用 hlWord() 标色，和例句库共用同一套语言。
- * withFirst 只在展开卡里为真：轻卡要短，首见语境是「想细看」时才需要的信息。 */
-function ctxBlockHTML(word, ctx, nb, withFirst) {
+ * 语境文案由 clipContext() 在点击那一刻裁好（长句只留目标词前后各 7 词）。 */
+function ctxBlockHTML(word, ctx) {
   if (!ctx || !ctx.en) return "";
-  const meta = nb
-    ? `<div class="ctx-meta">生词 · 遇到 ${nb.seen} 次 · 查询 ${nb.lookups} 次${nb.articles.length > 1 ? ` · 来自 ${nb.articles.length} 篇` : ""}</div>`
-    : "";
-  /* 首见句和当前句相同时不必重复一遍 —— 那就是同一句话。 */
-  const first = (withFirst && nb && nb.firstCtx && nb.firstCtx.en && nb.firstCtx.en !== ctx.en)
-    ? `<div class="ctx-first">
-        <div class="ctx-lab">第一次遇到${nb.srcTitle ? ` · ${esc(nb.srcTitle)}` : ""}</div>
-        <div class="ctx-en">${hlWord(nb.firstCtx.en, word)}</div>
-        ${nb.firstCtx.cn ? `<div class="ctx-cn">${esc(nb.firstCtx.cn)}</div>` : ""}
-      </div>`
-    : "";
   return `<div class="ctx">
-      <div class="ctx-lab">本句含义${nb && nb.articles.length > 1 ? " · 多语境重复" : ""}</div>
+      <div class="ctx-lab">本句含义</div>
       <div class="ctx-en">${hlWord(ctx.en, word)}</div>
       ${ctx.cn ? `<div class="ctx-cn">${esc(ctx.cn)}</div>` : ""}
-      ${meta}
-    </div>${first}`;
+    </div>`;
 }
 
 /* ---------------- 查词浮层 ----------------
  * 两级结构：第一层只回答「这个词在这里是什么意思」（词/音标/短释义/本句含义/收藏），
  * 点「更多」才展开词根、例句等完整卡——3 秒理解后回到正文。
  * ctx 是点中那个词所在的句子（来自 lookup 动作），词库外的点词、图注里的词没有它。 */
-function renderSheet(word, ctx) {
+function renderSheet(word, ctx, form) {
   const w = WORDS.find(x => x.word === word);
-  if (!w) return renderTapSheet(word, ctx);   // 词库外单词走轻量卡
+  if (!w) return renderTapSheet(word, ctx, form);   // 词库外单词走轻量卡
+  const disp = form || word;                        // 卡片标题显示**你点的那个词**
+  const ph = w.phonetic || "";
   const shortDef = String(w.def || "").split("\n")[0] || w.def;
   const nb = nbItem(word);
+  /* 词形与词元不同（点了 adopted，词典条目是 adopt）时把原形标在音标那一行。
+     标题绝不换成原形 —— 那会让用户以为自己点的不是这个词。 */
+  const head = `
+        <div class="col" style="gap:3px">
+          <div class="w">${esc(disp)}</div>
+          <span class="ph">${disp === word ? esc(ph) : `原形 ${esc(word)}${ph ? " · " + esc(ph) : ""}`}</span>
+        </div>`;
   if (!sheetMore) {
     return `
       <div class="sheet-mask" data-act="close-sheet"></div>
-      <div class="sheet slim" role="dialog" aria-label="查词 ${esc(word)}">
+      <div class="sheet slim" role="dialog" aria-label="查词 ${esc(disp)}">
         <div class="grip"></div>
         <div class="row between">
-          <div class="col" style="gap:3px">
-            <div class="w">${esc(w.word)}</div>
-            <span class="ph">${esc(w.phonetic || "")}</span>
-          </div>
-          <span class="icon-btn solid" data-act="speak" data-word="${esc(w.word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
+          ${head}
+          <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
         </div>
         <div class="df">${esc(w.pos || "")} ${esc(shortDef)}</div>
-        ${ctxBlockHTML(word, ctx, nb, false)}
+        ${ctxBlockHTML(word, ctx)}
         <div class="sheet-btns">
           ${nb
-            ? `<button class="a" data-act="mark-known" data-word="${esc(w.word)}">我已认识 ✓</button>
-               <button class="b" data-act="sheet-more" data-word="${esc(w.word)}">更多</button>`
-            : `<button class="a" data-act="add-note" data-word="${esc(w.word)}">加入生词本</button>
-               <button class="b" data-act="sheet-more" data-word="${esc(w.word)}">更多</button>`}
+            ? `<button class="a" data-act="mark-known" data-word="${esc(word)}">我已认识 ✓</button>
+               <button class="b" data-act="sheet-more" data-word="${esc(word)}">更多</button>`
+            : `<button class="a" data-act="add-note" data-word="${esc(word)}">加入生词本</button>
+               <button class="b" data-act="sheet-more" data-word="${esc(word)}">更多</button>`}
         </div>
       </div>`;
   }
@@ -2226,43 +2213,45 @@ function renderSheet(word, ctx) {
     <div class="sheet">
       <div class="grip"></div>
       <div class="row between">
-        <div class="col" style="gap:3px">
-          <div class="w">${w.word}</div>
-          <span class="ph">${w.phonetic}</span>
-        </div>
-        <span class="icon-btn solid" data-act="speak" data-word="${w.word}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
+        ${head}
+        <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
       </div>
-      <div class="df">${w.pos} ${esc(w.def)}</div>
+      <div class="df">${esc(w.pos || "")} ${esc(w.def)}</div>
       ${w.literal ? `<div class="rt">${esc(w.literal)}</div>` : ""}
-      ${ctxBlockHTML(word, ctx, nb, true)}
+      ${ctxBlockHTML(word, ctx)}
       ${exSlotHTML(w)}
       <div class="sheet-btns">
         ${nb
-          ? `<button class="a" data-act="mark-known" data-word="${w.word}">我已认识 ✓</button>
-             <button class="c" data-act="remove-note" data-word="${w.word}">移出生词本</button>`
-          : `<button class="a" data-act="add-note" data-word="${w.word}">加入生词本</button>
-             <button class="c" data-act="mark-known" data-word="${w.word}" aria-pressed="${S.known.includes(w.word)}">${S.known.includes(w.word) ? "已认识 ✓" : "标为已认识"}</button>`}
+          ? `<button class="a" data-act="mark-known" data-word="${word}">我已认识 ✓</button>
+             <button class="c" data-act="remove-note" data-word="${word}">移出生词本</button>`
+          : `<button class="a" data-act="add-note" data-word="${word}">加入生词本</button>
+             <button class="c" data-act="mark-known" data-word="${word}" aria-pressed="${S.known.includes(word)}">${S.known.includes(word) ? "已认识 ✓" : "标为已认识"}</button>`}
       </div>
     </div>`;
 }
 
-/* 词库外单词的轻量查词卡：只有释义与发音，不加入词库学习记录。 */
-function renderTapSheet(word, ctx) {
-  const t = TAP && TAP[word];
+/* 词库外单词的轻量查词卡：只有释义与发音，不加入词库学习记录。
+ * 释义优先取 TAPDICT，再兜底文章级补充词典 —— 后者收的是 TAPDICT 因 frq=0
+ * 丢掉的纯功能词（are / an / don't / you're…），它们恰恰在正文里最常见。 */
+function renderTapSheet(word, ctx, form) {
+  const t = (TAP && TAP[word]) || (AW && AW[word]);
   if (!t) return "";
+  const disp = form || word;
   return `
     <div class="sheet-mask" data-act="close-sheet"></div>
-    <div class="sheet" role="dialog" aria-label="查词 ${esc(word)}">
+    <div class="sheet" role="dialog" aria-label="查词 ${esc(disp)}">
       <div class="grip"></div>
       <div class="row between">
         <div class="col" style="gap:3px">
-          <div class="w">${esc(word)}</div>
-          ${t.p ? `<span class="ph">${esc(t.p)}</span>` : ""}
+          <div class="w">${esc(disp)}</div>
+          <span class="ph">${disp === word
+            ? (t.p ? esc(t.p) : "词库外单词")
+            : `原形 ${esc(word)}${t.p ? " · " + esc(t.p) : ""}`}</span>
         </div>
         <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
       </div>
       <div class="df pre">${esc(t.d)}</div>
-      ${ctxBlockHTML(word, ctx, null, false)}
+      ${ctxBlockHTML(word, ctx)}
       <div class="rt">词库外单词 · 仅供查询</div>
     </div>`;
 }
@@ -2568,12 +2557,13 @@ document.addEventListener("click", e => {
       syncReadSettingsSheet("theme", v);
       break;
     }
-    case "set-kw": {
-      const on = t.dataset.kw === "1";
+    case "set-hl": {
+      const v = t.dataset.hl;
+      if (!HL_MODES.includes(v) || S.highlightMode === v) break;
       /* 走 changeReadSetting 而不是直接改 class：它会先抓句子锚点、改完再还原，
-         开关高亮不会把读者甩回文章开头（与字号/对照同一套机制）。 */
-      if (!!S.kwHighlight !== on) changeReadSetting(() => { S.kwHighlight = on; });
-      syncReadSettingsSheet("kw", on ? 1 : 0);
+         换档不会把读者甩回文章开头（与字号 / 对照同一套机制）。 */
+      changeReadSetting(() => { S.highlightMode = v; });
+      syncReadSettingsSheet("hl", v);
       break;
     }
     case "set-accent": {
@@ -2657,28 +2647,26 @@ document.addEventListener("click", e => {
     }
     case "lookup": {
       const word = t.dataset.word;
+      const form = t.dataset.form || word;   // 原文词形（adopted），卡片标题显示它
       sheetMore = false;   // 每次新查词都从轻卡开始
-      /* 取「这个词所在的这句话」交给卡片做「本句含义」。
-         图注里的词、浮层/列表里的词没有 .sentence 祖先，ctx 为空，卡片少渲染一块即可。 */
+      /* 取「这个词所在的这句话」交给卡片做「本句含义」，并顺手截成短语境存起来 ——
+         用户点「加入生词本」时卡片里已经拿不到句子（收藏按钮不在 .sentence 内），
+         语境必须在这一刻留下。图注里的词、浮层 / 列表里的词没有 .sentence 祖先，
+         ctx 为空，卡片少渲染一块即可。 */
       let ctx = null;
       const sentEl = t.closest ? t.closest(".sentence") : null;
       if (sentEl && activeArticle && sentEl.dataset.pi != null) {
         const s = sentenceAt(activeArticle, +sentEl.dataset.pi, +sentEl.dataset.si || 0);
-        if (s && s.en) ctx = { en: clean(s.en), cn: clean(s.cn || "") };
+        if (s && s.en) ctx = { en: clipContext(s.en, word), cn: clean(s.cn || "") };
       }
+      sheetCtx = ctx;
       if (activeArticle && view.name === "read") {
         LOOKED[activeArticle.id] = (LOOKED[activeArticle.id] || 0) + 1;
         /* 同步更新顶部的「已查次数」chip，不触发整页重渲染（避免滚动丢失） */
         const sc = $(".read-finish .stat-chips .st-chip:nth-child(3) b");
         if (sc) sc.textContent = LOOKED[activeArticle.id];
       }
-      /* 生词的查询次数：这是「反复遇到却还在查」的另一半数据 ——
-         遇到次数说明这个词在语料里够高频，查询次数说明它对「你」还没落地，
-         两个数一起才判得出该重点学哪个（见词汇页的「需要重点学习」）。
-         只在阅读页计数：在词汇页里点开词卡不算一次「阅读中查词」。 */
-      const nbi = nbItem(word);
-      if (nbi && view.name === "read") { nbi.lookups = (nbi.lookups || 0) + 1; save(); }
-      $(".phone").insertAdjacentHTML("beforeend", renderSheet(word, ctx));
+      $(".phone").insertAdjacentHTML("beforeend", renderSheet(word, ctx, form));
       break;
     }
     case "close-sheet":
@@ -2687,22 +2675,17 @@ document.addEventListener("click", e => {
     case "add-note": {
       const w = t.dataset.word;
       if (!inNotebook(w)) {
-        /* 加入的那一刻就把语境一起存下来：文章 id / 标题、这个词在本篇第一次出现的
-           那句中英对照。这是生词本的价值所在 —— 复习时回忆的是「我在那篇文章里
-           见过它」，而不是孤零零一个中文释义。不在阅读页加入（词库外补收藏）时
-           语境为空，条目照常可用，不阻断收藏动作。 */
+        /* 收藏的那一刻就把「你是在哪句话里遇到它的」一起存下来 —— 生词本的全部
+           价值就在这里：复习时回忆的是语境，而不是孤零零一个中文释义。
+           语境取自点击查词时截好的片段（sheetCtx，长句已裁到目标词前后各 7 词），
+           不在阅读页收藏（词库外补收藏）时语境为空，条目照常可用，不阻断收藏。 */
         const inRead = !!(activeArticle && view.name === "read");
-        const enc = ENCOUNTER[w];
         S.notebook.push({
           word: w,
           addedAt: Date.now(),
           articleId: inRead ? activeArticle.id : "",
-          srcTitle: inRead ? clean(activeArticle.title || "") : "",
-          firstCtx: enc && enc.ctx ? { en: enc.ctx.en, cn: enc.ctx.cn } : null,
-          seen: (enc && enc.n) || 1,
-          lookups: 1,
-          lastSeenAt: Date.now(),
-          articles: inRead ? [activeArticle.id] : [],
+          articleTitle: inRead ? clean(activeArticle.title || "") : "",
+          context: sheetCtx ? { en: sheetCtx.en, cn: sheetCtx.cn || "" } : null,
         });
         /* 加入生词本 = 这个词现在是我的生词。若此前标过「已认识」必须撤掉 ——
            known 的优先级高于生词色，不撤的话正文里它仍然是灰的，用户会以为没生效。 */
@@ -2727,7 +2710,14 @@ document.addEventListener("click", e => {
       break;
     }
     case "open-notebook":
-      pushNav(); view = { name: "notebook" }; render(); break;
+      pushNav(); vocabTab = "new"; view = { name: "notebook" }; render(); break;
+    case "vocab-tab": {
+      const tb = t.dataset.tab === "known" ? "known" : "new";
+      if (tb === vocabTab) break;
+      vocabTab = tb;
+      render();
+      break;
+    }
     case "nb-open-art": {
       const id = t.dataset.id;
       const art = ARTICLES.find(a => a.id === id);
@@ -2838,7 +2828,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v55");
+      const cache = await caches.open("wordlens-cache-v56");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

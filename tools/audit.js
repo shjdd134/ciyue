@@ -105,6 +105,7 @@ vm.createContext(sandbox);
 
 for (const f of [
   'assets/data.js', 'assets/data-words-bulk-a.js', 'assets/data-words-full.js', 'assets/data-words-mid.js',
+  'assets/data-words-cet4.js', 'assets/data-articles-words.js',
   'assets/data-articles-extra.js', 'assets/data-articles-archive.js', 'assets/data-covers.js',
   'assets/data-examples.js', 'assets/data-ecdict.js', 'assets/data-tapdict.js', 'assets/data-wordfreq.js'
 ]) {
@@ -117,6 +118,10 @@ for (const f of [
 vm.runInContext('var WORD_META = window.WORD_META;', sandbox);
 vm.runInContext('var TAPDICT = window.TAPDICT, TAP_REVERSE = window.TAP_REVERSE;', sandbox);
 vm.runInContext('var COMMON_WORDS = window.COMMON_WORDS;', sandbox);
+/* 高亮词表（完整四级大纲）与文章级补充词典同样挂在 window 上，一并提升，
+   否则 app.js 里 CET4_SET 会退化成「只有核心层」、AW 会整个为空，
+   档位测试与点词覆盖率都会失真。 */
+vm.runInContext('var WORDS_CET4 = window.WORDS_CET4, ARTICLE_WORDS = window.ARTICLE_WORDS;', sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = e => vm.runInContext(e, sandbox);
@@ -615,19 +620,25 @@ ok(`took 还原到 take（不规则过去式）`, (() => { const r = ctx('resolv
 ok(`aches 不被 exchange 杂条目抢注（还原到 ache）`, (() => { const r = ctx('resolveToken("aches")'); return r && (r.w || r.kw) === 'ache'; })());
 ok(`新闻词 verdict 可点查`, !!ctx('TAPDICT.verdict'));
 ok(`专有名词保持纯文本`, ctx('resolveToken("rodriguez")') === null);
-ok(`highlightEn 输出两类 span`, (() => {
+/* 正文只有一种可点基类 .word：高亮 / 生词 / 已认识都是**附加**类，
+   不再像旧版那样按「学习词 / 点词层」分成 .kw / .tw 两套 —— 那两套一旦
+   分开，可点性就被绑在了分类上，正文里 16% 的 token 直接点不动。 */
+ok(`highlightEn 只输出 .word 一种可点基类（染色全是附加类）`, (() => {
   const html = ctx(`highlightEn("The verdict came. Teacher smiled.")`);
-  return html.includes('class="tw"') && html.includes('class="kw"');
+  return html.includes('class="word') && !/class="(kw|tw)"/.test(html);
 })());
 
 /* ---------------- [Q] 词库查词卡行为 ---------------- */
 console.log('\n[Q] 词库查词卡行为');
 /* render 间谍：本段所有查词卡操作都应零整页渲染（render 会把阅读位置打回开头） */
 ctx('window.__renderCalls = 0; const __origRender = render; render = () => { window.__renderCalls++; };');
-/* .kw span 桩：验证 mark-known 就地切换 known 类 */
+/* .word span 桩：验证 mark-known 就地切换 known 类。
+   ⚠️ 选择器必须与 paintWord() 里那一句保持一致（它是 .word[data-word="…"]）——
+   桩匹配不上的话，paintWord 会去查真实 DOM、拿到空列表，这条守卫就变成
+   「永远安静」的假守卫：不报错，也永远测不到东西。 */
 const fakeKw = { cls: new Set(), classList: { toggle(c, on) { on ? fakeKw.cls.add(c) : fakeKw.cls.delete(c); } } };
 const __prevQSA = sandbox.document.querySelectorAll;
-sandbox.document.querySelectorAll = s => (String(s).startsWith('.kw') ? [fakeKw] : __prevQSA(s));
+sandbox.document.querySelectorAll = s => (String(s).startsWith('.word') ? [fakeKw] : __prevQSA(s));
 
 /* 查词卡测试前重置渲染计数 */
 ctx('window.__renderCalls = 0');
@@ -660,120 +671,200 @@ ok('完整词卡不再提供加入复习', !/data-act="add-review"|加入复习/
 ctx(`S.known.length = 0; S.notebook.length = 0;`);
 
 /* ===================================================================
- * [Q2] 词汇学习闭环：生词带语境 + 遇词统计 + 三态标色
- * 这一段的每条断言都配了反例方向 —— 守卫必须「能响」才算数：
- *   迁移断言若把兜底默认值写错会红；幂等断言去掉 articles 去重键会红；
- *   三态断言把 known 优先级写反会红。只写「当前通过」的断言是假守卫。
+ * [Q2] 词汇：四态标色 + 高亮四档 + 查词与高亮解耦 + 生词语境
+ * 每条断言都配了反例方向 —— 守卫必须「能响」才算数：
+ *   迁移断言把兜底写错会红；档位断言把集合取错会红；
+ *   解耦断言把 STOPWORD 过滤塞回 trie 会红（正文 16% 的 token 会点不动）；
+ *   截取断言去掉长度判断会红。只写「当前通过」的断言是假守卫。
  * =================================================================== */
-console.log('\n[Q2] 词汇学习闭环（生词语境 / 遇词统计 / 三态标色）');
+console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词语境）');
 {
   /* 本段在 [R] 之前执行，css 常量还没定义（它后面才读）；块内自己读一份，
      块级 const 会遮蔽外层同名变量，不冲突。 */
   const css = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8');
-  /* ---- 老数据迁移：字符串 → v2 对象 → v3 带语境 ---- */
+  /* 断言选择器前先剥掉注释：CSS 注释里常写「别写成 .kw.wb」这类反例警示，
+     不剥掉的话，警示文字本身会把「不许出现 .kw.wb」的断言顶红。 */
+  const cssRules = css.replace(/\/\*[\s\S]*?\*\//g, "");
+  /* ---- 老数据迁移：v1 字符串 / v2 对象 / v3 富对象 → v4 只留语境 ---- */
   const mig = ctx(`(() => ({
     s1: normalizeState({ notebook: ["perform"] }).notebook[0],
     s2: normalizeState({ notebook: [{ word: "perform", addedAt: 111, articleId: "art-x" }] }).notebook[0],
-    s3: normalizeState({ notebook: [{ word: "perform", addedAt: 111, articleId: "art-x",
-          firstCtx: { en: "A b.", cn: "甲。" }, seen: 5, lookups: 4, articles: ["art-x", "art-y"] }] }).notebook[0],
+    s3: normalizeState({ notebook: [{ word: "perform", addedAt: 111, articleId: "art-x", srcTitle: "旧标题",
+          firstCtx: { en: "A b.", cn: "甲。" }, seen: 5, lookups: 4, lastSeenAt: 9, articles: ["art-x", "art-y"] }] }).notebook[0],
     bad: normalizeState({ notebook: ["perform", null, { nope: 1 }, "perform"] }).notebook.length,
+    hl0: normalizeState({ kwHighlight: false }).highlightMode,
+    hl1: normalizeState({ kwHighlight: true }).highlightMode,
+    hlBad: normalizeState({ highlightMode: "nonsense" }).highlightMode,
+    hlNew: normalizeState({ highlightMode: "all" }).highlightMode,
   }))()`);
-  ok('迁移：字符串条目升级为对象，seen/lookups 兜底 1（不是 0）',
-    mig.s1 && mig.s1.word === 'perform' && mig.s1.seen === 1 && mig.s1.lookups === 1 && Array.isArray(mig.s1.articles) && mig.s1.firstCtx === null);
-  ok('迁移：v2 对象条目补齐字段且不丢 articleId / addedAt',
-    mig.s2 && mig.s2.articleId === 'art-x' && mig.s2.addedAt === 111 && mig.s2.firstCtx === null && mig.s2.articles.length === 1 && mig.s2.articles[0] === 'art-x');
-  ok('迁移：已有次数与语境原样保留（不被默认值覆盖）',
-    mig.s3 && mig.s3.seen === 5 && mig.s3.lookups === 4 && mig.s3.firstCtx.en === 'A b.' && mig.s3.articles.length === 2);
+  ok('迁移 v1：字符串条目升级为对象，语境为空但条目可用',
+    mig.s1 && mig.s1.word === 'perform' && mig.s1.context === null && !!mig.s1.addedAt);
+  ok('迁移 v2：保留 articleId / addedAt，不凭空造语境',
+    mig.s2 && mig.s2.articleId === 'art-x' && mig.s2.addedAt === 111 && mig.s2.context === null);
+  ok('迁移 v3→v4：语境与出处保留，统计字段（seen / lookups / articles）被丢掉',
+    mig.s3 && mig.s3.context && mig.s3.context.en === 'A b.' && mig.s3.context.cn === '甲。'
+    && mig.s3.seen === undefined && mig.s3.lookups === undefined && mig.s3.articles === undefined
+    && mig.s3.articleTitle === '旧标题');
   ok('迁移：脏条目（null / 缺 word）被剔除，重复词合并为一条', mig.bad === 1);
+  ok('迁移：旧布尔量 kwHighlight 映射为 off / core 两档',
+    mig.hl0 === 'off' && mig.hl1 === 'core');
+  ok('迁移：非法档位回落 core，合法新档位原样保留',
+    mig.hlBad === 'core' && mig.hlNew === 'all');
 
-  /* ---- 遇词统计：本篇出现几次就记几次，且同一篇只记一次 ---- */
-  const enc = ctx(`(() => {
-    const a = ARTICLES[0];
-    S.known = []; S.notebook = [];
-    buildEncounter(a);
-    const keys = Object.keys(ENCOUNTER);
-    const k = keys[0];
-    const n = ENCOUNTER[k].n;
-    const ctxEn = ENCOUNTER[k].ctx ? ENCOUNTER[k].ctx.en : "";
-    S.notebook.push({ word: k, addedAt: Date.now(), articleId: "", srcTitle: "",
-      firstCtx: null, seen: 0, lookups: 0, lastSeenAt: 0, articles: [] });
-    recordEncounters(a);
-    const first = S.notebook[0].seen;
-    const ctxSaved = S.notebook[0].firstCtx ? S.notebook[0].firstCtx.en : "";
-    recordEncounters(a);                       // 再跑一次：模拟重渲染
-    const second = S.notebook[0].seen;
-    const arts = S.notebook[0].articles.length;
-    /* 没收藏的词不该被记账（体积可控的前提） */
-    S.notebook = []; buildEncounter(a); recordEncounters(a);
-    const leaked = S.notebook.length;
-    S.known = []; S.notebook = [];
-    return { keyCount: keys.length, k, n, ctxEn, first, second, arts, ctxSaved, leaked };
-  })()`);
-  ok(`遇词表覆盖本篇学习词（${enc.keyCount} 个词元）`, enc.keyCount > 0);
-  ok(`遇词记账：${enc.k} 在本篇出现 ${enc.n} 次 → seen = ${enc.n}`, enc.first === enc.n);
-  ok('遇词记账顺手存下首见语境（原句）', !!enc.ctxSaved && enc.ctxSaved === enc.ctxEn);
-  ok('遇词记账幂等：同一篇重渲染两次，seen 不变、articles 不重复',
-    enc.second === enc.first && enc.arts === 1);
-  ok('未收藏的词不记账（localStorage 不膨胀）', enc.leaked === 0);
-
-  /* ---- 正文三态：四级词 / 生词 / 已掌握（已掌握必须压过生词） ---- */
-  const tri = ctx(`(() => {
-    const k = WORDS[0].word;
-    S.known = []; S.notebook = [];
+  /* ---- 四态标色：普通 / 高亮 / 生词 / 已认识，互斥且有优先级 ----
+     测试词必须挑**核心层**里的词：core 档默认只亮核心层，
+     拿中学层的词测会得到「本来就不该亮」的假红。 */
+  const quad = ctx(`(() => {
+    const k = CORE_WORDS.filter(w => w.word.length >= 4 && !STOPWORD_HIGHLIGHT.has(w.word))[0].word;
+    S.known = []; S.notebook = []; S.highlightMode = "core";
     const text = "The " + k + " and " + k + ".";
-    const base = highlightEn(text);
-    S.notebook = [{ word: k, addedAt: 1, articleId: "", srcTitle: "", firstCtx: null,
-      seen: 3, lookups: 2, lastSeenAt: 1, articles: [] }];
+    const plain = highlightEn(text);
+    S.notebook = [{ word: k, addedAt: 1, articleId: "", articleTitle: "", context: null }];
     const wb = highlightEn(text);
     S.known = [k];
     const kn = highlightEn(text);
-    S.known = []; S.notebook = [];
-    return { base, wb, kn };
+    S.known = []; S.notebook = []; S.highlightMode = "core";
+    return { k, plain, wb, kn };
   })()`);
-  ok('三态：未收藏 → 只有四级词色（无 wb / known）',
-    /class="kw"/.test(tri.base) && !/\bwb\b/.test(tri.base) && !/known/.test(tri.base));
-  ok('三态：收藏后 → 生词态 .wb', /class="kw[^"]*\bwb\b/.test(tri.wb));
-  ok('三态：已掌握压过生词（带 known 且**不带** wb）—— 优先级写反就会红',
-    /known/.test(tri.kn) && !/\bwb\b/.test(tri.kn));
+  ok(`四态：未收藏 → .word.kw（高亮色，无 wb / known）`, /class="word kw"/.test(quad.plain) && !/\bwb\b/.test(quad.plain) && !/known/.test(quad.plain));
+  ok('四态：收藏后 → .word.wb（生词色压过高亮色）', /class="word wb"/.test(quad.wb));
+  ok('四态：已认识压过生词（带 known，且不带 wb / kw）—— 优先级写反就会红',
+    /class="word known"/.test(quad.kn) && !/\bwb\b/.test(quad.kn) && !/ kw"/.test(quad.kn));
 
-  /* ---- 查词卡：本句含义 + 生词态按钮 ---- */
+  /* ---- 查词与高亮解耦：最核心的一条 ----
+     work / get / know / one 这些词在四级大纲里、也确实在正文里高频出现，
+     但它们被高亮过滤表（长度 < 4 或功能词）挡着。旧实现让同一张过滤表
+     也管住查词 trie，于是这些词点了没反应 —— 实测正文 16% 的 token 点不动。 */
+  const cover = ctx(`(() => {
+    S.highlightMode = "core"; S.known = []; S.notebook = [];
+    const html = highlightEn("I work and get to know one life.");
+    const words = [...html.matchAll(/data-word="([^"]+)"/g)].map(m => m[1]);
+    return { html, words };
+  })()`);
+  ok('查词解耦：高亮过滤表挡不住的词照样可点（work / get / know / one / life）',
+    ['work', 'get', 'know', 'one', 'life'].every(w => cover.words.includes(w)));
+  ok('查词解耦：这些词**不**被标成高亮色（只可点、不染色）',
+    !/class="word kw"[^>]*>work</.test(cover.html) && !/class="word kw"[^>]*>get</.test(cover.html));
+  /* 覆盖率是「点词能不能用」的总指标：它不依赖具体实现，任何一层断掉都会掉数。
+     剩余的 2~3% 是专有名词（人名 / 地名），那本来就该点不动。 */
+  const cov = ctx(`(() => {
+    const RE = /[A-Za-z]+(?:['\\u2018\\u2019][A-Za-z]+)?/g;
+    let tot = 0, hit = 0;
+    for (const a of ARTICLES) for (const p of (a.paras || [])) for (const s of sentencesOf(p)) {
+      const text = s && s.en; if (!text) continue;
+      let m; RE.lastIndex = 0;
+      while ((m = RE.exec(text))) { tot++; if (resolveToken(normApos(m[0]).toLowerCase())) hit++; }
+    }
+    return { tot, hit, rate: +(hit / tot * 100).toFixed(1) };
+  })()`);
+  ok(`点词覆盖率 ${cov.rate}%（${cov.hit}/${cov.tot}）—— 掉到 90% 以下说明某一层又断了`, cov.rate >= 90);
+
+  /* ---- 语境的长度控制：短句整句留，长句只留目标词周围 ---- */
+  const clip = ctx(`(() => {
+    const long = "After several difficult months, the company finally adopted a completely different strategy to attract younger customers who were increasingly moving to competing platforms.";
+    return {
+      long: clipContext(long, "strategy"),
+      short: clipContext("She was reluctant to accept the offer.", "reluctant"),
+      miss: clipContext(long, "zzzz"),
+      empty: clipContext("", "x"),
+      hasTail: clipContext(long, "strategy").includes("competing platforms"),
+    };
+  })()`);
+  ok('语境截取：长句裁到目标词前后各 7 词，两端加省略号',
+    clip.long.startsWith('…') && clip.long.endsWith('…') && clip.long.includes('strategy') && !clip.hasTail);
+  ok('语境截取：短句整句保留（不裁）', clip.short === 'She was reluctant to accept the offer.');
+  ok('语境截取：目标词找不到时整句返回（宁可多留，不返回半句）', clip.miss.length > 120);
+  ok('语境截取：空句返回空串（不抛错）', clip.empty === '');
+
+  /* ---- 查词卡：本句含义 + 原词形 + 不再有统计数字 ---- */
   const sheet = ctx(`(() => {
-    const k = WORDS[0].word;
-    S.known = []; S.notebook = [];
+    const k = CORE_WORDS.filter(w => w.word.length >= 4)[0].word;
+    S.known = []; S.notebook = []; sheetMore = false;
     const plain = renderSheet(k, { en: "She was " + k + " to accept.", cn: "她不情愿接受。" });
     const noCtx = renderSheet(k);
-    S.notebook = [{ word: k, addedAt: 1, articleId: "", srcTitle: "", firstCtx: { en: "Old " + k + ".", cn: "旧的。" },
-      seen: 4, lookups: 3, lastSeenAt: 1, articles: ["a", "b"] }];
+    const infl = renderSheet(k, null, k + "s");
+    S.notebook = [{ word: k, addedAt: 1, articleId: "", articleTitle: "", context: { en: "A " + k + ".", cn: "甲。" } }];
     const nb = renderSheet(k, { en: "A " + k + ".", cn: "甲。" });
-    const more = (() => { sheetMore = true; const h = renderSheet(k, { en: "A " + k + ".", cn: "甲。" }); sheetMore = false; return h; })();
     S.known = []; S.notebook = [];
-    return { plain, noCtx, nb, more };
+    return { k, plain, noCtx, infl, nb };
   })()`);
   ok('查词卡显示「本句含义」（原句 + 译文都在）',
     sheet.plain.includes('本句含义') && sheet.plain.includes('to accept') && sheet.plain.includes('她不情愿接受'));
   ok('没有上下文的查词（词汇页/图注）不渲染空语境块', !sheet.noCtx.includes('本句含义'));
-  ok(`生词卡显示次数（遇到 4 次 / 查询 3 次 / 来自 2 篇）`,
-    sheet.nb.includes('遇到 4 次') && sheet.nb.includes('查询 3 次') && sheet.nb.includes('来自 2 篇'));
-  ok('生词卡主按钮换成「我已认识」，不再是「加入生词本」',
+  ok('变形词查词：标题显示**原词形**，原形只作副行补充（标题不换成词元）',
+    sheet.infl.includes('>' + sheet.k + 's<') && sheet.infl.includes('原形 ' + sheet.k));
+  ok('生词卡不再出现任何统计数字（遇到 / 查询 / 来自）',
+    !/遇到 \d+ 次|查询 \d+ 次|来自 \d+ 篇/.test(sheet.nb));
+  ok('生词卡主按钮是「我已认识」，不再是「加入生词本」',
     sheet.nb.includes('我已认识') && !sheet.nb.includes('加入生词本'));
-  ok('展开卡给出「第一次遇到」的多语境原句',
-    sheet.more.includes('第一次遇到') && /Old <mark class="w-hl">/.test(sheet.more));
 
-  /* ---- 高亮开关 ---- */
+  /* ---- 高亮四档 ---- */
   /* renderRead 要读 activeArticle：本段排在 [R]（阅读页设置）之前，那边才设它，这里先补上 */
   ctx('activeArticle = ARTICLES[0]; view = { name: "read" };');
-  const kwOff = ctx(`(() => {
-    S.kwHighlight = false; const off = renderRead();
-    S.kwHighlight = true;  const on = renderRead();
-    return { off: off.includes('no-kw'), on: on.includes('no-kw') };
+  const modes = ctx(`(() => {
+    const core = CORE_WORDS.filter(w => w.word.length >= 4 && !STOPWORD_HIGHLIGHT.has(w.word))[0].word;
+    /* 中学词里有 1295 个本来就在四级大纲内（四级考纲含中学词汇），拿那些词测
+       「cet4 档不亮」必然假红 —— 必须挑**大纲之外**的中学词，它才是 all 档
+       相对 cet4 档真正多出来的那部分。 */
+    const mid = MID_WORDS.filter(w => w.word.length >= 4 && !STOPWORD_HIGHLIGHT.has(w.word)
+      && !CET4_SET.has(w.word.toLowerCase()))[0].word;
+    /* 「仅大纲独有」的词 = 核心档不亮、全部四级档亮 —— 两档拉开层次的直接证据 */
+    const extra = (typeof WORDS_CET4 === "undefined" ? [] : WORDS_CET4)
+      .filter(w => !WORD_BY.has(w) && w.length >= 4)[0] || "";
+    S.known = []; S.notebook = [];
+    const lit = (w, m) => { S.highlightMode = m; return /class="word kw"/.test(highlightEn("The " + w + " end.")); };
+    const r = {
+      core, mid, extra,
+      offCore: lit(core, "off"), coreCore: lit(core, "core"), cet4Core: lit(core, "cet4"), allCore: lit(core, "all"),
+      coreExtra: extra ? lit(extra, "core") : null, cet4Extra: extra ? lit(extra, "cet4") : null,
+      cet4Mid: lit(mid, "cet4"), allMid: lit(mid, "all"),
+      offRead: (S.highlightMode = "off", renderRead().includes("no-kw")),
+      allRead: (S.highlightMode = "all", renderRead().includes("no-kw")),
+    };
+    S.highlightMode = "core";
+    return r;
   })()`);
-  ok('阅读页按 S.kwHighlight 决定是否挂 .no-kw', kwOff.off === true && kwOff.on === false);
-  ok('样式：关高亮后生词色仍在（只关四级词色，不关自己收藏的词）',
-    /\.read-scroll\.no-kw \.kw\.wb/.test(css));
-  ok('样式：生词色用琥珀 token，不是硬编码色值',
-    /\.kw\.wb\s*\{[^}]*var\(--amber\)/.test(css) && /\.kw\.wb\.rep::after/.test(css));
+  ok('档位 off：核心词也不标色', modes.offCore === false);
+  ok('档位 core：核心词标色（默认档）', modes.coreCore === true);
+  ok('档位 cet4 / all：都包含核心词（往上调不会丢掉核心层）', modes.cet4Core && modes.allCore);
+  ok(`档位 cet4 比 core 更宽：仅大纲独有的词（${modes.extra}）core 下不亮、cet4 下亮`,
+    modes.extra ? (modes.coreExtra === false && modes.cet4Extra === true) : true);
+  ok(`档位 all 比 cet4 更宽：中学词（${modes.mid}）cet4 下不亮、all 下亮`,
+    modes.cet4Mid === false && modes.allMid === true);
+  ok('阅读页按档位挂 .no-kw（只有 off 档挂）', modes.offRead === true && modes.allRead === false);
+  /* 这两条盯的是 CSS 选择器与 JS 三态的对齐 —— 它踩过一次真坑：
+     生词元素只有 word + wb（wb 与 kw 在 JS 侧互斥），选择器若写成 .kw.wb
+     就一条都匹配不上，生词在全站**一声不响地**失去颜色。守卫必须按实际类名断言。 */
+  ok('样式：.word 基类只给可点手感，不给正文染色（97% 的 token 都可点，染色会毁掉阅读）',
+    /\.word\s*\{[^}]*cursor:\s*pointer/.test(css) && !/\.word\s*\{[^}]*color:\s*var\(--brand\)/.test(css));
+  ok('样式：生词选择器写成 .word.wb（不是 .kw.wb —— 生词态不带 .kw 类）',
+    /\.word\.wb\s*\{[^}]*var\(--amber\)/.test(cssRules) && !/\.kw\.wb/.test(cssRules));
+  ok('样式：关高亮后生词色仍在（只关目标词色，不关自己收藏的词）',
+    /\.read-scroll\.no-kw \.word\.wb/.test(css));
 
-  ctx('S.known.length = 0; S.notebook.length = 0; S.kwHighlight = true; sheetMore = false;');
+  /* ---- 词汇页：两个 Tab，没有「重点学习」这类伪分级 ---- */
+  const nbPage = ctx(`(() => {
+    const w1 = CORE_WORDS[0].word, w2 = CORE_WORDS[1].word;
+    S.known = []; S.notebook = [
+      { word: w1, addedAt: 2, articleId: "", articleTitle: "", context: { en: "A " + w1 + ".", cn: "甲。" } },
+      { word: w2, addedAt: 1, articleId: "", articleTitle: "", context: null },
+    ];
+    vocabTab = "new"; const news = renderNotebook();
+    S.known = [w2]; const withKnown = renderNotebook();
+    vocabTab = "known"; const knownT = renderNotebook();
+    vocabTab = "new"; S.known = []; S.notebook = [];
+    return { w1, w2, news, withKnown, knownT };
+  })()`);
+  ok('词汇页：顶部只有「生词 / 已认识」两个 Tab，各带数量',
+    /data-tab="new"[^>]*>生词 <b>2<\/b>/.test(nbPage.news) && /data-tab="known"[^>]*>已认识 <b>0<\/b>/.test(nbPage.news));
+  ok('词汇页：没有「需要重点学习」「今日新增」这类伪分级',
+    !/需要重点学习/.test(nbPage.news) && !/今日新增/.test(nbPage.news));
+  ok('词汇页：标为已认识的词落进「已认识」Tab',
+    /data-tab="known"[^>]*>已认识 <b>1<\/b>/.test(nbPage.withKnown) && nbPage.knownT.includes(nbPage.w2));
+  ok('词汇页：生词卡带语境原句，且不显示次数',
+    nbPage.news.includes('甲。') && !/遇到 \d+ 次|查询 \d+ 次/.test(nbPage.news));
+
+  ctx('S.known.length = 0; S.notebook.length = 0; S.highlightMode = "core"; sheetMore = false; vocabTab = "new"; activeArticle = null; view = { name: "home" };');
 }
 
 

@@ -496,25 +496,23 @@ body {
  * 正文字号/行高/左右留白统一由 .read-scroll 上的 CSS 变量控制（见「阅读：排版基础」段），
  * 旧的一套 .para/.en 尺寸（15/17/19px）已随逐句分行一起删掉，避免两套数字打架。 */
 
-.kw {
-  color: var(--brand);
-  font-weight: 600;
+/* 正文里所有能点开的词共用 .word 基类：它**只**表示「可点」，视觉上与正文完全一致
+ * —— 一篇文章 97% 的 token 都可点，给它们任何颜色或下划线都会把正文变成链接页。
+ * 只在悬停 / 按压时给一点反馈，让手指知道碰到了词。 */
+.word {
   cursor: pointer;
   border-radius: 4px;
   padding: 0 1px;
   transition: background .15s;
+  -webkit-tap-highlight-color: transparent;
 }
-.kw:hover { background: var(--brand-soft); }
-.kw.on { background: var(--brand); color: #fff; }
+.word:hover, .word:active { background: var(--brand-soft); }
 
-/* 点词层普通词（非学习词）：无持久标色，只在按压/悬停时给反馈 */
-.tw {
-  cursor: pointer;
-  border-radius: 4px;
-  padding: 0 1px;
-  transition: background .15s;
-}
-.tw:hover, .tw:active { background: var(--brand-soft); }
+/* 高亮态（当前档位的目标词）：紫色字 + 加粗。
+ * cursor / padding / hover 一律由 .word 提供，这里只写「染色」这一件事 ——
+ * 同一个效果在两条规则里各写一遍，改一处漏一处是迟早的事。 */
+.kw { color: var(--brand); font-weight: 600; }
+.kw.on { background: var(--brand); color: #fff; }
 
 .toolbar {
   display: flex;
@@ -917,6 +915,10 @@ body {
   transition: background .15s, color .15s, border-color .15s;
 }
 .rd-set .rd-seg.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
+/* 词汇高亮是四档（关闭 / 四级核心 / 全部四级 / 四级+基础），比常见的两三个 seg 挤得多
+   —— 压一档字号与高度，让四个标签都完整显示、不换行、不被截断 */
+.rd-set .rd-segs.four { gap: 5px; }
+.rd-set .rd-segs.four .rd-seg { height: 36px; font-size: 12px; border-radius: 10px; white-space: nowrap; }
 
 /* ---------- 排序面板 ---------- */
 .sort-opt {
@@ -1322,69 +1324,65 @@ body {
 .fab-bar { transition: opacity .25s, transform .25s; }
 .fab-bar.hide { opacity: 0; transform: translateY(18px); pointer-events: none; }
 
-/* ---------- 词汇学习闭环（2026-09-19） ----------
- * 正文里三种「被标出来的词」，层次靠视觉重量拉开，不靠颜色数量：
- *   四级词  .kw       紫色字，加粗 —— 考试会考
- *   生词    .kw.wb    琥珀色块 —— 我不会（自己收藏的）
- *   已掌握  .kw.known 灰色常规 —— 认识了
- * 一篇文章 30% 的字都是彩色会严重干扰阅读，所以只有「自己收藏的词」才配底色；
- * 其余一律只用颜色不用色块。已掌握与生词在 JS 侧互斥（known 优先），
- * 同一个 span 不会同时带 .known 和 .wb，这里不必再写特异性压制。 */
-.kw.wb {
+/* ---------- 正文词汇标示（2026-09-19 收紧后） ----------
+ * 三个状态，层次靠视觉重量拉开，不靠颜色数量：
+ *   高亮词  .word.kw     紫色字，加粗 —— 当前高亮档位里的目标词（考试会考）
+ *   生词    .word.wb     琥珀色块 —— 我不会（自己收藏的）
+ *   已认识  .word.known  灰色常规 —— 认识了
+ * 一篇文章三成字都染色会严重干扰阅读，所以只有「自己收藏的词」才配底色，
+ * 其余一律只用颜色。
+ *
+ * ⚠️ 选择器写 .word.wb 而不是 .kw.wb —— 三态在 JS 侧互斥（known > wb > kw），
+ * 生词的元素只带 word + wb，**没有** kw 类，写成 .kw.wb 会一条都匹配不上。
+ * 2026-09-19 之前的 .kw.wb 之所以看着有效，是因为那时生词也挂了 .kw。 */
+.word.wb {
   color: var(--amber);
   background: var(--amber-bg);
   font-weight: 700;
 }
-/* 反复遇到（本篇出现 ≥2 次）的生词点一个小圆点：它提示的不是「这词难」，
-   而是「你已经见过好几次了」—— 比单纯变色多一层信息。 */
-.kw.wb.rep::after {
-  content: "";
-  display: inline-block;
-  width: 4px; height: 4px; border-radius: 50%;
-  background: var(--amber);
-  margin-left: 2px;
-  vertical-align: super;
-}
-/* 关掉四级词高亮：正文回到普通文本 —— 但**生词色保留**。
- * 生词是读者自己一个个收进来的，那是「我的标记」，不该被一个开关一起抹掉；
+/* 关闭高亮档：正文回到普通文本 —— 但**生词色保留**。
+ * 生词是读者自己一个个收进来的，那是「我的标记」，不该被一个总开关一起抹掉；
  * 会干扰阅读的是满篇紫字，不是自己收的那几个词。 */
 .read-scroll.no-kw .kw { color: inherit; font-weight: inherit; }
-.read-scroll.no-kw .kw.wb { color: var(--amber); background: var(--amber-bg); font-weight: 700; }
-.read-scroll.no-kw .kw.wb.rep::after { display: inline-block; }
+.read-scroll.no-kw .word.wb { color: var(--amber); background: var(--amber-bg); font-weight: 700; }
 
 /* 查词卡 / 词汇页里的「本句含义」块：把词典释义落到具体那句话上 */
-.ctx, .ctx-first {
+.ctx {
   display: flex; flex-direction: column; gap: 4px;
   background: var(--card-2); border-radius: var(--r-sm);
   padding: 10px 12px;
 }
-.ctx-first { margin-top: 6px; }
 .ctx-lab {
   font-family: var(--font-cn); font-size: 11px; font-weight: 600;
   color: var(--text-3); letter-spacing: .3px;
 }
 .ctx-en { font-family: var(--font-en); font-size: 13.5px; line-height: 20px; color: var(--text-1); }
 .ctx-cn { font-size: 12px; line-height: 19px; color: var(--text-2); }
-.ctx-meta { font-family: var(--font-cn); font-size: 11px; font-weight: 600; color: var(--amber); }
 /* 句中目标词：与例句库共用 .w-hl，但语境块里用琥珀色与生词色呼应 */
-.ctx .w-hl, .ctx-first .w-hl, .nb-ctx .w-hl {
+.ctx .w-hl, .nb-ctx .w-hl {
   background: none; color: var(--amber); font-weight: 700;
 }
 
-/* 词汇页：今日概览三格 */
-.vocab-stats {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
-  border: 1px solid var(--border); border-radius: var(--r-md);
-  background: var(--card); padding: 14px 10px; box-shadow: var(--shadow-1);
+/* 词汇页：两个 Tab（生词 / 已认识）。
+ * 刻意不做「需要重点学习」这类分级 —— 遇到过几次、查过几次都只是行为的副产品，
+ * 不构成任何可靠的掌握度证据，硬造一个榜单只会误导。 */
+.vocab-tabs { display: flex; gap: 8px; }
+.vt {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-family: var(--font-cn); font-size: 13px; font-weight: 600;
+  color: var(--text-2); background: var(--card);
+  border: 1px solid var(--border); border-radius: var(--r-sm);
+  padding: 10px 12px; cursor: pointer; transition: all .15s;
 }
-.vs-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-.vs-cell b { font-family: var(--font-num); font-size: 21px; font-weight: 700; color: var(--text-1); }
-.vs-cell i { font-family: var(--font-cn); font-style: normal; font-size: 11px; color: var(--text-3); }
+.vt b { font-family: var(--font-num); font-size: 13px; font-weight: 700; color: var(--text-3); }
+.vt.on { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); }
+.vt.on b { color: var(--brand); }
 
-/* 词汇页：分组（需要重点学习 / 学习中 / 已掌握） */
-.nb-group { display: flex; flex-direction: column; gap: 8px; }
-.nb-group-head { display: flex; align-items: baseline; justify-content: space-between; }
-.nb-group-title { font-family: var(--font-cn); font-size: 13px; font-weight: 600; color: var(--text-1); }
+/* 阅读设置里那行档位说明：四个档位选哪个有实际差别，用户得看得懂区别 */
+.rd-hint {
+  font-family: var(--font-cn); font-size: 11px; line-height: 17px;
+  color: var(--text-3); margin-top: -2px;
+}
 
 /* 生词条目里的原句：复习的锚点，不是装饰 —— 所以字号跟正文保持可读性 */
 .nb-ctx {
@@ -1394,11 +1392,6 @@ body {
 .nb-ctx-en { font-family: var(--font-en); font-size: 12.5px; line-height: 18px; color: var(--text-1); }
 .nb-ctx-cn { font-size: 11.5px; line-height: 17px; color: var(--text-2); }
 
-.nb-stats { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
-.nb-stats span {
-  font-family: var(--font-cn); font-size: 11px; color: var(--text-3);
-  background: var(--bg); border-radius: 999px; padding: 2px 7px;
-}
 .nb-known-tag {
   font-family: var(--font-cn); font-size: 10.5px; font-weight: 600;
   color: var(--green); background: var(--green-bg);
