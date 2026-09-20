@@ -31,6 +31,7 @@ import {
   getToken, fetchRemoteTree, fetchBlob, listLocalPaths, blobSha,
   evalArticleData, referencedCovers, classifyRemoteOnly, ARTICLE_DATA_FILES,
 } from "./lib-tree.mjs";
+import { readDecl } from "./lib-text.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const arg = (name, dflt) => {
@@ -72,11 +73,10 @@ const fail = (msg, extra, batchDir, dropBatch = false) => {
 };
 
 /* ---------- 1. 计划 ---------- */
-const src = fs.readFileSync(EXTRA, "utf8");
-const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-if (!m) fail("extra 文件结构异常，无法解析 ARTICLES_EXTRA");
+const decl = readDecl(EXTRA, "ARTICLES_EXTRA");
+if (!decl) fail("extra 文件结构异常，无法解析 ARTICLES_EXTRA");
 let list;
-try { list = JSON.parse(m[1]); } catch (e) { fail("ARTICLES_EXTRA 不是合法 JSON：" + e.message); }
+try { list = decl.value; } catch (e) { fail("ARTICLES_EXTRA 不是合法 JSON：" + e.message); }
 const titlePairs = [["“", "”"], ["「", "」"], ["『", "』"], ["（", "）"]];
 for (const a of list) {
   const title = String(a.titleZh || "");
@@ -96,13 +96,16 @@ const versionSet = new Set(assetVersions);
 const swText = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8");
 const swVersion = swText.match(/wordlens-cache-v(\d+)/)?.[1] || "";
 const appText = fs.readFileSync(path.join(ROOT, "assets", "app.js"), "utf8");
-const warmVersion = appText.match(/caches\.open\("wordlens-cache-v(\d+)"\)/)?.[1] || "";
+/* app.js 不再按字面量开缓存（预热已交给 sw.js 的 caches.open），它承载版本号的地方是
+   ASSET_VERSION 的回退默认值 `assetVersion || "N"` —— 缓存名与它脱钩会让离线预热读到旧壳。 */
+const appVersion = appText.match(/assetVersion \|\| "(\d+)"/)?.[1] || "";
 const lazyVersion = appText.match(/data-tapdict\.js\?v=([^`"']+)/)?.[1] || "";
 const configText = fs.readFileSync(path.join(ROOT, "assets", "data-config.js"), "utf8");
 const configVersion = configText.match(/assetVersion:\s*["'](\d+)["']/)?.[1] || "";
-if (versionSet.size > 1 || (versionSet.size && (!swVersion || !warmVersion || !versionSet.has(swVersion)
-  || !configVersion || !versionSet.has(configVersion) || (lazyVersion && !lazyVersion.includes("ASSET_VERSION"))))) {
-  fail(`资源版本不一致：index=${[...versionSet].join(",")} sw=${swVersion || "?"} warm=${warmVersion || "?"}`);
+if (versionSet.size > 1 || (versionSet.size && (!swVersion || !appVersion || !versionSet.has(swVersion)
+  || !versionSet.has(appVersion) || !configVersion || !versionSet.has(configVersion)
+  || (lazyVersion && !lazyVersion.includes("ASSET_VERSION"))))) {
+  fail(`资源版本不一致：index=${[...versionSet].join(",")} sw=${swVersion || "?"} app=${appVersion || "?"}`);
 }
 
 const isPinned = a => a.pin === true;
@@ -259,20 +262,21 @@ const ORPHAN_DIR = path.join(dir, "orphans");
 fs.rmSync(AFTER_DIR, { recursive: true, force: true });
 fs.mkdirSync(AFTER_DIR, { recursive: true });
 if (droppedIds.length) {
-  const head = src.slice(0, m.index).replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`);
+  /* 只含 kept 的 extra 写进 after/ 副本，保留文件头尾（decl.parts = {head, body, tail}）。
+   * 顺手把头注释里的「共 N 篇」同步成瘦身后的实际篇数，免得注释与数据对不上。 */
+  const head = decl.parts.head.replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`);
   fs.writeFileSync(path.join(AFTER_DIR, "data-articles-extra.js"),
-    head + "const ARTICLES_EXTRA = " + JSON.stringify(kept, null, 2) + m[2] + src.slice(m.index + m[0].length));
+    head + JSON.stringify(kept, null, 2) + decl.parts.tail);
 } else {
   fs.copyFileSync(EXTRA, path.join(AFTER_DIR, "data-articles-extra.js"));
 }
 console.log(`暂存 → .bak/releases/${id}/after/`);
 
 /* ---------- 3. 校验（只看暂存副本） ---------- */
-const stagedSrc = fs.readFileSync(path.join(AFTER_DIR, "data-articles-extra.js"), "utf8");
-const sm = stagedSrc.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-if (!sm) fail("暂存副本解析失败", null, dir);
+const stagedDecl = readDecl(path.join(AFTER_DIR, "data-articles-extra.js"), "ARTICLES_EXTRA");
+if (!stagedDecl) fail("暂存副本解析失败", null, dir);
 let staged;
-try { staged = JSON.parse(sm[1]); } catch (e) { fail("暂存副本不是合法 JSON：" + e.message, null, dir, !reused); }
+try { staged = stagedDecl.value; } catch (e) { fail("暂存副本不是合法 JSON：" + e.message, null, dir, !reused); }
 
 const errors = [];
 const seenId = new Set();

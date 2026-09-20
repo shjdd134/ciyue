@@ -95,6 +95,16 @@ self.addEventListener("activate", e => {
   );
 });
 
+self.addEventListener("message", e => {
+  if (e.data?.type === "cache-urls" && Array.isArray(e.data.urls)) {
+    e.waitUntil(
+      caches.open(CACHE).then(c =>
+        Promise.allSettled(e.data.urls.map(u => c.add(new URL(u, location.href).href)))
+      )
+    );
+  }
+});
+
 self.addEventListener("fetch", e => {
   const req = e.request;
   if (req.method !== "GET") return;

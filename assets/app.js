@@ -2,7 +2,7 @@
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
 /* 数据层已经清洗过一遍，这里是最后一道闸：万一个别条目仍带机器翻译令牌
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
@@ -75,13 +75,7 @@ const CN_MODES = ["off", "tap", "all"];
  * **段距 18px 不动**（句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过）。
  *
  * 交互只有一种：**点句出译文 / 再点收起**。段级「显示本段翻译」按钮已按用户要求删除 ——
- * 一句一行之后每段尾巴再挂一行小字，是把段落重新切碎，而且和点句是重复入口。
- *
- * PARA_FLOW_OFF 是**应急退出名单**：默认全站生效，把某篇 id 加进来即退回连排。
- * 用黑名单而不是白名单，是因为白名单每抓一篇新文章都要手工补一次 —— 忘了补就是
- * 「新文章排版跟别的不一样」，这种静默不一致没有守卫能替你发现。
- * 句子在 DOM 里仍是内联 <span>，只是 CSS 改显示方式，所以这条不触碰结构断言。 */
-const PARA_FLOW_OFF = new Set([]);
+ * 一句一行之后每段尾巴再挂一行小字，是把段落重新切碎，而且和点句是重复入口。 */
 const defaultState = {
   theme: "light",
   notebook: [],     // 生词本（阅读加入）
@@ -95,7 +89,8 @@ const defaultState = {
      默认就全染会毁掉阅读。关掉任何一档都只影响标色，点词查义照常。 */
   highlightMode: "core",
   accent: "en-US",   // 朗读口音：en-US 美音 | en-GB 英音（en-GB 不是所有系统都装了语音）
-  read: [],         // 累计读过（含重复）
+  read: [],         // 累计读过（去重）
+  readCount: {},    // { articleId: number } 每篇打卡次数
   finished: [],     // 已打卡的去重列表
   known: [],        // 标记「认识」的词：文章里不再高亮
   readDays: [],     // 有阅读行为的日期 YYYY-MM-DD，用于算连续阅读天数
@@ -167,6 +162,19 @@ function normalizeState(raw) {
   next.notebook = next.notebook.filter(it => (seenWord.has(it.word) ? false : (seenWord.add(it.word), true)));
   next.known = Array.isArray(next.known) ? next.known.slice() : [];
   next.read = Array.isArray(next.read) ? next.read.slice() : [];
+  next.readCount = (next.readCount && typeof next.readCount === "object") ? Object.assign({}, next.readCount) : {};
+  /* 迁移：旧版 S.read 含重复，去重并把计数写入 readCount */
+  {
+    const counts = {};
+    for (const id of next.read) counts[id] = (counts[id] || 0) + 1;
+    const deduped = [...new Set(next.read)];
+    if (deduped.length < next.read.length) {
+      next.read = deduped;
+      for (const [id, c] of Object.entries(counts)) {
+        next.readCount[id] = Math.max(next.readCount[id] || 0, c);
+      }
+    }
+  }
   next.finished = Array.isArray(next.finished) ? next.finished.slice() : [];
   /* 每篇的续读位置：老版本没有这个字段，缺了就补空表（旧数据仍靠 lastRead.y 兜底） */
   next.readPos = (next.readPos && typeof next.readPos === "object") ? Object.assign({}, next.readPos) : {};
@@ -1068,10 +1076,14 @@ const srcName = a => String(a.source || "").split(" · ")[0];
 /* 相对时间：今天 / 昨天 / N 天前 / N 周前 */
 function fmtWhen(date) {
   if (!date) return "";
-  const t = Date.parse(`${date}T12:00:00`);
+  const todayBj = ymdTZ(new Date());
+  if (date === todayBj) return "今天";
+  const t = Date.parse(`${date}T12:00:00+08:00`);
   if (isNaN(t)) return date;
-  const days = Math.floor((Date.now() - t) / 86400000);
-  if (days <= 0) return "今天";
+  const bjNow = new Date();
+  const bjHour = +new Intl.DateTimeFormat("en-CA", { timeZone: TZ, hour: "numeric", hour12: false }).format(bjNow);
+  const refMs = Date.parse(`${todayBj}T${String(bjHour).padStart(2, "0")}:00:00+08:00`);
+  const days = Math.max(1, Math.round((refMs - t) / 86400000));
   if (days === 1) return "昨天";
   if (days < 7) return `${days} 天前`;
   if (days < 35) return `${Math.floor(days / 7)} 周前`;
@@ -1600,7 +1612,7 @@ function renderMe() {
 
       <button class="card row history-entry" data-act="read-history" aria-label="打开阅读记录">
         <span class="ic">${svg("book", 20)}</span>
-        <span class="col grow" style="gap:3px"><span class="h3">阅读记录</span><span class="muted">${historyItems().length} 篇读过的文章 · 查看每篇进度并继续阅读</span></span>
+        <span class="col grow" style="gap:3px"><span class="h3">阅读记录</span><span class="muted">${new Set([...Object.keys(S.readHistory || {}), ...Object.keys(S.readPos || {}), ...(S.read || []), ...(S.finished || [])]).size} 篇读过的文章 · 查看每篇进度并继续阅读</span></span>
         ${svg("arrow", 16)}
       </button>
 
@@ -1696,7 +1708,7 @@ function renderRead() {
   const looked = LOOKED[a.id] || 0;
   /* 本次会话读了多久（不是「今日累计」）；不足一分钟就如实显示，不再硬凑成 1 */
   const minsNow = Math.floor(readSecs / 60);
-  const readTimes = S.read.filter(x => x === a.id).length;
+  const readTimes = S.readCount[a.id] || 0;
   const fb = (S.articleFeedback || {})[a.id] || {};
   const nx = nextArticle(a);   // 同一来路列表里的下一篇
   /* 返回按钮写成具体去处，心里有数：返回时尚 / 返回发现 / 返回首页 */
@@ -1759,7 +1771,7 @@ function renderRead() {
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${fsCls}${PARA_FLOW_OFF.has(a.id) ? "" : " para-flow"}${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
+    <div class="view read-scroll ${fsCls} para-flow${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
@@ -2514,7 +2526,6 @@ function render() {
     }
   } else {
     if (readTimer) { clearInterval(readTimer); readTimer = null; }
-    window.removeEventListener("scroll", updateReadProgress);
   }
 
   if (view.name === "discover") {
@@ -2767,7 +2778,8 @@ document.addEventListener("click", e => {
          * 这里只把还没结算的零头补上 —— 不再 Math.max(1,…) 硬凑一分钟，
          * 也不再把「读了十分钟没打卡」的时长丢掉。 */
         const sec = flushReadTime();
-        S.read.push(id);
+        if (!S.read.includes(id)) S.read.push(id);
+        S.readCount[id] = (S.readCount[id] || 0) + 1;
         if (!S.finished.includes(id)) S.finished.push(id);
         S.readHistory = S.readHistory || {};
         if (S.readHistory[id]) S.readHistory[id].finished = true;
@@ -2878,7 +2890,20 @@ document.addEventListener("click", e => {
       const id = t.dataset.id;
       const art = ARTICLES.find(a => a.id === id);
       if (!art) { toast("文章已下线"); break; }
-      openArticle(art);
+      pushNav({ src: id });
+      activeArticle = art;
+      touchReadHistory(art.id);
+      readSecs = 0; flushedSecs = 0;
+      LOOKED[art.id] = 0;
+      resumeY = (S.lastRead && S.lastRead.id === art.id) ? (S.lastRead.y || 0) : 0;
+      const savedPos = (S.readPos || {})[art.id];
+      resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, off: savedPos.off || 0 } : null;
+      const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
+      S.lastRead = { id: art.id, y: resumeY, pct: savedPct, at: Date.now() };
+      save();
+      view = { name: "read" };
+      syncReadUrl(art.id);
+      render();
       break;
     }
     case "ask-reset":
@@ -2984,8 +3009,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v66");
-      await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
+      navigator.serviceWorker.controller?.postMessage({ type: "cache-urls", urls: [...urls] });
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };
   window.addEventListener("load", () => {

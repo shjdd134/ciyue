@@ -10,6 +10,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { readDecl } from "./lib-text.mjs";
 import { spawnSync } from "node:child_process";
 import { createBatch, restoreBatch, pruneBatches } from "./lib-release.mjs";
 
@@ -27,9 +28,8 @@ console.log(`批次 ${batch.id} 已建立：数据文件 ${batch.meta.files.leng
 
 function extraIds() {
   try {
-    const src = fs.readFileSync(path.join(ASSETS, "data-articles-extra.js"), "utf8");
-    const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-    return m ? JSON.parse(m[1]).map(a => a.id) : [];
+    const decl = readDecl(path.join(ASSETS, "data-articles-extra.js"), "ARTICLES_EXTRA");
+    return decl ? decl.value.map(a => a.id) : [];
   } catch { return []; }
 }
 const idsBefore = new Set(extraIds());

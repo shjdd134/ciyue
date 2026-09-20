@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { decodeEntities } from './lib-mt.mjs';
+import { readDecl, writeDecl } from './lib-text.mjs';
 import { splitZhSentences } from './lib-tribune.mjs';
 import { splitOriginalSentences } from './lib-people.mjs';
 import { alignBlocks, buildParagraphsFromBlocks } from './lib-align.mjs';
@@ -435,10 +436,9 @@ if (mode === 'extract') {
   }
 } else if (mode === 'inject') {
   const file = path.join(root, 'assets', 'data-articles-extra.js');
-  const src = fs.readFileSync(file, 'utf8');
-  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-  if (!m) throw new Error('data-articles-extra.js 里找不到 ARTICLES_EXTRA 声明');
-  const list = JSON.parse(m[2]);
+  const decl = readDecl(file, 'ARTICLES_EXTRA');
+  if (!decl) throw new Error('data-articles-extra.js 里找不到 ARTICLES_EXTRA 声明');
+  const list = decl.value;
   let added = 0, replaced = 0;
   for (const a of ARTICLES) {
     const built = JSON.parse(fs.readFileSync(path.join(OUT, 'built', a.id + '.json'), 'utf8'));
@@ -458,7 +458,6 @@ if (mode === 'extract') {
     const i = list.findIndex(x => x.id === a.id);
     if (i >= 0) { list[i] = entry; replaced++; } else { list.push(entry); added++; }
   }
-  const out = src.slice(0, m.index) + m[1] + JSON.stringify(list, null, 1) + m[3] + src.slice(m.index + m[0].length);
-  fs.writeFileSync(file, out);
+  writeDecl(file, 'ARTICLES_EXTRA', list);
   console.log(`inject 完成：新增 ${added}，替换 ${replaced}，总计 ${list.length} 篇`);
 }

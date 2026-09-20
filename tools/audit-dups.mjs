@@ -22,6 +22,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import { readDecl } from "./lib-text.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const argv = process.argv.slice(2);
@@ -45,10 +46,9 @@ export const flatten = arts => {
 };
 
 export function readArts(file = FILE) {
-  const src = fs.readFileSync(file, "utf8");
-  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-  if (!m) throw new Error(`${file} 里找不到 ARTICLES_EXTRA 数组`);
-  return JSON.parse(m[2]);
+  const decl = readDecl(file, "ARTICLES_EXTRA");
+  if (!decl) throw new Error(`${file} 里找不到 ARTICLES_EXTRA 数组`);
+  return decl.value;
 }
 
 /** 返回违规组数组（空 = 通过） */

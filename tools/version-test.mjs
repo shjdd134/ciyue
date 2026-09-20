@@ -65,8 +65,8 @@ try {
   console.log("正样本（守卫必须「会过」，否则它可能只是永远报错）：");
   {
     const r = runCli("--check");
-    ok("五处一致时 exit 0", r.status === 0, `实际 exit ${r.status}`);
-    ok("输出含一致性结论", /五处一致/.test(r.text));
+    ok("四处一致时 exit 0", r.status === 0, `实际 exit ${r.status}`);
+    ok("输出含一致性结论", /四处一致/.test(r.text));
   }
 
   /* ---------- ② 负样本：逐处注入 ---------- */
@@ -74,7 +74,6 @@ try {
   const CASES = [
     { name: "sw.js 的 CACHE 常量", file: "sw.js", from: `const CACHE = "wordlens-cache-v${V}"`, to: `const CACHE = "wordlens-cache-v${BROKEN}"`, expect: "sw.js  CACHE 常量" },
     { name: "sw.js 的头注释", file: "sw.js", from: `缓存策略（v${V}`, to: `缓存策略（v${BROKEN}`, expect: "sw.js  头注释" },
-    { name: "app.js 的 caches.open", file: "assets/app.js", from: `caches.open("wordlens-cache-v${V}")`, to: `caches.open("wordlens-cache-v${BROKEN}")`, expect: "app.js caches.open" },
     { name: "app.js 的回退默认值", file: "assets/app.js", from: `assetVersion || "${V}"`, to: `assetVersion || "${BROKEN}"`, expect: "app.js 回退默认值" },
     { name: "index.html 的单处 ?v=", file: "index.html", from: `?v=${V}`, to: `?v=${BROKEN}`, expect: "index.html 静态资源" },
     { name: "真源 data-config.js（改歪真源 → 其余各处都该报不一致）", file: "assets/data-config.js", from: `assetVersion: "${V}"`, to: `assetVersion: "${BROKEN}"`, expect: "不一致" },

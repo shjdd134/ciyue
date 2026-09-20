@@ -18,6 +18,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { createBatch, restoreBatch, listBatches, latestBatch, latestDangling, readPublished, writePublished, SNAPSHOT_FILES, SNAPSHOT_COVERS } from "./lib-release.mjs";
+import { readDecl, writeDecl } from "./lib-text.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ASSETS = path.join(ROOT, "assets");
@@ -74,10 +75,8 @@ function restoreSafe() {
   }
   fs.copyFileSync(path.join(SAFE, "sw.js"), path.join(ROOT, "sw.js"));
 }
-const readExtra = () => {
-  const m = fs.readFileSync(EXTRA, "utf8").match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-  return JSON.parse(m[1]);
-};
+/* readDecl 返回描述符 { src, parts, value }，数组在 .value（与 publish.mjs 口径一致）。 */
+const readExtra = () => readDecl(EXTRA, "ARTICLES_EXTRA").value;
 /* 一律加 --no-remote：release-test 盯的是本地发布管线，而远端对账要联网拉真实远端树，
  * 既让测试依赖网络，又可能真的往 delete[] 里塞项 —— 那不是这个测试该管的事。
  * 远端对账本身由 tools/remote-sweep-test.mjs 负责。
@@ -225,8 +224,7 @@ try {
   }
   const pinned = [...byCat.values()];
   const tagged = list.map(a => pinned.includes(a) ? { ...a, pin: true } : a);
-  fs.writeFileSync(EXTRA, fs.readFileSync(EXTRA, "utf8").replace(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/,
-    (_, __, semi) => "const ARTICLES_EXTRA = " + JSON.stringify(tagged, null, 2) + semi));
+  writeDecl(EXTRA, "ARTICLES_EXTRA", tagged);
 
   const fpBeforeDry = fingerprint();
   const dry = runPublish(["--dry", "--per-cat", "1", "--evergreen-per-cat", "1"]);
@@ -246,9 +244,10 @@ try {
   /* ===== C. 校验门禁 ===== */
   console.log("\n== C. 校验门禁（坏文章必须拦下） ==");
   const broken = readExtra();
-  broken.push({ id: "test-broken-article", cat: "明星", title: "broken", date: "2026-09-13", paras: [] });
-  fs.writeFileSync(EXTRA, fs.readFileSync(EXTRA, "utf8").replace(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/,
-    (_, __, semi) => "const ARTICLES_EXTRA = " + JSON.stringify(broken, null, 2) + semi));
+  /* titleZh 必须带汉字：否则会被 publish 计划阶段的「中文标题缺汉字」闸先拦下（那闸早于正文完整性闸），
+   * 报错信息就不含「校验未通过」——本段要测的是 paras 为空被完整性校验拦下。 */
+  broken.push({ id: "test-broken-article", cat: "明星", title: "broken", titleZh: "测试坏文章", date: "2026-09-13", paras: [] });
+  writeDecl(EXTRA, "ARTICLES_EXTRA", broken);
   const fpBeforeC = fingerprint();
 
   /* 显式建批次再复用，不给 publish 自建的机会：它自建的 label 是 publish，
@@ -279,8 +278,7 @@ try {
   {
     /* 先摘掉 C 段塞进去的坏文章，否则这次发布会因校验不过中止 */
     const clean = readExtra().filter(a => a.id !== "test-broken-article");
-    fs.writeFileSync(EXTRA, fs.readFileSync(EXTRA, "utf8").replace(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/,
-      (_, __, semi) => "const ARTICLES_EXTRA = " + JSON.stringify(clean, null, 2) + semi));
+    writeDecl(EXTRA, "ARTICLES_EXTRA", clean);
     /* 基线：文件=当前、文章只留前 3 篇（这样 added 才有非空可言） */
     seedPublished({ articles: clean.slice(0, 3).map(a => a.id) });
     /* 发布之前就把文件改好，且不改文章数、不触发淘汰 */

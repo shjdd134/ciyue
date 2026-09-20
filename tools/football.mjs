@@ -21,6 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
+import { readDecl, writeDecl } from './lib-text.mjs';
 import { fetchTribune, splitZhSentences } from './lib-tribune.mjs';
 import { alignBlocks, unitsFor, buildParagraphsFromBlocks, distributeBlock } from './lib-align.mjs';
 
@@ -509,16 +510,13 @@ function appEntry(art) {
 
 function cmdInject() {
   const file = path.join(ROOT, 'assets', 'data-articles-extra.js');
-  const s = fs.readFileSync(file, 'utf8');
-  /* 正则抄 ingest.mjs 的 ARTICLES_EXTRA 捕获组（§三 红线：改数据文件的正则必须同口径） */
-  const m = s.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-  if (!m) throw new Error('data-articles-extra.js 里找不到 ARTICLES_EXTRA 声明（文件结构变了？）');
-  const arr = JSON.parse(m[2]);
+  const decl = readDecl(file, 'ARTICLES_EXTRA');
+  if (!decl) throw new Error('data-articles-extra.js 里找不到 ARTICLES_EXTRA 声明（文件结构变了？）');
+  const arr = decl.value;
   const keep = arr.filter(a => !String(a.id).startsWith('fb-'));
   const injected = picked().map(a => appEntry(JSON.parse(fs.readFileSync(path.join(OUT, a.id + '.json'), 'utf8'))));
   const next = [...keep, ...injected];
-  const out = s.slice(0, m.index) + m[1] + JSON.stringify(next, null, 2) + m[3] + s.slice(m.index + m[0].length);
-  fs.writeFileSync(file, out);
+  writeDecl(file, 'ARTICLES_EXTRA', next);
   console.log(`已写入 ${file}：保留 ${keep.length} 篇 + 足球 ${injected.length} 篇 = ${next.length} 篇`);
   for (const a of injected) console.log(`  ${a.id}  ${a.paras.length} 段 / ${a.paras.reduce((n, p) => n + p.sentences.length, 0)} 句`);
 }

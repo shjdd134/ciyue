@@ -8,7 +8,7 @@ if (/\bdata-page-node-id\s*=/.test(html)) { console.error("index.html 仍有 dat
 const versions = [...html.matchAll(/(?:src|href)="[^"]+\?v=(\d+)"/g)].map(x => x[1]);
 const set = new Set(versions);
 const sw = fs.readFileSync(path.join(ROOT, "sw.js"), "utf8").match(/wordlens-cache-v(\d+)/)?.[1];
-const app = fs.readFileSync(path.join(ROOT, "assets", "app.js"), "utf8").match(/caches\.open\("wordlens-cache-v(\d+)"\)/)?.[1];
+const app = fs.readFileSync(path.join(ROOT, "assets", "app.js"), "utf8").match(/assetVersion \|\| "(\d+)"/)?.[1];
 const cfg = fs.readFileSync(path.join(ROOT, "assets", "data-config.js"), "utf8").match(/assetVersion:\s*["'](\d+)["']/)?.[1];
 const lazy = fs.readFileSync(path.join(ROOT, "assets", "app.js"), "utf8").match(/data-tapdict\.js\?v=([^`"']+)/)?.[1];
 const ok = set.size === 1 && set.has(sw) && set.has(app) && set.has(cfg) && String(lazy || "").includes("ASSET_VERSION") && !html.includes('data-tapdict.js?v=');

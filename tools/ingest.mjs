@@ -40,7 +40,7 @@ import path from "node:path";
 import { execFileSync } from "node:child_process";
 import vm from "node:vm";
 import {
-  cleanInvisible, cleanPara, cleanTitleZh, explainReject, goodPara, putTitleZh, splitSentences, tidySpace, wordCount,
+  cleanInvisible, cleanPara, cleanTitleZh, explainReject, goodPara, putTitleZh, readDecl, splitSentences, tidySpace, wordCount,
 } from "./lib-text.mjs";
 import { translateTexts } from "./lib-mt.mjs";
 import { applyGlossary } from "./lib-glossary.mjs";
@@ -759,9 +759,8 @@ const cleanTitle = t => stripTags(stripSourceSuffix(t));
 /* 读回上一次生成的 extra 文章（--append 时用于累积，避免新一批覆盖掉旧成果） */
 const readPrevExtra = () => {
   try {
-    const src = fs.readFileSync(OUT_FILE, "utf8");
-    const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-    return m ? JSON.parse(m[2]) : [];
+    const decl = readDecl(OUT_FILE, "ARTICLES_EXTRA");
+    return decl ? decl.value : [];
   } catch { return []; }
 };
 
@@ -1094,11 +1093,10 @@ function plannedImgPositions(blocks, maxSents, maxWords) {
 
 async function repairImages() {
   if (!fs.existsSync(OUT_FILE)) { console.log("还没有 data-articles-extra.js，先用 node tools/ingest.mjs 抓一批。"); return; }
-  const src = fs.readFileSync(OUT_FILE, "utf8");
-  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-  if (!m) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
+  const decl = readDecl(OUT_FILE, "ARTICLES_EXTRA");
+  if (!decl) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
 
-  const list = JSON.parse(m[2]);
+  const list = decl.value;
   fs.mkdirSync(COVERS_DIR, { recursive: true });
   const targets = REPAIR_CATS.size ? list.filter(a => REPAIR_CATS.has(a.cat)) : list;
   console.log(`修复配图：${targets.length} / ${list.length} 篇${REPAIR_CATS.size ? `（${[...REPAIR_CATS].join("、")}）` : ""}\n`);
@@ -1297,10 +1295,9 @@ function alignLcs(a, b) {
  * 人工修订都会让字段漂），只有共用一份口径才不会两边打架。这里保留调用点不变。 */
 
 async function refillMissing() {
-  const src = fs.readFileSync(OUT_FILE, "utf8");
-  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-  if (!m) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
-  const list = JSON.parse(m[2]);
+  const decl = readDecl(OUT_FILE, "ARTICLES_EXTRA");
+  if (!decl) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
+  const list = decl.value;
   const keys = String(val("refill-ids", "")).split(",").map(s => s.trim()).filter(Boolean);
   const targets = keys.length ? list.filter(a => keys.some(k => a.id.includes(k))) : list;
   console.log(`补正文：${targets.length} / ${list.length} 篇${DRY ? "（--dry，不写盘不翻译）" : ""}\n`);
@@ -1435,10 +1432,9 @@ async function refillMissing() {
  * 于是删除也有批次快照兜底、可回滚，并自动进「删除清单」交给远端一并清掉。
  */
 async function prune() {
-  const src = fs.readFileSync(OUT_FILE, "utf8");
-  const m = src.match(/(const ARTICLES_EXTRA = )(\[[\s\S]*?\n\])(;)/);
-  if (!m) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
-  const list = JSON.parse(m[2]);
+  const decl = readDecl(OUT_FILE, "ARTICLES_EXTRA");
+  if (!decl) { console.log("extra 文件里没找到 ARTICLES_EXTRA，跳过。"); return; }
+  const list = decl.value;
   const drop = new Map(DROP_LIST.map(d => [d.id, d.why]));
   const removed = list.filter(a => drop.has(a.id));
   const kept = list.filter(a => !drop.has(a.id));

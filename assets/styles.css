@@ -62,19 +62,11 @@ html, body {
   margin: 0;
   padding: 0;
   background: #ECEDF5;
-  /* 桌面展示时，壳外铺一层很淡的品牌光晕，页面不「死灰」 */
-  background-image:
-    radial-gradient(760px 500px at 16% -4%, rgba(108, 92, 231, .12), transparent 62%),
-    radial-gradient(680px 460px at 88% 104%, rgba(139, 124, 255, .10), transparent 62%);
-  background-attachment: fixed;
   font-family: var(--font-cn);
   color: var(--text);
 }
 [data-theme="dark"] body {
   background: #08080F;
-  background-image:
-    radial-gradient(760px 500px at 16% -4%, rgba(139, 124, 255, .08), transparent 62%),
-    radial-gradient(680px 460px at 88% 104%, rgba(108, 92, 231, .06), transparent 62%);
 }
 
 body {
@@ -647,6 +639,7 @@ body {
 }
 .read-cover.has-img { height: 140px; }
 .read-cover.has-img::after {
+  content: "";
   background: linear-gradient(180deg, rgba(0,0,0,.06) 0%, transparent 34%, rgba(0,0,0,.18) 66%, rgba(0,0,0,.62) 100%);
 }
 /* 有真图时，刊头字加一层暗底保证可读 */
@@ -676,7 +669,7 @@ body {
 /* 「轻触英文看译文」提示条 */
 .peek-hint {
   display: flex; align-items: center; gap: 6px;
-  font-size: 11px; color: var(--text-2);
+  font-size: 11px;
   background: var(--brand-soft); color: var(--brand);
   border-radius: 10px; padding: 7px 12px;
   align-self: flex-start; font-weight: 500;
@@ -1242,14 +1235,6 @@ body {
 }
 [data-theme="dark"] .toast { background: rgba(242, 242, 247, .95); color: #12121C; }
 
-/* ---------- 桌面说明 ---------- */
-.tip {
-  position: fixed;
-  right: 24px; top: 24px;
-  font-size: 12px; color: #8A8AA5;
-  text-align: right; line-height: 1.7;
-}
-
 @media (max-width: 560px) {
   body { padding: 0; align-items: stretch; }
   .phone {
@@ -1290,14 +1275,6 @@ body {
     box-shadow: 0 28px 70px -24px rgba(20, 22, 60, .42), 0 0 0 6px #171724;
   }
   .screen > .view { width: 100%; max-width: 1040px; align-self: center; }
-  /* ⚠️ 阅读页的宽屏版心**不在这里**。这里原本还有三行 ——
-       .read-hero, .read-body, .read-finish { max-width: 860px }
-       .read-body { padding-left: 42px; padding-right: 42px }
-       .read-hero { padding-left: 42px; padding-right: 42px }
-     它们全被 editorial.css 里同特异性的 `.read-hero, .read-body, .read-finish{max-width:800px}`
-     与 `.read-body{padding:0 var(--rd-pad)}` 盖掉（editorial 加载在后）—— **从未生效过**。
-     2026-09-20 实测 1000px 视口：版心 800px、bodyPadding `0px 30px`，确认是死代码，已删。
-     宽屏版心的唯一来源是 editorial.css 那一组；要改宽屏行长就改那边，别在这个文件里加。 */
   .read-cover { max-width: 860px; }
   .cats, .cats-wrap { max-width: 100%; }
 }

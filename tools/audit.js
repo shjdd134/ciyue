@@ -1077,7 +1077,10 @@ ok('选中的句子有可见的左边线（inset 阴影，不用 border-left 挤
  * ③ 是这套方案第一次翻车的方式（样张实测句距 0→20 与段距 18→30 **一起**拉，观感直接散掉），
  *   所以③防的是「两个量同时变大」，不是防那个具体数字 —— 段距本身 2026-09-20 已按
  *   计划调到 24px（只动段距、句距仍 10px，层次清楚）。见下方那条断言的注释。 */
-const flowOffIds = ctx('[...PARA_FLOW_OFF]');
+/* 全站硬铺后 app.js 无条件给每篇加 .para-flow，退组名单 PARA_FLOW_OFF 已删除。
+ * 这里对「缺失」容错（视为空名单＝全站生效），但若日后重新引入退组名单，
+ * 仍会校验它默认为空、且 id 真实。真正的覆盖保证在下面抽样渲染那几条。 */
+const flowOffIds = ctx('typeof PARA_FLOW_OFF === "undefined" ? [] : [...PARA_FLOW_OFF]');
 ok('正文「一句一行」的退出名单默认为空（＝全站生效），名单里的 id 都是真实文章',
   flowOffIds.length === 0 && flowOffIds.every(id => ctx(`ARTICLES.some(a => a.id === ${JSON.stringify(id)})`)));
 /* 抽 3 篇（首 / 中 / 尾）验覆盖。只验一篇的话，名单反转写错方向时「第一篇恰好中」

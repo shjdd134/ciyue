@@ -1,31 +1,30 @@
 #!/usr/bin/env node
 /* 词阅 WordLens —— 资源版本号：单一来源 + 自增 + 校验
  *
- * 【五处，不是一处】
- * 「资源版本号」在这个仓库里写在 **五处**，任何一处漏改都会出事：
+ * 【四处，不是一处】
+ * 「资源版本号」在这个仓库里写在 **四处**，任何一处漏改都会出事：
  *   ① index.html              所有静态资源的 `?v=N`（实测 13 处：manifest / 3 个 css /
  *                             每个 data-*.js / app.js）
  *                             漏改 → 浏览器继续吃旧文件，用户看不到新内容
- *   ② sw.js  `const CACHE`     `wordlens-cache-vN`
- *   ③ sw.js  头部注释           `缓存策略（vN，…）`
- *   ④ assets/app.js            `caches.open("wordlens-cache-vN")`
- *                              + 第 11 行 `ASSET_VERSION` 的回退默认值
- *   ⑤ assets/data-config.js    `assetVersion: "N"`   ← **本脚本认定的唯一真源**
- *                              （app.js:11 本来就回退读它，这里只是把契约钉死）
+ *   ② sw.js  `const CACHE`     `wordlens-cache-vN`（+ 头部注释 `缓存策略（vN，…）`）
+ *   ③ assets/app.js            第 11 行 `ASSET_VERSION` 的回退默认值 `assetVersion || "N"`
+ *                             （缓存预热已交给 sw.js 的 caches.open，app.js 里不再有缓存名字面量）
+ *   ④ assets/data-config.js    `assetVersion: "N"`   ← **本脚本认定的唯一真源**
+ *                             （app.js:11 本来就回退读它，这里只是把契约钉死）
  *
  * 【已有的校验为什么不够】
- *   tools/cache-version-test.mjs   —— 已进 daily.mjs 第 5 步回归，比较 ① ② ④ ⑤
- *   tools/publish.mjs:94-105       —— 发布前闸门，不一致直接 fail
- *   两处都只**报错**，全仓库没有任何地方能**改**。于是每次发版要手工改 16 个数字，
+ *   tools/cache-version-test.mjs   —— 已进 daily.mjs 第 5 步回归，比较 ① ② ③ ④
+ *   tools/publish.mjs              —— 发布前闸门，不一致直接 fail
+ *   两处都只**报错**，全仓库没有任何地方能**改**。于是每次发版要手工改一堆数字，
  *   实测就出过这种事：sw.js 头注释写着 `（v51，阅读界面改版）`，而 `CACHE` 早已是 v52
- *   —— 改的人只改了代码、忘了改注释，而上面两个校验脚本都不看注释（③ 是盲区）。
- *   本脚本补的是「改」这一半，并把 ③ 也纳入校验。
+ *   —— 改的人只改了代码、忘了改注释，而上面两个校验脚本都不看注释（头注释是盲区）。
+ *   本脚本补的是「改」这一半，并把头注释也纳入校验。
  *
  * 【用法】
- *   node tools/version.mjs           显示五处版本 + 一致性
+ *   node tools/version.mjs           显示四处版本 + 一致性
  *   node tools/version.mjs --check   不一致 exit 1，并指出是哪一处
- *   node tools/version.mjs --bump    真源 +1，写回全部五处（发版前跑）
- *   node tools/version.mjs --sync    数字不变，把其余四处对齐到真源（修手滑）
+ *   node tools/version.mjs --bump    真源 +1，写回全部四处（发版前跑）
+ *   node tools/version.mjs --sync    数字不变，把其余几处对齐到真源（修手滑）
  *
  * 改完版本号要重跑回归 —— cache-version-test.mjs 会独立复核一次（两把尺子）。
  */
@@ -63,7 +62,6 @@ export function scan(root = ROOT) {
     { label: "index.html 静态资源 ?v=", file: "index.html", value: htmlVs.length ? [...new Set(htmlVs)].join("/") : "", hits: htmlVs.length },
     { label: "sw.js  CACHE 常量", file: "sw.js", value: one("sw.js", /const CACHE = "wordlens-cache-v(\d+)"/) },
     { label: "sw.js  头注释", file: "sw.js", value: one("sw.js", /缓存策略（v(\d+)/) },
-    { label: "app.js caches.open", file: "assets/app.js", value: one("assets/app.js", /caches\.open\("wordlens-cache-v(\d+)"\)/) },
     { label: "app.js 回退默认值", file: "assets/app.js", value: one("assets/app.js", /assetVersion \|\| "(\d+)"/) },
     { label: `真源 ${SOURCE_FILE}`, file: SOURCE_FILE, value: one(SOURCE_FILE, /assetVersion:\s*["'](\d+)["']/) },
   ];
@@ -84,7 +82,6 @@ export function applyVersion(version, root = ROOT) {
     { file: "index.html", label: "index.html 静态资源 ?v=", re: /([?&]v=)\d+/g, rep: m => m[1] + v },
     { file: "sw.js", label: "sw.js  CACHE 常量", re: /(wordlens-cache-v)\d+/g, rep: m => m[1] + v },
     { file: "sw.js", label: "sw.js  头注释", re: /(缓存策略（v)\d+/g, rep: m => m[1] + v },
-    { file: "assets/app.js", label: "app.js caches.open", re: /(caches\.open\("wordlens-cache-v)\d+("\))/g, rep: m => m[1] + v + m[2] },
     { file: "assets/app.js", label: "app.js 回退默认值", re: /(assetVersion \|\| ")\d+(")/g, rep: m => m[1] + v + m[2] },
     { file: SOURCE_FILE, label: "真源 assetVersion", re: /(assetVersion:\s*["'])\d+(["'])/g, rep: m => m[1] + v + m[2] },
   ];
@@ -135,7 +132,7 @@ if (isMain) {
         for (const b of after.bad) console.error(`    ${b.label}（${b.file}）= ${b.value || "(空)"}`);
         process.exit(1);
       }
-      console.log(`\n✓ 五处已统一为 v${target}`);
+      console.log(`\n✓ 四处已统一为 v${target}`);
       console.log(`  下一步：node tools/cache-version-test.mjs   # 用另一把尺子独立复核一遍`);
       process.exit(0);
     }
@@ -143,7 +140,7 @@ if (isMain) {
     const res = check();
     report(res.truth, res.rows);
     if (res.ok) {
-      console.log(`\n✓ 五处一致（v${res.truth}）`);
+      console.log(`\n✓ 四处一致（v${res.truth}）`);
       process.exit(0);
     }
     /* 默认（--show）只展示不判死；--check 才用退出码表达失败，方便被回归脚本调用。 */

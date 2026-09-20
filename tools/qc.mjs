@@ -19,7 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
-import { cleanInvisible } from "./lib-text.mjs";
+import { cleanInvisible, readDecl, writeDecl } from "./lib-text.mjs";
 import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES, unreadableReason } from "./recommend.mjs";
 import { stackingIssues, coverDuplicateIndex } from "./lib-figures.mjs";
 
@@ -274,13 +274,11 @@ if (STRICT_IDS && missingIds.length) {
 if (PRUNE && bad.length) {
   const drop = new Set(bad.map(b => b.id));
   const FILE = path.join(ASSETS, "data-articles-extra.js");
-  const src = fs.readFileSync(FILE, "utf8");
-  const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-  if (!m) { console.error("extra 文件结构异常，无法剔除"); process.exit(2); }
-  const list = JSON.parse(m[1]);
-  const kept = list.filter(a => !drop.has(a.id));
-  const head = src.slice(0, m.index).replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`);
-  fs.writeFileSync(FILE, head + "const ARTICLES_EXTRA = " + JSON.stringify(kept, null, 2) + m[2] + src.slice(m.index + m[0].length));
+  const decl = readDecl(FILE, "ARTICLES_EXTRA");
+  if (!decl) { console.error("extra 文件结构异常，无法剔除"); process.exit(2); }
+  const kept = decl.value.filter(a => !drop.has(a.id));
+  writeDecl(FILE, "ARTICLES_EXTRA", kept);
+  fs.writeFileSync(FILE, fs.readFileSync(FILE, "utf8").replace(/共 \d+ 篇/g, `共 ${kept.length} 篇`));
   console.log(`已从 extra 剔除 ${drop.size} 篇不合格文章，保留 ${kept.length} 篇`);
 }
 

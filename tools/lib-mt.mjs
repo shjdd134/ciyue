@@ -134,6 +134,8 @@ export function createQwenMT(key, options = {}) {
   if (!["qwen-mt-plus", "qwen-mt-flash", "qwen-mt-lite"].includes(model)) throw new Error("QWEN_MT_MODEL 只支持 qwen-mt-plus / qwen-mt-flash / qwen-mt-lite");
   const base = qwenMTBaseURL(options.baseURL);
   const sourceLang = options.sourceLang || "EN";
+  /* 额度 / 鉴权 / 参数类失败在一个 translator 实例内粘住：同一轮 translateTexts 复用它，
+     首次 4xx 后不再逐句、逐批重复打失败接口（见 mt-test：同实例两次调用只应发 1 个请求）。 */
   let unavailable = false;
   const translator = async function qwenMT(lines, context = "") {
     const out = new Array(lines.length).fill("");
@@ -145,11 +147,13 @@ export function createQwenMT(key, options = {}) {
             headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
             body: JSON.stringify({
               model,
+              /* 待译正文只放干净原句；背景按官方 Qwen-MT 契约走 translation_options.domains，
+                 不能内联进 content —— 翻译模型会把内联的 [Context: …] 一起译进结果，污染译文。 */
               messages: [{ role: "user", content: lines[k] }],
               translation_options: {
                 source_lang: sourceLang === "EN" ? "English" : sourceLang === "AUTO" ? "auto" : sourceLang,
                 target_lang: "Chinese",
-                ...(context ? { domains: "This text is from an English article for language learners. Translate faithfully into natural simplified Chinese, preserving names, numbers and negation. Use the following background only to disambiguate the source text: " + context } : {}),
+                ...(context ? { domains: context } : {}),
               },
             }),
             redirect: "error",
@@ -214,9 +218,8 @@ export function createQwenLLM(key, options = {}) {
   const model = options.model || process.env.QWEN_LLM_MODEL?.trim() || "qwen-max";
   if (!/^qwen[a-z0-9._-]*$/i.test(model)) throw new Error("QWEN_LLM_MODEL 只支持百炼 qwen 系模型名（如 qwen-max / qwen-plus）");
   const base = qwenMTBaseURL(options.baseURL);
-  let unavailable = false;
   const translator = async function qwenLLM(lines, context = "") {
-    if (unavailable) return lines.map(() => "");
+    let unavailable = false;
     const numbered = lines.map((t, i) => `${i + 1}. ${t}`).join("\n");
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
@@ -307,7 +310,7 @@ export async function translateTexts(texts, opts = {}) {
   /* cacheKey 可以按句子下标变化。标题批次因此能逐篇隔离上下文，
      而正文仍可用整篇 URL/文章指纹作为稳定键。 */
   const keyForCache = typeof cacheKey === "function" ? cacheKey : () => cacheKey;
-  const keyFor = (t, i) => hash(`${cacheVersion}\n${cacheNamespace}\n${keyForCache(t, i)}\n${t}`);
+  const keyFor = (t, i) => hash(`${cacheVersion}\n${cacheNamespace}\n${sourceLang}\n${keyForCache(t, i)}\n${t}`);
   const defaultAccept = (cn, source) => {
     const out = String(cn || "").trim();
     const src = String(source || "").trim();

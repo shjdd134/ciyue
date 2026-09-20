@@ -14,6 +14,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { readDecl } from "./lib-text.mjs";
 import { listBatches, latestBatch, readBatch, restoreBatch } from "./lib-release.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -65,11 +66,10 @@ if (r.removed.length) console.log(`已删除本次运行新建的 ${r.removed.le
 const errors = [];
 const extraPath = path.join(ASSETS, "data-articles-extra.js");
 try {
-  const src = fs.readFileSync(extraPath, "utf8");
-  const m = src.match(/const ARTICLES_EXTRA = (\[[\s\S]*?\n\])(;)/);
-  if (!m) errors.push("data-articles-extra.js 结构异常");
+  const decl = readDecl(extraPath, "ARTICLES_EXTRA");
+  if (!decl) errors.push("data-articles-extra.js 结构异常");
   else {
-    const list = JSON.parse(m[1]);
+    const list = decl.value;
     console.log(`回滚后文章数：${list.length}`);
   }
 } catch (e) { errors.push("data-articles-extra.js 无法解析：" + e.message); }
