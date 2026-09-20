@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "62");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "63");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -661,6 +661,30 @@ function clipContext(sentence, word) {
  * 收藏按钮在卡片里、不在句子节点内，closest('.sentence') 拿不到语境，
  * 所以必须在打开卡片那一刻把语境截下来存住。 */
 let sheetCtx = null;
+
+/* 当前查词卡的「原文词形」（data-form，如正文里的 adopted 对应词元 adopt）。
+ * 2026-09-20 补存：点「更多」的旧实现只调 renderSheet(w)，ctx 与 form 双双丢掉 ——
+ * 展开后原句块整块消失、标题从 adopted 退回词元 adopt，
+ * 用户看到的是一个自己没点过的词。展开只是把二级信息铺开，
+ * 「同一个词、同一句话」这条不能变，所以词形必须和语境一起存住。 */
+let sheetForm = null;
+
+/* 正文里刚被点开的那个词 span（下一次整页渲染后即失效）。
+ * 用途：轻卡取消模糊遮罩之后正文依然清晰可读，「查的到底是哪一个词」就必须
+ * 在正文里指出来，否则一个长句里十几个词、卡片上只有一个孤立的词形。
+ * 只加底色，**不动 padding / 字重 / 字号** —— 任何改变行盒的反馈都会自己引起换行，
+ * 而换行正是这次要修的那类问题（参见 .para-tts 用 display 而不是 opacity 的历史）。 */
+let tappedWordEl = null;
+function markTappedWord(el) {
+  if (!el || !el.classList) return;   // 事件桩可能没有 classList（tools/audit.js 用 clickEl 时才有）
+  if (tappedWordEl && tappedWordEl !== el && tappedWordEl.classList) tappedWordEl.classList.remove("tapped");
+  tappedWordEl = el;
+  tappedWordEl.classList.add("tapped");
+}
+function clearTappedWord() {
+  if (tappedWordEl && tappedWordEl.classList) tappedWordEl.classList.remove("tapped");
+  tappedWordEl = null;
+}
 
 /* ---------------- 词汇高亮：三档词集 ----------------
  * 高亮与查词是**两个方向相反**的系统，必须分开：
@@ -2280,7 +2304,7 @@ function renderSheet(word, ctx, form) {
         </div>`;
   if (!sheetMore) {
     return `
-      <div class="sheet-mask" data-act="close-sheet"></div>
+      <div class="sheet-mask soft" data-act="close-sheet"></div>
       <div class="sheet slim" role="dialog" aria-label="查词 ${esc(disp)}">
         <div class="grip"></div>
         <div class="row between">
@@ -2328,7 +2352,7 @@ function renderTapSheet(word, ctx, form) {
   if (!t) return "";
   const disp = form || word;
   return `
-    <div class="sheet-mask" data-act="close-sheet"></div>
+    <div class="sheet-mask soft" data-act="close-sheet"></div>
     <div class="sheet" role="dialog" aria-label="查词 ${esc(disp)}">
       <div class="grip"></div>
       <div class="row between">
@@ -2385,6 +2409,9 @@ function render() {
      只重写 #screen.innerHTML 是清不掉它们的 —— 必须在每次主渲染开头统一收掉。
      否则在阅读页查完词再点返回：页面已经回到列表，单词卡还盖在底部。 */
   $$(".phone > .sheet, .phone > .sheet-mask").forEach(n => n.remove());
+  /* 整页重排会把 .tapped 那个 span 换掉：不清引用就留着一个脱离文档的节点，
+     下次 markTappedWord 还会去 remove 它（无害但会掩盖真实状态）。 */
+  clearTappedWord();
   /* 阅读页重渲染保留滚动位置：字号 / 中英对照 / 护眼主题 / 打卡这类原地设置，
      不该把读者甩回文章开头。data-art 相同（同一篇文章）才恢复；
      打开新文章 / 下一篇时 art 变化，保持回顶。 */
@@ -2558,7 +2585,10 @@ document.addEventListener("click", e => {
       sheetMore = true;
       const w = t.dataset.word;
       $$(".sheet, .sheet-mask").forEach(n => n.remove());
-      $(".phone").insertAdjacentHTML("beforeend", renderSheet(w));
+      /* ctx / form 必须一起回传。旧写法 renderSheet(w) 两个参数全丢：
+         展开「更多」之后原句块消失、标题退回词元（点 adopted 显示 adopt）。
+         实证见 tools/audit.js 的「更多展开后仍是同一个词、同一句话」一条。 */
+      $(".phone").insertAdjacentHTML("beforeend", renderSheet(w, sheetCtx, sheetForm));
       attachExample(w);   // 完整卡才可能出现例句框，到这一步才去取例句库
       break;
     }
@@ -2766,6 +2796,8 @@ document.addEventListener("click", e => {
         if (s && s.en) ctx = { en: clipContext(s.en, word), cn: clean(s.cn || "") };
       }
       sheetCtx = ctx;
+      sheetForm = form;
+      markTappedWord(t);   // 在正文里留下「查的是这个词」的定位标识
       if (activeArticle && view.name === "read") {
         LOOKED[activeArticle.id] = (LOOKED[activeArticle.id] || 0) + 1;
         /* 同步更新顶部的「已查次数」chip，不触发整页重渲染（避免滚动丢失） */
@@ -2777,6 +2809,7 @@ document.addEventListener("click", e => {
     }
     case "close-sheet":
       sheetMore = false;
+      clearTappedWord();   // 卡片收掉，正文里的定位底色也一起摘掉
       $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     case "add-note": {
       const w = t.dataset.word;
@@ -2934,7 +2967,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v62");
+      const cache = await caches.open("wordlens-cache-v63");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

@@ -228,7 +228,13 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 .people-reading-note b { color: var(--brand); }
 .people-reading-note a { color: var(--card); background: var(--brand); }
 .read-body { padding: 0 var(--rd-pad); }
-.read-body .para { margin-bottom: 30px; }
+/* ⚠️ 这里原本有一行 `.read-body .para { margin-bottom: 30px; }` —— 2026-09-20 删除。
+ * 它和 styles.css 的 `.read-body .para` 打的是同一个属性，本文件加载在后所以它赢，
+ * 结果：styles.css 的注释写着「段距 18px 不动」，浏览器实际算出 30px，持续了不知多久。
+ * 段落间距属于阅读排版，**唯一真源是 styles.css 的 .read-body .para**；
+ * 本文件（editorial 层）只管卡片、封面、页眉页脚这类编辑风格，不再碰正文间距。
+ * 保留这行注释是因为：删掉一个覆盖之后，下一个人只看到 styles.css 里的数字，
+ * 不会知道这里曾经有过第二个来源（也不该有人再往这里加回来）。 */
 .read-body .para .cn { border-color: var(--border); color: var(--text-2); padding: 8px 12px; margin-top: 9px; background: var(--card-2); border-radius: 0 4px 4px 0; }
 .read-body .para .sentence.sel { background: var(--brand-soft); }
 .kw { color: var(--brand); background: transparent; text-decoration-color: color-mix(in srgb, var(--brand) 30%, transparent); }

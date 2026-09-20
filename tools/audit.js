@@ -803,6 +803,58 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
   ok('生词卡主按钮是「我已认识」，不再是「加入生词本」',
     sheet.nb.includes('我已认识') && !sheet.nb.includes('加入生词本'));
 
+  /* ---- 2026-09-20 查词卡三处修复 ----
+     ⚠️ 这一组全部走**真实事件分支**（clickEl 触发 handlers.click），
+     不是直接调 renderSheet —— 出 bug 的地方正是 case "sheet-more" 少传了两个参数，
+     直接调渲染函数等于绕过被测代码，怎么改都是绿的（假绿）。 */
+  const __prevIAH = phoneEl.insertAdjacentHTML;
+  let sheetHtml = '';
+  phoneEl.insertAdjacentHTML = (pos, html) => {
+    if (String(html).includes('sheet-mask')) sheetHtml = String(html);
+  };
+  /* 词 span 桩：要同时满足两件事 ——
+     ① dataset 带 data-form（原文词形），这是「更多」丢的那一半；
+     ② closest('.sentence') 返回带真实 pi/si 的祖先桩，lookup 才能截到语境（另一半）。 */
+  const sentStub0 = { dataset: { pi: '0', si: '0' }, classList: { add: noop, remove: noop, toggle: noop, contains: () => false } };
+  const smCls = new Set();
+  const smWord = ctx('WORDS.find(w => w.word.length >= 4).word');
+  const smForm = smWord + 's';
+  const smStub = {
+    dataset: { act: 'lookup', word: smWord, form: smForm },
+    classList: {
+      add: c => smCls.add(c), remove: c => smCls.delete(c),
+      toggle: (c, on) => (on ? smCls.add(c) : smCls.delete(c)), contains: c => smCls.has(c),
+    },
+  };
+  smStub.closest = sel => (String(sel).includes('.sentence') ? sentStub0 : smStub);
+  const smMore = { dataset: { act: 'sheet-more', word: smWord } };
+  smMore.closest = () => smMore;
+  ctx('activeArticle = ARTICLES[0]; view = { name: "read" }; S.known = []; S.notebook = []; sheetMore = false;');
+  clickEl(smStub);
+  const lightHtml = sheetHtml;
+  clickEl(smMore);
+  const fullHtml = sheetHtml;
+  phoneEl.insertAdjacentHTML = __prevIAH;
+
+  ok(`★ 「更多」展开后仍是同一个词、同一句话（原句块 + 原文词形 ${smForm} 都在）`,
+    lightHtml.includes('本句含义') && fullHtml.includes('本句含义')
+    && fullHtml.includes('>' + smForm + '<') && fullHtml.includes('原形 ' + smWord));
+  /* 遮罩：轻卡必须用 .sheet-mask.soft（无模糊、只轻压暗）。
+     判据里连基础 .sheet-mask 的 blur 一起验 —— 如果哪天有人把基础遮罩的模糊也删了，
+     `.soft` 这个变体就失去意义、这条断言会退化成「测了个必然成立的东西」。 */
+  ok('★ 查词轻卡用不模糊的遮罩（正文继续可读，靠 .tapped 标记定位到词）',
+    /class="sheet-mask soft"/.test(lightHtml)
+    && /backdrop-filter:\s*none/.test((cssRules.match(/\.sheet-mask\.soft\s*\{([^}]*)\}/) || [, ''])[1])
+    && /blur\(/.test((cssRules.match(/\.sheet-mask\s*\{([^}]*)\}/) || [, ''])[1]));
+  ok('★ 点词后正文里那个词带 .tapped 定位标记', smCls.has('tapped'));
+  /* 反馈只许动颜色：任何改行盒的属性（padding / font-* / line-height / border）
+     都会让这个词自己换行 —— 上一轮 .para-tts 的 27px 隐形占位就是这么来的。 */
+  const tappedRule = (cssRules.match(/\.read-body \.para \.word\.tapped\s*\{([^}]*)\}/) || [, ''])[1];
+  ok('★ 点词标记只加底色、不动行盒（改 padding / 字重会自己引起换行）',
+    /background:/.test(tappedRule) && !/padding|font-|line-height|border/.test(tappedRule));
+  click({ act: 'close-sheet' });
+  ok('★ 关掉词卡后定位标记一并摘掉（不留一个永远亮着的词）', !smCls.has('tapped'));
+
   /* ---- 高亮四档 ---- */
   /* renderRead 要读 activeArticle：本段排在 [R]（阅读页设置）之前，那边才设它，这里先补上 */
   ctx('activeArticle = ARTICLES[0]; view = { name: "read" };');
@@ -1008,13 +1060,14 @@ ok('选中的句子有可见的左边线（inset 阴影，不用 border-left 挤
 
 /* ---- 正文「一句一行」（.para-flow，2026-09-19 从单篇试点铺开到全站）----
  * 中文对照档每句跟一个块级译文、本来就一行一句；纯英文档句子是 inline，整段连排 ——
- * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁六件事：
+ * 同一个 App 两种节奏，用户要的是「英文时和双语时一样」。锁五件事：
  *   ① 全站生效（每篇都带 para-flow，退出名单 PARA_FLOW_OFF 默认为空）；
- *   ② 句距 10px + 句末右留 10px；③ **段距 18px 原封不动**；
+ *   ② 句距 10px + 句末右留 10px；③ **段距明显大于句距、且只有一个来源**；
  *   ④ 译文块三个数值（下边距归零 / 上下内边距 12px / 不用品牌紫）；
  *   ⑤ 交互只剩「点句出译文 / 再点收起」——任何档位都不渲染段级按钮。
- * ③ 是这套方案第一次翻车的方式（样张实测段距 18→30 + 句距 0→20，观感直接散掉），
- * ④ 的上下内边距 6 → 12px 是第二次（译文贴在英文上，用户原话「别扭」）—— 两条都留着。 */
+ * ③ 是这套方案第一次翻车的方式（样张实测句距 0→20 与段距 18→30 **一起**拉，观感直接散掉），
+ *   所以③防的是「两个量同时变大」，不是防那个具体数字 —— 段距本身 2026-09-20 已按
+ *   计划调到 24px（只动段距、句距仍 10px，层次清楚）。见下方那条断言的注释。 */
 const flowOffIds = ctx('[...PARA_FLOW_OFF]');
 ok('正文「一句一行」的退出名单默认为空（＝全站生效），名单里的 id 都是真实文章',
   flowOffIds.length === 0 && flowOffIds.every(id => ctx(`ARTICLES.some(a => a.id === ${JSON.stringify(id)})`)));
@@ -1037,8 +1090,30 @@ ok('「一句一行」把句子转成块级（一句一行、句间 10px）',
    10px 与句距同值 —— 留白既是视觉收口，也是点句出译文的点击余量。 */
 ok('★ 句末右留 10px（撑满整行的块级句，右端要留出点击余量）',
   /padding-right:\s*10px/.test(flowSent) && !/padding-right:\s*0/.test(flowSent));
-ok('★ 不碰段距（句距和段距一起拉大 → 段落层次糊掉，样张实测过）',
-  /\.read-body \.para\s*\{[^}]*margin:\s*0 0 18px/.test(cssBare));
+/* ★ 段距：锁**意图**，不锁那个数字。
+ * 旧写法是 `/\.read-body \.para\s*\{[^}]*margin:\s*0 0 18px/` —— 它把当时那个值钉成了
+ * 唯一合法解。2026-09-20 按新决策把段距从 18 调到 24，它当场报红，
+ * 而它真正该防的事（下面 (b)「第二个来源偷偷覆盖回来」）一点都没防住。
+ * 判据换成两件可观察的事：
+ *   (a) 段落间距必须明显大于句距 —— 两者接近时读者分不清哪里是新段，
+ *       段落层次糊掉、全篇变成一长串等距的句子（样张把 (句距, 段距) 一起拉到
+ *       (20, 30) 就是这么崩的）。取「≥ 句距的两倍」而不是某个具体 px。
+ *   (b) 段落间距只能有**一个**来源 —— 见下一条。 */
+const paraRule = (cssBare.match(/\.read-body \.para\s*\{([^}]*)\}/) || [, ''])[1];
+const paraMb = +((paraRule.match(/margin:\s*0 0 (\d+)px/) || [])[1] || 0);
+const flowGapPx = +((flowGap.match(/margin-top:\s*(\d+)px/) || [])[1] || 0);
+ok(`★ 段落间距明显大于句距（段距 ${paraMb}px ≥ 句距 ${flowGapPx}px 的两倍）`,
+  paraMb > 0 && flowGapPx > 0 && paraMb >= flowGapPx * 2);
+/* ★★ 段落间距只有一个来源。editorial.css 里曾有一行 `.read-body .para { margin-bottom: 30px }`，
+ * 它和 styles.css 的 `.read-body .para` 打的是同一个属性、本文件加载顺序在后所以它一直赢 ——
+ * 于是 styles.css 的注释写着「段距 18px 不动」、浏览器实际算的是 30px，
+ * 差了两轮口令，而所有守卫都是绿的（它们只读 styles.css）。
+ * 判据是「editorial.css 不给 .read-body .para 设任何外边距」，不是钉住某个数字 ——
+ * 要防的是「出现第二个来源」这件事本身，至于那个来源写的是 30 还是 31 无关紧要。 */
+const edCssBare = fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'utf8')
+  .replace(/\/\*[\s\S]*?\*\//g, '');
+ok('★ 段落间距只有一个来源（editorial.css 不得再覆盖 .read-body .para 的间距）',
+  !/\.read-body \.para\s*\{[^}]*margin/.test(edCssBare));
 const flowCn = (cssBare.match(/\.read-scroll\.para-flow \.para \.cn\s*\{([^}]*)\}/) || [, ''])[1];
 ok('译文下边距归零（否则双语档比纯英档松 10px，两档节奏不一致）',
   /margin:\s*6px 0 0/.test(flowCn));

@@ -9,7 +9,7 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 
-### 0.1 ★ 权威现状（2026-09-19 — **要看现状只读这一节**）
+### 0.1 ★ 权威现状（2026-09-20 — **要看现状只读这一节**）
 
 > 🔴 **这张表由 `node tools/doc-numbers.mjs` 校验**：篇数 / 句词数 / 版本 / 词库是硬校验（对不上 `exit 1`）；
 > 基线 commit 是**提示项** —— 每次推送都会改写它，而推送清单从不含本文件（文档要人工跟），
@@ -22,7 +22,7 @@
 | 句子 / 词数 | **3,913 句 / 54,088 词** |
 | 封面 | 65 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`d6851176`**（2026-09-18 15:1x，人物批次 20260918-151030 后） |
-| 资源版本 | `?v=62` · SW 缓存名 `wordlens-cache-v62` |
+| 资源版本 | `?v=63` · SW 缓存名 `wordlens-cache-v63` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。成长 RSS 暂停，AI / 旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -352,6 +352,41 @@
 >     `paraOpen` 残留 · 段距被拉大 —— 每次只有目标守卫变红、其余 250 条全绿，还原后 251/0。
 >   - 注入器重写为 `.bak/neg.mjs`（用例表 + 一律 `replace(from, () => to)`），不再每次手写 ——
 >     ⑮ 那个 `$$` 坑正是手写脚本踩出来的。
+>
+> - **2026-09-20 v63 手机阅读修复批次**：依据 `outputs/词阅-手机阅读体验优化计划-2026-09-20.md`，
+>   只做该计划里「已核实的硬 bug」三件（用户明确划的范围），**未做 P0 交互重构**。
+>   - ① **「更多」丢上下文**：`case "sheet-more"` 只调 `renderSheet(w)` —— ctx 与 form 双双丢参，
+>     展开后原句块整块消失、标题从 `screaming` 退回词元 `scream`。修法：新增 `sheetForm`，
+>     在 `lookup` 里和 `sheetCtx` 一起存住，回传 `renderSheet(w, sheetCtx, sheetForm)`。
+>     实测（390×844 Edge 无头 + 真事件流）：展开后 title=`screaming`、副行「原形 scream · /skri:m/」、
+>     「本句含义」块仍在（`Anne Hathaway is screaming.` + 译文）。
+>   - ② **轻卡遮罩不再模糊正文**：基础 `.sheet-mask` 是 `rgba(10,10,20,.45)` + `blur(3px)`，
+>     查词时整篇变成隔着毛玻璃。轻卡改走已有的 `.sheet-mask.soft`（`.18`、无 blur）。
+>     实测 computed `rgba(10, 10, 20, 0.18)` / `backdropFilter: none`，卡片上方正文完全清晰。
+>     **完整卡（点「更多」后）仍用模态遮罩** —— 这个分层是计划里写的（轻卡在语境、完整详情才是模态面板）。
+>   - ③ **点词在正文里留定位标记**：遮罩不模糊之后必须能看出「这条释义对应哪个词」。
+>     新增 `.read-body .para .word.tapped`（`rgba(108,92,231,.18)`）+ `markTappedWord / clearTappedWord`，
+>     只在 `lookup` 挂、关卡片与 `render()` 时摘。**只加底色，不动 padding / 字重** ——
+>     任何改行盒的反馈都会自己引起换行（与 `.para-tts` 那个 27px 隐形占位同源）。
+>   - ④ **段距 30 → 24px，并删掉第二个来源**：`editorial.css` 里遗留的
+>     `.read-body .para { margin-bottom: 30px }` 因加载顺序在后一直赢 —— styles.css 的注释写着
+>     「段距 18px 不动」、浏览器实际算 30px，**两轮口令都没对上而所有守卫全绿**（它们只读 styles.css）。
+>     现在真源只有 `styles.css` 的 `.read-body .para` 一处。⚠️ 24px 与历史结论有张力：
+>     第一版样张否掉的是「句距与段距**一起**拉到 (20,30)」，这次只动段距、句距仍 10px；
+>     真机试读若仍觉散，**只回退段距这一个数**（单一来源之后回退无副作用）。
+>     同类双源未清：`editorial.css` 的 `.read-body { padding: 0 var(--rd-pad) }` 仍覆盖 styles.css 的竖向内边距。
+>   - 守卫 `audit` 251 → **257/0**。**改的是守卫本身**：旧断言 `/margin:\s*0 0 18px/` 锁的是那个数字
+>     而不是意图 —— 本次调 24px 时它当场报红，而它真正该防的「第二个来源」一点没防住。
+>     换成「段距 ≥ 句距两倍」+「editorial.css 不得再覆盖 `.read-body .para`」。新增 6 条：
+>     ★ 更多回传语境与词形 / ★ 轻卡遮罩无 blur（**连基础遮罩仍有 blur 一起验**，否则断言会
+>     退化成「测了个必然成立的东西」）/ ★ 点词带 `.tapped` / ★ 标记不动行盒 / ★ 关卡片摘标记 /
+>     ★ 段距单一来源。
+>   - **七组负向测试（f~l）全部精确报红**：每组只有目标那一条红、其余 256 全绿；还原后 257/0 且
+>     三个源文件逐字节一致。新守卫一律走**真实事件分支**（`clickEl` 触发 handlers.click），
+>     直接调 `renderSheet` 等于绕过被测代码。
+>   - 踩坑：`.bak/mobile-probe.cjs` 里 `locator('.sheet-mask').tap()` **必然超时** ——
+>     遮罩铺满全屏、卡片压住它的几何中心，Playwright 判定 `.sheet` 拦截指针。必须显式
+>     `tap({ position: { x: 195, y: 60 } })` 点到顶部那片空白。
 
 ### 0.3 机制速查（不随批次变）
 
