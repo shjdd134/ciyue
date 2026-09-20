@@ -121,8 +121,19 @@ for (const a of ARTICLES) {
     else if (now - t > 40 * DAY) F.push(`F2 文章偏旧（${Math.round((now - t) / DAY)} 天前）`);
   }
 
-  /* F3 封面（寓言/成长允许无封面，明星必须达到正文配图门槛） */
-  if (a.cat !== "寓言" && a.cat !== "成长" && a.cat !== "明星") {
+  /* F3 封面。允许无封面的栏目（判据是**源站有没有位图**，不是「这个栏目不重要」）：
+   *   寓言 / 成长 —— 专栏体，源站不给配图；
+   *   明星 —— 另有更强的「正文配图门槛」（meetsImageGate，≥6 张），不靠封面兜底；
+   *   AI —— Offbook Press 双语长文（tools/offbook.mjs）。该站**根本没有位图封面**：
+   *         og:image 是通用的 /og/default.png，正文里一个 <img> 都没有；它的「封面」是
+   *         hero 区那块 WebGL 立体书，官方把正封/书脊/封底三色写在 data-cover-* 属性里。
+   *         所以封面只能走渐变 —— 而渐变正是 app.js coverOf() 的官方回退路径，
+   *         且这里用的是**原书本色**（不是随便挑的颜色）。
+   *         2026-09-20 实测：43 篇逐篇报 F3，而它们恰恰是唯一不该被要求位图的来源。
+   * ★ 往这个名单加栏目要同时改 tools/qc-test.mjs 的负向测试（「AI 无封面不报」+「足球无封面必须报」
+   *   一对），否则「豁免」会顺手把真的漏图一起放过去。 */
+  const NO_COVER_CATS = new Set(["寓言", "成长", "明星", "AI"]);
+  if (!NO_COVER_CATS.has(a.cat)) {
     const cover = a.coverImg || COVER_MAP[a.id] || "";
     if (!cover) F.push("F3 无封面图");
     else {

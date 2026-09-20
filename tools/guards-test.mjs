@@ -152,6 +152,7 @@ const check = (label, ok, detail = "") => { results.push({ label, ok, detail });
     { en: "….", cn: "……" },
     { en: "That?!", cn: "？！" },
     { en: "HM: ...", cn: "HM：……" },
+    { en: "Holacracy: The New Management System for a Rapidly Changing World , Brian J. Robertson.", cn: "《Holacracy: The New Management System for a Rapidly Changing World》Brian J. Robertson" },
   ]);
   check("F1 脏话打码星号（f***ed / sh**）不再被当成 markdown",
     countOf(outFalsePositive, "markdown") === 0, "markdown " + countOf(outFalsePositive, "markdown") + " 处");
@@ -159,6 +160,15 @@ const check = (label, ok, detail = "") => { results.push({ label, ok, detail });
     countOf(outFalsePositive, "translate") === 0, "translate " + countOf(outFalsePositive, "translate") + " 处");
   check("F5 说话人缩写+省略号碎片（`HM: ...` 的译文 `HM：……`）不再被当成漏译",
     countOf(outFalsePositive, "translate") === 0, "translate " + countOf(outFalsePositive, "translate") + " 处");
+  check("F7 书单行（cn = 《书名》+作者，无汉字）不再被当成漏译",
+    countOf(outFalsePositive, "translate") === 0, "translate " + countOf(outFalsePositive, "translate") + " 处");
+
+  /* F8 专治「豁免放宽过头」：书名号只在句首才算引文。句中夹一对《》的真漏译必须照报。 */
+  const outCiteScope = runScan([
+    { en: "That book was never translated properly.", cn: "That book was never《translated》properly." },
+  ]);
+  check("F8 句中夹《》的真漏译仍然报错（没好宽成「带书名号就放行」）",
+    countOf(outCiteScope, "translate") >= 1, "translate " + countOf(outCiteScope, "translate") + " 处");
 
   const outTruePositive = runScan([
     { en: "This is **bold** text.", cn: "这是**粗体**文字。" },

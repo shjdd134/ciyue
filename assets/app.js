@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "65");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "66");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -976,6 +976,16 @@ const CAT_META = {
   "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" },
   "成长":   { icon: "sun",     bg: "linear-gradient(135deg,#34D399,#059669)" }
 };
+/* 发现页栏目副标题。★ 独立成表的原因：原来写在模板里是一串三元表达式（`c === "人物" ? … : c === "足球" ? … : "关于思考、生活与自我成长"`），
+ * 默认分支是「成长」的文案。2026-09-20 接 Offbook 的 AI 专栏（43 篇，占全库 3/4）后，
+ * 这 43 篇会顶着「关于思考、生活与自我成长」显示 —— 加栏目时没人会记得去改那串三元。
+ * 表里没有的栏目才落默认值。 */
+const CAT_BLURB = {
+  "人物": "人物访谈与镜头里的故事",
+  "足球": "走进绿茵场内外",
+  "AI": "AI 时代的工作、学习与组织",
+  "成长": "关于思考、生活与自我成长"
+};
 
 /* 文章指标按篇缓存：排序与渲染要反复取，避免每次重扫全文。
  * known / 生词本变化时由 clearArticleCaches() 整表失效。 */
@@ -1229,7 +1239,7 @@ function renderHome() {
       </div>
       <section class="home-topics">
         <div class="section-heading"><div><span class="eyebrow">FOLLOW YOUR CURIOSITY</span><h2>从兴趣出发</h2></div><button class="text-action" data-act="go-discover">全部文章 ${svg("arrow", 14)}</button></div>
-        <div class="topic-grid">${categories.map(c => `<button class="topic-link" data-cat="${c}" data-go="1"><span class="topic-icon">${svg((CAT_META[c] || {}).icon || "book", 24)}</span><span class="grow"><b>${esc(c)}</b><small>${c === "人物" ? "人物访谈与镜头里的故事" : c === "足球" ? "走进绿茵场内外" : "关于思考、生活与自我成长"}</small></span><span class="topic-count">${ARTICLES.filter(a => a.cat === c).length} 篇 ${svg("arrow", 14)}</span></button>`).join("")}</div>
+        <div class="topic-grid">${categories.map(c => `<button class="topic-link" data-cat="${c}" data-go="1"><span class="topic-icon">${svg((CAT_META[c] || {}).icon || "book", 24)}</span><span class="grow"><b>${esc(c)}</b><small>${CAT_BLURB[c] || "关于思考、生活与自我成长"}</small></span><span class="topic-count">${ARTICLES.filter(a => a.cat === c).length} 篇 ${svg("arrow", 14)}</span></button>`).join("")}</div>
       </section>
       <footer class="editorial-footer"><span>WordLens / 词阅</span><span>One good read at a time.</span></footer>
     </div>`;
@@ -2974,7 +2984,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v65");
+      const cache = await caches.open("wordlens-cache-v66");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

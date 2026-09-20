@@ -1573,6 +1573,11 @@ console.log('\n[G6] 内容更新通知的处理');
  */
 {
   const glossary = JSON.parse(fs.readFileSync(path.join(base, 'tools', 'term-glossary.json'), 'utf8'));
+  /* ★ `art` 的语义（写前缀匹配整篇）与 tools/lib-glossary.mjs 的 inScope 是**同一份定义**，
+   *   这里是刻意重写的第二份（独立口径：守卫不能复用被守卫对象自己的实现）。
+   *   两份一起改 —— 只改一处会出现「audit 绿、fix-cn.mjs 照改」的假绿。
+   *   2026-09-20 实测验证过作用域真的有效：把 Channel 规则的 art 临时改成 ["ob-"]，
+   *   这里立刻报出 3 处 terms「渠道」，说明加 art 是收起误伤、不是把守卫架空。 */
   const inScope = (r, id) => !r.art || r.art.some(p => String(id).startsWith(p));
   const sents = [];
   for (const a of ctx('ARTICLES')) {
@@ -1621,6 +1626,35 @@ console.log('\n[G6] 内容更新通知的处理');
   for (const a of ctx('ARTICLES')) if (/localhost|127\.0\.0\.1|file:\/\//.test(JSON.stringify(a))) localHits.push(a.id);
   ok('文章数据里没有 localhost / 127.0.0.1 / file:// 链接', localHits.length === 0);
   if (localHits.length) console.log(`    命中：${localHits.join('、')}`);
+}
+
+/* ---------------- [G10] 栏目元数据覆盖 ----------------
+ * 发现页的栏目卡（图标 / 副标题）走两张表：CAT_META / CAT_BLURB。
+ * 表里没有的栏目会**静默**落到通用兜底（图标 "doc"、副标题「关于思考、生活与自我成长」）——
+ * 兜底让「新增栏目忘了配文案」看起来完全正常：不报错、不空白，只是文案不对。
+ * 2026-09-20 实测就是这件事：接 Offbook 的 AI 专栏（43 篇，占全库 3/4）之后，
+ * 这 43 篇顶着「关于思考、生活与自我成长」显示 —— 因为原来副标题写在一串三元表达式的
+ * 默认分支里（`c === "人物" ? … : c === "足球" ? … : "关于思考…"`），而默认分支是成长栏的文案。
+ * 所以这条判据盯的是**意图**：凡是库里有文章的栏目，两张表都必须有它的条目。
+ *
+ * ★ 为什么读源码而不是读运行时的那两张表：app.js 里它们是 `const`，而
+ *   `vm.runInContext` 每次起的是各自的脚本作用域 —— `ctx('CAT_META')` 会 ReferenceError。
+ *   所以退一步从源码里取键集合；断言的对象仍然是「**数据里**出现了哪些栏目」，
+ *   不是「当前实现写了哪几个键」，换实现（改成 Map / window 挂载）只需换取值方式。
+ */
+{
+  const appSrc = fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8');
+  const keysOf = name => {
+    const m = appSrc.match(new RegExp('const ' + name + ' = \\{([\\s\\S]*?)\\n\\};'));
+    if (!m) return null;
+    return new Set([...m[1].matchAll(/^\s*"([^"]+)"\s*:/gm)].map(x => x[1]));
+  };
+  const metas = keysOf('CAT_META'), blurbs = keysOf('CAT_BLURB');
+  ok('CAT_META / CAT_BLURB 两张栏目表都取到了（锚点没失配）', Boolean(metas && blurbs));
+  const cats = [...new Set(ctx('ARTICLES').map(a => a.cat))].sort();
+  const missing = cats.filter(c => !metas?.has(c) || !blurbs?.has(c));
+  ok(`有文章的 ${cats.length} 个栏目（${cats.join('/')}）在两张表里都有条目`, missing.length === 0);
+  if (missing.length) console.log(`    缺条目：${missing.join('、')} —— 会静默落到通用兜底图标/文案`);
 }
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);

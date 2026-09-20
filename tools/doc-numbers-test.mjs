@@ -104,8 +104,15 @@ if (!AHEAD) {
 
 console.log("\n== 3. 值写错必须判死（不能只提示） ==");
 {
+  /* 报错话术随状态分支：ahead 态走「线上口径」分支（…既不是线上口径、也不是工作树口径），
+   * 同步态走硬校验分支（文档写 999，实测 N）。2026-09-18 实测：推送追平后工作树==线上，
+   * 老断言只认 ahead 话术 → 误红。判死的本质是 exit 1，话术按当前状态分别断言。 */
   const r = run(setCount(999));
-  check("篇数写成不存在的值 → exit 1", r.code === 1 && /既不是线上口径、也不是工作树口径/.test(r.out), "code=" + r.code);
+  check("篇数写成不存在的值 → exit 1",
+    r.code === 1 && (AHEAD
+      ? /既不是线上口径、也不是工作树口径/.test(r.out)
+      : new RegExp(`文档写 999，实测 ${nWork}`).test(r.out)),
+    "code=" + r.code + " · " + r.out.split("\n").filter(l => l.includes("文章篇数")).join(""));
 
   const r2 = run(setSentences("1,000", "22,125"));
   check("句数写成明显偏小的错值 → exit 1（只验不等式会漏掉这一条）",

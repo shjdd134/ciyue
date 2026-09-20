@@ -136,6 +136,13 @@ console.log("\n== 4. 判据双向负向测试（隔离数据目录）==");
           { sentences: [{ en: "The season is long.", cn: "赛季还很漫长。" }] },
           { img: IMG_C4 },
           { sentences: [{ en: "They rest before the next game.", cn: "他们在下一场之前休息。" }] }] } },
+    /* 封面豁免（2026-09-20：AI 栏目接 Offbook 双语长文时加）。
+     * 必须**成对**测：只测「AI 无封面不报」的话，把整条 F3 封面判据删掉也会全绿；
+     * 只测「足球无封面必须报」的话，就测不出 AI 这一档到底有没有生效。 */
+    { want: null, note: "AI 栏目无封面（Offbook 源站无位图，走渐变）—— 不得判 F3 无封面图",
+      art: { id: "qc-t-aI-nocover", cat: "AI", coverImg: "" } },
+    { want: "F3", wantMsg: "无封面图", note: "足球栏目无封面 —— 豁免名单外的栏目必须照样判红",
+      art: { id: "qc-t-fb-nocover", cat: "足球", coverImg: "" } },
   ];
   const arts = SAMPLES.map(s => ({ ...DEFAULT, ...s.art, url: "https://example.com/" + s.art.id }));
   fs.writeFileSync(path.join(ISO, "data-articles-extra.js"),

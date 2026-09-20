@@ -156,7 +156,13 @@ for (const [group, list] of GROUPS) {
            * "HM：……"（Weisz 篇 p76，全库实测仅此 1 处）——说话人标签保留原文缩写是对的，
            * 不算漏译；带实际英文内容的（"HM: Yeah, ..." → 译文照抄正文）仍必须报。 */
           const SPEAKER_ELLIPSIS = /^(?:[A-Z]{1,3})\s*[：:]\s*[…。.]*$/;
-          if (!CJK.test(cn) && en.trim() && /[A-Za-z]/.test(cn) && !SPEAKER_ELLIPSIS.test(cn.trim())) add("translate", "译文无中文（疑似漏译）", group, id, sat);
+          /* 2026-09-20 第三次收紧：书单/参考文献行。cn 形如 `《书名》作者名`，书名保留原文是
+           * **刻意的**（官方译本如此），全库实测仅 ob-breakdown-of-firms-c08 p14 一处：
+           * `《Holacracy: The New Management System for a Rapidly Changing World》Brian J. Robertson`
+           * 与同句英文同形。判据要求 `《》` 落在句首且带内容 —— 真漏译（cn 照抄一整句英文）
+           * 不会以书名号开头。反例见 guards-test.mjs F7/F8。 */
+          const BOOK_CITE = /^\s*《[^》]{2,}》/;
+          if (!CJK.test(cn) && en.trim() && /[A-Za-z]/.test(cn) && !SPEAKER_ELLIPSIS.test(cn.trim()) && !BOOK_CITE.test(cn)) add("translate", "译文无中文（疑似漏译）", group, id, sat);
           if (en.trim() && cn.trim() === en.trim()) add("translate", "译文与原文相同", group, id, sat);
         }
 

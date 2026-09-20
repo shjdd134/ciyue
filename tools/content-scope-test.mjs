@@ -6,11 +6,14 @@ import {spawnSync} from 'node:child_process';
 import {readDecl} from './lib-text.mjs';
 import {PEOPLE_CONFIG,excludedPerson} from './lib-people.mjs';
 const root=path.resolve(import.meta.dirname,'..');
-const excluded=new Set(['明星','AI']);
+const excluded=new Set(['明星']);
 const articles=[['data.js','ARTICLES'],['data-articles-extra.js','ARTICLES_EXTRA'],['data-articles-archive.js','ARTICLES_ARCHIVE']]
  .flatMap(([f,n])=>readDecl(path.join(root,'assets',f),n).value);
 assert.ok(articles.length>0,'必须保留可读文章');
-assert.ok(articles.every(a=>!excluded.has(a.cat)),'删除的类别不得重新进入在线文章表');
+/* 2026-09-20：AI 不再是「撤下的类别」—— Offbook Press 官方中英双语长文以 `ob-*` 上线（见 HANDOFF §0.2）。
+ * 所以这张表只留真正下架的 明星；AI 的存在由下面这条正向断言守住（避免哪天整栏被误删还静默通过）。 */
+assert.ok(articles.every(a=>!excluded.has(a.cat)),'下架的类别不得重新进入在线文章表');
+assert.ok(articles.some(a=>a.cat==='AI'&&/^ob-/.test(a.id)),'AI 栏目应已由 Offbook 通道上线（ob-* 前缀）');
 assert.ok(articles.filter(a=>a.cat==='人物').every(a=>!excludedPerson((a.person||'')+' '+a.title)),'人物栏目不得出现用户排除的人物');
 assert.ok(articles.filter(a=>a.cat==='人物').every(a=>a.readingMode==='full' && a.contentStatus==='complete'),'人物栏目必须发布原刊全文');
 const categories=readDecl(path.join(root,'assets/data.js'),'CATEGORIES').value;
@@ -28,4 +31,4 @@ assert.equal(PEOPLE_CONFIG.dailyLimit,1,'每日人物配额必须为 1');
 const legacy=spawnSync(process.execPath,[path.join(root,'tools/ingest.mjs'),'--classics','--dry'],{encoding:'utf8',timeout:5000});
 assert.equal(legacy.status,2,'旧经典命令必须在联网和写盘前中止');
 assert.match(legacy.stderr,/已停用/);
-console.log('content-scope-test: 10 checks passed');
+console.log('content-scope-test: 12 checks passed');

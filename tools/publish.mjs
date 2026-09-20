@@ -286,7 +286,12 @@ for (const a of staged) {
   if (!Array.isArray(a.paras) || !a.paras.length) { errors.push(`${tag}：paras 为空`); continue; }
   const textSents = a.paras.flatMap(p => Array.isArray(p.sentences) ? p.sentences : (p && p.en ? [p] : []));
   if (!textSents.some(s => s && String(s.en || "").trim())) errors.push(`${tag}：正文没有任何英文句`);
-  if (!(a.coverImg || COVER_MAP[a.id])) errors.push(`${tag}：没有封面`);
+  /* 封面三形态：coverImg 实图 / COVER_MAP 回填 / gradient·cover 渐变（app.js thumbHtml
+   * 对无图文章回退 background:a.gradient，是设计内形态）。2026-09-18：PG 三篇
+   * （paulgraham.com 无图可抓）被「没有封面」误拦 —— 全量实测 14 篇里只有这 3 篇
+   * 走渐变，且没有任何文章把 cover 写成文件路径（那种坏路径会被 coversMissing 抓），
+   * 故放宽为「三者有其一」。 */
+  if (!(a.coverImg || COVER_MAP[a.id] || a.gradient || a.cover)) errors.push(`${tag}：没有封面`);
 }
 if (!staged.length) errors.push("瘦身后文章数为 0");
 for (const a of list.filter(isPinned)) {

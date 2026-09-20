@@ -61,12 +61,14 @@ for (const a of g.articles) {
   }
 }
 
-/* 栏目分类：文章 id 前缀就是栏目契约（gr- 成长 / people- 人物 / fb- 足球）。
- * 数据里没有 category 字段，所以用前缀 —— 前缀变了这里要跟着改（锚点失配会报出来）。 */
+/* 栏目分类：文章 id 前缀就是栏目契约（gr- 成长 / people- 人物 / fb- 足球 / ob- AI）。
+ * 数据里没有 category 字段，所以用前缀 —— 前缀变了这里要跟着改（锚点失配会报出来）。
+ * ob- = Offbook Press 双语长文（tools/offbook.mjs），id 形态是 `ob-<slug>-c<章号>`。 */
 const CATS = [
   { key: "成长", re: /^gr-/ },
   { key: "人物", re: /^people-/ },
   { key: "足球", re: /^fb-/ },
+  { key: "AI", re: /^ob-/ },
 ];
 const byCat = {};
 const unknownIds = [];
@@ -75,6 +77,12 @@ for (const a of g.articles) {
   if (hit) byCat[hit.key] = (byCat[hit.key] || 0) + 1;
   else unknownIds.push(a.id);
 }
+/* 栏目拆解串（「成长 4 + 人物 6 + …」）。按 CATS 的声明顺序拼，**只列非空栏目** ——
+ * 寓言当前为空，写进 §0.1 的注脚只会让人以为它有文章。
+ * 抽成一处是因为它同时出现在「实测值」打印和「表里应写」的 hint 里，
+ * 两处各写一遍必然漏改（2026-09-20 加 AI 栏目时正是漏了这两处）。 */
+const breakdown = CATS.map(c => [c.key, byCat[c.key] || 0]).filter(([, n]) => n)
+  .map(([k, n]) => `${k} ${n}`).join(" + ");
 
 /* 已发布基线：.bak/published.json 的 `articles[]` 是**线上篇数**的代理。
  * 推送时记录，且纯 `--files` 路线不覆盖它（见 lib-release.mjs 的 updatePublished），
@@ -145,7 +153,7 @@ const SPOTS = [
     /* §0.1 的表头是「权威现状」= **线上**现状，所以本地领先基线时正确值不是工作树篇数，
      * 而是线上篇数（= 基线 articles 数）。判据见下方的 remoteCheck 分支。 */
     remoteCheck: got => publishedUsable && got[0] === String(publishedIds.size),
-    hint: `表里应写 **${measured.articles} 篇 = 成长 ${byCat["成长"] || 0} + 人物 ${byCat["人物"] || 0} + 足球 ${byCat["足球"] || 0}**`,
+    hint: `表里应写 **${measured.articles} 篇 = ${breakdown}**`,
   },
   {
     label: "句子 / 词数",
@@ -183,7 +191,7 @@ const SPOTS = [
 ];
 
 console.log("实测值（来自数据文件与 .bak/published.json，不读任何文档）");
-console.log(`  文章   ${measured.articles} 篇 = 成长 ${byCat["成长"] || 0} + 人物 ${byCat["人物"] || 0} + 足球 ${byCat["足球"] || 0}`);
+console.log(`  文章   ${measured.articles} 篇 = ${breakdown}`);
 console.log(`  句/词  ${comma(measured.sentences)} 句 / ${comma(measured.words)} 词`);
 console.log(`  词库   ${comma(measured.keywords)} 词`);
 console.log(`  版本   v${measured.version}`);
