@@ -498,11 +498,17 @@ body {
 
 /* 正文里所有能点开的词共用 .word 基类：它**只**表示「可点」，视觉上与正文完全一致
  * —— 一篇文章 97% 的 token 都可点，给它们任何颜色或下划线都会把正文变成链接页。
- * 只在悬停 / 按压时给一点反馈，让手指知道碰到了词。 */
+ * 只在悬停 / 按压时给一点反馈，让手指知道碰到了词。
+ *
+ * 这里原本还有 `padding: 0 1px`，2026-09-20 删除。实测（.bak/pad-ab.cjs，390×844，
+ * 同一行相邻两词成对归零前后）：**词缝差 0.000px** —— 两个词盒各向外撑 1px，正好把
+ * 它吃掉的空格补回来，留给「点空白弹译文」的死区恒为 4.688px。结论：这 1px 没有
+ * 换来任何点击容错，只把词与词撑开 2px（整行后一个词的 bLeft 前移 2.000px/词）。
+ * 视觉间距与可点热区是两件事，不该由一个数同时决定 —— 要扩大热区得靠事件层的
+ * 命中规则（见计划 §3），不是靠 padding 把盒子撑大。 */
 .word {
   cursor: pointer;
   border-radius: 4px;
-  padding: 0 1px;
   transition: background .15s;
   -webkit-tap-highlight-color: transparent;
 }
@@ -582,6 +588,10 @@ body {
  * 否则平板上会用回 .view 的横向 16px，又变回两层叠加。 */
 .view.read-scroll { padding: 12px 0 110px; }
 .read-scroll {
+  /* 手机档 22px；≥760px 放宽到 30px（见下面紧跟的媒体查询）。
+   * 「只在这里定义一次」这句从写下那天起就是假的 —— editorial.css 又声明了一遍
+   * （基础层 30px、≤759px 媒体查询又写回 22px），加载在后所以它赢。2026-09-20 把
+   * 那两行删掉、把两个档位的值一并收回这里，计算值一个像素没变。 */
   --rd-pad: 22px;
   /* 字号三档：英文 19/21/24px，行高按 1.7 倍取整；中文同比跟进，
      不再固定 13.5px —— 英文调到最大而中文不动，双语对照会一轻一重。 */
@@ -591,6 +601,12 @@ body {
 }
 .read-scroll.fs-1 { --rd-en: 21px; --rd-en-lh: 36px; --rd-cn: 15.5px; --rd-cn-lh: 24px; }
 .read-scroll.fs-2 { --rd-en: 24px; --rd-en-lh: 41px; --rd-cn: 17px; --rd-cn-lh: 27px; }
+/* 宽一点的屏（平板 / 桌面预览窗口）左右留白放宽到 30px：行宽越大越需要两侧留白兜住，
+ * 不然一行 700+px 的长行会超出舒适阅读行长。阈值 760px 沿用 editorial 层原来的分界，
+ * 只是把归属收回本文件（见 .read-scroll 里的说明）。 */
+@media (min-width: 760px) {
+  .read-scroll { --rd-pad: 30px; }
+}
 
 .read-hero {
   padding: 8px var(--rd-pad) 16px;
@@ -699,8 +715,17 @@ body {
  * 非「逐句对照」档它 display:none，段落仍然是连续的一段。
  */
 .read-body {
-  padding: 16px var(--rd-pad) 8px;
+  padding: 0 var(--rd-pad);
 }
+/* 竖向内边距为什么是 0（而不是原来那个 16px / 8px）：正文块与页眉、读完卡之间的
+ * 距离由 .read-scroll 的 gap（28px）统一给，这里再垫一层就是两份来源叠加 ——
+ * 历史上真正生效的也一直是 0：editorial.css 有一行 `.read-body{padding:0 var(--rd-pad)}`
+ * 加载在后、同特异性，把这里的 16px/8px 盖掉了不知多久。2026-09-20 把那行删掉、
+ * 把生效值（0）写回这里，计算值一个像素没变（.bak/pad-probe.cjs 实测 390 与 1000 两档
+ * bodyPadding 均为 `0px 22px` / `0px 30px`）—— **归一只改来源，不改观感**。
+ * ⚠️ 同一批删掉的还有 styles.css 自己 `@media (min-width:900px)` 里的
+ * `.read-body{padding-left/right:42px}`：它同样被 editorial 层盖住，从未生效过。
+ * 那句「宽屏正文限制阅读行长」的意图现在由 .read-body 的 max-width 承担。 */
 /* 段落间距 24px（2026-09-20 起）。这是**全站唯一的取值来源** ——
  * 在此之前它是 18px，但 editorial.css 里一行遗留的 `.read-body .para{margin-bottom:30px}`
  * 因为加载顺序在后把它盖掉了，于是注释写 18、浏览器算 30，谁也不知道自己在读哪个数。
@@ -712,7 +737,12 @@ body {
 .read-body .para {
   font-family: var(--font-read);
   font-size: var(--rd-en); line-height: var(--rd-en-lh);
-  letter-spacing: .1px;
+  /* letter-spacing: normal（2026-09-20，原为 .1px）。Georgia 这类衬线的排字关系
+     是字体自己设计好的，额外加 0.1px 等于把每行的字距均匀拉开一点点 —— 在 19px
+     字号下不过 0.5%，肉眼几乎看不出，但它会和「逐词包裹」叠加：每个词各自成为一个
+     内联盒之后，0.1px 是加在每个盒的右侧，词多的行被累积推长。先回到字体本值，
+     要看「疏 / 密」就直接调字号与行高，别用字距微调。 */
+  letter-spacing: normal;
   color: var(--text-1);
   margin: 0 0 24px;
 }
@@ -720,7 +750,7 @@ body {
 /* 句子边界：句末留 3px 水平空隙。
  * inline 元素的水平 padding 只在元素首尾出现（跨行时 padding-right 落在最后一行
  * 末尾），不像 margin 那样在每行行首重复缩进。段落感保留 —— 换行仍由行宽决定，
- * 句间 3px 远小于 18px 的段距，不会被读成「一句一张卡片」；但扫读时能看出句子
+ * 句间 3px 远小于 24px 的段距，不会被读成「一句一张卡片」；但扫读时能看出句子
  * 在哪里结束。这是「句子是交互与翻译的最小单位」在排版上的落点。 */
 .read-body .para .sentence { display: inline; padding-right: 3px; }
 /* ---------- 「一句一行」（.para-flow，2026-09-19 起全站生效） ----------
@@ -1260,9 +1290,14 @@ body {
     box-shadow: 0 28px 70px -24px rgba(20, 22, 60, .42), 0 0 0 6px #171724;
   }
   .screen > .view { width: 100%; max-width: 1040px; align-self: center; }
-  .read-hero, .read-body, .read-finish { width: 100%; max-width: 860px; align-self: center; }
-  .read-body { padding-left: 42px; padding-right: 42px; }
-  .read-hero { padding-left: 42px; padding-right: 42px; }
+  /* ⚠️ 阅读页的宽屏版心**不在这里**。这里原本还有三行 ——
+       .read-hero, .read-body, .read-finish { max-width: 860px }
+       .read-body { padding-left: 42px; padding-right: 42px }
+       .read-hero { padding-left: 42px; padding-right: 42px }
+     它们全被 editorial.css 里同特异性的 `.read-hero, .read-body, .read-finish{max-width:800px}`
+     与 `.read-body{padding:0 var(--rd-pad)}` 盖掉（editorial 加载在后）—— **从未生效过**。
+     2026-09-20 实测 1000px 视口：版心 800px、bodyPadding `0px 30px`，确认是死代码，已删。
+     宽屏版心的唯一来源是 editorial.css 那一组；要改宽屏行长就改那边，别在这个文件里加。 */
   .read-cover { max-width: 860px; }
   .cats, .cats-wrap { max-width: 100%; }
 }

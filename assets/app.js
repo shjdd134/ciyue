@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;",
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "63");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "64");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1704,7 +1704,7 @@ function renderRead() {
       const capCn = clean(p.capCn || "");
       return `<figure class="para-img">
         <img src="${esc(p.img)}" alt="${esc(p.alt || "")}" loading="lazy" decoding="async" />
-        ${cap ? `<figcaption aria-label="图片说明">${highlightEn(esc(cap))}${capCn ? `<span class="caption-cn">${esc(capCn)}</span>` : ""}</figcaption>` : ""}
+        ${cap ? `<figcaption lang="en" aria-label="图片说明">${highlightEn(esc(cap))}${capCn ? `<span class="caption-cn" lang="zh-CN">${esc(capCn)}</span>` : ""}</figcaption>` : ""}
         ${p.credit ? `<figcaption class="photo-credit">${esc(p.credit)}</figcaption>` : ""}
       </figure>`;
     }
@@ -1720,13 +1720,20 @@ function renderRead() {
          三个后果：① <span> 内套块级元素，HTML 内容模型违规（浏览器容错成「一句一行」，
          段落感全丢）；② 句子按钮的 aria-label 把整段中文也算进可访问名称，读屏中英混读；
          ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。 */
-      const cn = cnText ? `<span class="cn">${esc(cnText)}</span>` : "";
-      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}" role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" data-act="para-speak" data-pi="${i}" data-si="${si}" role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
+      const cn = cnText ? `<span class="cn" lang="zh-CN">${esc(cnText)}</span>` : "";
+      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}" role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${si}" role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
     /* 段落里不再挂任何按钮：段级「显示本段翻译」在 2026-09-19 被用户要求删除。
        一句一行之后，每段尾巴那行小字既把段落重新切碎，又和「点句出译文」重复。 */
-    return `<p class="para" data-pi="${i}">${parts.join(" ")}</p>`;
+      /* lang="en" 不是给读屏凑分的，它决定三件实事：断词规则（长词在哪儿折行）、
+         系统字体回退栈挑哪套字形、朗读引擎用哪种语言念。缺了它浏览器只能猜 ——
+         Android 上猜错会换字体，连字符位置也跟着变。译文与朗读按钮反向标 zh-CN：
+         这两个节点里是中文（朗读按钮的 title / aria-label 也是中文），
+         不反向标注就会被祖传的 en 当英文念出来。
+         代价：.sentence 自己的 aria-label 是中文、内容却是英文，标注只能二选一，
+         现取「内容」这一侧；等 §7 把句级 button 语义拆开时一并处理。 */
+      return `<p class="para" lang="en" data-pi="${i}">${parts.join(" ")}</p>`;
   }).join("");
 
   return `
@@ -2967,7 +2974,7 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
     try {
-      const cache = await caches.open("wordlens-cache-v63");
+      const cache = await caches.open("wordlens-cache-v64");
       await Promise.allSettled([...urls].map(u => cache.add(new URL(u, location.href).href)));
     } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
   };

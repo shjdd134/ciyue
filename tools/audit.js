@@ -1026,7 +1026,16 @@ ok('正文不再有 .en 容器（逐句分行的载体已移除）', !/<div clas
 ok('每句带句子坐标（data-pi / data-si），锚点能定位到句',
   /class="sentence" data-act="para-peek" data-pi="0" data-si="0"/.test(readHtml));
 ok('朗读按钮挂在句内（每句一个 data-act="para-speak"）',
-  /<span class="para-tts" data-act="para-speak"/.test(readHtml));
+  /<span class="para-tts"[^>]*data-act="para-speak"/.test(readHtml));
+/* ★ lang 不是给读屏凑分的：它决定断词规则（长词在哪儿折行）、系统字体回退栈挑哪套字形、
+ * 朗读引擎用哪种语言念。缺了它浏览器只能猜，Android 上猜错会换字体、连字符位置也跟着变。
+ * 反向标注同样重要：.cn 与朗读按钮里是中文，不标 zh-CN 就会被祖传的 en 当英文念。
+ * 为什么不是断言在 body 上：正文是三处不同语言混排（英文段 / 中文译文 / 中文朗读按钮），
+ * 标在 body 上只能照顾其中一种。 */
+ok('★ 正文标 lang="en"（断词 / 字体回退 / 朗读引擎都靠它，不能靠浏览器猜）',
+  /<p class="para"[^>]*lang="en"/.test(readHtml));
+ok('译文与朗读按钮反向标 lang="zh-CN"（否则中文被祖传的 en 当英文念）',
+  /<span class="cn" lang="zh-CN"/.test(readHtml) && /<span class="para-tts" lang="zh-CN"/.test(readHtml));
 ctx('activeArticle = null;');
 
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
@@ -1035,7 +1044,7 @@ ok('首字下沉已删除', !/::first-letter/.test(css));
 ok('左右留白只在 --rd-pad 定义一次', /--rd-pad:\s*22px/.test(css));
 const rdBodyCss = (css.match(/\.read-body\s*\{([^}]*)\}/) || [, ''])[1];
 ok('正文容器横向留白取自 --rd-pad（不再和 .read-scroll 各加一层）',
-  /padding:\s*[\d.]+px\s+var\(--rd-pad\)/.test(rdBodyCss));
+  /padding:\s*[^;]*var\(--rd-pad\)/.test(rdBodyCss));
 ok('滚动容器自身不再加横向留白', /\.view\.read-scroll\s*\{\s*padding:\s*[\d.]+px\s+0\s+[\d.]+px/.test(css));
 ok('英文默认 19px / 行高 32px（约 1.7 倍）', /--rd-en:\s*19px;\s*--rd-en-lh:\s*32px/.test(css));
 ok('中文字号跟随正文档位（不再固定 13.5px）',
@@ -1114,6 +1123,32 @@ const edCssBare = fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'u
   .replace(/\/\*[\s\S]*?\*\//g, '');
 ok('★ 段落间距只有一个来源（editorial.css 不得再覆盖 .read-body .para 的间距）',
   !/\.read-body \.para\s*\{[^}]*margin/.test(edCssBare));
+/* ★★ 同一个病的另两处（2026-09-20 一并收回 styles.css）：
+ *   ② `--rd-pad` —— editorial.css 声明过一遍（基础层 30px），又在 ≤759px 的媒体查询里
+ *      写回 22px。三处来源两个档位，生效值 ≤759 是 22px、≥760 是 30px。
+ *   ③ `.read-body` 的 padding —— editorial 的 `padding: 0 var(--rd-pad)` 让 styles.css
+ *      写的 `16px var(--rd-pad) 8px` 从未生效；styles.css 自己 ≥900px 那两条 42px 同样
+ *      被盖住、从未生效过。
+ * 判据一律是「editorial 层不得出现这个属性的任何声明」—— 防的是**出现第二个来源**，
+ * 不是钉住某个数字（30 还是 31、42 还是 40 都无关紧要）。 */
+ok('★ 阅读页左右留白只有一个来源（editorial.css 不得再声明 --rd-pad）',
+  !/--rd-pad\s*:/.test(edCssBare));
+ok('★ 正文内边距只有一个来源（editorial.css 不得再设 .read-body 自身的 padding）',
+  !/\.read-body\s*\{[^}]*padding/.test(edCssBare));
+/* ★ 词距不能靠 padding 撑。`.word { padding: 0 1px }` 曾把每个词盒向两侧各撑 1px。
+ * 实测（.bak/pad-ab.cjs，390×844，同一行相邻两词**成对**归零前后）：
+ * 词缝差 **0.000px** —— 两个词盒同时外扩，吃掉的那点空格正好被补回来，
+ * 留给「点空白弹译文」的死区恒为 4.688px。也就是说这 1px 一分点击容错都没换来，
+ * 只把词与词撑开 2px（后一个词的 bLeft 前移 2.000px/词）。
+ * 判据是「**水平**内边距必须为 0」—— 垂直方向不限制（垂直 padding 不移动字距）。
+ * 要扩大热区得走事件层的命中规则（计划 §3.5），不是靠把盒子撑大。 */
+const wordRule = (cssBare.match(/(?:^|\n)\.word\s*\{([^}]*)\}/) || [, ''])[1];
+const wordPadVals = ((wordRule.match(/(?:^|;)\s*padding\s*:\s*([^;]+)/) || [, ''])[1] || '')
+  .trim().split(/\s+/).filter(Boolean).map(v => parseFloat(v) || 0);
+const wordPadHoriz = wordPadVals.length === 0 ? 0
+  : wordPadVals.length === 1 ? wordPadVals[0] : wordPadVals[1];
+ok('★ 词元不带水平内边距（词距由字体空格决定，热区不靠撑盒子；实测词缝 4.688px 与 padding 无关）',
+  wordPadHoriz === 0 && !/padding-(left|right|inline)/.test(wordRule));
 const flowCn = (cssBare.match(/\.read-scroll\.para-flow \.para \.cn\s*\{([^}]*)\}/) || [, ''])[1];
 ok('译文下边距归零（否则双语档比纯英档松 10px，两档节奏不一致）',
   /margin:\s*6px 0 0/.test(flowCn));
@@ -1248,9 +1283,11 @@ ok('★ 任何文章、任何档位都不再渲染段级「本段对照」按钮
    判据取「两个连续 </span> 之后紧跟 <span class="cn">」—— .sentence 的最后一个子节点
    是 .para-tts，所以兄弟写法必然是 `</span></span><span class="cn">`；
    若 .cn 被移回 .sentence 内部，就只剩一个 </span>，这个计数会归零。
-   （用 `</span><span class="cn">` 判会假绿 —— para-tts 的闭合标签恰好长这样。） */
-const cnOpenN = (cnBtnHtml.match(/<span class="cn">/g) || []).length;
-const cnSibN = (cnBtnHtml.match(/<\/span><\/span><span class="cn">/g) || []).length;
+   （用 `</span><span class="cn">` 判会假绿 —— para-tts 的闭合标签恰好长这样。）
+   ⚠️ 开启标签要允许附加属性：2026-09-20 给 .cn 加了 lang="zh-CN"，
+   写死 `<span class="cn">` 的那一版当场报 0/0 —— 结构没变，是断言把实现钉死了。 */
+const cnOpenN = (cnBtnHtml.match(/<span class="cn"[^>]*>/g) || []).length;
+const cnSibN = (cnBtnHtml.match(/<\/span><\/span><span class="cn"[^>]*>/g) || []).length;
 ok(`★ 译文是句子的相邻兄弟节点（${cnSibN}/${cnOpenN} 个译文紧跟句子闭合标签）`,
   cnOpenN > 20 && cnSibN === cnOpenN);
 
