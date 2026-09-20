@@ -1895,22 +1895,6 @@ const ARTICLES_EXTRA = [
       {
         "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
         "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Discussion about this post",
-            "cn": "关于这篇帖子的讨论"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Ready for more?",
-            "cn": "准备好了解更多了吗？"
-          }
-        ]
       }
     ]
   },
@@ -2429,7 +2413,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "A recent convert to the Criterion Channel, she’s playing catch-up on the art house greats.",
-            "cn": "她最近才开始关注“Criterion频道”，正在加紧补看艺术电影的经典之作。"
+            "cn": "她最近才开始关注Criterion Channel，正在加紧补看艺术电影的经典之作。"
           },
           {
             "en": "Her interest in cameras and lenses is new.",
@@ -2548,7 +2532,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It’s produced by A24, features songs by Jack Antonoff and Charli XCX, and the supporting cast includes FKA twigs, Hunter Schafer, and Kaia Gerber, so it is also a very cool movie, but be forewarned, if you’re anticipating a fictionalized version of Miss Americana, or something like that, forget it.",
-            "cn": "该片由A24出品，配乐由杰克·安东诺夫和查莉·XCX操刀，配角阵容包括FKA twigs、 亨特·谢弗和凯亚·格伯，因此也是一部非常酷的电影，但请注意：如果你期待的是《美国小姐》的虚构版，或者类似的作品，那就别指望了。"
+            "cn": "该片由A24出品，歌曲由杰克·安东诺夫和查莉·XCX操刀，配角阵容包括FKA twigs、 亨特·谢弗和凯亚·格伯，因此也是一部非常酷的电影，但请注意：如果你期待的是《美国甜心小姐》的虚构版，或者类似的作品，那就别指望了。"
           },
           {
             "en": "Much of the story turns on the making of a dress—which is spectacular—and most of the film is just Anne Hathaway and Michaela Coel hanging out in a barn.",
@@ -2679,7 +2663,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The craziest fact I did manage to learn about the making of Mother Mary is that zero songs were ready to go at the time shooting commenced.",
-            "cn": "关于《圣母玛利亚》的制作，我确实了解到最离奇的一点是：开拍时连一首配乐都没准备好。"
+            "cn": "关于《圣母玛利亚》的制作，我确实了解到最离奇的一点是：开拍时连一首歌曲都没准备好。"
           },
           {
             "en": "As in, Hathaway had no idea what this fictional global pop star she was playing sounded like.",
@@ -2750,7 +2734,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It seems to have been that dance in the barn that locked the Mother Mary sound into place.",
-            "cn": "似乎正是谷仓里的那段舞蹈，让“Mother Mary”的音乐风格最终定型。"
+            "cn": "似乎正是谷仓里的那段舞蹈，让《圣母玛利亚》的音乐风格最终定型。"
           },
           {
             "en": "As Charli XCX explains in an email, she and Antonoff were looking at footage from the shoot, and its gothic, “almost Poe-like” tone had already begun to shift their direction; then they saw the dance number.",
@@ -3015,16 +2999,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In this story: hair, Orlando Pita; makeup, Gucci Westman; manicurist, Jin Soon Choi; tailors, Raul Zevallos and Matthew Neff for Carol Ai Studio.",
-            "cn": "本篇特辑：发型设计：奥兰多·皮塔；化妆：古驰·韦斯特曼；美甲师：崔珍顺；裁缝：拉乌尔·泽瓦洛斯和马修·内夫（代表Carol Ai Studio）。"
-          },
-          {
             "en": "Produced by AL Studio.",
             "cn": "由AL Studio制作。"
-          },
-          {
-            "en": "Set Design: Mary Howard.",
-            "cn": "布景设计：玛丽·霍华德。"
           },
           {
             "en": "Special thanks to Central Park Conservancy, to 610 Loft & Garden at Rockefeller Center, and The Bouwerie.",
@@ -3054,7 +3030,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I am a brutally honest person.",
-            "cn": "我是个非常耿直的人，"
+            "cn": "我是个非常耿直的人。"
           },
           {
             "en": "So I will let you in on a little secret.",
@@ -3126,11 +3102,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I’m not difficult.",
-            "cn": "我不难搞啊，"
+            "cn": "我不难搞啊。"
           },
           {
             "en": "This is ridiculous.",
-            "cn": "太可笑了吧，"
+            "cn": "太可笑了吧。"
           },
           {
             "en": "These people don’t even know me!",
@@ -3138,7 +3114,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But honestly, when you read about other players, it influences the way you think.",
-            "cn": "”但是说实话，当你读到关于其他人的东西的时候，这些东西会对你的看法多少有些影响，"
+            "cn": "但是说实话，当你读到关于其他人的东西的时候，这些东西会对你的看法多少有些影响。"
           },
           {
             "en": "You can’t help it.",
@@ -3150,7 +3126,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Then I got to City and I actually met Raheem, and we’d talk a bit after training, and I thought, Wait, this guy seems really cool?",
-            "cn": "所以当我认识Raheem之后，我们在训练之后会聊聊天之类的，然后我想：“等等，这家伙挺酷的啊，"
+            "cn": "所以当我认识Raheem之后，我们在训练之后会聊聊天之类的，然后我想：“等等，这家伙挺酷的啊？"
           },
           {
             "en": "What’s the story here?",
@@ -3170,7 +3146,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But over time, I got closer to Raheem, because our sons were born around the same time, so they would always play together.",
-            "cn": "慢慢的，我和Raheem变得更加要好，因为我们各自的儿子差不多同时出生，他们会经常一起玩耍。"
+            "cn": "慢慢地，我和Raheem变得更加要好，因为我们各自的儿子差不多同时出生，他们会经常一起玩耍。"
           },
           {
             "en": "I really got to know Raheem, and I recognized what a smart and genuine person he is.",
@@ -3190,7 +3166,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Anyway, one day we were talking and Raheem said something like, “Mate, I thought you were going to be well different, before I met you.",
-            "cn": "有一天，我们俩在聊天，然后Raheem说：“伙计，在遇见你之前，我以为你是个非常不同的一个人，"
+            "cn": "有一天，我们俩在聊天，然后Raheem说：“伙计，在遇见你之前，我以为你是个非常不同的一个人。"
           },
           {
             "en": "I thought you were going to be really distant and shy.",
@@ -3202,7 +3178,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I said, “I have a dry humor.”",
-            "cn": "”我说：“我的都是冷幽默”“嗯，"
+            "cn": "我说：“我的都是冷幽默”“嗯，"
           },
           {
             "en": "He said, “ Well dry.”",
@@ -3282,7 +3258,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Football?",
-            "cn": "如果是聊足球，"
+            "cn": "如果是聊足球？"
           },
           {
             "en": "I could talk to you for hours about it.",
@@ -3298,7 +3274,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It’s just my nature.",
-            "cn": "这就是我的性格，"
+            "cn": "这就是我的性格。"
           },
           {
             "en": "I’m sure some people reading can relate to this.",
@@ -3310,7 +3286,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Didn’t have a PlayStation.",
-            "cn": "我没有过PlayStation游戏机，"
+            "cn": "我没有过PlayStation游戏机。"
           },
           {
             "en": "Didn’t have many close friends.",
@@ -3322,11 +3298,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Off the pitch, I was very introverted.",
-            "cn": "足球场下，我是个很内向的人，"
+            "cn": "足球场下，我是个很内向的人。"
           },
           {
             "en": "I wouldn’t say one word to you.",
-            "cn": "没什么话。但是在场上，"
+            "cn": "没什么话。但是在场上。"
           },
           {
             "en": "But on the pitch, I was so flammable.",
@@ -3346,11 +3322,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "When you’re young…",
-            "cn": "当你年幼的时候，"
+            "cn": "当你年幼的时候。"
           },
           {
             "en": "well, you don’t understand that people can take it the wrong way.",
-            "cn": "人们会误解这种性格，"
+            "cn": "人们会误解这种性格。"
           },
           {
             "en": "I learned this the hard way, for sure.",
@@ -3378,11 +3354,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It was lonely, for sure.",
-            "cn": "当时确实很孤独，"
+            "cn": "当时确实很孤独。"
           },
           {
             "en": "I didn’t really learn to have a social life, because the only day we had off was Sunday, and that was my opportunity to travel home to see my family.",
-            "cn": "真的。在训练学校的前两年是我这辈子最最孤独的两年。我没有像其他孩子一样的社交生活，"
+            "cn": "真的。在训练学校的前两年是我这辈子最最孤独的两年。我没有像其他孩子一样的社交生活。"
           },
           {
             "en": "So my first two years at the academy were probably the loneliest years I’ll ever live.",
@@ -3406,7 +3382,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Any problem I had, anything I was feeling, it all disappeared.",
-            "cn": "我所有的问题和苦恼，都会消失。踢球的时候，"
+            "cn": "我所有的问题和苦恼，都会消失。踢球的时候。"
           },
           {
             "en": "When I’m playing football, everything is good.",
@@ -3414,7 +3390,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If you want to call it an obsession, then maybe it is my obsession.",
-            "cn": "如果你觉得这是种痴迷，那也许没错，"
+            "cn": "如果你觉得这是种痴迷，那也许没错。"
           },
           {
             "en": "Quite simply, it is my life.",
@@ -3426,7 +3402,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The first year, I lived in a boarding house, where I had this tiny room with a bed and a desk and a sink.",
-            "cn": "简单来说，足球就是我的一切。第一年的时候，我住在一个宿舍一样的地方，一个很小的房间，一张床，一个桌子，"
+            "cn": "简单来说，足球就是我的一切。第一年的时候，我住在一个宿舍一样的地方，一个很小的房间，一张床，一个桌子。"
           },
           {
             "en": "The next year, I was able to live with a foster family that the club paid to take in young players.",
@@ -3442,15 +3418,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The year went by, and I was doing well in school, doing well in football.",
-            "cn": "一年过去了，我在学校表现也不错，"
+            "cn": "一年过去了，我在学校表现也不错。"
           },
           {
             "en": "No fights.",
-            "cn": "球踢的也很好，"
+            "cn": "球踢得也很好。"
           },
           {
             "en": "No problems.",
-            "cn": "没有打架，"
+            "cn": "没有打架。"
           },
           {
             "en": "At the end of the year, I packed my bags and said goodbye to my foster family.",
@@ -3462,7 +3438,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "They said, “We’ll see you after the break.",
-            "cn": "学期结束后，"
+            "cn": "学期结束后。"
           },
           {
             "en": "Have a good summer.”",
@@ -3474,7 +3450,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I thought maybe somebody had died or something.",
-            "cn": "”但是当我刚进家门的时候，"
+            "cn": "但是当我刚进家门的时候。"
           },
           {
             "en": "I said, “What’s the problem?”",
@@ -3510,7 +3486,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I said, “What?",
-            "cn": "“你的寄宿家庭，"
+            "cn": "“你的寄宿家庭？"
           },
           {
             "en": "Why?”",
@@ -3526,11 +3502,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "They said you’re too quiet.",
-            "cn": "他们说你太安静了，"
+            "cn": "他们说你太安静了。"
           },
           {
             "en": "They can’t interact with you.",
-            "cn": "没办法和你互动，"
+            "cn": "没办法和你互动。"
           },
           {
             "en": "They said you were difficult.”",
@@ -3558,7 +3534,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I stayed to myself in my room.",
-            "cn": "我只是呆在自己的房间里面，"
+            "cn": "我只是呆在自己的房间里面。"
           },
           {
             "en": "I never bothered anyone.",
@@ -3566,7 +3542,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "They waved goodbye to me like everything was fine.",
-            "cn": "他们刚刚还和没事人一样和我道别，"
+            "cn": "他们刚刚还和没事人一样和我道别。"
           },
           {
             "en": "And then they informed the club that they didn’t want me anymore.",
@@ -3586,7 +3562,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I was going to have to go to another boarding house and live there — and not like a fancy one.",
-            "cn": "我必须要去住另外一个宿舍，而且还不是一个很好的一个宿舍，"
+            "cn": "我必须要去住另外一个宿舍，而且还不是一个很好的一个宿舍。"
           },
           {
             "en": "It was more like a place for troubled kids.",
@@ -3598,7 +3574,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I remember watching my mom crying, and just grabbing the ball.",
-            "cn": "我记得我的母亲哭着，我抓起一个足球跑了出去，"
+            "cn": "我记得我的母亲哭着，我抓起一个足球跑了出去。"
           },
           {
             "en": "I went outside to this fence where I’d always played by myself as a kid.",
@@ -3623,7 +3599,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I kicked the ball against the fence for hours, and I remember at some point I actually said out loud, “Everything is going to be O.K.",
-            "cn": "我冲着栅栏踢了很久的球，我记得自己还对自己说：“没事的，"
+            "cn": "我冲着栅栏踢了很久的球，我记得自己还对自己说：“没事的。"
           },
           {
             "en": "In two months, I’m going to be in the first team.",
@@ -3631,7 +3607,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "No matter what, I am not coming back home a failure.",
-            "cn": "无论如何，我都不会以一个失败者的身份回到家，"
+            "cn": "无论如何，我都不会以一个失败者的身份回到家。"
           },
           {
             "en": "No matter what.”",
@@ -3672,7 +3648,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We played on a Friday night.",
-            "cn": "我们周五晚上有场比赛，"
+            "cn": "我们周五晚上有场比赛。"
           },
           {
             "en": "I started on the bench.",
@@ -3744,7 +3720,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I earned a spot on the first team within two months.",
-            "cn": "两个月之内，我进了一队，"
+            "cn": "两个月之内，我进了一队。"
           },
           {
             "en": "I think I beat my goal by a few days.",
@@ -3776,7 +3752,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We just wanted you to go to the boarding house during the week!",
-            "cn": "我们当时只是想让你周一到周五去宿舍，"
+            "cn": "我们当时只是想让你周一到周五去宿舍！"
           },
           {
             "en": "You can stay with us on weekends!”",
@@ -3788,7 +3764,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Maybe I should’ve found it funny, but at the time it wasn’t funny to me.",
-            "cn": "也许我当时应该把那当成玩笑话就完了，但是那个时候，"
+            "cn": "也许我当时应该把那当成玩笑话就完了，但是那个时候。"
           },
           {
             "en": "They had really hurt me.",
@@ -3800,7 +3776,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You threw me in the garbage.",
-            "cn": "所以我当时也非常的直白，"
+            "cn": "所以我当时也非常直白。"
           },
           {
             "en": "Now I’m doing well and you want me back?”",
@@ -3892,7 +3868,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "So I thought, O.K., great.",
-            "cn": "”于是我想：“这很好，"
+            "cn": "于是我想：“这很好。"
           },
           {
             "en": "I’m in his plans.",
@@ -3908,7 +3884,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I started two of the first four games of the season, and I thought I played O.K.",
-            "cn": "我在前四场比赛中，有两场都是首发，我觉得自己表现还可以。虽然不能说非常的出色，"
+            "cn": "我在前四场比赛中，有两场都是首发，我觉得自己表现还可以。虽然不能说非常出色。"
           },
           {
             "en": "Not brilliant, but pretty good.",
@@ -3924,7 +3900,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I didn’t get an explanation.",
-            "cn": "我也没有得到任何的解释，"
+            "cn": "我也没有得到任何的解释。"
           },
           {
             "en": "I was just out of favor for some reason.",
@@ -3944,7 +3920,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "What I think most fans don’t realize is that when you’re out of favor at a club, you don’t get nearly the same attention during training.",
-            "cn": "球迷不知道的是，如果你在一个俱乐部失宠了，你在训练的时候也不会得到很多的关注。在很多俱乐部，"
+            "cn": "球迷不知道的是，如果你在一个俱乐部失宠了，你在训练的时候也不会得到很多的关注。在很多俱乐部。"
           },
           {
             "en": "At some clubs, it’s like you don’t exist anymore.",
@@ -3980,11 +3956,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "He had some papers in front of him, and he said, “One assist.",
-            "cn": "他面前放了一些纸，念道：“1次助攻，"
+            "cn": "他面前放了一些纸，念道：“1次助攻。"
           },
           {
             "en": "Zero goals.",
-            "cn": "0进球，"
+            "cn": "0进球。"
           },
           {
             "en": "Ten recoveries.”",
@@ -4004,7 +3980,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Then he started reading the stats of the other attacking forwards — Willian, Oscar, Mata, Schürrle.",
-            "cn": "然后他开始读其他几个前锋的数据 – Willian, Oscar, Mata, Schürrle.他们的数据都是“5个进球，"
+            "cn": "然后他开始读其他几个前锋的数据 – Willian, Oscar, Mata, Schürrle.他们的数据都是“5个进球。"
           },
           {
             "en": "And it’s like — five goals, 10 assists, whatever.",
@@ -4032,11 +4008,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It was so strange.",
-            "cn": "”那真是个奇怪的时刻。"
+            "cn": "那真是个奇怪的时刻。"
           },
           {
             "en": "We had a bit of a conversation about me going back out on loan.",
-            "cn": "我们讨论了一下我再次被租借出去之类的，"
+            "cn": "我们讨论了一下我再次被租借出去之类的。"
           },
           {
             "en": "And Mata was also out of favor at the time, so José said, “Well, you know, if Mata leaves, then you will be the fifth choice instead of sixth.”",
@@ -4048,7 +4024,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I was completely honest.",
-            "cn": "我当时又是非常的直白的说："
+            "cn": "我当时又是非常直白地说："
           },
           {
             "en": "I said, “I feel like the club doesn’t really want me here.",
@@ -4056,7 +4032,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I want to play football.",
-            "cn": "我想要踢球，"
+            "cn": "我想要踢球。"
           },
           {
             "en": "I’d rather you sell me.”",
@@ -4064,7 +4040,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I think José was a bit disappointed, but to be fair to him, I think he also understood that I absolutely needed to play.",
-            "cn": "”我想当时穆里尼奥可能有些失望，但是公平的讲，他可能也明白我必须要得到上场踢球的机会。"
+            "cn": "我想当时穆里尼奥可能有些失望，但是公平地讲，他可能也明白我必须要得到上场踢球的机会。"
           },
           {
             "en": "So the club ended up selling me, and there was no big problem at all.",
@@ -4084,11 +4060,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But not just because of football.",
-            "cn": "但并不仅仅是足球生涯上的改变，"
+            "cn": "但并不仅仅是足球生涯上的改变。"
           },
           {
             "en": "It was also because I had my (future) wife by my side.",
-            "cn": "而是那个时候我还得到了（未来的）妻子的陪伴，"
+            "cn": "而是那个时候我还得到了（未来的）妻子的陪伴。"
           },
           {
             "en": "She helped me grow in ways that I’ve probably never expressed out loud — even to her.",
@@ -4100,7 +4076,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But since I promised you honesty, then I guess I have to.",
-            "cn": "但是既然我已经向你保证了我要完全诚实，"
+            "cn": "但是既然我已经向你保证了我要完全诚实。"
           },
           {
             "en": "And it’s pretty funny, anyway.",
@@ -4120,7 +4096,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I was single at the time, and my friend noticed it.",
-            "cn": "我当时正好单身，然后我的朋友看到了，"
+            "cn": "我当时正好单身，然后我的朋友看到了。"
           },
           {
             "en": "So he said, “She looks like a nice girl, no?",
@@ -4132,11 +4108,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And I literally said to him, “No, no, no.",
-            "cn": "”我对他说，"
+            "cn": "我对他说。"
           },
           {
             "en": "Come on.",
-            "cn": "“哦不不不，"
+            "cn": "“哦不不不。"
           },
           {
             "en": "People don’t like me.",
@@ -4144,7 +4120,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "They don’t get me.",
-            "cn": "没人喜欢我，"
+            "cn": "没人喜欢我。"
           },
           {
             "en": "She won’t respond.”",
@@ -4156,7 +4132,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "So he grabbed my phone and started tapping out a message.",
-            "cn": "结果他抓起我的电话，开始编辑一段信息，"
+            "cn": "结果他抓起我的电话，开始编辑一段信息。"
           },
           {
             "en": "He showed me the phone and said, “Come on, can I hit send?”",
@@ -4168,7 +4144,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I was probably on the floor, cringing, but for some reason I said, “O.K.",
-            "cn": "我当时估计躺在地上，浑身上下都不自在，但是不知道为什么，"
+            "cn": "我当时估计躺在地上，浑身上下都不自在，但是不知道为什么。"
           },
           {
             "en": "fine, send it.”",
@@ -4180,7 +4156,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I’m supposed to be this big footballer, and I didn’t even have the heart to slide into my future wife’s DMs!",
-            "cn": "”你能明白我当时有多怂吗？我这么一个足球运动员，但是我连一个给我未来妻子发信息的胆量都没有！"
+            "cn": "你能明白我当时有多怂吗？我这么一个足球运动员，但是我连一个给我未来妻子发信息的胆量都没有！"
           },
           {
             "en": "I didn’t dare!",
@@ -4196,7 +4172,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We got to know each other over text for a few months.",
-            "cn": "我们在接下来几个月短信交流中了解了彼此，"
+            "cn": "我们在接下来几个月短信交流中了解了彼此。"
           },
           {
             "en": "It’s a lot easier for me once I get to know someone, so after that, I was good.",
@@ -4204,7 +4180,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It really was a beautiful thing.",
-            "cn": "这是一个美好的故事，"
+            "cn": "这是一个美好的故事。"
           },
           {
             "en": "She changed my life in so many ways.",
@@ -4232,7 +4208,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We’ve been on this journey together.",
-            "cn": "我们一直同舟共济，"
+            "cn": "我们一直同舟共济。"
           },
           {
             "en": "I look up to her, in a way.",
@@ -4288,11 +4264,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Easy for me!",
-            "cn": "这对我来讲，"
+            "cn": "这对我来讲！"
           },
           {
             "en": "Every single day, literally for three weeks, my agent was saying, “It’s on.",
-            "cn": "小菜一碟。整整三周，每一天，我的经纪人都会说：“没问题的，"
+            "cn": "小菜一碟。整整三周，每一天，我的经纪人都会说：“没问题的。"
           },
           {
             "en": "Wait, it’s off.",
@@ -4300,7 +4276,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It’s on.",
-            "cn": "哦，没问题了，"
+            "cn": "哦，没问题了。"
           },
           {
             "en": "Wait, it’s off again.”",
@@ -4320,7 +4296,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We didn’t know what to do.",
-            "cn": "我们不知道该怎么办，"
+            "cn": "我们不知道该怎么办。"
           },
           {
             "en": "We were worried that maybe there was something wrong with the baby.",
@@ -4332,7 +4308,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Then she was in a lot of pain, and she was bleeding.",
-            "cn": "然后她疼痛难耐，开始流血，"
+            "cn": "然后她疼痛难耐，开始流血。"
           },
           {
             "en": "We had no idea what was happening, so we rushed to the hospital.",
@@ -4352,7 +4328,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "One minute, all you’re thinking about is a football transfer.",
-            "cn": "前一分钟，你还在担心足球俱乐部转会的事情，"
+            "cn": "前一分钟，你还在担心足球俱乐部转会的事情。"
           },
           {
             "en": "And then, all of a sudden, your world is upside down.",
@@ -4360,7 +4336,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Thank God, in the end, everything was O.K.",
-            "cn": "好在我们的儿子并无大碍。如果没有他，"
+            "cn": "好在我们的儿子并无大碍。如果没有他。"
           },
           {
             "en": "with our son.",
@@ -4372,11 +4348,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I don’t know what I would’ve done without him in my life.",
-            "cn": "在足球中发生所有美妙的东西，"
+            "cn": "在足球中发生所有美妙的东西。"
           },
           {
             "en": "Everything good that’s ever happened to me in football, it’s nothing compared to my wife and my kids.",
-            "cn": "都没有办法和我的妻子还有孩子们比较。那是我生命中第三个重要时刻，"
+            "cn": "都没有办法和我的妻子还有孩子们比较。那是我生命中第三个重要时刻。"
           },
           {
             "en": "That was the third life-changing moment for me, because it made me realize that football is not life or death.",
@@ -4420,7 +4396,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Because he is not just interested in winning.",
-            "cn": "因为他不仅仅是想要赢球，"
+            "cn": "因为他不仅仅是想要赢球。"
           },
           {
             "en": "He wants perfection.",
@@ -4432,7 +4408,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The first meeting I ever had with Pep, he sat me down and he said, “Kevin, listen.",
-            "cn": "我记得我和Pep的第一次会面，他让我坐下来，说道：Kevin 你听着，"
+            "cn": "我记得我和Pep的第一次会面，他让我坐下来，说道：Kevin 你听着。"
           },
           {
             "en": "You can be — easily — a top five player in the world.",
@@ -4440,7 +4416,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Top five.",
-            "cn": "世界前五，"
+            "cn": "世界前五。"
           },
           {
             "en": "Easily.”",
@@ -4460,7 +4436,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It was kind of genius, I think.",
-            "cn": "真的是非常天才的做法，"
+            "cn": "真的是非常天才的做法。"
           },
           {
             "en": "Because I felt like I had to prove him right, instead of prove him wrong.",
@@ -4472,15 +4448,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Most of the time, football is about negativity and fear.",
-            "cn": "很多时候，足球充斥着悲观的事情，"
+            "cn": "很多时候，足球充斥着悲观的事情。"
           },
           {
             "en": "But with Pep, it’s about extreme positivity.",
-            "cn": "或者是恐惧。但是就Pep而言，"
+            "cn": "或者是恐惧。但是就Pep而言。"
           },
           {
             "en": "He sets goals that are so high that they’re almost impossible to reach.",
-            "cn": "足球是极其正能量的东西。他的目标总是非常的高，"
+            "cn": "足球是极其正能量的东西。他的目标总是非常高。"
           },
           {
             "en": "He is a tactical master, yes.",
@@ -4508,7 +4484,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Sitting and watching a match from the stands is basically worse than torture for me.",
-            "cn": "坐在场下观看比赛对我来说简直比酷刑还难过，"
+            "cn": "坐在场下观看比赛对我来说简直比酷刑还难过。"
           },
           {
             "en": "I can’t cope.",
@@ -4520,7 +4496,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Actually, my wife says that there’s something wrong with me.",
-            "cn": "我妻子说我这个人好像有点问题，"
+            "cn": "我妻子说我这个人好像有点问题。"
           },
           {
             "en": "We’ve been together almost seven years, and she had never seen me cry.",
@@ -4532,7 +4508,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But then earlier this season, I injured my knee against Fulham, and there was some ligament damage.",
-            "cn": "但是赛季前段时间，当我在对阵富汉姆时受伤之后，"
+            "cn": "但是赛季前段时间，当我在对阵富汉姆时受伤之后。"
           },
           {
             "en": "The doctors told me that I was going to have to be in a brace for a bit.",
@@ -4568,7 +4544,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She said, “Everything is fine.",
-            "cn": "”她说：“一切都好，"
+            "cn": "她说：“一切都好。"
           },
           {
             "en": "Are you crying?”",
@@ -4604,7 +4580,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And then, literally, I broke down in tears.",
-            "cn": "”然后，真的，我一下子哭了出来，"
+            "cn": "然后，真的，我一下子哭了出来。"
           },
           {
             "en": "I couldn’t help it.",
@@ -4652,11 +4628,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Weddings, funerals, births?",
-            "cn": "婚礼，"
+            "cn": "婚礼？"
           },
           {
             "en": "It’s nothing.",
-            "cn": "葬礼，"
+            "cn": "葬礼。"
           },
           {
             "en": "I’m a rock.",
@@ -4664,7 +4640,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But if you take football away from me?",
-            "cn": "这些对我来说都不足以让我流泪，"
+            "cn": "这些对我来说都不足以让我流泪？"
           },
           {
             "en": "Forget it.",
@@ -4676,7 +4652,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "In the end, this project at City is about more than winning.",
-            "cn": "我真的受不了。说起来，曼城正在经历的这股势头，"
+            "cn": "我真的受不了。说起来，曼城正在经历的这股势头。"
           },
           {
             "en": "It’s about a certain way of playing and an overall philosophy.",
@@ -4692,11 +4668,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "To play simple football is actually the hardest thing in the world.",
-            "cn": "能够踢简单无杂物的足球，实际上是这个世界上最难的事情，"
+            "cn": "能够踢简单无杂物的足球，实际上是这个世界上最难的事情。"
           },
           {
             "en": "But when it’s rolling?",
-            "cn": "但是当我们进入这个状态，"
+            "cn": "但是当我们进入这个状态？"
           },
           {
             "en": "For me, it’s the most joy that I can have in life.",
@@ -4708,7 +4684,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "When we play our best at City, when we’re fluid it’s like…",
-            "cn": "当我们在曼城踢出我们的最高水平的足球，当一切都行云流水，"
+            "cn": "当我们在曼城踢出我们的最高水平的足球，当一切都行云流水。"
           },
           {
             "en": "what’s the word for it?",
@@ -4724,7 +4700,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Nirvana.",
-            "cn": "对，"
+            "cn": "对。"
           },
           {
             "en": "It’s really like nirvana for me.",
@@ -4752,7 +4728,9 @@ const ARTICLES_EXTRA = [
           }
         ]
       }
-    ]
+    ],
+    "cover": "linear-gradient(135deg,#10B981,#047857)",
+    "gradient": "linear-gradient(135deg,#10B981,#047857)"
   },
   {
     "id": "fb-cristiano-ronaldo-madrid-my-story",
@@ -5714,7 +5692,9 @@ const ARTICLES_EXTRA = [
           }
         ]
       }
-    ]
+    ],
+    "cover": "linear-gradient(135deg,#10B981,#047857)",
+    "gradient": "linear-gradient(135deg,#10B981,#047857)"
   },
   {
     "id": "fb-gerard-pique-a-long-story",
@@ -7830,26 +7810,10 @@ const ARTICLES_EXTRA = [
             "cnEdited": true
           }
         ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Welcome to The Players’ Tribune Global.",
-            "cn": "欢迎来到《球员论坛报》全球版。",
-            "cnEdited": true
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "One of my goals is to never shut up.",
-            "cn": "我的目标之一，是永远不闭嘴。",
-            "cnEdited": true
-          }
-        ]
       }
-    ]
+    ],
+    "cover": "linear-gradient(135deg,#10B981,#047857)",
+    "gradient": "linear-gradient(135deg,#10B981,#047857)"
   },
   {
     "id": "fb-martin-odegaard-north-london-forever",
@@ -9779,7 +9743,9 @@ const ARTICLES_EXTRA = [
           }
         ]
       }
-    ]
+    ],
+    "cover": "linear-gradient(135deg,#10B981,#047857)",
+    "gradient": "linear-gradient(135deg,#10B981,#047857)"
   },
   {
     "id": "gr-pg-what-youll-wish-youd-known",
@@ -16168,7 +16134,7 @@ const ARTICLES_EXTRA = [
     "translation": {
       "status": "machine-checked",
       "issues": [],
-      "sentenceCount": 185,
+      "sentenceCount": 184,
       "providers": {
         "qwen-mt": 136,
         "deepl": 49
@@ -17476,15 +17442,6 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Hair: Esther Langham; Make-up: Mark Carrasquillo; Set design: Stefan Beckman at Exposure NY; B2Pro AC: Derek Nelson; B2ProFocus puller: Brendan Stumpf; B2Pro VTR: Enrique Castillo; B2Pro DIT: Alexandra Mulcahy; Manicure: Elle for Essie at The Wall Group; Photographic assistants: Chris Ferretti, Huan Daong-Nguyen; Styling assistants: Shola Rothenberg, Kacie Hansborough; Hair assistant: Marcos Diaz; Make-up assistant: Ariel Yeh; Set design assistants: Kelsey Hall, Jamen Whitlock; Production: Kate Collings-Post at North Six; Production assistants: Wendell Vaughan, Kevin Kendrick, Taylor Burgess, Corey Williams.",
-            "cn": "发型：埃丝特·兰汉姆；化妆：马克·卡拉斯基略；布景设计：Exposure NY 的斯特凡·贝克曼； B2Pro助理摄像：德里克·尼尔森；B2Pro对焦员：布伦丹·斯图姆普；B2Pro录像师：恩里克·卡斯蒂略；B2Pro数字影像技术员：亚历山德拉·穆尔卡希；美甲：艾尔（代表Essie，隶属于The Wall Group）；摄影助理：克里斯·费雷蒂、胡安·道恩-阮； 造型助理：肖拉·罗滕伯格、凯西·汉斯伯勒；发型助理：马科斯·迪亚兹；化妆助理：阿里尔·叶；布景设计助理：凯尔西·霍尔、杰门·惠特洛克；制作：北六工作室的凯特·科林斯-波斯特；制作助理：温德尔·沃恩、凯文·肯德里克、泰勒·伯吉斯、科里·威廉姆斯。"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
             "en": "This story originally appeared in the Autumn/Winter 2011 issue of AnOther Magazine.",
             "cn": "本文最初发表于《AnOther Magazine》2011年秋冬刊。"
           }
@@ -17543,7 +17500,7 @@ const ARTICLES_EXTRA = [
       "issues": [
         "第 170 句数字待核对：2, 3"
       ],
-      "sentenceCount": 203,
+      "sentenceCount": 199,
       "providers": {
         "qwen-mt": 171,
         "deepl": 32
@@ -17570,27 +17527,11 @@ const ARTICLES_EXTRA = [
     ],
     "paras": [
       {
-        "sentences": [
-          {
-            "en": "Photographed by Craig McDean",
-            "cn": "由克雷格·麦克迪恩拍摄"
-          }
-        ],
-        "sourceTag": "heading"
-      },
-      {
         "img": "assets/covers/people-megan-fox-interview-1.jpg",
         "alt": "Megan Fox · 图片",
         "cap": "",
         "credit": "Craig McDean / Interview Magazine",
         "sourceUrl": "https://www.interviewmagazine.com/wp-content/uploads/2010/06/img-megan-fox-1_103203615724.jpg"
-      },
-      {
-        "img": "assets/covers/people-megan-fox-interview-2.jpg",
-        "alt": "Megan Fox · 图片",
-        "cap": "",
-        "credit": "Craig McDean / Interview Magazine",
-        "sourceUrl": "https://www.interviewmagazine.com/wp-content/uploads/2010/06/img-megan-fox-4_103259708332.jpg"
       },
       {
         "sentences": [
@@ -17604,6 +17545,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-megan-fox-interview-2.jpg",
+        "alt": "Megan Fox · 图片",
+        "cap": "",
+        "credit": "Craig McDean / Interview Magazine",
+        "sourceUrl": "https://www.interviewmagazine.com/wp-content/uploads/2010/06/img-megan-fox-4_103259708332.jpg"
       },
       {
         "sentences": [
@@ -18697,28 +18645,6 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
-            "en": "This is an excerpt of the cover story.",
-            "cn": "这是封面故事的节选。"
-          },
-          {
-            "en": "To read the full Megan Fox interview pick up a copy of Interview .",
-            "cn": "要阅读完整的梅根·福克斯专访，请购买《Interview》杂志。"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Zach Galifianakis a comedian and actor whose credits include The Hangover and Bored to Death.",
-            "cn": "扎克·加利菲安纳基斯，一位喜剧演员兼演员，其代表作包括《宿醉》和《无聊至死》。"
-          }
-        ],
-        "sourceTag": "paragraph"
       }
     ]
   },
@@ -18773,7 +18699,7 @@ const ARTICLES_EXTRA = [
         "第 84 句数字待核对：10",
         "第 207 句数字待核对：00"
       ],
-      "sentenceCount": 217,
+      "sentenceCount": 211,
       "providers": {
         "qwen-mt": 173,
         "deepl": 44
@@ -18799,24 +18725,6 @@ const ARTICLES_EXTRA = [
       "https://www.interviewmagazine.com/wp-content/uploads/2022/12/004033790010-1019x1536.jpg"
     ],
     "paras": [
-      {
-        "sentences": [
-          {
-            "en": "Photographed by Christian Coppola",
-            "cn": "由克里斯蒂安·科波拉拍摄"
-          }
-        ],
-        "sourceTag": "heading"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Styled by Mimi Wade",
-            "cn": "由米米·韦德担任造型"
-          }
-        ],
-        "sourceTag": "heading"
-      },
       {
         "img": "assets/covers/people-zoey-deutch-rom-com-1.jpg",
         "alt": "Zoey Deutch · 图片",
@@ -19999,44 +19907,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Hair: Bridget Brager",
-            "cn": "发型：布里吉特·布拉格"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Makeup: Alex Babsky using Dior Beauty",
-            "cn": "妆容：亚历克斯·巴布斯基，使用迪奥美妆"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
             "en": "Production: Krista Worby",
             "cn": "制作：克里斯塔·沃比"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Manicure: Emu Kudo",
-            "cn": "美甲：Emu Kudo"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Fashion Assistant: Leila Kyriacos",
-            "cn": "时尚助理：莱拉·基里亚科斯"
           }
         ],
         "sourceTag": "paragraph"
@@ -20090,7 +19962,7 @@ const ARTICLES_EXTRA = [
       "issues": [
         "第 49 句数字待核对：100"
       ],
-      "sentenceCount": 188,
+      "sentenceCount": 187,
       "providers": {
         "qwen-mt": 169,
         "deepl": 19
@@ -21155,15 +21027,6 @@ const ARTICLES_EXTRA = [
           {
             "en": "This story first appeared in the Spring/Summer 2015 edition of AnOther Magazine.",
             "cn": "本故事首次刊登于《AnOther Magazine》2015年春夏刊。"
-          }
-        ],
-        "sourceTag": "paragraph"
-      },
-      {
-        "sentences": [
-          {
-            "en": "Hair Mark Hampton at Julian Watson Agency for Toni & Guy Hair Meet Wardrobe; Make-up Petros Petrohilos at Streeters using Chanel S 2015 and Chanel Body Excellence; Manicure Sophy Robson at Streeters; Set design Janina Pedan at The Magnet Agency; lighting director Christian Bragg; Photographic assitants Robert Willey, Jori Komulainen; Digital tech Jax Harney; Styling assitants Isabelle Sayer, Kelly-Ann Hughes; Hair assistant Sophie Anderson; Make-up assistant Riona O'Sullivan; Set design assistant Amy Stickland; Production Sylvia Farago Ltd",
-            "cn": "发型：马克·汉普顿，由朱利安·沃森经纪公司为Toni & Guy Hair Meet Wardrobe提供；妆容：佩特罗斯·佩特罗希洛斯，由Streeters团队采用香奈儿S 2015系列及香奈儿Body Excellence系列产品打造；美甲：索菲·罗布森，由Streeters团队完成；场景设计：贾妮娜·佩丹，由The Magnet Agency负责；灯光指导：克里斯蒂安·布拉格；摄影助理：罗伯特·威利、约里·科穆莱宁；数字技术：贾克斯·哈尼；造型助理：伊莎贝尔·塞耶、凯莉-安·休斯；发型助理：索菲·安德森；化妆助理：里奥娜·奥沙利文；场景设计助理：艾米·斯蒂克兰德；制作：Sylvia Farago Ltd。"
           }
         ],
         "sourceTag": "paragraph"
