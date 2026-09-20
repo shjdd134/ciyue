@@ -84,6 +84,11 @@ console.log("\n== 4. 判据双向负向测试（隔离数据目录）==");
   fs.writeFileSync(path.join(ISO, "data-covers.js"), "const COVER_MAP = {};\n");
 
   const COVER = "assets/covers/fb-cristiano-ronaldo-madrid-my-story.jpg";   // 74KB，过 F3 的 250KB 上限
+  /* 配图排布样本用的四张**真实存在**的图。必须真实存在，理由见 SAMPLES 里那条注释。 */
+  const IMG_A4 = "assets/covers/people-anne-hathaway-mother-mary-1.jpg";
+  const IMG_B4 = "assets/covers/people-anne-hathaway-mother-mary-2.jpg";
+  const IMG_C4 = "assets/covers/people-anne-hathaway-mother-mary-3.jpg";
+  const IMG_D4 = "assets/covers/people-anne-hathaway-mother-mary-4.jpg";
   const TODAY = new Date().toISOString().slice(0, 10);
   const tail = [
     { sentences: [{ en: "They won the match at last.", cn: "他们终于赢了比赛。" }] },
@@ -96,21 +101,41 @@ console.log("\n== 4. 判据双向负向测试（隔离数据目录）==");
     paras: [{ sentences: [{ en: "The team played well in the first half.", cn: "球队上半场踢得很好。" }] }, ...tail],
   };
   const SAMPLES = [
-    { want: "F2", note: "无 pin 的旧文 —— 时效判据必须仍然会响",
+    { want: "F2", wantMsg: "文章偏旧", note: "无 pin 的旧文 —— 时效判据必须仍然会响",
       art: { id: "qc-t-nopin-old", date: "2019-04-15" } },
     { want: null, note: "带 pin 的旧文 —— 应豁免时效（对齐 publish.mjs:16 的 pin 语义）",
       art: { id: "qc-t-pin-old", date: "2019-04-15", pin: true } },
-    { want: "F1", note: "直播指南标题 —— 内容门禁必须仍然会响",
+    { want: "F1", wantMsg: "内容不可读", note: "直播指南标题 —— 内容门禁必须仍然会响",
       art: { id: "qc-t-live-guide", title: "How to watch the match FREE: Live streams" } },
     { want: null, note: "自述长文正文含 watch…live —— 不得再被判成直播指南（本轮修掉的假阳性）",
       art: { id: "qc-t-longform-watch",
         paras: [{ sentences: [{ en: LONGFORM_BODY, cn: "如果你在马德里看电视，他们会跟你讲一个完全不同的关于我的故事。" }] }, ...tail] } },
-    { want: "F4", note: "译文照抄英文 —— 漏译判据必须仍然会响",
+    { want: "F4", wantMsg: "译文无中文", note: "译文照抄英文 —— 漏译判据必须仍然会响",
       art: { id: "qc-t-copy-en",
         paras: [{ sentences: [{ en: "The team played well in the first half.", cn: "The team played very well in the first half." }] }, ...tail] } },
     { want: null, note: "纯标点译文（原文也只有省略号）—— 不得再被判成漏译（本轮修掉的假阳性）",
       art: { id: "qc-t-punct-only",
         paras: [{ sentences: [{ en: "….", cn: "……" }] }, ...tail] } },
+    /* 配图排布（2026-09-20 新增的两条 F3）。样本故意用**真实存在的图片文件** ——
+     * F3 自己那条「文件不存在」的判据会先把不存在的路径拦下来，用假路径的话
+     * 「堆叠」与「封面重复」两条就永远测不到，测试会变成一个只看得到 F3 前缀的假绿。 */
+    { want: "F3", wantMsg: "正文配图堆叠", note: "一连 4 张图中间没有文字 —— 堆图判据必须仍然会响",
+      art: { id: "qc-t-fig-stack",
+        paras: [{ img: IMG_A4 }, { img: IMG_B4 }, { img: IMG_C4 }, { img: IMG_D4 }, ...tail] } },
+    { want: "F3", wantMsg: "与封面重复", note: "正文图与封面同一张 —— 封面重复判据必须仍然会响",
+      art: { id: "qc-t-fig-coverdup",
+        paras: [{ img: COVER }, ...tail] } },
+    { want: null, note: "图与图之间隔 2 个文字段 —— 排布正常，不得被判成堆叠（本轮新增判据的假阳性防线）",
+      art: { id: "qc-t-fig-ok",
+        paras: [{ sentences: [{ en: "The team played well in the first half.", cn: "球队上半场踢得很好。" }] },
+          { img: IMG_A4 },
+          { sentences: [{ en: "The fans cheered loudly.", cn: "球迷大声欢呼。" }] },
+          { sentences: [{ en: "They won the match at last.", cn: "他们终于赢了比赛。" }] },
+          { img: IMG_B4 },
+          { sentences: [{ en: "The manager praised them.", cn: "主教练表扬了他们。" }] },
+          { sentences: [{ en: "The season is long.", cn: "赛季还很漫长。" }] },
+          { img: IMG_C4 },
+          { sentences: [{ en: "They rest before the next game.", cn: "他们在下一场之前休息。" }] }] } },
   ];
   const arts = SAMPLES.map(s => ({ ...DEFAULT, ...s.art, url: "https://example.com/" + s.art.id }));
   fs.writeFileSync(path.join(ISO, "data-articles-extra.js"),
@@ -128,16 +153,23 @@ console.log("\n== 4. 判据双向负向测试（隔离数据目录）==");
     if (line.startsWith("  ⚠ ")) { cur = null; continue; }
     if (cur && line.startsWith("      ")) failsOf.get(cur).push(line.trim());
   }
-  /* 计数行同时验证两件事：隔离目录真的生效（data.js 里 ARTICLES 为空，只有 6 篇样本），
-   * 以及没有任何样本被静默跳过 —— 「一个都没进主循环」正是本文件开头那类失败路径。 */
+  /* 计数行同时验证两件事：隔离目录真的生效（data.js 里 ARTICLES 为空，只有 SAMPLES 这些样本），
+   * 以及没有任何样本被静默跳过 —— 「一个都没进主循环」正是本文件开头那类失败路径。
+   * 用 SAMPLES.length 而不是写死数字：写死时每加一个样本都要手改，忘改就会把
+   * 「样本没进检查」报成通过（这里原本写死 6，2026-09-20 加三个配图样本时差点漏掉）。 */
   const cm = (r.stdout || "").match(/合格 (\d+) · 拒收 (\d+)/);
-  check("隔离目录生效且 6 篇样本全部进了检查（无真实文章混入、无静默跳过）",
-    Boolean(cm) && +cm[1] + +cm[2] === 6,
-    cm ? `合格 ${cm[1]} + 拒收 ${cm[2]} = ${+cm[1] + +cm[2]}（应为 6）` : "没取到计数行");
+  check(`隔离目录生效且 ${SAMPLES.length} 篇样本全部进了检查（无真实文章混入、无静默跳过）`,
+    Boolean(cm) && +cm[1] + +cm[2] === SAMPLES.length,
+    cm ? `合格 ${cm[1]} + 拒收 ${cm[2]} = ${+cm[1] + +cm[2]}（应为 ${SAMPLES.length}）` : "没取到计数行");
   for (const s of SAMPLES) {
     const fails = failsOf.get(s.art.id);
     if (s.want) {
-      const hit = Boolean(fails && fails.some(f => f.startsWith(s.want)));
+      /* `wantMsg` 不是锦上添花，是防假绿：只比对判据编号（"F3"）的话，
+       * 「F3 正文图片文件不存在」这条本来就在的判据也会让新样本变绿 ——
+       * 于是「堆叠判据」可能一次都没被真正触发，测试照样全绿。
+       * 2026-09-20 加配图排布样本时正是靠这一条才发现必须收紧的。 */
+      const hit = Boolean(fails && fails.some(f =>
+        f.startsWith(s.want) && (!s.wantMsg || f.includes(s.wantMsg))));
       check(s.note, hit, fails ? `实际只报：${fails.join(" / ")}` : "该拒的没拒（未出现在拒收列表）");
     } else {
       check(s.note, fails === undefined, fails ? "被误判拒收：" + fails.join(" / ") : "");

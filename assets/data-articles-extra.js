@@ -301,10 +301,6 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
-        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-3.jpg",
-        "cap": ""
-      },
-      {
         "en": "Life happens at the level of events, not of words.",
         "cn": "生活发生在事件层面，而非言语层面。"
       },
@@ -375,10 +371,6 @@ const ARTICLES_EXTRA = [
       {
         "en": "The lesson here is that real change requires changing your goals.",
         "cn": "这里要汲取的教训是：真正的改变需要改变你的目标。"
-      },
-      {
-        "img": "assets/covers/gr-how-to-fix-your-entire-life-in-1-day-4.jpg",
-        "cap": ""
       },
       {
         "sentences": [
@@ -16214,13 +16206,6 @@ const ARTICLES_EXTRA = [
     ],
     "paras": [
       {
-        "img": "assets/covers/people-rachel-weisz-archive-0.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/765/216-274-765-510/azure/another-prod/390/8/398041.jpg"
-      },
-      {
         "sentences": [
           {
             "en": "Rachel Weisz’s Autumn/Winter 2011 cover story for AnOther Magazine featured a Craig McDean shoot inspired by the actor’s favourite choreographer, published alongside a conversation between Weisz and Harland Miller",
@@ -16237,6 +16222,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-1.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398040.jpg"
       },
       {
         "sentences": [
@@ -16285,20 +16277,6 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
-        "img": "assets/covers/people-rachel-weisz-archive-1.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398040.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-2.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398039.jpg"
-      },
-      {
         "sentences": [
           {
             "en": "What strikes me now, looking back, is how amiable and adaptable Rachel was to the way the weekend quickly fell apart.",
@@ -16330,20 +16308,6 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-3.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398034.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-4.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398033.jpg"
       },
       {
         "sentences": [
@@ -16383,20 +16347,6 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
-        "img": "assets/covers/people-rachel-weisz-archive-5.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398032.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-6.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398031.jpg"
-      },
-      {
         "sentences": [
           {
             "en": "Harland Miller: Where were we?",
@@ -16404,6 +16354,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-2.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398039.jpg"
       },
       {
         "sentences": [
@@ -16467,6 +16424,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-3.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398034.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "RW: Yes, they don’t go away.",
@@ -16511,6 +16475,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-4.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398033.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "RW: That’s right, and actually I was thinking of adding to the tattoo somehow …",
@@ -16518,20 +16489,6 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-7.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398030.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-8.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398029.jpg"
       },
       {
         "sentences": [
@@ -16576,6 +16533,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-5.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398032.jpg"
       },
       {
         "sentences": [
@@ -16635,6 +16599,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-6.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398031.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "RW: Do you think he’s definitely talking about suicide?",
@@ -16642,20 +16613,6 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-9.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398028.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-10.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398027.jpg"
       },
       {
         "sentences": [
@@ -16699,6 +16656,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-7.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398030.jpg"
       },
       {
         "sentences": [
@@ -16750,6 +16714,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-8.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398029.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "RW: Well I was very young – I’d sneaked in to see Reds .",
@@ -16785,20 +16756,6 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
-        "img": "assets/covers/people-rachel-weisz-archive-11.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398026.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-12.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398025.jpg"
-      },
-      {
         "sentences": [
           {
             "en": "HM: Was it to do with the way actors use cigarettes that made you pick it up?",
@@ -16823,6 +16780,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-9.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398028.jpg"
       },
       {
         "sentences": [
@@ -16879,6 +16843,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-10.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398027.jpg"
       },
       {
         "sentences": [
@@ -16949,20 +16920,6 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
-        "img": "assets/covers/people-rachel-weisz-archive-13.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398024.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-14.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398023.jpg"
-      },
-      {
         "sentences": [
           {
             "en": "HM: I’m always interested with that series of paintings, why people choose the titles they do.",
@@ -16974,6 +16931,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-11.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398026.jpg"
       },
       {
         "sentences": [
@@ -17039,6 +17003,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-12.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398025.jpg"
       },
       {
         "sentences": [
@@ -17109,6 +17080,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-13.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398024.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "RW: Which brings me to your painting Incurable Romantic Seeks Dirty Filthy ... ?",
@@ -17116,20 +17094,6 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-15.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398022.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-16.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398021.jpg"
       },
       {
         "sentences": [
@@ -17220,6 +17184,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-14.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398023.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "HM: You think?",
@@ -17289,6 +17260,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-rachel-weisz-archive-15.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398022.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "RW: That’s like that game where you ask: “If you were a novel what would you be?” And people say, “Oh yeah, I’d be Tolstoy.” Well, if I was a record, I’d be Beethoven [laughs].",
@@ -17296,20 +17274,6 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-17.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398020.jpg"
-      },
-      {
-        "img": "assets/covers/people-rachel-weisz-archive-18.jpg",
-        "alt": "Rachel Weisz · 图片",
-        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
-        "credit": "Craig McDean / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398019.jpg"
       },
       {
         "sentences": [
@@ -17341,6 +17305,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-16.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398021.jpg"
       },
       {
         "sentences": [
@@ -17410,6 +17381,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-17.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398020.jpg"
       },
       {
         "sentences": [
@@ -17487,6 +17465,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-rachel-weisz-archive-18.jpg",
+        "alt": "Rachel Weisz · 图片",
+        "cap": "Rachel Weisz for AnOther Magazine Autumn/Winter 2011 Photography by Craig McDean, Styling by Olivier Rizzo",
+        "credit": "Craig McDean / AnOther Magazine",
+        "sourceUrl": "https://images-prod.anothermag.com/1250/azure/another-prod/390/8/398019.jpg"
       },
       {
         "sentences": [
@@ -20129,13 +20114,6 @@ const ARTICLES_EXTRA = [
     ],
     "paras": [
       {
-        "img": "assets/covers/people-lea-seydoux-bond-girl-0.jpg",
-        "alt": "Léa Seydoux · 图片",
-        "cap": "",
-        "credit": "Collier Schorr / AnOther Magazine",
-        "sourceUrl": "https://images-prod.anothermag.com/685/515-89-685-456/azure/another-prod/330/7/337140.jpg"
-      },
-      {
         "sentences": [
           {
             "en": "As the captivating star makes her Bond debut in Spectre, we recall her full interview from AnOther Magazine S/S15",
@@ -21274,11 +21252,11 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
-        "img": "assets/covers/people-eva-green-tim-burton-0.jpg",
+        "img": "assets/covers/people-eva-green-tim-burton-1.jpg",
         "alt": "Eva Green · 图片",
         "cap": "",
         "credit": "W Magazine",
-        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/58540202c7188f9b26c951c4_0816.w.MM_.eva_.lo30_View5-copy-copy_RGB.jpg"
+        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ebe3d613c03e1eb6b4_0816.cover_.lo_digital.jpg"
       },
       {
         "sentences": [
@@ -21343,46 +21321,11 @@ const ARTICLES_EXTRA = [
         "sourceTag": "heading"
       },
       {
-        "img": "assets/covers/people-eva-green-tim-burton-1.jpg",
-        "alt": "Eva Green · 图片",
-        "cap": "",
-        "credit": "W Magazine",
-        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ebe3d613c03e1eb6b4_0816.cover_.lo_digital.jpg"
-      },
-      {
         "img": "assets/covers/people-eva-green-tim-burton-2.jpg",
         "alt": "Eva Green · 图片",
         "cap": "",
         "credit": "W Magazine",
         "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ecd3b7a5db18f3afdc_0816.w.MM_.eva_.lo30_View-copyRBG.jpg"
-      },
-      {
-        "img": "assets/covers/people-eva-green-tim-burton-3.jpg",
-        "alt": "Eva Green · 图片",
-        "cap": "",
-        "credit": "W Magazine",
-        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ede3d613c03e1eb6b6_0816.w.MM_.eva_.lo30_View2-copy.jpg"
-      },
-      {
-        "img": "assets/covers/people-eva-green-tim-burton-4.jpg",
-        "alt": "Eva Green · 图片",
-        "cap": "",
-        "credit": "W Magazine",
-        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ee57dfc3b0230f799d_0816.w.MM_.eva_.lo30_View3-copy.jpg"
-      },
-      {
-        "img": "assets/covers/people-eva-green-tim-burton-5.jpg",
-        "alt": "Eva Green · 图片",
-        "cap": "",
-        "credit": "W Magazine",
-        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ef9c190ec57ac08222_0816.w.MM_.eva_.lo30_View4.jpg"
-      },
-      {
-        "img": "assets/covers/people-eva-green-tim-burton-6.jpg",
-        "alt": "Eva Green · 图片",
-        "cap": "",
-        "credit": "W Magazine",
-        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370f06666b2eb4762d319_0816.w.MM_.eva_.lo30_View5-copy-copy_RGB.jpg"
       },
       {
         "sentences": [
@@ -21436,6 +21379,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-eva-green-tim-burton-3.jpg",
+        "alt": "Eva Green · 图片",
+        "cap": "",
+        "credit": "W Magazine",
+        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ede3d613c03e1eb6b6_0816.w.MM_.eva_.lo30_View2-copy.jpg"
       },
       {
         "sentences": [
@@ -21520,6 +21470,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-eva-green-tim-burton-4.jpg",
+        "alt": "Eva Green · 图片",
+        "cap": "",
+        "credit": "W Magazine",
+        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ee57dfc3b0230f799d_0816.w.MM_.eva_.lo30_View3-copy.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "After The Dreamers, Green was consistently cast as a tough, smart—sexy—woman of mystery.",
@@ -21594,6 +21551,13 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       },
       {
+        "img": "assets/covers/people-eva-green-tim-burton-5.jpg",
+        "alt": "Eva Green · 图片",
+        "cap": "",
+        "credit": "W Magazine",
+        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370ef9c190ec57ac08222_0816.w.MM_.eva_.lo30_View4.jpg"
+      },
+      {
         "sentences": [
           {
             "en": "Becoming a falcon for Burton was also liberating in its own way.",
@@ -21625,6 +21589,13 @@ const ARTICLES_EXTRA = [
           }
         ],
         "sourceTag": "paragraph"
+      },
+      {
+        "img": "assets/covers/people-eva-green-tim-burton-6.jpg",
+        "alt": "Eva Green · 图片",
+        "cap": "",
+        "credit": "W Magazine",
+        "sourceUrl": "https://imgix.bustle.com/wmag/2016/12/16/585370f06666b2eb4762d319_0816.w.MM_.eva_.lo30_View5-copy-copy_RGB.jpg"
       },
       {
         "sentences": [

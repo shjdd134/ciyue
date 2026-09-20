@@ -15,6 +15,7 @@ import {readDecl, writeDecl} from './lib-text.mjs';
 import {translateTexts} from './lib-mt.mjs';
 import {applyGlossary} from './lib-glossary.mjs';
 import {createBatch} from './lib-release.mjs';
+import {spreadStackedFigures} from './lib-figures.mjs';
 
 const root=path.resolve(import.meta.dirname,'..'), temp=path.join(root,'.tmp','people');
 fs.mkdirSync(temp,{recursive:true});
@@ -93,6 +94,15 @@ async function toFullParas(item,p,photos) {
   let cursor=0;
   const paras=[];
   const imageMap=sourcePhotoMap(p,photos);
+  /* photos[0] 是 og:image，发布时就是封面（`coverImg:photos[0]?.rel`）。而 lib-people 的
+   * blocks 回调是按 `imageKey(url)` 到 images[] 里去**找**同一个对象 —— images[0] 也在里面，
+   * 所以文章正文里再出现一次封面那张图时，block 照样能匹配上、被当成正文图插一次。
+   * 结果是同一张照片在一页出现两遍：`app.js` 页首把它渲染成 .read-cover，正文再来一张 figure。
+   * 2026-09-20 实测三篇中招（eva-green / rachel-weisz / lea-seydoux，三篇的 photo 序列第一位
+   * 与 coverImg 同一个文件，见 .tmp/people/prepared.json 的 blocks 序列首字母 I/T）。
+   * ingest.mjs 的 --repair-images 早就是这个口径（sameAsCover，注释「同一张图在正文里
+   * 再出现一次是噪音」），这里补齐同一把尺子。 */
+  const coverRel=photos[0]?.rel||'';
   for(const block of p.blocks){
     if(block.type==='text'){
       /* 术语/专名校正：人物篇的片名、人名是最容易整类译错的地方（Monster→《魔鬼》），
@@ -101,13 +111,19 @@ async function toFullParas(item,p,photos) {
       paras.push({sentences,sourceTag:block.tag});
     }else if(block.type==='image'){
       const photo=imageMap.get(imageKey(block.url));
-      if(photo)paras.push({img:photo.rel,alt:`${p.person?.name||p.title} · 图片`,cap:block.credit||'',credit:item.photoCredit,sourceUrl:photo.sourceUrl});
+      if(photo&&photo.rel!==coverRel)paras.push({img:photo.rel,alt:`${p.person?.name||p.title} · 图片`,cap:block.credit||'',credit:item.photoCredit,sourceUrl:photo.sourceUrl});
     }
   }
   /* og:image 常常只作为封面，不在 article figure 内；其余遗漏图追加，避免抓取器静默丢图。 */
-  const used=new Set(paras.filter(x=>x.img).map(x=>x.sourceUrl));
+  const used=new Set([...paras.filter(x=>x.img).map(x=>x.sourceUrl),photos[0]?.sourceUrl].filter(Boolean));
   for(const photo of photos.slice(1))if(!used.has(photo.sourceUrl))paras.push({img:photo.rel,alt:`${p.person?.name||p.title} · 图片`,cap:'',credit:item.photoCredit,sourceUrl:photo.sourceUrl});
-  return {paras,translation:{...translation,providers:translationProviders,cacheNamespace:'people-full-v2'}};
+  /* 排布归一：图挨着图（中间没有文字）读起来是「一下倒了一整本图册」，不是文章。
+   * 注意这**不是**抽取器的错 —— 实测 eva-green 的源页 blocks 序列本身就是
+   * `T I T T I I I I I I T…`（W Magazine 把 6 张图册排在一起），我们只是忠实复刻。
+   * 所以是阅读层的编辑干预：判为堆图时按全篇均分重新铺开（图序与文字顺序都不动）。
+   * 阈值与判据在 lib-figures.mjs，与 qc.mjs 的闸门是同一把尺子 —— 生成器把闸门
+   * 判红的情况直接修掉，而不是产出一篇必然被判红的文章。 */
+  return {paras:spreadStackedFigures(paras),translation:{...translation,providers:translationProviders,cacheNamespace:'people-full-v2'}};
 }
 
 if(mode==='discover'){

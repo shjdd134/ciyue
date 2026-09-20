@@ -9,7 +9,9 @@
  * 判拒标准（一条不满足即拒收该文章）：
  *   F1 字段完备：id/url/cat/title/titleZh/date/paras 齐全，cat 在栏目表内
  *   F2 新鲜度：date 可解析且在近 40 天内
- *   F3 封面与配图：新闻封面存在且 < 250KB；人物原刊专题的全部图片引用文件存在
+ *   F3 封面与配图：新闻封面存在且 < 250KB；人物原刊专题的全部图片引用文件存在；
+ *      配图不得堆叠（相邻两图之间文字太少 / 一连串图中间没有文字）、不得与封面重复
+ *      —— 后两条的口径见 lib-figures.mjs，与修复工具同一把尺子
  *   F4 正文：paras ≥ 3 段；每个文字段 en 非空、cn 非空且不与 en 相同、含中文
  *   F5 文面：无翻译占位符 <e:N>/<s:N>、无 U+FFFD、无不可见字符、无广告脚本/导航/纯链接段
  * 警告（不拒收，只打印）：W1 译文中英文残留偏多（只数小写起头的拉丁词，专有名词不算）、W2 段落过短
@@ -19,6 +21,7 @@ import path from "node:path";
 import vm from "node:vm";
 import { cleanInvisible } from "./lib-text.mjs";
 import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES, unreadableReason } from "./recommend.mjs";
+import { stackingIssues, coverDuplicateIndex } from "./lib-figures.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 /* ASSETS 可被环境变量覆盖 —— 专给负向测试用：tools/qc-test.mjs 第 4 节会造一个隔离数据目录，
@@ -154,6 +157,27 @@ for (const a of ARTICLES) {
     if (!p || !p.img) continue;
     const img = path.join(ROOT, p.img);
     if (!fs.existsSync(img)) F.push(`F3 正文图片文件不存在：${p.img}`);
+  }
+  /* F3 配图排布（2026-09-20 新增）。
+   *
+   * 加这两条之前，「一连 6 张图中间一个字都没有」「同一张照片一页出现两遍」全库
+   * 各中了 1—3 篇，而 250 多条回归**一声不响** —— F3 原来只查「封面存在 / 文件存在 /
+   * 人物 photoCount 一致」，压根没有「图怎么排」的判据。
+   *
+   * 判据与阈值都在 tools/lib-figures.mjs，与 `people.mjs` 生成新文章、
+   * `_repair-figures.mjs` 修旧文章用的是**同一个函数**。这里再抄一份判断就会变成
+   * 「闸门和修复器各说各话」—— 段距那件事（两份 CSS 各写一份 margin，注释 18、
+   * 浏览器 30，守卫只读一份所以全绿）就是同一个病。
+   *
+   * 阈值是量出来的，不是拍的：紧缝(<2 个文字段) >= 3 处，在全部 14 篇上精确命中
+   * Eva Green(5/6 处) + Rachel Weisz(11/18 处)，碰不到 Megan(1 处) / Anne(0 处)；
+   * 最长连放 >= 3 只命中 Eva(6)。「图/文比 > 0.2」那种口径会被 Anne(0.211) 误伤，
+   * 见 lib-figures.mjs 顶注的实测表。 */
+  const figIssues = stackingIssues(paras);
+  if (figIssues.length) F.push(`F3 正文配图堆叠：${figIssues.join("；")}`);
+  const coverDupAt = coverDuplicateIndex(paras, a.coverImg);
+  if (coverDupAt >= 0) {
+    F.push(`F3 正文第 ${coverDupAt} 段的图与封面重复（同一张照片在阅读页出现两遍）`);
   }
   const textParas = [];
   paras.forEach((p, pi) => {
