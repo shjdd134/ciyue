@@ -18,16 +18,17 @@
 
 | 项 | 值 |
 | --- | --- |
-| 文章 | **14 篇 = 成长 4 + 人物 6 + 足球 4** |
-| 句子 / 词数 | **3,913 句 / 54,088 词** |
+| 文章 | **57 篇 = 成长 4 + 人物 6 + 足球 4 + AI 43** |
+| 句子 / 词数 | **8,192 句 / 117,046 词** |
 | 封面 | 66 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
-| 发布基线 | `.bak/published.json` = **`d6851176`**（2026-09-18 15:1x，人物批次 20260918-151030 后） |
-| 资源版本 | `?v=65` · SW 缓存名 `wordlens-cache-v65` |
+| 发布基线 | `.bak/published.json` = **`43dc924`**（2026-09-20 21:2x，批次 20260920-212008 后：AI 栏目 43 篇） |
+| 资源版本 | `?v=66` · SW 缓存名 `wordlens-cache-v66` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
-| 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。成长 RSS 暂停，AI / 旧明星停用 |
+| 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
 | 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
 | 足球 4 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
+| AI 43 篇 | **Offbook Press 官方中英双语长文**（Dawei Geng，`ob-*`）：5 期按 h2 拆章（`on-cognitive-decoupling` 8 / `rebuilding-learning` 8 / `breakdown-of-firms` 8 / `mirage-of-form` 13 / `teaching-and-training-disqualified` 6），`translation_type:"official"`、`pin:true`。**这条通道不翻译，只抽取**（源站自带官方中文），管线见 `tools/offbook.mjs` + `tools/lib-offbook.mjs`，守恒硬闸：入库 + 显式排除（各篇「引用与出处」章）= 源站全文。封面是渐变（源站无位图，取 `data-cover-*` 三色） |
 | 寓言 | 入口保留，当前为空 |
 
 **「线上现在有什么」永远以远端树为准**（`node tools/tree-diff.mjs`）。本表只是索引 ——
