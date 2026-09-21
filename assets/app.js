@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "71");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "72");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -89,6 +89,7 @@ const defaultState = {
      默认就全染会毁掉阅读。关掉任何一档都只影响标色，点词查义照常。 */
   highlightMode: "core",
   accent: "en-US",   // 朗读口音：en-US 美音 | en-GB 英音（en-GB 不是所有系统都装了语音）
+  rate: "std",       // 朗读语速：slow 0.72 | std 0.9 | fast 1.05（原实现用浏览器默认 1.0，精读偏快）
   read: [],         // 累计读过（去重）
   readCount: {},    // { articleId: number } 每篇打卡次数
   finished: [],     // 已打卡的去重列表
@@ -938,7 +939,10 @@ const ICON = {
   download: '<path d="M12 3v11M8 10.5l4 3.5 4-3.5M4.5 19h15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   upload: '<path d="M12 16V5M8 8.5l4-3.5 4 3.5M4.5 19h15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   refresh: '<path d="M20 11a8 8 0 1 0-.6 4M20 5v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
-  chart: '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+  chart: '<path d="M4 20V9M10 20V4M16 20v-7M22 20H2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  pause: '<path d="M9.2 5v14M14.8 5v14" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',
+  play: '<path d="M8.6 5.4v13.2L19 12z" fill="currentColor"/>',
+  stop: '<rect x="7" y="7" width="10" height="10" rx="1.8" fill="currentColor"/>'
 };
 const svg = (n, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none">${ICON[n] || ""}</svg>`;
 
@@ -956,17 +960,156 @@ const ring = (p, size = 78, sw = 10) => {
 };
 const statusbar = () => `
   <div class="statusbar" aria-hidden="true"></div>`;
-/* TTS：iOS 静音键/首次授权/无英文语音都可能「哑火」——失败必须给提示，不能无声。
- * 口音跟随阅读设置（S.accent）：美音 en-US / 英音 en-GB。
- * ⚠️ 不是每个系统都装了 en-GB 语音，选英音却听不到声音时是系统缺语音库，
- *    不是代码坏了 —— 所以 onerror 的提示必须保留，不能假设它一定有声音。 */
-const speak = t => {
+/* ---------------- 朗读 ----------------
+ * ★ 为什么必须自己挑 voice（2026-09-21 之前只设 u.lang 就 speak）：
+ *  u.lang 只是给浏览器的**提示**，不是命令 —— 它拿到提示后自行从系统语音表里挑。
+ *  实测（桌面 Edge，见 .bak/probe-voices.cjs / probe-fallback.json）：
+ *    本机 getVoices() 只返回 3 个，全是 zh-CN（Huihui/Kangkang/Yaoyao），英文 0 个；
+ *    注册表 Speech_OneCore\Voices\Tokens 同样只有 3 个中文（Language=804/zh-CN），
+ *    英文 Zira 只注册在老的 Speech\Voices\Tokens（SAPI5）里，而 Chromium 不读那一套。
+ *  → 请求 en-US 却挑不到任何英语语音，浏览器拿默认 voice 去念英文，音质极差；
+ *    更糟的是 onerror 对「用错语言的 voice 念」**不触发**，用户听不出原因，只觉难听。
+ *  手机同理：中文系统下默认 voice 跟系统语言走，一样会拿中文声念英文。
+ *
+ *  打分只看 lang + 名字线索，**不钉死具体 voice 名**：iOS 侧是 Samantha/Daniel、
+ *  Android 侧是 Google US English、桌面 Edge 是 Aria Online (Natural) —— 三套列表
+ *  完全不同，写死名字换台设备就失效（这个仓库已经踩过「按桌面行为推断手机」的坑）。 */
+const VOICE_PRIORITY = [
+  [/natural|neural|online|premium|enhanced|siri/i, 40],   // 神经合成：明显更像真人
+  [/google|samantha|alex|daniel|karen|moira|tessa|serena|aria|jenny|guy|ava|allison|emma/i, 18],
+  [/desktop|espeak|compact|eloquence|pico/i, -70],        // 老引擎：有别的可挑就不选它
+];
+/* 速率三档。默认 1.0 对精读偏快 —— 跟读时句子已经念完，学习者只能干瞪眼。
+ * 单词再慢一档：单词语境为零，音素听不清就等于没读。 */
+const RATE_MAP = { slow: 0.72, std: 0.9, fast: 1.05 };
+const rateOf = kind => {
+  const base = RATE_MAP[S.rate] || RATE_MAP.std;
+  return kind === "word" ? Math.max(0.5, base - 0.08) : base;
+};
+
+/* 返回最合适的英语 voice；一个英语语音都没有时返回 null（**绝不退回中文 voice**）。
+ * 上层据此提示用户，而不是静默降级成「中文声念英文」。 */
+function pickVoice(lang) {
+  const ss = window.speechSynthesis;
+  if (!ss || typeof ss.getVoices !== "function") return null;
+  const want = String(lang || "en-US").replace("_", "-").toLowerCase();
+  const vs = ss.getVoices() || [];
+  let best = null, top = -Infinity;
+  for (const v of vs) {
+    const vl = String(v.lang || "").replace("_", "-").toLowerCase();
+    /* 非英语语音一律跳过 —— 宁可挑不到（上层会提示），也不能拿中文声念英文。
+     * 这一条就是「朗读难听」的根因所在，改动它等于把问题放回去。 */
+    if (!vl.startsWith("en")) continue;
+    let s = vl === want ? 100 : 60;                       // 口音精确匹配 > 只要是英语
+    for (const [re, w] of VOICE_PRIORITY) if (re.test(v.name || "")) s += w;
+    if (v.localService) s += 2;                           // 同档优先本地（断网也读得出）
+    if (s > top) { top = s; best = v; }
+  }
+  return best;
+}
+
+let voiceWarned = false;   // 缺语音只提示一次，别每句都弹
+const makeUtterance = (text, kind) => {
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = S.accent || "en-US";
+  u.rate = rateOf(kind);
+  const v = pickVoice(u.lang);
+  if (v) u.voice = v;
+  else if (!voiceWarned) {
+    voiceWarned = true;
+    toast("未找到英文语音包 · 朗读可能失真");
+  }
+  return u;
+};
+
+/* ---- 全文朗读：一句一条、onend 推进 ----
+ * 为什么不再把全文 join(" ") 塞进一条 utterance（2026-09-21 改）：
+ *   ① Chromium/Safari 对超长文本有中途停止的已知问题，本库长文正文可达两万字符级，必踩；
+ *   ② 一条到底就无从知道读到哪、也无法暂停续读或高亮当前句。
+ * 暂停用「记住序号 + cancel + 续读时重播该句」，不用 speechSynthesis.pause()：
+ * iOS Safari 的 pause/resume 历史行为不可靠，自管队列才是跨平台一致的做法。 */
+let spList = null;    // 字符串数组 = 正在朗读 / 已暂停；null = 空闲
+let spAt = 0;         // 当前该读第几句（暂停后续读就从这里重播）
+let spPaused = false;
+const spActive = () => spList !== null;
+
+/* fab-bar 在朗读时从「工具条」切成「播放器」—— 复用同一个浮层，不新增浮层，
+ * 免得再往正文上压一层（2026-09-21 刚把朗读喇叭移出正文行盒）。 */
+function syncSpeechBar() {
+  const bar = $("#fab-bar");
+  if (!bar || !bar.classList) return;
+  const on = spActive();
+  bar.classList.toggle("speaking", on);
+  bar.classList.toggle("paused", on && spPaused);
+  const prog = $("#fab-prog");
+  if (prog && prog.textContent !== undefined) {
+    prog.textContent = on ? `${Math.min(spAt + 1, spList.length)}/${spList.length}` : "";
+  }
+  const play = $("#fab-play");
+  if (play && play.setAttribute) {
+    play.setAttribute("aria-label", spPaused ? "继续朗读" : "暂停朗读");
+  }
+}
+
+/* 主动结束（用户按停止 / 离开阅读页 / 重开一段朗读）都走这里。
+ * 先把 spList 置空再 cancel：cancel() 会让当前 utterance 走到 onerror，
+ * 回调里靠 spList === null 认出「这是自己主动打断的」，不弹错误提示、也不推进队列。 */
+function stopSpeech() {
+  spList = null; spAt = 0; spPaused = false;
+  if (window.speechSynthesis) { try { speechSynthesis.cancel(); } catch (e) {} }
+  syncSpeechBar();
+}
+
+function stepSpeech() {
+  if (spList === null || spPaused) return;
+  if (spAt >= spList.length) { stopSpeech(); return; }
+  const u = makeUtterance(spList[spAt], "sent");
+  u.onend = () => {
+    if (spList === null) return;          // 已被主动停止，别推进
+    spAt++; syncSpeechBar(); stepSpeech();
+  };
+  u.onerror = ev => {
+    if (spList === null) return;          // 主动 cancel 引起的，不算错
+    const err = ev && ev.error;
+    if (err === "interrupted" || err === "canceled") return;   // 同上，换个浏览器叫法不同
+    stopSpeech();
+    toast("朗读中断 · 系统语音出错");
+  };
+  speechSynthesis.speak(u);
+  syncSpeechBar();
+}
+
+function speakAll(a) {
+  const list = textSentences(a).filter(s => s.en).map(s => s.en);
+  if (!list.length) return;
+  if (!window.speechSynthesis) { toast("当前系统不支持朗读"); return; }
+  try { speechSynthesis.cancel(); } catch (e) {}
+  spList = list; spAt = 0; spPaused = false;
+  syncSpeechBar();
+  stepSpeech();
+}
+
+function togglePauseSpeech() {
+  if (spList === null) return;
+  if (spPaused) {
+    spPaused = false;
+    stepSpeech();                          // 从 spAt 重播当前这句
+  } else {
+    spPaused = true;
+    try { speechSynthesis.cancel(); } catch (e) {}
+    syncSpeechBar();
+  }
+}
+
+/* 单条朗读（单词 / 单句）。打断正在进行的全文朗读是预期行为 —— 用户点了别的就听别的。
+ * ⚠️ onerror 的提示必须保留：不是每个系统都装了对应口音的语音包，选英音却听不到声音时
+ *    多半是系统缺语音库而不是代码坏了，得让用户看到原因，不能无声失败。 */
+const speak = (t, kind) => {
   try {
     if (!window.speechSynthesis) { toast("当前系统不支持朗读"); return false; }
-    const u = new SpeechSynthesisUtterance(t);
-    u.lang = S.accent || "en-US";
+    stopSpeech();
+    const u = makeUtterance(t, kind || "sent");
     u.onerror = () => toast("朗读失败 · 系统可能没有这个口音的语音包");
-    speechSynthesis.cancel();
     speechSynthesis.speak(u);
     return true;
   } catch (e) { toast("当前系统不支持朗读"); return false; }
@@ -1850,6 +1993,14 @@ function renderRead() {
       <button data-act="toggle-cn" class="${S.cnMode === "all" ? 'active' : ''}" title="译" aria-label="${S.cnMode === "all" ? "收起中文对照" : "展开中文对照"}" aria-pressed="${S.cnMode === "all"}">${svg("globe", 18)}</button>
       <button data-act="read-settings" class="${S.fontSize > 0 || S.readTheme ? 'active' : ''}" title="阅读设置" aria-label="阅读设置（字号 / 对照 / 底色）"><span class="fab-aa">Aa</span></button>
       <button data-act="fab-more" title="更多工具" aria-label="更多工具"><span style="font-family:var(--font-num);font-weight:700;letter-spacing:1px">···</span></button>
+      <!-- 朗读态：全文朗读时顶掉上面三个按钮，变身播放器（进度 / 暂停 / 停止）。
+           刻意不做 aria-live 播报进度 —— TTS 正在念英文，读屏再念一遍「3/42」
+           会把人声打断，进度只做视觉反馈。 -->
+      <div class="fab-speak">
+        <span class="fab-prog" id="fab-prog"></span>
+        <button data-act="speak-pause" id="fab-play" title="暂停朗读" aria-label="暂停朗读"><span class="ic-pause">${svg("pause", 18)}</span><span class="ic-play">${svg("play", 18)}</span></button>
+        <button data-act="speak-stop" title="停止朗读" aria-label="停止朗读">${svg("stop", 18)}</button>
+      </div>
     </div>
   `;
 }
@@ -1931,6 +2082,15 @@ function renderReadSettingsSheet() {
           <div class="rd-segs">
             ${seg("set-accent", "accent", "en-US", "美音", S.accent !== "en-GB")}
             ${seg("set-accent", "accent", "en-GB", "英音", S.accent === "en-GB")}
+          </div>
+        </div>
+        <!-- 语速：精读跟读的刚需。浏览器默认 rate=1.0 对学习者偏快（跟读时句子已经念完），
+             原先没有这个开关，只能忍着。 -->
+        <div class="rd-row"><span class="rd-lab">朗读语速</span>
+          <div class="rd-segs">
+            ${seg("set-rate", "rate", "slow", "慢", S.rate === "slow")}
+            ${seg("set-rate", "rate", "std", "标准", (S.rate || "std") === "std")}
+            ${seg("set-rate", "rate", "fast", "快", S.rate === "fast")}
           </div>
         </div>
       </div>
@@ -2221,7 +2381,7 @@ function validateBackupState(st) {
     check(record(st[k]));
     Object.values(st[k]).forEach(checkEntry);
   }
-  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, highlightMode: HL_MODES, accent: ["en-US", "en-GB"] };
+  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, highlightMode: HL_MODES, accent: ["en-US", "en-GB"], rate: ["slow", "std", "fast"] };
   for (const [k, values] of Object.entries(enums)) if (has(st, k)) check(values.includes(st[k]));
   for (const k of ["showCn", "kwHighlight", "hintSeen"]) if (has(st, k)) check(typeof st[k] === "boolean");
   if (has(st, "fontSize")) check(Number.isInteger(st.fontSize) && st.fontSize >= 0 && st.fontSize <= 2);
@@ -2504,6 +2664,9 @@ function render() {
      只重写 #screen.innerHTML 是清不掉它们的 —— 必须在每次主渲染开头统一收掉。
      否则在阅读页查完词再点返回：页面已经回到列表，单词卡还盖在底部。 */
   $$(".phone > .sheet, .phone > .sheet-mask").forEach(n => n.remove());
+  /* 离开阅读页时掐掉朗读：fab-bar（唯一的停止入口）只存在于阅读页，
+     退到首页后浮层消失、语音却照念不误，用户找不到任何办法停 —— 只能刷新页面。 */
+  if (spActive() && view.name !== "read") stopSpeech();
   /* 整页重排会把 .tapped 那个 span 换掉：不清引用就留着一个脱离文档的节点，
      下次 markTappedWord 还会去 remove 它（无害但会掩盖真实状态）。 */
   clearTappedWord();
@@ -2786,7 +2949,7 @@ document.addEventListener("click", e => {
       break;
     }
     case "speak":
-      e.stopPropagation(); speak(t.dataset.word); break;
+      e.stopPropagation(); speak(t.dataset.word, "word"); break;
     case "toggle-cn": {
       /* 「译」是阅读中的即时开关：逐句对照 ↔ 收起（收起回到「点句显示」）。
          它**不循环三档** —— 循环切换在词汇高亮上已经吃过亏（想回上一档得连点，
@@ -2843,6 +3006,13 @@ document.addEventListener("click", e => {
       syncReadSettingsSheet("accent", v);
       break;
     }
+    /* 语速同理：只喂给 utterance.rate，不碰排版 */
+    case "set-rate": {
+      const v = ["slow", "std", "fast"].includes(t.dataset.rate) ? t.dataset.rate : "std";
+      if (S.rate !== v) { S.rate = v; save(); }
+      syncReadSettingsSheet("rate", v);
+      break;
+    }
     case "para-peek": {
       /* 点一句 = 选中它：喇叭只在选中的句子上出现，长文里不再满屏小图标。
        * 一次只留一个选中句。译文是否跟着弹出，取决于中文对照档位：
@@ -2893,7 +3063,7 @@ document.addEventListener("click", e => {
       const a2 = activeArticle; const pi = +t.dataset.pi; const si = +t.dataset.si || 0;
       const sent = sentenceAt(a2, pi, si);
       if (sent && sent.en) {
-        speak(sent.en);
+        speak(sent.en, "sent");
         t.closest(".para")?.classList.add("playing");
         setTimeout(() => t.closest(".para")?.classList.remove("playing"), 1200);
         let n = 0;
@@ -2909,8 +3079,14 @@ document.addEventListener("click", e => {
     }
     case "more":
       shown += PAGE; render(); break;
+    /* 全文朗读交给队列逐句推进（见 speakAll）。原先是 join(" ") 塞进一条 utterance ——
+     * 长文会被引擎中途掐断，而且没有停止入口（唯一的「停」是反复点这里，实际是 cancel + 从头重播）。 */
     case "read-all":
-      speak(textSentences(activeArticle).filter(s => s.en).map(s => s.en).join(" ")); toast("开始朗读全文"); break;
+      speakAll(activeArticle); break;
+    case "speak-pause":
+      togglePauseSpeech(); break;
+    case "speak-stop":
+      stopSpeech(); break;
     case "punch-in": {
       const id = activeArticle && activeArticle.id;
       if (id) {

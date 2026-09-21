@@ -63,6 +63,11 @@ const grow = (ds, extra) => Object.assign({
   scrollHeight: 2000,
 }, extra || {});
 
+/* 朗读守卫用的可变状态：沙箱的 speechSynthesis.getVoices 读 fakeVoices、
+ * speak 往 spokenUtts 里记。放在 sandbox 外面，守卫才能直接换掉语音表造局面。 */
+let fakeVoices = [];
+let spokenUtts = [];
+
 const sandbox = {
   console,
   history: hist,
@@ -96,11 +101,25 @@ const sandbox = {
   },
   localStorage: { _d: {}, getItem(k) { return this._d[k] || null; }, setItem(k, v) { this._d[k] = v; } },
   SpeechSynthesisUtterance: function () { },
-  speechSynthesis: { cancel: noop, speak: noop },
+  /* 朗读桩：speak 只记录不发声 —— 守卫要断言「实际送出去几条 utterance」，
+   * 而不是拿正则去源码里找字符串（那种守卫一改实现就假绿或假红）。 */
+  speechSynthesis: {
+    cancel: noop,
+    speak: u => { spokenUtts.push(u); },
+    getVoices: () => fakeVoices,
+    addEventListener: noop,
+    removeEventListener: noop,
+  },
   setTimeout, clearTimeout, setInterval: () => 0, clearInterval: noop,
   requestAnimationFrame: f => f(),
 };
 sandbox.window.window = sandbox.window;
+/* 浏览器里 window 就是全局对象：app.js 里 `window.speechSynthesis` 与裸写的
+ * speechSynthesis 是同一个东西。沙箱里 window 只是个替身对象，两者分离 ——
+ * 不显式挂上，`if (!window.speechSynthesis)` 恒为真，**朗读分支整段测不到**
+ * （旧 speak() 就死在这里，只是从来没有守卫碰过朗读分支，所以一直没暴露）。 */
+sandbox.window.speechSynthesis = sandbox.speechSynthesis;
+sandbox.window.SpeechSynthesisUtterance = sandbox.SpeechSynthesisUtterance;
 vm.createContext(sandbox);
 
 for (const f of [
@@ -1027,6 +1046,88 @@ ok('每句带句子坐标（data-pi / data-si），锚点能定位到句',
   /class="sentence" data-act="para-peek" data-pi="0" data-si="0"/.test(readHtml));
 ok('朗读按钮挂在句内（每句一个 data-act="para-speak"）',
   /<span class="para-tts"[^>]*data-act="para-speak"/.test(readHtml));
+ok('朗读控制条挂在 fab-bar 内（进度 / 暂停 / 停止三个件齐全）',
+  /id="fab-bar"[\s\S]*?class="fab-speak"[\s\S]*?id="fab-prog"[\s\S]*?data-act="speak-pause"[\s\S]*?data-act="speak-stop"/.test(readHtml));
+
+/* ---- 朗读语音挑选（2026-09-21）----
+ * 之前只设 u.lang 就 speak()：lang 只是**提示**，浏览器据此自行从系统语音表里挑。
+ * 实测桌面 Edge 的 getVoices() 只有 3 个 zh-CN、0 个英文（注册表 Speech_OneCore 里
+ * 同样只有 3 个中文包），于是拿默认（中文）voice 念英文 —— 而 onerror 对这种情况
+ * 不触发，用户只听到难听、拿不到任何线索。以下守卫把「挑语音」的判据钉死，
+ * 判据只看 lang + 名字线索，不钉具体 voice 名（iOS / Android / 桌面三套列表完全不同）。 */
+const pickedWith = list => { fakeVoices = list; return ctx('(pickVoice("en-US") || {}).name ?? null'); };
+/* ⚠️ 这条必须用「中文语音名字更像好语音」的形状才测得出来：英语精确匹配天然拿 100 分，
+ * 随便摆个中文语音进去永远选不中它 —— 那样是假守卫（第一版就这么写的，负向样本 z1
+ * 注入后这条纹丝不动）。名字带 Natural 的中文语音能拿 102 分，正好压过口音不精确的
+ * 英语语音（80）：此时仍然必须选英语。 */
+ok('★ 名字再像好语音，只要不是英语就不进候选（中文声念英文 = 难听的根因）',
+  pickedWith([
+    { name: 'Microsoft Zhang Natural', lang: 'zh-CN', localService: true },
+    { name: 'Daniel', lang: 'en-GB', localService: true },
+  ]) === 'Daniel');
+ok('★ 一个英语语音都没有时返回 null（宁可提示，也不退回中文 voice）',
+  pickedWith([{ name: 'Microsoft Huihui', lang: 'zh-CN', localService: true }]) === null);
+ok('同为英语时优先神经合成、压低老引擎（Aria Online > Zira Desktop）',
+  pickedWith([
+    { name: 'Microsoft Zira Desktop', lang: 'en-US', localService: true },
+    { name: 'Microsoft Aria Online (Natural) - English (United States)', lang: 'en-US', localService: false },
+  ]) === 'Microsoft Aria Online (Natural) - English (United States)');
+ok('口音精确匹配优先于「只要是英语」（选英音不会挑到美音）',
+  ((fakeVoices = [
+    { name: 'Samantha', lang: 'en-US', localService: true },
+    { name: 'Daniel', lang: 'en-GB', localService: true },
+  ]), ctx('(pickVoice("en-GB") || {}).name')) === 'Daniel');
+/* 挑出来的 voice 必须真的挂到 utterance 上 —— 否则上面四条全白测（挑完不用） */
+fakeVoices = [{ name: 'Google US English', lang: 'en-US', localService: true }];
+const uttStd = ctx('makeUtterance("Hello world.", "sent")');
+ok('★ 挑中的 voice 真的写到 utterance 上（不是挑完就丢）',
+  !!uttStd.voice && uttStd.voice.name === 'Google US English');
+ok('语速不再吃浏览器默认 1.0（默认档 0.9，跟读才追得上）',
+  uttStd.rate > 0.5 && uttStd.rate < 1);
+ok('单词朗读比整句再慢一档（音素要听清）',
+  ctx('rateOf("word")') < ctx('rateOf("sent")'));
+/* 挑不到英语语音时必须留痕 —— 静默降级正是旧版「难听且无从解释」的原因 */
+fakeVoices = [{ name: 'Microsoft Huihui', lang: 'zh-CN', localService: true }];
+ctx('voiceWarned = false;');
+const uttNoEn = ctx('makeUtterance("Hi.", "sent")');
+ok('★ 挑不到英语语音时明确提示（不静默用中文声念英文）',
+  ctx('voiceWarned') === true && !uttNoEn.voice);
+/* 全文朗读必须逐句推进。原实现 join(" ") 塞一条 —— 长文会被引擎掐断，也无法暂停续读。
+ * 断言「实际送出几条」而不是源码里有没有 speakAll：换成别的写法但仍整篇一条，这条要能抓住。 */
+fakeVoices = [{ name: 'Google US English', lang: 'en-US', localService: true }];
+ctx('activeArticle = ARTICLES[0];');
+ctx('stopSpeech();');
+spokenUtts.length = 0;          // Node 侧的数组，不能在 ctx 里引用（vm 里没有这个名字）
+ctx('speakAll(activeArticle);');
+const spTotal = ctx('spList.length');
+const n0 = spokenUtts.length;
+ok('全文朗读队列覆盖全文句数，且开始就送出第一句',
+  spTotal > 1 && n0 === 1);
+const spSteps = Math.min(3, spTotal - 1);
+for (let i = 0; i < spSteps; i++) { const u = spokenUtts[spokenUtts.length - 1]; if (u && u.onend) u.onend(); }
+ok('★ 全文朗读逐句推进（onend 自动送下一句，不是全文拼成一条）',
+  spSteps > 0 && spokenUtts.length === n0 + spSteps);
+/* 停止必须真的清状态，不是只把浮层收起来（否则「按了停止还在念」）。
+ * ⚠️ 别写成「拿 makeUtterance 造一条再调它的 onend」—— makeUtterance 返回的 utterance
+ *    压根没有 onend（onend 是 stepSpeech 里才挂的），那样断言恒真 = 假守卫。 */
+ctx('stopSpeech();');
+spokenUtts.length = 0;
+ctx('speakAll(activeArticle);');
+const uPlaying = spokenUtts[spokenUtts.length - 1];   // 正在播的那条，带 onend
+const wasActive = ctx('spActive()');
+ctx('stopSpeech();');
+ok('★ 停止朗读清空队列并取消发声（不是只收起 UI）',
+  wasActive === true && ctx('spActive()') === false && ctx('spList') === null);
+/* 暂停后迟到的 onend 不得再送下一句 —— 队列状态机最容易漏的一格 */
+ctx('stopSpeech();');
+spokenUtts.length = 0;
+ctx('speakAll(activeArticle);');
+const uPaused = spokenUtts[spokenUtts.length - 1];
+ctx('togglePauseSpeech();');
+if (uPaused && uPaused.onend) uPaused.onend();
+ok('★ 暂停后迟到的 onend 不再送下一句（暂停要真的停住）',
+  spokenUtts.length === 1 && uPlaying !== undefined && ctx('spPaused') === true);
+ctx('stopSpeech();');
 /* ★ lang 不是给读屏凑分的：它决定断词规则（长词在哪儿折行）、系统字体回退栈挑哪套字形、
  * 朗读引擎用哪种语言念。缺了它浏览器只能猜，Android 上猜错会换字体、连字符位置也跟着变。
  * 反向标注同样重要：.cn 与朗读按钮里是中文，不标 zh-CN 就会被祖传的 en 当英文念。
@@ -1198,6 +1299,15 @@ const cssBare = css.replace(/\/\*[\s\S]*?\*\//g, '');
 const ttsRule = (cssBare.match(/\.para-tts\s*\{([^}]*)\}/) || [, ''])[1];
 ok('朗读喇叭默认不显示、选中句子才出现（display 切换，不靠 opacity 占位）',
   /display:\s*none/.test(ttsRule) && !/opacity:\s*0/.test(ttsRule) && /\.sentence\.sel > \.para-tts/.test(cssBare));
+/* 朗读态：fab-bar 从工具条切成播放器。刻意复用同一个浮层 —— fab-bar 本身已经会挡住
+ * 进页时的第一句（.view.read-scroll 的 padding-bottom 那条说明），再叠一条只会更糟。 */
+const speakBarOn = (cssBare.match(/\.fab-bar\.speaking \.fab-speak\s*\{([^}]*)\}/) || [, ''])[1];
+const speakBarOff = (cssBare.match(/\.fab-bar\.speaking > button\s*\{([^}]*)\}/) || [, ''])[1];
+ok('朗读态把 fab-bar 切成播放器（工具按钮让位、进度与控制出现）',
+  /display:\s*flex/.test(speakBarOn) && /display:\s*none/.test(speakBarOff));
+ok('暂停态切图标（播放/暂停两个图标不会同时显示）',
+  /\.fab-bar\.paused \.ic-play\s*\{[^}]*display:\s*block/.test(cssBare) &&
+  /\.fab-bar\.paused \.ic-pause\s*\{[^}]*display:\s*none/.test(cssBare));
 /* 选中一句要有看得见的反馈。旧实现只有 7% 透明度背景，浅色主题下等于没有确认。
  * 左边线用 inset 阴影实现：border-left 会把整段文字挤动一次（行内重排）。 */
 const selRule = (cssBare.match(/\.read-body \.para \.sentence\.sel\s*\{([^}]*)\}/) || [, ''])[1];

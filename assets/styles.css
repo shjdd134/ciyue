@@ -1025,6 +1025,20 @@ body {
 /* 阅读设置入口用「Aa」字样：齿轮/太阳图标在这个尺寸下会读成「亮度」，
    而它管的是字号 + 对照 + 底色三件事 */
 .fab-aa { font-family: var(--font-read); font-weight: 700; font-size: 16px; line-height: 1; letter-spacing: .5px; }
+/* 朗读控制：全文朗读时 fab-bar 从「工具条」切成「播放器」。
+   刻意复用同一个浮层 —— 另起一条控制栏等于再往正文上压一层，
+   而 fab-bar 本身已经会挡住进页时的第一句（见 1327 行那条 padding 说明）。 */
+.fab-speak { display: none; align-items: center; gap: 4px; }
+.fab-bar.speaking > button { display: none; }
+.fab-bar.speaking .fab-speak { display: flex; }
+.fab-prog {
+  font-family: var(--font-num); font-size: 12.5px; font-weight: 700;
+  color: var(--text-2); min-width: 44px; text-align: center;
+  font-variant-numeric: tabular-nums;   /* 进度从 9/42 跳到 10/42 时数字不等宽会左右晃 */
+}
+.fab-speak .ic-play { display: none; }
+.fab-bar.paused .ic-pause { display: none; }
+.fab-bar.paused .ic-play { display: block; }
 
 .read-source-link {
   display: inline-flex; align-items: center; gap: 4px;
