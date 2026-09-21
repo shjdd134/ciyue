@@ -116,6 +116,22 @@ console.log("\n== 4. 判据双向负向测试（隔离数据目录）==");
     { want: null, note: "纯标点译文（原文也只有省略号）—— 不得再被判成漏译（本轮修掉的假阳性）",
       art: { id: "qc-t-punct-only",
         paras: [{ sentences: [{ en: "….", cn: "……" }] }, ...tail] } },
+    /* 「译文无中文」这条判据 2026-09-21 起与 tools/text-scan.js 共用
+     * tools/lib-translate-rules.cjs 的 isUntranslated()。下面三组是 guards-test.mjs F 节的
+     * **镜像样本** —— 同一个函数必须被两套测试同时验证：只在一侧加 case 的话，另一侧
+     * 一旦又长出本地副本（正是 BOOK_CITE 那次事故）就没人会发现。
+     * 三组分别是：该放行的书单行、必须照报的句中书名号、该放行的说话人缩写碎片。 */
+    { want: null, note: "书单行（cn = 《书名》+作者，无汉字）—— 官方译本刻意保留原书名，不得判漏译",
+      art: { id: "qc-t-book-cite",
+        paras: [{ sentences: [{ en: "Holacracy: The New Management System for a Rapidly Changing World , Brian J. Robertson.",
+          cn: "《Holacracy: The New Management System for a Rapidly Changing World》Brian J. Robertson" }] }, ...tail] } },
+    { want: "F4", wantMsg: "译文无中文", note: "句中夹一对《》的真漏译仍然报错（豁免没宽成「带书名号就放行」）",
+      art: { id: "qc-t-cite-mid",
+        paras: [{ sentences: [{ en: "That book was never translated properly.",
+          cn: "That book was never《translated》properly." }] }, ...tail] } },
+    { want: null, note: "说话人缩写 + 省略号碎片（cn = 「HM：……」）—— 保留英文缩写是对的，不得判漏译",
+      art: { id: "qc-t-speaker",
+        paras: [{ sentences: [{ en: "HM: ...", cn: "HM：……" }] }, ...tail] } },
     /* 配图排布（2026-09-20 新增的两条 F3）。样本故意用**真实存在的图片文件** ——
      * F3 自己那条「文件不存在」的判据会先把不存在的路径拦下来，用假路径的话
      * 「堆叠」与「封面重复」两条就永远测不到，测试会变成一个只看得到 F3 前缀的假绿。 */

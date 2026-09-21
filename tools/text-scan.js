@@ -14,6 +14,10 @@
  */
 const fs = require("fs");
 const path = require("path");
+/* 汉字口径与「译文是不是没翻」的判据 —— 与 tools/qc.mjs 共用同一份实现。
+ * 为什么不再本地定义：两边各写一份已经出过事（BOOK_CITE 只改了一边），
+ * 详见 tools/lib-translate-rules.cjs 的头部注释。 */
+const { HAN, isUntranslated } = require("./lib-translate-rules.cjs");
 
 const ROOT = path.resolve(__dirname, "..");
 /* ASSETS 可被环境变量覆盖 —— 专给负向测试用：tools/guards-test.mjs 的 F 节会造一个
@@ -83,7 +87,7 @@ const RULES = [
   },
 ];
 
-const CJK = /[\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u3040-\u30FF]/;
+/* 汉字口径（含扩展 A / 兼容区 / 假名）在 lib-translate-rules.cjs 的 HAN —— 上面已 require。 */
 
 /* ---------- 执行 ---------- */
 
@@ -111,7 +115,7 @@ for (const [group, list] of GROUPS) {
     const tzh = String(art.titleZh || "").trim();
     if (!tzh) add("title", "缺中文标题", group, id, "");
     else {
-      if (!CJK.test(tzh)) add("title", "中文标题无汉字", group, id, tzh.slice(0, 36));
+      if (!HAN.test(tzh)) add("title", "中文标题无汉字", group, id, tzh.slice(0, 36));
       if (tzh === String(art.title || "").trim()) add("title", "中文标题与原文相同", group, id, "");
       if (/[\u4e00-\u9fff][A-Za-z]|[A-Za-z][\u4e00-\u9fff]/.test(tzh))
         add("title", "中文标题中英未留白", group, id, tzh.slice(0, 36));
@@ -147,22 +151,12 @@ for (const [group, list] of GROUPS) {
         if (!en.trim()) add("struct", "原文为空", group, id, sat);
         if (!cn.trim()) add("translate", "译文缺失", group, id, sat);
         else {
-          /* 2026-09-18 修正：原判据「cn 里没有 CJK 就算漏译」实测 6 处假阳性全是分句碎片 ——
-           * `….` / `…………..` 的译文是 `……`（正确），皮克篇 p37「一字一顿」被逐词切开后
-           * `That?!` 的译文落在 `？！`（也正确，中文的「那」在前一块）。
-           * 真正的漏译形态是「译文里没有中文、却带着拉丁字母」= 把原文照抄进 cn 没翻。
-           * 反例（必须仍报）：cn = "This is a test."（无中文、有字母）。
-           * 2026-09-18 二次收紧：访谈里 "HM: ..." 这类「说话人缩写 + 省略号」碎片的译文
-           * "HM：……"（Weisz 篇 p76，全库实测仅此 1 处）——说话人标签保留原文缩写是对的，
-           * 不算漏译；带实际英文内容的（"HM: Yeah, ..." → 译文照抄正文）仍必须报。 */
-          const SPEAKER_ELLIPSIS = /^(?:[A-Z]{1,3})\s*[：:]\s*[…。.]*$/;
-          /* 2026-09-20 第三次收紧：书单/参考文献行。cn 形如 `《书名》作者名`，书名保留原文是
-           * **刻意的**（官方译本如此），全库实测仅 ob-breakdown-of-firms-c08 p14 一处：
-           * `《Holacracy: The New Management System for a Rapidly Changing World》Brian J. Robertson`
-           * 与同句英文同形。判据要求 `《》` 落在句首且带内容 —— 真漏译（cn 照抄一整句英文）
-           * 不会以书名号开头。反例见 guards-test.mjs F7/F8。 */
-          const BOOK_CITE = /^\s*《[^》]{2,}》/;
-          if (!CJK.test(cn) && en.trim() && /[A-Za-z]/.test(cn) && !SPEAKER_ELLIPSIS.test(cn.trim()) && !BOOK_CITE.test(cn)) add("translate", "译文无中文（疑似漏译）", group, id, sat);
+          /* 判据本身在 tools/lib-translate-rules.cjs —— 2026-09-21 起与 tools/qc.mjs
+           * 共用同一份实现。为什么必须共用：这段逻辑在 09-18（说话人缩写碎片）与
+           * 09-20（书单行放行）各收紧过一次，而 09-20 那次只改了本文件、qc 没跟上，
+           * 结果 qc 在 AI 栏目整期合并后误拒了 ob-breakdown-of-firms。靠注释同步等于没同步。
+           * 判据的内容（汉字口径 / 拉丁字母 / 说话人省略号 / 书名号开头）见那个文件的头部。 */
+          if (isUntranslated(cn, en)) add("translate", "译文无中文（疑似漏译）", group, id, sat);
           if (en.trim() && cn.trim() === en.trim()) add("translate", "译文与原文相同", group, id, sat);
         }
 

@@ -22,6 +22,8 @@ import vm from "node:vm";
 import { cleanInvisible, readDecl, writeDecl } from "./lib-text.mjs";
 import { QUALITY_CANDIDATE_THRESHOLD, meetsImageGate, STAR_MIN_IMAGES, unreadableReason } from "./recommend.mjs";
 import { stackingIssues, coverDuplicateIndex } from "./lib-figures.mjs";
+/* 「译文无中文（照抄英文）」的判据实现 —— 与 tools/text-scan.js 共用同一份，见文件下方 F4 处。 */
+import { isUntranslated } from "./lib-translate-rules.cjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 /* ASSETS 可被环境变量覆盖 —— 专给负向测试用：tools/qc-test.mjs 第 4 节会造一个隔离数据目录，
@@ -75,9 +77,12 @@ const AD_CODE = /blogherads|\bpmcCnx\b|defineSlot|setTargeting|googletag|\bwindo
 const NAV_PREFIX = /^\s*(Related Stories|Related Articles|Popular on|Trending|Recommended|More from|Also on|Also read|Read next|You may also like|Sponsored|Advertisement|Sign up for|Subscribe to)\b/i;
 const BARE_LINK = /^\s*(https?:\/\/|pic\.twitter\.com|www\.)\S*(\s+(https?:\/\/|pic\.twitter\.com|www\.)\S*)*\s*$/i;
 const PLACEHOLDER = /<\/?[es]:\d+>/;
-const CN_RE = /[\u4e00-\u9fff]/;
-/* 拉丁字母 —— 用来区分「译文是纯标点（合法）」与「译文照抄了英文（漏译）」。用法见 F4 判据处的注释。 */
-const LATIN_RE = /[A-Za-z]/;
+/* 「译文无中文」这条判据早已不在本文件里 —— 它是 tools/lib-translate-rules.cjs 里的
+ * isUntranslated()，text-scan.js 与 qc 共用同一份实现（import 见文件头）。
+ * 2026-09-21 之前这里是 CN_RE + LATIN_RE + 本地 SPEAKER_ELLIPSIS 的一份副本，
+ * 于是 text-scan 在 09-20 加的 BOOK_CITE（书单行放行）qc 没跟上，
+ * AI 栏目整期合并后被 qc 误拒（详见 lib-translate-rules.cjs 的头部注释）。
+ * 口径变化：汉字正则由 \u4e00-\u9fff 放宽到含扩展 A / 兼容区 / 假名（统一取宽的一侧）。 */
 const TITLE_PAIRS = [["“", "”"], ["「", "」"], ["『", "』"], ["（", "）"]];
 function titlePunctuationIssue(title) {
   const s = String(title || "");
@@ -222,13 +227,10 @@ for (const a of ARTICLES) {
     /* 「译文无中文」只该拦「照抄英文没翻」，不该拦「原文本身就只有标点」。
      * 实测（2026-09-18）：fb-gerard-pique-a-long-story 报出 6 处本条，逐句核对后 5 处是
      * 省略号句（原文 is `….` → 译文 `……`）、1 处是一字一顿的碎片句（原文 `That?!”` → 译文 `？！`），
-     * 译文全部正确 —— 只查汉字（\u4e00-\u9fff）必然把 `……` / `？！` 判成「无中文」。
-     * 加「必须含拉丁字母」这个条件，等于把判据收回到它本来的语义：照抄了英文才算漏译。
-     * 同一判据在 tools/text-scan.js 也用过（那里的同批假阳性已按此法修掉），两把尺子必须一致。
-     * 2026-09-18 二次收紧（两把尺子同步）：访谈「HM: ...」碎片的译文「HM：……」（说话人
-     * 缩写 + 省略号）不算漏译；带实际英文内容的照抄仍必须报。全库实测命中仅 Weisz 篇 1 处。 */
-    const SPEAKER_ELLIPSIS = /^(?:[A-Z]{1,3})\s*[：:]\s*[…。.]*$/;
-    if (!CN_RE.test(cn) && LATIN_RE.test(cn) && !SPEAKER_ELLIPSIS.test(cn.trim())) F.push(`F4 ${label} 译文无中文（照抄英文，疑似漏译）`);
+     * 译文全部正确 —— 只查汉字必然把 `……` / `？！` 判成「无中文」。
+     * 判据（含 2026-09-20 的书单行放行、汉字口径）现在只有一份实现：
+     * tools/lib-translate-rules.cjs 的 isUntranslated()，text-scan.js 用的是同一个函数。 */
+    if (isUntranslated(cn, en)) F.push(`F4 ${label} 译文无中文（照抄英文，疑似漏译）`);
     for (const [name, txt] of [["en", en], ["cn", cn]]) {
       if (PLACEHOLDER.test(txt)) F.push(`F5 ${label} ${name} 残留翻译占位符`);
       if (txt.includes("\uFFFD")) F.push(`F5 ${label} ${name} 含替换字符 U+FFFD`);

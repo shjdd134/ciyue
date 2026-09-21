@@ -1,6 +1,6 @@
 /* 词阅 WordLens —— 文章级补充词典（自动生成，请勿手改；node tools/build-articles-words.mjs 重新生成）
  *
- * 225 个词：当前 57 篇文章里**点不动**、
+ * 225 个词：当前 19 篇文章里**点不动**、
  * 又确实不是专有名词的词，从 ECDICT 定向取回释义（结构同 TAPDICT 条目：{ p: 音标, d: 释义 }）。
  *
  * 存在的理由：ECDICT 对纯功能词与缩写常常没有语料词频（frq=0），而 build-tapdict.mjs

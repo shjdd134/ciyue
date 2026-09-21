@@ -34,6 +34,7 @@ import crypto from "node:crypto";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { check as checkVersion, readVersion } from "./version.mjs";
+import { checkMemorySize } from "./lib-memory.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const STATE_FILE = path.join(ROOT, ".bak", "gen-state.json");
@@ -202,6 +203,14 @@ if (has("--full")) {
   step("5/6 全量回归");
   console.log("  （跳过；加 --full 跑 daily.mjs 那套 20 项）");
 }
+
+/* ---------- 记忆体积护栏（只警告，不计入 failures；判据与实现在 lib-memory.mjs） ----------
+ * 为什么挂在 release 而不是只挂 daily：`.workbuddy/` 在 `.gitignore` 里，CI 检出后没有这个目录，
+ * daily 在 runner 上永远跳过；而 release.mjs 是**人工发布入口**，是真正会被执行到的那一处。
+ * 2026-09-21 的触发场景：MEMORY.md 涨到 9,609 字符，注入时被静默截在「四、方法论红线」第 1 条，
+ * 后两整节没进上下文，而当轮恰好要动发布流程 —— 那两节正是发布红线。 */
+step("附：记忆体积（只警告，不计入失败）");
+checkMemorySize(ROOT, { prefix: "  " });
 
 /* ---------- 6/6 下一步 ---------- */
 step("6/6 下一步 —— 本脚本到此为止，不自动发布");

@@ -5,17 +5,28 @@
     "tools/audit-dups.mjs 用**正确的展平器 + 三步归一**（引号→标点→空白，顺序不可换）查全库重复句，",
     "与这份白名单比对：**出现未登记的新重复 → 报错**。",
     "",
-    "35 组分三类：",
+    "39 组：",
     "  · 10 组 Dan Koe 三篇共享的页脚/订阅块（跨篇，每篇一份，属页面结构）；",
-    "  · 2 组回原文核对确认是作者本意重复（gr-pg-* / fb-*）；",
-    "  · 19 组 Offbook 官方译本自身的复沓（2026-09-20 接入 AI 栏目 43 篇时登记）：",
+    "  · 3 组回原文核对确认是作者本意重复（gr-pg-* / fb-*）；",
+    "  · 22 组 Offbook 官方译本自身的复沓（2026-09-20 接入 AI 栏目 43 篇时登记）：",
     "    第 1 期「四元公式」的框架条目在正文与附录书单里各出现一次，另有几处跨篇复述；",
-    "    每一组的 why 都记了所在章号与 en 的形态差异（例如附录里是 <strong> 小标题、不带句末标点）。",
+    "    附录那几处形态不同（<strong> 小标题、不带句末标点）。",
+    "  · 4 组 Offbook 节标题（2026-09-21 整期合并把 h2/h3 放回正文后才被守卫看见）：",
+    "    两期各自的「Chapter 7 · Conclusion」「Appendix · Starter Reading List」互撞，",
+    "    以及同一篇里 h3 小标题与其后正文 <strong> 重申同一句。都是原文写法，非提取副本。",
     "",
     "真正常见的缺陷形态（提取副本）带**重新分词的空白痕迹**，例如 `Memoirs,` vs `Memoirs ,`、",
     "`person.` vs `person. ”` —— 2026-09-17 已按此判据删掉 8 句，工具见 tools/_dedup-sentences.mjs。",
     "",
-    "count 参与比对：同一句出现次数变了（例如新增第 4 篇 Dan Koe 文章）也会报错，逼人工过一遍。"
+    "count 参与比对：同一句出现次数变了（例如新增第 4 篇 Dan Koe 文章）也会报错，逼人工过一遍。",
+    "但这条承诺只对**活着**的条目成立 —— 见下。",
+    "",
+    "at 字段 = 该条登记在**当前数据**里的真实位置（id p段-s句），由 tools/_fix-dup-allowlist.mjs 重算。",
+    "位置写成散文会随代码一起腐烂：2026-09-21 AI 栏目由 43 篇整期合并为 5 篇，id 从 ob-<slug>-c<NN>",
+    "变成 ob-<slug>，35 条 why 里手写的章号位置一次性全部失效 —— 所以从此按字段存。",
+    "**没有 at 的条目 = 休眠**：那句话已不在当前文章数据里（2026-09-21 实测 17 / 39 条），",
+    "audit-dups 只在句子存在时才比对 count，休眠条目因此**永远静默**。这是已知弱点，别把它读成",
+    "「已核对」：要么删掉该条，要么确认对应的正文块确实被有意移除过。"
   ],
   "groups": [
     {
@@ -81,37 +92,65 @@
     {
       "en": "“Because of who you are.”",
       "count": 2,
-      "why": "fb-kevin-de-bruyne-let-me-talk p27-s2 / p30-s1 —— 受访者复述外界对自己的评价，两句中文标点不同（。vs …）证明是两处独立句子，不是提取副本"
+      "why": "fb-kevin-de-bruyne-let-me-talk p27-s2 / p30-s1 —— 受访者复述外界对自己的评价，两句中文标点不同（。vs …）证明是两处独立句子，不是提取副本",
+      "at": [
+        "fb-kevin-de-bruyne-let-me-talk p27-s2",
+        "fb-kevin-de-bruyne-let-me-talk p30-s1"
+      ]
     },
     {
       "en": "They don’t want you anymore.",
       "count": 2,
-      "why": "fb-kevin-de-bruyne-let-me-talk p29-s1 / p29-s7 —— 同一段内相隔 6 句的语气复沓（受访者强调），两处位置独立、非复制粘贴"
+      "why": "fb-kevin-de-bruyne-let-me-talk p29-s1 / p29-s7 —— 同一段内相隔 6 句的语气复沓（受访者强调），两处位置独立、非复制粘贴",
+      "at": [
+        "fb-kevin-de-bruyne-let-me-talk p29-s1",
+        "fb-kevin-de-bruyne-let-me-talk p29-s7"
+      ]
     },
     {
       "en": "No, come on, of course I’m joking!",
       "count": 2,
-      "why": "fb-gerard-pique-a-long-story p4-s2 / p41-s2 —— 首尾呼应同一句玩笑，跨 37 段的刻意结构（作者/受访者本意）"
+      "why": "fb-gerard-pique-a-long-story p4-s2 / p41-s2 —— 首尾呼应同一句玩笑，跨 37 段的刻意结构（作者/受访者本意）",
+      "at": [
+        "fb-gerard-pique-a-long-story p4-s2",
+        "fb-gerard-pique-a-long-story p41-s2"
+      ]
     },
     {
       "en": "If you do anything well enough, you'll make it prestigious.",
       "count": 2,
-      "why": "Paul Graham 本意重复：How to Do What You Love（2006）谈声望时与 How to Do Great Work（2023）谈优雅时各用了一次，跨篇跨年，作者原话"
+      "why": "Paul Graham 本意重复：How to Do What You Love（2006）谈声望时与 How to Do Great Work（2023）谈优雅时各用了一次，跨篇跨年，作者原话",
+      "at": [
+        "gr-pg-how-to-do-what-you-love p16-s2",
+        "gr-pg-how-to-do-great-work p144-s5"
+      ]
     },
     {
       "en": "Probability and uncertainty reasoning.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p22-s1 / ob-on-cognitive-decoupling-c08 p2-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Probability and uncertainty reasoning.\" vs \"Probability and uncertainty reasoning\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p22-s1 / ob-on-cognitive-decoupling-c08 p2-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Probability and uncertainty reasoning.\" vs \"Probability and uncertainty reasoning\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-on-cognitive-decoupling p254-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "Truly understand base rates, conditional probability, sampling bias, selection effects, and calibration.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p22-s2 / ob-rebuilding-learning-c04 p7-s1 —— 分处 2 篇（on-cognitive-decoupling / rebuilding-learning）。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p22-s2 / ob-rebuilding-learning-c04 p7-s1 —— 分处 2 篇（on-cognitive-decoupling / rebuilding-learning）。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-rebuilding-learning p144-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "Causal reasoning.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p23-s1 / ob-on-cognitive-decoupling-c08 p5-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Causal reasoning.\" vs \"Causal reasoning\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p23-s1 / ob-on-cognitive-decoupling-c08 p5-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Causal reasoning.\" vs \"Causal reasoning\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-on-cognitive-decoupling p257-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "Distinguish correlation from causation.",
@@ -126,17 +165,29 @@
     {
       "en": "Game theory and incentive structures.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p24-s1 / ob-on-cognitive-decoupling-c08 p8-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Game theory and incentive structures.\" vs \"Game theory and incentive structures\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p24-s1 / ob-on-cognitive-decoupling-c08 p8-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Game theory and incentive structures.\" vs \"Game theory and incentive structures\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-on-cognitive-decoupling p260-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "System dynamics.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p25-s1 / ob-on-cognitive-decoupling-c08 p11-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"System dynamics.\" vs \"System dynamics\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p25-s1 / ob-on-cognitive-decoupling-c08 p11-s1 —— 同篇「on-cognitive-decoupling」的第 6 / 8 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"System dynamics.\" vs \"System dynamics\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-on-cognitive-decoupling p263-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "Understand nonlinearity, delayed feedback, and emergence.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p25-s2 / ob-rebuilding-learning-c04 p13-s1 —— 分处 2 篇（on-cognitive-decoupling / rebuilding-learning）。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-on-cognitive-decoupling-c06 p25-s2 / ob-rebuilding-learning-c04 p13-s1 —— 分处 2 篇（on-cognitive-decoupling / rebuilding-learning）。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-rebuilding-learning p150-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "This is not a thinking trick.",
@@ -151,27 +202,47 @@
     {
       "en": "That is wrong.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-breakdown-of-firms-c04 p3-s2 / ob-breakdown-of-firms-c06 p53-s1 —— 同篇「breakdown-of-firms」的第 4 / 6 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-breakdown-of-firms-c04 p3-s2 / ob-breakdown-of-firms-c06 p53-s1 —— 同篇「breakdown-of-firms」的第 4 / 6 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-breakdown-of-firms p304-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "Historical samples:",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c04 p4-s1 / ob-mirage-of-form-c04 p17-s1 —— 同篇「mirage-of-form」的第 4 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c04 p4-s1 / ob-mirage-of-form-c04 p17-s1 —— 同篇「mirage-of-form」的第 4 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-mirage-of-form p83-s1",
+        "ob-mirage-of-form p97-s1"
+      ]
     },
     {
       "en": "Authorship needs time: traceable judgment requires sustained public output, track record requires long-term accountability, presence requires staying around",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c07 p19-s1 / ob-mirage-of-form-c10 p13-s1 —— 同篇「mirage-of-form」的第 7 / 10 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Authorship needs time: traceable judgment requires sustained public output, track record requires long-term accountability, presence requires staying around\" vs \"Authorship needs time: traceable judgment requires sustained public output, track record requires long-term accountability, presence requires staying around.\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c07 p19-s1 / ob-mirage-of-form-c10 p13-s1 —— 同篇「mirage-of-form」的第 7 / 10 章各一次。两处 en 归一化后同形，原文里只有句末标点/形态之差（\"Authorship needs time: traceable judgment requires sustained public output, track record requires long-term accountability, presence requires staying around\" vs \"Authorship needs time: traceable judgment requires sustained public output, track record requires long-term accountability, presence requires staying around.\"）；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-mirage-of-form p255-s1",
+        "ob-mirage-of-form p413-s1"
+      ]
     },
     {
       "en": "But time alone isn’t enough.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c07 p21-s1 / ob-mirage-of-form-c10 p15-s1 —— 同篇「mirage-of-form」的第 7 / 10 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c07 p21-s1 / ob-mirage-of-form-c10 p15-s1 —— 同篇「mirage-of-form」的第 7 / 10 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-mirage-of-form p257-s1",
+        "ob-mirage-of-form p415-s1"
+      ]
     },
     {
       "en": "Their time becomes a sunk cost.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c07 p21-s3 / ob-mirage-of-form-c10 p15-s3 —— 同篇「mirage-of-form」的第 7 / 10 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-mirage-of-form-c07 p21-s3 / ob-mirage-of-form-c10 p15-s3 —— 同篇「mirage-of-form」的第 7 / 10 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-mirage-of-form p257-s3",
+        "ob-mirage-of-form p415-s3"
+      ]
     },
     {
       "en": "The bottom 25% has slid back past 1992.",
@@ -181,17 +252,65 @@
     {
       "en": "All four systems are reforming.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-teaching-and-training-disqualified-c02 p47-s1 / ob-teaching-and-training-disqualified-c02 p76-s1 —— 同篇「teaching-and-training-disqualified」的第 2 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-teaching-and-training-disqualified-c02 p47-s1 / ob-teaching-and-training-disqualified-c02 p76-s1 —— 同篇「teaching-and-training-disqualified」的第 2 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-teaching-and-training-disqualified p138-s1"
+      ],
+      "atMismatch": true
     },
     {
       "en": "Teaching and training have not lost meaning.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-teaching-and-training-disqualified-c02 p81-s1 / ob-teaching-and-training-disqualified-c06 p96-s1 —— 同篇「teaching-and-training-disqualified」的第 2 / 6 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-teaching-and-training-disqualified-c02 p81-s1 / ob-teaching-and-training-disqualified-c06 p96-s1 —— 同篇「teaching-and-training-disqualified」的第 2 / 6 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-teaching-and-training-disqualified p144-s1",
+        "ob-teaching-and-training-disqualified p441-s1"
+      ]
     },
     {
       "en": "After AI this changes.",
       "count": 2,
-      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-teaching-and-training-disqualified-c06 p16-s1 / ob-teaching-and-training-disqualified-c06 p22-s1 —— 同篇「teaching-and-training-disqualified」的第 6 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。"
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：ob-teaching-and-training-disqualified-c06 p16-s1 / ob-teaching-and-training-disqualified-c06 p22-s1 —— 同篇「teaching-and-training-disqualified」的第 6 章各一次。两处 en 归一化后同形；而真正的提取副本会带重新分词留下的空白痕迹（Memoirs, vs Memoirs ,）。源站 HTML 实测确认两处都在原文里（不是提取时拼接/复制出来的）。",
+      "at": [
+        "ob-teaching-and-training-disqualified p356-s1",
+        "ob-teaching-and-training-disqualified p362-s1"
+      ]
+    },
+    {
+      "en": "Chapter 7 · Conclusion",
+      "count": 2,
+      "why": "Offbook 官方译本自身的复沓（不是提取副本）：两期不同长文各自的第 7 章结语小节标题。源站 HTML 实测两处都是 <h2>（同篇里的 li 命中属目录导航，提取器已按 back matter 排除）。2026-09-21 整期合并后节标题进入正文、带上 head:2，本组才第一次被守卫看见 —— 分篇时 h2 标题被拿去当文章标题，不在正文里，两处压根不是同一条。",
+      "at": [
+        "ob-on-cognitive-decoupling p235-s1",
+        "ob-rebuilding-learning p384-s1"
+      ]
+    },
+    {
+      "en": "Appendix · Starter Reading List",
+      "count": 2,
+      "why": "同上：两期各自的附录小节标题（源站 <h2>）。原文结构，不是提取副本。2026-09-21 整期合并后标题进入正文才被守卫看见。",
+      "at": [
+        "ob-on-cognitive-decoupling p252-s1",
+        "ob-breakdown-of-firms p373-s1"
+      ]
+    },
+    {
+      "en": "Do → observe → ask → learn → do",
+      "count": 2,
+      "why": "同上的近邻形态：一处是 <h3> 小节标题、一处在正文里以 <p><strong> 重申同一句，两处相邻（p111 / p113）。这是原文写法本身 —— 守卫报红后逐处回源站 HTML 核对过，不是提取时复制出来的。2026-09-21 整期合并后标题进入正文才被守卫看见。",
+      "at": [
+        "ob-rebuilding-learning p111-s1",
+        "ob-rebuilding-learning p113-s1"
+      ]
+    },
+    {
+      "en": "Time is necessary, not sufficient",
+      "count": 2,
+      "why": "同上：源站两处都是 <h3> 小节标题（同篇前后两次用它作小标题，p253 / p411）。2026-09-21 整期合并后标题进入正文才被守卫看见。",
+      "at": [
+        "ob-mirage-of-form p253-s1",
+        "ob-mirage-of-form p411-s1"
+      ]
     }
   ]
 }

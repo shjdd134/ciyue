@@ -9,7 +9,7 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 
-### 0.1 ★ 权威现状（2026-09-20 — **要看现状只读这一节**）
+### 0.1 ★ 权威现状（2026-09-21 — **要看现状只读这一节**）
 
 > 🔴 **这张表由 `node tools/doc-numbers.mjs` 校验**：篇数 / 句词数 / 版本 / 词库是硬校验（对不上 `exit 1`）；
 > 基线 commit 是**提示项** —— 每次推送都会改写它，而推送清单从不含本文件（文档要人工跟），
@@ -18,17 +18,17 @@
 
 | 项 | 值 |
 | --- | --- |
-| 文章 | **57 篇 = 成长 4 + 人物 6 + 足球 4 + AI 43** |
-| 句子 / 词数 | **8,192 句 / 117,046 词** |
+| 文章 | **19 篇 = 成长 4 + 人物 6 + 足球 4 + AI 5** |
+| 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 66 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`43dc924`**（2026-09-20 21:2x，批次 20260920-212008 后：AI 栏目 43 篇） |
-| 资源版本 | `?v=66` · SW 缓存名 `wordlens-cache-v66` |
+| 资源版本 | `?v=67` · SW 缓存名 `wordlens-cache-v67` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
 | 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
 | 足球 4 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
-| AI 43 篇 | **Offbook Press 官方中英双语长文**（Dawei Geng，`ob-*`）：5 期按 h2 拆章（`on-cognitive-decoupling` 8 / `rebuilding-learning` 8 / `breakdown-of-firms` 8 / `mirage-of-form` 13 / `teaching-and-training-disqualified` 6），`translation_type:"official"`、`pin:true`。**这条通道不翻译，只抽取**（源站自带官方中文），管线见 `tools/offbook.mjs` + `tools/lib-offbook.mjs`，守恒硬闸：入库 + 显式排除（各篇「引用与出处」章）= 源站全文。封面是渐变（源站无位图，取 `data-cover-*` 三色） |
+| AI 5 篇 | **Offbook Press 官方中英双语长文**（Dawei Geng，`ob-*`）：**一期一整篇**（`on-cognitive-decoupling` / `rebuilding-learning` / `breakdown-of-firms` / `mirage-of-form` / `teaching-and-training-disqualified`），`translation_type:"official"`、`pin:true`。**这条通道不翻译，只抽取**（源站自带官方中文），管线见 `tools/offbook.mjs` + `tools/lib-offbook.mjs`，守恒硬闸：入库 + 显式排除（正文末「引用与出处」章）= 源站全文。封面是渐变（源站无位图，取 `data-cover-*` 三色）。2026-09-21 之前是「按 h2 拆 43 篇」，现已回到源站原文单位 —— 节标题以 `<h2>/<h3 class="para para-head">` 回到正文（数据侧 `paras[i].head` 标 2/3），**这是修回来的内容**：拆篇时 h3 标题整批被丢掉（每期 22—47 个），守恒闸看不见（基准只取正文块，标题在 `head` 里） |
 | 寓言 | 入口保留，当前为空 |
 
 **「线上现在有什么」永远以远端树为准**（`node tools/tree-diff.mjs`）。本表只是索引 ——
@@ -470,6 +470,45 @@
 >     实测方法：读 `.bak/published.json` 的 `files`，逐项 `existsSync`，打印「基线有、盘上没有」的清单。
 >     本次实测 0 项（两张图那时还在盘上），跑完 publish 后正好 2 项、与预期一致。
 >     封面数 68 → **66**。
+
+> - **2026-09-21 v67 AI 栏目整期合并批次**（用户要求「把 AI 栏目的文章分散的文章合成一篇，不要切割，就按原文」）。
+>   43 篇（按 h2 拆章）→ **5 篇，一期一整篇**；id 由 `ob-<slug>-c<NN>` 变 `ob-<slug>`。全库 57 → **19 篇**。
+>   - ① **最重要的一条：拆篇时 h3 标题整批在丢失，而守恒闸看不见。** 守恒闸的基准只取 `blocks`
+>     （正文块），而标题存在 `sections[i].headZh/headEn` 里 —— 分篇模式下 h2 被拿去当文章标题、
+>     h3 直接消失，**既没报错也没空段**。实测每期丢 22—47 个，五期合计 **169 个 h3**。
+>     整期模式顺手修回来：标题作为段落回到正文，数据侧打 `paras[i].head = 2|3|4`。
+>   - ② 实测：**正文段数一字不差**（238/359/360/420/401），多出来的正是标题段
+>     30+42+37+60+43 = **212**（43 个 h2 + 169 个 h3）；词数 61,989 → 63,201（增量就是标题的英文）。
+>     守恒闸 5/5 ✓（`入库 + 显式排除 = 源站全文`）。
+>   - ③ 已知并接受的代价：**id 变了，AI 栏目的阅读进度与打卡锚点会失效**（本地按 id + 句坐标存）。
+>   - ④ **差点静默上线的一个坑**：写完「节标题当段落」后我又给该处补了 `head: sec.level` 字段，
+>     而数据是在**补字段之前**写盘的 —— 于是脚本会写 `head`、磁盘上 0 个，前端那个分支永远不会触发。
+>     发现方式：改完先跑一次数据形状统计（带 head 的段数 = 0），不是靠读代码。**生成产物改完必须复跑一次并验形状。**
+>   - ⑤ 连带修掉的两处**两把尺子**：
+>     · `dup-allowlist.json` —— 整期后新出现 4 组重复句，**全是源站标题**（两期各自的
+>       「Chapter 7 · Conclusion」「Appendix · Starter Reading List」互撞；同篇 h3 小标题与其后
+>       正文 `<strong>` 重申同一句）。逐处回源站 HTML 核对过标签形态（h2/h3，`li` 命中是目录导航）后登记。
+>       同时发现 **39 条登记里 17 条已休眠**（那句话根本不在当前数据里 → `audit-dups` 只在句子存在时
+>       才比对 count → 永远静默）。空口说「已核对」是假的，故新增 `at` 字段存真实位置 +
+>       `tools/_fix-dup-allowlist.mjs` 重算（原来位置手写在 why 散文里，id 一改就全成查不到的字符串）。
+>     · `qc.mjs` 与 `text-scan.js` —— 2026-09-20 给 text-scan 加的 `BOOK_CITE`（书单行
+>       `《Holacracy…》Brian J. Robertson` 该放行）**qc 没同步**，于是 `qc --ids-file` 拒收
+>       `ob-breakdown-of-firms`（段 387 译文无中文）。实证：合并前后该句 cn 逐字相同（不是我引入的）。
+>       判据抽成 `tools/lib-translate-rules.cjs` 的 `isUntranslated()` 由两边共用；
+>       qc 侧补 3 组镜像样本（书单行 / 句中夹《》必须照报 / 说话人缩写碎片），**同一个函数被两套测试同时验证**。
+>   - ⑥ 前端渲染：`app.js` 新增标题分支（`paras[i].head` → `<hN class="para para-head">`，用真 hN 而非
+>     `<p class="para-head">`：语义正确、读屏可跳转；已核实 `audit.js` 里唯一的 `<h2>` 断言在发现页）；
+>     `styles.css` 新增 `.read-body .para.para-head`（加粗、上间距 40px > 段距 24px）与
+>     `h3.para.para-head`（字号回到正文，上间距 32px）—— **h2/h3 必须分档**，一期长文 43 个 h2 + 169 个 h3，
+>     两档同号时读者分不出「换章」与「换节」。Edge 无头截图人眼确认过。
+>   - ⑦ 守卫：`audit.js` 264 → **271 通过 / 0 失败**（+7：渲染 4 条 + CSS 3 条）。负向测试 **4 组精确变红**
+>     （`.bak/neg.mjs` 的 h/i/j/l：废掉标题分支 → R2 4 条红；h3 与 h2 同号 → 1 条红；
+>     上间距塌到 12px → 1 条红；editorial 层多一个 `.para-head` 来源 → 1 条红），
+>     无连坐；还原后逐字节一致、回到 271/0。`qc-test` 15 → 20 项全绿，`guards-test` 14/14。
+>   - ⑧ **未做（既存形态，不是本轮引入）**：**525 段「单句段里实含多句」**，被并掉的句界 **1,488** 个
+>     （用 `lib-text.mjs` 的 `splitSentences` 量的；合并前后**完全一致** 519→525 / 1482→1488）。
+>     根因是 `lib-offbook.mjs` 的 k:1 合并组走「退段级不切句」（`合并组不切 30`），后果是这些段落
+>     在「一句一行」节奏下退化成整段连排。修它要动句级切分口径，需单独一轮 + 全样本差分，本轮不动。
 
 ### 0.3 机制速查（不随批次变）
 

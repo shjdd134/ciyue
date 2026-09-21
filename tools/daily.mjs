@@ -13,6 +13,7 @@ import path from "node:path";
 import { readDecl } from "./lib-text.mjs";
 import { spawnSync } from "node:child_process";
 import { createBatch, restoreBatch, pruneBatches } from "./lib-release.mjs";
+import { checkMemorySize } from "./lib-memory.mjs";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ASSETS = path.join(ROOT, "assets");
@@ -120,6 +121,10 @@ console.log("\n== 步骤 5/5：回归 ==");
 for (const t of ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs", "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js", "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs", "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs", "version-test.mjs", "doc-numbers-test.mjs"]) {
   if (!run(t)) rollback(`回归未过：${t}`);
 }
+
+/* ---------- 记忆体积护栏（只警告，不回滚；判据与实现在 lib-memory.mjs） ----------
+ * 在 runner 上 `.workbuddy/` 不存在（gitignore），这里自然跳过 —— 它是给本机跑 daily 时用的。 */
+checkMemorySize(ROOT, { prefix: "\n" });
 
 const pruned = pruneBatches(ROOT, 10);
 if (pruned.length) console.log(`已清理旧批次：${pruned.join(", ")}`);

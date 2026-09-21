@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "66");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "67");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1755,6 +1755,18 @@ function renderRead() {
          不反向标注就会被祖传的 en 当英文念出来。
          代价：.sentence 自己的 aria-label 是中文、内容却是英文，标注只能二选一，
          现取「内容」这一侧；等 §7 把句级 button 语义拆开时一并处理。 */
+      /* 节标题段（p.head = 2/3/4）：整期长文里源站的 h2/h3 回到了正文 —— 见
+         tools/offbook.mjs 头部「粒度」。它们与正文段在数据里同一形状，只能靠这个字段
+         决定渲染成标题还是段落；缺了它，标题会以正文的样子出现，而标题常常与紧邻的正文
+         重申同一句（实测 `Do → observe → ask → learn → do` 上下相邻两段、`Time is
+         necessary, not sufficient` 同篇两处），读起来像重复的正文。
+         用真的 hN 而不是 <p class="para para-head">：语义正确（文章小节就该是 h2/h3，
+         读屏可跳转）。风险已核：audit.js 里唯一的 <h2> 断言在发现页（.editorial-copy），
+         与阅读页无关；UA 默认字号/外边距都被 `.read-body .para` 这条更高特异性的规则盖掉。 */
+      if (p.head) {
+        const h = Math.min(4, Math.max(2, Number(p.head) || 2));
+        return `<h${h} class="para para-head" lang="en" data-pi="${i}">${parts.join(" ")}</h${h}>`;
+      }
       return `<p class="para" lang="en" data-pi="${i}">${parts.join(" ")}</p>`;
   }).join("");
 
@@ -2166,24 +2178,78 @@ function exportData() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   toast("已导出进度备份");
 }
+/* 导入与启动迁移分开：迁移可以补缺省值，用户选中的损坏备份不能因此变成空进度。 */
+function validateBackupState(st) {
+  const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+  const record = v => v !== null && typeof v === "object" && !Array.isArray(v);
+  const finite = v => typeof v === "number" && Number.isFinite(v);
+  const check = valid => { if (!valid) throw new Error("备份字段格式不对"); };
+  check(record(st));
+  const arrays = ["read", "finished", "known", "readDays", "studyDays"];
+  const counts = ["readCount", "secByDay", "minsByDay"];
+  const maps = ["readPos", "readHistory", "articleFeedback"];
+  check(["notebook", "lastRead", ...arrays, ...counts, ...maps].some(k => has(st, k)));
+  for (const k of arrays) if (has(st, k)) {
+    check(Array.isArray(st[k]) && st[k].every(v => typeof v === "string" && v.trim().length > 0));
+  }
+  const checkContext = c => {
+    check(c === null || (record(c) && typeof c.en === "string" && (!has(c, "cn") || typeof c.cn === "string")));
+  };
+  if (has(st, "notebook")) {
+    check(Array.isArray(st.notebook));
+    for (const item of st.notebook) {
+      if (typeof item === "string") { check(item.trim().length > 0); continue; }
+      check(record(item) && typeof item.word === "string" && item.word.trim().length > 0);
+      for (const k of ["context", "firstCtx"]) if (has(item, k)) checkContext(item[k]);
+      for (const k of ["articleId", "articleTitle", "srcTitle"]) if (has(item, k)) check(typeof item[k] === "string");
+      if (has(item, "addedAt")) check(finite(item.addedAt) && item.addedAt >= 0);
+    }
+  }
+  for (const k of counts) if (has(st, k)) {
+    check(record(st[k]) && Object.values(st[k]).every(v => finite(v) && v >= 0));
+  }
+  const checkEntry = entry => {
+    check(record(entry));
+    for (const k of ["pi", "si", "off", "y", "pct", "at", "firstAt", "lastAt", "visits"]) {
+      if (has(entry, k)) check(finite(entry[k]));
+    }
+    for (const k of ["id", "title", "titleZh", "cat", "source"]) if (has(entry, k)) check(typeof entry[k] === "string");
+    if (has(entry, "finished")) check(typeof entry.finished === "boolean");
+  };
+  if (has(st, "lastRead")) checkEntry(st.lastRead);
+  for (const k of maps) if (has(st, k)) {
+    check(record(st[k]));
+    Object.values(st[k]).forEach(checkEntry);
+  }
+  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, highlightMode: HL_MODES, accent: ["en-US", "en-GB"] };
+  for (const [k, values] of Object.entries(enums)) if (has(st, k)) check(values.includes(st[k]));
+  for (const k of ["showCn", "kwHighlight", "hintSeen"]) if (has(st, k)) check(typeof st[k] === "boolean");
+  if (has(st, "fontSize")) check(Number.isInteger(st.fontSize) && st.fontSize >= 0 && st.fontSize <= 2);
+  if (has(st, "backupHintAt")) check(finite(st.backupHintAt) && st.backupHintAt >= 0);
+}
 function importData(file) {
   const r = new FileReader();
   r.onload = () => {
+    let next;
     try {
       const j = JSON.parse(String(r.result));
       const wrapped = j && typeof j === "object" && Object.prototype.hasOwnProperty.call(j, "state");
       if (wrapped && j.app !== "wordlens") throw new Error("不是词阅备份");
+      if (wrapped && j.version !== undefined && j.version !== 1) throw new Error("不支持的备份版本");
       const st = wrapped ? j.state : j;
-      if (!st || typeof st !== "object" || Array.isArray(st)) throw new Error("格式不对");
-      /* showCn 与 cnMode 都列进来：前者识别 v57 及更早导出的备份，后者识别新版 */
-      const knownKeys = ["theme", "notebook", "showCn", "cnMode", "fontSize", "readTheme", "read", "finished", "known", "readDays", "secByDay", "minsByDay", "lastRead", "readPos", "readHistory", "articleFeedback"];
-      if (!knownKeys.some(k => Object.prototype.hasOwnProperty.call(st, k))) throw new Error("不是有效进度");
-      S = normalizeState(st);
-      save(); render();
-      toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词`);
+      validateBackupState(st);
+      next = normalizeState(st);
     } catch (e) {
       toast("这个文件读不出来，请确认是导出的备份");
+      return;
     }
+    try { localStorage.setItem(STORE, JSON.stringify(next)); }
+    catch (e) { toast("无法保存备份，现有进度未更改，请检查浏览器存储空间后重试"); return; }
+    S = next;
+    clearArticleCaches();
+    homeReads.pool = [];
+    render();
+    toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词`);
   };
   r.readAsText(file);
 }
@@ -2553,7 +2619,7 @@ document.addEventListener("click", e => {
   const t = e.target.closest("[data-act],[data-tab],[data-article],[data-cat]");
   if (!t) return;
 
-  if (t.dataset.tab) {
+  if (t.dataset.tab && !t.dataset.act) {
     if (!["home", "discover", "me"].includes(t.dataset.tab)) return;
     view = { name: t.dataset.tab };
     resetNav();                 // 点底部 tab = 根级跳转
@@ -2808,7 +2874,9 @@ document.addEventListener("click", e => {
       clearArticleCaches();
       paintWord(w);
       toast(known ? `「${w}」已标记为认识，文中不再高亮` : `已取消「${w}」的已认识标记`);
-      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
+      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove());
+      if (view.name === "notebook") render();
+      break;
     }
     case "lookup": {
       const word = t.dataset.word;

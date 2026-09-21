@@ -1038,6 +1038,45 @@ ok('译文与朗读按钮反向标 lang="zh-CN"（否则中文被祖传的 en �
   /<span class="cn" lang="zh-CN"/.test(readHtml) && /<span class="para-tts" lang="zh-CN"/.test(readHtml));
 ctx('activeArticle = null;');
 
+/* ===================================================================
+ * R2. 整期长文的节标题（2026-09-21 新增）
+ * ===================================================================
+ * 背景：AI 栏目原先按 h2 拆成 43 篇，2026-09-21 改回「一期一整篇」（用户要求「不要切割，
+ * 就按原文」）。拆篇时源站的 h2 被拿去当文章标题、h3 标题**整批消失**（实测每期丢 22—47 个，
+ * 五期合计 169 个），而守恒闸看不见 —— 它的基准只取正文块，标题在 `head` 里。
+ * 整期模式把标题放回正文，数据侧打 `paras[i].head = 2|3|4`。
+ *
+ * 为什么要守卫：标题段与正文段在数据里形状**完全相同**（都是 `{sentences:[{en,cn}]}`），
+ * 前端只靠 `head` 字段区分。这个字段一旦丢了（换提取器、改字段名），页面不会报错也不空白 ——
+ * 标题会静静地变回正文，读者看到的是「同一句话紧挨着写了两遍」（实测 `Do → observe →
+ * ask → learn → do` 上下相邻两段）。
+ * 所以下面既有正向（该是标题的必须是 hN）也有反向（不该是标题的绝不能变成 hN）。
+ */
+console.log('\n[R2] 整期长文的节标题');
+const obArt = ctx('ARTICLES.find(a => String(a.id).startsWith("ob-"))');
+const obHeads = (obArt.paras || []).filter(p => p.head);
+const obHtml = ctx('(activeArticle = ARTICLES.find(a => String(a.id).startsWith("ob-")), renderRead())');
+const hTag = n => new RegExp(`<h${n} class="para para-head"`, 'g');
+const h2n = (obHtml.match(hTag(2)) || []).length;
+const h3n = (obHtml.match(hTag(3)) || []).length;
+ok(`★ 带 head 的段落渲染成真 hN（${obArt.id}：数据 ${obHeads.length} 段 → 页面 h2 ${h2n} + h3 ${h3n}）`,
+  obHeads.length > 0 && h2n + h3n === obHeads.length);
+ok('h2 / h3 各自的条数与数据里的 head 值一致（不是全塞成同一档）',
+  h2n === obHeads.filter(p => p.head === 2).length && h3n === obHeads.filter(p => p.head === 3).length);
+/* 反向：**不带 head** 的文本段必须仍是 <p class="para">。没有这一条的话，
+ * 「把所有段落都写成 h2」也能让上面两条变绿 —— 那整篇正文会变成一堆小标题。 */
+const obTextParas = (obArt.paras || []).filter(p => !p.img && !p.head
+  && (Array.isArray(p.sentences) ? p.sentences : [p]).some(s => String(s.en || "").trim() || String(s.cn || "").trim()));
+const pn = (obHtml.match(/<p class="para"/g) || []).length;
+ok(`不带 head 的文本段仍是普通段落（数据 ${obTextParas.length} 段 → 页面 <p class="para"> ${pn} 个）`,
+  obTextParas.length > 0 && pn === obTextParas.length);
+/* 标题段里也必须有句子坐标：进度、续读锚点、点句出译文三条链路都按 .sentence[data-pi] 走，
+ * 标题若渲染成裸文本，这些链路会在标题处静默断掉（不报错，只是定位偏一段）。 */
+ok('标题段里的句子同样带坐标（data-pi / data-si），定位链路不会在标题处断',
+  /<h2 class="para para-head"[^>]*data-pi="\d+"/.test(obHtml)
+  && /<h2 class="para para-head"[^>]*>\s*<span class="sentence" data-act="para-peek" data-pi="\d+" data-si="\d+"/.test(obHtml));
+ctx('activeArticle = null;');
+
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
 ok('段间装饰点已删除', !/· · ·/.test(css));
 ok('首字下沉已删除', !/::first-letter/.test(css));
@@ -1126,7 +1165,26 @@ const edCssBare = fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'u
   .replace(/\/\*[\s\S]*?\*\//g, '');
 ok('★ 段落间距只有一个来源（editorial.css 不得再覆盖 .read-body .para 的间距）',
   !/\.read-body \.para\s*\{[^}]*margin/.test(edCssBare));
-/* ★★ 同一个病的另两处（2026-09-20 一并收回 styles.css）：
+
+/* ★★ 节标题段的样式（2026-09-21 随 AI 栏目整期合并新增）。
+ * 判据一律取「可观察的关系」，不钉具体数值 —— 理由同上一条：
+ *   ① 标题必须比正文更显眼，且**上间距要明显大于段距**。差值是对称的 24/24 时，
+ *      标题看上去更像「前面那段的尾巴」而不是「后面这节的开始」。
+ *   ② h2（章级）与 h3（节级）必须能分开。一期长文实测 43 个 h2 + 169 个 h3，
+ *      两档同号时读者分不出「换章」和「换节」—— 而换章才是长滚里真正要定位的点。
+ *      所以断言「两档字号不相同」，不写死各是多少 px。
+ *   ③ 仍然只许一个来源：editorial.css 不得碰 .para-head。 */
+const headRule = (cssBare.match(/\.read-body \.para\.para-head\s*\{([^}]*)\}/) || [, ''])[1];
+const headH3Rule = (cssBare.match(/\.read-body h3\.para\.para-head\s*\{([^}]*)\}/) || [, ''])[1];
+const headMt = +((headRule.match(/margin:\s*(\d+)px/) || [])[1] || 0);
+const headFs = (headRule.match(/font-size:\s*([^;]+);/) || [, ''])[1].trim();
+const headH3Fs = (headH3Rule.match(/font-size:\s*([^;]+);/) || [, ''])[1].trim();
+ok(`★ 节标题加粗 + 上间距明显大于段距（上 ${headMt}px ≥ 段距 ${paraMb}px 的 1.5 倍）`,
+  /font-weight:\s*700/.test(headRule) && headMt > 0 && paraMb > 0 && headMt >= paraMb * 1.5);
+ok('★ 章级（h2）与节级（h3）字号必须能分开（两档同号 = 长滚里分不出换章与换节）',
+  Boolean(headFs) && Boolean(headH3Fs) && headFs !== headH3Fs);
+ok('节标题样式也只有一个来源（editorial.css 不得声明 .para-head）',
+  !/\.para-head/.test(edCssBare));/* ★★ 同一个病的另两处（2026-09-20 一并收回 styles.css）：
  *   ② `--rd-pad` —— editorial.css 声明过一遍（基础层 30px），又在 ≤759px 的媒体查询里
  *      写回 22px。三处来源两个档位，生效值 ≤759 是 22px、≥760 是 30px。
  *   ③ `.read-body` 的 padding —— editorial 的 `padding: 0 var(--rd-pad)` 让 styles.css

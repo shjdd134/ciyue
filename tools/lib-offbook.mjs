@@ -245,7 +245,39 @@ export function alignBlocks(zb, eb, { gap = GAP_COST, maxZ = 6, maxE = 3 } = {})
     i -= f.dz; j -= f.de;
   }
   groups.reverse(); orphanZh.reverse(); orphanEn.reverse();
-  return { groups, score: dp[n][m], orphanZh, orphanEn };
+
+  /* ★ 句数守恒的游程合并 —— 修「分段边界不同造成的整段滑格」，2026-09-21 审校的 P0。
+   * 两侧是同一份稿子，但中文常把英文两段并成一段（或反之）。此时 DP 会沿对角线一路错配：
+   *   en#53(5 句) ↔ zh#53(1 句)、en#54(4 句) ↔ zh#54(4 句)…
+   * 逐对看全不匹配，**连起来两边句数却相等** —— 这就是 blockToPara 判据 ③ 退成段落级的场景，
+   * 但退化成段落级仍是**配错的那一段**（小标题 `III. Project management…` 配到上一节的正文）。
+   * 判据是硬的、与内容无关：连续 1:1 的游程，若逐对句数不等而两侧句数总和相等，
+   * 就并成一个合并组 —— 合并组走 blockToPara 的 ①，整段配对，内容立刻对上。
+   * 只在「逐对确实不等」时动手，逐对已相等的干净文本一律原样保留。 */
+  const zhN = g => splitChineseUnits(g.z.map(i => zb[i].text).join(" ")).length;
+  const enN = g => splitSentencesLossless(g.e.map(j => eb[j].text).join(" ")).length;
+  const fixed = [];
+  let run = [];
+  const flush = () => {
+    if (run.length > 1 && run.some(g => zhN(g) !== enN(g))) {
+      const tz = run.reduce((n, g) => n + zhN(g), 0);
+      const te = run.reduce((n, g) => n + enN(g), 0);
+      if (tz === te && tz > 1) {
+        fixed.push({ z: run.flatMap(g => g.z), e: run.flatMap(g => g.e) });
+        run = [];
+        return;
+      }
+    }
+    fixed.push(...run);
+    run = [];
+  };
+  for (const g of groups) {
+    if (g.z.length === 1 && g.e.length === 1) run.push(g);
+    else { flush(); fixed.push(g); }
+  }
+  flush();
+
+  return { groups: fixed, score: dp[n][m], orphanZh, orphanEn };
 }
 
 /* ---------------- 4. 整篇解析 ---------------- */
@@ -400,99 +432,33 @@ export function parseEssay(html, { slug = "", url = "" } = {}) {
  *   收紧后判据：`Brian J.` / `Keith E.` / `Alfred D.` / `James W.` / `Michael R.` → 保护 ✓
  *                `on X.` / `and C.` / `buy B.` / `doing Y.` → 不保护 ✓（小写词在前，本来就该断开）
  *   顺带不用再写 `(?<![.!?…]\s)`：句末的 `Brian. This…` 里 `.` 不是 `\s`，第二个词位匹配不上。 */
-const ABBR_CI = /\b(?:X{0,3}(?:IX|IV|V?I{1,3}))\.(?=\s|$)|(?:Mr|Mrs|Ms|Dr|Drs|Prof|Sr|Jr|St|vs|etc|Co|Inc|Ltd|Fig|Vol|No|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e|Ch|Sec|Pt|Dept|Univ)\./gi;
+const ABBR_CI = /\b(?:Mr|Mrs|Ms|Dr|Drs|Prof|Sr|Jr|St|vs|etc|Co|Inc|Ltd|Fig|Vol|No|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sept|Oct|Nov|Dec|Mon|Tue|Wed|Thu|Fri|Sat|Sun|U\.S|U\.K|a\.m|p\.m|e\.g|i\.e|Ch|Sec|Pt|Dept|Univ)\./gi;
 const ABBR_CS = /(?<=[A-Z][a-z]{1,15}\s)[A-Z]\.(?=\s+[A-Z][a-z])/g;
+/* 罗马数字小标题单独一条**大小写敏感**的规则。
+ * 原先它挂在 ABBR_CI（带 i 标志）里，两处毛病：
+ *   ① 正则 `V?I{1,3}` 要求至少一个 I，所以 `III.` / `IV.` 保得住，**光秃秃的 `V.` / `I.` / `X.` 保不住** ——
+ *      实测 `V. Vertical responsibility allocation` 被切成 `V.` + `Vertical…` 两句，
+ *      英文这边凭空多一句，整节往上一格错位（2026-09-21 审校 breakdown-of-firms 的 p55 就是它）。
+ *   ② 挂 `i` 标志会把 `mill.` / `ill.` 这种只由罗马字母组成的普通词也当编号保护掉，
+ *      反而把两句粘成一句。列表编号全是大写，所以这里改成只在**大写**时保护。 */
+const ABBR_ROMAN = /\b[IVXLCDM]{1,4}\.(?=\s|$)/g;
 
 /** 无损切句。**罗马数字必须进缩写表** —— 否则 `III. Rabbit holes` 会被切成 `III.` + `Rabbit holes`
- *  两句，实测制造 12 处假句（a01 792 vs 780）。 */
+ *  两句，实测制造 12 处假句（a01 792 vs 780）；`V.` 这种单字母编号同理，见 ABBR_ROMAN。 */
 export function splitSentencesLossless(text) {
   const guarded = String(text || "")
     .replace(ABBR_CI, m => m.replace(/\./g, "·"))
+    .replace(ABBR_ROMAN, m => m.replace(/\./g, "·"))
     .replace(ABBR_CS, m => m.replace(/\./g, "·"));
   return guarded.split(/(?<=[.!?…])\s+/).map(s => s.trim()).filter(Boolean).map(s => s.replace(/·/g, "."));
 }
 
-/* ---------------- 6. 中文按占比切 + 切点吸附标点 ---------------- */
-
-/* 标点优先级：句末 > 分号 > 冒号 > 逗号 > 顿号 > 括号。
- * 实测（2026-09-20，5 篇）：97—99% 的切点落在这六类上，其中 70—92% 落在硬合格（前三类）。 */
-const TIERS = [["。", "！", "？", "…"], ["；", ";"], ["：", ":"], ["，", ","], ["、"], ["”", "）", ")"]];
-const CJK_PUNCT = /[。！？…；：，、､]/;
-
-function bestCut(zh, target, lo, hi) {
-  for (const tier of TIERS) {
-    for (let d = 0; d <= Math.max(target - lo, hi - target); d++) {
-      for (const p of d === 0 ? [target] : [target - d, target + d]) {
-        if (p <= lo || p >= hi) continue;
-        if (tier.includes(zh[p - 1])) return p;
-      }
-    }
-  }
-  return -1;
-}
-
 /**
- * 标点都找不到时的兜底：找一个**不切进词里**的位置。
- * 为什么需要：bestCut 找不到标点时，旧代码回退到 raw target —— 那个位置可能正落在拉丁词中间，
- * 于是产出 `Highland Par` / `k。` 这种断词译文（2026-09-20 实测 a05 序章，见 groupScore 顶注）。
- * 顺序：先找空白邻接（最干净），再退到「切点两侧不都是词字符」。都没有就返回 −1 让调用方整段退化。
- * @returns {number} 切点下标，−1 表示切不动
+ * 一段中文按**自己的**句末标点切成的句子（标点跟着上一句走）。
+ * 末尾不带标点的尾巴（列表项、小标题）也算一句。
  */
-const WORD_CHAR = /[A-Za-z0-9'’\-]/;
-function wordSafeCut(zh, target, lo, hi) {
-  const span = Math.max(target - lo, hi - target);
-  for (let pass = 0; pass < 2; pass++) {
-    for (let d = 0; d <= span; d++) {
-      for (const p of d === 0 ? [target] : [target - d, target + d]) {
-        if (p <= lo || p >= hi) continue;
-        const a = zh[p - 1], b = zh[p];
-        if (pass === 0) { if (a !== " " && b !== " ") continue; }
-        else if (WORD_CHAR.test(a) && WORD_CHAR.test(b)) continue;
-        return p;
-      }
-    }
-  }
-  return -1;
-}
-
-/**
- * 把一段中文按 weights 的占比切成等长份数，切点吸附到最近的标点。
- * ★ 不变量：返回值 join("") 与输入**逐字符相同**（只 trim 首尾）。调用方必须断言这一点。
- * ★ 返回值可能是 **null**：切不动（标点和词边界都找不到）时拒绝裁剪，
- *   让调用方整段退化成一句 `{en, cn}`。宁可用段落级配对，也不产出断词译文。
- * @param {string} zh 中文原文（一段）
- * @param {number[]} weights 英文各句的长度，用来定切点比例
- * @returns {string[]|null}
- */
-export function cutChinese(zh, weights) {
-  const src = String(zh || "");
-  const n = weights.length;
-  if (n <= 1) return [src];
-  if (src.length < n) return [src];                 // 太短没法切，整段给第一份
-  const total = weights.reduce((a, b) => a + b, 0) || 1;
-  const cuts = [0];
-  let acc = 0;
-  for (let i = 0; i < n - 1; i++) {
-    acc += weights[i];
-    const target = Math.round((acc / total) * src.length);
-    const remain = n - 1 - i;
-    const lo = cuts[cuts.length - 1] + 1;
-    const hi = Math.min(src.length, src.length - remain);
-    if (lo >= hi) { cuts.push(lo); continue; }
-    const r = Math.max(3, Math.round((src.length / n) * 0.7));
-    let c = bestCut(src, target, Math.max(lo, target - r), Math.min(hi, target + r + 1));
-    if (c < 0) c = bestCut(src, target, lo, hi);
-    if (c < 0) c = wordSafeCut(src, target, lo, hi);
-    if (c < 0) return null;                          // 切不动 —— 交回调用方整段退化
-    cuts.push(c);
-  }
-  cuts.push(src.length);
-  const raw = [];
-  for (let i = 0; i < cuts.length - 1; i++) raw.push(src.slice(cuts[i], cuts[i + 1]));
-  /* 合并空片（理论不可达，防御性） */
-  const out = [];
-  for (const f of raw) { if (!f.trim() && out.length) out[out.length - 1] += f; else out.push(f); }
-  return out;
+export function splitChineseUnits(text) {
+  return (String(text || "").match(/[^。！？…]+[。！？…]*/g) || []).map(s => s.trim()).filter(Boolean);
 }
 
 /** 拼回校验用：去空白后比较 */

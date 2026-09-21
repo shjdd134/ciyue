@@ -1,6 +1,6 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 57 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 19 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：Dan Koe / Vogue
  *
@@ -21488,32 +21488,40 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "ob-on-cognitive-decoupling-c01",
+    "id": "ob-on-cognitive-decoupling",
     "cat": "AI",
-    "title": "The Real Divide · Chapter 1 · Four Phenomena",
-    "titleZh": "AI 时代的真正分化 · 第一章 · 四个现象",
+    "title": "The Real Divide",
+    "titleZh": "AI 时代的真正分化",
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-1--four-phenomena",
+    "url": "https://offbook.press/essays/on-cognitive-decoupling/",
     "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
+    "extractorVersion": "offbook-v3",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
     "translationCredit": "Offbook Press 官方中英双语",
     "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
     "issue": 1,
-    "chapter": 1,
-    "sourceTextWords": 1349,
-    "sourceParagraphs": 25,
-    "sourceSentences": 43,
+    "sourceTextWords": 12164,
+    "sourceParagraphs": 268,
+    "sourceSentences": 380,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
     "coverTo": "#7B2219",
     "paras": [
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 1 · Four Phenomena",
+            "cn": "第一章 · 四个现象"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -21531,6 +21539,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Four phenomena, then.",
             "cn": "先看四个现象。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "I. The rumination chain",
+            "cn": "一、反刍链"
           }
         ]
       },
@@ -21587,6 +21604,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "II. The tooling-up of ruminated consumption",
+            "cn": "二、反刍消费的工具化"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The more arresting thing to watch is not the rumination chain itself. It is the consumer’s response.",
@@ -21635,6 +21661,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "III. The producers split",
+            "cn": "三、生产者的分化"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Meanwhile, in a different and barely overlapping circle, a different group of people is doing something entirely different.",
@@ -21679,6 +21714,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The difference isn’t in the model; it’s in what the user is doing.",
             "cn": "差别不在模型，在使用者在做什么。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "IV. Three layers at once",
+            "cn": "四、三层叠在一起看"
           }
         ]
       },
@@ -21785,36 +21829,16 @@ const ARTICLES_EXTRA = [
             "cn": "不是因为人突然变蠢了，而是因为旧的“有能力感”的来源正在消失。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c02",
-    "cat": "AI",
-    "title": "The Real Divide · Chapter 2 · AI Isn’t Uniformly Strong",
-    "titleZh": "AI 时代的真正分化 · 第二章 · AI 其实没那么均匀强",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-2--ai-isnt-uniformly-strong",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 2,
-    "sourceTextWords": 1006,
-    "sourceParagraphs": 15,
-    "sourceSentences": 26,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 2 · AI Isn’t Uniformly Strong",
+            "cn": "第二章 · AI 其实没那么均匀强"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -21978,36 +22002,16 @@ const ARTICLES_EXTRA = [
             "cn": "而他们常常不自知——因为反刍消费给了他们一种“我还在跟上”的错觉。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c03",
-    "cat": "AI",
-    "title": "The Real Divide · Chapter 3 · Where the Reader Stands on the Chain: Learning, or Anxiety Management?",
-    "titleZh": "AI 时代的真正分化 · 第三章 · 反刍链里人的位置：学习还是焦虑管理？",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-3--where-the-reader-stands-on-the-chain-learning-or-anxiety-management",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 3,
-    "sourceTextWords": 1324,
-    "sourceParagraphs": 26,
-    "sourceSentences": 42,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 3 · Where the Reader Stands on the Chain: Learning, or Anxiety Management?",
+            "cn": "第三章 · 反刍链里人的位置：学习还是焦虑管理？"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -22033,6 +22037,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "They’re doing something that looks like learning but whose mechanism is the exact inverse.",
             "cn": "他们在做另一件看起来很像学习、但机制完全相反的事。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Learning and anxiety management",
+            "cn": "学习和焦虑管理"
           }
         ]
       },
@@ -22093,6 +22106,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What the rumination chain is actually for",
+            "cn": "反刍链的真正目的"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Chapter 1 already laid out the mechanics of the chain: every layer drops information density, accumulates error, and raises emotional intensity.",
@@ -22117,6 +22139,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Which means: no matter how hard you read this kind of material, you will not learn from it. Not because the reader isn’t trying hard enough. Because the product was never designed for learning to occur. The more carefully you read, the more you are just walking circles inside a room with no outlet.",
             "cn": "这意味着——即使花再多时间认真读这些内容，也学不到东西。不是读者不够努力，是这个产品从设计上就不是为让人学到东西而造的。你读得越认真，越是在一个不设输出口的房间里转圈。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The reader’s position inside the loop",
+            "cn": "人在这个闭环里的位置"
           }
         ]
       },
@@ -22213,6 +22244,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "When consuming rumination becomes an achievement",
+            "cn": "当消费反刍变成成就"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Push the diagnosis all the way, and a phenomenon worth staring at appears.",
@@ -22279,36 +22319,16 @@ const ARTICLES_EXTRA = [
             "cn": "他们甚至根本不观看这个表演。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c04",
-    "cat": "AI",
-    "title": "The Real Divide · Chapter 4 · A Subtler Trap: Knowledge Management",
-    "titleZh": "AI 时代的真正分化 · 第四章 · 一个更隐蔽的陷阱：知识管理",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-4--a-subtler-trap-knowledge-management",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 4,
-    "sourceTextWords": 1509,
-    "sourceParagraphs": 33,
-    "sourceSentences": 54,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 4 · A Subtler Trap: Knowledge Management",
+            "cn": "第四章 · 一个更隐蔽的陷阱：知识管理"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -22330,6 +22350,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The variant is called knowledge management.",
             "cn": "这个变体叫知识管理。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why it has become a false premise in the AI era",
+            "cn": "为什么它在 AI 时代变成伪命题"
           }
         ]
       },
@@ -22402,6 +22431,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Karpathy’s wiki: what it actually solves",
+            "cn": "Karpathy 的 wiki 方案：它真正在解决什么"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "In that context, in early April 2026 Andrej Karpathy proposed an LLM Wiki scheme: drop raw material into a raw/ folder, let the LLM compile it into a structured markdown wiki, and let the human curate only the input.",
@@ -22450,6 +22488,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "That is categorically different from the knowledge-management community’s version of “I have to manage everything I’ve ever read.”",
             "cn": "这和知识管理社区那套“我要管理我读过的所有内容”完全是两件事。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why ordinary people fail when they copy it",
+            "cn": "普通人复制它为什么失败"
           }
         ]
       },
@@ -22506,6 +22553,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The latter is more of a cope, not a healthier habit.",
             "cn": "后者更 cope，不是更健康。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What a reasonable personal information infrastructure looks like",
+            "cn": "什么是合理的个人信息基础设施"
           }
         ]
       },
@@ -22598,6 +22654,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A more general principle",
+            "cn": "一个更通用的原则"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Lift knowledge management to its most general level and you get a principle that evaluates almost every future “new scheme”:",
@@ -22656,36 +22721,16 @@ const ARTICLES_EXTRA = [
             "cn": "这一刻就是它开始腐烂的时间点。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c05",
-    "cat": "AI",
-    "title": "The Real Divide · Chapter 5 · What They All Got Right: Generalists, Taste, and the Refolding of Intelligence",
-    "titleZh": "AI 时代的真正分化 · 第五章 · 他们都说对了什么：通才、品味、智力的重新折叠",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-5--what-they-all-got-right-generalists-taste-and-the-refolding-of-intelligence",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 5,
-    "sourceTextWords": 2123,
-    "sourceParagraphs": 37,
-    "sourceSentences": 64,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 5 · What They All Got Right: Generalists, Taste, and the Refolding of Intelligence",
+            "cn": "第五章 · 他们都说对了什么：通才、品味、智力的重新折叠"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -22707,6 +22752,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This question had already been brushed against several times before AI. A few widely circulated framings, from different corners, were describing the same underlying thing from different angles. Each one described only a fragment, and none of them realised it was describing the same thing. Laid side by side, a more complete picture emerges.",
             "cn": "这个问题其实在 AI 之前就已经被多次触及。不同的圈子里，有几种流行的说法在从不同角度描述同一件事——但每一种都只描述了其中的一部分，而且都没意识到自己在描述的其实是同一个东西。把它们放在一起看，会出现一个更完整的图景。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The generalist thesis",
+            "cn": "通才论"
           }
         ]
       },
@@ -22739,6 +22793,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The gap he left behind: the generalist thesis never singles out the underlying mechanism of doing cross-domain mapping. It reads as a methodology: read books from several fields, draw connections. But it rests on an unstated precondition: that the reader is capable of making such mappings. And it’s that capacity that’s actually scarce. Which explains why, given the same methodology, some people pull it off and others don’t: the difference isn’t effort, it’s the mapping capacity itself.",
             "cn": "他留下的漏洞：通才论没把做跨域映射的底层机制单独拎出来。它读起来像一个方法论——多读几个领域的书、建立联系——但它暗含一个前提：读者有能力做这种映射。而这个能力本身才是稀缺的。这解释了为什么同样的方法论，有人用出来了、有人用不出来：差的不是努力，是映射能力本身。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Taste",
+            "cn": "品味（taste）"
           }
         ]
       },
@@ -22795,6 +22858,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "High-order taste and the generalist thesis turn out to be, at bottom, the same capability. Both are abstracting a concrete judgment into an operable structure, then applying that structure somewhere new. The generalist thesis talks about it from the cross-domain angle; the taste argument talks about it from the aesthetic-intuition angle. Two faces of one mechanism.",
             "cn": "高阶品味和通才论在底层其实是同一个能力——都是把一个具体判断抽象成可操作的结构，然后把这个结构用在新的地方。不同的是，通才论从“跨域”的角度谈它，品味论从“审美直觉”的角度谈它。两者说的是同一个机制的两个侧面。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The cognitive-folding thesis",
+            "cn": "认知折叠论"
           }
         ]
       },
@@ -22879,6 +22951,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Most of the hopelessness that colours the cognitive-folding narrative comes from mistaking the crossable threshold for the immovable attribute.",
             "cn": "认知折叠论里最让人绝望的那种命运感，大部分来自于把“可跨越的门槛”误认成了“不可改变的先天属性”。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three lines are describing one thing",
+            "cn": "三条线在说同一件事"
           }
         ]
       },
@@ -22999,6 +23080,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What AI can do, what is left to humans, what to learn",
+            "cn": "AI 能干什么，人剩下什么，要学什么"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Take the judgment to the practical level.",
@@ -23089,36 +23179,16 @@ const ARTICLES_EXTRA = [
             "cn": "构成一个完整的系统。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c06",
-    "cat": "AI",
-    "title": "The Real Divide · Chapter 6 · The Four-Part Formula, Item by Item",
-    "titleZh": "AI 时代的真正分化 · 第六章 · 四元公式：逐项讲透",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-6--the-four-part-formula-item-by-item",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 6,
-    "sourceTextWords": 3960,
-    "sourceParagraphs": 70,
-    "sourceSentences": 83,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 6 · The Four-Part Formula, Item by Item",
+            "cn": "第六章 · 四元公式：逐项讲透"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -23148,6 +23218,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Take the four items in turn.",
             "cn": "下面把四项分别拆开。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Item I · Cognitive decoupling as hardware",
+            "cn": "第一项 · 认知去耦（硬件）"
           }
         ]
       },
@@ -23280,6 +23359,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Item II · Reasoning tools as software",
+            "cn": "第二项 · 推理工具（软件）"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Reasoning tools are concrete methods of thought installed in the cognitive system and available for use. Their relationship to decoupling is like software to hardware. Hardware determines how complex a program can run. Software determines what the hardware actually outputs on a given problem.",
@@ -23396,6 +23484,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Item III · Cross-domain regularity depth as database",
+            "cn": "第三项 · 跨域规律深度（数据库）"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Decoupling needs something to operate on. That something is an understanding of regularities across multiple domains. But “depth” has to be defined precisely, because it is easily mistaken for mastery or erudition.",
@@ -23508,6 +23605,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "What should be actively avoided are domains driven mainly by story and narrative: fashion, celebrity gossip, political commentary, inspirational business books. Their “regularities” are mostly post-hoc rationalisation. Studying them fills the mind with more surface features, not deep structure.",
             "cn": "需要主动避开的是主要靠故事和叙事驱动的领域——时尚、娱乐八卦、政治评论、鸡汤商业书。它们的“规律”大部分是事后合理化，学了之后脑子里装的是更多表面特征，不是深层结构。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Item IV · Feedback exposure as operating environment and exponent",
+            "cn": "第四项 · 反馈暴露（运行环境，作为指数）"
           }
         ]
       },
@@ -23730,36 +23836,16 @@ const ARTICLES_EXTRA = [
             "cn": "这是好消息，对愿意动的人。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c07",
-    "cat": "AI",
-    "title": "The Real Divide · Chapter 7 · Conclusion",
-    "titleZh": "AI 时代的真正分化 · 第七章 · 最后",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-7--conclusion",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 7,
-    "sourceTextWords": 534,
-    "sourceParagraphs": 16,
-    "sourceSentences": 22,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 7 · Conclusion",
+            "cn": "第七章 · 最后"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -23911,36 +23997,16 @@ const ARTICLES_EXTRA = [
             "cn": "答不出的——问题不在 AI，不在时代，在自己。而且问题从来就在这里，只是过去没有暴露而已。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-on-cognitive-decoupling-c08",
-    "cat": "AI",
-    "title": "The Real Divide · Appendix · Starter Reading List",
-    "titleZh": "AI 时代的真正分化 · 附录 · 入门书单",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-23",
-    "url": "https://offbook.press/essays/on-cognitive-decoupling/#appendix--starter-reading-list",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/on-cognitive-decoupling/",
-    "issue": 1,
-    "chapter": 8,
-    "sourceTextWords": 175,
-    "sourceParagraphs": 16,
-    "sourceSentences": 16,
-    "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
-    "coverFrom": "#C8372D",
-    "coverTo": "#7B2219",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Appendix · Starter Reading List",
+            "cn": "附录 · 入门书单"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -24072,32 +24138,40 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "ob-rebuilding-learning-c01",
+    "id": "ob-rebuilding-learning",
     "cat": "AI",
-    "title": "Rebuilding Learning · Preface",
-    "titleZh": "个体学习的重建 · 前言",
+    "title": "Rebuilding Learning",
+    "titleZh": "个体学习的重建",
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#preface",
+    "url": "https://offbook.press/essays/rebuilding-learning/",
     "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
+    "extractorVersion": "offbook-v3",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
     "translationCredit": "Offbook Press 官方中英双语",
     "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
     "issue": 2,
-    "chapter": 1,
-    "sourceTextWords": 132,
-    "sourceParagraphs": 4,
-    "sourceSentences": 5,
+    "sourceTextWords": 9188,
+    "sourceParagraphs": 401,
+    "sourceSentences": 515,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
     "coverTo": "#703216",
     "paras": [
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Preface",
+            "cn": "前言"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -24133,36 +24207,16 @@ const ARTICLES_EXTRA = [
             "cn": "如果不先看清这个失败模式，后面讲的任何“正确用法”都会被既有习惯吞没。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c02",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 1 · Most AI Use Is Damaging Cognitive Decoupling",
-    "titleZh": "个体学习的重建 · 第一章 · 大部分人用 AI 的方式在损伤认知去耦",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-1--most-ai-use-is-damaging-cognitive-decoupling",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 2,
-    "sourceTextWords": 1707,
-    "sourceParagraphs": 59,
-    "sourceSentences": 89,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 1 · Most AI Use Is Damaging Cognitive Decoupling",
+            "cn": "第一章 · 大部分人用 AI 的方式在损伤认知去耦"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -24180,6 +24234,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "What it looks like, why it happens, why it damages cognition, and where the direction should point.",
             "cn": "它长什么样、为什么会这样、为什么这是损伤、方向在哪里。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What we are all doing",
+            "cn": "我们都在做什么"
           }
         ]
       },
@@ -24292,6 +24355,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Knowledge is no longer an asset",
+            "cn": "知识已不是资产"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "In the past, this mode of use was less damaging because knowledge itself still had value.",
@@ -24392,6 +24464,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "So this is not a problem of low efficiency. It is a problem of spending large amounts of time and attention accumulating things with no value. That time and attention could have gone into things that still matter: training judgment, doing real work, and accumulating experience that cannot be reduced to text.",
             "cn": "所以这不是“效率低”的问题，是你花了大量时间和注意力，累积了一堆没有价值的东西。而这些时间和注意力本来可以用来做真正有价值的事：训练判断力、做真实的事、积累不可文本化的经验。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why this happens",
+            "cn": "为什么会这样"
           }
         ]
       },
@@ -24516,6 +24597,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "But under this design, “ask one more thing” becomes the path of least resistance, while stopping requires an active move.",
             "cn": "但在这种设计下，“继续问”变成了阻力最小的下一步，而停下来需要主动动作。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why this is damage",
+            "cn": "为什么这是损伤"
           }
         ]
       },
@@ -24676,6 +24766,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The direction",
+            "cn": "方向"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The failure mode is now clear.",
@@ -24754,36 +24853,16 @@ const ARTICLES_EXTRA = [
             "cn": "每一章都是“让 AI 校准判断”的一种具体形式。合起来构成一个完整的路径：从“问什么”到“怎么问”到“边界在哪里”。 这一章的任务到这里结束。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c03",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 2 · Which Questions Are Worth Asking",
-    "titleZh": "个体学习的重建 · 第二章 · 什么问题值得问",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-2--which-questions-are-worth-asking",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 3,
-    "sourceTextWords": 1347,
-    "sourceParagraphs": 60,
-    "sourceSentences": 78,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 2 · Which Questions Are Worth Asking",
+            "cn": "第二章 · 什么问题值得问"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -24801,6 +24880,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This is not a prompt-style issue. It is a prior judgment: which questions have value, and which do not. Without that judgment, better prompting only makes worthless questions look better.",
             "cn": "这不是一个风格问题（怎么写 prompt），是一个前置判断：哪些问题问了有价值，哪些问了没价值。这个判断不做，再好的提问技巧也只是把没价值的问题问得更漂亮。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The definition of delta",
+            "cn": "delta 的定义"
           }
         ]
       },
@@ -24893,6 +24981,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "So a stricter default is needed: in the AI era, ask only when there is delta. Wide exploration is not forbidden, but the standard is higher. You must be able to say how the exploration eventually returns to something you are doing.",
             "cn": "所以一个更严格的默认：AI 时代问问题的正确起点是“有 delta 才问”。不是说宽度探索被禁止了，是宽度探索的标准变严了，你要能说出这个探索最终会如何回到你正在做的某件事上。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Delta comes from doing, not from knowledge",
+            "cn": "delta 来自做事，不来自知识"
           }
         ]
       },
@@ -25025,6 +25122,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The initial breadth scan",
+            "cn": "最初的宽度扫描"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "There is one honest exception: the first stage of a total beginner.",
@@ -25109,6 +25215,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "If three months later you are still asking “what are the most common mistakes in succulent care,” you are not a beginner anymore. You are in a rabbit hole.",
             "cn": "如果三个月之后你还在问“多肉养护最常见的错误是什么”，那你不是新手了，你是在兔子洞里。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Do → observe → ask → learn → do",
+            "cn": "做 → 观察 → 问 → 学 → 做"
           }
         ]
       },
@@ -25335,36 +25450,16 @@ const ARTICLES_EXTRA = [
             "cn": "下面两章分别讲这两件事如何借助 AI 来完成。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c04",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 3 · Using AI to Model, Part I: Reasoning Tools as Reviewers",
-    "titleZh": "个体学习的重建 · 第三章 · 用 AI 建模（一）：思维工具作为审阅者",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-3--using-ai-to-model-part-i-reasoning-tools-as-reviewers",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 4,
-    "sourceTextWords": 1612,
-    "sourceParagraphs": 69,
-    "sourceSentences": 87,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 3 · Using AI to Model, Part I: Reasoning Tools as Reviewers",
+            "cn": "第三章 · 用 AI 建模（一）：思维工具作为审阅者"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -25390,6 +25485,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Reasoning tools are the most important.",
             "cn": "思维工具是其中最关键的一件。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What reasoning tools are",
+            "cn": "什么是思维工具"
           }
         ]
       },
@@ -25498,6 +25602,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why the traditional learning path fails",
+            "cn": "传统的学习路径为什么失败"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The old default path for learning reasoning tools was read a classic book carefully and try to internalise it.",
@@ -25550,6 +25663,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "So most people who have read the classics never actually install the tools.",
             "cn": "结果就是绝大部分认真读过这些经典书的人，没有真正装上这些工具。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The new path: AI as reviewer",
+            "cn": "AI 时代的新路径：AI 作为审阅者"
           }
         ]
       },
@@ -25710,6 +25832,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why this works",
+            "cn": "为什么这个方法管用"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "This method works because it shifts learning from “understanding” to being forced to confront error.",
@@ -25770,6 +25901,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "One-on-one review used to require a human mentor or expensive consultant. A book could not do it. AI makes it near-zero cost and always available. This is AI’s structural advantage over most older learning methods.",
             "cn": "一对一审阅过去只有真人导师或昂贵的顾问能做，书做不到。AI 让这件事变成了零成本、随时可得的东西。这是 AI 相对于过去大部分学习方式的结构性优势。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A concrete demonstration",
+            "cn": "一个具体演示"
           }
         ]
       },
@@ -25838,6 +25978,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Learning the four tools in parallel",
+            "cn": "四门工具的并行学习"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The same method works for probability, game theory, and system dynamics.",
@@ -25890,6 +26039,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "That is astonishingly short compared with any degree program, and the return is far larger.",
             "cn": "这个时间跨度对大部分人来说短得惊人（远短于任何学位课程），但回报大得多。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The key limitation",
+            "cn": "关键的限制"
           }
         ]
       },
@@ -25988,36 +26146,16 @@ const ARTICLES_EXTRA = [
             "cn": "而且，在 AI 时代，跨域深度的建立方式和过去截然不同。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c05",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 4 · Using AI to Model, Part II: Cross-Domain Isomorphism Begins From Existing Mirrors",
-    "titleZh": "个体学习的重建 · 第四章 · 用 AI 建模（二）：跨域同构从已有镜子出发",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-4--using-ai-to-model-part-ii-cross-domain-isomorphism-begins-from-existing-mirrors",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 5,
-    "sourceTextWords": 1681,
-    "sourceParagraphs": 66,
-    "sourceSentences": 76,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 4 · Using AI to Model, Part II: Cross-Domain Isomorphism Begins From Existing Mirrors",
+            "cn": "第四章 · 用 AI 建模（二）：跨域同构从已有镜子出发"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -26055,6 +26193,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This correction changes everything about generalists and learning new domains.",
             "cn": "这个修正改变了关于“通才”和“学习新领域”的一切。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why it must begin with an existing mirror",
+            "cn": "为什么必须从已有的镜子出发"
           }
         ]
       },
@@ -26143,6 +26290,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Third, “I have no professional field, so I cannot build cross-domain ability” is an illusion. Anyone who has seriously done something has raw material for a deep model: work, hobbies, life practice, craft. The problem is not absence. It is that the material has not been turned into a mirror.",
             "cn": "三、“我没什么专业领域所以跨域能力建不起来”是一个错觉。每一个认真做过某件事的人都有深度模型的原材料：工作、长期爱好、生活实践、专业技能。问题不是“没有”，是“没被整理成可用的镜子”。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "You already have mirrors",
+            "cn": "你已经有镜子了"
           }
         ]
       },
@@ -26251,6 +26407,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "AI gives these people a different starting point: you already have mirrors. You just did not know it.",
             "cn": "AI 时代给这类人一个完全不同的起点：你已经有镜子了，只是没意识到。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Turning experience into an explicit mirror",
+            "cn": "把经验整理成显式的镜子"
           }
         ]
       },
@@ -26367,6 +26532,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Using a mirror on a new field",
+            "cn": "用镜子照新领域"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "After the first mirror exists, entering a new field changes completely. Traditional method: start from zero, read introductions and cases, and spend months or years building basic understanding. Mirror method: use an existing structure to interrogate the new field and locate deep mechanisms quickly. Step 1: name the key mechanisms in your mirror From the sales example: real need versus surface need, concreteness as commitment signal, price as refusal reason, surface reasons covering real causes. Step 2: interrogate the new field through those mechanisms Suppose you want to understand pharmaceuticals. Do not begin with “who are the players in the pharmaceutical industry?” Begin from your mirror:",
@@ -26431,6 +26605,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Nonlinear accumulation",
+            "cn": "非线性的积累"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "This method produces nonlinear returns as the number of mirrors grows.",
@@ -26483,6 +26666,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "So generalism is not a state reached only after enough accumulation. It is an accumulating process in which every step already adds value. Even two polished mirrors give stronger cross-domain judgment than ten shallow ones.",
             "cn": "所以“通才”不是一个积累到某个程度才到达的状态，它是一个每一步都在增值的积累过程。即使你只有两面镜子，你的跨域判断力也已经远超一个有十面浅镜子的人。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Avoiding the metaphor trap",
+            "cn": "避开比喻陷阱"
           }
         ]
       },
@@ -26543,6 +26735,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "If you have no deep domain yet",
+            "cn": "如果你还没有任何深度领域"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "One last case. You may agree with everything above but feel that you genuinely do not have an obvious deep domain. You are young, not yet working, or have not done anything deeply.",
@@ -26585,36 +26786,16 @@ const ARTICLES_EXTRA = [
             "cn": "下一章讲这个边界。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c06",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 5 · What AI Can and Cannot Do",
-    "titleZh": "个体学习的重建 · 第五章 · AI 能做的和不能做的",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-5--what-ai-can-and-cannot-do",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 6,
-    "sourceTextWords": 1069,
-    "sourceParagraphs": 38,
-    "sourceSentences": 60,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 5 · What AI Can and Cannot Do",
+            "cn": "第五章 · AI 能做的和不能做的"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -26648,6 +26829,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "You will talk a lot with AI, read a lot, “understand” a lot, and nothing will happen in you.",
             "cn": "你和 AI 聊了很多、读了很多、“了解了很多”，但什么都没在你身上发生。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The 80% AI can do",
+            "cn": "AI 能做的 80%"
           }
         ]
       },
@@ -26720,6 +26910,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Give them to AI, and your time and energy are released.",
             "cn": "把它们交给 AI，你的时间和精力被彻底释放。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The 20% AI cannot do",
+            "cn": "AI 做不了的 20%"
           }
         ]
       },
@@ -26864,6 +27063,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Other boundaries of AI",
+            "cn": "AI 的其他边界"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Beyond the essential 20%, several technical boundaries matter.",
@@ -26932,6 +27140,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "These boundaries do not mean “do not use AI.” They mean know where AI fails and compensate there yourself.",
             "cn": "这些边界不是让你不用 AI，是让你知道 AI 在哪些地方会出错，在那些地方你需要自己补偿。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "AI is a mirror, not an answer machine",
+            "cn": "AI 是镜子，不是答案"
           }
         ]
       },
@@ -27006,36 +27223,16 @@ const ARTICLES_EXTRA = [
             "cn": "这是 AI 时代两种学习方式的根本区别。前者是消费，后者是建设。前者让你的“知识”增加但能力不变；后者让你的判断系统真正生长。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c07",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 6 · A Starting Point: AI Programming",
-    "titleZh": "个体学习的重建 · 第六章 · 一个起点：AI 编程",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-6--a-starting-point-ai-programming",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 7,
-    "sourceTextWords": 1044,
-    "sourceParagraphs": 46,
-    "sourceSentences": 59,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 6 · A Starting Point: AI Programming",
+            "cn": "第六章 · 一个起点：AI 编程"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -27073,6 +27270,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The wrong start",
+            "cn": "错误的开始"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Most beginners start by asking AI “how do I get into vibe coding.” They search “how beginners use Cursor,” watch YouTube-style demos of someone building a website in three days, save AI programming tutorials, follow influencers, and collect prompt templates. They prepare to “study seriously before starting.”",
@@ -27105,10 +27311,28 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The right start",
+            "cn": "正确的开始"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Four steps.",
             "cn": "四步。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "I. Have an account that can run Claude Code or Codex",
+            "cn": "一、拥有一个能跑 Claude Code 或 Codex 的账号"
           }
         ]
       },
@@ -27161,6 +27385,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The step is itself a filter.",
             "cn": "这一步本身就是一个过滤器。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "II. Pick one real annoyance in front of you",
+            "cn": "二、挑一件你手上真实发生的烦事"
           }
         ]
       },
@@ -27229,6 +27462,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "III. Let it write code and run it",
+            "cn": "三、让它写代码，跑起来"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Describe the annoyance to AI and let it write code.",
@@ -27293,6 +27535,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Necessary foundations are discovered afterward, not beforehand.",
             "cn": "这是第二章最后讲的，必要基础是事后知道的，不是事前知道的。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "IV. When it is solved, pick the next annoyance",
+            "cn": "四、解决了，挑下一件烦事"
           }
         ]
       },
@@ -27377,6 +27628,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The real value of AI programming",
+            "cn": "这件事的真正价值"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The most important sentence is this:",
@@ -27455,36 +27715,16 @@ const ARTICLES_EXTRA = [
             "cn": "如果你读完 Issue 1 和 Issue 2 不知道从哪里开始——找一个能跑 Claude Code 的环境，挑一件烦事，让它写代码。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-rebuilding-learning-c08",
-    "cat": "AI",
-    "title": "Rebuilding Learning · Chapter 7 · Conclusion",
-    "titleZh": "个体学习的重建 · 第七章 · 最后",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/rebuilding-learning/#chapter-7--conclusion",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/rebuilding-learning/",
-    "issue": 2,
-    "chapter": 8,
-    "sourceTextWords": 364,
-    "sourceParagraphs": 17,
-    "sourceSentences": 19,
-    "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
-    "coverFrom": "#C95F2E",
-    "coverTo": "#703216",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 7 · Conclusion",
+            "cn": "第七章 · 最后"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -27632,32 +27872,40 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "ob-breakdown-of-firms-c01",
+    "id": "ob-breakdown-of-firms",
     "cat": "AI",
-    "title": "The Breakdown of Firms · Preface",
-    "titleZh": "组织形态的失效 · 前言",
+    "title": "The Breakdown of Firms",
+    "titleZh": "组织形态的失效",
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#preface",
+    "url": "https://offbook.press/essays/breakdown-of-firms/",
     "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
+    "extractorVersion": "offbook-v3",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
     "translationCredit": "Offbook Press 官方中英双语",
     "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
     "issue": 3,
-    "chapter": 1,
-    "sourceTextWords": 183,
-    "sourceParagraphs": 6,
-    "sourceSentences": 8,
+    "sourceTextWords": 8692,
+    "sourceParagraphs": 397,
+    "sourceSentences": 500,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
     "coverTo": "#33212E",
     "paras": [
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Preface",
+            "cn": "前言"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -27713,36 +27961,16 @@ const ARTICLES_EXTRA = [
             "cn": "给一个尽可能诚实的诊断。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c02",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Chapter 1 · First Ask the Skipped Question: What Did Firms Originally Solve?",
-    "titleZh": "组织形态的失效 · 第一章 · 先问一个被跳过的问题：公司最初解决了什么",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-1--first-ask-the-skipped-question-what-did-firms-originally-solve",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 2,
-    "sourceTextWords": 1903,
-    "sourceParagraphs": 67,
-    "sourceSentences": 78,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 1 · First Ask the Skipped Question: What Did Firms Originally Solve?",
+            "cn": "第一章 · 先问一个被跳过的问题：公司最初解决了什么"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -27756,6 +27984,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Most people treat the firm as a natural state: a group of people doing things together. But the firm is not natural. It is an organisational solution that appeared under specific historical conditions to solve specific problems. If those problems are solved or changed by new technology, the necessity of the firm becomes less obvious.",
             "cn": "这个问题看起来基础得不需要讨论。大部分人默认公司就是“一群人一起做事的组织形式”，一种自然状态。但公司并不是自然的。它是在某些历史条件下为了解决某些具体问题而出现的一种组织方案。如果那些问题被新技术解决了或改变了，公司这个方案的必要性就变得不再明显。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Coase’s question",
+            "cn": "Coase 的问题"
           }
         ]
       },
@@ -27808,6 +28045,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Oliver Williamson and others later deepened Coase’s argument into the foundation of new institutional economics. This is not business-school decoration. It is the clearest starting point for answering why firms exist.",
             "cn": "Coase 的这个判断后来被 Oliver Williamson 等人深化，成为整个新制度经济学的基础。这不是一个商学院的花俏理论：它是对“为什么公司存在”这个根本问题的最清晰的回答。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The eight problems firms solve",
+            "cn": "公司解决的八类问题"
           }
         ]
       },
@@ -28024,6 +28270,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Where the eight problems stand in the AI era",
+            "cn": "这八类问题在 AI 时代的现状"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Once we understand what firms originally solved, we can ask the real question: do these eight problems still exist in the AI era, and is the firm still the best solution?",
@@ -28232,6 +28487,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A structural inference",
+            "cn": "一个结构性推论"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Put the analysis together.",
@@ -28322,36 +28586,16 @@ const ARTICLES_EXTRA = [
             "cn": "在收缩的那一侧，这套词汇即将面对它的边界。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c03",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Chapter 2 · Collaboration Is No Longer on the Same Plane",
-    "titleZh": "组织形态的失效 · 第二章 · 协作已经不在同一个平面上",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-2--collaboration-is-no-longer-on-the-same-plane",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 3,
-    "sourceTextWords": 1113,
-    "sourceParagraphs": 40,
-    "sourceSentences": 52,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 2 · Collaboration Is No Longer on the Same Plane",
+            "cn": "第二章 · 协作已经不在同一个平面上"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -28365,6 +28609,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The answer is counterintuitive. AI does not simply make collaboration easier. It polarises collaboration.",
             "cn": "这个问题的答案是反直觉的。AI 时代的协作不是变容易了，是变得两极化。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The collaboration pool is shrinking",
+            "cn": "协作池在收缩"
           }
         ]
       },
@@ -28525,6 +28778,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The cost is not collaboration, but screening",
+            "cn": "不是协作成本被拉大，是筛选成本"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "This is often misread as “collaboration has become more expensive.” That is wrong.",
@@ -28585,10 +28847,28 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Incommensurable production systems",
+            "cn": "生产体系的不可通约"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "An analogy makes the change clearer. Two textile workers in the past could collaborate well. They were inside the same production logic: touch the thread, look at the cloth, finish a piece over several hours. After the assembly line appears, a line-maintenance engineer and a hand weaver are not facing “higher collaboration cost.” They are in different production systems. The engineer works at the scale of machines: inspect, adjust, optimise, keep a hundred machines running. The weaver works at the scale of one cloth. Their time scale, object of judgment, and unit of output differ. Asking them to collaborate is a category error. It is like asking a farmer and an air-traffic controller to collaborate on planting crops. The same split appears in the AI era. An independent using AI as leverage runs at the rhythm of “one loop in an afternoon, one product in weeks.” A worker embedded in traditional process runs at “one meeting per week, one release per quarter.” This is not an efficiency gap. A twofold or threefold gap can still collaborate. Once the gap exceeds an order of magnitude, it becomes a production-system problem. Time scale, judgment object, and output unit no longer share a coordinate system. Discussing “should we ship this feature tonight?” with someone who produces once a month cannot align. Talking about “I just decided to change the whole architecture” with someone whose decisions require meetings cannot align. Saying “I am the product judgment” to someone who needs a PM to write requirements cannot align. This is not communication. It is system mismatch.",
             "cn": "这个变化用一个类比能讲得更清楚。 过去两个纺织工人可以良好协作。他们在同一套生产逻辑里，都是用手感知线、用眼睛看织物、用几小时完成一匹布。他们可以互相理解对方在做什么、互相补位、互相检查。 当流水线出现后，一个流水线检修员和一个手工纺织工之间：不是“协作成本更高”，是他们根本不在同一个生产体系里。检修员的工作节奏是以机器为单位（检查、调整、优化），产出是“让一百台机器同时运转良好”。手工纺织工的节奏是以一匹布为单位，产出是“我今天织完了一匹”。两者的时间尺度、判断对象、产出单位都不同。 让他们协作是一个范畴错误，就像让一个农夫和一个空中交通管制员协作种庄稼。不是谁拖谁效率的问题，是他们根本不知道该怎么对齐。 AI 时代出现了完全同样的分化。 一个用 AI 做杠杆的独立个体，输出节奏是“一个下午一个循环、几周一个完整产品”；一个不用 AI、嵌在传统流程里的工作者，节奏是“一周一个会议、一个季度一个 release”。这不是效率差距。效率差距两倍三倍还能协作，一量级以上的差距就不再是效率问题，是生产体系问题，双方的时间尺度、判断对象、产出单位根本不在同一个坐标系里。 和“一个月产出一次”的人讨论“今晚要不要上线新功能”，双方的时间感根本对不上。和“每个决定都要开会讨论”的人谈“我刚刚决定改掉整个架构”，双方的决策颗粒度根本对不上。和“需要被 PM 给需求”的人说“我自己就是产品判断”，双方的责任模型根本对不上。 这不是沟通问题，是体系问题。就像蒸汽机出来之后，工厂工程师和铁匠不是“沟通有障碍”，是他们从事的就不是同一种劳动了。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Redefining “subordinate”",
+            "cn": "“下属”这个词的重新定义"
           }
         ]
       },
@@ -28677,6 +28957,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Two kinds of collaborators",
+            "cn": "两种协作对象"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "In the AI era, worthwhile collaborators fall into two classes.",
@@ -28719,36 +29008,16 @@ const ARTICLES_EXTRA = [
             "cn": "不是因为他们变差了，是因为合格标准变了。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c04",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Chapter 3 · Why AI Efficiency Differs Across Organisational Forms",
-    "titleZh": "组织形态的失效 · 第三章 · AI 提效为什么在不同组织形态下效应不同",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-3--why-ai-efficiency-differs-across-organisational-forms",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 4,
-    "sourceTextWords": 1121,
-    "sourceParagraphs": 42,
-    "sourceSentences": 54,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 3 · Why AI Efficiency Differs Across Organisational Forms",
+            "cn": "第三章 · AI 提效为什么在不同组织形态下效应不同"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -28774,6 +29043,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Most discussion says this is about who uses AI better. That is wrong. The difference is not tool use. It is organisational form.",
             "cn": "大部分讨论把这个差异归结为“谁更会用 AI”。这个解释是错的。差异不在工具使用，在组织形态本身。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The real mechanism of AI productivity",
+            "cn": "AI 提效的真正机制"
           }
         ]
       },
@@ -28818,6 +29096,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "So “AI productivity” points to different things in different forms. For independents it means loop acceleration. For large companies it means task acceleration. The first changes output by orders of magnitude; the second is marginal optimisation.",
             "cn": "所以“AI 提效”这个词在不同组织形态里指向完全不同的东西。在独立个体那里它是循环加速；在大公司那里它是任务加速。前者带来数量级的产出变化，后者只是边际优化。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Four structural reasons AI fails to transform large companies",
+            "cn": "大公司 AI 提效失败的四个结构性原因"
           }
         ]
       },
@@ -29050,6 +29337,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why independents benefit so strongly",
+            "cn": "独立个体为什么尤其显著"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The independent individual is the physical limit of AI productivity because all obstacles disappear:",
@@ -29098,6 +29394,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Keep the boundary strict",
+            "cn": "严守推演边界"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "This does not mean large companies will be replaced.",
@@ -29132,36 +29437,16 @@ const ARTICLES_EXTRA = [
             "cn": "但即使只是这个有限的断言，它也揭示了一件大部分人还没看清的事：AI 时代真正的组织竞争不是“谁用了 AI”（所有人都在用）。是“谁的组织形态让 AI 能真正发挥作用”。这个问题的答案绝大多数大公司回答不了，因为改变组织形态意味着拆掉它们赖以存在的东西。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c05",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Chapter 4 · Old Management Fails, New Management Is Unknown",
-    "titleZh": "组织形态的失效 · 第四章 · 旧管理失效，新管理未知",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-4--old-management-fails-new-management-is-unknown",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 5,
-    "sourceTextWords": 1517,
-    "sourceParagraphs": 67,
-    "sourceSentences": 92,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 4 · Old Management Fails, New Management Is Unknown",
+            "cn": "第四章 · 旧管理失效，新管理未知"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -29187,6 +29472,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Every “failure” below is inside that boundary.",
             "cn": "下面讨论的所有“失效”都在这个边界里成立。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The four assumptions of the Taylorist-bureaucratic paradigm",
+            "cn": "泰勒-科层范式的四个假设"
           }
         ]
       },
@@ -29283,6 +29577,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "MBA programs, consulting, organisational behaviour, KPI, OKR, and Scrum largely sit on top of them.",
             "cn": "MBA、管理咨询、组织行为学、KPI、OKR、Scrum，这些现代管理工具链大部分都建立在这四条假设之上。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why the assumptions fail in AI-era cognition-intensive work",
+            "cn": "为什么这四条假设在 AI 时代的认知密集型工作里失效"
           }
         ]
       },
@@ -29407,6 +29710,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Old management loses its object",
+            "cn": "所以旧管理在这个区间里失去了对象"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "When these assumptions disappear, Taylorist-bureaucratic management loses the object it describes.",
@@ -29491,6 +29803,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This is not a decline in cost-effectiveness. The conceptual frame has lost its premise.",
             "cn": "这不是性价比下降的问题，是整个概念框架的前提已经消失。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Five specific failure zones",
+            "cn": "五个失效的具体地带"
           }
         ]
       },
@@ -29711,6 +30032,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The old fails; the new is unknown",
+            "cn": "旧的失效，新的未知"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "We have to admit one thing honestly: the failure zones are visible, but we do not know what should replace them. There have been candidates: Holacracy, self-organising teams, Spotify’s tribes/squads/chapters, Haier’s RenDanHeYi, independent-node networks. Each has its story, and each has worked in some places while failing to replicate broadly. The reason is simple. Most replacements still adjust old words: team, manager, alignment, OKR. They do not replace the underlying frame. A real replacement would require new organisational primitives, tools, legal forms, education systems, and language. None are ready. So the honest statement is not “new management is X.” It is we do not know what new management is. We know: old actions are failing: weekly rituals, observable-behaviour metrics, task decomposition, forced alignment, vertical accountability new actions are emerging: loop-based coordination, judgment-quality review, outcome accountability, autonomous unit collaboration they have not yet condensed into a named system",
@@ -29731,6 +30061,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Admitting that the new is unknown is closer to reality than forcing a systematic-looking answer.",
             "cn": "承认“新的还不知道”，比强行给一个看起来有体系的答案，更接近现实。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The limit of language",
+            "cn": "语言的限制"
           }
         ]
       },
@@ -29797,36 +30136,16 @@ const ARTICLES_EXTRA = [
             "cn": "真正需要的是保持对这个模糊的清晰意识，在它不断被新现实塑造的过程中慢慢形成真正的新词汇。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c06",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Chapter 5 · The Distillation Curve of Jobs and Knowledge",
-    "titleZh": "组织形态的失效 · 第五章 · 岗位和知识的蒸馏曲线",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-5--the-distillation-curve-of-jobs-and-knowledge",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 6,
-    "sourceTextWords": 1784,
-    "sourceParagraphs": 82,
-    "sourceSentences": 110,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 5 · The Distillation Curve of Jobs and Knowledge",
+            "cn": "第五章 · 岗位和知识的蒸馏曲线"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -29844,6 +30163,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The answer is counterintuitive and sharp.",
             "cn": "这个问题的答案是反直觉的，也是最尖锐的。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "They remain, but not necessarily for the reasons people think",
+            "cn": "他们还在，但不一定是因为原来以为的那些理由"
           }
         ]
       },
@@ -29952,6 +30280,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "But for many roles, the role itself is disappearing, especially where distillable value is high and hard-to-distil value is low.",
             "cn": "但对其中相当一部分岗位，这个位置本身在消失，特别是那些价值里“可蒸馏”占比高、“难蒸馏”占比低的岗位。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The mechanism of distillation",
+            "cn": "蒸馏的机制"
           }
         ]
       },
@@ -30108,6 +30445,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Once a model’s understanding exceeds the average practitioner in a field, the value of the practitioner’s “domain knowledge” goes to zero.",
             "cn": "等到某个时点，模型对某个行业的理解已经超过了一个普通从业者的平均水平，那这个从业者身上附着的“领域知识”价值就归零了。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Different knowledge distils at different speeds",
+            "cn": "不同知识的蒸馏速度"
           }
         ]
       },
@@ -30304,6 +30650,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A counterintuitive implication",
+            "cn": "一个反直觉的推论"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The framework yields a counterintuitive implication:",
@@ -30404,6 +30759,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Time can no longer be ignored when evaluating a role",
+            "cn": "评估岗位时，时间维度没法再忽略"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The distillation curve adds a simple observation: current output is no longer an independent variable when evaluating a job.",
@@ -30476,6 +30840,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The reverse mechanism: after distillation, what remains rises in value",
+            "cn": "一个反向机制：被蒸馏完之后，剩下的反而升值"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Distillation devalues many jobs.",
@@ -30532,6 +30905,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This does not refute the distillation analysis. It completes it. Most distillable work devalues; the undistilled remainder becomes scarcer and more valuable. The two ends pull apart. They are not symmetric: distillable value falls faster than undistilled value rises. From society’s total view, most jobs face net devaluation. For a few roles, value rises. This explains a strange observation: some top roles become more expensive in the AI era. Not because AI did not hit them, but because AI flattened the surrounding replaceable positions, leaving the genuinely irreplaceable role scarcer.",
             "cn": "这也解释了一个观感上的反常：AI 时代部分顶级岗位的薪酬不降反升。不是因为 AI 没冲击它们，是因为冲击把周围一圈可替代位置压扁了，剩下那个真正不可替代的位置变得相对更稀缺、因此更贵。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What it means for people",
+            "cn": "对人的意义"
           }
         ]
       },
@@ -30594,36 +30976,16 @@ const ARTICLES_EXTRA = [
             "cn": "这不是温柔，是比伪装更接近尊重的诚实。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c07",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Chapter 6 · Conclusion",
-    "titleZh": "组织形态的失效 · 第六章 · 最后",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-6--conclusion",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 7,
-    "sourceTextWords": 633,
-    "sourceParagraphs": 32,
-    "sourceSentences": 42,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 6 · Conclusion",
+            "cn": "第六章 · 最后"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -30685,6 +31047,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The two interact. Individuals with real cognitive ability will move toward organisational forms that amplify them. Organisational forms that cannot let AI function will gradually fail to retain people with judgment. This will not happen overnight. But it has begun.",
             "cn": "两件事互相作用：有真实认知能力的个体会流向能让他们的能力被放大的组织形态；无法让 AI 真正发挥作用的组织形态会逐渐留不住有判断力的人。这个流动不会一夜之间发生。但它已经开始。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Questions this essay intentionally does not answer",
+            "cn": "几个本文故意没有回答的问题"
           }
         ]
       },
@@ -30793,6 +31164,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "This series offers no solution",
+            "cn": "这一系列不给方案"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The three essays offer no solution.",
@@ -30869,6 +31249,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "One last question",
+            "cn": "最后一个问题"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Return to the final self-test from Issue 1:",
@@ -30919,36 +31308,16 @@ const ARTICLES_EXTRA = [
             "cn": "不管哪种，时间都在走。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-breakdown-of-firms-c08",
-    "cat": "AI",
-    "title": "The Breakdown of Firms · Appendix · Starter Reading List",
-    "titleZh": "组织形态的失效 · 附录 · 入门书单",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-24",
-    "url": "https://offbook.press/essays/breakdown-of-firms/#appendix--starter-reading-list",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/breakdown-of-firms/",
-    "issue": 3,
-    "chapter": 8,
-    "sourceTextWords": 225,
-    "sourceParagraphs": 24,
-    "sourceSentences": 27,
-    "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
-    "coverFrom": "#624058",
-    "coverTo": "#33212E",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Appendix · Starter Reading List",
+            "cn": "附录 · 入门书单"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -31156,32 +31525,40 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "ob-mirage-of-form-c01",
+    "id": "ob-mirage-of-form",
     "cat": "AI",
-    "title": "The Mirage of Form · Preface · Form and Substance",
-    "titleZh": "形式的虚像 · 序章 · 形式与实质",
+    "title": "The Mirage of Form",
+    "titleZh": "形式的虚像",
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#preface--form-and-substance",
+    "url": "https://offbook.press/essays/mirage-of-form/",
     "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
+    "extractorVersion": "offbook-v3",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
     "translationCredit": "Offbook Press 官方中英双语",
     "official_source_url": "https://offbook.press/essays/mirage-of-form/",
     "issue": 4,
-    "chapter": 1,
-    "sourceTextWords": 730,
-    "sourceParagraphs": 21,
-    "sourceSentences": 36,
+    "sourceTextWords": 14849,
+    "sourceParagraphs": 480,
+    "sourceSentences": 843,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
     "coverTo": "#16363B",
     "paras": [
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Preface · Form and Substance",
+            "cn": "序章 · 形式与实质"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -31275,6 +31652,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "History does not turn substance into form; it migrates form from the subject to the outside",
+            "cn": "历史不是把实质变成形式，是把形式从主体迁移到外部"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "There is a confusion to head off here.",
@@ -31339,6 +31725,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "It still works, still gets consumed, but it can no longer reliably testify that the subject behind it carries the corresponding substance.",
             "cn": "它仍然有用、仍然被消费，但越来越不能稳定证明背后的主体拥有相应的实质。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "AI is the largest migration on this line",
+            "cn": "AI 是这条线索上最大的一次迁移"
           }
         ]
       },
@@ -31409,36 +31804,16 @@ const ARTICLES_EXTRA = [
             "cn": "当形式不再稳定证明实质，实质从哪里来，如何被识别，如何变现？"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c02",
-    "cat": "AI",
-    "title": "The Mirage of Form · A History of Form Migration: Four Externalisations",
-    "titleZh": "形式的虚像 · 形式迁移史：四次外部化",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#a-history-of-form-migration-four-externalisations",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 2,
-    "sourceTextWords": 1217,
-    "sourceParagraphs": 27,
-    "sourceSentences": 45,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "A History of Form Migration: Four Externalisations",
+            "cn": "形式迁移史：四次外部化"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -31464,6 +31839,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "It is just the largest, fastest version on the same line.",
             "cn": "它只是这条线索上规模最大、速度最快的一次。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Print (15th century): handwriting and copying externalised",
+            "cn": "印刷术（15 世纪）：字迹和复制被外部化"
           }
         ]
       },
@@ -31520,10 +31904,28 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Photography (19th century): representation externalised",
+            "cn": "摄影（19 世纪）：再现被外部化"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "On 19 August 1839, the daguerreotype process was unveiled at the French Academy of Sciences in Paris. The French government placed it in the public domain, and within months daguerreotype studios were spreading across Europe and North America. By the 1850s, commercial photography studios in Paris and other major cities were turning out portraits at a fraction — sometimes a hundredth — of the price of a painted portrait. Portrait photography went from novelty to middle-class consumer good in a few short years. The people hit hardest were realist painters, who made their living “rendering reality faithfully”. A daguerreotype portrait took minutes; an oil portrait took weeks. Customers voted with their wallets. A line often attributed (probably apocryphally) to Paul Delaroche captures the shock with great precision: “From today, painting is dead.” He may not have actually said it, but the line is quoted again and again because it captures the real fear of the moment realist representation got taken over by a machine. Realist painters faced exactly the same problem many professions face today: the core ability they had spent fifteen years training was taken over by an external system. Painting did not die, but it had to redefine its value as something other than representation. Impressionism, post-Impressionism, Cubism, Abstract Expressionism — a full century of art movements were all, at bottom, painting’s answer to one question: once the camera takes over representation, what is painting’s substance? Substance did not disappear. Representation, which had once been attached to the painter, migrated to the camera. The painter’s substance was redefined as the things the camera could not do for him: way of seeing, stance, style, judgment about what is worth painting at all.",
             "cn": "1839 年 8 月 19 日，达盖尔银版摄影法在巴黎法兰西科学院公开。法国政府宣布把这项发明放入公共领域，几个月内，达盖尔工作室在欧洲和北美遍地开花。到 1850 年代，巴黎等大城市的商业摄影棚已经在大量生产肖像，价格从过去画家肖像的几十甚至几百分之一开始，肖像摄影迅速从新奇技术变成中产消费品。 直接受冲击的是写实画家，他们靠“逼真再现现实”谋生。一张达盖尔肖像几分钟拍完，一张油画肖像要几周。客户开始用脚投票。一句常被归于法国画家保罗·德拉罗什、但出处并不牢靠的话，把这种震动概括得很准确：“从今天起，绘画死了”。这句话未必真由他说出，但它之所以被反复引用，是因为它捕捉到了写实再现被相机接管时的真实恐惧。 写实画家面对的是和今天许多职业完全相同的问题：他们花了十几年训练的核心能力，被一个外部系统接管了。 绘画并没有死，但它必须重新定义自己的价值不在再现里。印象派、后印象派、立体派、抽象表现主义，之后整整一个世纪的艺术运动，本质上都是绘画在回答一个问题：当再现被相机接管，绘画的实质是什么？ 实质没有消失。再现这件事过去依附于画家，后来迁移到相机。画家的实质重新被定义为相机不能替他做的事：看待方式、立场、风格、对什么值得画的判断。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Industrial production (19th-20th century): precision externalised",
+            "cn": "工业化生产（19-20 世纪）：精度被外部化"
           }
         ]
       },
@@ -31572,6 +31974,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "But craft did not disappear entirely. After industrialisation, what survived turned toward what machines cannot do: special commissions, scarce materials, personal design, cultural memory, the beauty of irreproducible flaws. A pair of fully hand-made leather shoes is more expensive today than it was a hundred years ago. The precision may be the same. The substance attached to it has changed completely.",
             "cn": "但手工艺并没有完全消失。在工业化之后，留下来的手工艺转向了机器做不到的事：特殊定制、稀缺材料、个人化设计、文化记忆、不可复制的瑕疵美感。一双纯手工皮鞋今天的价格反而比一百年前更高，这双鞋的精度可能和一百年前相同，但依附其上的实质，和以前已经大不相同了。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The internet and search (1990s-2010s): retrieval externalised",
+            "cn": "互联网和搜索(1990s-2010s)：检索被外部化"
           }
         ]
       },
@@ -31632,6 +32043,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "But again, substance did not disappear. Judging which materials matter, evaluating the quality of materials, applying materials in complex contexts, judging the real problem behind the materials — these abilities, in fact, became scarcer once search collapsed the information barrier. Being able to search is no longer worth much. Knowing what to search and how to use what you find is still worth a lot.",
             "cn": "但同样，实质没有消失。判断什么资料重要、如何评估资料质量、在复杂情境中应用资料、对资料背后的真实问题做判断，这些能力反而因为搜索让信息门槛塌陷而变得更稀缺。能搜不再值钱，懂搜什么、怎么用搜来的东西仍然值钱。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "One shared trajectory",
+            "cn": "一条共同的轨迹"
           }
         ]
       },
@@ -31726,36 +32146,16 @@ const ARTICLES_EXTRA = [
             "cn": "下面八章就是这个问题的展开。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c03",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 1 · The Bell-Curve Society Is a Historical Exception",
-    "titleZh": "形式的虚像 · 第一章 · 钟形社会是一个历史例外",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-1--the-bell-curve-society-is-a-historical-exception",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 3,
-    "sourceTextWords": 960,
-    "sourceParagraphs": 17,
-    "sourceSentences": 42,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 1 · The Bell-Curve Society Is a Historical Exception",
+            "cn": "第一章 · 钟形社会是一个历史例外"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -31853,6 +32253,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The bell curve was simultaneous medianisation across many dimensions",
+            "cn": "钟形是多维度同时中位化的结果"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "“Bell-curve society” is not just an income distribution.",
@@ -31909,6 +32318,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "What AI does is push a 50-year slow process to a new threshold.",
             "cn": "AI 做的是把这个已经进行了 50 年的缓慢过程推进到一个新的临界。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "AI is endogenous to the bell-curve society",
+            "cn": "AI 是钟形社会的内生产物"
           }
         ]
       },
@@ -31991,36 +32409,16 @@ const ARTICLES_EXTRA = [
             "cn": "这解释了为什么 AI 加速了钟形内一切的同质化，也解释了 AI 和钟形结构的共命运：它能加速钟形之内一切的接管，但它的默认商业输出缺少从钟形之外真实处境中形成的承担、判断和在场。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c04",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 2 · Form Migrates Quietly",
-    "titleZh": "形式的虚像 · 第二章 · 形式悄悄迁移",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-2--form-migrates-quietly",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 4,
-    "sourceTextWords": 1169,
-    "sourceParagraphs": 48,
-    "sourceSentences": 70,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 2 · Form Migrates Quietly",
+            "cn": "第二章 · 形式悄悄迁移"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -32042,6 +32440,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "In other words, how fast does the hand-producer of mid-band content lose value.",
             "cn": "这意味着中位内容的手工生产者会以多快的速度贬值。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Public recognition speed depends on whether the tool produces a new form",
+            "cn": "大众识别速度，取决于工具是否产生新形式"
           }
         ]
       },
@@ -32206,6 +32613,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Even when the tool is universal, repricing still lags",
+            "cn": "即使工具普及，估价回归依然滞后"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Core claim: even when a tool is fully universal, people’s perception and pricing do not immediately fall back to marginal cost.",
@@ -32310,6 +32726,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This means the AI era could produce a transition period of 20-30 years, possibly never closing.",
             "cn": "这意味着 AI 时代可能会出现一个长达 20-30 年的过渡期，甚至永远不结束。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The two curves stacked: what does it mean",
+            "cn": "两条曲线叠加，意味着什么"
           }
         ]
       },
@@ -32454,6 +32879,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "One open question",
+            "cn": "一个开放的问题"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Here is the actual landing point of this chapter:",
@@ -32492,36 +32926,16 @@ const ARTICLES_EXTRA = [
             "cn": "那么，大众还能可靠地识别实质吗？"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c05",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 3 · Substance Is Everywhere; Few Identify It",
-    "titleZh": "形式的虚像 · 第三章 · 实质广泛存在，识别它的人极少",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-3--substance-is-everywhere-few-identify-it",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 5,
-    "sourceTextWords": 1426,
-    "sourceParagraphs": 48,
-    "sourceSentences": 71,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 3 · Substance Is Everywhere; Few Identify It",
+            "cn": "第三章 · 实质广泛存在，识别它的人极少"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -32555,6 +32969,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Currently-paid deliverables × substance type × recognition level",
+            "cn": "当下被买单的交付物 × 实质类型 × 识别程度"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Eight representative deliverables, with notes on whether substance exists, what type it is, whether the buyer can identify it (i.e. know what they are paying for), and what they are actually paying for.",
@@ -32571,6 +32994,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Two rows in this table deserve a pause: “mass apps” and “internal enterprise deliverables”. One is the consumer market, one is the B-side market. In both, the central fact is the same: there is real substance, but the buyer is not paying mainly to identify it.",
             "cn": "表格里“大众应用”和“企业内部交付物”两行最值得读者停下来看。一个是大众市场，一个是 B 端市场，两边的核心事实都是“有真实质，但买家主要不是为识别实质付费”。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What the table tells us",
+            "cn": "从表格里能看到的几个判断"
           }
         ]
       },
@@ -32783,6 +33215,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Does AI affect this chain?",
+            "cn": "AI 会影响这个链条吗"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "It does, deeply.",
@@ -32815,6 +33256,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "They are mirages: they look like projections, but the tool produced them directly.",
             "cn": "这是虚像：看起来像投影，但是工具直接生产的。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A concrete example: the interview",
+            "cn": "一个具体例子：面试"
           }
         ]
       },
@@ -32915,6 +33365,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A flood of artefacts",
+            "cn": "大量的伪影"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "More cases like this are happening or about to happen.",
@@ -32997,36 +33456,16 @@ const ARTICLES_EXTRA = [
             "cn": "那么，实质的价值，在哪里会被清晰的识别？"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c06",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 4 · The New Filter: From Form Quality to Substance Origin",
-    "titleZh": "形式的虚像 · 第四章 · 新筛选器：从形式质量到实质来源",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-4--the-new-filter-from-form-quality-to-substance-origin",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 6,
-    "sourceTextWords": 1602,
-    "sourceParagraphs": 41,
-    "sourceSentences": 89,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 4 · The New Filter: From Form Quality to Substance Origin",
+            "cn": "第四章 · 新筛选器：从形式质量到实质来源"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -33068,6 +33507,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "After print, authorship became a new organising principle",
+            "cn": "印刷术之后，作者身份成为新的组织原则"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Before print, most texts were anonymous, attributed to authoritative tradition (Aristotle says, Scripture says), or passed down as collective copies.",
@@ -33096,6 +33544,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This is a structural shift with historical precedent.",
             "cn": "这是一次有历史先例的结构性转移。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "But the filter only works on part of the market",
+            "cn": "但筛选器只对一部分市场起作用"
           }
         ]
       },
@@ -33208,6 +33665,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "For the high-taste audience, the new filter has three layers",
+            "cn": "对鉴赏力上端受众而言，新筛选器分三层"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The new filter is not single. It has three layers.",
@@ -33288,6 +33754,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "In the future subject identity dominates, and form quality drops to a threshold (below it you’re out, above it the differences stop mattering).",
             "cn": "未来主导是主体身份，形式质量降为门槛（低于门槛直接出局，高于门槛不再拉开差距）。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What this means for two kinds of readers",
+            "cn": "这对两类读者意味着什么"
           }
         ]
       },
@@ -33440,6 +33915,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Choosing the field matters more than choosing the work",
+            "cn": "选领域比选做什么更关键"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The framework yields one sharp recommendation: choosing the field matters more than choosing the work.",
@@ -33546,36 +34030,16 @@ const ARTICLES_EXTRA = [
             "cn": "一个错的领域里再努力，也打不过一个对的领域里合格努力的主体。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c07",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 5 · The Two Carriers of Substance",
-    "titleZh": "形式的虚像 · 第五章 · 实质的两种载体",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-5--the-two-carriers-of-substance",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 7,
-    "sourceTextWords": 1014,
-    "sourceParagraphs": 32,
-    "sourceSentences": 66,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 5 · The Two Carriers of Substance",
+            "cn": "第五章 · 实质的两种载体"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -33593,6 +34057,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The structure is fully symmetric across the firm scale and the individual scale. One theory covers both.",
             "cn": "这个结构在公司和个体两个尺度上完全对称，不需要两套理论。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Why substance has only these two carriers",
+            "cn": "为什么实质只有这两种载体"
           }
         ]
       },
@@ -33713,6 +34186,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Side-by-side at the firm and individual scales",
+            "cn": "两种护城河的结构对照"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Putting the two moats side by side at both scales:",
@@ -33749,6 +34231,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Any single node can leave, and the network is still there.",
             "cn": "任何单一节点离开，网络仍在。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The two moats face different fates in the AI era",
+            "cn": "两种护城河在 AI 时代的命运不一样"
           }
         ]
       },
@@ -33801,6 +34292,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Time is necessary, not sufficient",
+            "cn": "时间是必要条件，不是充分条件"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Both moats require time. But time is necessary, not sufficient.",
@@ -33837,6 +34337,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Their time becomes a sunk cost.",
             "cn": "他们的时间成了沉没成本。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "You don’t need both moats at once",
+            "cn": "两种护城河不需要同时拥有"
           }
         ]
       },
@@ -33925,6 +34434,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "One last qualifier",
+            "cn": "最后一个限定"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Both moats, in the 10-year terminal state, share one prerequisite: they only matter to the part of the market that can recognise them.",
@@ -33967,41 +34485,30 @@ const ARTICLES_EXTRA = [
             "cn": "找不到，护城河就是沉没成本。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c08",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 6 · What This Means for Firms",
-    "titleZh": "形式的虚像 · 第六章 · 对公司的含义",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-6--what-this-means-for-firms",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 8,
-    "sourceTextWords": 1710,
-    "sourceParagraphs": 65,
-    "sourceSentences": 102,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 6 · What This Means for Firms",
+            "cn": "第六章 · 对公司的含义"
+          }
+        ]
+      },
       {
         "sentences": [
           {
             "en": "At the firm level, the two moats yield a concrete asset taxonomy: which of a large firm’s assets are authorship, which are embeddedness, which are pure form, and what this means for different kinds of firms.",
             "cn": "在公司层面，两种护城河推出一个具体的资产分类：大公司的资产里，哪些是作者性、哪些是嵌入性、哪些是纯形式，以及这对不同类型的公司意味着什么。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three classes of firm assets",
+            "cn": "公司资产分三类"
           }
         ]
       },
@@ -34242,6 +34749,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Because the filter migrates toward “subject identity”, their relative importance rises systemically.",
             "cn": "因为筛选机制向“主体身份”迁移，这类资产的相对重要性系统性上升。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three kinds of firm, three prescriptions",
+            "cn": "三类公司的处方"
           }
         ]
       },
@@ -34562,6 +35078,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A few old assets that aren’t moats anymore",
+            "cn": "不再是护城河的几类旧资产"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "A few counterintuitive judgments fall out of the classification, worth saying directly.",
@@ -34606,6 +35131,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "(Tech stack, craft mix, generic data — discussed in the startup section — apply equally to large firms. They are the fastest-depreciating asset class in the AI era; not expanded again here.)",
             "cn": "（创业公司那一节里讲过的技术栈、工艺组合、通用数据这些资产，在大公司层面同样适用，这是 AI 时代贬值最快的一类资产，这里不再展开。）"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "One concrete action",
+            "cn": "一个落地动作"
           }
         ]
       },
@@ -34664,36 +35198,16 @@ const ARTICLES_EXTRA = [
             "cn": "看清之后的选择，取决于公司属于上面三类中的哪一类。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c09",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 7 · What This Means for Individuals: Which Class You Are In",
-    "titleZh": "形式的虚像 · 第七章 · 对个体的含义：你属于哪一类",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-7--what-this-means-for-individuals-which-class-you-are-in",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 9,
-    "sourceTextWords": 1918,
-    "sourceParagraphs": 50,
-    "sourceSentences": 107,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 7 · What This Means for Individuals: Which Class You Are In",
+            "cn": "第七章 · 对个体的含义：你属于哪一类"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -34715,6 +35229,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The dimension is: is your judgment something other than what AI does?",
             "cn": "这个维度是：你的判断力是不是 AI 之外的东西。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "AI splits people into two classes: amplified vs replaced",
+            "cn": "AI 把人分成两类：被放大的 vs 被替代的"
           }
         ]
       },
@@ -34811,6 +35334,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The economic correspondence is rigorous",
+            "cn": "经济学上的严谨对应"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "This isn’t intuition.",
@@ -34879,6 +35411,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "In other words: AI makes upper-layer ability more valuable and lower-layer ability less valuable.",
             "cn": "换句话说：AI 让上层能力变得更值钱，让下层能力变得更不值钱。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Closing the loop: experience and knowledge go from moat to sunk cost",
+            "cn": "闭环：经验和知识从护城河变成沉没成本"
           }
         ]
       },
@@ -34991,6 +35532,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Self-audit: which class are you in",
+            "cn": "自我审计：你属于哪一类"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Here, the question that really matters is: which class are you in?",
@@ -35099,6 +35649,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "But better to know early than burn 10 years in the wrong position.",
             "cn": "但比起在错误位置上耗 10 年，早一点知道更好。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three classes of reader, three different situations",
+            "cn": "三类读者各自的处境"
           }
         ]
       },
@@ -35321,36 +35880,16 @@ const ARTICLES_EXTRA = [
             "cn": "下一期讨论教育和训练时，会回到这个问题。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c10",
-    "cat": "AI",
-    "title": "The Mirage of Form · Chapter 8 · What This Means for Individuals: Concrete Actions",
-    "titleZh": "形式的虚像 · 第八章 · 对个体的含义：具体动作",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#chapter-8--what-this-means-for-individuals-concrete-actions",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 10,
-    "sourceTextWords": 1640,
-    "sourceParagraphs": 42,
-    "sourceSentences": 99,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 8 · What This Means for Individuals: Concrete Actions",
+            "cn": "第八章 · 对个体的含义：具体动作"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -35360,6 +35899,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This chapter gives the most useful concrete actions for the first and second classes (people with accumulation): how to build authorship and relational capital, and how AI amplifies them.",
             "cn": "这一章讲对第一类和第二类读者（有积累的人）最有用的具体动作：作者性和关系资本怎么建，以及 AI 如何放大它们。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Authorship and relational capital, at the individual scale",
+            "cn": "个体身上的作者性和关系资本"
           }
         ]
       },
@@ -35404,6 +35952,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Most knowledge workers need both.",
             "cn": "大多数知识工作者需要两者都建立。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "What the firm used to do for you, you now have to do yourself",
+            "cn": "公司过去替你做了什么，现在要你自己做"
           }
         ]
       },
@@ -35484,6 +36041,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Time is necessary, not sufficient",
+            "cn": "时间是必要条件，不是充分条件"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Before the concrete actions, one meta-judgment: time is necessary, not sufficient.",
@@ -35544,6 +36110,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Time is necessary, and you also have to avoid burning time on the wrong track.",
             "cn": "时间是必要的，但你还得避免在错误的轨道上消耗时间。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The non-accumulation trap",
+            "cn": "无效积累陷阱"
           }
         ]
       },
@@ -35616,6 +36191,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Concrete actions for building authorship",
+            "cn": "建立作者性的具体动作"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "After avoiding the traps, authorship has clear actions.",
@@ -35680,6 +36264,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Concrete actions for building relational capital",
+            "cn": "建立关系资本的具体动作"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "One: keep a few specific people in your field of view long-term.",
@@ -35720,6 +36313,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Eating together, attending the same meeting, chatting in the same group — none of those form relational capital.",
             "cn": "一起吃过饭、一起参加过会议、在同一个群里聊过天，这些不形成关系资本。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "AI is an amplifier, not a substitute",
+            "cn": "AI 是放大器，不是替代器"
           }
         ]
       },
@@ -35828,6 +36430,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three concrete self-audit questions",
+            "cn": "三个具体的自我审计问题"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Down to concrete actions, three questions to answer honestly:",
@@ -35914,36 +36525,16 @@ const ARTICLES_EXTRA = [
             "cn": "看清了才能决定下一步。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c11",
-    "cat": "AI",
-    "title": "The Mirage of Form · Luck Sits Above All This",
-    "titleZh": "形式的虚像 · 运气是这一切之上的一层",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#luck-sits-above-all-this",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 11,
-    "sourceTextWords": 194,
-    "sourceParagraphs": 5,
-    "sourceSentences": 10,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Luck Sits Above All This",
+            "cn": "运气是这一切之上的一层"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -36003,36 +36594,16 @@ const ARTICLES_EXTRA = [
             "cn": "承认运气，是为了在运气好的时候做该做的事，不要误以为自己站在结构上；不是为了放弃努力。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c12",
-    "cat": "AI",
-    "title": "The Mirage of Form · Coda · The Deliverable as a By-product of Substance",
-    "titleZh": "形式的虚像 · 结语 · 交付物作为实质的副产品",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#coda--the-deliverable-as-a-by-product-of-substance",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 12,
-    "sourceTextWords": 352,
-    "sourceParagraphs": 9,
-    "sourceSentences": 17,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Coda · The Deliverable as a By-product of Substance",
+            "cn": "结语 · 交付物作为实质的副产品"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -36070,6 +36641,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The deliverables that still have value must contain substance only the subject can inject: recognisable judgment, relationships embedded in specific operation.",
             "cn": "真正还有价值的交付物，里面都必须装着只有主体才能注入的实质：可识别的判断、嵌入特定运转的关系。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The causal direction has to invert",
+            "cn": "因果方向要倒转过来"
           }
         ]
       },
@@ -36136,36 +36716,16 @@ const ARTICLES_EXTRA = [
             "cn": "AI 时代空形式的供给无限，能装进去的实质却仍然只能由主体一天一天产生。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-mirage-of-form-c13",
-    "cat": "AI",
-    "title": "The Mirage of Form · One Question This Essay Doesn’t Answer",
-    "titleZh": "形式的虚像 · 一个不解决的问题",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-25",
-    "url": "https://offbook.press/essays/mirage-of-form/#one-question-this-essay-doesnt-answer",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/mirage-of-form/",
-    "issue": 4,
-    "chapter": 13,
-    "sourceTextWords": 497,
-    "sourceParagraphs": 15,
-    "sourceSentences": 29,
-    "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
-    "coverFrom": "#2D5F66",
-    "coverTo": "#16363B",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "One Question This Essay Doesn’t Answer",
+            "cn": "一个不解决的问题"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -36345,32 +36905,40 @@ const ARTICLES_EXTRA = [
     ]
   },
   {
-    "id": "ob-teaching-and-training-disqualified-c01",
+    "id": "ob-teaching-and-training-disqualified",
     "cat": "AI",
-    "title": "The Disqualification of Teaching and Training · Preface · Eleven Hundred Years",
-    "titleZh": "教与训的失格 · 序章 · 一千一百年",
+    "title": "The Disqualification of Teaching and Training",
+    "titleZh": "教与训的失格",
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
-    "url": "https://offbook.press/essays/teaching-and-training-disqualified/#preface--eleven-hundred-years",
+    "url": "https://offbook.press/essays/teaching-and-training-disqualified/",
     "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
+    "extractorVersion": "offbook-v3",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
     "translationCredit": "Offbook Press 官方中英双语",
     "official_source_url": "https://offbook.press/essays/teaching-and-training-disqualified/",
     "issue": 5,
-    "chapter": 1,
-    "sourceTextWords": 1359,
-    "sourceParagraphs": 50,
-    "sourceSentences": 80,
+    "sourceTextWords": 18308,
+    "sourceParagraphs": 444,
+    "sourceSentences": 961,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
     "coverTo": "#5A3F1A",
     "paras": [
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Preface · Eleven Hundred Years",
+            "cn": "序章 · 一千一百年"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -36890,36 +37458,16 @@ const ARTICLES_EXTRA = [
             "cn": "这个人能否被使用。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-teaching-and-training-disqualified-c02",
-    "cat": "AI",
-    "title": "The Disqualification of Teaching and Training · Chapter 1 · The Current State",
-    "titleZh": "教与训的失格 · 第一章 · 当下的现状",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-29",
-    "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-1--the-current-state",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/teaching-and-training-disqualified/",
-    "issue": 5,
-    "chapter": 2,
-    "sourceTextWords": 3633,
-    "sourceParagraphs": 81,
-    "sourceSentences": 155,
-    "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "coverFrom": "#9A7134",
-    "coverTo": "#5A3F1A",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 1 · The Current State",
+            "cn": "第一章 · 当下的现状"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -36937,6 +37485,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "In April 2026 it is still running, but its shape is starting to deform.",
             "cn": "2026 年此刻，它仍然在运转，方式开始变形。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Seven Cognitive Mechanisms",
+            "cn": "七项认知机制"
           }
         ]
       },
@@ -37097,6 +37654,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Teaching and Training",
+            "cn": "教与训"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The Preface introduced these two words.",
@@ -37133,6 +37699,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Teaching produces sortable people. Training produces embeddable people. Both held in the past, because the world really did need large numbers of sortable, trainable, embeddable people.",
             "cn": "教生产可排序的人，训生产可嵌入流程的人。两者过去都成立，因为过去的世界确实需要大量可排序、可训练、可嵌入的人。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Disqualified",
+            "cn": "失格"
           }
         ]
       },
@@ -37177,6 +37752,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Teaching and training are disqualified at exactly this point: the “qualified” they used to produce indirectly testified to actual qualification; today it doesn’t.",
             "cn": "教与训失格，失的是这一点：它们训练出来的「合格」，过去能间接证明合格，今天证明不了了。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Four Reference Systems",
+            "cn": "参照系：四国体系"
           }
         ]
       },
@@ -37337,6 +37921,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Students: PISA 2022",
+            "cn": "学生层面：PISA 2022"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "PISA is the OECD’s triennial assessment of 15-year-olds in mathematics, reading, and science.",
@@ -37377,6 +37970,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Adults: PIAAC 2023",
+            "cn": "成人层面：PIAAC 2023"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "PIAAC is the OECD’s adult-skills survey, assessing literacy, numeracy, and adaptive problem-solving in the 16-65 population.",
@@ -37413,6 +38015,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Korea is below average on all three; relative to the previous round, literacy is down 23 points, numeracy down 10.",
             "cn": "韩国三项都低于平均，相比上一轮 literacy 下降 23 分、numeracy 下降 10 分。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Classrooms: The TIMSS Video Study",
+            "cn": "课堂层面：TIMSS Video Study"
           }
         ]
       },
@@ -37465,6 +38076,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The exact percentages may have shifted; the structural difference largely has not.",
             "cn": "具体百分比可能已变，结构性差异基本仍然成立。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "America’s Bottom: NAEP 2024",
+            "cn": "美国底部：NAEP 2024"
           }
         ]
       },
@@ -37541,6 +38161,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The bottom 25% has slid back past 1992. The top end’s training-and-attraction machinery still leads the world. One country is folding two eras into itself.",
             "cn": "底部 25% 的学生倒退到 1992 年以前，顶部训练和吸纳机器仍然站在世界最前列。同一个国家折叠了两个时代。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Current Reforms",
+            "cn": "当下的教育改革"
           }
         ]
       },
@@ -37745,6 +38374,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A Few Observations",
+            "cn": "几个观察"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Lay the data and the timelines side by side and a few things surface.",
@@ -37809,6 +38447,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The Core Problem",
+            "cn": "核心问题"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Four systems cover almost every shape “teaching and training” took before AI. Their measured profiles in PISA, PIAAC, the TIMSS Video Study, and NAEP are richer and stranger than the caricatures suggest. They are all reforming. The reforms point in different directions. The earliest of those reforms reach the labour market in the mid-2030s.",
@@ -37863,36 +38510,16 @@ const ARTICLES_EXTRA = [
             "cn": "它们曾经承担的资格，正在失格。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-teaching-and-training-disqualified-c03",
-    "cat": "AI",
-    "title": "The Disqualification of Teaching and Training · Chapter 2 · Teaching, Disqualified",
-    "titleZh": "教与训的失格 · 第二章 · 教的失格",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-29",
-    "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-2--teaching-disqualified",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/teaching-and-training-disqualified/",
-    "issue": 5,
-    "chapter": 3,
-    "sourceTextWords": 3835,
-    "sourceParagraphs": 67,
-    "sourceSentences": 146,
-    "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "coverFrom": "#9A7134",
-    "coverTo": "#5A3F1A",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 2 · Teaching, Disqualified",
+            "cn": "第二章 · 教的失格"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -37910,10 +38537,28 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The Source of the Mismatch",
+            "cn": "错位的根源"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The premise of the old education was “produce identifiable people at scale.” A single national school faces hundreds; a country’s basic education system faces tens of millions to hundreds of millions. That order of magnitude forces any training inside the system to satisfy three things at once. Standardisable. What gets taught has to be defined precisely in textbooks and curricula. Otherwise different regions and different teachers cannot deliver on a shared cadence. A gaokao math problem that students from Urumqi to Shanghai to a county-town high school can all attempt and have graded by the same standard is what this layer makes possible. Examinable. How well it was taught has to be evaluated against an external standard. Otherwise tiers can’t stably rank, and credentials lose their use to the labour market. If “ability” amounts to “I know I get it” with no external signal anywhere, the entire credential system unravels. Cheap to mass-replicate. Teacher costs cannot run so high that you cannot hire them. An ordinary middle-school teacher, with four years of teacher training, has to be able to deliver curriculum knowledge in a classroom on a shared cadence. That capacity has to be reproducible at scale. If only top-tier scholars could teach a given subject, that subject cannot be part of basic education. Of the seven mechanisms, the layers that satisfy all three conditions are knowledge, the shallow part of activation frequency, the shallow part of the strategy repertoire, and foundational automation. They can be written into textbooks, posed as standardised exam questions, and delivered on a shared cadence by teachers of varying quality. That is why nearly all of the old system’s resources end up here. The ones that do not satisfy the three are deep cognitive-decoupling training and metacognition. Deep cognitive decoupling demands sustained engagement with structurally unfamiliar situations. Each “unfamiliar” is single-use. Once it gets standardised into a textbook, the unfamiliarity is gone, and training degenerates into standard responses. Institutionally, this is something you cannot mass-produce. The most effective parts of the Chinese problem-bank tradition — top schools’ Math Olympiad training, the math-major core at research universities — sit precisely outside the standardised-assessment frame, in small classes and supervisor-driven mentoring. Metacognition demands the loop of real tasks plus real feedback, repeated. It can’t be tested, because “the extent to which you can monitor your own thinking” is not something a single test sheet can measure. It can’t be cheaply replicated either: providing real tasks and real feedback to one student requires someone above the student’s level to participate one-on-one for a long time. That cost is unsupportable inside scale education. K-12 has almost no slot for metacognition training. This is the system’s internal boundary. The layers that scale, the system mass-produces. The layers that don’t scale fall outside the system’s coverage and get left to a small set of elite programs, master-apprentice arrangements, and individual self-study. Up to here, the mismatch is just an interesting fact. After AI, it gets serious. The essence of AI training is taking the standardisable, structurable corpus that human society laid down over centuries and turning it into output capacity that mass-replicates cheaply. The standardisable parts — AI has all of them. The examinable parts, i.e. the parts with model answers — AI gives them faster and more accurately than people. The mass-replicable parts (knowledge, templates, formulas) — AI’s per-unit cost is essentially zero. What AI covers and what the old education covers is the same class of “scalable cognitive output.” The relation between them is substitution, not complement. The old education did not do anything wrong. What it did was mass-produce identifiable objects. AI is doing the same thing, cheaper, faster, with broader coverage. This mismatch comes from the scale mechanism being used twice. Education used it for one to two centuries. AI used it for a few years. The two cover the same patch of ground, and AI’s coverage is more complete.",
             "cn": "旧教育的存在前提是「规模化生产可识别的人」。一所国民学校要面对几百人，一个国家的基础教育系统要面对几千万到几亿人。这个量级决定了，进入教育系统的训练必须同时满足三件事。 可标准化。教什么必须能用教材和教学大纲定义清楚。否则不同地区、不同教师没办法按统一节奏交付。一套高考数学题，从乌鲁木齐到上海到县城中学的学生都能做、都按同一标准批改，靠的就是这一层。 可考核。教得怎么样必须能用一套外部标准评价。否则学生层级无法稳定排序，文凭无法被劳动力市场使用。能力如果只是「我自己知道我懂」，但没有任何外部信号能证明，整个学历体系就瓦解了。 可低成本大量复制。教师成本不能高到雇不起。一个普通中学教师，经过四年师范训练，能按教学大纲在教室里传递知识。这种能力必须能被大量培养出来。如果只有顶尖学者能教某门课，那门课就不可能成为基础教育的一部分。 七项认知机制里，能同时满足这三条的是知识、调用频率的浅层、策略库的浅层、基础自动化。这四项可以写进教材、可以出标准化试题、可以由不同水平的教师按统一节奏交付。这就是为什么旧教育的资源几乎全部投入在这四项上。 满足不了这三条的是认知去耦的深度训练和元认知。 认知去耦的深度训练要求长期处理结构性陌生情境。每一次的「陌生」都是一次性的。一旦被标准化进教材，「陌生」就消失了，训练退化为标准反应。这件事在制度上根本无法规模化生产。中国题库教育里最有效的部分，例如顶尖学校的奥数训练、研究型大学的数学专业课，恰好是脱离了规模化考核进入了小班教学和导师制。 元认知要求真实任务加真实反馈的反复循环。它没法考核，因为「你能监控自己思维的程度」没办法用一张试卷测出来。它也没法低成本复制：给一个学生提供真实任务和真实反馈，需要一个比学生水平更高的人长期一对一参与。这个成本在规模化教育里支撑不起。整个 K-12 教育里几乎没有元认知训练的位置。 这就是教育系统的内在边界。能规模化的层，规模化生产；不能规模化的层，不进入教育系统的覆盖范围，留给少数精英项目、师徒制、个体自学。 到这里为止，错位还只是一个有意思的事实。AI 出现之后，这件事变得严重。 AI 训练的本质，是把人类社会过去几百年沉淀下来的可标准化、可结构化的语料，变成可低成本大量复制的输出能力。 可标准化的部分，AI 全有。 可考核的部分，也就是有标准答案的部分，AI 给得比人快、比人准。 可低成本大量复制的部分（知识、模板、套路），AI 单位成本接近于零。 AI 和旧教育覆盖的，是同一类「可规模化生产的认知输出」。两者是替代关系，不是互补。 旧教育不是做错了什么。它做的就是规模化生产可识别对象这件事。AI 也在做这件事，做得更便宜、更快、覆盖范围更广。 这个错位来自规模化机制本身的两次被使用。第一次是教育用了一两百年，第二次是 AI 用了几年。两者覆盖的恰好是同一片地带，而 AI 这一次的覆盖更彻底。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Question Banks, Disqualified",
+            "cn": "题库失格"
           }
         ]
       },
@@ -38078,6 +38723,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Form-Production, Disqualified",
+            "cn": "形式生产失格"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The huge volume of “formal compliance” training the education system runs (writing, presenting, slide-making, report-writing, résumé-writing) used to serve as “indirect evidence of substance.” A student who could turn out a passable argumentative essay was, more often than not, someone who genuinely understood. A student who could write working code was, more often than not, someone with engineering chops. A student who could clearly articulate a project in interview was, more often than not, someone who had actually done it. Formal compliance was a low-cost signal for filtering trustworthy candidates.",
@@ -38134,6 +38788,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "This is one of the education system’s most awkward positions in the age of AI: not only does production capacity depreciate, but “training substance through producing form” — a path that worked for centuries — also begins to fail.",
             "cn": "这是教育系统在 AI 时代最棘手的处境之一：不仅产出能力贬值，连「通过产出训练实质」这条几百年验证有效的路径，也开始失效。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The Standard Answer, Disqualified",
+            "cn": "标准答案失格"
           }
         ]
       },
@@ -38250,6 +38913,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Disqualification Squared",
+            "cn": "失格平方"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Exam disqualification is a first-order problem: the credibility of exams as filtering mechanisms is falling in the age of AI.",
@@ -38350,6 +39022,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "It is redistributing the ability distribution of the next generation.",
             "cn": "它在重新分配下一代的能力分布。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Four Failure Points",
+            "cn": "四国失格点"
           }
         ]
       },
@@ -38546,6 +39227,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Counter-examples: What Has Not Been Disqualified",
+            "cn": "反例：什么样的训练没有失格"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The shape of training that remains fully valid after AI.",
@@ -38726,6 +39416,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Teaching’s Disqualification Is Not Inside Education",
+            "cn": "教的失格不在教育内部"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Teaching’s disqualification is, in essence, a structural mismatch between the education system’s premise (mass-produce identifiable objects) and the age-of-AI ability distribution (un-scalable judgment and decoupling).",
@@ -38744,36 +39443,16 @@ const ARTICLES_EXTRA = [
             "cn": "这个错位是教育这件事在 AI 时代的根本处境，不是某一时刻可以纠正的问题。改革针对的是 5 年后入学的孩子。当下劳动力市场上几代被旧体系训练出来的人，必须自己面对这个错位。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-teaching-and-training-disqualified-c04",
-    "cat": "AI",
-    "title": "The Disqualification of Teaching and Training · Chapter 3 · Training, Disqualified",
-    "titleZh": "教与训的失格 · 第三章 · 训的失格",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-29",
-    "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-3--training-disqualified",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/teaching-and-training-disqualified/",
-    "issue": 5,
-    "chapter": 4,
-    "sourceTextWords": 3294,
-    "sourceParagraphs": 60,
-    "sourceSentences": 190,
-    "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "coverFrom": "#9A7134",
-    "coverTo": "#5A3F1A",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 3 · Training, Disqualified",
+            "cn": "第三章 · 训的失格"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -38799,6 +39478,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Teaching’s output has merely depreciated; training has lost its very premise.",
             "cn": "教只是产出贬值，训是连存在前提都被抽走。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Training’s Premises",
+            "cn": "训的存在前提"
           }
         ]
       },
@@ -38967,6 +39655,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "What AI changes is the possibility of all three holding at once.",
             "cn": "AI 改变的是这三个前提同时成立的可能性。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three Premises Failing at Once",
+            "cn": "三个前提的同时失效"
           }
         ]
       },
@@ -39175,6 +39872,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Specific Forms of Disqualification",
+            "cn": "失格的具体形态"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Fluency-training disqualified.",
@@ -39339,6 +40045,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The “professionalism” old training thoroughly shaped (writing emails, presenting, packaging plans) — the specific abilities that used to define “office worker” — has shifted, after AI, from competitive value to “stuff AI can produce.”",
             "cn": "被旧训练充分塑造的「职业感」（会写邮件、会做汇报、会包装方案），这些过去定义「职场人」的具体能力，在 AI 之后从竞争力变成「AI 即可产出的输出」。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The Middle Has It Worst",
+            "cn": "中层最难"
           }
         ]
       },
@@ -39559,6 +40274,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Four Reference Systems for Vocational Training",
+            "cn": "四国职业培训"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Japan. The strength of Japanese corporate training is foundational automation plus long-term embedding, shaping a person, through OJT, rotation, and master-apprentice arrangements, into someone who can carry a specific function for the long term. The failure point is that “specific function” itself is disappearing. A person trained to “carry a specific function for thirty years” finds, when AI rewrites that function, that the entire training has failed. Both ends of the long-term-employment assumption fail in Japanese organisations. One end: the firm no longer needs lifetime specialists. The other end: the employee’s specialism no longer fits new roles.",
@@ -39695,6 +40419,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Training Wasn’t Wrong",
+            "cn": "训没有训错"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Training’s disqualification is not, in essence, a disqualification of training content.",
@@ -39773,36 +40506,16 @@ const ARTICLES_EXTRA = [
             "cn": "他们脑子里被训练出来的认知结构，是为一个不再存在的世界准备的。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-teaching-and-training-disqualified-c05",
-    "cat": "AI",
-    "title": "The Disqualification of Teaching and Training · Chapter 4 · The Sandwich Generation",
-    "titleZh": "教与训的失格 · 第四章 · 夹层世代",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-29",
-    "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-4--the-sandwich-generation",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/teaching-and-training-disqualified/",
-    "issue": 5,
-    "chapter": 5,
-    "sourceTextWords": 1854,
-    "sourceParagraphs": 44,
-    "sourceSentences": 94,
-    "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "coverFrom": "#9A7134",
-    "coverTo": "#5A3F1A",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 4 · The Sandwich Generation",
+            "cn": "第四章 · 夹层世代"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -39824,6 +40537,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Reform has started, but reform is not for them.",
             "cn": "改革启动了，但改革不为他们准备。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Who They Are",
+            "cn": "这群人是谁"
           }
         ]
       },
@@ -39896,6 +40618,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "They did not choose, back then, to be trained into who they are now.",
             "cn": "他们当年没有选择被训练成现在这个样子。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "A Temporal Mismatch",
+            "cn": "变革的时间错位"
           }
         ]
       },
@@ -39980,6 +40711,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Three Forms of Deflection",
+            "cn": "三种推卸"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Government punts to education reform. Education reform offers no direct help to the current workforce; it targets children of ten years from now. Government uses “we are reforming” as a response to the disqualification of the labour market, but that response is fully off-by-time. All four systems do this. China’s 2024-2035 Education Strong Nation Plan, the U.S.’s 2025 federal AI-education executive order, Japan’s MEXT AI guidelines, Korea’s 2025 AI digital textbooks. All target students at the basic-education stage. None targets adult-cognitive-rebuild for the working population. The sandwich generation’s relationship to education reform is, in essence, a non-coverage relationship. However well reform goes, it has nothing to do with them.",
@@ -40052,6 +40792,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Individuals are punted to “lifelong learning.” A large part of the lifelong-learning market commodifies age-of-AI anxiety into paid courses. What those courses teach is still the knowledge layer and the tool layer — exactly the parts AI has already taken over. People who finish them feel anxiety relief temporarily; their way of working doesn’t change. That is the educational-market form of “rumination consumption” from ISSUE 01: pay, consume, psychological satisfaction, zero transfer. The deeper problem: real cognitive rebuild can’t be done through paid courses. It needs the loop of real tasks plus real feedback, repeated; it needs sustained one-on-one mentorship; it needs continuous metacognitive calibration. The cost is extreme, the coverage will inevitably be low, and it cannot be productised. The market looks like it’s solving the sandwich generation’s cognitive-rebuild need; what it’s actually doing is something else: monetising anxiety.",
             "cn": "个体推「终身学习」。市面上的终身学习产品大量是把 AI 时代的焦虑产业化为知识付费课程。这些课程教的仍然是知识层和工具层，AI 已经接管的部分。学完这些课程的人，焦虑暂时缓解，工作方式不变。这是 ISSUE 01 讲过的「反刍消费」在教育市场的落地形态：付费、消费、心理满足、零迁移。更深的问题：真正的认知重构不能通过付费课程完成。它需要真实任务加真实反馈的反复循环，需要长期一对一的导师，需要持续的元认知校准。这件事的成本极高、覆盖率必然低，本质上无法被产品化。市场上看似在解决夹层世代的认知重构需求，实际上在做的是另一件事：消费焦虑。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Anxiety and Despair",
+            "cn": "焦虑与绝望"
           }
         ]
       },
@@ -40276,6 +41025,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Where the Responsibility Lands",
+            "cn": "责任的归属"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The sandwich generation is not a forgotten group.",
@@ -40354,36 +41112,16 @@ const ARTICLES_EXTRA = [
             "cn": "这不是他们的错，但弥补这个错位的责任落在他们自己身上。"
           }
         ]
-      }
-    ]
-  },
-  {
-    "id": "ob-teaching-and-training-disqualified-c06",
-    "cat": "AI",
-    "title": "The Disqualification of Teaching and Training · Chapter 5 · Evolution",
-    "titleZh": "教与训的失格 · 第五章 · 演化",
-    "source": "Offbook Press · Dawei Geng",
-    "date": "2026-04-29",
-    "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-5--evolution",
-    "addedAt": "2026-09-21",
-    "pin": true,
-    "contentStatus": "complete",
-    "extractorVersion": "offbook-v2",
-    "author": "Dawei Geng",
-    "authorZh": "耿大伟",
-    "translation_type": "official",
-    "translationCredit": "Offbook Press 官方中英双语",
-    "official_source_url": "https://offbook.press/essays/teaching-and-training-disqualified/",
-    "issue": 5,
-    "chapter": 6,
-    "sourceTextWords": 4170,
-    "sourceParagraphs": 99,
-    "sourceSentences": 253,
-    "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
-    "coverFrom": "#9A7134",
-    "coverTo": "#5A3F1A",
-    "paras": [
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Chapter 5 · Evolution",
+            "cn": "第五章 · 演化"
+          }
+        ]
+      },
       {
         "sentences": [
           {
@@ -40393,6 +41131,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "What gets disqualified is the way of training them, not the mechanisms.",
             "cn": "失格的是它们的训练方式，不是机制本身。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "How the Seven Mechanisms Evolve",
+            "cn": "七项机制如何演化"
           }
         ]
       },
@@ -40457,6 +41204,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "Class A and B’s training objects in the age of AI take new shapes. The education system and corporate training both need to rebuild around the new shapes. Class C training is forever individual responsibility. AI changes the tools, not the responsible party.",
             "cn": "A 类和 B 类的训练对象在 AI 时代有了新的形态。教育系统和企业培训都需要按这个新形态重建。C 类的训练永远是个人责任，AI 让它的工具变了，但责任主体没变。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Foundation, AI Use, AI Knowledge Retrieval, General Metacognition",
+            "cn": "基础、AI 使用、AI 寻找知识、一般性元认知"
           }
         ]
       },
@@ -40733,6 +41489,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Question Banks Are Still Necessary",
+            "cn": "题库仍然必须"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "The real value of the problem bank.",
@@ -40985,6 +41750,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Corporate Know-how Distillation",
+            "cn": "企业 knowhow 蒸馏"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Training disqualification has no ready-made reform path because there is no “age-of-AI training” sitting around as a reference.",
@@ -41229,6 +42003,15 @@ const ARTICLES_EXTRA = [
         ]
       },
       {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "The Non-Standardisable Layer: Domain-Deep Schemas and Domain Metacognition",
+            "cn": "不可标准化层：领域深度图式与领域内元认知"
+          }
+        ]
+      },
+      {
         "sentences": [
           {
             "en": "Class C training will never scale.",
@@ -41353,6 +42136,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "It is a series of specific conversations between an individual and AI — the individual’s own cognitive rebuild.",
             "cn": "它是个人和 AI 之间的一次次具体对话，是个人自己的认知重构过程。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Who Can Do This",
+            "cn": "谁能完成"
           }
         ]
       },
@@ -41617,6 +42409,15 @@ const ARTICLES_EXTRA = [
           {
             "en": "The AGI discussion isn’t unpacked here.",
             "cn": "AGI 的讨论不在这里展开。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Education’s Lag, and the Scale of This",
+            "cn": "教育的滞后与这件事的尺度"
           }
         ]
       },

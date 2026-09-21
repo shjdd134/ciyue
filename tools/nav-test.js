@@ -152,5 +152,37 @@ ok('图片带摄影署名',screenEl.innerHTML.includes('photo-credit'));
 click({act:'go-back'});
 eq('返回人物分类',[at().view,at().cat],['discover','人物']);
 
+console.log('\n[8] 我的词汇：真实按钮切换与即时更新');
+/* 从实际页面标记读取全部 data-*，防止手工省掉 data-tab 掩盖事件分发冲突。 */
+const clickRenderedButton = (html, act, tab) => {
+  const button = (html.match(/<button\b[^>]*>/g) || []).find(tag =>
+    tag.includes(`data-act="${act}"`) && (tab === undefined || tag.includes(`data-tab="${tab}"`)));
+  if (!button) throw new Error(`找不到按钮 ${act}/${tab || ''}`);
+  const dataset = Object.fromEntries([...button.matchAll(/data-([a-z-]+)="([^"]*)"/g)].map(([, k, v]) =>
+    [k.replace(/-([a-z])/g, (_, c) => c.toUpperCase()), v]));
+  click(dataset);
+};
+const notebookWord = ctx('WORDS[0].word');
+ctx(`S.notebook = [{ word: ${JSON.stringify(notebookWord)}, addedAt: 1, context: null }]; S.known = [];`);
+click({ tab: 'me' });
+clickRenderedButton(screenEl.innerHTML, 'open-notebook');
+clickRenderedButton(screenEl.innerHTML, 'vocab-tab', 'known');
+eq('点击已认识标签真的切换', ctx('vocabTab'), 'known');
+ok('已认识标签初始显示空状态', screenEl.innerHTML.includes('还没有标为已认识的词'));
+clickRenderedButton(screenEl.innerHTML, 'vocab-tab', 'new');
+eq('点击生词标签可以切回', ctx('vocabTab'), 'new');
+clickRenderedButton(ctx(`renderSheet(${JSON.stringify(notebookWord)})`), 'mark-known');
+ok('标认识后生词列表立即移走该词', !screenEl.innerHTML.includes('class="nb-row"'));
+ok('标认识后两个标签的数量立即更新', /data-tab="new"[^>]*>生词 <b>0<\/b>/.test(screenEl.innerHTML)
+  && /data-tab="known"[^>]*>已认识 <b>1<\/b>/.test(screenEl.innerHTML));
+clickRenderedButton(screenEl.innerHTML, 'vocab-tab', 'known');
+ok('已认识列表中能看到原收藏', screenEl.innerHTML.includes(`data-word="${notebookWord}"`));
+clickRenderedButton(ctx(`renderSheet(${JSON.stringify(notebookWord)})`), 'mark-known');
+ok('取消认识后已认识列表即时清空', !screenEl.innerHTML.includes('class="nb-row"'));
+ok('取消认识仍保留生词与收藏记录', ctx(`S.notebook.length === 1 && !S.known.includes(${JSON.stringify(notebookWord)})`)
+  && /data-tab="new"[^>]*>生词 <b>1<\/b>/.test(screenEl.innerHTML));
+click({ tab: 'home' });
+eq('页内标签修复不影响主导航', at().view, 'home');
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);
