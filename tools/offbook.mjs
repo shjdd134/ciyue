@@ -42,13 +42,18 @@ const FILE = path.join(ROOT, "assets", "data-articles-extra.js");
  *
  * ★ `grad` 只是**兜底**色：正常情况渐变取自源站那本立体书的 `data-cover-front/spine/back`
  *   （见 lib-offbook.mjs 的 palette）。下面这几个手挑色是第一版的产物，现在只有官方
- *   哪天不写配色属性时才会用到 —— 别再把它们当作用户看到的颜色。 */
+ *   哪天不写配色属性时才会用到 —— 别再把它们当作用户看到的颜色。
+ *
+ * ★ `cover` = `assets/covers/` 下的**实图**（2026-09-21 由 sekiro 提供的 5 张主题插画）。
+ *   有实图时它压过渐变（app.js `coverOf` 的口径：coverImg → COVER_MAP → 渐变）。
+ *   图必须真实存在 —— 缺图直接 fatal，**不让渐变悄悄顶上**：那种「页面还有封面、只是
+ *   换了个样子」的失败没有任何报警，等发现时已经上线了。 */
 const ESSAYS = [
-  { issue: 1, slug: "on-cognitive-decoupling", grad: "linear-gradient(135deg,#d8e8dc 0%,#1e2a1e 100%)" },
-  { issue: 2, slug: "rebuilding-learning", grad: "linear-gradient(135deg,#dce6f0 0%,#243447 100%)" },
-  { issue: 3, slug: "breakdown-of-firms", grad: "linear-gradient(135deg,#efe2d4 0%,#4a3527 100%)" },
-  { issue: 4, slug: "mirage-of-form", grad: "linear-gradient(135deg,#e6e2f2 0%,#372f4e 100%)" },
-  { issue: 5, slug: "teaching-and-training-disqualified", grad: "linear-gradient(135deg,#f0e6dc 0%,#523a2c 100%)" },
+  { issue: 1, slug: "on-cognitive-decoupling", cover: "ob-on-cognitive-decoupling.jpg", grad: "linear-gradient(135deg,#d8e8dc 0%,#1e2a1e 100%)" },
+  { issue: 2, slug: "rebuilding-learning", cover: "ob-rebuilding-learning.jpg", grad: "linear-gradient(135deg,#dce6f0 0%,#243447 100%)" },
+  { issue: 3, slug: "breakdown-of-firms", cover: "ob-breakdown-of-firms.jpg", grad: "linear-gradient(135deg,#efe2d4 0%,#4a3527 100%)" },
+  { issue: 4, slug: "mirage-of-form", cover: "ob-mirage-of-form.jpg", grad: "linear-gradient(135deg,#e6e2f2 0%,#372f4e 100%)" },
+  { issue: 5, slug: "teaching-and-training-disqualified", cover: "ob-teaching-and-training-disqualified.jpg", grad: "linear-gradient(135deg,#f0e6dc 0%,#523a2c 100%)" },
   { issue: 6, slug: "the-future-of-collaboration", grad: "linear-gradient(135deg,#dbe9ea 0%,#1f3b3d 100%)" },
 ];
 const AUTHOR = "Dawei Geng";
@@ -229,6 +234,15 @@ for (const meta of ESSAYS) {
     if (x.en) { sents++; words += (x.en.match(/[A-Za-z'’-]+/g) || []).length; }
   }
 
+  /* 封面实图：`assets/covers/<meta.cover>`。缺图 → fatal 并跳过，**不用渐变兜底掩盖** ——
+   * 「页面仍然有封面、只是变了样子」这种失败没有任何报警，等发现时已经上线了。 */
+  const coverImg = meta.cover ? `assets/covers/${meta.cover}` : "";
+  if (coverImg && !fs.existsSync(path.join(ROOT, coverImg))) {
+    console.log(`⊘ ${meta.slug} —— 封面图不存在：${coverImg}`);
+    fatal.push(meta.slug);
+    continue;
+  }
+
   const additions = [{
     id: `ob-${meta.slug}`, cat: "AI", title: essayTitleEn, titleZh: essayTitleZh,
     source: `Offbook Press · ${AUTHOR}`,
@@ -243,6 +257,7 @@ for (const meta of ESSAYS) {
     sourceTextWords: words, sourceParagraphs: outParas.length, sourceSentences: sents,
     cover: grad, gradient: grad,
     coverFrom: P.front || "", coverTo: P.back || "",
+    ...(coverImg ? { coverImg } : {}),
     paras: outParas,
   }];
 

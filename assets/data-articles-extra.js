@@ -21512,6 +21512,7 @@ const ARTICLES_EXTRA = [
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
     "coverTo": "#7B2219",
+    "coverImg": "assets/covers/ob-on-cognitive-decoupling.jpg",
     "paras": [
       {
         "head": 2,
@@ -24162,6 +24163,7 @@ const ARTICLES_EXTRA = [
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
     "coverTo": "#703216",
+    "coverImg": "assets/covers/ob-rebuilding-learning.jpg",
     "paras": [
       {
         "head": 2,
@@ -27896,6 +27898,7 @@ const ARTICLES_EXTRA = [
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
     "coverTo": "#33212E",
+    "coverImg": "assets/covers/ob-breakdown-of-firms.jpg",
     "paras": [
       {
         "head": 2,
@@ -31549,6 +31552,7 @@ const ARTICLES_EXTRA = [
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
     "coverTo": "#16363B",
+    "coverImg": "assets/covers/ob-mirage-of-form.jpg",
     "paras": [
       {
         "head": 2,
@@ -36929,6 +36933,7 @@ const ARTICLES_EXTRA = [
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
     "coverTo": "#5A3F1A",
+    "coverImg": "assets/covers/ob-teaching-and-training-disqualified.jpg",
     "paras": [
       {
         "head": 2,

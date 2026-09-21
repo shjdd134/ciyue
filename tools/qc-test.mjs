@@ -152,12 +152,23 @@ console.log("\n== 4. 判据双向负向测试（隔离数据目录）==");
           { sentences: [{ en: "The season is long.", cn: "赛季还很漫长。" }] },
           { img: IMG_C4 },
           { sentences: [{ en: "They rest before the next game.", cn: "他们在下一场之前休息。" }] }] } },
-    /* 封面豁免（2026-09-20：AI 栏目接 Offbook 双语长文时加）。
-     * 必须**成对**测：只测「AI 无封面不报」的话，把整条 F3 封面判据删掉也会全绿；
-     * 只测「足球无封面必须报」的话，就测不出 AI 这一档到底有没有生效。 */
-    { want: null, note: "AI 栏目无封面（Offbook 源站无位图，走渐变）—— 不得判 F3 无封面图",
+    /* 封面豁免与收窄（2026-09-20 建豁免 → 2026-09-21 收窄 AI 这一档）。
+     * **三档必须同时在**，缺任何一档都会留下盲区：
+     *   · 豁免档（成长无封面不报）—— 证明「名单机制」本身还活着。删掉整个名单（所有栏目
+     *     都被要求配图）时，只有这一档会红。
+     *   · 收窄档（AI 无封面必须报）—— 证明 AI 真的被移出了名单。豁免宽成「什么栏目都放行」
+     *     时，只有这一档会红。
+     *   · 对照档（足球无封面必须报）—— 证明 F3 判据本身没被删。整条封面判据被删时，
+     *     收窄档与对照档都会红。
+     * 另有一条「AI 封面文件不存在」：收窄的真正意义不是「AI 得有封面字段」，
+     * 而是**图丢了要报** —— 只查字段非空的话，路径写错照样静默退回渐变。 */
+    { want: null, note: "豁免档：成长栏目无封面（专栏体，源站不给配图）—— 不得判 F3 无封面图",
+      art: { id: "qc-t-gr-nocover", cat: "成长", coverImg: "" } },
+    { want: "F3", wantMsg: "无封面图", note: "收窄档：AI 栏目无封面 —— 2026-09-21 起 5 篇已各配实图，必须判红",
       art: { id: "qc-t-aI-nocover", cat: "AI", coverImg: "" } },
-    { want: "F3", wantMsg: "无封面图", note: "足球栏目无封面 —— 豁免名单外的栏目必须照样判红",
+    { want: "F3", wantMsg: "封面文件不存在", note: "收窄档：AI 的 coverImg 指向不存在的文件 —— 必须判红（图丢了不能让渐变静默顶上）",
+      art: { id: "qc-t-aI-badcover", cat: "AI", coverImg: "assets/covers/definitely-missing-ob.jpg" } },
+    { want: "F3", wantMsg: "无封面图", note: "对照档：足球栏目无封面 —— 豁免名单外的栏目必须照样判红",
       art: { id: "qc-t-fb-nocover", cat: "足球", coverImg: "" } },
   ];
   const arts = SAMPLES.map(s => ({ ...DEFAULT, ...s.art, url: "https://example.com/" + s.art.id }));

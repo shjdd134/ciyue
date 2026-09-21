@@ -20,15 +20,15 @@
 | --- | --- |
 | 文章 | **19 篇 = 成长 4 + 人物 6 + 足球 4 + AI 5** |
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
-| 封面 | 66 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
+| 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`2568352`**（2026-09-21 22:0x，v70 手势守卫批次 + 探针路径归置） |
-| 资源版本 | `?v=70` · SW 缓存名 `wordlens-cache-v70` |
+| 资源版本 | `?v=71` · SW 缓存名 `wordlens-cache-v71` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
 | 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
 | 足球 4 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
-| AI 5 篇 | **Offbook Press 官方中英双语长文**（Dawei Geng，`ob-*`）：**一期一整篇**（`on-cognitive-decoupling` / `rebuilding-learning` / `breakdown-of-firms` / `mirage-of-form` / `teaching-and-training-disqualified`），`translation_type:"official"`、`pin:true`。**这条通道不翻译，只抽取**（源站自带官方中文），管线见 `tools/offbook.mjs` + `tools/lib-offbook.mjs`，守恒硬闸：入库 + 显式排除（正文末「引用与出处」章）= 源站全文。封面是渐变（源站无位图，取 `data-cover-*` 三色）。2026-09-21 之前是「按 h2 拆 43 篇」，现已回到源站原文单位 —— 节标题以 `<h2>/<h3 class="para para-head">` 回到正文（数据侧 `paras[i].head` 标 2/3），**这是修回来的内容**：拆篇时 h3 标题整批被丢掉（每期 22—47 个），守恒闸看不见（基准只取正文块，标题在 `head` 里） |
+| AI 5 篇 | **Offbook Press 官方中英双语长文**（Dawei Geng，`ob-*`）：**一期一整篇**（`on-cognitive-decoupling` / `rebuilding-learning` / `breakdown-of-firms` / `mirage-of-form` / `teaching-and-training-disqualified`），`translation_type:"official"`、`pin:true`。**这条通道不翻译，只抽取**（源站自带官方中文），管线见 `tools/offbook.mjs` + `tools/lib-offbook.mjs`，守恒硬闸：入库 + 显式排除（正文末「引用与出处」章）= 源站全文。**封面 2026-09-21 起用实图**（`assets/covers/ob-<slug>.jpg`，由 `tools/offbook.mjs` 的 `ESSAYS[].cover` 声明、生成时写进 `article.coverImg`），渐变降为兜底；**图缺了会 fatal 拒绝写盘**，不放任静默退回渐变。2026-09-21 之前是「按 h2 拆 43 篇」，现已回到源站原文单位 —— 节标题以 `<h2>/<h3 class="para para-head">` 回到正文（数据侧 `paras[i].head` 标 2/3），**这是修回来的内容**：拆篇时 h3 标题整批被丢掉（每期 22—47 个），守恒闸看不见（基准只取正文块，标题在 `head` 里） |
 | 寓言 | 入口保留，当前为空 |
 
 **「线上现在有什么」永远以远端树为准**（`node tools/tree-diff.mjs`）。本表只是索引 ——
@@ -609,6 +609,40 @@
 >     于是所有锚点失配、用例全废（`grep -c tapVetoed` = 0 才发现）。**正确顺序：先刷新 `*.ok.*` 为含本次改动的版本，
 >     再开始注入坏样本。** 恢复方式：重放那次编辑（守卫注释里有完整实测数据，重放后逐段核对）。
 >   - 收尾：`sw.js` 头注释换成 v70 主题；未改任何 CSS —— 这一批只动 `app.js` + `audit.js`。
+
+- **2026-09-21 晚（v71）AI 栏目封面由渐变改为实图** —— sekiro 提供 5 张主题插画（Codex 生成，
+  `20_56_11-1` … `20_56_26-5`），一期一张。
+  > - **配对不是猜的，两条独立证据链交叉验证**：① 文件名后缀 `-1`…`-5` 的顺序；
+  >   ② 图像语义 ↔ `ESSAYS[].issue` 顺序（半脑图=认知分化 issue1 / 书梯图=学习的重建 issue2 /
+  >   楼崩图=组织失效 issue3 / 人脸碎片=形式的虚像 issue4 / 教室图=教与训 issue5）。
+  >   两条链互不依赖却给出同一结果 —— 若结果不一致就必须问，不能挑一个。
+  > - **入口选在生成器里，不在生成产物里**：`tools/offbook.mjs` 的 `ESSAYS[].cover` 声明文件名，
+  >   生成时写进 `article.coverImg`（优先级：`coverImg` → `COVER_MAP` → 渐变，见 `app.js` `coverOf`）。
+  >   手改 `data-articles-extra.js` 会在下次重跑时被冲掉 —— 那是「自动生成，请勿手改」的文件。
+  >   ★ **缺图直接 `fatal` 拒绝写盘**，不用渐变兜底：那种失败「页面仍有封面、只是变了样子」，
+  >   没有任何报警，等发现时已经上线了。
+  > - **重跑幂等，diff 只多 5 行**（`.bak/data-articles-extra.pre-cover.js` 对照）：5 篇守恒全绿，
+  >   内容零变化，只新增 `coverImg` 5 行。这是「改生成器 = 改数据」这条路必须付的验证成本。
+  > - **图片规格**：原图 1536×1024 / 1672×941 PNG（2.1—2.5MB）→ 720px 宽 JPEG q82 progressive，
+  >   60—74KB（与既有封面同量级）。**没跑 `tools/img-post.py` 整目录** —— 它会把 66 张既有封面
+  >   全部重压一遍，产生无谓的发布差异。
+  > - ★ **qc 的「AI 免封面」豁免同步收窄**：`NO_COVER_CATS` 里 `AI` 已移除。原豁免理由是
+  >   「Offbook 源站根本没有位图封面」（og:image 是通用图、正文无 `<img>`，只有 `data-cover-*`
+  >   三色可推渐变）—— **这个前提被这 5 张图推翻了**。前提变了豁免就得收窄，否则哪天漏配一张
+  >   就是静默退回渐变。判据现在是「源站有没有位图」，不是「这个栏目重要不重要」。
+  > - 守卫：`qc-test` 20 → **22 通过 / 0 失败**，封面用例改成**三档同在**（豁免档：成长无封面不报 ·
+  >   收窄档：AI 无封面必须报 + AI 封面文件不存在必须报 · 对照档：足球无封面必须报）。
+  >   缺任何一档都有盲区：删掉整条 F3 判据时只有后两档会红；豁免宽成「任何栏目都放行」时也只有后两档会红；
+  >   而**把豁免整个删掉**（成长也被要求配图）时只有豁免档会红。
+  > - 负向测试 **2 组**：A 把 `AI` 加回 `NO_COVER_CATS` → 收窄档精确红 2 条、其余 20 条不连坐；
+  >   B 把名单整个清空 → 豁免档红 1 条。均还原后逐字节一致。
+  > - **渲染眼见为实**（`.bak/shot-ai-covers.cjs` → `.bak/shot-ai-covers-all.png`）：AI 筛选下 5 张卡
+  >   全部出实图，逐张核对 `img.naturalWidth = 720`（位置对但图裂了同样是失败，截图缩略后看不出来）。
+  > - `publish --dry`：**引用 71 张 · 孤儿 0 张 · 缺失 0 张**（66 → 71）。快照本来就整目录覆盖
+  >   `assets/covers/`，封面无快照缺口。
+  > - 改动面：`tools/offbook.mjs`（ESSAYS + 缺图 fatal）· `assets/data-articles-extra.js`（coverImg×5）·
+  >   `assets/covers/ob-*.jpg`（新 5 张）· `tools/qc.mjs` + `tools/qc-test.mjs`（豁免收窄）· 版本 v71。
+  >   **未改任何前端 JS/CSS** —— 前端本来就支持 `coverImg`，这一批只是把数据补上。
 
 ### 0.3 机制速查（不随批次变）
 

@@ -128,16 +128,18 @@ for (const a of ARTICLES) {
 
   /* F3 封面。允许无封面的栏目（判据是**源站有没有位图**，不是「这个栏目不重要」）：
    *   寓言 / 成长 —— 专栏体，源站不给配图；
-   *   明星 —— 另有更强的「正文配图门槛」（meetsImageGate，≥6 张），不靠封面兜底；
-   *   AI —— Offbook Press 双语长文（tools/offbook.mjs）。该站**根本没有位图封面**：
-   *         og:image 是通用的 /og/default.png，正文里一个 <img> 都没有；它的「封面」是
-   *         hero 区那块 WebGL 立体书，官方把正封/书脊/封底三色写在 data-cover-* 属性里。
-   *         所以封面只能走渐变 —— 而渐变正是 app.js coverOf() 的官方回退路径，
-   *         且这里用的是**原书本色**（不是随便挑的颜色）。
-   *         2026-09-20 实测：43 篇逐篇报 F3，而它们恰恰是唯一不该被要求位图的来源。
-   * ★ 往这个名单加栏目要同时改 tools/qc-test.mjs 的负向测试（「AI 无封面不报」+「足球无封面必须报」
-   *   一对），否则「豁免」会顺手把真的漏图一起放过去。 */
-  const NO_COVER_CATS = new Set(["寓言", "成长", "明星", "AI"]);
+   *   明星 —— 另有更强的「正文配图门槛」（meetsImageGate，≥6 张），不靠封面兜底。
+   *
+   * ★ AI 栏目 2026-09-21 **移出**本名单。原豁免理由是「Offbook Press 根本没有位图封面」
+   *   （og:image 是通用图、正文无 <img>，只有 data-cover-* 三色可推导渐变）—— 这个前提
+   *   已经被推翻：5 篇现各配一张主题插画（assets/covers/ob-*.jpg，在 tools/offbook.mjs
+   *   的 ESSAYS[].cover 里声明，由 offbook.mjs 写进 article.coverImg）。
+   *   前提变了豁免就得收窄 —— 否则哪天漏配一张，页面会**静默退回渐变**：
+   *   看上去仍有封面，只是换了样子，没有任何报警。
+   * ★ 改这个名单要同时改 tools/qc-test.mjs，且**三档都要在**：豁免档（成长无封面不报）、
+   *   收窄档（AI 无封面必须报）、对照档（足球无封面必须报）。少任何一档，
+   *   「把整条 F3 判据删掉」或「豁免宽到吃掉真漏图」都能全绿。 */
+  const NO_COVER_CATS = new Set(["寓言", "成长", "明星"]);
   if (!NO_COVER_CATS.has(a.cat)) {
     const cover = a.coverImg || COVER_MAP[a.id] || "";
     if (!cover) F.push("F3 无封面图");

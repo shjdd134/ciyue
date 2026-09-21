@@ -8,14 +8,14 @@
 <meta name="description" content="词阅 WordLens —— 四级词库查义 + 英文原刊双语阅读">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>词阅 WordLens · 四级词库 + 双语阅读</title>
-<link rel="manifest" href="manifest.webmanifest?v=70">
+<link rel="manifest" href="manifest.webmanifest?v=71">
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/icons/icon-192.png" sizes="192x192" type="image/png">
 <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 <!-- 自托管拉丁字体：中文正文走系统字体，只有 DM Sans / Inter Tight 的拉丁字形从这里加载 -->
-<link rel="stylesheet" href="assets/fonts.css?v=70">
-<link rel="stylesheet" href="assets/styles.css?v=70">
-<link rel="stylesheet" href="assets/editorial.css?v=70">
+<link rel="stylesheet" href="assets/fonts.css?v=71">
+<link rel="stylesheet" href="assets/styles.css?v=71">
+<link rel="stylesheet" href="assets/editorial.css?v=71">
 </head>
 <body>
   <div class="phone">
@@ -27,30 +27,30 @@
 
   <!-- defer：1.7MB 数据不再阻塞 HTML 解析；按书写顺序在 DOM 就绪后执行，
        app.js 依赖的全局（ARTICLES / WORDS / KEYWORDS / COVER_MAP）依旧可见 -->
-  <script defer src="assets/data.js?v=70"></script>
-  <script defer src="assets/data-config.js?v=70"></script>
-  <script defer src="assets/data-words-bulk-a.js?v=70"></script>
-  <script defer src="assets/data-words-full.js?v=70"></script>
+  <script defer src="assets/data.js?v=71"></script>
+  <script defer src="assets/data-config.js?v=71"></script>
+  <script defer src="assets/data-words-bulk-a.js?v=71"></script>
+  <script defer src="assets/data-words-full.js?v=71"></script>
   <!-- 中学基础层：核心库默认你会了、实际却没收的 2068 个中学词（必须排在 app.js 之前） -->
-  <script defer src="assets/data-words-mid.js?v=70"></script>
+  <script defer src="assets/data-words-mid.js?v=71"></script>
   <!-- CET-4 完整大纲词表（4544 词）：只服务「词汇高亮范围」的「全部四级」档，
        不参与查词 —— 高亮范围与查词范围是两件事（见 app.js 的 highlightSet） -->
-  <script defer src="assets/data-words-cet4.js?v=70"></script>
-  <script defer src="assets/data-articles-extra.js?v=70"></script>
-  <script defer src="assets/data-articles-archive.js?v=70"></script>
-  <script defer src="assets/data-covers.js?v=70"></script>
-  <script defer src="assets/data-article-metrics.js?v=70"></script>
+  <script defer src="assets/data-words-cet4.js?v=71"></script>
+  <script defer src="assets/data-articles-extra.js?v=71"></script>
+  <script defer src="assets/data-articles-archive.js?v=71"></script>
+  <script defer src="assets/data-covers.js?v=71"></script>
+  <script defer src="assets/data-article-metrics.js?v=71"></script>
   <!-- 真实例句（560KB）不在首屏：它只在词卡展开「更多」后才用得上，
        改由 app.js 的 ensureExamples() 动态取（见 assets/app.js） -->
   <!-- ECDICT 四级词元数据：词频排序 / 权威词形表（必须在 app.js 之前） -->
-  <script defer src="assets/data-ecdict.js?v=70"></script>
+  <script defer src="assets/data-ecdict.js?v=71"></script>
   <!-- 点词翻译层在进入阅读页后由 app.js 按需加载，首屏不再下载 3MB 大表。 -->
   <!-- 常见词表：判断词库外的词算不算陌生（生成产物，必须在 app.js 之前） -->
-  <script defer src="assets/data-wordfreq.js?v=70"></script>
+  <script defer src="assets/data-wordfreq.js?v=71"></script>
   <!-- 文章级补充词典（9.6KB）：ECDICT 里没有语料词频的那批功能词
        （are / an / don't / you're / i'm…），它们恰恰是正文里最高频的词。
        随首屏加载，不进 TAPDICT 的懒加载队列。新增文章后需重跑生成脚本。 -->
-  <script defer src="assets/data-articles-words.js?v=70"></script>
-  <script defer src="assets/app.js?v=70"></script>
+  <script defer src="assets/data-articles-words.js?v=71"></script>
+  <script defer src="assets/app.js?v=71"></script>
 </body>
 </html>
