@@ -21,7 +21,7 @@
 | 文章 | **19 篇 = 成长 4 + 人物 6 + 足球 4 + AI 5** |
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
-| 发布基线 | `.bak/published.json` = **`a61400a`**（2026-09-21 22:10，v71 AI 栏目封面实图批次） |
+| 发布基线 | `.bak/published.json` = **`72db9bf`**（2026-09-21 22:52，v72 朗读层重写批次） |
 | 资源版本 | `?v=72` · SW 缓存名 `wordlens-cache-v72` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
@@ -643,6 +643,53 @@
   > - 改动面：`tools/offbook.mjs`（ESSAYS + 缺图 fatal）· `assets/data-articles-extra.js`（coverImg×5）·
   >   `assets/covers/ob-*.jpg`（新 5 张）· `tools/qc.mjs` + `tools/qc-test.mjs`（豁免收窄）· 版本 v71。
   >   **未改任何前端 JS/CSS** —— 前端本来就支持 `coverImg`，这一批只是把数据补上。
+
+- **2026-09-21 深夜（v72）朗读层重写** —— sekiro 反馈「朗读效果太差」，查下来不是引擎差，
+  是**代码压根没挑语音**。原 `speak()` 只有 11 行：
+  ```js
+  const u = new SpeechSynthesisUtterance(t);
+  u.lang = S.accent || "en-US";   // 只给了这个
+  speechSynthesis.speak(u);        // rate / voice 全是系统默认
+  ```
+  > - **根因（两条实测证据，不是推断）**：`u.lang` 只是给浏览器的**提示**，它据此自行从系统
+  >   语音表里挑 voice。① `speechSynthesis.getVoices()` 实测只返回 3 个、**全是 zh-CN**
+  >   （`.bak/probe-voices.cjs`）；② 注册表 `Speech_OneCore\Voices\Tokens` 同样只有 3 个中文包
+  >   （`Language=804`），英文 Zira 只注册在**老的** `Speech\Voices\Tokens`（SAPI5）里，
+  >   而 Chromium 不读那一套。于是请求 `en-US` 却挑不到任何英语 voice，浏览器拿默认
+  >   （中文）voice 去念英文 —— 更糟的是 **`onerror` 对「用错语言的 voice 念」不触发**，
+  >   用户只听到难听、拿不到任何线索。手机中文系统同理：默认 voice 跟系统语言走。
+  > - **四条改动**（`assets/app.js`）：① `pickVoice()` 按 `lang` + 名字线索打分主动挑，
+  >   判据**只看语言与名字特征、不钉具体 voice 名** —— iOS 是 Samantha/Daniel、Android 是
+  >   Google US English、桌面 Edge 是 Aria Online (Natural)，三套列表完全不同，写死名字换台设备就失效；
+  >   ② 语速三档（`S.rate`，0.72/0.9/1.05，单词再慢 0.08）—— 原先吃浏览器默认 1.0，精读跟读偏快；
+  >   ③ 全文朗读改**分句串行队列**（`onend` 推进）—— 原先是 `join(" ")` 把整篇塞进**一条**
+  >   utterance（实测该篇正文 **209 句**），长文会被引擎中途掐断且无法暂停续读；
+  >   ④ `#fab-bar` 朗读态：进度 `n/N` + 暂停/继续 + 停止（**复用同一个浮层**，不新起控制栏 ——
+  >   fab-bar 本身已经会挡住进页第一句，再叠一条只会更糟）。暂停用「记住序号 + cancel + 重播该句」，
+  >   不用 `speechSynthesis.pause()`：iOS Safari 的 pause/resume 不可靠，自管队列才跨平台一致。
+  > - **`pickVoice` 的关键一行**：`if (!vl.startsWith("en")) continue;` —— 非英语语音一律不进候选，
+  >   宁可挑不到（上层弹「未找到英文语音包」）也**不退回中文 voice**。这一条就是根因所在。
+  > - **守卫 284 → 299**（`tools/audit.js`）：挑语音跳过非英语 / 无英语时返回 null / 同语言优先神经合成 /
+  >   口音精确匹配 / 挑中的 voice 真挂到 utterance / 语速 <1 / 单词更慢 / 缺语音时明确提示 /
+  >   队列覆盖全文句数 / 逐句推进 / 停止清状态 / 暂停后迟到 onend 不推进 / 朗读态 CSS 两条。
+  >   沙箱补了 `speechSynthesis.getVoices`，并修了一个**老问题**：沙箱里 `window` 是替身对象，
+  >   `window.speechSynthesis` 一直取不到 —— `if (!window.speechSynthesis)` 恒为真，
+  >   **朗读分支从来没被测过**（旧 `speak()` 也死在那一行）。现已显式挂上。
+  > - **负向测试 6 组**（`z1`–`z6`，见 `.bak/neg.mjs`）；其中两组暴露了**我自己写的假守卫**并当场收紧：
+  >   ① 「跳过非英语」原来用 `Huihui vs Google US English` 造局面 —— 英语精确匹配天然拿 100 分，
+  >   随便摆个中文语音进去永远选不中它，`z1` 注入后这条纹丝不动；改成「名字带 Natural 的中文语音
+  >   （102 分）vs 口音不精确的英语语音（80 分）」才测得出来。② 「逐句推进」在队列长度 = 1 时
+  >   `spSteps = min(3, 0) = 0`，断言退化成恒真；加 `spSteps > 0 &&` 修掉。
+  > - **真浏览器探针**（`.bak/probe-speechbar.cjs` → `.bak/shot-speech-bar.png`）：点朗读全文后
+  >   `.fab-bar.speaking` 生效、三个工具按钮 `display:none`、进度显示 **`1/209`**；
+  >   暂停 → `.paused` 且图标切换；停止 → 完全复位。探针同时**印证了根因**：
+  >   toast 如实弹出「未找到英文语音包 · 朗读可能失真」（旧代码在这里会静默用中文声念英文）。
+  > - ⚠️ **真机（手机）行为未验证** —— 桌面只有 Playwright 的 Edge，iOS Safari 的
+  >   `voiceschanged` 不触发、`speechSynthesis` 在无用户手势时静默失败这些差异测不到，
+  >   需要 sekiro 在手机上实听一次。
+  > - 改动面：`assets/app.js` · `assets/styles.css`（朗读态控制条）· `tools/audit.js` ·
+  >   `sw.js` 头注释换 v72 主题 · 版本 v72。**未改任何数据** —— `publish --dry` 引用 71 张封面、
+  >   孤儿 0、缺失 0。
 
 ### 0.3 机制速查（不随批次变）
 
