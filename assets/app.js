@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "67");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "68");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -2805,11 +2805,39 @@ document.addEventListener("click", e => {
        *            存在的全部理由：纯英文阅读时不该被中文打断。
        *   all 档 → 中文本来就在，不必 peek。 */
       const on = !t.classList.contains("sel");
+      /* ★ 保持所点句不动。切句 = 收起上一句译文 + 展开本句译文，而浏览器的滚动锚定
+       *   锚的是视口内**第一个**元素（往往不是用户刚点的那句），于是所点句被上方
+       *   收起的那块译文带着往上跳。实测（2026-09-21 Edge 390×844，hasTouch，
+       *   people-anne-hathaway-mother-mary）：第 20 句在 119px、第 24 句在 575px，
+       *   点第 24 句后它自己上移 **96px** —— 正好等于第 20 句那块译文的高度。
+       *   另两个场景实测位移都是 0，所以这个补偿只在「所点句真的动了」时生效：
+       *     · 单句展开：译文是该句的兄弟节点、挂在它之后，不影响该句自身 → 0px
+       *     · 展开屏外上方的句子：scrollTop 已被浏览器锚定补了 96px → 跟随句 0px
+       *   于是不会与浏览器的锚定打架、也不会双重位移（计划 §3 特意提醒过这点）。
+       *   锚点来源必须是**用户点的这一句**，不能用 readAnchor() —— 后者取的是视口上部
+       *   1/4 处「正在读的句」，那是给字号/对照切换用的，切句时它多半不是所点句。
+       *   .peek 的展开只动 opacity/transform（peekIn 关键帧），布局在加 class 那一刻
+       *   就已定，所以可以同步量、同步补，不需要等一帧。 */
+      const cont = $("#read-scroll");
+      const anc = (cont && cont.getBoundingClientRect && t.getBoundingClientRect)
+        ? (() => {
+            const r = t.getBoundingClientRect(), c = cont.getBoundingClientRect();
+            const rel = r.top - c.top;
+            /* 只对「用户看得见的那句」补偿。屏外句也能被程序化展开（探针在测），
+             * 那种情况下浏览器自己的滚动锚定已经处理好了（实测 scrollTop +96px），
+             * 应用层再插一手反而把它的补偿挤掉 —— 实测过：改前跟随句 0px，
+             * 加补偿后变成 96px。真实用户点不到看不见的句子，这条分支只为让
+             * 探针的 B 场景保持原行为，同时说明「为什么不能无脑补」。 */
+            if (rel < -8 || rel > (cont.clientHeight || 0) + 8) return null;
+            return { pi: +t.dataset.pi || 0, si: +t.dataset.si || 0, off: rel };
+          })()
+        : null;
       $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
       if (on) {
         t.classList.add("sel");
         if (S.cnMode === "tap") t.classList.add("peek");
       }
+      if (anc) applyAnchor(cont, anc);
       break;
     }
     /* 段级「本段对照」（case "para-cn"）2026-09-19 随按钮一起删除：

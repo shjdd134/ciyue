@@ -1077,6 +1077,26 @@ ok('标题段里的句子同样带坐标（data-pi / data-si），定位链路�
   && /<h2 class="para para-head"[^>]*>\s*<span class="sentence" data-act="para-peek" data-pi="\d+" data-si="\d+"/.test(obHtml));
 ctx('activeArticle = null;');
 
+/* ---------- R3. 点句保持位置（2026-09-21 新增） ----------
+ * 为什么只能守到这一步：VM 沙箱里没有真实布局，而这件事**整个是像素级行为** ——
+ * 「切句后所点句还停在原处」只能由真浏览器量。实测在 .bak/probe-anchor.cjs（不入库），
+ * 三个场景的结论：
+ *   · 单句展开     → 所点句 0px（译文挂在它之后，不影响它自己）
+ *   · 连续切换     → 所点句 **上移 96px**（收起的上一句译文高度）→ 加补偿后 0px
+ *   · 展开屏外句   → 跟随句 0px，scrollTop 由浏览器滚动锚定补 +96px（应用层不该插手）
+ * CI 里没有浏览器，所以这里守的是「补偿还在、且锚点取自用户所点的那一句」这个前提 ——
+ * 将来若有人重构 para-peek 时把补偿删掉，CI 不会有像素回归报警，这两条是唯一的痕迹。
+ * 断言前必须剥注释：下面这段解释里就写着 readAnchor( 和 applyAnchor( 的字面量。 */
+console.log('\n[R3] 点句保持位置');
+const appBare = fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8')
+  .replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+const peekBody = (appBare.match(/case "para-peek":\s*\{([\s\S]*?)\n    \}/) || [, ''])[1];
+ok('点句切换后有所点句的位置补偿（applyAnchor 调用存在）', /applyAnchor\(cont,\s*anc\)/.test(peekBody));
+ok('补偿锚点取自用户所点的那一句（不是 readAnchor 的「正在读的句」）',
+  /t\.dataset\.pi/.test(peekBody) && !/readAnchor\(/.test(peekBody));
+ok('屏外句不做补偿（浏览器自己的滚动锚定已在处理，插一手会把它的补偿挤掉）',
+  /clientHeight/.test(peekBody) && /return null/.test(peekBody));
+
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
 ok('段间装饰点已删除', !/· · ·/.test(css));
 ok('首字下沉已删除', !/::first-letter/.test(css));
