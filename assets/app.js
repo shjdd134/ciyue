@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "69");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "70");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -2615,7 +2615,53 @@ function render() {
 }
 
 /* ---------------- 事件 ---------------- */
+
+/* ---- 手势守卫：只管否决，不新增入口 ----
+ * 阅读页的动作全部由 click 执行一次（点词=查义、点句=看译文、点喇叭=朗读）。
+ * 问题在于 click 分不清「点一下」和「按完又动了 / 按太久」。实测
+ * （2026-09-21 Edge 390×844，hasTouch，CDP 真实触摸序列，见 .bak/probe-jitter2.cjs）：
+ *   · 按下后手指竖向抖动 ≤12px → Chromium **照样发 click**（12px 发、16px 不发）。
+ *     于是「想滚动」变成「弹出词卡/译文」—— 浏览器自己的 touch-slop 只管 12—16px
+ *     那一段，下面这段它放行。
+ *   · **长按 700ms 松手 → 浏览器照发 click**（实测 click=1），完全不拦。
+ *     于是「长按选词准备复制」变成「弹出词卡」。这条是纯亏：浏览器不管，只有应用层能拦。
+ * 所以这里只做否决（计划 §3 第 4 条：不同时用 pointerup 和 click 各执行一遍动作，
+ * 事件链只有一个最终激活入口）。动作仍然只从 click 走一次，这个守卫只在 click
+ * 到来时决定要不要丢掉它。
+ * 键盘与读屏不受影响：那条路径不产生指针序列、也不带指针的 detail，
+ * 守卫按「无序列 → 放行」处理（计划 §3 第 3 条要求不破坏键盘与读屏触发）。 */
+const TAP_MOVE_PX = 10;     // 实测浏览器 slop 落在 12—16px，取其下一档，覆盖 10—15px 的模糊带
+const TAP_HOLD_MS = 500;    // 长按 = 选词意图；与系统触发文本选择的时间量级一致
+let tapGuard = null;        // { x, y, t, isTouch, veto }
+
+document.addEventListener("pointerdown", e => {
+  /* 多指手势（缩放）的第一指之外，一律标记否决 —— 实测双指本就不发 click，
+   * 这条是保险，防的是某些输入法/辅助设备只发部分指针序列。 */
+  if (!e.isPrimary) { if (tapGuard) tapGuard.veto = true; return; }
+  if (e.pointerType === "mouse" && e.button !== 0) { tapGuard = null; return; }
+  tapGuard = { x: e.clientX, y: e.clientY, t: Date.now(), isTouch: e.pointerType !== "mouse", veto: false };
+}, true);
+
+document.addEventListener("pointermove", e => {
+  if (!tapGuard || tapGuard.veto) return;
+  const dx = e.clientX - tapGuard.x, dy = e.clientY - tapGuard.y;
+  if (dx * dx + dy * dy > TAP_MOVE_PX * TAP_MOVE_PX) tapGuard.veto = true;
+}, { capture: true, passive: true });
+
+document.addEventListener("pointercancel", () => { if (tapGuard) tapGuard.veto = true; }, true);
+
+/* 这次 click 该不该丢。无论结果都清掉序列 —— 残留的守卫会误伤下一次键盘点击。 */
+function tapVetoed(ev) {
+  const g = tapGuard;
+  tapGuard = null;
+  /* 键盘 / 读屏 / 程序触发（ev.detail === 0，或根本没有指针序列）一律放行。
+   * 鼠标只判移动：按住鼠标瞄准再点、拖选文本后松开都是正常操作，不该被「长按」误杀。 */
+  if (!g || !(ev.detail > 0)) return false;
+  return g.veto || (g.isTouch && Date.now() - g.t > TAP_HOLD_MS);
+}
+
 document.addEventListener("click", e => {
+  if (tapVetoed(e)) return;
   const t = e.target.closest("[data-act],[data-tab],[data-article],[data-cat]");
   if (!t) return;
 

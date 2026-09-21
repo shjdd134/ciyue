@@ -1097,6 +1097,84 @@ ok('补偿锚点取自用户所点的那一句（不是 readAnchor 的「正在�
 ok('屏外句不做补偿（浏览器自己的滚动锚定已在处理，插一手会把它的补偿挤掉）',
   /clientHeight/.test(peekBody) && /return null/.test(peekBody));
 
+/* ---- [R4] 手势守卫：移动 / 长按的指针序列不得触发正文动作 ----
+ * 起因（2026-09-21 Edge 390×844，CDP 真实触摸序列，见 .bak/probe-jitter2.cjs 与
+ * .tmp/probe-longpress.cjs）：手指按下后抖动 ≤12px 时 Chromium **照样发 click**；
+ * 长按 700ms 松手更是一点都不拦（实测 click=1）。于是「想滚动」「想长按选词复制」
+ * 都会变成「弹出词卡 / 弹出译文」。
+ * 这里做**行为**断言：模拟一整条指针序列，看正文到底有没有被触发 —— 不去读
+ * TAP_MOVE_PX 等于几（计划 §3 明说「8—12px 是调参起点，不是标准」，钉死具体数
+ * 会让以后调参变成假红），只守「有否决」和「不误伤」这两件意图。 */
+console.log('\n[R4] 手势守卫（防误触）');
+vm.runInContext('var __realNow = Date.now;', sandbox);
+const firePointer = (type, ev) => (captureHandlers[type] || []).forEach(f => f(ev));
+const ptr = o => Object.assign({ isPrimary: true, pointerType: 'touch', clientX: 0, clientY: 0, button: 0 }, o);
+/* 句子桩：只观测 .sel —— para-peek 能被看见的副作用就是它。
+ * data-act 必须带上：不带就进不了 switch 的 para-peek 分支，所有「预期不触发」的
+ * 用例都会因为「压根没跑」而假绿 —— 这一版就是这么翻车的，「正常点击」那条正向
+ * 对照把它抓了出来。凡是「预期为假」的守卫，都必须配一条「预期为真」的对照。 */
+function mkGuardSent() {
+  const cls = new Set();
+  const el = {
+    dataset: { act: 'para-peek', pi: '0', si: '0' },
+    classList: {
+      add: c => cls.add(c), remove: c => cls.delete(c),
+      toggle: (c, on) => (on ? cls.add(c) : cls.delete(c)), contains: c => cls.has(c),
+    },
+    _cls: cls,
+  };
+  el.closest = () => el;
+  return el;
+}
+/* 跑一整条序列：pointerdown →（可选）pointermove → click。
+ * holdShift 用于把沙箱时钟往前拨，模拟「按住很久」，避免真等半秒。 */
+const tapSeq = (el, o = {}) => {
+  const { dy = 0, holdShift = 0, pointerType = 'touch', detail = 1, isPrimary = true } = o;
+  el._cls.clear();
+  firePointer('pointerdown', ptr({ pointerType, isPrimary }));
+  if (dy) firePointer('pointermove', { clientX: 0, clientY: dy });
+  if (holdShift) ctx(`Date.now = () => __realNow() + ${holdShift};`);
+  try {
+    handlers.click({ target: el, detail, stopPropagation: noop });
+  } finally {
+    if (holdShift) ctx('Date.now = __realNow;');
+  }
+  return el._cls.has('sel');
+};
+const gSent = mkGuardSent();
+ctx('activeArticle = ARTICLES[0]; view = { name: "read" }; S.cnMode = "tap";');
+ok('★ 正常点击照常执行（守卫没把正常点句一起拦掉）', tapSeq(gSent) === true);
+ok('★ 抖动超过阈值的序列不再触发正文动作（≤12px 时浏览器放行，这一段只有应用层能挡）',
+  tapSeq(gSent, { dy: 40 }) === false && tapSeq(gSent, { dy: -14 }) === false);
+ok('★ 触摸长按不再触发正文动作（长按＝选词意图；浏览器对长按后的 click 完全不拦）',
+  tapSeq(gSent, { holdShift: 6000 }) === false);
+ok('鼠标按住很久再点仍算点击（不是「长按选词」那种场景，不能误杀）',
+  tapSeq(gSent, { holdShift: 6000, pointerType: 'mouse' }) === true);
+/* 这条必须构造「序列本身已带否决」的情形：键盘来的 click 是在残留指针序列之后到达的，
+ * 若守卫只看序列、不看 detail，读屏与键盘用户就会整体失效。不带 veto 的版本测不出这一点
+ * —— 它连「去掉 detail 判断」这个坏样本都抓不住（照样绿）。 */
+ok('★ 键盘 / 读屏触发的 click 不被守卫挡住（序列即使已带否决，无指针 detail 也要放行）',
+  (() => {
+    gSent._cls.clear();
+    firePointer('pointerdown', ptr({}));
+    firePointer('pointermove', { clientX: 0, clientY: 40 });
+    handlers.click({ target: gSent, detail: 0, stopPropagation: noop });
+    return gSent._cls.has('sel') === true;
+  })());
+ok('多指手势（第二指落下）不触发正文动作', (() => {
+  gSent._cls.clear();
+  firePointer('pointerdown', ptr({}));                                              // 第一指
+  firePointer('pointerdown', ptr({ isPrimary: false, clientX: 50, clientY: 60 }));  // 第二指
+  handlers.click({ target: gSent, detail: 1, stopPropagation: noop });
+  return gSent._cls.has('sel') === false;
+})());
+ok('移动阈值落在可调区间（既不是 0、也不是大到永不生效）', (() => {
+  const m = appBare.match(/TAP_MOVE_PX\s*=\s*([\d.]+)/);
+  return !!m && +m[1] >= 4 && +m[1] <= 20;
+})());
+ctx('activeArticle = null;');
+
+
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
 ok('段间装饰点已删除', !/· · ·/.test(css));
 ok('首字下沉已删除', !/::first-letter/.test(css));

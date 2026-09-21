@@ -33,6 +33,12 @@ tools/_aesop-raw.html
 # 本地工作区/会话目录（agent 记忆、计划稿），仓库公开，不入库
 .zcode/
 .workbuddy/
+# .qoder/ 是 Qoder 生成的 repowiki 知识库（2026-09-21 实测 3.5MB / 185 个文件、无任何引用），
+# 与 .zcode 同类。此前一直挂在 tree-diff 的 onlyLocal 里刷 185 行，把真正的漂移淹掉。
+.qoder/
+# .trae/ 同理（Trae 的本地工作区文档）。只忽略这两个 IDE 目录，不动 outputs/ 与根目录文档 ——
+# 那些是内容与计划稿，归属别处，是否入库由人决定，不由这条规则替它决定。
+.trae/
 
 # 本地专用产物（个人偏好清单、私人备注）—— 统一后缀 *.local.*。
 # 仓库是 public，GitHub Pages 还直接以 200 提供整个仓库根目录 → 推上去就等于公开。
