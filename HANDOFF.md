@@ -582,7 +582,7 @@
 >     遮罩是 `position:absolute; inset:0` 全屏覆盖，点它命中 `data-act="close-sheet"` 后即 `break`。
 >     实测（390×844）点遮罩上部 / 正文另一处两次，`sheet→0` 且 `sel`/`peek`/`tapped` **全为 0**。
 >     ⚠️ 教训：计划里的表格是**期望行为清单**，不是缺陷报告 —— 动手前先验，否则会去「修」一个不存在的东西。
->   - **真问题在计划 §3 第 2/3 条点名的那两处**（`.bak/probe-jitter2.cjs` + `.tmp/probe-longpress.cjs`，CDP 真实触摸序列）：
+>   - **真问题在计划 §3 第 2/3 条点名的那两处**（`.bak/probe-jitter2.cjs` + `.bak/probe-longpress.cjs`，CDP 真实触摸序列）：
 >     · **抖动 ≤12px 浏览器照样发 click**（细步长复核：12px 发、16px 不发 → Chromium 的 touch-slop 落在 12—16px），
 >       于是「想滚动」变成「弹出词卡 / 弹出译文」；
 >     · **长按 700ms 松手，浏览器完全不拦**（实测 `click=1`，且无 `pointercancel`），
