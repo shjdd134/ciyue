@@ -16,13 +16,22 @@ import path from "node:path";
 /* 参与快照的文件，路径相对仓库根 —— 注意 sw.js 在根目录而不是 assets/，
  * 老版 daily.mjs 用 path.join(ASSETS, "sw.js") 备份，文件不存在被静默跳过，
  * 等于 sw.js 从来没进过回滚范围。这里统一用仓库相对路径，杜绝再次踩坑。
- * 词库类大数据不在此列（不由每日管线改写）。 */
+ * 词库类大数据不在此列（不由每日管线改写）—— 唯一破例是 `data-articles-words.js`：
+ * 它名字像词库，其实是**由当前文章语料派生的构建产物**（ECDICT 里 frq=0 的功能词，
+ * 如 are / an / don't / you're，实测 225 词 / 19KB），每加一篇文章都该重跑
+ * `build-articles-words.mjs` 重算，而且 `index.html` 直接加载它。
+ * 2026-09-21 之前它不在本清单里，后果有两层：①`publish.mjs` 的推送清单只由
+ * 本清单 + covers 决定 → `--manifest auto` 不含它，每加一篇文章都要靠人记得显式 `--files`；
+ * ②`before/` 不备份它 → 回滚后「正文回到旧版、词典仍是新版」，而回滚的意思是回到从前。
+ * （实测它与发布基线 sha 一致，说明显式带过；但「靠人记得」不是机制。）
+ * 加进来的代价是每批次多备 19KB，可忽略。 */
 export const SNAPSHOT_FILES = [
   "assets/data-articles-extra.js",
   "assets/data-covers.js",
   "assets/data-examples.js",
   "assets/data-source-health.js",
   "assets/data-article-metrics.js",
+  "assets/data-articles-words.js",
   "sw.js",
 ];
 /* 快照内的图片目录（仓库相对） */
