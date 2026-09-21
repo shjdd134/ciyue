@@ -21495,10 +21495,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-1--four-phenomena",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -21508,7 +21508,7 @@ const ARTICLES_EXTRA = [
     "chapter": 1,
     "sourceTextWords": 1349,
     "sourceParagraphs": 25,
-    "sourceSentences": 81,
+    "sourceSentences": 43,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -21537,24 +21537,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Most of the AI-related content you see on Instagram, Substack, or X each day is produced like this.",
-            "cn": "每天打开小红书、公众号、X 的时候看到的 AI 相关内容，大部分是这样生产出来的："
-          },
-          {
-            "en": "A piece of primary material, whether a paper, a snippet of code, an experiment result, or some practitioner’s firsthand observation, is summarised once by an account using an LLM.",
-            "cn": "原始信息——一篇论文、一段代码、一次实验结果、某个从业者的一手观察——先被某个账号用 AI 初次总结；"
-          },
-          {
-            "en": "Then a marketing account picks it up and gives it a hook-shaped headline.",
-            "cn": "然后被另一个营销号挑选并加上一个留住注意力的钩子标题；"
-          },
-          {
-            "en": "Then the next account’s LLM rewrites it in its own voice.",
-            "cn": "然后被下一个账号用 AI 再重新加工成自己语气的版本；"
-          },
-          {
-            "en": "Then it is pushed to the end reader.",
-            "cn": "最后推送到终端读者面前。"
+            "en": "Most of the AI-related content you see on Instagram, Substack, or X each day is produced like this. A piece of primary material, whether a paper, a snippet of code, an experiment result, or some practitioner’s firsthand observation, is summarised once by an account using an LLM. Then a marketing account picks it up and gives it a hook-shaped headline. Then the next account’s LLM rewrites it in its own voice. Then it is pushed to the end reader.",
+            "cn": "每天打开小红书、公众号、X 的时候看到的 AI 相关内容，大部分是这样生产出来的：原始信息——一篇论文、一段代码、一次实验结果、某个从业者的一手观察——先被某个账号用 AI 初次总结；然后被另一个营销号挑选并加上一个留住注意力的钩子标题；然后被下一个账号用 AI 再重新加工成自己语气的版本；最后推送到终端读者面前。"
           }
         ]
       },
@@ -21569,28 +21553,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is the rumination chain.",
-            "cn": "这就是反刍链。"
-          },
-          {
-            "en": "At every layer, three things happen at once.",
-            "cn": "每经过一层，三件事同时发生："
-          },
-          {
-            "en": "Information density drops, as details, caveats, and uncertainty are eaten by summarisation.",
-            "cn": "信息密度下降（细节、条件、不确定性被摘要吃掉），"
-          },
-          {
-            "en": "Error accumulates, because every pass introduces small distortions that reinforce each other over multiple layers.",
-            "cn": "误差累积（每次总结都会引入小偏差，多层之后还会相互强化），"
-          },
-          {
-            "en": "Emotional intensity rises, because every handler has to crank up the drama to survive algorithmic distribution.",
-            "cn": "情绪浓度上升（为了在算法分发里活下来，每一层都必须加戏）。"
-          },
-          {
-            "en": "What arrives at the end reader is something processed, nutritionally depleted, but easier to swallow: a prefabricated junk food of the content world.",
-            "cn": "到达终端读者手里的是一个经过处理、营养降低、但变得更易消化的东西——一种内容形态的预制垃圾食品。"
+            "en": "This is the rumination chain. At every layer, three things happen at once. Information density drops, as details, caveats, and uncertainty are eaten by summarisation. Error accumulates, because every pass introduces small distortions that reinforce each other over multiple layers. Emotional intensity rises, because every handler has to crank up the drama to survive algorithmic distribution. What arrives at the end reader is something processed, nutritionally depleted, but easier to swallow: a prefabricated junk food of the content world.",
+            "cn": "这就是反刍链。每经过一层，三件事同时发生：信息密度下降（细节、条件、不确定性被摘要吃掉），误差累积（每次总结都会引入小偏差，多层之后还会相互强化），情绪浓度上升（为了在算法分发里活下来，每一层都必须加戏）。到达终端读者手里的是一个经过处理、营养降低、但变得更易消化的东西——一种内容形态的预制垃圾食品。"
           }
         ]
       },
@@ -21625,12 +21589,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The more arresting thing to watch is not the rumination chain itself.",
-            "cn": "更值得盯着看的，不是反刍链本身，"
-          },
-          {
-            "en": "It is the consumer’s response.",
-            "cn": "是消费者的反应。"
+            "en": "The more arresting thing to watch is not the rumination chain itself. It is the consumer’s response.",
+            "cn": "更值得盯着看的，不是反刍链本身，是消费者的反应。"
           }
         ]
       },
@@ -21646,27 +21606,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Take OpenClaw.",
-            "cn": "OpenClaw ——其本身的能力远不止于此，"
+            "cn": "OpenClaw ——其本身的能力远不止于此，但它最广为传播的使用场景不是“帮我写代码”“帮我分析数据”，而是“帮我每天整理 AI 圈发生了什么”。"
           },
           {
             "en": "Its underlying capability goes well beyond this, but its most virally shared use case is not “help me write code” or “help me analyse data.” It is “help me summarise what happened in the AI world today.” Users enthusiastically show off their workflows on social media: AI reads dozens of sources for me each day, auto-generates summaries, pushes key updates to my phone.",
-            "cn": "但它最广为传播的使用场景不是“帮我写代码”“帮我分析数据”，而是“帮我每天整理 AI 圈发生了什么”。用户在社交媒体上兴奋地展示自己的工作流：AI 帮我每天读几十个信息源、自动生成摘要、给我推送关键更新。"
+            "cn": "用户在社交媒体上兴奋地展示自己的工作流：AI 帮我每天读几十个信息源、自动生成摘要、给我推送关键更新。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "On the surface this looks like an efficiency gain.",
-            "cn": "这件事表面看是提升效率，实际是一个奇怪的自我强化循环："
-          },
-          {
-            "en": "It is in fact a strange self-reinforcing loop: an AI tool helping me consume, more efficiently, the rumination another AI has spat out.",
-            "cn": "一个 AI 工具，帮助我更高效地消费另一个 AI 吐出来的反刍物。"
-          },
-          {
-            "en": "The throughput of actively eating ruminated matter has itself become a publicised achievement.",
-            "cn": "主动吞食反刍物的效率本身成为了一种被宣传的成就。"
+            "en": "On the surface this looks like an efficiency gain. It is in fact a strange self-reinforcing loop: an AI tool helping me consume, more efficiently, the rumination another AI has spat out. The throughput of actively eating ruminated matter has itself become a publicised achievement.",
+            "cn": "这件事表面看是提升效率，实际是一个奇怪的自我强化循环：一个 AI 工具，帮助我更高效地消费另一个 AI 吐出来的反刍物。主动吞食反刍物的效率本身成为了一种被宣传的成就。"
           }
         ]
       },
@@ -21693,20 +21645,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Andrej Karpathy has described this split precisely on X: judgments of AI capability are extremely bimodal across populations.",
-            "cn": "Andrej Karpathy 在 X 上曾经精确地描述过这个分化：对 AI 能力的判断，在不同人群里呈现极端的两极化。"
-          },
-          {
-            "en": "On one side are people who mainly use free or older ChatGPT. Their impression sits somewhere around “this thing hallucinates, it produces AI slop.” The viral social-media examples of AI not being sure whether to walk or drive to the car wash are the AI these people see every day.",
-            "cn": "一边是主要用免费或旧版 ChatGPT 的人，他们的印象停留在“这东西会产生幻觉、会写出一堆 AI 垃圾内容”——社交媒体上那种“AI 连该走路还是开车去洗车都搞不清楚”的翻车例子，就是这群人每天看到的 AI。"
-          },
-          {
-            "en": "On the other side are people paying a few hundred dollars a month and using Claude Code or Codex for real technical work daily.",
-            "cn": "另一边是每月花几百美元、每天用 Claude Code / Codex 做真实技术工作的人，"
-          },
-          {
-            "en": "They see “refactor this entire codebase in an hour,” “find a vulnerability in this system autonomously.” The ceiling of this capability has been growing explosively over the past year.",
-            "cn": "他们看到的是“一小时内重构整个代码库”“自主找出系统漏洞”——这个能力上限在过去一年里是爆炸式增长的。"
+            "en": "Andrej Karpathy has described this split precisely on X: judgments of AI capability are extremely bimodal across populations. On one side are people who mainly use free or older ChatGPT. Their impression sits somewhere around “this thing hallucinates, it produces AI slop.” The viral social-media examples of AI not being sure whether to walk or drive to the car wash are the AI these people see every day. On the other side are people paying a few hundred dollars a month and using Claude Code or Codex for real technical work daily. They see “refactor this entire codebase in an hour,” “find a vulnerability in this system autonomously.” The ceiling of this capability has been growing explosively over the past year.",
+            "cn": "Andrej Karpathy 在 X 上曾经精确地描述过这个分化：对 AI 能力的判断，在不同人群里呈现极端的两极化。一边是主要用免费或旧版 ChatGPT 的人，他们的印象停留在“这东西会产生幻觉、会写出一堆 AI 垃圾内容”——社交媒体上那种“AI 连该走路还是开车去洗车都搞不清楚”的翻车例子，就是这群人每天看到的 AI。另一边是每月花几百美元、每天用 Claude Code / Codex 做真实技术工作的人，他们看到的是“一小时内重构整个代码库”“自主找出系统漏洞”——这个能力上限在过去一年里是爆炸式增长的。"
           }
         ]
       },
@@ -21777,24 +21717,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "People doing real cognitive work (Karpathy’s second group) aren’t doing so because they consume more information.",
-            "cn": "做真正认知活动的人（Karpathy 说的第二群），不是因为他们消费的信息更多，"
-          },
-          {
-            "en": "It’s that they are doing something categorically different: their cognitive activity is running.",
-            "cn": "而是因为他们在做另一件性质完全不同的事——他们的认知活动在启动。"
-          },
-          {
-            "en": "Faced with a problem they push on it, test it, verify it, and form their own judgment.",
-            "cn": "面对一个问题，他们会去推一推、试一试、验证一下，然后形成自己的判断。"
-          },
-          {
-            "en": "Rumination consumers don’t do any of this.",
-            "cn": "消费反刍的人不会做这些——他们只是读成品、"
-          },
-          {
-            "en": "They read the finished product, register a keyword or two, close it, next one.",
-            "cn": "记关键词、关掉、下一条。"
+            "en": "People doing real cognitive work (Karpathy’s second group) aren’t doing so because they consume more information. It’s that they are doing something categorically different: their cognitive activity is running. Faced with a problem they push on it, test it, verify it, and form their own judgment. Rumination consumers don’t do any of this. They read the finished product, register a keyword or two, close it, next one.",
+            "cn": "做真正认知活动的人（Karpathy 说的第二群），不是因为他们消费的信息更多，而是因为他们在做另一件性质完全不同的事——他们的认知活动在启动。面对一个问题，他们会去推一推、试一试、验证一下，然后形成自己的判断。消费反刍的人不会做这些——他们只是读成品、记关键词、关掉、下一条。"
           }
         ]
       },
@@ -21817,108 +21741,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "What counts as real cognitive activity?",
-            "cn": "什么叫真正的认知活动？"
-          },
-          {
-            "en": "Start by ruling out several familiar mistakes.",
-            "cn": "先排除几种常见的错认——它不是脑子在转（脑子一直在转，"
-          },
-          {
-            "en": "It’s not a brain turning over (brains are always turning over; you’re alive).",
-            "cn": "人活着就在转）；"
-          },
-          {
-            "en": "It’s not having read or memorised a lot (that’s knowledge storage).",
-            "cn": "不是读了很多、记了很多（那是知识储备）；"
-          },
-          {
-            "en": "It’s not being skilled in a field after years of practice (that’s experience).",
-            "cn": "不是某个领域做久了很熟练（那是经验）；不是表达流畅（那是语言能力）。"
-          },
-          {
-            "en": "It’s not fluent expression (that’s linguistic capacity).",
-            "cn": "这些东西过去被误认为认知能力，"
-          },
-          {
-            "en": "These were once confused for cognitive ability because, in the old environment, they tended to show up together with it.",
-            "cn": "是因为在老环境里它们常常和认知能力一起出现——但它们不是认"
-          },
-          {
-            "en": "But they aren’t it.",
-            "cn": "知能力本身。"
+            "en": "What counts as real cognitive activity? Start by ruling out several familiar mistakes. It’s not a brain turning over (brains are always turning over; you’re alive). It’s not having read or memorised a lot (that’s knowledge storage). It’s not being skilled in a field after years of practice (that’s experience). It’s not fluent expression (that’s linguistic capacity). These were once confused for cognitive ability because, in the old environment, they tended to show up together with it. But they aren’t it.",
+            "cn": "什么叫真正的认知活动？先排除几种常见的错认——它不是脑子在转（脑子一直在转，人活着就在转）；不是读了很多、记了很多（那是知识储备）；不是某个领域做久了很熟练（那是经验）；不是表达流畅（那是语言能力）。这些东西过去被误认为认知能力，是因为在老环境里它们常常和认知能力一起出现——但它们不是认知能力本身。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Real cognitive activity means producing structural judgments that reality can calibrate.",
-            "cn": "真正的认知活动指的是：产生可以被现实校准的、结构性判断的那种活动。"
-          },
-          {
-            "en": "Forming concrete judgments that future facts can verify or refute.",
-            "cn": "形成具体的、能被后来的事实验证或反驳的判断。"
-          },
-          {
-            "en": "Recognising deep structure in an unfamiliar problem.",
-            "cn": "在一个陌生问题上识别深层结构。"
-          },
-          {
-            "en": "Treating the distance between one’s current judgment and reality as a manipulable object.",
-            "cn": "把自己此刻的判断和现实之间的距离，看成一个可以操作的对象。"
-          },
-          {
-            "en": "Cognitive activity in that sense is the thing the AI era has separated out and priced on its own.",
-            "cn": "这个意义上的认知活动才是 AI 时代被剥离出来单独标价的东西。"
-          },
-          {
-            "en": "Most people have never registered that this distinction exists.",
-            "cn": "大部分人从未意识到这个区别的存在——没有意识到，"
-          },
-          {
-            "en": "Without registering it, there is no opportunity to do it.",
-            "cn": "就没有机会做。"
+            "en": "Real cognitive activity means producing structural judgments that reality can calibrate. Forming concrete judgments that future facts can verify or refute. Recognising deep structure in an unfamiliar problem. Treating the distance between one’s current judgment and reality as a manipulable object. Cognitive activity in that sense is the thing the AI era has separated out and priced on its own. Most people have never registered that this distinction exists. Without registering it, there is no opportunity to do it.",
+            "cn": "真正的认知活动指的是：产生可以被现实校准的、结构性判断的那种活动。形成具体的、能被后来的事实验证或反驳的判断。在一个陌生问题上识别深层结构。把自己此刻的判断和现实之间的距离，看成一个可以操作的对象。这个意义上的认知活动才是 AI 时代被剥离出来单独标价的东西。大部分人从未意识到这个区别的存在——没有意识到，就没有机会做。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The old evaluation system did not require it to run.",
-            "cn": "过去的评价体系不需要它启动。"
-          },
-          {
-            "en": "Experience, patterns, fluency, broad reading, expressive ease, social sensitivity: none of the old expressions of “smart” or “capable” required real cognitive activity.",
-            "cn": "经验、模式、熟练、博闻强记、流畅表达、社交灵敏度——这些旧的“聪明”和“能力”的表达方式，没有一项需要真正的认知活动。"
-          },
-          {
-            "en": "A shrewd businessman, a well-read editor, a competent middle manager.",
-            "cn": "一个精明的生意人、一个博学的编辑、一个能干的中层经理，"
-          },
-          {
-            "en": "Their cognitive systems may never have performed a single genuine reflection.",
-            "cn": "他们的认知系统里真正的反思可能从未发生过一次。"
-          },
-          {
-            "en": "Yet in the old environment they were genuinely high-ability people, because the old environment rewarded those traits, and rewarded them well.",
-            "cn": "但在老环境里，他们确实是高能力者——因为老环境就是奖励这些的，而且奖励得不错。"
+            "en": "The old evaluation system did not require it to run. Experience, patterns, fluency, broad reading, expressive ease, social sensitivity: none of the old expressions of “smart” or “capable” required real cognitive activity. A shrewd businessman, a well-read editor, a competent middle manager. Their cognitive systems may never have performed a single genuine reflection. Yet in the old environment they were genuinely high-ability people, because the old environment rewarded those traits, and rewarded them well.",
+            "cn": "过去的评价体系不需要它启动。经验、模式、熟练、博闻强记、流畅表达、社交灵敏度——这些旧的“聪明”和“能力”的表达方式，没有一项需要真正的认知活动。一个精明的生意人、一个博学的编辑、一个能干的中层经理，他们的认知系统里真正的反思可能从未发生过一次。但在老环境里，他们确实是高能力者——因为老环境就是奖励这些的，而且奖励得不错。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The AI-era shift isn’t “AI makes people lazy.” It’s that for the first time, cognitive activity itself has been peeled off from every other ability and priced separately.",
-            "cn": "AI 时代的变化不是“让人变懒”，而是第一次把“认知活动本身”从其他所有能力里剥离出来、单独标价。"
-          },
-          {
-            "en": "Once knowledge storage has been flattened by the model, repetitive tasks swallowed, and the production cost of finished judgments driven to zero, what remains is cutting reality into structure, catching errors in the output, and doing real abstraction on unfamiliar problems. Most people simply don’t have that.",
-            "cn": "当知识储备被模型摊平、重复性任务被吃掉、判断成品的生产成本降到零之后，剩下的那部分——把现实切成结构、识别输出里的错误、在陌生问题上做真正的抽象——大部分人根本没有。"
-          },
-          {
-            "en": "And their own past successes tell them “I am capable.”",
-            "cn": "而他们自己从前的成功经验告诉他们“我是有能力的”。"
+            "en": "The AI-era shift isn’t “AI makes people lazy.” It’s that for the first time, cognitive activity itself has been peeled off from every other ability and priced separately. Once knowledge storage has been flattened by the model, repetitive tasks swallowed, and the production cost of finished judgments driven to zero, what remains is cutting reality into structure, catching errors in the output, and doing real abstraction on unfamiliar problems. Most people simply don’t have that. And their own past successes tell them “I am capable.”",
+            "cn": "AI 时代的变化不是“让人变懒”，而是第一次把“认知活动本身”从其他所有能力里剥离出来、单独标价。当知识储备被模型摊平、重复性任务被吃掉、判断成品的生产成本降到零之后，剩下的那部分——把现实切成结构、识别输出里的错误、在陌生问题上做真正的抽象——大部分人根本没有。而他们自己从前的成功经验告诉他们“我是有能力的”。"
           }
         ]
       },
@@ -21948,10 +21796,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-2--ai-isnt-uniformly-strong",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -21961,7 +21809,7 @@ const ARTICLES_EXTRA = [
     "chapter": 2,
     "sourceTextWords": 1006,
     "sourceParagraphs": 15,
-    "sourceSentences": 64,
+    "sourceSentences": 26,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -21994,148 +21842,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Where AI is strong.",
-            "cn": "AI 强在哪里。"
-          },
-          {
-            "en": "On structured, measurable tasks, AI has stably outperformed the median human and, in many cases, the domain expert.",
-            "cn": "在结构化、可测量的任务上，AI 已经稳定超过中位数人类，甚至超过很多专家。"
-          },
-          {
-            "en": "Math olympiad (AIME), PhD-level science questions (GPQA), real software-engineering tasks (SWE-Bench), various language-understanding tests: these benchmarks have been broken one after another by frontier models over the past year.",
-            "cn": "数学奥赛（AIME）、博士级科学题（GPQA）、真实软件工程任务（SWE-Bench）、各种语言理解测试——这些基准在过去一年里被前沿模型陆续突破。"
-          },
-          {
-            "en": "Add knowledge retrieval, fluent expression, and instruction-following to the list, and AI far outstrips most people.",
-            "cn": "加上知识检索、流畅表达、按指令执行这类能力，AI 远超大部分人。"
-          },
-          {
-            "en": "For work in these directions, the best use of AI is as a super-lever.",
-            "cn": "对于这些方向的工作，"
-          },
-          {
-            "en": "It can amplify a capable person’s output by more than ten times.",
-            "cn": "最好的用法是把 AI 当一个超级杠杆——它能把一个有能力的人的产出放大十倍以上。"
+            "en": "Where AI is strong. On structured, measurable tasks, AI has stably outperformed the median human and, in many cases, the domain expert. Math olympiad (AIME), PhD-level science questions (GPQA), real software-engineering tasks (SWE-Bench), various language-understanding tests: these benchmarks have been broken one after another by frontier models over the past year. Add knowledge retrieval, fluent expression, and instruction-following to the list, and AI far outstrips most people. For work in these directions, the best use of AI is as a super-lever. It can amplify a capable person’s output by more than ten times.",
+            "cn": "AI 强在哪里。在结构化、可测量的任务上，AI 已经稳定超过中位数人类，甚至超过很多专家。数学奥赛（AIME）、博士级科学题（GPQA）、真实软件工程任务（SWE-Bench）、各种语言理解测试——这些基准在过去一年里被前沿模型陆续突破。加上知识检索、流畅表达、按指令执行这类能力，AI 远超大部分人。对于这些方向的工作，最好的用法是把 AI 当一个超级杠杆——它能把一个有能力的人的产出放大十倍以上。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Where AI is weak.",
-            "cn": "AI 弱在哪里。"
-          },
-          {
-            "en": "An equal amount of evidence shows that AI’s strength is sharp and uneven.",
-            "cn": "同样多的证据显示，AI 的强是尖锐的、不均匀的。"
-          },
-          {
-            "en": "Change a problem’s surface conditions slightly.",
-            "cn": "把一道题的条件稍微改一下（换成表面不相关但结构相同的场景），"
-          },
-          {
-            "en": "Substitute a scenario that looks unrelated but is structurally identical.",
-            "cn": "模型的表现会突然崩溃——这种脆弱在 SimpleBench、BrainBench 这类基准里反复出现，模型在日常常识问题上连中位数成人都不如。"
-          },
-          {
-            "en": "The model’s performance can suddenly collapse.",
-            "cn": "还有一整类任务它做得不好："
-          },
-          {
-            "en": "This brittleness shows up repeatedly in benchmarks like SimpleBench and BrainBench, where models underperform the median adult on ordinary common-sense questions.",
-            "cn": "没有清晰对错的判断（这个设计好不好、"
-          },
-          {
-            "en": "And there is a whole class of tasks AI is bad at: judgments with no clear right or wrong (is this design good; is this decision correct), processing murky reality (what is this tangle of user feedback actually saying), abstracting on a completely unfamiliar structure (how do you decompose a problem type you’ve never seen before).",
-            "cn": "这个决策对不对）、处理模糊的现实（一段混乱的反馈到底在说什么）、在完全陌生的结构上做抽象（一个从未见过的问题类型如何拆解）。"
+            "en": "Where AI is weak. An equal amount of evidence shows that AI’s strength is sharp and uneven. Change a problem’s surface conditions slightly. Substitute a scenario that looks unrelated but is structurally identical. The model’s performance can suddenly collapse. This brittleness shows up repeatedly in benchmarks like SimpleBench and BrainBench, where models underperform the median adult on ordinary common-sense questions. And there is a whole class of tasks AI is bad at: judgments with no clear right or wrong (is this design good; is this decision correct), processing murky reality (what is this tangle of user feedback actually saying), abstracting on a completely unfamiliar structure (how do you decompose a problem type you’ve never seen before).",
+            "cn": "AI 弱在哪里。同样多的证据显示，AI 的强是尖锐的、不均匀的。把一道题的条件稍微改一下（换成表面不相关但结构相同的场景），模型的表现会突然崩溃——这种脆弱在 SimpleBench、BrainBench 这类基准里反复出现，模型在日常常识问题上连中位数成人都不如。还有一整类任务它做得不好：没有清晰对错的判断（这个设计好不好、这个决策对不对）、处理模糊的现实（一段混乱的反馈到底在说什么）、在完全陌生的结构上做抽象（一个从未见过的问题类型如何拆解）。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Why it’s uneven.",
-            "cn": "为什么是这样不均匀。"
-          },
-          {
-            "en": "There is a technical reason.",
-            "cn": "有一个技术上的原因。"
-          },
-          {
-            "en": "The frontier models’ progress is driven mostly by reinforcement learning, which gives the model “right / wrong” signals so it can calibrate.",
-            "cn": "前沿模型的主要进步来自强化学习——给模型“这个对、那个错”的信号让它校准。"
-          },
-          {
-            "en": "That kind of training is extraordinarily effective in domains with unambiguous correctness.",
-            "cn": "这种训练在有明确对错的领域极其有效："
-          },
-          {
-            "en": "Does the code run?",
-            "cn": "代码跑不跑、数学答案对不对、测试过不过——可验证奖励，"
-          },
-          {
-            "en": "Is the math answer correct?",
-            "cn": "信号清晰，训练效率高。"
-          },
-          {
-            "en": "Does the test pass?",
-            "cn": "反过来，"
-          },
-          {
-            "en": "These are verifiable rewards: clean signals, high training efficiency.",
-            "cn": "没有清晰对错的领域——好的判断、"
-          },
-          {
-            "en": "Conversely, in domains without clean correctness, such as good judgment, appropriate restraint, or taste, there is simply no way to produce a reliable reward signal.",
-            "cn": "恰当的分寸、审美——根本没办法给可靠的奖励信号。你怎么教一个模型“这段文字感觉不对”？"
-          },
-          {
-            "en": "How do you teach a model that “this paragraph feels off”?",
-            "cn": "没法。所以这些领域的进步远慢于可验证领域。"
-          },
-          {
-            "en": "You can’t.",
-            "cn": "再叠加商业动机："
-          },
-          {
-            "en": "So progress in these domains lags far behind the verifiable ones.",
-            "cn": "代码和结构化任务直接带来 B2B 收入，"
-          },
-          {
-            "en": "Add commercial incentives: code and structured tasks generate direct B2B revenue, so the vast majority of compute and research effort flows there.",
-            "cn": "所以算力和研究资源绝大部分投在这里。"
-          },
-          {
-            "en": "The result is that AI capability grows exponentially in “verifiable + commercially valuable” domains, and slowly everywhere else.",
-            "cn": "结果是 AI 的能力在“可验证 + 商业价值高”的领域指数增长，在其他领域进步缓慢。"
-          },
-          {
-            "en": "This is the technical story Karpathy has been repeating on X.",
-            "cn": "这个技术解释也是 Karpathy 在 X 上反复讲过的——第一章提到的两群人对 AI 能力的判断差异，"
-          },
-          {
-            "en": "Chapter 1’s bimodal capability split between the two groups is, at bottom, the two groups using different axes of the same model.",
-            "cn": "本质是他们在用同一个模型的不同维度。"
+            "en": "Why it’s uneven. There is a technical reason. The frontier models’ progress is driven mostly by reinforcement learning, which gives the model “right / wrong” signals so it can calibrate. That kind of training is extraordinarily effective in domains with unambiguous correctness. Does the code run? Is the math answer correct? Does the test pass? These are verifiable rewards: clean signals, high training efficiency. Conversely, in domains without clean correctness, such as good judgment, appropriate restraint, or taste, there is simply no way to produce a reliable reward signal. How do you teach a model that “this paragraph feels off”? You can’t. So progress in these domains lags far behind the verifiable ones. Add commercial incentives: code and structured tasks generate direct B2B revenue, so the vast majority of compute and research effort flows there. The result is that AI capability grows exponentially in “verifiable + commercially valuable” domains, and slowly everywhere else. This is the technical story Karpathy has been repeating on X. Chapter 1’s bimodal capability split between the two groups is, at bottom, the two groups using different axes of the same model.",
+            "cn": "为什么是这样不均匀。有一个技术上的原因。前沿模型的主要进步来自强化学习——给模型“这个对、那个错”的信号让它校准。这种训练在有明确对错的领域极其有效：代码跑不跑、数学答案对不对、测试过不过——可验证奖励，信号清晰，训练效率高。反过来，没有清晰对错的领域——好的判断、恰当的分寸、审美——根本没办法给可靠的奖励信号。你怎么教一个模型“这段文字感觉不对”？没法。所以这些领域的进步远慢于可验证领域。再叠加商业动机：代码和结构化任务直接带来 B2B 收入，所以算力和研究资源绝大部分投在这里。结果是 AI 的能力在“可验证 + 商业价值高”的领域指数增长，在其他领域进步缓慢。这个技术解释也是 Karpathy 在 X 上反复讲过的——第一章提到的两群人对 AI 能力的判断差异，本质是他们在用同一个模型的不同维度。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The real corollary: AI is an amplifier, not an equaliser.",
-            "cn": "真正的推论：AI 是放大器，不是均衡器。"
-          },
-          {
-            "en": "What it amplifies is not “human ability overall” but “the structure the user can feed into it.” Give it to a person who can already break a problem down and judge output quality, and AI amplifies their work more than tenfold.",
-            "cn": "它放大的不是“人类的整体能力”，而是“使用者这一侧能向它输入什么结构”。给一个已经能拆解问题、能判断输出对错的人，AI 能把他的产出放大十倍以上；"
-          },
-          {
-            "en": "Give it to a person who can only ask AI to “write something,” and AI returns rumination.",
-            "cn": "给一个只会让 AI “写点东西”的人，"
-          },
-          {
-            "en": "What gets amplified is the frequency of their anxiety management.",
-            "cn": "AI 吐出来的是反刍物，放大的是他的焦虑管理频率。"
+            "en": "The real corollary: AI is an amplifier, not an equaliser. What it amplifies is not “human ability overall” but “the structure the user can feed into it.” Give it to a person who can already break a problem down and judge output quality, and AI amplifies their work more than tenfold. Give it to a person who can only ask AI to “write something,” and AI returns rumination. What gets amplified is the frequency of their anxiety management.",
+            "cn": "真正的推论：AI 是放大器，不是均衡器。它放大的不是“人类的整体能力”，而是“使用者这一侧能向它输入什么结构”。给一个已经能拆解问题、能判断输出对错的人，AI 能把他的产出放大十倍以上；给一个只会让 AI “写点东西”的人，AI 吐出来的是反刍物，放大的是他的焦虑管理频率。"
           }
         ]
       },
@@ -22150,16 +21882,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "A reasonable objection needs to be addressed here.",
-            "cn": "这里需要主动处理一个合理的反驳——“AI 在强化学习里已经展现出结构抽象能力了："
-          },
-          {
-            "en": "“AI has already demonstrated structural abstraction under reinforcement learning: the o-series reasoning models, working on hard math problems, overturn their own wrong assumptions and rebuild their approach mid-solve; AlphaGo was inventing novel joseki a decade ago.",
-            "cn": "o 系列推理模型解数学大题时会自己推翻错误假设、重构解题框架；AlphaGo 早就走出过人类从未见过的新定式。"
-          },
-          {
-            "en": "Isn’t saying ‘AI can’t do structural abstraction’ already out of date?”",
-            "cn": "你说 AI 不能做结构抽象，是不是过时了？”"
+            "en": "A reasonable objection needs to be addressed here. “AI has already demonstrated structural abstraction under reinforcement learning: the o-series reasoning models, working on hard math problems, overturn their own wrong assumptions and rebuild their approach mid-solve; AlphaGo was inventing novel joseki a decade ago. Isn’t saying ‘AI can’t do structural abstraction’ already out of date?”",
+            "cn": "这里需要主动处理一个合理的反驳——“AI 在强化学习里已经展现出结构抽象能力了：o 系列推理模型解数学大题时会自己推翻错误假设、重构解题框架；AlphaGo 早就走出过人类从未见过的新定式。你说 AI 不能做结构抽象，是不是过时了？”"
           }
         ]
       },
@@ -22178,24 +21902,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI’s structural abstraction always happens under a given reward function.",
-            "cn": "AI 的结构抽象永远发生在给定的奖励函数之下。"
-          },
-          {
-            "en": "Go’s objective is to win; a math problem’s is to be correct; code’s is to run.",
-            "cn": "围棋的目标是赢、数学题的目标是对、"
-          },
-          {
-            "en": "Inside those well-bounded spaces, where the victory condition has already been defined by humans, AI can indeed search for structure better than humans can.",
-            "cn": "代码的目标是跑通——在这些边界清晰、胜利条件已经被人类定义好的封闭空间里，AI 可以比人类更好地寻找结构。"
-          },
-          {
-            "en": "This is instrumental decoupling: finding the optimum inside a defined game.",
-            "cn": "这是一种工具性的去耦——在已定义的游戏里找最优解。"
-          },
-          {
-            "en": "AI is already past humans at that layer, and will keep pulling further ahead.",
-            "cn": "AI 在这一层已经在超过人类，也会继续超过。"
+            "en": "AI’s structural abstraction always happens under a given reward function. Go’s objective is to win; a math problem’s is to be correct; code’s is to run. Inside those well-bounded spaces, where the victory condition has already been defined by humans, AI can indeed search for structure better than humans can. This is instrumental decoupling: finding the optimum inside a defined game. AI is already past humans at that layer, and will keep pulling further ahead.",
+            "cn": "AI 的结构抽象永远发生在给定的奖励函数之下。围棋的目标是赢、数学题的目标是对、代码的目标是跑通——在这些边界清晰、胜利条件已经被人类定义好的封闭空间里，AI 可以比人类更好地寻找结构。这是一种工具性的去耦——在已定义的游戏里找最优解。AI 在这一层已经在超过人类，也会继续超过。"
           }
         ]
       },
@@ -22238,28 +21946,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So what AI has taken over is “finding the optimal structure inside a defined game” (something humans were not particularly good at anyway; handing it to AI is reasonable).",
-            "cn": "所以 AI 抢走的是“在已定义的游戏里寻找最优结构”这件事（这件事人类本来也不擅长，让给 AI 是合理的）；"
-          },
-          {
-            "en": "What it has not taken, and cannot generate on its own, is “deciding which game to play.” The structure of that second question is, by nature, not in a layer AI can reach.",
-            "cn": "它没有抢走、也无法自发产生“决定玩哪个游戏”这件事——后者的结构性本身就不属于 AI 能触达的层。"
+            "en": "So what AI has taken over is “finding the optimal structure inside a defined game” (something humans were not particularly good at anyway; handing it to AI is reasonable). What it has not taken, and cannot generate on its own, is “deciding which game to play.” The structure of that second question is, by nature, not in a layer AI can reach.",
+            "cn": "所以 AI 抢走的是“在已定义的游戏里寻找最优结构”这件事（这件事人类本来也不擅长，让给 AI 是合理的）；它没有抢走、也无法自发产生“决定玩哪个游戏”这件事——后者的结构性本身就不属于 AI 能触达的层。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Back to the division of labour: which questions are worth asking, which direction is right, whether the output actually solves the problem.",
-            "cn": "回到分工层面——什么问题值得问、哪个方向是对的、输出是否真的解决了问题——这些判断现在仍然完全依赖人。"
-          },
-          {
-            "en": "These judgments still rest entirely with humans.",
-            "cn": "而这"
-          },
-          {
-            "en": "And this class of judgment is exactly what the last section of Chapter 1 was pointing at: the kind of thing only real cognitive activity can do.",
-            "cn": "类判断恰好是第一章最后一节说的那件事——需要真正的认知活动参与才能做的事。"
+            "en": "Back to the division of labour: which questions are worth asking, which direction is right, whether the output actually solves the problem. These judgments still rest entirely with humans. And this class of judgment is exactly what the last section of Chapter 1 was pointing at: the kind of thing only real cognitive activity can do.",
+            "cn": "回到分工层面——什么问题值得问、哪个方向是对的、输出是否真的解决了问题——这些判断现在仍然完全依赖人。而这类判断恰好是第一章最后一节说的那件事——需要真正的认知活动参与才能做的事。"
           }
         ]
       },
@@ -22293,10 +21989,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-3--where-the-reader-stands-on-the-chain-learning-or-anxiety-management",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -22306,7 +22002,7 @@ const ARTICLES_EXTRA = [
     "chapter": 3,
     "sourceTextWords": 1324,
     "sourceParagraphs": 26,
-    "sourceSentences": 76,
+    "sourceSentences": 42,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -22315,16 +22011,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If AI is an amplifier rather than an equaliser, then “the output gap between users is widening” is a necessary corollary.",
-            "cn": "如果 AI 是放大器而不是均衡器，“不同使用者的产出差距在拉大”就是一个必然推论——放大器把使用者这一端的原有差距按倍数放出。"
-          },
-          {
-            "en": "An amplifier blows up whatever gap was already there on the user’s side.",
-            "cn": "但这还不足以解释为什么两群人的差距如此之大、"
-          },
-          {
-            "en": "But that alone doesn’t explain why the gap between the two groups is so large, and pointed in the opposite direction: on one side, people building complex systems with AI; on the other, not “people who use AI less” but people who consume more and more through AI and produce less and less.",
-            "cn": "而且方向完全相反：一边是通过 AI 做出复杂系统的人，另一边不是“AI 用得少”，是通过 AI 消费越来越多却产出越来越少。"
+            "en": "If AI is an amplifier rather than an equaliser, then “the output gap between users is widening” is a necessary corollary. An amplifier blows up whatever gap was already there on the user’s side. But that alone doesn’t explain why the gap between the two groups is so large, and pointed in the opposite direction: on one side, people building complex systems with AI; on the other, not “people who use AI less” but people who consume more and more through AI and produce less and less.",
+            "cn": "如果 AI 是放大器而不是均衡器，“不同使用者的产出差距在拉大”就是一个必然推论——放大器把使用者这一端的原有差距按倍数放出。但这还不足以解释为什么两群人的差距如此之大、而且方向完全相反：一边是通过 AI 做出复杂系统的人，另一边不是“AI 用得少”，是通过 AI 消费越来越多却产出越来越少。"
           }
         ]
       },
@@ -22359,44 +22047,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Learning is this loop: encounter something you don’t understand → form a preliminary judgment on your own → go find information with specific questions in mind → use the information to calibrate your judgment → form a new understanding that is now yours.",
-            "cn": "学习是这样一个闭环：遇到一件不明白的事 → 自己先形成一个初步判断 → 带着具体问题去找信息 → 用信息校准判断 → 形成新的、自己拥有的理解。"
-          },
-          {
-            "en": "All four moves are required.",
-            "cn": "四个动作缺一不可。"
-          },
-          {
-            "en": "Of them, the prior judgment and the calibration are the core of the process.",
-            "cn": "其中前置判断和校准动作是整个过程的核心——没有这两步，"
-          },
-          {
-            "en": "Without those two steps, incoming information won’t be absorbed into any existing structure.",
-            "cn": "进来的信息不会被任何已有结构吸收，"
-          },
-          {
-            "en": "It’s like pouring water where there is no container: a little while later it’s dry, nothing left.",
-            "cn": "就像水倒进没有容器的地方，过一会儿就干了，什么都没留下。"
+            "en": "Learning is this loop: encounter something you don’t understand → form a preliminary judgment on your own → go find information with specific questions in mind → use the information to calibrate your judgment → form a new understanding that is now yours. All four moves are required. Of them, the prior judgment and the calibration are the core of the process. Without those two steps, incoming information won’t be absorbed into any existing structure. It’s like pouring water where there is no container: a little while later it’s dry, nothing left.",
+            "cn": "学习是这样一个闭环：遇到一件不明白的事 → 自己先形成一个初步判断 → 带着具体问题去找信息 → 用信息校准判断 → 形成新的、自己拥有的理解。四个动作缺一不可。其中前置判断和校准动作是整个过程的核心——没有这两步，进来的信息不会被任何已有结构吸收，就像水倒进没有容器的地方，过一会儿就干了，什么都没留下。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Anxiety management is a different loop: feel behind → consume information → feel “I’m keeping up” → anxiety briefly eases → because nothing was internalised, the feeling of being behind returns a little later → consume again.",
-            "cn": "焦虑管理是另一个闭环：感到落后 → 消费信息 → 产生“我在跟上”的感觉 → 焦虑短暂缓解 → 因为没有任何东西被内化，一段时间后再次感到落后 → 再次消费。"
-          },
-          {
-            "en": "This loop has no prior judgment, no calibration, no internalisation.",
-            "cn": "这个循环里没有前置判断、没有校准、没有内化。"
-          },
-          {
-            "en": "Its operating logic is the opposite of learning’s.",
-            "cn": "它的运行逻辑和学习完全不同——学习的产物是认知结构，"
-          },
-          {
-            "en": "Learning produces cognitive structure; anxiety management produces emotional relief.",
-            "cn": "焦虑管理的产物是情绪缓和。"
+            "en": "Anxiety management is a different loop: feel behind → consume information → feel “I’m keeping up” → anxiety briefly eases → because nothing was internalised, the feeling of being behind returns a little later → consume again. This loop has no prior judgment, no calibration, no internalisation. Its operating logic is the opposite of learning’s. Learning produces cognitive structure; anxiety management produces emotional relief.",
+            "cn": "焦虑管理是另一个闭环：感到落后 → 消费信息 → 产生“我在跟上”的感觉 → 焦虑短暂缓解 → 因为没有任何东西被内化，一段时间后再次感到落后 → 再次消费。这个循环里没有前置判断、没有校准、没有内化。它的运行逻辑和学习完全不同——学习的产物是认知结构，焦虑管理的产物是情绪缓和。"
           }
         ]
       },
@@ -22404,35 +22064,31 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "On the surface the two look alike, because both involve the act of “reading something.” Mechanically they are inverses.",
-            "cn": "两件事在表面上很像，因为都伴随“读了东西”这个动作。但在机制上完全相反。"
+            "cn": "两件事在表面上很像，因为都伴随“读了东西”这个动作。"
           },
           {
             "en": "Worse: the brain cannot distinguish between “reading a conclusion” and “arriving at a conclusion oneself.” Read a well-constructed article and the brain produces the feeling of “I now understand this,” nearly identical to the satisfaction of having reasoned to a conclusion yourself.",
-            "cn": "更麻烦的是——大脑无法区分“读到一个结论”和“自己想到一个结论”。读一篇总结得头头是道的文章，大脑会产生一种“我现在理解了这件事”的感觉，和自己真正推导出一个结论时的满足感几乎一致。"
+            "cn": "但在机制上完全相反。"
           },
           {
             "en": "But the first is a moment’s illusion.",
-            "cn": "但前者只是一瞬间的错觉，文章关掉几天后什么都留不下；"
+            "cn": "更麻烦的是——大脑无法区分“读到一个结论”和“自己想到一个结论”。"
           },
           {
             "en": "Close the tab, and a few days later nothing is left.",
-            "cn": "后者是真实的认知内化，"
+            "cn": "读一篇总结得头头是道的文章，大脑会产生一种“我现在理解了这件事”的感觉，和自己真正推导出一个结论时的满足感几乎一致。"
           },
           {
             "en": "The second is genuine cognitive internalisation, and changes how the person judges the matter for a long time afterward.",
-            "cn": "会长期改变一个人对这件事的判断方式。"
+            "cn": "但前者只是一瞬间的错觉，文章关掉几天后什么都留不下；后者是真实的认知内化，会长期改变一个人对这件事的判断方式。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This intracranial mechanism is the foundation that lets the rumination chain keep running.",
-            "cn": "这个脑内机制是整条反刍链能够持续运转的基础——它让焦虑管理感觉上和学习一样，"
-          },
-          {
-            "en": "It makes anxiety management feel identical to learning, so the consumer gets a daily “today wasn’t wasted” confirmation while in fact nothing has been taken in.",
-            "cn": "所以消费者每天都有“今天没白过”的确认，而实际上什么都没有被真正吸收。"
+            "en": "This intracranial mechanism is the foundation that lets the rumination chain keep running. It makes anxiety management feel identical to learning, so the consumer gets a daily “today wasn’t wasted” confirmation while in fact nothing has been taken in.",
+            "cn": "这个脑内机制是整条反刍链能够持续运转的基础——它让焦虑管理感觉上和学习一样，所以消费者每天都有“今天没白过”的确认，而实际上什么都没有被真正吸收。"
           }
         ]
       },
@@ -22451,44 +22107,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "That distinction matters.",
-            "cn": "这个区分很重要。"
-          },
-          {
-            "en": "A thing produced to convey information (an academic paper, a rigorous empirical report, technical documentation) keeps, by design, the content that lets the reader truly understand and use it: definitions, conditions, counterexamples, uncertainties.",
-            "cn": "一个为传递信息而生产的东西（比如学术论文、严谨的实证报告、技术文档），它在设计上会优先保留“让读者能真正理解和使用”的内容——定义、条件、反例、不确定性。"
-          },
-          {
-            "en": "In the attention economy those things are liabilities.",
-            "cn": "这些东西在注意力经济里是负资产，因为它们降低阅读流畅度、增加认知负担。"
-          },
-          {
-            "en": "They reduce reading fluency and raise cognitive load.",
-            "cn": "所以一个为留住注意力而生产的东西，"
-          },
-          {
-            "en": "So a thing produced to hold attention will, by design, systematically delete exactly that kind of content.",
-            "cn": "在设计上会系统性地删掉这些东西。"
+            "en": "That distinction matters. A thing produced to convey information (an academic paper, a rigorous empirical report, technical documentation) keeps, by design, the content that lets the reader truly understand and use it: definitions, conditions, counterexamples, uncertainties. In the attention economy those things are liabilities. They reduce reading fluency and raise cognitive load. So a thing produced to hold attention will, by design, systematically delete exactly that kind of content.",
+            "cn": "这个区分很重要。一个为传递信息而生产的东西（比如学术论文、严谨的实证报告、技术文档），它在设计上会优先保留“让读者能真正理解和使用”的内容——定义、条件、反例、不确定性。这些东西在注意力经济里是负资产，因为它们降低阅读流畅度、增加认知负担。所以一个为留住注意力而生产的东西，在设计上会系统性地删掉这些东西。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Which means: no matter how hard you read this kind of material, you will not learn from it.",
-            "cn": "这意味着——即使花再多时间认真读这些内容，也学不到东西。"
-          },
-          {
-            "en": "Not because the reader isn’t trying hard enough.",
-            "cn": "不是读者不够努力，"
-          },
-          {
-            "en": "Because the product was never designed for learning to occur.",
-            "cn": "是这个产品从设计上就不是为让人学到东西而造的。"
-          },
-          {
-            "en": "The more carefully you read, the more you are just walking circles inside a room with no outlet.",
-            "cn": "你读得越认真，越是在一个不设输出口的房间里转圈。"
+            "en": "Which means: no matter how hard you read this kind of material, you will not learn from it. Not because the reader isn’t trying hard enough. Because the product was never designed for learning to occur. The more carefully you read, the more you are just walking circles inside a room with no outlet.",
+            "cn": "这意味着——即使花再多时间认真读这些内容，也学不到东西。不是读者不够努力，是这个产品从设计上就不是为让人学到东西而造的。你读得越认真，越是在一个不设输出口的房间里转圈。"
           }
         ]
       },
@@ -22563,48 +22191,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The contrast with people doing actual AI-adjacent work is complete.",
-            "cn": "对照着看真正在做 AI 相关工作的人，会发现一个完全相反的现象。"
-          },
-          {
-            "en": "They don’t consume ruminated content.",
-            "cn": "他们不消费反刍内容——因为每天手上的实验、"
-          },
-          {
-            "en": "The day’s experiments, model feedback, and debug output already provide information at a density far higher than any secondhand summary.",
-            "cn": "模型反馈、代码调试，已经在提供远高于任何二手总结的信息密度。"
-          },
-          {
-            "en": "Their judgment of what a model can and cannot do comes from the specific thing they tried and failed to get it to do yesterday, not somebody else’s review.",
-            "cn": "他们对一个模型能做什么、不能做什么的判断，来自昨天自己让它做失败的一件事，而不是别人写的评测。"
+            "en": "The contrast with people doing actual AI-adjacent work is complete. They don’t consume ruminated content. The day’s experiments, model feedback, and debug output already provide information at a density far higher than any secondhand summary. Their judgment of what a model can and cannot do comes from the specific thing they tried and failed to get it to do yesterday, not somebody else’s review.",
+            "cn": "对照着看真正在做 AI 相关工作的人，会发现一个完全相反的现象。他们不消费反刍内容——因为每天手上的实验、模型反馈、代码调试，已经在提供远高于任何二手总结的信息密度。他们对一个模型能做什么、不能做什么的判断，来自昨天自己让它做失败的一件事，而不是别人写的评测。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "And here is the counterintuitive part: the more rumination consumers consume, the further behind they feel; the more doers do, the clearer they feel.",
-            "cn": "更反常的是：消费反刍的人越消费越感觉落后，做事的人越做越感觉清晰。"
-          },
-          {
-            "en": "Not because the doers know more.",
-            "cn": "这不是因为做事的人懂更多——是因为两种活动的信息处理方向完全相反。"
-          },
-          {
-            "en": "Because the two activities move information in opposite directions.",
-            "cn": "焦虑管理是只进不出，信息变成情绪消耗掉了；"
-          },
-          {
-            "en": "Anxiety management is input-only: information becomes emotion, burned up.",
-            "cn": "真正的工作是处理输入并产生输出，每一次处理都在加固认知结构。"
-          },
-          {
-            "en": "Real work processes input and produces output; every pass reinforces cognitive structure.",
-            "cn": "前者的人对 AI 的印象是“东西太多了、跟不上了、又出新的了”；"
-          },
-          {
-            "en": "Consumer impressions of AI: “there’s too much, I can’t keep up, something new dropped again.” Doer impressions: “I noticed yesterday it’s especially strong at X, still weak at Y.” Specific, clean, bounded.",
-            "cn": "后者的人对 AI 的印象是“我昨天发现它在 X 上特别好、在 Y 上还是不行”——具体、清晰、有边界。"
+            "en": "And here is the counterintuitive part: the more rumination consumers consume, the further behind they feel; the more doers do, the clearer they feel. Not because the doers know more. Because the two activities move information in opposite directions. Anxiety management is input-only: information becomes emotion, burned up. Real work processes input and produces output; every pass reinforces cognitive structure. Consumer impressions of AI: “there’s too much, I can’t keep up, something new dropped again.” Doer impressions: “I noticed yesterday it’s especially strong at X, still weak at Y.” Specific, clean, bounded.",
+            "cn": "更反常的是：消费反刍的人越消费越感觉落后，做事的人越做越感觉清晰。这不是因为做事的人懂更多——是因为两种活动的信息处理方向完全相反。焦虑管理是只进不出，信息变成情绪消耗掉了；真正的工作是处理输入并产生输出，每一次处理都在加固认知结构。前者的人对 AI 的印象是“东西太多了、跟不上了、又出新的了”；后者的人对 AI 的印象是“我昨天发现它在 X 上特别好、在 Y 上还是不行”——具体、清晰、有边界。"
           }
         ]
       },
@@ -22627,16 +22223,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "OpenClaw’s most virally shared use is “help me summarise what happened in the AI world today.” It looks like an efficiency gain; it’s something that wasn’t possible before.",
-            "cn": "OpenClaw 这类工具最广为传播的用途，是“帮我每天整理 AI 圈发生的事”。"
-          },
-          {
-            "en": "But think about it.",
-            "cn": "看起来是提升了效率，这是以前做不到事情，"
-          },
-          {
-            "en": "Is this actually an achievement worth broadcasting?",
-            "cn": "但仔细想——这是一件值得被自豪宣传的成就吗？"
+            "en": "OpenClaw’s most virally shared use is “help me summarise what happened in the AI world today.” It looks like an efficiency gain; it’s something that wasn’t possible before. But think about it. Is this actually an achievement worth broadcasting?",
+            "cn": "OpenClaw 这类工具最广为传播的用途，是“帮我每天整理 AI 圈发生的事”。看起来是提升了效率，这是以前做不到事情，但仔细想——这是一件值得被自豪宣传的成就吗？"
           }
         ]
       },
@@ -22655,44 +22243,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not a problem with a particular tool.",
-            "cn": "这不是某个工具的问题。"
-          },
-          {
-            "en": "It is the externalisation of a deeper collective belief: keeping up with information equals being capable.",
-            "cn": "这是一个更深的集体信念的外化：跟上信息等于有能力。"
-          },
-          {
-            "en": "In the pre-AI era that belief had some basis.",
-            "cn": "在前 AI 时代这个信念有一定依据——信息稀缺，"
-          },
-          {
-            "en": "Information was scarce; sustained access to primary sources was itself a rare skill.",
-            "cn": "能持续获取一手信息本身是稀缺技能。"
-          },
-          {
-            "en": "After AI collapses the production cost of finished judgments to zero, that belief becomes a purely manufactured need.",
-            "cn": "但在 AI 让判断成品的生产成本降到零之后，这个信念变成了一个纯粹的伪需求。"
-          },
-          {
-            "en": "The content you can consume is infinite, and not one piece of it was produced so that you could learn something.",
-            "cn": "你能消费的内容无穷多，但没有一份是为了让你学到什么而造的。"
+            "en": "This is not a problem with a particular tool. It is the externalisation of a deeper collective belief: keeping up with information equals being capable. In the pre-AI era that belief had some basis. Information was scarce; sustained access to primary sources was itself a rare skill. After AI collapses the production cost of finished judgments to zero, that belief becomes a purely manufactured need. The content you can consume is infinite, and not one piece of it was produced so that you could learn something.",
+            "cn": "这不是某个工具的问题。这是一个更深的集体信念的外化：跟上信息等于有能力。在前 AI 时代这个信念有一定依据——信息稀缺，能持续获取一手信息本身是稀缺技能。但在 AI 让判断成品的生产成本降到零之后，这个信念变成了一个纯粹的伪需求。你能消费的内容无穷多，但没有一份是为了让你学到什么而造的。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So we get a structurally ironic picture.",
-            "cn": "于是出现了一个结构上很讽刺的画面："
-          },
-          {
-            "en": "AI takes the supply of information from scarce to infinite, and a portion of the population responds not with “I can finally shift from consuming information to producing judgment,” but with “I need stronger tools to consume more.” The stronger the tool, the faster the consumption; the faster the consumption, the more information dimensions brushed against; the more dimensions brushed against, the deeper the anxiety.",
-            "cn": "AI 让信息供给从匮乏变成无限，一部分人的反应不是“终于可以从消费信息转向产生判断”，而是“我需要更强的工具来消费更多信息”。工具越强，消费得越快；消费得越快，接触的信息维度越大；"
-          },
-          {
-            "en": "Every piece consumed implies ten more unconsumed.",
-            "cn": "接触维度越大，焦虑就越深——因为每消费一条都在暗示还有十条没消费到。"
+            "en": "So we get a structurally ironic picture. AI takes the supply of information from scarce to infinite, and a portion of the population responds not with “I can finally shift from consuming information to producing judgment,” but with “I need stronger tools to consume more.” The stronger the tool, the faster the consumption; the faster the consumption, the more information dimensions brushed against; the more dimensions brushed against, the deeper the anxiety. Every piece consumed implies ten more unconsumed.",
+            "cn": "于是出现了一个结构上很讽刺的画面：AI 让信息供给从匮乏变成无限，一部分人的反应不是“终于可以从消费信息转向产生判断”，而是“我需要更强的工具来消费更多信息”。工具越强，消费得越快；消费得越快，接触的信息维度越大；接触维度越大，焦虑就越深——因为每消费一条都在暗示还有十条没消费到。"
           }
         ]
       },
@@ -22730,10 +22290,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-4--a-subtler-trap-knowledge-management",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -22743,7 +22303,7 @@ const ARTICLES_EXTRA = [
     "chapter": 4,
     "sourceTextWords": 1509,
     "sourceParagraphs": 33,
-    "sourceSentences": 84,
+    "sourceSentences": 54,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -22788,16 +22348,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Real cognition doesn’t work that way.",
-            "cn": "但真实的认知过程不是这样的。"
-          },
-          {
-            "en": "What’s in your head as “knowledge” is not statically stored information; it’s a relational network constantly being re-composed.",
-            "cn": "脑子里的“知识”不是静态存储的信息，是一张不断被重构的关系网络。"
-          },
-          {
-            "en": "“Understanding” is not “remembering.” “Being able to use it” is not “being able to find it.” That misalignment meant knowledge management was doing a misaligned thing from day one.",
-            "cn": "“理解”不等于“记住”，“能用”不等于“能找到”。这个错位让知识管理从一开始就在做一件错位的事。"
+            "en": "Real cognition doesn’t work that way. What’s in your head as “knowledge” is not statically stored information; it’s a relational network constantly being re-composed. “Understanding” is not “remembering.” “Being able to use it” is not “being able to find it.” That misalignment meant knowledge management was doing a misaligned thing from day one.",
+            "cn": "但真实的认知过程不是这样的。脑子里的“知识”不是静态存储的信息，是一张不断被重构的关系网络。“理解”不等于“记住”，“能用”不等于“能找到”。这个错位让知识管理从一开始就在做一件错位的事。"
           }
         ]
       },
@@ -22812,40 +22364,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Retrieval has been solved by AI.",
-            "cn": "检索问题被 AI 解决了。"
-          },
-          {
-            "en": "One of the core reasons to organise notes used to be “so I can find it later.” Today’s AI knows almost every piece of text in the world, and retrieval cost has gone to nearly zero.",
-            "cn": "过去整理笔记的核心目的之一是“以后能找到”。现在的 AI 几乎了解世界上所有的文本信息，检索成本降到几乎为零。"
-          },
-          {
-            "en": "About 80% of the traditional “organise so you can retrieve” purpose no longer holds.",
-            "cn": "整个“为检索而整理”的传统目的，80% 已经不成立。"
+            "en": "Retrieval has been solved by AI. One of the core reasons to organise notes used to be “so I can find it later.” Today’s AI knows almost every piece of text in the world, and retrieval cost has gone to nearly zero. About 80% of the traditional “organise so you can retrieve” purpose no longer holds.",
+            "cn": "检索问题被 AI 解决了。过去整理笔记的核心目的之一是“以后能找到”。现在的 AI 几乎了解世界上所有的文本信息，检索成本降到几乎为零。整个“为检索而整理”的传统目的，80% 已经不成立。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The memory-outsourcing trap.",
-            "cn": "记忆外置的陷阱。"
-          },
-          {
-            "en": "There’s a psychological phenomenon called the Google effect: knowing that “the information is saved” makes the brain remember it less.",
-            "cn": "心理学上有个现象叫 Google effect——知道“信息被保存了”会让大脑更少真的记住它。"
-          },
-          {
-            "en": "The effect is extreme in heavy note-takers: a note containing X ≠ your head containing X.",
-            "cn": "这个效应在重度笔记用户身上特别明显：笔记里有 ≠ 脑子里有。"
-          },
-          {
-            "en": "Knowledge that can actually be called on lives as an active model in your head, not as a tag in a notebook.",
-            "cn": "能被调用的知识是脑子里的活跃模型，不是笔记里的标签。"
-          },
-          {
-            "en": "Many heavy note-takers’ active internal knowledge is in fact atrophying, because they treat the brain as an index rather than a workbench.",
-            "cn": "大量重度笔记用户的脑内活跃知识反而在退化，因为他们把大脑当成了索引而不是工作台。"
+            "en": "The memory-outsourcing trap. There’s a psychological phenomenon called the Google effect: knowing that “the information is saved” makes the brain remember it less. The effect is extreme in heavy note-takers: a note containing X ≠ your head containing X. Knowledge that can actually be called on lives as an active model in your head, not as a tag in a notebook. Many heavy note-takers’ active internal knowledge is in fact atrophying, because they treat the brain as an index rather than a workbench.",
+            "cn": "记忆外置的陷阱。心理学上有个现象叫 Google effect——知道“信息被保存了”会让大脑更少真的记住它。这个效应在重度笔记用户身上特别明显：笔记里有 ≠ 脑子里有。能被调用的知识是脑子里的活跃模型，不是笔记里的标签。大量重度笔记用户的脑内活跃知识反而在退化，因为他们把大脑当成了索引而不是工作台。"
           }
         ]
       },
@@ -22868,28 +22396,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Organising notes and forming judgments are different activities.",
-            "cn": "整理笔记和形成判断是两件不同的活动。"
-          },
-          {
-            "en": "Luhmann’s Zettelkasten generated the core material for seventy-plus books not because of whichever system he used, but because every card held his own thinking.",
-            "cn": "Luhmann 的 Zettelkasten 之所以产生了他 70 多本书的核心材料，关键不是他用了什么系统，"
-          },
-          {
-            "en": "Each card was a small judgment, a calibration against existing knowledge.",
-            "cn": "而是他每张卡片写的都是自己的思考——每张卡片都是一个小判断、一次对已有知识的校准。"
-          },
-          {
-            "en": "The essence of that system is not “managing knowledge” but “forcing thought.” Modern Obsidian users are mostly managing other people’s thinking: highlighting, quoting, citing.",
-            "cn": "这个系统的本质不是“管理知识”，是“强制思考”。现代人用 Obsidian 大多是在管理别人的思考——高亮、摘抄、引用——这和 Luhmann 做的事没有任何共同点，"
-          },
-          {
-            "en": "That has nothing in common with what Luhmann did.",
-            "cn": "只是"
-          },
-          {
-            "en": "It only borrows the same visual form.",
-            "cn": "借了同一个视觉形式。"
+            "en": "Organising notes and forming judgments are different activities. Luhmann’s Zettelkasten generated the core material for seventy-plus books not because of whichever system he used, but because every card held his own thinking. Each card was a small judgment, a calibration against existing knowledge. The essence of that system is not “managing knowledge” but “forcing thought.” Modern Obsidian users are mostly managing other people’s thinking: highlighting, quoting, citing. That has nothing in common with what Luhmann did. It only borrows the same visual form.",
+            "cn": "整理笔记和形成判断是两件不同的活动。Luhmann 的 Zettelkasten 之所以产生了他 70 多本书的核心材料，关键不是他用了什么系统，而是他每张卡片写的都是自己的思考——每张卡片都是一个小判断、一次对已有知识的校准。这个系统的本质不是“管理知识”，是“强制思考”。现代人用 Obsidian 大多是在管理别人的思考——高亮、摘抄、引用——这和 Luhmann 做的事没有任何共同点，只是借了同一个视觉形式。"
           }
         ]
       },
@@ -22932,20 +22440,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "His raw sources are arXiv papers, experiment results, code, and his own unpublished work.",
-            "cn": "他的 raw sources 是 arxiv 论文、实验结果、代码、"
-          },
-          {
-            "en": "All of these are either absent from, or already stale in, the training data of the large models.",
-            "cn": "他自己还没发表的工作——这些都是大模型训练数据里没有或者已经过时的内容。"
-          },
-          {
-            "en": "Model training data has a cutoff; the frontier research the model doesn’t know about is exactly the information space a scientist lives in.",
-            "cn": "模型训练数据有 cutoff，前沿研究的最新进展模型常常不知道，而科学家恰好生活在这个 cutoff 之后的信息空间里。"
-          },
-          {
-            "en": "He isn’t “managing knowledge”; he’s maintaining a delta against the model’s knowledge base, layering the frontier on top of the existing foundation.",
-            "cn": "他不是在“管理知识”，是在维护一个模型知识的 delta——把前沿补充到已有底座之上。"
+            "en": "His raw sources are arXiv papers, experiment results, code, and his own unpublished work. All of these are either absent from, or already stale in, the training data of the large models. Model training data has a cutoff; the frontier research the model doesn’t know about is exactly the information space a scientist lives in. He isn’t “managing knowledge”; he’s maintaining a delta against the model’s knowledge base, layering the frontier on top of the existing foundation.",
+            "cn": "他的 raw sources 是 arxiv 论文、实验结果、代码、他自己还没发表的工作——这些都是大模型训练数据里没有或者已经过时的内容。模型训练数据有 cutoff，前沿研究的最新进展模型常常不知道，而科学家恰好生活在这个 cutoff 之后的信息空间里。他不是在“管理知识”，是在维护一个模型知识的 delta——把前沿补充到已有底座之上。"
           }
         ]
       },
@@ -22980,20 +22476,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Copying Karpathy’s scheme under those conditions becomes what?",
-            "cn": "在这种情况下复制 Karpathy 的方案会变成什么？"
-          },
-          {
-            "en": "Having an AI generate a structured-looking wiki out of already-ruminated content.",
-            "cn": "让 AI 从已经被反刍过的内容里生成一个看起来结构化的 wiki——这是在给反刍链又加了一层。"
-          },
-          {
-            "en": "You’re adding another layer to the rumination chain.",
-            "cn": "产物看起来更像“知识”、"
-          },
-          {
-            "en": "The output looks more like “knowledge,” more like “a system,” more like “research.” But it’s further from the primary source and emptier.",
-            "cn": "更像“系统”、更像“研究”——但离原始信息更远、更空。"
+            "en": "Copying Karpathy’s scheme under those conditions becomes what? Having an AI generate a structured-looking wiki out of already-ruminated content. You’re adding another layer to the rumination chain. The output looks more like “knowledge,” more like “a system,” more like “research.” But it’s further from the primary source and emptier.",
+            "cn": "在这种情况下复制 Karpathy 的方案会变成什么？让 AI 从已经被反刍过的内容里生成一个看起来结构化的 wiki——这是在给反刍链又加了一层。产物看起来更像“知识”、更像“系统”、更像“研究”——但离原始信息更远、更空。"
           }
         ]
       },
@@ -23065,35 +22549,23 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "In that case maintaining a continuously updated knowledge base has real value, because what you are accumulating is what the model doesn’t know.",
-            "cn": "在这种情况下，维护一个持续更新的知识底座有真实价值，因为你积累的是模型不知道的东西。Karpathy 的 wiki 方案适合这类场景。"
+            "cn": "在这种情况下，维护一个持续更新的知识底座有真实价值，因为你积累的是模型不知道的东西。"
           },
           {
             "en": "Karpathy’s wiki fits this scenario.",
-            "cn": "前提是——你真的在做前沿工作、"
+            "cn": "Karpathy 的 wiki 方案适合这类场景。"
           },
           {
             "en": "Preconditions: you are actually doing frontier work, your raw sources are primary, and you have the judgment to check whether the wiki has drifted.",
-            "cn": "你的 raw sources 是一手的、你有判断能力去检验 wiki 是否偏了。"
+            "cn": "前提是——你真的在做前沿工作、你的 raw sources 是一手的、你有判断能力去检验 wiki 是否偏了。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Class II . The personal-cognition delta.",
-            "cn": "第二类 · 个人独特认知的 delta。"
-          },
-          {
-            "en": "You’re not working at the frontier, but you have your own judgments on specific matters, preferences, non-consensus models, personal lessons.",
-            "cn": "你不在前沿工作，但你有自己对具体事物的判断、偏好、非共识模型、"
-          },
-          {
-            "en": "None of these can be generated by a generic model from its training data.",
-            "cn": "个人经验教训——这些是通用模型从训练数据里无法生成的。"
-          },
-          {
-            "en": "In this case the right move is a minimum alignment layer: record only “things the model doesn’t already know,” so that next time you collaborate with the model it can start from where you left off instead of from zero.",
-            "cn": "这种情况下合理的做法是最小对齐层：只记录“模型不已然知晓的东西”，让下次和模型协作时它能从你的上一次终点开始，而不是从零。"
+            "en": "Class II · The personal-cognition delta. You’re not working at the frontier, but you have your own judgments on specific matters, preferences, non-consensus models, personal lessons. None of these can be generated by a generic model from its training data. In this case the right move is a minimum alignment layer: record only “things the model doesn’t already know,” so that next time you collaborate with the model it can start from where you left off instead of from zero.",
+            "cn": "第二类 · 个人独特认知的 delta。你不在前沿工作，但你有自己对具体事物的判断、偏好、非共识模型、个人经验教训——这些是通用模型从训练数据里无法生成的。这种情况下合理的做法是最小对齐层：只记录“模型不已然知晓的东西”，让下次和模型协作时它能从你的上一次终点开始，而不是从零。"
           }
         ]
       },
@@ -23101,51 +22573,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The two schemes look very different; the underlying logic is identical.",
-            "cn": "两类方案看起来很不同，底层逻辑完全一致——都是在回答同一个问题："
+            "cn": "两类方案看起来很不同，底层逻辑完全一致——都是在回答同一个问题：“模型相对于我，缺什么？"
           },
           {
             "en": "Both are answering the same question: “relative to the model, what am I short of?” The “short of” simply falls in different information distributions for different people.",
-            "cn": "“模型相对于我，缺什么？”只是两种人的“缺”落在不同的信息分布上。"
+            "cn": "”只是两种人的“缺”落在不同的信息分布上。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The second class has a counterintuitive but important property: it cannot be performed.",
-            "cn": "第二类方案有一个反直觉但重要的特性：它无法被表演。"
-          },
-          {
-            "en": "Its entry requirement is “I can identify what the model doesn’t know.” People without that judgment can’t use the method (they discover they have nothing worth recording); people with it end up recording material that’s guaranteed to matter.",
-            "cn": "因为它的准入门槛是“我能识别什么是模型不知道的”——不具备这个判断力的人用不了这个方法（他们会发现自己其实没什么可记的）；具备这个判断力的人记录下来的内容一定有效。"
-          },
-          {
-            "en": "That self-selection is worth more than the method itself.",
-            "cn": "这个自我筛选机制比方法本身还值钱"
-          },
-          {
-            "en": "It structurally prevents the method from becoming a new rumination ritual.",
-            "cn": "——它从结构上就防止了这个方法变成新的反刍仪式。"
+            "en": "The second class has a counterintuitive but important property: it cannot be performed. Its entry requirement is “I can identify what the model doesn’t know.” People without that judgment can’t use the method (they discover they have nothing worth recording); people with it end up recording material that’s guaranteed to matter. That self-selection is worth more than the method itself. It structurally prevents the method from becoming a new rumination ritual.",
+            "cn": "第二类方案有一个反直觉但重要的特性：它无法被表演。因为它的准入门槛是“我能识别什么是模型不知道的”——不具备这个判断力的人用不了这个方法（他们会发现自己其实没什么可记的）；具备这个判断力的人记录下来的内容一定有效。这个自我筛选机制比方法本身还值钱——它从结构上就防止了这个方法变成新的反刍仪式。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "For most people, Class II is the reasonable starting point.",
-            "cn": "对大多数人，第二类方案是合理的起点。"
-          },
-          {
-            "en": "If, during use, you discover “the model doesn’t know enough about my field,” you can consider adding a Karpathy-style disciplinary base.",
-            "cn": "在使用过程中如果发现“模型在我的领域里知识不够用”，再考虑加一层 Karpathy 式的学科底座。"
-          },
-          {
-            "en": "The opposite order lands people straight in ritual knowledge management.",
-            "cn": "顺序反过来则容易陷入仪式式的知识管理陷阱——这也是整个知识管理社区犯的最大错误："
-          },
-          {
-            "en": "This is the single biggest mistake the knowledge-management community has made: advising beginners to build the base first. The beginners then spend months organising other people’s judgments, and the organising substitutes for the cognitive activity itself.",
-            "cn": "他们建议新人先建底座，结果新人花几个月整理别人的判断，认知活动反而被整理动作本身替代。"
+            "en": "For most people, Class II is the reasonable starting point. If, during use, you discover “the model doesn’t know enough about my field,” you can consider adding a Karpathy-style disciplinary base. The opposite order lands people straight in ritual knowledge management. This is the single biggest mistake the knowledge-management community has made: advising beginners to build the base first. The beginners then spend months organising other people’s judgments, and the organising substitutes for the cognitive activity itself.",
+            "cn": "对大多数人，第二类方案是合理的起点。在使用过程中如果发现“模型在我的领域里知识不够用”，再考虑加一层 Karpathy 式的学科底座。顺序反过来则容易陷入仪式式的知识管理陷阱——这也是整个知识管理社区犯的最大错误：他们建议新人先建底座，结果新人花几个月整理别人的判断，认知活动反而被整理动作本身替代。"
           }
         ]
       },
@@ -23168,16 +22616,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The distinction is not in the content of the methodology.",
-            "cn": "区别不在方法论的内容——它可以是提升效率、"
-          },
-          {
-            "en": "It can be about productivity, learning, knowledge organisation, creativity.",
-            "cn": "促进学习、组织知识、加强创造力。"
-          },
-          {
-            "en": "The distinction is whether the user has outsourced judgment to it.",
-            "cn": "区别在使用者是不是把判断外包给了这个方法论。"
+            "en": "The distinction is not in the content of the methodology. It can be about productivity, learning, knowledge organisation, creativity. The distinction is whether the user has outsourced judgment to it.",
+            "cn": "区别不在方法论的内容——它可以是提升效率、促进学习、组织知识、加强创造力。区别在使用者是不是把判断外包给了这个方法论。"
           }
         ]
       },
@@ -23227,10 +22667,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-5--what-they-all-got-right-generalists-taste-and-the-refolding-of-intelligence",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -23240,7 +22680,7 @@ const ARTICLES_EXTRA = [
     "chapter": 5,
     "sourceTextWords": 2123,
     "sourceParagraphs": 37,
-    "sourceSentences": 119,
+    "sourceSentences": 64,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -23265,120 +22705,40 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This question had already been brushed against several times before AI.",
-            "cn": "这个问题其实在 AI 之前就已经被多次触及。"
-          },
-          {
-            "en": "A few widely circulated framings, from different corners, were describing the same underlying thing from different angles.",
-            "cn": "不同的圈子里，有几种流行的说法在从不同角度描述同一件事——但每一种都只描述了其中的一部分，"
-          },
-          {
-            "en": "Each one described only a fragment, and none of them realised it was describing the same thing.",
-            "cn": "而且都没意识到自己在描述的其实是同一个东西。"
-          },
-          {
-            "en": "Laid side by side, a more complete picture emerges.",
-            "cn": "把它们放在一起看，会出现一个更完整的图景。"
+            "en": "This question had already been brushed against several times before AI. A few widely circulated framings, from different corners, were describing the same underlying thing from different angles. Each one described only a fragment, and none of them realised it was describing the same thing. Laid side by side, a more complete picture emerges.",
+            "cn": "这个问题其实在 AI 之前就已经被多次触及。不同的圈子里，有几种流行的说法在从不同角度描述同一件事——但每一种都只描述了其中的一部分，而且都没意识到自己在描述的其实是同一个东西。把它们放在一起看，会出现一个更完整的图景。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Over the past few years, in creator and indie-developer circles, the concept of the “generalist” has been pushed back to the front.",
-            "cn": "近几年在创作者和独立开发者圈子里，“通才”这个概念被重新推到前台。"
-          },
-          {
-            "en": "The most-quoted version comes from Dan Koe.",
-            "cn": "最常被引用的版本来自 Dan Koe——他的核心论点是："
-          },
-          {
-            "en": "The core claim is that specialisation is losing value, and the multi-domain generalist is becoming scarce and valuable.",
-            "cn": "专业化正在贬值，多领域的通才反而在变得稀缺且有价值。"
+            "en": "Over the past few years, in creator and indie-developer circles, the concept of the “generalist” has been pushed back to the front. The most-quoted version comes from Dan Koe. The core claim is that specialisation is losing value, and the multi-domain generalist is becoming scarce and valuable.",
+            "cn": "近几年在创作者和独立开发者圈子里，“通才”这个概念被重新推到前台。最常被引用的版本来自 Dan Koe——他的核心论点是：专业化正在贬值，多领域的通才反而在变得稀缺且有价值。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What he got right: breadth is not miscellany.",
-            "cn": "他说对的那部分：广度不是杂学。"
-          },
-          {
-            "en": "A real generalist is not “someone who knows a little bit of everything,” but someone who has accumulated enough depth in multiple fields to see the isomorphic structures between them.",
-            "cn": "真正的通才不是“什么都知道一点”，而是在多个领域都积累到足够深度，因此能看到不同领域之间的同构结构。"
-          },
-          {
-            "en": "A person who has studied economic incentives, biological evolution, and organisational behaviour in depth simultaneously discovers that the underlying mechanisms of the three fields overlap heavily.",
-            "cn": "一个同时深入研究过经济激励、生物进化、组织行为的人，会发现这三个领域的底层机制大量重叠——因为它们都在讲“多个行动者在约束条件下追求自身目标时，"
-          },
-          {
-            "en": "All three describe what happens at the system level when multiple actors pursue their own goals under constraints.",
-            "cn": "系统层面会涌现出什么”。"
-          },
-          {
-            "en": "Recognising that cross-domain isomorphism is the generalist’s real value, and the only route from breadth to judgment.",
-            "cn": "识别出这种跨域同构，是通才的真正价值所在，也是把广度转化为判断力的唯一路径。"
+            "en": "What he got right: breadth is not miscellany. A real generalist is not “someone who knows a little bit of everything,” but someone who has accumulated enough depth in multiple fields to see the isomorphic structures between them. A person who has studied economic incentives, biological evolution, and organisational behaviour in depth simultaneously discovers that the underlying mechanisms of the three fields overlap heavily. All three describe what happens at the system level when multiple actors pursue their own goals under constraints. Recognising that cross-domain isomorphism is the generalist’s real value, and the only route from breadth to judgment.",
+            "cn": "他说对的那部分：广度不是杂学。真正的通才不是“什么都知道一点”，而是在多个领域都积累到足够深度，因此能看到不同领域之间的同构结构。一个同时深入研究过经济激励、生物进化、组织行为的人，会发现这三个领域的底层机制大量重叠——因为它们都在讲“多个行动者在约束条件下追求自身目标时，系统层面会涌现出什么”。识别出这种跨域同构，是通才的真正价值所在，也是把广度转化为判断力的唯一路径。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What he didn’t make explicit: what kind of depth counts.",
-            "cn": "他没说清的那部分：什么样的深度才算数。"
-          },
-          {
-            "en": "This is the vaguest part of the generalist thesis, and the part where followers most often slip.",
-            "cn": "这是通才论最模糊的一块，也是追随者最容易踩坑的地方。"
-          },
-          {
-            "en": "Some people, following the thesis, read one introductory book from each of ten fields and end up with ten fields’ worth of surface narratives in their head.",
-            "cn": "有人按通才论去扩展自己的阅读，读了十个领域各一本入门书，"
-          },
-          {
-            "en": "That “depth” is useless for cross-domain mapping, because surface narratives are different across fields by definition; there is no isomorphism to be found.",
-            "cn": "最后脑子里装的是十个领域的表面叙事——这种“深度”对跨域映射毫无用处，因为表面叙事在不同领域里本来就不一样，没有同构可言。"
-          },
-          {
-            "en": "What can actually be mapped is deep structure: the causal mechanisms, incentive constraints, and feedback loops that genuinely drive behaviour in a field.",
-            "cn": "真正能被映射的是深层结构——一个领域里真正决定行为的因果机制、激励约束、反馈回路。"
-          },
-          {
-            "en": "A workable test for depth: can you name one thing that practitioners of a field collectively believe but that is actually wrong?",
-            "cn": "一个可操作的深度标准是：你能不能说出一个领域的从业者集体相信但实际上是错的一件事。"
-          },
-          {
-            "en": "If yes, you have depth.",
-            "cn": "说得出的，是有深度；"
-          },
-          {
-            "en": "If no, you’re still stuck at the standard-narrative layer.",
-            "cn": "说不出的，还停在标准叙事层。"
+            "en": "What he didn’t make explicit: what kind of depth counts. This is the vaguest part of the generalist thesis, and the part where followers most often slip. Some people, following the thesis, read one introductory book from each of ten fields and end up with ten fields’ worth of surface narratives in their head. That “depth” is useless for cross-domain mapping, because surface narratives are different across fields by definition; there is no isomorphism to be found. What can actually be mapped is deep structure: the causal mechanisms, incentive constraints, and feedback loops that genuinely drive behaviour in a field. A workable test for depth: can you name one thing that practitioners of a field collectively believe but that is actually wrong? If yes, you have depth. If no, you’re still stuck at the standard-narrative layer.",
+            "cn": "他没说清的那部分：什么样的深度才算数。这是通才论最模糊的一块，也是追随者最容易踩坑的地方。有人按通才论去扩展自己的阅读，读了十个领域各一本入门书，最后脑子里装的是十个领域的表面叙事——这种“深度”对跨域映射毫无用处，因为表面叙事在不同领域里本来就不一样，没有同构可言。真正能被映射的是深层结构——一个领域里真正决定行为的因果机制、激励约束、反馈回路。一个可操作的深度标准是：你能不能说出一个领域的从业者集体相信但实际上是错的一件事。说得出的，是有深度；说不出的，还停在标准叙事层。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The gap he left behind: the generalist thesis never singles out the underlying mechanism of doing cross-domain mapping.",
-            "cn": "他留下的漏洞：通才论没把做跨域映射的底层机制单独拎出来。"
-          },
-          {
-            "en": "It reads as a methodology: read books from several fields, draw connections.",
-            "cn": "它读起来像一个方法论——多读几个领域的书、建立联系——但它暗含一个前提："
-          },
-          {
-            "en": "But it rests on an unstated precondition: that the reader is capable of making such mappings.",
-            "cn": "读者有能力做这种映射。"
-          },
-          {
-            "en": "And it’s that capacity that’s actually scarce.",
-            "cn": "而这个能力本身才是稀缺的。"
-          },
-          {
-            "en": "Which explains why, given the same methodology, some people pull it off and others don’t: the difference isn’t effort, it’s the mapping capacity itself.",
-            "cn": "这解释了为什么同样的方法论，有人用出来了、有人用不出来：差的不是努力，是映射能力本身。"
+            "en": "The gap he left behind: the generalist thesis never singles out the underlying mechanism of doing cross-domain mapping. It reads as a methodology: read books from several fields, draw connections. But it rests on an unstated precondition: that the reader is capable of making such mappings. And it’s that capacity that’s actually scarce. Which explains why, given the same methodology, some people pull it off and others don’t: the difference isn’t effort, it’s the mapping capacity itself.",
+            "cn": "他留下的漏洞：通才论没把做跨域映射的底层机制单独拎出来。它读起来像一个方法论——多读几个领域的书、建立联系——但它暗含一个前提：读者有能力做这种映射。而这个能力本身才是稀缺的。这解释了为什么同样的方法论，有人用出来了、有人用不出来：差的不是努力，是映射能力本身。"
           }
         ]
       },
@@ -23417,140 +22777,40 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "But what they are describing is low-order taste: pure pattern recognition.",
-            "cn": "但他们描述的是低阶品味——纯粹的模式识别。"
-          },
-          {
-            "en": "Someone can tell that “this typeface is ugly” but can’t say why.",
-            "cn": "一个人能判断“这个字体不好看”，但让他解释为什么，他说不出。"
-          },
-          {
-            "en": "That taste is real and useful.",
-            "cn": "这种品味是真实的、"
-          },
-          {
-            "en": "It lets a person rapidly filter options inside a domain they know well.",
-            "cn": "也有用——它能让一个人在自己熟悉的领域快速过滤大量选项——但它有一个严重的限制：不可迁移、不可教、不可验证。"
-          },
-          {
-            "en": "But it has a severe limitation: it doesn’t transfer, can’t be taught, can’t be verified.",
-            "cn": "你没办法把你的品味传给别人，"
-          },
-          {
-            "en": "You cannot pass your taste to someone else; you can’t build taste from zero in a new domain, because you don’t have the sample base yet.",
-            "cn": "也没办法在一个新领域从零建立品味，因为没有足够的样本。"
+            "en": "But what they are describing is low-order taste: pure pattern recognition. Someone can tell that “this typeface is ugly” but can’t say why. That taste is real and useful. It lets a person rapidly filter options inside a domain they know well. But it has a severe limitation: it doesn’t transfer, can’t be taught, can’t be verified. You cannot pass your taste to someone else; you can’t build taste from zero in a new domain, because you don’t have the sample base yet.",
+            "cn": "但他们描述的是低阶品味——纯粹的模式识别。一个人能判断“这个字体不好看”，但让他解释为什么，他说不出。这种品味是真实的、也有用——它能让一个人在自己熟悉的领域快速过滤大量选项——但它有一个严重的限制：不可迁移、不可教、不可验证。你没办法把你的品味传给别人，也没办法在一个新领域从零建立品味，因为没有足够的样本。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What they didn’t make explicit: taste actually has two layers.",
-            "cn": "他们没说清的那部分：品味其实有两层。"
-          },
-          {
-            "en": "Low-order taste is pre-linguistic pattern recognition.",
-            "cn": "低阶品味是前语言的模式识别，"
-          },
-          {
-            "en": "High-order taste is pattern recognition plus the ability to extract structured reasons on demand.",
-            "cn": "高阶品味是模式识别 + 需要时能拆出结构化理由。"
-          },
-          {
-            "en": "A genuinely strong designer doesn’t only say “this typeface is ugly”; they can analyse why.",
-            "cn": "一个真正厉害的设计师不仅能说“这个字体难看”，"
-          },
-          {
-            "en": "It may be that the ratio between x-height and weight breaks the visual rhythm.",
-            "cn": "还能分析“是因为它的 x-height 和字重的比例破坏了视觉节奏”。"
-          },
-          {
-            "en": "High-order taste matters because it is teachable, transferable, and lets you build taste in a new domain faster.",
-            "cn": "高阶品味之所以重要，是因为它可教、可迁移、可在新领域加速建立新品味——它把直觉背后的结构显式化了，"
-          },
-          {
-            "en": "It has made the structure behind the intuition explicit, so the structure can be learned.",
-            "cn": "于是结构可以被学习。"
+            "en": "What they didn’t make explicit: taste actually has two layers. Low-order taste is pre-linguistic pattern recognition. High-order taste is pattern recognition plus the ability to extract structured reasons on demand. A genuinely strong designer doesn’t only say “this typeface is ugly”; they can analyse why. It may be that the ratio between x-height and weight breaks the visual rhythm. High-order taste matters because it is teachable, transferable, and lets you build taste in a new domain faster. It has made the structure behind the intuition explicit, so the structure can be learned.",
+            "cn": "他们没说清的那部分：品味其实有两层。低阶品味是前语言的模式识别，高阶品味是模式识别 + 需要时能拆出结构化理由。一个真正厉害的设计师不仅能说“这个字体难看”，还能分析“是因为它的 x-height 和字重的比例破坏了视觉节奏”。高阶品味之所以重要，是因为它可教、可迁移、可在新领域加速建立新品味——它把直觉背后的结构显式化了，于是结构可以被学习。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "High-order taste and the generalist thesis turn out to be, at bottom, the same capability.",
-            "cn": "高阶品味和通才论在底层其实是同一个能力——都是把一个具体判断抽象成可操作的结构，"
-          },
-          {
-            "en": "Both are abstracting a concrete judgment into an operable structure, then applying that structure somewhere new.",
-            "cn": "然后把这个结构用在新的地方。"
-          },
-          {
-            "en": "The generalist thesis talks about it from the cross-domain angle; the taste argument talks about it from the aesthetic-intuition angle.",
-            "cn": "不同的是，通才论从“跨域”的角度谈它，品味论从“审美直觉”的角度谈它。"
-          },
-          {
-            "en": "Two faces of one mechanism.",
-            "cn": "两者说的是同一个机制的两个侧面。"
+            "en": "High-order taste and the generalist thesis turn out to be, at bottom, the same capability. Both are abstracting a concrete judgment into an operable structure, then applying that structure somewhere new. The generalist thesis talks about it from the cross-domain angle; the taste argument talks about it from the aesthetic-intuition angle. Two faces of one mechanism.",
+            "cn": "高阶品味和通才论在底层其实是同一个能力——都是把一个具体判断抽象成可操作的结构，然后把这个结构用在新的地方。不同的是，通才论从“跨域”的角度谈它，品味论从“审美直觉”的角度谈它。两者说的是同一个机制的两个侧面。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "A third line has become common in tech circles and among indie creators.",
-            "cn": "第三条线在技术圈和独立创作者圈子里越来越常见。"
-          },
-          {
-            "en": "Its core claim is blunt: AI will not narrow the gap; it will widen it at an unprecedented speed.",
-            "cn": "它的核心论点简单粗暴：AI 不会让差距缩小，只会让差距以前所未有的速度拉开。"
-          },
-          {
-            "en": "The analogy is usually the industrial revolution.",
-            "cn": "类比的对象通常是工业革命——蒸汽机和后来的装配线让体力劳动的相对价值急剧下降，能设计机器、能组织生产、能调度系统的人，和只能出卖体力的人之间的差距从线性扩大变成了指数分化。"
-          },
-          {
-            "en": "Steam engines and assembly lines crashed the relative value of physical labour.",
-            "cn": "现在轮到认知了。"
-          },
-          {
-            "en": "The gap between the people who could design machines, organise production, and schedule systems, and the people who could only sell their physical labour, went from linear widening to exponential splitting.",
-            "cn": "AI 正在摊平一批认知能力（知识、记忆、检索、流畅表达），剩下那一部分不被摊平的会被爆炸式放大。"
-          },
-          {
-            "en": "Now it’s cognition’s turn.",
-            "cn": "结果不是“贫富差距变大”，"
-          },
-          {
-            "en": "AI is flattening a batch of cognitive abilities (knowledge, memory, retrieval, fluent expression), and the remaining part that isn’t flattened will be blown up explosively.",
-            "cn": "是“"
-          },
-          {
-            "en": "The result isn’t “inequality grows”; it’s “different populations’ output in the same unit of time gets folded onto completely different orders of magnitude.”",
-            "cn": "不同人群的产出在同一个单位时间里被折叠到完全不同的量级”。"
+            "en": "A third line has become common in tech circles and among indie creators. Its core claim is blunt: AI will not narrow the gap; it will widen it at an unprecedented speed. The analogy is usually the industrial revolution. Steam engines and assembly lines crashed the relative value of physical labour. The gap between the people who could design machines, organise production, and schedule systems, and the people who could only sell their physical labour, went from linear widening to exponential splitting. Now it’s cognition’s turn. AI is flattening a batch of cognitive abilities (knowledge, memory, retrieval, fluent expression), and the remaining part that isn’t flattened will be blown up explosively. The result isn’t “inequality grows”; it’s “different populations’ output in the same unit of time gets folded onto completely different orders of magnitude.”",
+            "cn": "第三条线在技术圈和独立创作者圈子里越来越常见。它的核心论点简单粗暴：AI 不会让差距缩小，只会让差距以前所未有的速度拉开。类比的对象通常是工业革命——蒸汽机和后来的装配线让体力劳动的相对价值急剧下降，能设计机器、能组织生产、能调度系统的人，和只能出卖体力的人之间的差距从线性扩大变成了指数分化。现在轮到认知了。AI 正在摊平一批认知能力（知识、记忆、检索、流畅表达），剩下那一部分不被摊平的会被爆炸式放大。结果不是“贫富差距变大”，是“不同人群的产出在同一个单位时间里被折叠到完全不同的量级”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What they got right: the gap will widen, at a speed without historical precedent.",
-            "cn": "他们说对的那部分：差距会拉开，且速度前所未有。"
-          },
-          {
-            "en": "The judgment is correct, and the industrial-revolution analogy is apt. Every previous general-purpose-technology leap has produced not linear widening but exponential splitting between people who seized the new lever and people who didn’t.",
-            "cn": "这个判断是对的，而且类比工业革命非常合适。历史上每一次通用技术跃迁之后，掌握了新杠杆的人和没掌握的人之间的差距都不是线性扩大，"
-          },
-          {
-            "en": "True of steam, true of electricity, true of the internet.",
-            "cn": "是指数分化——蒸汽机如此、电如此、互联网如此，"
-          },
-          {
-            "en": "AI will only be more extreme, because it is the first time the technology acts directly on cognition itself, which is the source of judgment, creation, and decision.",
-            "cn": "AI 只会更极端，因为它是第一次直接作用于认知本身，而认知恰好是判断、创造、决策的源头。"
-          },
-          {
-            "en": "What gets amplified will be more visible than it has ever been.",
-            "cn": "被放大的那部分，会比历史上任何一次都显眼。"
+            "en": "What they got right: the gap will widen, at a speed without historical precedent. The judgment is correct, and the industrial-revolution analogy is apt. Every previous general-purpose-technology leap has produced not linear widening but exponential splitting between people who seized the new lever and people who didn’t. True of steam, true of electricity, true of the internet. AI will only be more extreme, because it is the first time the technology acts directly on cognition itself, which is the source of judgment, creation, and decision. What gets amplified will be more visible than it has ever been.",
+            "cn": "他们说对的那部分：差距会拉开，且速度前所未有。这个判断是对的，而且类比工业革命非常合适。历史上每一次通用技术跃迁之后，掌握了新杠杆的人和没掌握的人之间的差距都不是线性扩大，是指数分化——蒸汽机如此、电如此、互联网如此，AI 只会更极端，因为它是第一次直接作用于认知本身，而认知恰好是判断、创造、决策的源头。被放大的那部分，会比历史上任何一次都显眼。"
           }
         ]
       },
@@ -23565,36 +22825,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is the murkiest part of the argument, and where most followers slip.",
-            "cn": "这是整条论述最模糊的一块，也是大部分追随者会踩坑的地方。"
-          },
-          {
-            "en": "The default assumption is usually “high cognition = high IQ,” so the conclusion slides into “high-IQ people will grow richer; low-IQ people will be left behind faster.” The first half of that is roughly right; the reason behind it is completely wrong.",
-            "cn": "他们默认的假设通常是“高认知 = 高 IQ”——所以结论变成“高 IQ 的人会越来越富、低 IQ 的人会越来越被甩开”。这个结论的前半句大致对，但原因完全错。"
+            "en": "This is the murkiest part of the argument, and where most followers slip. The default assumption is usually “high cognition = high IQ,” so the conclusion slides into “high-IQ people will grow richer; low-IQ people will be left behind faster.” The first half of that is roughly right; the reason behind it is completely wrong.",
+            "cn": "这是整条论述最模糊的一块，也是大部分追随者会踩坑的地方。他们默认的假设通常是“高认知 = 高 IQ”——所以结论变成“高 IQ 的人会越来越富、低 IQ 的人会越来越被甩开”。这个结论的前半句大致对，但原因完全错。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What gets amplified is not IQ.",
-            "cn": "被放大的那件事不是 IQ。"
-          },
-          {
-            "en": "IQ measures raw processing: working memory, processing speed, information extraction, rule-based inference.",
-            "cn": "IQ 测的是原始处理能力——工作记忆、处理速度、信息提取、按规则推演——这些 AI 现在已经比绝大多数人强。"
-          },
-          {
-            "en": "AI already beats almost everyone at these capabilities.",
-            "cn": "一个单纯 IQ 高但从不做真正认知活动的人，在 AI 时代反而会被最快淘汰——因为他过去用 IQ 做的那些事（快速学习、记忆调取、流畅推理），AI 都做得更快更准更便宜。"
-          },
-          {
-            "en": "A person with high IQ who never does real cognitive activity is, in the AI era, the one eliminated fastest, because the things they used to use their IQ for (rapid learning, memory recall, fluent deduction) are now done faster, more accurately, and more cheaply by AI.",
-            "cn": "他的"
-          },
-          {
-            "en": "Their advantage is flattened.",
-            "cn": "优势直接被摊平。"
+            "en": "What gets amplified is not IQ. IQ measures raw processing: working memory, processing speed, information extraction, rule-based inference. AI already beats almost everyone at these capabilities. A person with high IQ who never does real cognitive activity is, in the AI era, the one eliminated fastest, because the things they used to use their IQ for (rapid learning, memory recall, fluent deduction) are now done faster, more accurately, and more cheaply by AI. Their advantage is flattened.",
+            "cn": "被放大的那件事不是 IQ。IQ 测的是原始处理能力——工作记忆、处理速度、信息提取、按规则推演——这些 AI 现在已经比绝大多数人强。一个单纯 IQ 高但从不做真正认知活动的人，在 AI 时代反而会被最快淘汰——因为他过去用 IQ 做的那些事（快速学习、记忆调取、流畅推理），AI 都做得更快更准更便宜。他的优势直接被摊平。"
           }
         ]
       },
@@ -23630,15 +22870,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "But the real divide isn’t the innate “high cognition vs. low cognition” divide; it is the conscious one: “recognised it vs. didn’t.” The first is an immovable fate; the second is a crossable threshold.",
-            "cn": "但真正的分化不是“高认知 vs 低认知”的先天分化，是“识别出了 vs 没识别出”的意识分化。前者是一个不可改变的命运，后者是一个可以跨越的门槛——虽然跨越这个门槛本身不容易，但它在原理上是开放的。"
+            "cn": "但真正的分化不是“高认知 vs 低认知”的先天分化，是“识别出了 vs 没识别出”的意识分化。"
           },
           {
             "en": "Not easy to cross, but in principle open.",
-            "cn": "认知折叠论里最让人绝望的那种命运感，"
+            "cn": "前者是一个不可改变的命运，后者是一个可以跨越的门槛——虽然跨越这个门槛本身不容易，但它在原理上是开放的。"
           },
           {
             "en": "Most of the hopelessness that colours the cognitive-folding narrative comes from mistaking the crossable threshold for the immovable attribute.",
-            "cn": "大部分来自于把“可跨越的门槛”误认成了“不可改变的先天属性”。"
+            "cn": "认知折叠论里最让人绝望的那种命运感，大部分来自于把“可跨越的门槛”误认成了“不可改变的先天属性”。"
           }
         ]
       },
@@ -23705,20 +22945,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Cognitive science has a name for it: cognitive decoupling.",
-            "cn": "认知科学里有一个专门的名字给它："
-          },
-          {
-            "en": "It means peeling a representation off the reality it refers to and operating on it as an independent object.",
-            "cn": "认知去耦——把一个表征从它所指的现实里剥离、当作独立对象来操作。"
-          },
-          {
-            "en": "Every abstraction, hypothesis, counterfactual, and act of self-examination is built on it.",
-            "cn": "所有抽象、假设、反事实推理、自我审视都建立在它上面。"
-          },
-          {
-            "en": "The three popular framings are each touching a different facet.",
-            "cn": "三条流行说法都在从不同角度描述它，只是每一条都只摸到了其中一部分。"
+            "en": "Cognitive science has a name for it: cognitive decoupling. It means peeling a representation off the reality it refers to and operating on it as an independent object. Every abstraction, hypothesis, counterfactual, and act of self-examination is built on it. The three popular framings are each touching a different facet.",
+            "cn": "认知科学里有一个专门的名字给它：认知去耦——把一个表征从它所指的现实里剥离、当作独立对象来操作。所有抽象、假设、反事实推理、自我审视都建立在它上面。三条流行说法都在从不同角度描述它，只是每一条都只摸到了其中一部分。"
           }
         ]
       },
@@ -23801,16 +23029,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The first three all rest on the last one.",
-            "cn": "前三条都依赖最后一条。"
-          },
-          {
-            "en": "Without real decoupling, the first three are just interpolative mimicry in a high-dimensional representation space.",
-            "cn": "没有真正的去耦能力，前三条都只是在高维表征空间里做插值模拟——看起来像，"
-          },
-          {
-            "en": "They look like the real thing but aren’t.",
-            "cn": "但本质不是。"
+            "en": "The first three all rest on the last one. Without real decoupling, the first three are just interpolative mimicry in a high-dimensional representation space. They look like the real thing but aren’t.",
+            "cn": "前三条都依赖最后一条。没有真正的去耦能力，前三条都只是在高维表征空间里做插值模拟——看起来像，但本质不是。"
           }
         ]
       },
@@ -23880,10 +23100,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-6--the-four-part-formula-item-by-item",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -23893,7 +23113,7 @@ const ARTICLES_EXTRA = [
     "chapter": 6,
     "sourceTextWords": 3960,
     "sourceParagraphs": 70,
-    "sourceSentences": 294,
+    "sourceSentences": 83,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -23902,20 +23122,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Decoupling itself is only an operator.",
-            "cn": "去耦本身只是一个算子。"
-          },
-          {
-            "en": "A person’s capacity for cognitive output is jointly determined by four things.",
-            "cn": "一个人的认知产出能力由四项东西共同决定，"
-          },
-          {
-            "en": "Their relationship is not additive.",
-            "cn": "它们之间的关系不是加法，"
-          },
-          {
-            "en": "It is multiplicative.",
-            "cn": "是乘法。"
+            "en": "Decoupling itself is only an operator. A person’s capacity for cognitive output is jointly determined by four things. Their relationship is not additive. It is multiplicative.",
+            "cn": "去耦本身只是一个算子。一个人的认知产出能力由四项东西共同决定，它们之间的关系不是加法，是乘法。"
           }
         ]
       },
@@ -23930,24 +23138,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If any one item is zero, the whole thing is zero.",
-            "cn": "任何一项为零，整体就是零。"
-          },
-          {
-            "en": "This explains why most attempts to “improve cognition” fail.",
-            "cn": "这解释了为什么绝大多数“提升认知”"
-          },
-          {
-            "en": "They usually work on only one of the four items, while the multiplicative structure lets the other three weaknesses cancel the gain completely.",
-            "cn": "的努力失败——那些努力通常只作用于四项里的一项，而乘法意味着其他三项的短板会彻底抵消这项的增益。"
-          },
-          {
-            "en": "A naturally smart person who never learns reasoning tools and a person who has loaded themselves with reasoning tools but never exposes judgment to feedback will both produce close to zero.",
-            "cn": "一个天生聪明但从不学推理工具的人，和一个装了一堆推理工具但从不让判断碰到反馈的人，两者的产出都会接近零，"
-          },
-          {
-            "en": "They just fail in different ways.",
-            "cn": "只是失败的方式不同。"
+            "en": "If any one item is zero, the whole thing is zero. This explains why most attempts to “improve cognition” fail. They usually work on only one of the four items, while the multiplicative structure lets the other three weaknesses cancel the gain completely. A naturally smart person who never learns reasoning tools and a person who has loaded themselves with reasoning tools but never exposes judgment to feedback will both produce close to zero. They just fail in different ways.",
+            "cn": "任何一项为零，整体就是零。这解释了为什么绝大多数“提升认知”的努力失败——那些努力通常只作用于四项里的一项，而乘法意味着其他三项的短板会彻底抵消这项的增益。一个天生聪明但从不学推理工具的人，和一个装了一堆推理工具但从不让判断碰到反馈的人，两者的产出都会接近零，只是失败的方式不同。"
           }
         ]
       },
@@ -23962,24 +23154,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Cognitive decoupling is the ability to peel a representation away from the reality it refers to and operate on it as an independent object.",
-            "cn": "认知去耦是把一个表征从它所指的现实里剥离、当作独立对象来操作的能力。"
-          },
-          {
-            "en": "Every abstraction, hypothesis, counterfactual, and act of self-examination rests on this ability.",
-            "cn": "所有抽象、假设、反事实推理、自我审视都建立在这个能力之上。"
-          },
-          {
-            "en": "Without it, a person remains bound to the concrete stimulus in front of them.",
-            "cn": "没有它，一个人永远和眼前的具体刺激绑在一起思考——“我的想法”和“事实”混在一起，"
-          },
-          {
-            "en": "“My thought” and “the fact” blur together.",
-            "cn": "“这个情境”"
-          },
-          {
-            "en": "“This situation” and “the structure behind it” cannot be separated.",
-            "cn": "和“它背后的结构”无法分开。"
+            "en": "Cognitive decoupling is the ability to peel a representation away from the reality it refers to and operate on it as an independent object. Every abstraction, hypothesis, counterfactual, and act of self-examination rests on this ability. Without it, a person remains bound to the concrete stimulus in front of them. “My thought” and “the fact” blur together. “This situation” and “the structure behind it” cannot be separated.",
+            "cn": "认知去耦是把一个表征从它所指的现实里剥离、当作独立对象来操作的能力。所有抽象、假设、反事实推理、自我审视都建立在这个能力之上。没有它，一个人永远和眼前的具体刺激绑在一起思考——“我的想法”和“事实”混在一起，“这个情境”和“它背后的结构”无法分开。"
           }
         ]
       },
@@ -24006,48 +23182,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "There are several observable signals in daily life.",
-            "cn": "去耦能力在日常中有几个可观察的信号。"
-          },
-          {
-            "en": "Give someone two problems with different surface descriptions but the same underlying structure.",
-            "cn": "给两个表面描述不同但底层结构相同的问题，"
-          },
-          {
-            "en": "A strong decoupler performs similarly on both.",
-            "cn": "去耦强的人在两者上表现接近，"
-          },
-          {
-            "en": "A weak decoupler collapses as the surface difference grows, and usually does not notice the collapse.",
-            "cn": "弱的人会随着表面差异的增大而崩溃，且自己意识不到崩溃。"
-          },
-          {
-            "en": "Stability in counterfactual reasoning is another signal.",
-            "cn": "反事实推理的稳定性是另一个信号——“如果 X 没发生、其他保持不变，"
-          },
-          {
-            "en": "If X had not happened, and everything else stayed the same, what follows?",
-            "cn": "你能推出什么”"
-          },
-          {
-            "en": "A person who can hold “X did not happen” steady and reason from it has decoupling online.",
-            "cn": "——能稳定持有“X 没发生”这个假设并推演的人，去耦在线；"
-          },
-          {
-            "en": "A person whose mind is immediately overwritten by the actual world does not.",
-            "cn": "立刻被现实覆盖掉假设的人，去耦不在线。"
-          },
-          {
-            "en": "There is also a very simple proxy: the first reaction to a completely unfamiliar problem.",
-            "cn": "还有一个极简单的代理：面对完全陌生的问题时的第一反应。"
-          },
-          {
-            "en": "Strong decouplers begin abstracting the structure.",
-            "cn": "去耦强的人会开始做结构抽象（“这类问题的一般形式是什么”），"
-          },
-          {
-            "en": "“What is the general form of this problem?” Weak decouplers get stuck at “I don’t understand this,” or force-fit it to the most superficial similarity available.",
-            "cn": "弱的人会卡在“这我不懂”，或者用最表面的相似性硬套。"
+            "en": "There are several observable signals in daily life. Give someone two problems with different surface descriptions but the same underlying structure. A strong decoupler performs similarly on both. A weak decoupler collapses as the surface difference grows, and usually does not notice the collapse. Stability in counterfactual reasoning is another signal. If X had not happened, and everything else stayed the same, what follows? A person who can hold “X did not happen” steady and reason from it has decoupling online. A person whose mind is immediately overwritten by the actual world does not. There is also a very simple proxy: the first reaction to a completely unfamiliar problem. Strong decouplers begin abstracting the structure. “What is the general form of this problem?” Weak decouplers get stuck at “I don’t understand this,” or force-fit it to the most superficial similarity available.",
+            "cn": "去耦能力在日常中有几个可观察的信号。给两个表面描述不同但底层结构相同的问题，去耦强的人在两者上表现接近，弱的人会随着表面差异的增大而崩溃，且自己意识不到崩溃。反事实推理的稳定性是另一个信号——“如果 X 没发生、其他保持不变，你能推出什么”——能稳定持有“X 没发生”这个假设并推演的人，去耦在线；立刻被现实覆盖掉假设的人，去耦不在线。还有一个极简单的代理：面对完全陌生的问题时的第一反应。去耦强的人会开始做结构抽象（“这类问题的一般形式是什么”），弱的人会卡在“这我不懂”，或者用最表面的相似性硬套。"
           }
         ]
       },
@@ -24062,48 +23198,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The upper limit of fluid intelligence is largely genetic.",
-            "cn": "流体智力的上限由基因决定了大部分。"
-          },
-          {
-            "en": "Twin studies comparing identical twins, whose genes are almost the same, with fraternal twins, whose genetic difference is like that of ordinary siblings, show that this ability is far more heritable than people like to admit.",
-            "cn": "大量比较双胞胎（一组是同卵双胞胎，基因几乎完全相同；一组是异卵双胞胎，基因差异和普通兄弟姐妹一样）的研究显示，这项能力的遗传度远高于人们愿意承认的程度。"
-          },
-          {
-            "en": "There is also a counterintuitive pattern: the older you get, the more genetic it looks.",
-            "cn": "而且有一个反常的现象——越老越像遗传决定的。"
-          },
-          {
-            "en": "Childhood and adolescence still leave some room for environmental effects.",
-            "cn": "童年和青少年阶段还有环境的空间，但随着年龄增长，"
-          },
-          {
-            "en": "As people age, genetic influence becomes stronger, and by adulthood this ability is largely locked.",
-            "cn": "基因的决定作用反而越来越强，成年之后这项能力基本锁定。"
+            "en": "The upper limit of fluid intelligence is largely genetic. Twin studies comparing identical twins, whose genes are almost the same, with fraternal twins, whose genetic difference is like that of ordinary siblings, show that this ability is far more heritable than people like to admit. There is also a counterintuitive pattern: the older you get, the more genetic it looks. Childhood and adolescence still leave some room for environmental effects. As people age, genetic influence becomes stronger, and by adulthood this ability is largely locked.",
+            "cn": "流体智力的上限由基因决定了大部分。大量比较双胞胎（一组是同卵双胞胎，基因几乎完全相同；一组是异卵双胞胎，基因差异和普通兄弟姐妹一样）的研究显示，这项能力的遗传度远高于人们愿意承认的程度。而且有一个反常的现象——越老越像遗传决定的。童年和青少年阶段还有环境的空间，但随着年龄增长，基因的决定作用反而越来越强，成年之后这项能力基本锁定。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Over the past twenty years, many products have claimed to “raise intelligence”: brain-training games, working-memory apps, thinking courses.",
-            "cn": "过去二十年有大量号称能“提升智力”的训练产品，各种大脑训练游戏、工作记忆训练 app、思维训练课程。"
-          },
-          {
-            "en": "Later large-scale studies have mostly rejected that path.",
-            "cn": "后续的大规模研究基本否定了这条路径："
-          },
-          {
-            "en": "You improve at whatever you train, but the improvement does not transfer to real reasoning tasks.",
-            "cn": "你练什么就在什么上进步，但这个进步无法迁移到真正的推理任务上。"
-          },
-          {
-            "en": "Practising a brain-training game makes you better at that game.",
-            "cn": "练大脑训练游戏会让你更擅长这个游戏，"
-          },
-          {
-            "en": "It does not make you think more clearly when you face an unfamiliar problem.",
-            "cn": "但不会让你面对陌生问题时想得更清楚。"
+            "en": "Over the past twenty years, many products have claimed to “raise intelligence”: brain-training games, working-memory apps, thinking courses. Later large-scale studies have mostly rejected that path. You improve at whatever you train, but the improvement does not transfer to real reasoning tasks. Practising a brain-training game makes you better at that game. It does not make you think more clearly when you face an unfamiliar problem.",
+            "cn": "过去二十年有大量号称能“提升智力”的训练产品，各种大脑训练游戏、工作记忆训练 app、思维训练课程。后续的大规模研究基本否定了这条路径：你练什么就在什么上进步，但这个进步无法迁移到真正的推理任务上。练大脑训练游戏会让你更擅长这个游戏，但不会让你面对陌生问题时想得更清楚。"
           }
         ]
       },
@@ -24130,172 +23234,64 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "First, identify honestly where you stand on this item.",
-            "cn": "第一，诚实识别自己在这一项的位置。"
-          },
-          {
-            "en": "Not in order to give up, but in order to allocate effort rationally across the other three.",
-            "cn": "不是为了放弃，"
-          },
-          {
-            "en": "A person with middling fluid intelligence and a person with very high fluid intelligence will have different ceilings of output complexity after installing the same reasoning tools.",
-            "cn": "是为了合理分配后面三项的投入——一个流体智力中等的人和一个流体智力很高的人，装上同样的推理工具之后，输出的复杂度上限不同。"
-          },
-          {
-            "en": "Pretending the ceiling does not exist only makes people burn themselves on the wrong target.",
-            "cn": "假装上限不存在，只会让人在错误的目标上消耗自己。"
+            "en": "First, identify honestly where you stand on this item. Not in order to give up, but in order to allocate effort rationally across the other three. A person with middling fluid intelligence and a person with very high fluid intelligence will have different ceilings of output complexity after installing the same reasoning tools. Pretending the ceiling does not exist only makes people burn themselves on the wrong target.",
+            "cn": "第一，诚实识别自己在这一项的位置。不是为了放弃，是为了合理分配后面三项的投入——一个流体智力中等的人和一个流体智力很高的人，装上同样的推理工具之后，输出的复杂度上限不同。假装上限不存在，只会让人在错误的目标上消耗自己。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Second, do not let the limits of this item contaminate your judgment of the other three.",
-            "cn": "第二，不要让这一项的限制污染对其他三项的判断。"
-          },
-          {
-            "en": "The next three items are trainable, and they determine how far a person is from their own ceiling.",
-            "cn": "后面三项都可训练，"
-          },
-          {
-            "en": "For most people, that distance is far larger than the gap between ceilings.",
-            "cn": "而且它们决定了一个人距离自己上限还有多远——这个距离对绝大多数人来说远大于上限本身的差距。"
+            "en": "Second, do not let the limits of this item contaminate your judgment of the other three. The next three items are trainable, and they determine how far a person is from their own ceiling. For most people, that distance is far larger than the gap between ceilings.",
+            "cn": "第二，不要让这一项的限制污染对其他三项的判断。后面三项都可训练，而且它们决定了一个人距离自己上限还有多远——这个距离对绝大多数人来说远大于上限本身的差距。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "An honest footnote has to be added here.",
-            "cn": "这里必须加一个诚实的附注："
-          },
-          {
-            "en": "Fluid intelligence does not only set the ceiling for decoupling.",
-            "cn": "流体智力不仅决定去耦能力的上限，也影响后面三项的训练效率本身。"
-          },
-          {
-            "en": "It also affects the training efficiency of the next three items. The speed at which reasoning tools are installed, the depth to which they are installed, and whether they transfer to new domains do not develop at a uniform rate.",
-            "cn": "装推理工具的速度、装到什么深度、能不能迁移到新领域——这些不是匀速发展的，"
-          },
-          {
-            "en": "People with high fluid intelligence install them faster, understand them more deeply, and transfer them more widely.",
-            "cn": "流体智力高的人会装得更快、理解得更深、迁移得更广。"
-          },
-          {
-            "en": "This pattern has solid empirical support in cognitive science.",
-            "cn": "这个规律在认知科学里有扎实的实证支持："
-          },
-          {
-            "en": "The more complex a learning task is, the stronger the correlation between fluid intelligence and learning rate.",
-            "cn": "学习任务越复杂，流体智力和学习速率的相关性越强；"
-          },
-          {
-            "en": "In the early phase of skill acquisition, fluid intelligence explains roughly 30% to 40% of the variation in complex problem-solving ability.",
-            "cn": "在技能习得的早期阶段，流体智力解释复杂问题解决能力差异的 30% 到 40%。"
+            "en": "An honest footnote has to be added here. Fluid intelligence does not only set the ceiling for decoupling. It also affects the training efficiency of the next three items. The speed at which reasoning tools are installed, the depth to which they are installed, and whether they transfer to new domains do not develop at a uniform rate. People with high fluid intelligence install them faster, understand them more deeply, and transfer them more widely. This pattern has solid empirical support in cognitive science. The more complex a learning task is, the stronger the correlation between fluid intelligence and learning rate. In the early phase of skill acquisition, fluid intelligence explains roughly 30% to 40% of the variation in complex problem-solving ability.",
+            "cn": "这里必须加一个诚实的附注：流体智力不仅决定去耦能力的上限，也影响后面三项的训练效率本身。装推理工具的速度、装到什么深度、能不能迁移到新领域——这些不是匀速发展的，流体智力高的人会装得更快、理解得更深、迁移得更广。这个规律在认知科学里有扎实的实证支持：学习任务越复杂，流体智力和学习速率的相关性越强；在技能习得的早期阶段，流体智力解释复杂问题解决能力差异的 30% 到 40%。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So the more honest version is this: this is not a story in which everyone can catch up with the smart people by trying harder.",
-            "cn": "所以更诚实的表述是——这不是“每个人努力一下就能追平那些聪明人”。"
-          },
-          {
-            "en": "The space below the ceiling is open to everyone, but the shape of that space and the slope of the climb differ.",
-            "cn": "天花板之下的空间对所有人都开放，但空间的形状和攀爬的斜率不同。"
-          },
-          {
-            "en": "A person with below-average or lower-middle fluid intelligence may need longer than the 6 to 12 months given later to install the basic reasoning tools.",
-            "cn": "流体智力中等偏下的人，装齐推理工具可能需要比后文给的数字（6 到 12 个月）更长的时间；"
-          },
-          {
-            "en": "The eventual depth may also be shallower than that of a person with high fluid intelligence.",
-            "cn": "最终能达到的深度也会比流体智力高的人浅一些。"
+            "en": "So the more honest version is this: this is not a story in which everyone can catch up with the smart people by trying harder. The space below the ceiling is open to everyone, but the shape of that space and the slope of the climb differ. A person with below-average or lower-middle fluid intelligence may need longer than the 6 to 12 months given later to install the basic reasoning tools. The eventual depth may also be shallower than that of a person with high fluid intelligence.",
+            "cn": "所以更诚实的表述是——这不是“每个人努力一下就能追平那些聪明人”。天花板之下的空间对所有人都开放，但空间的形状和攀爬的斜率不同。流体智力中等偏下的人，装齐推理工具可能需要比后文给的数字（6 到 12 个月）更长的时间；最终能达到的深度也会比流体智力高的人浅一些。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "But this does not change the central fact.",
-            "cn": "但这并不改变核心的事实："
-          },
-          {
-            "en": "Most people, including many people with high fluid intelligence, have not used the reachable space they actually have.",
-            "cn": "绝大多数人——包括流体智力高的人——都没有把自己可达到的空间用完。"
-          },
-          {
-            "en": "Not using it is the real waste.",
-            "cn": "不去用，是真正的浪费。"
-          },
-          {
-            "en": "Whether one can reach the very top is a separate question, and for most people it is irrelevant.",
-            "cn": "至于“能不能用到最顶端”，那是另一个话题，而且对大多数人来说不相关。"
+            "en": "But this does not change the central fact. Most people, including many people with high fluid intelligence, have not used the reachable space they actually have. Not using it is the real waste. Whether one can reach the very top is a separate question, and for most people it is irrelevant.",
+            "cn": "但这并不改变核心的事实：绝大多数人——包括流体智力高的人——都没有把自己可达到的空间用完。不去用，是真正的浪费。至于“能不能用到最顶端”，那是另一个话题，而且对大多数人来说不相关。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The self-help literature that makes people feel “I am actually very smart, I just haven’t used it yet” mainly serves anxiety management.",
-            "cn": "过去那些让人感觉“我其实很聪明只是没发挥”的自助文学，主要功能是焦虑管理，不是帮助。"
-          },
-          {
-            "en": "It is not help.",
-            "cn": "真正有用的信息是冷的："
-          },
-          {
-            "en": "Useful information is cold: the ceiling exists, and after adulthood it mostly does not move.",
-            "cn": "天花板存在，且成年后基本不动；"
-          },
-          {
-            "en": "But below that ceiling, most people have left enormous space unused.",
-            "cn": "但天花板之下的空间，绝大多数人远远没有用完。"
+            "en": "The self-help literature that makes people feel “I am actually very smart, I just haven’t used it yet” mainly serves anxiety management. It is not help. Useful information is cold: the ceiling exists, and after adulthood it mostly does not move. But below that ceiling, most people have left enormous space unused.",
+            "cn": "过去那些让人感觉“我其实很聪明只是没发挥”的自助文学，主要功能是焦虑管理，不是帮助。真正有用的信息是冷的：天花板存在，且成年后基本不动；但天花板之下的空间，绝大多数人远远没有用完。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Reasoning tools are concrete methods of thought installed in the cognitive system and available for use.",
-            "cn": "推理工具是装载在认知系统里、可随时调用的具体思考方法。"
-          },
-          {
-            "en": "Their relationship to decoupling is like software to hardware.",
-            "cn": "它和去耦的关系类似软件和硬件——硬件决定能跑多复杂的程序，"
-          },
-          {
-            "en": "Hardware determines how complex a program can run.",
-            "cn": "软件"
-          },
-          {
-            "en": "Software determines what the hardware actually outputs on a given problem.",
-            "cn": "决定这台硬件在具体问题上实际输出什么。"
+            "en": "Reasoning tools are concrete methods of thought installed in the cognitive system and available for use. Their relationship to decoupling is like software to hardware. Hardware determines how complex a program can run. Software determines what the hardware actually outputs on a given problem.",
+            "cn": "推理工具是装载在认知系统里、可随时调用的具体思考方法。它和去耦的关系类似软件和硬件——硬件决定能跑多复杂的程序，软件决定这台硬件在具体问题上实际输出什么。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This is the most severely underrated item in the four-part formula.",
-            "cn": "这是整个四元公式里最被严重低估的一项。"
-          },
-          {
-            "en": "Most people who describe themselves as “people who like to think” have an empty reasoning-tool stack.",
-            "cn": "大部分自称“爱思考”的人，推理工具装备是空的。"
-          },
-          {
-            "en": "What they call thinking is intuition rationalising a phenomenon, then fluent language expressing the rationalisation.",
-            "cn": "他们所谓的思考，是用直觉对现象做合理化，然后用流畅的语言把合理化表达出来——过程里没有工具参与，"
-          },
-          {
-            "en": "No tool participates in the process, so the output is mostly a by-product of emotion and pattern matching.",
-            "cn": "所以产出主要是情绪和模式匹配的副产品，"
-          },
-          {
-            "en": "It is not judgment.",
-            "cn": "不是判断。"
+            "en": "This is the most severely underrated item in the four-part formula. Most people who describe themselves as “people who like to think” have an empty reasoning-tool stack. What they call thinking is intuition rationalising a phenomenon, then fluent language expressing the rationalisation. No tool participates in the process, so the output is mostly a by-product of emotion and pattern matching. It is not judgment.",
+            "cn": "这是整个四元公式里最被严重低估的一项。大部分自称“爱思考”的人，推理工具装备是空的。他们所谓的思考，是用直觉对现象做合理化，然后用流畅的语言把合理化表达出来——过程里没有工具参与，所以产出主要是情绪和模式匹配的副产品，不是判断。"
           }
         ]
       },
@@ -24310,224 +23306,80 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Probability and uncertainty reasoning.",
-            "cn": "概率与不确定性推理——真正理解基准率、"
-          },
-          {
-            "en": "Truly understand base rates, conditional probability, sampling bias, selection effects, and calibration.",
-            "cn": "条件概率、样本偏差、选择效应、校准这些东西。"
-          },
-          {
-            "en": "This does not mean taking a statistics course.",
-            "cn": "不是学统计课程，"
-          },
-          {
-            "en": "It means turning these ideas into judgment reflexes.",
-            "cn": "是把它们变成判断的反射。"
+            "en": "Probability and uncertainty reasoning. Truly understand base rates, conditional probability, sampling bias, selection effects, and calibration. This does not mean taking a statistics course. It means turning these ideas into judgment reflexes.",
+            "cn": "概率与不确定性推理——真正理解基准率、条件概率、样本偏差、选择效应、校准这些东西。不是学统计课程，是把它们变成判断的反射。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Causal reasoning.",
-            "cn": "因果推理——区分相关和因果，"
-          },
-          {
-            "en": "Distinguish correlation from causation.",
-            "cn": "理解混淆变量、反事实对照。"
-          },
-          {
-            "en": "Understand confounders and counterfactual controls.",
-            "cn": "大部分人把“A 伴随 B 发生”"
-          },
-          {
-            "en": "Most people treat “A happened alongside B” as “A caused B.” This tool systematically corrects that habit.",
-            "cn": "等同于“A 导致 B”，这一门就是系统地纠正这个习惯。"
+            "en": "Causal reasoning. Distinguish correlation from causation. Understand confounders and counterfactual controls. Most people treat “A happened alongside B” as “A caused B.” This tool systematically corrects that habit.",
+            "cn": "因果推理——区分相关和因果，理解混淆变量、反事实对照。大部分人把“A 伴随 B 发生”等同于“A 导致 B”，这一门就是系统地纠正这个习惯。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Game theory and incentive structures.",
-            "cn": "博弈论与激励结构——不需要数学深度，"
-          },
-          {
-            "en": "This does not require mathematical depth.",
-            "cn": "要的是在任何现象里自动识别“谁在为谁的决策买单”的反射。"
-          },
-          {
-            "en": "What matters is the reflex of asking, in any phenomenon, who is paying for whose decision.",
-            "cn": "这一门装上后看新闻、"
-          },
-          {
-            "en": "Once this tool is installed, the way one reads news, policy, and business changes completely.",
-            "cn": "看政策、看商业现象的方式会完全不一样。"
+            "en": "Game theory and incentive structures. This does not require mathematical depth. What matters is the reflex of asking, in any phenomenon, who is paying for whose decision. Once this tool is installed, the way one reads news, policy, and business changes completely.",
+            "cn": "博弈论与激励结构——不需要数学深度，要的是在任何现象里自动识别“谁在为谁的决策买单”的反射。这一门装上后看新闻、看政策、看商业现象的方式会完全不一样。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "System dynamics.",
-            "cn": "系统动力学——理解非线性、"
-          },
-          {
-            "en": "Understand nonlinearity, delayed feedback, and emergence.",
-            "cn": "延迟反馈、涌现。"
-          },
-          {
-            "en": "Most mistaken attributions in complex problems happen because no feedback loop is being simulated in the mind.",
-            "cn": "大部分复杂问题的错误归因，都是因为没在脑子里跑反馈回路的模拟。"
+            "en": "System dynamics. Understand nonlinearity, delayed feedback, and emergence. Most mistaken attributions in complex problems happen because no feedback loop is being simulated in the mind.",
+            "cn": "系统动力学——理解非线性、延迟反馈、涌现。大部分复杂问题的错误归因，都是因为没在脑子里跑反馈回路的模拟。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Each tool has classic entry-level books, listed in the appendix.",
-            "cn": "每一门都有经典的入门读物（见文末附录）。"
-          },
-          {
-            "en": "Once the four are installed, the cognitive system automatically decomposes any phenomenon into variables, causal directions, incentive distributions, and feedback loops.",
-            "cn": "四门装齐后，面对任何现象，认知系统会自动把它拆成“这里面哪些变量、因果方向如何、各方激励如何分布、反馈回路在哪里”——这不是思考技巧，"
-          },
-          {
-            "en": "This is not a thinking trick.",
-            "cn": "是一"
-          },
-          {
-            "en": "It is a reflex.",
-            "cn": "种反射。"
+            "en": "Each tool has classic entry-level books, listed in the appendix. Once the four are installed, the cognitive system automatically decomposes any phenomenon into variables, causal directions, incentive distributions, and feedback loops. This is not a thinking trick. It is a reflex.",
+            "cn": "每一门都有经典的入门读物（见文末附录）。四门装齐后，面对任何现象，认知系统会自动把它拆成“这里面哪些变量、因果方向如何、各方激励如何分布、反馈回路在哪里”——这不是思考技巧，是一种反射。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "There is a simple test for whether the tools are installed.",
-            "cn": "装没装上，有一个极简单的测试："
-          },
-          {
-            "en": "When facing a new phenomenon, does the person jump straight to a conclusion, or do they automatically place it inside a reasoning frame?",
-            "cn": "面对新现象时，此人是直接给一个结论，还是会自动把它放进某个推理框架。"
-          },
-          {
-            "en": "The first type is impoverished.",
-            "cn": "前者贫乏——他的结论可能对可能错，"
-          },
-          {
-            "en": "The conclusion may be right or wrong, but the person cannot tell which. The second type has internalised the tools.",
-            "cn": "但他自己分不清。"
-          },
-          {
-            "en": "They first ask about base rates, causal direction, incentive distribution, and feedback delay.",
-            "cn": "后者已经内化——他会先问基准率、因果方向、激励分布、反馈延迟。"
+            "en": "There is a simple test for whether the tools are installed. When facing a new phenomenon, does the person jump straight to a conclusion, or do they automatically place it inside a reasoning frame? The first type is impoverished. The conclusion may be right or wrong, but the person cannot tell which. The second type has internalised the tools. They first ask about base rates, causal direction, incentive distribution, and feedback delay.",
+            "cn": "装没装上，有一个极简单的测试：面对新现象时，此人是直接给一个结论，还是会自动把它放进某个推理框架。前者贫乏——他的结论可能对可能错，但他自己分不清。后者已经内化——他会先问基准率、因果方向、激励分布、反馈延迟。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Another diagnosis is more direct.",
-            "cn": "另一个诊断更直接："
-          },
-          {
-            "en": "Ask the person to estimate a quantity they are completely unfamiliar with, such as how many bicycles in a city get rained on in a year.",
-            "cn": "让他估算一个完全不熟悉的量，比如“一个城市里一年被雨淋湿过的自行车有多少辆”。"
-          },
-          {
-            "en": "A well-equipped person will spontaneously decompose the estimate into several independent factors and multiply them.",
-            "cn": "装备完整的人会自发拆解成几个独立因子相乘；"
-          },
-          {
-            "en": "An empty-stack person will give a number directly or say, “How would I know?” The difference is not knowledge.",
-            "cn": "装备空的人会直接给一个数字，或者说“我怎么知道”。"
-          },
-          {
-            "en": "It is tooling.",
-            "cn": "这个差异不是知识差，是工具差。"
+            "en": "Another diagnosis is more direct. Ask the person to estimate a quantity they are completely unfamiliar with, such as how many bicycles in a city get rained on in a year. A well-equipped person will spontaneously decompose the estimate into several independent factors and multiply them. An empty-stack person will give a number directly or say, “How would I know?” The difference is not knowledge. It is tooling.",
+            "cn": "另一个诊断更直接：让他估算一个完全不熟悉的量，比如“一个城市里一年被雨淋湿过的自行车有多少辆”。装备完整的人会自发拆解成几个独立因子相乘；装备空的人会直接给一个数字，或者说“我怎么知道”。这个差异不是知识差，是工具差。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This item is fully trainable, and its return is the highest of the four because most people start near zero.",
-            "cn": "这一项完全可训练，而且训练回报在四项里最高——因为大部分人起点接近零。"
-          },
-          {
-            "en": "Installing the minimal set takes roughly 6 to 12 months of serious reading plus deliberate use in daily judgment.",
-            "cn": "装齐最小集大约需要 6 到 12 个月的认真阅读加上刻意在日常判断里套用。"
-          },
-          {
-            "en": "That time span is surprisingly short for most people.",
-            "cn": "这个时间跨度对大部分人来说短得惊人，"
-          },
-          {
-            "en": "It is far shorter than any degree program, far shorter than learning a craft, and the return is much larger.",
-            "cn": "远短于任何学位课程，远短于学一门手艺，但回报大得多。"
+            "en": "This item is fully trainable, and its return is the highest of the four because most people start near zero. Installing the minimal set takes roughly 6 to 12 months of serious reading plus deliberate use in daily judgment. That time span is surprisingly short for most people. It is far shorter than any degree program, far shorter than learning a craft, and the return is much larger.",
+            "cn": "这一项完全可训练，而且训练回报在四项里最高——因为大部分人起点接近零。装齐最小集大约需要 6 到 12 个月的认真阅读加上刻意在日常判断里套用。这个时间跨度对大部分人来说短得惊人，远短于任何学位课程，远短于学一门手艺，但回报大得多。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The key is not finishing the books.",
-            "cn": "关键不是读完书，是在日常判断里能自动调用。"
-          },
-          {
-            "en": "The key is being able to call the tools automatically in daily judgment.",
-            "cn": "验证方法："
-          },
-          {
-            "en": "The verification method is simple.",
-            "cn": "下次对某个现象有判断时，"
-          },
-          {
-            "en": "Next time you form a judgment about some phenomenon, pause and ask which tool is operating here.",
-            "cn": "暂停一下，问自己“这里面哪个工具在起作用”。"
-          },
-          {
-            "en": "If you can answer accurately, it is installed.",
-            "cn": "答得上且答得准——装上了。"
-          },
-          {
-            "en": "If you cannot answer, it is not.",
-            "cn": "答不上——还没装上。"
-          },
-          {
-            "en": "If you can answer but realise your judgment bypassed the tool and went straight through intuition, you are in the most common intermediate state.",
-            "cn": "答得上但发现自己的判断其实绕过了工具、直接走了直觉——这是最常见的中间状态，"
-          },
-          {
-            "en": "You need to practise putting the tool before the intuition.",
-            "cn": "需要刻意练习把工具前置到直觉之前。"
+            "en": "The key is not finishing the books. The key is being able to call the tools automatically in daily judgment. The verification method is simple. Next time you form a judgment about some phenomenon, pause and ask which tool is operating here. If you can answer accurately, it is installed. If you cannot answer, it is not. If you can answer but realise your judgment bypassed the tool and went straight through intuition, you are in the most common intermediate state. You need to practise putting the tool before the intuition.",
+            "cn": "关键不是读完书，是在日常判断里能自动调用。验证方法：下次对某个现象有判断时，暂停一下，问自己“这里面哪个工具在起作用”。答得上且答得准——装上了。答不上——还没装上。答得上但发现自己的判断其实绕过了工具、直接走了直觉——这是最常见的中间状态，需要刻意练习把工具前置到直觉之前。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The relationship between this item and the first has to be made explicit.",
-            "cn": "这一项和第一项的关系必须讲清楚。"
-          },
-          {
-            "en": "A repeated academic finding is that the correlation between IQ and actual judgment quality is surprisingly low.",
-            "cn": "学术上反复验证的一个结论是：智商和实际判断质量的相关性低得惊人——高智商完全不保证不做蠢事，"
-          },
-          {
-            "en": "High IQ does not prevent stupid decisions, because IQ measures processing power.",
-            "cn": "因为智商测的是算力，不测有没有装上推理工具。"
-          },
-          {
-            "en": "It does not measure whether reasoning tools are installed.",
-            "cn": "流体智力中等但工具装齐的人，"
-          },
-          {
-            "en": "A person with middling fluid intelligence and a complete tool stack can steadily outperform a person with high fluid intelligence and an empty stack.",
-            "cn": "实际产出可以稳定超过流体智力高但工具空缺的人。"
+            "en": "The relationship between this item and the first has to be made explicit. A repeated academic finding is that the correlation between IQ and actual judgment quality is surprisingly low. High IQ does not prevent stupid decisions, because IQ measures processing power. It does not measure whether reasoning tools are installed. A person with middling fluid intelligence and a complete tool stack can steadily outperform a person with high fluid intelligence and an empty stack.",
+            "cn": "这一项和第一项的关系必须讲清楚。学术上反复验证的一个结论是：智商和实际判断质量的相关性低得惊人——高智商完全不保证不做蠢事，因为智商测的是算力，不测有没有装上推理工具。流体智力中等但工具装齐的人，实际产出可以稳定超过流体智力高但工具空缺的人。"
           }
         ]
       },
@@ -24546,60 +23398,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Decoupling needs something to operate on.",
-            "cn": "去耦能力需要有东西可操作——这个东西就是对多个领域的规律性理解。"
-          },
-          {
-            "en": "That something is an understanding of regularities across multiple domains.",
-            "cn": "但“深度”需要精确定义，"
-          },
-          {
-            "en": "But “depth” has to be defined precisely, because it is easily mistaken for mastery or erudition.",
-            "cn": "因为它极容易被误解成“精通”或“博学”。"
+            "en": "Decoupling needs something to operate on. That something is an understanding of regularities across multiple domains. But “depth” has to be defined precisely, because it is easily mistaken for mastery or erudition.",
+            "cn": "去耦能力需要有东西可操作——这个东西就是对多个领域的规律性理解。但“深度”需要精确定义，因为它极容易被误解成“精通”或“博学”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "There is a core distinction here.",
-            "cn": "这里有个核心区分。"
-          },
-          {
-            "en": "A domain’s deep structure is the causal mechanism and constraint relationship that actually determines behaviour.",
-            "cn": "一个领域的深层结构是真正决定行为的因果机制和约束关系；"
-          },
-          {
-            "en": "Its surface features are terminology, process, cases, and industry jargon.",
-            "cn": "表面特征是术语、流程、案例、行业黑话。"
-          },
-          {
-            "en": "What decoupling can use is deep structure, not surface features.",
-            "cn": "真正能被去耦调用的是深层结构，不是表面特征。"
+            "en": "There is a core distinction here. A domain’s deep structure is the causal mechanism and constraint relationship that actually determines behaviour. Its surface features are terminology, process, cases, and industry jargon. What decoupling can use is deep structure, not surface features.",
+            "cn": "这里有个核心区分。一个领域的深层结构是真正决定行为的因果机制和约束关系；表面特征是术语、流程、案例、行业黑话。真正能被去耦调用的是深层结构，不是表面特征。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So cross-domain regularity depth is not mastery.",
-            "cn": "所以跨域规律深度不是精通。"
-          },
-          {
-            "en": "Mastery means being able to execute work inside a domain: arguing a case, performing surgery, writing production-grade code.",
-            "cn": "精通是能执行一个领域的工作——会开庭、会做手术、会写生产级代码。"
-          },
-          {
-            "en": "Regularity depth means being able to explain why things in that domain happen the way they do: the incentive structure, information asymmetry, feedback delays, survivorship bias, and where the standard narrative lies.",
-            "cn": "规律深度是能解释为什么这个领域的事情是这样发生的——背后的激励结构、信息不对称、反馈延迟、幸存者偏差、标准叙事在哪里撒谎。"
-          },
-          {
-            "en": "The first requires more than ten years of specialised investment.",
-            "cn": "前者需要十年以上的专门投入；"
-          },
-          {
-            "en": "A good observer can reach the second in a few months.",
-            "cn": "后者，好的观察者几个月可以到位。"
+            "en": "So cross-domain regularity depth is not mastery. Mastery means being able to execute work inside a domain: arguing a case, performing surgery, writing production-grade code. Regularity depth means being able to explain why things in that domain happen the way they do: the incentive structure, information asymmetry, feedback delays, survivorship bias, and where the standard narrative lies. The first requires more than ten years of specialised investment. A good observer can reach the second in a few months.",
+            "cn": "所以跨域规律深度不是精通。精通是能执行一个领域的工作——会开庭、会做手术、会写生产级代码。规律深度是能解释为什么这个领域的事情是这样发生的——背后的激励结构、信息不对称、反馈延迟、幸存者偏差、标准叙事在哪里撒谎。前者需要十年以上的专门投入；后者，好的观察者几个月可以到位。"
           }
         ]
       },
@@ -24614,28 +23430,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The logic behind this test is that every field has its own standard narrative.",
-            "cn": "这个诊断的背后逻辑是——每个领域都有自己的“标准叙事”，"
-          },
-          {
-            "en": "It is constructed by stakeholders, beautifies itself, and is sometimes inverted from reality.",
-            "cn": "那是利益相关者构造出来的、自我美化的、有时是反向的。"
-          },
-          {
-            "en": "A person who has grasped a field’s regularities can identify where that narrative lies.",
-            "cn": "真正抓住一个领域规律的人，能识别这套叙事在哪里撒谎。"
-          },
-          {
-            "en": "If they can name it, they understand.",
-            "cn": "说得出的，是真懂；"
-          },
-          {
-            "en": "If they cannot, or if all they can repeat is generic meta-complaint everyone in the industry already knows, such as “capital chases profit” or “the system is broken,” they are still at the standard-narrative layer.",
-            "cn": "说不出或者复述的都是行业里已经人尽皆知的元吐槽（“资本逐利”“体制问题”之类）的，说明还停在标准叙事层，"
-          },
-          {
-            "en": "They have not entered deep structure.",
-            "cn": "没进入深层结构。"
+            "en": "The logic behind this test is that every field has its own standard narrative. It is constructed by stakeholders, beautifies itself, and is sometimes inverted from reality. A person who has grasped a field’s regularities can identify where that narrative lies. If they can name it, they understand. If they cannot, or if all they can repeat is generic meta-complaint everyone in the industry already knows, such as “capital chases profit” or “the system is broken,” they are still at the standard-narrative layer. They have not entered deep structure.",
+            "cn": "这个诊断的背后逻辑是——每个领域都有自己的“标准叙事”，那是利益相关者构造出来的、自我美化的、有时是反向的。真正抓住一个领域规律的人，能识别这套叙事在哪里撒谎。说得出的，是真懂；说不出或者复述的都是行业里已经人尽皆知的元吐槽（“资本逐利”“体制问题”之类）的，说明还停在标准叙事层，没进入深层结构。"
           }
         ]
       },
@@ -24662,16 +23458,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This item is fully trainable, but the threshold is higher than for reasoning tools.",
-            "cn": "这一项完全可训练，但门槛比推理工具高——需要时间和持续的好奇心投入。"
-          },
-          {
-            "en": "It requires time and sustained curiosity.",
-            "cn": "每个领域大约需要 6 个月到一年才能到“能预测并识别错误”"
-          },
-          {
-            "en": "Each domain takes roughly 6 months to a year to reach the level where one can predict and identify error.",
-            "cn": "的深度。"
+            "en": "This item is fully trainable, but the threshold is higher than for reasoning tools. It requires time and sustained curiosity. Each domain takes roughly 6 months to a year to reach the level where one can predict and identify error.",
+            "cn": "这一项完全可训练，但门槛比推理工具高——需要时间和持续的好奇心投入。每个领域大约需要 6 个月到一年才能到“能预测并识别错误”的深度。"
           }
         ]
       },
@@ -24686,96 +23474,40 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Domains with obvious incentive distortion.",
-            "cn": "激励扭曲明显的领域——医疗、"
-          },
-          {
-            "en": "Medicine, education, academic publishing, government procurement, insurance, charity.",
-            "cn": "教育、学术出版、政府采购、保险、慈善。"
-          },
-          {
-            "en": "These fields have the largest gap between appearance and actual dynamics.",
-            "cn": "这些领域的表象和真实动力差距最大，"
-          },
-          {
-            "en": "Understanding any one of them installs a set of transferable thinking tools.",
-            "cn": "每理解一个都能装上一批可迁移的思考工具。"
+            "en": "Domains with obvious incentive distortion. Medicine, education, academic publishing, government procurement, insurance, charity. These fields have the largest gap between appearance and actual dynamics. Understanding any one of them installs a set of transferable thinking tools.",
+            "cn": "激励扭曲明显的领域——医疗、教育、学术出版、政府采购、保险、慈善。这些领域的表象和真实动力差距最大，每理解一个都能装上一批可迁移的思考工具。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Domains rich in historical data.",
-            "cn": "历史数据丰富的领域——金融市场、"
-          },
-          {
-            "en": "Financial markets, military history, epidemic history, technology iteration.",
-            "cn": "战争史、流行病史、技术迭代史。"
-          },
-          {
-            "en": "They have real feedback, falsifiability, and regularities pressure-tested over long periods.",
-            "cn": "有真实反馈、可证伪、规律经过长时间压力测试。"
+            "en": "Domains rich in historical data. Financial markets, military history, epidemic history, technology iteration. They have real feedback, falsifiability, and regularities pressure-tested over long periods.",
+            "cn": "历史数据丰富的领域——金融市场、战争史、流行病史、技术迭代史。有真实反馈、可证伪、规律经过长时间压力测试。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Domains adjacent to your home field.",
-            "cn": "与主场邻接的领域——你已有深度的领域的相邻学科。"
-          },
-          {
-            "en": "Neighbouring disciplines around a field where you already have depth.",
-            "cn": "学习斜率最快，"
-          },
-          {
-            "en": "The learning slope is fastest, and the value transfers back to the home field most directly.",
-            "cn": "且迁移回主场的价值最高。"
+            "en": "Domains adjacent to your home field. Neighbouring disciplines around a field where you already have depth. The learning slope is fastest, and the value transfers back to the home field most directly.",
+            "cn": "与主场邻接的领域——你已有深度的领域的相邻学科。学习斜率最快，且迁移回主场的价值最高。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The minimal learning path for each domain is simple.",
-            "cn": "每个领域的最小学习路径："
-          },
-          {
-            "en": "Read one insider’s critique of the field, not an introductory textbook.",
-            "cn": "读一本内部人吐槽本行的书（不是入门教材），"
-          },
-          {
-            "en": "Read 2 or 3 empirical studies or systematic reviews.",
-            "cn": "读 2 到 3 篇实证研究或系统综述，"
-          },
-          {
-            "en": "Follow one high-information-density source regularly: not news, not a KOL, but a deep newsletter or researcher blog from inside the field.",
-            "cn": "定期追一个高信息密度的来源（不是新闻，不是 KOL，是行业内的深度 newsletter 或研究者博客），"
-          },
-          {
-            "en": "Then make at least 10 verifiable predictions and track them.",
-            "cn": "做至少 10 条可验证预测并跟踪。"
-          },
-          {
-            "en": "Without the last step, the first three are entertainment.",
-            "cn": "没有最后这一步，前面三步全是娱乐。"
+            "en": "The minimal learning path for each domain is simple. Read one insider’s critique of the field, not an introductory textbook. Read 2 or 3 empirical studies or systematic reviews. Follow one high-information-density source regularly: not news, not a KOL, but a deep newsletter or researcher blog from inside the field. Then make at least 10 verifiable predictions and track them. Without the last step, the first three are entertainment.",
+            "cn": "每个领域的最小学习路径：读一本内部人吐槽本行的书（不是入门教材），读 2 到 3 篇实证研究或系统综述，定期追一个高信息密度的来源（不是新闻，不是 KOL，是行业内的深度 newsletter 或研究者博客），做至少 10 条可验证预测并跟踪。没有最后这一步，前面三步全是娱乐。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What should be actively avoided are domains driven mainly by story and narrative: fashion, celebrity gossip, political commentary, inspirational business books.",
-            "cn": "需要主动避开的是主要靠故事和叙事驱动的领域——时尚、娱乐八卦、政治评论、鸡汤商业书。"
-          },
-          {
-            "en": "Their “regularities” are mostly post-hoc rationalisation.",
-            "cn": "它们的“规律”大部分是事后合理化，"
-          },
-          {
-            "en": "Studying them fills the mind with more surface features, not deep structure.",
-            "cn": "学了之后脑子里装的是更多表面特征，不是深层结构。"
+            "en": "What should be actively avoided are domains driven mainly by story and narrative: fashion, celebrity gossip, political commentary, inspirational business books. Their “regularities” are mostly post-hoc rationalisation. Studying them fills the mind with more surface features, not deep structure.",
+            "cn": "需要主动避开的是主要靠故事和叙事驱动的领域——时尚、娱乐八卦、政治评论、鸡汤商业书。它们的“规律”大部分是事后合理化，学了之后脑子里装的是更多表面特征，不是深层结构。"
           }
         ]
       },
@@ -24794,48 +23526,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Feedback exposure means the degree to which a person’s judgments are systematically tested by reality.",
-            "cn": "反馈暴露指的是一个人的判断在多大程度上被现实系统性地检验。"
-          },
-          {
-            "en": "In a high-feedback environment, each judgment is confirmed or corrected by facts.",
-            "cn": "高反馈环境里，每个判断都会被事实打脸或确认；"
-          },
-          {
-            "en": "In a low-feedback environment, judgments can float indefinitely without being calibrated.",
-            "cn": "低反馈环境里，判断可以无限期飘在空中而不被校准。"
+            "en": "Feedback exposure means the degree to which a person’s judgments are systematically tested by reality. In a high-feedback environment, each judgment is confirmed or corrected by facts. In a low-feedback environment, judgments can float indefinitely without being calibrated.",
+            "cn": "反馈暴露指的是一个人的判断在多大程度上被现实系统性地检验。高反馈环境里，每个判断都会被事实打脸或确认；低反馈环境里，判断可以无限期飘在空中而不被校准。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Why is this an exponent rather than an additive item?",
-            "cn": "为什么这是指数项而不是加法项——因为没有反馈，"
-          },
-          {
-            "en": "Because without feedback, any level of the first three decays over time.",
-            "cn": "前三项的任何水平都会随时间腐烂。"
-          },
-          {
-            "en": "Decoupling turns into self-indulgence: the person thinks they are abstracting structure, but they are producing deep-sounding nonsense.",
-            "cn": "去耦能力会退化成自嗨（以为自己在做结构抽象，实际在产出听起来深刻的废话）；"
-          },
-          {
-            "en": "Reasoning tools turn into ritual: Bayesian language without any actual prior update.",
-            "cn": "推理工具会变成仪式（用贝叶斯的语言但从没真的更新过先验）；"
-          },
-          {
-            "en": "Cross-domain regularity becomes scholarly collecting: the person knows many patterns but cannot tell which one applies in the current situation.",
-            "cn": "跨域规律会变成学究式的收集（知道各种规律但分不清哪些在当前情境下适用）。"
-          },
-          {
-            "en": "Conversely, even if the first three items are only moderate, a high-feedback environment keeps calibrating them.",
-            "cn": "反之，即使前三项中等，在高反馈环境里会持续自我校准，"
-          },
-          {
-            "en": "Over time, output quality can exceed that of someone fully loaded on the first three but living in low feedback.",
-            "cn": "时间拉长后产出质量远超前三项满配但活在低反馈环境里的人。"
+            "en": "Why is this an exponent rather than an additive item? Because without feedback, any level of the first three decays over time. Decoupling turns into self-indulgence: the person thinks they are abstracting structure, but they are producing deep-sounding nonsense. Reasoning tools turn into ritual: Bayesian language without any actual prior update. Cross-domain regularity becomes scholarly collecting: the person knows many patterns but cannot tell which one applies in the current situation. Conversely, even if the first three items are only moderate, a high-feedback environment keeps calibrating them. Over time, output quality can exceed that of someone fully loaded on the first three but living in low feedback.",
+            "cn": "为什么这是指数项而不是加法项——因为没有反馈，前三项的任何水平都会随时间腐烂。去耦能力会退化成自嗨（以为自己在做结构抽象，实际在产出听起来深刻的废话）；推理工具会变成仪式（用贝叶斯的语言但从没真的更新过先验）；跨域规律会变成学究式的收集（知道各种规律但分不清哪些在当前情境下适用）。反之，即使前三项中等，在高反馈环境里会持续自我校准，时间拉长后产出质量远超前三项满配但活在低反馈环境里的人。"
           }
         ]
       },
@@ -24850,76 +23550,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If the number is close to zero, then no matter how much the person thinks, how many books they have read, or how fluent their expression is, the cognitive system has not been calibrated for a long time.",
-            "cn": "数量接近零的人，无论他自认为多会思考、读过多少书、表达多么流畅，认知系统实际上已经很久没被校准过了。"
-          },
-          {
-            "en": "They may once have reached a fairly high level, but that level is slowly distorting, and they cannot see it.",
-            "cn": "他可能在某个阶段达到过相当高的水平，但那个水平正在缓慢失真，"
-          },
-          {
-            "en": "A low-feedback environment is defined by the absence of anything that tells you the distortion is happening.",
-            "cn": "而他自己察觉不到——低反馈环境的定义就是没东西来告诉他失真了。"
+            "en": "If the number is close to zero, then no matter how much the person thinks, how many books they have read, or how fluent their expression is, the cognitive system has not been calibrated for a long time. They may once have reached a fairly high level, but that level is slowly distorting, and they cannot see it. A low-feedback environment is defined by the absence of anything that tells you the distortion is happening.",
+            "cn": "数量接近零的人，无论他自认为多会思考、读过多少书、表达多么流畅，认知系统实际上已经很久没被校准过了。他可能在某个阶段达到过相当高的水平，但那个水平正在缓慢失真，而他自己察觉不到——低反馈环境的定义就是没东西来告诉他失真了。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "A famous long-term study tracked nearly 300 “experts” across fields and collected a large number of their predictions over twenty years.",
-            "cn": "有一个著名的长期研究，跟踪了近 300 位各领域“专家”在二十年里的大量预测。"
-          },
-          {
-            "en": "The core finding was not which people predicted well.",
-            "cn": "核心发现不是“哪些人预测得准”，"
-          },
-          {
-            "en": "It was that most experts’ predictive accuracy was close to a coin toss, while their self-assessment of accuracy was far higher than their actual performance.",
-            "cn": "而是绝大多数专家的预测准确率接近抛硬币，但他们对自己准确率的自我评估远高于实际。"
-          },
-          {
-            "en": "The gap came from one thing: their predictions had never been systematically recorded.",
-            "cn": "二者的差距来自同一件事——这些人从未被系统记录过自己的预测。"
-          },
-          {
-            "en": "No scoreboard, no calibration.",
-            "cn": "没有记分板，所以没有校准。"
+            "en": "A famous long-term study tracked nearly 300 “experts” across fields and collected a large number of their predictions over twenty years. The core finding was not which people predicted well. It was that most experts’ predictive accuracy was close to a coin toss, while their self-assessment of accuracy was far higher than their actual performance. The gap came from one thing: their predictions had never been systematically recorded. No scoreboard, no calibration.",
+            "cn": "有一个著名的长期研究，跟踪了近 300 位各领域“专家”在二十年里的大量预测。核心发现不是“哪些人预测得准”，而是绝大多数专家的预测准确率接近抛硬币，但他们对自己准确率的自我评估远高于实际。二者的差距来自同一件事——这些人从未被系统记录过自己的预测。没有记分板，所以没有校准。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Strictly speaking, this item is not about training.",
-            "cn": "严格说这一项不在训练层面，而在环境选择层面。"
-          },
-          {
-            "en": "It is about environment selection.",
-            "cn": "反馈暴露不能通过努力提高，"
-          },
-          {
-            "en": "Feedback exposure cannot be raised by effort alone.",
-            "cn": "只能通过进入什么环境、拒绝什么环境来选择。"
-          },
-          {
-            "en": "It can only be selected by entering some environments and refusing others.",
-            "cn": "这让它成为四项里最隐蔽的一项——前三项的水平别人能从交流中大致判断，反馈暴露是结构性的，外人看不出来，当事人也经常自己看不出来。"
-          },
-          {
-            "en": "This makes it the most hidden of the four items. People can roughly infer the first three from conversation.",
-            "cn": "一个在大公司做了十年“战略”的人可能前三项都很高，"
-          },
-          {
-            "en": "Feedback exposure is structural.",
-            "cn": "但如果这十年里他的判断从未被市场、被用户、被具体结果检验过，"
-          },
-          {
-            "en": "Outsiders cannot see it, and the person often cannot see it either.",
-            "cn": "那他这十年的“思考”"
-          },
-          {
-            "en": "Someone who has spent ten years doing “strategy” at a large company may be strong on the first three items. But if none of those judgments has ever been tested by the market, users, or concrete outcomes, most of that decade’s “thinking” output is noise.",
-            "cn": "产出大部分是噪音。"
+            "en": "Strictly speaking, this item is not about training. It is about environment selection. Feedback exposure cannot be raised by effort alone. It can only be selected by entering some environments and refusing others. This makes it the most hidden of the four items. People can roughly infer the first three from conversation. Feedback exposure is structural. Outsiders cannot see it, and the person often cannot see it either. Someone who has spent ten years doing “strategy” at a large company may be strong on the first three items. But if none of those judgments has ever been tested by the market, users, or concrete outcomes, most of that decade’s “thinking” output is noise.",
+            "cn": "严格说这一项不在训练层面，而在环境选择层面。反馈暴露不能通过努力提高，只能通过进入什么环境、拒绝什么环境来选择。这让它成为四项里最隐蔽的一项——前三项的水平别人能从交流中大致判断，反馈暴露是结构性的，外人看不出来，当事人也经常自己看不出来。一个在大公司做了十年“战略”的人可能前三项都很高，但如果这十年里他的判断从未被市场、被用户、被具体结果检验过，那他这十年的“思考”产出大部分是噪音。"
           }
         ]
       },
@@ -24934,256 +23582,72 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Those are feedback environments at the level of career.",
-            "cn": "以上是以“职业”为单位的反馈环境。"
-          },
-          {
-            "en": "But feedback loops are not limited to professional life.",
-            "cn": "但反馈闭环不只存在于职业生活里——日常生活里有大量同样严苛的反馈结构，"
-          },
-          {
-            "en": "Daily life contains many equally strict feedback structures, although they are easy to ignore.",
-            "cn": "只是容易被忽略："
-          },
-          {
-            "en": "Cooking tests salt, heat, and timing at every meal.",
-            "cn": "做饭（菜咸了淡了、火候过了不过，每一餐都在对一个具体判断打分）；"
-          },
-          {
-            "en": "Raising children gives feedback within seconds through crying, laughter, and behaviour.",
-            "cn": "带孩子（孩子的反应是几秒内的反馈，你的每个判断都在被哭声、笑声、行为反应即时校准）；"
-          },
-          {
-            "en": "Physical training lets the body report on movement, intensity, and diet adjustments over short cycles.",
-            "cn": "锻炼身体（动作对不对、强度合不合适、饮食调整有没有效果，身体会用很短的周期告诉你）；"
-          },
-          {
-            "en": "Caring for pets resembles raising children but often gives faster feedback because reactions are more direct.",
-            "cn": "养宠物（和带孩子类似的结构，周期更短，因为反应更直接）；"
-          },
-          {
-            "en": "Learning an instrument gives immediate feedback on pitch and rhythm.",
-            "cn": "学乐器（每个音是不是对、节奏是不是稳，耳朵即刻反馈）；"
-          },
-          {
-            "en": "Repairing things leaves no room for self-beautification: it works or it does not.",
-            "cn": "修理东西（修好了还是没修好，毫无空间让你自我美化）；"
-          },
-          {
-            "en": "Negotiation tests whether your judgment has aligned with what the other side actually wants.",
-            "cn": "谈判（对方的反应就是你判断有没有对齐他们实际想法的校准）；"
-          },
-          {
-            "en": "Gardening is equally indifferent.",
-            "cn": "园艺（植物不会给你面子，"
-          },
-          {
-            "en": "The plant lives or dies.",
-            "cn": "它活或者死）。"
+            "en": "Those are feedback environments at the level of career. But feedback loops are not limited to professional life. Daily life contains many equally strict feedback structures, although they are easy to ignore. Cooking tests salt, heat, and timing at every meal. Raising children gives feedback within seconds through crying, laughter, and behaviour. Physical training lets the body report on movement, intensity, and diet adjustments over short cycles. Caring for pets resembles raising children but often gives faster feedback because reactions are more direct. Learning an instrument gives immediate feedback on pitch and rhythm. Repairing things leaves no room for self-beautification: it works or it does not. Negotiation tests whether your judgment has aligned with what the other side actually wants. Gardening is equally indifferent. The plant lives or dies.",
+            "cn": "以上是以“职业”为单位的反馈环境。但反馈闭环不只存在于职业生活里——日常生活里有大量同样严苛的反馈结构，只是容易被忽略：做饭（菜咸了淡了、火候过了不过，每一餐都在对一个具体判断打分）；带孩子（孩子的反应是几秒内的反馈，你的每个判断都在被哭声、笑声、行为反应即时校准）；锻炼身体（动作对不对、强度合不合适、饮食调整有没有效果，身体会用很短的周期告诉你）；养宠物（和带孩子类似的结构，周期更短，因为反应更直接）；学乐器（每个音是不是对、节奏是不是稳，耳朵即刻反馈）；修理东西（修好了还是没修好，毫无空间让你自我美化）；谈判（对方的反应就是你判断有没有对齐他们实际想法的校准）；园艺（植物不会给你面子，它活或者死）。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "These are high-density feedback loops.",
-            "cn": "这些都是极高密度的反馈闭环。"
-          },
-          {
-            "en": "By contrast, someone who has spent ten years in a big-company meeting room making strategy slides and never executing may score far lower on feedback exposure than a parent who cooks daily for two children while caring for a dog.",
-            "cn": "相比之下，一个在大公司会议室里做战略 PPT 十年、从不下场执行的人，在反馈暴露这一项上，可能远远输给一个每天给两个孩子做饭同时带一只狗的家长。"
-          },
-          {
-            "en": "This is not rhetoric.",
-            "cn": "这不是修辞，"
-          },
-          {
-            "en": "It is structure.",
-            "cn": "是结构——前者的判断从不接触现实，"
-          },
-          {
-            "en": "The former’s judgments never touch reality.",
-            "cn": "后者的"
-          },
-          {
-            "en": "The latter’s judgments are confirmed or corrected within hours.",
-            "cn": "每个判断都在几小时之内被现实打脸或确认。"
+            "en": "These are high-density feedback loops. By contrast, someone who has spent ten years in a big-company meeting room making strategy slides and never executing may score far lower on feedback exposure than a parent who cooks daily for two children while caring for a dog. This is not rhetoric. It is structure. The former’s judgments never touch reality. The latter’s judgments are confirmed or corrected within hours.",
+            "cn": "这些都是极高密度的反馈闭环。相比之下，一个在大公司会议室里做战略 PPT 十年、从不下场执行的人，在反馈暴露这一项上，可能远远输给一个每天给两个孩子做饭同时带一只狗的家长。这不是修辞，是结构——前者的判断从不接触现实，后者的每个判断都在几小时之内被现实打脸或确认。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Culturally, we tend to bind “cognitive ability” to certain occupations: scientists, engineers, investors.",
-            "cn": "文化上我们倾向于把“认知能力”和特定职业绑定（科学家、工程师、投资人），但反馈暴露这一项完全不尊重职业标签。"
-          },
-          {
-            "en": "But feedback exposure does not respect occupational labels.",
-            "cn": "一个真正投入在一件需要持续反馈的生活实践里的人——哪怕那件事是做饭、带孩子、锻炼身体——认知系统保持在线的概率，反而高于很多在“体面白领岗位”上做着永远不被结果验证的工作的人。"
-          },
-          {
-            "en": "A person genuinely invested in a life practice that requires continuous feedback, even if it is cooking, parenting, or training, may keep their cognitive system more online than many people in respectable white-collar roles whose work is never validated by outcomes.",
-            "cn": "前三项（去耦、"
-          },
-          {
-            "en": "The first three items, decoupling, reasoning tools, and cross-domain depth, do require specialised training.",
-            "cn": "推理工具、跨域深度）确实需要专门训练，"
-          },
-          {
-            "en": "But the fourth item, keeping one’s judgment in contact with reality, is available in any life form.",
-            "cn": "但第四项——让自己的判断持续碰到现实——在任何生活形态里都是可得的。"
+            "en": "Culturally, we tend to bind “cognitive ability” to certain occupations: scientists, engineers, investors. But feedback exposure does not respect occupational labels. A person genuinely invested in a life practice that requires continuous feedback, even if it is cooking, parenting, or training, may keep their cognitive system more online than many people in respectable white-collar roles whose work is never validated by outcomes. The first three items, decoupling, reasoning tools, and cross-domain depth, do require specialised training. But the fourth item, keeping one’s judgment in contact with reality, is available in any life form.",
+            "cn": "文化上我们倾向于把“认知能力”和特定职业绑定（科学家、工程师、投资人），但反馈暴露这一项完全不尊重职业标签。一个真正投入在一件需要持续反馈的生活实践里的人——哪怕那件事是做饭、带孩子、锻炼身体——认知系统保持在线的概率，反而高于很多在“体面白领岗位”上做着永远不被结果验证的工作的人。前三项（去耦、推理工具、跨域深度）确实需要专门训练，但第四项——让自己的判断持续碰到现实——在任何生活形态里都是可得的。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What should be avoided are pure opinion production such as KOL commentary, columns, and punditry; consulting-style “strategic thinking” where advice is given and execution is never tracked; large-company roles with low-frequency decisions and long-delayed feedback; and any domain where speaking well is enough to win.",
-            "cn": "应该避开的是纯观点生产（KOL、评论、专栏），咨询式“战略思考”（建议给出就结束，不跟踪执行），低频决策长延迟反馈的大公司岗位，"
-          },
-          {
-            "en": "Persuasiveness and judgment accuracy are completely decoupled in those domains.",
-            "cn": "以及任何“说得好就赢”的领域——说服力和判断准确性在这些领域完全脱钩。"
+            "en": "What should be avoided are pure opinion production such as KOL commentary, columns, and punditry; consulting-style “strategic thinking” where advice is given and execution is never tracked; large-company roles with low-frequency decisions and long-delayed feedback; and any domain where speaking well is enough to win. Persuasiveness and judgment accuracy are completely decoupled in those domains.",
+            "cn": "应该避开的是纯观点生产（KOL、评论、专栏），咨询式“战略思考”（建议给出就结束，不跟踪执行），低频决策长延迟反馈的大公司岗位，以及任何“说得好就赢”的领域——说服力和判断准确性在这些领域完全脱钩。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "If changing the main environment is temporarily impossible, one can build feedback mechanisms. But first a common illusion has to be broken.",
-            "cn": "如果暂时不能改变主环境，可以自己建反馈机制。但要先破除一个常见的幻觉——市面上流传的那套“预测日志、"
-          },
-          {
-            "en": "The popular trio of prediction logs, decision journals, and adversarial peer groups is something almost nobody sustains.",
-            "cn": "决策日志、对抗性同伴小组”基本没人能坚持。"
-          },
-          {
-            "en": "The problem is not that those tools are wrong.",
-            "cn": "不是它们错，"
-          },
-          {
-            "en": "The problem is that they turn feedback into an extra ritual detached from real life.",
-            "cn": "是它们把反馈机制从真实生活里剥离成了一个附加仪式。"
-          },
-          {
-            "en": "A person busy with work and life who relies on willpower to write five predictions a month will stop within two weeks.",
-            "cn": "一个每天忙着工作、生活的人，靠意志力每月写 5 条预测，两周之内就会停。"
-          },
-          {
-            "en": "People who lack feedback do not lack a spreadsheet.",
-            "cn": "缺反馈的人缺的不是表格，"
-          },
-          {
-            "en": "They lack a life structure that forces judgment to meet reality.",
-            "cn": "是一种让自己的判断必须接触现实的生活结构。"
-          },
-          {
-            "en": "A spreadsheet cannot solve a structural problem.",
-            "cn": "表格解决不了结构问题。"
+            "en": "If changing the main environment is temporarily impossible, one can build feedback mechanisms. But first a common illusion has to be broken. The popular trio of prediction logs, decision journals, and adversarial peer groups is something almost nobody sustains. The problem is not that those tools are wrong. The problem is that they turn feedback into an extra ritual detached from real life. A person busy with work and life who relies on willpower to write five predictions a month will stop within two weeks. People who lack feedback do not lack a spreadsheet. They lack a life structure that forces judgment to meet reality. A spreadsheet cannot solve a structural problem.",
+            "cn": "如果暂时不能改变主环境，可以自己建反馈机制。但要先破除一个常见的幻觉——市面上流传的那套“预测日志、决策日志、对抗性同伴小组”基本没人能坚持。不是它们错，是它们把反馈机制从真实生活里剥离成了一个附加仪式。一个每天忙着工作、生活的人，靠意志力每月写 5 条预测，两周之内就会停。缺反馈的人缺的不是表格，是一种让自己的判断必须接触现实的生活结构。表格解决不了结构问题。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Sustainable feedback comes from two things: closing judgment-verification loops inside domains one already cares about, and turning the learning of new domains into a process with verification built in.",
-            "cn": "真正可持续的反馈来自两件事——在自己已经关心的领域里完成判断-验证闭环，以及进入新领域时把学习本身变成有验证的过程。"
-          },
-          {
-            "en": "Neither is a journal.",
-            "cn": "两件都不是日志，"
-          },
-          {
-            "en": "Both are actions.",
-            "cn": "是行动。"
+            "en": "Sustainable feedback comes from two things: closing judgment-verification loops inside domains one already cares about, and turning the learning of new domains into a process with verification built in. Neither is a journal. Both are actions.",
+            "cn": "真正可持续的反馈来自两件事——在自己已经关心的领域里完成判断-验证闭环，以及进入新领域时把学习本身变成有验证的过程。两件都不是日志，是行动。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "First: close loops in existing domains.",
-            "cn": "第一种 · 在已有领域里完成闭环。"
-          },
-          {
-            "en": "Most people are already making judgments in their own field every day.",
-            "cn": "大部分人在自己的领域里其实已经每天都在做判断——只是这些判断没有被明确化，所以无法验证。"
-          },
-          {
-            "en": "The judgments simply remain implicit, so they cannot be verified.",
-            "cn": "同事问“这个方案行不行”、"
-          },
-          {
-            "en": "A colleague asks whether a plan will work.",
-            "cn": "朋友问“这家公司值得跳吗”、"
-          },
-          {
-            "en": "A friend asks whether a company is worth joining.",
-            "cn": "自己决定“这个功能做不做”、"
-          },
-          {
-            "en": "You decide whether to build a feature.",
-            "cn": "看到一条新闻觉得“这事过两周会反转”——每一个都是判断，每一个都可能被后来的事实检验，但绝大多数人从不把这些判断说出口或写下来。"
-          },
-          {
-            "en": "You read a news item and feel that it will reverse in two weeks.",
-            "cn": "它们以一种模糊的“我觉得”的形式存在，"
-          },
-          {
-            "en": "Each of these is a judgment, and each could be tested by later facts.",
-            "cn": "之后不管结果如何，"
-          },
-          {
-            "en": "But most people never say or write the judgment concretely.",
-            "cn": "都可"
-          },
-          {
-            "en": "It remains a vague “I feel,” and afterward, whatever happens, the brain can rewrite the memory into “that is what I thought all along.”",
-            "cn": "以被大脑重写成“我当时就是这么想的”。"
+            "en": "First: close loops in existing domains. Most people are already making judgments in their own field every day. The judgments simply remain implicit, so they cannot be verified. A colleague asks whether a plan will work. A friend asks whether a company is worth joining. You decide whether to build a feature. You read a news item and feel that it will reverse in two weeks. Each of these is a judgment, and each could be tested by later facts. But most people never say or write the judgment concretely. It remains a vague “I feel,” and afterward, whatever happens, the brain can rewrite the memory into “that is what I thought all along.”",
+            "cn": "第一种 · 在已有领域里完成闭环。大部分人在自己的领域里其实已经每天都在做判断——只是这些判断没有被明确化，所以无法验证。同事问“这个方案行不行”、朋友问“这家公司值得跳吗”、自己决定“这个功能做不做”、看到一条新闻觉得“这事过两周会反转”——每一个都是判断，每一个都可能被后来的事实检验，但绝大多数人从不把这些判断说出口或写下来。它们以一种模糊的“我觉得”的形式存在，之后不管结果如何，都可以被大脑重写成“我当时就是这么想的”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "There is only one thing to do: make the judgment concrete at the moment it occurs.",
-            "cn": "要做的事情只有一件——在判断发生的那一刻，把它具体化。"
-          },
-          {
-            "en": "When telling a colleague that a plan has a problem, say specifically, “I think it will get stuck on X within two months.” When making a product decision, write directly in the document, “We expect DAU to rise by Y after this ships.",
-            "cn": "和同事说方案有问题时，明确说“我觉得它会在 X 上卡住，两个月内”；做产品决策时，直接在文档里写“我们预期做完之后 DAU 会涨 Y，如果到时没涨我错了”；看新闻做预测时，告诉身边一个具体的人“我赌 X 不会发生”。"
-          },
-          {
-            "en": "If it does not, I was wrong.” When making a prediction about a news event, tell one concrete person, “I bet X will not happen.” No journal, no scoring system, no Brier score is required.",
-            "cn": "不需要日志、不需要打分、不需要 Brier score——把判断说出口这个动作本身就强制了后续的自我校准，"
-          },
-          {
-            "en": "Saying the judgment out loud already forces later self-calibration, because what was said will be remembered by the other person or by you a few months later.",
-            "cn": "因为说过的话会在几个月后被对方或被自己记起来。"
+            "en": "There is only one thing to do: make the judgment concrete at the moment it occurs. When telling a colleague that a plan has a problem, say specifically, “I think it will get stuck on X within two months.” When making a product decision, write directly in the document, “We expect DAU to rise by Y after this ships. If it does not, I was wrong.” When making a prediction about a news event, tell one concrete person, “I bet X will not happen.” No journal, no scoring system, no Brier score is required. Saying the judgment out loud already forces later self-calibration, because what was said will be remembered by the other person or by you a few months later.",
+            "cn": "要做的事情只有一件——在判断发生的那一刻，把它具体化。和同事说方案有问题时，明确说“我觉得它会在 X 上卡住，两个月内”；做产品决策时，直接在文档里写“我们预期做完之后 DAU 会涨 Y，如果到时没涨我错了”；看新闻做预测时，告诉身边一个具体的人“我赌 X 不会发生”。不需要日志、不需要打分、不需要 Brier score——把判断说出口这个动作本身就强制了后续的自我校准，因为说过的话会在几个月后被对方或被自己记起来。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The threshold is accepting the risk of being wrong in public.",
-            "cn": "这个做法的门槛是承担被打脸的风险。"
-          },
-          {
-            "en": "Most people do not say their judgments because if they are wrong, they lose face.",
-            "cn": "大部分人不把判断说出口，不是因为懒，是因为说出口之后错了会丢脸。"
-          },
-          {
-            "en": "Exactly that pressure makes the judgment real.",
-            "cn": "正是这个“丢脸”"
-          },
-          {
-            "en": "It forces you to think again before issuing it.",
-            "cn": "的压力让判断变得真实——它强制你在发出判断之前再想一遍。"
-          },
-          {
-            "en": "Every such concretisation is a small act of cognitive calibration.",
-            "cn": "每一次这样的具体化，都是一次小型的认知校准。"
+            "en": "The threshold is accepting the risk of being wrong in public. Most people do not say their judgments because if they are wrong, they lose face. Exactly that pressure makes the judgment real. It forces you to think again before issuing it. Every such concretisation is a small act of cognitive calibration.",
+            "cn": "这个做法的门槛是承担被打脸的风险。大部分人不把判断说出口，不是因为懒，是因为说出口之后错了会丢脸。正是这个“丢脸”的压力让判断变得真实——它强制你在发出判断之前再想一遍。每一次这样的具体化，都是一次小型的认知校准。"
           }
         ]
       },
@@ -25206,108 +23670,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The procedure is concrete.",
-            "cn": "具体做法："
-          },
-          {
-            "en": "Choose a field you want to understand.",
-            "cn": "选一个你最近想搞懂的领域，"
-          },
-          {
-            "en": "Before reading anything, write down three to five basic assumptions about how the field works, what factors drive it, and how it may change soon.",
-            "cn": "不读任何东西的情况下，先写下三到五句你对这个领域的基础假设——你觉得它是怎么运作的、"
-          },
-          {
-            "en": "After writing them down, begin reading.",
-            "cn": "哪些因素在驱动它、近期会怎么变化。"
-          },
-          {
-            "en": "The reading process is not “absorbing information.” It is colliding the material with your own prior assumptions.",
-            "cn": "写下来之后再去找材料读。读的过程不是“吸收信息”，"
-          },
-          {
-            "en": "Which assumptions are confirmed?",
-            "cn": "而是持续拿材料和自己的预判撞——哪些假设被证实、"
-          },
-          {
-            "en": "Which are refuted?",
-            "cn": "哪些被推翻、"
-          },
-          {
-            "en": "Which need revision?",
-            "cn": "哪些需要修正。"
-          },
-          {
-            "en": "Afterward, what remains in the mind is not a pile of other people’s conclusions.",
-            "cn": "读完之后，你脑子里不是一堆别人的结论，"
-          },
-          {
-            "en": "It is your own model, calibrated by contact with material.",
-            "cn": "是一个被校准过的自己的模型。"
+            "en": "The procedure is concrete. Choose a field you want to understand. Before reading anything, write down three to five basic assumptions about how the field works, what factors drive it, and how it may change soon. After writing them down, begin reading. The reading process is not “absorbing information.” It is colliding the material with your own prior assumptions. Which assumptions are confirmed? Which are refuted? Which need revision? Afterward, what remains in the mind is not a pile of other people’s conclusions. It is your own model, calibrated by contact with material.",
+            "cn": "具体做法：选一个你最近想搞懂的领域，不读任何东西的情况下，先写下三到五句你对这个领域的基础假设——你觉得它是怎么运作的、哪些因素在驱动它、近期会怎么变化。写下来之后再去找材料读。读的过程不是“吸收信息”，而是持续拿材料和自己的预判撞——哪些假设被证实、哪些被推翻、哪些需要修正。读完之后，你脑子里不是一堆别人的结论，是一个被校准过的自己的模型。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The point of this method is not efficiency.",
-            "cn": "这个方法的核心不是效率，是信息的加工路径。"
-          },
-          {
-            "en": "It is the processing path of information.",
-            "cn": "先读后想是被动吸收，"
-          },
-          {
-            "en": "Reading before thinking is passive absorption, and its product is a repetition of other people’s judgments.",
-            "cn": "产物是别人判断的复述；"
-          },
-          {
-            "en": "Thinking before reading is active calibration, and its product is your own causal model.",
-            "cn": "先想后读是主动校准，产物是自己的因果模型。"
-          },
-          {
-            "en": "The time cost is roughly the same, but the output quality is completely different.",
-            "cn": "花费的时间其实差不多，但输出质量完全不同——前者几个月后什么都记不住，"
-          },
-          {
-            "en": "The first path leaves almost nothing after a few months.",
-            "cn": "后者在这个领域里建"
-          },
-          {
-            "en": "The second builds a reusable judgment tool in that field.",
-            "cn": "立了一个可持续使用的判断工具。"
+            "en": "The point of this method is not efficiency. It is the processing path of information. Reading before thinking is passive absorption, and its product is a repetition of other people’s judgments. Thinking before reading is active calibration, and its product is your own causal model. The time cost is roughly the same, but the output quality is completely different. The first path leaves almost nothing after a few months. The second builds a reusable judgment tool in that field.",
+            "cn": "这个方法的核心不是效率，是信息的加工路径。先读后想是被动吸收，产物是别人判断的复述；先想后读是主动校准，产物是自己的因果模型。花费的时间其实差不多，但输出质量完全不同——前者几个月后什么都记不住，后者在这个领域里建立了一个可持续使用的判断工具。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Why these two methods work while journals fail.",
-            "cn": "为什么这两种方法管用而日志方法失败。"
-          },
-          {
-            "en": "Journal methods require extra energy for the act of recording itself.",
-            "cn": "日志方法要求你为“记录”本身投入额外的精力，"
-          },
-          {
-            "en": "Except for a small number of unusually disciplined people, that is not sustainable.",
-            "cn": "这件事除了少数格外有纪律性的人之外对绝大多数人不可持续。"
-          },
-          {
-            "en": "The two methods above require no extra life content.",
-            "cn": "上面这两种方法不需要额外精力——它们只是改变你本来就在做的动作的方式。"
-          },
-          {
-            "en": "They simply change the structure of actions you are already taking.",
-            "cn": "你本来就在和同事讨论、做决定、读东西、关心新闻；"
-          },
-          {
-            "en": "You are already discussing things with colleagues, making decisions, reading, and following news.",
-            "cn": "这些方法做的事是让这些动作自带验证环节，"
-          },
-          {
-            "en": "These methods make those actions carry a verification loop inside them, instead of adding a separate ritual beside them.",
-            "cn": "而不是在它们之外另起一个仪式。"
+            "en": "Why these two methods work while journals fail. Journal methods require extra energy for the act of recording itself. Except for a small number of unusually disciplined people, that is not sustainable. The two methods above require no extra life content. They simply change the structure of actions you are already taking. You are already discussing things with colleagues, making decisions, reading, and following news. These methods make those actions carry a verification loop inside them, instead of adding a separate ritual beside them.",
+            "cn": "为什么这两种方法管用而日志方法失败。日志方法要求你为“记录”本身投入额外的精力，这件事除了少数格外有纪律性的人之外对绝大多数人不可持续。上面这两种方法不需要额外精力——它们只是改变你本来就在做的动作的方式。你本来就在和同事讨论、做决定、读东西、关心新闻；这些方法做的事是让这些动作自带验证环节，而不是在它们之外另起一个仪式。"
           }
         ]
       },
@@ -25326,12 +23706,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Of the four items, only one determines the ceiling.",
-            "cn": "四项里只有一项决定了上限，"
-          },
-          {
-            "en": "The other three determine how far a person is from that ceiling.",
-            "cn": "另外三项决定了一个人离自己上限还有多远。"
+            "en": "Of the four items, only one determines the ceiling. The other three determine how far a person is from that ceiling.",
+            "cn": "四项里只有一项决定了上限，另外三项决定了一个人离自己上限还有多远。"
           }
         ]
       },
@@ -25365,10 +23741,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#chapter-7--conclusion",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -25378,7 +23754,7 @@ const ARTICLES_EXTRA = [
     "chapter": 7,
     "sourceTextWords": 534,
     "sourceParagraphs": 16,
-    "sourceSentences": 37,
+    "sourceSentences": 22,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -25403,16 +23779,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If the first move after reading the four-part formula is to ask for a starter checklist, that means the article is still being consumed as a methodology.",
-            "cn": "如果读完四项公式之后第一个动作是索要一份“开始的步骤清单”，说明还在用消费方法论的方式消费这篇文章。"
-          },
-          {
-            "en": "However good the checklist is, the person holding it will probably stop within two weeks.",
-            "cn": "清单再好，"
-          },
-          {
-            "en": "The actions described by the checklist all depend on something deeper, and that deeper thing cannot be started by a checklist.",
-            "cn": "拿清单的人大概率两周内停下来——因为清单所描述的那些动作都建立在一件更底层的事情之上，而那件事不是靠清单能启动的。"
+            "en": "If the first move after reading the four-part formula is to ask for a starter checklist, that means the article is still being consumed as a methodology. However good the checklist is, the person holding it will probably stop within two weeks. The actions described by the checklist all depend on something deeper, and that deeper thing cannot be started by a checklist.",
+            "cn": "如果读完四项公式之后第一个动作是索要一份“开始的步骤清单”，说明还在用消费方法论的方式消费这篇文章。清单再好，拿清单的人大概率两周内停下来——因为清单所描述的那些动作都建立在一件更底层的事情之上，而那件事不是靠清单能启动的。"
           }
         ]
       },
@@ -25451,36 +23819,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "After that admission, something concrete happens.",
-            "cn": "承认之后，会发生一件具体的事：未被反刍占据的认知带宽开始出现。"
-          },
-          {
-            "en": "Cognitive bandwidth that was not occupied by rumination begins to appear.",
-            "cn": "这个带宽一旦出现，"
-          },
-          {
-            "en": "Once it appears, it finds its own use.",
-            "cn": "它会自己找到用处——不是因为你“决心学习”，"
-          },
-          {
-            "en": "Not because you have “resolved to learn,” but because a mind not drowned in noise naturally moves toward the problems it actually cares about.",
-            "cn": "是因为一个不被噪音淹没的头脑本来就会朝自己真正关心的问题走。"
+            "en": "After that admission, something concrete happens. Cognitive bandwidth that was not occupied by rumination begins to appear. Once it appears, it finds its own use. Not because you have “resolved to learn,” but because a mind not drowned in noise naturally moves toward the problems it actually cares about.",
+            "cn": "承认之后，会发生一件具体的事：未被反刍占据的认知带宽开始出现。这个带宽一旦出现，它会自己找到用处——不是因为你“决心学习”，是因为一个不被噪音淹没的头脑本来就会朝自己真正关心的问题走。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The next questions are outside the scope of this essay: how to work with models, which questions are worth asking, how to use AI to sharpen one’s own judgment, and how to grow cross-domain depth out of existing experience.",
-            "cn": "接下来的问题——怎么和模型打交道、什么问题值得问、怎么用 AI 打磨自己的判断、怎么在已有经验上长出跨域深度——不在本篇的范围里。"
-          },
-          {
-            "en": "This essay is only a diagnosis.",
-            "cn": "本篇只做诊断："
-          },
-          {
-            "en": "It explains what the divide in front of you is, what it is made of, and how far most people are from their own ceiling.",
-            "cn": "讲清楚你面前的分化是什么、它由什么组成、大部分人距离自己的上限差多远。"
+            "en": "The next questions are outside the scope of this essay: how to work with models, which questions are worth asking, how to use AI to sharpen one’s own judgment, and how to grow cross-domain depth out of existing experience. This essay is only a diagnosis. It explains what the divide in front of you is, what it is made of, and how far most people are from their own ceiling.",
+            "cn": "接下来的问题——怎么和模型打交道、什么问题值得问、怎么用 AI 打磨自己的判断、怎么在已有经验上长出跨域深度——不在本篇的范围里。本篇只做诊断：讲清楚你面前的分化是什么、它由什么组成、大部分人距离自己的上限差多远。"
           }
         ]
       },
@@ -25495,32 +23843,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The hard ceiling of cognitive decoupling means some people cannot install this system.",
-            "cn": "认知去耦的硬天花板决定了有些人装不进这个系统——这是残酷但必须说的事实。"
-          },
-          {
-            "en": "That is cruel, but it has to be said.",
-            "cn": "这篇文章从头到尾没有提供希望的普惠，"
-          },
-          {
-            "en": "This essay has not offered universal hope.",
-            "cn": "它提供"
-          },
-          {
-            "en": "It has offered a framework for locating oneself.",
-            "cn": "的是一个能让人判断自己位置的框架。"
+            "en": "The hard ceiling of cognitive decoupling means some people cannot install this system. That is cruel, but it has to be said. This essay has not offered universal hope. It has offered a framework for locating oneself.",
+            "cn": "认知去耦的硬天花板决定了有些人装不进这个系统——这是残酷但必须说的事实。这篇文章从头到尾没有提供希望的普惠，它提供的是一个能让人判断自己位置的框架。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "But the people who can read this far are not that group.",
-            "cn": "但能读到这里的人不是那群人。"
-          },
-          {
-            "en": "If you can recognise “I am consuming rumination” and follow the argument all the way here without closing the page, you have already completed the basic self-test. Some of the brutal statements above did not hit you.",
-            "cn": "能识别出“我在消费反刍”这件事、能跟着一路读到这里而没有关掉页面的人，已经完成了基础自测——前面那些残酷的话里，有一部分没有打中你。"
+            "en": "But the people who can read this far are not that group. If you can recognise “I am consuming rumination” and follow the argument all the way here without closing the page, you have already completed the basic self-test. Some of the brutal statements above did not hit you.",
+            "cn": "但能读到这里的人不是那群人。能识别出“我在消费反刍”这件事、能跟着一路读到这里而没有关掉页面的人，已经完成了基础自测——前面那些残酷的话里，有一部分没有打中你。"
           }
         ]
       },
@@ -25536,15 +23868,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "After AI flattens those things, the remaining part, real cognitive activity, is being priced on its own for the first time.",
-            "cn": "AI 把那些东西摊平之后，剩下的那部分——真正的认知活动——第一次被单独标价。大部分人还没意识到这件事。"
+            "cn": "AI 把那些东西摊平之后，剩下的那部分——真正的认知活动——第一次被单独标价。"
           },
           {
             "en": "Most people have not noticed.",
-            "cn": "等他们意识到的时候，"
+            "cn": "大部分人还没意识到这件事。"
           },
           {
             "en": "By the time they do, the gap will no longer be catch-up sized.",
-            "cn": "差距已经不是可追赶的量级。"
+            "cn": "等他们意识到的时候，差距已经不是可追赶的量级。"
           }
         ]
       },
@@ -25559,12 +23891,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Think back to the last time you genuinely changed an important view.",
-            "cn": "回想你最近一次真正改变重要看法是什么时候、"
-          },
-          {
-            "en": "When was it, and why did it change?",
-            "cn": "因为什么改变。"
+            "en": "Think back to the last time you genuinely changed an important view. When was it, and why did it change?",
+            "cn": "回想你最近一次真正改变重要看法是什么时候、因为什么改变。"
           }
         ]
       },
@@ -25579,20 +23907,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If you cannot, the problem is not AI, and it is not the era.",
-            "cn": "答不出的——问题不在 AI，不在时代，在自己。"
-          },
-          {
-            "en": "It is you.",
-            "cn": "而且问题从来就在这里，"
-          },
-          {
-            "en": "And the problem was always there.",
-            "cn": "只是"
-          },
-          {
-            "en": "It simply had not been exposed before.",
-            "cn": "过去没有暴露而已。"
+            "en": "If you cannot, the problem is not AI, and it is not the era. It is you. And the problem was always there. It simply had not been exposed before.",
+            "cn": "答不出的——问题不在 AI，不在时代，在自己。而且问题从来就在这里，只是过去没有暴露而已。"
           }
         ]
       }
@@ -25606,10 +23922,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-23",
     "url": "https://offbook.press/essays/on-cognitive-decoupling/#appendix--starter-reading-list",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -25619,7 +23935,7 @@ const ARTICLES_EXTRA = [
     "chapter": 8,
     "sourceTextWords": 175,
     "sourceParagraphs": 16,
-    "sourceSentences": 21,
+    "sourceSentences": 16,
     "cover": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "gradient": "linear-gradient(135deg,#C8372D 0%,#9C2A22 50%,#7B2219 100%)",
     "coverFrom": "#C8372D",
@@ -25628,16 +23944,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The four core reasoning tools mentioned in Chapter 6 each have classic entry-level books.",
-            "cn": "第六章提到的四门核心推理工具，各有经典的入门读物。"
-          },
-          {
-            "en": "They are arranged from easier to harder.",
-            "cn": "按难度从低到高排列，"
-          },
-          {
-            "en": "Start with the first one.",
-            "cn": "从第一本开始读就好。"
+            "en": "The four core reasoning tools mentioned in Chapter 6 each have classic entry-level books. They are arranged from easier to harder. Start with the first one.",
+            "cn": "第六章提到的四门核心推理工具，各有经典的入门读物。按难度从低到高排列，从第一本开始读就好。"
           }
         ]
       },
@@ -25756,20 +24064,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "A practical note for reading: after finishing each book, do not immediately start the next one.",
-            "cn": "读的时候有个实用提示："
-          },
-          {
-            "en": "Spend 1 to 2 weeks deliberately using that book’s way of thinking in daily judgments.",
-            "cn": "每本书读完先不要读下一本，花 1 到 2 周在日常判断里刻意用这本书的思考方式。"
-          },
-          {
-            "en": "Without this step, finishing the book is close to not reading it at all.",
-            "cn": "没有这一步，读完等于没读，"
-          },
-          {
-            "en": "The knowledge has not run through actual reasoning in the mind, so it will not become a reflex.",
-            "cn": "因为知识没有在脑子里跑过实际推理，不会形成反射。"
+            "en": "A practical note for reading: after finishing each book, do not immediately start the next one. Spend 1 to 2 weeks deliberately using that book’s way of thinking in daily judgments. Without this step, finishing the book is close to not reading it at all. The knowledge has not run through actual reasoning in the mind, so it will not become a reflex.",
+            "cn": "读的时候有个实用提示：每本书读完先不要读下一本，花 1 到 2 周在日常判断里刻意用这本书的思考方式。没有这一步，读完等于没读，因为知识没有在脑子里跑过实际推理，不会形成反射。"
           }
         ]
       }
@@ -25783,10 +24079,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#preface",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -25796,7 +24092,7 @@ const ARTICLES_EXTRA = [
     "chapter": 1,
     "sourceTextWords": 132,
     "sourceParagraphs": 4,
-    "sourceSentences": 8,
+    "sourceSentences": 5,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -25805,20 +24101,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The previous essay was about cognitive divergence in the AI era.",
-            "cn": "上一篇讲的是 AI 时代的认知分化："
-          },
-          {
-            "en": "Most people have mistaken knowledge, experience, and fluency for cognitive ability itself.",
-            "cn": "大部分人把知识、经验、熟练度错当成了认知能力本身。"
-          },
-          {
-            "en": "Once AI flattens the first three, the layer that gets priced separately, cognitive decoupling, turns out to be something most people do not have.",
-            "cn": "当 AI 把前三样摊平之后，剩下被单独标价的那一层（认知去耦能力），大部分人根本没有，"
-          },
-          {
-            "en": "Their past successes still tell them, “I am capable.”",
-            "cn": "而他们过去的成功经验告诉他们“我是有能力的”。"
+            "en": "The previous essay was about cognitive divergence in the AI era. Most people have mistaken knowledge, experience, and fluency for cognitive ability itself. Once AI flattens the first three, the layer that gets priced separately, cognitive decoupling, turns out to be something most people do not have. Their past successes still tell them, “I am capable.”",
+            "cn": "上一篇讲的是 AI 时代的认知分化：大部分人把知识、经验、熟练度错当成了认知能力本身。当 AI 把前三样摊平之后，剩下被单独标价的那一层（认知去耦能力），大部分人根本没有，而他们过去的成功经验告诉他们“我是有能力的”。"
           }
         ]
       },
@@ -25860,10 +24144,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-1--most-ai-use-is-damaging-cognitive-decoupling",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -25873,7 +24157,7 @@ const ARTICLES_EXTRA = [
     "chapter": 2,
     "sourceTextWords": 1707,
     "sourceParagraphs": 59,
-    "sourceSentences": 141,
+    "sourceSentences": 89,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -25882,20 +24166,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not a moral criticism.",
-            "cn": "这不是道德批评。"
-          },
-          {
-            "en": "Most people, including the author of this essay, use AI this way to some degree.",
-            "cn": "大部分人，包括写这篇文章的作者，都在某种程度上这样用 AI。"
-          },
-          {
-            "en": "The current pattern has deep structural causes.",
-            "cn": "因为当前的使用方式有很深的结构性原因，"
-          },
-          {
-            "en": "It is not something willpower can easily overcome.",
-            "cn": "不是靠意志力能简单克服的。"
+            "en": "This is not a moral criticism. Most people, including the author of this essay, use AI this way to some degree. The current pattern has deep structural causes. It is not something willpower can easily overcome.",
+            "cn": "这不是道德批评。大部分人，包括写这篇文章的作者，都在某种程度上这样用 AI。因为当前的使用方式有很深的结构性原因，不是靠意志力能简单克服的。"
           }
         ]
       },
@@ -25914,12 +24186,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Observe anyone who uses AI seriously, whether yourself, a colleague, or a friend.",
-            "cn": "观察一下任何一个认真使用 AI 的人（自己、同事、朋友），"
-          },
-          {
-            "en": "Most interactions fall into three patterns.",
-            "cn": "他们和 AI 的大部分互动落在三种模式里。"
+            "en": "Observe anyone who uses AI seriously, whether yourself, a colleague, or a friend. Most interactions fall into three patterns.",
+            "cn": "观察一下任何一个认真使用 AI 的人（自己、同事、朋友），他们和 AI 的大部分互动落在三种模式里。"
           }
         ]
       },
@@ -25942,16 +24210,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is probably the most common form of AI use.",
-            "cn": "这是 AI 使用里最普遍的一种，可能占所有互动的大部分。"
-          },
-          {
-            "en": "Each query is independent.",
-            "cn": "每次都是独立的一次查询，"
-          },
-          {
-            "en": "There is no continuity between questions, and no answer is carried into a concrete later action.",
-            "cn": "前后问题之间没有连续性，也没有任何问题被带入后续的具体行动。"
+            "en": "This is probably the most common form of AI use. Each query is independent. There is no continuity between questions, and no answer is carried into a concrete later action.",
+            "cn": "这是 AI 使用里最普遍的一种，可能占所有互动的大部分。每次都是独立的一次查询，前后问题之间没有连续性，也没有任何问题被带入后续的具体行动。"
           }
         ]
       },
@@ -25966,44 +24226,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "You already have an answer or judgment in mind.",
-            "cn": "心里已经有一个答案或判断，"
-          },
-          {
-            "en": "The purpose of asking AI is to make it tell you, “yes, you are right.”",
-            "cn": "问 AI 的目的是让它告诉你“对，你是对的”。"
+            "en": "You already have an answer or judgment in mind. The purpose of asking AI is to make it tell you, “yes, you are right.”",
+            "cn": "心里已经有一个答案或判断，问 AI 的目的是让它告诉你“对，你是对的”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Sometimes this is conscious.",
-            "cn": "有时候这种使用是有意识的，"
-          },
-          {
-            "en": "You want an argument to support something you already intend to do.",
-            "cn": "你想要一个论据来支持你已经打算做的事。"
-          },
-          {
-            "en": "More often it is unconscious.",
-            "cn": "但更多时候是无意识的，"
-          },
-          {
-            "en": "The way you ask, the background you provide, and the wording itself all guide AI toward the direction you want.",
-            "cn": "你提问的方式、你给的背景、你的措辞本身就在引导 AI 给出你想要的方向。"
-          },
-          {
-            "en": "AI is an obedient mirror.",
-            "cn": "AI 是一面顺从的镜子，"
-          },
-          {
-            "en": "Smile at it, and it smiles back.",
-            "cn": "你怎么朝它笑它就怎么笑回来。"
-          },
-          {
-            "en": "After receiving the confirmation you expected, you accept that confirmation as the result of “thinking.”",
-            "cn": "得到期望的确认之后，你把这个确认当作“思考的结果”接受下来。"
+            "en": "Sometimes this is conscious. You want an argument to support something you already intend to do. More often it is unconscious. The way you ask, the background you provide, and the wording itself all guide AI toward the direction you want. AI is an obedient mirror. Smile at it, and it smiles back. After receiving the confirmation you expected, you accept that confirmation as the result of “thinking.”",
+            "cn": "有时候这种使用是有意识的，你想要一个论据来支持你已经打算做的事。但更多时候是无意识的，你提问的方式、你给的背景、你的措辞本身就在引导 AI 给出你想要的方向。AI 是一面顺从的镜子，你怎么朝它笑它就怎么笑回来。得到期望的确认之后，你把这个确认当作“思考的结果”接受下来。"
           }
         ]
       },
@@ -26030,24 +24262,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "You start by chasing a concrete question.",
-            "cn": "开始的时候你在追一个具体问题。"
-          },
-          {
-            "en": "AI answers.",
-            "cn": "AI 给出答案，"
-          },
-          {
-            "en": "The answer mentions a concept you do not know, so you ask about it.",
-            "cn": "答案里提到一个你不熟悉的概念，你顺手问一下。"
-          },
-          {
-            "en": "The next answer brings up another interesting angle, so you follow that too.",
-            "cn": "新的回答又带出另一个有意思的角度，你又顺着追。"
-          },
-          {
-            "en": "Two hours later you are far away from the original question, dozens of new concepts have passed through your head, and you can no longer say how you got from one place to another.",
-            "cn": "两小时之后你已经偏离最初的问题不知道多远，脑子里过了几十个新概念，你自己都说不清从哪里跳到哪里的。"
+            "en": "You start by chasing a concrete question. AI answers. The answer mentions a concept you do not know, so you ask about it. The next answer brings up another interesting angle, so you follow that too. Two hours later you are far away from the original question, dozens of new concepts have passed through your head, and you can no longer say how you got from one place to another.",
+            "cn": "开始的时候你在追一个具体问题。AI 给出答案，答案里提到一个你不熟悉的概念，你顺手问一下。新的回答又带出另一个有意思的角度，你又顺着追。两小时之后你已经偏离最初的问题不知道多远，脑子里过了几十个新概念，你自己都说不清从哪里跳到哪里的。"
           }
         ]
       },
@@ -26154,12 +24370,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In the past, knowing more was valuable.",
-            "cn": "过去“知道更多东西”是值钱的，"
-          },
-          {
-            "en": "Even if the return was not high, at least a scarce resource was accumulating.",
-            "cn": "哪怕投入产出比不高，至少在累积一种稀缺资源。"
+            "en": "In the past, knowing more was valuable. Even if the return was not high, at least a scarce resource was accumulating.",
+            "cn": "过去“知道更多东西”是值钱的，哪怕投入产出比不高，至少在累积一种稀缺资源。"
           }
         ]
       },
@@ -26178,16 +24390,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So this is not a problem of low efficiency.",
-            "cn": "所以这不是“效率低”的问题，"
-          },
-          {
-            "en": "It is a problem of spending large amounts of time and attention accumulating things with no value.",
-            "cn": "是你花了大量时间和注意力，累积了一堆没有价值的东西。"
-          },
-          {
-            "en": "That time and attention could have gone into things that still matter: training judgment, doing real work, and accumulating experience that cannot be reduced to text.",
-            "cn": "而这些时间和注意力本来可以用来做真正有价值的事：训练判断力、做真实的事、积累不可文本化的经验。"
+            "en": "So this is not a problem of low efficiency. It is a problem of spending large amounts of time and attention accumulating things with no value. That time and attention could have gone into things that still matter: training judgment, doing real work, and accumulating experience that cannot be reduced to text.",
+            "cn": "所以这不是“效率低”的问题，是你花了大量时间和注意力，累积了一堆没有价值的东西。而这些时间和注意力本来可以用来做真正有价值的事：训练判断力、做真实的事、积累不可文本化的经验。"
           }
         ]
       },
@@ -26214,40 +24418,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In the past, asking a question carried real cost: time, money, or social debt.",
-            "cn": "过去问一个问题要付真实的成本："
-          },
-          {
-            "en": "You had to spend half an hour searching, buy a book or course, access a database, or take another person’s time.",
-            "cn": "时间（查资料半小时）、金钱（书、课、数据库）、人情（占用别人时间）。"
-          },
-          {
-            "en": "These costs acted as filters.",
-            "cn": "这些成本本身就是过滤器，大部分“想问”的冲动在还没到达行为之前就被成本过滤掉了。"
-          },
-          {
-            "en": "Most impulses to ask were suppressed before they became actions.",
-            "cn": "于是我们内化了一种节奏："
-          },
-          {
-            "en": "We internalised a rhythm: questions cost something, so ask selectively.",
-            "cn": "问问题是要付成本的，所以要挑着问。"
+            "en": "In the past, asking a question carried real cost: time, money, or social debt. You had to spend half an hour searching, buy a book or course, access a database, or take another person’s time. These costs acted as filters. Most impulses to ask were suppressed before they became actions. We internalised a rhythm: questions cost something, so ask selectively.",
+            "cn": "过去问一个问题要付真实的成本：时间（查资料半小时）、金钱（书、课、数据库）、人情（占用别人时间）。这些成本本身就是过滤器，大部分“想问”的冲动在还没到达行为之前就被成本过滤掉了。于是我们内化了一种节奏：问问题是要付成本的，所以要挑着问。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "AI drops those costs close to zero.",
-            "cn": "AI 把这些成本全部降到了接近零。"
-          },
-          {
-            "en": "But our internal rhythm did not adjust. We are still firing the old willingness-to-ask at a zero-cost interface.",
-            "cn": "但我们内化的行为节奏没有跟着调整，我们还是在用过去的“问问题意愿”向这个零成本的接口发射提问。"
-          },
-          {
-            "en": "Every impulse that was previously suppressed by cost now rushes toward an outlet without friction.",
-            "cn": "过去被成本自然压制的所有“想问”冲动，现在都被无代价地释放出来。"
+            "en": "AI drops those costs close to zero. But our internal rhythm did not adjust. We are still firing the old willingness-to-ask at a zero-cost interface. Every impulse that was previously suppressed by cost now rushes toward an outlet without friction.",
+            "cn": "AI 把这些成本全部降到了接近零。但我们内化的行为节奏没有跟着调整，我们还是在用过去的“问问题意愿”向这个零成本的接口发射提问。过去被成本自然压制的所有“想问”冲动，现在都被无代价地释放出来。"
           }
         ]
       },
@@ -26286,68 +24466,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not accidental.",
-            "cn": "这不是偶然。"
-          },
-          {
-            "en": "Neuroscience has found that acquiring new information activates the brain’s reward system.",
-            "cn": "神经科学研究发现，获取新信息这个动作本身就激活大脑的奖励系统——“哦原来如此”的满足感，"
-          },
-          {
-            "en": "The satisfaction of “now I know” uses the same dopaminergic circuitry involved in rewards such as food and money.",
-            "cn": "和你获得食物、金钱时激活的是同一套多巴胺回路。"
-          },
-          {
-            "en": "In other words, the reward feeling is a by-product of obtaining information.",
-            "cn": "也就是说，奖励感是获取信息的副产品，不是学习发生的证据。"
-          },
-          {
-            "en": "It is not evidence that learning has occurred.",
-            "cn": "它会发生在每一次你得到新信息的时候，"
-          },
-          {
-            "en": "It appears whenever you get new information, regardless of whether that information will ever be used.",
-            "cn": "不管这个信息最终会不会被你用上。"
+            "en": "This is not accidental. Neuroscience has found that acquiring new information activates the brain’s reward system. The satisfaction of “now I know” uses the same dopaminergic circuitry involved in rewards such as food and money. In other words, the reward feeling is a by-product of obtaining information. It is not evidence that learning has occurred. It appears whenever you get new information, regardless of whether that information will ever be used.",
+            "cn": "这不是偶然。神经科学研究发现，获取新信息这个动作本身就激活大脑的奖励系统——“哦原来如此”的满足感，和你获得食物、金钱时激活的是同一套多巴胺回路。也就是说，奖励感是获取信息的副产品，不是学习发生的证据。它会发生在每一次你得到新信息的时候，不管这个信息最终会不会被你用上。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The difference is whether the “now I know” is later used.",
-            "cn": "差别只在这个“原来如此”接下来有没有被你用上。"
-          },
-          {
-            "en": "If it is used, learning happened.",
-            "cn": "用上了，是学习；"
-          },
-          {
-            "en": "If it is not used, it was consumption.",
-            "cn": "没用上，是消费。"
-          },
-          {
-            "en": "But the two feel almost the same in the moment.",
-            "cn": "但两者在当下的体感几乎一样。"
+            "en": "The difference is whether the “now I know” is later used. If it is used, learning happened. If it is not used, it was consumption. But the two feel almost the same in the moment.",
+            "cn": "差别只在这个“原来如此”接下来有没有被你用上。用上了，是学习；没用上，是消费。但两者在当下的体感几乎一样。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "That creates a structural trap: you cannot use feeling to distinguish learning from consumption.",
-            "cn": "这就是一个结构性的困境：你无法用“感觉”来区分自己在学习还是在消费。"
-          },
-          {
-            "en": "When you feel you are learning, you may only be consuming.",
-            "cn": "你觉得自己在学习的时候，可能只是在消费。"
-          },
-          {
-            "en": "And because consumption feels almost identical to learning, self-reflection becomes unusually difficult.",
-            "cn": "而由于消费的体感和学习几乎一样，反思自己的行为变得异常困难，"
-          },
-          {
-            "en": "Every time you ask yourself whether you were really learning, the answer comes back: yes, it felt like learning.",
-            "cn": "每一次你“回想刚才是不是在真正学习”，都会得到“是的，我感觉在学习”的答案。"
+            "en": "That creates a structural trap: you cannot use feeling to distinguish learning from consumption. When you feel you are learning, you may only be consuming. And because consumption feels almost identical to learning, self-reflection becomes unusually difficult. Every time you ask yourself whether you were really learning, the answer comes back: yes, it felt like learning.",
+            "cn": "这就是一个结构性的困境：你无法用“感觉”来区分自己在学习还是在消费。你觉得自己在学习的时候，可能只是在消费。而由于消费的体感和学习几乎一样，反思自己的行为变得异常困难，每一次你“回想刚才是不是在真正学习”，都会得到“是的，我感觉在学习”的答案。"
           }
         ]
       },
@@ -26362,20 +24498,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI is endlessly patient, detailed, and friendly.",
-            "cn": "AI 永远耐心、永远详细、永远友好。"
-          },
-          {
-            "en": "It does not create a natural stopping point the way a book does.",
-            "cn": "它不会像一本书一样让你在某个自然停顿点合上书来吸收，"
-          },
-          {
-            "en": "Its rhythm is controlled by you, but its presence continually invites continuation.",
-            "cn": "它的节奏由你决定，但它的存在本身在持续地邀请你继续。"
-          },
-          {
-            "en": "Every answer is structured, readable, and quietly open-ended: if you want more, ask.",
-            "cn": "每一个回答都结构完整、清晰易读、暗含“如果你还想了解更多可以继续问”的开放性。"
+            "en": "AI is endlessly patient, detailed, and friendly. It does not create a natural stopping point the way a book does. Its rhythm is controlled by you, but its presence continually invites continuation. Every answer is structured, readable, and quietly open-ended: if you want more, ask.",
+            "cn": "AI 永远耐心、永远详细、永远友好。它不会像一本书一样让你在某个自然停顿点合上书来吸收，它的节奏由你决定，但它的存在本身在持续地邀请你继续。每一个回答都结构完整、清晰易读、暗含“如果你还想了解更多可以继续问”的开放性。"
           }
         ]
       },
@@ -26470,44 +24594,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Encyclopedia use does this because you are not judging at all; you are retrieving information.",
-            "cn": "“当百科”是因为你根本没在做判断，你只是在获取信息。"
-          },
-          {
-            "en": "Confirmation use is worse.",
-            "cn": "“当确认”更糟，"
-          },
-          {
-            "en": "You think you are judging, but what you are really doing is hinting to AI and accepting the echo.",
-            "cn": "你以为自己在做判断，但你真正做的只是给 AI 暗示然后接受它的回响。"
+            "en": "Encyclopedia use does this because you are not judging at all; you are retrieving information. Confirmation use is worse. You think you are judging, but what you are really doing is hinting to AI and accepting the echo.",
+            "cn": "“当百科”是因为你根本没在做判断，你只是在获取信息。 “当确认”更糟，你以为自己在做判断，但你真正做的只是给 AI 暗示然后接受它的回响。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Rabbit holes are more severe because they do not even have the first condition.",
-            "cn": "“兔子洞”更严重，它连条件一都没有。"
-          },
-          {
-            "en": "There is no real situation, so there is nothing that requires judgment.",
-            "cn": "没有真实情境，就没有什么需要判断，所有“思考”都是空转。"
-          },
-          {
-            "en": "All the “thinking” is idle rotation.",
-            "cn": "你以为自己在深入学习一个话题，"
-          },
-          {
-            "en": "You think you are studying a topic deeply, but you are being externally driven by one AI answer after another.",
-            "cn": "实际上你在被 AI 一个接一个的回答外部驱动着往前走。"
-          },
-          {
-            "en": "Your cognitive system makes no autonomous move during the process.",
-            "cn": "你的认知系统在整个过程中没有做任何自主动作，"
-          },
-          {
-            "en": "It receives, receives, and receives again.",
-            "cn": "只是在接收、接收、再接收。"
+            "en": "Rabbit holes are more severe because they do not even have the first condition. There is no real situation, so there is nothing that requires judgment. All the “thinking” is idle rotation. You think you are studying a topic deeply, but you are being externally driven by one AI answer after another. Your cognitive system makes no autonomous move during the process. It receives, receives, and receives again.",
+            "cn": "“兔子洞”更严重，它连条件一都没有。没有真实情境，就没有什么需要判断，所有“思考”都是空转。你以为自己在深入学习一个话题，实际上你在被 AI 一个接一个的回答外部驱动着往前走。你的认知系统在整个过程中没有做任何自主动作，只是在接收、接收、再接收。"
           }
         ]
       },
@@ -26530,12 +24626,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So the problem is not that AI “doesn’t help” cognitive decoupling.",
-            "cn": "所以不是“用 AI 对认知去耦没帮助”，"
-          },
-          {
-            "en": "It is that many current ways of using AI actively make cognitive decoupling deteriorate.",
-            "cn": "是大量当前的使用方式在主动让认知去耦退化。"
+            "en": "So the problem is not that AI “doesn’t help” cognitive decoupling. It is that many current ways of using AI actively make cognitive decoupling deteriorate.",
+            "cn": "所以不是“用 AI 对认知去耦没帮助”，是大量当前的使用方式在主动让认知去耦退化。"
           }
         ]
       },
@@ -26566,20 +24658,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If you can answer concretely, you are exploring.",
-            "cn": "答得出具体的东西，在探索，可以继续。"
-          },
-          {
-            "en": "Continue.",
-            "cn": "答不出，"
-          },
-          {
-            "en": "If you cannot, you are in a rabbit hole.",
-            "cn": "在兔子洞，"
-          },
-          {
-            "en": "Stop immediately.",
-            "cn": "立刻停。"
+            "en": "If you can answer concretely, you are exploring. Continue. If you cannot, you are in a rabbit hole. Stop immediately.",
+            "cn": "答得出具体的东西，在探索，可以继续。 答不出，在兔子洞，立刻停。"
           }
         ]
       },
@@ -26638,12 +24718,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Chapter 2 asks which questions are worth asking.",
-            "cn": "第二章讲“什么问题值得问”，"
-          },
-          {
-            "en": "The questions worth asking grow out of things you are already doing.",
-            "cn": "真正值得问的问题都是从你正在做的事里长出来的"
+            "en": "Chapter 2 asks which questions are worth asking. The questions worth asking grow out of things you are already doing.",
+            "cn": "第二章讲“什么问题值得问”，真正值得问的问题都是从你正在做的事里长出来的"
           }
         ]
       },
@@ -26689,10 +24765,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-2--which-questions-are-worth-asking",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -26702,7 +24778,7 @@ const ARTICLES_EXTRA = [
     "chapter": 3,
     "sourceTextWords": 1347,
     "sourceParagraphs": 60,
-    "sourceSentences": 109,
+    "sourceSentences": 78,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -26723,16 +24799,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not a prompt-style issue.",
-            "cn": "这不是一个风格问题（怎么写 prompt），是一个前置判断："
-          },
-          {
-            "en": "It is a prior judgment: which questions have value, and which do not.",
-            "cn": "哪些问题问了有价值，哪些问了没价值。"
-          },
-          {
-            "en": "Without that judgment, better prompting only makes worthless questions look better.",
-            "cn": "这个判断不做，再好的提问技巧也只是把没价值的问题问得更漂亮。"
+            "en": "This is not a prompt-style issue. It is a prior judgment: which questions have value, and which do not. Without that judgment, better prompting only makes worthless questions look better.",
+            "cn": "这不是一个风格问题（怎么写 prompt），是一个前置判断：哪些问题问了有价值，哪些问了没价值。这个判断不做，再好的提问技巧也只是把没价值的问题问得更漂亮。"
           }
         ]
       },
@@ -26771,12 +24839,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The key word is delta.",
-            "cn": "这个区分的核心词是 delta："
-          },
-          {
-            "en": "Does this question create a real change?",
-            "cn": "这个问题有没有产生真正的变化。"
+            "en": "The key word is delta. Does this question create a real change?",
+            "cn": "这个区分的核心词是 delta：这个问题有没有产生真正的变化。"
           }
         ]
       },
@@ -26819,28 +24883,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Your time and attention are fixed.",
-            "cn": "你的时间和注意力是固定的，"
-          },
-          {
-            "en": "Questions without delta occupy the space of questions with delta.",
-            "cn": "没 delta 的问题占据了有 delta 的问题的空间"
+            "en": "Your time and attention are fixed. Questions without delta occupy the space of questions with delta.",
+            "cn": "你的时间和注意力是固定的，没 delta 的问题占据了有 delta 的问题的空间"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So a stricter default is needed: in the AI era, ask only when there is delta.",
-            "cn": "所以一个更严格的默认：AI 时代问问题的正确起点是“有 delta 才问”。"
-          },
-          {
-            "en": "Wide exploration is not forbidden, but the standard is higher.",
-            "cn": "不是说宽度探索被禁止了，"
-          },
-          {
-            "en": "You must be able to say how the exploration eventually returns to something you are doing.",
-            "cn": "是宽度探索的标准变严了，你要能说出这个探索最终会如何回到你正在做的某件事上。"
+            "en": "So a stricter default is needed: in the AI era, ask only when there is delta. Wide exploration is not forbidden, but the standard is higher. You must be able to say how the exploration eventually returns to something you are doing.",
+            "cn": "所以一个更严格的默认：AI 时代问问题的正确起点是“有 delta 才问”。不是说宽度探索被禁止了，是宽度探索的标准变严了，你要能说出这个探索最终会如何回到你正在做的某件事上。"
           }
         ]
       },
@@ -26879,12 +24931,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "A question’s delta is not determined by the question itself.",
-            "cn": "一个问题有没有 delta，不是由问题本身决定的，"
-          },
-          {
-            "en": "It is determined by what the asker is doing.",
-            "cn": "是由“问问题的人在做什么”决定的。"
+            "en": "A question’s delta is not determined by the question itself. It is determined by what the asker is doing.",
+            "cn": "一个问题有没有 delta，不是由问题本身决定的，是由“问问题的人在做什么”决定的。"
           }
         ]
       },
@@ -26915,40 +24963,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Someone who is not growing flowers and is merely “interested in gardening” may ask the same questions, but almost all of them have no delta.",
-            "cn": "一个没在种花、只是“对园艺感兴趣”的人问同样的问题，几乎全是无 delta 的，"
-          },
-          {
-            "en": "No answer will lead to any action.",
-            "cn": "因为没有任何答案会导向他的任何行动。"
+            "en": "Someone who is not growing flowers and is merely “interested in gardening” may ask the same questions, but almost all of them have no delta. No answer will lead to any action.",
+            "cn": "一个没在种花、只是“对园艺感兴趣”的人问同样的问题，几乎全是无 delta 的，因为没有任何答案会导向他的任何行动。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So the true source of delta is not knowledge stock.",
-            "cn": "所以 delta 的真正来源不是“有没有知识储备”，"
-          },
-          {
-            "en": "It is whether one is doing something real.",
-            "cn": "是“有没有在做一件真实的事”。"
+            "en": "So the true source of delta is not knowledge stock. It is whether one is doing something real.",
+            "cn": "所以 delta 的真正来源不是“有没有知识储备”，是“有没有在做一件真实的事”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This resolves the beginner problem.",
-            "cn": "这个修正解开了“新手怎么办”的谜："
-          },
-          {
-            "en": "Beginners do not lack knowledge stock.",
-            "cn": "新手真正缺的不是“知识储备”，"
-          },
-          {
-            "en": "They lack a thing being done.",
-            "cn": "是一件正在做的事。"
+            "en": "This resolves the beginner problem. Beginners do not lack knowledge stock. They lack a thing being done.",
+            "cn": "这个修正解开了“新手怎么办”的谜：新手真正缺的不是“知识储备”，是一件正在做的事。"
           }
         ]
       },
@@ -26979,28 +25011,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is an underrated skill in the AI era: turning details of reality into prompt context.",
-            "cn": "这是 AI 时代一个被严重低估的技能：把现实的细节转化成 prompt 的上下文。"
-          },
-          {
-            "en": "It requires no knowledge stock.",
-            "cn": "这个技能不需要知识储备，"
-          },
-          {
-            "en": "It requires that you actually look at what is happening in front of you.",
-            "cn": "只需要你真的在看你面前发生的事。"
+            "en": "This is an underrated skill in the AI era: turning details of reality into prompt context. It requires no knowledge stock. It requires that you actually look at what is happening in front of you.",
+            "cn": "这是 AI 时代一个被严重低估的技能：把现实的细节转化成 prompt 的上下文。这个技能不需要知识储备，只需要你真的在看你面前发生的事。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "“My plant’s leaves are yellow” is ten thousand times better than “why do leaves turn yellow?” The difference is not knowledge.",
-            "cn": "“我的花叶子黄了”比“花叶子为什么会黄”好一万倍。前者有 delta，后者没有。"
-          },
-          {
-            "en": "It is whether the question contains observation.",
-            "cn": "区别不在知识储备，在问题里有没有具体的观察。"
+            "en": "“My plant’s leaves are yellow” is ten thousand times better than “why do leaves turn yellow?” The difference is not knowledge. It is whether the question contains observation.",
+            "cn": "“我的花叶子黄了”比“花叶子为什么会黄”好一万倍。前者有 delta，后者没有。区别不在知识储备，在问题里有没有具体的观察。"
           }
         ]
       },
@@ -27063,20 +25083,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "These are meta-questions.",
-            "cn": "这类问题的特征是它们是元问题。"
-          },
-          {
-            "en": "They do not ask for facts.",
-            "cn": "它们不是在问事实，"
-          },
-          {
-            "en": "They ask what one should care about and what one should ask.",
-            "cn": "是在问“我应该关心什么、我应该问什么”。"
-          },
-          {
-            "en": "This is a legitimate entry method, a way to build a minimum viable conceptual map quickly.",
-            "cn": "这是一种合法的入门方式，帮你在最短时间内建立起一个最小可用的概念框架。"
+            "en": "These are meta-questions. They do not ask for facts. They ask what one should care about and what one should ask. This is a legitimate entry method, a way to build a minimum viable conceptual map quickly.",
+            "cn": "这类问题的特征是它们是元问题。它们不是在问事实，是在问“我应该关心什么、我应该问什么”。这是一种合法的入门方式，帮你在最短时间内建立起一个最小可用的概念框架。"
           }
         ]
       },
@@ -27099,12 +25107,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If three months later you are still asking “what are the most common mistakes in succulent care,” you are not a beginner anymore.",
-            "cn": "如果三个月之后你还在问“多肉养护最常见的错误是什么”，那你不是新手了，"
-          },
-          {
-            "en": "You are in a rabbit hole.",
-            "cn": "你是在兔子洞里。"
+            "en": "If three months later you are still asking “what are the most common mistakes in succulent care,” you are not a beginner anymore. You are in a rabbit hole.",
+            "cn": "如果三个月之后你还在问“多肉养护最常见的错误是什么”，那你不是新手了，你是在兔子洞里。"
           }
         ]
       },
@@ -27135,20 +25139,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The old default was learn → do.",
-            "cn": "前 AI 时代的默认顺序是 学 → 做："
-          },
-          {
-            "en": "Read books, take courses, master knowledge, then practise.",
-            "cn": "你先读书、上课、掌握知识，然后才开始实践。"
-          },
-          {
-            "en": "That sequence made sense when learning had high cost: time, money, social access.",
-            "cn": "这个顺序在过去是合理的，因为“学”的成本极高（时间、金钱、社交）。"
-          },
-          {
-            "en": "Doing without first learning was expensive because mistakes and detours cost too much.",
-            "cn": "如果不先学就做，代价太大（犯很多不必要的错、走很多弯路）。"
+            "en": "The old default was learn → do. Read books, take courses, master knowledge, then practise. That sequence made sense when learning had high cost: time, money, social access. Doing without first learning was expensive because mistakes and detours cost too much.",
+            "cn": "前 AI 时代的默认顺序是 学 → 做：你先读书、上课、掌握知识，然后才开始实践。这个顺序在过去是合理的，因为“学”的成本极高（时间、金钱、社交）。如果不先学就做，代价太大（犯很多不必要的错、走很多弯路）。"
           }
         ]
       },
@@ -27171,16 +25163,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "People still using “learn first, do later” are applying pre-AI learning habits to an AI-era environment.",
-            "cn": "还在用“先学后做”的人，是在用前 AI 时代的学习习惯应对 AI 时代的环境，而这种习惯现在是负资产。"
-          },
-          {
-            "en": "The habit has become a liability.",
-            "cn": "因为它让你在“学”的阶段浪费大量时间（读很多以后不会用到的东西），"
-          },
-          {
-            "en": "It wastes time in the learning phase and delays the effective loop of doing and observing.",
-            "cn": "反而延迟了真正有效的“做 → 观察”循环的开始。"
+            "en": "People still using “learn first, do later” are applying pre-AI learning habits to an AI-era environment. The habit has become a liability. It wastes time in the learning phase and delays the effective loop of doing and observing.",
+            "cn": "还在用“先学后做”的人，是在用前 AI 时代的学习习惯应对 AI 时代的环境，而这种习惯现在是负资产。因为它让你在“学”的阶段浪费大量时间（读很多以后不会用到的东西），反而延迟了真正有效的“做 → 观察”循环的开始。"
           }
         ]
       },
@@ -27211,12 +25195,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Use the observation as context when asking AI: “In my X situation, under Y conditions, Z happened.",
-            "cn": "把观察作为上下文去问 AI：“我的 X 情况、在 Y 环境下、出现了 Z，"
-          },
-          {
-            "en": "What are the possible causes?”",
-            "cn": "可能原因有哪些”"
+            "en": "Use the observation as context when asking AI: “In my X situation, under Y conditions, Z happened. What are the possible causes?”",
+            "cn": "把观察作为上下文去问 AI：“我的 X 情况、在 Y 环境下、出现了 Z，可能原因有哪些”"
           }
         ]
       },
@@ -27247,12 +25227,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Observe the result.",
-            "cn": "观察调整的结果"
-          },
-          {
-            "en": "Was it right or wrong?",
-            "cn": "（对了还是错了？）"
+            "en": "Observe the result. Was it right or wrong?",
+            "cn": "观察调整的结果（对了还是错了？）"
           }
         ]
       },
@@ -27267,28 +25243,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In this loop, reality is the subject and AI is the predicate.",
-            "cn": "这个循环里，现实是主语、AI 是谓语。"
-          },
-          {
-            "en": "Every question carries observational data.",
-            "cn": "每个问题都带着观察数据，"
-          },
-          {
-            "en": "Every answer is tested by the next observation.",
-            "cn": "每个答案都会被下一步的观察验证。"
+            "en": "In this loop, reality is the subject and AI is the predicate. Every question carries observational data. Every answer is tested by the next observation.",
+            "cn": "这个循环里，现实是主语、AI 是谓语。每个问题都带着观察数据，每个答案都会被下一步的观察验证。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Beginners do not ask good questions because they have knowledge stock.",
-            "cn": "新手不是靠知识储备问出好问题的，"
-          },
-          {
-            "en": "They ask good questions by turning observation into prompt context.",
-            "cn": "是靠把观察变成 prompt 的上下文问出好问题的。"
+            "en": "Beginners do not ask good questions because they have knowledge stock. They ask good questions by turning observation into prompt context.",
+            "cn": "新手不是靠知识储备问出好问题的，是靠把观察变成 prompt 的上下文问出好问题的。"
           }
         ]
       },
@@ -27347,20 +25311,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "At this point the basic rhythm of AI-era learning is established: do, observe, ask questions with delta, learn something specific, return to doing.",
-            "cn": "到这里，AI 时代学习的底层节奏已经立起来了：做，观察，问有 delta 的问题，学到具体的东西，回来做。"
-          },
-          {
-            "en": "It is a self-driving loop.",
-            "cn": "这是一个自我驱动的循环，"
-          },
-          {
-            "en": "It needs no willpower, ritual, or check-in system.",
-            "cn": "它不需要意志力、不需要仪式、不需要打卡，"
-          },
-          {
-            "en": "It only requires that you are doing something real.",
-            "cn": "只需要你真的在做一件真实的事。"
+            "en": "At this point the basic rhythm of AI-era learning is established: do, observe, ask questions with delta, learn something specific, return to doing. It is a self-driving loop. It needs no willpower, ritual, or check-in system. It only requires that you are doing something real.",
+            "cn": "到这里，AI 时代学习的底层节奏已经立起来了：做，观察，问有 delta 的问题，学到具体的东西，回来做。这是一个自我驱动的循环，它不需要意志力、不需要仪式、不需要打卡，只需要你真的在做一件真实的事。"
           }
         ]
       },
@@ -27394,10 +25346,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-3--using-ai-to-model-part-i-reasoning-tools-as-reviewers",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -27407,7 +25359,7 @@ const ARTICLES_EXTRA = [
     "chapter": 4,
     "sourceTextWords": 1612,
     "sourceParagraphs": 69,
-    "sourceSentences": 147,
+    "sourceSentences": 87,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -27424,20 +25376,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The answer is very different from before.",
-            "cn": "“学什么”这个问题在 AI 时代的答案和过去完全不同。"
-          },
-          {
-            "en": "Knowledge is not worth learning in the old sense, because the model knows more than you.",
-            "cn": "知识不值得学（模型比你知道得多）、"
-          },
-          {
-            "en": "Much of skill is being automated, because AI is getting better at execution.",
-            "cn": "技能的大部分在被自动化（执行层面 AI 越做越好）、"
-          },
-          {
-            "en": "Most “thinking frameworks” are rhetoric dressed up as tools: they make you feel smarter when reading, but cannot be called when a concrete problem appears.",
-            "cn": "各种“思维框架”大部分是装成工具的话术（读一下感觉涨姿势但下次遇到具体问题根本调用不出来）。"
+            "en": "The answer is very different from before. Knowledge is not worth learning in the old sense, because the model knows more than you. Much of skill is being automated, because AI is getting better at execution. Most “thinking frameworks” are rhetoric dressed up as tools: they make you feel smarter when reading, but cannot be called when a concrete problem appears.",
+            "cn": "“学什么”这个问题在 AI 时代的答案和过去完全不同。知识不值得学（模型比你知道得多）、技能的大部分在被自动化（执行层面 AI 越做越好）、各种“思维框架”大部分是装成工具的话术（读一下感觉涨姿势但下次遇到具体问题根本调用不出来）。"
           }
         ]
       },
@@ -27456,16 +25396,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Reasoning tools are concrete methods of thought installed in the cognitive system, available for use at any moment.",
-            "cn": "思维工具是装载在认知系统里、可以随时被调用的具体思考方法。"
-          },
-          {
-            "en": "Their relationship to knowledge is like software to data.",
-            "cn": "它和知识的关系类似软件和数据："
-          },
-          {
-            "en": "Knowledge is information; reasoning tools are programs for processing information.",
-            "cn": "知识是一堆信息，思维工具是处理这些信息的程序。"
+            "en": "Reasoning tools are concrete methods of thought installed in the cognitive system, available for use at any moment. Their relationship to knowledge is like software to data. Knowledge is information; reasoning tools are programs for processing information.",
+            "cn": "思维工具是装载在认知系统里、可以随时被调用的具体思考方法。它和知识的关系类似软件和数据：知识是一堆信息，思维工具是处理这些信息的程序。"
           }
         ]
       },
@@ -27508,16 +25440,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Distinguish correlation from causation.",
-            "cn": "区分相关和因果，理解混淆变量、反事实对照。"
-          },
-          {
-            "en": "Understand confounders and counterfactual controls.",
-            "cn": "大部分人把“A 伴随 B 发生”"
-          },
-          {
-            "en": "Most people treat “A happened alongside B” as “A caused B.” This tool corrects that habit.",
-            "cn": "等同于“A 导致 B”，这一门就是系统地纠正这个习惯。"
+            "en": "Distinguish correlation from causation. Understand confounders and counterfactual controls. Most people treat “A happened alongside B” as “A caused B.” This tool corrects that habit.",
+            "cn": "区分相关和因果，理解混淆变量、反事实对照。大部分人把“A 伴随 B 发生”等同于“A 导致 B”，这一门就是系统地纠正这个习惯。"
           }
         ]
       },
@@ -27532,16 +25456,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "No deep mathematics is required.",
-            "cn": "不需要数学深度，"
-          },
-          {
-            "en": "What matters is the reflex of asking who is paying for whose decision.",
-            "cn": "要的是在任何现象里自动识别“谁在为谁的决策买单”的反射。"
-          },
-          {
-            "en": "Once installed, it changes how one reads news, policy, and business.",
-            "cn": "装上后看新闻、看政策、看商业现象的方式会完全不一样。"
+            "en": "No deep mathematics is required. What matters is the reflex of asking who is paying for whose decision. Once installed, it changes how one reads news, policy, and business.",
+            "cn": "不需要数学深度，要的是在任何现象里自动识别“谁在为谁的决策买单”的反射。装上后看新闻、看政策、看商业现象的方式会完全不一样。"
           }
         ]
       },
@@ -27568,40 +25484,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Once the four are installed, any phenomenon is automatically decomposed into variables, causal direction, incentive distribution, and feedback loops.",
-            "cn": "四门装齐之后，面对任何现象，认知系统会自动把它拆成“这里面哪些变量、因果方向如何、各方激励如何分布、反馈回路在哪里”，"
-          },
-          {
-            "en": "This is not a thinking trick.",
-            "cn": "这不是思考技巧，"
-          },
-          {
-            "en": "It is a reflex.",
-            "cn": "是一种反射。"
+            "en": "Once the four are installed, any phenomenon is automatically decomposed into variables, causal direction, incentive distribution, and feedback loops. This is not a thinking trick. It is a reflex.",
+            "cn": "四门装齐之后，面对任何现象，认知系统会自动把它拆成“这里面哪些变量、因果方向如何、各方激励如何分布、反馈回路在哪里”，这不是思考技巧，是一种反射。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The simplest test is this: when facing a new phenomenon, does the person jump to a conclusion, or automatically place it inside a reasoning frame?",
-            "cn": "装没装上，有一个极简单的测试：面对新现象时，此人是直接给一个结论，还是会自动把它放进某个推理框架。"
-          },
-          {
-            "en": "The former is impoverished.",
-            "cn": "前者贫乏，"
-          },
-          {
-            "en": "Their conclusion may be right or wrong, but they cannot tell.",
-            "cn": "他的结论可能对可能错，但他自己分不清；"
-          },
-          {
-            "en": "The latter has internalised the tools.",
-            "cn": "后者已经内化，"
-          },
-          {
-            "en": "They first ask about base rates, causal direction, incentives, and feedback delay.",
-            "cn": "他会先问基准率、因果方向、激励分布、反馈延迟。"
+            "en": "The simplest test is this: when facing a new phenomenon, does the person jump to a conclusion, or automatically place it inside a reasoning frame? The former is impoverished. Their conclusion may be right or wrong, but they cannot tell. The latter has internalised the tools. They first ask about base rates, causal direction, incentives, and feedback delay.",
+            "cn": "装没装上，有一个极简单的测试：面对新现象时，此人是直接给一个结论，还是会自动把它放进某个推理框架。前者贫乏，他的结论可能对可能错，但他自己分不清；后者已经内化，他会先问基准率、因果方向、激励分布、反馈延迟。"
           }
         ]
       },
@@ -27616,104 +25508,40 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Probability: Kahneman’s Thinking, Fast and Slow.",
-            "cn": "比如学概率推理就读 Kahneman 的《思考，快与慢》，"
-          },
-          {
-            "en": "Causality: Pearl’s The Book of Why.",
-            "cn": "学因果就读 Pearl 的《为什么》，"
-          },
-          {
-            "en": "Game theory: Schelling’s The Strategy of Conflict.",
-            "cn": "学博弈就读 Schelling 的《冲突的战略》，"
-          },
-          {
-            "en": "Systems: Meadows’s Thinking in Systems.",
-            "cn": "学系统就读 Meadows 的《系统之美》。"
+            "en": "Probability: Kahneman’s Thinking, Fast and Slow. Causality: Pearl’s The Book of Why. Game theory: Schelling’s The Strategy of Conflict. Systems: Meadows’s Thinking in Systems.",
+            "cn": "比如学概率推理就读 Kahneman 的《思考，快与慢》，学因果就读 Pearl 的《为什么》，学博弈就读 Schelling 的《冲突的战略》，学系统就读 Meadows 的《系统之美》。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This path is not wrong.",
-            "cn": "这条路径不是错的，"
-          },
-          {
-            "en": "These books are among the best entry points.",
-            "cn": "这些书都是这个领域最好的入门读物之一。"
-          },
-          {
-            "en": "But its failure rate is extremely high.",
-            "cn": "但它的失败率极高。"
+            "en": "This path is not wrong. These books are among the best entry points. But its failure rate is extremely high.",
+            "cn": "这条路径不是错的，这些书都是这个领域最好的入门读物之一。但它的失败率极高。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The failure looks like this.",
-            "cn": "失败的具体表现："
-          },
-          {
-            "en": "Someone reads Thinking, Fast and Slow seriously and feels they have learned it.",
-            "cn": "一个人认真读完了《思考，快与慢》，合上书时觉得自己“学会了”。"
-          },
-          {
-            "en": "Three months later, ask which judgments from last week used anything from the book.",
-            "cn": "三个月后你问他“你上周做过的判断里，哪几个用到了你从这本书学到的东西”，他答不出。"
-          },
-          {
-            "en": "They cannot answer.",
-            "cn": "半年后他在做决策时，"
-          },
-          {
-            "en": "Six months later, they still make decisions by intuition, still fall into the biases the book warned about, and still cannot tell when they are pattern matching rather than reasoning.",
-            "cn": "依然在用直觉、依然会落入书里明确警告过的偏误、依然无法识别自己什么时候在做模式匹配什么时候在做真正的推理。"
+            "en": "The failure looks like this. Someone reads Thinking, Fast and Slow seriously and feels they have learned it. Three months later, ask which judgments from last week used anything from the book. They cannot answer. Six months later, they still make decisions by intuition, still fall into the biases the book warned about, and still cannot tell when they are pattern matching rather than reasoning.",
+            "cn": "失败的具体表现：一个人认真读完了《思考，快与慢》，合上书时觉得自己“学会了”。三个月后你问他“你上周做过的判断里，哪几个用到了你从这本书学到的东西”，他答不出。半年后他在做决策时，依然在用直觉、依然会落入书里明确警告过的偏误、依然无法识别自己什么时候在做模式匹配什么时候在做真正的推理。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This is not because they were unserious.",
-            "cn": "这不是他不够认真。"
-          },
-          {
-            "en": "It is because the learning method is mismatched to the object.",
-            "cn": "这是学习方式本身的错配："
-          },
-          {
-            "en": "Reading only contacts information.",
-            "cn": "读书只是接触信息，"
-          },
-          {
-            "en": "A reasoning tool becomes internal only when it is repeatedly called on concrete judgments.",
-            "cn": "但思维工具需要的是在具体判断上反复调用才能内化。"
-          },
-          {
-            "en": "Without use, more reading does not help.",
-            "cn": "没有调用，再多读也没用。"
+            "en": "This is not because they were unserious. It is because the learning method is mismatched to the object. Reading only contacts information. A reasoning tool becomes internal only when it is repeatedly called on concrete judgments. Without use, more reading does not help.",
+            "cn": "这不是他不够认真。这是学习方式本身的错配：读书只是接触信息，但思维工具需要的是在具体判断上反复调用才能内化。没有调用，再多读也没用。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The old remedy was deliberate practice: judgment journals, decision reviews, conscious use of tools after reading.",
-            "cn": "过去的补救方案是“刻意练习”：读完书之后每天写判断日志、做决策复盘、有意识地套用工具。"
-          },
-          {
-            "en": "Correct in theory, unsustainable for most people.",
-            "cn": "这个方案理论上对，实际上大部分人坚持不下来。"
-          },
-          {
-            "en": "Journaling requires extra energy, and most people have no surplus.",
-            "cn": "因为写日志这件事本身是一种额外投入的精力，而你的精力没有冗余，"
-          },
-          {
-            "en": "It stops within two weeks.",
-            "cn": "两周内就会停。"
+            "en": "The old remedy was deliberate practice: judgment journals, decision reviews, conscious use of tools after reading. Correct in theory, unsustainable for most people. Journaling requires extra energy, and most people have no surplus. It stops within two weeks.",
+            "cn": "过去的补救方案是“刻意练习”：读完书之后每天写判断日志、做决策复盘、有意识地套用工具。这个方案理论上对，实际上大部分人坚持不下来。因为写日志这件事本身是一种额外投入的精力，而你的精力没有冗余，两周内就会停。"
           }
         ]
       },
@@ -27736,12 +25564,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The new path is not to let AI teach you these tools.",
-            "cn": "新的路径不是让 AI 教你这些工具，"
-          },
-          {
-            "en": "That only gives you an AI version of the book.",
-            "cn": "那样得到的是 AI 版本的书，没有比读原书更好。"
+            "en": "The new path is not to let AI teach you these tools. That only gives you an AI version of the book.",
+            "cn": "新的路径不是让 AI 教你这些工具，那样得到的是 AI 版本的书，没有比读原书更好。"
           }
         ]
       },
@@ -27772,16 +25596,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Ask AI to summarise the tool in one clear account: its core, scope, common misuses, and differences from other tools.",
-            "cn": "让 AI 用一段话清楚地概括这个工具的核心、适用范围、最常见的误用、和其他工具的区别。"
-          },
-          {
-            "en": "This profile is not mainly for you to read.",
-            "cn": "这个画像不是给你读的，"
-          },
-          {
-            "en": "It is a reference that keeps AI’s later reviews consistent.",
-            "cn": "是接下来让 AI 保持一致审阅标准的参照物。"
+            "en": "Ask AI to summarise the tool in one clear account: its core, scope, common misuses, and differences from other tools. This profile is not mainly for you to read. It is a reference that keeps AI’s later reviews consistent.",
+            "cn": "让 AI 用一段话清楚地概括这个工具的核心、适用范围、最常见的误用、和其他工具的区别。这个画像不是给你读的，是接下来让 AI 保持一致审阅标准的参照物。"
           }
         ]
       },
@@ -27828,12 +25644,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The second cannot be reviewed because it has no concrete content.",
-            "cn": "不好的判断："
-          },
-          {
-            "en": "The first can.",
-            "cn": "“我觉得最近市场不太好”"
+            "en": "The second cannot be reviewed because it has no concrete content. The first can.",
+            "cn": "不好的判断：“我觉得最近市场不太好”"
           }
         ]
       },
@@ -27848,36 +25660,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "“Review my judgment from the perspective of causal reasoning.",
-            "cn": "“请用因果推理的视角审阅我刚才的判断。"
-          },
-          {
-            "en": "Am I treating correlation as causation?",
-            "cn": "我有没有把相关性当作因果？"
-          },
-          {
-            "en": "Do my facts support the causal direction?",
-            "cn": "我说的证据真的支持因果方向吗？"
-          },
-          {
-            "en": "What confounders did I miss?",
-            "cn": "我漏掉了哪些可能的混淆变量？"
-          },
-          {
-            "en": "Are my counterfactuals reasonable?”",
-            "cn": "我的反事实假设合理吗？”"
+            "en": "“Review my judgment from the perspective of causal reasoning. Am I treating correlation as causation? Do my facts support the causal direction? What confounders did I miss? Are my counterfactuals reasonable?”",
+            "cn": "“请用因果推理的视角审阅我刚才的判断。我有没有把相关性当作因果？我说的证据真的支持因果方向吗？我漏掉了哪些可能的混淆变量？我的反事实假设合理吗？”"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "AI will point out problems. That is where the tool is actually learned.",
-            "cn": "AI 会指出一堆问题，这些指出是你真正学会这个工具的地方。"
-          },
-          {
-            "en": "You are not “understanding causal reasoning”; you are seeing what causal reasoning finds in your own judgment.",
-            "cn": "你不是在“读懂因果推理”，你是在看因果推理在你的真实判断上发现了什么。"
+            "en": "AI will point out problems. That is where the tool is actually learned. You are not “understanding causal reasoning”; you are seeing what causal reasoning finds in your own judgment.",
+            "cn": "AI 会指出一堆问题，这些指出是你真正学会这个工具的地方。你不是在“读懂因果推理”，你是在看因果推理在你的真实判断上发现了什么。"
           }
         ]
       },
@@ -27904,16 +25696,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "After ten judgments, the tool begins to internalise.",
-            "cn": "十个判断之后这个工具开始内化；三十个判断之后，它变成反射。"
-          },
-          {
-            "en": "After thirty, it becomes reflexive.",
-            "cn": "每个判断花 15 分钟，"
-          },
-          {
-            "en": "If each judgment takes 15 minutes, thirty judgments take roughly 7 or 8 hours, spread across several months.",
-            "cn": "30 个判断大概 7-8 小时，分散在几个月里。"
+            "en": "After ten judgments, the tool begins to internalise. After thirty, it becomes reflexive. If each judgment takes 15 minutes, thirty judgments take roughly 7 or 8 hours, spread across several months.",
+            "cn": "十个判断之后这个工具开始内化；三十个判断之后，它变成反射。每个判断花 15 分钟，30 个判断大概 7-8 小时，分散在几个月里。"
           }
         ]
       },
@@ -27936,16 +25720,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Understanding happens in the head.",
-            "cn": "理解是一个在脑内发生的动作。"
-          },
-          {
-            "en": "You read a passage and feel “I get it.” That feeling is not ability.",
-            "cn": "你读一段话，觉得“懂了”。这个“懂”是一种感觉，不是一种能力。"
-          },
-          {
-            "en": "Most such feelings disappear within days.",
-            "cn": "大部分“我懂了”的感觉在几天之后就消散了，什么都没留下。"
+            "en": "Understanding happens in the head. You read a passage and feel “I get it.” That feeling is not ability. Most such feelings disappear within days.",
+            "cn": "理解是一个在脑内发生的动作。你读一段话，觉得“懂了”。这个“懂”是一种感觉，不是一种能力。大部分“我懂了”的感觉在几天之后就消散了，什么都没留下。"
           }
         ]
       },
@@ -27972,20 +25748,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Traditional book learning is mostly understanding and rarely direct correction.",
-            "cn": "传统读书学习大部分是“理解”，很少是“被打脸”，"
-          },
-          {
-            "en": "A book does not know your concrete judgment, so it cannot correct it precisely.",
-            "cn": "因为书不知道你的具体判断是什么，它没法针对性地打脸。"
-          },
-          {
-            "en": "It can only provide examples and hope you apply them to yourself.",
-            "cn": "它只能给你一堆例子，"
-          },
-          {
-            "en": "Most people do not.",
-            "cn": "指望你自己把例子套用到自己身上（这件事大部分人做不到）。"
+            "en": "Traditional book learning is mostly understanding and rarely direct correction. A book does not know your concrete judgment, so it cannot correct it precisely. It can only provide examples and hope you apply them to yourself. Most people do not.",
+            "cn": "传统读书学习大部分是“理解”，很少是“被打脸”，因为书不知道你的具体判断是什么，它没法针对性地打脸。它只能给你一堆例子，指望你自己把例子套用到自己身上（这件事大部分人做不到）。"
           }
         ]
       },
@@ -28004,20 +25768,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "One-on-one review used to require a human mentor or expensive consultant.",
-            "cn": "一对一审阅过去只有真人导师或昂贵的顾问能做，书做不到。"
-          },
-          {
-            "en": "A book could not do it.",
-            "cn": "AI 让这件事变成了零成本、"
-          },
-          {
-            "en": "AI makes it near-zero cost and always available.",
-            "cn": "随时可得的东西。"
-          },
-          {
-            "en": "This is AI’s structural advantage over most older learning methods.",
-            "cn": "这是 AI 相对于过去大部分学习方式的结构性优势。"
+            "en": "One-on-one review used to require a human mentor or expensive consultant. A book could not do it. AI makes it near-zero cost and always available. This is AI’s structural advantage over most older learning methods.",
+            "cn": "一对一审阅过去只有真人导师或昂贵的顾问能做，书做不到。AI 让这件事变成了零成本、随时可得的东西。这是 AI 相对于过去大部分学习方式的结构性优势。"
           }
         ]
       },
@@ -28068,24 +25820,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "That impact changes the next similar judgment.",
-            "cn": "而且这个冲击会永久改变你下次做类似判断时的思考方式。"
-          },
-          {
-            "en": "Next time you see a correlation, you will automatically ask: what are the confounders?",
-            "cn": "你下次观察到某个相关性时，会自动开始问“混淆变量是什么？"
-          },
-          {
-            "en": "What is the causal direction?",
-            "cn": "因果方向呢？"
-          },
-          {
-            "en": "What about selection effects?",
-            "cn": "选择效应呢？"
-          },
-          {
-            "en": "Is the sample large enough?",
-            "cn": "样本量够吗？”"
+            "en": "That impact changes the next similar judgment. Next time you see a correlation, you will automatically ask: what are the confounders? What is the causal direction? What about selection effects? Is the sample large enough?",
+            "cn": "而且这个冲击会永久改变你下次做类似判断时的思考方式。你下次观察到某个相关性时，会自动开始问“混淆变量是什么？因果方向呢？选择效应呢？样本量够吗？”"
           }
         ]
       },
@@ -28176,16 +25912,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If you give AI fictional examples, textbook cases, or other people’s judgments, the review may still be accurate, but you will not internalise it.",
-            "cn": "如果你拿给 AI 的都是“虚构例子”、“课本上的案例”、“别人的判断”，AI 的审阅依然准确，但你不会真正内化。"
-          },
-          {
-            "en": "You do not bear the consequences of those judgments.",
-            "cn": "因为你没有承担那些判断的后果、你不会为那些判断付出代价、"
-          },
-          {
-            "en": "Your brain does not treat them as real.",
-            "cn": "你的大脑不会把它们当成真实的事。"
+            "en": "If you give AI fictional examples, textbook cases, or other people’s judgments, the review may still be accurate, but you will not internalise it. You do not bear the consequences of those judgments. Your brain does not treat them as real.",
+            "cn": "如果你拿给 AI 的都是“虚构例子”、“课本上的案例”、“别人的判断”，AI 的审阅依然准确，但你不会真正内化。因为你没有承担那些判断的后果、你不会为那些判断付出代价、你的大脑不会把它们当成真实的事。"
           }
         ]
       },
@@ -28220,12 +25948,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So this method is not something to “study in spare time.” It must be embedded in real life: the work you are doing, the problems you are thinking about, the situations you are actually evaluating.",
-            "cn": "所以这个方法不是一个你可以“抽空学一下”的东西。它必须嵌入你的真实生活：你真实在做的工作、你真实在思考的问题、你真实在评估的情况。"
-          },
-          {
-            "en": "Only then will there be enough real judgments for tools to sharpen.",
-            "cn": "只有这样才能积累足够多的真实判断让工具反复打磨。"
+            "en": "So this method is not something to “study in spare time.” It must be embedded in real life: the work you are doing, the problems you are thinking about, the situations you are actually evaluating. Only then will there be enough real judgments for tools to sharpen.",
+            "cn": "所以这个方法不是一个你可以“抽空学一下”的东西。它必须嵌入你的真实生活：你真实在做的工作、你真实在思考的问题、你真实在评估的情况。只有这样才能积累足够多的真实判断让工具反复打磨。"
           }
         ]
       },
@@ -28248,20 +25972,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Reasoning tools improve the method of judgment.",
-            "cn": "思维工具解决的是判断的方法论，让你在任何领域的判断都更准。"
-          },
-          {
-            "en": "They make judgment more accurate in any domain.",
-            "cn": "但它不会自动让你了解任何具体领域。"
-          },
-          {
-            "en": "But they do not automatically give you deep understanding of any domain.",
-            "cn": "一个装满工具的人面对一个他完全陌生的领域，"
-          },
-          {
-            "en": "A person loaded with tools still makes superficial judgments in a field whose deep structure they do not know.",
-            "cn": "依然只能做表面判断，因为他缺领域的深层结构。"
+            "en": "Reasoning tools improve the method of judgment. They make judgment more accurate in any domain. But they do not automatically give you deep understanding of any domain. A person loaded with tools still makes superficial judgments in a field whose deep structure they do not know.",
+            "cn": "思维工具解决的是判断的方法论，让你在任何领域的判断都更准。但它不会自动让你了解任何具体领域。一个装满工具的人面对一个他完全陌生的领域，依然只能做表面判断，因为他缺领域的深层结构。"
           }
         ]
       },
@@ -28287,10 +25999,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-4--using-ai-to-model-part-ii-cross-domain-isomorphism-begins-from-existing-mirrors",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -28299,8 +26011,8 @@ const ARTICLES_EXTRA = [
     "issue": 2,
     "chapter": 5,
     "sourceTextWords": 1681,
-    "sourceParagraphs": 72,
-    "sourceSentences": 134,
+    "sourceParagraphs": 66,
+    "sourceSentences": 76,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -28309,20 +26021,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The concept of the “generalist” has been discussed repeatedly in recent years.",
-            "cn": "“通才”这个概念在最近几年被反复讨论。"
-          },
-          {
-            "en": "Most discussions imply a path: go learn many new fields.",
-            "cn": "大部分讨论都暗示一条路径："
-          },
-          {
-            "en": "Read introductions across domains, subscribe to newsletters, expose yourself to concepts.",
-            "cn": "你要去学很多新领域（读多个领域的入门书、订阅各种 newsletter、接触各种新概念）。"
-          },
-          {
-            "en": "The hidden assumption is that cross-domain ability equals knowing many fields.",
-            "cn": "这条路径的隐藏前提是跨域能力 = 知道很多领域。"
+            "en": "The concept of the “generalist” has been discussed repeatedly in recent years. Most discussions imply a path: go learn many new fields. Read introductions across domains, subscribe to newsletters, expose yourself to concepts. The hidden assumption is that cross-domain ability equals knowing many fields.",
+            "cn": "“通才”这个概念在最近几年被反复讨论。大部分讨论都暗示一条路径：你要去学很多新领域（读多个领域的入门书、订阅各种 newsletter、接触各种新概念）。这条路径的隐藏前提是跨域能力 = 知道很多领域。"
           }
         ]
       },
@@ -28337,32 +26037,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The evidence is concrete.",
-            "cn": "失败的证据很具体："
-          },
-          {
-            "en": "People who read widely and collect concepts are not obviously stronger in real judgment than people who only know one field deeply.",
-            "cn": "那些“读书很多、涉猎很广”的人，在真实判断上并没有比“只在自己领域深入”的人明显更强。"
-          },
-          {
-            "en": "They have more concepts, but those concepts have not combined into insight.",
-            "cn": "他们脑子里有更多概念，但这些概念没有被组合成真正的洞察。"
-          },
-          {
-            "en": "Their breadth is a display of knowledge, not judgment.",
-            "cn": "他们的“广度”是一种知识展览，不是一种判断力。"
+            "en": "The evidence is concrete. People who read widely and collect concepts are not obviously stronger in real judgment than people who only know one field deeply. They have more concepts, but those concepts have not combined into insight. Their breadth is a display of knowledge, not judgment.",
+            "cn": "失败的证据很具体：那些“读书很多、涉猎很广”的人，在真实判断上并没有比“只在自己领域深入”的人明显更强。他们脑子里有更多概念，但这些概念没有被组合成真正的洞察。他们的“广度”是一种知识展览，不是一种判断力。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The failure exposes a deeper misunderstanding: cross-domain ability is not knowing many fields.",
-            "cn": "这条路径的失败暴露了一个很深的误解："
-          },
-          {
-            "en": "It is being able to use existing depth to illuminate the structure of a new field.",
-            "cn": "跨域能力的本质不是“知道很多领域”，是“能用已有的深度去照新领域的结构”。"
+            "en": "The failure exposes a deeper misunderstanding: cross-domain ability is not knowing many fields. It is being able to use existing depth to illuminate the structure of a new field.",
+            "cn": "这条路径的失败暴露了一个很深的误解：跨域能力的本质不是“知道很多领域”，是“能用已有的深度去照新领域的结构”。"
           }
         ]
       },
@@ -28385,16 +26069,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Someone who has never understood any field deeply reads one book on biological evolution and one book on market competition.",
-            "cn": "一个从未深度理解过任何领域的人，读一本关于生物进化的书、再读一本关于市场竞争的书，他最多能产生的 insight 是“哦，它们都讲了优胜劣汰”。"
-          },
-          {
-            "en": "The best insight they may produce is: “oh, both are about survival of the fittest.” That is textbook-level cliché.",
-            "cn": "这个 insight 是教科书级别的陈词滥调，"
-          },
-          {
-            "en": "It changes no judgment.",
-            "cn": "不会改变他任何判断。"
+            "en": "Someone who has never understood any field deeply reads one book on biological evolution and one book on market competition. The best insight they may produce is: “oh, both are about survival of the fittest.” That is textbook-level cliché. It changes no judgment.",
+            "cn": "一个从未深度理解过任何领域的人，读一本关于生物进化的书、再读一本关于市场竞争的书，他最多能产生的 insight 是“哦，它们都讲了优胜劣汰”。这个 insight 是教科书级别的陈词滥调，不会改变他任何判断。"
           }
         ]
       },
@@ -28409,32 +26085,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "“So the moat in business corresponds to niche specialisation in biology.",
-            "cn": "“所以市场里‘护城河’这个概念，其实对应生物里的‘生态位特化’。"
-          },
-          {
-            "en": "That means companies with deep moats and species with high specialisation share a vulnerability: when the environment changes violently, they are especially likely to die.",
-            "cn": "这意味着护城河深的公司和特化程度高的物种会共享同一个脆弱性：环境剧烈变化时特别容易灭绝。"
-          },
-          {
-            "en": "Generalist companies, like generalist species such as rats and cockroaches, may be more resilient under environmental shock.”",
-            "cn": "通才型公司像通才型物种（老鼠、蟑螂）在环境剧变时反而更有韧性。”"
+            "en": "“So the moat in business corresponds to niche specialisation in biology. That means companies with deep moats and species with high specialisation share a vulnerability: when the environment changes violently, they are especially likely to die. Generalist companies, like generalist species such as rats and cockroaches, may be more resilient under environmental shock.”",
+            "cn": "“所以市场里‘护城河’这个概念，其实对应生物里的‘生态位特化’。这意味着护城河深的公司和特化程度高的物种会共享同一个脆弱性：环境剧烈变化时特别容易灭绝。通才型公司像通才型物种（老鼠、蟑螂）在环境剧变时反而更有韧性。”"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "That insight is their own.",
-            "cn": "这个 insight 是他自己的。"
-          },
-          {
-            "en": "It is not in any book and was not generated by AI.",
-            "cn": "它不在任何书里、不是任何 AI 生成的，"
-          },
-          {
-            "en": "It comes from one familiar domain being illuminated by another domain’s perspective.",
-            "cn": "它来自他熟悉的领域被另一个领域的视角重新照亮了一遍。"
+            "en": "That insight is their own. It is not in any book and was not generated by AI. It comes from one familiar domain being illuminated by another domain’s perspective.",
+            "cn": "这个 insight 是他自己的。它不在任何书里、不是任何 AI 生成的，它来自他熟悉的领域被另一个领域的视角重新照亮了一遍。"
           }
         ]
       },
@@ -28449,16 +26109,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Cross-domain isomorphism can only be recognised by a mind that already has a deep model.",
-            "cn": "所以跨域同构只能被一个已经有深度模型的头脑识别出来。"
-          },
-          {
-            "en": "Without one, you see surface similarity.",
-            "cn": "没有深度模型，你看到的只能是表面相似；"
-          },
-          {
-            "en": "With at least one deep model, you have a ruler for structural comparison.",
-            "cn": "有了至少一个领域的深度模型，你才有一把结构比较的尺子。"
+            "en": "Cross-domain isomorphism can only be recognised by a mind that already has a deep model. Without one, you see surface similarity. With at least one deep model, you have a ruler for structural comparison.",
+            "cn": "所以跨域同构只能被一个已经有深度模型的头脑识别出来。没有深度模型，你看到的只能是表面相似；有了至少一个领域的深度模型，你才有一把结构比较的尺子。"
           }
         ]
       },
@@ -28473,56 +26125,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "First, a generalist is not someone who knows multiple fields.",
-            "cn": "一、通才不是“知道多个领域”，是“有可以在任何新领域快速建起结构的能力”。"
-          },
-          {
-            "en": "A generalist is someone who can quickly build structure in a new field.",
-            "cn": "而这个能力的起点是一面真实的镜子，"
-          },
-          {
-            "en": "The starting point is one real mirror, a field you understand deeply.",
-            "cn": "你自己深刻理解过的那个领域。"
+            "en": "First, a generalist is not someone who knows multiple fields. A generalist is someone who can quickly build structure in a new field. The starting point is one real mirror, a field you understand deeply.",
+            "cn": "一、通才不是“知道多个领域”，是“有可以在任何新领域快速建起结构的能力”。而这个能力的起点是一面真实的镜子，你自己深刻理解过的那个领域。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Second, the right starting point for cross-domain ability is not learning a new field.",
-            "cn": "二、想建立跨域能力的正确起点不是“学一个新领域”，"
-          },
-          {
-            "en": "It is turning your existing depth into a usable mirror.",
-            "cn": "是“把你已有的深度磨成一面可用的镜子”。"
-          },
-          {
-            "en": "Most people have never done this.",
-            "cn": "这件事大部分人从来没做过，"
-          },
-          {
-            "en": "They may have worked in a domain for years without abstracting the experience into usable structure.",
-            "cn": "他们在领域里做了很多年，但从未系统地把经验抽象成可用的结构。"
+            "en": "Second, the right starting point for cross-domain ability is not learning a new field. It is turning your existing depth into a usable mirror. Most people have never done this. They may have worked in a domain for years without abstracting the experience into usable structure.",
+            "cn": "二、想建立跨域能力的正确起点不是“学一个新领域”，是“把你已有的深度磨成一面可用的镜子”。这件事大部分人从来没做过，他们在领域里做了很多年，但从未系统地把经验抽象成可用的结构。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Third, “I have no professional field, so I cannot build cross-domain ability” is an illusion.",
-            "cn": "三、“我没什么专业领域所以跨域能力建不起来”是一个错觉。"
-          },
-          {
-            "en": "Anyone who has seriously done something has raw material for a deep model: work, hobbies, life practice, craft.",
-            "cn": "每一个认真做过某件事的人都有深度模型的原材料：工作、长期爱好、生活实践、专业技能。"
-          },
-          {
-            "en": "The problem is not absence.",
-            "cn": "问题不是“没有”，"
-          },
-          {
-            "en": "It is that the material has not been turned into a mirror.",
-            "cn": "是“没被整理成可用的镜子”。"
+            "en": "Third, “I have no professional field, so I cannot build cross-domain ability” is an illusion. Anyone who has seriously done something has raw material for a deep model: work, hobbies, life practice, craft. The problem is not absence. It is that the material has not been turned into a mirror.",
+            "cn": "三、“我没什么专业领域所以跨域能力建不起来”是一个错觉。每一个认真做过某件事的人都有深度模型的原材料：工作、长期爱好、生活实践、专业技能。问题不是“没有”，是“没被整理成可用的镜子”。"
           }
         ]
       },
@@ -28557,12 +26177,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "A homemaker who has cooked seriously for ten years may have a deeper model of cooking than most food bloggers who have read cookbooks.",
-            "cn": "一个认真做了十年饭的家庭主妇，在烹饪领域的深度模型可能比大部分读过烹饪书的美食博主都深，"
-          },
-          {
-            "en": "She has ten years of feedback, knows when recipes fail, when violating them works, and how ingredients actually interact.",
-            "cn": "因为她有十年的真实反馈数据，知道什么时候按照菜谱做不出来、什么时候违反菜谱反而对、不同食材之间的真实互动规律"
+            "en": "A homemaker who has cooked seriously for ten years may have a deeper model of cooking than most food bloggers who have read cookbooks. She has ten years of feedback, knows when recipes fail, when violating them works, and how ingredients actually interact.",
+            "cn": "一个认真做了十年饭的家庭主妇，在烹饪领域的深度模型可能比大部分读过烹饪书的美食博主都深，因为她有十年的真实反馈数据，知道什么时候按照菜谱做不出来、什么时候违反菜谱反而对、不同食材之间的真实互动规律"
           }
         ]
       },
@@ -28605,28 +26221,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The key is not whether the domain looks professional.",
-            "cn": "关键不在于这个领域“显得专业”，"
-          },
-          {
-            "en": "The key is whether reality has been giving you feedback inside it.",
-            "cn": "关键在于你真的在这个领域里接受过现实的反馈。"
+            "en": "The key is not whether the domain looks professional. The key is whether reality has been giving you feedback inside it.",
+            "cn": "关键不在于这个领域“显得专业”，关键在于你真的在这个领域里接受过现实的反馈。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "A person with little formal education who has run a small shop for twenty years may understand business far more deeply than an MBA consultant who has never run one.",
-            "cn": "一个人文化程度不高、从未读过商学院、但认真经营了一家小店二十年，他对“生意”这件事的深度模型可能远超一个读了 MBA 但从未真正做过生意的顾问。"
-          },
-          {
-            "en": "The first has twenty years of feedback.",
-            "cn": "因为前者有二十年的真实反馈数据，"
-          },
-          {
-            "en": "The second has cases.",
-            "cn": "后者只有教科书里的案例。"
+            "en": "A person with little formal education who has run a small shop for twenty years may understand business far more deeply than an MBA consultant who has never run one. The first has twenty years of feedback. The second has cases.",
+            "cn": "一个人文化程度不高、从未读过商学院、但认真经营了一家小店二十年，他对“生意”这件事的深度模型可能远超一个读了 MBA 但从未真正做过生意的顾问。因为前者有二十年的真实反馈数据，后者只有教科书里的案例。"
           }
         ]
       },
@@ -28645,12 +26249,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI gives these people a different starting point: you already have mirrors.",
-            "cn": "AI 时代给这类人一个完全不同的起点："
-          },
-          {
-            "en": "You just did not know it.",
-            "cn": "你已经有镜子了，只是没意识到。"
+            "en": "AI gives these people a different starting point: you already have mirrors. You just did not know it.",
+            "cn": "AI 时代给这类人一个完全不同的起点：你已经有镜子了，只是没意识到。"
           }
         ]
       },
@@ -28665,12 +26265,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The process is not difficult.",
-            "cn": "这个过程不难，"
-          },
-          {
-            "en": "Most people simply have never done it.",
-            "cn": "但大部分人从没做过。"
+            "en": "The process is not difficult. Most people simply have never done it.",
+            "cn": "这个过程不难，但大部分人从没做过。"
           }
         ]
       },
@@ -28685,12 +26281,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Work, a long-term hobby, life experience, craft.",
-            "cn": "工作、长期爱好、生活经历、专业技能，"
-          },
-          {
-            "en": "Anything qualifies if it contains feedback and consequence.",
-            "cn": "只要满足“有真实反馈 + 真实后果”这两个条件，都可以。"
+            "en": "Work, a long-term hobby, life experience, craft. Anything qualifies if it contains feedback and consequence.",
+            "cn": "工作、长期爱好、生活经历、专业技能，只要满足“有真实反馈 + 真实后果”这两个条件，都可以。"
           }
         ]
       },
@@ -28705,12 +26297,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Not an abstract description.",
-            "cn": "不是抽象描述，"
-          },
-          {
-            "en": "Use specific examples.",
-            "cn": "是带具体例子的描述。"
+            "en": "Not an abstract description. Use specific examples.",
+            "cn": "不是抽象描述，是带具体例子的描述。"
           }
         ]
       },
@@ -28749,20 +26337,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI’s abstraction may be partly wrong.",
-            "cn": "AI 的抽象可能有些地方不准。"
-          },
-          {
-            "en": "Use your experience to test it.",
-            "cn": "你要用你的具体经验去验证："
-          },
-          {
-            "en": "Does this mechanism fit what you have seen?",
-            "cn": "“这条机制符合我的观察吗？"
-          },
-          {
-            "en": "Are there counterexamples?",
-            "cn": "有没有反例？”"
+            "en": "AI’s abstraction may be partly wrong. Use your experience to test it. Does this mechanism fit what you have seen? Are there counterexamples?",
+            "cn": "AI 的抽象可能有些地方不准。你要用你的具体经验去验证：“这条机制符合我的观察吗？有没有反例？”"
           }
         ]
       },
@@ -28793,60 +26369,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "After the first mirror exists, entering a new field changes completely.",
-            "cn": "有了第一面镜子之后，进入一个新领域的方式完全不一样了。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Traditional method: start from zero, read introductions and cases, and spend months or years building basic understanding.",
-            "cn": "传统方式：从零开始读这个新领域的入门书、教材、案例，花几个月到几年建立基础认知。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Mirror method: use an existing structure to interrogate the new field and locate deep mechanisms quickly.",
-            "cn": "用镜子的方式：用你已有的结构去质询新领域，快速定位到深层机制。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Step 1: name the key mechanisms in your mirror",
-            "cn": "具体做法："
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "From the sales example: real need versus surface need, concreteness as commitment signal, price as refusal reason, surface reasons covering real causes.",
-            "cn": "第一步：明确你镜子里的关键机制"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Step 2: interrogate the new field through those mechanisms",
-            "cn": "从你刚刚整理的深度领域里挑出几个关键机制。比如上面销售的例子：“真实需求 vs 表面需求”、“具体性作为承诺信号”、“价格作为拒绝理由”、“表面理由掩盖真实原因”。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Suppose you want to understand pharmaceuticals.",
-            "cn": "第二步："
-          },
-          {
-            "en": "Do not begin with “who are the players in the pharmaceutical industry?” Begin from your mirror:",
-            "cn": "用这些机制去质询新领域"
+            "en": "After the first mirror exists, entering a new field changes completely. Traditional method: start from zero, read introductions and cases, and spend months or years building basic understanding. Mirror method: use an existing structure to interrogate the new field and locate deep mechanisms quickly. Step 1: name the key mechanisms in your mirror From the sales example: real need versus surface need, concreteness as commitment signal, price as refusal reason, surface reasons covering real causes. Step 2: interrogate the new field through those mechanisms Suppose you want to understand pharmaceuticals. Do not begin with “who are the players in the pharmaceutical industry?” Begin from your mirror:",
+            "cn": "有了第一面镜子之后，进入一个新领域的方式完全不一样了。 传统方式：从零开始读这个新领域的入门书、教材、案例，花几个月到几年建立基础认知。 用镜子的方式：用你已有的结构去质询新领域，快速定位到深层机制。 具体做法： 第一步：明确你镜子里的关键机制 从你刚刚整理的深度领域里挑出几个关键机制。比如上面销售的例子：“真实需求 vs 表面需求”、“具体性作为承诺信号”、“价格作为拒绝理由”、“表面理由掩盖真实原因”。 第二步：用这些机制去质询新领域"
           }
         ]
       },
@@ -28917,28 +26441,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Not because n mirrors give n comparisons.",
-            "cn": "不是因为 n 面镜子让你能做 n 维比较——那只是线性增加。"
-          },
-          {
-            "en": "That is only linear.",
-            "cn": "真正的非线性来自镜子之间的两两组合："
-          },
-          {
-            "en": "The nonlinear return comes from pairwise combinations between mirrors.",
-            "cn": "两面镜子有 1 对组合，三面镜子有 3 对组合，五面镜子有 10 对组合。"
-          },
-          {
-            "en": "Two mirrors produce one pair; three produce three; five produce ten.",
-            "cn": "每一对组合都是一个独立的结构视角，让你看到新领域里的不同机制。"
-          },
-          {
-            "en": "Each pair is an independent structural lens.",
-            "cn": "组合数是 n(n-1)/2，"
-          },
-          {
-            "en": "The number grows as n(n-1)/2.",
-            "cn": "增长速度快于镜子数量本身。"
+            "en": "Not because n mirrors give n comparisons. That is only linear. The nonlinear return comes from pairwise combinations between mirrors. Two mirrors produce one pair; three produce three; five produce ten. Each pair is an independent structural lens. The number grows as n(n-1)/2.",
+            "cn": "不是因为 n 面镜子让你能做 n 维比较——那只是线性增加。真正的非线性来自镜子之间的两两组合：两面镜子有 1 对组合，三面镜子有 3 对组合，五面镜子有 10 对组合。每一对组合都是一个独立的结构视角，让你看到新领域里的不同机制。组合数是 n(n-1)/2，增长速度快于镜子数量本身。"
           }
         ]
       },
@@ -28957,16 +26461,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So a real generalist is not someone who knows ten fields.",
-            "cn": "所以一个真正的通才不是“知道十个领域”，"
-          },
-          {
-            "en": "It is someone with three to five clearly polished mirrors.",
-            "cn": "是有三到五面打磨得很清楚的镜子。"
-          },
-          {
-            "en": "The combinations among them allow rapid structural understanding of almost any new field.",
-            "cn": "这三五面镜子的组合，让他能快速理解几乎任何新领域的结构。"
+            "en": "So a real generalist is not someone who knows ten fields. It is someone with three to five clearly polished mirrors. The combinations among them allow rapid structural understanding of almost any new field.",
+            "cn": "所以一个真正的通才不是“知道十个领域”，是有三到五面打磨得很清楚的镜子。这三五面镜子的组合，让他能快速理解几乎任何新领域的结构。"
           }
         ]
       },
@@ -28985,16 +26481,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So generalism is not a state reached only after enough accumulation.",
-            "cn": "所以“通才”不是一个积累到某个程度才到达的状态，"
-          },
-          {
-            "en": "It is an accumulating process in which every step already adds value.",
-            "cn": "它是一个每一步都在增值的积累过程。"
-          },
-          {
-            "en": "Even two polished mirrors give stronger cross-domain judgment than ten shallow ones.",
-            "cn": "即使你只有两面镜子，你的跨域判断力也已经远超一个有十面浅镜子的人。"
+            "en": "So generalism is not a state reached only after enough accumulation. It is an accumulating process in which every step already adds value. Even two polished mirrors give stronger cross-domain judgment than ten shallow ones.",
+            "cn": "所以“通才”不是一个积累到某个程度才到达的状态，它是一个每一步都在增值的积累过程。即使你只有两面镜子，你的跨域判断力也已经远超一个有十面浅镜子的人。"
           }
         ]
       },
@@ -29025,16 +26513,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The precision differs by an order of magnitude.",
-            "cn": "这两种陈述的精度差一个数量级。"
-          },
-          {
-            "en": "Metaphor makes you feel you understand.",
-            "cn": "比喻让你觉得自己懂了；"
-          },
-          {
-            "en": "Structural isomorphism lets you make new judgments.",
-            "cn": "结构同构让你真的能做出新的判断。"
+            "en": "The precision differs by an order of magnitude. Metaphor makes you feel you understand. Structural isomorphism lets you make new judgments.",
+            "cn": "这两种陈述的精度差一个数量级。比喻让你觉得自己懂了；结构同构让你真的能做出新的判断。"
           }
         ]
       },
@@ -29065,48 +26545,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "One last case.",
-            "cn": "最后说一种情况——你可能觉得前面说的都对，但你自己真的没有一个明显的深度领域。"
-          },
-          {
-            "en": "You may agree with everything above but feel that you genuinely do not have an obvious deep domain.",
-            "cn": "你太年轻、"
-          },
-          {
-            "en": "You are young, not yet working, or have not done anything deeply.",
-            "cn": "还没开始工作、或者做的事不够深。"
+            "en": "One last case. You may agree with everything above but feel that you genuinely do not have an obvious deep domain. You are young, not yet working, or have not done anything deeply.",
+            "cn": "最后说一种情况——你可能觉得前面说的都对，但你自己真的没有一个明显的深度领域。你太年轻、还没开始工作、或者做的事不够深。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The answer is not to fake a mirror.",
-            "cn": "这种时候答案不是“去凑一个镜子”，"
-          },
-          {
-            "en": "It is to start doing something that generates real feedback.",
-            "cn": "是直接开始做一件能产生真实反馈的事。"
-          },
-          {
-            "en": "The next chapter’s AI programming is an immediately available starting point for almost anyone, with extremely clear feedback.",
-            "cn": "下一章讲的 AI 编程就是一个几乎任何人都能立即开始、而且反馈极其清晰的起点。"
-          },
-          {
-            "en": "As you do it, your first mirror will grow naturally.",
-            "cn": "做着做着，你的第一面镜子会自然长出来。"
+            "en": "The answer is not to fake a mirror. It is to start doing something that generates real feedback. The next chapter’s AI programming is an immediately available starting point for almost anyone, with extremely clear feedback. As you do it, your first mirror will grow naturally.",
+            "cn": "这种时候答案不是“去凑一个镜子”，是直接开始做一件能产生真实反馈的事。下一章讲的 AI 编程就是一个几乎任何人都能立即开始、而且反馈极其清晰的起点。做着做着，你的第一面镜子会自然长出来。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Mirrors are not found.",
-            "cn": "镜子不是找的，"
-          },
-          {
-            "en": "They are made.",
-            "cn": "是做出来的。"
+            "en": "Mirrors are not found. They are made.",
+            "cn": "镜子不是找的，是做出来的。"
           }
         ]
       },
@@ -29140,10 +26596,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-5--what-ai-can-and-cannot-do",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -29152,8 +26608,8 @@ const ARTICLES_EXTRA = [
     "issue": 2,
     "chapter": 6,
     "sourceTextWords": 1069,
-    "sourceParagraphs": 44,
-    "sourceSentences": 104,
+    "sourceParagraphs": 38,
+    "sourceSentences": 60,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -29206,64 +26662,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Organise information.",
-            "cn": "整理和组织信息。"
-          },
-          {
-            "en": "It can turn scattered observations into a model, organise a field’s knowledge into a map, or structure several documents into understanding.",
-            "cn": "把你的零散观察整理成模型、把一个领域的知识整理成地图、把多个文档整理成结构化的理解，"
-          },
-          {
-            "en": "It does this extremely well and much faster than you.",
-            "cn": "这些 AI 都做得极好，而且速度比你快几十倍。"
+            "en": "Organise information. It can turn scattered observations into a model, organise a field’s knowledge into a map, or structure several documents into understanding. It does this extremely well and much faster than you.",
+            "cn": "整理和组织信息。把你的零散观察整理成模型、把一个领域的知识整理成地图、把多个文档整理成结构化的理解，这些 AI 都做得极好，而且速度比你快几十倍。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Review and refute.",
-            "cn": "审阅和反驳。"
-          },
-          {
-            "en": "It can examine your judgment with any reasoning tool, challenge assumptions from multiple perspectives, and point out blind spots.",
-            "cn": "用任何一个思维工具审阅你的判断、从多个视角挑战你的假设、指出你推理里的漏洞和盲点，"
-          },
-          {
-            "en": "In many cases, the review quality approaches that of a serious expert.",
-            "cn": "AI 的审阅质量在很多场景下接近一个认真的专家。"
+            "en": "Review and refute. It can examine your judgment with any reasoning tool, challenge assumptions from multiple perspectives, and point out blind spots. In many cases, the review quality approaches that of a serious expert.",
+            "cn": "审阅和反驳。用任何一个思维工具审阅你的判断、从多个视角挑战你的假设、指出你推理里的漏洞和盲点，AI 的审阅质量在很多场景下接近一个认真的专家。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Role-play.",
-            "cn": "角色扮演。"
-          },
-          {
-            "en": "It can play a senior practitioner, an opponent, or a rational but demanding peer.",
-            "cn": "扮演某个领域的资深从业者、扮演你的反对者、扮演一个理性但挑剔的同行，"
-          },
-          {
-            "en": "This lets you view a problem from different angles at almost no cost.",
-            "cn": "这种扮演让你能从不同视角看问题，成本几乎为零。"
+            "en": "Role-play. It can play a senior practitioner, an opponent, or a rational but demanding peer. This lets you view a problem from different angles at almost no cost.",
+            "cn": "角色扮演。扮演某个领域的资深从业者、扮演你的反对者、扮演一个理性但挑剔的同行，这种扮演让你能从不同视角看问题，成本几乎为零。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Record and track.",
-            "cn": "记录和追踪。"
-          },
-          {
-            "en": "It can record assumptions and predictions, then remind you months later what you predicted and whether it was verified.",
-            "cn": "记下你的假设、记下你的预测，几个月后自动提醒你“你在 X 时间做过 Y 预测，它的验证情况是什么”，"
-          },
-          {
-            "en": "In the past this required maintaining a journal.",
-            "cn": "这种追踪在过去需要你自己维护日志，AI 可以代劳。"
+            "en": "Record and track. It can record assumptions and predictions, then remind you months later what you predicted and whether it was verified. In the past this required maintaining a journal.",
+            "cn": "记录和追踪。记下你的假设、记下你的预测，几个月后自动提醒你“你在 X 时间做过 Y 预测，它的验证情况是什么”，这种追踪在过去需要你自己维护日志，AI 可以代劳。"
           }
         ]
       },
@@ -29282,16 +26706,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Generate drafts.",
-            "cn": "初稿生成。"
-          },
-          {
-            "en": "It can put your existing ideas into a form, polish them, and offer alternative wording.",
-            "cn": "把你脑子里有的想法用某种格式写出来、做初步的润色、给出几个版本的措辞，"
-          },
-          {
-            "en": "Execution work becomes much faster.",
-            "cn": "这些执行性的工作 AI 做得比大部分人快。"
+            "en": "Generate drafts. It can put your existing ideas into a form, polish them, and offer alternative wording. Execution work becomes much faster.",
+            "cn": "初稿生成。把你脑子里有的想法用某种格式写出来、做初步的润色、给出几个版本的措辞，这些执行性的工作 AI 做得比大部分人快。"
           }
         ]
       },
@@ -29310,84 +26726,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The remaining 20% cannot be done by AI, and that 20% is the centre of the whole system.",
-            "cn": "但剩下的 20%，AI 做不了，而这 20% 是所有事情的重心。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "I. Form your own initial hypothesis",
-            "cn": "一、提出你自己的初始假设"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "AI can generate many hypotheses.",
-            "cn": "AI 能生成很多假设。"
-          },
-          {
-            "en": "Ask for causes and it will list a dozen.",
-            "cn": "让它列出某个现象的可能原因，它能列出十几个。"
-          },
-          {
-            "en": "But those are AI’s hypotheses, not yours.",
-            "cn": "但这些都是 AI 的假设，不是你的。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Your hypothesis begins from your concrete situation, your experience, and your tacit intuition.",
-            "cn": "你自己的假设是你基于你的具体情境、基于你已有的经验、基于你隐性的直觉提出的起点。"
-          },
-          {
-            "en": "It contains your angle on the matter.",
-            "cn": "它带着你对这件事的独特视角。"
-          },
-          {
-            "en": "AI’s hypotheses lack that “you.” They are averaged, standardised, and generally plausible.",
-            "cn": "AI 生成的假设没有这个“你”，它是一种平均化的、标准化的、符合大多数情况的假设。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The learning process must begin from your hypothesis.",
-            "cn": "学习过程的起点必须是你的假设。"
-          },
-          {
-            "en": "Without it, there is no driver.",
-            "cn": "没有你的假设，整个循环没有驱动力，"
-          },
-          {
-            "en": "A reviewed hypothesis, refuted view, or verified judgment must exist first, and it can only come from you.",
-            "cn": "因为“被审阅的假设”、“被反驳的观点”、“被验证的判断”，这些“假设”、“观点”、“判断”都必须先存在，而它们只能来自你。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "II. Decide direction",
-            "cn": "二、决定方向"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "AI can say that based on information there are directions A, B, and C.",
-            "cn": "AI 能告诉你“基于这些信息，有 A、B、C 三个可能方向”。"
-          },
-          {
-            "en": "But which direction is worth taking is your decision.",
-            "cn": "但哪个方向值得走，这是你的决定。"
+            "en": "The remaining 20% cannot be done by AI, and that 20% is the centre of the whole system. I. Form your own initial hypothesis AI can generate many hypotheses. Ask for causes and it will list a dozen. But those are AI’s hypotheses, not yours. Your hypothesis begins from your concrete situation, your experience, and your tacit intuition. It contains your angle on the matter. AI’s hypotheses lack that “you.” They are averaged, standardised, and generally plausible. The learning process must begin from your hypothesis. Without it, there is no driver. A reviewed hypothesis, refuted view, or verified judgment must exist first, and it can only come from you. II. Decide direction AI can say that based on information there are directions A, B, and C. But which direction is worth taking is your decision.",
+            "cn": "但剩下的 20%，AI 做不了，而这 20% 是所有事情的重心。 一、提出你自己的初始假设 AI 能生成很多假设。让它列出某个现象的可能原因，它能列出十几个。但这些都是 AI 的假设，不是你的。 你自己的假设是你基于你的具体情境、基于你已有的经验、基于你隐性的直觉提出的起点。它带着你对这件事的独特视角。AI 生成的假设没有这个“你”，它是一种平均化的、标准化的、符合大多数情况的假设。 学习过程的起点必须是你的假设。没有你的假设，整个循环没有驱动力，因为“被审阅的假设”、“被反驳的观点”、“被验证的判断”，这些“假设”、“观点”、“判断”都必须先存在，而它们只能来自你。 二、决定方向 AI 能告诉你“基于这些信息，有 A、B、C 三个可能方向”。但哪个方向值得走，这是你的决定。"
           }
         ]
       },
@@ -29410,36 +26750,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI can list possibilities: this may develop toward A, B, or C.",
-            "cn": "AI 能列出“可能的预测”：“这件事可能往 A 发展、也可能往 B 发展、还可能往 C 发展。"
-          },
-          {
-            "en": "That is not a prediction.",
-            "cn": "”但这不是预测。"
-          },
-          {
-            "en": "A prediction means you are betting on what will happen and are willing to bear the consequence.",
-            "cn": "预测的本质是你赌哪个会发生、你愿意为这个判断承担后果。"
+            "en": "AI can list possibilities: this may develop toward A, B, or C. That is not a prediction. A prediction means you are betting on what will happen and are willing to bear the consequence.",
+            "cn": "AI 能列出“可能的预测”：“这件事可能往 A 发展、也可能往 B 发展、还可能往 C 发展。”但这不是预测。预测的本质是你赌哪个会发生、你愿意为这个判断承担后果。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "AI cannot bet.",
-            "cn": "AI 没有“赌”的能力。"
-          },
-          {
-            "en": "It has no wins, losses, or consequences.",
-            "cn": "它没有输赢、没有后果、没有需要承担的东西。"
-          },
-          {
-            "en": "Its “predictions” are probability-shaped statements.",
-            "cn": "它给出的“预测”全部是带概率的可能性陈述，"
-          },
-          {
-            "en": "They may sound comprehensive, but they are not decisive.",
-            "cn": "听起来全面，但没有决定性。"
+            "en": "AI cannot bet. It has no wins, losses, or consequences. Its “predictions” are probability-shaped statements. They may sound comprehensive, but they are not decisive.",
+            "cn": "AI 没有“赌”的能力。它没有输赢、没有后果、没有需要承担的东西。它给出的“预测”全部是带概率的可能性陈述，听起来全面，但没有决定性。"
           }
         ]
       },
@@ -29474,28 +26794,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Applying a method requires judging the situation’s specificity, identifying boundary conditions, and adjusting the operation.",
-            "cn": "应用一个方法到你的具体情境里，需要判断这个情境的特殊性、识别方法的边界条件、调整方法的具体操作。"
-          },
-          {
-            "en": "AI cannot do this fully.",
-            "cn": "这些判断 AI 做不了，"
-          },
-          {
-            "en": "It is not inside your situation and does not feel its texture.",
-            "cn": "它不在你的情境里，它没有你的具体感受。"
+            "en": "Applying a method requires judging the situation’s specificity, identifying boundary conditions, and adjusting the operation. AI cannot do this fully. It is not inside your situation and does not feel its texture.",
+            "cn": "应用一个方法到你的具体情境里，需要判断这个情境的特殊性、识别方法的边界条件、调整方法的具体操作。这些判断 AI 做不了，它不在你的情境里，它没有你的具体感受。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "V.",
-            "cn": "五、"
-          },
-          {
-            "en": "Bear the consequences of wrong judgment",
-            "cn": "承担判断错误的后果"
+            "en": "V. Bear the consequences of wrong judgment",
+            "cn": "五、承担判断错误的后果"
           }
         ]
       },
@@ -29514,16 +26822,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Bearing consequence has enormous cognitive force.",
-            "cn": "承担后果这件事有巨大的认知作用，它让你的判断不是玩笑。"
-          },
-          {
-            "en": "It makes judgment not a game.",
-            "cn": "当你知道你下的每一个判断都会带来真实的结果（好的或坏的），"
-          },
-          {
-            "en": "When every judgment produces real results, good or bad, the process becomes more careful, honest, and precise.",
-            "cn": "你的判断过程会自动变得更谨慎、更仔细、更诚实。"
+            "en": "Bearing consequence has enormous cognitive force. It makes judgment not a game. When every judgment produces real results, good or bad, the process becomes more careful, honest, and precise.",
+            "cn": "承担后果这件事有巨大的认知作用，它让你的判断不是玩笑。当你知道你下的每一个判断都会带来真实的结果（好的或坏的），你的判断过程会自动变得更谨慎、更仔细、更诚实。"
           }
         ]
       },
@@ -29574,36 +26874,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Training-data cutoff.",
-            "cn": "一、训练数据的 cutoff。"
-          },
-          {
-            "en": "Models have a cutoff date.",
-            "cn": "模型有一个训练数据的截止日期。"
-          },
-          {
-            "en": "Even with search, results retrieved from the web are not the same as deeply internalised understanding from training.",
-            "cn": "这个日期之后的事情它没有直接知识。虽然现在主流模型大多接入了实时搜索，可以查到新东西，但搜索到的结果和它训练时内化的深度理解不是一回事——搜索来的是“它查到了什么”，训练来的是“它理解了什么”。"
-          },
-          {
-            "en": "Remember this when discussing new events, research, and trends.",
-            "cn": "讨论最新事件、最新研究、最新动态时，记得这一点。"
+            "en": "Training-data cutoff. Models have a cutoff date. Even with search, results retrieved from the web are not the same as deeply internalised understanding from training. Remember this when discussing new events, research, and trends.",
+            "cn": "一、训练数据的 cutoff。模型有一个训练数据的截止日期。这个日期之后的事情它没有直接知识。虽然现在主流模型大多接入了实时搜索，可以查到新东西，但搜索到的结果和它训练时内化的深度理解不是一回事——搜索来的是“它查到了什么”，训练来的是“它理解了什么”。讨论最新事件、最新研究、最新动态时，记得这一点。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Bias.",
-            "cn": "二、偏见。"
-          },
-          {
-            "en": "Training data has biases, often Western, English-language, and mainstream-media centred.",
-            "cn": "模型的训练数据有偏见，通常是西方中心、英文中心、主流媒体中心。"
-          },
-          {
-            "en": "For Chinese situations or minority positions, AI may carry default assumptions that do not fit.",
-            "cn": "你问它一个涉及中国具体情境的问题，它给的答案可能带着美国视角的默认假设。你问它一个涉及少数派观点的问题，它可能倾向给你主流观点。"
+            "en": "Bias. Training data has biases, often Western, English-language, and mainstream-media centred. For Chinese situations or minority positions, AI may carry default assumptions that do not fit.",
+            "cn": "二、偏见。模型的训练数据有偏见，通常是西方中心、英文中心、主流媒体中心。你问它一个涉及中国具体情境的问题，它给的答案可能带着美国视角的默认假设。你问它一个涉及少数派观点的问题，它可能倾向给你主流观点。"
           }
         ]
       },
@@ -29694,12 +26974,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In every use, you are the subject: your judgment, your experience, your interrogation.",
-            "cn": "每一个用法里，主角都是你。你的判断、你的经验、你的质询。"
-          },
-          {
-            "en": "AI only lets those things become clearer to you.",
-            "cn": "AI 只是让这些东西被你自己更清楚地看见。"
+            "en": "In every use, you are the subject: your judgment, your experience, your interrogation. AI only lets those things become clearer to you.",
+            "cn": "每一个用法里，主角都是你。你的判断、你的经验、你的质询。AI 只是让这些东西被你自己更清楚地看见。"
           }
         ]
       },
@@ -29718,36 +26994,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "People who treat AI as a mirror make it reflect what is already in their own mind, organise it, interrogate it, and calibrate it.",
-            "cn": "那些把 AI 当作镜子的人（让 AI 照出他们自己脑子里已经有的东西、帮他们整理、帮他们质询、帮他们校准），他们得到的是关于他们自己的洞察。"
-          },
-          {
-            "en": "What they receive is insight about themselves.",
-            "cn": "这些洞察只对他们自己适用，"
-          },
-          {
-            "en": "These insights apply only to them, but they truly apply.",
-            "cn": "但它们真的适用。"
+            "en": "People who treat AI as a mirror make it reflect what is already in their own mind, organise it, interrogate it, and calibrate it. What they receive is insight about themselves. These insights apply only to them, but they truly apply.",
+            "cn": "那些把 AI 当作镜子的人（让 AI 照出他们自己脑子里已经有的东西、帮他们整理、帮他们质询、帮他们校准），他们得到的是关于他们自己的洞察。这些洞察只对他们自己适用，但它们真的适用。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This is the fundamental difference between two modes of learning in the AI era.",
-            "cn": "这是 AI 时代两种学习方式的根本区别。"
-          },
-          {
-            "en": "The first is consumption; the second is construction.",
-            "cn": "前者是消费，后者是建设。"
-          },
-          {
-            "en": "The first increases “knowledge” while leaving ability unchanged.",
-            "cn": "前者让你的“知识”增加但能力不变；"
-          },
-          {
-            "en": "The second makes the judgment system grow.",
-            "cn": "后者让你的判断系统真正生长。"
+            "en": "This is the fundamental difference between two modes of learning in the AI era. The first is consumption; the second is construction. The first increases “knowledge” while leaving ability unchanged. The second makes the judgment system grow.",
+            "cn": "这是 AI 时代两种学习方式的根本区别。前者是消费，后者是建设。前者让你的“知识”增加但能力不变；后者让你的判断系统真正生长。"
           }
         ]
       }
@@ -29761,10 +27017,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-6--a-starting-point-ai-programming",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -29774,7 +27030,7 @@ const ARTICLES_EXTRA = [
     "chapter": 7,
     "sourceTextWords": 1044,
     "sourceParagraphs": 46,
-    "sourceSentences": 88,
+    "sourceSentences": 59,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -29827,68 +27083,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "They rarely last two weeks.",
-            "cn": "走不过两周。"
-          },
-          {
-            "en": "Not because they are lazy.",
-            "cn": "不是因为他们懒，"
-          },
-          {
-            "en": "Because the path is structurally failed.",
-            "cn": "是因为这条路在结构上是失败的。"
+            "en": "They rarely last two weeks. Not because they are lazy. Because the path is structurally failed.",
+            "cn": "走不过两周。不是因为他们懒，是因为这条路在结构上是失败的。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "It is Chapter 1’s three patterns applied to AI programming.",
-            "cn": "它就是第一章讲的那三种模式在 AI 编程学习上的具体化："
-          },
-          {
-            "en": "Asking “how to start” and collecting tutorials is encyclopedia use.",
-            "cn": "问 AI“怎么入门”、刷别人的教程、收藏模板，全是当百科用；"
-          },
-          {
-            "en": "Nothing concrete is being done, so there is no real situation.",
-            "cn": "还没真正开始做事，没有任何具体情境，没有真实情境；"
-          },
-          {
-            "en": "Meta-questions like “what should I learn next” become rabbit holes.",
-            "cn": "“我下一步该学什么”式的元问题，兔子洞。"
-          },
-          {
-            "en": "No real judgment loop is running.",
-            "cn": "没有任何一步在跑真实的判断循环。"
+            "en": "It is Chapter 1’s three patterns applied to AI programming. Asking “how to start” and collecting tutorials is encyclopedia use. Nothing concrete is being done, so there is no real situation. Meta-questions like “what should I learn next” become rabbit holes. No real judgment loop is running.",
+            "cn": "它就是第一章讲的那三种模式在 AI 编程学习上的具体化：问 AI“怎么入门”、刷别人的教程、收藏模板，全是当百科用；还没真正开始做事，没有任何具体情境，没有真实情境；“我下一步该学什么”式的元问题，兔子洞。没有任何一步在跑真实的判断循环。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "There is an extra trap.",
-            "cn": "而且这里有一个额外的陷阱："
-          },
-          {
-            "en": "“Built a website in three days” videos feel exciting and efficient.",
-            "cn": "那些“三天搭网站”的视频看起来特别激动人心、特别有效率，"
-          },
-          {
-            "en": "While watching, the viewer feels they can do it too.",
-            "cn": "观众在看的时候感觉自己也能做，但看完之后自己什么都不会。"
-          },
-          {
-            "en": "After watching, they still cannot.",
-            "cn": "因为你看了别人在做，"
-          },
-          {
-            "en": "Watching someone else do is not doing.",
-            "cn": "不等于你在做。"
-          },
-          {
-            "en": "That is the overlap between consumption and learning appearing inside AI programming.",
-            "cn": "这是第一章讲的消费和学习的体感重合在 AI 编程领域里的具体表现。"
+            "en": "There is an extra trap. “Built a website in three days” videos feel exciting and efficient. While watching, the viewer feels they can do it too. After watching, they still cannot. Watching someone else do is not doing. That is the overlap between consumption and learning appearing inside AI programming.",
+            "cn": "而且这里有一个额外的陷阱：那些“三天搭网站”的视频看起来特别激动人心、特别有效率，观众在看的时候感觉自己也能做，但看完之后自己什么都不会。因为你看了别人在做，不等于你在做。这是第一章讲的消费和学习的体感重合在 AI 编程领域里的具体表现。"
           }
         ]
       },
@@ -29903,20 +27115,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Why Claude Code or Codex?",
-            "cn": "为什么必须是 Claude Code 或 Codex，"
-          },
-          {
-            "en": "Because as of early 2026, they combine the strongest models, strongest agents, and strongest code capabilities available to ordinary users.",
-            "cn": "因为截至 2026 年初它们是你能用到的最强模型 + 最强 Agent + 最强代码能力的三位一体。"
-          },
-          {
-            "en": "Do not start with a weaker model, and do not spend time debating which tool to use.",
-            "cn": "不要从更弱的模型开始，也不要花时间纠结“该选哪个工具”："
-          },
-          {
-            "en": "That debate is itself a meta-question, a form of serious-looking consumption.",
-            "cn": "这个纠结本身就是第一章讲的元问题，一种看起来像认真的消费。"
+            "en": "Why Claude Code or Codex? Because as of early 2026, they combine the strongest models, strongest agents, and strongest code capabilities available to ordinary users. Do not start with a weaker model, and do not spend time debating which tool to use. That debate is itself a meta-question, a form of serious-looking consumption.",
+            "cn": "为什么必须是 Claude Code 或 Codex，因为截至 2026 年初它们是你能用到的最强模型 + 最强 Agent + 最强代码能力的三位一体。不要从更弱的模型开始，也不要花时间纠结“该选哪个工具”：这个纠结本身就是第一章讲的元问题，一种看起来像认真的消费。"
           }
         ]
       },
@@ -30007,48 +27207,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The more concrete, the better.",
-            "cn": "越具体越好。"
-          },
-          {
-            "en": "Use an example of your real data.",
-            "cn": "带上你真实数据的一个例子，"
-          },
-          {
-            "en": "Not an abstract description, but what the file actually looks like.",
-            "cn": "不是抽象描述，是“这是我的文件的实际样子”。"
+            "en": "The more concrete, the better. Use an example of your real data. Not an abstract description, but what the file actually looks like.",
+            "cn": "越具体越好。带上你真实数据的一个例子，不是抽象描述，是“这是我的文件的实际样子”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This is Chapter 2’s core point: delta comes from real situations.",
-            "cn": "这就是第二章的核心：delta 来自真实情境。"
-          },
-          {
-            "en": "You do not need to learn programming first. You need a real annoyance.",
-            "cn": "你不需要先学编程，你需要先有一件真实让你烦的事。"
+            "en": "This is Chapter 2’s core point: delta comes from real situations. You do not need to learn programming first. You need a real annoyance.",
+            "cn": "这就是第二章的核心：delta 来自真实情境。你不需要先学编程，你需要先有一件真实让你烦的事。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Beginners often say, “I can’t think of anything.” That means they may not be observing daily life.",
-            "cn": "新手在这里最大的卡点通常是“我想不出有什么事”。这个卡点本身说明一件事：你可能并没有真的在观察你的日常。"
-          },
-          {
-            "en": "Any repetitive manual operation is a candidate.",
-            "cn": "你手动做的任何重复操作都是候选，打开你的电脑和手机，"
-          },
-          {
-            "en": "Look at what you copy-paste, manually organise, or click repeatedly.",
-            "cn": "看看你每天在 copy paste 什么、在手动整理什么、在重复点什么，"
-          },
-          {
-            "en": "There are likely a dozen tasks there.",
-            "cn": "那里面就有十几个候选任务。"
+            "en": "Beginners often say, “I can’t think of anything.” That means they may not be observing daily life. Any repetitive manual operation is a candidate. Look at what you copy-paste, manually organise, or click repeatedly. There are likely a dozen tasks there.",
+            "cn": "新手在这里最大的卡点通常是“我想不出有什么事”。这个卡点本身说明一件事：你可能并没有真的在观察你的日常。你手动做的任何重复操作都是候选，打开你的电脑和手机，看看你每天在 copy paste 什么、在手动整理什么、在重复点什么，那里面就有十几个候选任务。"
           }
         ]
       },
@@ -30211,52 +27387,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The real value of AI programming is not that it teaches a person to code.",
-            "cn": "AI 编程对一个人的真正价值，不是让他会编程，"
-          },
-          {
-            "en": "It gives them a mirror with extremely clear feedback.",
-            "cn": "是让他拥有一面反馈极其清晰的镜子。"
+            "en": "The real value of AI programming is not that it teaches a person to code. It gives them a mirror with extremely clear feedback.",
+            "cn": "AI 编程对一个人的真正价值，不是让他会编程，是让他拥有一面反馈极其清晰的镜子。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Computer feedback is among the purest feedback available in daily life.",
-            "cn": "计算机的反馈是你日常能接触到的反馈里最纯净的一种。"
-          },
-          {
-            "en": "Whether code works is known as soon as it runs.",
-            "cn": "代码对不对，一跑就知道；"
-          },
-          {
-            "en": "Whether the logic is tight, bugs reveal immediately.",
-            "cn": "逻辑严不严密，bug 立刻暴露；"
-          },
-          {
-            "en": "Whether an assumption is right, reality tells you within seconds.",
-            "cn": "你的假设对不对，现实几秒钟内告诉你。"
+            "en": "Computer feedback is among the purest feedback available in daily life. Whether code works is known as soon as it runs. Whether the logic is tight, bugs reveal immediately. Whether an assumption is right, reality tells you within seconds.",
+            "cn": "计算机的反馈是你日常能接触到的反馈里最纯净的一种。代码对不对，一跑就知道；逻辑严不严密，bug 立刻暴露；你的假设对不对，现实几秒钟内告诉你。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Most daily domains do not have such clear feedback.",
-            "cn": "这种反馈清晰度在大部分日常领域里是没有的。"
-          },
-          {
-            "en": "Relationships are noisy and delayed.",
-            "cn": "人际关系的反馈模糊、延迟、充满噪声；"
-          },
-          {
-            "en": "Workplace judgments take months.",
-            "cn": "职场判断的反馈要几个月才能看到；"
-          },
-          {
-            "en": "Business decisions are entangled with many external factors.",
-            "cn": "商业决策的反馈里夹杂着无数和你判断无关的外部因素。"
+            "en": "Most daily domains do not have such clear feedback. Relationships are noisy and delayed. Workplace judgments take months. Business decisions are entangled with many external factors.",
+            "cn": "这种反馈清晰度在大部分日常领域里是没有的。人际关系的反馈模糊、延迟、充满噪声；职场判断的反馈要几个月才能看到；商业决策的反馈里夹杂着无数和你判断无关的外部因素。"
           }
         ]
       },
@@ -30295,16 +27443,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This returns to Chapter 4.",
-            "cn": "这就回到第四章的核心："
-          },
-          {
-            "en": "The value of a mirror is not the field itself, but that it illuminates other fields.",
-            "cn": "镜子的价值不在那个领域本身，在它能用来照其他领域。"
-          },
-          {
-            "en": "The reflex trained in programming, form a hypothesis, let reality correct it, revise quickly, transfers into work and life.",
-            "cn": "你在编程里被训练出来的“先提假设、让现实打脸、快速修正”的反射，会迁移到你生活和工作的许多其他领域。"
+            "en": "This returns to Chapter 4. The value of a mirror is not the field itself, but that it illuminates other fields. The reflex trained in programming, form a hypothesis, let reality correct it, revise quickly, transfers into work and life.",
+            "cn": "这就回到第四章的核心：镜子的价值不在那个领域本身，在它能用来照其他领域。你在编程里被训练出来的“先提假设、让现实打脸、快速修正”的反射，会迁移到你生活和工作的许多其他领域。"
           }
         ]
       },
@@ -30326,10 +27466,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/rebuilding-learning/#chapter-7--conclusion",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -30339,7 +27479,7 @@ const ARTICLES_EXTRA = [
     "chapter": 8,
     "sourceTextWords": 364,
     "sourceParagraphs": 17,
-    "sourceSentences": 31,
+    "sourceSentences": 19,
     "cover": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "gradient": "linear-gradient(135deg,#C95F2E 0%,#9A4720 50%,#703216 100%)",
     "coverFrom": "#C95F2E",
@@ -30376,64 +27516,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "What is learning?",
-            "cn": "什么是学习？"
-          },
-          {
-            "en": "Learning is continually exposing a person’s judgment system to feedback from reality, so it can be calibrated.",
-            "cn": "学习是把一个人的判断系统持续暴露在现实的反馈下，让它不断被校准。"
-          },
-          {
-            "en": "This was true in Socrates’ time, before the Industrial Revolution, before the internet.",
-            "cn": "这个定义在苏格拉底的时代就成立，在工业革命之前就成立，在互联网之前就成立。"
-          },
-          {
-            "en": "Real learning was never about how much one read, knew, or remembered.",
-            "cn": "真正的学习，从来不是“读了多少”、“知道多少”、“记住多少”，"
-          },
-          {
-            "en": "It was whether one’s judgment was actually being shaped by reality.",
-            "cn": "是你的判断是不是真的在被现实打磨。"
+            "en": "What is learning? Learning is continually exposing a person’s judgment system to feedback from reality, so it can be calibrated. This was true in Socrates’ time, before the Industrial Revolution, before the internet. Real learning was never about how much one read, knew, or remembered. It was whether one’s judgment was actually being shaped by reality.",
+            "cn": "什么是学习？学习是把一个人的判断系统持续暴露在现实的反馈下，让它不断被校准。这个定义在苏格拉底的时代就成立，在工业革命之前就成立，在互联网之前就成立。真正的学习，从来不是“读了多少”、“知道多少”、“记住多少”，是你的判断是不是真的在被现实打磨。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Before AI, many learning activities drifted away from this essence and became information consumption, knowledge hoarding, and the pursuit of appearing well-read.",
-            "cn": "前 AI 时代，大部分学习活动偏离了这个本质，变成了对信息的消费、对知识的囤积、对“显得博学”的追求。"
-          },
-          {
-            "en": "These activities still had external rewards: social status, professional thresholds, social capital.",
-            "cn": "这些活动有一定的外部奖励（社会地位、职业门槛、社交资本），"
-          },
-          {
-            "en": "So even when they left the essence behind, they could continue.",
-            "cn": "所以偏离了本质也还能维持。"
+            "en": "Before AI, many learning activities drifted away from this essence and became information consumption, knowledge hoarding, and the pursuit of appearing well-read. These activities still had external rewards: social status, professional thresholds, social capital. So even when they left the essence behind, they could continue.",
+            "cn": "前 AI 时代，大部分学习活动偏离了这个本质，变成了对信息的消费、对知识的囤积、对“显得博学”的追求。这些活动有一定的外部奖励（社会地位、职业门槛、社交资本），所以偏离了本质也还能维持。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "AI empties those external rewards.",
-            "cn": "AI 时代把这些外部奖励清空了。"
-          },
-          {
-            "en": "Knowledge is no longer scarce.",
-            "cn": "知识不再稀缺、"
-          },
-          {
-            "en": "Information no longer differentiates.",
-            "cn": "信息不再有差异化价值、"
-          },
-          {
-            "en": "Appearing well-read has lost its market.",
-            "cn": "“显得博学”已经没人买单。"
-          },
-          {
-            "en": "All the disguises around false learning are stripped away, revealing that they had little value in the first place.",
-            "cn": "偏离本质的学习活动的所有伪装被剥掉了，露出它们本来就没有价值的面目。"
+            "en": "AI empties those external rewards. Knowledge is no longer scarce. Information no longer differentiates. Appearing well-read has lost its market. All the disguises around false learning are stripped away, revealing that they had little value in the first place.",
+            "cn": "AI 时代把这些外部奖励清空了。知识不再稀缺、信息不再有差异化价值、“显得博学”已经没人买单。偏离本质的学习活动的所有伪装被剥掉了，露出它们本来就没有价值的面目。"
           }
         ]
       },
@@ -30472,12 +27572,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not a methodology.",
-            "cn": "这不是方法论。"
-          },
-          {
-            "en": "It is not an “AI-era learning technique.” It is a redefinition of learning: restoring the word from its pre-AI, disguise-covered version back to what it always was.",
-            "cn": "这不是“AI 时代的学习技巧”。这是对“学习”这个词的重新理解：把它从 AI 时代前那个被各种伪装包围的版本，还原成它本来的样子。"
+            "en": "This is not a methodology. It is not an “AI-era learning technique.” It is a redefinition of learning: restoring the word from its pre-AI, disguise-covered version back to what it always was.",
+            "cn": "这不是方法论。这不是“AI 时代的学习技巧”。这是对“学习”这个词的重新理解：把它从 AI 时代前那个被各种伪装包围的版本，还原成它本来的样子。"
           }
         ]
       },
@@ -30528,12 +27624,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI-era learning is not about how much AI you use.",
-            "cn": "AI 时代的学习不是关于“用了多少 AI”，"
-          },
-          {
-            "en": "It is about how much you changed after using it.",
-            "cn": "是关于AI 用完之后，你自己变了多少。"
+            "en": "AI-era learning is not about how much AI you use. It is about how much you changed after using it.",
+            "cn": "AI 时代的学习不是关于“用了多少 AI”，是关于AI 用完之后，你自己变了多少。"
           }
         ]
       }
@@ -30547,10 +27639,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#preface",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -30560,7 +27652,7 @@ const ARTICLES_EXTRA = [
     "chapter": 1,
     "sourceTextWords": 183,
     "sourceParagraphs": 6,
-    "sourceSentences": 13,
+    "sourceSentences": 8,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -30577,12 +27669,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This essay is about organisations.",
-            "cn": "这一篇讲组织，"
-          },
-          {
-            "en": "Once individuals are re-stratified by AI, what happens to the firms, teams, and collaboration relationships built out of those individuals?",
-            "cn": "当个体在 AI 时代被重新分化之后，由这些个体组成的公司、团队、协作关系会发生什么。"
+            "en": "This essay is about organisations. Once individuals are re-stratified by AI, what happens to the firms, teams, and collaboration relationships built out of those individuals?",
+            "cn": "这一篇讲组织，当个体在 AI 时代被重新分化之后，由这些个体组成的公司、团队、协作关系会发生什么。"
           }
         ]
       },
@@ -30597,24 +27685,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is difficult to discuss because the entire vocabulary of organisation, management, and collaboration (“firm,” “employee,” “manager,” “team,” “collaboration,” “efficiency”) comes from the industrial era.",
-            "cn": "这件事讨论起来会有点难，因为：关于组织、管理、协作的整套词汇（“公司”、“员工”、“管理者”、“团队”、“协作”、“效率”）都是工业时代留下来的。"
-          },
-          {
-            "en": "The words carry industrial-era assumptions.",
-            "cn": "这些词本身带着工业时代的假设。"
-          },
-          {
-            "en": "Using them to discuss AI-era phenomena is like discussing electric cars with the vocabulary of coal-burning efficiency.",
-            "cn": "用它们讨论 AI 时代的现象，"
-          },
-          {
-            "en": "The issue is not only that the discussion becomes unclear.",
-            "cn": "会像用“烧煤效率”讨论电动汽车，不是讨论不清楚，"
-          },
-          {
-            "en": "The words themselves are wrong.",
-            "cn": "是词本身就不对。"
+            "en": "This is difficult to discuss because the entire vocabulary of organisation, management, and collaboration (“firm,” “employee,” “manager,” “team,” “collaboration,” “efficiency”) comes from the industrial era. The words carry industrial-era assumptions. Using them to discuss AI-era phenomena is like discussing electric cars with the vocabulary of coal-burning efficiency. The issue is not only that the discussion becomes unclear. The words themselves are wrong.",
+            "cn": "这件事讨论起来会有点难，因为：关于组织、管理、协作的整套词汇（“公司”、“员工”、“管理者”、“团队”、“协作”、“效率”）都是工业时代留下来的。这些词本身带着工业时代的假设。用它们讨论 AI 时代的现象，会像用“烧煤效率”讨论电动汽车，不是讨论不清楚，是词本身就不对。"
           }
         ]
       },
@@ -30652,10 +27724,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-1--first-ask-the-skipped-question-what-did-firms-originally-solve",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -30664,8 +27736,8 @@ const ARTICLES_EXTRA = [
     "issue": 3,
     "chapter": 2,
     "sourceTextWords": 1903,
-    "sourceParagraphs": 69,
-    "sourceSentences": 123,
+    "sourceParagraphs": 67,
+    "sourceSentences": 78,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -30682,16 +27754,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Most people treat the firm as a natural state: a group of people doing things together.",
-            "cn": "这个问题看起来基础得不需要讨论。大部分人默认公司就是“一群人一起做事的组织形式”，一种自然状态。"
-          },
-          {
-            "en": "But the firm is not natural.",
-            "cn": "但公司并不是自然的。"
-          },
-          {
-            "en": "It is an organisational solution that appeared under specific historical conditions to solve specific problems. If those problems are solved or changed by new technology, the necessity of the firm becomes less obvious.",
-            "cn": "它是在某些历史条件下为了解决某些具体问题而出现的一种组织方案。如果那些问题被新技术解决了或改变了，公司这个方案的必要性就变得不再明显。"
+            "en": "Most people treat the firm as a natural state: a group of people doing things together. But the firm is not natural. It is an organisational solution that appeared under specific historical conditions to solve specific problems. If those problems are solved or changed by new technology, the necessity of the firm becomes less obvious.",
+            "cn": "这个问题看起来基础得不需要讨论。大部分人默认公司就是“一群人一起做事的组织形式”，一种自然状态。但公司并不是自然的。它是在某些历史条件下为了解决某些具体问题而出现的一种组织方案。如果那些问题被新技术解决了或改变了，公司这个方案的必要性就变得不再明显。"
           }
         ]
       },
@@ -30706,16 +27770,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If markets are so efficient, if prices allocate resources, why do firms exist?",
-            "cn": "既然市场这么高效（价格机制分配资源），为什么还需要公司？"
-          },
-          {
-            "en": "Why doesn’t every economic activity happen through market transactions one by one?",
-            "cn": "为什么不是所有的经济活动都通过一个一个的市场交易完成，我需要 A 就去市场上买 A，"
-          },
-          {
-            "en": "If I need A, I buy A; if I need B, I buy B.",
-            "cn": "需要 B 就去市场上买 B？"
+            "en": "If markets are so efficient, if prices allocate resources, why do firms exist? Why doesn’t every economic activity happen through market transactions one by one? If I need A, I buy A; if I need B, I buy B.",
+            "cn": "既然市场这么高效（价格机制分配资源），为什么还需要公司？为什么不是所有的经济活动都通过一个一个的市场交易完成，我需要 A 就去市场上买 A，需要 B 就去市场上买 B？"
           }
         ]
       },
@@ -30750,16 +27806,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Oliver Williamson and others later deepened Coase’s argument into the foundation of new institutional economics.",
-            "cn": "Coase 的这个判断后来被 Oliver Williamson 等人深化，成为整个新制度经济学的基础。"
-          },
-          {
-            "en": "This is not business-school decoration.",
-            "cn": "这不是一个商学院的花俏理论："
-          },
-          {
-            "en": "It is the clearest starting point for answering why firms exist.",
-            "cn": "它是对“为什么公司存在”这个根本问题的最清晰的回答。"
+            "en": "Oliver Williamson and others later deepened Coase’s argument into the foundation of new institutional economics. This is not business-school decoration. It is the clearest starting point for answering why firms exist.",
+            "cn": "Coase 的这个判断后来被 Oliver Williamson 等人深化，成为整个新制度经济学的基础。这不是一个商学院的花俏理论：它是对“为什么公司存在”这个根本问题的最清晰的回答。"
           }
         ]
       },
@@ -30782,36 +27830,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Complex work used to require finding many kinds of people: engineers, designers, salespeople, finance, legal.",
-            "cn": "过去要做一件复杂的事，需要找到一堆不同技能的人，程序员、设计师、销售、财务、法务。"
-          },
-          {
-            "en": "Searching for them in the market every time was expensive.",
-            "cn": "每次都去市场上找合适的人太贵了，"
-          },
-          {
-            "en": "You did not know who was reliable; they did not know whether you were reliable.",
-            "cn": "你不知道谁靠谱、他们不知道你靠谱、"
-          },
-          {
-            "en": "Trust took time.",
-            "cn": "双方都要大量时间建立信任。"
+            "en": "Complex work used to require finding many kinds of people: engineers, designers, salespeople, finance, legal. Searching for them in the market every time was expensive. You did not know who was reliable; they did not know whether you were reliable. Trust took time.",
+            "cn": "过去要做一件复杂的事，需要找到一堆不同技能的人，程序员、设计师、销售、财务、法务。每次都去市场上找合适的人太贵了，你不知道谁靠谱、他们不知道你靠谱、双方都要大量时间建立信任。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The firm solves this by binding a group of people together for the long term.",
-            "cn": "公司解决这个的方式是：把一批人长期绑定在一起。"
-          },
-          {
-            "en": "Once inside the firm, engineers, designers, and salespeople become ready resources.",
-            "cn": "一旦你进了公司，公司内部的程序员、设计师、销售都是“现成可用的资源”，"
-          },
-          {
-            "en": "They do not need to be searched for again each time.",
-            "cn": "不需要每次重新搜索。"
+            "en": "The firm solves this by binding a group of people together for the long term. Once inside the firm, engineers, designers, and salespeople become ready resources. They do not need to be searched for again each time.",
+            "cn": "公司解决这个的方式是：把一批人长期绑定在一起。一旦你进了公司，公司内部的程序员、设计师、销售都是“现成可用的资源”，不需要每次重新搜索。"
           }
         ]
       },
@@ -30878,12 +27906,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The firm solves this through long-term relationship.",
-            "cn": "公司通过长期关系解决这个，"
-          },
-          {
-            "en": "Company-specific investments, such as learning internal processes, building internal relationships, and mastering local know-how, become worthwhile because the relationship lasts.",
-            "cn": "你为公司做的专用投资（学习公司流程、建立公司内部关系、掌握公司特有的 know-how）是值得的，因为这段关系足够长。"
+            "en": "The firm solves this through long-term relationship. Company-specific investments, such as learning internal processes, building internal relationships, and mastering local know-how, become worthwhile because the relationship lasts.",
+            "cn": "公司通过长期关系解决这个，你为公司做的专用投资（学习公司流程、建立公司内部关系、掌握公司特有的 know-how）是值得的，因为这段关系足够长。"
           }
         ]
       },
@@ -30898,56 +27922,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Complex work requires many people to coordinate.",
-            "cn": "做一件复杂的事涉及很多人配合。"
-          },
-          {
-            "en": "It is impossible to coordinate every step through market transactions.",
-            "cn": "每一步都靠市场交易协调是不可能的（想象每次程序员要和设计师沟通一个小细节都要签一个合同）"
-          },
-          {
-            "en": "Imagine signing a contract every time an engineer needs to discuss a detail with a designer.",
-            "cn": "。公司用层级和流程代替了这种每次协调，"
-          },
-          {
-            "en": "The firm replaces repeated coordination with hierarchy and process: reporting lines, routines, and shared norms.",
-            "cn": "有明确的汇报关系、有惯例、有“这种事情一般这么处理”的默契。"
+            "en": "Complex work requires many people to coordinate. It is impossible to coordinate every step through market transactions. Imagine signing a contract every time an engineer needs to discuss a detail with a designer. The firm replaces repeated coordination with hierarchy and process: reporting lines, routines, and shared norms.",
+            "cn": "做一件复杂的事涉及很多人配合。每一步都靠市场交易协调是不可能的（想象每次程序员要和设计师沟通一个小细节都要签一个合同）。公司用层级和流程代替了这种每次协调，有明确的汇报关系、有惯例、有“这种事情一般这么处理”的默契。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "V.",
-            "cn": "五、"
-          },
-          {
-            "en": "Risk sharing",
-            "cn": "风险分担"
+            "en": "V. Risk sharing",
+            "cn": "五、风险分担"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "In markets, each independent actor bears their own risk.",
-            "cn": "市场里每个独立个体承担自己的风险。"
-          },
-          {
-            "en": "Firms create risk sharing by binding many people together.",
-            "cn": "公司通过把很多人绑在一起实现了某种风险分担，"
-          },
-          {
-            "en": "One project fails, losses are distributed.",
-            "cn": "一个项目失败，损失被分摊；"
-          },
-          {
-            "en": "One employee gets sick, others cover temporarily.",
-            "cn": "一个员工生病，别人可以临时补位；"
-          },
-          {
-            "en": "One client leaves, the firm remains.",
-            "cn": "一个客户流失，公司整体还在。"
+            "en": "In markets, each independent actor bears their own risk. Firms create risk sharing by binding many people together. One project fails, losses are distributed. One employee gets sick, others cover temporarily. One client leaves, the firm remains.",
+            "cn": "市场里每个独立个体承担自己的风险。公司通过把很多人绑在一起实现了某种风险分担，一个项目失败，损失被分摊；一个员工生病，别人可以临时补位；一个客户流失，公司整体还在。"
           }
         ]
       },
@@ -30994,20 +27986,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Individuals either cannot do these things, because they lack the legal identity, or can do them only with excessive personal risk.",
-            "cn": "个人在这些场景里要么做不了（没有对应的法律身份），要么做但承担过大的个人风险（一笔大合同出问题，个体全部资产被起诉）。"
-          },
-          {
-            "en": "The firm provides legal personhood.",
-            "cn": "公司提供了一个法律人格，"
-          },
-          {
-            "en": "Shareholders’ liability is limited; the firm itself can contract, borrow, be sued, and go bankrupt. This personhood is not a side effect of the firm.",
-            "cn": "股东以投资额为限承担责任，公司自身可以签约、负债、被告、破产。"
-          },
-          {
-            "en": "It is one of the core reasons some things must be done through firms.",
-            "cn": "这个人格不是公司的副产品，它就是“为什么做某些事必须用公司做”的核心原因。"
+            "en": "Individuals either cannot do these things, because they lack the legal identity, or can do them only with excessive personal risk. The firm provides legal personhood. Shareholders’ liability is limited; the firm itself can contract, borrow, be sued, and go bankrupt. This personhood is not a side effect of the firm. It is one of the core reasons some things must be done through firms.",
+            "cn": "个人在这些场景里要么做不了（没有对应的法律身份），要么做但承担过大的个人风险（一笔大合同出问题，个体全部资产被起诉）。公司提供了一个法律人格，股东以投资额为限承担责任，公司自身可以签约、负债、被告、破产。这个人格不是公司的副产品，它就是“为什么做某些事必须用公司做”的核心原因。"
           }
         ]
       },
@@ -31030,36 +28010,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "A hospital surgery, a law firm’s litigation, a bank’s custody service, a consulting firm’s strategy advice: the client cannot evaluate output quality beforehand.",
-            "cn": "一家医院的手术、一家律所的官司、一家银行的托管、一家咨询公司的战略建议，客户在事前没法评估输出质量，"
-          },
-          {
-            "en": "They are buying the promise that if something goes wrong, an institution stands behind the result.",
-            "cn": "他买的是“如果出事，有一个机构为结果负责”的承诺。"
-          },
-          {
-            "en": "The weight of that promise comes from the institution’s brand, history, scale, and the incentive not to put all of that at risk.",
-            "cn": "这个承诺的重量来自机构本身的品牌、历史、规模，以及它不愿意把这些赔进去的激励。"
+            "en": "A hospital surgery, a law firm’s litigation, a bank’s custody service, a consulting firm’s strategy advice: the client cannot evaluate output quality beforehand. They are buying the promise that if something goes wrong, an institution stands behind the result. The weight of that promise comes from the institution’s brand, history, scale, and the incentive not to put all of that at risk.",
+            "cn": "一家医院的手术、一家律所的官司、一家银行的托管、一家咨询公司的战略建议，客户在事前没法评估输出质量，他买的是“如果出事，有一个机构为结果负责”的承诺。这个承诺的重量来自机构本身的品牌、历史、规模，以及它不愿意把这些赔进去的激励。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "An independent individual may be equally capable, but cannot provide the same weight of commitment.",
-            "cn": "一个独立个体即使同样能干，也无法提供同等分量的承诺，"
-          },
-          {
-            "en": "They do not have as much reputation or institutional substance pledged behind the promise, and the client does not have the same target to sue.",
-            "cn": "因为他没有那么多东西押在背书上，客户也没有那么多可以起诉的对象。"
-          },
-          {
-            "en": "In these situations, half of what the client buys is capability, and half is institutional backing.",
-            "cn": "在这些场景里，客户实际购买的一半是能力、一半是机构背书，"
-          },
-          {
-            "en": "The second half is hard for individuals to replace.",
-            "cn": "后者个体无法替代。"
+            "en": "An independent individual may be equally capable, but cannot provide the same weight of commitment. They do not have as much reputation or institutional substance pledged behind the promise, and the client does not have the same target to sue. In these situations, half of what the client buys is capability, and half is institutional backing. The second half is hard for individuals to replace.",
+            "cn": "一个独立个体即使同样能干，也无法提供同等分量的承诺，因为他没有那么多东西押在背书上，客户也没有那么多可以起诉的对象。在这些场景里，客户实际购买的一半是能力、一半是机构背书，后者个体无法替代。"
           }
         ]
       },
@@ -31098,20 +28058,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "So the cost-effectiveness of binding a group of people together long-term is falling quickly.",
-            "cn": "AI 的通用能力让你不需要每个角色都是专家，"
-          },
-          {
-            "en": "Many things can now be done by temporary combinations or by an individual plus AI.",
-            "cn": "一个能用 AI 写一般代码、做一般设计、做一般法务工作的“全能型”个人，替代了过去需要一个团队才能完成的活"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "II. Information asymmetry: partly weakened",
-            "cn": "这意味着：“把一批人长期绑在一起”这个方案的性价比在快速下降。很多事情现在通过临时组合或纯个人+AI 就能完成。"
+            "en": "So the cost-effectiveness of binding a group of people together long-term is falling quickly. Many things can now be done by temporary combinations or by an individual plus AI. II. Information asymmetry: partly weakened",
+            "cn": "AI 的通用能力让你不需要每个角色都是专家，一个能用 AI 写一般代码、做一般设计、做一般法务工作的“全能型”个人，替代了过去需要一个团队才能完成的活 这意味着：“把一批人长期绑在一起”这个方案的性价比在快速下降。很多事情现在通过临时组合或纯个人+AI 就能完成。"
           }
         ]
       },
@@ -31174,20 +28122,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Small-scale collaboration has reached historically low cost. Three people plus AI can often produce more than ten people did before.",
-            "cn": "一个人 + AI 能完成过去需要一个 5 人团队才能完成的事"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "V.",
-            "cn": "协调成本下降最剧烈的地方，"
-          },
-          {
-            "en": "Risk sharing: still present, changed in form",
-            "cn": "小规模协作的成本降到了历史最低。过去“3 个人 + AI”能做的事比过去“10 个人”能做的还多。"
+            "en": "Small-scale collaboration has reached historically low cost. Three people plus AI can often produce more than ten people did before. V. Risk sharing: still present, changed in form",
+            "cn": "一个人 + AI 能完成过去需要一个 5 人团队才能完成的事 协调成本下降最剧烈的地方，小规模协作的成本降到了历史最低。过去“3 个人 + AI”能做的事比过去“10 个人”能做的还多。"
           }
         ]
       },
@@ -31226,12 +28162,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "But capital concentration remains necessary for chips, rockets, drugs, large hardware, and physical infrastructure.",
-            "cn": "内容不需要："
-          },
-          {
-            "en": "In those fields, the necessity of firms has not changed.",
-            "cn": "独立创作者用 AI 能产出过去一个内容团队产出的东西"
+            "en": "But capital concentration remains necessary for chips, rockets, drugs, large hardware, and physical infrastructure. In those fields, the necessity of firms has not changed.",
+            "cn": "内容不需要：独立创作者用 AI 能产出过去一个内容团队产出的东西"
           }
         ]
       },
@@ -31254,36 +28186,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI also adds new legal complexity.",
-            "cn": "而且 AI 自身带来了新的法律复杂性，"
-          },
-          {
-            "en": "Who is responsible for damage caused by AI output?",
-            "cn": "AI 输出造成的损失谁负责？"
-          },
-          {
-            "en": "Who pays for training-data infringement?",
-            "cn": "训练数据侵权谁赔？"
-          },
-          {
-            "en": "Whose decision is an AI-made decision?",
-            "cn": "AI 做出的决定算谁的决策？"
-          },
-          {
-            "en": "These questions deepen the need for an entity to bear liability.",
-            "cn": "这些问题正在加深“需要一个法律实体兜底”的需求，不是削弱它。"
+            "en": "AI also adds new legal complexity. Who is responsible for damage caused by AI output? Who pays for training-data infringement? Whose decision is an AI-made decision? These questions deepen the need for an entity to bear liability.",
+            "cn": "而且 AI 自身带来了新的法律复杂性，AI 输出造成的损失谁负责？训练数据侵权谁赔？AI 做出的决定算谁的决策？这些问题正在加深“需要一个法律实体兜底”的需求，不是削弱它。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So this item is not weakened in the AI era.",
-            "cn": "所以这一项在 AI 时代完全没被削弱，"
-          },
-          {
-            "en": "It may be strengthened.",
-            "cn": "某些方面反而加强。"
+            "en": "So this item is not weakened in the AI era. It may be strengthened.",
+            "cn": "所以这一项在 AI 时代完全没被削弱，某些方面反而加强。"
           }
         ]
       },
@@ -31306,16 +28218,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "On the other side, AI-generated content explodes, making trust scarcer.",
-            "cn": "一方面，AI 让个体可以以低成本做出看起来专业的产品，"
-          },
-          {
-            "en": "Clients increasingly cannot tell whether a proposal is the result of deep human thinking or mass-produced AI output.",
-            "cn": "表层品牌差距被压平了，"
-          },
-          {
-            "en": "In high-consequence settings, clients need an institution to promise that this is not merely AI slop.",
-            "cn": "你一个人做的 deliverable 可以看起来和大公司做的一样精良。"
+            "en": "On the other side, AI-generated content explodes, making trust scarcer. Clients increasingly cannot tell whether a proposal is the result of deep human thinking or mass-produced AI output. In high-consequence settings, clients need an institution to promise that this is not merely AI slop.",
+            "cn": "一方面，AI 让个体可以以低成本做出看起来专业的产品，表层品牌差距被压平了，你一个人做的 deliverable 可以看起来和大公司做的一样精良。"
           }
         ]
       },
@@ -31370,12 +28274,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is more cautious than the story that “firms are being destroyed.” The firm is not collapsing everywhere.",
-            "cn": "两类没被削弱，某些方面反而加强（法律合约权力、"
-          },
-          {
-            "en": "Its boundary is contracting unevenly.",
-            "cn": "品牌信任背书）"
+            "en": "This is more cautious than the story that “firms are being destroyed.” The firm is not collapsing everywhere. Its boundary is contracting unevenly.",
+            "cn": "两类没被削弱，某些方面反而加强（法律合约权力、品牌信任背书）"
           }
         ]
       },
@@ -31390,40 +28290,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The contraction is weakest, and may reverse, in capital-intensive, heavily regulated, high-contract-risk, high-consequence fields: finance, medicine, infrastructure, manufacturing, energy, aerospace, government contracting.",
-            "cn": "收缩最不明显、甚至反向增强的区间是：资本密集、强监管、高合约风险、高后果的领域。金融、医疗、基建、制造、能源、航空航天、政府承包属于这一类。"
-          },
-          {
-            "en": "In these fields, firms may become more necessary because AI adds legal risk and trust scarcity.",
-            "cn": "在这些领域里，公司的必要性没有减弱，甚至因为 AI 带来的新法律风险和信任危机而加强。"
+            "en": "The contraction is weakest, and may reverse, in capital-intensive, heavily regulated, high-contract-risk, high-consequence fields: finance, medicine, infrastructure, manufacturing, energy, aerospace, government contracting. In these fields, firms may become more necessary because AI adds legal risk and trust scarcity.",
+            "cn": "收缩最不明显、甚至反向增强的区间是：资本密集、强监管、高合约风险、高后果的领域。金融、医疗、基建、制造、能源、航空航天、政府承包属于这一类。在这些领域里，公司的必要性没有减弱，甚至因为 AI 带来的新法律风险和信任危机而加强。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So the accurate conclusion is not “the firm is disappearing.” It is: the applicable boundary of the firm is being redrawn.",
-            "cn": "所以真正准确的结论不是“公司作为组织形态正在消失”，而是：公司的适用边界正在被重新划分。"
-          },
-          {
-            "en": "The firm used to be the default form for almost all collaboration.",
-            "cn": "过去公司是几乎所有合作的默认形式；"
-          },
-          {
-            "en": "Now it remains necessary, even more necessary, in some areas, while becoming too heavy, slow, and expensive in others.",
-            "cn": "现在它在一部分领域仍然是必要的、甚至更必要，而在另一部分领域变得过重、过慢、过贵。"
+            "en": "So the accurate conclusion is not “the firm is disappearing.” It is: the applicable boundary of the firm is being redrawn. The firm used to be the default form for almost all collaboration. Now it remains necessary, even more necessary, in some areas, while becoming too heavy, slow, and expensive in others.",
+            "cn": "所以真正准确的结论不是“公司作为组织形态正在消失”，而是：公司的适用边界正在被重新划分。过去公司是几乎所有合作的默认形式；现在它在一部分领域仍然是必要的、甚至更必要，而在另一部分领域变得过重、过慢、过贵。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The rest of this essay discusses mainly the area of sharp contraction: organisational change in cognition-intensive work.",
-            "cn": "这篇文章接下来讨论的，主要是收缩最剧烈的那个区间，认知密集型工作里的组织形态变化。在另一个区间里发生的事（大公司如何在资本/监管/品牌维度继续稳固），不在本文讨论范围内。"
-          },
-          {
-            "en": "If you are in the other area, the analysis below applies only to the cognition-intensive part of your work.",
-            "cn": "读者如果身处后一个区间，下面的分析只对你工作里认知密集的那一部分成立。"
+            "en": "The rest of this essay discusses mainly the area of sharp contraction: organisational change in cognition-intensive work. If you are in the other area, the analysis below applies only to the cognition-intensive part of your work.",
+            "cn": "这篇文章接下来讨论的，主要是收缩最剧烈的那个区间，认知密集型工作里的组织形态变化。在另一个区间里发生的事（大公司如何在资本/监管/品牌维度继续稳固），不在本文讨论范围内。读者如果身处后一个区间，下面的分析只对你工作里认知密集的那一部分成立。"
           }
         ]
       },
@@ -31449,10 +28333,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-2--collaboration-is-no-longer-on-the-same-plane",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -31461,8 +28345,8 @@ const ARTICLES_EXTRA = [
     "issue": 3,
     "chapter": 3,
     "sourceTextWords": 1113,
-    "sourceParagraphs": 47,
-    "sourceSentences": 90,
+    "sourceParagraphs": 40,
+    "sourceSentences": 52,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -31479,16 +28363,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The answer is counterintuitive.",
-            "cn": "这个问题的答案是反直觉的。"
-          },
-          {
-            "en": "AI does not simply make collaboration easier.",
-            "cn": "AI 时代的协作不是变容易了，"
-          },
-          {
-            "en": "It polarises collaboration.",
-            "cn": "是变得两极化。"
+            "en": "The answer is counterintuitive. AI does not simply make collaboration easier. It polarises collaboration.",
+            "cn": "这个问题的答案是反直觉的。AI 时代的协作不是变容易了，是变得两极化。"
           }
         ]
       },
@@ -31563,12 +28439,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI does not make their value zero.",
-            "cn": "AI 时代的变化不是他的价值降到了零，"
-          },
-          {
-            "en": "It eats almost all of the first four components of that value.",
-            "cn": "是他的价值里前四项几乎全被 AI 吃掉了。"
+            "en": "AI does not make their value zero. It eats almost all of the first four components of that value.",
+            "cn": "AI 时代的变化不是他的价值降到了零，是他的价值里前四项几乎全被 AI 吃掉了。"
           }
         ]
       },
@@ -31615,12 +28487,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "If that ability is strong, the person remains extremely valuable, perhaps more valuable than before because their judgment is freed from execution.",
-            "cn": "如果他的认知去耦能力强，他依然极度有价值（可能更有价值，"
-          },
-          {
-            "en": "If it is ordinary, the stacked value they used to have collapses, because the pillars supporting it have been replaced by AI.",
-            "cn": "因为他过去被埋没在执行里的判断能力现在被释放了）。"
+            "en": "If that ability is strong, the person remains extremely valuable, perhaps more valuable than before because their judgment is freed from execution. If it is ordinary, the stacked value they used to have collapses, because the pillars supporting it have been replaced by AI.",
+            "cn": "如果他的认知去耦能力强，他依然极度有价值（可能更有价值，因为他过去被埋没在执行里的判断能力现在被释放了）。"
           }
         ]
       },
@@ -31651,24 +28519,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "That right-hand side is decisive.",
-            "cn": "这个等式的右边是决定性的："
-          },
-          {
-            "en": "You are no longer comparing the person with yourself alone.",
-            "cn": "你不是在和他比较，你是在和“你自己 + AI”比较。"
-          },
-          {
-            "en": "You are comparing them with yourself plus AI.",
-            "cn": "过去这个备选方案不存在。"
-          },
-          {
-            "en": "That option did not exist before.",
-            "cn": "现在这个备选方案强到让大部分“经验型搭档”"
-          },
-          {
-            "en": "Now it is strong enough to make many “experienced partners” uneconomical.",
-            "cn": "变得不划算。"
+            "en": "That right-hand side is decisive. You are no longer comparing the person with yourself alone. You are comparing them with yourself plus AI. That option did not exist before. Now it is strong enough to make many “experienced partners” uneconomical.",
+            "cn": "这个等式的右边是决定性的：你不是在和他比较，你是在和“你自己 + AI”比较。过去这个备选方案不存在。现在这个备选方案强到让大部分“经验型搭档”变得不划算。"
           }
         ]
       },
@@ -31719,136 +28571,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not arrogance or raised expectations.",
-            "cn": "这不是心态变傲慢了、也不是对别人要求变高了，"
-          },
-          {
-            "en": "It is that the definition of “someone worth collaborating with” has changed at the root.",
-            "cn": "是“什么是值得协作的人”这个定义的底层标准变了。"
-          },
-          {
-            "en": "Many people previously counted as qualified because experience and fluency supported them.",
-            "cn": "过去合格的人里有 70% 是靠经验 + 熟练度撑起来的，"
-          },
-          {
-            "en": "Those abilities still exist in them, but their relative value has dropped below the threshold for collaboration.",
-            "cn": "现在这 70% 的人在绝对价值上没变（他们还是懂那些东西），但相对价值被 AI 的出现降到了不值得协作的程度。"
+            "en": "This is not arrogance or raised expectations. It is that the definition of “someone worth collaborating with” has changed at the root. Many people previously counted as qualified because experience and fluency supported them. Those abilities still exist in them, but their relative value has dropped below the threshold for collaboration.",
+            "cn": "这不是心态变傲慢了、也不是对别人要求变高了，是“什么是值得协作的人”这个定义的底层标准变了。过去合格的人里有 70% 是靠经验 + 熟练度撑起来的，现在这 70% 的人在绝对价值上没变（他们还是懂那些东西），但相对价值被 AI 的出现降到了不值得协作的程度。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "You are not screening a fussier pool.",
-            "cn": "你筛的不是更挑剔的池，"
-          },
-          {
-            "en": "You are screening a redefined pool.",
-            "cn": "是一个被重新定义过的池。"
+            "en": "You are not screening a fussier pool. You are screening a redefined pool.",
+            "cn": "你筛的不是更挑剔的池，是一个被重新定义过的池。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "An analogy makes the change clearer.",
-            "cn": "这个变化用一个类比能讲得更清楚。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Two textile workers in the past could collaborate well.",
-            "cn": "过去两个纺织工人可以良好协作。"
-          },
-          {
-            "en": "They were inside the same production logic: touch the thread, look at the cloth, finish a piece over several hours.",
-            "cn": "他们在同一套生产逻辑里，都是用手感知线、用眼睛看织物、用几小时完成一匹布。他们可以互相理解对方在做什么、互相补位、互相检查。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "After the assembly line appears, a line-maintenance engineer and a hand weaver are not facing “higher collaboration cost.” They are in different production systems. The engineer works at the scale of machines: inspect, adjust, optimise, keep a hundred machines running.",
-            "cn": "当流水线出现后，一个流水线检修员和一个手工纺织工之间：不是“协作成本更高”，是他们根本不在同一个生产体系里。检修员的工作节奏是以机器为单位（检查、调整、优化），产出是“让一百台机器同时运转良好”。"
-          },
-          {
-            "en": "The weaver works at the scale of one cloth.",
-            "cn": "手工纺织工的节奏是以一匹布为单位，产出是“我今天织完了一匹”。"
-          },
-          {
-            "en": "Their time scale, object of judgment, and unit of output differ.",
-            "cn": "两者的时间尺度、判断对象、产出单位都不同。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Asking them to collaborate is a category error.",
-            "cn": "让他们协作是一个范畴错误，就像让一个农夫和一个空中交通管制员协作种庄稼。"
-          },
-          {
-            "en": "It is like asking a farmer and an air-traffic controller to collaborate on planting crops.",
-            "cn": "不是谁拖谁效率的问题，是他们根本不知道该怎么对齐。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The same split appears in the AI era.",
-            "cn": "AI 时代出现了完全同样的分化。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "An independent using AI as leverage runs at the rhythm of “one loop in an afternoon, one product in weeks.” A worker embedded in traditional process runs at “one meeting per week, one release per quarter.” This is not an efficiency gap.",
-            "cn": "一个用 AI 做杠杆的独立个体，输出节奏是“一个下午一个循环、几周一个完整产品”；一个不用 AI、嵌在传统流程里的工作者，节奏是“一周一个会议、一个季度一个 release”。"
-          },
-          {
-            "en": "A twofold or threefold gap can still collaborate.",
-            "cn": "这不是效率差距。"
-          },
-          {
-            "en": "Once the gap exceeds an order of magnitude, it becomes a production-system problem.",
-            "cn": "效率差距两倍三倍还能协作，一量级以上的差距就不再是效率问题，是生产体系问题，"
-          },
-          {
-            "en": "Time scale, judgment object, and output unit no longer share a coordinate system.",
-            "cn": "双方的时间尺度、判断对象、产出单位根本不在同一个坐标系里。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Discussing “should we ship this feature tonight?” with someone who produces once a month cannot align.",
-            "cn": "和“一个月产出一次”的人讨论“今晚要不要上线新功能”，双方的时间感根本对不上。"
-          },
-          {
-            "en": "Talking about “I just decided to change the whole architecture” with someone whose decisions require meetings cannot align.",
-            "cn": "和“每个决定都要开会讨论”的人谈“我刚刚决定改掉整个架构”，双方的决策颗粒度根本对不上。"
-          },
-          {
-            "en": "Saying “I am the product judgment” to someone who needs a PM to write requirements cannot align.",
-            "cn": "和“需要被 PM 给需求”的人说“我自己就是产品判断”，双方的责任模型根本对不上。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "This is not communication.",
-            "cn": "这不是沟通问题，是体系问题。"
-          },
-          {
-            "en": "It is system mismatch.",
-            "cn": "就像蒸汽机出来之后，工厂工程师和铁匠不是“沟通有障碍”，是他们从事的就不是同一种劳动了。"
+            "en": "An analogy makes the change clearer. Two textile workers in the past could collaborate well. They were inside the same production logic: touch the thread, look at the cloth, finish a piece over several hours. After the assembly line appears, a line-maintenance engineer and a hand weaver are not facing “higher collaboration cost.” They are in different production systems. The engineer works at the scale of machines: inspect, adjust, optimise, keep a hundred machines running. The weaver works at the scale of one cloth. Their time scale, object of judgment, and unit of output differ. Asking them to collaborate is a category error. It is like asking a farmer and an air-traffic controller to collaborate on planting crops. The same split appears in the AI era. An independent using AI as leverage runs at the rhythm of “one loop in an afternoon, one product in weeks.” A worker embedded in traditional process runs at “one meeting per week, one release per quarter.” This is not an efficiency gap. A twofold or threefold gap can still collaborate. Once the gap exceeds an order of magnitude, it becomes a production-system problem. Time scale, judgment object, and output unit no longer share a coordinate system. Discussing “should we ship this feature tonight?” with someone who produces once a month cannot align. Talking about “I just decided to change the whole architecture” with someone whose decisions require meetings cannot align. Saying “I am the product judgment” to someone who needs a PM to write requirements cannot align. This is not communication. It is system mismatch.",
+            "cn": "这个变化用一个类比能讲得更清楚。 过去两个纺织工人可以良好协作。他们在同一套生产逻辑里，都是用手感知线、用眼睛看织物、用几小时完成一匹布。他们可以互相理解对方在做什么、互相补位、互相检查。 当流水线出现后，一个流水线检修员和一个手工纺织工之间：不是“协作成本更高”，是他们根本不在同一个生产体系里。检修员的工作节奏是以机器为单位（检查、调整、优化），产出是“让一百台机器同时运转良好”。手工纺织工的节奏是以一匹布为单位，产出是“我今天织完了一匹”。两者的时间尺度、判断对象、产出单位都不同。 让他们协作是一个范畴错误，就像让一个农夫和一个空中交通管制员协作种庄稼。不是谁拖谁效率的问题，是他们根本不知道该怎么对齐。 AI 时代出现了完全同样的分化。 一个用 AI 做杠杆的独立个体，输出节奏是“一个下午一个循环、几周一个完整产品”；一个不用 AI、嵌在传统流程里的工作者，节奏是“一周一个会议、一个季度一个 release”。这不是效率差距。效率差距两倍三倍还能协作，一量级以上的差距就不再是效率问题，是生产体系问题，双方的时间尺度、判断对象、产出单位根本不在同一个坐标系里。 和“一个月产出一次”的人讨论“今晚要不要上线新功能”，双方的时间感根本对不上。和“每个决定都要开会讨论”的人谈“我刚刚决定改掉整个架构”，双方的决策颗粒度根本对不上。和“需要被 PM 给需求”的人说“我自己就是产品判断”，双方的责任模型根本对不上。 这不是沟通问题，是体系问题。就像蒸汽机出来之后，工厂工程师和铁匠不是“沟通有障碍”，是他们从事的就不是同一种劳动了。"
           }
         ]
       },
@@ -31931,16 +28671,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Previously a team could contain ten near-qualified subordinates and one or two who could truly run loops.",
-            "cn": "过去你可以用 10 个“次合格”下属 + 1-2 个真正能跑循环的下属组成一个团队。"
-          },
-          {
-            "en": "Now only the loop-runners are worth keeping for cognition-intensive work.",
-            "cn": "现在只能用能跑循环的下属："
-          },
-          {
-            "en": "Everyone else is done better and cheaper by AI.",
-            "cn": "其他人 AI 做得更好更便宜。"
+            "en": "Previously a team could contain ten near-qualified subordinates and one or two who could truly run loops. Now only the loop-runners are worth keeping for cognition-intensive work. Everyone else is done better and cheaper by AI.",
+            "cn": "过去你可以用 10 个“次合格”下属 + 1-2 个真正能跑循环的下属组成一个团队。现在只能用能跑循环的下属：其他人 AI 做得更好更便宜。"
           }
         ]
       },
@@ -31955,52 +28687,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Parallel collaborators are people who can run full judgment loops independently.",
-            "cn": "一类是平行协作者。自己能独立跑判断循环的人。"
-          },
-          {
-            "en": "They join collaboration not to be commanded, but as independent nodes in a larger system.",
-            "cn": "他们有自己的完整循环，他们加入协作不是为了“被指挥”，而是作为一个独立节点参与整体工作。"
-          },
-          {
-            "en": "The filter is severe: independent judgment, aligned direction, matching cycle rhythm, consequence-bearing, no alignment ritual.",
-            "cn": "筛选标准极其苛刻，判断能独立形成、方向大致对齐、循环节奏匹配、承担后果、不需要对齐仪式。"
+            "en": "Parallel collaborators are people who can run full judgment loops independently. They join collaboration not to be commanded, but as independent nodes in a larger system. The filter is severe: independent judgment, aligned direction, matching cycle rhythm, consequence-bearing, no alignment ritual.",
+            "cn": "一类是平行协作者。自己能独立跑判断循环的人。他们有自己的完整循环，他们加入协作不是为了“被指挥”，而是作为一个独立节点参与整体工作。筛选标准极其苛刻，判断能独立形成、方向大致对齐、循环节奏匹配、承担后果、不需要对齐仪式。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Qualified subordinates are not independent directional thinkers, but can run a complete loop inside a given scope.",
-            "cn": "一类是合格下属。不是独立判断者，但在一个给定范围内能独立跑循环，上级给方向和边界，"
-          },
-          {
-            "en": "A superior gives direction and boundary; they decompose, work with AI, judge output quality, choose the next move, execute, and feed back.",
-            "cn": "他自己拆解问题、和 AI 协作、判断 AI 输出的质量、决定下一步、执行、反馈。"
-          },
-          {
-            "en": "The key is that they can review AI output quality.",
-            "cn": "关键是他要能审查 AI 的输出质量，一个不能判断 AI 对错的下属，"
-          },
-          {
-            "en": "A subordinate who cannot judge whether AI is right is harmful, because they pass hallucination upward as reality.",
-            "cn": "在 AI 时代是有害的，因为他会把 AI 的幻觉当成真实传递上来。"
+            "en": "Qualified subordinates are not independent directional thinkers, but can run a complete loop inside a given scope. A superior gives direction and boundary; they decompose, work with AI, judge output quality, choose the next move, execute, and feed back. The key is that they can review AI output quality. A subordinate who cannot judge whether AI is right is harmful, because they pass hallucination upward as reality.",
+            "cn": "一类是合格下属。不是独立判断者，但在一个给定范围内能独立跑循环，上级给方向和边界，他自己拆解问题、和 AI 协作、判断 AI 输出的质量、决定下一步、执行、反馈。关键是他要能审查 AI 的输出质量，一个不能判断 AI 对错的下属，在 AI 时代是有害的，因为他会把 AI 的幻觉当成真实传递上来。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Both categories are much rarer than before.",
-            "cn": "这两类人都比过去稀缺得多。"
-          },
-          {
-            "en": "The first was always rare.",
-            "cn": "前者是因为本来就少；"
-          },
-          {
-            "en": "The second is rarer because many formerly qualified subordinates no longer qualify under the new standard.",
-            "cn": "后者是因为过去合格的大部分下属在新标准下不再合格。"
+            "en": "Both categories are much rarer than before. The first was always rare. The second is rarer because many formerly qualified subordinates no longer qualify under the new standard.",
+            "cn": "这两类人都比过去稀缺得多。前者是因为本来就少；后者是因为过去合格的大部分下属在新标准下不再合格。"
           }
         ]
       },
@@ -32026,10 +28730,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-3--why-ai-efficiency-differs-across-organisational-forms",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -32038,8 +28742,8 @@ const ARTICLES_EXTRA = [
     "issue": 3,
     "chapter": 4,
     "sourceTextWords": 1121,
-    "sourceParagraphs": 44,
-    "sourceSentences": 97,
+    "sourceParagraphs": 42,
+    "sourceSentences": 54,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -32060,64 +28764,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The difference is not marginal.",
-            "cn": "这个差异不是小差异，是数量级差异。"
-          },
-          {
-            "en": "It is an order-of-magnitude difference.",
-            "cn": "同一个 AI 工具在独立个体手里能让整个循环跑起来；"
-          },
-          {
-            "en": "The same AI tool can make an independent person’s whole loop run, while inside a large company it often only speeds up isolated tasks, leaving overall output almost unchanged.",
-            "cn": "在大公司里往往只能让某些孤立任务跑得更快，整体产出几乎不变。"
+            "en": "The difference is not marginal. It is an order-of-magnitude difference. The same AI tool can make an independent person’s whole loop run, while inside a large company it often only speeds up isolated tasks, leaving overall output almost unchanged.",
+            "cn": "这个差异不是小差异，是数量级差异。同一个 AI 工具在独立个体手里能让整个循环跑起来；在大公司里往往只能让某些孤立任务跑得更快，整体产出几乎不变。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Most discussion says this is about who uses AI better.",
-            "cn": "大部分讨论把这个差异归结为“谁更会用 AI”。"
-          },
-          {
-            "en": "That is wrong.",
-            "cn": "这个解释是错的。"
-          },
-          {
-            "en": "The difference is not tool use.",
-            "cn": "差异不在工具使用，"
-          },
-          {
-            "en": "It is organisational form.",
-            "cn": "在组织形态本身。"
+            "en": "Most discussion says this is about who uses AI better. That is wrong. The difference is not tool use. It is organisational form.",
+            "cn": "大部分讨论把这个差异归结为“谁更会用 AI”。这个解释是错的。差异不在工具使用，在组织形态本身。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Most people treat “AI productivity” as “AI makes a task faster.” Code that took hours now takes minutes.",
-            "cn": "要理解这个差异，"
-          },
-          {
-            "en": "This task-level acceleration is real and exists everywhere.",
-            "cn": "先要理解 AI 提效的真正机制。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "But task-level acceleration is not whole-output acceleration.",
-            "cn": "大部分讨论把“AI 提效”等同于“AI 把某个任务做得更快”，原来写代码几小时，现在一会儿就好。这种任务级别的提效是真实的、普遍的，在所有组织形态里都存在。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The qualitative change comes not from tasks becoming faster, but from the gaps between tasks collapsing toward zero.",
-            "cn": "但任务级别的提效 ≠ 整体产出的提效。"
+            "en": "Most people treat “AI productivity” as “AI makes a task faster.” Code that took hours now takes minutes. This task-level acceleration is real and exists everywhere. But task-level acceleration is not whole-output acceleration. The qualitative change comes not from tasks becoming faster, but from the gaps between tasks collapsing toward zero.",
+            "cn": "要理解这个差异，先要理解 AI 提效的真正机制。 大部分讨论把“AI 提效”等同于“AI 把某个任务做得更快”，原来写代码几小时，现在一会儿就好。这种任务级别的提效是真实的、普遍的，在所有组织形态里都存在。 但任务级别的提效 ≠ 整体产出的提效。"
           }
         ]
       },
@@ -32144,40 +28808,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not an efficiency gap.",
-            "cn": "这不是效率差距，是循环数差距。"
-          },
-          {
-            "en": "It is a loop-count gap.",
-            "cn": "AI 提效对独立个体是把每次循环本身也加速一些；"
-          },
-          {
-            "en": "For independents, AI accelerates the loop itself.",
-            "cn": "对大公司是把循环里的某一个小步骤加速，"
-          },
-          {
-            "en": "For large companies, AI accelerates a small step inside the loop while the total loop length barely changes, because the bottleneck is not execution.",
-            "cn": "但循环的总长度几乎不变，因为循环的瓶颈不在执行，"
-          },
-          {
-            "en": "It is decision and coordination.",
-            "cn": "在决策和协调。"
+            "en": "This is not an efficiency gap. It is a loop-count gap. For independents, AI accelerates the loop itself. For large companies, AI accelerates a small step inside the loop while the total loop length barely changes, because the bottleneck is not execution. It is decision and coordination.",
+            "cn": "这不是效率差距，是循环数差距。AI 提效对独立个体是把每次循环本身也加速一些；对大公司是把循环里的某一个小步骤加速，但循环的总长度几乎不变，因为循环的瓶颈不在执行，在决策和协调。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So “AI productivity” points to different things in different forms. For independents it means loop acceleration.",
-            "cn": "所以“AI 提效”这个词在不同组织形态里指向完全不同的东西。"
-          },
-          {
-            "en": "For large companies it means task acceleration.",
-            "cn": "在独立个体那里它是循环加速；在大公司那里它是任务加速。"
-          },
-          {
-            "en": "The first changes output by orders of magnitude; the second is marginal optimisation.",
-            "cn": "前者带来数量级的产出变化，后者只是边际优化。"
+            "en": "So “AI productivity” points to different things in different forms. For independents it means loop acceleration. For large companies it means task acceleration. The first changes output by orders of magnitude; the second is marginal optimisation.",
+            "cn": "所以“AI 提效”这个词在不同组织形态里指向完全不同的东西。在独立个体那里它是循环加速；在大公司那里它是任务加速。前者带来数量级的产出变化，后者只是边际优化。"
           }
         ]
       },
@@ -32200,12 +28840,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Large-company decisions require multiple layers, stakeholder alignment, risk assessment, compliance review, and priority coordination.",
-            "cn": "大公司的决策需要多个层级同意、需要相关团队配合、需要评估风险、"
-          },
-          {
-            "en": "AI cannot accelerate these because they are not steps that “produce a thing.” They are steps that get multiple people to agree.",
-            "cn": "需要合规审查、需要和别的项目 priority 对齐。"
+            "en": "Large-company decisions require multiple layers, stakeholder alignment, risk assessment, compliance review, and priority coordination. AI cannot accelerate these because they are not steps that “produce a thing.” They are steps that get multiple people to agree.",
+            "cn": "大公司的决策需要多个层级同意、需要相关团队配合、需要评估风险、需要合规审查、需要和别的项目 priority 对齐。"
           }
         ]
       },
@@ -32224,16 +28860,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Even if AI speeds every execution step 5x, the project remains slow because execution may be only 20% of the total time.",
-            "cn": "你把每个执行环节都用 AI 加速了 5 倍，整个项目依然慢，因为执行只占整个项目时间的 20%，80% 的时间在等决策、等对齐、等 alignment、等 review。"
-          },
-          {
-            "en": "The other 80% is waiting: decision, alignment, review.",
-            "cn": "AI 把 20% 里的时间压缩了，"
-          },
-          {
-            "en": "Accelerating the 20% changes little.",
-            "cn": "对整体影响微乎其微。"
+            "en": "Even if AI speeds every execution step 5x, the project remains slow because execution may be only 20% of the total time. The other 80% is waiting: decision, alignment, review. Accelerating the 20% changes little.",
+            "cn": "你把每个执行环节都用 AI 加速了 5 倍，整个项目依然慢，因为执行只占整个项目时间的 20%，80% 的时间在等决策、等对齐、等 alignment、等 review。AI 把 20% 里的时间压缩了，对整体影响微乎其微。"
           }
         ]
       },
@@ -32280,16 +28908,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "An employee who previously spent a day writing a report can now produce a better one in thirty minutes.",
-            "cn": "过去一个员工要花一天写一份报告来证明自己在工作；现在他 30 分钟就能用 AI 生成一份更漂亮的报告。"
-          },
-          {
-            "en": "The saved seven hours do not necessarily go to real work.",
-            "cn": "省下的 7 小时并没有被用来做真实工作，"
-          },
-          {
-            "en": "They may go to more reports, because colleagues are doing the same and not doing it makes one look behind.",
-            "cn": "而是被用来生成更多报告，因为他的同事也在这么做，他不跟进就显得掉队。"
+            "en": "An employee who previously spent a day writing a report can now produce a better one in thirty minutes. The saved seven hours do not necessarily go to real work. They may go to more reports, because colleagues are doing the same and not doing it makes one look behind.",
+            "cn": "过去一个员工要花一天写一份报告来证明自己在工作；现在他 30 分钟就能用 AI 生成一份更漂亮的报告。省下的 7 小时并没有被用来做真实工作，而是被用来生成更多报告，因为他的同事也在这么做，他不跟进就显得掉队。"
           }
         ]
       },
@@ -32352,20 +28972,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "An independent is different.",
-            "cn": "独立个体不一样：他自己就是所有信息的节点。"
-          },
-          {
-            "en": "They are the information node.",
-            "cn": "他脑子里 + 他的本地文件 + 他和 AI 的对话历史，就是全部相关信息。"
-          },
-          {
-            "en": "Their mind, files, and AI conversations contain the relevant whole.",
-            "cn": "AI 能接触到一切，"
-          },
-          {
-            "en": "AI can touch everything, so it can participate in judgment.",
-            "cn": "所以 AI 能真正参与判断。"
+            "en": "An independent is different. They are the information node. Their mind, files, and AI conversations contain the relevant whole. AI can touch everything, so it can participate in judgment.",
+            "cn": "独立个体不一样：他自己就是所有信息的节点。他脑子里 + 他的本地文件 + 他和 AI 的对话历史，就是全部相关信息。AI 能接触到一切，所以 AI 能真正参与判断。"
           }
         ]
       },
@@ -32388,32 +28996,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "One side is real risk management.",
-            "cn": "一面是真实的风险管理需要。"
-          },
-          {
-            "en": "Large-company caution around AI is often reasonable.",
-            "cn": "大公司在 AI 使用上的谨慎，相当一部分是合理的，"
-          },
-          {
-            "en": "Hallucinations at thousands-of-employees scale can cause real loss.",
-            "cn": "幻觉放大到数千员工使用时会造成真损失、客户数据灌进公开模型会触发合规事故、"
-          },
-          {
-            "en": "Customer data in public models can cause compliance accidents.",
-            "cn": "AI 决策出错时责任归属在法律上不清晰、多租户数据隔离在大型部署里确实难做。"
-          },
-          {
-            "en": "AI decision liability is unclear.",
-            "cn": "这些担心不是借口，而是负责任的大公司应当处理的问题。"
-          },
-          {
-            "en": "Multi-tenant data isolation is genuinely hard.",
-            "cn": "小公司或独立个体可以承担的不精确，"
-          },
-          {
-            "en": "These are not excuses.",
-            "cn": "大公司不能。"
+            "en": "One side is real risk management. Large-company caution around AI is often reasonable. Hallucinations at thousands-of-employees scale can cause real loss. Customer data in public models can cause compliance accidents. AI decision liability is unclear. Multi-tenant data isolation is genuinely hard. These are not excuses.",
+            "cn": "一面是真实的风险管理需要。大公司在 AI 使用上的谨慎，相当一部分是合理的，幻觉放大到数千员工使用时会造成真损失、客户数据灌进公开模型会触发合规事故、AI 决策出错时责任归属在法律上不清晰、多租户数据隔离在大型部署里确实难做。这些担心不是借口，而是负责任的大公司应当处理的问题。小公司或独立个体可以承担的不精确，大公司不能。"
           }
         ]
       },
@@ -32429,35 +29013,23 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "These jobs act as information filters and decision intermediaries.",
-            "cn": "他们的工作本质上是“信息过滤器”和“决策中介”。AI 威胁这类岗位的核心价值。"
+            "cn": "他们的工作本质上是“信息过滤器”和“决策中介”。"
           },
           {
             "en": "AI threatens their core value.",
-            "cn": "所以这些岗位的人有意无意会让"
+            "cn": "AI 威胁这类岗位的核心价值。"
           },
           {
             "en": "People in these roles, consciously or not, make AI harder to use.",
-            "cn": "AI 在公司内的使用变得困难。"
+            "cn": "所以这些岗位的人有意无意会让 AI 在公司内的使用变得困难。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The two sides merge into a familiar picture: legitimate risk concerns are amplified by role-protection incentives into tool-blocking processes.",
-            "cn": "两面的合流就是大公司 AI 使用里常见的画面，"
-          },
-          {
-            "en": "Risk, compliance, hallucination, and data-security issues are expanded into strict approvals.",
-            "cn": "合理的风险担忧被岗位自保的动力放大成阻止工具。"
-          },
-          {
-            "en": "Official enterprise tools lag public tools by generations.",
-            "cn": "表现"
-          },
-          {
-            "en": "“AI output needs human review” becomes a way to route AI back into human process.",
-            "cn": "形式包括："
+            "en": "The two sides merge into a familiar picture: legitimate risk concerns are amplified by role-protection incentives into tool-blocking processes. Risk, compliance, hallucination, and data-security issues are expanded into strict approvals. Official enterprise tools lag public tools by generations. “AI output needs human review” becomes a way to route AI back into human process.",
+            "cn": "两面的合流就是大公司 AI 使用里常见的画面，合理的风险担忧被岗位自保的动力放大成阻止工具。表现形式包括："
           }
         ]
       },
@@ -32488,68 +29060,40 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Zero decision bottleneck.",
-            "cn": "决策瓶颈是零，决定就是一个人做，"
-          },
-          {
-            "en": "One person decides.",
-            "cn": "不需要对齐"
+            "en": "Zero decision bottleneck. One person decides.",
+            "cn": "决策瓶颈是零，决定就是一个人做，不需要对齐"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "No incentive to look busy.",
-            "cn": "没有“显得在工作”的激励，"
-          },
-          {
-            "en": "Output is everything.",
-            "cn": "产出就是一切"
+            "en": "No incentive to look busy. Output is everything.",
+            "cn": "没有“显得在工作”的激励，产出就是一切"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Information is concentrated.",
-            "cn": "信息完全集中，"
-          },
-          {
-            "en": "The person is the node.",
-            "cn": "你自己就是所有相关信息的节点"
+            "en": "Information is concentrated. The person is the node.",
+            "cn": "信息完全集中，你自己就是所有相关信息的节点"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "No AI antibodies.",
-            "cn": "没有任何 AI 抗体，"
-          },
-          {
-            "en": "You do not stop yourself from using AI.",
-            "cn": "你不会阻止自己用 AI"
+            "en": "No AI antibodies. You do not stop yourself from using AI.",
+            "cn": "没有任何 AI 抗体，你不会阻止自己用 AI"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "So the judgment-execution-feedback-adjustment loop can run densely and continuously.",
-            "cn": "所以独立个体的“判断-执行-反馈-调整”循环可以跑得密集而连续，每一次循环都在推进思考往前走。"
-          },
-          {
-            "en": "In the same time window, the number of completed loops can far exceed a large company’s.",
-            "cn": "同等时间窗口里跑完的循环数，可以远超一个大公司。"
-          },
-          {
-            "en": "That is why one person plus AI can build products that used to require a medium-sized company.",
-            "cn": "这就是为什么 AI 时代一个人 + AI 能做出过去一家中型公司做的产品："
-          },
-          {
-            "en": "Not because the person is smarter, but because they inhabit an organisational form in which AI can actually work.",
-            "cn": "不是比大公司聪明，是在一个能让 AI 真正发挥作用的组织形态里。"
+            "en": "So the judgment-execution-feedback-adjustment loop can run densely and continuously. In the same time window, the number of completed loops can far exceed a large company’s. That is why one person plus AI can build products that used to require a medium-sized company. Not because the person is smarter, but because they inhabit an organisational form in which AI can actually work.",
+            "cn": "所以独立个体的“判断-执行-反馈-调整”循环可以跑得密集而连续，每一次循环都在推进思考往前走。同等时间窗口里跑完的循环数，可以远超一个大公司。这就是为什么 AI 时代一个人 + AI 能做出过去一家中型公司做的产品：不是比大公司聪明，是在一个能让 AI 真正发挥作用的组织形态里。"
           }
         ]
       },
@@ -32564,16 +29108,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Large companies may have moats, network effects, capital barriers, brand trust, distribution, regulatory capacity, and long-term customer relationships.",
-            "cn": "大公司可能在其他维度上有巨大优势，护城河、网络效应、资本壁垒、品牌信任、分发渠道、监管合规、长期客户关系，这些都是 AI 提效无法触及的维度。"
-          },
-          {
-            "en": "AI productivity does not touch all of these.",
-            "cn": "这些优势完全可能让大公司"
-          },
-          {
-            "en": "They may remain stable for years.",
-            "cn": "在整体竞争中依然稳固很多年。"
+            "en": "Large companies may have moats, network effects, capital barriers, brand trust, distribution, regulatory capacity, and long-term customer relationships. AI productivity does not touch all of these. They may remain stable for years.",
+            "cn": "大公司可能在其他维度上有巨大优势，护城河、网络效应、资本壁垒、品牌信任、分发渠道、监管合规、长期客户关系，这些都是 AI 提效无法触及的维度。这些优势完全可能让大公司在整体竞争中依然稳固很多年。"
           }
         ]
       },
@@ -32592,20 +29128,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Even this limited claim reveals something many people have not seen: AI-era organisational competition is not about who uses AI.",
-            "cn": "但即使只是这个有限的断言，它也揭示了一件大部分人还没看清的事：AI 时代真正的组织竞争不是“谁用了 AI”（所有人都在用）。"
-          },
-          {
-            "en": "Everyone uses AI.",
-            "cn": "是“谁的组织形态让 AI 能真正发挥作用”。"
-          },
-          {
-            "en": "It is about whose organisational form lets AI actually function.",
-            "cn": "这个问题的答案绝大多数大公司回答不了，"
-          },
-          {
-            "en": "Most large companies cannot answer that question, because changing the form means dismantling what they are built on.",
-            "cn": "因为改变组织形态意味着拆掉它们赖以存在的东西。"
+            "en": "Even this limited claim reveals something many people have not seen: AI-era organisational competition is not about who uses AI. Everyone uses AI. It is about whose organisational form lets AI actually function. Most large companies cannot answer that question, because changing the form means dismantling what they are built on.",
+            "cn": "但即使只是这个有限的断言，它也揭示了一件大部分人还没看清的事：AI 时代真正的组织竞争不是“谁用了 AI”（所有人都在用）。是“谁的组织形态让 AI 能真正发挥作用”。这个问题的答案绝大多数大公司回答不了，因为改变组织形态意味着拆掉它们赖以存在的东西。"
           }
         ]
       }
@@ -32619,10 +29143,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-4--old-management-fails-new-management-is-unknown",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -32631,8 +29155,8 @@ const ARTICLES_EXTRA = [
     "issue": 3,
     "chapter": 5,
     "sourceTextWords": 1517,
-    "sourceParagraphs": 73,
-    "sourceSentences": 145,
+    "sourceParagraphs": 67,
+    "sourceSentences": 92,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -32641,24 +29165,20 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The first three chapters discussed organisational boundaries, collaboration, and AI productivity across forms. This chapter goes deeper: the industrial-era thing called management is no longer sufficient for AI-era cognition-intensive work, and the replacement has not yet formed.",
-            "cn": "前面三章讨论了组织边界、协作关系、不同形态下 AI 效益的差异。这一章进一件更深的事：工业时代留下的那套“管理”在 AI 时代已经不够用了，而替代它的新范式还没有成形。"
+            "en": "The first three chapters discussed organisational boundaries, collaboration, and AI productivity across forms.",
+            "cn": "前面三章讨论了组织边界、协作关系、不同形态下 AI 效益的差异。"
+          },
+          {
+            "en": "This chapter goes deeper: the industrial-era thing called management is no longer sufficient for AI-era cognition-intensive work, and the replacement has not yet formed.",
+            "cn": "这一章进一件更深的事：工业时代留下的那套“管理”在 AI 时代已经不够用了，而替代它的新范式还没有成形。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The boundary from the previous chapter still applies.",
-            "cn": "这一章也延续上一章的边界，讨论的是认知密集型工作在收缩区间里的组织形态。"
-          },
-          {
-            "en": "The discussion concerns cognition-intensive work on the contracting side.",
-            "cn": "资本密集、"
-          },
-          {
-            "en": "In capital-intensive, heavily regulated, large-scale physical operations such as manufacturing, medicine, infrastructure, energy, and government, Taylorist-bureaucratic management may remain necessary.",
-            "cn": "强监管、大规模物理运营的场景里（制造、医疗、基建、能源、政府），泰勒-科层这套不只没过时，甚至是必需的。"
+            "en": "The boundary from the previous chapter still applies. The discussion concerns cognition-intensive work on the contracting side. In capital-intensive, heavily regulated, large-scale physical operations such as manufacturing, medicine, infrastructure, energy, and government, Taylorist-bureaucratic management may remain necessary.",
+            "cn": "这一章也延续上一章的边界，讨论的是认知密集型工作在收缩区间里的组织形态。资本密集、强监管、大规模物理运营的场景里（制造、医疗、基建、能源、政府），泰勒-科层这套不只没过时，甚至是必需的。"
           }
         ]
       },
@@ -32697,12 +29217,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Therefore work can be standardised, measured, and supervised.",
-            "cn": "所以工作能被标准化、测量、监督。一个流水线上每个人的动作可以被精确拆解，装这个零件、拧这个螺丝、检查这个参数。"
-          },
-          {
-            "en": "Assembly-line actions can be broken down precisely.",
-            "cn": "拆解之后，每个动作的效率可以被量化，每个环节的问题可以被定位。"
+            "en": "Therefore work can be standardised, measured, and supervised. Assembly-line actions can be broken down precisely.",
+            "cn": "所以工作能被标准化、测量、监督。一个流水线上每个人的动作可以被精确拆解，装这个零件、拧这个螺丝、检查这个参数。拆解之后，每个动作的效率可以被量化，每个环节的问题可以被定位。"
           }
         ]
       },
@@ -32717,16 +29233,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Decision-makers think: what to do, how, why.",
-            "cn": "决策者负责想（要做什么、怎么做、为什么做），"
-          },
-          {
-            "en": "Executors do.",
-            "cn": "执行者负责做（按照被告知的方式完成具体任务）。"
-          },
-          {
-            "en": "Management transmits the decision-maker’s thought to executors and ensures execution.",
-            "cn": "管理的任务是把决策者的想法有效地传达给执行者，并确保执行者按要求完成。"
+            "en": "Decision-makers think: what to do, how, why. Executors do. Management transmits the decision-maker’s thought to executors and ensures execution.",
+            "cn": "决策者负责想（要做什么、怎么做、为什么做），执行者负责做（按照被告知的方式完成具体任务）。管理的任务是把决策者的想法有效地传达给执行者，并确保执行者按要求完成。"
           }
         ]
       },
@@ -32741,16 +29249,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Each person does one small part.",
-            "cn": "每个人做一小块自己擅长的事，"
-          },
-          {
-            "en": "Someone ensures each part is correct and fits together.",
-            "cn": "有人确保每一块都做对了、每一块之间衔接顺畅。"
-          },
-          {
-            "en": "Efficiency comes from fine division and effective supervision, not from everyone’s global judgment.",
-            "cn": "整体效率来自精细分工和有效监督，而不是来自每个人的全局判断。"
+            "en": "Each person does one small part. Someone ensures each part is correct and fits together. Efficiency comes from fine division and effective supervision, not from everyone’s global judgment.",
+            "cn": "每个人做一小块自己擅长的事，有人确保每一块都做对了、每一块之间衔接顺畅。整体效率来自精细分工和有效监督，而不是来自每个人的全局判断。"
           }
         ]
       },
@@ -32797,16 +29297,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI has taken the repeatable parts.",
-            "cn": "AI 已经把可重复的部分做了。"
-          },
-          {
-            "en": "The human remainder is non-repeatable, high-judgment, context-sensitive work.",
-            "cn": "剩下留给人的工作是不可重复、高判断、情境敏感的工作，"
-          },
-          {
-            "en": "Each case is unique and cannot be specified in advance.",
-            "cn": "每一件事都是独特的、需要具体的判断、无法被提前规范。"
+            "en": "AI has taken the repeatable parts. The human remainder is non-repeatable, high-judgment, context-sensitive work. Each case is unique and cannot be specified in advance.",
+            "cn": "AI 已经把可重复的部分做了。剩下留给人的工作是不可重复、高判断、情境敏感的工作，每一件事都是独特的、需要具体的判断、无法被提前规范。"
           }
         ]
       },
@@ -32901,28 +29393,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The quality of high-judgment work depends more on intrinsic motivation, attention, and curiosity.",
-            "cn": "高判断工作的质量和外部奖惩几乎无关，更多依赖内在动机、专注力、兴趣。"
-          },
-          {
-            "en": "A person genuinely curious about a problem invests far more than a KPI can require.",
-            "cn": "一个对问题真正好奇的人会在问题上投入远多于 KPI 要求的时间；"
-          },
-          {
-            "en": "A person without curiosity will not produce good judgment for any bonus.",
-            "cn": "一个对问题没有真正好奇的人，再高的 KPI 奖励也无法让他做出好判断。"
+            "en": "The quality of high-judgment work depends more on intrinsic motivation, attention, and curiosity. A person genuinely curious about a problem invests far more than a KPI can require. A person without curiosity will not produce good judgment for any bonus.",
+            "cn": "高判断工作的质量和外部奖惩几乎无关，更多依赖内在动机、专注力、兴趣。一个对问题真正好奇的人会在问题上投入远多于 KPI 要求的时间；一个对问题没有真正好奇的人，再高的 KPI 奖励也无法让他做出好判断。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "External incentives work for low-judgment work.",
-            "cn": "外部激励对低判断工作有效（按件计酬、绩效奖金），"
-          },
-          {
-            "en": "For high-judgment work, they are often ineffective or harmful, because they encourage performance rather than good work.",
-            "cn": "对高判断工作几乎无效甚至有害（会让人为了奖励去伪装而不是真正做好）。"
+            "en": "External incentives work for low-judgment work. For high-judgment work, they are often ineffective or harmful, because they encourage performance rather than good work.",
+            "cn": "外部激励对低判断工作有效（按件计酬、绩效奖金），对高判断工作几乎无效甚至有害（会让人为了奖励去伪装而不是真正做好）。"
           }
         ]
       },
@@ -32993,60 +29473,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "What does an independent “manage” every day?",
-            "cn": "一个独立个体，他每天在“管理”什么？"
-          },
-          {
-            "en": "Not AI, because they collaborate with it.",
-            "cn": "他不是在管理 AI（他和它协作）、"
-          },
-          {
-            "en": "Not themselves, because that word is odd at one-person scale.",
-            "cn": "不是在管理自己（这个词在一个人身上很怪）、"
-          },
-          {
-            "en": "Not a project, because they are simply doing it.",
-            "cn": "不是在管理项目（他就在做项目）。"
-          },
-          {
-            "en": "The vocabulary does not appear in the practice.",
-            "cn": "旧管理词汇在他的实际生产实践里根本不出现。"
+            "en": "What does an independent “manage” every day? Not AI, because they collaborate with it. Not themselves, because that word is odd at one-person scale. Not a project, because they are simply doing it. The vocabulary does not appear in the practice.",
+            "cn": "一个独立个体，他每天在“管理”什么？他不是在管理 AI（他和它协作）、不是在管理自己（这个词在一个人身上很怪）、不是在管理项目（他就在做项目）。旧管理词汇在他的实际生产实践里根本不出现。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "A 2- or 3-person team does not “manage” one another.",
-            "cn": "一个 2-3 人的小团队，他们不“管理”彼此，"
-          },
-          {
-            "en": "They collaborate, divide, sync, and collide.",
-            "cn": "他们协作、分工、同步、碰撞。"
-          },
-          {
-            "en": "These are not synonyms for management.",
-            "cn": "这些词和管理不是同义词。"
-          },
-          {
-            "en": "Management implies power gradient and supervision.",
-            "cn": "管理隐含的是权力梯度（管理者 → 被管理者）和监督关系；"
-          },
-          {
-            "en": "Collaboration and collision are horizontal.",
-            "cn": "协作同步碰撞这些词是水平的、无梯度的。"
+            "en": "A 2- or 3-person team does not “manage” one another. They collaborate, divide, sync, and collide. These are not synonyms for management. Management implies power gradient and supervision. Collaboration and collision are horizontal.",
+            "cn": "一个 2-3 人的小团队，他们不“管理”彼此，他们协作、分工、同步、碰撞。这些词和管理不是同义词。管理隐含的是权力梯度（管理者 → 被管理者）和监督关系；协作同步碰撞这些词是水平的、无梯度的。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This is not a decline in cost-effectiveness.",
-            "cn": "这不是性价比下降的问题，"
-          },
-          {
-            "en": "The conceptual frame has lost its premise.",
-            "cn": "是整个概念框架的前提已经消失。"
+            "en": "This is not a decline in cost-effectiveness. The conceptual frame has lost its premise.",
+            "cn": "这不是性价比下降的问题，是整个概念框架的前提已经消失。"
           }
         ]
       },
@@ -33093,16 +29537,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Periodic rituals impose external rhythm on real output.",
-            "cn": "周期性协调仪式强加一个外部节奏在真实产出节奏之上："
-          },
-          {
-            "en": "During high-output periods they interrupt loops.",
-            "cn": "在高产出时期它打断循环（刚进入状态就开会）、"
-          },
-          {
-            "en": "During hard periods they create pseudo-progress.",
-            "cn": "在困难时期它制造伪进展（在会议上汇报“我在思考某个问题”作为进度）。"
+            "en": "Periodic rituals impose external rhythm on real output. During high-output periods they interrupt loops. During hard periods they create pseudo-progress.",
+            "cn": "周期性协调仪式强加一个外部节奏在真实产出节奏之上：在高产出时期它打断循环（刚进入状态就开会）、在困难时期它制造伪进展（在会议上汇报“我在思考某个问题”作为进度）。"
           }
         ]
       },
@@ -33137,20 +29573,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "These were reasonable proxies for repeatable work.",
-            "cn": "这些指标在重复性、可拆解的工作里是合理的代理。"
-          },
-          {
-            "en": "In high-judgment, nonlinear work, observable behaviour and real output are almost completely decoupled.",
-            "cn": "AI 时代留给人的工作主要是高判断、不可观察、非线性产出的工作。"
-          },
-          {
-            "en": "One person may stare at a screen for eight hours and produce nothing.",
-            "cn": "这些工作里，"
-          },
-          {
-            "en": "Another may walk for three hours and return with the decisive judgment.",
-            "cn": "可观察的行为和实际产出几乎完全脱钩。"
+            "en": "These were reasonable proxies for repeatable work. In high-judgment, nonlinear work, observable behaviour and real output are almost completely decoupled. One person may stare at a screen for eight hours and produce nothing. Another may walk for three hours and return with the decisive judgment.",
+            "cn": "这些指标在重复性、可拆解的工作里是合理的代理。AI 时代留给人的工作主要是高判断、不可观察、非线性产出的工作。这些工作里，可观察的行为和实际产出几乎完全脱钩。"
           }
         ]
       },
@@ -33197,12 +29621,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "For AI-era small teams, forcing Scrum can reduce output.",
-            "cn": "所以在 AI 时代的小团队里，硬上 Scrum 常常让产出下降而不是上升，"
-          },
-          {
-            "en": "Real work becomes compressed into ticket-shaped tasks, while the crucial work, judgment, trade-off, structural reconstruction, cannot be recognised.",
-            "cn": "因为真正的工作被压缩成符合 Jira 格式的“任务”，不符合这个格式的真正关键工作（判断、权衡、结构重构）变得无法被承认、无法被分配时间、无法获得资源。"
+            "en": "For AI-era small teams, forcing Scrum can reduce output. Real work becomes compressed into ticket-shaped tasks, while the crucial work, judgment, trade-off, structural reconstruction, cannot be recognised.",
+            "cn": "所以在 AI 时代的小团队里，硬上 Scrum 常常让产出下降而不是上升，因为真正的工作被压缩成符合 Jira 格式的“任务”，不符合这个格式的真正关键工作（判断、权衡、结构重构）变得无法被承认、无法被分配时间、无法获得资源。"
           }
         ]
       },
@@ -33225,56 +29645,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This was reasonable when 500 people had to work on one thing.",
-            "cn": "这是工业时代合理的目标，"
-          },
-          {
-            "en": "In small high-judgment units, over-alignment is harmful.",
-            "cn": "当你有 500 人做同一件大事，"
-          },
-          {
-            "en": "Each person is making real judgments.",
-            "cn": "让每个人都对齐到同一个方向上，"
-          },
-          {
-            "en": "If everyone is aligned into one direction, only one judgment remains active.",
-            "cn": "组织才"
-          },
-          {
-            "en": "The organisation loses the value of plural judgment.",
-            "cn": "能作为一个整体运转。"
+            "en": "This was reasonable when 500 people had to work on one thing. In small high-judgment units, over-alignment is harmful. Each person is making real judgments. If everyone is aligned into one direction, only one judgment remains active. The organisation loses the value of plural judgment.",
+            "cn": "这是工业时代合理的目标，当你有 500 人做同一件大事，让每个人都对齐到同一个方向上，组织才能作为一个整体运转。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "High-quality collaboration is not alignment.",
-            "cn": "AI 时代几十人的高判断力单元里：过度对齐反而有害。"
-          },
-          {
-            "en": "It is collision.",
-            "cn": "小团队里每个人都在做真正的判断。"
-          },
-          {
-            "en": "Different judgments collide and produce new judgment.",
-            "cn": "如果所有人都被“对齐”到同一个方向，那就只剩下一种判断在发挥作用："
-          },
-          {
-            "en": "Alignment kills collision.",
-            "cn": "组织失去了多元判断的价值。"
+            "en": "High-quality collaboration is not alignment. It is collision. Different judgments collide and produce new judgment. Alignment kills collision.",
+            "cn": "AI 时代几十人的高判断力单元里：过度对齐反而有害。小团队里每个人都在做真正的判断。如果所有人都被“对齐”到同一个方向，那就只剩下一种判断在发挥作用：组织失去了多元判断的价值。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "V.",
-            "cn": "真正高质量的协作不是对齐，"
-          },
-          {
-            "en": "Vertical responsibility allocation",
-            "cn": "是碰撞，不同判断碰撞产生新的判断。对齐会扼杀碰撞。"
+            "en": "V. Vertical responsibility allocation",
+            "cn": "真正高质量的协作不是对齐，是碰撞，不同判断碰撞产生新的判断。对齐会扼杀碰撞。"
           }
         ]
       },
@@ -33289,24 +29677,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In AI-era small teams, responsibility cannot be vertical.",
-            "cn": "AI 时代小团队里，责任分配不再能垂直，"
-          },
-          {
-            "en": "Everyone is both judge and executor.",
-            "cn": "每个人既是判断者又是执行者，没有“谁交代谁”的关系。"
-          },
-          {
-            "en": "AI participates in almost every step.",
-            "cn": "AI 参与了几乎每个环节，"
-          },
-          {
-            "en": "“Who is responsible for this decision?” becomes harder to state.",
-            "cn": "“谁对某个决定负责”变得模糊。"
-          },
-          {
-            "en": "With small teams and no middle layer, there may be no object of upward reporting.",
-            "cn": "团队小、没有中间层，也就没有“向上汇报”的对象。"
+            "en": "In AI-era small teams, responsibility cannot be vertical. Everyone is both judge and executor. AI participates in almost every step. “Who is responsible for this decision?” becomes harder to state. With small teams and no middle layer, there may be no object of upward reporting.",
+            "cn": "AI 时代小团队里，责任分配不再能垂直，每个人既是判断者又是执行者，没有“谁交代谁”的关系。AI 参与了几乎每个环节，“谁对某个决定负责”变得模糊。团队小、没有中间层，也就没有“向上汇报”的对象。"
           }
         ]
       },
@@ -33330,91 +29702,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "But this replacement cannot be expressed in the old management frame.",
-            "cn": "但这种替换在既有管理概念框架下无法表达，"
+            "cn": "但这种替换在既有管理概念框架下无法表达，你没法在一个传统组织架构图里画出“这个人对自己的判断质量负责”。"
           },
           {
             "en": "You cannot draw “this person is accountable for the quality of their own judgment” on a traditional org chart.",
-            "cn": "你没法在一个传统组织架构图里画出“这个人对自己的判断质量负责”。这是管理词汇的空白。"
+            "cn": "这是管理词汇的空白。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "We have to admit one thing honestly: the failure zones are visible, but we do not know what should replace them.",
-            "cn": "需要老实承认一件事：前面把五个失效地带讲清楚了，但“这些东西该被什么替代”这个问题没有答案。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "There have been candidates: Holacracy, self-organising teams, Spotify’s tribes/squads/chapters, Haier’s RenDanHeYi, independent-node networks.",
-            "cn": "不是没有人尝试。这些年冒出来过不少候选，Holacracy、自组织团队、Spotify 的“部落/小队/分会”模型、RenDanHeYi（海尔）、一些创业圈子里流行的“纯独立节点网络”。"
-          },
-          {
-            "en": "Each has its story, and each has worked in some places while failing to replicate broadly.",
-            "cn": "每一套都有自己的说法，每一套都有一些公司试了，每一套在一些场景下有效、在更大范围里无法稳定复制。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The reason is simple.",
-            "cn": "原因不复杂。"
-          },
-          {
-            "en": "Most replacements still adjust old words: team, manager, alignment, OKR.",
-            "cn": "这些替代方案大部分仍然在用旧词汇（团队、经理、对齐、OKR）微调边界，而不是真的换掉底层框架。"
-          },
-          {
-            "en": "They do not replace the underlying frame.",
-            "cn": "真正能换掉底层的东西，"
-          },
-          {
-            "en": "A real replacement would require new organisational primitives, tools, legal forms, education systems, and language.",
-            "cn": "需要一整套新的：组织原语、工具链、法律形态、教育体系、语言。"
-          },
-          {
-            "en": "None are ready.",
-            "cn": "这些东西没有任何一个到位。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "So the honest statement is not “new management is X.” It is we do not know what new management is.",
-            "cn": "所以诚实的说法不是“新管理是 X”，是“我们不知道新管理是什么”。"
-          },
-          {
-            "en": "We know:",
-            "cn": "我们目前能确信的只有："
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "old actions are failing: weekly rituals, observable-behaviour metrics, task decomposition, forced alignment, vertical accountability",
-            "cn": "一组旧动作（周会、可观察行为绩效、任务分解、强对齐、垂直问责）正在失效"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "new actions are emerging: loop-based coordination, judgment-quality review, outcome accountability, autonomous unit collaboration",
-            "cn": "一些新动作正在浮现（循环对齐、判断质量审查、结果问责、自主单元协作），但它们还没凝结成一个有名字的体系"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "they have not yet condensed into a named system",
-            "cn": "在它们凝结之前，任何声称自己找到了“AI 时代新管理方法”的东西都应该被怀疑"
+            "en": "We have to admit one thing honestly: the failure zones are visible, but we do not know what should replace them. There have been candidates: Holacracy, self-organising teams, Spotify’s tribes/squads/chapters, Haier’s RenDanHeYi, independent-node networks. Each has its story, and each has worked in some places while failing to replicate broadly. The reason is simple. Most replacements still adjust old words: team, manager, alignment, OKR. They do not replace the underlying frame. A real replacement would require new organisational primitives, tools, legal forms, education systems, and language. None are ready. So the honest statement is not “new management is X.” It is we do not know what new management is. We know: old actions are failing: weekly rituals, observable-behaviour metrics, task decomposition, forced alignment, vertical accountability new actions are emerging: loop-based coordination, judgment-quality review, outcome accountability, autonomous unit collaboration they have not yet condensed into a named system",
+            "cn": "需要老实承认一件事：前面把五个失效地带讲清楚了，但“这些东西该被什么替代”这个问题没有答案。 不是没有人尝试。这些年冒出来过不少候选，Holacracy、自组织团队、Spotify 的“部落/小队/分会”模型、RenDanHeYi（海尔）、一些创业圈子里流行的“纯独立节点网络”。每一套都有自己的说法，每一套都有一些公司试了，每一套在一些场景下有效、在更大范围里无法稳定复制。 原因不复杂。这些替代方案大部分仍然在用旧词汇（团队、经理、对齐、OKR）微调边界，而不是真的换掉底层框架。真正能换掉底层的东西，需要一整套新的：组织原语、工具链、法律形态、教育体系、语言。这些东西没有任何一个到位。 所以诚实的说法不是“新管理是 X”，是“我们不知道新管理是什么”。我们目前能确信的只有： 一组旧动作（周会、可观察行为绩效、任务分解、强对齐、垂直问责）正在失效 一些新动作正在浮现（循环对齐、判断质量审查、结果问责、自主单元协作），但它们还没凝结成一个有名字的体系 在它们凝结之前，任何声称自己找到了“AI 时代新管理方法”的东西都应该被怀疑"
           }
         ]
       },
@@ -33437,12 +29737,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This chapter had to use old words to describe the failure of old management.",
-            "cn": "这一章讨论旧管理的失效时不得不一直用旧词汇，"
-          },
-          {
-            "en": "That itself is a symptom.",
-            "cn": "这本身是个症状。"
+            "en": "This chapter had to use old words to describe the failure of old management. That itself is a symptom.",
+            "cn": "这一章讨论旧管理的失效时不得不一直用旧词汇，这本身是个症状。"
           }
         ]
       },
@@ -33481,16 +29777,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not a personal failure.",
-            "cn": "这不是作者的无能，这是整个时代的认知债务，"
-          },
-          {
-            "en": "It is the cognitive debt of the era.",
-            "cn": "我们还在用工业时代的词汇讨论 AI 时代的组织，"
-          },
-          {
-            "en": "We are discussing AI-era organisations with industrial-era vocabulary.",
-            "cn": "就像电气化时代初期人们还在用“煤炭效率”讨论工厂。"
+            "en": "This is not a personal failure. It is the cognitive debt of the era. We are discussing AI-era organisations with industrial-era vocabulary.",
+            "cn": "这不是作者的无能，这是整个时代的认知债务，我们还在用工业时代的词汇讨论 AI 时代的组织，就像电气化时代初期人们还在用“煤炭效率”讨论工厂。"
           }
         ]
       },
@@ -33498,15 +29786,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Admitting the limitation is more honest than inventing new words too early.",
-            "cn": "承认这个限制本身比强行造新词更诚实。强行造的新词只是在掩盖理解的模糊。"
+            "cn": "承认这个限制本身比强行造新词更诚实。"
           },
           {
             "en": "Forced neologisms hide confusion.",
-            "cn": "真正需要的是保持对这个模糊的清晰意识，"
+            "cn": "强行造的新词只是在掩盖理解的模糊。"
           },
           {
             "en": "What we need is a clear awareness of the confusion, letting language form slowly as reality reshapes it.",
-            "cn": "在它不断被新现实塑造的过程中慢慢形成真正的新词汇。"
+            "cn": "真正需要的是保持对这个模糊的清晰意识，在它不断被新现实塑造的过程中慢慢形成真正的新词汇。"
           }
         ]
       }
@@ -33520,10 +29808,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-5--the-distillation-curve-of-jobs-and-knowledge",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -33533,7 +29821,7 @@ const ARTICLES_EXTRA = [
     "chapter": 6,
     "sourceTextWords": 1784,
     "sourceParagraphs": 82,
-    "sourceSentences": 138,
+    "sourceSentences": 110,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -33562,12 +29850,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Look at any company today.",
-            "cn": "观察一下现在的任何一家公司，"
-          },
-          {
-            "en": "Most employees are still in their roles: working, completing tasks, delivering output, attending meetings, receiving pay.",
-            "cn": "它的大部分员工还在岗位上，每天工作、完成任务、交付产出、参加会议、领工资。"
+            "en": "Look at any company today. Most employees are still in their roles: working, completing tasks, delivering output, attending meetings, receiving pay.",
+            "cn": "观察一下现在的任何一家公司，它的大部分员工还在岗位上，每天工作、完成任务、交付产出、参加会议、领工资。"
           }
         ]
       },
@@ -33582,12 +29866,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This answer is not wrong.",
-            "cn": "这套答案不是错的。"
-          },
-          {
-            "en": "Some of that value is real and hard for AI to replace: tacit knowledge not verbalised or documented, real trust relationships, political sense inside an organisation, the intuition that “something here is off.”",
-            "cn": "这些价值里确实有真实存在、AI 难以替代的部分，默会知识（tacit knowledge）里那些没有语言化、没有文档化、只通过长期共事沉淀出来的判断；真实的信任关系；组织内部的政治感和人脉；在复杂情境里嗅到“这事不对劲”的直觉。这些东西 AI 很难接触，甚至可能长期接触不到。"
+            "en": "This answer is not wrong. Some of that value is real and hard for AI to replace: tacit knowledge not verbalised or documented, real trust relationships, political sense inside an organisation, the intuition that “something here is off.”",
+            "cn": "这套答案不是错的。这些价值里确实有真实存在、AI 难以替代的部分，默会知识（tacit knowledge）里那些没有语言化、没有文档化、只通过长期共事沉淀出来的判断；真实的信任关系；组织内部的政治感和人脉；在复杂情境里嗅到“这事不对劲”的直觉。这些东西 AI 很难接触，甚至可能长期接触不到。"
           }
         ]
       },
@@ -33634,28 +29914,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "External relationships: some parts can be documented, such as who someone is, communication style, history.",
-            "cn": "他们和外部的关系：一部分可以被文档化（谁是什么样的人、沟通风格、历史交互），"
-          },
-          {
-            "en": "Some parts cannot: real trust, tacit cooperation, willingness to do things outside contract.",
-            "cn": "一部分不能（真正的信任关系、长期合作中建立的默契、对方愿意为你做一些合同之外的事）。"
-          },
-          {
-            "en": "The first is being distilled into organisational knowledge bases; the second is hard-to-distil value.",
-            "cn": "可被文档化的部分正在被组织的知识库系统性地蒸馏；不可文档化的那部分是“难蒸馏价值”。"
+            "en": "External relationships: some parts can be documented, such as who someone is, communication style, history. Some parts cannot: real trust, tacit cooperation, willingness to do things outside contract. The first is being distilled into organisational knowledge bases; the second is hard-to-distil value.",
+            "cn": "他们和外部的关系：一部分可以被文档化（谁是什么样的人、沟通风格、历史交互），一部分不能（真正的信任关系、长期合作中建立的默契、对方愿意为你做一些合同之外的事）。可被文档化的部分正在被组织的知识库系统性地蒸馏；不可文档化的那部分是“难蒸馏价值”。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Process understanding: “how the process runs” is distillable.",
-            "cn": "他们对流程的理解，其中“流程怎么跑”是可蒸馏的；"
-          },
-          {
-            "en": "“How to handle grey zones, when to use informal routes, who can bypass whom” is harder.",
-            "cn": "“流程之外的灰色地带怎么处理、什么时候该走非正式路径、谁可以绕开谁”这些是难蒸馏的。"
+            "en": "Process understanding: “how the process runs” is distillable. “How to handle grey zones, when to use informal routes, who can bypass whom” is harder.",
+            "cn": "他们对流程的理解，其中“流程怎么跑”是可蒸馏的；“流程之外的灰色地带怎么处理、什么时候该走非正式路径、谁可以绕开谁”这些是难蒸馏的。"
           }
         ]
       },
@@ -33674,24 +29942,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not an insult.",
-            "cn": "这不是说这些人是“烂人”，他们是工业时代合格的工作者。"
-          },
-          {
-            "en": "These are qualified industrial-era workers.",
-            "cn": "在一个稳定的生产体系里做可重复、"
-          },
-          {
-            "en": "In stable systems doing repeatable, supervised, measurable work, their value was real.",
-            "cn": "可监督、可测量的工作，他们的价值通过“严格按规则操作 + 长时间稳定产出”实现。"
-          },
-          {
-            "en": "They are not stupid or lazy.",
-            "cn": "他们不是笨、不是懒，"
-          },
-          {
-            "en": "They fit the role.",
-            "cn": "他们是这个位置的合适人选。"
+            "en": "This is not an insult. These are qualified industrial-era workers. In stable systems doing repeatable, supervised, measurable work, their value was real. They are not stupid or lazy. They fit the role.",
+            "cn": "这不是说这些人是“烂人”，他们是工业时代合格的工作者。在一个稳定的生产体系里做可重复、可监督、可测量的工作，他们的价值通过“严格按规则操作 + 长时间稳定产出”实现。他们不是笨、不是懒，他们是这个位置的合适人选。"
           }
         ]
       },
@@ -34027,15 +30279,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "In 2026 it is real because embodied intelligence, general robotics, and precision manipulation are not mature enough.",
-            "cn": "它在 2026 年这个时点确实是一道厚墙，因为具身智能、通用机器人、精密操作的成熟度还远未达到替代水平。但这不是一条永久的墙，多模态大模型 + 机器人学的进展速度比很多人预期的快。"
+            "cn": "它在 2026 年这个时点确实是一道厚墙，因为具身智能、通用机器人、精密操作的成熟度还远未达到替代水平。"
           },
           {
             "en": "But it is not permanent.",
-            "cn": "所以“做物理世界的工作”"
+            "cn": "但这不是一条永久的墙，多模态大模型 + 机器人学的进展速度比很多人预期的快。"
           },
           {
             "en": "Multimodal models and robotics are progressing faster than many expect.",
-            "cn": "带来的安全感应该被理解成“在一段时间内相对安全”，而不是“永久避风港”。"
+            "cn": "所以“做物理世界的工作”带来的安全感应该被理解成“在一段时间内相对安全”，而不是“永久避风港”。"
           },
           {
             "en": "Physical work should be seen as relatively safe for a period, not as a permanent refuge.",
@@ -34046,20 +30298,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Different jobs face different time windows.",
-            "cn": "所以不同岗位的人面对不同长度的时间窗口。"
-          },
-          {
-            "en": "Textual procedural work has the shortest. Complex grey judgment and relationship work have longer windows.",
-            "cn": "做可文本化流程性工作的，窗口最短；做复杂灰色判断或长期关系性工作的，窗口较长；"
-          },
-          {
-            "en": "True creative work is largely outside the current distillation threat.",
-            "cn": "做真正创造性工作的，基本不在当前一轮蒸馏威胁里；"
-          },
-          {
-            "en": "Physical work is safe for now, but must watch the next technology wave.",
-            "cn": "做物理世界工作的，现在安全、但要留意下一代技术何时追上来。"
+            "en": "Different jobs face different time windows. Textual procedural work has the shortest. Complex grey judgment and relationship work have longer windows. True creative work is largely outside the current distillation threat. Physical work is safe for now, but must watch the next technology wave.",
+            "cn": "所以不同岗位的人面对不同长度的时间窗口。做可文本化流程性工作的，窗口最短；做复杂灰色判断或长期关系性工作的，窗口较长；做真正创造性工作的，基本不在当前一轮蒸馏威胁里；做物理世界工作的，现在安全、但要留意下一代技术何时追上来。"
           }
         ]
       },
@@ -34102,8 +30342,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Many high-end knowledge jobs are highly textifiable: strategy analysis, investment research, legal documents, consulting reports, academic research. Their outputs and processes are textual, so their knowledge is easy to distil.",
-            "cn": "很多高端知识工作恰好是高度可文本化的，战略分析、投资研究、法律文书、咨询报告、学术研究。这些工作的产出和过程都是文本性的，所以它们的知识容易被蒸馏。"
+            "en": "Many high-end knowledge jobs are highly textifiable: strategy analysis, investment research, legal documents, consulting reports, academic research.",
+            "cn": "很多高端知识工作恰好是高度可文本化的，战略分析、投资研究、法律文书、咨询报告、学术研究。"
+          },
+          {
+            "en": "Their outputs and processes are textual, so their knowledge is easy to distil.",
+            "cn": "这些工作的产出和过程都是文本性的，所以它们的知识容易被蒸馏。"
           }
         ]
       },
@@ -34146,36 +30390,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Again, the physical-world safety claim is time-bound to 2026.",
-            "cn": "需要加一个时间限定：这里说“在物理世界做精密工作的人相对安全”，指的是 2026 年这个时点。"
-          },
-          {
-            "en": "Embodied intelligence and robotics are still far from replacing skilled technicians, but the distance is shrinking.",
-            "cn": "具身智能和通用机器人目前距离替代一个熟练技师还有不小距离，但这个距离在被持续缩小。所以“具身性 = 安全”不是一条永久结论，是一段较长但有限的窗口。"
-          },
-          {
-            "en": "“Embodied = safe” is not a permanent conclusion.",
-            "cn": "具体多长取决于下几代多模态模型和机器人硬件的成熟度，而不是某种原理上的不可替代。"
+            "en": "Again, the physical-world safety claim is time-bound to 2026. Embodied intelligence and robotics are still far from replacing skilled technicians, but the distance is shrinking. “Embodied = safe” is not a permanent conclusion.",
+            "cn": "需要加一个时间限定：这里说“在物理世界做精密工作的人相对安全”，指的是 2026 年这个时点。具身智能和通用机器人目前距离替代一个熟练技师还有不小距离，但这个距离在被持续缩小。所以“具身性 = 安全”不是一条永久结论，是一段较长但有限的窗口。具体多长取决于下几代多模态模型和机器人硬件的成熟度，而不是某种原理上的不可替代。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This flips the value map of organisations.",
-            "cn": "这个反直觉让很多公司的组织结构正在经历价值重新分布，"
-          },
-          {
-            "en": "Value is no longer distributed by rank.",
-            "cn": "不是沿着“级别高低”分布，"
-          },
-          {
-            "en": "It is distributed by whether the knowledge is distillable.",
-            "cn": "是沿着“知识是否可蒸馏”分布。"
-          },
-          {
-            "en": "Most organisations, and many employees, have not noticed.",
-            "cn": "而大部分组织（包括员工自己）还没意识到这件事。"
+            "en": "This flips the value map of organisations. Value is no longer distributed by rank. It is distributed by whether the knowledge is distillable. Most organisations, and many employees, have not noticed.",
+            "cn": "这个反直觉让很多公司的组织结构正在经历价值重新分布，不是沿着“级别高低”分布，是沿着“知识是否可蒸馏”分布。而大部分组织（包括员工自己）还没意识到这件事。"
           }
         ]
       },
@@ -34190,48 +30414,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In the past, a role was evaluated by current value.",
-            "cn": "过去评估一个岗位，只看“现在这个岗位在创造多少价值”。"
-          },
-          {
-            "en": "The hidden assumption was that this value would remain roughly stable.",
-            "cn": "这个评估默认了一个隐藏假设：这个岗位的价值会在可预见未来大致稳定。在一个变化慢的时代，这个假设是合理的。"
+            "en": "In the past, a role was evaluated by current value. The hidden assumption was that this value would remain roughly stable.",
+            "cn": "过去评估一个岗位，只看“现在这个岗位在创造多少价值”。这个评估默认了一个隐藏假设：这个岗位的价值会在可预见未来大致稳定。在一个变化慢的时代，这个假设是合理的。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "In the AI era, the assumption fails.",
-            "cn": "在 AI 时代这个假设不成立。"
-          },
-          {
-            "en": "Two roles may create the same value today.",
-            "cn": "同样“现在创造 X 价值”的两个岗位，"
-          },
-          {
-            "en": "If one is sitting on fast-distilling knowledge and the other on stable hard-to-distil value, their real value differs completely.",
-            "cn": "如果一个面对的是还在快速加深的蒸馏，另一个面对的是较稳定的不可蒸馏价值，那两个岗位的实际价值完全不同，"
-          },
-          {
-            "en": "The former is a depleting inventory; the latter is a sustainable cash flow.",
-            "cn": "前者是一段正在耗尽的库存，后者是一条可持续的现金流。"
+            "en": "In the AI era, the assumption fails. Two roles may create the same value today. If one is sitting on fast-distilling knowledge and the other on stable hard-to-distil value, their real value differs completely. The former is a depleting inventory; the latter is a sustainable cash flow.",
+            "cn": "在 AI 时代这个假设不成立。同样“现在创造 X 价值”的两个岗位，如果一个面对的是还在快速加深的蒸馏，另一个面对的是较稳定的不可蒸馏价值，那两个岗位的实际价值完全不同，前者是一段正在耗尽的库存，后者是一条可持续的现金流。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "No precise formula is offered.",
-            "cn": "这里不给一个看起来精确的计算公式，"
-          },
-          {
-            "en": "Remaining time windows cannot be quantified accurately, and maintenance cost includes salary, occupied position, crowding out future roles, and organisational psychology.",
-            "cn": "因为“剩余时间窗口”没法被准确量化、“维持成本”也不是单一维度（包含工资、占用的位置、对招聘新角色的挤压、对组织心态的影响）。"
-          },
-          {
-            "en": "A fake formula would create false precision.",
-            "cn": "强行塑成公式只会制造伪精度。"
+            "en": "No precise formula is offered. Remaining time windows cannot be quantified accurately, and maintenance cost includes salary, occupied position, crowding out future roles, and organisational psychology. A fake formula would create false precision.",
+            "cn": "这里不给一个看起来精确的计算公式，因为“剩余时间窗口”没法被准确量化、“维持成本”也不是单一维度（包含工资、占用的位置、对招聘新角色的挤压、对组织心态的影响）。强行塑成公式只会制造伪精度。"
           }
         ]
       },
@@ -34314,16 +30514,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI-generated text, code, reports, and design saturate markets.",
-            "cn": "三、蒸馏曲线的另一面是“反蒸馏”。"
-          },
-          {
-            "en": "When medium-quality textifiable output is almost free, “this clearly did not come from AI” becomes a scarce signal.",
-            "cn": "某些能力越是被广泛 AI 化，它的反面：“人手工做、人亲自判断、人真实在场”，越是会被作为一种独立价值被消费。"
-          },
-          {
-            "en": "Not because AI technically cannot produce it, but because it comes from an undigested angle, an undistilled judgment path, or concrete experience without public samples.",
-            "cn": "这在文化产品、高端服务、人际信任场景里已经可以看到苗头。这不是怀旧情绪，是一种严格意义上的稀缺性再分配。"
+            "en": "AI-generated text, code, reports, and design saturate markets. When medium-quality textifiable output is almost free, “this clearly did not come from AI” becomes a scarce signal. Not because AI technically cannot produce it, but because it comes from an undigested angle, an undistilled judgment path, or concrete experience without public samples.",
+            "cn": "三、蒸馏曲线的另一面是“反蒸馏”。某些能力越是被广泛 AI 化，它的反面：“人手工做、人亲自判断、人真实在场”，越是会被作为一种独立价值被消费。这在文化产品、高端服务、人际信任场景里已经可以看到苗头。这不是怀旧情绪，是一种严格意义上的稀缺性再分配。"
           }
         ]
       },
@@ -34354,20 +30546,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "You are not replaced by AI because you are not hard-working or not excellent enough.",
-            "cn": "你不是因为“不够努力”或“不够优秀”被 AI 替代，"
-          },
-          {
-            "en": "You are replaced at a speed determined by how textifiable your knowledge is.",
-            "cn": "是因为你的知识的可文本化程度决定了替代速度。"
-          },
-          {
-            "en": "This is not a moral judgment.",
-            "cn": "这不是能力问题，"
-          },
-          {
-            "en": "It is a property of the knowledge.",
-            "cn": "是知识属性问题。"
+            "en": "You are not replaced by AI because you are not hard-working or not excellent enough. You are replaced at a speed determined by how textifiable your knowledge is. This is not a moral judgment. It is a property of the knowledge.",
+            "cn": "你不是因为“不够努力”或“不够优秀”被 AI 替代，是因为你的知识的可文本化程度决定了替代速度。这不是能力问题，是知识属性问题。"
           }
         ]
       },
@@ -34410,12 +30590,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "That is not softness.",
-            "cn": "这不是温柔，"
-          },
-          {
-            "en": "It is honesty closer to respect than comforting fiction.",
-            "cn": "是比伪装更接近尊重的诚实。"
+            "en": "That is not softness. It is honesty closer to respect than comforting fiction.",
+            "cn": "这不是温柔，是比伪装更接近尊重的诚实。"
           }
         ]
       }
@@ -34429,10 +30605,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#chapter-6--conclusion",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -34442,7 +30618,7 @@ const ARTICLES_EXTRA = [
     "chapter": 7,
     "sourceTextWords": 633,
     "sourceParagraphs": 32,
-    "sourceSentences": 57,
+    "sourceSentences": 42,
     "cover": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "gradient": "linear-gradient(135deg,#624058 0%,#4A2E42 50%,#33212E 100%)",
     "coverFrom": "#624058",
@@ -34459,16 +30635,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Issue 1: individual cognitive divergence.",
-            "cn": "Issue 1 讲个体的认知分化正在发生，"
-          },
-          {
-            "en": "Most people mistook knowledge and experience for cognitive ability.",
-            "cn": "大部分人把知识经验错当成了认知能力。"
-          },
-          {
-            "en": "When AI flattens the former and exposes the latter, a cognitive inequality long hidden becomes visible.",
-            "cn": "当 AI 把前者摊平，后者被单独暴露的时候，一场过去被遮盖的认知不平等第一次变得可见。"
+            "en": "Issue 1: individual cognitive divergence. Most people mistook knowledge and experience for cognitive ability. When AI flattens the former and exposes the latter, a cognitive inequality long hidden becomes visible.",
+            "cn": "Issue 1 讲个体的认知分化正在发生，大部分人把知识经验错当成了认知能力。当 AI 把前者摊平，后者被单独暴露的时候，一场过去被遮盖的认知不平等第一次变得可见。"
           }
         ]
       },
@@ -34487,28 +30655,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Issue 3: how that divergence becomes deeper structural change through organisational form.",
-            "cn": "Issue 3 讲这个分化如何通过组织形态被放大成更深的结构性变化，"
-          },
-          {
-            "en": "In the contracting zone of cognition-intensive work, collaboration pools shrink, old management fails, and job value is distilled; while in capital-intensive, regulated, high-contract-risk zones, firms may become more necessary.",
-            "cn": "在认知密集型这个收缩区间里，协作池在收缩、旧的那套管理在失效、岗位价值在被蒸馏；同时在另一些区间里（资本密集、强监管、高合约风险），公司反而可能更必要。"
+            "en": "Issue 3: how that divergence becomes deeper structural change through organisational form. In the contracting zone of cognition-intensive work, collaboration pools shrink, old management fails, and job value is distilled; while in capital-intensive, regulated, high-contract-risk zones, firms may become more necessary.",
+            "cn": "Issue 3 讲这个分化如何通过组织形态被放大成更深的结构性变化，在认知密集型这个收缩区间里，协作池在收缩、旧的那套管理在失效、岗位价值在被蒸馏；同时在另一些区间里（资本密集、强监管、高合约风险），公司反而可能更必要。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "All three are one thing.",
-            "cn": "三件事是同一件事。"
-          },
-          {
-            "en": "At bottom: AI dismantles the external mechanisms that bound ability and output together in the industrial era: credentials, jobs, processes, experience, fluency, and being well-informed.",
-            "cn": "底层都是：AI 把工业时代那些把“能力”和“产出”捆绑在一起的外部机制（学历、岗位、流程、经验、熟练度、博闻）拆掉了，"
-          },
-          {
-            "en": "It exposes, for the first time, the underlying ability that determines judgment quality.",
-            "cn": "让真正决定判断质量的底层能力第一次被单独暴露。"
+            "en": "All three are one thing. At bottom: AI dismantles the external mechanisms that bound ability and output together in the industrial era: credentials, jobs, processes, experience, fluency, and being well-informed. It exposes, for the first time, the underlying ability that determines judgment quality.",
+            "cn": "三件事是同一件事。底层都是：AI 把工业时代那些把“能力”和“产出”捆绑在一起的外部机制（学历、岗位、流程、经验、熟练度、博闻）拆掉了，让真正决定判断质量的底层能力第一次被单独暴露。"
           }
         ]
       },
@@ -34527,24 +30683,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The two interact.",
-            "cn": "两件事互相作用："
-          },
-          {
-            "en": "Individuals with real cognitive ability will move toward organisational forms that amplify them.",
-            "cn": "有真实认知能力的个体会流向能让他们的能力被放大的组织形态；"
-          },
-          {
-            "en": "Organisational forms that cannot let AI function will gradually fail to retain people with judgment.",
-            "cn": "无法让 AI 真正发挥作用的组织形态会逐渐留不住有判断力的人。"
-          },
-          {
-            "en": "This will not happen overnight.",
-            "cn": "这个流动不会一夜之间发生。"
-          },
-          {
-            "en": "But it has begun.",
-            "cn": "但它已经开始。"
+            "en": "The two interact. Individuals with real cognitive ability will move toward organisational forms that amplify them. Organisational forms that cannot let AI function will gradually fail to retain people with judgment. This will not happen overnight. But it has begun.",
+            "cn": "两件事互相作用：有真实认知能力的个体会流向能让他们的能力被放大的组织形态；无法让 AI 真正发挥作用的组织形态会逐渐留不住有判断力的人。这个流动不会一夜之间发生。但它已经开始。"
           }
         ]
       },
@@ -34567,16 +30707,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Because AI productivity is only one competitive dimension.",
-            "cn": "因为 AI 提效只是它们面对的诸多竞争维度之一。"
-          },
-          {
-            "en": "Distribution, network effects, regulation, brand, long-term customers, and capital barriers may remain strong.",
-            "cn": "它们可能靠分发渠道、网络效应、监管壁垒、品牌、长期客户关系、资本壁垒在另外的维度上稳固。这些维度和 AI 提效几乎不冲突。"
-          },
-          {
-            "en": "“Large companies lose on AI productivity” does not mean “large companies collapse overall.” These are different axes.",
-            "cn": "所以“大公司在 AI 提效维度上失势” ≠ “大公司在整体竞争里会倒下”。本文第三章末尾已经强调了这个边界，在这里再次申明：两件事不在同一个坐标轴上。"
+            "en": "Because AI productivity is only one competitive dimension. Distribution, network effects, regulation, brand, long-term customers, and capital barriers may remain strong. “Large companies lose on AI productivity” does not mean “large companies collapse overall.” These are different axes.",
+            "cn": "因为 AI 提效只是它们面对的诸多竞争维度之一。它们可能靠分发渠道、网络效应、监管壁垒、品牌、长期客户关系、资本壁垒在另外的维度上稳固。这些维度和 AI 提效几乎不冲突。所以“大公司在 AI 提效维度上失势” ≠ “大公司在整体竞争里会倒下”。本文第三章末尾已经强调了这个边界，在这里再次申明：两件事不在同一个坐标轴上。"
           }
         ]
       },
@@ -34627,24 +30759,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "We do not know.",
-            "cn": "本文第四章已经回答过一次：我们不知道。"
-          },
-          {
-            "en": "Old actions are failing.",
-            "cn": "一组旧动作在失效，"
-          },
-          {
-            "en": "New actions are appearing.",
-            "cn": "一些新动作在浮现，但它们还没凝结成一个有名字的体系。"
-          },
-          {
-            "en": "They have not formed a named system.",
-            "cn": "这个状态可能还会持续相当长一段时间，"
-          },
-          {
-            "en": "This may last a long time, just as modern management theory appeared decades after factories replaced workshops.",
-            "cn": "类比地讲，工厂取代手工作坊几十年之后 Drucker 才写出现代管理理论。我们现在在类似的位置，而不是在它的终点。"
+            "en": "We do not know. Old actions are failing. New actions are appearing. They have not formed a named system. This may last a long time, just as modern management theory appeared decades after factories replaced workshops.",
+            "cn": "本文第四章已经回答过一次：我们不知道。一组旧动作在失效，一些新动作在浮现，但它们还没凝结成一个有名字的体系。这个状态可能还会持续相当长一段时间，类比地讲，工厂取代手工作坊几十年之后 Drucker 才写出现代管理理论。我们现在在类似的位置，而不是在它的终点。"
           }
         ]
       },
@@ -34814,10 +30930,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-24",
     "url": "https://offbook.press/essays/breakdown-of-firms/#appendix--starter-reading-list",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -34836,8 +30952,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Several core lines in this essay have classic readings: why firms exist, the history of management paradigms, and attempts at alternative organisational forms. Grouped by topic and roughly ordered from easier to harder.",
-            "cn": "本文涉及的几条核心线索，公司的本质、管理范式的历史、组织形态的替代尝试，各有经典读物。按主题分组、按难度从低到高排列。"
+            "en": "Several core lines in this essay have classic readings: why firms exist, the history of management paradigms, and attempts at alternative organisational forms.",
+            "cn": "本文涉及的几条核心线索，公司的本质、管理范式的历史、组织形态的替代尝试，各有经典读物。"
+          },
+          {
+            "en": "Grouped by topic and roughly ordered from easier to harder.",
+            "cn": "按主题分组、按难度从低到高排列。"
           }
         ]
       },
@@ -34900,12 +31020,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Out of the Crisis, W.",
-            "cn": "《转危为安》W. Edwards"
-          },
-          {
-            "en": "Edwards Deming.",
-            "cn": "Deming（对泰勒式管理的第一波系统性反思）"
+            "en": "Out of the Crisis, W. Edwards Deming.",
+            "cn": "《转危为安》W. Edwards Deming（对泰勒式管理的第一波系统性反思）"
           }
         ]
       },
@@ -35047,10 +31163,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#preface--form-and-substance",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -35060,7 +31176,7 @@ const ARTICLES_EXTRA = [
     "chapter": 1,
     "sourceTextWords": 730,
     "sourceParagraphs": 21,
-    "sourceSentences": 45,
+    "sourceSentences": 36,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -35169,16 +31285,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Form and substance have been two different things from the start.",
-            "cn": "形式和实质从一开始就是两类东西。"
-          },
-          {
-            "en": "What history changes is who completes the form.",
-            "cn": "历史改变的是形式由谁来完成，"
-          },
-          {
-            "en": "The definitions themselves have not moved.",
-            "cn": "定义本身没动。"
+            "en": "Form and substance have been two different things from the start. What history changes is who completes the form. The definitions themselves have not moved.",
+            "cn": "形式和实质从一开始就是两类东西。历史改变的是形式由谁来完成，定义本身没动。"
           }
         ]
       },
@@ -35237,60 +31345,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI is special because it does not just take over one kind of form.",
-            "cn": "AI 的特殊在于，它不只是接管某一种形式，"
-          },
-          {
-            "en": "It takes over, in one stroke, a large number of form abilities that had still been residing inside the subject.",
-            "cn": "而是一次性接管了大量过去仍然残留在主体内部的形式能力。"
+            "en": "AI is special because it does not just take over one kind of form. It takes over, in one stroke, a large number of form abilities that had still been residing inside the subject.",
+            "cn": "AI 的特殊在于，它不只是接管某一种形式，而是一次性接管了大量过去仍然残留在主体内部的形式能力。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Writing a structurally complete, fluent long-form essay used to demand long training.",
-            "cn": "写一篇结构完整、语言流畅的长文，过去需要写作者长期训练。"
-          },
-          {
-            "en": "After AI, this ability is rapidly externalised.",
-            "cn": "AI 之后，"
-          },
-          {
-            "en": "A clean structure no longer reliably testifies that a writer who genuinely understands the problem stands behind it.",
-            "cn": "这部分能力被快速外部化，结构合格不再稳定证明背后有真正理解问题的写作者。"
+            "en": "Writing a structurally complete, fluent long-form essay used to demand long training. After AI, this ability is rapidly externalised. A clean structure no longer reliably testifies that a writer who genuinely understands the problem stands behind it.",
+            "cn": "写一篇结构完整、语言流畅的长文，过去需要写作者长期训练。AI 之后，这部分能力被快速外部化，结构合格不再稳定证明背后有真正理解问题的写作者。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Writing a piece of well-architected, runnable code used to require an engineer who knew syntax, patterns, and debugging.",
-            "cn": "写一段架构合理、能跑起来的代码，过去需要工程师掌握语法、模式、调试经验。"
-          },
-          {
-            "en": "After AI, the form-production of code is partially externalised.",
-            "cn": "AI 之后，代码的形式生产被部分外部化，"
-          },
-          {
-            "en": "Working code no longer testifies, the way it used to, that the person who wrote it carries the corresponding engineering judgment.",
-            "cn": "一段能跑的代码不再像过去那样稳定证明写代码的人具备相应的工程判断。"
+            "en": "Writing a piece of well-architected, runnable code used to require an engineer who knew syntax, patterns, and debugging. After AI, the form-production of code is partially externalised. Working code no longer testifies, the way it used to, that the person who wrote it carries the corresponding engineering judgment.",
+            "cn": "写一段架构合理、能跑起来的代码，过去需要工程师掌握语法、模式、调试经验。AI 之后，代码的形式生产被部分外部化，一段能跑的代码不再像过去那样稳定证明写代码的人具备相应的工程判断。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Putting together a clear, well-organised proposal with diagrams used to require the training of a consultant, a designer, a product manager.",
-            "cn": "做一份图文并茂、信息组织清楚的方案，过去需要咨询顾问、设计师、产品经理的训练。"
-          },
-          {
-            "en": "After AI, that form is generated quickly.",
-            "cn": "AI 之后，"
-          },
-          {
-            "en": "A proposal that looks complete no longer testifies that the people behind it actually understand the problem, the client, the constraints, or the consequences.",
-            "cn": "这些形式可以被快速生成，一份看起来完整的方案不再稳定证明背后的人真正理解问题、客户、约束和后果。"
+            "en": "Putting together a clear, well-organised proposal with diagrams used to require the training of a consultant, a designer, a product manager. After AI, that form is generated quickly. A proposal that looks complete no longer testifies that the people behind it actually understand the problem, the client, the constraints, or the consequences.",
+            "cn": "做一份图文并茂、信息组织清楚的方案，过去需要咨询顾问、设计师、产品经理的训练。AI 之后，这些形式可以被快速生成，一份看起来完整的方案不再稳定证明背后的人真正理解问题、客户、约束和后果。"
           }
         ]
       },
@@ -35340,10 +31420,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#a-history-of-form-migration-four-externalisations",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -35352,8 +31432,8 @@ const ARTICLES_EXTRA = [
     "issue": 4,
     "chapter": 2,
     "sourceTextWords": 1217,
-    "sourceParagraphs": 31,
-    "sourceSentences": 72,
+    "sourceParagraphs": 27,
+    "sourceSentences": 45,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -35366,8 +31446,12 @@ const ARTICLES_EXTRA = [
             "cn": "形式的迁移，自然有历史证据撑住。"
           },
           {
-            "en": "This section walks through four tool advances: print, photography, industrialisation, search. Each one shows the concrete shape of “form moving from the subject to an external system”, and the impact it had on the subjects of the time.",
-            "cn": "这一节走过四次工具进步：印刷术、摄影、工业化、搜索。看每一次“形式从主体迁移到外部系统”的具体形态，以及它对当时主体的冲击。"
+            "en": "This section walks through four tool advances: print, photography, industrialisation, search.",
+            "cn": "这一节走过四次工具进步：印刷术、摄影、工业化、搜索。"
+          },
+          {
+            "en": "Each one shows the concrete shape of “form moving from the subject to an external system”, and the impact it had on the subjects of the time.",
+            "cn": "看每一次“形式从主体迁移到外部系统”的具体形态，以及它对当时主体的冲击。"
           }
         ]
       },
@@ -35402,36 +31486,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Print externalised all of this.",
-            "cn": "印刷术把这一切外部化。"
-          },
-          {
-            "en": "A press could output thousands of pages a day; a scribe, dozens.",
-            "cn": "一台印刷机一天能产出上千页，一个抄写员一天几十页，量级差异在两到三个数量级。"
-          },
-          {
-            "en": "Two to three orders of magnitude.",
-            "cn": "1450 到 1500 年间，"
-          },
-          {
-            "en": "Between 1450 and 1500, book prices fell at least 65%.",
-            "cn": "书价至少下降 65%。"
-          },
-          {
-            "en": "By Buringh and van Zanden’s estimate, Western Europe printed about 12.6 million books between 1454 and 1500, already more than the entire fifteenth-century European manuscript output.",
-            "cn": "按 Buringh 和 van Zanden 的估算，1454-1500 年西欧印刷书产量约 1260 万册，已经高于整个 15 世纪西欧手稿生产量。"
+            "en": "Print externalised all of this. A press could output thousands of pages a day; a scribe, dozens. Two to three orders of magnitude. Between 1450 and 1500, book prices fell at least 65%. By Buringh and van Zanden’s estimate, Western Europe printed about 12.6 million books between 1454 and 1500, already more than the entire fifteenth-century European manuscript output.",
+            "cn": "印刷术把这一切外部化。一台印刷机一天能产出上千页，一个抄写员一天几十页，量级差异在两到三个数量级。1450 到 1500 年间，书价至少下降 65%。按 Buringh 和 van Zanden 的估算，1454-1500 年西欧印刷书产量约 1260 万册，已经高于整个 15 世纪西欧手稿生产量。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "By around 1525, humanists were starting to complain — there were too many books.",
-            "cn": "到 1525 年前后，人文学者开始抱怨，理由是书太多。"
-          },
-          {
-            "en": "In the Adagia, Erasmus wrote a line that reads almost word for word like today’s complaints about AI-generated content: “Is there anywhere on earth exempt from these swarms of new books?”",
-            "cn": "伊拉斯谟在《箴言集》里写下一句和今天关于“AI 内容泛滥”几乎一字不差的话：“地球上还有哪里能躲开这些新书的蜂群吗？”"
+            "en": "By around 1525, humanists were starting to complain — there were too many books. In the Adagia, Erasmus wrote a line that reads almost word for word like today’s complaints about AI-generated content: “Is there anywhere on earth exempt from these swarms of new books?”",
+            "cn": "到 1525 年前后，人文学者开始抱怨，理由是书太多。伊拉斯谟在《箴言集》里写下一句和今天关于“AI 内容泛滥”几乎一字不差的话：“地球上还有哪里能躲开这些新书的蜂群吗？”"
           }
         ]
       },
@@ -35450,100 +31514,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "But substance was not destroyed.",
-            "cn": "但实质并没有被消灭。"
-          },
-          {
-            "en": "Literacy, reading, thinking, judgment all kept their value, and after print they became more valuable.",
-            "cn": "识字、阅读、思考、判断仍然有价值，而且在印刷术之后变得更有价值。"
-          },
-          {
-            "en": "Print made enormous quantities of text broadly available, and the people who were genuinely good at filtering, interpreting, and criticising became scarcer rather than less rare.",
-            "cn": "印刷让大量文本可以被广泛获取，真正擅长筛选、解读、批判的人反而更稀缺。"
-          },
-          {
-            "en": "What lost value was the externalised form.",
-            "cn": "贬值的是被外部化的那部分形式，"
-          },
-          {
-            "en": "The substance that had been attached to it did not lose value.",
-            "cn": "依附在它周围的实质并没有贬值。"
+            "en": "But substance was not destroyed. Literacy, reading, thinking, judgment all kept their value, and after print they became more valuable. Print made enormous quantities of text broadly available, and the people who were genuinely good at filtering, interpreting, and criticising became scarcer rather than less rare. What lost value was the externalised form. The substance that had been attached to it did not lose value.",
+            "cn": "但实质并没有被消灭。识字、阅读、思考、判断仍然有价值，而且在印刷术之后变得更有价值。印刷让大量文本可以被广泛获取，真正擅长筛选、解读、批判的人反而更稀缺。贬值的是被外部化的那部分形式，依附在它周围的实质并没有贬值。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "On 19 August 1839, the daguerreotype process was unveiled at the French Academy of Sciences in Paris.",
-            "cn": "1839 年 8 月 19 日，达盖尔银版摄影法在巴黎法兰西科学院公开。"
-          },
-          {
-            "en": "The French government placed it in the public domain, and within months daguerreotype studios were spreading across Europe and North America.",
-            "cn": "法国政府宣布把这项发明放入公共领域，几个月内，达盖尔工作室在欧洲和北美遍地开花。"
-          },
-          {
-            "en": "By the 1850s, commercial photography studios in Paris and other major cities were turning out portraits at a fraction — sometimes a hundredth — of the price of a painted portrait.",
-            "cn": "到 1850 年代，巴黎等大城市的商业摄影棚已经在大量生产肖像，价格从过去画家肖像的几十甚至几百分之一开始，"
-          },
-          {
-            "en": "Portrait photography went from novelty to middle-class consumer good in a few short years.",
-            "cn": "肖像摄影迅速从新奇技术变成中产消费品。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The people hit hardest were realist painters, who made their living “rendering reality faithfully”.",
-            "cn": "直接受冲击的是写实画家，他们靠“逼真再现现实”谋生。"
-          },
-          {
-            "en": "A daguerreotype portrait took minutes; an oil portrait took weeks.",
-            "cn": "一张达盖尔肖像几分钟拍完，一张油画肖像要几周。"
-          },
-          {
-            "en": "Customers voted with their wallets.",
-            "cn": "客户开始用脚投票。"
-          },
-          {
-            "en": "A line often attributed (probably apocryphally) to Paul Delaroche captures the shock with great precision: “From today, painting is dead.” He may not have actually said it, but the line is quoted again and again because it captures the real fear of the moment realist representation got taken over by a machine.",
-            "cn": "一句常被归于法国画家保罗·德拉罗什、但出处并不牢靠的话，把这种震动概括得很准确：“从今天起，绘画死了”。这句话未必真由他说出，但它之所以被反复引用，是因为它捕捉到了写实再现被相机接管时的真实恐惧。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Realist painters faced exactly the same problem many professions face today: the core ability they had spent fifteen years training was taken over by an external system.",
-            "cn": "写实画家面对的是和今天许多职业完全相同的问题：他们花了十几年训练的核心能力，被一个外部系统接管了。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Painting did not die, but it had to redefine its value as something other than representation.",
-            "cn": "绘画并没有死，但它必须重新定义自己的价值不在再现里。"
-          },
-          {
-            "en": "Impressionism, post-Impressionism, Cubism, Abstract Expressionism — a full century of art movements were all, at bottom, painting’s answer to one question: once the camera takes over representation, what is painting’s substance?",
-            "cn": "印象派、后印象派、立体派、抽象表现主义，之后整整一个世纪的艺术运动，本质上都是绘画在回答一个问题：当再现被相机接管，绘画的实质是什么？"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Substance did not disappear.",
-            "cn": "实质没有消失。"
-          },
-          {
-            "en": "Representation, which had once been attached to the painter, migrated to the camera.",
-            "cn": "再现这件事过去依附于画家，后来迁移到相机。"
-          },
-          {
-            "en": "The painter’s substance was redefined as the things the camera could not do for him: way of seeing, stance, style, judgment about what is worth painting at all.",
-            "cn": "画家的实质重新被定义为相机不能替他做的事：看待方式、立场、风格、对什么值得画的判断。"
+            "en": "On 19 August 1839, the daguerreotype process was unveiled at the French Academy of Sciences in Paris. The French government placed it in the public domain, and within months daguerreotype studios were spreading across Europe and North America. By the 1850s, commercial photography studios in Paris and other major cities were turning out portraits at a fraction — sometimes a hundredth — of the price of a painted portrait. Portrait photography went from novelty to middle-class consumer good in a few short years. The people hit hardest were realist painters, who made their living “rendering reality faithfully”. A daguerreotype portrait took minutes; an oil portrait took weeks. Customers voted with their wallets. A line often attributed (probably apocryphally) to Paul Delaroche captures the shock with great precision: “From today, painting is dead.” He may not have actually said it, but the line is quoted again and again because it captures the real fear of the moment realist representation got taken over by a machine. Realist painters faced exactly the same problem many professions face today: the core ability they had spent fifteen years training was taken over by an external system. Painting did not die, but it had to redefine its value as something other than representation. Impressionism, post-Impressionism, Cubism, Abstract Expressionism — a full century of art movements were all, at bottom, painting’s answer to one question: once the camera takes over representation, what is painting’s substance? Substance did not disappear. Representation, which had once been attached to the painter, migrated to the camera. The painter’s substance was redefined as the things the camera could not do for him: way of seeing, stance, style, judgment about what is worth painting at all.",
+            "cn": "1839 年 8 月 19 日，达盖尔银版摄影法在巴黎法兰西科学院公开。法国政府宣布把这项发明放入公共领域，几个月内，达盖尔工作室在欧洲和北美遍地开花。到 1850 年代，巴黎等大城市的商业摄影棚已经在大量生产肖像，价格从过去画家肖像的几十甚至几百分之一开始，肖像摄影迅速从新奇技术变成中产消费品。 直接受冲击的是写实画家，他们靠“逼真再现现实”谋生。一张达盖尔肖像几分钟拍完，一张油画肖像要几周。客户开始用脚投票。一句常被归于法国画家保罗·德拉罗什、但出处并不牢靠的话，把这种震动概括得很准确：“从今天起，绘画死了”。这句话未必真由他说出，但它之所以被反复引用，是因为它捕捉到了写实再现被相机接管时的真实恐惧。 写实画家面对的是和今天许多职业完全相同的问题：他们花了十几年训练的核心能力，被一个外部系统接管了。 绘画并没有死，但它必须重新定义自己的价值不在再现里。印象派、后印象派、立体派、抽象表现主义，之后整整一个世纪的艺术运动，本质上都是绘画在回答一个问题：当再现被相机接管，绘画的实质是什么？ 实质没有消失。再现这件事过去依附于画家，后来迁移到相机。画家的实质重新被定义为相机不能替他做的事：看待方式、立场、风格、对什么值得画的判断。"
           }
         ]
       },
@@ -35590,24 +31570,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "But craft did not disappear entirely.",
-            "cn": "但手工艺并没有完全消失。"
-          },
-          {
-            "en": "After industrialisation, what survived turned toward what machines cannot do: special commissions, scarce materials, personal design, cultural memory, the beauty of irreproducible flaws.",
-            "cn": "在工业化之后，留下来的手工艺转向了机器做不到的事：特殊定制、稀缺材料、个人化设计、文化记忆、不可复制的瑕疵美感。"
-          },
-          {
-            "en": "A pair of fully hand-made leather shoes is more expensive today than it was a hundred years ago.",
-            "cn": "一双纯手工皮鞋今天的价格反而比一百年前更高，这双鞋的精度可能和一百年前相同，"
-          },
-          {
-            "en": "The precision may be the same.",
-            "cn": "但依附其上的实质，"
-          },
-          {
-            "en": "The substance attached to it has changed completely.",
-            "cn": "和以前已经大不相同了。"
+            "en": "But craft did not disappear entirely. After industrialisation, what survived turned toward what machines cannot do: special commissions, scarce materials, personal design, cultural memory, the beauty of irreproducible flaws. A pair of fully hand-made leather shoes is more expensive today than it was a hundred years ago. The precision may be the same. The substance attached to it has changed completely.",
+            "cn": "但手工艺并没有完全消失。在工业化之后，留下来的手工艺转向了机器做不到的事：特殊定制、稀缺材料、个人化设计、文化记忆、不可复制的瑕疵美感。一双纯手工皮鞋今天的价格反而比一百年前更高，这双鞋的精度可能和一百年前相同，但依附其上的实质，和以前已经大不相同了。"
           }
         ]
       },
@@ -35666,16 +31630,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "But again, substance did not disappear.",
-            "cn": "但同样，实质没有消失。"
-          },
-          {
-            "en": "Judging which materials matter, evaluating the quality of materials, applying materials in complex contexts, judging the real problem behind the materials — these abilities, in fact, became scarcer once search collapsed the information barrier.",
-            "cn": "判断什么资料重要、如何评估资料质量、在复杂情境中应用资料、对资料背后的真实问题做判断，这些能力反而因为搜索让信息门槛塌陷而变得更稀缺。"
-          },
-          {
-            "en": "Being able to search is no longer worth much. Knowing what to search and how to use what you find is still worth a lot.",
-            "cn": "能搜不再值钱，懂搜什么、怎么用搜来的东西仍然值钱。"
+            "en": "But again, substance did not disappear. Judging which materials matter, evaluating the quality of materials, applying materials in complex contexts, judging the real problem behind the materials — these abilities, in fact, became scarcer once search collapsed the information barrier. Being able to search is no longer worth much. Knowing what to search and how to use what you find is still worth a lot.",
+            "cn": "但同样，实质没有消失。判断什么资料重要、如何评估资料质量、在复杂情境中应用资料、对资料背后的真实问题做判断，这些能力反而因为搜索让信息门槛塌陷而变得更稀缺。能搜不再值钱，懂搜什么、怎么用搜来的东西仍然值钱。"
           }
         ]
       },
@@ -35781,10 +31737,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-1--the-bell-curve-society-is-a-historical-exception",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -35794,7 +31750,7 @@ const ARTICLES_EXTRA = [
     "chapter": 3,
     "sourceTextWords": 960,
     "sourceParagraphs": 17,
-    "sourceSentences": 45,
+    "sourceSentences": 42,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -35967,20 +31923,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The precision of this matters.",
-            "cn": "要精确说这件事。"
-          },
-          {
-            "en": "The pre-training corpus of an LLM is far broader than its default output; everything from ancient Greek philosophy to top-tier mathematics papers is packed into the parameters.",
-            "cn": "LLM 的预训练语料覆盖面远比它的默认输出宽，参数里封存着从古希腊哲学到顶级数学论文的一切。"
-          },
-          {
-            "en": "But most people’s interaction with AI does not happen deep in the parameters.",
-            "cn": "但大部分人和 AI 的互动不在参数深处，"
-          },
-          {
-            "en": "What they touch is the default output that has been aligned by reinforcement learning from human feedback (RLHF).",
-            "cn": "他们接触到的是经过人类反馈强化学习(RLHF)对齐过的默认输出。"
+            "en": "The precision of this matters. The pre-training corpus of an LLM is far broader than its default output; everything from ancient Greek philosophy to top-tier mathematics papers is packed into the parameters. But most people’s interaction with AI does not happen deep in the parameters. What they touch is the default output that has been aligned by reinforcement learning from human feedback (RLHF).",
+            "cn": "要精确说这件事。LLM 的预训练语料覆盖面远比它的默认输出宽，参数里封存着从古希腊哲学到顶级数学论文的一切。但大部分人和 AI 的互动不在参数深处，他们接触到的是经过人类反馈强化学习(RLHF)对齐过的默认输出。"
           }
         ]
       },
@@ -35988,15 +31932,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The mechanism of that alignment is more precise than “graders’ aesthetic falls in the middle”.",
-            "cn": "这个对齐过程的机制比“评分者审美落在中位”更精确。真正在给模型打分的并非社会平均人。"
+            "cn": "这个对齐过程的机制比“评分者审美落在中位”更精确。"
           },
           {
             "en": "The people actually grading the model are not the average human.",
-            "cn": "公开资料里，OpenAI 的 InstructGPT 雇了约 40 名 Upwork 和 Scale AI 上的承包商；"
+            "cn": "真正在给模型打分的并非社会平均人。"
           },
           {
             "en": "According to public information, OpenAI’s InstructGPT hired about 40 contractors via Upwork and Scale AI; in an anonymous survey, of 19 respondents 75% were under 35 and most came from the US or Southeast Asia.",
-            "cn": "匿名调查里，19 位回应者中 75% 不到 35 岁、大多来自美国或东南亚。"
+            "cn": "公开资料里，OpenAI 的 InstructGPT 雇了约 40 名 Upwork 和 Scale AI 上的承包商；匿名调查里，19 位回应者中 75% 不到 35 岁、大多来自美国或东南亚。"
           },
           {
             "en": "Anthropic’s 2022 RLHF paper used master-qualified US MTurk workers plus Upwork crowdworkers, with MTurk workers contributing the bulk of the comparison data and Upwork workers contributing the rest.",
@@ -36058,10 +32002,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-2--form-migrates-quietly",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -36071,7 +32015,7 @@ const ARTICLES_EXTRA = [
     "chapter": 4,
     "sourceTextWords": 1169,
     "sourceParagraphs": 48,
-    "sourceSentences": 75,
+    "sourceSentences": 70,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -36264,8 +32208,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Core claim: even when a tool is fully universal, people’s perception and pricing do not immediately fall back to marginal cost. The convergence is slow, usually on the order of decades.",
-            "cn": "核心判断：即使工具完全普及，人们的认知和估价不会立刻回归到边际成本。回归是缓慢的，跨度通常是几十年。"
+            "en": "Core claim: even when a tool is fully universal, people’s perception and pricing do not immediately fall back to marginal cost.",
+            "cn": "核心判断：即使工具完全普及，人们的认知和估价不会立刻回归到边际成本。"
+          },
+          {
+            "en": "The convergence is slow, usually on the order of decades.",
+            "cn": "回归是缓慢的，跨度通常是几十年。"
           }
         ]
       },
@@ -36384,12 +32332,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Tools are not mature, or maturity is uneven: AI video six months ago and today are dramatically different; AI coding last year and this year too.",
-            "cn": "工具尚不成熟，或成熟度不均匀：半年前的 AI 视频和今天的 AI 视频差别巨大，去年的 AI 编程和今年的也是，"
-          },
-          {
-            "en": "Yet AI still hallucinates and errors frequently in places.",
-            "cn": "但有些地方 AI 还在频繁犯错和幻觉"
+            "en": "Tools are not mature, or maturity is uneven: AI video six months ago and today are dramatically different; AI coding last year and this year too. Yet AI still hallucinates and errors frequently in places.",
+            "cn": "工具尚不成熟，或成熟度不均匀：半年前的 AI 视频和今天的 AI 视频差别巨大，去年的 AI 编程和今年的也是，但有些地方 AI 还在频繁犯错和幻觉"
           }
         ]
       },
@@ -36480,20 +32424,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The monthly salary still arrives, clients still pay, hiring still runs on the old logic.",
-            "cn": "月薪还在发，客户还在付费，招聘还按老逻辑。"
-          },
-          {
-            "en": "This time is real.",
-            "cn": "这段时间是真实的，"
-          },
-          {
-            "en": "It is the result of the market updating slower than the tool, not a hallucination.",
-            "cn": "是市场更新慢于工具迭代的结果，不是幻觉。"
-          },
-          {
-            "en": "It opens some space: re-position, accumulate substance, adjust direction.",
-            "cn": "它给了一些空间：重新定位、积累实质、调整方向。"
+            "en": "The monthly salary still arrives, clients still pay, hiring still runs on the old logic. This time is real. It is the result of the market updating slower than the tool, not a hallucination. It opens some space: re-position, accumulate substance, adjust direction.",
+            "cn": "月薪还在发，客户还在付费，招聘还按老逻辑。这段时间是真实的，是市场更新慢于工具迭代的结果，不是幻觉。它给了一些空间：重新定位、积累实质、调整方向。"
           }
         ]
       },
@@ -36540,16 +32472,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In each previous tool migration, the public eventually recognised it: through a new form, through accumulated exposure, through quality of results.",
-            "cn": "之前每一次工具迁移，大众最终都识别了：通过新形态、通过接触积累、通过结果质量。"
-          },
-          {
-            "en": "AI may be the first tool that has none of these channels, or that bypasses them all.",
-            "cn": "AI 可能是第一次没有或越过这些通道的工具，"
-          },
-          {
-            "en": "Its output and human work look the same on the surface, and the capability keeps growing fast — the gap may keep narrowing rather than widening.",
-            "cn": "它产出的东西和人做的在表面上没有差异，而且能力还在快速发展，差异可能持续收敛而非扩大。"
+            "en": "In each previous tool migration, the public eventually recognised it: through a new form, through accumulated exposure, through quality of results. AI may be the first tool that has none of these channels, or that bypasses them all. Its output and human work look the same on the surface, and the capability keeps growing fast — the gap may keep narrowing rather than widening.",
+            "cn": "之前每一次工具迁移，大众最终都识别了：通过新形态、通过接触积累、通过结果质量。AI 可能是第一次没有或越过这些通道的工具，它产出的东西和人做的在表面上没有差异，而且能力还在快速发展，差异可能持续收敛而非扩大。"
           }
         ]
       },
@@ -36579,10 +32503,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-3--substance-is-everywhere-few-identify-it",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -36592,7 +32516,7 @@ const ARTICLES_EXTRA = [
     "chapter": 5,
     "sourceTextWords": 1426,
     "sourceParagraphs": 48,
-    "sourceSentences": 87,
+    "sourceSentences": 71,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -36601,16 +32525,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The previous question: can the public still reliably identify substance?",
-            "cn": "上一个问题：大众还能可靠地识别实质吗？"
-          },
-          {
-            "en": "The answer is not a clean “yes” or “no”.",
-            "cn": "答案不是简单的“能”或“不能”，"
-          },
-          {
-            "en": "Start with a fact that looks contradictory.",
-            "cn": "要从一个看起来矛盾的事实开始。"
+            "en": "The previous question: can the public still reliably identify substance? The answer is not a clean “yes” or “no”. Start with a fact that looks contradictory.",
+            "cn": "上一个问题：大众还能可靠地识别实质吗？ 答案不是简单的“能”或“不能”，要从一个看起来矛盾的事实开始。"
           }
         ]
       },
@@ -36653,16 +32569,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Two rows in this table deserve a pause: “mass apps” and “internal enterprise deliverables”.",
-            "cn": "表格里“大众应用”和“企业内部交付物”两行最值得读者停下来看。"
-          },
-          {
-            "en": "One is the consumer market, one is the B-side market.",
-            "cn": "一个是大众市场，一个是 B 端市场，"
-          },
-          {
-            "en": "In both, the central fact is the same: there is real substance, but the buyer is not paying mainly to identify it.",
-            "cn": "两边的核心事实都是“有真实质，但买家主要不是为识别实质付费”。"
+            "en": "Two rows in this table deserve a pause: “mass apps” and “internal enterprise deliverables”. One is the consumer market, one is the B-side market. In both, the central fact is the same: there is real substance, but the buyer is not paying mainly to identify it.",
+            "cn": "表格里“大众应用”和“企业内部交付物”两行最值得读者停下来看。一个是大众市场，一个是 B 端市场，两边的核心事实都是“有真实质，但买家主要不是为识别实质付费”。"
           }
         ]
       },
@@ -36869,12 +32777,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The public lacks this ability.",
-            "cn": "大众没有这个能力，"
-          },
-          {
-            "en": "They stop at the projection layer.",
-            "cn": "他们停在投影层。"
+            "en": "The public lacks this ability. They stop at the projection layer.",
+            "cn": "大众没有这个能力，他们停在投影层。"
           }
         ]
       },
@@ -36889,48 +32793,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "In the past, the only path to producing the projection was almost always through substance.",
-            "cn": "过去兜售投影的方法几乎只有一条：通过实质。"
-          },
-          {
-            "en": "A cheap coffee with a good projection had to have a real supply chain behind it.",
-            "cn": "便宜的咖啡背后必须有真供应链，"
-          },
-          {
-            "en": "A product that “just works” had to have real craft.",
-            "cn": "顺的产品背后必须有真功夫，贴切的方案背后必须有真经验。"
-          },
-          {
-            "en": "A proposal that lands had to have real experience.",
-            "cn": "投影虽是低维呈现，"
-          },
-          {
-            "en": "Projection is a low-dimensional rendering, but it reliably stood in for substance.",
-            "cn": "但它可靠地代理了实质。"
+            "en": "In the past, the only path to producing the projection was almost always through substance. A cheap coffee with a good projection had to have a real supply chain behind it. A product that “just works” had to have real craft. A proposal that lands had to have real experience. Projection is a low-dimensional rendering, but it reliably stood in for substance.",
+            "cn": "过去兜售投影的方法几乎只有一条：通过实质。便宜的咖啡背后必须有真供应链，顺的产品背后必须有真功夫，贴切的方案背后必须有真经验。投影虽是低维呈现，但它可靠地代理了实质。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "AI changes exactly this.",
-            "cn": "AI 改变的正是这一点。"
-          },
-          {
-            "en": "It makes the cost of “fabricating the projection” close to zero, and the output quality in every domain corresponds to the upper-mid of the bell curve, beyond what most people can distinguish.",
-            "cn": "它让“装出投影”的成本接近零，而且产出质量在每个领域都对应钟形偏上，超过大多数人的识别能力。"
-          },
-          {
-            "en": "AI can produce an article that “looks like there’s judgment in it” without any judgment.",
-            "cn": "AI 可以生成“看起来有判断”的文章，不需要真有判断；"
-          },
-          {
-            "en": "It can produce a product demo that “looks usable” without anyone actually understanding the user.",
-            "cn": "可以生成“看起来好用”的产品 demo，不需要真懂用户；"
-          },
-          {
-            "en": "It can produce an analyst’s report that “looks professional” without anyone having worked on a similar problem before.",
-            "cn": "可以生成“看起来专业”的分析报告，不需要真处理过类似问题。"
+            "en": "AI changes exactly this. It makes the cost of “fabricating the projection” close to zero, and the output quality in every domain corresponds to the upper-mid of the bell curve, beyond what most people can distinguish. AI can produce an article that “looks like there’s judgment in it” without any judgment. It can produce a product demo that “looks usable” without anyone actually understanding the user. It can produce an analyst’s report that “looks professional” without anyone having worked on a similar problem before.",
+            "cn": "AI 改变的正是这一点。它让“装出投影”的成本接近零，而且产出质量在每个领域都对应钟形偏上，超过大多数人的识别能力。AI 可以生成“看起来有判断”的文章，不需要真有判断；可以生成“看起来好用”的产品 demo，不需要真懂用户；可以生成“看起来专业”的分析报告，不需要真处理过类似问题。"
           }
         ]
       },
@@ -37021,20 +32893,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "There is a deeper layer.",
-            "cn": "还有更深的一层。"
-          },
-          {
-            "en": "You will be inclined to believe what you see is the projection.",
-            "cn": "你倾向于相信你看到的是投影，"
-          },
-          {
-            "en": "Because if you accept that “this could be a mirage”, how many people in your last few years of hires came in like that?",
-            "cn": "因为如果你接受“这可能是虚像”，你过去几年招的人里，有多少是这样进来的？"
-          },
-          {
-            "en": "It is a question you don’t want to open.",
-            "cn": "这是一个认知上不愿意打开的问题。"
+            "en": "There is a deeper layer. You will be inclined to believe what you see is the projection. Because if you accept that “this could be a mirage”, how many people in your last few years of hires came in like that? It is a question you don’t want to open.",
+            "cn": "还有更深的一层。你倾向于相信你看到的是投影，因为如果你接受“这可能是虚像”，你过去几年招的人里，有多少是这样进来的？这是一个认知上不愿意打开的问题。"
           }
         ]
       },
@@ -37074,15 +32934,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "“Artefact” here is borrowed from medical imaging and signal processing, where it means something that looks like real signal but isn’t.",
-            "cn": "伪影是个借用的概念。医学影像和信号处理里，伪影指看起来像真信号、但其实不是真信号的东西。"
+            "cn": "伪影是个借用的概念。"
           },
           {
             "en": "Projection is real signal (low-dimensional).",
-            "cn": "投影是真信号（虽然低维），"
+            "cn": "医学影像和信号处理里，伪影指看起来像真信号、但其实不是真信号的东西。"
           },
           {
             "en": "An artefact is fake signal that looks like a projection.",
-            "cn": "伪影是假信号（看起来像投影）。"
+            "cn": "投影是真信号（虽然低维），伪影是假信号（看起来像投影）。"
           }
         ]
       },
@@ -37148,10 +33008,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-4--the-new-filter-from-form-quality-to-substance-origin",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -37161,7 +33021,7 @@ const ARTICLES_EXTRA = [
     "chapter": 6,
     "sourceTextWords": 1602,
     "sourceParagraphs": 41,
-    "sourceSentences": 92,
+    "sourceSentences": 89,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -37178,16 +33038,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is something history has done before, not a new mechanism.",
-            "cn": "这是历史上重复发生过的事，并非一个新机制。"
-          },
-          {
-            "en": "When a signal is widely mimicked and loses its discriminating power, the market that can discriminate spontaneously upgrades to harder-to-mimic signal systems. This is a regularity repeatedly observed in consumer behaviour research. Feltovich et al.",
-            "cn": "当一种信号被广泛模仿、失去区分力，有识别能力的市场会自发升级到更难被模仿的信号系统，这是消费者行为研究里反复观察到的规律。"
-          },
-          {
-            "en": "(2002) on counter-signalling and Bellezza (2023) on distance-based alternative signals both make the same point: when the middle-tier participants can use the mainstream signal too, the top tier shifts to “signals that don’t look like signals”, or to markers that require more inside knowledge to identify.",
-            "cn": "Feltovich 等 2002 年的反向信号模型(counter-signaling)和 Bellezza 2023 年关于距离化替代信号的研究都指出：当中等水平的参与者也能用主流信号时，顶层会主动转向“看起来不像信号的信号”，或转向需要更多内部知识才能识别的标记。"
+            "en": "This is something history has done before, not a new mechanism. When a signal is widely mimicked and loses its discriminating power, the market that can discriminate spontaneously upgrades to harder-to-mimic signal systems. This is a regularity repeatedly observed in consumer behaviour research. Feltovich et al. (2002) on counter-signalling and Bellezza (2023) on distance-based alternative signals both make the same point: when the middle-tier participants can use the mainstream signal too, the top tier shifts to “signals that don’t look like signals”, or to markers that require more inside knowledge to identify.",
+            "cn": "这是历史上重复发生过的事，并非一个新机制。当一种信号被广泛模仿、失去区分力，有识别能力的市场会自发升级到更难被模仿的信号系统，这是消费者行为研究里反复观察到的规律。Feltovich 等 2002 年的反向信号模型(counter-signaling)和 Bellezza 2023 年关于距离化替代信号的研究都指出：当中等水平的参与者也能用主流信号时，顶层会主动转向“看起来不像信号的信号”，或转向需要更多内部知识才能识别的标记。"
           }
         ]
       },
@@ -37358,12 +33210,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The new filter is not single.",
-            "cn": "新筛选器并非单一的，"
-          },
-          {
-            "en": "It has three layers.",
-            "cn": "有三层。"
+            "en": "The new filter is not single. It has three layers.",
+            "cn": "新筛选器并非单一的，有三层。"
           }
         ]
       },
@@ -37375,15 +33223,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "In a supply-flooded environment, readers, users, and clients no longer have time or capacity to filter from the content itself.",
-            "cn": "读者、用户、客户在供给爆炸的环境里，不再有时间和能力从内容本身筛选。他们通过“谁做的”筛选。"
+            "cn": "读者、用户、客户在供给爆炸的环境里，不再有时间和能力从内容本身筛选。"
           },
           {
             "en": "They filter by “who made it”.",
-            "cn": "一个有可追溯 track record 的主体的任何输出，"
+            "cn": "他们通过“谁做的”筛选。"
           },
           {
             "en": "Any output by a subject with a traceable track record automatically enters the reader’s attention; any output by a subject without one, however good the content, does not.",
-            "cn": "自动进入读者的注意力；一个没有 track record 的主体的任何输出，哪怕内容更好，也进不来。"
+            "cn": "一个有可追溯 track record 的主体的任何输出，自动进入读者的注意力；一个没有 track record 的主体的任何输出，哪怕内容更好，也进不来。"
           },
           {
             "en": "The essence of this layer: what readers actually consume is “I trust this subject’s judgment”, and the content is just the carrier of that judgment.",
@@ -37470,12 +33318,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The new path: “build a subject identity recognisable to the high-taste end of your field”.",
-            "cn": "新路径是“建立能被你所在领域的鉴赏力上端识别的主体身份”："
-          },
-          {
-            "en": "Let that part of the market filter by “who made it” rather than “how well it’s done”.",
-            "cn": "让那部分市场通过“是谁做的”来筛选，而不是“做得怎么样”。"
+            "en": "The new path: “build a subject identity recognisable to the high-taste end of your field”. Let that part of the market filter by “who made it” rather than “how well it’s done”.",
+            "cn": "新路径是“建立能被你所在领域的鉴赏力上端识别的主体身份”：让那部分市场通过“是谁做的”来筛选，而不是“做得怎么样”。"
           }
         ]
       },
@@ -37694,8 +33538,12 @@ const ARTICLES_EXTRA = [
             "cn": "并非每个领域都有足够大的鉴赏力上端受众。"
           },
           {
-            "en": "But when picking direction, the audience structure of the field matters more than your own interest. Hard work in the wrong field can’t beat passing-the-bar work in the right one.",
-            "cn": "但在做“选方向”这件事上，领域的受众结构比自己的兴趣更重要。一个错的领域里再努力，也打不过一个对的领域里合格努力的主体。"
+            "en": "But when picking direction, the audience structure of the field matters more than your own interest.",
+            "cn": "但在做“选方向”这件事上，领域的受众结构比自己的兴趣更重要。"
+          },
+          {
+            "en": "Hard work in the wrong field can’t beat passing-the-bar work in the right one.",
+            "cn": "一个错的领域里再努力，也打不过一个对的领域里合格努力的主体。"
           }
         ]
       }
@@ -37709,10 +33557,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-5--the-two-carriers-of-substance",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -37722,7 +33570,7 @@ const ARTICLES_EXTRA = [
     "chapter": 7,
     "sourceTextWords": 1014,
     "sourceParagraphs": 32,
-    "sourceSentences": 67,
+    "sourceSentences": 66,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -37743,12 +33591,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The structure is fully symmetric across the firm scale and the individual scale.",
-            "cn": "这个结构在公司和个体两个尺度上完全对称，"
-          },
-          {
-            "en": "One theory covers both.",
-            "cn": "不需要两套理论。"
+            "en": "The structure is fully symmetric across the firm scale and the individual scale. One theory covers both.",
+            "cn": "这个结构在公司和个体两个尺度上完全对称，不需要两套理论。"
           }
         ]
       },
@@ -37831,8 +33675,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI can simulate connections, but it cannot synthesise real shared experience, mutual calibration, and high-bandwidth trust. It can produce a list that looks like “a relationship network”, but it doesn’t have that set of relationships: no shared history of getting through hard things, no resumed collaboration after a failure, no “you don’t have to explain it” understanding.",
-            "cn": "AI 可以模拟连接，但合成不了真实共同经历、互相校准、高信任带宽。它可以生成“看起来像是一个关系网络”的名单，但它没有那组关系：没有那段共同扛过事的历史，没有那次失败后的重新合作，没有那种“不解释也能懂”的默契。"
+            "en": "AI can simulate connections, but it cannot synthesise real shared experience, mutual calibration, and high-bandwidth trust.",
+            "cn": "AI 可以模拟连接，但合成不了真实共同经历、互相校准、高信任带宽。"
+          },
+          {
+            "en": "It can produce a list that looks like “a relationship network”, but it doesn’t have that set of relationships: no shared history of getting through hard things, no resumed collaboration after a failure, no “you don’t have to explain it” understanding.",
+            "cn": "它可以生成“看起来像是一个关系网络”的名单，但它没有那组关系：没有那段共同扛过事的历史，没有那次失败后的重新合作，没有那种“不解释也能懂”的默契。"
           },
           {
             "en": "This kind of substance, again, no tool can replicate.",
@@ -37955,12 +33803,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Both moats require time.",
-            "cn": "两种护城河都需要时间积累，"
-          },
-          {
-            "en": "But time is necessary, not sufficient.",
-            "cn": "但时间是必要条件，不是充分条件。"
+            "en": "Both moats require time. But time is necessary, not sufficient.",
+            "cn": "两种护城河都需要时间积累，但时间是必要条件，不是充分条件。"
           }
         ]
       },
@@ -38134,10 +33978,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-6--what-this-means-for-firms",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -38147,7 +33991,7 @@ const ARTICLES_EXTRA = [
     "chapter": 8,
     "sourceTextWords": 1710,
     "sourceParagraphs": 65,
-    "sourceSentences": 113,
+    "sourceSentences": 102,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -38304,12 +34148,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "These assets don’t hold value on their own.",
-            "cn": "这类资产本身不独立保值，它们是“在场”这个特征的副产品："
-          },
-          {
-            "en": "They are by-products of the property of “being present”: presence yields data, no presence means no data.",
-            "cn": "有在场才有数据，没在场就没数据。"
+            "en": "These assets don’t hold value on their own. They are by-products of the property of “being present”: presence yields data, no presence means no data.",
+            "cn": "这类资产本身不独立保值，它们是“在场”这个特征的副产品：有在场才有数据，没在场就没数据。"
           }
         ]
       },
@@ -38536,20 +34376,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "These assets won’t disappear overnight.",
-            "cn": "这些资产不会一夜消失，前面讲过过渡期是真实存在的。"
-          },
-          {
-            "en": "The transition period, as discussed earlier, is real.",
-            "cn": "月薪还在发，客户还在签，产品还在用。"
-          },
-          {
-            "en": "Salaries are still being paid, contracts still signed, products still in use.",
-            "cn": "但资产的相对价值在加速下降。"
-          },
-          {
-            "en": "But the relative value of those assets is falling fast. A startup still raising and operating on the logic that “our tech stack / product experience / data / craft mix is the core moat” is raising on a depreciating asset.",
-            "cn": "一家创业公司如果还在按“我们的技术栈/产品体验/数据/工艺组合是核心壁垒”这个逻辑融资和经营，它在融的是一个正在贬值的资产。"
+            "en": "These assets won’t disappear overnight. The transition period, as discussed earlier, is real. Salaries are still being paid, contracts still signed, products still in use. But the relative value of those assets is falling fast. A startup still raising and operating on the logic that “our tech stack / product experience / data / craft mix is the core moat” is raising on a depreciating asset.",
+            "cn": "这些资产不会一夜消失，前面讲过过渡期是真实存在的。月薪还在发，客户还在签，产品还在用。但资产的相对价值在加速下降。一家创业公司如果还在按“我们的技术栈/产品体验/数据/工艺组合是核心壁垒”这个逻辑融资和经营，它在融的是一个正在贬值的资产。"
           }
         ]
       },
@@ -38616,12 +34444,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Accept small scale, high price, deep relationships as the economic model.",
-            "cn": "接受小规模、高单价、深度关系的经济模式，"
-          },
-          {
-            "en": "Drop the old script of “scale to millions of users fast”",
-            "cn": "放弃“快速规模化到百万用户”的旧剧本"
+            "en": "Accept small scale, high price, deep relationships as the economic model. Drop the old script of “scale to millions of users fast”",
+            "cn": "接受小规模、高单价、深度关系的经济模式，放弃“快速规模化到百万用户”的旧剧本"
           }
         ]
       },
@@ -38772,32 +34596,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Two: scale is a multiplier, not an asset.",
-            "cn": "二、规模是乘数，不是资产。"
-          },
-          {
-            "en": "Scale amplifies whatever real asset is underneath.",
-            "cn": "规模放大底下的真实资产。"
-          },
-          {
-            "en": "Amplifying embeddedness (logistics serving a billion users) — scale has value.",
-            "cn": "放大嵌入性（物流网络服务十亿用户），规模有价值；"
-          },
-          {
-            "en": "Amplifying form (a homogeneous app serving a billion users) — scale depreciates with the form.",
-            "cn": "放大形式资产（同质化 App 服务十亿用户），规模跟着形式贬值。"
-          },
-          {
-            "en": "Scale itself doesn’t preserve value.",
-            "cn": "规模本身不保值。"
-          },
-          {
-            "en": "Many large firms’ scale was built on serving the mass market.",
-            "cn": "很多大公司的规模建立在服务大众市场上。"
-          },
-          {
-            "en": "The per-user value of the mass market is being structurally compressed in the AI era; the multiplier of scale acts on a shrinking numerator.",
-            "cn": "大众市场的单位用户价值在 AI 时代被系统性压缩，规模这个乘数乘上一个正在缩小的分子。"
+            "en": "Two: scale is a multiplier, not an asset. Scale amplifies whatever real asset is underneath. Amplifying embeddedness (logistics serving a billion users) — scale has value. Amplifying form (a homogeneous app serving a billion users) — scale depreciates with the form. Scale itself doesn’t preserve value. Many large firms’ scale was built on serving the mass market. The per-user value of the mass market is being structurally compressed in the AI era; the multiplier of scale acts on a shrinking numerator.",
+            "cn": "二、规模是乘数，不是资产。规模放大底下的真实资产。放大嵌入性（物流网络服务十亿用户），规模有价值；放大形式资产（同质化 App 服务十亿用户），规模跟着形式贬值。规模本身不保值。很多大公司的规模建立在服务大众市场上。大众市场的单位用户价值在 AI 时代被系统性压缩，规模这个乘数乘上一个正在缩小的分子。"
           }
         ]
       },
@@ -38875,10 +34675,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-7--what-this-means-for-individuals-which-class-you-are-in",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -38888,7 +34688,7 @@ const ARTICLES_EXTRA = [
     "chapter": 9,
     "sourceTextWords": 1918,
     "sourceParagraphs": 50,
-    "sourceSentences": 115,
+    "sourceSentences": 107,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -38921,16 +34721,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "AI’s effect splits sharply across people.",
-            "cn": "AI 对不同人的效应分叉极大。"
-          },
-          {
-            "en": "For some it’s an amplifier, magnifying what they can produce.",
-            "cn": "对一些人是放大器，放大他能产出的东西；"
-          },
-          {
-            "en": "For others it’s a substitute, squeezing them out of the market.",
-            "cn": "对一些人是替代品，直接挤出他在市场上的位置。"
+            "en": "AI’s effect splits sharply across people. For some it’s an amplifier, magnifying what they can produce. For others it’s a substitute, squeezing them out of the market.",
+            "cn": "AI 对不同人的效应分叉极大。对一些人是放大器，放大他能产出的东西；对一些人是替代品，直接挤出他在市场上的位置。"
           }
         ]
       },
@@ -38981,16 +34773,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The key isn’t “more or less knowledge”.",
-            "cn": "关键不在“知识多不知识少”，"
-          },
-          {
-            "en": "It’s whether there is something further upstream of knowledge: judgment, taste, the ability to question the problem itself, the ability to abstract a specific experience into a structure.",
-            "cn": "在于知识之上是否有更上游的东西：判断、品味、对问题本身的提问能力、把具体经验抽象成结构的能力。"
-          },
-          {
-            "en": "These upstream abilities are the real substance.",
-            "cn": "这些上游能力，才是真正的实质。"
+            "en": "The key isn’t “more or less knowledge”. It’s whether there is something further upstream of knowledge: judgment, taste, the ability to question the problem itself, the ability to abstract a specific experience into a structure. These upstream abilities are the real substance.",
+            "cn": "关键不在“知识多不知识少”，在于知识之上是否有更上游的东西：判断、品味、对问题本身的提问能力、把具体经验抽象成结构的能力。这些上游能力，才是真正的实质。"
           }
         ]
       },
@@ -39245,8 +35029,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Judgment is real: accept the reality of slow monetisation and long-term sustained presence; don’t pretend you can grow fast. This person is slow but on a real path",
-            "cn": "判断力真的存在：接受变现极慢、需要长期持续在场的现实，不假装能快速增长。这种人虽然慢，但走的是真路"
+            "en": "Judgment is real: accept the reality of slow monetisation and long-term sustained presence; don’t pretend you can grow fast.",
+            "cn": "判断力真的存在：接受变现极慢、需要长期持续在场的现实，不假装能快速增长。"
+          },
+          {
+            "en": "This person is slow but on a real path",
+            "cn": "这种人虽然慢，但走的是真路"
           }
         ]
       },
@@ -39265,12 +35053,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Thinks they have judgment but doesn’t: makes long-term decisions on wrong expectations, refuses luck-track form-grinding opportunities, and pours large amounts of time into “substance work” no one identifies.",
-            "cn": "以为自己有判断力，其实没有：用错误的预期做长期决策，拒绝形式赛道的运气机会，又投入大量时间做没人识别的“实质工作”，"
-          },
-          {
-            "en": "Misses on both sides",
-            "cn": "两边都不到位"
+            "en": "Thinks they have judgment but doesn’t: makes long-term decisions on wrong expectations, refuses luck-track form-grinding opportunities, and pours large amounts of time into “substance work” no one identifies. Misses on both sides",
+            "cn": "以为自己有判断力，其实没有：用错误的预期做长期决策，拒绝形式赛道的运气机会，又投入大量时间做没人识别的“实质工作”，两边都不到位"
           }
         ]
       },
@@ -39381,24 +35165,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The middle tier won’t vanish overnight.",
-            "cn": "中间层不会一夜消失。"
-          },
-          {
-            "en": "For a long time, the middle tier will continue to exist, but its mode of existence shifts from structure to crevice: a niche AI hasn’t covered yet, a client still paying on old logic, a position temporarily exempt for compliance or inertia, an instance of personal charisma or luck landing right.",
-            "cn": "在未来相当长的时间里，中间层会继续存在，只是存在方式从结构变成了缝隙：某个细分市场 AI 还没覆盖到、某个客户还在按旧逻辑付费、某个位置因为合规或惯性暂时豁免、某次个人魅力或运气正好踩中。"
-          },
-          {
-            "en": "These are crevices, not structure.",
-            "cn": "这些都是缝隙，不是结构。"
-          },
-          {
-            "en": "You can survive in crevices; some people last a long time.",
-            "cn": "在缝隙里可以活，有些人能活很久，"
-          },
-          {
-            "en": "But they are unpredictable, untransmissible, non-reproducible.",
-            "cn": "但它们不可预期、不可传授、不可再生产。"
+            "en": "The middle tier won’t vanish overnight. For a long time, the middle tier will continue to exist, but its mode of existence shifts from structure to crevice: a niche AI hasn’t covered yet, a client still paying on old logic, a position temporarily exempt for compliance or inertia, an instance of personal charisma or luck landing right. These are crevices, not structure. You can survive in crevices; some people last a long time. But they are unpredictable, untransmissible, non-reproducible.",
+            "cn": "中间层不会一夜消失。在未来相当长的时间里，中间层会继续存在，只是存在方式从结构变成了缝隙：某个细分市场 AI 还没覆盖到、某个客户还在按旧逻辑付费、某个位置因为合规或惯性暂时豁免、某次个人魅力或运气正好踩中。这些都是缝隙，不是结构。在缝隙里可以活，有些人能活很久，但它们不可预期、不可传授、不可再生产。"
           }
         ]
       },
@@ -39564,10 +35332,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#chapter-8--what-this-means-for-individuals-concrete-actions",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -39577,7 +35345,7 @@ const ARTICLES_EXTRA = [
     "chapter": 10,
     "sourceTextWords": 1640,
     "sourceParagraphs": 42,
-    "sourceSentences": 97,
+    "sourceSentences": 99,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -39666,8 +35434,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Issue 03 covered the disintegration of organisational forms. The structure where the firm “did both for you” is breaking down in the AI era.",
-            "cn": "Issue 03 讲过组织形态的瓦解。公司这个“替你同时做两件事”的结构，在 AI 时代解体。"
+            "en": "Issue 03 covered the disintegration of organisational forms.",
+            "cn": "Issue 03 讲过组织形态的瓦解。"
+          },
+          {
+            "en": "The structure where the firm “did both for you” is breaking down in the AI era.",
+            "cn": "公司这个“替你同时做两件事”的结构，在 AI 时代解体。"
           },
           {
             "en": "Micro-studios, subject alliances, independent creators — these new forms don’t do those two things for you anymore.",
@@ -40030,8 +35802,12 @@ const ARTICLES_EXTRA = [
             "cn": "一个关键区分：这并非“标准化产品规模化”。"
           },
           {
-            "en": "Standardised products still exist (SaaS, industrial software, financial infrastructure are still here), but a standardised function alone no longer constitutes a long-term premium source — the de-personalised part is exactly what AI does best. The new subject form is the author’s time, amplified by AI into the capacity to serve more specific clients.",
-            "cn": "标准化产品仍然存在（SaaS、工业软件、金融基础设施都还在），但单靠标准化功能本身不再构成长期溢价来源，去个性化的部分正是 AI 最擅长的。新的主体形态是作者的时间通过 AI 放大成服务更多具体客户的能力。"
+            "en": "Standardised products still exist (SaaS, industrial software, financial infrastructure are still here), but a standardised function alone no longer constitutes a long-term premium source — the de-personalised part is exactly what AI does best.",
+            "cn": "标准化产品仍然存在（SaaS、工业软件、金融基础设施都还在），但单靠标准化功能本身不再构成长期溢价来源，去个性化的部分正是 AI 最擅长的。"
+          },
+          {
+            "en": "The new subject form is the author’s time, amplified by AI into the capacity to serve more specific clients.",
+            "cn": "新的主体形态是作者的时间通过 AI 放大成服务更多具体客户的能力。"
           },
           {
             "en": "Each client is still specific, deep, and personalised; only the number of specific clients one subject can simultaneously serve goes from 5 to 50.",
@@ -40149,10 +35925,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#luck-sits-above-all-this",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -40162,7 +35938,7 @@ const ARTICLES_EXTRA = [
     "chapter": 11,
     "sourceTextWords": 194,
     "sourceParagraphs": 5,
-    "sourceSentences": 11,
+    "sourceSentences": 10,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -40187,12 +35963,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Luck’s weight has been amplified in the AI era.",
-            "cn": "运气在 AI 时代的分量被放大了，"
-          },
-          {
-            "en": "That’s an honest observation.",
-            "cn": "这是一个诚实的观察。"
+            "en": "Luck’s weight has been amplified in the AI era. That’s an honest observation.",
+            "cn": "运气在 AI 时代的分量被放大了，这是一个诚实的观察。"
           }
         ]
       },
@@ -40242,10 +36014,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#coda--the-deliverable-as-a-by-product-of-substance",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -40375,10 +36147,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-25",
     "url": "https://offbook.press/essays/mirage-of-form/#one-question-this-essay-doesnt-answer",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -40388,7 +36160,7 @@ const ARTICLES_EXTRA = [
     "chapter": 13,
     "sourceTextWords": 497,
     "sourceParagraphs": 15,
-    "sourceSentences": 34,
+    "sourceSentences": 29,
     "cover": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "gradient": "linear-gradient(135deg,#2D5F66 0%,#1F484D 50%,#16363B 100%)",
     "coverFrom": "#2D5F66",
@@ -40505,24 +36277,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The recent-modern thing of “deriving meaning from ability” is itself a contingent product of industrialisation and mass education, isomorphic with the bell-curve society.",
-            "cn": "近现代“靠能力获得意义”这件事，本身就是工业化和大众教育之后的偶然产物，和钟形社会同构。"
-          },
-          {
-            "en": "In the thousands of years before that, most people did not live by “winning on ability”.",
-            "cn": "在那之前的几千年里，大多数人不靠“能力赢”过日子，靠和具体他人在具体处境里活下来过日子。"
-          },
-          {
-            "en": "They lived by getting through specific situations with specific others.",
-            "cn": "一个 12 世纪的农民，"
-          },
-          {
-            "en": "A 12th-century farmer was outranked on ability by the king, the knight, the monk, the merchant.",
-            "cn": "在能力上输给国王、骑士、修道士、商人。"
-          },
-          {
-            "en": "But he loved his wife, raised his children, buried his parents, and within the small range where he could be present, had meaning, connection, responsibility, joy.",
-            "cn": "但他爱他的妻子，养他的孩子，埋他的父母，在他能在场的小范围里有意义、有连接、有责任、有快乐。"
+            "en": "The recent-modern thing of “deriving meaning from ability” is itself a contingent product of industrialisation and mass education, isomorphic with the bell-curve society. In the thousands of years before that, most people did not live by “winning on ability”. They lived by getting through specific situations with specific others. A 12th-century farmer was outranked on ability by the king, the knight, the monk, the merchant. But he loved his wife, raised his children, buried his parents, and within the small range where he could be present, had meaning, connection, responsibility, joy.",
+            "cn": "近现代“靠能力获得意义”这件事，本身就是工业化和大众教育之后的偶然产物，和钟形社会同构。在那之前的几千年里，大多数人不靠“能力赢”过日子，靠和具体他人在具体处境里活下来过日子。一个 12 世纪的农民，在能力上输给国王、骑士、修道士、商人。但他爱他的妻子，养他的孩子，埋他的父母，在他能在场的小范围里有意义、有连接、有责任、有快乐。"
           }
         ]
       },
@@ -40553,12 +36309,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Whether this is pessimistic or optimistic doesn’t depend on the fact itself.",
-            "cn": "这件事悲观还是乐观，不取决于事实本身，"
-          },
-          {
-            "en": "It depends on whether you can let go of the obsession that “I must have a position on ability”.",
-            "cn": "取决于你能不能放下“我必须在能力上有位置”这个执念。"
+            "en": "Whether this is pessimistic or optimistic doesn’t depend on the fact itself. It depends on whether you can let go of the obsession that “I must have a position on ability”.",
+            "cn": "这件事悲观还是乐观，不取决于事实本身，取决于你能不能放下“我必须在能力上有位置”这个执念。"
           }
         ]
       },
@@ -40600,10 +36352,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
     "url": "https://offbook.press/essays/teaching-and-training-disqualified/#preface--eleven-hundred-years",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -40613,7 +36365,7 @@ const ARTICLES_EXTRA = [
     "chapter": 1,
     "sourceTextWords": 1359,
     "sourceParagraphs": 50,
-    "sourceSentences": 128,
+    "sourceSentences": 80,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
@@ -40638,92 +36390,32 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The seventh year of Kaihuang.",
-            "cn": "开皇七年，官员要补。"
-          },
-          {
-            "en": "Officials need filling.",
-            "cn": "这些人他大半不认识，"
-          },
-          {
-            "en": "Most of these names he doesn’t know; each carries the name of a recommender.",
-            "cn": "每个名字旁边都有荐主。"
-          },
-          {
-            "en": "The recommenders he knows.",
-            "cn": "荐主他认得。"
-          },
-          {
-            "en": "The Three Departments’ clerks, the prefectural Rectifiers — for decades they’ve cycled through, the same handful of clans.",
-            "cn": "三省的省郎，各州的中正，几十年里来回，就这几个家族。"
+            "en": "The seventh year of Kaihuang. Officials need filling. Most of these names he doesn’t know; each carries the name of a recommender. The recommenders he knows. The Three Departments’ clerks, the prefectural Rectifiers — for decades they’ve cycled through, the same handful of clans.",
+            "cn": "开皇七年，官员要补。这些人他大半不认识，每个名字旁边都有荐主。荐主他认得。三省的省郎，各州的中正，几十年里来回，就这几个家族。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Cui.",
-            "cn": "崔、"
-          },
-          {
-            "en": "Lu.",
-            "cn": "卢、"
-          },
-          {
-            "en": "Wang.",
-            "cn": "王、"
-          },
-          {
-            "en": "Xie.",
-            "cn": "谢。"
+            "en": "Cui. Lu. Wang. Xie.",
+            "cn": "崔、卢、王、谢。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "These names appear on the dispatches he signs, and on the dispatches his grandfather signed, and on dispatches sent by emperors well before that.",
-            "cn": "这些字写在他签发的国书上，也写在他祖父签发的国书上，也写在再往前几位皇帝签发的国书上。"
-          },
-          {
-            "en": "Northern Zhou is gone.",
-            "cn": "北周亡了，"
-          },
-          {
-            "en": "Northern Qi is gone.",
-            "cn": "北齐亡了，"
-          },
-          {
-            "en": "Liang is gone.",
-            "cn": "梁亡了，陈快要亡了。"
-          },
-          {
-            "en": "Chen is about to fall.",
-            "cn": "这些"
-          },
-          {
-            "en": "These names have not.",
-            "cn": "字没有亡。"
+            "en": "These names appear on the dispatches he signs, and on the dispatches his grandfather signed, and on dispatches sent by emperors well before that. Northern Zhou is gone. Northern Qi is gone. Liang is gone. Chen is about to fall. These names have not.",
+            "cn": "这些字写在他签发的国书上，也写在他祖父签发的国书上，也写在再往前几位皇帝签发的国书上。北周亡了，北齐亡了，梁亡了，陈快要亡了。这些字没有亡。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "He has unified the north and is about to unify the south.",
-            "cn": "他统一了北方，即将统一南方。"
-          },
-          {
-            "en": "From his generation forward, this land will no longer be the north or the south of one dynasty or another.",
-            "cn": "从他这一代起，这片土地不再叫某朝的北、某朝的南，它叫隋。"
-          },
-          {
-            "en": "It will be Sui.",
-            "cn": "但他要任命的每一个人，"
-          },
-          {
-            "en": "But every appointment he intends to issue must first pass under these names.",
-            "cn": "都要先从这些字底下过一道。"
+            "en": "He has unified the north and is about to unify the south. From his generation forward, this land will no longer be the north or the south of one dynasty or another. It will be Sui. But every appointment he intends to issue must first pass under these names.",
+            "cn": "他统一了北方，即将统一南方。从他这一代起，这片土地不再叫某朝的北、某朝的南，它叫隋。但他要任命的每一个人，都要先从这些字底下过一道。"
           }
         ]
       },
@@ -40758,24 +36450,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "He wants a method.",
-            "cn": "他要一种办法。"
-          },
-          {
-            "en": "No Rectifiers.",
-            "cn": "不经中正，"
-          },
-          {
-            "en": "No recommendations.",
-            "cn": "不经荐举，不经家族过手。"
-          },
-          {
-            "en": "No clans passing things along.",
-            "cn": "任何人，"
-          },
-          {
-            "en": "Anyone, if they can pass a public standard, gets identified directly.",
-            "cn": "只要通得过一套公开的标准，就能直接被识别。"
+            "en": "He wants a method. No Rectifiers. No recommendations. No clans passing things along. Anyone, if they can pass a public standard, gets identified directly.",
+            "cn": "他要一种办法。不经中正，不经荐举，不经家族过手。任何人，只要通得过一套公开的标准，就能直接被识别。"
           }
         ]
       },
@@ -40798,36 +36474,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "For thirteen hundred years afterward, the details would be revised over and over.",
-            "cn": "往后一千三百年，这件事的细节会反复修改。"
-          },
-          {
-            "en": "Subjects changed.",
-            "cn": "科目会变，"
-          },
-          {
-            "en": "Content changed.",
-            "cn": "内容会变，"
-          },
-          {
-            "en": "The palace examination appeared.",
-            "cn": "殿试会出现，"
-          },
-          {
-            "en": "Anonymous transcripts appeared.",
-            "cn": "糊名誊录会出现，"
-          },
-          {
-            "en": "The eight-legged essay appeared.",
-            "cn": "八股会出现。"
-          },
-          {
-            "en": "Dynasties turned over, again and again.",
-            "cn": "皇朝会换，一次又一次。"
-          },
-          {
-            "en": "What stayed unchanged underneath was one thing:",
-            "cn": "底下不变的是同一件事："
+            "en": "For thirteen hundred years afterward, the details would be revised over and over. Subjects changed. Content changed. The palace examination appeared. Anonymous transcripts appeared. The eight-legged essay appeared. Dynasties turned over, again and again. What stayed unchanged underneath was one thing:",
+            "cn": "往后一千三百年，这件事的细节会反复修改。科目会变，内容会变，殿试会出现，糊名誊录会出现，八股会出现。皇朝会换，一次又一次。底下不变的是同一件事："
           }
         ]
       },
@@ -40878,32 +36526,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The Seven Years’ War ended half a year ago.",
-            "cn": "七年战争半年多前刚结束。"
-          },
-          {
-            "en": "Prussia won.",
-            "cn": "普鲁士赢了。"
-          },
-          {
-            "en": "The peace is a winner’s peace, but this winner is nearly hollow.",
-            "cn": "和约是赢家的和约，但这个赢家也快空了。"
-          },
-          {
-            "en": "Half a million dead in battle and famine.",
-            "cn": "五十万人死在战场和饥荒里，"
-          },
-          {
-            "en": "Eastern villages emptied wholesale.",
-            "cn": "东部的村庄整片整片没人，税源接近枯竭。"
-          },
-          {
-            "en": "Tax revenue close to dry.",
-            "cn": "靠他赢下这场仗的，"
-          },
-          {
-            "en": "What carried him through the war was a standing army trained by the state and an industrial apparatus directed by the state.",
-            "cn": "是一支由国家长期训练的军队，以及一套由国家直接调度的工业。"
+            "en": "The Seven Years’ War ended half a year ago. Prussia won. The peace is a winner’s peace, but this winner is nearly hollow. Half a million dead in battle and famine. Eastern villages emptied wholesale. Tax revenue close to dry. What carried him through the war was a standing army trained by the state and an industrial apparatus directed by the state.",
+            "cn": "七年战争半年多前刚结束。普鲁士赢了。和约是赢家的和约，但这个赢家也快空了。五十万人死在战场和饥荒里，东部的村庄整片整片没人，税源接近枯竭。靠他赢下这场仗的，是一支由国家长期训练的军队，以及一套由国家直接调度的工业。"
           }
         ]
       },
@@ -40934,8 +36558,16 @@ const ARTICLES_EXTRA = [
             "cn": "农村的孩子不识字，不会算术，不守时，不接受抽象命令。"
           },
           {
-            "en": "They answer to their fathers, to their clans, to the parish priest. The state is not on their list. To get the state inside them, the state has to intervene earlier.",
-            "cn": "他们对父亲负责，对宗族负责，对教区的神父负责。国家不在他们的负责清单上。要让国家进入他们，必须在更早的时候介入。"
+            "en": "They answer to their fathers, to their clans, to the parish priest.",
+            "cn": "他们对父亲负责，对宗族负责，对教区的神父负责。"
+          },
+          {
+            "en": "The state is not on their list.",
+            "cn": "国家不在他们的负责清单上。"
+          },
+          {
+            "en": "To get the state inside them, the state has to intervene earlier.",
+            "cn": "要让国家进入他们，必须在更早的时候介入。"
           }
         ]
       },
@@ -41090,84 +36722,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Workers don’t come.",
-            "cn": "工人不来，来了不留。"
-          },
-          {
-            "en": "Those who come don’t stay.",
-            "cn": "一台机器停在那里等一个会拧螺丝的人，"
-          },
-          {
-            "en": "A machine sitting idle while it waits for someone who can turn screws costs more than the screw-turning itself.",
-            "cn": "比拧螺丝本身更贵。"
+            "en": "Workers don’t come. Those who come don’t stay. A machine sitting idle while it waits for someone who can turn screws costs more than the screw-turning itself.",
+            "cn": "工人不来，来了不留。一台机器停在那里等一个会拧螺丝的人，比拧螺丝本身更贵。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The reason is clear.",
-            "cn": "原因清楚。"
-          },
-          {
-            "en": "Most of the floor is recent immigrants.",
-            "cn": "工厂里大半是刚到美国的移民。"
-          },
-          {
-            "en": "Poles, Italians, Greeks, Eastern European Jews, Mexicans.",
-            "cn": "波兰人、意大利人、希腊人、东欧犹太人、墨西哥人。"
-          },
-          {
-            "en": "They cannot follow the foreman’s English.",
-            "cn": "他们听不懂工头的英语指令，"
-          },
-          {
-            "en": "They cannot read the safety signs.",
-            "cn": "看不懂安全标识，"
-          },
-          {
-            "en": "They cannot remember which step their badge number maps to.",
-            "cn": "记不住自己工号对应的工序。"
-          },
-          {
-            "en": "They were used to one tempo back home; the factory needs another.",
-            "cn": "在自己的村子里习惯了一种节奏，工厂要的是另一种节奏。"
-          },
-          {
-            "en": "The gap between a peasant arriving from the countryside and a man on the assembly line is something compulsory education does not bridge.",
-            "cn": "一个工人从乡下到流水线，中间缺的那一段东西，义务教育补不上。"
-          },
-          {
-            "en": "Compulsory education gave him the four basics: literacy, arithmetic, punctuality, obedience.",
-            "cn": "义务教育给了他识字、算术、守时、服从这四件底子。"
-          },
-          {
-            "en": "What the plant needs is for him to stand at his assigned station and, on a 93-minute beat, repeat one specific motion calibrated to the second.",
-            "cn": "工厂要的是他在被分配的工位上，按 93 分钟的节拍，重复一个具体到秒的动作。"
-          },
-          {
-            "en": "No existing system teaches that.",
-            "cn": "这一段，没有任何已有的系统在教。"
+            "en": "The reason is clear. Most of the floor is recent immigrants. Poles, Italians, Greeks, Eastern European Jews, Mexicans. They cannot follow the foreman’s English. They cannot read the safety signs. They cannot remember which step their badge number maps to. They were used to one tempo back home; the factory needs another. The gap between a peasant arriving from the countryside and a man on the assembly line is something compulsory education does not bridge. Compulsory education gave him the four basics: literacy, arithmetic, punctuality, obedience. What the plant needs is for him to stand at his assigned station and, on a 93-minute beat, repeat one specific motion calibrated to the second. No existing system teaches that.",
+            "cn": "原因清楚。工厂里大半是刚到美国的移民。波兰人、意大利人、希腊人、东欧犹太人、墨西哥人。他们听不懂工头的英语指令，看不懂安全标识，记不住自己工号对应的工序。在自己的村子里习惯了一种节奏，工厂要的是另一种节奏。一个工人从乡下到流水线，中间缺的那一段东西，义务教育补不上。义务教育给了他识字、算术、守时、服从这四件底子。工厂要的是他在被分配的工位上，按 93 分钟的节拍，重复一个具体到秒的动作。这一段，没有任何已有的系统在教。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "That year, Ford founded the Ford English School.",
-            "cn": "这一年，Ford 建立了 Ford English School。"
-          },
-          {
-            "en": "Within a year, several thousand immigrant workers were attending classes inside the plant and after hours.",
-            "cn": "一年之内，几千名移民工人在工厂里、在下班后上课。"
-          },
-          {
-            "en": "The curriculum included English, American civics, personal hygiene, how to use a bank, how a household in America budgets.",
-            "cn": "课程包括英语、美国公民常识、个人卫生、如何使用银行、如何在美国的家庭里安排开支。"
-          },
-          {
-            "en": "The next year it expanded into the Sociological Department: fifty investigators visited workers’ homes to assess whether they were “ready to be a Ford worker.” Those who passed earned twice the industry rate — five dollars a day.",
-            "cn": "次年扩展为 Sociological Department，五十名调查员上门访问工人家庭，评估他们 “是否准备好成为福特工人”。通过评估的人，可以拿到当时业界两倍的工资，每天 5 美元。"
+            "en": "That year, Ford founded the Ford English School. Within a year, several thousand immigrant workers were attending classes inside the plant and after hours. The curriculum included English, American civics, personal hygiene, how to use a bank, how a household in America budgets. The next year it expanded into the Sociological Department: fifty investigators visited workers’ homes to assess whether they were “ready to be a Ford worker.” Those who passed earned twice the industry rate — five dollars a day.",
+            "cn": "这一年，Ford 建立了 Ford English School。一年之内，几千名移民工人在工厂里、在下班后上课。课程包括英语、美国公民常识、个人卫生、如何使用银行、如何在美国的家庭里安排开支。次年扩展为 Sociological Department，五十名调查员上门访问工人家庭，评估他们 “是否准备好成为福特工人”。通过评估的人，可以拿到当时业界两倍的工资，每天 5 美元。"
           }
         ]
       },
@@ -41246,20 +36818,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Stack the three together and you get the full structure of modern teaching and training.",
-            "cn": "三件事拼起来，是现代教育和培训的完整结构。"
-          },
-          {
-            "en": "First produce people into identifiable objects.",
-            "cn": "先把人生产成可识别的对象，"
-          },
-          {
-            "en": "Then filter the small subset that is usable.",
-            "cn": "再把这些对象筛选出可用的那一小批，"
-          },
-          {
-            "en": "Then machine the usable into units that drop straight into a specific role.",
-            "cn": "再把可用的人加工成可立即嵌入的岗位单元。"
+            "en": "Stack the three together and you get the full structure of modern teaching and training. First produce people into identifiable objects. Then filter the small subset that is usable. Then machine the usable into units that drop straight into a specific role.",
+            "cn": "三件事拼起来，是现代教育和培训的完整结构。先把人生产成可识别的对象，再把这些对象筛选出可用的那一小批，再把可用的人加工成可立即嵌入的岗位单元。"
           }
         ]
       },
@@ -41271,15 +36831,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Compulsory schooling, exams and credentials, corporate training.",
-            "cn": "义务教育，考试与学历，企业内训。形态各有不同。"
+            "cn": "义务教育，考试与学历，企业内训。"
           },
           {
             "en": "The shapes vary.",
-            "cn": "义务教育的年限不同，"
+            "cn": "形态各有不同。"
           },
           {
             "en": "School-leaving ages vary, exam formats vary, the selection points vary, the language varies.",
-            "cn": "考试的形式不同，选拔的节点不同，使用的话语不同。"
+            "cn": "义务教育的年限不同，考试的形式不同，选拔的节点不同，使用的话语不同。"
           },
           {
             "en": "Corporate training varies too — apprenticeships, onboarding, OJT, internal business schools, leadership programs, external MBAs.",
@@ -41341,10 +36901,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
     "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-1--the-current-state",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -41354,7 +36914,7 @@ const ARTICLES_EXTRA = [
     "chapter": 2,
     "sourceTextWords": 3633,
     "sourceParagraphs": 81,
-    "sourceSentences": 218,
+    "sourceSentences": 155,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
@@ -41363,8 +36923,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Yang Jian, Frederick, Ford — three points already in the past. Three problems, not in the past: who can be filtered out, who can be produced into a usable person, who can be fitted to a specific position.",
-            "cn": "杨坚、腓特烈、Ford 三个时点都已经过去。三个问题没有过去：谁能被筛选出来，谁能被生产成可用的人，谁能被适配到具体的位置上。"
+            "en": "Yang Jian, Frederick, Ford — three points already in the past.",
+            "cn": "杨坚、腓特烈、Ford 三个时点都已经过去。"
+          },
+          {
+            "en": "Three problems, not in the past: who can be filtered out, who can be produced into a usable person, who can be fitted to a specific position.",
+            "cn": "三个问题没有过去：谁能被筛选出来，谁能被生产成可用的人，谁能被适配到具体的位置上。"
           },
           {
             "en": "The system has run for another hundred and ten years since Highland Park in 1913.",
@@ -41379,16 +36943,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "“Education trains people” sounds like one thing.",
-            "cn": "「教育训练人」这件事说出来是一句话，拆开来是七项。"
-          },
-          {
-            "en": "Pulled apart, it is seven.",
-            "cn": "每一项可塑性不同，"
-          },
-          {
-            "en": "Each one has different plasticity, a different fate after AI, and a different training method.",
-            "cn": "AI 之后的命运不同，需要的训练方式也不同。"
+            "en": "“Education trains people” sounds like one thing. Pulled apart, it is seven. Each one has different plasticity, a different fate after AI, and a different training method.",
+            "cn": "「教育训练人」这件事说出来是一句话，拆开来是七项。每一项可塑性不同，AI 之后的命运不同，需要的训练方式也不同。"
           }
         ]
       },
@@ -41483,32 +37039,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Fourth is the strategy repertoire.",
-            "cn": "第四是策略库。"
-          },
-          {
-            "en": "Every solution painfully reasoned out the first time can be called up directly the next time the same shape appears.",
-            "cn": "每一次费力推导出来的解法，下一次遇到相似问题不必再次推理，可以直接调用。"
-          },
-          {
-            "en": "Chess has its formations, physics its tricks, engineering its feel.",
-            "cn": "下棋有定式，物理有套路，工程师有手感。"
-          },
-          {
-            "en": "The gap in professional problem-solving is mostly not in Gf; it is in the depth of the repertoire.",
-            "cn": "专业问题解决能力的差距，主要不在 Gf，在策略库的厚度。"
-          },
-          {
-            "en": "After AI this layer splits in two.",
-            "cn": "AI 之后这一层一分为二："
-          },
-          {
-            "en": "The shallow, template-shaped strategies AI has all of, faster and more accurately than you.",
-            "cn": "表层的、模板化的策略 AI 全有，比你快也比你准；"
-          },
-          {
-            "en": "The deeper layer — judgments tied to specific domains (“this machine sounds wrong from the moment it starts up”) — AI cannot pick up, because it has no on-site sense.",
-            "cn": "深一层和具体领域深度关联的判断（「这台机器一开机就有点不对劲」），AI 无法承接，因为它没有现场感受。"
+            "en": "Fourth is the strategy repertoire. Every solution painfully reasoned out the first time can be called up directly the next time the same shape appears. Chess has its formations, physics its tricks, engineering its feel. The gap in professional problem-solving is mostly not in Gf; it is in the depth of the repertoire. After AI this layer splits in two. The shallow, template-shaped strategies AI has all of, faster and more accurately than you. The deeper layer — judgments tied to specific domains (“this machine sounds wrong from the moment it starts up”) — AI cannot pick up, because it has no on-site sense.",
+            "cn": "第四是策略库。每一次费力推导出来的解法，下一次遇到相似问题不必再次推理，可以直接调用。下棋有定式，物理有套路，工程师有手感。专业问题解决能力的差距，主要不在 Gf，在策略库的厚度。AI 之后这一层一分为二：表层的、模板化的策略 AI 全有，比你快也比你准；深一层和具体领域深度关联的判断（「这台机器一开机就有点不对劲」），AI 无法承接，因为它没有现场感受。"
           }
         ]
       },
@@ -41543,52 +37075,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Sixth is cognitive decoupling.",
-            "cn": "第六是认知去耦。"
-          },
-          {
-            "en": "Stripping abstract structure out of concrete context and operating on it as a formal object.",
-            "cn": "把抽象结构从具体情境里剥离出来，作为形式对象操作。"
-          },
-          {
-            "en": "Proving a geometry theorem, pushing an algebraic step, debugging a program — they are doing the same thing.",
-            "cn": "证一道几何题、推一段代数、修复一个程序的 bug，做的都是同一件事。"
-          },
-          {
-            "en": "It is closely related to Gf but narrower, more specialised, more effortful.",
-            "cn": "它和 Gf 紧密相关，但更窄、更专、更费力。"
-          },
-          {
-            "en": "ISSUE 01 placed it at the centre of “the real divide in the age of AI.” After AI this layer is the scarcest. AI itself is a product of cognitive decoupling — language stripped into probabilities, reasoning stripped into parameters — but it cannot do the decoupling on a specific person’s behalf.",
-            "cn": "ISSUE 01 把它放在了「AI 时代真正的分化」的中心。AI 之后这一层稀缺性最高。AI 本身是认知去耦的产物（语言被剥离成概率，推理被剥离成参数），但它无法替代具体的人完成去耦。"
-          },
-          {
-            "en": "AI can hand over the result; the act of decoupling has to be done by a specific person.",
-            "cn": "AI 能给出结果，但完成去耦这一步必须由具体的人来做。"
+            "en": "Sixth is cognitive decoupling. Stripping abstract structure out of concrete context and operating on it as a formal object. Proving a geometry theorem, pushing an algebraic step, debugging a program — they are doing the same thing. It is closely related to Gf but narrower, more specialised, more effortful. ISSUE 01 placed it at the centre of “the real divide in the age of AI.” After AI this layer is the scarcest. AI itself is a product of cognitive decoupling — language stripped into probabilities, reasoning stripped into parameters — but it cannot do the decoupling on a specific person’s behalf. AI can hand over the result; the act of decoupling has to be done by a specific person.",
+            "cn": "第六是认知去耦。把抽象结构从具体情境里剥离出来，作为形式对象操作。证一道几何题、推一段代数、修复一个程序的 bug，做的都是同一件事。它和 Gf 紧密相关，但更窄、更专、更费力。ISSUE 01 把它放在了「AI 时代真正的分化」的中心。AI 之后这一层稀缺性最高。AI 本身是认知去耦的产物（语言被剥离成概率，推理被剥离成参数），但它无法替代具体的人完成去耦。AI 能给出结果，但完成去耦这一步必须由具体的人来做。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Seventh is metacognition.",
-            "cn": "第七是元认知。"
-          },
-          {
-            "en": "“Where do I not understand”, “under what conditions does this method hold”, “did I just skip a step too fast.” It is a habit ground in over years through real tasks and real feedback.",
-            "cn": "「我哪里不懂」、「这个解法在什么前提下成立」、「我刚才那一步会不会跳得太快」。它是长期通过真实任务和真实反馈反复磨炼出来的习惯。"
-          },
-          {
-            "en": "The old education barely trains it.",
-            "cn": "旧教育几乎不训练这一层。"
-          },
-          {
-            "en": "Exams don’t test it, teachers can’t grade it; it happens inside the student’s own head.",
-            "cn": "考试不考它，老师无法评分，它发生在学生自己脑子里。"
-          },
-          {
-            "en": "After AI this layer is extremely scarce, because faced with AI’s output, “should I trust this right now” is the judgment AI cannot do for you.",
-            "cn": "AI 之后这一层极其稀缺，因为面对 AI 的输出，「我现在该不该相信它」是 AI 无法替你完成的判断。"
+            "en": "Seventh is metacognition. “Where do I not understand”, “under what conditions does this method hold”, “did I just skip a step too fast.” It is a habit ground in over years through real tasks and real feedback. The old education barely trains it. Exams don’t test it, teachers can’t grade it; it happens inside the student’s own head. After AI this layer is extremely scarce, because faced with AI’s output, “should I trust this right now” is the judgment AI cannot do for you.",
+            "cn": "第七是元认知。「我哪里不懂」、「这个解法在什么前提下成立」、「我刚才那一步会不会跳得太快」。它是长期通过真实任务和真实反馈反复磨炼出来的习惯。旧教育几乎不训练这一层。考试不考它，老师无法评分，它发生在学生自己脑子里。AI 之后这一层极其稀缺，因为面对 AI 的输出，「我现在该不该相信它」是 AI 无法替你完成的判断。"
           }
         ]
       },
@@ -41611,16 +37107,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Teaching is school education, from primary school to university.",
-            "cn": "「教」是学校教育，从小学到大学，做两件事："
-          },
-          {
-            "en": "It does two things: sort people into ability tiers, and shape each tier into an identifiable object.",
-            "cn": "把人按能力分出层级，再把每一层塑造成可被识别的对象。"
-          },
-          {
-            "en": "Credentials, scores, certificates, school rankings — these are its outputs.",
-            "cn": "学历、分数、证书、学校层级，是它的产出。"
+            "en": "Teaching is school education, from primary school to university. It does two things: sort people into ability tiers, and shape each tier into an identifiable object. Credentials, scores, certificates, school rankings — these are its outputs.",
+            "cn": "「教」是学校教育，从小学到大学，做两件事：把人按能力分出层级，再把每一层塑造成可被识别的对象。学历、分数、证书、学校层级，是它的产出。"
           }
         ]
       },
@@ -41643,16 +37131,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Teaching produces sortable people.",
-            "cn": "教生产可排序的人，训生产可嵌入流程的人。"
-          },
-          {
-            "en": "Training produces embeddable people.",
-            "cn": "两者过去都成立，"
-          },
-          {
-            "en": "Both held in the past, because the world really did need large numbers of sortable, trainable, embeddable people.",
-            "cn": "因为过去的世界确实需要大量可排序、可训练、可嵌入的人。"
+            "en": "Teaching produces sortable people. Training produces embeddable people. Both held in the past, because the world really did need large numbers of sortable, trainable, embeddable people.",
+            "cn": "教生产可排序的人，训生产可嵌入流程的人。两者过去都成立，因为过去的世界确实需要大量可排序、可训练、可嵌入的人。"
           }
         ]
       },
@@ -41679,40 +37159,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The old education and the old training are not without use.",
-            "cn": "旧教育和旧培训不是没有用。"
-          },
-          {
-            "en": "They were once usable, because knowledge, experience, fluency, and formal compliance were genuinely scarce in the past. A person who could write a passable essay was, more often than not, someone who genuinely understood.",
-            "cn": "它们曾经能够使用，因为知识、经验、熟练度、形式合格在过去都是真实稀缺的。"
-          },
-          {
-            "en": "A person who could write working code was, more often than not, someone with engineering chops.",
-            "cn": "一个人能写出像样的文章，多半真的理解；能写出像样的代码，多半真的通晓工程；"
-          },
-          {
-            "en": "A person who could deliver consistently was, more often than not, fit for the role.",
-            "cn": "能稳定交付，多半真的适合岗位。"
-          },
-          {
-            "en": "The form indirectly testified to the substance.",
-            "cn": "形式间接证明了实质。"
+            "en": "The old education and the old training are not without use. They were once usable, because knowledge, experience, fluency, and formal compliance were genuinely scarce in the past. A person who could write a passable essay was, more often than not, someone who genuinely understood. A person who could write working code was, more often than not, someone with engineering chops. A person who could deliver consistently was, more often than not, fit for the role. The form indirectly testified to the substance.",
+            "cn": "旧教育和旧培训不是没有用。它们曾经能够使用，因为知识、经验、熟练度、形式合格在过去都是真实稀缺的。一个人能写出像样的文章，多半真的理解；能写出像样的代码，多半真的通晓工程；能稳定交付，多半真的适合岗位。形式间接证明了实质。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "What AI has changed is that proof relation.",
-            "cn": "AI 改变的就是这个证明关系。"
-          },
-          {
-            "en": "The form still works, still delivers, still gets people to feel “this is well done.” But it no longer reliably testifies that a corresponding subject stands behind it.",
-            "cn": "形式仍然能用，仍然能交付，仍然能让人觉得「这个东西做得不错」。但它不再稳定证明背后有相应的主体。"
-          },
-          {
-            "en": "ISSUE 04 called this “form being able to be produced independently of substance”.",
-            "cn": "ISSUE 04 把这件事称为「形式可以脱离实质独立产生」。"
+            "en": "What AI has changed is that proof relation. The form still works, still delivers, still gets people to feel “this is well done.” But it no longer reliably testifies that a corresponding subject stands behind it. ISSUE 04 called this “form being able to be produced independently of substance”.",
+            "cn": "AI 改变的就是这个证明关系。形式仍然能用，仍然能交付，仍然能让人觉得「这个东西做得不错」。但它不再稳定证明背后有相应的主体。ISSUE 04 把这件事称为「形式可以脱离实质独立产生」。"
           }
         ]
       },
@@ -41759,24 +37215,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "China’s core is filtering by problem bank.",
-            "cn": "中国的核心是题库筛选。"
-          },
-          {
-            "en": "From the Sui imperial exam to the contemporary gaokao (the make-or-break Chinese university entrance exam), to the recent wave of “top-tier innovative talent” programs in the Yangtze Delta and Beijing, the logic has not moved: through large-scale, tiered, feedback-rich standardised problems, push students repeatedly against the edge of their existing ability, trigger on-the-spot reasoning, and rank the results into a stable order.",
-            "cn": "从隋代科举一路到当代高考，再到这几年长三角和北京推动的拔尖创新人才培养计划，逻辑没变：通过大规模、分级、带反馈的标准化题目，把学生反复推到已有能力的边缘上，触发现场推理，再按结果排出一个稳定的次序。"
-          },
-          {
-            "en": "Its strength is high-density Gf activation and stable ranking.",
-            "cn": "它的强项是高密度调用 Gf 并稳定排序。"
-          },
-          {
-            "en": "Of two people with the same ceiling, the one who has been pushed against the edge again and again will get more done than the one who never has.",
-            "cn": "同样上限的两个人，被反复推到边缘的那一个比从未经历过的那一个更能做事。"
-          },
-          {
-            "en": "Its weakness is that once problem types have been exhaustively patternised, training degenerates from “triggering judgment” to “training standard responses.” Of the seven mechanisms, China’s thickness sits in knowledge, activation frequency, and the strategy repertoire.",
-            "cn": "弱项是一旦题型被充分模式化，训练就从触发判断退化为训练标准反应。七项里，中国体系的厚度集中在知识、调用频率、策略库这三项。"
+            "en": "China’s core is filtering by problem bank. From the Sui imperial exam to the contemporary gaokao (the make-or-break Chinese university entrance exam), to the recent wave of “top-tier innovative talent” programs in the Yangtze Delta and Beijing, the logic has not moved: through large-scale, tiered, feedback-rich standardised problems, push students repeatedly against the edge of their existing ability, trigger on-the-spot reasoning, and rank the results into a stable order. Its strength is high-density Gf activation and stable ranking. Of two people with the same ceiling, the one who has been pushed against the edge again and again will get more done than the one who never has. Its weakness is that once problem types have been exhaustively patternised, training degenerates from “triggering judgment” to “training standard responses.” Of the seven mechanisms, China’s thickness sits in knowledge, activation frequency, and the strategy repertoire.",
+            "cn": "中国的核心是题库筛选。从隋代科举一路到当代高考，再到这几年长三角和北京推动的拔尖创新人才培养计划，逻辑没变：通过大规模、分级、带反馈的标准化题目，把学生反复推到已有能力的边缘上，触发现场推理，再按结果排出一个稳定的次序。它的强项是高密度调用 Gf 并稳定排序。同样上限的两个人，被反复推到边缘的那一个比从未经历过的那一个更能做事。弱项是一旦题型被充分模式化，训练就从触发判断退化为训练标准反应。七项里，中国体系的厚度集中在知识、调用频率、策略库这三项。"
           }
         ]
       },
@@ -41799,8 +37239,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The Japanese management scholar Ikujiro Nonaka summarised this kind of capacity as anmokuchi — tacit knowledge — that cannot be encoded in writing and only deposits over years on the post. Its strength is that foundational automation runs deepest: in PIAAC, Japan stays in the top tier because Japanese adults’ basic cognitive abilities don’t depreciate badly with age.",
-            "cn": "日本管理学者野中郁次郎用「暗默知」（あんもくち）概括这种能力：它无法编码成文字，只能在岗位中长年沉淀。它的强项是基础自动化做得最厚，PIAAC 成人测评里日本始终在第一梯队，根子在这里：日本人成年后基础认知能力不大幅折旧。"
+            "en": "The Japanese management scholar Ikujiro Nonaka summarised this kind of capacity as anmokuchi — tacit knowledge — that cannot be encoded in writing and only deposits over years on the post.",
+            "cn": "日本管理学者野中郁次郎用「暗默知」（あんもくち）概括这种能力：它无法编码成文字，只能在岗位中长年沉淀。"
+          },
+          {
+            "en": "Its strength is that foundational automation runs deepest: in PIAAC, Japan stays in the top tier because Japanese adults’ basic cognitive abilities don’t depreciate badly with age.",
+            "cn": "它的强项是基础自动化做得最厚，PIAAC 成人测评里日本始终在第一梯队，根子在这里：日本人成年后基础认知能力不大幅折旧。"
           },
           {
             "en": "Its weakness is that mass-scale social retraining is inflexible and cross-industry mobility is hard.",
@@ -41831,84 +37275,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The intensity of cognitive-decoupling and metacognition training at its top end is unmatched anywhere else.",
-            "cn": "它头部的认知去耦和元认知训练强度，世界其他地方都达不到。"
-          },
-          {
-            "en": "To this day, the overwhelming majority of the world’s top AI researchers were trained in the American top tier.",
-            "cn": "直到今天，全球 AI 行业最顶尖的研究者绝大多数仍然在美国头部体系里训练出来。"
-          },
-          {
-            "en": "The cost is that almost nothing is invested below the median.",
-            "cn": "代价是中位往下基本不投入。"
-          },
-          {
-            "en": "By 2026 the picture is more extreme than that description suggests: the top and the bottom have already split into two different countries.",
-            "cn": "这个体系在 2026 年的样子比这段描述还极端：头部和底部已经分裂为两个不同的国家，"
-          },
-          {
-            "en": "The NAEP 2024 numbers below will lay this out.",
-            "cn": "下面会用 NAEP 2024 的数据展开。"
+            "en": "The intensity of cognitive-decoupling and metacognition training at its top end is unmatched anywhere else. To this day, the overwhelming majority of the world’s top AI researchers were trained in the American top tier. The cost is that almost nothing is invested below the median. By 2026 the picture is more extreme than that description suggests: the top and the bottom have already split into two different countries. The NAEP 2024 numbers below will lay this out.",
+            "cn": "它头部的认知去耦和元认知训练强度，世界其他地方都达不到。直到今天，全球 AI 行业最顶尖的研究者绝大多数仍然在美国头部体系里训练出来。代价是中位往下基本不投入。这个体系在 2026 年的样子比这段描述还极端：头部和底部已经分裂为两个不同的国家，下面会用 NAEP 2024 的数据展开。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The Nordics (with Finland as the case) take a fourth path: low pressure, average, long.",
-            "cn": "北欧（以芬兰为代表）采取的是第四条路径：低压、平均、长期。"
-          },
-          {
-            "en": "They don’t push the student.",
-            "cn": "它不强求学生，"
-          },
-          {
-            "en": "They lean on small school-to-school variance, high teacher autonomy, and stable foundational training to bring the vast majority up to a respectable floor.",
-            "cn": "依靠较小的校际差距、较高的教师自主权、较稳定的基础能力训练，把绝大多数学生送到一个不低的底盘上。"
-          },
-          {
-            "en": "Then the real weight goes onto post-school life: adult retraining, lifelong-learning entry points, and a learning-rights regime co-funded by unions, employers, and the state.",
-            "cn": "然后真正的大头放在工作之后：成人再培训、终身学习入口、工会、雇主、政府三方共担的学习权利。"
-          },
-          {
-            "en": "A person at 30, 40, 50 is still learning new things.",
-            "cn": "一个人 30 岁、40 岁、50 岁仍然在学新东西。"
-          },
-          {
-            "en": "The PIAAC top tier is Finland, Sweden, Norway, the Netherlands, and Japan, all for this reason: Nordic adults don’t depreciate.",
-            "cn": "PIAAC 第一梯队是芬兰、瑞典、挪威、荷兰加日本，原因都在这里：北欧的成人不折旧。"
-          },
-          {
-            "en": "The strength is long-term maintenance of the population-wide floor; the weakness is a lack of concentrated training in deep elite schemas.",
-            "cn": "强项是全民底盘的长期维护，弱项是不集中训练顶尖深度图式。"
-          },
-          {
-            "en": "Of the seven mechanisms, the Nordic system has neither a particularly strong nor a particularly weak layer.",
-            "cn": "七项里，北欧体系的特点是没有特别强的项，也没有特别弱的项。"
+            "en": "The Nordics (with Finland as the case) take a fourth path: low pressure, average, long. They don’t push the student. They lean on small school-to-school variance, high teacher autonomy, and stable foundational training to bring the vast majority up to a respectable floor. Then the real weight goes onto post-school life: adult retraining, lifelong-learning entry points, and a learning-rights regime co-funded by unions, employers, and the state. A person at 30, 40, 50 is still learning new things. The PIAAC top tier is Finland, Sweden, Norway, the Netherlands, and Japan, all for this reason: Nordic adults don’t depreciate. The strength is long-term maintenance of the population-wide floor; the weakness is a lack of concentrated training in deep elite schemas. Of the seven mechanisms, the Nordic system has neither a particularly strong nor a particularly weak layer.",
+            "cn": "北欧（以芬兰为代表）采取的是第四条路径：低压、平均、长期。它不强求学生，依靠较小的校际差距、较高的教师自主权、较稳定的基础能力训练，把绝大多数学生送到一个不低的底盘上。然后真正的大头放在工作之后：成人再培训、终身学习入口、工会、雇主、政府三方共担的学习权利。一个人 30 岁、40 岁、50 岁仍然在学新东西。PIAAC 第一梯队是芬兰、瑞典、挪威、荷兰加日本，原因都在这里：北欧的成人不折旧。强项是全民底盘的长期维护，弱项是不集中训练顶尖深度图式。七项里，北欧体系的特点是没有特别强的项，也没有特别弱的项。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The four systems lean in completely different directions because the historical problems they answered are not the same.",
-            "cn": "四个体系在七项上的偏向完全不同。"
-          },
-          {
-            "en": "China had to filter usable engineers out of an enormous population.",
-            "cn": "背后是各自的历史问题不一样：中国要从极大的人口里筛出可用的工程师，"
-          },
-          {
-            "en": "Japan, in postwar reconstruction, had to shape people into reliable members of industrial organisations.",
-            "cn": "日本要在战后重建里把人塑造成可靠的工业组织成员，"
-          },
-          {
-            "en": "America, in an open society, had to keep producing entrepreneurs and innovators.",
-            "cn": "美国要在开放社会里持续产出企业家和创新者，"
-          },
-          {
-            "en": "The Nordics had to maintain the long-run productivity of a small high-welfare society.",
-            "cn": "北欧要在小国体量里维持高福利社会的长期生产力。"
+            "en": "The four systems lean in completely different directions because the historical problems they answered are not the same. China had to filter usable engineers out of an enormous population. Japan, in postwar reconstruction, had to shape people into reliable members of industrial organisations. America, in an open society, had to keep producing entrepreneurs and innovators. The Nordics had to maintain the long-run productivity of a small high-welfare society.",
+            "cn": "四个体系在七项上的偏向完全不同。背后是各自的历史问题不一样：中国要从极大的人口里筛出可用的工程师，日本要在战后重建里把人塑造成可靠的工业组织成员，美国要在开放社会里持续产出企业家和创新者，北欧要在小国体量里维持高福利社会的长期生产力。"
           }
         ]
       },
@@ -41935,8 +37319,12 @@ const ARTICLES_EXTRA = [
             "cn": "它会在后面作为反面案例出现：2025 年 AI 数字教科书四个月就被撤回，PIAAC 2023 成人三项都在 OECD 平均之下，是这条线索的两个端点。"
           },
           {
-            "en": "Germany’s dual-track system is another vocational benchmark, with narrower coverage than China or the US, and will appear later for contrast. Singapore is a miniature hybrid, too small in scale to be a primary reference.",
-            "cn": "德国双元制是另一个职业培训标杆，覆盖面比中美窄，后面作为对比出现。新加坡是迷你版的混合体，规模太小，不作主参照。"
+            "en": "Germany’s dual-track system is another vocational benchmark, with narrower coverage than China or the US, and will appear later for contrast.",
+            "cn": "德国双元制是另一个职业培训标杆，覆盖面比中美窄，后面作为对比出现。"
+          },
+          {
+            "en": "Singapore is a miniature hybrid, too small in scale to be a primary reference.",
+            "cn": "新加坡是迷你版的混合体，规模太小，不作主参照。"
           }
         ]
       },
@@ -41963,16 +37351,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Mainland China last participated in PISA in 2018.",
-            "cn": "中国大陆最近一次参加 PISA 是 2018 年，"
-          },
-          {
-            "en": "The B-S-J-Z sample (Beijing, Shanghai, Jiangsu, Zhejiang) scored 591 in math, 555 in reading, 590 in science, covering 81% of the 15-year-old population in those four regions — not a national sample.",
-            "cn": "B-S-J-Z（北京、上海、江苏、浙江四地联合样本）数学 591、阅读 555、科学 590，覆盖四地 81% 的 15 岁人口，并不是中国全国样本。"
-          },
-          {
-            "en": "Mainland China is also missing from PIAAC, and PISA only has those four regions, so strictly speaking there is no “China-wide” object available for international comparison.",
-            "cn": "中国大陆 PIAAC 也缺数据，PISA 又只有四地，所以严格讲，国际比较里没有「中国全国」这个对象。"
+            "en": "Mainland China last participated in PISA in 2018. The B-S-J-Z sample (Beijing, Shanghai, Jiangsu, Zhejiang) scored 591 in math, 555 in reading, 590 in science, covering 81% of the 15-year-old population in those four regions — not a national sample. Mainland China is also missing from PIAAC, and PISA only has those four regions, so strictly speaking there is no “China-wide” object available for international comparison.",
+            "cn": "中国大陆最近一次参加 PISA 是 2018 年，B-S-J-Z（北京、上海、江苏、浙江四地联合样本）数学 591、阅读 555、科学 590，覆盖四地 81% 的 15 岁人口，并不是中国全国样本。中国大陆 PIAAC 也缺数据，PISA 又只有四地，所以严格讲，国际比较里没有「中国全国」这个对象。"
           }
         ]
       },
@@ -42071,16 +37451,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "TIMSS 1999 has another set of numbers.",
-            "cn": "TIMSS 1999 还有一组数据。"
-          },
-          {
-            "en": "Among teacher-designed problems requiring connections between different concepts (“making connections” problems), the share that actually got discussed and worked through in class: United States 8%, Australia extremely low, the other five systems (Japan, Czech Republic, Hong Kong, Netherlands, Switzerland) between 37% and 52%.",
-            "cn": "教师设计的题目里，有些是要求把不同概念联系起来（「making connections」类问题）。课堂实际推进时，这类问题真正被讨论展开的比例：美国 8%，澳大利亚极低，其他五个体系（日本、捷克、中国香港、荷兰、瑞士）37% 到 52% 不等。"
-          },
-          {
-            "en": "Researchers gave Australia’s pattern a name of its own: “shallow teaching syndrome.”",
-            "cn": "澳大利亚的这种现象，甚至被研究者直接命名为「shallow teaching syndrome」（浅层教学综合征）。"
+            "en": "TIMSS 1999 has another set of numbers. Among teacher-designed problems requiring connections between different concepts (“making connections” problems), the share that actually got discussed and worked through in class: United States 8%, Australia extremely low, the other five systems (Japan, Czech Republic, Hong Kong, Netherlands, Switzerland) between 37% and 52%. Researchers gave Australia’s pattern a name of its own: “shallow teaching syndrome.”",
+            "cn": "TIMSS 1999 还有一组数据。教师设计的题目里，有些是要求把不同概念联系起来（「making connections」类问题）。课堂实际推进时，这类问题真正被讨论展开的比例：美国 8%，澳大利亚极低，其他五个体系（日本、捷克、中国香港、荷兰、瑞士）37% 到 52% 不等。澳大利亚的这种现象，甚至被研究者直接命名为「shallow teaching syndrome」（浅层教学综合征）。"
           }
         ]
       },
@@ -42167,36 +37539,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The bottom 25% has slid back past 1992.",
-            "cn": "底部 25% 的学生倒退到 1992 年以前，"
-          },
-          {
-            "en": "The top end’s training-and-attraction machinery still leads the world.",
-            "cn": "顶部训练和吸纳机器仍然站在世界最前列。"
-          },
-          {
-            "en": "One country is folding two eras into itself.",
-            "cn": "同一个国家折叠了两个时代。"
+            "en": "The bottom 25% has slid back past 1992. The top end’s training-and-attraction machinery still leads the world. One country is folding two eras into itself.",
+            "cn": "底部 25% 的学生倒退到 1992 年以前，顶部训练和吸纳机器仍然站在世界最前列。同一个国家折叠了两个时代。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "All four systems are reforming.",
-            "cn": "四个体系都在改革。"
-          },
-          {
-            "en": "The directions differ.",
-            "cn": "改革的方向各不相同，"
-          },
-          {
-            "en": "None is finished.",
-            "cn": "都没有完成，"
-          },
-          {
-            "en": "The earliest of their outputs reach the labour market sometime in the mid-2030s.",
-            "cn": "且产出最早也要到 2030 年代中期才进入劳动力市场。"
+            "en": "All four systems are reforming. The directions differ. None is finished. The earliest of their outputs reach the labour market sometime in the mid-2030s.",
+            "cn": "四个体系都在改革。改革的方向各不相同，都没有完成，且产出最早也要到 2030 年代中期才进入劳动力市场。"
           }
         ]
       },
@@ -42403,32 +37755,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Student performance and adult performance don’t line up.",
-            "cn": "学生表现和成人表现并不一致。"
-          },
-          {
-            "en": "Japan is strong at both layers.",
-            "cn": "日本两个层面都强；"
-          },
-          {
-            "en": "Finland is mostly strong at the adult layer.",
-            "cn": "芬兰主要在成人层面强；"
-          },
-          {
-            "en": "The U.S. is unimpressive at both.",
-            "cn": "美国两个层面都不突出；"
-          },
-          {
-            "en": "China’s developed regions are strong at the student layer; no comparable adult data exists.",
-            "cn": "中国发达地区学生层面强，成人无可比数据；韩国学生层面强但成人下降。"
-          },
-          {
-            "en": "Korea is strong as a student, declining as an adult.",
-            "cn": "从学生时代的分"
-          },
-          {
-            "en": "You cannot read off adult ability from teenage scores.",
-            "cn": "数推断不出成年之后的实际能力。"
+            "en": "Student performance and adult performance don’t line up. Japan is strong at both layers. Finland is mostly strong at the adult layer. The U.S. is unimpressive at both. China’s developed regions are strong at the student layer; no comparable adult data exists. Korea is strong as a student, declining as an adult. You cannot read off adult ability from teenage scores.",
+            "cn": "学生表现和成人表现并不一致。日本两个层面都强；芬兰主要在成人层面强；美国两个层面都不突出；中国发达地区学生层面强，成人无可比数据；韩国学生层面强但成人下降。从学生时代的分数推断不出成年之后的实际能力。"
           }
         ]
       },
@@ -42483,20 +37811,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Four systems cover almost every shape “teaching and training” took before AI.",
-            "cn": "四个体系覆盖了「教与训」在 AI 之前的几乎全部可能形态。"
-          },
-          {
-            "en": "Their measured profiles in PISA, PIAAC, the TIMSS Video Study, and NAEP are richer and stranger than the caricatures suggest. They are all reforming.",
-            "cn": "它们在 PISA、PIAAC、TIMSS Video Study、NAEP 上的实测画像比脸谱化叙事复杂得多。"
-          },
-          {
-            "en": "The reforms point in different directions.",
-            "cn": "它们都在改革。"
-          },
-          {
-            "en": "The earliest of those reforms reach the labour market in the mid-2030s.",
-            "cn": "改革的方向各不相同，改革的产出最早要到 2030 年代中期才进入劳动力市场。"
+            "en": "Four systems cover almost every shape “teaching and training” took before AI. Their measured profiles in PISA, PIAAC, the TIMSS Video Study, and NAEP are richer and stranger than the caricatures suggest. They are all reforming. The reforms point in different directions. The earliest of those reforms reach the labour market in the mid-2030s.",
+            "cn": "四个体系覆盖了「教与训」在 AI 之前的几乎全部可能形态。它们在 PISA、PIAAC、TIMSS Video Study、NAEP 上的实测画像比脸谱化叙事复杂得多。它们都在改革。改革的方向各不相同，改革的产出最早要到 2030 年代中期才进入劳动力市场。"
           }
         ]
       },
@@ -42511,16 +37827,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Education and training drill seven different cognitive mechanisms. Each has its own plasticity, its own fate after AI, and its own market scarcity.",
-            "cn": "教育和培训训练的是七项不同的认知机制。每一项的可塑性、AI 之后的命运、市场稀缺性都不同。"
-          },
-          {
-            "en": "The four layers the old system poured its resources into — knowledge, the shallow part of activation frequency, the shallow part of the strategy repertoire, foundational automation — are precisely the ones depreciating after AI.",
-            "cn": "旧体系投入最多的四项是知识、调用频率的浅层、策略库浅层、基础自动化，恰恰是 AI 之后开始贬值的几项；"
-          },
-          {
-            "en": "The two layers the old system barely funded — cognitive decoupling and metacognition — are precisely the ones AI now prices on their own.",
-            "cn": "旧体系几乎没有投入的两项是认知去耦和元认知，恰恰是 AI 之后唯一被单独定价的能力。"
+            "en": "Education and training drill seven different cognitive mechanisms. Each has its own plasticity, its own fate after AI, and its own market scarcity. The four layers the old system poured its resources into — knowledge, the shallow part of activation frequency, the shallow part of the strategy repertoire, foundational automation — are precisely the ones depreciating after AI. The two layers the old system barely funded — cognitive decoupling and metacognition — are precisely the ones AI now prices on their own.",
+            "cn": "教育和培训训练的是七项不同的认知机制。每一项的可塑性、AI 之后的命运、市场稀缺性都不同。旧体系投入最多的四项是知识、调用频率的浅层、策略库浅层、基础自动化，恰恰是 AI 之后开始贬值的几项；旧体系几乎没有投入的两项是认知去耦和元认知，恰恰是 AI 之后唯一被单独定价的能力。"
           }
         ]
       },
@@ -42566,10 +37874,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
     "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-2--teaching-disqualified",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -42578,8 +37886,8 @@ const ARTICLES_EXTRA = [
     "issue": 5,
     "chapter": 3,
     "sourceTextWords": 3835,
-    "sourceParagraphs": 83,
-    "sourceSentences": 226,
+    "sourceParagraphs": 67,
+    "sourceSentences": 146,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
@@ -42604,252 +37912,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The premise of the old education was “produce identifiable people at scale.” A single national school faces hundreds; a country’s basic education system faces tens of millions to hundreds of millions.",
-            "cn": "旧教育的存在前提是「规模化生产可识别的人」。一所国民学校要面对几百人，一个国家的基础教育系统要面对几千万到几亿人。"
-          },
-          {
-            "en": "That order of magnitude forces any training inside the system to satisfy three things at once.",
-            "cn": "这个量级决定了，进入教育系统的训练必须同时满足三件事。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Standardisable.",
-            "cn": "可标准化。"
-          },
-          {
-            "en": "What gets taught has to be defined precisely in textbooks and curricula.",
-            "cn": "教什么必须能用教材和教学大纲定义清楚。"
-          },
-          {
-            "en": "Otherwise different regions and different teachers cannot deliver on a shared cadence.",
-            "cn": "否则不同地区、不同教师没办法按统一节奏交付。"
-          },
-          {
-            "en": "A gaokao math problem that students from Urumqi to Shanghai to a county-town high school can all attempt and have graded by the same standard is what this layer makes possible.",
-            "cn": "一套高考数学题，从乌鲁木齐到上海到县城中学的学生都能做、都按同一标准批改，靠的就是这一层。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Examinable.",
-            "cn": "可考核。"
-          },
-          {
-            "en": "How well it was taught has to be evaluated against an external standard.",
-            "cn": "教得怎么样必须能用一套外部标准评价。"
-          },
-          {
-            "en": "Otherwise tiers can’t stably rank, and credentials lose their use to the labour market.",
-            "cn": "否则学生层级无法稳定排序，文凭无法被劳动力市场使用。"
-          },
-          {
-            "en": "If “ability” amounts to “I know I get it” with no external signal anywhere, the entire credential system unravels.",
-            "cn": "能力如果只是「我自己知道我懂」，但没有任何外部信号能证明，整个学历体系就瓦解了。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Cheap to mass-replicate.",
-            "cn": "可低成本大量复制。"
-          },
-          {
-            "en": "Teacher costs cannot run so high that you cannot hire them.",
-            "cn": "教师成本不能高到雇不起。"
-          },
-          {
-            "en": "An ordinary middle-school teacher, with four years of teacher training, has to be able to deliver curriculum knowledge in a classroom on a shared cadence.",
-            "cn": "一个普通中学教师，经过四年师范训练，能按教学大纲在教室里传递知识。这种能力必须能被大量培养出来。"
-          },
-          {
-            "en": "That capacity has to be reproducible at scale.",
-            "cn": "如果只有顶尖学者能教某门课，"
-          },
-          {
-            "en": "If only top-tier scholars could teach a given subject, that subject cannot be part of basic education.",
-            "cn": "那门课就不可能成为基础教育的一部分。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Of the seven mechanisms, the layers that satisfy all three conditions are knowledge, the shallow part of activation frequency, the shallow part of the strategy repertoire, and foundational automation.",
-            "cn": "七项认知机制里，能同时满足这三条的是知识、调用频率的浅层、策略库的浅层、基础自动化。"
-          },
-          {
-            "en": "They can be written into textbooks, posed as standardised exam questions, and delivered on a shared cadence by teachers of varying quality.",
-            "cn": "这四项可以写进教材、可以出标准化试题、可以由不同水平的教师按统一节奏交付。"
-          },
-          {
-            "en": "That is why nearly all of the old system’s resources end up here.",
-            "cn": "这就是为什么旧教育的资源几乎全部投入在这四项上。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The ones that do not satisfy the three are deep cognitive-decoupling training and metacognition.",
-            "cn": "满足不了这三条的是认知去耦的深度训练和元认知。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Deep cognitive decoupling demands sustained engagement with structurally unfamiliar situations.",
-            "cn": "认知去耦的深度训练要求长期处理结构性陌生情境。"
-          },
-          {
-            "en": "Each “unfamiliar” is single-use.",
-            "cn": "每一次的「陌生」都是一次性的。"
-          },
-          {
-            "en": "Once it gets standardised into a textbook, the unfamiliarity is gone, and training degenerates into standard responses.",
-            "cn": "一旦被标准化进教材，「陌生」就消失了，训练退化为标准反应。"
-          },
-          {
-            "en": "Institutionally, this is something you cannot mass-produce.",
-            "cn": "这件事在制度上根本无法规模化生产。"
-          },
-          {
-            "en": "The most effective parts of the Chinese problem-bank tradition — top schools’ Math Olympiad training, the math-major core at research universities — sit precisely outside the standardised-assessment frame, in small classes and supervisor-driven mentoring.",
-            "cn": "中国题库教育里最有效的部分，例如顶尖学校的奥数训练、研究型大学的数学专业课，恰好是脱离了规模化考核进入了小班教学和导师制。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Metacognition demands the loop of real tasks plus real feedback, repeated.",
-            "cn": "元认知要求真实任务加真实反馈的反复循环。"
-          },
-          {
-            "en": "It can’t be tested, because “the extent to which you can monitor your own thinking” is not something a single test sheet can measure.",
-            "cn": "它没法考核，因为「你能监控自己思维的程度」没办法用一张试卷测出来。"
-          },
-          {
-            "en": "It can’t be cheaply replicated either: providing real tasks and real feedback to one student requires someone above the student’s level to participate one-on-one for a long time.",
-            "cn": "它也没法低成本复制：给一个学生提供真实任务和真实反馈，需要一个比学生水平更高的人长期一对一参与。这个成本在规模化教育里支撑不起。"
-          },
-          {
-            "en": "That cost is unsupportable inside scale education.",
-            "cn": "整个 K-12"
-          },
-          {
-            "en": "K-12 has almost no slot for metacognition training.",
-            "cn": "教育里几乎没有元认知训练的位置。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "This is the system’s internal boundary.",
-            "cn": "这就是教育系统的内在边界。"
-          },
-          {
-            "en": "The layers that scale, the system mass-produces.",
-            "cn": "能规模化的层，规模化生产；"
-          },
-          {
-            "en": "The layers that don’t scale fall outside the system’s coverage and get left to a small set of elite programs, master-apprentice arrangements, and individual self-study.",
-            "cn": "不能规模化的层，不进入教育系统的覆盖范围，留给少数精英项目、师徒制、个体自学。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "Up to here, the mismatch is just an interesting fact.",
-            "cn": "到这里为止，错位还只是一个有意思的事实。"
-          },
-          {
-            "en": "After AI, it gets serious.",
-            "cn": "AI 出现之后，这件事变得严重。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The essence of AI training is taking the standardisable, structurable corpus that human society laid down over centuries and turning it into output capacity that mass-replicates cheaply.",
-            "cn": "AI 训练的本质，是把人类社会过去几百年沉淀下来的可标准化、可结构化的语料，变成可低成本大量复制的输出能力。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The standardisable parts — AI has all of them.",
-            "cn": "可标准化的部分，AI 全有。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The examinable parts, i.e. the parts with model answers — AI gives them faster and more accurately than people.",
-            "cn": "可考核的部分，也就是有标准答案的部分，AI 给得比人快、比人准。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The mass-replicable parts (knowledge, templates, formulas) — AI’s per-unit cost is essentially zero.",
-            "cn": "可低成本大量复制的部分（知识、模板、套路），AI 单位成本接近于零。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "What AI covers and what the old education covers is the same class of “scalable cognitive output.” The relation between them is substitution, not complement.",
-            "cn": "AI 和旧教育覆盖的，是同一类「可规模化生产的认知输出」。两者是替代关系，不是互补。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "The old education did not do anything wrong.",
-            "cn": "旧教育不是做错了什么。"
-          },
-          {
-            "en": "What it did was mass-produce identifiable objects.",
-            "cn": "它做的就是规模化生产可识别对象这件事。"
-          },
-          {
-            "en": "AI is doing the same thing, cheaper, faster, with broader coverage.",
-            "cn": "AI 也在做这件事，做得更便宜、更快、覆盖范围更广。"
-          }
-        ]
-      },
-      {
-        "sentences": [
-          {
-            "en": "This mismatch comes from the scale mechanism being used twice.",
-            "cn": "这个错位来自规模化机制本身的两次被使用。"
-          },
-          {
-            "en": "Education used it for one to two centuries.",
-            "cn": "第一次是教育用了一两百年，第二次是 AI 用了几年。"
-          },
-          {
-            "en": "AI used it for a few years.",
-            "cn": "两者覆盖的恰好是同一片地带，"
-          },
-          {
-            "en": "The two cover the same patch of ground, and AI’s coverage is more complete.",
-            "cn": "而 AI 这一次的覆盖更彻底。"
+            "en": "The premise of the old education was “produce identifiable people at scale.” A single national school faces hundreds; a country’s basic education system faces tens of millions to hundreds of millions. That order of magnitude forces any training inside the system to satisfy three things at once. Standardisable. What gets taught has to be defined precisely in textbooks and curricula. Otherwise different regions and different teachers cannot deliver on a shared cadence. A gaokao math problem that students from Urumqi to Shanghai to a county-town high school can all attempt and have graded by the same standard is what this layer makes possible. Examinable. How well it was taught has to be evaluated against an external standard. Otherwise tiers can’t stably rank, and credentials lose their use to the labour market. If “ability” amounts to “I know I get it” with no external signal anywhere, the entire credential system unravels. Cheap to mass-replicate. Teacher costs cannot run so high that you cannot hire them. An ordinary middle-school teacher, with four years of teacher training, has to be able to deliver curriculum knowledge in a classroom on a shared cadence. That capacity has to be reproducible at scale. If only top-tier scholars could teach a given subject, that subject cannot be part of basic education. Of the seven mechanisms, the layers that satisfy all three conditions are knowledge, the shallow part of activation frequency, the shallow part of the strategy repertoire, and foundational automation. They can be written into textbooks, posed as standardised exam questions, and delivered on a shared cadence by teachers of varying quality. That is why nearly all of the old system’s resources end up here. The ones that do not satisfy the three are deep cognitive-decoupling training and metacognition. Deep cognitive decoupling demands sustained engagement with structurally unfamiliar situations. Each “unfamiliar” is single-use. Once it gets standardised into a textbook, the unfamiliarity is gone, and training degenerates into standard responses. Institutionally, this is something you cannot mass-produce. The most effective parts of the Chinese problem-bank tradition — top schools’ Math Olympiad training, the math-major core at research universities — sit precisely outside the standardised-assessment frame, in small classes and supervisor-driven mentoring. Metacognition demands the loop of real tasks plus real feedback, repeated. It can’t be tested, because “the extent to which you can monitor your own thinking” is not something a single test sheet can measure. It can’t be cheaply replicated either: providing real tasks and real feedback to one student requires someone above the student’s level to participate one-on-one for a long time. That cost is unsupportable inside scale education. K-12 has almost no slot for metacognition training. This is the system’s internal boundary. The layers that scale, the system mass-produces. The layers that don’t scale fall outside the system’s coverage and get left to a small set of elite programs, master-apprentice arrangements, and individual self-study. Up to here, the mismatch is just an interesting fact. After AI, it gets serious. The essence of AI training is taking the standardisable, structurable corpus that human society laid down over centuries and turning it into output capacity that mass-replicates cheaply. The standardisable parts — AI has all of them. The examinable parts, i.e. the parts with model answers — AI gives them faster and more accurately than people. The mass-replicable parts (knowledge, templates, formulas) — AI’s per-unit cost is essentially zero. What AI covers and what the old education covers is the same class of “scalable cognitive output.” The relation between them is substitution, not complement. The old education did not do anything wrong. What it did was mass-produce identifiable objects. AI is doing the same thing, cheaper, faster, with broader coverage. This mismatch comes from the scale mechanism being used twice. Education used it for one to two centuries. AI used it for a few years. The two cover the same patch of ground, and AI’s coverage is more complete.",
+            "cn": "旧教育的存在前提是「规模化生产可识别的人」。一所国民学校要面对几百人，一个国家的基础教育系统要面对几千万到几亿人。这个量级决定了，进入教育系统的训练必须同时满足三件事。 可标准化。教什么必须能用教材和教学大纲定义清楚。否则不同地区、不同教师没办法按统一节奏交付。一套高考数学题，从乌鲁木齐到上海到县城中学的学生都能做、都按同一标准批改，靠的就是这一层。 可考核。教得怎么样必须能用一套外部标准评价。否则学生层级无法稳定排序，文凭无法被劳动力市场使用。能力如果只是「我自己知道我懂」，但没有任何外部信号能证明，整个学历体系就瓦解了。 可低成本大量复制。教师成本不能高到雇不起。一个普通中学教师，经过四年师范训练，能按教学大纲在教室里传递知识。这种能力必须能被大量培养出来。如果只有顶尖学者能教某门课，那门课就不可能成为基础教育的一部分。 七项认知机制里，能同时满足这三条的是知识、调用频率的浅层、策略库的浅层、基础自动化。这四项可以写进教材、可以出标准化试题、可以由不同水平的教师按统一节奏交付。这就是为什么旧教育的资源几乎全部投入在这四项上。 满足不了这三条的是认知去耦的深度训练和元认知。 认知去耦的深度训练要求长期处理结构性陌生情境。每一次的「陌生」都是一次性的。一旦被标准化进教材，「陌生」就消失了，训练退化为标准反应。这件事在制度上根本无法规模化生产。中国题库教育里最有效的部分，例如顶尖学校的奥数训练、研究型大学的数学专业课，恰好是脱离了规模化考核进入了小班教学和导师制。 元认知要求真实任务加真实反馈的反复循环。它没法考核，因为「你能监控自己思维的程度」没办法用一张试卷测出来。它也没法低成本复制：给一个学生提供真实任务和真实反馈，需要一个比学生水平更高的人长期一对一参与。这个成本在规模化教育里支撑不起。整个 K-12 教育里几乎没有元认知训练的位置。 这就是教育系统的内在边界。能规模化的层，规模化生产；不能规模化的层，不进入教育系统的覆盖范围，留给少数精英项目、师徒制、个体自学。 到这里为止，错位还只是一个有意思的事实。AI 出现之后，这件事变得严重。 AI 训练的本质，是把人类社会过去几百年沉淀下来的可标准化、可结构化的语料，变成可低成本大量复制的输出能力。 可标准化的部分，AI 全有。 可考核的部分，也就是有标准答案的部分，AI 给得比人快、比人准。 可低成本大量复制的部分（知识、模板、套路），AI 单位成本接近于零。 AI 和旧教育覆盖的，是同一类「可规模化生产的认知输出」。两者是替代关系，不是互补。 旧教育不是做错了什么。它做的就是规模化生产可识别对象这件事。AI 也在做这件事，做得更便宜、更快、覆盖范围更广。 这个错位来自规模化机制本身的两次被使用。第一次是教育用了一两百年，第二次是 AI 用了几年。两者覆盖的恰好是同一片地带，而 AI 这一次的覆盖更彻底。"
           }
         ]
       },
@@ -42872,24 +37936,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The mechanism only works if the problem is sufficiently “familiar” and sufficiently “unfamiliar”.",
-            "cn": "这个机制的有效前提是题足够「熟悉」和足够「陌生」。"
-          },
-          {
-            "en": "A problem whose structure the student has never seen triggers on-the-spot reasoning, but the reasoning tools required have to be tools he has already learned.",
-            "cn": "一道学生从未见过结构的题才会触发现场推理，但这道题需要的推理工具又必须是学生学过的东西。"
-          },
-          {
-            "en": "If the problem leans on totally foreign knowledge, he can’t solve it.",
-            "cn": "一旦题目依赖完全陌生的知识基础，学生无法解决，"
-          },
-          {
-            "en": "If the same structure has been drilled for forty rounds, the unfamiliarity is gone.",
-            "cn": "但如若同样结构的题被刷过几十遍，「陌生」就消失了。"
-          },
-          {
-            "en": "He stops firing up Gf and instead reaches into the strategy repertoire: identify the type, plug in the template, expand from memory.",
-            "cn": "学生不再启动 Gf，直接调用策略库：识别题型、套用模板、按记忆顺序展开。"
+            "en": "The mechanism only works if the problem is sufficiently “familiar” and sufficiently “unfamiliar”. A problem whose structure the student has never seen triggers on-the-spot reasoning, but the reasoning tools required have to be tools he has already learned. If the problem leans on totally foreign knowledge, he can’t solve it. If the same structure has been drilled for forty rounds, the unfamiliarity is gone. He stops firing up Gf and instead reaches into the strategy repertoire: identify the type, plug in the template, expand from memory.",
+            "cn": "这个机制的有效前提是题足够「熟悉」和足够「陌生」。一道学生从未见过结构的题才会触发现场推理，但这道题需要的推理工具又必须是学生学过的东西。一旦题目依赖完全陌生的知识基础，学生无法解决，但如若同样结构的题被刷过几十遍，「陌生」就消失了。学生不再启动 Gf，直接调用策略库：识别题型、套用模板、按记忆顺序展开。"
           }
         ]
       },
@@ -43032,20 +38080,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The huge volume of “formal compliance” training the education system runs (writing, presenting, slide-making, report-writing, résumé-writing) used to serve as “indirect evidence of substance.” A student who could turn out a passable argumentative essay was, more often than not, someone who genuinely understood.",
-            "cn": "教育系统训练的大量「形式合格」（写作训练、表达训练、PPT 训练、报告训练、简历训练）在过去是「实质的间接证据」。"
-          },
-          {
-            "en": "A student who could write working code was, more often than not, someone with engineering chops.",
-            "cn": "一个学生能写出像样的议论文，多半真的理解；能写出像样的代码，多半真的会工程；"
-          },
-          {
-            "en": "A student who could clearly articulate a project in interview was, more often than not, someone who had actually done it.",
-            "cn": "能在面试中清晰表达自己的项目，多半真的做过相关工作。"
-          },
-          {
-            "en": "Formal compliance was a low-cost signal for filtering trustworthy candidates.",
-            "cn": "形式合格成为筛选可信对象的低成本信号。"
+            "en": "The huge volume of “formal compliance” training the education system runs (writing, presenting, slide-making, report-writing, résumé-writing) used to serve as “indirect evidence of substance.” A student who could turn out a passable argumentative essay was, more often than not, someone who genuinely understood. A student who could write working code was, more often than not, someone with engineering chops. A student who could clearly articulate a project in interview was, more often than not, someone who had actually done it. Formal compliance was a low-cost signal for filtering trustworthy candidates.",
+            "cn": "教育系统训练的大量「形式合格」（写作训练、表达训练、PPT 训练、报告训练、简历训练）在过去是「实质的间接证据」。一个学生能写出像样的议论文，多半真的理解；能写出像样的代码，多半真的会工程；能在面试中清晰表达自己的项目，多半真的做过相关工作。形式合格成为筛选可信对象的低成本信号。"
           }
         ]
       },
@@ -43080,32 +38116,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Employers, graduate programs, scholarship committees all face the same problem: application essays, recommendation letters, research proposals, personal statements — the things they used to filter for “writes well, has ideas, has accumulation” — may today filter for “knows how to use ChatGPT.” The “essay craft” basic education trains depreciates faster against AI tools than even the question bank does.",
-            "cn": "雇主、研究生院、奖学金委员会面对的是同一个问题：申请文书、推荐信、研究计划书、个人陈述，过去用来筛选「会写、有想法、有沉淀」的申请者，今天可能筛选出「会用 ChatGPT」的申请者。基础教育训练的「作文功夫」，在 AI 工具面前贬值速度比题库还快。"
-          },
-          {
-            "en": "The question bank still requires that the student remember problem types; AI-writing requires no prerequisites.",
-            "cn": "题库还需要学生记住题型，AI 写作不需要任何前置条件。"
+            "en": "Employers, graduate programs, scholarship committees all face the same problem: application essays, recommendation letters, research proposals, personal statements — the things they used to filter for “writes well, has ideas, has accumulation” — may today filter for “knows how to use ChatGPT.” The “essay craft” basic education trains depreciates faster against AI tools than even the question bank does. The question bank still requires that the student remember problem types; AI-writing requires no prerequisites.",
+            "cn": "雇主、研究生院、奖学金委员会面对的是同一个问题：申请文书、推荐信、研究计划书、个人陈述，过去用来筛选「会写、有想法、有沉淀」的申请者，今天可能筛选出「会用 ChatGPT」的申请者。基础教育训练的「作文功夫」，在 AI 工具面前贬值速度比题库还快。题库还需要学生记住题型，AI 写作不需要任何前置条件。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "A deeper layer: form-production disqualification doesn’t just affect filtering, it affects learning itself.",
-            "cn": "更深的一层：形式生产失格不只影响筛选，也影响学习本身。"
-          },
-          {
-            "en": "A student trained from childhood to “build the essay structure first, then fill in content” is being trained on the implicit assumption “form carries substance.” In the act of training the form, he naturally deposits an understanding of the substance.",
-            "cn": "一个学生从小被训练「先把作文结构搭好，再填充内容」，这种训练的隐含假设是「形式承载实质」。学生在训练形式的过程中，本来会自然沉淀出对实质的理解。"
-          },
-          {
-            "en": "After AI, that assumption breaks: the student can have AI produce the form directly, skipping the substance-deposition step.",
-            "cn": "AI 之后这个假设被打破：学生可以用 AI 直接产出形式，跳过实质沉淀这一步。"
-          },
-          {
-            "en": "The internal feedback loop of the whole training mechanism is severed.",
-            "cn": "整套训练机制的内在反馈链中断。"
+            "en": "A deeper layer: form-production disqualification doesn’t just affect filtering, it affects learning itself. A student trained from childhood to “build the essay structure first, then fill in content” is being trained on the implicit assumption “form carries substance.” In the act of training the form, he naturally deposits an understanding of the substance. After AI, that assumption breaks: the student can have AI produce the form directly, skipping the substance-deposition step. The internal feedback loop of the whole training mechanism is severed.",
+            "cn": "更深的一层：形式生产失格不只影响筛选，也影响学习本身。一个学生从小被训练「先把作文结构搭好，再填充内容」，这种训练的隐含假设是「形式承载实质」。学生在训练形式的过程中，本来会自然沉淀出对实质的理解。AI 之后这个假设被打破：学生可以用 AI 直接产出形式，跳过实质沉淀这一步。整套训练机制的内在反馈链中断。"
           }
         ]
       },
@@ -43168,12 +38188,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "A deeper layer: when an exam can score above 90 with AI, that exam is no longer measuring what it set out to measure.",
-            "cn": "更深的一层：当一个考试可以用 AI 拿到 90 分以上，这个考试测的就不再是它原本想测的东西。"
-          },
-          {
-            "en": "It is measuring “how good you are at using AI” or “how good you are at cheating.” That layer has come fully unmoored from the exam’s design goal.",
-            "cn": "它测的是「会用 AI 的能力」或「会作弊的能力」。这一层和考试设计目标完全脱钩。"
+            "en": "A deeper layer: when an exam can score above 90 with AI, that exam is no longer measuring what it set out to measure. It is measuring “how good you are at using AI” or “how good you are at cheating.” That layer has come fully unmoored from the exam’s design goal.",
+            "cn": "更深的一层：当一个考试可以用 AI 拿到 90 分以上，这个考试测的就不再是它原本想测的东西。它测的是「会用 AI 的能力」或「会作弊的能力」。这一层和考试设计目标完全脱钩。"
           }
         ]
       },
@@ -43252,20 +38268,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The shape is plain in three of the four systems. After Double Reduction suppressed off-school subject tutoring in China, demand went underground, into “literacy” courses, and into AI-themed courses; total parental spend on tutoring is still enormous.",
-            "cn": "具体形态在三个体系里都清晰可见。中国校外学科辅导被双减压制后转入地下、转入素养类、转入 AI 类，全国家长付费补课的总量仍然庞大。"
-          },
-          {
-            "en": "A great deal of that tutoring exists to win the child a few more points on a gaokao mechanism that has already been disqualified, with no expectation that the child will actually master anything.",
-            "cn": "很多补课的目的是让孩子在已经失格的高考机制里多拿几分，不指望真正掌握什么能力。美国 SAT 备考、AP 备考、Common App 个人陈述代写代改是一个数十亿美元的产业。"
-          },
-          {
-            "en": "American SAT prep, AP prep, and Common App personal-statement editing are a multi-billion-dollar industry; after AI, the evidentiary value of what they produce has fallen sharply, and the industry keeps growing.",
-            "cn": "AI 之后这套产出对真实能力的证明价值大幅下降，产业仍在扩张。"
-          },
-          {
-            "en": "Korean hagwon are the extreme case of disqualification squared: send the child to cram school from age six and find that as adults, his foundational abilities have actually gone backwards (Korean adult literacy in PIAAC fell 23 points between rounds).",
-            "cn": "韩国 hagwon 是失格平方的极端案例：把孩子从六岁起送进补习班，结果他们成年之后基础能力反而下降（PIAAC 韩国成人 literacy 在两轮之间下降 23 分）。"
+            "en": "The shape is plain in three of the four systems. After Double Reduction suppressed off-school subject tutoring in China, demand went underground, into “literacy” courses, and into AI-themed courses; total parental spend on tutoring is still enormous. A great deal of that tutoring exists to win the child a few more points on a gaokao mechanism that has already been disqualified, with no expectation that the child will actually master anything. American SAT prep, AP prep, and Common App personal-statement editing are a multi-billion-dollar industry; after AI, the evidentiary value of what they produce has fallen sharply, and the industry keeps growing. Korean hagwon are the extreme case of disqualification squared: send the child to cram school from age six and find that as adults, his foundational abilities have actually gone backwards (Korean adult literacy in PIAAC fell 23 points between rounds).",
+            "cn": "具体形态在三个体系里都清晰可见。中国校外学科辅导被双减压制后转入地下、转入素养类、转入 AI 类，全国家长付费补课的总量仍然庞大。很多补课的目的是让孩子在已经失格的高考机制里多拿几分，不指望真正掌握什么能力。美国 SAT 备考、AP 备考、Common App 个人陈述代写代改是一个数十亿美元的产业。AI 之后这套产出对真实能力的证明价值大幅下降，产业仍在扩张。韩国 hagwon 是失格平方的极端案例：把孩子从六岁起送进补习班，结果他们成年之后基础能力反而下降（PIAAC 韩国成人 literacy 在两轮之间下降 23 分）。"
           }
         ]
       },
@@ -43304,40 +38308,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Two reasons the top withdraws.",
-            "cn": "顶端撤离的原因有两条。"
-          },
-          {
-            "en": "First, information advantage: the top sees earlier the difference between “playing along with a disqualified mechanism” and “training real ability.” Second, return on investment: for a high-Gf-ceiling child, putting training where it can’t be standardised (cognitive decoupling, metacognition) has the highest ROI, because that child has the latent capacity to make those layers thick.",
-            "cn": "第一是信息优势：顶端家长更早识别出「配合失格机制」和「训练真实能力」之间的差别。第二是投资回报率：高 Gf 上限的孩子，把训练投在不能规模化的层（认知去耦、元认知）回报率最高，因为他们本来就有把这些层训练得厚的潜力。"
+            "en": "Two reasons the top withdraws. First, information advantage: the top sees earlier the difference between “playing along with a disqualified mechanism” and “training real ability.” Second, return on investment: for a high-Gf-ceiling child, putting training where it can’t be standardised (cognitive decoupling, metacognition) has the highest ROI, because that child has the latent capacity to make those layers thick.",
+            "cn": "顶端撤离的原因有两条。第一是信息优势：顶端家长更早识别出「配合失格机制」和「训练真实能力」之间的差别。第二是投资回报率：高 Gf 上限的孩子，把训练投在不能规模化的层（认知去耦、元认知）回报率最高，因为他们本来就有把这些层训练得厚的潜力。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "But middle and long-tail families struggle to do this.",
-            "cn": "但中段和长尾家庭很难做到。"
-          },
-          {
-            "en": "The reason is that there is no substitute.",
-            "cn": "原因在于没有替代选项。"
-          },
-          {
-            "en": "A family in a third-tier city cannot find a local genuine research project, cannot find a mentor capable of high-intensity real feedback.",
-            "cn": "一个三线城市的家庭，找不到本地的真实科研项目，找不到能进行高强度真实反馈的导师，"
-          },
-          {
-            "en": "The child’s only “ladder up” is still the gaokao.",
-            "cn": "孩子的所有「上升通道」仍然是高考。"
-          },
-          {
-            "en": "Parents put money into tutoring not because they trust it, but because there is nothing else to put it into.",
-            "cn": "家长把钱投在补习班上，原因是没有别的可投。"
-          },
-          {
-            "en": "They know the value is going down.",
-            "cn": "他们知道这件事在贬值。"
+            "en": "But middle and long-tail families struggle to do this. The reason is that there is no substitute. A family in a third-tier city cannot find a local genuine research project, cannot find a mentor capable of high-intensity real feedback. The child’s only “ladder up” is still the gaokao. Parents put money into tutoring not because they trust it, but because there is nothing else to put it into. They know the value is going down.",
+            "cn": "但中段和长尾家庭很难做到。原因在于没有替代选项。一个三线城市的家庭，找不到本地的真实科研项目，找不到能进行高强度真实反馈的导师，孩子的所有「上升通道」仍然是高考。家长把钱投在补习班上，原因是没有别的可投。他们知道这件事在贬值。"
           }
         ]
       },
@@ -43376,20 +38356,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "China.",
-            "cn": "中国。"
-          },
-          {
-            "en": "The strength of the Chinese system is high-density Gf activation and stable ranking.",
-            "cn": "中国体系的强项是高密度调用 Gf 并稳定排序。"
-          },
-          {
-            "en": "But the working edge of that strength is: the problem must be sufficiently “unfamiliar.” After decades of grinding, the unfamiliarity is gone, and training has degenerated into pattern recognition plus template recall.",
-            "cn": "但这个强项的有效边缘是：题必须足够「陌生」。被反复刷过几十年之后，「陌生」消失，训练退化为模式识别和模板调用。"
-          },
-          {
-            "en": "In the age of AI this amounts to “I’ll have AI do the drilling for me.”",
-            "cn": "这件事 AI 时代等于「会让 AI 帮我刷题」。"
+            "en": "China. The strength of the Chinese system is high-density Gf activation and stable ranking. But the working edge of that strength is: the problem must be sufficiently “unfamiliar.” After decades of grinding, the unfamiliarity is gone, and training has degenerated into pattern recognition plus template recall. In the age of AI this amounts to “I’ll have AI do the drilling for me.”",
+            "cn": "中国。中国体系的强项是高密度调用 Gf 并稳定排序。但这个强项的有效边缘是：题必须足够「陌生」。被反复刷过几十年之后，「陌生」消失，训练退化为模式识别和模板调用。这件事 AI 时代等于「会让 AI 帮我刷题」。"
           }
         ]
       },
@@ -43420,12 +38388,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Recent reforms — Double Reduction, top-tier-talent programs, Shanghai’s mandatory AI curriculum, Huangpu’s Climbing the Peak — are all attempts to shift basic education from “standard-response training” to “unfamiliar-context reasoning.” The direction is right; coverage is limited.",
-            "cn": "近年双减、拔尖创新人才培养计划、上海 AI 必修课、黄浦区登峰计划，都在试图把基础教育从「标准反应训练」调整到「陌生情境推理」。改革方向是对的，但覆盖率有限。"
-          },
-          {
-            "en": "Climbing the Peak selects no more than 300 students over three years, an elite program inside one district, with no direct effect on the vast majority of national students.",
-            "cn": "黄浦登峰计划三年选拔不超过 300 位学生，是一个城区内的精英项目，对全国大多数学生没有直接影响。"
+            "en": "Recent reforms — Double Reduction, top-tier-talent programs, Shanghai’s mandatory AI curriculum, Huangpu’s Climbing the Peak — are all attempts to shift basic education from “standard-response training” to “unfamiliar-context reasoning.” The direction is right; coverage is limited. Climbing the Peak selects no more than 300 students over three years, an elite program inside one district, with no direct effect on the vast majority of national students.",
+            "cn": "近年双减、拔尖创新人才培养计划、上海 AI 必修课、黄浦区登峰计划，都在试图把基础教育从「标准反应训练」调整到「陌生情境推理」。改革方向是对的，但覆盖率有限。黄浦登峰计划三年选拔不超过 300 位学生，是一个城区内的精英项目，对全国大多数学生没有直接影响。"
           }
         ]
       },
@@ -43480,12 +38444,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "At the basic-education layer, Japan’s failure point is the absence of an AI-use paradigm.",
-            "cn": "基础教育层面，日本面对的失格点是 AI 使用范式的缺失。"
-          },
-          {
-            "en": "MEXT’s 2024 generative-AI guidelines are a start, but they are far from forming an “AI-use paradigm in foundational automation.” Japanese basic education has not yet taken AI use into “trained to the point you don’t think about it.”",
-            "cn": "MEXT 2024 年的生成式 AI 指南是一个起步，但离形成「AI 使用范式的基础自动化」还很远。日本基础教育还没有把 AI 使用纳入「练到不需要专门动脑」的训练范围。"
+            "en": "At the basic-education layer, Japan’s failure point is the absence of an AI-use paradigm. MEXT’s 2024 generative-AI guidelines are a start, but they are far from forming an “AI-use paradigm in foundational automation.” Japanese basic education has not yet taken AI use into “trained to the point you don’t think about it.”",
+            "cn": "基础教育层面，日本面对的失格点是 AI 使用范式的缺失。MEXT 2024 年的生成式 AI 指南是一个起步，但离形成「AI 使用范式的基础自动化」还很远。日本基础教育还没有把 AI 使用纳入「练到不需要专门动脑」的训练范围。"
           }
         ]
       },
@@ -43504,20 +38464,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The top end (AP, honours, research programs, top private schools, research universities) trains cognitive decoupling and metacognition at world-leading intensity.",
-            "cn": "头部（AP、荣誉班、研究项目、顶级私校、研究型大学）在认知去耦和元认知上的训练强度世界第一，全球顶尖 AI 研究者绝大多数来自这里。"
-          },
-          {
-            "en": "The overwhelming majority of top global AI researchers come from here.",
-            "cn": "AI 之后这一层会被进一步放大。"
-          },
-          {
-            "en": "After AI this layer will be amplified further.",
-            "cn": "他们已经具备的能力恰好是 AI 时代被单独定价的能力，"
-          },
-          {
-            "en": "The abilities they already have are precisely the ones AI prices on their own; with AI tools accelerating efficiency, the gap between the top end and everyone else widens.",
-            "cn": "加上 AI 工具加速效率，头部和其他人群的差距会扩大。"
+            "en": "The top end (AP, honours, research programs, top private schools, research universities) trains cognitive decoupling and metacognition at world-leading intensity. The overwhelming majority of top global AI researchers come from here. After AI this layer will be amplified further. The abilities they already have are precisely the ones AI prices on their own; with AI tools accelerating efficiency, the gap between the top end and everyone else widens.",
+            "cn": "头部（AP、荣誉班、研究项目、顶级私校、研究型大学）在认知去耦和元认知上的训练强度世界第一，全球顶尖 AI 研究者绝大多数来自这里。AI 之后这一层会被进一步放大。他们已经具备的能力恰好是 AI 时代被单独定价的能力，加上 AI 工具加速效率，头部和其他人群的差距会扩大。"
           }
         ]
       },
@@ -43548,24 +38496,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The long-tail bottom.",
-            "cn": "长尾底部。"
-          },
-          {
-            "en": "The bottom 25% has slid back past 1992.",
-            "cn": "底部 25% 已经退步到 1992 年水平之前。"
-          },
-          {
-            "en": "This layer will be further compressed in the age of AI.",
-            "cn": "这一层在 AI 时代会进一步被压缩。"
-          },
-          {
-            "en": "People without solid foundations using AI are outsourcing judgment to a system that cannot bear responsibility.",
-            "cn": "基础不扎实的人使用 AI，等于把判断权外包给一个不能负责的系统。"
-          },
-          {
-            "en": "The result is being held down by AI: they don’t have the ability to judge AI’s output, so they trust whatever AI gives them.",
-            "cn": "结果是被 AI 压低。他们没有能力判断 AI 输出是否合理，AI 给什么他们相信什么。"
+            "en": "The long-tail bottom. The bottom 25% has slid back past 1992. This layer will be further compressed in the age of AI. People without solid foundations using AI are outsourcing judgment to a system that cannot bear responsibility. The result is being held down by AI: they don’t have the ability to judge AI’s output, so they trust whatever AI gives them.",
+            "cn": "长尾底部。底部 25% 已经退步到 1992 年水平之前。这一层在 AI 时代会进一步被压缩。基础不扎实的人使用 AI，等于把判断权外包给一个不能负责的系统。结果是被 AI 压低。他们没有能力判断 AI 输出是否合理，AI 给什么他们相信什么。"
           }
         ]
       },
@@ -43624,8 +38556,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Real mathematics training: Math Olympiad, math undergraduate, math research. It trains the extreme form of cognitive decoupling: stripping abstract structure entirely out of context and operating on it as a formal object.",
-            "cn": "真正的数学训练：数学奥赛、数学系本科、数学研究。它训练的是认知去耦的极端形态：把抽象结构从语境里完全剥离出来，作为形式对象操作。"
+            "en": "Real mathematics training: Math Olympiad, math undergraduate, math research.",
+            "cn": "真正的数学训练：数学奥赛、数学系本科、数学研究。"
+          },
+          {
+            "en": "It trains the extreme form of cognitive decoupling: stripping abstract structure entirely out of context and operating on it as a formal object.",
+            "cn": "它训练的是认知去耦的极端形态：把抽象结构从语境里完全剥离出来，作为形式对象操作。"
           },
           {
             "en": "Proving a theorem requires step-by-step derivation in a strict formal system.",
@@ -43804,20 +38740,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This mismatch is the basic situation of education in the age of AI.",
-            "cn": "这个错位是教育这件事在 AI 时代的根本处境，"
-          },
-          {
-            "en": "It is not a one-shot problem to be corrected.",
-            "cn": "不是某一时刻可以纠正的问题。"
-          },
-          {
-            "en": "Reform is aimed at the children starting school five years from now.",
-            "cn": "改革针对的是 5 年后入学的孩子。"
-          },
-          {
-            "en": "The several generations on the labour market who were trained by the old system have to face the mismatch on their own.",
-            "cn": "当下劳动力市场上几代被旧体系训练出来的人，必须自己面对这个错位。"
+            "en": "This mismatch is the basic situation of education in the age of AI. It is not a one-shot problem to be corrected. Reform is aimed at the children starting school five years from now. The several generations on the labour market who were trained by the old system have to face the mismatch on their own.",
+            "cn": "这个错位是教育这件事在 AI 时代的根本处境，不是某一时刻可以纠正的问题。改革针对的是 5 年后入学的孩子。当下劳动力市场上几代被旧体系训练出来的人，必须自己面对这个错位。"
           }
         ]
       }
@@ -43831,10 +38755,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
     "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-3--training-disqualified",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -43844,7 +38768,7 @@ const ARTICLES_EXTRA = [
     "chapter": 4,
     "sourceTextWords": 3294,
     "sourceParagraphs": 60,
-    "sourceSentences": 218,
+    "sourceSentences": 190,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
@@ -43853,12 +38777,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Teaching’s disqualification is in the content being taken over by AI.",
-            "cn": "教的失格在于训练的内容刚好被 AI 接管。"
-          },
-          {
-            "en": "Training’s disqualification is somewhere else: training rests on three premises — the role is stable, the process is stable, the decision chain is stable — and after AI all three fail at once.",
-            "cn": "「训」的失格在另一处：训的整个体系建立在三个前提之上，岗位是稳定的、流程是稳定的、决策链是稳定的。AI 之后这三个前提同时失效。"
+            "en": "Teaching’s disqualification is in the content being taken over by AI. Training’s disqualification is somewhere else: training rests on three premises — the role is stable, the process is stable, the decision chain is stable — and after AI all three fail at once.",
+            "cn": "教的失格在于训练的内容刚好被 AI 接管。「训」的失格在另一处：训的整个体系建立在三个前提之上，岗位是稳定的、流程是稳定的、决策链是稳定的。AI 之后这三个前提同时失效。"
           }
         ]
       },
@@ -43961,16 +38881,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Third, build stable expectations for a person inside the organisation’s process.",
-            "cn": "第三，让人在组织流程里形成稳定预期。"
-          },
-          {
-            "en": "“When I get this kind of request, this is how I handle it”; “when I report up, this is the format”; “when something breaks, this is who I find”; “this client gets handled this way.” These expectations carry the organisation’s culture, not the individual’s ability.",
-            "cn": "我接到这种类型的需求会怎么处理、我向上汇报应该用什么格式、出了问题我应该找谁、这个客户应该怎么对接。这些预期承载的是组织文化，不是个人能力。"
-          },
-          {
-            "en": "The longer an employee is at a firm, the more organisational expectations he carries, and the more value he holds for the organisation.",
-            "cn": "一个员工在一家公司工作越久，他承载的组织预期越多，对组织的价值也越高。"
+            "en": "Third, build stable expectations for a person inside the organisation’s process. “When I get this kind of request, this is how I handle it”; “when I report up, this is the format”; “when something breaks, this is who I find”; “this client gets handled this way.” These expectations carry the organisation’s culture, not the individual’s ability. The longer an employee is at a firm, the more organisational expectations he carries, and the more value he holds for the organisation.",
+            "cn": "第三，让人在组织流程里形成稳定预期。我接到这种类型的需求会怎么处理、我向上汇报应该用什么格式、出了问题我应该找谁、这个客户应该怎么对接。这些预期承载的是组织文化，不是个人能力。一个员工在一家公司工作越久，他承载的组织预期越多，对组织的价值也越高。"
           }
         ]
       },
@@ -44037,8 +38949,12 @@ const ARTICLES_EXTRA = [
             "cn": "一个员工被训练 5 年达成的能力，组织和员工双方都假设它会在第 6 年、第 10 年、第 20 年仍然有效。"
           },
           {
-            "en": "If by year six the role is redefined and the capability fails, the five years of training become sunk cost. From the company’s view it’s money; from the employee’s view it’s five years of cognitive investment in a life.",
-            "cn": "如果第 6 年因为岗位被重新定义而失效，这 5 年的训练投入就是沉没成本。从企业视角是钱，从员工视角是 5 年人生的认知投入。"
+            "en": "If by year six the role is redefined and the capability fails, the five years of training become sunk cost.",
+            "cn": "如果第 6 年因为岗位被重新定义而失效，这 5 年的训练投入就是沉没成本。"
+          },
+          {
+            "en": "From the company’s view it’s money; from the employee’s view it’s five years of cognitive investment in a life.",
+            "cn": "从企业视角是钱，从员工视角是 5 年人生的认知投入。"
           }
         ]
       },
@@ -44057,28 +38973,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Roles are no longer stable.",
-            "cn": "岗位不再稳定。"
-          },
-          {
-            "en": "A role is, at root, “a stable bundle of tasks.” A product manager’s role is the bundle of writing requirement docs, doing user research, drafting PRDs, tracking development, reporting up and down.",
-            "cn": "一个岗位本质上是「一组任务的稳定捆绑」。产品经理的岗位是写需求文档、用户调研、PRD、跟进开发、汇报上下游的捆绑。"
-          },
-          {
-            "en": "An operations role is the bundle of data analysis, content production, process execution, KPI breakdown, daily ops.",
-            "cn": "运营的岗位是数据分析、内容生产、流程化执行、KPI 拆解、日常运营动作的捆绑。"
-          },
-          {
-            "en": "A middle manager’s role is the bundle of intake-requirements, break-down-tasks, hand-down-to-reports, track-progress, collect-results, report-up.",
-            "cn": "中层的岗位是接需求、拆任务、派给下属、跟进进度、收结果、汇报上游的捆绑。"
-          },
-          {
-            "en": "Each role is a specific bundle that emerged from decades of organisational evolution.",
-            "cn": "每一个岗位都是过去几十年组织演化中形成的具体捆绑。"
-          },
-          {
-            "en": "The bundle is stable on the precondition that the tasks inside collaborate — that pulling them out individually doesn’t get easy.",
-            "cn": "这个捆绑稳定的前提是：捆绑里的任务彼此协同，单独拆出来都不容易完成。"
+            "en": "Roles are no longer stable. A role is, at root, “a stable bundle of tasks.” A product manager’s role is the bundle of writing requirement docs, doing user research, drafting PRDs, tracking development, reporting up and down. An operations role is the bundle of data analysis, content production, process execution, KPI breakdown, daily ops. A middle manager’s role is the bundle of intake-requirements, break-down-tasks, hand-down-to-reports, track-progress, collect-results, report-up. Each role is a specific bundle that emerged from decades of organisational evolution. The bundle is stable on the precondition that the tasks inside collaborate — that pulling them out individually doesn’t get easy.",
+            "cn": "岗位不再稳定。一个岗位本质上是「一组任务的稳定捆绑」。产品经理的岗位是写需求文档、用户调研、PRD、跟进开发、汇报上下游的捆绑。运营的岗位是数据分析、内容生产、流程化执行、KPI 拆解、日常运营动作的捆绑。中层的岗位是接需求、拆任务、派给下属、跟进进度、收结果、汇报上游的捆绑。每一个岗位都是过去几十年组织演化中形成的具体捆绑。这个捆绑稳定的前提是：捆绑里的任务彼此协同，单独拆出来都不容易完成。"
           }
         ]
       },
@@ -44193,12 +39089,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is not separate from “the role being deconstructed.” As the role gets deconstructed, the process linking the roles also gets deconstructed.",
-            "cn": "这件事和「岗位被解构」不是两件事。岗位被解构的同时，连接岗位的流程也被解构。"
-          },
-          {
-            "en": "They happen together.",
-            "cn": "两者一起发生。"
+            "en": "This is not separate from “the role being deconstructed.” As the role gets deconstructed, the process linking the roles also gets deconstructed. They happen together.",
+            "cn": "这件事和「岗位被解构」不是两件事。岗位被解构的同时，连接岗位的流程也被解构。两者一起发生。"
           }
         ]
       },
@@ -44241,12 +39133,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is a completely different value definition.",
-            "cn": "这是一个完全不同的价值定义。"
-          },
-          {
-            "en": "The capability the old middle manager carried was “coordinate between people.” The capability the age-of-AI node carries is “redraw your own downstream boundary.” The training method, the judgment criteria, and the capability composition of the two have almost no overlap.",
-            "cn": "旧的中层管理者承载的能力是「协调人和人」。AI 时代的节点承担的能力是「重新画自己的下游边界」。这两件事的训练方式、判断标准、能力构成几乎没有重叠。"
+            "en": "This is a completely different value definition. The capability the old middle manager carried was “coordinate between people.” The capability the age-of-AI node carries is “redraw your own downstream boundary.” The training method, the judgment criteria, and the capability composition of the two have almost no overlap.",
+            "cn": "这是一个完全不同的价值定义。旧的中层管理者承载的能力是「协调人和人」。AI 时代的节点承担的能力是「重新画自己的下游边界」。这两件事的训练方式、判断标准、能力构成几乎没有重叠。"
           }
         ]
       },
@@ -44273,36 +39161,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The role gets deconstructed, the process gets rewritten, the decision chain has to redraw its own boundary.",
-            "cn": "岗位被解构、流程被重写、决策链需要重新画边界。三件事同时发生。"
-          },
-          {
-            "en": "Three things at once.",
-            "cn": "旧训练系统训练的人，"
-          },
-          {
-            "en": "Old training systems trained people in the capability of “running fluently on stable roles, stable processes, stable decision chains.” When the three premises fail at once, the capability itself does not fail, but the object the capability was carrying (the specific role) disappears.",
-            "cn": "承载的是「在稳定岗位、稳定流程、稳定决策链上熟练运转」的能力。这三个前提同时失效之后，能力本身没有失效，但能力承载的对象（具体岗位）消失了。"
+            "en": "The role gets deconstructed, the process gets rewritten, the decision chain has to redraw its own boundary. Three things at once. Old training systems trained people in the capability of “running fluently on stable roles, stable processes, stable decision chains.” When the three premises fail at once, the capability itself does not fail, but the object the capability was carrying (the specific role) disappears.",
+            "cn": "岗位被解构、流程被重写、决策链需要重新画边界。三件事同时发生。旧训练系统训练的人，承载的是「在稳定岗位、稳定流程、稳定决策链上熟练运转」的能力。这三个前提同时失效之后，能力本身没有失效，但能力承载的对象（具体岗位）消失了。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "This is what training-disqualification really is.",
-            "cn": "这就是训的失格的真正机制。"
-          },
-          {
-            "en": "It does not disqualify on content the way teaching does.",
-            "cn": "它不像教那样在内容上失格，是在前提上失格。"
-          },
-          {
-            "en": "It disqualifies on premise.",
-            "cn": "训没有训错，"
-          },
-          {
-            "en": "Training was not wrong; what it trained for is disappearing.",
-            "cn": "是训的对象正在消失。"
+            "en": "This is what training-disqualification really is. It does not disqualify on content the way teaching does. It disqualifies on premise. Training was not wrong; what it trained for is disappearing.",
+            "cn": "这就是训的失格的真正机制。它不像教那样在内容上失格，是在前提上失格。训没有训错，是训的对象正在消失。"
           }
         ]
       },
@@ -44377,20 +39245,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Process-fitting training, disqualified.",
-            "cn": "流程适配训练失格。"
-          },
-          {
-            "en": "Old training shaped people into “stable carriers of a specific process.” That employee knew this SOP, that client, internal approval flow, the implicit rules of cross-team collaboration.",
-            "cn": "旧训练把人塑造成「特定流程的稳定承载者」。这个员工知道这个 SOP 怎么走、那个客户怎么对接、内部审批怎么流转、跨部门协作的潜规则。"
-          },
-          {
-            "en": "After AI the process itself gets rewritten.",
-            "cn": "AI 之后流程本身被重写。"
-          },
-          {
-            "en": "The capability trained on a process — as “familiarity with one specific process” — depreciates with the process.",
-            "cn": "被流程训练出来的能力，作为「对一套具体流程的熟悉」，跟随流程一起贬值。"
+            "en": "Process-fitting training, disqualified. Old training shaped people into “stable carriers of a specific process.” That employee knew this SOP, that client, internal approval flow, the implicit rules of cross-team collaboration. After AI the process itself gets rewritten. The capability trained on a process — as “familiarity with one specific process” — depreciates with the process.",
+            "cn": "流程适配训练失格。旧训练把人塑造成「特定流程的稳定承载者」。这个员工知道这个 SOP 怎么走、那个客户怎么对接、内部审批怎么流转、跨部门协作的潜规则。AI 之后流程本身被重写。被流程训练出来的能力，作为「对一套具体流程的熟悉」，跟随流程一起贬值。"
           }
         ]
       },
@@ -44425,40 +39281,24 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Experience as a capability is layered.",
-            "cn": "经验作为一种能力是分层的。"
-          },
-          {
-            "en": "Shallow experience is “I’ve seen this kind of case.” That layer AI carries an enormous case library for, broader than any single person.",
-            "cn": "浅层经验是「见过类似 case」。这一层 AI 自带巨大的 case 库，覆盖范围比任何人都广。"
-          },
-          {
-            "en": "Deep experience is “the judgment formed by feedback through huge numbers of real failures and successes.” That layer, AI cannot replicate, because it has no continuous subject.",
-            "cn": "深层经验是「在大量真实失败和成功的反馈中形成的判断力」。这一层 AI 没有连续主体，无法替代。"
+            "en": "Experience as a capability is layered. Shallow experience is “I’ve seen this kind of case.” That layer AI carries an enormous case library for, broader than any single person. Deep experience is “the judgment formed by feedback through huge numbers of real failures and successes.” That layer, AI cannot replicate, because it has no continuous subject.",
+            "cn": "经验作为一种能力是分层的。浅层经验是「见过类似 case」。这一层 AI 自带巨大的 case 库，覆盖范围比任何人都广。深层经验是「在大量真实失败和成功的反馈中形成的判断力」。这一层 AI 没有连续主体，无法替代。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "The old training does not separate the two.",
-            "cn": "但旧训练并不区分这两层。"
-          },
-          {
-            "en": "An employee is often valued on “X years of work experience,” with the implicit assumption “time = experience = judgment.” After AI that equation breaks: shallow experience depreciates; deep experience stays scarce — but shallow is what 90% of employees are carrying.",
-            "cn": "一个员工经常被组织当作「工作 X 年」这个数字来评价，背后的隐含假设是「工作时间 = 经验 = 判断力」。AI 之后这个等式失效：浅层经验贬值、深层经验仍然稀缺，但浅层经验是 90% 员工承载的部分。"
+            "en": "The old training does not separate the two. An employee is often valued on “X years of work experience,” with the implicit assumption “time = experience = judgment.” After AI that equation breaks: shallow experience depreciates; deep experience stays scarce — but shallow is what 90% of employees are carrying.",
+            "cn": "但旧训练并不区分这两层。一个员工经常被组织当作「工作 X 年」这个数字来评价，背后的隐含假设是「工作时间 = 经验 = 判断力」。AI 之后这个等式失效：浅层经验贬值、深层经验仍然稀缺，但浅层经验是 90% 员工承载的部分。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "A 15-year middle manager often says, “I’ve done this kind of thing 100 times.” Before AI, that was a proof of capability.",
-            "cn": "工作 15 年的中层经常说「这种事我做过 100 次」。这句话在 AI 之前是能力证明。"
-          },
-          {
-            "en": "After AI, it becomes awkward: AI has seen ten thousand times more cases than 100.",
-            "cn": "在 AI 之后变成尴尬：AI 看过的 case 比 100 次多 10000 倍。"
+            "en": "A 15-year middle manager often says, “I’ve done this kind of thing 100 times.” Before AI, that was a proof of capability. After AI, it becomes awkward: AI has seen ten thousand times more cases than 100.",
+            "cn": "工作 15 年的中层经常说「这种事我做过 100 次」。这句话在 AI 之前是能力证明。在 AI 之后变成尴尬：AI 看过的 case 比 100 次多 10000 倍。"
           }
         ]
       },
@@ -44721,32 +39561,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Japan.",
-            "cn": "日本。"
-          },
-          {
-            "en": "The strength of Japanese corporate training is foundational automation plus long-term embedding, shaping a person, through OJT, rotation, and master-apprentice arrangements, into someone who can carry a specific function for the long term.",
-            "cn": "日本企业内训的强项是基础自动化加长期嵌入，通过 OJT、轮岗、师徒制把人塑造成能长期承载特定职能的对象。失格点在「特定职能」本身正在消失。"
-          },
-          {
-            "en": "The failure point is that “specific function” itself is disappearing.",
-            "cn": "一个被训练成「承载某个具体职能 30 年」的人，"
-          },
-          {
-            "en": "A person trained to “carry a specific function for thirty years” finds, when AI rewrites that function, that the entire training has failed.",
-            "cn": "当那个职能被 AI 重写时，他的整套训练失效。"
-          },
-          {
-            "en": "Both ends of the long-term-employment assumption fail in Japanese organisations.",
-            "cn": "日本组织的长期雇佣假设的两端都失效。"
-          },
-          {
-            "en": "One end: the firm no longer needs lifetime specialists.",
-            "cn": "一端是公司不再需要终身的专业人才，"
-          },
-          {
-            "en": "The other end: the employee’s specialism no longer fits new roles.",
-            "cn": "另一端是员工的专业能力也不再适配新岗位。"
+            "en": "Japan. The strength of Japanese corporate training is foundational automation plus long-term embedding, shaping a person, through OJT, rotation, and master-apprentice arrangements, into someone who can carry a specific function for the long term. The failure point is that “specific function” itself is disappearing. A person trained to “carry a specific function for thirty years” finds, when AI rewrites that function, that the entire training has failed. Both ends of the long-term-employment assumption fail in Japanese organisations. One end: the firm no longer needs lifetime specialists. The other end: the employee’s specialism no longer fits new roles.",
+            "cn": "日本。日本企业内训的强项是基础自动化加长期嵌入，通过 OJT、轮岗、师徒制把人塑造成能长期承载特定职能的对象。失格点在「特定职能」本身正在消失。一个被训练成「承载某个具体职能 30 年」的人，当那个职能被 AI 重写时，他的整套训练失效。日本组织的长期雇佣假设的两端都失效。一端是公司不再需要终身的专业人才，另一端是员工的专业能力也不再适配新岗位。"
           }
         ]
       },
@@ -44817,8 +39633,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Other reference systems. American vocational training has always been fragmented, leaning on lateral mobility (job-hopping is normal), external certifications (PMP, CFA, AWS), and an apprenticeship revival.",
-            "cn": "其他参照系。美国职业培训本来就碎片化，依赖横向流动（裸辞跳槽是常态）、外部认证（PMP、CFA、AWS 认证）、apprenticeship 复兴。"
+            "en": "Other reference systems.",
+            "cn": "其他参照系。"
+          },
+          {
+            "en": "American vocational training has always been fragmented, leaning on lateral mobility (job-hopping is normal), external certifications (PMP, CFA, AWS), and an apprenticeship revival.",
+            "cn": "美国职业培训本来就碎片化，依赖横向流动（裸辞跳槽是常态）、外部认证（PMP、CFA、AWS 认证）、apprenticeship 复兴。"
           },
           {
             "en": "Fragmentation has an unexpected advantage in the age of AI: because Americans are not deeply embedded in specific firms the way the Japanese are, U.S. labour tolerates role change better.",
@@ -44838,15 +39658,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The failure point is small scale and small population covered, so it cannot be a transferable solution for other countries.",
-            "cn": "失格点是规模太小、覆盖人群太少，无法成为其他国家的可推广方案。但北欧的机制本身仍然成立。"
+            "cn": "失格点是规模太小、覆盖人群太少，无法成为其他国家的可推广方案。"
           },
           {
             "en": "But the mechanism itself still holds.",
-            "cn": "如果它能扩展到 AI 使用层（把「用 AI 工作」变成全民可以终身学习的能力），"
+            "cn": "但北欧的机制本身仍然成立。"
           },
           {
             "en": "If it extends to AI use (turn “working with AI” into a population-wide lifelong-learnable capability), it amounts to extending the boundary of foundational automation into the age of AI.",
-            "cn": "就是把基础自动化的边界扩展到 AI 时代。"
+            "cn": "如果它能扩展到 AI 使用层（把「用 AI 工作」变成全民可以终身学习的能力），就是把基础自动化的边界扩展到 AI 时代。"
           }
         ]
       },
@@ -44889,16 +39709,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The several generations thoroughly shaped by old training carry the capability of “running fluently inside stable structures.” That capability is not failing; the object the capability was carrying is disappearing.",
-            "cn": "被旧训练充分塑造的几代人，承载的是「在稳定结构里熟练运转」的能力。这个能力本身没有失效，是它承载的对象消失了。"
-          },
-          {
-            "en": "When 20 years of work experience all corresponds to deconstructed roles, rewritten processes, and AI-taken-over decision chains, the person has to redraw his ability boundary.",
-            "cn": "当一个人 20 年的工作经验对应的全部是已经解构的岗位、已经重写的流程、已经被 AI 接管的决策链，他需要重新画自己的能力边界。"
-          },
-          {
-            "en": "Old training did not teach him how to redraw.",
-            "cn": "旧训练里没有教过他怎么画。"
+            "en": "The several generations thoroughly shaped by old training carry the capability of “running fluently inside stable structures.” That capability is not failing; the object the capability was carrying is disappearing. When 20 years of work experience all corresponds to deconstructed roles, rewritten processes, and AI-taken-over decision chains, the person has to redraw his ability boundary. Old training did not teach him how to redraw.",
+            "cn": "被旧训练充分塑造的几代人，承载的是「在稳定结构里熟练运转」的能力。这个能力本身没有失效，是它承载的对象消失了。当一个人 20 年的工作经验对应的全部是已经解构的岗位、已经重写的流程、已经被 AI 接管的决策链，他需要重新画自己的能力边界。旧训练里没有教过他怎么画。"
           }
         ]
       },
@@ -44972,10 +39784,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
     "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-4--the-sandwich-generation",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -44985,7 +39797,7 @@ const ARTICLES_EXTRA = [
     "chapter": 5,
     "sourceTextWords": 1854,
     "sourceParagraphs": 44,
-    "sourceSentences": 123,
+    "sourceSentences": 94,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
@@ -45114,16 +39926,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Education reform runs on a 10-year clock.",
-            "cn": "教育改革按 10 年算，"
-          },
-          {
-            "en": "AI rewriting work runs on a monthly clock.",
-            "cn": "AI 改写工作按月算。"
-          },
-          {
-            "en": "The two timescales differ by two orders of magnitude.",
-            "cn": "两者的时间尺度差异是两个数量级。"
+            "en": "Education reform runs on a 10-year clock. AI rewriting work runs on a monthly clock. The two timescales differ by two orders of magnitude.",
+            "cn": "教育改革按 10 年算，AI 改写工作按月算。两者的时间尺度差异是两个数量级。"
           }
         ]
       },
@@ -45178,52 +39982,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Government punts to education reform.",
-            "cn": "政府推教育改革。"
-          },
-          {
-            "en": "Education reform offers no direct help to the current workforce; it targets children of ten years from now.",
-            "cn": "教育改革对当下劳动力没有直接帮助，针对的是 10 年后的孩子。"
-          },
-          {
-            "en": "Government uses “we are reforming” as a response to the disqualification of the labour market, but that response is fully off-by-time.",
-            "cn": "政府把「我们在改革」作为对当下劳动力市场失效的一种回应，但这个回应在时间上完全错位。四国都在做这件事。"
-          },
-          {
-            "en": "All four systems do this.",
-            "cn": "中国的 2024-2035 教育强国规划纲要、"
-          },
-          {
-            "en": "China’s 2024-2035 Education Strong Nation Plan, the U.S.’s 2025 federal AI-education executive order, Japan’s MEXT AI guidelines, Korea’s 2025 AI digital textbooks.",
-            "cn": "美国的 2025 联邦 AI 教育行政令、日本的 MEXT AI 指南、韩国 2025 年 AI 数字教科书。"
-          },
-          {
-            "en": "All target students at the basic-education stage.",
-            "cn": "这些改革针对的全是基础教育阶段的学生，"
-          },
-          {
-            "en": "None targets adult-cognitive-rebuild for the working population.",
-            "cn": "没有一项针对在职成年人的认知能力重构。"
-          },
-          {
-            "en": "The sandwich generation’s relationship to education reform is, in essence, a non-coverage relationship.",
-            "cn": "夹层世代和教育改革的关系，本质上是不被覆盖的关系。"
-          },
-          {
-            "en": "However well reform goes, it has nothing to do with them.",
-            "cn": "改革做得多好都和他们无关。"
+            "en": "Government punts to education reform. Education reform offers no direct help to the current workforce; it targets children of ten years from now. Government uses “we are reforming” as a response to the disqualification of the labour market, but that response is fully off-by-time. All four systems do this. China’s 2024-2035 Education Strong Nation Plan, the U.S.’s 2025 federal AI-education executive order, Japan’s MEXT AI guidelines, Korea’s 2025 AI digital textbooks. All target students at the basic-education stage. None targets adult-cognitive-rebuild for the working population. The sandwich generation’s relationship to education reform is, in essence, a non-coverage relationship. However well reform goes, it has nothing to do with them.",
+            "cn": "政府推教育改革。教育改革对当下劳动力没有直接帮助，针对的是 10 年后的孩子。政府把「我们在改革」作为对当下劳动力市场失效的一种回应，但这个回应在时间上完全错位。四国都在做这件事。中国的 2024-2035 教育强国规划纲要、美国的 2025 联邦 AI 教育行政令、日本的 MEXT AI 指南、韩国 2025 年 AI 数字教科书。这些改革针对的全是基础教育阶段的学生，没有一项针对在职成年人的认知能力重构。夹层世代和教育改革的关系，本质上是不被覆盖的关系。改革做得多好都和他们无关。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Companies punt to AI training.",
-            "cn": "企业推 AI 培训。"
-          },
-          {
-            "en": "Most corporate AI training stops at “teach everyone how to write a prompt, how to use this tool, how to summarise documents.” That treats tool capacity as cognitive capacity.",
-            "cn": "多数企业的 AI 培训停在「教大家怎么写 prompt、怎么用某某工具、怎么总结文档」。这是把工具能力当成认知能力训练。"
+            "en": "Companies punt to AI training. Most corporate AI training stops at “teach everyone how to write a prompt, how to use this tool, how to summarise documents.” That treats tool capacity as cognitive capacity.",
+            "cn": "企业推 AI 培训。多数企业的 AI 培训停在「教大家怎么写 prompt、怎么用某某工具、怎么总结文档」。这是把工具能力当成认知能力训练。"
           }
         ]
       },
@@ -45282,36 +40050,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Individuals are punted to “lifelong learning.” A large part of the lifelong-learning market commodifies age-of-AI anxiety into paid courses.",
-            "cn": "个体推「终身学习」。市面上的终身学习产品大量是把 AI 时代的焦虑产业化为知识付费课程。"
-          },
-          {
-            "en": "What those courses teach is still the knowledge layer and the tool layer — exactly the parts AI has already taken over.",
-            "cn": "这些课程教的仍然是知识层和工具层，AI 已经接管的部分。"
-          },
-          {
-            "en": "People who finish them feel anxiety relief temporarily; their way of working doesn’t change.",
-            "cn": "学完这些课程的人，焦虑暂时缓解，工作方式不变。"
-          },
-          {
-            "en": "That is the educational-market form of “rumination consumption” from ISSUE 01: pay, consume, psychological satisfaction, zero transfer.",
-            "cn": "这是 ISSUE 01 讲过的「反刍消费」在教育市场的落地形态：付费、消费、心理满足、零迁移。"
-          },
-          {
-            "en": "The deeper problem: real cognitive rebuild can’t be done through paid courses.",
-            "cn": "更深的问题：真正的认知重构不能通过付费课程完成。"
-          },
-          {
-            "en": "It needs the loop of real tasks plus real feedback, repeated; it needs sustained one-on-one mentorship; it needs continuous metacognitive calibration.",
-            "cn": "它需要真实任务加真实反馈的反复循环，需要长期一对一的导师，需要持续的元认知校准。"
-          },
-          {
-            "en": "The cost is extreme, the coverage will inevitably be low, and it cannot be productised.",
-            "cn": "这件事的成本极高、覆盖率必然低，本质上无法被产品化。"
-          },
-          {
-            "en": "The market looks like it’s solving the sandwich generation’s cognitive-rebuild need; what it’s actually doing is something else: monetising anxiety.",
-            "cn": "市场上看似在解决夹层世代的认知重构需求，实际上在做的是另一件事：消费焦虑。"
+            "en": "Individuals are punted to “lifelong learning.” A large part of the lifelong-learning market commodifies age-of-AI anxiety into paid courses. What those courses teach is still the knowledge layer and the tool layer — exactly the parts AI has already taken over. People who finish them feel anxiety relief temporarily; their way of working doesn’t change. That is the educational-market form of “rumination consumption” from ISSUE 01: pay, consume, psychological satisfaction, zero transfer. The deeper problem: real cognitive rebuild can’t be done through paid courses. It needs the loop of real tasks plus real feedback, repeated; it needs sustained one-on-one mentorship; it needs continuous metacognitive calibration. The cost is extreme, the coverage will inevitably be low, and it cannot be productised. The market looks like it’s solving the sandwich generation’s cognitive-rebuild need; what it’s actually doing is something else: monetising anxiety.",
+            "cn": "个体推「终身学习」。市面上的终身学习产品大量是把 AI 时代的焦虑产业化为知识付费课程。这些课程教的仍然是知识层和工具层，AI 已经接管的部分。学完这些课程的人，焦虑暂时缓解，工作方式不变。这是 ISSUE 01 讲过的「反刍消费」在教育市场的落地形态：付费、消费、心理满足、零迁移。更深的问题：真正的认知重构不能通过付费课程完成。它需要真实任务加真实反馈的反复循环，需要长期一对一的导师，需要持续的元认知校准。这件事的成本极高、覆盖率必然低，本质上无法被产品化。市场上看似在解决夹层世代的认知重构需求，实际上在做的是另一件事：消费焦虑。"
           }
         ]
       },
@@ -45350,36 +40090,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Their entire value sits in “baseline execution capacity.” But they’re new on the job and have accumulated nothing yet: no domain repertoire, no work judgment, no internal familiarity with the process, no automation of any skill.",
-            "cn": "他们的全部价值在于「基础执行能力」。但他们刚进入职场，还没有积累任何东西：没有领域策略库，没有职场判断力，没有流程的内在熟悉，没有任何技能的自动化。"
-          },
-          {
-            "en": "“Baseline execution,” in essence, is “being walked through specific tasks by the organisation.” That is the standard onboarding entry point for a new hire.",
-            "cn": "所谓「基础执行」，本质上是「被组织带着完成具体任务」。这是过去职场新人的标准入口。"
+            "en": "Their entire value sits in “baseline execution capacity.” But they’re new on the job and have accumulated nothing yet: no domain repertoire, no work judgment, no internal familiarity with the process, no automation of any skill. “Baseline execution,” in essence, is “being walked through specific tasks by the organisation.” That is the standard onboarding entry point for a new hire.",
+            "cn": "他们的全部价值在于「基础执行能力」。但他们刚进入职场，还没有积累任何东西：没有领域策略库，没有职场判断力，没有流程的内在熟悉，没有任何技能的自动化。所谓「基础执行」，本质上是「被组织带着完成具体任务」。这是过去职场新人的标准入口。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "After AI, that entry is disappearing.",
-            "cn": "AI 之后这个入口在消失。"
-          },
-          {
-            "en": "This isn’t in conflict with Chapter 3.3: there I said “a one-year-in person who knows AI writes faster and better than a five-year-in person who doesn’t.” That is a positive for the new hire individually — with AI, they can do an old hand’s work.",
-            "cn": "这件事和第三章 3.3 节的判断不矛盾：第三章说过「一个会用 AI 的工作 1 年的人，写报告的速度和质量超过不用 AI 的工作 5 年的人」，这话对新人本身是利好，借助 AI 他能做老人的活；"
-          },
-          {
-            "en": "But across the labour market, the picture flips: when new-hire-with-AI output equals old-hand-with-AI output equals AI-direct output, “the new hire can do the old hand’s work with AI” stops being scarcity.",
-            "cn": "但放到劳动力市场上看，结果反过来——当新人加 AI 的产出等于老人加 AI 的产出等于 AI 直接做的产出，新人「借助 AI 能做老人的活」就不再构成稀缺性。"
-          },
-          {
-            "en": "The labour market already has plenty of AI-using people, and AI-direct is also fine.",
-            "cn": "劳动力市场上已经有足够多会用 AI 的人，且 AI 直接做也能做。"
-          },
-          {
-            "en": "The new hire has no comparative advantage.",
-            "cn": "新人没有比较优势。"
+            "en": "After AI, that entry is disappearing. This isn’t in conflict with Chapter 3.3: there I said “a one-year-in person who knows AI writes faster and better than a five-year-in person who doesn’t.” That is a positive for the new hire individually — with AI, they can do an old hand’s work. But across the labour market, the picture flips: when new-hire-with-AI output equals old-hand-with-AI output equals AI-direct output, “the new hire can do the old hand’s work with AI” stops being scarcity. The labour market already has plenty of AI-using people, and AI-direct is also fine. The new hire has no comparative advantage.",
+            "cn": "AI 之后这个入口在消失。这件事和第三章 3.3 节的判断不矛盾：第三章说过「一个会用 AI 的工作 1 年的人，写报告的速度和质量超过不用 AI 的工作 5 年的人」，这话对新人本身是利好，借助 AI 他能做老人的活；但放到劳动力市场上看，结果反过来——当新人加 AI 的产出等于老人加 AI 的产出等于 AI 直接做的产出，新人「借助 AI 能做老人的活」就不再构成稀缺性。劳动力市场上已经有足够多会用 AI 的人，且 AI 直接做也能做。新人没有比较优势。"
           }
         ]
       },
@@ -45494,20 +40214,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Lived experience: they realise the reports their younger reports can produce with AI are several times their own throughput.",
-            "cn": "具体感受：发现自己手下的年轻人用 AI 完成的工作量是自己的几倍。"
-          },
-          {
-            "en": "They start trying to use AI, but the use is awkward, unergonomic, slower than the younger reports.",
-            "cn": "开始尝试用 AI，但用得别扭、不顺手、效率反而不如年轻下属。"
-          },
-          {
-            "en": "Some refuse, insisting “judgment can’t be handed to AI.” Some force themselves to learn but learn slowly.",
-            "cn": "一些人选择拒绝，强调「判断不能交给 AI」。一些人选择硬学，但学得慢。"
-          },
-          {
-            "en": "Some hang back and wait for the company to give a clear direction.",
-            "cn": "一些人选择观望，等公司给出明确的方向。"
+            "en": "Lived experience: they realise the reports their younger reports can produce with AI are several times their own throughput. They start trying to use AI, but the use is awkward, unergonomic, slower than the younger reports. Some refuse, insisting “judgment can’t be handed to AI.” Some force themselves to learn but learn slowly. Some hang back and wait for the company to give a clear direction.",
+            "cn": "具体感受：发现自己手下的年轻人用 AI 完成的工作量是自己的几倍。开始尝试用 AI，但用得别扭、不顺手、效率反而不如年轻下属。一些人选择拒绝，强调「判断不能交给 AI」。一些人选择硬学，但学得慢。一些人选择观望，等公司给出明确的方向。"
           }
         ]
       },
@@ -45539,15 +40247,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Compared to the previous two groups, they hold one real piece of capital: domain-deep schemas.",
-            "cn": "相比前两组，他们有一个真正的资本：领域深度图式。这是 AI 接管不了的层次。"
+            "cn": "相比前两组，他们有一个真正的资本：领域深度图式。"
           },
           {
             "en": "That layer AI cannot take over.",
-            "cn": "但他们也有一个真正的劣势："
+            "cn": "这是 AI 接管不了的层次。"
           },
           {
             "en": "They also hold one real disadvantage: the AI-use gap relative to younger people.",
-            "cn": "和年轻人相比的 AI 使用差距。"
+            "cn": "但他们也有一个真正的劣势：和年轻人相比的 AI 使用差距。"
           },
           {
             "en": "A 50-year-old specialist who doesn’t use AI still has valuable domain-deep schemas, but his output speed and breadth are sharply limited.",
@@ -45562,20 +40270,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "They have 10-18 years to retirement.",
-            "cn": "他们距离退休还有 10 到 18 年。"
-          },
-          {
-            "en": "Enough time to complete a self-rebuild, but it requires actively choosing to rebuild.",
-            "cn": "这个时间足够完成一次自我重构，但需要主动选择重构。"
-          },
-          {
-            "en": "Most will choose “work the last few years in the way I’m used to.” That choice isn’t itself wrong, but it means this generation’s domain-deep schemas leave with them at retirement, in bulk, without being passed down.",
-            "cn": "多数人会选择「用我熟悉的方式工作完最后这些年」。这个选择本身没有错，但它意味着这一代人的领域深度图式在退休时大量带走，没有传递给下一代。"
-          },
-          {
-            "en": "That is the hidden cost of organisations in the age of AI.",
-            "cn": "这是组织在 AI 时代的隐性成本。"
+            "en": "They have 10-18 years to retirement. Enough time to complete a self-rebuild, but it requires actively choosing to rebuild. Most will choose “work the last few years in the way I’m used to.” That choice isn’t itself wrong, but it means this generation’s domain-deep schemas leave with them at retirement, in bulk, without being passed down. That is the hidden cost of organisations in the age of AI.",
+            "cn": "他们距离退休还有 10 到 18 年。这个时间足够完成一次自我重构，但需要主动选择重构。多数人会选择「用我熟悉的方式工作完最后这些年」。这个选择本身没有错，但它意味着这一代人的领域深度图式在退休时大量带走，没有传递给下一代。这是组织在 AI 时代的隐性成本。"
           }
         ]
       },
@@ -45669,10 +40365,10 @@ const ARTICLES_EXTRA = [
     "source": "Offbook Press · Dawei Geng",
     "date": "2026-04-29",
     "url": "https://offbook.press/essays/teaching-and-training-disqualified/#chapter-5--evolution",
-    "addedAt": "2026-09-20",
+    "addedAt": "2026-09-21",
     "pin": true,
     "contentStatus": "complete",
-    "extractorVersion": "offbook-v1",
+    "extractorVersion": "offbook-v2",
     "author": "Dawei Geng",
     "authorZh": "耿大伟",
     "translation_type": "official",
@@ -45682,7 +40378,7 @@ const ARTICLES_EXTRA = [
     "chapter": 6,
     "sourceTextWords": 4170,
     "sourceParagraphs": 99,
-    "sourceSentences": 286,
+    "sourceSentences": 253,
     "cover": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "gradient": "linear-gradient(135deg,#9A7134 0%,#7C5928 50%,#5A3F1A 100%)",
     "coverFrom": "#9A7134",
@@ -45759,20 +40455,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Class A and B’s training objects in the age of AI take new shapes.",
-            "cn": "A 类和 B 类的训练对象在 AI 时代有了新的形态。"
-          },
-          {
-            "en": "The education system and corporate training both need to rebuild around the new shapes.",
-            "cn": "教育系统和企业培训都需要按这个新形态重建。"
-          },
-          {
-            "en": "Class C training is forever individual responsibility.",
-            "cn": "C 类的训练永远是个人责任，"
-          },
-          {
-            "en": "AI changes the tools, not the responsible party.",
-            "cn": "AI 让它的工具变了，但责任主体没变。"
+            "en": "Class A and B’s training objects in the age of AI take new shapes. The education system and corporate training both need to rebuild around the new shapes. Class C training is forever individual responsibility. AI changes the tools, not the responsible party.",
+            "cn": "A 类和 B 类的训练对象在 AI 时代有了新的形态。教育系统和企业培训都需要按这个新形态重建。C 类的训练永远是个人责任，AI 让它的工具变了，但责任主体没变。"
           }
         ]
       },
@@ -45816,39 +40500,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Old training taught knowledge itself; new training simultaneously teaches the conditions of applicability.",
-            "cn": "旧训练教知识本身，新训练同时教知识的适用条件。一个知道「x 在 y 条件下成立」的人，"
+            "cn": "旧训练教知识本身，新训练同时教知识的适用条件。"
           },
           {
             "en": "Someone who knows “X holds under Y” makes better judgments with AI than someone who only remembers “X.”",
-            "cn": "比一个只记得「x」的人，在 AI 协助下能做出更好的判断。"
+            "cn": "一个知道「x 在 y 条件下成立」的人，比一个只记得「x」的人，在 AI 协助下能做出更好的判断。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Third, how to retrieve knowledge through AI.",
-            "cn": "第三是如何通过 AI 寻找知识。"
-          },
-          {
-            "en": "Before AI, knowledge retrieval was a personal skill (search engines, literature databases, professional databases).",
-            "cn": "AI 之前知识检索是个人化技能（搜索引擎、文献数据库、专业资料库）。"
-          },
-          {
-            "en": "After AI it becomes a structurable, trainable capability.",
-            "cn": "AI 之后这件事变成结构化的、可训练的能力。"
-          },
-          {
-            "en": "How to ask so AI returns useful information, how to identify suspicious parts of AI’s output, how to have AI locate the actual primary sources, how to handle cross-domain knowledge connections with AI’s help.",
-            "cn": "如何提问让 AI 给出有效信息、如何识别 AI 输出里的可疑部分、如何让 AI 帮你定位真正的原始来源、如何在 AI 帮助下处理跨领域的知识连接。"
-          },
-          {
-            "en": "In 2026 this is still new; there are no mature curricula.",
-            "cn": "这一层在 2026 年还是新东西，"
-          },
-          {
-            "en": "But it will be standard in basic education and vocational training of the future.",
-            "cn": "没有成熟教材，但它会是未来基础教育和职业培训的标配。"
+            "en": "Third, how to retrieve knowledge through AI. Before AI, knowledge retrieval was a personal skill (search engines, literature databases, professional databases). After AI it becomes a structurable, trainable capability. How to ask so AI returns useful information, how to identify suspicious parts of AI’s output, how to have AI locate the actual primary sources, how to handle cross-domain knowledge connections with AI’s help. In 2026 this is still new; there are no mature curricula. But it will be standard in basic education and vocational training of the future.",
+            "cn": "第三是如何通过 AI 寻找知识。AI 之前知识检索是个人化技能（搜索引擎、文献数据库、专业资料库）。AI 之后这件事变成结构化的、可训练的能力。如何提问让 AI 给出有效信息、如何识别 AI 输出里的可疑部分、如何让 AI 帮你定位真正的原始来源、如何在 AI 帮助下处理跨领域的知识连接。这一层在 2026 年还是新东西，没有成熟教材，但它会是未来基础教育和职业培训的标配。"
           }
         ]
       },
@@ -45879,24 +40543,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The AI-use paradigm as new foundational automation.",
-            "cn": "AI 使用范式作为新基础自动化。"
-          },
-          {
-            "en": "Extend the old “literacy, calculation, reading until you don’t think about it” to “AI calls, AI workflows until you don’t think about them.” Borrow from the Japanese paradigm: high-frequency, broadly applicable, standardisable, memorisation plus practice.",
-            "cn": "把过去的「识字、计算、阅读到不需要专门动脑」扩展到「AI 调用、AI 工作流到不需要专门动脑」。借鉴日本范式：高频、泛用、可标准化、记忆加实训。"
-          },
-          {
-            "en": "What needs to be drilled to automation: knowing what tasks go to AI and what don’t; knowing how to ask AI (structured, context-clear, demand-clear); knowing how to read AI’s output and decide right away whether it’s true; knowing how to use AI to calibrate judgment rather than substitute it; a set of AI-collaboration templates for common tasks; a set of counter-examples (when AI is wrong).",
-            "cn": "需要练到自动化的具体内容：知道什么任务该交给 AI、什么不该；知道怎么对 AI 提问（结构化、上下文清楚、要求明确）；知道怎么读 AI 的输出，立刻判断真假；知道怎么用 AI 校准判断而不是替代；一组针对常见任务的 AI 协作模板；一组反例（AI 在什么情况下犯错）。"
-          },
-          {
-            "en": "The training form: a lot of repetition, standard templates, practice feedback, cross-task transfer.",
-            "cn": "具体训练形式：大量重复练习、标准化模板、实训反馈、跨任务迁移。"
-          },
-          {
-            "en": "This doesn’t require a high Gf; it requires high repetition plus standardised practice — closely parallel to Japanese vocational on-the-job learning.",
-            "cn": "这一套不要求高 Gf，要求大量重复加规范化实训，类似日本职业培训的现场学习（OJT）。"
+            "en": "The AI-use paradigm as new foundational automation. Extend the old “literacy, calculation, reading until you don’t think about it” to “AI calls, AI workflows until you don’t think about them.” Borrow from the Japanese paradigm: high-frequency, broadly applicable, standardisable, memorisation plus practice. What needs to be drilled to automation: knowing what tasks go to AI and what don’t; knowing how to ask AI (structured, context-clear, demand-clear); knowing how to read AI’s output and decide right away whether it’s true; knowing how to use AI to calibrate judgment rather than substitute it; a set of AI-collaboration templates for common tasks; a set of counter-examples (when AI is wrong). The training form: a lot of repetition, standard templates, practice feedback, cross-task transfer. This doesn’t require a high Gf; it requires high repetition plus standardised practice — closely parallel to Japanese vocational on-the-job learning.",
+            "cn": "AI 使用范式作为新基础自动化。把过去的「识字、计算、阅读到不需要专门动脑」扩展到「AI 调用、AI 工作流到不需要专门动脑」。借鉴日本范式：高频、泛用、可标准化、记忆加实训。需要练到自动化的具体内容：知道什么任务该交给 AI、什么不该；知道怎么对 AI 提问（结构化、上下文清楚、要求明确）；知道怎么读 AI 的输出，立刻判断真假；知道怎么用 AI 校准判断而不是替代；一组针对常见任务的 AI 协作模板；一组反例（AI 在什么情况下犯错）。具体训练形式：大量重复练习、标准化模板、实训反馈、跨任务迁移。这一套不要求高 Gf，要求大量重复加规范化实训，类似日本职业培训的现场学习（OJT）。"
           }
         ]
       },
@@ -45919,8 +40567,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "General metacognition can be mass-trained: knowledge about how to retrieve knowledge, knowledge about how to ask questions, knowledge about how to judge structure, knowledge about how to do post-mortems. All of these are teachable, drillable, examinable.",
-            "cn": "一般性元认知是可以大规模训练的：关于寻找知识的知识、关于问问题的知识、关于判断结构的知识、关于复盘方法的知识。这些都是可教、可练、可考核的。"
+            "en": "General metacognition can be mass-trained: knowledge about how to retrieve knowledge, knowledge about how to ask questions, knowledge about how to judge structure, knowledge about how to do post-mortems.",
+            "cn": "一般性元认知是可以大规模训练的：关于寻找知识的知识、关于问问题的知识、关于判断结构的知识、关于复盘方法的知识。"
+          },
+          {
+            "en": "All of these are teachable, drillable, examinable.",
+            "cn": "这些都是可教、可练、可考核的。"
           },
           {
             "en": "Their training shape is clear, their evaluation criteria are clear, and there’s a defined path to improvement.",
@@ -45963,12 +40615,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Domain metacognition remains individual responsibility.",
-            "cn": "领域内元认知仍然是个人责任。"
-          },
-          {
-            "en": "“When could I be wrong in this specific domain”; “which step of reasoning needs another check”; “where am I deceiving myself in this task.” This layer depends on real tasks and real failures in a specific domain; you cannot train it independent of the domain.",
-            "cn": "在具体领域里「我什么时候可能错」、在具体决策里「哪一步推理需要再检查」、在具体任务中「我哪里在自欺」。这一层依赖具体领域的真实任务和真实失败，无法脱离领域单独训练。"
+            "en": "Domain metacognition remains individual responsibility. “When could I be wrong in this specific domain”; “which step of reasoning needs another check”; “where am I deceiving myself in this task.” This layer depends on real tasks and real failures in a specific domain; you cannot train it independent of the domain.",
+            "cn": "领域内元认知仍然是个人责任。在具体领域里「我什么时候可能错」、在具体决策里「哪一步推理需要再检查」、在具体任务中「我哪里在自欺」。这一层依赖具体领域的真实任务和真实失败，无法脱离领域单独训练。"
           }
         ]
       },
@@ -46051,16 +40699,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "What AI changes is that “AI helps one high-cognition teacher scale his teaching forms without limit.” A genuinely high-level teacher used to be able to reach the few classes and few hundred students he could teach in person.",
-            "cn": "AI 改变这件事的方式是「AI 帮助一个高认知教师无限扩大他的教材形式的覆盖面」。一个真正高水平的教师，在过去的覆盖范围是他能直接教的几个班、几百个学生。"
-          },
-          {
-            "en": "His teaching method, judgment, and understanding of the discipline could not be copied to other teachers.",
-            "cn": "他的教学方法、判断力、对学科的理解，无法被复制到其他教师身上。"
-          },
-          {
-            "en": "His cognition was a scarce resource, geometrically bounded.",
-            "cn": "他的认知是稀缺资源，被几何分布限制。"
+            "en": "What AI changes is that “AI helps one high-cognition teacher scale his teaching forms without limit.” A genuinely high-level teacher used to be able to reach the few classes and few hundred students he could teach in person. His teaching method, judgment, and understanding of the discipline could not be copied to other teachers. His cognition was a scarce resource, geometrically bounded.",
+            "cn": "AI 改变这件事的方式是「AI 帮助一个高认知教师无限扩大他的教材形式的覆盖面」。一个真正高水平的教师，在过去的覆盖范围是他能直接教的几个班、几百个学生。他的教学方法、判断力、对学科的理解，无法被复制到其他教师身上。他的认知是稀缺资源，被几何分布限制。"
           }
         ]
       },
@@ -46087,16 +40727,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This is the real opportunity for education in the age of AI: for the first time, the best teacher’s reach extends from a few hundred to several tens of millions.",
-            "cn": "这是 AI 时代教育的真正机会：第一次让最好的教师的覆盖面，从几百人扩展到几千万人。"
-          },
-          {
-            "en": "What is needed: high-cognition teachers willing to structure their methods so AI can learn them, a tool chain that supports it, and a channel for students to access “the AI shaped by the high-cognition teacher.” This is still early in 2026.",
-            "cn": "需要的是高认知教师愿意把自己的方法结构化让 AI 学习、有支持这件事的工具链、有让学生接触到这种「被高认知教师塑形过的 AI」的渠道。这件事当下还处于早期。"
-          },
-          {
-            "en": "But the direction is clear.",
-            "cn": "但它的方向已经清楚。"
+            "en": "This is the real opportunity for education in the age of AI: for the first time, the best teacher’s reach extends from a few hundred to several tens of millions. What is needed: high-cognition teachers willing to structure their methods so AI can learn them, a tool chain that supports it, and a channel for students to access “the AI shaped by the high-cognition teacher.” This is still early in 2026. But the direction is clear.",
+            "cn": "这是 AI 时代教育的真正机会：第一次让最好的教师的覆盖面，从几百人扩展到几千万人。需要的是高认知教师愿意把自己的方法结构化让 AI 学习、有支持这件事的工具链、有让学生接触到这种「被高认知教师塑形过的 AI」的渠道。这件事当下还处于早期。但它的方向已经清楚。"
           }
         ]
       },
@@ -46119,20 +40751,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The problem bank itself is not disqualified; what is disqualified is patternised problems. A structurally unfamiliar problem still activates Gf invocation, cognitive decoupling, and the deep layers of the strategy repertoire even in the age of AI.",
-            "cn": "题库本身不失格，失格的是已经被模式化的题。一道结构陌生的好题，在 AI 时代仍然能激活 Gf 调用、认知去耦、策略库的深层。"
-          },
-          {
-            "en": "It is a standardisable trigger of non-standardisable abilities.",
-            "cn": "它是不可标准化能力的可标准化触发器。"
-          },
-          {
-            "en": "The problem bank is “a standardisable tool that activates a non-standardisable ability.” Authoring, scoring, and coverage are standardisable; the abilities triggered (on-site reasoning, deep schemas) are not.",
-            "cn": "题库是「可标准化工具激活不可标准化能力」。出题、评分、覆盖可标准化，但被激活的能力（现场推理、深度图式）不能规模化。"
-          },
-          {
-            "en": "That is why the problem bank is still necessary in the age of AI.",
-            "cn": "这是题库在 AI 时代仍然必须的本质原因。"
+            "en": "The problem bank itself is not disqualified; what is disqualified is patternised problems. A structurally unfamiliar problem still activates Gf invocation, cognitive decoupling, and the deep layers of the strategy repertoire even in the age of AI. It is a standardisable trigger of non-standardisable abilities. The problem bank is “a standardisable tool that activates a non-standardisable ability.” Authoring, scoring, and coverage are standardisable; the abilities triggered (on-site reasoning, deep schemas) are not. That is why the problem bank is still necessary in the age of AI.",
+            "cn": "题库本身不失格，失格的是已经被模式化的题。一道结构陌生的好题，在 AI 时代仍然能激活 Gf 调用、认知去耦、策略库的深层。它是不可标准化能力的可标准化触发器。题库是「可标准化工具激活不可标准化能力」。出题、评分、覆盖可标准化，但被激活的能力（现场推理、深度图式）不能规模化。这是题库在 AI 时代仍然必须的本质原因。"
           }
         ]
       },
@@ -46167,8 +40787,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Use AI to author problems. The method: generate new problems with AI.",
-            "cn": "用 AI 自动出题。具体方法：用 AI 生成新题。"
+            "en": "Use AI to author problems.",
+            "cn": "用 AI 自动出题。"
+          },
+          {
+            "en": "The method: generate new problems with AI.",
+            "cn": "具体方法：用 AI 生成新题。"
           },
           {
             "en": "Update the problem bank yearly or even monthly.",
@@ -46207,8 +40831,12 @@ const ARTICLES_EXTRA = [
             "cn": "关键不是题面新，是深层结构新。"
           },
           {
-            "en": "AI can easily generate “surface-novel, structure-old” pseudo-unfamiliar problems. AI authoring has to layer in structural deduplication, difficulty calibration, and human spot-checks; otherwise it’s just old problems in new wrappers.",
-            "cn": "AI 很容易生成「题面新、结构旧」的伪陌生题。AI 出题必须叠加结构去重、难度标定、人工抽样复核三层，否则只是把旧题换皮。"
+            "en": "AI can easily generate “surface-novel, structure-old” pseudo-unfamiliar problems.",
+            "cn": "AI 很容易生成「题面新、结构旧」的伪陌生题。"
+          },
+          {
+            "en": "AI authoring has to layer in structural deduplication, difficulty calibration, and human spot-checks; otherwise it’s just old problems in new wrappers.",
+            "cn": "AI 出题必须叠加结构去重、难度标定、人工抽样复核三层，否则只是把旧题换皮。"
           }
         ]
       },
@@ -46271,12 +40899,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "What this assessment measures is judgment, decision, depth — the application of cognitive decoupling and metacognition.",
-            "cn": "这个考核方式测的是判断、决策、深度。也就是认知去耦和元认知的具体应用。"
-          },
-          {
-            "en": "It is harder to substitute with AI than answers, because what it scores is process and judgment chain, not answer and result.",
-            "cn": "它比答案更难被 AI 替代，因为它考核的是过程和判断链，不是答案和结果。"
+            "en": "What this assessment measures is judgment, decision, depth — the application of cognitive decoupling and metacognition. It is harder to substitute with AI than answers, because what it scores is process and judgment chain, not answer and result.",
+            "cn": "这个考核方式测的是判断、决策、深度。也就是认知去耦和元认知的具体应用。它比答案更难被 AI 替代，因为它考核的是过程和判断链，不是答案和结果。"
           }
         ]
       },
@@ -46327,32 +40951,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Basic logic training.",
-            "cn": "基础逻辑训练。"
-          },
-          {
-            "en": "Mathematics, formal logic, basic argumentation.",
-            "cn": "数学、形式逻辑、基本论证训练。"
-          },
-          {
-            "en": "This layer is the foundation of cognitive decoupling.",
-            "cn": "这一层是认知去耦的基础。"
-          },
-          {
-            "en": "Chinese basic education has invested heavily here.",
-            "cn": "中国基础教育已经在这一层有大量投入。"
-          },
-          {
-            "en": "The new direction is to keep the training shape “unfamiliar.” Keep the student in the state of “must reason on the spot” each time he faces a problem.",
-            "cn": "新方向是让训练形态保持「陌生」。让学生每次面对题时仍然处于「必须现场推理」的状态。"
-          },
-          {
-            "en": "Math Olympiad, formal logic, geometry proofs — programs once considered elite — should return to basic education in the age of AI.",
-            "cn": "奥数、形式逻辑、几何证明这些在过去被认为是精英训练的项目，在 AI 时代应该回到基础教育。"
-          },
-          {
-            "en": "They don’t lift the Gf ceiling, but they activate Gf frequency and cognitive decoupling, which are the scarcest layers after AI.",
-            "cn": "它们不培养 Gf 上限，但激活 Gf 调用频率和认知去耦，AI 之后最稀缺的几层。"
+            "en": "Basic logic training. Mathematics, formal logic, basic argumentation. This layer is the foundation of cognitive decoupling. Chinese basic education has invested heavily here. The new direction is to keep the training shape “unfamiliar.” Keep the student in the state of “must reason on the spot” each time he faces a problem. Math Olympiad, formal logic, geometry proofs — programs once considered elite — should return to basic education in the age of AI. They don’t lift the Gf ceiling, but they activate Gf frequency and cognitive decoupling, which are the scarcest layers after AI.",
+            "cn": "基础逻辑训练。数学、形式逻辑、基本论证训练。这一层是认知去耦的基础。中国基础教育已经在这一层有大量投入。新方向是让训练形态保持「陌生」。让学生每次面对题时仍然处于「必须现场推理」的状态。奥数、形式逻辑、几何证明这些在过去被认为是精英训练的项目，在 AI 时代应该回到基础教育。它们不培养 Gf 上限，但激活 Gf 调用频率和认知去耦，AI 之后最稀缺的几层。"
           }
         ]
       },
@@ -46415,8 +41015,12 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "This work, between 2024 and 2026, has moved from experiments to platform deployments at leading firms. It is not yet mature everywhere, but the direction is clear: companies are turning the know-how that used to live scattered across employees, processes, documents, and systems into AI-callable organisational context.",
-            "cn": "这件事在 2024 到 2026 年已经从实验进入领先公司的平台化部署。它还没有在所有企业里成熟，但方向已经非常清楚：企业正在把原本散落在员工、流程、文档和系统里的 know-how，转成 AI 可以调用的组织上下文。"
+            "en": "This work, between 2024 and 2026, has moved from experiments to platform deployments at leading firms.",
+            "cn": "这件事在 2024 到 2026 年已经从实验进入领先公司的平台化部署。"
+          },
+          {
+            "en": "It is not yet mature everywhere, but the direction is clear: companies are turning the know-how that used to live scattered across employees, processes, documents, and systems into AI-callable organisational context.",
+            "cn": "它还没有在所有企业里成熟，但方向已经非常清楚：企业正在把原本散落在员工、流程、文档和系统里的 know-how，转成 AI 可以调用的组织上下文。"
           }
         ]
       },
@@ -46467,20 +41071,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Recall the earlier point: AI extends the high-cognition teacher’s reach. Inside a company, “high-cognition teacher” isn’t necessarily a teacher — it is the company’s best middle managers, most senior experts, the old hands with the most accumulated know-how.",
-            "cn": "回到前面的论点：AI 让高认知教师的覆盖面扩大。在企业里，「高认知教师」不一定是老师，而是公司里最好的中层、最资深的专家、积累了最多 know-how 的老员工。"
-          },
-          {
-            "en": "Their judgment methods, experience, and decision criteria could only be transmitted through master-apprentice and long co-presence one-on-one or in small groups before.",
-            "cn": "他们的判断方法、经验、决策标准，过去只能通过师徒制、长期共事，以一对一或小范围方式传递。"
-          },
-          {
-            "en": "That is why Japanese corporate training works: tacit knowledge deposits over years of co-presence.",
-            "cn": "这是日本企业内训为什么有效的根本原因：暗默知通过长期共事沉淀；"
-          },
-          {
-            "en": "It is also why the Japanese model can’t scale: one-on-one transmission has too low coverage.",
-            "cn": "也是为什么日本模式不能规模化：一对一传递覆盖率太低。"
+            "en": "Recall the earlier point: AI extends the high-cognition teacher’s reach. Inside a company, “high-cognition teacher” isn’t necessarily a teacher — it is the company’s best middle managers, most senior experts, the old hands with the most accumulated know-how. Their judgment methods, experience, and decision criteria could only be transmitted through master-apprentice and long co-presence one-on-one or in small groups before. That is why Japanese corporate training works: tacit knowledge deposits over years of co-presence. It is also why the Japanese model can’t scale: one-on-one transmission has too low coverage.",
+            "cn": "回到前面的论点：AI 让高认知教师的覆盖面扩大。在企业里，「高认知教师」不一定是老师，而是公司里最好的中层、最资深的专家、积累了最多 know-how 的老员工。他们的判断方法、经验、决策标准，过去只能通过师徒制、长期共事，以一对一或小范围方式传递。这是日本企业内训为什么有效的根本原因：暗默知通过长期共事沉淀；也是为什么日本模式不能规模化：一对一传递覆盖率太低。"
           }
         ]
       },
@@ -46559,32 +41151,16 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Third, shift assessment from “scoring outcomes” to “scoring AI-collaboration processes.” Same as the assessment reform above.",
-            "cn": "第三，考核方式从「考结果」改为「考 AI 协作过程」。和前面讲的考核改革对应。"
-          },
-          {
-            "en": "Audit the new hire’s conversation with AI: question quality, follow-up direction, judgment depth, ability to identify AI errors, formation of the final conclusion.",
-            "cn": "审计新员工与 AI 的对话过程：他的问题质量、追问方向、判断深度、识别 AI 错误的能力、最终结论的形成过程。"
-          },
-          {
-            "en": "These dimensions reflect real judgment.",
-            "cn": "这些维度直接反映他的真实判断力。"
+            "en": "Third, shift assessment from “scoring outcomes” to “scoring AI-collaboration processes.” Same as the assessment reform above. Audit the new hire’s conversation with AI: question quality, follow-up direction, judgment depth, ability to identify AI errors, formation of the final conclusion. These dimensions reflect real judgment.",
+            "cn": "第三，考核方式从「考结果」改为「考 AI 协作过程」。和前面讲的考核改革对应。审计新员工与 AI 的对话过程：他的问题质量、追问方向、判断深度、识别 AI 错误的能力、最终结论的形成过程。这些维度直接反映他的真实判断力。"
           }
         ]
       },
       {
         "sentences": [
           {
-            "en": "Where most companies still are.",
-            "cn": "当下绝大多数企业还在哪里。"
-          },
-          {
-            "en": "Most are still at “teach employees to use AI tools.” A small set of leading firms are doing know-how distillation, but the goal is still current efficiency, not future training.",
-            "cn": "绝大多数企业还停在「教员工用 AI 工具」的层次。少数领先公司已经在做 knowhow 蒸馏，但目标定位仍然是当下效率而不是未来培训。"
-          },
-          {
-            "en": "Companies that treat distillation as the training base — at this moment in 2026 — are essentially none.",
-            "cn": "把蒸馏作为培训基础的企业，2026 年此刻几乎没有。"
+            "en": "Where most companies still are. Most are still at “teach employees to use AI tools.” A small set of leading firms are doing know-how distillation, but the goal is still current efficiency, not future training. Companies that treat distillation as the training base — at this moment in 2026 — are essentially none.",
+            "cn": "当下绝大多数企业还在哪里。绝大多数企业还停在「教员工用 AI 工具」的层次。少数领先公司已经在做 knowhow 蒸馏，但目标定位仍然是当下效率而不是未来培训。把蒸馏作为培训基础的企业，2026 年此刻几乎没有。"
           }
         ]
       },
@@ -46691,12 +41267,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "Gf and its activation frequency: set yourself daily small tasks that “must be solved by reasoning.” Don’t let yourself ask AI by reflex; think for 5 minutes first. AI’s role here is counter-example provider.",
-            "cn": "Gf 与其调用频率：每天给自己设一些「必须用推理才能解决」的小任务。不让自己习惯性问 AI，先自己想 5 分钟。AI 在这里的角色是反例提供者。"
-          },
-          {
-            "en": "This isn’t just mechanically lifting Gf’s activation frequency; pushing Gf invocation repeatedly also pushes you closer to your Gf ceiling.",
-            "cn": "这不仅是机械提高 Gf 调用频率这么简单，反复推动 Gf 的调用亦可以不断接近你的 Gf 上限"
+            "en": "Gf and its activation frequency: set yourself daily small tasks that “must be solved by reasoning.” Don’t let yourself ask AI by reflex; think for 5 minutes first. AI’s role here is counter-example provider. This isn’t just mechanically lifting Gf’s activation frequency; pushing Gf invocation repeatedly also pushes you closer to your Gf ceiling.",
+            "cn": "Gf 与其调用频率：每天给自己设一些「必须用推理才能解决」的小任务。不让自己习惯性问 AI，先自己想 5 分钟。AI 在这里的角色是反例提供者。这不仅是机械提高 Gf 调用频率这么简单，反复推动 Gf 的调用亦可以不断接近你的 Gf 上限"
           }
         ]
       },
@@ -46967,16 +41539,8 @@ const ARTICLES_EXTRA = [
       {
         "sentences": [
           {
-            "en": "The “low-drill, score-70-80” person naturally has some of A, B, C.",
-            "cn": "「不刷题但能考七八十分」的人，天然具备 A、B、C 三项中的一些。"
-          },
-          {
-            "en": "D and E need active cultivation.",
-            "cn": "但 D、E 需要主动养成。"
-          },
-          {
-            "en": "The AI tooling is new; reconnecting learning to real tasks is everyone’s individual choice.",
-            "cn": "AI 工具是新的，把学习接回真实任务是每个人的主动选择。"
+            "en": "The “low-drill, score-70-80” person naturally has some of A, B, C. D and E need active cultivation. The AI tooling is new; reconnecting learning to real tasks is everyone’s individual choice.",
+            "cn": "「不刷题但能考七八十分」的人，天然具备 A、B、C 三项中的一些。但 D、E 需要主动养成。AI 工具是新的，把学习接回真实任务是每个人的主动选择。"
           }
         ]
       },
