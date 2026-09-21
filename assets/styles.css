@@ -801,7 +801,9 @@ body {
 /* 句末右端留 10px：块级句子撑满整行，右端零留白时文字顶到边、手指也没落点。
  * 10px 与句距同值 —— 留白既是「这行到头了」的视觉收口，也是点句出译文的点击余量
  * （整行都是热区，右端那点空也照点）。 */
-.read-scroll.para-flow .para .sentence { display: block; padding-right: 10px; }
+/* position: relative 只为给句末朗读喇叭当定位祖先（见下方 .para-tts）。
+ * 它不改变布局：句子的盒尺寸、间距、选中态的左装订线都逐像素不动。 */
+.read-scroll.para-flow .para .sentence { display: block; padding-right: 10px; position: relative; }
 /* 只给同段的后续句子加空隙 —— 第一个句子加了，段首会平白多出 10px。
    用通用兄弟 `~` 而不是相邻 `+`：中间隔着已展开的 .cn 时同样要成立。 */
 .read-scroll.para-flow .para .sentence ~ .sentence { margin-top: 10px; }
@@ -887,7 +889,40 @@ body {
 }
 .sentence.sel > .para-tts,
 .para.playing .para-tts { display: inline-flex; }
-.para-tts:hover, .sentence.sel > .para-tts { color: var(--brand); background: var(--brand-soft); }
+.para-tts:hover, .para.playing .para-tts { color: var(--brand); background: var(--brand-soft); }
+/* 选中态**不给底盘**，只上品牌色 —— 这是绝对定位之后必须跟着改的一处。
+ * 底盘色是 --brand-soft，和选中句的底纹（editorial.css 的 .sentence.sel）**同色**。
+ * 喇叭现在横跨在「选中句底纹」与「页面留白」的交界上（左 6px 在底纹里、右 16px 在外），
+ * 同一个盘子一半融进底纹、一半露在外面 —— 截图（.bak/shot-tts-fix-crop.png）里就是一个
+ * 被切掉一半的圆，看着像渲染故障。去掉底盘后只剩一个品牌色喇叭字形，落点干净。
+ * hover 的圆盘保留（鼠标下的即时反馈），playing 态也保留（那是「正在读」的状态标记）。 */
+.sentence.sel > .para-tts { color: var(--brand); }
+
+/* 喇叭不再进正文行盒（2026-09-21）。
+ * 旧实现是 `display: none → inline-flex`：控件**只在选中时**进流，于是「选中这一句」
+ * 这个动作本身就会改变行宽。块级句子的末行只要离右边界不足 26px（22px 图标 +
+ * 4px 左边距），喇叭就被折到下一行 —— 被点句子之下的全部内容瞬间下移一行。
+ * 实测（Edge 无头 390×844 · people-anne-hathaway-mother-mary 前 24 句 · cnMode=off
+ * 以排除「译文展开」这个混淆项）：24 句里 3 句（第 3、22、24 句）选中后段高 +32px，
+ * 恰好一行 --rd-en-lh。已上线的「点句保持位置」只管被点的那一句，挤行发生在它之下，
+ * 两者不重叠 —— 所以必须单独修，不能靠那个补偿兜住。
+ *
+ * 改法：把喇叭提出行盒，绝对定位进句子块右侧的页面留白（--rd-pad，手机档 22px）。
+ * 盒子不进流 → 选中不再改行宽 → 挤行根除，且不占任何正文宽度（不用「预留 26px」那种
+ * 方案：那会把每一句的换行位置都提前，等于用全篇排版换一个只在 3/24 句发生的抖动）。
+ *
+ * 两个数字都是量出来的，不是估的：
+ * · right 取 -16px —— 绝对定位的 containing block 是句子块的 padding box，右边界 =
+ *   正文文本区右边界 + padding-right 10px。喇叭因此占 [文本右界 -4px, +16px]：
+ *   左缘留在文本区外 4px（**不压字**，末行占满时也一样），右缘离屏幕边 6px
+ *   （不贴边 —— 贴边会撞上 iOS 的边缘返回手势）。取 -20px 就会正好顶到屏幕边。
+ * · bottom 按 --rd-en-lh 算 —— 跟着三档字号（32/36/41px）走，喇叭始终压在**末行**的
+ *   视觉中线上，而不是句子块的几何中心（跨行句才不会被甩到整句中间）。 */
+.read-scroll.para-flow .para .para-tts {
+  position: absolute; right: -16px;
+  bottom: calc((var(--rd-en-lh) - 22px) / 2);
+  margin-left: 0;
+}
 
 /* 段级「本段对照」按钮（.para-cn-btn）2026-09-19 整套删除 ——
  * 一句一行之后，每段尾巴那行小字既把段落重新切碎，又和「点句出译文」重复入口。

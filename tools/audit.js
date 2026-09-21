@@ -1161,6 +1161,48 @@ ok('「一句一行」把句子转成块级（一句一行、句间 10px）',
    10px 与句距同值 —— 留白既是视觉收口，也是点句出译文的点击余量。 */
 ok('★ 句末右留 10px（撑满整行的块级句，右端要留出点击余量）',
   /padding-right:\s*10px/.test(flowSent) && !/padding-right:\s*0/.test(flowSent));
+/* ★★ 句末朗读喇叭必须退出正文行盒（2026-09-21）。
+ * 旧实现是 `display: none → inline-flex`：控件**只在选中时**进流，于是「选中这一句」
+ * 这个动作本身就改变行宽。块级句子的末行离右边界不足「图标宽 - |right|」时，喇叭被折到
+ * 下一行，被点句子之下的全部内容下移一行。实测（Edge 无头 390×844 · 首篇前 24 句 ·
+ * cnMode=off 以排除「译文展开」这个混淆项）24 句里 3 句 +32px，恰好一行 --rd-en-lh。
+ * 已上线的 [R3] 点句保持位置只管被点的那一句，挤行发生在它之下，两者不重叠 —— 不能互替。
+ *
+ * 锁三件可观察的事，都不钉具体 px：
+ *   ① 喇叭是绝对定位的 —— 「不进流」就是挤行根除的机制本身，也是该意图在 CSS 里唯一的
+ *      表达方式（同 `display:none` 之于「默认不可见」），不是随手挑的实现细节；
+ *   ② 句子块是它的定位祖先 —— 拆掉 position:relative，右缘会挂到 .read-body/.read-scroll 上，
+ *      喇叭直接飞到正文栏最右侧（离所点句十万八千里，但守卫若只看 ① 仍是绿的）；
+ *   ③ 几何关系由 CSS 自己声明的 token 算出来，不写死坐标：
+ *      · 不压字：喇叭左缘 ≥ 正文文本区右界
+ *        left = P + |right| - width - margin-left，文本右界 = P - padding-right
+ *        → 判据 padding-right + |right| - width - margin-left > 0
+ *      · 不贴屏幕边：喇叭右缘与屏幕边的间距 = --rd-pad - |right| > 0
+ *        （右缘顶到屏幕边会撞 iOS 的边缘返回手势；为 0 又等于没退出行盒、压在正文上）
+ * 实测当前值：留白 22px、|right| 16px、图标 22px、padding-right 10px
+ * → 离文本区 4px、离屏幕边 6px；360/390 × fs-0/1/2 六组探针（.bak/probe-tts-fix.cjs）全绿。 */
+const flowTts = (cssBare.match(/\.read-scroll\.para-flow \.para \.para-tts\s*\{([^}]*)\}/) || [, ''])[1];
+/* 取长度值。**单位可选** —— CSS 里写 `margin-left: 0` 与 `0px` 等价，
+ * 而第一版解析器强制要求 px，于是覆盖规则里的 `margin-left: 0` 读不到、
+ * 悄悄回退成基础规则的 4px，把「离文本区 4px」算成了 0px（守卫当场报红才发现）。
+ * 前面加边界，免得 `right` 命中 `padding-right`。 */
+const numProp = (s, name, d) => {
+  const m = s.match(new RegExp(`(?:^|[\\s;{])${name}:\\s*(-?[\\d.]+)(?:px)?`));
+  return m ? Math.abs(parseFloat(m[1])) : d;
+};
+const ttsW = numProp(ttsRule, 'width', 0);
+const ttsRight = numProp(flowTts, 'right', NaN);
+const ttsMl = numProp(flowTts, 'margin-left', numProp(ttsRule, 'margin-left', 0));
+const ttsPadRight = numProp(flowSent, 'padding-right', 0);
+const padPx = numProp(cssBare, '--rd-pad', 0);
+const ttsClearance = ttsPadRight + ttsRight - ttsW - ttsMl;   // 喇叭左缘 - 正文文本区右界
+const ttsEdgeGap = padPx - ttsRight;                          // 屏幕边 - 喇叭右缘
+ok('★ 朗读喇叭不进正文行盒（绝对定位；选中不再改变行宽 = 不再挤行）',
+  /position:\s*absolute/.test(flowTts));
+ok('喇叭的定位祖先是句子块（否则右缘会挂到更外层容器、飞出正文栏）',
+  /position:\s*relative/.test(flowSent));
+ok(`★ 喇叭既不压字也不贴屏幕边（由 CSS token 算出：离文本区 ${ttsClearance.toFixed(1)}px · 离屏幕边 ${ttsEdgeGap.toFixed(1)}px，两者都要 > 0）`,
+  Number.isFinite(ttsRight) && ttsW > 0 && padPx > 0 && ttsClearance > 0 && ttsEdgeGap > 0);
 /* ★ 段距：锁**意图**，不锁那个数字。
  * 旧写法是 `/\.read-body \.para\s*\{[^}]*margin:\s*0 0 18px/` —— 它把当时那个值钉成了
  * 唯一合法解。2026-09-20 按新决策把段距从 18 调到 24，它当场报红，
