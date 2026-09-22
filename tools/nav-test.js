@@ -142,7 +142,7 @@ eq('阅读记录可返回来路', at().view, 'me');
 console.log('\n[7] 人物专题与原刊入口');
 click({tab:'discover'});
 click({cat:'人物'});
-ok('人物栏目显示专属介绍',screenEl.innerHTML.includes('class="people-intro"') && screenEl.innerHTML.includes('THE PEOPLE ISSUE') && screenEl.innerHTML.includes('人物，和他们的世界。'));
+ok('人物栏目专属介绍已删除',!screenEl.innerHTML.includes('people-intro') && !screenEl.innerHTML.includes('人物，和他们的世界。'));
 const peopleId=ctx('ARTICLES.find(a=>a.cat==="人物")?.id');
 ok('人物专题存在',!!peopleId);
 click({article:peopleId});

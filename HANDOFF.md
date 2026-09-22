@@ -22,7 +22,7 @@
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`72db9bf`**（2026-09-21 22:52，v72 朗读层重写批次） |
-| 资源版本 | `?v=75` · SW 缓存名 `wordlens-cache-v75` |
+| 资源版本 | `?v=76` · SW 缓存名 `wordlens-cache-v76` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -777,6 +777,16 @@
   >   `--screenshot` 对静态预览 HTML 的媒体查询失真，**以真页面探针为准**）。
   > - 改动面：`assets/app.js` · `assets/styles.css` · `assets/editorial.css` ·
   >   `tools/audit.js` · `sw.js` · 版本 v75。**未改任何数据**。
+
+- **2026-09-22 晚（v76）删人物分类介绍横幅** —— sekiro 截图圈选「THE PEOPLE ISSUE /
+  人物，和他们的世界。」整块要求删除（发现页人物分类顶部的 `.people-intro` 横幅）。
+  > - 按删功能纪律整块清干净：`app.js` 单分类模板里的三元渲染、`styles.css` 4 条 +
+  >   `editorial.css` 6 条 `.people-intro` 规则全部删除；
+  >   `tools/nav-test.js` 原断言「介绍存在」**翻转为负向断言**（断言已删，防回潮）。
+  > - `[H4]` 补 ⑨ 两条残骸守卫：真渲染人物分类页断言无 `people-intro`/
+  >   「人物，和他们的世界」；两份样式表（去注释）断言无 `.people-intro`。
+  >   负向 p 系列 2 组精确报红（pa 渲染回潮 / pb CSS 回潮，各 1 红、无连坐）。
+  > - 守卫 366 → **368**，nav-test 39/0，audit 368/0。版本 v76。**未改任何数据**。
 
 ### 0.3 机制速查（不随批次变）
 

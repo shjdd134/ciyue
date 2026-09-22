@@ -2454,6 +2454,15 @@ console.log('\n[H4] 首页 / 发现页重排');
   const edOnly = fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
   ok('.editorial-feature 的 min-height 只有一个来源（桌面那条；移动端是独立断点覆盖）',
     (edOnly.match(/^\.editorial-feature \{[^}]*min-height[^}]*\}/gm) || []).length === 1);
+
+  /* ⑨ 残骸守卫（2026-09-22 v76）：人物分类顶部的 people-intro 介绍横幅已整块删除
+   *    （用户要求）—— 渲染产物与两份样式表都不许再出现。 */
+  ctx('view = {name:"discover"}; catFilter = "人物"; searchTerm = "";');
+  const peopleDisc = ctx('renderDiscover()');
+  ok('人物分类页不再渲染 people-intro 介绍横幅（已删功能）',
+    !peopleDisc.includes('people-intro') && !peopleDisc.includes('人物，和他们的世界'));
+  ok('people-intro 的 CSS 残骸已清（styles.css / editorial.css 两份都查）',
+    !/\.people-intro/.test(cssAll));
 }
 
 /* ================= [H5] 阅读页 hero 去重（v75，2026-09-22） ================= */

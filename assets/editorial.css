@@ -193,10 +193,6 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 .cat-section > :not(.article) { grid-column: 1 / -1; }
 .cat-section .cat-head { margin-bottom: 2px; }
 .cat-section .cat-head .left { font-size: 19px; }
-.people-intro { background: var(--brand-deep); color: var(--text); border: 1px solid var(--line); border-radius: 12px; padding: 34px; }
-.people-intro span { color: var(--brand); font-size: 10px; letter-spacing: 2px; }
-.people-intro h2 { font: 500 30px/1.5 var(--font-editorial); margin: 12px 0; }
-.people-intro p { color: var(--text-2); line-height: 1.8; }
 .lib { background: var(--brand-deep); color: var(--text); box-shadow: none; border: 1px solid var(--line); border-radius: 12px; }
 .lib .ic { color: var(--brand); background: var(--brand-soft); }
 .lib .s { opacity: 1; color: var(--text-2); }
@@ -359,8 +355,6 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
   .editorial-footer { padding-top: 22px; font-size: 10px; gap: 10px; }
   .editorial-footer span:last-child { font-size: 12px; }
   .cat-section { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-  .people-intro { padding: 24px; }
-  .people-intro h2 { font-size: 25px; }
   .me-view { grid-template-columns: 1fr; }
   .me-view .overview-card, .me-view .chart-card { padding: 20px; }
   .me-view .history-entry { padding: 20px !important; }

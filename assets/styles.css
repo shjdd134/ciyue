@@ -418,10 +418,6 @@ body {
 .article.people-card .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; }
 .article.people-card > .col { padding: 16px; }
 .people-name { font-size: 20px; font-weight: 650; color: var(--text-1); }
-.people-intro { padding: 20px 4px 16px; }
-.people-intro > span { font-size: 10px; letter-spacing: 3px; color: var(--text-3); }
-.people-intro h2 { margin: 8px 0; font-size: 29px; color: var(--text-1); }
-.people-intro p { font-size: 12px; line-height: 1.8; color: var(--text-2); margin: 4px 0; }
 .people-reading-note { padding: 14px; border: 1px solid var(--border); border-radius: 12px; color: var(--text-2); font-size: 12px; line-height: 1.8; }
 .people-reading-note p { margin: 6px 0 10px; }
 .people-reading-note a { display: block; padding: 10px; background: var(--brand); color: white; border-radius: 8px; text-align: center; text-decoration: none; }
