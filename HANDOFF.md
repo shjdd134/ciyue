@@ -23,7 +23,7 @@
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
 | 资源版本 | `?v=79` · SW 缓存名 `wordlens-cache-v79` |
-| Android 壳 | **1.0.2 (vc3)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.2-release-vc3.apk`）；打包坑与白屏事故复盘见 REFERENCE-mechanics §14 |
+| Android 壳 | **1.0.3 (vc4)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.3-release-vc4.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -1038,6 +1038,48 @@
   >   `[V]` 现在额外断言「顶层只许有当前版本的 APK」。
   > - ⏳ 真机验收仍待用户：装上 **vc3** 后应当直接进入界面（不再是白屏）。
 
+- **2026-09-22 深夜三批（壳 1.0.3 / vc4）★「点导入备份没反应」** —— 用户报的是
+  「软件导入浏览器数据不能导入，点导入备份没反应」。根因两条，**都在 WebView 一侧**，
+  所以浏览器里怎么点都是好的、只在壳里复现。细节见 REF §14.11。
+  > - **导入**：`<input type="file">` 被点击时，WebView **只回调** `WebChromeClient.onShowFileChooser`，
+  >   它自己不弹任何界面；而壳里写的是 `setWebChromeClient(new WebChromeClient())` ——
+  >   默认实现返回 false（= 宿主不处理）→ 不弹框、不报错、连日志都没有。
+  > - **导出（这条更坏）**：页面用 `<a download href="blob:…">`，WebView 不处理 blob 下载、
+  >   壳里也没设 DownloadListener → 同样什么都不发生；但 `a.click()` 不会抛错，
+  >   于是那句「已导出进度备份」是一句**假成功**。假成功比没反应坏得多：用户不会来报修，
+  >   直到某天要恢复进度才发现手里的备份是空的。
+  > - **修法**：`MainActivity` 新增 `Chrome extends WebChromeClient`（接住 onShowFileChooser）
+  >   + `ShellFiles`（导入走 `ACTION_OPEN_DOCUMENT`、导出走 `ACTION_CREATE_DOCUMENT`，
+  >   由 `onActivityResult` 回传）；新增 JS 接口 `WLSaveFile.save(名字, 文本)` 与回执
+  >   `__wlSaveDone`；`app.js` 的 `exportData()` 在壳里改走原生，网页版仍走 blob。
+  >   **不需要任何存储权限**（SAF 按次授权）—— manifest 至今只有 INTERNET。
+  > - ★ **最容易踩坏的一步**：WebView 只认最后一次 `onReceiveValue`。上一次的回调若一直悬着
+  >   （用户在选择器里按了 home、进程被回收），那个 input 就**永久**不再响应 ——
+  >   从「点了没反应」升级成「怎么点都没反应，只能重启应用」。所以弹之前先把它喂掉，
+  >   用户取消也一定**显式**回传 null（两处）。audit 数着这两处。
+  > - **守卫 449 → 463**。其中 3 条是**行为断言**：在壳沙箱里真调一次 `exportData()`，
+  >   看它有没有把内容交给原生、有没有**同时**再走一遍 blob（判据是 `URL.createObjectURL`
+  >   这个副作用，不是源码里的字符串）；网页沙箱里反向断言仍走 blob，构成双向对照。
+  >   负向测试 `vf/vg/vh/vi` 四组**精确命中、零连坐**（vg 正是「退回裸 WebChromeClient()」，
+  >   也就是本轮那个 bug 的原始形态）。
+  > - **顺带修掉两把会捣乱的尺子**（与本轮问题无关，但已经污染了验证过程）：
+  >   ① `audit` 有 **≈7% 的偶发崩溃** —— `runBuild` 里 `fs.rmSync` 去删一个**已存在**的
+  >   临时目录时会撞上工作环境的回收站 shim（`trash operation aborted`），整条 audit 当场退出、
+  >   连「结果」行都没有，看着像断言失败。**修法**：临时目录改成每次唯一 →
+  >   那次 rmSync 删的是不存在的路径、不碰回收站。连跑 12 次无崩溃。
+  >   ② `build-apk.mjs` 的 javac 失败分支加了一句提示：**「非法字符」指着中文时先怀疑块注释
+  >   被提前终止**。本轮真的栽在这里（注释里把「星号紧跟斜杠」原样写出来 → 注释当场结束、
+  >   后面几行中文全变成代码），而 javac 的报错看着像 `-encoding` 没设，白查过一轮。
+  > - **产物**：`outputs/apk/wordlens-1.0.3-release-vc4.apk`（11,601,543 B / 106 条目 / 反斜杠 0 /
+  >   v2+v3 / v1 关闭 / 包内 vc4 - 1.0.3 / minSdk 26 → target 35 / `zipalign -c -p -v 4` 通过 /
+  >   与 `mobile/www` 98 个文件逐字节一致）。上一版 vc3 挪进 `outputs/apk/_old/`。
+  > - ⏳ **真机验收待用户**：装 vc4 后，「我的 → 导入备份」应当弹出**系统**文件选择器，
+  >   选一个导出的 .json 就能恢复；「导出备份」应当弹出系统的「另存为」界面（不再是假的「已导出」）。
+  > - ⚠️ **并行 agent 痕迹**：对账时发现 `assets/app.js` 里有一段**不是我改的**注释改写
+  >   （封面池「会话固定」那段说明，+145 字节，只动注释不动代码）。推 app.js 时一并带上了。
+  > - ⚠️ **遗留待查**：`audit` 的 `[H2] 会话内固定` 有一条**偶发红**（实测 12 次里 1 次），
+  >   未查明（值取决于首页封面池的随机下标组合，怀疑是两个下标落到同一篇时的边界）。
+
 ### 2026-09-22 深夜（记忆水位：查清「为什么一直满」）
 
 **起因**：用户问「为什么一直满，之前我记得修过一次」。查证后**属实，且根因不在「没修干净」**。
@@ -1613,8 +1655,10 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 ```bash
 # ★ 下面的数字是「当前实测值」，会随着**加守卫**而变大 —— 2026-09-22 v79 校准过一次，
 #   同日深夜再加 [V] 之后全部重校（437 → 449）。
+#   同一夜第三批（备份导入/导出 + 归档残留守卫）再校准 → 463。
+#   ⚠️ 这个总数曾因**条件性断言**小幅浮动过（实测见过 458~463）；判据始终是「0 失败」。
 #   数字对不上时，先看是不是有人加了断言，而不是先怀疑代码坏了。
-node tools/audit.js         # 期望 449 通过 / 0 失败（[A]–[V] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约（含壳自检）、U 源文件行尾卫生、V APK 归档形状）
+node tools/audit.js         # 期望 463 通过 / 0 失败（[A]–[V] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约（含壳自检）、U 源文件行尾卫生、V APK 归档形状）
 node tools/nav-test.js      # 期望 39 通过 / 0 失败（2026-09-22 实测；旧口径 30/0 已不适用）
 node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size、COMMON_WORDS_size）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）

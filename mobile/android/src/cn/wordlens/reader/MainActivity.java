@@ -1,8 +1,11 @@
 package cn.wordlens.reader;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,24 +15,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Date;
 
 /**
  * 词阅 WordLens 的 Android 外壳。
  *
- * <p>结构是「一个 WebView + 四个 JS 接口」，刻意不带任何 androidx / 第三方依赖：
+ * <p>结构是「一个 WebView + 五个 JS 接口」，刻意不带任何 androidx / 第三方依赖：
  * <ul>
  *   <li>{@code NativeTts} → {@link TtsBridge}（WebView 没有 speechSynthesis 合成侧）</li>
  *   <li>{@code UserState} → {@link UserStateStore}（localStorage 之外的第二份用户数据）</li>
  *   <li>{@code SystemBars} → 本类的内部类（系统栏图标明暗 / 颜色跟随站内主题）</li>
+ *   <li>{@code WLSaveFile} → 本类的内部类（导出备份的「另存为」；见 {@link ShellFiles}）</li>
  *   <li>页面本体走 {@link AssetServer} 提供的 https 假源</li>
  * </ul>
  * 网页本体（index.html / app.js / styles.css / 数据与图片）在构建时按白名单拷进 assets，
@@ -45,6 +53,11 @@ public class MainActivity extends Activity {
     private boolean barsDark = false;
     private int lastTop = -1, lastBottom = -1;
     private boolean backRegistered = false;
+    /** 文件选择（导入备份）与另存（导出备份）。见 {@link ShellFiles}。 */
+    private final ShellFiles files = new ShellFiles();
+    /** onActivityResult 的两个来源，别和别的 requestCode 撞。 */
+    private static final int REQ_OPEN = 0x51;
+    private static final int REQ_SAVE = 0x52;
 
     /* ---------- 诊断：白屏时唯一会说话的东西 ----------
      * 为什么必须画在**原生 View** 上，而不是注入一段 JS 去显示：
@@ -179,7 +192,11 @@ public class MainActivity extends Activity {
         web.setBackgroundColor(Color.parseColor("#F7F8FC"));   // 与 CSS 的 --bg 浅色档一致，避免启动白闪
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
         web.setWebViewClient(new AssetServer(this, diag));
-        web.setWebChromeClient(new WebChromeClient());
+        /* ★ 必须是**子类**，不能是裸的 `new WebChromeClient()`（2026-09-22 修）。
+           裸默认实现的 onShowFileChooser 直接返回 false，WebView 于是什么都不做 ——
+           不弹选择器、不报错、连日志都没有，而页面的 `<input type="file">` 点击本身
+           也不会抛。用户看到的就是「点导入备份没反应」。这一行是那件事的现场。 */
+        web.setWebChromeClient(new Chrome());
 
         if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
             WebView.setWebContentsDebuggingEnabled(true);
@@ -190,6 +207,7 @@ public class MainActivity extends Activity {
         web.addJavascriptInterface(tts, "NativeTts");
         web.addJavascriptInterface(store, "UserState");
         web.addJavascriptInterface(bars, "SystemBars");
+        web.addJavascriptInterface(new SaveFileBridge(), "WLSaveFile");
 
         root.setOnApplyWindowInsetsListener(this::onInsets);
 
@@ -280,6 +298,194 @@ public class MainActivity extends Activity {
             web = null;
         }
         super.onDestroy();
+    }
+
+    /** 文件选择器 / 另存为的结果。不是我们发的 requestCode 就还给父类 —— 基类也在用它。 */
+    @Override
+    @SuppressWarnings("deprecation")
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (files.onResult(requestCode, resultCode, data)) return;
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /* ================= 文件选择 / 另存（2026-09-22 修） =================
+     * 两条通路都是**页面上有按钮、点了却什么都不发生**的那一类，而且原因都在 WebView 一侧：
+     *
+     * ① 导入：`<input type="file">` 被点击时，WebView 只回调 WebChromeClient.onShowFileChooser，
+     *    **它自己不弹任何界面**。默认实现返回 false = 宿主不处理 → 静默无事发生。
+     *    必须自己拉起系统文件选择器，并在 onActivityResult 里把结果喂回那个回调。
+     * ② 导出：页面用 `<a download href="blob:...">`。WebView 不处理 blob: 下载，没设
+     *    DownloadListener 时同样什么都不发生 —— 而 `a.click()` 不会抛错，于是页面还会弹出
+     *    一句「已导出进度备份」的**假成功**（用户去下载目录里什么都找不到）。
+     *    假成功比没反应坏得多：没人会来报修。
+     *
+     * 两条都改走系统 SAF（ACTION_OPEN_DOCUMENT / ACTION_CREATE_DOCUMENT），理由：
+     *   · 用户看得见（用的是系统自己的选择器 / 另存为界面）；
+     *   · 不需要任何存储权限（SAF 按次授权），manifest 里至今只有 INTERNET；
+     *   · minSdk 26 起全版本可用，不用分档。
+     *
+     * ★ 最容易踩坏的一步在 {@link #dropPicking()}：WebView 只认最后一次 onReceiveValue，
+     *   上一次的回调如果一直悬着（用户在选择器里按了 home、进程被系统回收），那个 input
+     *   就**永久**不再响应点击 —— 从「点了没反应」升级成「永远没反应」。所以每次弹之前
+     *   先把它喂掉；用户取消也一定喂 null，而不是「那就算了」。
+     */
+    private final class ShellFiles {
+        private ValueCallback<Uri[]> picking;      // 正在等用户选文件（导入）
+        private String savingText, savingName;     // 正在等用户选保存位置（导出）
+
+        /** 弹系统文件选择器。任何一条失败路径都必须把回调喂掉，不许让它悬着。 */
+        void pick(ValueCallback<Uri[]> cb) {
+            if (cb == null) return;
+            dropPicking();
+            picking = cb;
+            Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            /* ★ 类型用通配 MIME（星号-斜杠-星号），不照抄 input 上的 accept="application/json,.json"：
+               .json 的 MIME 由各 ROM 的文件管理器自己猜，不少会判成 octet-stream 或干脆不认，
+               结果是在选择器里**文件是灰的、点不动** —— 用户依然会认为是「没反应」。
+               导入侧本来就有格式校验（「不是词阅备份」「备份字段格式不对」都有明确提示），
+               所以这里放开比筛窄更安全。
+               ⚠️ 写这条注释本身踩过一次（2026-09-22）：说明时若把那三个字符原样连写出来，
+               块注释会在那里当场结束，**后面几行中文全变成代码**；而 javac 报的是
+               「非法字符」指着中文，看着像编码问题（-encoding 明明是 UTF-8），实为注释被截断。 */
+            i.setType("*/*");
+            i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            try {
+                startActivityForResult(i, REQ_OPEN);
+            } catch (ActivityNotFoundException e) {
+                dropPicking();
+                Toast.makeText(MainActivity.this, "这台设备没有可用的文件选择器", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /** 导出：把文本交给用户选位置保存。写盘在后台线程，结果回页面。 */
+        void save(String name, String text) {
+            if (text == null) return;
+            savingName = (name == null || name.isEmpty()) ? "wordlens-backup.json" : name;
+            savingText = text;
+            Intent i = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+            i.addCategory(Intent.CATEGORY_OPENABLE);
+            i.setType("application/json");
+            i.putExtra(Intent.EXTRA_TITLE, savingName);
+            try {
+                startActivityForResult(i, REQ_SAVE);
+            } catch (ActivityNotFoundException e) {
+                savingText = null;
+                savingName = null;
+                Toast.makeText(MainActivity.this, "这台设备没有「另存为」界面", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        /** 返回 true 表示这次结果归我们管（父类不用再看）。 */
+        boolean onResult(int requestCode, int resultCode, Intent data) {
+            if (requestCode == REQ_OPEN) {
+                Uri one = null;
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    if (data.getData() != null) one = data.getData();
+                    else if (data.getClipData() != null && data.getClipData().getItemCount() > 0) {
+                        one = data.getClipData().getItemAt(0).getUri();
+                    }
+                }
+                ValueCallback<Uri[]> cb = picking;
+                picking = null;
+                if (cb != null) {
+                    /* ★ 取消也**显式**喂一个 null（而不是「那就算了」）—— 不做就等于把这个回调
+                       永久扣下：之后这个 input 永远不再响应任何点击，症状比一开始的
+                       「点了没反应」更坏（变成「怎么点都没反应，重启才好」）。
+                       写成两个分支而不是 `one == null ? null : …`，是为了让「取消这条路
+                       真的回传了」在源码里一眼可见 —— audit 的守卫就数这个。 */
+                    if (one == null) {
+                        try { cb.onReceiveValue(null); } catch (Throwable ignored) { }
+                    } else {
+                        try { cb.onReceiveValue(new Uri[]{ one }); } catch (Throwable ignored) { }
+                    }
+                }
+                return true;
+            }
+            if (requestCode == REQ_SAVE) {
+                Uri target = (resultCode == Activity.RESULT_OK && data != null) ? data.getData() : null;
+                String text = savingText, name = savingName;
+                savingText = null;
+                savingName = null;
+                /* 用户按了返回 = 主动取消，不出声（页面上也从没弹过「正在导出」）。 */
+                if (target != null) write(target, text, name);
+                return true;
+            }
+            return false;
+        }
+
+        private void dropPicking() {
+            ValueCallback<Uri[]> cb = picking;
+            picking = null;
+            if (cb == null) return;
+            try { cb.onReceiveValue(null); } catch (Throwable ignored) { }
+        }
+
+        private void write(final Uri target, final String text, final String name) {
+            if (text == null) return;
+            new Thread(() -> {
+                String err = null;
+                OutputStream os = null;
+                try {
+                    /* "wt" = 截断写。默认的 "w" 也能写，但用户若选了一个**已存在的文件**、
+                       而新内容比旧的短，不截断就会在末尾留下上一份的尾巴 —— 变成一个语法上
+                       坏掉的 JSON，而且只在「覆盖旧备份」时才出现。 */
+                    os = getContentResolver().openOutputStream(target, "wt");
+                    if (os == null) throw new IOException("openOutputStream 返回 null");
+                    os.write(text.getBytes("UTF-8"));
+                    os.flush();
+                } catch (Throwable t) {
+                    err = String.valueOf(t);
+                } finally {
+                    if (os != null) { try { os.close(); } catch (Throwable ignored) { } }
+                }
+                final String e = err;
+                ui.post(() -> saveDone(e == null, e));   // evaluateJavascript 必须在主线程
+            }, "wl-save").start();
+        }
+    }
+
+    /** 导出回执 —— 页面侧 window.__wlSaveDone(ok, detail) 据此提示（见 mobile/shell-glue.js）。 */
+    private void saveDone(boolean ok, String detail) {
+        if (web == null) return;
+        try {
+            web.evaluateJavascript("window.__wlSaveDone&&window.__wlSaveDone(" + ok + ","
+                    + jsQuote(detail == null ? "" : detail) + ")", null);
+        } catch (Throwable ignored) { }
+        /* 失败必须两边都出声：页面里的 toast 可能因为脚本状态看不到，系统 Toast 一定看得见。 */
+        if (!ok) Toast.makeText(this, "导出失败：" + detail, Toast.LENGTH_LONG).show();
+    }
+
+    /** 把字符串安全地嵌进 JS 字面量：detail 来自系统异常，可能含引号 / 换行 / 反斜杠。 */
+    private static String jsQuote(String s) {
+        StringBuilder b = new StringBuilder(s.length() + 2).append('"');
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '"' || c == '\\') b.append('\\').append(c);
+            else if (c == '\n') b.append("\\n");
+            else if (c == '\r') b.append("\\r");
+            else if (c < 0x20) b.append(' ');
+            else b.append(c);
+        }
+        return b.append('"').toString();
+    }
+
+    /** 只为一件事而存在的子类：把 onShowFileChooser 接住。**别退回裸的 WebChromeClient()**。 */
+    private final class Chrome extends WebChromeClient {
+        @Override
+        public boolean onShowFileChooser(WebView v, ValueCallback<Uri[]> cb, FileChooserParams params) {
+            files.pick(cb);
+            return true;   // true = 宿主接下了这次请求（false 会让 WebView 直接放弃）
+        }
+    }
+
+    /** {@code window.WLSaveFile} —— 只有 save(名字, 文本) 一个方法。 */
+    private final class SaveFileBridge {
+        @JavascriptInterface
+        public void save(final String name, final String text) {
+            /* 这个回调跑在 WebView 的 JS 线程上，不是主线程 —— startActivity 必须回主线程发。 */
+            runOnUiThread(() -> files.save(name, text));
+        }
     }
 
     private WindowInsets onInsets(View v, WindowInsets ins) {

@@ -259,14 +259,30 @@ fs.mkdirSync(path.join(WORK, "classes"), { recursive: true });
 /* -source/-target 8 + -bootclasspath android.jar：不用 --release 时唯一正确的组合 ——
    --release 会改用 JDK 自己的 ct.sym，那样 android.* 反而看不见了。
    （android.jar 里同时含 android.* 与 java.* 的桩，所以它当 bootclasspath 是完整的。） */
-run(JAVAC, [
-  "-encoding", "UTF-8", "-nowarn",
-  "-source", "8", "-target", "8",
-  "-bootclasspath", [ANDROID_JAR, LAMBDA_STUBS].join(path.delimiter),
-  "-classpath", [ANDROID_JAR, LAMBDA_STUBS].join(path.delimiter),
-  "-d", path.join(WORK, "classes"),
-  ...srcs,
-]);
+try {
+  run(JAVAC, [
+    "-encoding", "UTF-8", "-nowarn",
+    "-source", "8", "-target", "8",
+    "-bootclasspath", [ANDROID_JAR, LAMBDA_STUBS].join(path.delimiter),
+    "-classpath", [ANDROID_JAR, LAMBDA_STUBS].join(path.delimiter),
+    "-d", path.join(WORK, "classes"),
+    ...srcs,
+  ]);
+} catch (e) {
+  /* ★ 2026-09-22 实测（这一轮真的白查过一次）：javac 连着报一堆「非法字符」、每个都指着
+     **中文注释**时，第一反应是去查 -encoding —— 而这里已经明确传了 "-encoding UTF-8"。
+     真正的元凶是**块注释被提前终止**：注释里出现了「星号紧跟斜杠」这两个字符
+     （比如想说明某个通配 MIME 就原样写了出来，或者某个单行 catch 里的块注释少写了一个收尾），
+     注释在那两个字符处当场结束，**后面的中文全部变成代码**。本轮 33 个错误都是这一处。
+     代价全在误导上，所以把提示写死在失败分支里。 */
+  const msg = [e && e.message, e && e.stdout, e && e.stderr].map(String).join("\n");
+  if (/非法字符|illegal character/i.test(msg)) {
+    console.error("\n★ 提示：javac 报「非法字符」且指着中文时，先怀疑**块注释被提前终止** ——\n"
+      + "  注释里出现了「星号紧跟斜杠」这两个字符（例如原样写出某个通配 MIME）。\n"
+      + "  本脚本已经传了 -encoding UTF-8，不必去查编码。");
+  }
+  throw e;
+}
 log(`  ✓ ${srcs.length} 个源文件 → classes/`);
 
 /* ---------- 6. dex ---------- */

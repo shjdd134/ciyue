@@ -15,8 +15,10 @@
  *   window.__wlNativeBack()     [壳调] 按返回键时先问这里；true = 已处理，别再退页面
  *   window.__wlTtsEnd(id)       [壳调] 原生 TTS 这条播完了
  *   window.__wlTtsError(id, c)  [壳调] 原生 TTS 这条出错/被引擎丢弃
+ *   window.__wlSaveDone(ok, d)  [壳调] 原生「另存为」有结果了（导出备份那条路）
  *   window.NativeTts            [原生] ready() / voicesJson() / speak(t,lang,id,rate) / cancel()
  *   window.UserState            [原生] saveState(json) / loadState()（只有 app.js 在用）
+ *   window.WLSaveFile           [原生] save(name, text)（只有 app.js 的导出在用）
  *   window.__wlDiagReported     [写出] 本节报过故障后置 true —— Java 侧的渲染检测据此让路
  */
 (function () {
@@ -299,4 +301,21 @@
     report();
   }
   window.setTimeout(checkRendered, 3500);
+
+  /* ---------- 7. 原生「另存为」的回执（导出备份） ----------
+   * 壳里的导出**不能**走网页那条 `<a download>` + blob: —— WebView 不处理 blob: 下载，
+   * 而且没设 DownloadListener 时它连回调都不给：不下载、不报错、不写日志。偏偏 a.click()
+   * 也不会抛，于是那句「已导出进度备份」会是一句**假成功**：用户以为存好了，
+   * 去下载目录里什么都没有 —— 而且他不会来报修，直到某天需要恢复才发现备份是空的。
+   *
+   * 所以 app.js 在壳里改调 window.WLSaveFile.save(名字, 文本)，由壳拉起系统的「另存为」
+   * 界面。保存是异步的（用户要先选位置），结果从 Java 侧回到这里 —— 成功和失败都出声，
+   * 失败还要带上原生给的原因（磁盘满 / 无权限 / 被取消之后的中断），不许静默。
+   */
+  window.__wlSaveDone = function (ok, detail) {
+    try {
+      if (typeof toast !== "function") return;
+      toast(ok ? "已导出进度备份" : ("导出失败：" + (detail || "未知原因")));
+    } catch (e) { /* 连提示都发不出来：壳侧还有一条系统 Toast 兜着 */ }
+  };
 })();

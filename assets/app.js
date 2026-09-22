@@ -1468,11 +1468,21 @@ const LEAD_PHOTO_POOL = [
 
 /* 从白名单里随机挑一张，并解析出它属于哪一篇。
  *
- * 【为什么每次 renderHome() 都重挑：用户选的是「真随机、每次打开就换」】
- * 所以刻意不缓存、不按天取种 —— 重渲染确实会换图，这是**要的行为**，不是 bug。
- * 别照搬上面 homeReads 那套「渲染只读、翻页才动位置」的纪律：那条防的是
- * 「打卡/返回首页把推荐位偷偷换掉」（推荐位有『这一批』的语义），而封面没有
- * —— 每换一次就是新的一眼，本来就不该稳定。
+ * 【为什么改成「每次加载随机一次」，而不是 v74 的「每次 renderHome() 重挑」】
+ * v74 刻意不缓存，注释里写的理由是「真随机、每次打开就换」。实测站不住：
+ * 主渲染是 `screen.innerHTML = body + tabbar()` —— 整页 DOM 重建（见下方 render()）。
+ * 于是首页**任何**一次重绘（点返回 / 切主题 / 打卡回来 / 点 tab）都会把那一屏
+ * 413×440 的大图**删掉再新建**（一次 style/layout/paint），而且每次都挑到
+ * **不同的**一张 —— 用户看到的是「点一下，大图突然换成另一个人」。
+ * 视觉新鲜感的收益，远小于「可感知的重排 + 界面不稳定」的代价。
+ *
+ * 现在：**页面加载时随机一次 → 本次会话固定**；刷新 / 下次打开才重新随机。
+ * 池子还是 14 张、还是随机，只是随机性每次加载只消耗一次。
+ *  ⚠️ 不许改回「每次渲染重挑」，也不要在渲染路径里新加 Math.random()。
+ *     想要「每天固定一张」就按日期取种（拿 `ymdTZ(new Date())` 当种子），
+ *     别退回渲染时随机 —— 那是这一版专门废掉的设计。
+ * 与上面 homeReads 那套「渲染只读、翻页才动位置」的纪律**方向一致**了：
+ * 渲染只读，状态只在明确时机（加载 / 翻页）变。
  *
  * 解析规则有**两条路**（一开始只写了第二条，[H2] 守卫当场抓到 6 个封面全解析不到）：
  *   ① 该篇 `coverImg` === `assets/covers/<key>.jpg` → 封面（`-0` 那批走这条）
@@ -1504,11 +1514,22 @@ function leadPhotoPoolItems() {
 
 /* 首页封面这一屏：随机取一「篇 + 一张图」。
  * 同一篇的 `-0` 封面和正文照都可能在池子里，命中哪个就用哪个 —— 不必两两配对，
- * 因为 `.editorial-photo` 的 img 是 cover 裁切，同一篇换一张照就是换一个视角。 */
+ * 因为 `.editorial-photo` 的 img 是 cover 裁切，同一篇换一张照就是换一个视角。
+ *
+ * 「随机一次」的粒度是**每次页面加载**（理由见上面 LEAD_PHOTO_POOL 那段注释）。
+ * `leadPhotoPinned` 就是本次会话钉住的那一张。用 `let` 而不是模块内闭包变量 ——
+ * audit 的 [H2] 要把它重置回 null 才能测「重新随机后能不能换」，
+ * 见 tools/audit.js 的 `ctx('leadPhotoPinned = null;')`
+ * （vm 顶层 let 跨 runInContext 可读可写，本机实测确认过）。 */
+let leadPhotoPinned = null;
 function pickEditorialLead() {
+  if (leadPhotoPinned) return leadPhotoPinned;
   const items = leadPhotoPoolItems();
+  /* ⚠️ 池子为空（数据层还没就绪）时**不写缓存** —— 写了就把 null 钉死，
+   * 这一整次会话都不再有封面。留空让它下次渲染重试。 */
   if (!items.length) return null;
-  return items[Math.floor(Math.random() * items.length)];
+  leadPhotoPinned = items[Math.floor(Math.random() * items.length)];
+  return leadPhotoPinned;
 }
 
 /* 相对时间：今天 / 昨天 / N 天前 / N 周前 */
@@ -2726,11 +2747,26 @@ function updateReadProgress() {
  * 必须给得出退路，所以这里提供 JSON 导出与导入还原。 */
 function exportData() {
   const payload = { app: "wordlens", version: 1, at: new Date().toISOString(), state: S };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const text = JSON.stringify(payload, null, 2);
+  const name = `wordlens-进度备份-${todayKey()}.json`;
+  /* ★ 壳里必须走原生「另存为」（2026-09-22 用户报「点导入/导出备份没反应」）：
+     WebView 不处理 blob: 下载 —— 没设 DownloadListener 时它不下载、不报错、连日志都没有，
+     而 a.click() 也不会抛。所以下面那条 `已导出进度备份` 在壳里是一句**假成功**：
+     提示说导出了，下载目录里一个文件都没有。假成功比没反应坏得多 —— 用户不会来报修，
+     直到某天要恢复进度才发现手里的备份是空的。
+     壳里改调 window.WLSaveFile.save(名字, 文本)，由壳拉起系统「另存为」；
+     结果异步回到页面的 window.__wlSaveDone（见 mobile/shell-glue.js）。
+     判据与 nativeBridge() 同款：只认显式旗标 + 方法齐全，不靠「对象存在」猜宿主。 */
+  const save = window.WLSaveFile;
+  if (window.WORDLENS_NATIVE === true && save && typeof save.save === "function") {
+    try { save.save(name, text); return; }
+    catch { /* 原生这条路没走通，落到下面走浏览器那条 —— 两条都试，总好过什么都不做 */ }
+  }
+  const blob = new Blob([text], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `wordlens-进度备份-${todayKey()}.json`;
+  a.download = name;
   document.body.appendChild(a);
   a.click();
   a.remove();

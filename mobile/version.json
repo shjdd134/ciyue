@@ -1,6 +1,6 @@
 {
-  "versionCode": 3,
-  "versionName": "1.0.2",
+  "versionCode": 4,
+  "versionName": "1.0.3",
   "_comment": [
     "Android 壳的版本。tools/build-apk.mjs 会把它注入**暂存副本的 AndroidManifest.xml**。",
     "★ 不是传给 aapt2 link 的 --version-code / --version-name —— 那两个参数会被 aapt2 忽略",
@@ -10,6 +10,10 @@
     "   同一个 versionCode 只允许出一个 APK —— 要重出就先把 versionCode +1。",
     "★ 内容版本（assets 里的 ?v=）跟这里是两个轴：内容天天变、壳几个月才变一次。",
     "★ 1.0.2 (vc3)：修 ZIP 条目名分隔符（Windows aapt2 给子目录写反斜杠 → 整壳白屏）",
-    "   + 修 API 33+ 返回回调注销 + 自检改走 tools/lib-zip.cjs（不再依赖 python）。"
+    "   + 修 API 33+ 返回回调注销 + 自检改走 tools/lib-zip.cjs（不再依赖 python）。",
+    "★ 1.0.3 (vc4)：修「点导入/导出备份没反应」—— 壳重写了 onShowFileChooser（WebView 自己",
+    "   不弹文件选择器，默认实现返回 false = 静默无事发生），并把导出改走原生「另存为」",
+    "   （<a download> + blob: 在 WebView 里不下载、不报错，那句「已导出」其实是假成功）。",
+    "   导入走 SAF 打开文档、导出走 SAF 另存为 —— 都不需要任何存储权限。"
   ]
 }

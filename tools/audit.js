@@ -2247,7 +2247,11 @@ console.log('\n[H2] 首页封面轮换');
    *    又在池里），拿它当判据的话 —— 把 renderHome 的接线整个删掉（回到固定第一篇），
    *    这条断言**照样绿**（负向样本 ha 实测确认过）。那不是「功能还在」，是巧合。
    *    钉到非固定项之后，接线一断就必红。 */
-  ctx('view = {name:"home"};');
+  /* ★ v80：`leadPhotoPinned` 是**模块级会话状态**，[G3] 那段（本块之前）已经渲过三次首页，
+   *   所以进本块时那一张早就被钉住了。凡是「钉住随机数再看渲染结果」的断言，
+   *   都必须先把会话状态清掉 —— 否则钉的 Math.random 根本没被读到，
+   *   下面三条会一起退化成拿旧值自证的假绿。 */
+  ctx('view = {name:"home"}; leadPhotoPinned = null;');
   const homeHtml = ctx('renderHome()');
   ok('★ 端到端：首页大图渲染出来了', /<section class="editorial-feature/.test(homeHtml));
 
@@ -2274,6 +2278,7 @@ console.log('\n[H2] 首页封面轮换');
 
   /* 拿这张正文照当判据：接线断了 / photo 参数没传下去，回退到 coverOf(lead) 就会立刻对不上 */
   const otherHtml = otherIdx >= 0 ? ctx(`(function () {
+    leadPhotoPinned = null;                                  // v80：先清会话状态，否则下面钉的随机数读不到
     const items = leadPhotoPoolItems();
     const _r = Math.random;
     Math.random = () => ${otherIdx} / items.length + 1e-9;   // 落在第 otherIdx 个区间
@@ -2293,6 +2298,7 @@ console.log('\n[H2] 首页封面轮换');
   /* ④ 联动：照片 / 标题 / 英文题 / 署名 / CTA 必须同篇。
       再取池里最后一项测一遍（与上面不同的项），交叉确认不是碰巧某一项对。 */
   const pinned2 = ctx(`(function () {
+    leadPhotoPinned = null;                // v80：清会话状态，这一挑才是真的按下面钉的随机数走
     const items = leadPhotoPoolItems();
     const _r = Math.random;
     Math.random = () => 0.999999;          // 恒取最后一项
@@ -2302,6 +2308,7 @@ console.log('\n[H2] 首页封面轮换');
   })()`);
   const p2 = JSON.parse(pinned2);
   const pinHtml2 = ctx(`(function () {
+    leadPhotoPinned = null;                // v80：同上 —— 不清就复用到上面那一挑，联动断言变成自证
     const items = leadPhotoPoolItems();
     const _r = Math.random;
     Math.random = () => 0.999999;
@@ -2318,6 +2325,63 @@ console.log('\n[H2] 首页封面轮换');
     Boolean(a2) && sec2.includes(String(a2.titleZh)) && sec2.includes(String(a2.title).slice(0, 24)));
   ok('★ 联动：署名行带上了这张图在原刊的摄影署名',
     Boolean(a2 && a2.photoCredit) && sec2.includes(String(a2.photoCredit)));
+
+  /* ⑥ ★★ 会话内固定（v80 新行为；v74 是「每次 renderHome 重挑」）
+   *    判据：挑两个**互不相同**的池子下标，同一会话里连着渲两次（第二次钉的是另一个下标）
+   *    —— 第二次必须仍返回第一次那一张。memo 一没，两次各取各的，当场变红。
+   *
+   *    ⚠️ 不能用「钉住 → 再真随机渲一次 → 比较」：真随机有 1/14 概率撞上同一张，
+   *       那是**概率性假绿**。钉两个确定的不同下标，差异才是必然的。
+   *    ⚠️ 也不能只断言「同一会话两次相同」——「功能整个删掉、永远回退固定篇封面」时
+   *       它照样成立（恒真）。所以下面第三条是它的孪生：清掉会话状态后**必须能换**。
+   *       两条一起才构成「随机性仍在、只是每次加载只消耗一次」这个完整主张。 */
+  const coverSrcOf = h => ((h.match(/<section class="editorial-feature[\s\S]*?<\/section>/) || [''])[0]
+    .match(/<img src="([^"]+)"/) || [])[1] || "";
+  /* 只钉随机数、**不清**会话状态 —— 清了就测不出「第二次被复用了」。 */
+  const renderPinned = idx => ctx(`(function () {
+    const items = leadPhotoPoolItems();
+    const _r = Math.random;
+    Math.random = () => ${idx} / items.length + 1e-9;
+    const h = renderHome();
+    Math.random = _r;
+    return h;
+  })()`);
+
+  let altIdx = -1;
+  for (let i = poolPaths.length - 1; i >= 0; i--) {
+    if (resolved[i] && i !== otherIdx && !isCoverKey(i)) { altIdx = i; break; }
+  }
+  ok('★ 自检：找得到第二个池子下标（≠ 上一段那个）来做「会话固定」判据（否则下面三条是空的）',
+    altIdx >= 0 && altIdx !== otherIdx);
+
+  ctx('leadPhotoPinned = null;');
+  const sessA = coverSrcOf(renderPinned(otherIdx));   // 会话第一次：钉 otherIdx
+  const sessB = coverSrcOf(renderPinned(altIdx));     // 同一会话第二次：钉的是**另一个**下标
+  ok(`★ 会话内固定：同一会话里第二次 renderHome 仍是第一张（${sessA}）—— 钉了别的下标也不许换`,
+    Boolean(sessA) && sessB === sessA);
+  ok('★ 会话内固定的确实是池里那一张（不是回退到「固定第一篇封面」蒙出来的）',
+    sessA === otherPath && otherPath !== fixedLead);
+
+  ctx('leadPhotoPinned = null;');
+  const sessC = coverSrcOf(renderPinned(altIdx));
+  ok(`★ 对照（预期为真）：清掉会话状态后能换到池里另一张（下标 ${altIdx}）—— 上两条不是恒真`,
+    Boolean(sessC) && sessC === poolPaths[altIdx] && sessC !== sessA);
+
+  /* ⑦ ★ 池子为空那一刻**不许写缓存**（app.js 里那条 ⚠️ 的守卫）。
+   *    数据层还没就绪时挑出 null 是正常的，但把 null 钉住 = 这一整次会话都没有封面，
+   *    而且**不报错** —— 只有再刷新一次才恢复。
+   *
+   *    ⚠️ 判据不能只是「渲染里有没有 <img src="assets/covers/…">」—— **回退封面也是这个形状**
+   *    （`editorialFeature` 在 photo=null 时自己走 coverOf(固定那篇)，渲染出的仍是同一批路径）。
+   *    所以改成：空池挑过之后，钉住 altIdx 再渲染，必须拿到 **poolPaths[altIdx]**。
+   *    正确实现下状态还是 null → 会重新挑 → 命中 altIdx；
+   *    被 null 钉死时只能走回退 → 拿到 poolPaths[0] ≠ poolPaths[altIdx]，当场变红。 */
+  ctx('leadPhotoPinned = null; __origPool = leadPhotoPoolItems; leadPhotoPoolItems = () => [];');
+  const emptyPick = ctx('pickEditorialLead()');
+  ctx('leadPhotoPoolItems = __origPool;');
+  const afterEmpty = coverSrcOf(renderPinned(altIdx));
+  ok('★ 池子为空时那一次挑不写缓存：恢复数据后仍能挑到池里那一张（否则整次会话被 null 钉死，只剩回退封面）',
+    emptyPick === null && afterEmpty === poolPaths[altIdx]);
 
   /* ⑤ ★ 发现页「编辑精选」那条路径不许被带坏：它不传 photo，必须仍走 coverOf(a)。
    *    ⚠️ 早先这里只调 `editorialFeature(f, "编辑精选")` 直接构造、并且只断言
@@ -2663,7 +2727,15 @@ console.log('\n[T] 原生壳（APK）');
   ok('白名单含字体与封面（fonts.css 与 data-covers.js 动态引用，不在 index.html 里）',
     plan.some(f => f.startsWith('assets/fonts/')) && plan.some(f => f.startsWith('assets/covers/')));
 
-  const tmp = path.join(base, 'mobile', '.audit-www');
+  /* ★ 临时目录必须**每次唯一**（2026-09-22 实测踩到）：原来固定用 mobile/.audit-www，
+     于是 runBuild 开头那次「先删干净再重建」会真的去删一个**已存在**的目录 ——
+     而本机 node 的 fs.rmSync 被工作环境的回收站 shim 接管，删已存在的目录走回收站，
+     那个操作**偶发失败**（Error during a trash operation: Some operations were aborted）。
+     实测 15 次里崩 1 次（≈7%），整条 audit 当场退出、连「结果」行都没有 ——
+     看起来像断言失败，其实是清理阶段炸的，本轮为此白查过两轮。
+     换成唯一名字之后，那次 rmSync 删的是**不存在**的路径（force 直接返回、不碰回收站）
+     → 稳定；建出来的目录交给下面 finally 里那次 best-effort 删除收尾（那处有 try 兜着）。 */
+  const tmp = path.join(base, 'mobile', `.audit-www-${process.pid}-${Date.now()}`);
   let madeCount = 0, injected = false, leaked = false, builtHtml = '';
   try {
     const r = libMobile.runBuild({ out: tmp });
@@ -2696,8 +2768,9 @@ console.log('\n[T] 原生壳（APK）');
   ok('壳胶水语法有效（它是被内联进 <script> 的，语法错 = 整个壳白屏）',
     (() => { try { new vm.Script(glueSrc); return true; } catch { return false; } })());
   ok('壳胶水不含 </script（内联进 <script> 会当场截断标签）', !/<\/script/i.test(glueSrc));
-  ok('★ 端到端：胶水的四个出口真的注进了产物 index.html',
-    ['window.WORDLENS_NATIVE', 'window.__wlInsets', 'window.__wlNativeBack', 'window.__wlNativePause', 'NativeTts']
+  ok('★ 端到端：胶水的出口真的注进了产物 index.html',
+    ['window.WORDLENS_NATIVE', 'window.__wlInsets', 'window.__wlNativeBack', 'window.__wlNativePause',
+      'window.__wlSaveDone', 'NativeTts']
       .every(k => builtHtml.includes(k)));
 
   /* ---- ★ 生命周期监听：壳里必须挂，不能跟着 SW 一起被关掉 ----
@@ -2738,7 +2811,7 @@ console.log('\n[T] 原生壳（APK）');
       if (o.native) sandbox.window.WORDLENS_NATIVE = true;
       else delete sandbox.window.WORDLENS_NATIVE;
       got.handles = vm.runInContext(
-        `(function(){\n${APP_SRC}\n;return { S: S, save: save, nativeBridge: nativeBridge };\n})()`,
+        `(function(){\n${APP_SRC}\n;return { S: S, save: save, nativeBridge: nativeBridge, exportData: exportData };\n})()`,
         sandbox, { filename: 'app.pass.js' });
     } catch (e) { got.err = e; }
     /* 恢复沙箱现场。o.keepEnv=true 时**故意不还** UserState / 旗标 ——
@@ -3030,6 +3103,83 @@ console.log('\n[T] 原生壳（APK）');
       g3.window.__wlDiagReported === true && !!g3.dom.diag
       && /app\.js/.test(g3.dom.diag.textContent));
   }
+
+  /* ================= 文件选择 / 导出备份（2026-09-22 用户报「点导入备份没反应」） =================
+   * 两条路的根因都在 WebView 一侧，而且**浏览器里根本复现不出来** ——
+   *   ① 导入：`<input type="file">` 点击时 WebView 只回调 onShowFileChooser，
+   *      它自己不弹界面；默认实现返回 false = 不弹框、不报错、不写日志。
+   *   ② 导出：`<a download>` + `blob:` 在 WebView 里没有处理器，同样什么都不发生 ——
+   *      但 a.click() 不抛错，于是「已导出进度备份」是一句**假成功**。
+   * 所以守卫要分两层：JS 那层能真跑（下面），Java 那层只能锁源码形态（再下面）。 */
+
+  /* ① JS 层：壳沙箱真调一次 exportData()，看它把内容交给了谁。
+     判据是 URL.createObjectURL 这个**副作用**，不是「源码里有没有 WLSaveFile 这个串」——
+     前者改实现方式也照样有效，后者一重构就假绿或假红。 */
+  const createURLs = [], saveCalls = [];
+  const savedURL = sandbox.URL, savedBlob = sandbox.Blob;
+  const savedBody = sandbox.document.body, savedCreate = sandbox.document.createElement;
+  const savedSaveFile = sandbox.window.WLSaveFile;
+  sandbox.URL = { createObjectURL: () => { createURLs.push(1); return 'blob:audit'; }, revokeObjectURL: noop };
+  sandbox.Blob = function () { };
+  sandbox.document.body = { appendChild: noop };
+  /* 沙箱 createElement 造出来的元素没有 remove()，网页那条路会在最后一步抛 —— 补上。
+     （抛在 createObjectURL 之后，断言仍然拿得到判据；但补掉更干净。） */
+  sandbox.document.createElement = () => grow({}, { remove: noop });
+
+  let shellExportErr = null;
+  sandbox.window.WLSaveFile = { save: (n, t) => { saveCalls.push({ n: n, t: t }); } };
+  const passShell = runAppPass({ native: true, store: LOCAL_ONLY, userState: SHELL_ONLY, keepEnv: true });
+  try { passShell.handles.exportData(); } catch (e) { shellExportErr = e; }
+  const shellPayload = (() => {
+    try { const j = JSON.parse(saveCalls[0].t); return j && j.app === 'wordlens' && j.version === 1 && !!j.state; }
+    catch { return false; }
+  })();
+  ok('★ 壳里点「导出备份」→ 内容真的交给了原生另存（文件名带日期，载荷是合法的词阅备份）',
+    shellExportErr === null && saveCalls.length === 1 && shellPayload
+    && /^wordlens-进度备份-\d{4}-\d{2}-\d{2}\.json$/.test(saveCalls[0].n));
+  ok('★ 壳里**不**再同时走 blob 下载（否则会多出一个什么都不会发生的下载动作，用户还以为是保存框）',
+    createURLs.length === 0);
+
+  /* ② 对照：网页版必须**保持原样**走 blob —— 否则这一改就是把网页版的导出弄坏了，
+     而壳里的断言全绿。没有这条，上面那条「不走 blob」等于在纵容「两边都不走」。
+     ★ 判据只看**这一段期间**原生被调了几次（saveCallsBeforeWeb），不写死成 1 ——
+       写死会让这条对照跟着壳那条一起红，把一个真实缺陷放大成两个，反而看不出坏在哪。 */
+  delete sandbox.window.WLSaveFile;
+  createURLs.length = 0;
+  const saveCallsBeforeWeb = saveCalls.length;
+  const passWebExp = runAppPass({ native: false, store: LOCAL_ONLY, userState: SHELL_ONLY });
+  try { passWebExp.handles.exportData(); } catch { /* 沙箱 DOM 不全，跑到 createObjectURL 就够判了 */ }
+  ok('对照：网页版（无壳旗标）仍然走 blob + a[download]（原有导出方式没被改坏）',
+    createURLs.length === 1 && saveCalls.length === saveCallsBeforeWeb);
+
+  sandbox.URL = savedURL; sandbox.Blob = savedBlob;
+  sandbox.document.body = savedBody; sandbox.document.createElement = savedCreate;
+  if (savedSaveFile === undefined) delete sandbox.window.WLSaveFile;
+  else sandbox.window.WLSaveFile = savedSaveFile;
+
+  /* ③ HTML/JS 的契约：导入按钮指向的那个 input 必须真的在页面里。
+     缺了它，点「导入备份」会在 $() 上抛 TypeError，而那个分支没有任何 try 接住 ——
+     症状与「WebView 不弹选择器」一模一样（点了没反应），排查时极易找错方向。 */
+  ok('★ index.html 里有 #file-in（导入备份的唯一入口；缺了它点按钮会抛在 $() 上）',
+    /id="file-in"/.test(fs.readFileSync(path.join(base, 'index.html'), 'utf8')));
+
+  /* ④ Java 层：这里跑不起 Android 运行时，判据只能落在源码上 —— 但要**精确到本轮
+     那个 bug 的形态**，而不是「有没有调用过某个函数」。裸 `new WebChromeClient()`
+     就是「点导入备份没反应」的现场，所以它必须是一条独立的断言。 */
+  const mainSrc = fs.readFileSync(path.join(base, 'mobile', 'android', 'src', 'cn', 'wordlens', 'reader', 'MainActivity.java'), 'utf8');
+  ok('★ 壳把 onShowFileChooser 接住了（WebView 自己不弹文件选择器，默认实现返回 false = 静默无事发生）',
+    /public boolean onShowFileChooser\s*\(\s*WebView\s+\w+,\s*ValueCallback<Uri\[\]>\s+\w+,\s*FileChooserParams\s+\w+\s*\)/.test(mainSrc));
+  ok('★ setWebChromeClient 用的不是裸 WebChromeClient()（那正是 2026-09-22 那个 bug 的形态）',
+    /setWebChromeClient\s*\(/.test(mainSrc) && !/setWebChromeClient\s*\(\s*new\s+WebChromeClient\s*\(\s*\)\s*\)/.test(mainSrc));
+  ok('★ 离开选择器的两条路都**显式**回传了 null（弹之前清掉上一次的 + 用户取消那一刻，共 2 处）'
+    + '—— 少任何一处，那个回调就永久悬着：之后怎么点都没反应，只能重启应用',
+    (mainSrc.match(/onReceiveValue\(null\)/g) || []).length >= 2);
+  ok('★ onActivityResult 把结果交回文件选择回调（只接住请求、不接回结果 = 选了文件照样没反应）',
+    /protected void onActivityResult\s*\(/.test(mainSrc)
+    && /boolean onResult\(int requestCode, int resultCode, Intent data\)/.test(mainSrc));
+  ok('★ 导出走原生另存（WLSaveFile → ACTION_CREATE_DOCUMENT），不依赖任何存储权限',
+    /addJavascriptInterface\(new SaveFileBridge\(\), "WLSaveFile"\)/.test(mainSrc)
+    && /Intent\.ACTION_CREATE_DOCUMENT/.test(mainSrc));
 }
 
 /* ================= [U] 仓库源文件行尾卫生（2026-09-22） =================
@@ -3074,6 +3224,16 @@ console.log('\n[T] 原生壳（APK）');
   ok('★ 源文件不得含 CR —— CRLF 会让 diff-files / tree-diff 的逐文件比对全线失真'
     + (offenders.length ? `：${offenders.slice(0, 4).join('、')}${offenders.length > 4 ? ` … 共 ${offenders.length} 个` : ''}` : ''),
     offenders.length === 0);
+
+  /* ★ 试过、并**撤掉**的一条守卫（留个记录，免得下次有人再写一遍）：
+     想守「块注释里出现提前终止符（星号紧跟斜杠）→ 后面的中文全变代码」这件事。
+     判据「注释终止符后面同一行还有内容」实测**误报 10 处** —— 单行块注释
+     （catch 后面跟一段说明那种写法）全部中招：它们的注释终止符后面本来就跟着 }。
+     收紧成「同一行出现两个终止符」又抓不住真正踩到的那一版（第二个终止符在四行之后）。
+     **一条会误报的守卫比没有更糟**（狼来了），而真需要它的场景已经有兜底：
+     JS 侧 new vm.Script 与「在沙箱里跑一遍」会直接抛；Java 侧 javac 会拦 ——
+     代价只是 javac 的报错指向别处（报「非法字符」指着中文），所以那句提示
+     写进了 tools/build-apk.mjs 的 javac 失败分支。 */
 }
 
 /* ================= [V] APK 归档形状（2026-09-22 真机白屏） =================

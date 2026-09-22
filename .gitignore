@@ -70,3 +70,7 @@ tools/_refine/
 #   两道保障与 *.local.* 同：这里兜底，tools/_api-push.mjs 的 NEVER_PUSH_PATTERNS 硬拦。
 mobile/www/
 outputs/apk/
+# audit 的端到端构建临时目录（[T] 节每跑一次建一个，名字带 pid+时间戳保证唯一）。
+# 正常会被脚本自己在 finally 里删掉；加这条是防「删除失败留下的残骸」被 tree-diff
+# 判成「本地有、远端没有」—— 那会诱导人把它推上去，而它其实是一份第二全文。
+mobile/.audit-www*/
