@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "76");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "77");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -554,7 +554,14 @@ const displaySentenceAt = (a, pi, si = 0, rs = 0) => {
   const p = a && a.paras && a.paras[pi];
   if (!p) return null;
   const list = renderSentencesOf(p);
-  return list[rs] || list[si] || null;
+  /* ★★ 两种段落形状互斥，索引只能取「非零的那一个」（2026-09-22 修）：
+   *   普通多句段：句级元素 ≥2，每个渲染句 rs 恒 0，只有 si 能定位；
+   *   退化段：句级元素恰好 1（si 恒 0），渲染期切成多份，只有 rs 能定位。
+   * 旧写法 `list[rs] || list[si]` 在普通段里 rs 恒 0 → list[0] 永远为真 →
+   * 回退分支永不执行：点第二句及以后一律取回**第一句**。
+   * 全库实测（.bak/probe-display-sentence.cjs）：**4,023 句取错**，1,415 个多句段受影响。
+   * 症状：查词卡「本句含义」显示成段首句、收藏进生词本的语境存错句、单句朗读念错句。 */
+  return list[rs > 0 ? rs : si] || null;
 };
 
 /* ---------------- 文章难度指标 ----------------

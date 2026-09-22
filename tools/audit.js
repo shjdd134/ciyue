@@ -1338,6 +1338,51 @@ ok('★ 全文朗读走渲染切分（否则退化段整段 5 句被当一条 ut
 ok('★ 查词卡片用显示口径取句（displaySentenceAt 带上 data-rs）',
   /displaySentenceAt\(activeArticle,\s*\+sentEl\.dataset\.pi/.test(appBare));
 
+/* ★★ 显示口径的**行为**守卫（2026-09-22 修 4,023 句错位后补）。
+ * 上面那条只断言调用点写法 —— 「断言实现不断言意图」的典型：旧实现
+ * `list[rs] || list[si]` 在普通多句段里 rs 恒 0，list[0] 永远为真，
+ * 回退分支永不执行 → 点第二句及以后一律取回段首句，而那条正则照样全绿。
+ * 判据必须落在「取回来的到底是不是你点的那一句」上。 */
+sandbox.__two = { sentences: [{ en: 'First one here.', cn: '第一句。' }, { en: 'Second one here.', cn: '第二句。' }] };
+ok('★ 普通多句段：按 si 取第二句必须拿到第二句（不是段首句）',
+  ctx('displaySentenceAt({paras:[__two]}, 0, 1, 0).en') === 'Second one here.');
+ok('对照：si=0 取回第一句（上一条不是靠「永远返回某一句」蒙对的）',
+  ctx('displaySentenceAt({paras:[__two]}, 0, 0, 0).en') === 'First one here.');
+ok('★ 全库扫描：每个普通多句段的每一句都取回自己（0 错位）',
+  ctx(`(function(){
+    let bad = 0, seen = 0;
+    for (const a of ARTICLES) (a.paras||[]).forEach((p, pi) => {
+      const n = (p.sentences||[]).length;
+      if (n < 2) return;              /* 退化段（n===1）走 rs 路径，见下一条 */
+      const list = renderSentencesOf(p);
+      for (let si = 0; si < n; si++) {
+        seen++;
+        const g = displaySentenceAt(a, pi, si, 0), w = list[si];
+        if (!g || !w || g.en !== w.en) bad++;
+      }
+    });
+    window.__seen = seen;
+    return bad;
+  })()`) === 0);
+/* 防「天然满足」：扫描面必须非空，否则 0 错位毫无意义 */
+ok('★ 扫描面非空（多句段 ≥100、句数 ≥1000，防上面那条空集恒真）',
+  ctx('(ARTICLES.reduce((n,a)=>n+(a.paras||[]).filter(p=>(p.sentences||[]).length>=2).length,0))') >= 100
+  && ctx('window.__seen') >= 1000);
+ok('★ 退化段仍走 rs 路径：同一 si=0 下按 rs 逐句取回各自的切句',
+  ctx(`(function(){
+    const d = { sentences: [{ en: __degen.sentences[0].en, cn: __degen.sentences[0].cn }] };
+    const list = renderSentencesOf(d);
+    if (list.length < 2) return false;
+    for (let rs = 0; rs < list.length; rs++) {
+      const g = displaySentenceAt({paras:[d]}, 0, 0, rs);
+      if (!g || g.en !== list[rs].en) return false;
+    }
+    return true;
+  })()`));
+ok('边界：si 越界返回 null（不返回 undefined、不抛错）',
+  ctx('displaySentenceAt({paras:[__two]}, 0, 99, 0)') === null
+  && ctx('displaySentenceAt(null, 0, 0, 0)') === null);
+
 /* ★★ 端到端：真的渲染一篇文章，数正文里出现了几个 .sentence 节点。
  * 为什么必须有这一条：上面那些都只测 `renderSentencesOf()` **函数本身**对不对，
  * 测不出它**有没有被 renderRead 调用**。2026-09-22 实测过这个假守卫 ——
