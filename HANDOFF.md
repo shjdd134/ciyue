@@ -921,6 +921,19 @@
   >      ★ 纪律：**bump 也是「本次改动」** —— 它若发生在负向测试之前，基线就必须在
   >      bump 之后重刷（`cp assets/app.js .bak/neg/app.ok.js`）；或者干脆把 bump 挪到
   >      负向测试全部跑完之后。这是「`*.ok.*` 的定义是『已验证的当前版本』」的又一次翻车。
+  >   ⑩ **`--v1-signing-enabled true` 会安静地产出一个无效签名**（交付前独立复核才发现）。
+  >      在 Windows 上 apksigner 把 `META-INF/MANIFEST.MF` 的条目名写成**反斜杠**
+  >      （实测 `Name: assets/assets\app.js`），而 JAR 规范要求 `/` → 这份 v1 签名
+  >      `verify` 报 `Verified using v1 scheme: false`：**文件在、但校验不过**。
+  >      「存在但无效的签名」比「没有签名」更糟 —— 严格的安装器 / 审计工具看到它会直接拒绝。
+  >      而 minSdk=26 只用 v2/v3（v2 覆盖 Android 7.0+，v3 覆盖 9.0+），v1 是给 API < 24 的老设备用的。
+  >      apksigner 自己的默认行为（minSdk ≥ 24 → 不生成 v1）本来就是对的，写 `true` 是我多此一举。
+  >      改成 `false` 后：条目 **109 → 106**（少掉 3 个 META-INF），
+  >      `verify` 仍是 `Verifies` + v2/v3 true。
+  >      **最终产物：11,593,351 字节 / 106 条目 / 无 META-INF / v2+v3 签名。**
+  >      ★ 这条能抓到，靠的是**交付前又独立跑了一次 `apksigner verify --verbose`**
+  >      （而不是读自己脚本的自检输出）—— 同族纪律：「自己的自检绿了 ≠ 产物对」，
+  >      见 §5 的「`verify-live` 15/0 ≠ 推干净了」。
 
 ### 0.3 机制速查（不随批次变）
 

@@ -297,7 +297,17 @@ run(JAVA, [
   "-cp", SIGNER_JAR, "com.android.apksigner.ApkSignerTool", "sign",
   "--ks", store, "--ks-key-alias", alias,
   "--ks-pass", "pass:" + pass, "--key-pass", "pass:" + pass,
-  "--v1-signing-enabled", "true", "--v2-signing-enabled", "true", "--v3-signing-enabled", "true",
+  /* ★ v1（JAR signing）**刻意关掉**（2026-09-22 实测，交付前独立复核时才发现）：
+     在 Windows 上，apksigner 生成的 `META-INF/MANIFEST.MF` 条目名用的是**反斜杠** ——
+     实测 `Name: assets/assets\app.js`，而 JAR 规范要求用 `/`。于是这份 v1 签名
+     `verify` 报 `Verified using v1 scheme: false`：**文件在、但校验不过**。
+     「存在但无效的签名」比「没有签名」更糟 —— 严格的安装器 / 审计工具看到它会直接拒绝。
+     而 minSdk=26（Android 8.0）**只用 v2/v3**（v2 覆盖 Android 7.0+，v3 覆盖 9.0+ 的密钥轮换），
+     v1 是给 API < 24 的老设备用的，这里根本不需要 ——
+     apksigner 自己的默认行为（minSdk ≥ 24 → 不生成 v1）本来就是对的，之前写 `true` 是我多此一举。
+     实测（开启时）：v1 false / v2 true / v3 true；关掉后应当只剩 v2/v3。
+     ★ 教训：`--v1-signing-enabled true` 会**安静地产出一个无效签名**，不报错、不警告。 */
+  "--v1-signing-enabled", "false", "--v2-signing-enabled", "true", "--v3-signing-enabled", "true",
   "--out", signed, path.join(WORK, "aligned.apk"),
 ]);
 log(`  ✓ ${outName}`);
