@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "73");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "74");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1309,6 +1309,89 @@ function sortArticles(list) {
 const coverOf = a => a.coverImg || ((typeof COVER_MAP !== "undefined" && COVER_MAP[a.id]) || "") || "";
 const srcName = a => String(a.source || "").split(" · ")[0];
 
+/* ---------------- 首页封面轮换池（2026-09-22 v74） ----------------
+ * 首页那块大图原来写死「第一篇人物文」（Anna Hathaway 永远霸屏），改成每次进站
+ * 从人物栏目里随机挑一张照片 + 连标题/署名/跳转一起换。
+ *
+ * 【为什么是硬编码白名单，不是运行时量宽高比】
+ * 浏览器里拿不到图片的宽高（要等加载完成、或另起 Image 去 decode），而这块图必须在
+ * 首屏渲染时就位。图片比例是**构建期事实**，所以量一次、写死在这儿。
+ * 比例由 tools/audit.js 的 [H2] 守卫反查 img-size 表核对 —— 手写错一个数字会被拦。
+ *
+ * 【为什么只挑横构图（宽/高 ≥ 1.4）】
+ * `.editorial-photo` 是宽幅位，实测（Edge 探针 `.bak/probe-home-cover.cjs`）：
+ * 窄屏 420px 时 378×248 = **1.52 : 1**，桌面 1280px 时 565×388 = **1.46 : 1**。
+ * 配 `object-fit: cover`：横图裁掉的两侧可以忽略，竖图却要裁掉 **50% 以上**，
+ * 只剩一条窄缝 —— 人物上半身以下的构图全没了。人物 56 张照片里只有 **14 张**是横构图
+ * （42 张竖构图、9 张正好卡在 1.44–1.50 的边界以下），硬上全部等于让 75% 的展示都在切主体。
+ * 所以宁少勿滥：**只上横图**。每一项的真实宽高都记在 `tools/audit.js` 的 `IMG_SIZE` 里，
+ * 手滑塞进一张竖图会被 [H2] 守卫当场拦下（这次就是这么抓到 `eva-green-0` 是 1077×1400 的）。
+ * 代价说清楚：池子只覆盖 **4 篇**（安妮·海瑟薇 / 梅根·福克斯 / 蕾雅·赛杜 / 蕾切尔·薇兹），
+ * 佐伊·多伊奇与伊娃·格林两篇全是竖图，一次都不会出现。**这是刻意的**，不是漏配。 */
+const LEAD_PHOTO_POOL = [
+  /* 篇封面（`coverImg` 字段，不在 paras[].img 里），4 篇有横封面的全收 */
+  "people-anne-hathaway-mother-mary-0",   // 720x405  = 1.78
+  "people-rachel-weisz-archive-0",        // 765x510  = 1.50
+  "people-megan-fox-interview-0",         // 1100x720 = 1.53
+  "people-lea-seydoux-bond-girl-0",       // 685x456  = 1.50
+  /* 正文横构图照片（`paras[].img`） */
+  "people-anne-hathaway-mother-mary-1",   // 720x490  = 1.47
+  "people-anne-hathaway-mother-mary-3",   // 720x486  = 1.48
+  "people-anne-hathaway-mother-mary-4",   // 720x480  = 1.50
+  "people-anne-hathaway-mother-mary-7",   // 720x500  = 1.44
+  "people-anne-hathaway-mother-mary-8",   // 720x490  = 1.47
+  "people-megan-fox-interview-3",         // 1000x655 = 1.53
+  "people-megan-fox-interview-4",         // 1000x655 = 1.53
+  "people-megan-fox-interview-5",         // 1000x655 = 1.53
+  "people-megan-fox-interview-6",         // 1000x655 = 1.53
+  "people-lea-seydoux-bond-girl-2",       // 1100x733 = 1.50
+];
+
+/* 从白名单里随机挑一张，并解析出它属于哪一篇。
+ *
+ * 【为什么每次 renderHome() 都重挑：用户选的是「真随机、每次打开就换」】
+ * 所以刻意不缓存、不按天取种 —— 重渲染确实会换图，这是**要的行为**，不是 bug。
+ * 别照搬上面 homeReads 那套「渲染只读、翻页才动位置」的纪律：那条防的是
+ * 「打卡/返回首页把推荐位偷偷换掉」（推荐位有『这一批』的语义），而封面没有
+ * —— 每换一次就是新的一眼，本来就不该稳定。
+ *
+ * 解析规则有**两条路**（一开始只写了第二条，[H2] 守卫当场抓到 6 个封面全解析不到）：
+ *   ① 该篇 `coverImg` === `assets/covers/<key>.jpg` → 封面（`-0` 那批走这条）
+ *   ② 该篇 `paras[].img` 里有 === 该路径的段 → 正文照（能顺带取到 alt / credit）
+ * 命中不了（图被删 / 改了文件名）就返回 null，调用处回退到原来的固定第一篇。 */
+const LEAD_PHOTO_IDX = new Map();
+function leadPhotoPoolItems() {
+  if (LEAD_PHOTO_IDX.size) return [...LEAD_PHOTO_IDX.values()];
+  if (typeof ARTICLES === "undefined" || !Array.isArray(ARTICLES)) return [];
+  for (const key of LEAD_PHOTO_POOL) {
+    const path = `assets/covers/${key}.jpg`;
+    for (const a of ARTICLES) {
+      if (a.cat !== "人物") continue;
+      /* ① 封面：alt 用人物名，credit 退回该篇统一的 photoCredit */
+      if (a.coverImg === path) {
+        LEAD_PHOTO_IDX.set(key, { a, img: path, alt: a.personZh || a.person || "", credit: a.photoCredit || "" });
+        break;
+      }
+      /* ② 正文照：段自带 alt / credit */
+      const p = (a.paras || []).find(x => x.img === path);
+      if (p) {
+        LEAD_PHOTO_IDX.set(key, { a, img: path, alt: p.alt || a.personZh || "", credit: p.credit || a.photoCredit || "" });
+        break;
+      }
+    }
+  }
+  return [...LEAD_PHOTO_IDX.values()];
+}
+
+/* 首页封面这一屏：随机取一「篇 + 一张图」。
+ * 同一篇的 `-0` 封面和正文照都可能在池子里，命中哪个就用哪个 —— 不必两两配对，
+ * 因为 `.editorial-photo` 的 img 是 cover 裁切，同一篇换一张照就是换一个视角。 */
+function pickEditorialLead() {
+  const items = leadPhotoPoolItems();
+  if (!items.length) return null;
+  return items[Math.floor(Math.random() * items.length)];
+}
+
 /* 相对时间：今天 / 昨天 / N 天前 / N 周前 */
 function fmtWhen(date) {
   if (!date) return "";
@@ -1355,20 +1438,33 @@ const articleCard = a => {
   </div>`;
 };
 
-/* 共用杂志封面：正文与摄影分栏，长标题不压在照片上。 */
-const editorialFeature = (a, label = "本期精选") => {
+/* 共用杂志封面：正文与摄影分栏，长标题不压在照片上。
+ *
+ * `photo` 是**首页专用的覆盖参数**：`{img, alt, credit}` —— 只换照片本身。
+ * 标题 / 署名 / CTA 全部照旧走 `a` 的字段，因为那三样是「文章」的属性，
+ * 换成同一篇的**另一张正文照**时它们一个字都不该变。
+ * 不给 photo（发现页「编辑精选」那条路径）时行为与改动前完全一致。
+ *
+ * 为什么不塞进 `a.coverImg`：那是**数据对象自身的字段**，改了会污染
+ * `coverOf(a)` 的所有其它调用点（发现页精选 / 分类磁贴 / 首页卡缩略图
+ * 全都读它），换一次首页封面会把整站的缩略图一起改掉。 */
+const editorialFeature = (a, label = "本期精选", photo = null) => {
   if (!a) return "";
-  const cover = coverOf(a);
+  const cover = photo && photo.img ? photo.img : coverOf(a);
+  const coverAlt = photo && photo.alt ? photo.alt : (a.personZh || a.person || a.cat);
+  /* 这张图在原刊的摄影署名。首页那屏不单列一行 credit（版面已经很满），
+     折进「9 张摄影」那串里显示成「9 张摄影 · Annie Leibovitz / Vogue」。 */
+  const credit = photo && photo.credit ? photo.credit : (a.photoCredit || "");
   return `<section class="editorial-feature${a.cat === "人物" ? " is-portrait" : ""}">
     <div class="editorial-copy">
       <div class="eyebrow"><span class="edition-dot"></span>${label}<span class="eyebrow-divider">/</span>${esc(a.cat)}</div>
       <h2>${esc(zhTitle(a) || clean(a.title))}</h2>
       <p class="editorial-en" lang="en">${esc(clean(a.title))}</p>
-      <div class="editorial-credit">${esc(srcName(a))}<span>·</span>${estMinutes(a)} 分钟阅读${a.photoCount ? `<span>·</span>${a.photoCount} 张摄影` : ""}</div>
+      <div class="editorial-credit">${esc(srcName(a))}<span>·</span>${estMinutes(a)} 分钟阅读${a.photoCount ? `<span>·</span>${a.photoCount} 张摄影${credit ? ` · ${esc(credit)}` : ""}` : ""}</div>
       <button class="editorial-cta" data-article="${esc(a.id)}">读这篇文章 ${svg("arrow", 16)}</button>
     </div>
     <button class="editorial-photo" data-article="${esc(a.id)}" aria-label="阅读精选：${esc(clean(a.title))}">
-      ${cover ? `<img src="${esc(cover)}" alt="${esc(a.personZh || a.person || a.cat)}" fetchpriority="high" decoding="async">` : `<span class="cover-monogram" aria-hidden="true">W.</span>`}
+      ${cover ? `<img src="${esc(cover)}" alt="${esc(coverAlt)}" fetchpriority="high" decoding="async">` : `<span class="cover-monogram" aria-hidden="true">W.</span>`}
       <span class="photo-label">${a.cat === "人物" ? "THE PEOPLE ISSUE" : "THE READING EDIT"}</span>
       <span class="photo-arrow" aria-hidden="true">↗</span>
     </button>
@@ -1443,7 +1539,10 @@ function renderHome() {
   const reads = pickDailyReads();
   const done = S.finished.length;
   const mins = Object.values(S.minsByDay || {}).reduce((a, b) => a + b, 0);
-  const lead = ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || reads[0];
+  /* 首页大图 = 人物栏目随机一「篇 + 图」（见 pickEditorialLead），没有池子就退回
+     原来那篇固定人物文。`leadPhoto` 为 null 时 editorialFeature 自己回退 coverOf。 */
+  const leadPhoto = pickEditorialLead();
+  const lead = (leadPhoto && leadPhoto.a) || ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || reads[0];
   const categories = CATEGORIES.filter(c => c !== "全部" && ARTICLES.some(a => a.cat === c));
   /* 阅读主页：上次读到 → 今日推荐 → 分类入口 → 轻量阅读统计 */
   return `
@@ -1453,7 +1552,7 @@ function renderHome() {
         <div><div class="eyebrow">A LITTLE READING, EVERY DAY</div><h1>读英文，也读世界<span class="title-period">。</span></h1><p>${greet}，从一篇好文章开始，让英语走进日常。</p></div>
         <div class="reading-date"><span>YOUR DAILY PAGES</span><b>${new Date().toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "long", day: "numeric" })}</b><small>${examCountdownLabel()}</small></div>
       </header>
-      ${editorialFeature(lead)}
+      ${editorialFeature(lead, "本期精选", leadPhoto)}
 
       <div class="home-reading-layout">
       <section class="home-picks">

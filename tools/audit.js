@@ -2081,5 +2081,212 @@ console.log('\n[G6] 内容更新通知的处理');
   if (missing.length) console.log(`    缺条目：${missing.join('、')} —— 会静默落到通用兜底图标/文案`);
 }
 
+/* ===================================================================
+ * [H2] 首页封面轮换（2026-09-22 v74）
+ *   原来首页那块大图写死「第一篇人物文」（按日期倒序，永远是 Anna Hathaway），
+ *   改成每次进站从 LEAD_PHOTO_POOL 里随机挑一「篇 + 一张图」。
+ *
+ * 这里**不发随机数、不测分布** —— 随机性没有可断言的属性（「跑 10 次至少 2 种」
+ * 在 17 选 1 时的失败概率约 1e-12，但那是概率不是保证，一条会偶发假红的守卫
+ * 比没有守卫更糟）。可断言的是**其余每一样**：池子合法、比例够宽、联动完整、
+ * 渲染输出真的换了图、发现页那条路径没被带坏。
+ * =================================================================== */
+console.log('\n[H2] 首页封面轮换');
+{
+  const appSrcHome = fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8');
+  /* 白名单从源码取，不硬编码第二份 —— 否则守卫会锁住一个和实现走散的数字 */
+  const poolBlock = appSrcHome.match(/const LEAD_PHOTO_POOL = \[([\s\S]*?)\n\];/);
+  const poolKeys = poolBlock
+    ? [...poolBlock[1].matchAll(/"([^"]+)"/g)].map(m => m[1])
+    : [];
+  ok(`首页封面候选池取到了（${poolKeys.length} 项）`, poolKeys.length > 0);
+
+  /* ① 每一项都必须在某篇人物文里**真实可达**（封面走 coverImg、正文照走 paras[].img）。
+   *    手写白名单最容易发生的事就是打错一个序号 —— 那样这张图永远选不中，
+   *    而池子看起来「有 14 张」、日志里也不报错，只在展示分布上悄悄少一档。 */
+  const poolPaths = poolKeys.map(k => `assets/covers/${k}.jpg`);
+  const resolvePool = ctx(`(function () {
+    const out = [];
+    for (const p of ${JSON.stringify(poolPaths)}) {
+      let hit = null;
+      for (const a of ARTICLES) {
+        if (a.cat !== "人物") continue;
+        /* 封面（coverImg）与正文照（paras[].img）都算 —— 与 leadPhotoPoolItems() 同一套规则 */
+        if (a.coverImg === p || (a.paras || []).some(x => x.img === p)) { hit = { img: p, id: a.id }; break; }
+      }
+      out.push(hit);
+    }
+    return JSON.stringify(out);
+  })()`);
+  const resolved = JSON.parse(resolvePool);
+  const unresolved = resolved.filter(x => !x).map((_, i) => poolPaths[i]);
+  ok(`池里 ${poolKeys.length} 项全部能解析到所属人物文`, unresolved.length === 0);
+  if (unresolved.length) console.log(`    解析不到：${unresolved.join('、')}`);
+
+  const resolvedIds = [...new Set(resolved.filter(Boolean).map(x => x.id))];
+  ok(`池子覆盖的人物文 ≥ 2 篇（否则「随机」等于没换，实际 ${resolvedIds.length} 篇）`,
+    resolvedIds.length >= 2);
+  /* 池子里不该出现非人物文 —— 首页那块是「THE PEOPLE ISSUE」，串成成长栏会标签与内容不符 */
+  const poolCats = [...new Set(resolved.filter(Boolean).map(x => {
+    const a = ctx(`ARTICLES.find(a => a.id === ${JSON.stringify(x.id)})`);
+    return a && a.cat;
+  }))];
+  ok('池子全部来自人物栏目', poolCats.length === 1 && poolCats[0] === '人物');
+
+  /* ② ★ 比例守卫：只许横构图。
+   *    判据是「宽/高 ≥ 1.4」，理由是实测的**图位比例**（Edge 探针，见
+   *    .bak/probe-home-cover.cjs）：窄屏 420px 时 378×248 = 1.52 : 1，
+   *    桌面 1280px 时 565×388 = 1.46 : 1。配 object-fit: cover，
+   *    横图（≥1.4）裁掉的两侧可以忽略；竖图（0.66 那批，人物正文照的主体）
+   *    要裁掉 50%+，只剩一条窄缝把人裁得只剩一双眼。
+   *    56 张人物照里只有 14 张是横图 —— 这条守卫就是拦「以后图省事把竖图也塞进来」。
+   *    ⚠️ 比例表的唯一来源是下面这张表，构造期量一次（JPEG SOF 段），别手填。
+   *    ★ 这张表是**真要维护的**：池子加一张就得补一行，否则第 ② 条守卫对它静默放行。
+   *      （本轮实测价值：写池子时手滑塞进了 `eva-green-0`（1077×1400 竖）与
+   *      `mother-mary-5`（720×573 = 1.26），两条都被这条守卫当场拦下。） */
+  const IMG_SIZE = {
+    "people-anne-hathaway-mother-mary-0": [720, 405, "封面"],
+    "people-rachel-weisz-archive-0": [765, 510, "封面"],
+    "people-megan-fox-interview-0": [1100, 720, "封面"],
+    "people-lea-seydoux-bond-girl-0": [685, 456, "封面"],
+    "people-anne-hathaway-mother-mary-1": [720, 490, ""],
+    "people-anne-hathaway-mother-mary-3": [720, 486, ""],
+    "people-anne-hathaway-mother-mary-4": [720, 480, ""],
+    "people-anne-hathaway-mother-mary-7": [720, 500, ""],
+    "people-anne-hathaway-mother-mary-8": [720, 490, ""],
+    "people-megan-fox-interview-3": [1000, 655, ""],
+    "people-megan-fox-interview-4": [1000, 655, ""],
+    "people-megan-fox-interview-5": [1000, 655, ""],
+    "people-megan-fox-interview-6": [1000, 655, ""],
+    "people-lea-seydoux-bond-girl-2": [1100, 733, ""],
+    /* 下面两条**故意留在表里但不在池里** —— 它们是「竖图长什么样」的活样本，
+       给最后那条反向对照当坏样本用。删了它们，对照就退化成恒真。 */
+    "people-rachel-weisz-archive-1": [1076, 1400, "竖（不入池）"],
+    "people-eva-green-tim-burton-1": [1077, 1400, "竖（不入池）"],
+  };
+  const MIN_RATIO = 1.4;
+  const tooNarrow = [], unknownSize = [];
+  for (const k of poolKeys) {
+    const s = IMG_SIZE[k];
+    if (!s) { unknownSize.push(k); continue; }
+    if (s[0] / s[1] < MIN_RATIO) tooNarrow.push(`${k} ${s[0]}×${s[1]} = ${(s[0] / s[1]).toFixed(2)}`);
+  }
+  ok(`★ 池里没有竖构图（比例全部 ≥ ${MIN_RATIO} : 1，否则宽幅位会把人裁成一条缝）`,
+    tooNarrow.length === 0);
+  if (tooNarrow.length) console.log(`    过窄：${tooNarrow.join(' / ')}`);
+  ok(`★ 池里每一项都有已实测的比例记录（没有记录 = 这条守卫对它静默放行）`,
+    unknownSize.length === 0);
+  if (unknownSize.length) console.log(`    缺记录：${unknownSize.join('、')}`);
+  /* 反向对照（预期为假）——为什么必须有：上面那条「没有竖图」在**池子为空**时也成立。
+   * 拿两张已知的竖图当坏样本，确认尺子真的会响；不响就说明比例表读错了单位。
+   * 这两项刻意留在 IMG_SIZE 里但不在池里 —— 它们的角色就是坏样本。 */
+  const knownUpright = ["people-rachel-weisz-archive-1", "people-eva-green-tim-burton-1"];
+  const uprightRatio = knownUpright.map(k => (IMG_SIZE[k] || [1, 1])[0] / (IMG_SIZE[k] || [1, 1])[1]);
+  ok('对照：已知竖图（现实里被这条守卫挡住的那批）比例确实 < 1.4，尺子不是恒真',
+    uprightRatio.every(r => r < MIN_RATIO));
+
+  /* ③ ★ 端到端：真的渲染首页，看渲染出来的图有没有跟着 pool 走。
+   *    为什么必须有这条：上面全在测池子**数据**对不对，测不出 pickEditorialLead()
+   *    有没有被 renderHome 调用 —— 正是 §2「第四种假守卫」那个形状。
+   *
+   *    ⚠️ 钉哪个位置是**有讲究的**：必须钉到一个**不属于「固定那篇」**的项
+   *    （固定那篇 = `ARTICLES.find(a => a.cat === "人物" && coverOf(a))`，即改动前的行为）。
+   *    原因：池子第 0 项恰好**就是**固定那篇的封面（anne-hathaway-0 既是该篇 coverImg、
+   *    又在池里），拿它当判据的话 —— 把 renderHome 的接线整个删掉（回到固定第一篇），
+   *    这条断言**照样绿**（负向样本 ha 实测确认过）。那不是「功能还在」，是巧合。
+   *    钉到非固定项之后，接线一断就必红。 */
+  ctx('view = {name:"home"};');
+  const homeHtml = ctx('renderHome()');
+  ok('★ 端到端：首页大图渲染出来了', /<section class="editorial-feature/.test(homeHtml));
+
+  const fixedId = ctx('(ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || {}).id');
+  const fixedLead = ctx('coverOf(ARTICLES.find(a => a.cat === "人物" && coverOf(a)))');
+  /* ⚠️ 必须挑一张**正文照**（`paras[].img`），不能挑 `-0` 封面。
+   * 原因：`-0` 封面恰好等于该篇自己的 `coverOf(a)` —— 于是「照片 == 池里那一张」这条
+   * 在**接线删掉、photo 参数丢失、回退到 coverOf(lead)** 的情况下依然成立，
+   * 断言会假绿。负向样本 ha 实测确认过：选 `rachel-weisz-0` 时它照样绿。
+   * 只有正文照（`-1` / `-2` … 不在 coverImg 里）才能把「用没用 photo 覆盖」区分开。 */
+  function isCoverKey(idx) {
+    if (idx < 0) return true;
+    return ctx(`(ARTICLES.find(a => (a.coverImg || "") === ${JSON.stringify(poolPaths[idx])}) || {}).id || ""`) !== "";
+  }
+  let otherIdx = -1;
+  for (let i = 0; i < resolved.length; i++) {
+    if (resolved[i] && resolved[i].id !== fixedId && !isCoverKey(i)) { otherIdx = i; break; }
+  }
+  const otherPath = otherIdx >= 0 ? poolPaths[otherIdx] : "";
+  const otherId = otherIdx >= 0 && resolved[otherIdx] ? resolved[otherIdx].id : "";
+  const otherWho = ctx(`(ARTICLES.find(a => a.id === ${JSON.stringify(otherId)}) || {}).personZh || ""`);
+  ok('★ 自检：找得到一张「非固定篇的正文横图」用来做端到端判据（否则下面的端到端断言是空的）',
+    otherIdx >= 0);
+
+  /* 拿这张正文照当判据：接线断了 / photo 参数没传下去，回退到 coverOf(lead) 就会立刻对不上 */
+  const otherHtml = otherIdx >= 0 ? ctx(`(function () {
+    const items = leadPhotoPoolItems();
+    const _r = Math.random;
+    Math.random = () => ${otherIdx} / items.length + 1e-9;   // 落在第 otherIdx 个区间
+    const h = renderHome();
+    Math.random = _r;
+    return h;
+  })()`) : "";
+  const otherSec = (otherHtml.match(/<section class="editorial-feature[\s\S]*?<\/section>/) || [''])[0];
+  ok(`★ 端到端：选到非固定篇「${otherWho}」的正文照时，首页真的用了池里那一张（${otherPath}）`,
+    otherIdx >= 0 && otherSec.includes(otherPath));
+  ok(`★ 端到端：这一刻用的不是该篇自己的封面（${fixedLead} 那种回退形状）—— photo 参数真的传到了`,
+    otherIdx >= 0 && otherPath !== fixedLead && otherSec.includes(otherPath));
+  ok('★ 端到端：这一刻 CTA 跳转指向的也是那一篇（图文联动没散）',
+    otherIdx >= 0 && (otherSec.match(/data-article="([^"]*)"/g) || [])
+      .every(x => x === `data-article="${otherId}"`));
+
+  /* ④ 联动：照片 / 标题 / 英文题 / 署名 / CTA 必须同篇。
+      再取池里最后一项测一遍（与上面不同的项），交叉确认不是碰巧某一项对。 */
+  const pinned2 = ctx(`(function () {
+    const items = leadPhotoPoolItems();
+    const _r = Math.random;
+    Math.random = () => 0.999999;          // 恒取最后一项
+    const lead = pickEditorialLead();
+    Math.random = _r;
+    return JSON.stringify({ img: lead && lead.img, id: lead && lead.a && lead.a.id });
+  })()`);
+  const p2 = JSON.parse(pinned2);
+  const pinHtml2 = ctx(`(function () {
+    const items = leadPhotoPoolItems();
+    const _r = Math.random;
+    Math.random = () => 0.999999;
+    const h = renderHome();
+    Math.random = _r;
+    return h;
+  })()`);
+  const sec2 = (pinHtml2.match(/<section class="editorial-feature[\s\S]*?<\/section>/) || [''])[0];
+  ok(`★ 联动：钉住随机数取最后一项（${p2.id}）时，照片、CTA 跳转指向同一篇`,
+    Boolean(p2.id) && sec2.includes(p2.img) && (sec2.match(/data-article="([^"]*)"/g) || [])
+      .every(x => x === `data-article="${p2.id}"`));
+  const a2 = ctx(`ARTICLES.find(a => a.id === ${JSON.stringify(p2.id)})`);
+  ok('★ 联动：中文标题 / 英文标题与这一篇一致',
+    Boolean(a2) && sec2.includes(String(a2.titleZh)) && sec2.includes(String(a2.title).slice(0, 24)));
+  ok('★ 联动：署名行带上了这张图在原刊的摄影署名',
+    Boolean(a2 && a2.photoCredit) && sec2.includes(String(a2.photoCredit)));
+
+  /* ⑤ ★ 发现页「编辑精选」那条路径不许被带坏：它不传 photo，必须仍走 coverOf(a)。
+   *    ⚠️ 早先这里只调 `editorialFeature(f, "编辑精选")` 直接构造、并且只断言
+   *    「封面路径出现在输出里」—— 那样**测不出 renderDiscover 有没有偷偷给它接上随机池**
+   *    （负向样本 hf 实测：让 renderDiscover 传 pickEditorialLead() 进去，断言纹丝不动全绿）。
+   *    改成走**真渲染路径**（renderDiscover），并且断言「渲染出来的图片路径 == 该篇自己的 coverOf」
+   *    —— 随机池里任何一张图都会立刻让它变红。 */
+  ctx('view = {name:"discover"}; catFilter = "全部"; searchTerm = "";');
+  const discHtml = ctx('renderDiscover()');
+  const discFeatured = ctx('coverOf(ARTICLES.slice().sort((a,b) => String(b.date||"").localeCompare(String(a.date||""))).find(a => coverOf(a)))');
+  const discSec = (discHtml.match(/<section class="editorial-feature[\s\S]*?<\/section>/) || [''])[0];
+  ok('★ 发现页「编辑精选」走自己的封面（没被接上首页的随机池）',
+    Boolean(discFeatured) && discSec.includes(discFeatured));
+  /* 反向（预期为假）的孪生：首页那一刻不能也是这张 —— 否则上一条在「随机恰好命中同一张」时假绿。
+     拿 pinned2（池里最后一项，勒雅·赛杜）比对：它是真实可达、且**不等于**发现页精选的一张。 */
+  ok('★ 对照：池子最后一项的图 ≠ 发现页精选的图（上一条不是靠「恰好相同」蒙过去的）',
+    Boolean(p2.img) && p2.img !== discFeatured);
+  ok('★ 发现页精选不渲染摄影署名（首页那一行是 photo.credit 带出来的，不传就没有）',
+    !/张摄影 · /.test(discSec));
+  ctx('view = {name:"home"}; catFilter = "全部"; searchTerm = "";');
+}
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);
