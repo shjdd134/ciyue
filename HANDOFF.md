@@ -21,7 +21,7 @@
 | 文章 | **19 篇 = 成长 4 + 人物 6 + 足球 4 + AI 5** |
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
-| 发布基线 | `.bak/published.json` = **`72db9bf`**（2026-09-21 22:52，v72 朗读层重写批次） |
+| 发布基线 | `.bak/published.json` = **`f431125`**（2026-09-22 22:00，v79「壳里会真坏的三件事」+ Android 壳工程批次） |
 | 资源版本 | `?v=79` · SW 缓存名 `wordlens-cache-v79` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
@@ -1463,16 +1463,22 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 ## 7. 快速自检（接手后先跑一遍）
 
 ```bash
-node tools/audit.js         # 期望当前 186/0 fail（含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点）
-node tools/nav-test.js      # 期望当前 30/0（2026-09-15 起；人物导航 7 条已加，旧口径 18/0）
-node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size 38267、COMMON_WORDS_size 242）
+# ★ 下面的数字是「当前实测值」，会随着**加守卫**而变大 —— 2026-09-22 v79 全部校准过一次。
+#   数字对不上时，先看是不是有人加了断言，而不是先怀疑代码坏了。
+node tools/audit.js         # 期望 431 通过 / 0 失败（[A]–[U] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约、U 源文件行尾卫生）
+node tools/nav-test.js      # 期望 39 通过 / 0 失败（2026-09-22 实测；旧口径 30/0 已不适用）
+node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size、COMMON_WORDS_size）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）
-node tools/sw-test.js       # 期望 9/9（离线无缓存必须给 Response，不能是 undefined）
-node tools/qc-test.mjs      # 期望 5/5（空清单/目标 id 不存在都不能算通过）
-node tools/push-test.mjs    # 期望 9/9（清单点名但本地不存在必须联网前 exit 2；--manifest 与 --files 并用时清单要合并）
-node tools/remote-sweep-test.mjs # 期望 31/31（远端残留清理：keeper 豁免 / 删除前备份 / 无凭据降级）
-node tools/examples-test.mjs # 期望 28/28（例句库按需加载：首次/复用/失败重试/换词竞态）
-node tools/verify-live-test.mjs # 期望 18/18（本地假站点证明线上核验该红时会红；不联网）
+node tools/sw-test.js       # 期望 9 通过 / 0 失败（离线无缓存必须给 Response，不能是 undefined）
+node tools/qc-test.mjs      # 期望 22 通过 / 0 失败（空清单/目标 id 不存在都不能算通过）
+node tools/push-test.mjs    # 期望 15 通过 / 0 失败（清单点名但本地不存在必须联网前 exit 2；--manifest 与 --files 并用时清单要合并）
+node tools/remote-sweep-test.mjs # 期望 31 通过 / 0 失败（远端残留清理：keeper 豁免 / 删除前备份 / 无凭据降级）
+node tools/examples-test.mjs # 期望 28 通过 / 0 失败（例句库按需加载：首次/复用/失败重试/换词竞态）
+node tools/verify-live-test.mjs # 期望 18 通过 / 0 失败（本地假站点证明线上核验该红时会红；不联网）
+node tools/guards-test.mjs  # 期望 14/14（守卫的守卫：断言不会静默失效）
+node tools/title-test.mjs   # 通过（未配对中文引号）
+node tools/deeplink-test.mjs # 通过（有效 id 深链同一篇 / 非法 id 回发现页）
+node tools/cache-version-test.mjs # 通过（用另一把尺子复核版本一致 + 点词大表不阻塞首屏）
 node tools/text-scan.js     # 通过（乱码/漏译/结构；段数会随段落分组变化，2026-09-15 后为 1008）
 python -m http.server 8123  # 浏览器打开 localhost:8123 应正常渲染
 ```
