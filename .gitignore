@@ -59,3 +59,14 @@ tools/_football/anchor-dict.json
 
 # 精翻通道（llm-refine.mjs）：_refine/ 是大模型精翻草稿 + 人工审校材料，本地专用不公开。
 tools/_refine/
+
+# ★ Android 壳的构建产物 —— 绝不入库（2026-09-22）。
+#   mobile/www/ 是「assets/ + 抓取数据」拼出来的**第二份全文**；
+#   outputs/apk/*.apk 更是把全部正文与封面打进一个 11MB 的包。
+#   仓库是 public，GitHub Pages 还直接以 200 提供整棵工作树 —— 推上去就等于
+#   把第三方版权内容重新分发一次（APK 审查报告第 ⑧ 条讨论的正是这件事）。
+#   入库的只有「源码」：mobile/android/（清单 + res + 4 个 Java）、mobile/shell-glue.js、
+#   mobile/version.json、tools/build-apk.mjs 等 —— 它们不含正文，可复现地构建出上面两个产物。
+#   两道保障与 *.local.* 同：这里兜底，tools/_api-push.mjs 的 NEVER_PUSH_PATTERNS 硬拦。
+mobile/www/
+outputs/apk/

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- API 23–30 的自动备份规则。
+     只备份**一样东西**：files/user-state.json（壳侧那份用户数据镜像）。
+     刻意不备份 WebView 的 profile（app_webview/）—— 那是个 Chromium 的 LevelDB，
+     跨设备/跨 WebView 版本还原是已知的损坏来源，而且它的内容与 user-state.json 是同一份数据
+     （app.js 的 save() 每次都镜像过去），所以备它一份可移植的就够了。 -->
+<full-backup-content>
+    <include domain="file" path="user-state.json" />
+</full-backup-content>

@@ -7,7 +7,17 @@ const path = require('path');
 const noop = () => { };
 
 const base = path.resolve(__dirname, '..');
+/* ★ 事件名 → 监听函数**数组**（2026-09-22 修）。
+   原来每个事件只有一个槽（`handlers[t] = f`），于是「同一类型注册第二个监听」会把
+   第一个**静默顶掉** —— 而真实浏览器里两个都会跑。
+   app.js v79 给 document 加了一个 capture 的 click 监听（刷新活跃时间戳，为原生壳的
+   切后台落盘服务），它后注册、把导航委托从槽里挤掉了 →
+   nav-test 从 [1] 起全线报红、`activeArticle` 恒为 null，
+   **看起来像「导航功能被改坏了」，其实是桩坏了**（工具与源文件走散时先怀疑工具）。
+   ★ 通用判据：**只要被测代码可能给同一事件注册多个监听，桩就必须是「多槽」的。** */
 const handlers = {};
+const listen = (t, f) => { (handlers[t] || (handlers[t] = [])).push(f); };
+const fire = (t, ev) => (handlers[t] || []).forEach(f => f(ev));
 const screenEl = { innerHTML: '', style: {}, className: '', appendChild: noop };
 const phoneEl = { appendChild: noop, insertAdjacentHTML: noop, style: {} };
 
@@ -24,10 +34,10 @@ const grow = (ds, extra) => Object.assign({
 
 const sandbox = {
   console,
-  window: { addEventListener: (t, f) => { handlers[t] = f; }, removeEventListener: noop },
+  window: { addEventListener: listen, removeEventListener: noop },
   document: {
     documentElement: { setAttribute: noop },
-    addEventListener: (t, f) => { handlers[t] = f; },
+    addEventListener: listen,
     removeEventListener: noop,
     querySelector: s => (s === '#screen' ? screenEl : s === '.phone' ? phoneEl : null),
     querySelectorAll: () => [],
@@ -57,7 +67,7 @@ vm.runInContext('var COMMON_WORDS = window.COMMON_WORDS;', sandbox);
 vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'assets/app.js' });
 
 const ctx = expr => vm.runInContext(expr, sandbox);
-const click = ds => handlers.click({ target: { closest: () => grow(ds) }, stopPropagation: noop });
+const click = ds => fire('click', { target: { closest: () => grow(ds) }, stopPropagation: noop });
 const at = () => ({ view: ctx('view.name'), cat: ctx('catFilter'), depth: ctx('navStack.length') });
 
 let pass = 0, fail = 0;

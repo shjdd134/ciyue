@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 壳的主题。
+         这里刻意**不**用 Material3 / AppCompat —— 整个工程不带任何 androidx 依赖，
+         纯 framework 类，所以只有系统自带主题可用（宁可用 Theme.Material 也不要为了
+         一个 NoActionBar 把 androidx.appcompat 拖进来，那会让 APK 从 1MB 级涨到 3MB 级）。 -->
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/shell_bg</item>
+        <!-- 系统栏透明：真实高度由 MainActivity 量出来回填给 CSS 变量 -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <!-- 浅色主题配深色图标。用户在「我的」里切深色时，胶水会通过 SystemBars 在运行时改掉 -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <!-- 不要跟着系统深色模式自动反色：站内主题是用户自己的选择（存在 localStorage），
+             系统再来一层 force-dark 会与它打架，还会把正文图片反相。 -->
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

@@ -68,6 +68,13 @@ const NEVER_PUSH_PATTERNS = [
   /\.local\.[a-z0-9]+$/i,
   /^people-icons-change-plan-.*\.md$/i,
   /^people-preferences/i,
+  /* Android 壳的构建产物（2026-09-22）—— 与 .gitignore 同两条，这里硬拦。
+     gitignore 拦不住 `--files` 显式点名，而这两个目录恰恰是「一整包第三方正文」：
+       mobile/www/       assets/ + 抓取数据拼出的第二份全文
+       outputs/apk/      11MB 的 APK，正文与封面全在里面
+     public 仓库 + Pages 以 200 提供整棵工作树 = 推上去就是一次重新分发。 */
+  /^mobile\/www\//i,
+  /^outputs\/apk\//i,
 ];
 const isNeverPush = f => {
   const n = normalize(f).toLowerCase();

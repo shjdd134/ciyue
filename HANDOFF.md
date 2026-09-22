@@ -9,7 +9,7 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 
-### 0.1 ★ 权威现状（2026-09-21 — **要看现状只读这一节**）
+### 0.1 ★ 权威现状（2026-09-22 — **要看现状只读这一节**）
 
 > 🔴 **这张表由 `node tools/doc-numbers.mjs` 校验**：篇数 / 句词数 / 版本 / 词库是硬校验（对不上 `exit 1`）；
 > 基线 commit 是**提示项** —— 每次推送都会改写它，而推送清单从不含本文件（文档要人工跟），
@@ -22,7 +22,7 @@
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`72db9bf`**（2026-09-21 22:52，v72 朗读层重写批次） |
-| 资源版本 | `?v=78` · SW 缓存名 `wordlens-cache-v78` |
+| 资源版本 | `?v=79` · SW 缓存名 `wordlens-cache-v79` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -844,6 +844,83 @@
   >   （延时守卫放在第二次调用之后，那次会 `cancelReadSave()`）——
   >   两次都是「尺子坏了」，不是代码坏了；③ 探针的 `initScript` 无脑覆写存档，
   >   reload 时等于自己清档，把「恢复永远为 0」的假故障栽给产品代码。
+
+- **2026-09-22 晚（v79）壳里会真坏的三件事 + Android 壳工程** —— 网页侧继续往下探，
+  这一批全是「在浏览器里看不出来、只在原生 WebView 里坏」的：
+  > - **① 三条生命周期监听被 SW 门禁一起关掉了**：`pagehide` / `visibilitychange` /
+  >   capture-`click` 原来写在 `if (shouldRegisterSW(...))` 块里。壳里不注册 SW 是对的
+  >   （文件由 `AssetServer` 从 assets 拦截出，SW 的取数代理纯属多余），可这三条与 SW
+  >   毫无关系 —— 「切后台结算阅读时长」「离开页面落盘续读位置」被一起关掉：
+  >   **壳里读十分钟直接切走，时长与续读位置一个字节都不写**（移动端最高频的漏记场景）。
+  >   `http://` 非安全上下文、隐私模式等「SW 不可用」的网页环境本来也有同一个洞。
+  >   现移到文件末尾独立的生命周期节 —— 那一节不引用任何 serviceWorker API，这就是判据。
+  > - **② 原生数据镜像**：localStorage 是壳里唯一的存储，系统「清除数据」会整块清掉 ——
+  >   `save()` 的三档（原样 / 裁剪 / 失败）**都**把**完整**状态推给原生 `UserState`
+  >   （壳侧合并后原子写 `user-state.json`），启动时本地读不到就回落它；
+  >   `importData` 之后也镜像（否则再被清一次，回落读回的是导入前的旧进度）。
+  >   没打壳旗标时一个字节都不碰（守卫里配了这条反向对照）。
+  >   ★ 自审修正：最初只在「成功档」镜像 —— 而失败档恰恰是镜像最该顶上的时刻。
+  > - **③ 壳胶水 `mobile/shell-glue.js`**（构建期注入 `<head>` 最前）：
+  >   Android WebView 的 `speechSynthesis` 只有壳、没有合成侧（朗读整块不可用）→ 转原生 TTS；
+  >   WebView 里 `env(safe-area-inset-*)` 可能是恒 0 → 由原生 insets 写 CSS 变量；
+  >   系统返回键默认直接退 App → 改成「先关浮层，没有浮层才退」；
+  >   另接 `__wlNativePause()`：切后台显式落盘，不赌 `visibilitychange` 会不会派发。
+  > - **守卫 386 → 431**（「壳里生命周期」「原生数据镜像」「壳胶水」三组，
+  >   外加 [U] 源文件行尾卫生 1 条）。
+  >   **负向 `ta`–`tm` 共 13 组精确命中、零连坐**，还原后 430/0。
+  > - **同批：Android 壳工程**（`mobile/android/` + `tools/build-apk.mjs`，零 Gradle、
+  >   零 androidx）：`aapt2 compile/link` → `javac` → `d8` → `zipalign -p 4` → `apksigner`
+  >   （v1+v2+v3）手写全链，`MIN_SDK=26` / `TARGET_SDK=35`，
+  >   产出 `outputs/apk/wordlens-1.0.0-{release,debug}.apk`（11.07MB / 98 个 asset）。
+  >   ★ 构建产物（`mobile/www/`、`outputs/apk/`）**绝不入库** —— 它们是「一整包第三方正文」，
+  >   而仓库 public、Pages 还以 200 提供整棵工作树：推上去就是一次重新分发。
+  >   `.gitignore` + `_api-push.mjs` 的 `NEVER_PUSH_PATTERNS` 两道拦截，均已实测生效。
+  > - ★ 本轮四个坑（都不是「代码写错」，是**工具与环境**）：
+  >   ① **`fs.cpSync` 在本机 node 22.22.2 上会直接弄死进程** —— 无栈、无 stderr、
+  >      退出码 127，`try/catch` 拦不住，日志停在上一行，极具误导性 → 改手写遍历 `copyTree`；
+  >   ② **Windows 原生工具 + 非 ASCII 路径**：`aapt2`/`zipalign`/`d8` 按 ANSI 码页收参数，
+  >      `D:\四级词阅\...` 被解成乱码，报的却是「failed to open directory: 系统找不到指定的文件」
+  >      （目录明明在）→ 工具链与全部构建迁到 `D:\wl-android`（可用 `WORDLENS_ANDROID_HOME`
+  >      覆盖），`setup-android-toolchain.mjs` 与 `build-apk.mjs` 都加了 ASCII 路径守卫；
+  >   ③ **`core-lambda-stubs.jar` 不能省**：`android.jar` 里没有
+  >      `java.lang.invoke.LambdaMetafactory`（Android 的 lambda 靠 d8 构建期脱糖，
+  >      运行时根本没这个方法），源码里只要有一个 lambda 或方法引用就编不过；
+  >   ④ **`aapt2 link` 的 `min-sdk-version` 参数不写进产物清单** —— 它只影响资源按哪套
+  >      限定符筛。清单里必须有 `<uses-sdk>`，否则产物没有 `minSdkVersion` 字段、系统按
+  >      minSdk=1 对待（低版本设备**装得上、一启动就崩**）。而 `target-sdk-version` 恰好
+  >      会被注入 → 日志只显示「min ? → target 35」，很容易当成显示问题滑过去。
+  >   ★ 另有两个「守卫自身的病」，比上面四条更值得记：
+  >   ⑤ **假警报**：自检里读 minSdk 的正则写成 `/sdkVersion:/`，而 badging 打的是
+  >      `minSdkVersion:`（大写 `S`）→ 恒为 `?`，看着完全像「清单缺字段」（于是我去查清单、
+  >      发现确实也缺、补了 `<uses-sdk>`，报错却依然在 —— 病根在正则）。
+  >      **守卫报红时先确认守卫自己是对的：假警报和假绿一样费时间。**
+  >   ⑥ **自检失败却已经把坏产物拷回仓库**：原来是「先拷回、再 `process.exitCode = 2`」，
+  >      产物已落盘、退出码只是事后遗言。一个缺 `app.js` 的 APK 照样 11MB、照样有签名、
+  >      照样装得上，只是打开白屏 —— CI 或人只看「文件在不在」就会把它发出去。
+  >      现改为**自检不过就不拷回**，已实测：退出码 2、`outputs/apk/` 里旧产物 MD5 逐字节未变。
+  >   ⑦ python 在 Windows 上按文本模式输出 `\r\n`，JS 侧只 `split("\n")` 会让每个条目名
+  >      末尾留一个 `\r` → `includes()` 恒假 → 「白名单 98 项全部报缺」，而文件一个不少。
+  >      必须 `split(/\r?\n/)` 再 `trim()`。
+  >   ⑧ **同一件事的写侧：python 文本模式会污染整个文件的行尾。** 本轮用
+  >      `open(p,'w')` 改写 `tools/audit.js`，把整个文件变成了 CRLF（2958 个 `\r`，
+  >      文件从 200,776 涨到 203,734 字节）。它**不会让任何一条断言变红**、程序照跑、
+  >      推上线也照样工作 —— 坏的是**所有文本比对工具**：`diff-files` 报出
+  >      「远端独有 2470 行 / 本地独有 2773 行」，看起来像「远端被人分叉了一场大改」
+  >      （再往下就是不敢推了），其实只是每一行多了一个 `\r`。
+  >      ★ 判据必须用**二进制**读：`grep -c $'\r'` 在 Git Bash 里会把 `\r` 当行尾剥掉、
+  >      给出 0（假阴性）。同一件事本轮量了两次：grep 说 0，二进制读说 2958。
+  >      现已加 **[U] 源文件行尾卫生**（第 431 条）：递归扫仓库源码，含 CR 就报红
+  >      （探针负向验证过：注入 `tools/zz-crlf-probe.mjs` → 精确命中 1 条、无连坐，
+  >      删掉回到 431/0）。顺带修了 `PROJECT-AUDIT-2026-09-14.md` 里一处畸形的 `\n\r\n`。
+  >   ⑨ **负向测试的 `restore()` 会把「bump 出来的新版本号」退回旧值。** 本轮顺序是
+  >      「改代码 → `version.mjs --bump` 到 v79 → 跑负向测试」，而 `.bak/neg/app.ok.js`
+  >      基线是**bump 之前**备份的 → 每组用例开头那句 `restore()` 都把 `app.js` 的
+  >      `assetVersion || "79"` 退回 `"78"`，于是 `release --full` 报 **6 项失败**
+  >      （version / version-test / cache-version 全红，症状是「app.js 回退默认值=78」
+  >      而其它四处都是 79）。
+  >      ★ 纪律：**bump 也是「本次改动」** —— 它若发生在负向测试之前，基线就必须在
+  >      bump 之后重刷（`cp assets/app.js .bak/neg/app.ok.js`）；或者干脆把 bump 挪到
+  >      负向测试全部跑完之后。这是「`*.ok.*` 的定义是『已验证的当前版本』」的又一次翻车。
 
 ### 0.3 机制速查（不随批次变）
 

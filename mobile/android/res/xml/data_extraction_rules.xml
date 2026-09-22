@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- API 31+ 的备份 / 换机迁移规则。规则口径与 backup_rules.xml 一致：
+     只要那份可移植的 user-state.json，不要 WebView 的 Chromium profile。 -->
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="file" path="user-state.json" />
+    </cloud-backup>
+    <device-transfer>
+        <include domain="file" path="user-state.json" />
+    </device-transfer>
+</data-extraction-rules>

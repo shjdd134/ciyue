@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自适应图标（API 26+ 真正生效的那一个）。
+     背景用品牌绿实色，前景是留了安全区的 logo（见 tools/build-icons.py 的说明：
+     108dp 画布里只有中间 72dp 一定可见，logo 的四角会被各家启动器裁掉）。 -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

@@ -1,0 +1,11 @@
+{
+  "versionCode": 1,
+  "versionName": "1.0.0",
+  "_comment": [
+    "Android 壳的版本。tools/build-apk.mjs 会把它注入 aapt2 link 的 --version-code / --version-name。",
+    "★ versionCode 必须**严格递增**：Android 只允许用同一个签名、且 versionCode 更大的包覆盖安装。",
+    "   改完这个文件不需要动 AndroidManifest.xml（清单里那两个值是兜底，会被命令行覆盖）。",
+    "_** 内容版本（assets 里的 ?v=）跟这里是两个轴：内容天天变、壳几个月才变一次。",
+    "   同一个 versionCode 只允许出一个 APK —— 要重出就先把 versionCode +1。"
+  ]
+}

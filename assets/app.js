@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "78");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "79");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -183,8 +183,39 @@ function normalizeState(raw) {
   next.readHistory = (next.readHistory && typeof next.readHistory === "object") ? Object.assign({}, next.readHistory) : {};
   return next;
 }
+/* ---------------- 原生壳（Android APK）的用户数据镜像 ----------------
+ * 为什么需要：正文与词库都在安装包里，安装包不会坏 —— 唯一会丢的是**用户数据**，
+ * 而它只活在 WebView 的 localStorage 里：系统「清除数据」/WebView 存储被回收时
+ * 那一整块是无前兆消失的。壳里因此再存一份镜像到应用私有目录。
+ * 接口（@JavascriptInterface，见 mobile/android/.../UserState.java）：
+ *   UserState.saveState(json) → 原子写 filesDir/user-state.json（先写 .tmp 再改名）
+ *   UserState.loadState()     → 读回同一份 JSON；文件不存在返回空串
+ * 网页环境没有 window.WORDLENS_NATIVE，下面两处天然不执行，行为与改动前一致。
+ * 只认显式旗标 + 方法齐全，绝不靠「window.UserState 存在」猜 —— 别的宿主
+ * （某些 WebView 容器、调试注入脚本）也可能挂同名对象，误用会把数据写进未知的地方。 */
+function nativeBridge() {
+  if (typeof window === "undefined" || window.WORDLENS_NATIVE !== true) return null;
+  const b = window.UserState;
+  return b && typeof b.saveState === "function" && typeof b.loadState === "function" ? b : null;
+}
+/* 镜像只在**有内容**时做。壳侧自己会兜住异常，这里再包一层是为了
+ * 「壳写失败绝不影响网页行为」—— 壳是个可选增强，不许成为新的失败点。 */
+function mirrorNative(json) {
+  const b = nativeBridge();
+  if (!b || !json) return false;
+  try { b.saveState(json); return true; } catch { return false; }
+}
+
 let storedState = {};
-try { storedState = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { storedState = {}; }
+let rawState = null;
+try { rawState = localStorage.getItem(STORE); } catch { rawState = null; }
+/* 本地为空就回落到壳里的镜像 —— 这是「系统清了 WebView 存储」唯一的补救路径。
+   本地有东西时一律以本地为准（本地更新），不拿可能更旧的镜像去盖。 */
+if (!rawState) {
+  const b = nativeBridge();
+  if (b) { try { rawState = b.loadState() || null; } catch { rawState = null; } }
+}
+try { storedState = JSON.parse(rawState || "{}"); } catch { storedState = {}; }
 let S = normalizeState(storedState);
 /* minsByDay 是 secByDay 的派生镜像：展示层（近 7 天柱状图、累计时长）继续读分钟，
  * 但记账只认秒，避免「每次打卡四舍五入一次」把零头越积越偏。 */
@@ -207,7 +238,12 @@ syncMinsMirror();
  *   ③ 再失败：标记 failed + 提示一次，内存里的 S 照常可用（本次会话不丢），
  *      并在「我的 → 数据与备份」显示告警行，引导先导出备份。
  * ⚠️ 状态只存内存：写不进去时它本来也存不下来，刷新后归 ok —— 这是可接受的，
- *    因为告警的意义是「当场告诉用户现在别关」，不是跨会话记账。 */
+ *    因为告警的意义是「当场告诉用户现在别关」，不是跨会话记账。
+ * ★ 原生壳（2026-09-22）：每档都调 mirrorNative() 推一份给壳的文件系统（含失败档，
+ *   见下面的注释）。localStorage 与壳镜像**不是等价的两个备份**：
+ *     本地 = 随时可读、但系统「清除数据」会整块清掉、且受 5MB 配额限制；
+ *     镜像 = 只在本地为空时才读、不受配额限制、但网页环境根本不存在。
+ *   所以两边各按自己的口径写（裁剪档给本地、完整版给壳），不是同一份 JSON 抄两遍。 */
 let storageState = "ok";            // ok | trimmed | failed（供「我的」页渲染告警行）
 let storageHinted = 0;              // 每种状态每会话只提示一次
 function recentArticleIds(n) {
@@ -232,8 +268,19 @@ function notifyStorage(kind) {
     : "存储空间紧张 · 已只保留最近的续读位置，生词与记录未动"), 900);
 }
 function save() {
-  try { localStorage.setItem(STORE, JSON.stringify(S)); storageState = "ok"; return true; }
-  catch { /* 落到降级档 */ }
+  /* 三档**都要**镜像，包括失败档（2026-09-22 自审改）：本地写不进去恰恰是镜像最该
+   * 顶上的一刻 —— 两个存储彼此独立，localStorage 满/被 WebView 回收不代表文件也写不了。
+   * 而镜像是「本地为空才读」，所以多写一份永远不会回头污染一份健康的本地数据。
+   * 镜像一律送**完整**的 S：裁剪只对 localStorage 的 5MB 配额有意义，
+   * 壳里那份是个文件、没有这个上限 —— 把裁过的版本镜像过去等于自愿丢数据。 */
+  let mirror = "";
+  try {
+    mirror = JSON.stringify(S);
+    localStorage.setItem(STORE, mirror);
+    storageState = "ok";
+    mirrorNative(mirror);
+    return true;
+  } catch { /* 落到降级档 */ }
   try {
     const keep = recentArticleIds(40);
     const py = {}, ph = {};
@@ -244,10 +291,12 @@ function save() {
     localStorage.setItem(STORE, JSON.stringify({ ...S, readPos: py, readHistory: ph }));
     if (storageState !== "failed") notifyStorage("trimmed");
     storageState = "trimmed";
+    mirrorNative(mirror);
     return true;
   } catch {
     storageState = "failed";
     notifyStorage("failed");
+    mirrorNative(mirror);
     return false;
   }
 }
@@ -2755,6 +2804,9 @@ function importData(file) {
     }
     try { localStorage.setItem(STORE, JSON.stringify(next)); }
     catch (e) { toast("无法保存备份，现有进度未更改，请检查浏览器存储空间后重试"); return; }
+    /* 导入也是落盘，壳里那份必须跟着换掉 —— 否则本地再次被清时空，
+       回落读回来的还是**导入之前**的旧进度，用户会以为恢复没生效。 */
+    mirrorNative(JSON.stringify(next));
     S = next;
     clearArticleCaches();
     homeReads.pool = [];
@@ -3666,10 +3718,25 @@ document.addEventListener("keydown", e => {
 render();
 
 /* 离线可用 / 可安装：manifest 声明了 standalone，之前却没有 Service Worker，
-   离线打开会白屏。file:// 与沙箱环境自动跳过，不影响本地直接打开。 */
-if (typeof navigator !== "undefined" && navigator.serviceWorker
-  && typeof location !== "undefined" && /^https?:$/.test(location.protocol)
-  && typeof window !== "undefined" && window.addEventListener) {
+   离线打开会白屏。file:// 与沙箱环境自动跳过，不影响本地直接打开。
+ * ★ 原生壳（Android APK）例外（2026-09-22，APK 审查报告第⑤条）：壳里「页面版本」
+ * 由安装包控制、以后「文章版本」由原生内容更新器控制，再叠一层 SW 缓存就变成
+ * 三套版本来源，更新与回退都说不清谁赢。构建脚本 tools/build-mobile.mjs 会把
+ * `window.WORDLENS_NATIVE = true` 注入到 mobile/www 的 index.html 里。 */
+const NATIVE_SHELL = typeof window !== "undefined" && window.WORDLENS_NATIVE === true;
+/* 抽成纯判定函数才能被测：四种环境各断言一次（网页 / 原生壳 / file:// / 无 SW 支持），
+ * 只测「网页时为真」的话，壳里照样注册 SW 这件事不会有任何守卫拦得住。 */
+function shouldRegisterSW(env) {
+  const e = env || {};
+  return !e.native && !!(e.nav && e.nav.serviceWorker)
+    && /^https?:$/.test(e.proto || "") && !!e.hasWin;
+}
+if (shouldRegisterSW({
+  native: NATIVE_SHELL,
+  nav: typeof navigator !== "undefined" ? navigator : null,
+  proto: typeof location !== "undefined" ? location.protocol : "",
+  hasWin: typeof window !== "undefined" && !!window.addEventListener,
+})) {
   const warmAppCache = async () => {
     if (!window.caches) return;
     const urls = new Set(["index.html", "assets/styles.css", "assets/app.js", "assets/data.js", "assets/data-articles-extra.js", "assets/data-covers.js"]);
@@ -3689,19 +3756,6 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").then(warmAppCache).catch(() => { });
   });
-  /* 「上次读到」兜底：页面被切走/关闭时，把滚动位置与句子锚点立即落盘（正常路径在离开阅读页时落） */
-  window.addEventListener("pagehide", () => {
-    if (S.lastRead && S.lastRead.id) flushReadPos();
-    flushReadTime();   // 关页/切走也要结算，别把这段时长丢了
-  });
-  /* 切到后台 / 锁屏：立刻结算一次。移动端 pagehide 不一定触发，
-   * 而用户「读了十分钟直接切走」是最高频的漏记场景。 */
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) { flushReadTime(); flushReadPos(); }
-    else lastActiveAt = Date.now();   // 回到前台重新算活跃
-  });
-  /* 活跃阅读计时：任何点击都刷新活跃时间戳 */
-  document.addEventListener("click", () => { lastActiveAt = Date.now(); }, true);
   /* PWA 安装：Android Chrome 捕获安装事件，「我的」页出安装按钮；iOS 走分享指引 */
   window.addEventListener("beforeinstallprompt", e => {
     e.preventDefault(); installEvt = e;
@@ -3722,4 +3776,29 @@ if (typeof navigator !== "undefined" && navigator.serviceWorker
     toast("内容已更新，正在刷新…");
     setTimeout(() => location.reload(), 800);
   });
+}
+
+/* ---------------- 生命周期：与 SW 无关，任何环境都必须挂 ----------------
+ * ★ 这三条原来被套在 `if (shouldRegisterSW(...))` 里（2026-09-22 修）。
+ *   壳里不注册 SW 是对的（见上），但「切后台结算阅读时长」「离开页面落盘续读位置」
+ *   跟 Service Worker 没有任何关系 —— 一起被关掉等于：
+ *   **原生壳里读了十分钟直接切走，时长与续读位置一个字节都不写**（移动端最高频的漏记场景）。
+ *   SW 不可用的网页环境（http:// 非安全上下文、隐私模式）本来也有同一个洞。
+ * 判定口径：这一节只碰 S / flushReadTime / flushReadPos / lastActiveAt，
+ *   一个 serviceWorker API 都不引用 —— 所以它没有任何理由跟着 SW 走。 */
+if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+  /* 「上次读到」兜底：页面被切走/关闭时，把滚动位置与句子锚点立即落盘
+     （正常路径在离开阅读页时落，这里只兜住被杀/被切走那一下） */
+  window.addEventListener("pagehide", () => {
+    if (S.lastRead && S.lastRead.id) flushReadPos();
+    flushReadTime();   // 关页/切走也要结算，别把这段时长丢了
+  });
+  /* 切到后台 / 锁屏：立刻结算一次。移动端 pagehide 不一定触发，
+   * 而用户「读了十分钟直接切走」是最高频的漏记场景。 */
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) { flushReadTime(); flushReadPos(); }
+    else lastActiveAt = Date.now();   // 回到前台重新算活跃
+  });
+  /* 活跃阅读计时：任何点击都刷新活跃时间戳 */
+  document.addEventListener("click", () => { lastActiveAt = Date.now(); }, true);
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 词阅 WordLens —— Android 壳的清单。
+     这里没有 Gradle：tools/build-apk.mjs 直接驱动 aapt2 / javac / d8 / zipalign / apksigner，
+     所以 package / versionCode / versionName 必须写在本文件里（AGP 那套从 build.gradle 注入的机制不存在）。
+
+     两个刻意的选择：
+       android:enableOnBackInvokedCallback="true"
+         Android 13+ 的预测式返回要显式开；开了之后 onBackPressed() 不再被调用，
+         必须走 OnBackInvokedDispatcher —— MainActivity 两条路都实现了，别只留一条。
+       android:usesCleartextTraffic="false"
+         页面全部来自安装包内的 assets（https://appassets.androidplatform.net/ 这个域
+         由 AssetServer 拦下来本地出，不出网），没有任何理由允许明文 HTTP。 -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="cn.wordlens.reader"
+    android:versionCode="1"
+    android:versionName="1.0.0">
+
+    <!-- ★ minSdk 必须写在这里，不能只靠 aapt2 link 的 min-sdk-version 参数（2026-09-22 修）：
+         那个参数只影响「资源按哪套限定符筛」，并**不会**写进产物的清单 ——
+         结果是 APK 里根本没有 sdkVersion 字段，系统按 minSdk=1 对待。
+         后果不是「装不上」（那还算好的），而是**在低版本设备上装得上、一启动就崩**。
+         （target-sdk-version 恰好会被 aapt2 注入，于是只缺 min 一项，更具迷惑性：
+         自检里打印的是「min ? → target 35」。）
+         26 = Android 8.0：WebView 的 addJavascriptInterface 与 evaluateJavascript 都已稳定，
+         且不必再做 Java 8 脱糖以外的兼容分支。
+         注意本文件里**不能出现连续两个连字符**，XML 注释语法禁止（aapt2 只会说
+         "not well-formed (invalid token)"，看不出是注释的问题）。 -->
+    <uses-sdk android:minSdkVersion="26" android:targetSdkVersion="35" />
+
+    <!-- 只用得上网络做一件事：将来检查更新用的清单文件。正文与词库都在安装包里，断网可用。 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:theme="@style/AppTheme"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_rules"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
+        android:hardwareAccelerated="true"
+        android:usesCleartextTraffic="false"
+        android:supportsRtl="true">
+
+        <activity
+            android:name="cn.wordlens.reader.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|density|uiMode|fontScale"
+            android:resizeableActivity="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

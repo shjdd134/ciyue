@@ -2631,5 +2631,372 @@ console.log('\n[S] 落盘与续读位置');
   ctx('S.readPos = {}; S.readHistory = {}; S.lastRead = { id: "", y: 0, pct: 0, at: 0 }; view = {name:"home"};');
 }
 
+/* ================= [T] 原生壳（APK）契约（2026-09-22） =================
+ * 两条都要守卫，因为都只在「壳里」才暴露：
+ *   ① 壳内必须**不注册 Service Worker** —— 否则安装包 / SW 缓存 / 将来的原生内容库
+ *      三套版本来源打架，更新与回退说不清谁赢；
+ *   ② 打包必须走**白名单** —— 整个仓库打进安装包会把 tools/ 的抓取缓存、原刊 HTML
+ *      与计划稿一起带出去（体积 + 再分发风险）。 */
+console.log('\n[T] 原生壳（APK）');
+{
+  const sw = e => ctx(`shouldRegisterSW(${JSON.stringify(e)})`);
+  const nav = { serviceWorker: {} };
+  ok('★ 网页 + https → 注册 SW（既有离线能力不动）',
+    sw({ native: false, nav, proto: "https:", hasWin: true }) === true);
+  ok('★ 壳内（window.WORDLENS_NATIVE）→ 不注册 SW（三套版本源会打架）',
+    sw({ native: true, nav, proto: "https:", hasWin: true }) === false);
+  /* 孪生对照：这两条本来就不注册 —— 没有它们，「native 判据写反」也可能看着全绿 */
+  ok('对照：file:// → 不注册（原有行为，不是被 native 分支顺带关掉的）',
+    sw({ native: false, nav, proto: "file:", hasWin: true }) === false);
+  ok('对照：无 serviceWorker 支持 → 不注册',
+    sw({ native: false, nav: {}, proto: "https:", hasWin: true }) === false);
+
+  /* 打包白名单：真跑一遍 build（拷到临时目录），端到端看生成物 */
+  const libMobile = require(path.join(base, 'tools', 'lib-mobile.cjs'));
+  const plan = libMobile.planFiles();
+  const htmlRefs = [...fs.readFileSync(path.join(base, 'index.html'), 'utf8')
+    .matchAll(/(?:src|href)="(assets\/[^"?]+)(?:\?[^"]*)?"/g)].map(m => m[1]);
+  const missing = [...new Set(htmlRefs)].filter(f => !plan.includes(f));
+  ok('★ 白名单覆盖 index.html 引用的全部 assets（新增资源忘了带 → 这条红）', missing.length === 0);
+  ok('★ 白名单不含开发素材（tools/ outputs/ .bak/ 计划稿等一律不进包）',
+    !plan.some(f => libMobile.NEVER_SHIP.some(p => f.startsWith(p))) && !plan.includes('HANDOFF.md'));
+  ok('白名单含字体与封面（fonts.css 与 data-covers.js 动态引用，不在 index.html 里）',
+    plan.some(f => f.startsWith('assets/fonts/')) && plan.some(f => f.startsWith('assets/covers/')));
+
+  const tmp = path.join(base, 'mobile', '.audit-www');
+  let madeCount = 0, injected = false, leaked = false, builtHtml = '';
+  try {
+    const r = libMobile.runBuild({ out: tmp });
+    madeCount = r.files.length;
+    /* 把产物 index.html 留成字符串：临时目录在 finally 里会被删掉，
+       但后面「胶水三个出口真的注进去了吗」还要断言它。 */
+    builtHtml = fs.readFileSync(path.join(tmp, 'index.html'), 'utf8');
+    injected = /window\.WORDLENS_NATIVE\s*=\s*true/.test(builtHtml);
+    leaked = fs.existsSync(path.join(tmp, 'tools')) || fs.existsSync(path.join(tmp, 'HANDOFF.md'))
+      || fs.existsSync(path.join(tmp, 'outputs'));
+  } finally {
+    try { fs.rmSync(tmp, { recursive: true, force: true }); } catch { /* best-effort */ }
+  }
+  ok('★ 端到端：生成的 index.html 里真的注入了 window.WORDLENS_NATIVE（防「函数对了没接线」）',
+    madeCount > 0 && injected === true);
+  ok('★ 端到端：产物里没有 tools/ outputs/ HANDOFF.md（白名单真的生效，不是只写在注释里）',
+    leaked === false);
+  /* 注入器自身的契约：找不到 <head> 必须抛，不许静默返回原文 */
+  let threw = false;
+  try { libMobile.injectShellGlue('<html><body>no head</body></html>'); } catch { threw = true; }
+  ok('注入器找不到 <head> 时抛错（静默跳过 = 壳里偷偷注册了 SW）', threw === true);
+  ok('注入器幂等（重复构建不会插两条）',
+    (() => { const once = libMobile.injectShellGlue('<html><head></head><body></body></html>');
+      return libMobile.injectShellGlue(once) === once; })());
+
+  /* ---- 壳胶水本身（mobile/shell-glue.js）----
+   * 胶水是**壳专属**代码：网页版没有这一份，出了问题也没有任何网页侧的测试能碰到它。
+   * 所以它必须在 audit 里被真跑起来，而不是只检查「注入这段字符串了没有」。 */
+  const glueSrc = fs.readFileSync(path.join(base, 'mobile', 'shell-glue.js'), 'utf8');
+  ok('壳胶水语法有效（它是被内联进 <script> 的，语法错 = 整个壳白屏）',
+    (() => { try { new vm.Script(glueSrc); return true; } catch { return false; } })());
+  ok('壳胶水不含 </script（内联进 <script> 会当场截断标签）', !/<\/script/i.test(glueSrc));
+  ok('★ 端到端：胶水的四个出口真的注进了产物 index.html',
+    ['window.WORDLENS_NATIVE', 'window.__wlInsets', 'window.__wlNativeBack', 'window.__wlNativePause', 'NativeTts']
+      .every(k => builtHtml.includes(k)));
+
+  /* ---- ★ 生命周期监听：壳里必须挂，不能跟着 SW 一起被关掉 ----
+   * 2026-09-22 的真实缺陷：pagehide / visibilitychange / capture-click 三条原来被套在
+   * `if (shouldRegisterSW(...))` 里。壳里不注册 SW 是对的，但「切后台结算阅读时长」
+   * 「离开页面落盘续读位置」跟 SW 毫无关系 —— 一起关掉 = 壳里读了十分钟直接切走，
+   * 时长与续读位置一个字节都不写。网页侧同样有洞（http:// 非安全上下文、隐私模式）。
+   * 断言方式：把 app.js 包一层 IIFE 在**同一个上下文里跑第二遍**、并打开
+   * window.WORDLENS_NATIVE —— 顶层 const 不能重复声明，包成函数作用域就能再来一次，
+   * 而数据脚本（ARTICLES / WORD_META / …）本来就已经在这个上下文里，不用重灌。
+   * ⚠️ 只在网页沙箱里断言「挂上了」是**假守卫**：两条路都挂，测不出被重新套回 if 里。 */
+  /* 把 app.js 在**同一个上下文里再跑一遍**，并交出内部句柄。
+   * 包一层 IIFE 是必需的：顶层 const/let 不能在同一上下文里重复声明，包成函数作用域
+   * 就能重跑；而数据脚本（ARTICLES / WORD_META / …）本来就已经在这个上下文里，不用重灌。
+   * 末尾 return 把 S / save / nativeBridge 交出来 —— v73 的教训是「断言只落在新增辅助
+   * 函数上、没落到主流程」，所以这里要能对真流程（save()）下断言，而不是只看函数本身。 */
+  const APP_SRC = fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8');
+  function runAppPass(opts) {
+    const o = opts || {};
+    const got = { handlers: {}, capture: {}, written: [], err: null, handles: null };
+    const savedWinAdd = sandbox.window.addEventListener;
+    const savedDocAdd = sandbox.document.addEventListener;
+    const savedUserState = sandbox.window.UserState;
+    const savedNative = sandbox.window.WORDLENS_NATIVE;
+    const savedStore = sandbox.localStorage._d;
+    try {
+      sandbox.window.addEventListener = (t, f) => { got.handlers[t] = f; };
+      sandbox.document.addEventListener = (t, f, oo) => {
+        if (oo === true || (oo && oo.capture)) (got.capture[t] = got.capture[t] || []).push(f);
+        else got.handlers[t] = f;
+      };
+      sandbox.localStorage._d = o.store === undefined ? {} : { 'wordlens.v1': o.store };
+      if (o.userState === undefined) delete sandbox.window.UserState;
+      else sandbox.window.UserState = {
+        saveState: j => { got.written.push(j); },
+        loadState: () => o.userState,
+      };
+      if (o.native) sandbox.window.WORDLENS_NATIVE = true;
+      else delete sandbox.window.WORDLENS_NATIVE;
+      got.handles = vm.runInContext(
+        `(function(){\n${APP_SRC}\n;return { S: S, save: save, nativeBridge: nativeBridge };\n})()`,
+        sandbox, { filename: 'app.pass.js' });
+    } catch (e) { got.err = e; }
+    /* 恢复沙箱现场。o.keepEnv=true 时**故意不还** UserState / 旗标 ——
+       app.js 的 nativeBridge() 是「用的时候才查」，跑完 pass 就把它拆掉的话，
+       之后调 handles.save() 什么都镜像不出去（第一次写这组守卫就栽在这里：
+       前 3 条镜像断言全红，而「回落」那条照样绿，看起来像镜像功能整个没接）。 */
+    sandbox.window.addEventListener = savedWinAdd;
+    sandbox.document.addEventListener = savedDocAdd;
+    if (!o.keepEnv) {
+      if (savedUserState === undefined) delete sandbox.window.UserState;
+      else sandbox.window.UserState = savedUserState;
+      if (savedNative === undefined) delete sandbox.window.WORDLENS_NATIVE;
+      else sandbox.window.WORDLENS_NATIVE = savedNative;
+    }
+    sandbox.localStorage._d = savedStore;
+    return got;
+  }
+
+  const LOCAL_ONLY = '{"notebook":["本地那一份"],"read":[],"finished":[],"known":[],"readDays":[]}';
+  const SHELL_ONLY = '{"notebook":["壳镜像那一份"],"read":[],"finished":[],"known":[],"readDays":[]}';
+
+  const passNative = runAppPass({ native: true, store: LOCAL_ONLY, userState: SHELL_ONLY, keepEnv: true });
+  const nativeHandlers = passNative.handlers, nativeCapture = passNative.capture;
+  let nativeErr = passNative.err;
+
+  ok('★ 壳里（WORDLENS_NATIVE=true）app.js 能整段跑完（跑不完 = 壳会白屏）', nativeErr === null);
+  ok('★ 壳里挂了 pagehide —— 页面被切走/被杀时落盘续读位置与阅读时长',
+    typeof nativeHandlers.pagehide === 'function');
+  ok('★ 壳里挂了 visibilitychange —— 切后台/锁屏结算（移动端最高频的漏记场景）',
+    typeof nativeHandlers.visibilitychange === 'function');
+  ok('★ 壳里挂了 capture 阶段的 click —— 活跃阅读计时', (nativeCapture.click || []).length >= 1);
+  /* 孪生对照：这两条本来就只属于 SW —— 没有它们，「监听一个都没挂」这种整片塌陷
+     也会让上面三条一起变红却看不出原因。 */
+  ok('对照：壳里**没有** window load（它是 SW 注册入口，壳内不该有）',
+    typeof nativeHandlers.load !== 'function');
+  ok('对照：壳里**没有** beforeinstallprompt（PWA 安装引导，壳内不该有）',
+    typeof nativeHandlers.beforeinstallprompt !== 'function');
+  ok('对照：壳里 popstate 仍在（返回键靠它退应用内导航栈）',
+    typeof nativeHandlers.popstate === 'function');
+
+  /* ---- 原生用户数据镜像（B 组）：写 / 回落 / 不误认 ---- */
+  const nbWords = st => (st && Array.isArray(st.notebook) ? st.notebook : [])
+    .map(x => (typeof x === 'string' ? x : x.word)).join();
+  ok('对照：本地有数据时不拿壳里的（可能更旧的）镜像去盖',
+    !!passNative.handles && nbWords(passNative.handles.S) === '本地那一份');
+  ok('★ 壳里 save() 真的把状态推给了原生（UserState.saveState 收到可解析的 JSON）',
+    (() => { try { return passNative.handles.save() === true
+      && nbWords(JSON.parse(passNative.written[0])) === '本地那一份'; } catch { return false; } })());
+  /* 裁剪档：本地只留最近 40 篇续读位置，但**壳里那份必须仍是完整的** ——
+     镜像送裁过的版本，等于在本地配额紧张时自愿替用户丢掉数据。 */
+  const bigState = { notebook: ['本地那一份'], read: [], finished: [], known: [], readDays: [], readPos: {} };
+  for (let i = 0; i < 60; i++) bigState.readPos['art' + String(i).padStart(3, '0')] = { y: i, at: 1700000000000 + i };
+  const passTrim = runAppPass({ native: true, store: JSON.stringify(bigState), userState: SHELL_ONLY, keepEnv: true });
+  const origSetItem = sandbox.localStorage.setItem;
+  const setArgs = [];
+  sandbox.localStorage.setItem = (k, v) => {
+    setArgs.push(v);
+    if (setArgs.length === 1) throw new Error('quota exceeded');   // 第一次（完整版）失败
+    return origSetItem.call(sandbox.localStorage, k, v);
+  };
+  let trimRet = null;
+  try { trimRet = passTrim.handles.save(); } finally { sandbox.localStorage.setItem = origSetItem; }
+  let localPosN = -1, shellPosN = -1;
+  try {
+    localPosN = Object.keys(JSON.parse(setArgs[1]).readPos).length;
+    shellPosN = Object.keys(JSON.parse(passTrim.written[0]).readPos).length;
+  } catch { /* 下面按 -1 判红 */ }
+  ok('★ 降级档：本地写的是裁过的（≤40 篇续读位置），壳里那份仍是完整的 60 篇',
+    trimRet === true && setArgs.length === 2 && localPosN > 0 && localPosN <= 40 && shellPosN === 60);
+
+  /* 失败档也镜像：这是「两个存储彼此独立」的直接检验 ——
+     本地 setItem 全抛时，壳里那份仍然必须拿到数据，否则镜像等于白做。 */
+  const passFail = runAppPass({ native: true, store: LOCAL_ONLY, userState: SHELL_ONLY, keepEnv: true });
+  let failRet = null;
+  try {
+    sandbox.localStorage.setItem = () => { throw new Error('quota exceeded'); };
+    failRet = passFail.handles.save();
+  } catch (e) { failRet = 'threw'; } finally { sandbox.localStorage.setItem = origSetItem; }
+  ok('★ localStorage 全写不进去时，壳里那份**仍然**拿到完整状态（本地失败 ≠ 文件也写不了）',
+    failRet === false && passFail.written.length >= 1
+    && nbWords(JSON.parse(passFail.written[passFail.written.length - 1])) === '本地那一份');
+
+  /* 收尾：把 keepEnv 期间故意留下的壳环境拆掉，别让后面的守卫看见它们 */
+  delete sandbox.window.UserState;
+  delete sandbox.window.WORDLENS_NATIVE;
+
+  const passFallback = runAppPass({ native: true, userState: SHELL_ONLY });   // store 不给 = 本地为空
+  ok('★ 本地为空 → 从壳镜像回落（系统「清除数据」后唯一的补救路径）',
+    !!passFallback.handles && nbWords(passFallback.handles.S) === '壳镜像那一份');
+  /* 关键对照：**没有旗标就不认这个对象**。别的 WebView 容器/调试脚本也可能往 window 上
+     挂同名 UserState，认错了就会把用户数据写进未知的地方 / 读进别人的数据。 */
+  const passNoFlag = runAppPass({ native: false, userState: SHELL_ONLY });
+  ok('★ 对照：没有 WORDLENS_NATIVE 旗标时，即使 window.UserState 在也不读不写',
+    !!passNoFlag.handles && passNoFlag.handles.S.notebook.length === 0
+    && passNoFlag.handles.nativeBridge() === null);
+
+  /* ---- 壳胶水：speechSynthesis 垫片 + 返回键 + 安全区，真跑一遍 ----
+   * 胶水是**壳专属**代码：网页版没有这一份，出了问题没有任何网页侧测试碰得到它。
+   * 下面断言的是 app.js 真正依赖的契约（它怎么用 onend/onerror/voice），
+   * 不是「胶水源码里出现了某个字符串」。 */
+  const glueState = { ready: false, voices: '[]', mask: null };
+  const glueSpoken = [];
+  const glueCancel = { n: 0 };
+  const glueEls = [];
+  const glueDark = [];               // SystemBars.setDark 收到的值
+  const glueDom = { attrs: {}, observer: null };
+  const glueCtx = {
+    window: {},
+    document: {
+      head: { appendChild: () => { } },
+      /* documentElement 要能被读能观察 —— 主题那条就是靠它拿 data-theme */
+      documentElement: {
+        getAttribute: k => (k in glueDom.attrs ? glueDom.attrs[k] : null),
+        setAttribute: (k, v) => { glueDom.attrs[k] = String(v); },
+      },
+      readyState: 'complete',
+      addEventListener: () => { },
+      createElement: () => { const el = { style: {}, textContent: '', id: '' }; glueEls.push(el); return el; },
+      querySelector: () => glueState.mask,
+    },
+  };
+  /* MutationObserver 桩：记下回调，测试自己触发它 —— 否则「主题变了通知壳」这条
+     只能靠「源码里有 observe()」这种正则断言，而那正是本轮要消灭的假守卫。 */
+  glueCtx.MutationObserver = function (cb) { this.cb = cb; };
+  glueCtx.MutationObserver.prototype.observe = function () { glueDom.observer = this.cb; };
+  glueCtx.window.SystemBars = { setDark: v => { glueDark.push(v); } };
+  /* flushReadTime / flushReadPos 在 app.js 里是顶层函数声明（挂在 window 上）——
+     胶水通过它们结算；桩在上下文全局上，计数用。 */
+  const glueFlush = { time: 0, pos: 0 };
+  glueCtx.flushReadTime = () => { glueFlush.time++; };
+  glueCtx.flushReadPos = () => { glueFlush.pos++; };
+  glueCtx.window.NativeTts = {
+    ready: () => glueState.ready === true,
+    voicesJson: () => glueState.voices,
+    speak: (text, lang, id, rate) => { glueSpoken.push({ text, lang, id, rate }); return true; },
+    cancel: () => { glueCancel.n++; },
+  };
+  vm.createContext(glueCtx);
+  vm.runInContext(glueSrc, glueCtx, { filename: 'shell-glue.js' });
+  const gw = glueCtx.window;
+
+  ok('★ 胶水注入时就置上 WORDLENS_NATIVE（app.js 据此跳过 SW、启用 UserState 镜像）',
+    gw.WORDLENS_NATIVE === true);
+  ok('★ TTS 引擎还没就绪 → speechSynthesis 如实为假（app.js 会提示「当前系统不支持朗读」，不是无声失败）',
+    !gw.speechSynthesis);
+  glueState.ready = true;
+  glueState.voices = JSON.stringify([{ name: 'Google UK English Female', lang: 'en-GB', localService: true }]);
+  const gss = gw.speechSynthesis;
+  ok('★ TTS 就绪 → 换上垫片，getVoices 把原生语音映射成 {name,lang,localService}',
+    !!gss && gss.getVoices().length === 1 && gss.getVoices()[0].lang === 'en-GB'
+    && gss.getVoices()[0].name === 'Google UK English Female' && gss.getVoices()[0].localService === true);
+
+  const gu = new gw.SpeechSynthesisUtterance('Hello world');
+  gu.lang = 'en-US'; gu.rate = 0.9; gu.voice = { lang: 'en-GB', name: 'x' };
+  let gEnd = 0, gErr = 0;
+  gu.onend = () => { gEnd++; }; gu.onerror = () => { gErr++; };
+  gss.speak(gu);
+  const gId = glueSpoken.length ? glueSpoken[0].id : '';
+  ok('★ 垫片把文本/口音/语速交给原生（口音取 pickVoice 挑中的 u.voice.lang，不是 u.lang）',
+    glueSpoken.length === 1 && glueSpoken[0].text === 'Hello world'
+    && glueSpoken[0].lang === 'en-GB' && glueSpoken[0].rate === 0.9 && !!gId);
+  gw.__wlTtsEnd(gId);
+  ok('★ 原生报「读完了」→ 触发 u.onend（app.js 靠它推进全文朗读队列）', gEnd === 1);
+  gw.__wlTtsEnd(gId);
+  ok('对照：同一条的原生回调只算一次（重复回调不许把队列一次推两句）', gEnd === 1);
+
+  const gu2 = new gw.SpeechSynthesisUtterance('Second');
+  let gEnd2 = 0, gErr2 = 0;
+  gu2.onend = () => { gEnd2++; }; gu2.onerror = () => { gErr2++; };
+  gss.speak(gu2);
+  const gId2 = glueSpoken[glueSpoken.length - 1].id;
+  gss.cancel();
+  ok('★ cancel() 停原生且**不**派发 onerror —— 否则单词朗读每换一个词就弹一次假的「朗读失败」',
+    glueCancel.n >= 1 && gErr2 === 0);
+  gw.__wlTtsEnd(gId2);
+  ok('★ cancel 之后迟到的原生回调是空操作（不会把已停的队列再推一句）', gEnd2 === 0);
+
+  let gClicked = 0;
+  glueState.mask = { click: () => { gClicked++; } };
+  ok('★ 壳里按返回键：有浮层就先关浮层并返回 true（壳侧据此不再退页面）',
+    gw.__wlNativeBack() === true && gClicked === 1);
+  glueState.mask = null;
+  ok('对照：没有浮层时返回 false（壳侧继续走 history 后退）', gw.__wlNativeBack() === false);
+
+  gw.__wlInsets(24, 12);
+  ok('★ 壳量到系统栏高度 → 写 .phone 的 --safe-t/--safe-b，且必须带 !important'
+    + '（CSS 里 --safe-t 定义在 .phone 上，不带 !important 会被 env() 那份盖掉）',
+    glueEls.length === 1
+    && /\.phone\{--safe-t:24px !important;--safe-b:12px !important\}/.test(glueEls[0].textContent));
+  gw.__wlInsets(0, 0);
+  ok('对照：重复量到只复用同一个 style 元素（不往 head 里越堆越多）', glueEls.length === 1);
+
+  /* ---- 壳侧「要退到后台了」的显式入口 ----
+   * 不靠 visibilitychange：WebView.onPause() 到底会不会派发它、document.hidden
+   * 那一刻是不是已经 true，都取决于 WebView 版本。用户在阅读页按 home / 锁屏
+   * 是最高频的离开方式，这一步不能赌。 */
+  gw.__wlNativePause();
+  ok('★ __wlNativePause 把「切后台该做的事」都走一遍（结算时长 + 落盘续读位置）',
+    glueFlush.time === 1 && glueFlush.pos === 1);
+  ok('对照：__wlNativePause 不抛（app.js 没加载完时它必须安静地什么都不做）',
+    (() => { try { gw.__wlNativePause(); return true; } catch { return false; } })());
+
+  /* ---- 系统栏图标明暗跟随主题 ----
+   * 不做这件事的后果不是「不完美」而是「看不见」：浅色主题配浅色图标，
+   * 状态栏的时间/电量直接消失。 */
+  ok('★ 胶水首帧就把主题推给壳（明确为浅色）',
+    glueDark.length === 1 && glueDark[0] === false);
+  glueDom.attrs['data-theme'] = 'dark';
+  if (glueDom.observer) glueDom.observer();
+  ok('★ data-theme 变成 dark → 通知壳把系统栏图标改深色（观察者真的挂在 documentElement 上）',
+    glueDark.length === 2 && glueDark[1] === true);
+  if (glueDom.observer) glueDom.observer();
+  ok('对照：主题没再变就不重复通知（不每帧给壳打电话）', glueDark.length === 2);
+}
+
+/* ================= [U] 仓库源文件行尾卫生（2026-09-22） =================
+ * ★ 为什么值得占一条守卫：CRLF 污染**不会让任何一条断言变红** —— 430 条全绿、
+ *   程序照跑、推上线也照样工作。它坏的是**所有基于文本比对的工具**：
+ *   2026-09-22 本轮实测，`tools/audit.js` 被写成 CRLF（2958 个 \r）之后，
+ *   `tools/diff-files.mjs` 报出「远端独有 2470 行 / 本地独有 2773 行」——
+ *   看起来像「远端被人分叉了一场大改」（下一步就是不敢推了），
+ *   其实只是每一行都多了一个 \r。**「推前逐文件比对」这道防线当场退化成噪音**，
+ *   而唯一的线索是一堆大得离谱的数字。
+ *
+ * ★ 判据必须用**二进制**读：`grep -c $'\r'` 在 Git Bash 里会把 \r 当成行尾的一部分剥掉、
+ *   给出 0（假阴性）。同一件事本轮量了两次：grep 说 0，二进制读说 2958。
+ *   （同类：「量尺寸先找项目自己的那把尺子」。）
+ *
+ * ★ 成因：Windows 上用 python **文本模式**（`open(p,'w')`）改写仓库文件，
+ *   会把整个文件的 \n 转成 \r\n。要用 `open(p,'wb')`，或改完立刻转回来。
+ */
+{
+  const exts = /\.(js|mjs|cjs|json|css|html|md|java|xml|webmanifest)$/i;
+  /* 判据是「我们的源文件」不该有 CR，不是「仓库里一个 \r 都不许有」——
+     下面这些目录里的文件合法地可能含 CR（原站抓下来的 HTML、外部快照、本地工作区）。 */
+  const skipDir = /^(\.git|\.bak|\.workbuddy|\.zcode|\.qoder|\.trae|\.tmp|\.coverage-cache|\.examples-cache|_football|_refine|_spot|node_modules|outputs|raw)$/;
+  const skipFile = /^_aesop-raw\.html$/i;   // 抓取残留，含 6,166 个 CR（.gitignore 已拦）
+  const offenders = [];
+  const walkLines = d => {
+    let names;
+    try { names = fs.readdirSync(d); } catch { return; }
+    for (const n of names) {
+      const p = path.join(d, n);
+      let st;
+      try { st = fs.statSync(p); } catch { continue; }
+      if (st.isDirectory()) { if (!skipDir.test(n)) walkLines(p); continue; }
+      if (!exts.test(n) || skipFile.test(n)) continue;
+      const buf = fs.readFileSync(p);
+      let cr = 0;
+      for (const byte of buf) if (byte === 13) cr++;
+      if (cr) offenders.push(`${path.relative(base, p).replace(/\\/g, '/')}(${cr})`);
+    }
+  };
+  walkLines(base);
+  ok('★ 源文件不得含 CR —— CRLF 会让 diff-files / tree-diff 的逐文件比对全线失真'
+    + (offenders.length ? `：${offenders.slice(0, 4).join('、')}${offenders.length > 4 ? ` … 共 ${offenders.length} 个` : ''}` : ''),
+    offenders.length === 0);
+}
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

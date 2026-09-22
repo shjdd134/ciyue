@@ -2,7 +2,29 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（v78，网页侧两项可靠性兜底（APK 审查报告第②③条）：
+ * 缓存策略（v79，为「原生壳里会真坏」的三件事收口）：
+ *   ① 三条生命周期监听原来被套在 `if (shouldRegisterSW(...))` 里 —— 可「切后台结算阅读时长」
+ *      「离开页面落盘续读位置」与 Service Worker 一点关系都没有。**壳里不注册 SW 是对的**
+ *      （壳从 assets 直接拦截出文件，不需要 SW 的取数代理），但这一关把三条监听一起关掉了：
+ *      壳里读十分钟直接切走，**阅读时长与续读位置一个字节都不写**（移动端最高频的漏记场景）。
+ *      SW 不可用的网页环境（http:// 非安全上下文、隐私模式）本来也有同一个洞。
+ *      现移到文件末尾独立的「生命周期」节，那一节不引用任何 serviceWorker API。
+ *   ② 原生数据镜像：localStorage 是壳里唯一的存储，系统「清除数据」会把它整块清掉 ——
+ *      现在 `save()` 的三档（原样 / 裁剪 / 失败）**都**把**完整**状态推给原生 `UserState`
+ *      （壳侧原子写 user-state.json），启动时本地读不到就回落它；
+ *      `importData` 之后也镜像（否则再被清一次，回落读回的是导入前的旧进度）。
+ *      没打壳旗标时一个字节都不碰 —— 网页环境零影响（守卫带这条反向对照）。
+ *   ③ 壳胶水 `mobile/shell-glue.js`（构建期注入 <head> 最前）：Android WebView 的
+ *      `speechSynthesis` 只有壳、没有合成侧（朗读整块不可用）→ 转原生 TTS；
+ *      WebView 里 env(safe-area-inset-*) 可能是恒 0 → 由原生 insets 写 CSS 变量；
+ *      系统返回键默认直接退 App → 改成「先关浮层，没有浮层才退」。
+ *      另接 `__wlNativePause()`：切后台时显式落盘，不赌 visibilitychange 会不会派发。
+ *      守卫 386 → 431（新增「壳里生命周期」「原生数据镜像」「壳胶水」三组，
+ *      外加 [U] 源文件行尾卫生 1 条：CRLF 污染不会让任何断言变红，
+ *      却会让 diff-files / tree-diff 的逐文件比对全线失真）。
+ *   同批产出 Android 壳工程（`mobile/android/` + `tools/build-apk.mjs`，不走 Gradle，
+ *   产物 `mobile/www` 与 `outputs/apk/` 绝不入库 —— 见 .gitignore）。
+ *   上一条 v78 是网页侧两项可靠性兜底（APK 审查报告第②③条）：
  *   ① 落盘收口：`save()` 原来直接 `localStorage.setItem` —— 配额满 / 无痕 / WebView
  *   回收时**直接抛**，异常冒到点击处理器（存储一满，点个词都能把交互打断）。
  *   现在三档：原样写 → 失败则只裁最老的续读位置（readPos/readHistory 留最近 40 篇，
@@ -52,7 +74,7 @@
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-cache-v78";
+const CACHE = "wordlens-cache-v79";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {

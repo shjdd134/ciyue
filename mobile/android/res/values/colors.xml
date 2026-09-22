@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 壳的颜色。
+     ★ 前两个值必须与 assets/styles.css 里的背景变量（background）对齐，
+       现在是浅色 #F7F8FC / 深色 #12121C。对不齐的话，启动那一瞬间与状态栏会跟页面差一档。
+       改了 CSS 的背景色记得回来改这里。
+     （注意：XML 注释里不能出现两个连续的连字符，所以这里不能直接写变量名。） -->
+<resources>
+    <color name="shell_bg">#F7F8FC</color>
+    <color name="shell_bg_dark">#12121C</color>
+    <color name="ic_launcher_background">#285448</color>
+</resources>
