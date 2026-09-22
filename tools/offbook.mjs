@@ -54,7 +54,6 @@ const ESSAYS = [
   { issue: 3, slug: "breakdown-of-firms", cover: "ob-breakdown-of-firms.jpg", grad: "linear-gradient(135deg,#efe2d4 0%,#4a3527 100%)" },
   { issue: 4, slug: "mirage-of-form", cover: "ob-mirage-of-form.jpg", grad: "linear-gradient(135deg,#e6e2f2 0%,#372f4e 100%)" },
   { issue: 5, slug: "teaching-and-training-disqualified", cover: "ob-teaching-and-training-disqualified.jpg", grad: "linear-gradient(135deg,#f0e6dc 0%,#523a2c 100%)" },
-  { issue: 6, slug: "the-future-of-collaboration", grad: "linear-gradient(135deg,#dbe9ea 0%,#1f3b3d 100%)" },
 ];
 const AUTHOR = "Dawei Geng";
 const AUTHOR_ZH = "耿大伟";

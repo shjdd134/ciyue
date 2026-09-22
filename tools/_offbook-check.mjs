@@ -20,7 +20,6 @@ export const SLUGS = [
   ["a03", "breakdown-of-firms"],
   ["a04", "mirage-of-form"],
   ["a05", "teaching-and-training-disqualified"],
-  ["a06", "the-future-of-collaboration"],
 ];
 
 const showAttached = process.argv.includes("--attached");
