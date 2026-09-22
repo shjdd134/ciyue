@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "74");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "75");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1425,15 +1425,20 @@ const articleCard = a => {
   const when = fmtWhen(a.date);
   const tzh = zhTitle(a);
   const done = S.finished.includes(a.id);   // 已读标记：finished 是「已打卡」的去重列表
+  const mins = estMinutes(a);
+  /* 长文给「可分次读」预期：20 分钟以上按一次读不完设计（2026-09-22 v75 用户要求） */
+  const long = mins >= 20;
+  /* 信息顺序（v75）：标题 → 中文辅助 → 人物名 → 栏目/来源 → 时长；「需学 N 词」降为次要位。
+     旧版把栏目 tag 放在最前，扫一列卡片时先看到的全是「人物/人物」而非标题本身。 */
   return `
   <div class="article${a.cat === "人物" ? " people-card" : ""}${done ? " read" : ""}" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读文章：${esc(clean(a.title))}${tzh ? `，${esc(tzh)}` : ""}${done ? "，已读" : ""}">
     ${thumbHtml(a, img)}
     <div class="col grow article-copy" style="gap:6px">
-      <span class="tag">${esc(clean(a.cat))}<span class="tag-separator">/</span>${esc(srcName(a))}${a.cat === "人物" ? ` · ${Number(a.photoCount) || 0} 张摄影` : ""}</span>
-      ${a.personZh ? `<span class="people-name">${esc(a.personZh)}</span>` : ""}
       <div class="t">${esc(clean(a.title))}${done ? ` <span class="read-dot" title="已读完">已读</span>` : ""}</div>
       ${tzh ? `<div class="t-zh">${esc(tzh)}</div>` : ""}
-      <span class="meta article-meta"><span>${estMinutes(a)} 分钟阅读 · 需学 ${needLbl} 词</span><span>${when ? esc(when) : diffTier(articleStats(a).rate).label}</span></span>
+      ${a.personZh ? `<span class="people-name">${esc(a.personZh)}</span>` : ""}
+      <span class="tag">${esc(clean(a.cat))}<span class="tag-separator">/</span>${esc(srcName(a))}${a.cat === "人物" ? ` · ${Number(a.photoCount) || 0} 张摄影` : ""}</span>
+      <span class="meta article-meta"><span>${mins} 分钟阅读${long ? " · 可分次读" : ""}</span><span>需学 ${needLbl} 词${when ? ` · ${esc(when)}` : ` · ${diffTier(articleStats(a).rate).label}`}</span></span>
     </div>
   </div>`;
 };
@@ -1544,7 +1549,9 @@ function renderHome() {
   const leadPhoto = pickEditorialLead();
   const lead = (leadPhoto && leadPhoto.a) || ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || reads[0];
   const categories = CATEGORIES.filter(c => c !== "全部" && ARTICLES.some(a => a.cat === c));
-  /* 阅读主页：上次读到 → 今日推荐 → 分类入口 → 轻量阅读统计 */
+  /* 阅读主页 v75 顺序：问候 → 继续阅读（紧凑卡）→ 本期精选 → 今日推荐 → 兴趣分类。
+     旧版续读卡藏在右侧栏（推荐之后），手机上几乎不可达；统计大数字缩成轻量一行，
+     完整统计归「我的」。 */
   return `
     ${statusbar()}
     <div class="view home-view">
@@ -1552,6 +1559,26 @@ function renderHome() {
         <div><div class="eyebrow">A LITTLE READING, EVERY DAY</div><h1>读英文，也读世界<span class="title-period">。</span></h1><p>${greet}，从一篇好文章开始，让英语走进日常。</p></div>
         <div class="reading-date"><span>YOUR DAILY PAGES</span><b>${new Date().toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "long", day: "numeric" })}</b><small>${examCountdownLabel()}</small></div>
       </header>
+
+      <section class="home-resume">${last ? `
+        <button class="card resume-card" data-article="${last.id}" role="button" tabindex="0" aria-label="继续阅读：${esc(clean(last.title))}">
+          <span class="rc-chip">${svg("book", 12)} 继续阅读${S.lastRead.at ? " · " + esc(fmtWhen(new Date(S.lastRead.at).toISOString().slice(0, 10))) : ""}</span>
+          <span class="rc-title">${esc(clean(last.title))}</span>
+          ${zhTitle(last) ? `<span class="rc-zh">${esc(zhTitle(last))}</span>` : ""}
+          <span class="rc-meta">
+            <span class="chip">${esc(last.cat)}</span>
+            <span class="rc-bar"><span style="width:${Math.max(2, S.lastRead.pct || 2)}%"></span></span>
+            <span class="rc-pct">${S.lastRead.pct ? "读到 " + S.lastRead.pct + "%" : "刚开始"}</span>
+            <span class="rc-go">继续 ${svg("arrow", 12)}</span>
+          </span>
+        </button>` : `
+        <button class="card resume-card" data-act="go-discover" role="button" tabindex="0" aria-label="去发现页挑一篇文章">
+          <span class="rc-chip">${svg("book", 12)} 开始阅读</span>
+          <span class="rc-title">从今天的一篇文章开始</span>
+          <span class="rc-meta"><span class="chip">${ARTICLES.length} 篇可选</span><span class="rc-go">去挑一篇 ${svg("arrow", 12)}</span></span>
+        </button>`}
+      </section>
+
       ${editorialFeature(lead, "本期精选", leadPhoto)}
 
       <div class="home-reading-layout">
@@ -1561,25 +1588,7 @@ function renderHome() {
       </section>
       <aside class="reading-sidebar">
       <div class="section-heading"><div><span class="eyebrow">YOUR READING SPACE</span><h2>留一点时间给阅读</h2></div></div>
-      <div class="reading-stats">
-        <div><strong>${done}</strong><span>已读完 / 篇</span></div><div><strong>${mins}</strong><span>累计阅读 / 分钟</span></div>
-      </div>
-
-      ${last ? `<button class="card resume-card" data-article="${last.id}" role="button" tabindex="0" aria-label="继续阅读：${esc(clean(last.title))}">
-        <span class="rc-chip">${svg("book", 12)} 上次读到${S.lastRead.at ? " · " + esc(fmtWhen(new Date(S.lastRead.at).toISOString().slice(0, 10))) : ""}</span>
-        <span class="rc-title">${esc(clean(last.title))}</span>
-        ${zhTitle(last) ? `<span class="rc-zh">${esc(zhTitle(last))}</span>` : ""}
-        <span class="rc-meta">
-          <span class="chip">${esc(last.cat)}</span>
-          <span class="rc-bar"><span style="width:${Math.max(2, S.lastRead.pct || 2)}%"></span></span>
-          <span class="rc-pct">${S.lastRead.pct ? "读到 " + S.lastRead.pct + "%" : "刚开始"}</span>
-          <span class="rc-go">继续 ${svg("arrow", 12)}</span>
-        </span>
-      </button>` : `<button class="card resume-card" data-act="go-discover" role="button" tabindex="0" aria-label="去发现页挑一篇文章">
-        <span class="rc-chip">${svg("book", 12)} 开始阅读</span>
-        <span class="rc-title">从今天的一篇文章开始</span>
-        <span class="rc-meta"><span class="chip">${ARTICLES.length} 篇可选</span><span class="rc-go">去挑一篇 ${svg("arrow", 12)}</span></span>
-      </button>`}
+      <div class="reading-stats-lite">已读完 <b>${done}</b> 篇 · 累计阅读 <b>${mins}</b> 分钟 · 完整统计在「我的」</div>
 
       <div class="reading-note"><span class="note-icon">${svg("book", 24)}</span><p>不急着读完，<br>让每一次阅读都有收获。</p><span>点词查义 · 中英对照 · 自动续读</span></div>
       </aside>
@@ -1597,6 +1606,27 @@ const clipList = items => items.slice(0, shown);
 const moreRow = (items, act) => items.length > shown
   ? `<button class="more-row" data-act="${act}" role="button" tabindex="0">显示更多 · 还有 ${items.length - shown} 篇</button>`
   : "";
+
+/* 发现页「编辑精选」紧凑横卡（v75）：旧版复用首页的 editorialFeature 大块，
+ * 与首页视觉完全重复、还把文章列表推到第二屏开外。横卡一行放得下：
+ * 图（方裁）+ 标题 + 中文 + 栏目·时长，点击整卡进文章。 */
+const compactFeature = a => {
+  const img = coverOf(a);
+  const tzh = zhTitle(a);
+  const mins = estMinutes(a);
+  return `<button class="compact-feature" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读编辑精选：${esc(clean(a.title))}">
+    ${img
+      ? `<img class="cf-img" src="${esc(img)}" alt="" loading="lazy" decoding="async">`
+      : `<span class="cf-img cf-fallback" style="background:${esc(a.gradient || "var(--brand-soft)")}" aria-hidden="true">W.</span>`}
+    <span class="cf-copy">
+      <span class="eyebrow">编辑精选<span class="eyebrow-divider">/</span>${esc(a.cat)}</span>
+      <span class="cf-title">${esc(clean(a.title))}</span>
+      ${tzh ? `<span class="cf-zh">${esc(tzh)}</span>` : ""}
+      <span class="cf-meta">${esc(srcName(a))} · ${mins} 分钟阅读${mins >= 20 ? " · 可分次读" : ""}</span>
+    </span>
+    <span class="cf-go" aria-hidden="true">${svg("arrow", 14)}</span>
+  </button>`;
+};
 
 function renderDiscover() {
   const q = searchTerm.trim().toLowerCase();
@@ -1621,27 +1651,12 @@ function renderDiscover() {
   const byDate = ARTICLES.slice().sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
   const featured = isAll ? (byDate.find(a => coverOf(a)) || byDate[0]) : null;
 
-  /* 分类入口网格：两列紧凑铺开，六个分类一屏内全部可选 —— 取代原先
-     纵向堆叠、要看历史/娱乐必须一路下滑的「大栏」 */
-  const catGridHtml = isAll ? `<section class="cat-browse">
-    <div class="sec-head">
-      <span class="sec-t">按分类浏览</span>
-      <span class="sec-s">${ARTICLES.length} 篇，慢慢读</span>
-    </div>
-    <div class="cat-grid">
-      ${catList.map(cat => {
-        const meta = CAT_META[cat] || { icon: "doc", bg: "var(--brand)" };
-        const items = ARTICLES.filter(a => a.cat === cat);
-        if (!items.length) return "";   // 空分类不占磁贴（有内容自动回来）
-        const lead = items.find(a => coverOf(a));
-        return `<button class="cat-tile${lead ? " has-img" : ""}" data-cat="${cat}">
-          <span class="ct-bg" style="${lead ? `background-image:url('${esc(coverOf(lead))}')` : `background:${esc(meta.bg)}`}"></span>
-          <span class="ct-ic">${svg(meta.icon, 13)}</span>
-          <span class="ct-txt"><b>${cat}</b><i>${items.length} 篇</i></span>
-        </button>`;
-      }).join("")}
-    </div>
-  </section>` : "";
+  /* 「全部」视图 = 编辑精选（紧凑横卡）+ 最新更新。
+     v75 删掉了「按分类浏览」磁贴网格：分类入口与顶部分类标签是**重复的两套**，
+     磁贴又把文章列表推到第二屏开外 —— 现在分类入口只有顶部标签一处。
+     （原 catGridHtml 生成段已删；磁贴样式 .cat-browse/.cat-grid 留在 CSS 里给
+     `残骸守卫`盯 —— 见 audit [H4]。） */
+  const catGridHtml = "";
 
   /* 最新更新 / 排序结果：全部视图下的混合流（精选已单独置顶，这里不重复）
      默认给「最新 5 篇」；切了排序就换成完整的排序结果，让「筛选」按钮真的起作用 */
@@ -1683,7 +1698,7 @@ function renderDiscover() {
   const wordsHtml = results.length ? `<div class="card col" style="gap:10px">
     <span class="muted-2">匹配到 ${results.length} 个四级词</span>
     ${results.map(w => `<div class="row" data-act="lookup" data-word="${w.word}" role="button" tabindex="0" aria-label="查看单词 ${esc(w.word)}" style="padding:8px 0;border-bottom:1px solid var(--line)">
-      <div class="col"><span style="font-family:var(--font-en);font-weight:600;font-size:14px">${w.word}</span><span class="phonetic" style="font-size:11px">${w.phonetic}</span></div>
+      <div class="col"><span style="font-family:var(--font-en);font-weight:600;font-size:14px">${w.word}</span><span class="phonetic">${w.phonetic}</span></div>
       <div class="grow" style="text-align:right;font-size:12px;color:var(--text-2)">${esc(w.def)}</div>
     </div>`).join("")}
   </div>` : "";
@@ -1724,7 +1739,6 @@ function renderDiscover() {
         <div><div class="eyebrow">THE READING COLLECTION</div><h1>发现好文章<span class="title-period">。</span></h1><p>循着好奇心，找到下一篇想读的故事。</p></div>
         <div class="row" style="gap:8px">
           <span class="icon-btn" data-act="theme" title="切换深浅色" role="button" tabindex="0" aria-label="切换深浅色">${svg(S.theme === "dark" ? "sun" : "moon", 16)}</span>
-          <span class="icon-btn${sortBy === "new" ? "" : " active"}" data-act="filter" title="排序：${SORTS[sortBy]}" role="button" tabindex="0" aria-label="切换文章排序，当前为${SORTS[sortBy]}">${svg("filter", 16)}</span>
         </div>
       </header>
       <div class="search">${svg("search", 16)}
@@ -1737,13 +1751,14 @@ function renderDiscover() {
             return `<button class="cat ${c === catFilter ? "on" : ""}" data-cat="${c}" style="--cat:${col}" role="tab" aria-selected="${c === catFilter}">${c}</button>`;
           }).join("")}
         </div>
+        <button class="sort-text" data-act="filter" title="切换排序" role="button" tabindex="0" aria-label="切换排序，当前为${SORTS[sortBy]}">${svg("filter", 13)} ${SORTS[sortBy]}</button>
       </div>
 
       ${wordsHtml}
       ${artHitsHtml}
       ${emptyHtml}
       ${lastHtml}
-      ${featured ? editorialFeature(featured, "编辑精选") : ""}
+      ${featured ? compactFeature(featured) : ""}
       ${catGridHtml}
       ${isAll ? `<div class="lib">
         <div class="ic">${svg("cards", 20)}</div>
@@ -1923,12 +1938,21 @@ function renderNotebook() {
     </div>`;
 }
 
+/* 「我的」页 2026-09-22 v75 重排。旧顺序是 档案卡 → 记录 → 概况 → 图表 → 词库卡 →
+ * 词汇 → 备份 → 关于，统计分散在三处（档案卡「已读完 N 篇」、概况卡、图表卡日均）、
+ * 口径互相混淆，词库总量（4,082）出现在个人页里却不是个人成果。
+ * 新顺序：阅读概况（累计 / 近 7 天 两组口径）→ 阅读记录 + 我的词汇（最常去的两个入口）
+ * → 近 7 天趋势 → 数据与备份 → 关于词阅（三层：简介 / 功能 / 数据说明）。
+ * 四级词库规模移进「关于 · 内容与数据说明」，个人页不再重复展示。 */
 function renderMe() {
   const week = last7();
   const max = Math.max(1, ...week.map(d => d.mins));
   const weekMins = week.reduce((a, d) => a + d.mins, 0);
   const avg = Math.round(weekMins / 7);
   const notebookWords = wordsOf(S.notebook || []);
+  const readSet = new Set([...Object.keys(S.readHistory || {}), ...Object.keys(S.readPos || {}), ...(S.read || []), ...(S.finished || [])]);
+  /* 新用户空态：没有任何阅读痕迹时，趋势图画一排 0 没有信息量，用一句引导替代 */
+  const hasAny = readSet.size > 0 || notebookWords.length > 0;
   return `
     ${statusbar()}
     <div class="view me-view">
@@ -1937,33 +1961,41 @@ function renderMe() {
         <span class="icon-btn" data-act="theme" role="button" tabindex="0" aria-label="切换深浅色" title="切换深浅色">${svg(S.theme === "dark" ? "sun" : "moon", 16)}</span>
       </header>
 
-      <div class="card row reader-profile" style="gap:14px;padding:16px">
-        <div style="width:50px;height:50px;border-radius:25px;background:var(--brand-soft);color:var(--brand);display:flex;align-items:center;justify-content:center" aria-hidden="true">${svg("user", 22)}</div>
-        <div class="col grow" style="gap:4px">
-          <div class="h2">每一页，都是新的开始</div>
-          <div class="muted">已读完 ${S.finished.length} 篇 · 词库 ${WORDS.length.toLocaleString()} 词</div>
+      <div class="card col overview-card" style="gap:14px">
+        <div class="row between"><span class="h2">阅读概况</span>${hasAny ? "" : `<span class="muted-2">还没有记录，从一篇开始</span>`}</div>
+        <div class="ov-group">
+          <span class="ov-label">累计</span>
+          <div class="stat-grid">
+            <div class="stat good"><div class="n">${S.finished.length}</div><div class="l">读完篇数</div></div>
+            <div class="stat"><div class="n">${readingStreakDays()}</div><div class="l">连续天数</div></div>
+            <div class="stat"><div class="n">${notebookWords.length}</div><div class="l">收藏生词</div></div>
+          </div>
+        </div>
+        <div class="ov-group">
+          <span class="ov-label">近 7 天</span>
+          <div class="stat-grid">
+            <div class="stat"><div class="n">${weekMins}</div><div class="l">阅读分钟</div></div>
+            <div class="stat"><div class="n">${avg}</div><div class="l">日均分钟</div></div>
+          </div>
         </div>
       </div>
 
-      <button class="card row history-entry" data-act="read-history" aria-label="打开阅读记录">
-        <span class="ic">${svg("book", 20)}</span>
-        <span class="col grow" style="gap:3px"><span class="h3">阅读记录</span><span class="muted">${new Set([...Object.keys(S.readHistory || {}), ...Object.keys(S.readPos || {}), ...(S.read || []), ...(S.finished || [])]).size} 篇读过的文章 · 查看每篇进度并继续阅读</span></span>
-        ${svg("arrow", 16)}
-      </button>
-
-      ${installEvt ? `<button class="btn-primary" data-act="pwa-install" style="width:100%">${svg("check", 16)} 添加到主屏幕</button>` : ""}
-      ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2" style="font-size:12px">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
-
-      <div class="card col overview-card" style="gap:12px">
-        <div class="row between"><span class="h2">阅读总览</span><span class="muted-2">近 7 天</span></div>
-        <div class="stat-grid">
-           <div class="stat"><div class="n">${readingStreakDays()}</div><div class="l">连续阅读天</div></div>
-          <div class="stat"><div class="n">${weekMins}</div><div class="l">分钟</div></div>
-          <div class="stat good"><div class="n">${S.finished.length}</div><div class="l">读完篇</div></div>
-          <div class="stat"><div class="n">${notebookWords.length}</div><div class="l">生词本</div></div>
-        </div>
+      <div class="me-entries">
+        <button class="card row history-entry" data-act="read-history" aria-label="打开阅读记录">
+          <span class="ic">${svg("book", 20)}</span>
+          <span class="col grow" style="gap:3px"><span class="h3">阅读记录</span><span class="muted">${readSet.size} 篇读过的文章 · 查看进度并继续阅读</span></span>
+          ${svg("arrow", 16)}
+        </button>
+        <button class="card row history-entry" data-act="open-notebook" aria-label="打开我的词汇">
+          <span class="ic">${svg("bookmark", 20)}</span>
+          <span class="col grow" style="gap:3px"><span class="h3">我的词汇</span><span class="muted">${notebookWords.length} 个生词 · 带原句与遇词次数</span></span>
+          ${svg("arrow", 16)}
+        </button>
+        ${installEvt ? `<button class="btn-primary" data-act="pwa-install" style="width:100%">${svg("check", 16)} 添加到主屏幕</button>` : ""}
+        ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
       </div>
 
+      ${hasAny ? `
       <div class="card col chart-card" style="gap:12px">
         <div class="row between"><span class="h2">近 7 天阅读</span><span class="muted-2">日均 ${avg} 分钟</span></div>
         <div class="bars">
@@ -1972,52 +2004,56 @@ function renderMe() {
             <span class="${d.today ? "today" : ""}">${d.label}</span>
           </div>`).join("")}
         </div>
-      </div>
-
-      <div class="card row" style="gap:12px;padding:14px 16px">
-        <div class="ic">${svg("cards", 20)}</div>
-        <div class="col grow" style="gap:4px">
-          <div class="t">四级词库</div>
-          <div class="s">${WORDS.length.toLocaleString()} 词 · 阅读中点击单词即可查义</div>
-        </div>
-      </div>
-
-      <button class="card row history-entry" data-act="open-notebook" aria-label="打开我的词汇">
-        <span class="ic">${svg("bookmark", 20)}</span>
-        <span class="col grow" style="gap:3px"><span class="h3">我的词汇</span><span class="muted">${notebookWords.length} 个生词 · 带原句与遇词次数</span></span>
-        ${svg("arrow", 16)}
-      </button>
+      </div>` : `
+      <div class="card col chart-card" style="gap:10px">
+        <span class="h2">阅读趋势</span>
+        <span class="muted">读完第一篇文章后，这里会画出你最近 7 天的阅读曲线。</span>
+        <button class="btn-primary" data-tab="discover" style="align-self:flex-start">去发现页挑一篇 ${svg("arrow", 16)}</button>
+      </div>`}
 
       <section class="journal-settings">
-      <div class="row between" style="margin-top:4px">
+      <div class="row between">
         <span class="h3">数据与备份</span>
         <span class="row" style="gap:14px">
           <span class="link" data-act="export-data" role="button" tabindex="0">导出备份</span>
           <span class="link" data-act="import-data" role="button" tabindex="0">导入备份</span>
         </span>
       </div>
-      <div class="muted-2" style="font-size:11.5px;line-height:18px">
-        进度只存在这台设备的浏览器里。换设备或清缓存前先导出，之后可以导回来。
+      <div class="muted-2">
+        阅读记录与生词保存在当前浏览器中，换设备或清理数据前，请先导出备份，之后可以导回来。
       </div>
-      <div class="row between" style="margin-top:6px">
-        <span class="h3">危险操作</span>
+      <div class="row between">
+        <span class="h3">清空记录</span>
         <span class="link danger" data-act="ask-reset" role="button" tabindex="0">清空阅读记录</span>
       </div>
       </section>
 
       <section class="journal-about">
-      <div class="row between" style="margin-top:10px">
-        <span class="h3">关于</span>
+      <div class="row between"><span class="h2">关于词阅</span></div>
+      <div class="about-body">
+        <p class="about-slogan">从感兴趣的文章开始，让英语阅读成为日常。</p>
+        <p>词阅是一个面向英语学习者的阅读工具，尤其关注四级学习阶段的阅读需求。你可以从人物、成长、足球和 AI 等主题中选择文章，在完整语境中阅读和积累词汇。</p>
+        <p>遇到不认识的词，可以点词查义；需要理解句意时，可以查看中文对照。想记住的词可以收进生词本，没读完的文章也能下次接着读。</p>
+        <p>这是一个持续完善的个人学习项目，希望让阅读更容易开始，也更容易坚持。</p>
       </div>
-      <div class="muted-2" style="font-size:11.5px;line-height:18px">
-        个人学习项目，仅供学习交流，不作商业用途。<br>
-        词库分两层：中学基础 ${MID_WORDS.length.toLocaleString()} 词（初中 + 高中，补高中欠账）→ 四级核心 ${CORE_WORDS.length.toLocaleString()} 词。<br>
-        四级核心：按「语料词频 + 历年真题高频」从四级大纲筛出的约 2000 词；词频与音标来自 ECDICT（MIT）。<br>
-        中学基础：KyleBing/english-vocabulary 分级词库；其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。<br>
-        真题词频：liut969/CET《英语四级真题高频词汇》（近 5 年 30 套真题统计）· exam-data/CETVocabulary（约 200 套试卷词频，CC BY-NC-SA 4.0）。<br>
-        单词例句：KyleBing/english-vocabulary · Tatoeba（CC-BY 2.0）· 原刊文章。<br>
-        当前收录成长主题英文文章与人物原刊全文。人物正文按公开页面抓取并过滤广告/导航，图片保留来源与摄影署名；原文变化时需重新复核。
+      <div class="about-feats">
+        <div class="row"><span class="ic">${svg("tap", 16)}</span><span><b>点词查义</b> —— 阅读中点击任意单词，即时查看释义与音标</span></div>
+        <div class="row"><span class="ic">${svg("globe", 16)}</span><span><b>中英对照</b> —— 逐句查看中文对照，理解长难句</span></div>
+        <div class="row"><span class="ic">${svg("bookmark", 16)}</span><span><b>生词收藏</b> —— 查过的词一键收进生词本，带原句回顾</span></div>
+        <div class="row"><span class="ic">${svg("book", 16)}</span><span><b>自动续读</b> —— 没读完的文章记住位置，下次接着读</span></div>
       </div>
+      <details class="about-details">
+        <summary>内容与数据说明</summary>
+        <div class="about-src">
+          <p>词库分两层：中学基础 ${MID_WORDS.length.toLocaleString()} 词（初中 + 高中，补充中学基础词汇）→ 四级核心 ${CORE_WORDS.length.toLocaleString()} 词。</p>
+          <p>四级核心按「语料词频 + 历年真题高频」从四级大纲筛出；词频与音标来自 <a href="https://github.com/skywind3000/ECDICT" target="_blank" rel="noopener">ECDICT</a>（MIT）。</p>
+          <p>中学基础词库来自 <a href="https://github.com/KyleBing/english-vocabulary" target="_blank" rel="noopener">KyleBing/english-vocabulary</a>，其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。</p>
+          <p>真题词频：<a href="https://github.com/liut969/CET" target="_blank" rel="noopener">liut969/CET</a>（近 5 年 30 套真题统计）· <a href="https://github.com/exam-data/CETVocabulary" target="_blank" rel="noopener">exam-data/CETVocabulary</a>（约 200 套试卷词频，CC BY-NC-SA 4.0）。</p>
+          <p>单词例句：KyleBing/english-vocabulary · <a href="https://tatoeba.org" target="_blank" rel="noopener">Tatoeba</a>（CC-BY 2.0）· 原刊文章。</p>
+          <p>内容与配图：AI 栏目文章与中文对照取自 <a href="https://offbook.press" target="_blank" rel="noopener">Offbook Press</a> 官方中英双语，仅抽取未改写；人物等栏目正文按公开页面抓取并过滤广告与导航，图片保留来源与摄影署名，原文变化时需重新复核。</p>
+          <p>个人学习项目，仅供学习交流，不作商业用途。</p>
+        </div>
+      </details>
       </section>
       <footer class="editorial-footer"><span>WordLens / 词阅</span><span>A journal of your curiosity.</span></footer>
     </div>`;
@@ -2137,8 +2173,7 @@ function renderRead() {
         <h1 class="title">${esc(clean(a.title))}</h1>
         ${aZh ? `<div class="title-zh">${esc(aZh)}</div>` : ""}
         <div class="byline">
-          <span>${esc(clean(a.cat))}</span><span class="dot"></span><span>${esc(srcName(a))}</span>
-          <span class="dot"></span><span>${dur} 分钟 · ${tier.label}</span>
+          <span>${esc(srcName(a))}</span><span class="dot"></span><span>${dur} 分钟 · ${tier.label}</span>
           <span class="dot"></span><span>需学 ${hitsLbl} 词 · 低频词 ${ratePct}%</span>
         </div>
         ${a.translationCredit ? `<div class="translation-credit">${esc(a.translationCredit)}</div>` : ""}
@@ -2638,7 +2673,7 @@ function resetSheet() {
         <span style="width:34px;height:34px;border-radius:17px;background:var(--red-bg);color:var(--red);display:flex;align-items:center;justify-content:center;flex:none">${svg("trash", 17)}</span>
         <div class="col" style="gap:2px">
           <div class="h2">清空阅读记录？</div>
-          <span class="muted-2" style="font-size:11.5px">生词本 ${S.notebook.length} 词 · 读完 ${S.finished.length} 篇</span>
+          <span class="muted-2">生词本 ${S.notebook.length} 词 · 读完 ${S.finished.length} 篇</span>
         </div>
       </div>
       <div class="muted" style="font-size:12.5px;line-height:20px">

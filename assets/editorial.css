@@ -103,13 +103,30 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 .tabbar .nav-end button { flex: none; width: 36px; height: 36px; border: 1px solid var(--border); border-radius: 50%; color: var(--text-2); }
 
 /* Feature spread: portrait and title each have their own room. */
-.editorial-feature { display: grid; grid-template-columns: 1.05fr 1fr; min-height: 390px; border-radius: 16px; overflow: hidden; background: var(--brand-deep); border: 1px solid var(--line); }
-.editorial-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 42px 44px; min-width: 0; }
-.editorial-copy h2 { margin: 24px 0 16px; font: 500 clamp(24px, 2.45vw, 34px)/1.55 var(--font-editorial); color: var(--text-1); text-wrap: pretty; }
+/* min-height 390→350（v75 留白压缩：让今日推荐在首屏露一条，模块间留白交给 .view gap） */
+.editorial-feature { display: grid; grid-template-columns: 1.05fr 1fr; min-height: 350px; border-radius: 16px; overflow: hidden; background: var(--brand-deep); border: 1px solid var(--line); }
+.editorial-copy { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 34px 36px; min-width: 0; }
+.editorial-copy h2 { margin: 18px 0 12px; font: 500 clamp(24px, 2.45vw, 34px)/1.55 var(--font-editorial); color: var(--text-1); text-wrap: pretty; }
 .editorial-en { margin: 0; font: 400 15px/1.65 var(--font-editorial); color: var(--text-2); }
-.editorial-credit { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; font: 11px/1.6 var(--font-en), var(--font-cn); color: var(--text-2); }
-.editorial-cta { display: inline-flex; align-items: center; gap: 24px; border: 0; border-radius: 6px; margin-top: 22px; padding: 13px 20px; min-height: 45px; background: #285448; color: #fffefa; font-size: 12px; cursor: pointer; transition: background .18s, transform .18s; }
+.editorial-credit { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; font: 12px/1.6 var(--font-en), var(--font-cn); color: var(--text-2); }
+.editorial-cta { display: inline-flex; align-items: center; gap: 24px; border: 0; border-radius: 6px; margin-top: 16px; padding: 12px 20px; min-height: 43px; background: #285448; color: #fffefa; font-size: 12px; cursor: pointer; transition: background .18s, transform .18s; }
 .editorial-cta:hover { background: #1d4237; transform: translateY(-2px); }
+
+/* ---------- 发现页「编辑精选」紧凑横卡（v75）---------- */
+.compact-feature {
+  display: flex; align-items: center; gap: 14px;
+  border: 1px solid var(--line); background: var(--card); border-radius: var(--r-lg);
+  padding: 12px; cursor: pointer; text-align: left; font-family: var(--font-cn);
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.compact-feature:hover { box-shadow: var(--shadow-2); transform: translateY(-1px); }
+.compact-feature .cf-img { flex: none; width: 92px; height: 92px; border-radius: 10px; object-fit: cover; object-position: center 25%; }
+.compact-feature .cf-fallback { display: flex; align-items: center; justify-content: center; color: #fff; font: 400 22px var(--font-editorial); }
+.compact-feature .cf-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.compact-feature .cf-title { font: 500 16px/1.5 var(--font-editorial); color: var(--text-1); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.compact-feature .cf-zh { font-size: 12px; color: var(--text-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.compact-feature .cf-meta { font-size: 11px; color: var(--text-3); }
+.compact-feature .cf-go { flex: none; color: var(--text-3); }
 .editorial-photo { position: relative; display: block; border: 0; padding: 0; overflow: hidden; min-width: 0; min-height: 300px; background: var(--card-2); cursor: pointer; }
 .editorial-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 27%; transition: transform .5s ease; }
 .editorial-photo:hover img { transform: scale(1.025); }
@@ -137,10 +154,9 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 .reading-sidebar { padding-left: 28px; border-left: 1px solid var(--border); display: flex; flex-direction: column; gap: 20px; }
 .reading-sidebar .section-heading { padding-bottom: 0; }
 .reading-sidebar .section-heading h2 { font-size: 18px; }
-.reading-stats { display: flex; gap: 30px; padding-bottom: 18px; border-bottom: 1px solid var(--border); }
-.reading-stats > div { display: flex; flex-direction: column; gap: 4px; }
-.reading-stats strong { font: 400 34px var(--font-editorial); color: var(--brand); }
-.reading-stats span { font-size: 10px; color: var(--text-2); }
+/* 统计缩成轻量一行（v75）：完整统计归「我的」，首页只留一眼可扫的数字 */
+.reading-stats-lite { font-size: 12px; color: var(--text-3); padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+.reading-stats-lite b { font: 400 17px var(--font-editorial); color: var(--brand); font-weight: 400; }
 .resume-card { border: 1px solid var(--border); background: var(--card); padding: 18px; border-radius: 10px; box-shadow: none; gap: 10px; }
 .resume-card .rc-title { font: 500 16px/1.6 var(--font-editorial); }
 .resume-card .rc-zh { line-height: 1.8; }
@@ -165,13 +181,14 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 /* Discovery, history and personal journal share the same rhythm. */
 .discover-view .search { max-width: 650px; width: 100%; margin: 0; min-height: 48px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; box-shadow: none; }
 .search input { font-size: 14px; min-width: 0; }
-.cats-wrap { position: sticky; top: -1px; background: var(--bg); padding: 10px 0; margin: -12px 0 -6px; border-bottom: 1px solid var(--border); z-index: 5; }
-.cats { gap: 8px; }
+.cats-wrap { position: sticky; top: -1px; background: var(--bg); padding: 10px 0; margin: -12px 0 -6px; border-bottom: 1px solid var(--border); z-index: 5; display: flex; align-items: center; gap: 10px; }
+.cats { flex: 1; min-width: 0; gap: 8px; }
 .cat { min-height: 38px; padding: 8px 20px; font-size: 12px; border-radius: 6px; background: transparent; border-color: transparent; color: var(--text-2); }
 .cat.on { background: var(--brand-soft); border-color: transparent; color: var(--brand); box-shadow: none; }
-.cat-grid { gap: 20px; }
-.cat-tile { height: 128px; border-radius: 12px; }
-.cat-tile .ct-txt b { font: 500 25px var(--font-editorial); }
+/* 排序改成文字入口（v75）：图标按钮要靠猜，「最新发布」这种词一眼懂。
+ * 仍走 data-act="filter" 的浮层，行为没变。 */
+.sort-text { display: inline-flex; align-items: center; gap: 5px; flex: none; border: 1px solid var(--border); background: var(--card); color: var(--text-2); font-size: 12px; font-family: var(--font-cn); border-radius: 6px; padding: 8px 12px; cursor: pointer; }
+.sort-text:hover { color: var(--brand); border-color: var(--brand); }
 .cat-section { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
 .cat-section > :not(.article) { grid-column: 1 / -1; }
 .cat-section .cat-head { margin-bottom: 2px; }
@@ -186,15 +203,41 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 .me-view { display: grid; grid-template-columns: 1fr 1fr; align-content: start; column-gap: 24px !important; }
 .me-view > * { grid-column: 1 / -1; }
 .me-view .overview-card, .me-view .chart-card { grid-column: auto; padding: 26px; }
-.me-view .reader-profile { padding: 24px !important; background: var(--brand-deep); }
+/* 概况与趋势在桌面并排（手机上是前后两个模块，不并）；显式定位到同一行，中间的
+ * 记录/词汇入口自动落到下一行整幅。手机端（<760）单列，这条不进查询、天然不生效。 */
+@media (min-width: 760px) {
+  .me-view .overview-card { grid-row: 2; grid-column: 1; }
+  .me-view .chart-card { grid-row: 2; grid-column: 2; }
+}
 .me-view .history-entry { padding: 24px; color: var(--text); }
+.me-entries { display: flex; flex-direction: column; gap: 12px; }
 .journal-settings { padding: 24px; border: 1px solid var(--line); background: var(--card); border-radius: 12px; display: flex; flex-direction: column; gap: 18px; }
 .journal-settings > .row:last-child { border-top: 1px solid var(--line); padding-top: 18px; }
-.journal-about { padding: 8px 0; display: flex; flex-direction: column; gap: 14px; }
-.journal-about .muted-2 { line-height: 1.9 !important; }
+
+/* ---------- 关于词阅：三层（简介默认展开 / 功能四条 / 数据说明可折叠） ----------
+ * 2026-09-22 v75 重写。旧版是一堵 .muted-2 11.5px 小字墙 —— 词库规则、来源、许可
+ * 混在一起，普通用户找不到「这个项目是干什么的」。现在先讲用途再讲来源。 */
+.journal-about { padding: 8px 0 0; display: flex; flex-direction: column; gap: 16px; }
+.about-body p { margin: 0 0 10px; font-size: 14px; line-height: 1.8; color: var(--text-2); }
+.about-body p:last-child { margin-bottom: 0; }
+.about-slogan { font-size: 15px; font-weight: 600; color: var(--text-1) !important; }
+.about-feats { display: flex; flex-direction: column; gap: 12px; }
+.about-feats .row { gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.6; color: var(--text-2); }
+.about-feats .ic { flex: none; width: 32px; height: 32px; border-radius: 16px; background: var(--brand-soft); color: var(--brand); display: flex; align-items: center; justify-content: center; }
+.about-feats b { color: var(--text-1); font-weight: 600; }
+.about-details { border-top: 1px solid var(--line); padding-top: 14px; }
+.about-details summary { cursor: pointer; font-size: 13px; font-weight: 500; color: var(--brand); list-style: none; }
+.about-details summary::-webkit-details-marker { display: none; }
+.about-details summary::before { content: "▸"; font-size: 11px; margin-right: 6px; }
+.about-details[open] summary::before { content: "▾"; }
+.about-src { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+.about-src p { margin: 0; font-size: 12px; line-height: 1.8; color: var(--text-3); }
+.about-src a { color: var(--brand); text-decoration: none; }
+.about-src a:hover { text-decoration: underline; }
+
 .stat-grid { gap: 12px; }
 .stat .n { color: var(--brand); font: 400 30px var(--font-editorial); }
-.stat .l { font-size: 11px; }
+.stat .l { font-size: 12px; }
 .bars { height: 104px; align-items: end; }
 .bar-col { flex: 1; }
 .bar { min-height: 2px; width: 24px; border-radius: 4px 4px 0 0; background: var(--brand-soft); }
@@ -270,7 +313,7 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 
 @media (min-width: 760px) and (max-width: 1050px) {
   .nav-end > span { display: none; }
-  .editorial-copy { padding: 28px; }
+  .editorial-copy { padding: 24px; }
   .home-reading-layout { gap: 24px; grid-template-columns: minmax(0, 1fr) 240px; }
   .reading-sidebar { padding-left: 20px; }
   .article-grid { grid-template-columns: 1fr; }
@@ -295,8 +338,8 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
   .editorial-feature { min-height: 0; grid-template-columns: 1fr; border-radius: 12px; }
   .editorial-photo { grid-row: 1; height: 280px; min-height: 0; }
   .editorial-photo img { object-position: center 25%; }
-  .editorial-copy { padding: 26px; }
-  .editorial-copy h2 { font-size: 25px; line-height: 1.6; margin: 18px 0 12px; }
+  .editorial-copy { padding: 22px; }
+  .editorial-copy h2 { font-size: 25px; line-height: 1.6; margin: 14px 0 10px; }
   .editorial-en { font-size: 14px; }
   .editorial-credit { margin-top: 18px; font-size: 10px; }
   .editorial-cta { margin-top: 18px; width: 100%; justify-content: space-between; }
@@ -309,21 +352,18 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
   .article > .article-copy, .article.people-card > .article-copy { padding: 16px; }
   .article .t { font-size: 18px; }
   .reading-sidebar { border-left: 0; border-top: 1px solid var(--border); padding: 24px 0 0; gap: 18px; }
-  .reading-stats { gap: 48px; }
   .reading-note { display: none; }
   .topic-grid { grid-template-columns: 1fr; gap: 12px; }
   .topic-link { padding: 20px; }
   .topic-link b { font-size: 19px; }
   .editorial-footer { padding-top: 22px; font-size: 10px; gap: 10px; }
   .editorial-footer span:last-child { font-size: 12px; }
-  .cat-grid { gap: 12px; }
-  .cat-tile { height: 110px; }
   .cat-section { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .people-intro { padding: 24px; }
   .people-intro h2 { font-size: 25px; }
   .me-view { grid-template-columns: 1fr; }
   .me-view .overview-card, .me-view .chart-card { padding: 20px; }
-  .me-view .reader-profile, .me-view .history-entry { padding: 20px !important; }
+  .me-view .history-entry { padding: 20px !important; }
   .screen > .view.read-scroll { padding: 22px 0 112px; }
   /* 这里原本还有 `.read-scroll { --rd-pad: 22px; }` —— 2026-09-20 删除，归回 styles.css。 */
   .read-top { padding: 8px 18px; min-height: 72px; }
@@ -343,14 +383,13 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
   .home-picks .article .article-meta { font-size: 9px; }
   .home-picks .article .article-meta > span:last-child { display: none; }
   .editorial-photo { height: 248px; }
-  .editorial-copy { padding: 22px; }
+  .editorial-copy { padding: 20px; }
   .editorial-copy h2 { font-size: 24px; }
   .page-intro { gap: 12px; }
   .page-intro h1 { font-size: 27px; letter-spacing: 0; }
   .discover-view .page-intro > .row { gap: 5px !important; }
   .discover-view .page-intro .icon-btn { width: 35px; height: 35px; }
   .discover-view .page-intro .eyebrow { max-width: 210px; }
-  .cat-tile .ct-txt b { font-size: 21px; }
   .history-row .thumb { width: 56px; height: 70px; }
   .history-title { font-size: 15px; }
 }

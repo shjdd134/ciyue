@@ -413,7 +413,8 @@ ok('首页文章卡渲染中文标题', /class="t-zh"/.test(screenEl.innerHTML))
 click({ tab: 'discover' });
 ok('发现页文章卡渲染中文标题', /class="t-zh"/.test(screenEl.innerHTML));
 const featureZh = ctx('zhTitle(ARTICLES.slice().sort((a,b) => String(b.date || "").localeCompare(String(a.date || ""))).find(a => coverOf(a)))');
-ok('发现页精选渲染中文标题', screenEl.innerHTML.includes('class="editorial-copy"') && screenEl.innerHTML.includes(`<h2>${featureZh}</h2>`));
+/* v75 起发现页精选是紧凑横卡（compact-feature），不再是首页那块 editorial-feature 大图 */
+ok('发现页精选渲染中文标题', /class="cf-title"/.test(screenEl.innerHTML) && screenEl.innerHTML.includes(`<span class="cf-zh">${featureZh}</span>`));
 click({ article: arts[0].id });
 ok('阅读页渲染中文标题', /class="title-zh"/.test(screenEl.innerHTML));
 
@@ -688,7 +689,10 @@ ok('底部导航已移除背词入口', !/data-tab="study"/.test(ctx('tabbar()')
 ok('运行状态已移除背词/复习字段', !['studied', 'wrong', 'daily', 'fsrs', 'studyDays'].some(k => Object.prototype.hasOwnProperty.call(ctx('S'), k)));
 ok('阅读统计使用独立阅读日期', Array.isArray(ctx('S.readDays')) && typeof ctx('readingStreakDays') === 'function');
 const meHtml = ctx('renderMe()');
-ok('我的页保留词库说明', meHtml.includes('四级词库') && meHtml.includes('词库'));
+/* v75 起词库规模不再单独成卡（用户决策：个人页不反复展示词库总量），
+ * 说明整体移进「关于词阅 · 内容与数据说明」折叠层 —— 意图不变（词库说明仍可达），位置换了。 */
+ok('我的页保留词库说明（在关于·内容与数据说明里）',
+  meHtml.includes('内容与数据说明') && meHtml.includes('四级核心') && meHtml.includes('中学基础'));
 ok('我的页不再显示复习入口', !/今日复习|开始复习|FSRS/.test(meHtml));
 ok('完整词卡不再提供加入复习', !/data-act="add-review"|加入复习/.test(ctx('renderSheet("comprehensive")')));
 
@@ -2276,9 +2280,12 @@ console.log('\n[H2] 首页封面轮换');
   ctx('view = {name:"discover"}; catFilter = "全部"; searchTerm = "";');
   const discHtml = ctx('renderDiscover()');
   const discFeatured = ctx('coverOf(ARTICLES.slice().sort((a,b) => String(b.date||"").localeCompare(String(a.date||""))).find(a => coverOf(a)))');
-  const discSec = (discHtml.match(/<section class="editorial-feature[\s\S]*?<\/section>/) || [''])[0];
-  ok('★ 发现页「编辑精选」走自己的封面（没被接上首页的随机池）',
+  /* v75：发现页精选改成 compact-feature 紧凑横卡，editorial-feature 大图只归首页 */
+  const discSec = (discHtml.match(/<button class="compact-feature"[\s\S]*?<\/button>/) || [''])[0];
+  ok('★ 发现页「编辑精选」走自己的封面（紧凑横卡，没接首页随机池）',
     Boolean(discFeatured) && discSec.includes(discFeatured));
+  ok('★ 发现页精选是横卡、不再复用首页大图模块（两页视觉解耦）',
+    discHtml.includes('compact-feature') && !discHtml.includes('editorial-feature'));
   /* 反向（预期为假）的孪生：首页那一刻不能也是这张 —— 否则上一条在「随机恰好命中同一张」时假绿。
      拿 pinned2（池里最后一项，勒雅·赛杜）比对：它是真实可达、且**不等于**发现页精选的一张。 */
   ok('★ 对照：池子最后一项的图 ≠ 发现页精选的图（上一条不是靠「恰好相同」蒙过去的）',
@@ -2286,6 +2293,183 @@ console.log('\n[H2] 首页封面轮换');
   ok('★ 发现页精选不渲染摄影署名（首页那一行是 photo.credit 带出来的，不传就没有）',
     !/张摄影 · /.test(discSec));
   ctx('view = {name:"home"}; catFilter = "全部"; searchTerm = "";');
+}
+
+/* ================= [H3] 「我的」页重排 + 关于词阅三层 + 字号规范（v75，2026-09-22） ================= */
+console.log('\n[H3] 我的页重排 / 关于词阅 / 字号规范');
+{
+  const meHtml = ctx('renderMe()');
+  const cssBare = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  const edBare = fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+
+  /* ① 概况两组口径：累计 / 近 7 天 各成一组，标签是组的存在证明。
+   *    旧版把「连续天（累计性质）」「周分钟（近 7 天）」混在一个 stat-grid 里，读者没法知道口径。
+   *    截取用「下一模块开头」当右边界 —— 双 </div> 会在第一个 stat 就截断（实测踩过）。 */
+  const ovSec = (meHtml.match(/<div class="card col overview-card"[\s\S]*?<div class="me-entries">/) || [''])[0];
+  ok('阅读概况分「累计 / 近 7 天」两组，各有口径标签',
+    (ovSec.match(/class="ov-label">累计</g) || []).length === 1 &&
+    (ovSec.match(/class="ov-label">近 7 天</g) || []).length === 1);
+  ok('概况突出用户要的三样：读完篇数 / 阅读分钟 / 收藏生词',
+    ovSec.includes('读完篇数') && ovSec.includes('阅读分钟') && ovSec.includes('收藏生词'));
+
+  /* ② 词库总量不再出现在个人页（用户决策：个人页不反复展示；说明整体移进「关于」折叠层）。
+   *    判 observable：「四级词库」这张卡的名字不再出现；词库分层说明出现在 about-src 里。 */
+  ok('个人页不再展示「四级词库」总量卡', !meHtml.includes('四级词库'));
+  /* 渲染产物里是**算好的数字**不是模板字面量 —— 判字面量永远为假（尺子错，不是页面错） */
+  const coreN = ctx('CORE_WORDS.length.toLocaleString()');
+  const midN = ctx('MID_WORDS.length.toLocaleString()');
+  ok('词库分层说明移进了「内容与数据说明」（两层词数都在）',
+    (meHtml.match(/<details class="about-details">[\s\S]*?<\/details>/) || [''])[0].includes('中学基础') &&
+    meHtml.includes(coreN) && meHtml.includes(midN));
+
+  /* ③ 关于三层：简介默认展开（details 外）+ 功能四条 + 数据说明在可折叠层里。 */
+  const details = (meHtml.match(/<details class="about-details">[\s\S]*?<\/details>/) || [''])[0];
+  ok('简介三层齐：slogan / 正文段 / 功能清单，且都在折叠层之外（默认展开）',
+    meHtml.includes('about-slogan') && (meHtml.match(/class="about-feats"/g) || []).length === 1 &&
+    (meHtml.match(/<div class="row"><span class="ic">/g) || []).length === 4 && Boolean(details));
+  ok('功能清单四条与实际功能对齐：点词查义 / 中英对照 / 生词收藏 / 自动续读',
+    meHtml.includes('点词查义') && meHtml.includes('中英对照') && meHtml.includes('生词收藏') && meHtml.includes('自动续读'));
+  ok('数据说明折叠层里有备份提示口径之外的自查入口（summary 可见）',
+    details.includes('<summary>内容与数据说明</summary>'));
+
+  /* ④ 外链安全：about 里所有 https 链接必须 target=_blank + rel=noopener（新窗口且不泄漏 opener）。 */
+  const links = meHtml.match(/<a href="https:[^"]*"[^>]*>/g) || [];
+  ok(`关于里的外链全部带 rel="noopener"（共 ${links.length} 条）`,
+    links.length >= 5 && links.every(a => a.includes('rel="noopener"')));
+
+  /* ⑤ 措辞中性化：「补高中欠账」这类自贬表述不再出现（2026-09-22 用户反馈）。 */
+  ok('「补高中欠账」已改为「补充中学基础词汇」',
+    !meHtml.includes('补高中欠账') && meHtml.includes('补充中学基础词汇'));
+
+  /* ⑥ 新用户空态：无任何阅读痕迹时不渲染全 0 趋势图，换成一句引导 + 选文入口。
+   *    对照组：有记录时趋势图必须还在（防「预期为假」恒真）。 */
+  const __prevFinished = ctx('S.finished');
+  const __prevRead = ctx('S.read');
+  const __prevHist = ctx('S.readHistory');
+  const __prevPos = ctx('S.readPos');
+  const __prevNb = ctx('S.notebook');
+  ctx('S.finished = []; S.read = []; S.readHistory = {}; S.readPos = {}; S.notebook = [];');
+  const emptyMe = ctx('renderMe()');
+  ok('新用户（零记录）不渲染趋势图，改渲染引导与选文入口',
+    !emptyMe.includes('bar-col') && emptyMe.includes('读完第一篇文章后') && emptyMe.includes('data-tab="discover"'));
+  ctx(`S.finished = ${JSON.stringify(__prevFinished)}; S.read = ${JSON.stringify(__prevRead)}; S.readHistory = ${JSON.stringify(__prevHist)}; S.readPos = ${JSON.stringify(__prevPos)}; S.notebook = ${JSON.stringify(__prevNb)};`);
+  const hasMe = ctx('renderMe()');
+  ok('对照：有记录时趋势图照常渲染（上一条不是恒真）', hasMe.includes('bar-col'));
+
+  /* ⑦ 字号规范：说明 14 / 次要 12 两档落进真源 styles.css；散点内联小字号清零。
+   *    断言「档位值」，因为这套规范就是用户拍板的数字；换档位该连着这条守卫一起改。 */
+  /* ^ 锚行首：`.history-filters .muted-2` 这类复合选择器在文件更前面，不锚会先匹配到它（实测踩过） */
+  const mutedRule = (cssBare.match(/^\.muted \{[^}]*\}/m) || [''])[0];
+  const muted2Rule = (cssBare.match(/^\.muted-2 \{[^}]*\}/m) || [''])[0];
+  ok('字号规范真源：.muted=14px（说明）、.muted-2=12px（次要）',
+    /font-size:\s*14px/.test(mutedRule) && /font-size:\s*12px/.test(muted2Rule));
+  ok('app.js 不再有内联 11px/11.5px 散点字号（次要信息下限 12px）',
+    !/font-size:11(\.5)?px/.test(fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8')));
+
+  /* ⑧ 残骸守卫：旧「档案卡」与其样式已删，不许留幽灵引用（用 typeof/grep 双口径都会被骗，
+   *    这里直接查「类名既不在渲染产物、也不在两份 CSS 的有效规则里」）。 */
+  ok('旧 reader-profile 档案卡删干净（渲染产物 + 两份 CSS 都无残留）',
+    !meHtml.includes('reader-profile') && !/reader-profile/.test(cssBare) && !/reader-profile/.test(edBare));
+
+  /* ⑨ 320px 窄屏回退：ov-label 换行到数字组上方 —— 基础规则定宽、≤359px 查询解除定宽，
+   *    两条必须同时存在（删任何一条，320px 上三格就会挤出屏）。 */
+  ok('概况组在 ≤359px 有换行回退（基础定宽 + 窄屏解除，两条齐全）',
+    /@media \(max-width: 359px\)[\s\S]*?\.ov-group \{[^}]*flex-direction:\s*column/.test(cssBare) &&
+    /\.ov-label \{[^}]*width:\s*48px/.test(cssBare));
+}
+
+/* ================= [H4] 首页 / 发现页重排（v75，2026-09-22） ================= */
+console.log('\n[H4] 首页 / 发现页重排');
+{
+  ctx('view = {name:"home"};');
+  const homeHtml = ctx('renderHome()');
+
+  /* ① 顺序：问候 → 续读 → 精选 → 今日推荐 → 兴趣分类。
+   *    断言的是 index 先后而不是精确字符串位置 —— 中间插别的模块不该红，乱序该红。 */
+  const idx = (re) => { const m = homeHtml.match(re); return m ? m.index : -1; };
+  const iHead = idx(/<header class="page-intro home-intro"/);
+  const iResume = idx(/<section class="home-resume">/);
+  const iFeat = idx(/<section class="editorial-feature/);
+  const iPicks = idx(/<section class="home-picks">/);
+  const iTopics = idx(/<section class="home-topics">/);
+  ok('★ 首页顺序：问候 → 继续阅读 → 本期精选 → 今日推荐 → 兴趣分类',
+    iHead >= 0 && iHead < iResume && iResume < iFeat && iFeat < iPicks && iPicks < iTopics);
+
+  /* ② 续读卡两态（预期为真/为假都要有孪生，否则某一支从没被测过） */
+  const __prevLast = ctx('S.lastRead');
+  ok('有记录时续读卡带进度条与「继续」动作',
+    /class="rc-bar"/.test(homeHtml) && homeHtml.includes('data-article') && homeHtml.includes('继续'));
+  ctx('S.lastRead = null;');
+  const homeEmpty = ctx('renderHome()');
+  ok('无记录时渲染「开始阅读」引导卡（不渲染进度条）',
+    homeEmpty.includes('开始阅读') && homeEmpty.includes('去挑一篇') && !/class="rc-bar"/.test(homeEmpty));
+  ctx(`S.lastRead = ${JSON.stringify(__prevLast)};`);
+
+  /* ③ 统计缩轻量：一行 lite 条，旧的大数字统计块（.reading-stats）不再出现 */
+  ok('首页统计是轻量一行（完整统计归「我的」）',
+    homeHtml.includes('reading-stats-lite') && !homeHtml.includes('reading-stats"'));
+
+  /* ④ 推荐卡信息顺序：标题在最前、栏目 tag 在其后、时长在「需学 N 词」之前 */
+  ctx('view = {name:"home"};');
+  const cardHtml = ctx('articleCard(ARTICLES.find(a => zhTitle(a)))');
+  const iTitle = cardHtml.indexOf('class="t"');
+  const iTag = cardHtml.indexOf('class="tag"');
+  const iMeta = cardHtml.indexOf('class="meta article-meta"');
+  ok('★ 推荐卡信息顺序：标题 → 中文辅助 → 栏目 → 元信息',
+    iTitle >= 0 && iTitle < cardHtml.indexOf('class="t-zh"') && cardHtml.indexOf('class="t-zh"') < iTag && iTag < iMeta);
+  /* 非贪婪到第一个 </span> 会在内层 span 就断掉 —— 用双闭合或「截到卡尾」都行，这里取卡尾切片 */
+  const metaZone = cardHtml.slice(iMeta);
+  ok('元信息里时长在词汇数据之前（需学 N 词降为次要）',
+    metaZone.indexOf('分钟阅读') >= 0 && metaZone.indexOf('分钟阅读') < metaZone.indexOf('需学'));
+
+  /* ⑤ 长文标注「可分次读」：拿全库里时长最长的一篇验（≥20 分钟必有标注）；
+   *    对照组拿最短的一篇验「不该有」（防恒真）。 */
+  const longest = ctx('ARTICLES.slice().sort((a,b) => estMinutes(b) - estMinutes(a))[0]');
+  const shortest = ctx('ARTICLES.slice().sort((a,b) => estMinutes(a) - estMinutes(b))[0]');
+  ok(`★ 长文（${longest.titleZh || longest.title}，20+ 分钟）标注「可分次读」`,
+    ctx('estMinutes(ARTICLES.slice().sort((a,b) => estMinutes(b) - estMinutes(a))[0])') >= 20 &&
+    ctx('articleCard(ARTICLES.slice().sort((a,b) => estMinutes(b) - estMinutes(a))[0])').includes('可分次读'));
+  ok('对照：短文（时长最短一篇）不出现「可分次读」（上一条不是恒真）',
+    ctx('estMinutes(ARTICLES.slice().sort((a,b) => estMinutes(a) - estMinutes(b))[0])') < 20 &&
+    !ctx('articleCard(ARTICLES.slice().sort((a,b) => estMinutes(a) - estMinutes(b))[0])').includes('可分次读'));
+
+  /* ⑥ 发现页：分类磁贴已删（重复入口）、排序是顶部文字入口、精选是横卡 */
+  ctx('view = {name:"discover"}; catFilter = "全部"; searchTerm = "";');
+  const disc = ctx('renderDiscover()');
+  ok('发现页不再渲染分类磁贴网格（与顶部分类标签合并成一处入口）',
+    !disc.includes('cat-tile') && !disc.includes('按分类浏览'));
+  const sortBtn = (disc.match(/<button class="sort-text"[^>]*>([\s\S]*?)<\/button>/) || [, ''])[1];
+  ok('排序入口是顶部文字按钮，且显示当前排序文案',
+    Boolean(sortBtn) && sortBtn.includes(ctx('SORTS[sortBy]')));
+  ok('分类标签与排序入口在同一工具条（sticky 行内）',
+    (disc.match(/<div class="cats-wrap">[\s\S]*?<\/div>\s*<\/div>/) || [''])[0].includes('sort-text'));
+
+  /* ⑦ 残骸守卫：磁贴 / 大数字统计的 CSS 不许留在两份样式表里（HTML 已删，样式留着就是死代码） */
+  const cssAll = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '')
+    + fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  ok('磁贴与旧统计块的 CSS 残骸已清（.cat-tile/.cat-browse/.cat-grid/.reading-stats）',
+    !/\.cat-tile|\.cat-browse|\.cat-grid|\.reading-stats[^-]/.test(cssAll));
+
+  /* ⑧ editorial-feature 只有一处定义（双源教训：editorial.css 里再加一条 min-height 就会打架） */
+  const edOnly = fs.readFileSync(path.join(base, 'assets', 'editorial.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  ok('.editorial-feature 的 min-height 只有一个来源（桌面那条；移动端是独立断点覆盖）',
+    (edOnly.match(/^\.editorial-feature \{[^}]*min-height[^}]*\}/gm) || []).length === 1);
+}
+
+/* ================= [H5] 阅读页 hero 去重（v75，2026-09-22） ================= */
+console.log('\n[H5] 阅读页 hero 层级');
+{
+  /* 栏目在进正文前出现过三次（read-top 顶栏、hero kicker、byline）—— byline 里去掉。
+   * 判据：byline 块内不再含栏目值；kicker 与顶栏保留（那里是「位置语境」，byline 是「署名语境」）。 */
+  const a0 = ctx('ARTICLES.find(a => a.cat && srcName(a) && a.cat !== srcName(a))') || ctx('ARTICLES[0]');
+  const readHtml = ctx(`(function(){ activeArticle = ARTICLES.find(a => a.id === ${JSON.stringify(a0.id)}); return renderRead(); })()`);
+  const byline = (readHtml.match(/<div class="byline">([\s\S]*?)<\/div>\s*(?:<div class="translation-credit"|<div class="read-cover)/) || [, ''])[1];
+  const catVal = String(a0.cat || '');
+  ok(`★ byline 不再重复栏目（${catVal}；kicker 与顶栏里的保留）`,
+    Boolean(byline) && !byline.includes(catVal) && byline.includes('分钟'));
+  const cssBare5 = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+  ok('译文署名提到 12px 下限（与全站次要信息一致）',
+    /\.translation-credit \{[^}]*font-size:\s*12px/.test(cssBare5));
 }
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);

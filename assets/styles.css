@@ -123,7 +123,7 @@ body {
   padding: 4px 20px 8px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;   /* 模块间距 14→18：模块之间要留白明显、模块内部靠近（卡片内部 gap 仍是 10–14） */
   scrollbar-width: none;
 }
 .view::-webkit-scrollbar { display: none; }
@@ -217,7 +217,9 @@ body {
 .nb-main:active { opacity: .7; }
 .nb-word-row { display: flex; align-items: baseline; gap: 8px; }
 .nb-word { font-family: var(--font-en); font-size: 15px; font-weight: 600; color: var(--text-1); }
-.nb-phonetic { font-family: var(--font-en); font-size: 11px; color: var(--text-3); }
+.nb-phonetic { font-family: var(--font-en); font-size: 12px; color: var(--text-3); }
+/* 查词卡音标（v75 从内联 11px 收进类里）：次要信息以 12px 为下限 */
+.phonetic { font-family: var(--font-en); font-size: 12px; color: var(--text-3); }
 .nb-def { font-size: 12px; color: var(--text-2); line-height: 16px; }
 .nb-from { margin-top: 4px; }
 .nb-source {
@@ -235,11 +237,15 @@ body {
 .nb-del:hover { color: var(--red); border-color: var(--red); background: var(--red-bg); }
 .nb-empty { text-align: center; color: var(--text-2); font-size: 13px; padding: 28px 18px; }
 
+/* ---------- 四级字号（2026-09-22 v75 规范）----------
+ * 页面标题 .h1 / 模块标题 .h2+.h3（同一档）/ 说明文字 .muted / 次要信息 .muted-2。
+ * .muted 12→14、.muted-2 11→12：原先两者都挤在 11–12px，说明与脚注分不开，
+ * 390px 手机上辅助文字小到难读（用户实测反馈）。任何新文案别再写内联 font-size:11px/11.5px。 */
 .h1 { font-size: 22px; font-weight: 700; letter-spacing: -.3px; color: var(--text-1); }
 .h2 { font-size: 16px; font-weight: 600; }
 .h3 { font-size: 15px; font-weight: 600; }
-.muted { color: var(--text-2); font-size: 12px; }
-.muted-2 { color: var(--text-3); font-size: 11px; }
+.muted { color: var(--text-2); font-size: 14px; line-height: 1.55; }
+.muted-2 { color: var(--text-3); font-size: 12px; line-height: 1.6; }
 .link { color: var(--brand); font-size: 12px; font-weight: 500; cursor: pointer; }
 .link:hover { opacity: .75; }
 .link.danger { color: var(--red); }
@@ -304,6 +310,16 @@ body {
 
 /* ---------- 数据格 ---------- */
 .stat-grid { display: flex; gap: 10px; }
+
+/* 「阅读概况」的两组口径（累计 / 近 7 天）：标签在左、数字组在右，
+ * 让「这行数字是什么口径」不用读标签猜。320px 窄屏标签换到上方，数字组才有满宽。 */
+.ov-group { display: flex; align-items: center; gap: 14px; }
+.ov-label { flex: none; width: 48px; font-size: 12px; color: var(--text-3); }
+.ov-group .stat-grid { flex: 1; min-width: 0; }
+@media (max-width: 359px) {
+  .ov-group { flex-direction: column; align-items: stretch; gap: 8px; }
+  .ov-label { width: auto; }
+}
 .stat {
   flex: 1;
   background: var(--card-2);
@@ -313,7 +329,7 @@ body {
   text-align: center;
 }
 .stat .n { font-family: var(--font-num); font-weight: 700; font-size: 18px; line-height: 1.1; }
-.stat .l { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+.stat .l { font-size: 12px; color: var(--text-2); margin-top: 3px; }
 .stat.bad { background: var(--red-bg); }
 .stat.bad .n { color: var(--red); }
 .stat.bad .l { color: var(--red); opacity: .8; }
@@ -352,7 +368,7 @@ body {
 }
 .article:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
 .article:active { transform: translateY(0) scale(.995); }
-.article:focus-visible, .discover-feat:focus-visible, .cat-tile:focus-visible,
+.article:focus-visible, .discover-feat:focus-visible,
 .cat:focus-visible, .sort-opt:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 /* 从阅读页返回时，刚才那篇闪一下 —— 长列表里一眼找回位置 */
 .article.flash, .discover-feat.flash { animation: flashBack 1.25s ease; }
@@ -625,9 +641,10 @@ body {
   font-size: 12px; color: var(--text-3);
 }
 .read-hero .byline .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-3); }
-/* 译文署名（PG 三篇起：translationCredit 数据层留痕，页面在 byline 下方展示） */
+/* 译文署名（PG 三篇起：translationCredit 数据层留痕，页面在 byline 下方展示）
+ * 11→12px（v75 次要信息下限统一） */
 .read-hero .translation-credit {
-  font-size: 11px; line-height: 1.6; color: var(--text-3);
+  font-size: 12px; line-height: 1.6; color: var(--text-3);
   padding-bottom: 14px; margin-top: 6px;
 }
 
@@ -1139,7 +1156,7 @@ body {
 .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 6px; height: 100%; }
 .bar { width: 100%; background: var(--brand-soft); border-radius: 6px 6px 4px 4px; transition: height .3s ease; }
 .bar.today { background: linear-gradient(180deg, var(--brand-2) 0%, var(--brand) 100%); box-shadow: 0 4px 10px -4px rgba(108, 92, 231, .5); }
-.bar-col span { font-size: 10px; color: var(--text-3); }
+.bar-col span { font-size: 12px; color: var(--text-3); }
 .bar-col span.today { color: var(--brand); font-weight: 600; }
 
 /* ---------- 错词行 ---------- */
@@ -1197,46 +1214,10 @@ body {
 .cat:active { transform: scale(.96); }
 
 /* ---------- 发现页：分类入口网格（取代纵向大栏） ---------- */
-.cat-browse { display: flex; flex-direction: column; gap: 10px; }
-.sec-head { display: flex; align-items: baseline; justify-content: space-between; padding: 0 2px; }
-.sec-head .sec-t { font-size: 14px; font-weight: 700; color: var(--text-1); font-family: var(--font-cn); }
-.sec-head .sec-s { font-size: 11px; color: var(--text-3); font-family: var(--font-cn); }
-
-.cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-/* 分类数为奇数时，最后一张撑满整行，末行不留空洞 */
-.cat-grid > .cat-tile:last-child:nth-child(odd) { grid-column: 1 / -1; }
-.cat-tile {
-  position: relative; overflow: hidden;
-  height: 74px; border: 0; border-radius: 16px;
-  display: flex; align-items: center; gap: 9px; padding: 0 12px;
-  cursor: pointer; text-align: left; background: var(--card);
-  font-family: var(--font-cn);
-  box-shadow: var(--shadow-1);
-  transition: transform .18s ease, box-shadow .18s ease;
-}
-.cat-tile:active { transform: scale(.975); }
-.cat-tile:hover { box-shadow: var(--shadow-2); transform: translateY(-2px); }
-.cat-tile .ct-bg {
-  position: absolute; inset: 0; z-index: 0;
-  background-size: cover; background-position: center;
-}
-.cat-tile::after {
-  content: ""; position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(100deg, rgba(0,0,0,.26) 0%, rgba(0,0,0,.06) 70%);
-}
-.cat-tile.has-img::after {
-  background: linear-gradient(100deg, rgba(12,12,24,.88) 0%, rgba(12,12,24,.58) 58%, rgba(12,12,24,.28) 100%);
-}
-.cat-tile .ct-ic {
-  position: relative; z-index: 2; flex: none;
-  width: 26px; height: 26px; border-radius: 9px;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; background: rgba(255,255,255,.22);
-  border: 1px solid rgba(255,255,255,.3);
-}
-.cat-tile .ct-txt { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.cat-tile .ct-txt b { font-size: 14px; font-weight: 600; color: #fff; letter-spacing: .5px; }
-.cat-tile .ct-txt i { font-size: 10.5px; font-style: normal; color: rgba(255,255,255,.75); }
+/* ---------- 分类磁贴（v75 已删）----------
+ * 「按分类浏览」磁贴网格随 renderDiscover 里的 catGridHtml 一起删除：
+ * 它与顶部分类标签是重复的两套入口，还把文章列表推到第二屏开外。
+ * 分类入口现在只有顶部标签一处（见 audit [H4] 残骸守卫）。 */
 
 /* ---------- 搜索框 ---------- */
 .search {
