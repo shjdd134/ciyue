@@ -1821,8 +1821,11 @@ click({ article: lrId });
 ok(`重进同一篇带上恢复位置（resumeY=321）`, ctx('resumeY') === 321);
 ctx(`S.readPos = { [${JSON.stringify(lrId)}]: { pi: 5, si: 2, off: -12, y: 900, pct: 42, at: 1 } };`);
 click({ article: lrId });
+/* ★ 按字段断言，不比对精确 JSON：后者一加字段就假红（2026-09-22 加 rs 时就撞上）。
+ * 要保证的是「pi/si/rs/off 四件都带上了」，不是「对象里就这四把键」。 */
 ok('同篇还带上了句子锚点（排版变了也对得回原句，不只靠 scrollTop）',
-  ctx('JSON.stringify(resumeAnchor)') === '{"pi":5,"si":2,"off":-12}');
+  ctx('resumeAnchor && resumeAnchor.pi') === 5 && ctx('resumeAnchor && resumeAnchor.si') === 2 &&
+  ctx('resumeAnchor && resumeAnchor.off') === -12 && ctx('Number.isFinite(resumeAnchor && resumeAnchor.rs)') === true);
 ctx(`S.readPos = {}; resumeAnchor = null; resumeY = 0;`);
 ctx(`view = {name:"discover"}; catFilter = "全部"; searchTerm = ""; render();`);
 const discHtml = `document.querySelector("#screen").innerHTML`;
@@ -2524,6 +2527,108 @@ console.log('\n[H5] 阅读页 hero 层级');
   const cssBare5 = fs.readFileSync(path.join(base, 'assets', 'styles.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
   ok('译文署名提到 12px 下限（与全站次要信息一致）',
     /\.translation-credit \{[^}]*font-size:\s*12px/.test(cssBare5));
+}
+
+/* ================= [S] 落盘与续读位置（v77 后，2026-09-22） =================
+ * 三件事各自有真实故障来源：
+ *   ① localStorage 写不进去（配额满 / 无痕 / WebView 回收）—— 旧 save() 直接抛，
+ *      异常会冒到点击处理器；
+ *   ② 写不进去时要降级成「只丢最老的续读位置」，**用户数据一个字不动**；
+ *   ③ 宿主杀进程时 pagehide/visibilitychange 不保证执行 —— 锚点必须与 scrollTop
+ *      在同一次落盘里写，否则重开会被更旧的锚点覆盖到更早的位置。 */
+console.log('\n[S] 落盘与续读位置');
+{
+  /* ① 抛错的 setItem 不许把异常漏给调用方 */
+  const origSet = sandbox.localStorage.setItem;
+  sandbox.localStorage.setItem = () => { throw new Error("QuotaExceededError"); };
+  let threw = false, ret = null;
+  try { ret = ctx('save()'); } catch { threw = true; }
+  ok('★ 存储写入失败不抛给调用方（旧实现直接 throw，点个词都能被打断）',
+    threw === false && ret === false);
+  ok('★ 失败后标记为 failed（供「我的」页显示告警行）', ctx('storageState') === 'failed');
+
+  /* ② 降级档：只裁续读位置，用户数据必须原样 */
+  const big = {};
+  for (let i = 0; i < 60; i++) big["art" + i] = { pi: i, si: 0, rs: 0, off: -10, y: i * 10, pct: i, at: i + 1 };
+  ctx(`S.notebook = [{ word: "seventh", addedAt: 1, articleId: "art0", articleTitle: "t", context: { en: "a", cn: "b" } }];
+       S.known = ["the", "of"]; S.read = ["art0"]; S.readDays = ["2026-09-22"]; S.secByDay = { "2026-09-22": 600 };
+       S.readPos = ${JSON.stringify(big)};
+       S.readHistory = ${JSON.stringify(big)};`);
+  /* 只让「大体积」写入失败：模拟配额边界。阈值要卡在
+     原始（60+60 条 ≈ 8KB）与裁后（40+40 条 ≈ 5.3KB）之间 —— 定太小会让降级档也失败，
+     测出来的就不是「降级生效」而是「两个档都失败」。 */
+  sandbox.localStorage.setItem = (k, v) => { if (String(v).length > 6000) throw new Error("QuotaExceededError"); return origSet.call(sandbox.localStorage, k, v); };
+  const saved = ctx('save()');
+  const slim = JSON.parse(sandbox.localStorage._d[ctx('STORE')] || "{}");
+  ok('★ 配额满时降级写成功（返回 true，不是 failed）',
+    saved === true && ctx('storageState') === 'trimmed');
+  ok('★ 降级只裁续读位置（≤40 篇），生词 / 已知词 / 阅读记录 / 时长一个字不动',
+    Object.keys(slim.readPos || {}).length <= 40 && Object.keys(slim.readPos || {}).length > 0 &&
+    (slim.notebook || []).length === 1 && (slim.known || []).join() === "the,of" &&
+    (slim.read || []).join() === "art0" && (slim.secByDay || {})["2026-09-22"] === 600);
+  ok('降级保留的是**最近**的续读位置（按 at 倒序取前 40）',
+    slim.readPos && Boolean(slim.readPos.art59) && !slim.readPos.art0);
+  sandbox.localStorage.setItem = origSet;
+
+  /* ③ 告警行的孪生对照：failed 必现、ok 必不现（只测一边 = 一半是假守卫） */
+  ctx('S.readPos = {}; S.readHistory = {}; S.lastRead = { id: "", y: 0, pct: 0, at: 0 }; view = {name:"me"};');
+  ctx('storageState = "failed";');
+  const meWarn = ctx('renderMe()');
+  ctx('storageState = "ok";');
+  const meOk = ctx('renderMe()');
+  ok('★ 存储失败时「我的 → 数据与备份」显示告警行',
+    meWarn.includes('storage-warn') && meWarn.includes('导出备份'));
+  ok('对照：存储正常时不渲染告警行（上一条不是恒真）', !meOk.includes('storage-warn'));
+
+  /* ④ 5 秒节流那一跳：锚点与 scrollTop 必须在同一次落盘里写（强杀场景的唯一防线） */
+  ctx(`S.readPos = {}; S.readHistory = {}; S.lastRead = { id: "artZ", y: 0, pct: 0, at: 0 };
+       activeArticle = ARTICLES[0]; view = {name:"read"};
+       S.lastRead = { id: activeArticle.id, y: 0, pct: 0, at: 0 };`);
+  const rid = ctx('activeArticle.id');
+  sandbox.__fakeRoll = {
+    clientHeight: 600, scrollTop: 900, scrollHeight: 5000,
+    getBoundingClientRect: () => ({ top: 0 }),
+    querySelectorAll: () => [
+      { getBoundingClientRect: () => ({ top: -40, bottom: 10 }), dataset: { pi: "1", si: "0", rs: "0" } },
+      { getBoundingClientRect: () => ({ top: 60, bottom: 120 }), dataset: { pi: "2", si: "3", rs: "0" } },
+    ],
+  };
+  /* updateReadProgress 需要三个元素：#read-scroll（量锚点）、#read-bar（写宽度）、
+     #read-body（取总高）。沙箱默认只认 #screen / .phone，缺一个就提前 return ——
+     第一版漏了 bar/body，节流那两条因此假红（不是代码错，是桩不全）。 */
+  ctx(`__origQS = document.querySelector;
+       __fakeBar = { style: {} };
+       __fakeBody = { scrollHeight: 5000, getBoundingClientRect: () => ({ top: 0 }) };
+       document.querySelector = (s) => s === "#read-scroll" ? __fakeRoll
+         : s === "#read-bar" ? __fakeBar
+         : s === "#read-body" ? __fakeBody : __origQS(s);`);
+  /* 第一次滚动：不到 5 秒，只更新内存不落盘 */
+  ctx('S.lastRead.at = Date.now(); updateReadProgress();');
+  const posAfterFirst = ctx(`Object.keys(S.readPos).length`);
+  /* ★ 延时必须在**第一次滚动之后立刻**取样 —— 第二次滚动走的是「已到窗口」那支，
+     里面会 cancelReadSave() 把它清掉。放错位置会读到 0，看起来像「没挂上」。 */
+  const timerAfterFirst = ctx('!!readSaveTimer');
+  /* 第二次：把 at 推回 6 秒前，再滚一次 —— 这一跳必须把锚点一起写下去 */
+  ctx('S.lastRead.at = Date.now() - 6000; updateReadProgress();');
+  const rec = JSON.parse(ctx(`JSON.stringify(S.readPos[${JSON.stringify(rid)}] || null)`) || "null");
+  ctx(`document.querySelector = __origQS;`);
+  ok('未到节流窗口时不写盘（第一次滚动不动 readPos）', posAfterFirst === 0);
+  /* ★ 但必须**挂上延时** —— 节流条件只在「下一次滚动」时才被求值，
+     所以「滚一下 → 停住 → 被宿主杀进程」这条路上原来一个字节都不会写。
+     真页面实测（.bak/probe-kill-resume.cjs）：只滚一次不补这个延时，readPos 里什么都没有。 */
+  ok('★ 未到窗口时挂上延时（滚一下就停住，5 秒后也会落一次盘）', timerAfterFirst === true);
+  ok(`★ 节流那一跳把锚点与 scrollTop 一起写（同一次事务：rec.y=${rec && rec.y} === lastRead.y=${ctx('S.lastRead.y')}）`,
+    Boolean(rec) && rec.y === ctx('S.lastRead.y') && Number.isFinite(rec.pi) && Number.isFinite(rec.rs));
+  ok('★ 锚点带上 rs（退化段续读才能落到被读的那一片，而不是段落开头）',
+    Boolean(rec) && rec.rs === 0 && rec.pi === 2 && rec.si === 3);
+
+  /* ⑤ 契约：save() 的三种状态必须是闭集（多一个拼错的状态名 → 告警行永不出现） */
+  ok('save() 的状态取值取自 ok / trimmed / failed 闭集',
+    /storageState = "ok"/.test(appBare) && /storageState = "trimmed"/.test(appBare) && /storageState = "failed"/.test(appBare));
+  /* 收尾：把挂着的延时刻意清掉 —— 否则它会在本文件后半段真的触发一次 flushReadPos，
+     虽然那时 #read-scroll 已经不返回桩（安全退出），但测试不该留挂起状态。 */
+  ctx('cancelReadSave(); readSaveTimer = 0; inFlushPos = false;');
+  ctx('S.readPos = {}; S.readHistory = {}; S.lastRead = { id: "", y: 0, pct: 0, at: 0 }; view = {name:"home"};');
 }
 
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);

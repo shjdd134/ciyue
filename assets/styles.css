@@ -420,6 +420,11 @@ body {
 .people-name { font-size: 20px; font-weight: 650; color: var(--text-1); }
 .people-reading-note { padding: 14px; border: 1px solid var(--border); border-radius: 12px; color: var(--text-2); font-size: 12px; line-height: 1.8; }
 .people-reading-note p { margin: 6px 0 10px; }
+/* 存储写入告警（2026-09-22）：只在 localStorage 写不进去时渲染（见 app.js 的 save()）。
+ * 用警示色边框而不是纯红底 —— 它是「提醒去导出备份」，不是错误弹窗。 */
+.storage-warn { display: flex; gap: 8px; align-items: flex-start; margin-top: 10px; padding: 10px 12px;
+  border: 1px solid var(--warn, #b8860b); border-radius: 10px; color: var(--text-1); font-size: 12px; line-height: 1.7; }
+.storage-warn svg { flex: none; margin-top: 2px; color: var(--warn, #b8860b); }
 .people-reading-note a { display: block; padding: 10px; background: var(--brand); color: white; border-radius: 8px; text-align: center; text-decoration: none; }
 .read-cover.has-img.people-cover { height: auto; background: transparent; }
 .people-cover > img { width: 100%; height: auto; display: block; }

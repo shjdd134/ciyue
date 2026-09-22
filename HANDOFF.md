@@ -22,7 +22,7 @@
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`72db9bf`**（2026-09-21 22:52，v72 朗读层重写批次） |
-| 资源版本 | `?v=77` · SW 缓存名 `wordlens-cache-v77` |
+| 资源版本 | `?v=78` · SW 缓存名 `wordlens-cache-v78` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -807,6 +807,43 @@
   > - ⚠️ 扫描判据第一版写错：拿 `p.sentences[si]`（数据口径）当期望值，
   >   而退化段按设计返回切分后的第 rs 片 → 假红。修正为「只扫 n≥2 的段，期望取
   >   `renderSentencesOf(p)[si]`」。**判据报红时先分清「布局坏了」还是「尺子坏了」。**
+
+- **2026-09-22 晚（v78）网页侧可靠性兜底** —— 承接 APK 审查报告第②③条，
+  在动 Android 工程之前先把网页侧这两个真实故障口堵上。
+  > - **① 落盘收口（存储写不进去不再打断交互）**：`save()` 原来是
+  >   `const save = () => localStorage.setItem(...)` —— 配额满 / 无痕 / WebView 回收时
+  >   **直接抛**，异常冒到点击处理器。真浏览器实测（`.bak/probe-storage-warn.cjs`：
+  >   注入会抛的 `setItem`）：现在三档 —— 原样写 → 失败则只裁**最老的续读位置**
+  >   （`readPos`/`readHistory` 留最近 40 篇；生词 / 已知词 / 阅读 / 时长一个字不动）
+  >   再写一次 → 再失败标记 `failed` + 提示一次，并在「我的 → 数据与备份」渲染
+  >   `.storage-warn` 告警行（新增 `alert` 图标 + `.storage-warn` 样式）。
+  >   **异常不再漏给调用方**：注入抛错的 `setItem` 后仍能正常开文章、进「我的」。
+  > - **② 续读位置一致性（强杀不再回到更早的位置）**：锚点原来只在「离开阅读页 /
+  >   pagehide / visibilitychange」三个出口记；宿主杀进程时这些事件不保证执行，
+  >   而恢复时 `applyAnchor` **优先用锚点且总能成功** → 更旧的锚点盖掉较新的
+  >   scrollTop。现在滚动节流那一跳把锚点与 scrollTop **写进同一次 `save()`**。
+  > - **③ 补「停住也落盘」的延时**：节流条件只在**下一次滚动**时才被求值 ——
+  >   「滚一下 → 停住 → 被杀」这条路上原来一个字节都不写。加了 5 秒一次性延时
+  >   （`scheduleReadSave`/`cancelReadSave`，`inFlushPos` 防自触发）。
+  >   真页面实测（`.bak/probe-kill-resume.cjs`）：补延时前 `readPos` 为空、
+  >   重开停在 0px；补后 `readPos.y === lastRead.y = 78,691`、重开**差 0px**。
+  > - **④ 锚点开始存 `rs`**：`readAnchor` 早就量到了退化段的切分序号，旧版没往盘上写
+  >   → 退化段续读只能落回段落开头。三处 `resumeAnchor` 重建一并带上（老锚点
+  >   `undefined → 0`，行为与改动前一致，不会跳错地方）。
+  > - **开销实测**（`.bak/probe-anchor-cost.cjs`，最长一篇 1,165 句）：
+  >   `readAnchor` 全量扫描中位 **0.4–1.0ms**、最大 1.7ms —— `flushReadPos` 旧注释
+  >   担心的「每 5 秒量一遍会拖成幻灯片」**不成立**（那是估计，从没量过），已改注释。
+  > - **守卫 374 → 386**（新增 `[S] 落盘与续读位置` 12 条：不抛 / 状态标记 / 降级
+  >   只裁续读位置 / 保留最近 40 篇 / 告警行 + 孪生对照 / 节流窗口 / 延时挂载 /
+  >   同一次事务 / 锚点带 rs / 状态闭集）。**负向 r 系列 5 组全红**
+  >   （ra 节流不写锚点 2 红 / rb 降级误裁用户数据 1 红 / rc 告警恒渲染 1 红 /
+  >   rd 不标 failed 2 红 / re 删延时 1 红），还原 386/0；nav-test 39/0。
+  > - ★ 本轮三个坑：① 旧守卫用**精确 JSON 字符串**锁 `resumeAnchor` 形状，加一个
+  >   字段就假红 → 改成按字段断言意图；② 我的扫描/节流判据第一版**错在桩不全**
+  >   （`#read-bar`/`#read-body` 没桩 → 函数提前 return）与**取样位置错**
+  >   （延时守卫放在第二次调用之后，那次会 `cancelReadSave()`）——
+  >   两次都是「尺子坏了」，不是代码坏了；③ 探针的 `initScript` 无脑覆写存档，
+  >   reload 时等于自己清档，把「恢复永远为 0」的假故障栽给产品代码。
 
 ### 0.3 机制速查（不随批次变）
 

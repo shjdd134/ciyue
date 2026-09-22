@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "77");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "78");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -194,7 +194,63 @@ function syncMinsMirror() {
   S.minsByDay = out;
 }
 syncMinsMirror();
-const save = () => localStorage.setItem(STORE, JSON.stringify(S));
+
+/* ---------------- 落盘（2026-09-22 收口） ----------------
+ * localStorage 写不进去有三种真实原因：配额满、无痕/隐私模式、宿主 WebView 回收。
+ * 旧实现是 `const save = () => localStorage.setItem(...)` —— **直接抛**，异常一路冒到
+ * 点击处理器：存储一满，连点个词都能把交互打断（实测：往沙箱注入会抛的 setItem，
+ * save() 当场 throw，调用方没有任何兜底）。
+ * 现在统一收口在这一个函数里，三档：
+ *   ① 原样写 → ok
+ *   ② 失败：只裁**最老的续读位置**（readPos/readHistory 保留最近 40 篇）再写一次
+ *      —— 那两块是「便利数据」，正文、生词本、已知词、时长一个字不动；
+ *   ③ 再失败：标记 failed + 提示一次，内存里的 S 照常可用（本次会话不丢），
+ *      并在「我的 → 数据与备份」显示告警行，引导先导出备份。
+ * ⚠️ 状态只存内存：写不进去时它本来也存不下来，刷新后归 ok —— 这是可接受的，
+ *    因为告警的意义是「当场告诉用户现在别关」，不是跨会话记账。 */
+let storageState = "ok";            // ok | trimmed | failed（供「我的」页渲染告警行）
+let storageHinted = 0;              // 每种状态每会话只提示一次
+function recentArticleIds(n) {
+  const rows = [];
+  for (const id of Object.keys(S.readPos || {})) {
+    const r = S.readPos[id] || {};
+    rows.push({ id, at: Number(r.at) || 0 });
+  }
+  for (const id of Object.keys(S.readHistory || {})) {
+    if (rows.some(r => r.id === id)) continue;
+    const h = S.readHistory[id] || {};
+    rows.push({ id, at: Number(h.lastAt) || 0 });
+  }
+  rows.sort((a, b) => b.at - a.at);
+  return rows.slice(0, n).map(r => r.id);
+}
+function notifyStorage(kind) {
+  if (storageHinted & (kind === "failed" ? 2 : 1)) return;
+  storageHinted |= kind === "failed" ? 2 : 1;
+  setTimeout(() => toast(kind === "failed"
+    ? "浏览器存储写入失败 · 进度可能保存不上，建议先去「我的」导出备份"
+    : "存储空间紧张 · 已只保留最近的续读位置，生词与记录未动"), 900);
+}
+function save() {
+  try { localStorage.setItem(STORE, JSON.stringify(S)); storageState = "ok"; return true; }
+  catch { /* 落到降级档 */ }
+  try {
+    const keep = recentArticleIds(40);
+    const py = {}, ph = {};
+    for (const id of keep) {
+      if (S.readPos && S.readPos[id]) py[id] = S.readPos[id];
+      if (S.readHistory && S.readHistory[id]) ph[id] = S.readHistory[id];
+    }
+    localStorage.setItem(STORE, JSON.stringify({ ...S, readPos: py, readHistory: ph }));
+    if (storageState !== "failed") notifyStorage("trimmed");
+    storageState = "trimmed";
+    return true;
+  } catch {
+    storageState = "failed";
+    notifyStorage("failed");
+    return false;
+  }
+}
 
 /* ---------------- 阅读统计 ----------------
  * 阅读时长、读完篇数和连续阅读天数都从本地记录计算。 */
@@ -239,13 +295,18 @@ function flushReadTime() {
 }
 
 /* 阅读位置落盘：页面被切走/关闭时调一次，供下次打开直接回到原句。
- * 不放滚动节流里 —— 锚点要逐句量 getBoundingClientRect，长文（1500+ 句）每 5 秒量一遍
- * 会把滚动拖成幻灯片；细粒度位置丢失的风险由 5 秒一次的 scrollTop 兜着。 */
+ * 2026-09-22 起它不再是唯一的落盘时机 —— 滚动节流（updateReadProgress 的 5 秒档）
+ * 也会把锚点和 scrollTop 一起写，因为宿主杀进程时这里的事件可能根本不执行。
+ * 本函数保留为「离开时的精确收尾」：多量一次锚点，保证出口那几个场景最准。 */
 function flushReadPos() {
   const cont = $("#read-scroll");
   if (!cont || !cont.dataset || !S.lastRead || !S.lastRead.id) return 0;
   if (cont.dataset.art !== S.lastRead.id) return 0;
-  updateReadProgress();
+  /* inFlushPos 只是防止 updateReadProgress 在里面又挂一个新的延时（否则空闲时
+     每 5 秒自触发一次，白写盘） */
+  inFlushPos = true;
+  try { updateReadProgress(); } finally { inFlushPos = false; }
+  cancelReadSave();
   S.lastRead.y = cont.scrollTop;
   S.lastRead.at = Date.now();
   rememberReadPos(cont, S.lastRead.id);
@@ -1030,6 +1091,8 @@ const ICON = {
   film: '<rect x="3" y="5" width="18" height="14" rx="2.2" stroke="currentColor" stroke-width="1.7" fill="none"/><path d="M7.6 5v14M16.4 5v14M3 9.6h4.6M3 14.4h4.6M16.4 9.6H21M16.4 14.4H21" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>',
   arrow: '<path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   trash: '<path d="M4 7h16M9 7V4.8A.8.8 0 0 1 9.8 4h4.4a.8.8 0 0 1 .8.8V7M6.5 7l.8 12.2a.8.8 0 0 0 .8.8h7.8a.8.8 0 0 0 .8-.8L17.5 7M10 11v6M14 11v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
+  /* 存储告警用（2026-09-22）：三角感叹号，只在「我的 → 数据与备份」的告警行出现 */
+  alert: '<path d="M12 4.2 20.6 19H3.4L12 4.2Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" fill="none"/><path d="M12 10v4.3M12 16.7v.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/>',
   download: '<path d="M12 3v11M8 10.5l4 3.5 4-3.5M4.5 19h15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   upload: '<path d="M12 16V5M8 8.5l4-3.5 4 3.5M4.5 19h15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   refresh: '<path d="M20 11a8 8 0 1 0-.6 4M20 5v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
@@ -2028,6 +2091,11 @@ function renderMe() {
       <div class="muted-2">
         阅读记录与生词保存在当前浏览器中，换设备或清理数据前，请先导出备份，之后可以导回来。
       </div>
+      ${storageState === "ok" ? "" : `<div class="storage-warn" role="status">
+        ${svg("alert", 14)}<span>${storageState === "failed"
+          ? "存储写入失败，进度可能保存不上。请先导出备份，再清理浏览器空间。"
+          : "存储空间紧张，已只保留最近的续读位置；生词与阅读记录未受影响。"}</span>
+      </div>`}
       <div class="row between">
         <span class="h3">清空记录</span>
         <span class="link danger" data-act="ask-reset" role="button" tabindex="0">清空阅读记录</span>
@@ -2465,6 +2533,10 @@ function rememberReadPos(cont, artId) {
   const rec = {
     pi: anc ? anc.pi : (prev.pi || 0),
     si: anc ? anc.si : (prev.si || 0),
+    /* rs 是退化段的渲染切分序号（普通段恒 0）。readAnchor 早就量到了它，
+     * 但旧版没往盘上写 —— 于是退化段续读只能落回段落开头那一句。
+     * applyAnchor 已经支持按 rs 精确落位，这里只是把量到的值带上。 */
+    rs: anc ? (anc.rs || 0) : (prev.rs || 0),
     off: anc ? anc.off : (prev.off || 0),
     y: cont.scrollTop || 0,
     pct: S.lastRead && S.lastRead.id === id ? (S.lastRead.pct || 0) : (prev.pct || 0),
@@ -2532,6 +2604,18 @@ function syncReadSettingsSheet(kind, val) {
 }
 
 /* 阅读进度条 + HUD：基于 #read-scroll 容器的滚动位置 */
+/* 落盘节奏：滚动时按 5 秒节流写一次；**停下来也要写** —— 节流条件只在「下一次滚动」
+ * 时才被求值，所以「滚一下停住 → 宿主杀进程」这条路上原来一个字节都没写。
+ * 用一个一次性的延时兜住：滚动后 5 秒内没有新滚动，就把位置与锚点落一次盘。
+ * 真页面实测（.bak/probe-kill-resume.cjs）：只滚一次不补这个定时器，readPos 里什么都没有。 */
+let readSaveTimer = 0;
+let inFlushPos = false;
+function scheduleReadSave() {
+  if (readSaveTimer || inFlushPos) return;
+  readSaveTimer = setTimeout(() => { readSaveTimer = 0; flushReadPos(); }, 5000);
+}
+function cancelReadSave() { if (readSaveTimer) { clearTimeout(readSaveTimer); readSaveTimer = 0; } }
+
 function updateReadProgress() {
   const cont = $("#read-scroll");
   const bar = $("#read-bar");
@@ -2562,7 +2646,20 @@ function updateReadProgress() {
       S.lastRead.at = Date.now();
       const meta = (S.readHistory || {})[a.id];
       if (meta) meta.lastAt = S.lastRead.at;
+      cancelReadSave();          // 刚刚写过，挂着的延时不用再来一次
+      /* ★★ 锚点必须与 scrollTop **同一次落盘**（2026-09-22 修强杀丢位置）：
+       * 原来锚点只在离开阅读页 / pagehide / visibilitychange 三个出口记 —— 网页里够用，
+       * 但宿主（Android WebView）直接杀进程时这些事件**不保证执行**。而恢复时
+       * applyAnchor 优先用锚点、且只要元素还在就一定能成功，于是一个**更旧的锚点**
+       * 会覆盖掉 5 秒节流刚存下的**更新的 scrollTop**，表现为「重开回到更早的地方」。
+       * 开销已实测：最长一篇 1,165 句的全量扫描中位 0.4–1.0ms、最大 1.7ms
+       * （.bak/probe-anchor-cost.cjs），放在 5 秒节奏里可忽略 ——
+       * flushReadPos 旧注释担心的「每 5 秒量一遍会拖成幻灯片」**不成立**（那是估计，没量过）。 */
+      rememberReadPos(cont, a.id);
       save();
+    } else {
+      /* 还没到窗口：挂一个延时，保证「滚一下 → 停住 → 被杀」也留得下位置 */
+      scheduleReadSave();
     }
   }
   /* FAB 随滚动方向淡入淡出：下滚让位正文，上滚/回顶部出现 */
@@ -2935,6 +3032,7 @@ function render() {
   /* 离开阅读页：把最后位置落盘（换文场景 openArticle 已重置 lastRead，id 对不上不会覆盖）。
    * 每篇各存一份锚点：A 篇读一半跑去读 B 篇，再回 A 篇还是接着原句。 */
   if (prevRead && view.name !== "read" && S.lastRead && S.lastRead.id === prevRead.dataset.art) {
+    cancelReadSave();          // 已经落过盘了，别让挂着的延时再打一次
     S.lastRead.y = LAST_Y; S.lastRead.at = Date.now();
     rememberReadPos(prevRead, S.lastRead.id);
     save();
@@ -3099,7 +3197,7 @@ document.addEventListener("click", e => {
      * 锚点按文章 id 各存各的 —— 在 A、B 两篇之间来回切，都回到各自读到的那一句。 */
     resumeY = (S.lastRead && S.lastRead.id === activeArticle.id) ? (S.lastRead.y || 0) : 0;
     const savedPos = (S.readPos || {})[activeArticle.id];
-    resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, off: savedPos.off || 0 } : null;
+    resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, rs: savedPos.rs || 0, off: savedPos.off || 0 } : null;
     const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
     S.lastRead = { id: activeArticle.id, y: resumeY, pct: savedPct, at: Date.now() };
     save();
@@ -3473,7 +3571,7 @@ document.addEventListener("click", e => {
       LOOKED[art.id] = 0;
       resumeY = (S.lastRead && S.lastRead.id === art.id) ? (S.lastRead.y || 0) : 0;
       const savedPos = (S.readPos || {})[art.id];
-      resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, off: savedPos.off || 0 } : null;
+      resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, rs: savedPos.rs || 0, off: savedPos.off || 0 } : null;
       const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
       S.lastRead = { id: art.id, y: resumeY, pct: savedPct, at: Date.now() };
       save();
@@ -3544,7 +3642,7 @@ document.addEventListener("keydown", e => {
         const savedPos = (S.readPos || {})[activeArticle.id];
         resumeY = (savedPos && Number.isFinite(Number(savedPos.y))) ? Number(savedPos.y) : 0;
         resumeAnchor = (savedPos && Number.isFinite(savedPos.pi))
-          ? { pi: savedPos.pi, si: savedPos.si || 0, off: savedPos.off || 0 } : null;
+          ? { pi: savedPos.pi, si: savedPos.si || 0, rs: savedPos.rs || 0, off: savedPos.off || 0 } : null;
         const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
         S.lastRead = { id: activeArticle.id, y: resumeY, pct: savedPct, at: Date.now() };
         save();
