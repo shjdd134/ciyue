@@ -24,14 +24,25 @@ const JSON_OUT = process.argv.includes('--json');
 const token = getToken(ROOT);
 if (!token) { console.error('✗ 取不到 git token（环境变量 GITHUB_TOKEN 或 tools/_cred-get.py git）'); process.exit(2); }
 
-let remote;
-try {
-  remote = await fetchRemoteTree(token, { repo: DEFAULT_REPO });
-} catch (e) {
-  console.error('✗ ' + e.message);
-  console.error('  网络不通时这个脚本没有意义 —— 它对的就是远端。');
-  process.exit(2);
-}
+const remote = await (async () => {
+  try {
+    return await fetchRemoteTree(token, { repo: DEFAULT_REPO });
+  } catch (e) {
+    console.error('✗ ' + e.message);
+    /* ★ 这句原来是「网络不通时这个脚本没有意义」——它把**所有**失败都归到网络上，
+       包括「远端树残缺」这类**必须换一句话说清**的失败（2026-09-22 实测：残缺响应会让
+       「本地有、远端没有」从 19 跳到 117，而那句笼统的提示会让人以为是网络抖动、
+       重试一下就好，接着就把多出来的 98 项当成真的）。原文保留给真正的网络故障，
+       其余按原样抛出 —— 对账失败的原因本身就是结论的一部分。 */
+    if (/fetch|timeout|ECONN|ENOTFOUND|abort/i.test(e.message)) {
+      console.error('  网络不通时这个脚本没有意义 —— 它对的就是远端。');
+    } else {
+      console.error('  ★ 这不是网络问题：远端树本身不可用。重拉一次；连续两次同样报错就去查远端，'
+        + '别输出「本地有、远端没有」这种结论。');
+    }
+    process.exit(2);
+  }
+})();
 const local = listLocalFiles(ROOT);
 const { changed, onlyLocal, onlyRemote } = diffTrees(local, remote);
 

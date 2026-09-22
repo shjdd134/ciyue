@@ -116,7 +116,17 @@ export function getToken(root = process.cwd()) {
   }
 }
 
-/* ---------- 远端 tree → Map<路径, blob sha1> ---------- */
+/* ---------- 远端 tree → Map<路径, blob sha1> ----------
+ * ★ 拿到的树必须先是**完整**的，否则「本地有、远端没有」会凭空变多，
+ *   而那个数字是「要不要推 / 是不是有人删了东西」的唯一依据（2026-09-22 实测教训）。
+ *   2026-09-22 深夜碰到过一次瞬时读数：「本地有、远端没有」从 19 跳到 **117**（差 98 项，
+ *   恰好是本仓库 assets/ 那一层），紧接着连续 6 次都稳定在 19。**成因未证实**，
+ *   但这类读数一旦被当成真的，下一步就是「把那 98 个文件推上去」——正好是反向的错误。
+ *   所以两道守卫，宁可抛错也不输出半份对账：
+ *   ① GitHub 明确说 `truncated` 就抛（recursive 请求被截断时它会给这个字段）；
+ *   ② 哨兵：本仓库的 main 上必然有 `index.html` 与 `assets/app.js`，缺一个就说明这份树
+ *      不完整（或 ref 拉错了）。只对本仓库 + main 生效 —— 换 repo 调用时不该假设这些文件在。
+ */
 export async function fetchRemoteTree(token, { repo = DEFAULT_REPO, ref = "main", timeout = 30000 } = {}) {
   const r = await fetch(`https://api.github.com/repos/${repo}/git/trees/${ref}?recursive=1`, {
     headers: { Authorization: `Bearer ${token}` },
@@ -126,7 +136,19 @@ export async function fetchRemoteTree(token, { repo = DEFAULT_REPO, ref = "main"
   if (!r.ok || !j.tree) {
     throw new Error(`拉远端树失败：${r.status} ${JSON.stringify(j).slice(0, 200)}`);
   }
-  return new Map(j.tree.filter(x => x.type === "blob").map(x => [x.path, x.sha]));
+  if (j.truncated === true) {
+    throw new Error("远端树被 GitHub 截断了（truncated=true）：这份不完整，"
+      + "拿它对账会算出「本地有一堆远端没有」。先重拉，别据此推送或删除任何东西。");
+  }
+  const map = new Map(j.tree.filter(x => x.type === "blob").map(x => [x.path, x.sha]));
+  if (repo === DEFAULT_REPO && ref === "main") {
+    const missing = ["index.html", "assets/app.js"].filter(p => !map.has(p));
+    if (missing.length) {
+      throw new Error(`远端树不完整：main 上找不到 ${missing.join("、")}（只拿到 ${map.size} 个 blob）。`
+        + "这多半是一次残缺的响应 —— 重拉；别拿它当「远端少了东西」的证据。");
+    }
+  }
+  return map;
 }
 
 /* ---------- 按 blob sha 拉远端文件内容 ----------
