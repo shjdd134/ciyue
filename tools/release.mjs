@@ -35,6 +35,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { check as checkVersion, readVersion } from "./version.mjs";
 import { checkMemorySize } from "./lib-memory.mjs";
+import { releaseList, REGRESSION_TESTS, RELEASE_STEP4_COVERED } from "./lib-regression.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const STATE_FILE = path.join(ROOT, ".bak", "gen-state.json");
@@ -181,15 +182,14 @@ for (const [script, args, label] of GATES) {
 
 /* ---------- 5/6 全量回归（可选） ---------- */
 if (has("--full")) {
-  /* 这份清单与 daily.mjs 第 5 步保持同步（daily 现为 22 项，含 2026-09-18 加的 version-test.mjs
-   * 与 doc-numbers-test.mjs）。
-   * 此处刻意少列 version-test.mjs / doc-numbers-test.mjs —— 两者已在第 4 步闸门跑过，
+  /* 清单本体在 `tools/lib-regression.mjs`（**只有那一份**，daily.mjs 第 5 步也 import 它）。
+   * 2026-09-22 之前这里另抄了一份数组，靠注释「与 daily.mjs 保持同步」维系 ——
+   * 当晚新加的 `memory-test.mjs` 只进了 daily 那份，本入口**静默没跑它**（输出里连一行都没有）。
+   * **注释不是同步机制**；现在唯一的差异是数据：`RELEASE_STEP4_COVERED` 两项在第 4 步闸门已跑过，
    * 重复跑没有额外信息。 */
-  step("5/6 全量回归（与 daily.mjs 第 5 步同步，20 项）");
-  const ALL = ["content-scope-test.mjs", "people-test.mjs", "recommend-test.mjs", "mt-test.mjs",
-    "text-test.mjs", "classics-test.mjs", "audit.js", "nav-test.js", "deeplink-test.mjs", "smoke.js",
-    "text-scan.js", "sw-test.js", "qc-test.mjs", "title-test.mjs", "cache-version-test.mjs",
-    "push-test.mjs", "remote-sweep-test.mjs", "examples-test.mjs", "verify-live-test.mjs", "guards-test.mjs"];
+  const ALL = releaseList();
+  step(`5/6 全量回归（daily 共 ${REGRESSION_TESTS.length} 项；此处 ${ALL.length} 项 ——`
+    + ` 去掉第 4 步已跑的 ${RELEASE_STEP4_COVERED.join(" / ")}）`);
   for (const t of ALL) {
     const r = runQuiet(t);
     if (r.status === 0) ok(t);
