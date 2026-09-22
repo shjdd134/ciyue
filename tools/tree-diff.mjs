@@ -86,6 +86,25 @@ function findBrokenRefs() {
 }
 const brokenRefs = findBrokenRefs();
 
+/* ★ 本地侧的完整性检查（2026-09-22 深夜加）：两个目录**必须**被判成忽略掉的。
+ *   理由不是「数字难看」，而是这两处一旦漏进来，算出来的「本地有、远端没有」会凭空变大，
+ *   而下一步的正常反应是「把它们推上去」—— 那正是本仓库最不能发生的事：
+ *   `mobile/www/` 是「assets + 抓取数据」拼出的**第二份全文**、`outputs/apk/` 是
+ *   把全部正文与封面打进一个 11MB 的包，而仓库 public 且 Pages 以 200 提供整棵工作树。
+ *   实测（同一台机器、同一天）：`本地(未忽略)` 从 292 跳到 **390**，多出来的正好是
+ *   `mobile/www/` 的 98 个文件 —— 即 `.gitignore` 那两条**当时没生效**。成因未证实
+ *   （另有一次是远端侧少读，见 lib-tree.mjs 的 truncated 守卫），所以这里只做一件事：
+ *   把「守卫本来要防的那件事」直接断言出来，让它**响亮地**失败，而不是悄悄多出 98 项。 */
+{
+  const leaked = [...local.keys()].filter(p => p.startsWith('mobile/www/') || p.startsWith('outputs/apk/'));
+  if (leaked.length) {
+    console.error(`✗ 本地未忽略列表里混进了构建产物 ${leaked.length} 项（例如 ${leaked.slice(0, 3).join('、')}）——`
+      + '\n  `mobile/www/` 是第二份全文、`outputs/apk/` 是一整包正文，两者都绝不能入库。'
+      + '\n  这多半是 .gitignore 没生效或某次残缺读取。**别拿这份对账结果下结论**，重拉。');
+    process.exit(2);
+  }
+}
+
 if (JSON_OUT) {
   console.log(JSON.stringify({ remote: remote.size, local: local.size, changed, onlyLocal, onlyRemote, brokenRefs }, null, 1));
 } else {
