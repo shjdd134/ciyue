@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "72");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "73");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -71,8 +71,9 @@ const CN_MODES = ["off", "tap", "all"];
 /* 正文「一句一行」—— 2026-09-19 在皮克一篇上看完效果，用户拍板全站铺开。
  * 中文对照档每句后面跟一个块级译文，句子自然就一行一句；纯英文档句子原来是 inline，
  * 整段连排成一坨 —— 同一个 App 里两种排版节奏不一样，用户要的是「英文时和双语时一样」。
- * 所有文章都走 .para-flow（styles.css）：句子转块级、句间 10px、句末右留 10px，
- * **段距 18px 不动**（句距和段距一起拉会让段落层次糊掉，实测过；段落间距用户也从没抱怨过）。
+ * 所有文章都走 .para-flow（styles.css）：句子转块级、句间 10px、句末右留 10px、
+ * **段距 24px**（2026-09-20 由 18 上调，只动段距这一个数；句距和段距**一起**拉才会让
+ * 段落层次糊掉，样张实测过）。段距的唯一取值点在 styles.css，这里只是复述、不是来源。
  *
  * 交互只有一种：**点句出译文 / 再点收起**。段级「显示本段翻译」按钮已按用户要求删除 ——
  * 一句一行之后每段尾巴再挂一行小字，是把段落重新切碎，而且和点句是重复入口。 */
@@ -468,6 +469,92 @@ const textSentences = a => (a && Array.isArray(a.paras) ? a.paras : []).flatMap(
 const sentenceAt = (a, pi, si = 0) => {
   const p = a && a.paras && a.paras[pi];
   return sentencesOf(p)[si] || null;
+};
+
+/* 段落级退化段的**渲染期**再切分（2026-09-22）。
+ *
+ * 起因：AI 栏目（Offbook 通道）源站给的是**段落级**对齐，官方译文的句数常与英文不等
+ * （实测 `The seventh year of Kaihuang. Officials need filling.` 5 句英文 ↔ 4 句中文，
+ * 官方把前两句合并译了）。`tools/offbook.mjs` 的 `blockToPara()` 此时按设计**不切** ——
+ * 硬切会编造错误配对（REF §12 记着「组织才」+「能作为一个整体运转。」那种词中间截断）。
+ * 于是入库成 `sentences: [{ en:"5句话…", cn:"4句话…" }]` —— 数据形状合法，
+ * 但 `.para-flow` 只把「句级元素」转块级，它眼里这是 1 句，**整段英文连排成一坨**，
+ * 与句级对齐成功的段（一句一行）在同一篇里混着出现，看着像排版坏了。
+ *
+ * 全站实测 510 处（AI 5 篇为主：rebuilding-learning 135 / breakdown-of-firms 126 /
+ * on-cognitive-decoupling 117 / teaching-and-training-disqualified 89 / mirage-of-form 36）。
+ *
+ * ★ 修的是**渲染**，不是数据。三条理由：
+ *   ① `sentencesOf()` 被 9 处消费（句数统计 / needLearn / 朗读队列 / 续读锚点 / qc），
+ *      改它等于把「全站 7,094 句」这个已发布数字和所有人的阅读进度锚点一起打翻；
+ *   ② 切分只服务「英文一行一句」这一个视觉目标，与统计口径无关 —— 一个概念一把尺子，
+ *      但**两件事不该共用一把尺子**；
+ *   ③ 数据层若切，`cn` 配不上去（1 份译文 vs 5 句英文），守恒闸与 qc 漏译判据都会动。
+ *
+ * ★ 译文挂法：**整段中文挂在最后一句后面**（用户 2026-09-22 拍板）。不按比例拆中文 ——
+ *   那正是 REF §12 的踩坑，`Officials need filling.` 会配到半截中文，而这份材料是拿来背词的，
+ *   配错的译文等于教错。切出的每句都可点，点任一句都弹**本段整段**译文（行为统一，
+ *   不出现「前几句点了没反应」）。
+ *
+ * ★ 假阳性必须挡掉（实测样本）：
+ *   · `Cui. Lu. Wang. Xie.` —— 4 个单字母缩写，句子切分会切成 4 个碎片；
+ *   · `Bzzzzzz……` / `Shit…` / `RW: That's right, …` —— 拟声、短感叹、访谈前缀，
+ *     本就是单句，切了只会把一段拆成没意义的碎行。
+ *   判据取「可观察的文本性质」，不钉具体词表：切出的段必须**每段都像句子**（含小写字母、
+ *   至少 3 个词、长度有下限），否则整段不切、退回连排。
+ */
+const ABBR_GUARD = /(?:^|[\s(])[A-Za-z]{1,3}\.(?=\s|$)/g;
+const RENDER_SPLIT_MIN = 3;          // 切出少于 3 个词的不算句子
+const RENDER_SPLIT_MIN_LEN = 12;     // 少于 12 字符的不算句子
+/** 一段英文能不能安全地按句末标点切开用于**显示**。切不开就返回 null（调用方保持原样）。 */
+const renderSplitEn = en => {
+  const t = String(en || "").trim();
+  if (!t) return null;
+  /* 缩写保护：`Cui. Lu. Wang. Xie.` / `V. Vertical…` 会在这里被挡下 ——
+     把缩写点的 `.` 换成占位符再切，切完还回来。与 lib-offbook 的 ABBR_ROMAN 同思路，
+     但**不共用实现**：那边服务入库（决定数据形状），这边只服务渲染（决定怎么显示），
+     两边判据不同（那边保罗马编号，这边还要挡单字母缩写）。 */
+  const guarded = t.replace(ABBR_GUARD, m => m.replace(/\./g, "\u0001"));
+  const raw = guarded.split(/(?<=[.!?…])\s+/).map(s => s.trim()).filter(Boolean);
+  if (raw.length < 2) return null;
+  const parts = raw.map(s => s.replace(/\u0001/g, "."));
+  /* 每一段都得像句子 —— 只要有一段不像，整段不切（宁可连排，不要碎行） */
+  for (const s of parts) {
+    if (s.length < RENDER_SPLIT_MIN_LEN) return null;
+    if (!/[a-z]/.test(s)) return null;
+    if ((s.match(/[A-Za-z'’\-]+/g) || []).length < RENDER_SPLIT_MIN) return null;
+  }
+  return parts;
+};
+
+/* 渲染用的段落句子列表：在 sentencesOf 之上做「退化段再切」。
+ * 返回 [{ en, cn, rs }] —— rs 是**渲染切分序号**（0 起，非退化段恒为 0）。
+ * 调用方把 rs 写进 data-rs，配合 displaySentenceAt() 取回「屏幕上被点的那一句」。 */
+const renderSentencesOf = p => {
+  const base = sentencesOf(p);
+  /* 只有「句级元素恰好 1 个」才有退化可能；已经切好的段原样返回（零额外开销） */
+  if (base.length !== 1) return base.map(s => ({ ...s, rs: 0 }));
+  const en = base[0].en, cn = base[0].cn;
+  if (!cn) return base.map(s => ({ ...s, rs: 0 }));   // 无译文：不需要整段挂尾
+  const parts = renderSplitEn(en);
+  if (!parts) return base.map(s => ({ ...s, rs: 0 }));
+  return parts.map((s, i) => ({
+    en: s,
+    cn: i === parts.length - 1 ? cn : "",     // 译文只挂最后一句
+    rs: i,
+  }));
+};
+
+/* 取「屏幕上显示的第 si 句」的原文与译文。与 sentenceAt() 的分工：
+ *   sentenceAt()        —— 数据口径，按 data-si 取（统计 / 朗读 / qc 用）
+ *   displaySentenceAt() —— 显示口径，按 data-si + data-rs 取（查词卡片 / 点句弹译文用）
+ * 非退化段两者等价（rs 恒 0）；退化段里 displaySentenceAt 才拿得到被点的那一句，
+ * 否则卡片会显示整段英文当「本句含义」。 */
+const displaySentenceAt = (a, pi, si = 0, rs = 0) => {
+  const p = a && a.paras && a.paras[pi];
+  if (!p) return null;
+  const list = renderSentencesOf(p);
+  return list[rs] || list[si] || null;
 };
 
 /* ---------------- 文章难度指标 ----------------
@@ -1080,7 +1167,13 @@ function stepSpeech() {
 }
 
 function speakAll(a) {
-  const list = textSentences(a).filter(s => s.en).map(s => s.en);
+  /* ★ 必须走 renderSentencesOf，不能走 textSentences（2026-09-22）：
+   *   退化段在数据里是「1 个句级元素里塞 5 句英文」（AI 栏目 510 处），
+   *   textSentences 会把整段 5 句当**一条** utterance 念出去 —— 正是 v72 修掉的那个病
+   *   （全文 209 句 join(" ") 塞一条 utterance，长文被引擎中途掐断）。
+   *   走渲染切分后，队列里就是屏幕上看到的一行一句。 */
+  const list = (a && Array.isArray(a.paras) ? a.paras : [])
+    .flatMap(p => renderSentencesOf(p)).filter(s => s.en).map(s => s.en);
   if (!list.length) return;
   if (!window.speechSynthesis) { toast("当前系统不支持朗读"); return; }
   try { speechSynthesis.cancel(); } catch (e) {}
@@ -1875,8 +1968,12 @@ function renderRead() {
     }
     /* 一段话 = 一个文本流：句子是内联 span，句间只有一个空格。
      * 旧写法每句一个块级 div，段落被拆成竖排清单（句间 10px 空隙 + 2px 间距），
-     * 英文再长也只在句末换行，视觉上「一句一行」。 */
-    const parts = sentencesOf(p).map((s, si) => {
+     * 英文再长也只在句末换行，视觉上「一句一行」。
+     * ★ 用 renderSentencesOf 而不是 sentencesOf：段落级退化段（AI 栏目，见上面那个函数的
+     *   长注释）在这里被再切成显示用的一行一句，但 data-si 仍是切分前的序号 —— 锚点、
+     *   朗读、qc 口径全部不变，只有「怎么显示」变了。 */
+    const rsList = renderSentencesOf(p);
+    const parts = rsList.map((s, si) => {
       const enText = clean(s.en);
       const cnText = clean(s.cn);
       if (!enText && !cnText) return "";        // 两端都空的句子不占位置
@@ -1886,7 +1983,16 @@ function renderRead() {
          段落感全丢）；② 句子按钮的 aria-label 把整段中文也算进可访问名称，读屏中英混读；
          ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。 */
       const cn = cnText ? `<span class="cn" lang="zh-CN">${esc(cnText)}</span>` : "";
-      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}" role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${si}" role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
+      /* data-rs = 渲染切分序号（0 起）。**凡是「本段被切分过」就必须写上**，
+       * 包括 rs=0 那一句 —— 这不是可有可无的优化：rs=0 时不写属性，DOM 里首句就没有
+       * data-rs，`applyAnchor` 的 `querySelector(sel[data-rs="0"])` 找不到它，
+       * 续读会落到「第一个匹配 pi+si 的句子」上。退化段里那**恰好就是它**，
+       * 看似无害；但一旦切分顺序或段内结构变化，这个隐式回落就会静默错位。
+       * 所以判据是「这段切了没有」（rsList 长度 > 1），不是「序号是不是 0」。 */
+      const splitted = rsList.length > 1;
+      const rs = s.rs || 0;
+      const rsAttr = splitted ? ` data-rs="${rs}"` : "";
+      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}"${rsAttr} role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${si}"${rsAttr} role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
     /* 段落里不再挂任何按钮：段级「显示本段翻译」在 2026-09-19 被用户要求删除。
@@ -2189,13 +2295,20 @@ function readAnchor(cont) {
     if (r.bottom > line) { cur = el; break; }
   }
   const r = cur.getBoundingClientRect();
-  return { pi: +cur.dataset.pi || 0, si: +cur.dataset.si || 0, off: r.top - cTop };
+  return { pi: +cur.dataset.pi || 0, si: +cur.dataset.si || 0, rs: +cur.dataset.rs || 0, off: r.top - cTop };
 }
 
 /* 把锚点里的那一句放回记录时的屏幕位置（scrollTop += 需要的位移）。 */
 function applyAnchor(cont, a) {
   if (!cont || !a || !cont.querySelector || !cont.getBoundingClientRect) return false;
-  const el = cont.querySelector(`.sentence[data-pi="${a.pi}"][data-si="${a.si}"]`);
+  /* 先按 rs 精确定位。退化段切分后同一 data-si 下有多个 .sentence（rs 0..n-1），
+     querySelector 只给第一个 —— 续读会落在段落开头而不是你上次读到的那一句。
+     老锚点没有 rs（undefined → 0），退化成「按 pi+si 取第一个」，与改动前行为一致，
+     所以已存的 progress 不会失效、也不会跳错地方。 */
+  const rs = Number.isFinite(a.rs) ? a.rs : 0;
+  const sel = `.sentence[data-pi="${a.pi}"][data-si="${a.si}"]`;
+  const el = (rs > 0 ? cont.querySelector(`${sel}[data-rs="${rs}"]`) : null)
+    || cont.querySelector(sel);
   if (!el) return false;
   const delta = (el.getBoundingClientRect().top - cont.getBoundingClientRect().top) - a.off;
   if (delta) cont.scrollTop += delta;
@@ -3061,7 +3174,10 @@ document.addEventListener("click", e => {
     case "para-speak": {
       e.stopPropagation();
       const a2 = activeArticle; const pi = +t.dataset.pi; const si = +t.dataset.si || 0;
-      const sent = sentenceAt(a2, pi, si);
+      const rs = +t.dataset.rs || 0;
+      /* 朗读要念**屏幕上那一句**：退化段切分后 data-si 恒为 0，只有 displaySentenceAt
+         才取得到被点的第 rs 句。用 sentenceAt 会把整段 5 句一起念出来。 */
+      const sent = displaySentenceAt(a2, pi, si, rs);
       if (sent && sent.en) {
         speak(sent.en, "sent");
         t.closest(".para")?.classList.add("playing");
@@ -3139,7 +3255,9 @@ document.addEventListener("click", e => {
       let ctx = null;
       const sentEl = t.closest ? t.closest(".sentence") : null;
       if (sentEl && activeArticle && sentEl.dataset.pi != null) {
-        const s = sentenceAt(activeArticle, +sentEl.dataset.pi, +sentEl.dataset.si || 0);
+        /* 用显示口径：退化段里同一 data-si 下有多个切句，只有带上 data-rs 才取得到
+           「你点的这一句」；否则卡片会把整段英文当成「本句含义」显示出来。 */
+        const s = displaySentenceAt(activeArticle, +sentEl.dataset.pi, +sentEl.dataset.si || 0, +sentEl.dataset.rs || 0);
         if (s && s.en) ctx = { en: clipContext(s.en, word), cn: clean(s.cn || "") };
       }
       sheetCtx = ctx;
