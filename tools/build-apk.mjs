@@ -167,11 +167,45 @@ if (!fs.existsSync(path.join(ANDROID, "res", "mipmap-anydpi-v26", "ic_launcher.x
 
 /* ---------- 2. 拷进 ASCII 暂存区 ---------- */
 step(`拷进暂存区（${WORK}）`);
-fs.rmSync(WORK, { recursive: true, force: true });
+try {
+  fs.rmSync(WORK, { recursive: true, force: true });
+} catch (e) {
+  /* ★ 这里最常见的原因不是「没权限」，而是**暂存目录被占用**：Windows 不允许删除
+     某个进程的当前工作目录。本机踩过一次 —— 为了在浏览器里验证 mobile/www，
+     用 python -m http.server 起的临时站点目录恰好放在 WORK 里，于是整个构建卡在这一行，
+     而原生工具给出的只有 "Some operations were aborted"，看不出任何根因。
+     顺带一提：起临时站点别放在 work/ 下面（放别处就不会碰到这件事）。 */
+  throw new Error(`清不掉暂存目录 ${WORK}\n  原因：${e.message}\n`
+    + "  最常见的原因是有进程的工作目录还在里面（例如曾在 work/ 下起过 http server），\n"
+    + "  或者编辑器 / 杀毒软件正占用其中文件。关掉它们再重试。");
+}
 fs.mkdirSync(PROJ, { recursive: true });
 copyTree(path.join(ANDROID, "res"), path.join(PROJ, "res"));
 copyTree(path.join(ANDROID, "src"), path.join(PROJ, "src"));
 fs.copyFileSync(path.join(ANDROID, "AndroidManifest.xml"), path.join(PROJ, "AndroidManifest.xml"));
+
+/* ★ versionCode / versionName 必须在**清单**里注入，不能只靠 aapt2 link 的
+   --version-code / --version-name —— 那两个参数会被忽略（与 --min-sdk-version 是
+   同一条规律：命令行只管资源筛选，产物清单以清单文件为准）。
+   2026-09-22 实测：version.json 已 bump 到 2 / 1.0.1，产物 badging 读出来仍是
+   "versionCode='1' versionName='1.0.0'"，而 APK 文件名用的却是 version.json 的值 ——
+   名实不符。后果不是「装不上」而是更难查的东西：覆盖安装的版本判定、应用商店的
+   更新比较，全都按清单里那个错的数字走。
+   注入的是**暂存副本**：源清单保留兜底值，所以不带 version.json 直接跑也不至于崩。 */
+{
+  const src = fs.readFileSync(path.join(ANDROID, "AndroidManifest.xml"), "utf8");
+  /* 判据是「清单里有没有这两个属性」，不是「替换后字符串有没有变」——
+     后者在两处值恰好相同时会误判成「注入失效」而把构建拦下来。 */
+  const vcRe = /android:versionCode="\d+"/;
+  const vnRe = /android:versionName="[^"]*"/;
+  if (!vcRe.test(src) || !vnRe.test(src)) {
+    throw new Error("清单里找不到 android:versionCode / versionName 属性，注入失效"
+      + "（不许静默跳过：那会让 APK 文件名与包内版本各说各话）");
+  }
+  fs.writeFileSync(path.join(PROJ, "AndroidManifest.xml"),
+    src.replace(vcRe, `android:versionCode="${vc}"`).replace(vnRe, `android:versionName="${vn}"`));
+}
+
 copyTree(WWW, STAGE);
 fs.mkdirSync(path.join(WORK, "gen"), { recursive: true });
 log("  ✓ proj/ + stage/（www）");
@@ -193,10 +227,14 @@ const linkArgs = [
      这条是猜不得的，下面第 10 步会拆包核对。 */
   "-A", STAGE,
   "--java", path.join(WORK, "gen"),
+  /* ★ 这里**刻意不传** --version-code / --version-name：实测 aapt2 会忽略它们，
+     产物里的值来自清单。而「传了却无效」比「不传」更危险 —— 它让人以为版本号
+     已经跟着 version.json 走了（2026-09-22 就是这么被骗过一次）。
+     真正的注入在第 2 步：改的是暂存副本的 AndroidManifest.xml。 */
   "--min-sdk-version", String(MIN_SDK),
+  /* target 这个是**真的会被写进产物**的（自检里读得到 min 26 → target 35）；
+     min 那个不写进产物，靠清单里的 <uses-sdk> 兜底。两者缺一不可。 */
   "--target-sdk-version", String(TARGET_SDK),
-  "--version-code", String(vc),
-  "--version-name", vn,
   "--auto-add-overlay",
 ];
 if (DEBUG) linkArgs.push("--debug-mode");
@@ -332,9 +370,12 @@ const minSdkSeen = grab(/minSdkVersion:'([^']+)'/);
    「aapt2 -A 把内容放哪一层」这种事只有拆开看才知道，不能靠猜。
    zipfile 是 python 标准库；没有 python 就跳过这一条，不让整个构建因此失败。 */
 let entries = null;
+/* python 解释器提到 try 外面：下面还有第二处拆包核对（核壳胶水有没有注入）要用它。
+   原来它只在 try 里，第二处顺手写了个不存在的 `PY` → ReferenceError 被 `catch {}`
+   吞掉，症状是「读不出产物里的 index.html」—— 又一次静默失败。 */
+const pyBin = process.env.WORDLENS_PYTHON || "python";
 try {
-  const py = process.env.WORDLENS_PYTHON || "python";
-  const out = execFileSync(py, ["-c",
+  const out = execFileSync(pyBin, ["-c",
     "import sys,zipfile;print('\\n'.join(zipfile.ZipFile(sys.argv[1]).namelist()))", signed],
     { encoding: "utf8" });
   /* ★ 必须按 /\r?\n/ 切（2026-09-22）：python 在 Windows 上按文本模式输出 \r\n，
@@ -376,6 +417,55 @@ if (extra && extra.length) {
   problems.push(`APK 里有白名单外 ${extra.length} 项：${extra.slice(0, 3).join(", ")}${extra.length > 3 ? " …" : ""}`);
 }
 
+/* ★ 包内版本必须与 version.json 一致。文件名取的是 version.json，包内取的是清单 ——
+   两边一旦漂移，名字与内容就各说各话，而屏幕上不会有任何东西变红
+   （2026-09-22 漏过一次：文件叫 1.0.1-vc2，包里却是 1 / 1.0.0）。
+   覆盖升级与应用商店的更新比较，读的都是包内版本。
+   ★ 必须放进 problems：拷回**之后**再设 exitCode 是拦不住坏产物的
+   （「自检不过就不拷回」这条保护只对 problems 生效）。 */
+const vcSeen = grab(/versionCode='([^']+)'/);
+const vnSeen = grab(/versionName='([^']+)'/);
+if (vcSeen !== String(vc) || vnSeen !== vn) {
+  problems.push(`包内版本与 version.json 不一致：包内 ${vcSeen} / ${vnSeen}，期望 ${vc} / ${vn}`);
+}
+
+/* ★ 产物级端到端：APK 里那份 index.html 到底有没有带上壳胶水。
+   2026-09-22 白屏事故的教训 —— 当时的核对只到「98 个文件都在、大小对」，
+   从来没有一条断言检查过「里面那层壳胶水真的注入了」。**文件在 ≠ 内容对**，
+   而白屏恰恰是后者：页面加载成功、脚本却没跑起来。 */
+let glueLack = null;
+if (entries) {
+  let html = "";
+  let why = "";
+  try {
+    html = execFileSync(pyBin, ["-c",
+      /* ★ 必须走 sys.stdout.buffer.write，不能用 print()：
+         Windows 上 python 的 stdout 默认编码是 cp936，而这份 HTML 里全是中文注释，
+         print() 会直接 UnicodeEncodeError（退出码非零）→ 读不到内容 → 断言在
+         **正常构建时也报红**。那是「恒红」型的假守卫，比恒绿更烦：它会拦住每一次构建。 */
+      "import sys,zipfile;sys.stdout.buffer.write(zipfile.ZipFile(sys.argv[1]).read('assets/index.html'))",
+      signed], { encoding: "utf8" });
+  } catch (e) {
+    /* 不许静默吞：读不到就说清为什么。上面那个 ReferenceError 就是被吞掉之后
+       伪装成「读不出产物」的，白查了一轮。 */
+    why = String((e && e.message) || e).split("\n")[0];
+  }
+  const need = [["window.WORDLENS_NATIVE", "壳旗标"], ["__wlInsets", "安全区入口"],
+    ["checkRendered", "故障自检"], ["__wlNativeBack", "返回键"]];
+  if (!html) {
+    problems.push("读不出产物里的 assets/index.html，无法核对壳胶水是否注入"
+      + (why ? `（${why}）` : ""));
+  } else {
+    const lack = need.filter(([k]) => !html.includes(k)).map(([, n]) => n);
+    /* glueLack 只在**真缺**时才非 null。否则打印那行会输出「⚠ 缺 」（后面空白），
+       看着像在报警而其实没事 —— 比不打印更容易误导人。 */
+    if (lack.length) {
+      glueLack = lack;
+      problems.push(`产物内 index.html 缺少：${lack.join("、")}（壳胶水没注入或注入不全）`);
+    }
+  }
+}
+
 /* ---------- 11. 拷回仓库（仅自检通过时） ---------- */
 if (problems.length) {
   log("");
@@ -393,10 +483,13 @@ const size = fs.statSync(outApk).size;
 log("");
 log(`  APK        ${path.relative(ROOT, outApk)}  ${(size / 1048576).toFixed(2)} MB`);
 log(`  包名       ${grab(/package: name='([^']+)'/)}`);
-log(`  版本       ${grab(/versionCode='([^']+)'/)} / ${grab(/versionName='([^']+)'/)}`);
+log(`  版本       ${vcSeen} / ${vnSeen}`);
 log(`  SDK        min ${minSdkSeen} → target ${grab(/targetSdkVersion:'([^']+)'/)}`);
 log(`  签名       ${DEBUG ? "debug" : "生产"}  ${cert}`);
-log(`  内容       v${assetV}（壳胶水已注入）`);
+/* 这一行原来是无条件写「（壳胶水已注入）」—— 那是**陈述**，不是**核验**：
+   它跟产物里到底有没有没关系。现在打的是上面真拆包读出来的结果。 */
+log(`  内容       v${assetV} · 壳胶水 ${glueLack === null
+  ? "✓ 产物内已核（旗标 / 安全区 / 自检 / 返回键）" : "⚠ 缺 " + glueLack.join("、")}`);
 if (entries) {
   const nAssets = entries.filter(x => x.startsWith("assets/")).length;
   log(`  assets     APK 内 ${entries.length} 个条目（assets/ 下 ${nAssets}）· 白名单 ${wanted.length} 项 ✓ 一个不缺一个不多`);

@@ -2839,46 +2839,69 @@ console.log('\n[T] 原生壳（APK）');
    * 胶水是**壳专属**代码：网页版没有这一份，出了问题没有任何网页侧测试碰得到它。
    * 下面断言的是 app.js 真正依赖的契约（它怎么用 onend/onerror/voice），
    * 不是「胶水源码里出现了某个字符串」。 */
-  const glueState = { ready: false, voices: '[]', mask: null };
-  const glueSpoken = [];
-  const glueCancel = { n: 0 };
-  const glueEls = [];
-  const glueDark = [];               // SystemBars.setDark 收到的值
-  const glueDom = { attrs: {}, observer: null };
-  const glueCtx = {
-    window: {},
-    document: {
-      head: { appendChild: () => { } },
-      /* documentElement 要能被读能观察 —— 主题那条就是靠它拿 data-theme */
-      documentElement: {
-        getAttribute: k => (k in glueDom.attrs ? glueDom.attrs[k] : null),
-        setAttribute: (k, v) => { glueDom.attrs[k] = String(v); },
+  /* 沙箱工厂。为什么做成函数而不是就地建一份：故障自检那组断言需要**干净的现场**
+     ——`__wlDiagReported` 一旦置上，同一实例里后续的故障就全被静默吞掉，
+     而「界面正常 / 界面没建出来」两个方向本来就该各跑一遍。 */
+  function glueSandbox() {
+    const state = { ready: false, voices: '[]', mask: null, phone: null };
+    const spoken = [], cancel = { n: 0 }, els = [], dark = [], flush = { time: 0, pos: 0 };
+    const dom = { attrs: {}, observer: null, listeners: [], timers: [], diag: null };
+    const ctx = {
+      window: {
+        /* 真实 WebView 里这两样必然存在，桩必须言行一致。setTimeout **只记录、不执行**：
+           直接真跑的话，3.5 秒的渲染兜底会在断言跑到一半时突然冒出来改现场。 */
+        addEventListener: (t, f, c) => { dom.listeners.push({ type: t, fn: f, capture: c === true }); },
+        setTimeout: (f, ms) => { dom.timers.push({ fn: f, ms }); return dom.timers.length; },
       },
-      readyState: 'complete',
-      addEventListener: () => { },
-      createElement: () => { const el = { style: {}, textContent: '', id: '' }; glueEls.push(el); return el; },
-      querySelector: () => glueState.mask,
-    },
-  };
-  /* MutationObserver 桩：记下回调，测试自己触发它 —— 否则「主题变了通知壳」这条
-     只能靠「源码里有 observe()」这种正则断言，而那正是本轮要消灭的假守卫。 */
-  glueCtx.MutationObserver = function (cb) { this.cb = cb; };
-  glueCtx.MutationObserver.prototype.observe = function () { glueDom.observer = this.cb; };
-  glueCtx.window.SystemBars = { setDark: v => { glueDark.push(v); } };
-  /* flushReadTime / flushReadPos 在 app.js 里是顶层函数声明（挂在 window 上）——
-     胶水通过它们结算；桩在上下文全局上，计数用。 */
-  const glueFlush = { time: 0, pos: 0 };
-  glueCtx.flushReadTime = () => { glueFlush.time++; };
-  glueCtx.flushReadPos = () => { glueFlush.pos++; };
-  glueCtx.window.NativeTts = {
-    ready: () => glueState.ready === true,
-    voicesJson: () => glueState.voices,
-    speak: (text, lang, id, rate) => { glueSpoken.push({ text, lang, id, rate }); return true; },
-    cancel: () => { glueCancel.n++; },
-  };
-  vm.createContext(glueCtx);
-  vm.runInContext(glueSrc, glueCtx, { filename: 'shell-glue.js' });
-  const gw = glueCtx.window;
+      location: { href: 'https://appassets.wordlens.invalid/index.html' },
+      navigator: { userAgent: 'audit-sandbox' },
+      document: {
+        head: { appendChild: () => { } },
+        body: { appendChild: c => { dom.diag = c; return c; } },
+        /* documentElement 要能被读能观察 —— 主题那条就是靠它拿 data-theme */
+        documentElement: {
+          getAttribute: k => (k in dom.attrs ? dom.attrs[k] : null),
+          setAttribute: (k, v) => { dom.attrs[k] = String(v); },
+          appendChild: c => { dom.diag = c; return c; },
+        },
+        readyState: 'complete',
+        addEventListener: () => { },
+        getElementById: id => (dom.diag && dom.diag.id === id ? dom.diag : null),
+        createElement: () => {
+          const el = { style: {}, textContent: '', id: '', attrs: {},
+            setAttribute: (k, v) => { el.attrs[k] = String(v); } };
+          els.push(el);
+          return el;
+        },
+        querySelector: sel => (sel === '.phone' ? state.phone : state.mask),
+        /* 诊断条里会打印「静态脚本 N 个」，所以这个也得在 */
+        querySelectorAll: () => [],
+      },
+    };
+    /* MutationObserver 桩：记下回调，测试自己触发它 —— 否则「主题变了通知壳」这条
+       只能靠「源码里有 observe()」这种正则断言，而那正是本轮要消灭的假守卫。 */
+    ctx.MutationObserver = function (cb) { this.cb = cb; };
+    ctx.MutationObserver.prototype.observe = function () { dom.observer = this.cb; };
+    ctx.window.SystemBars = { setDark: v => { dark.push(v); } };
+    /* flushReadTime / flushReadPos 在 app.js 里是顶层函数声明（挂在 window 上）——
+       胶水通过它们结算；桩在上下文全局上，计数用。 */
+    ctx.flushReadTime = () => { flush.time++; };
+    ctx.flushReadPos = () => { flush.pos++; };
+    ctx.window.NativeTts = {
+      ready: () => state.ready === true,
+      voicesJson: () => state.voices,
+      speak: (text, lang, id, rate) => { spoken.push({ text, lang, id, rate }); return true; },
+      cancel: () => { cancel.n++; },
+    };
+    vm.createContext(ctx);
+    vm.runInContext(glueSrc, ctx, { filename: 'shell-glue.js' });
+    return { ctx, window: ctx.window, state, spoken, cancel, els, dark, dom, flush };
+  }
+
+  const g = glueSandbox();
+  const glueState = g.state, glueSpoken = g.spoken, glueCancel = g.cancel;
+  const glueEls = g.els, glueDark = g.dark, glueDom = g.dom, glueFlush = g.flush;
+  const gw = g.window;
 
   ok('★ 胶水注入时就置上 WORDLENS_NATIVE（app.js 据此跳过 SW、启用 UserState 镜像）',
     gw.WORDLENS_NATIVE === true);
@@ -2952,6 +2975,61 @@ console.log('\n[T] 原生壳（APK）');
     glueDark.length === 2 && glueDark[1] === true);
   if (glueDom.observer) glueDom.observer();
   ok('对照：主题没再变就不重复通知（不每帧给壳打电话）', glueDark.length === 2);
+
+  /* ---- 故障自检：白屏时壳能不能自己说出来 ----
+   * 这一组守的是**诊断能力本身**，来源是 2026-09-22 的真机白屏事故：
+   * 源 index.html 的 body 是空的，整个界面由 app.js 建出来 —— 脚本一旦不执行
+   * （语法错 / 静态脚本没拿到 / 拦截没生效），屏幕上就只剩主题背景色，而 WebView
+   * 没有控制台可看，用户能提供的信息只有「白屏」两个字。
+   * ★ 危险之处在于：这条能力**平时永不出现**，所以它被删掉、被改坏、或因为
+   *   window.addEventListener 不存在而整段抛掉时，没有任何其它断言会变红。
+   *   必须用「推进定时器 → 看它到底报没报」的行为断言钉住，不能断言「源码里有 report()」。 */
+  {
+    const g2 = glueSandbox();
+    const fireError = target => {
+      const l = g2.dom.listeners.find(x => x.type === 'error');
+      /* 监听没挂上时安静跳过：上面那条断言会红，这里不必陪跑崩溃 ——
+         否则一个坏样本会把后面所有断言一起带走，看不出到底坏在哪。 */
+      if (!l) return;
+      l.fn({ target, message: target ? '' : 'boom', filename: 'assets/app.js', lineno: 12 });
+    };
+    const advance = () => g2.dom.timers.filter(t => t.ms >= 3000).forEach(t => t.fn());
+
+    ok('★ 胶水挂了脚本错误监听（必须是 capture —— 资源错误不冒泡，只在捕获阶段拿得到）'
+      + '与未处理 Promise 拒绝监听',
+      g2.dom.listeners.some(l => l.type === 'error' && l.capture === true)
+      && g2.dom.listeners.some(l => l.type === 'unhandledrejection'));
+    ok('★ 胶水设了渲染兜底定时器（页面到了却没建出界面时，自己报出来）',
+      g2.dom.timers.some(t => t.ms >= 2000));
+
+    /* 对照①：<img> 失败**不许**报。正文里有原刊图片地址，离线时它们会全部加载失败 ——
+       把它们计进来，每次正常离线浏览都弹一条红字，这条诊断就废了（狼来了）。 */
+    fireError({ tagName: 'IMG', src: 'https://example.com/a.jpg' });
+    ok('对照：图片加载失败不报警（离线读正文时图片全挂，报警就变成狼来了）',
+      !g2.window.__wlDiagReported && !g2.dom.diag);
+
+    /* 对照②：界面正常时**不许**报。同一个实例先把 .phone 摆上，再推进定时器。 */
+    g2.state.phone = { tagName: 'DIV' };
+    advance();
+    ok('对照：界面建出来了就一声不吭（正常启动永远看不到这条红字）',
+      !g2.window.__wlDiagReported && !g2.dom.diag);
+
+    /* 正例：把 .phone 拿掉再推进一次 —— 这才是真跑一遍「白屏时它会不会说话」。 */
+    g2.state.phone = null;
+    advance();
+    ok('★ 行为：加载已结束却仍无界面 → 红条出现，且写明原因与现场（URL / UA）',
+      g2.window.__wlDiagReported === true && !!g2.dom.diag
+      && /页面脚本没有执行/.test(g2.dom.diag.textContent)
+      && /URL/.test(g2.dom.diag.textContent));
+
+    /* 正例：<script> 加载失败要报（这是与 img 相反的方向，防止有人把过滤写反）。 */
+    const g3 = glueSandbox();
+    const l3 = g3.dom.listeners.find(x => x.type === 'error');
+    if (l3) l3.fn({ target: { tagName: 'SCRIPT', src: 'https://appassets.wordlens.invalid/assets/app.js?v=79' } });
+    ok('★ 行为：静态脚本没拿到 → 报出来并带上它的地址（过滤写反了就抓不住）',
+      g3.window.__wlDiagReported === true && !!g3.dom.diag
+      && /app\.js/.test(g3.dom.diag.textContent));
+  }
 }
 
 /* ================= [U] 仓库源文件行尾卫生（2026-09-22） =================

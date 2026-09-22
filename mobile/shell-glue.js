@@ -17,6 +17,7 @@
  *   window.__wlTtsError(id, c)  [壳调] 原生 TTS 这条出错/被引擎丢弃
  *   window.NativeTts            [原生] ready() / voicesJson() / speak(t,lang,id,rate) / cancel()
  *   window.UserState            [原生] saveState(json) / loadState()（只有 app.js 在用）
+ *   window.__wlDiagReported     [写出] 本节报过故障后置 true —— Java 侧的渲染检测据此让路
  */
 (function () {
   "use strict";
@@ -214,4 +215,88 @@
      所以两条路（首帧 / 观察者）都能覆盖到。 */
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", pushTheme);
   else pushTheme();
+
+  /* ---------- 6. 出故障时「自己说出来」 ----------
+   * 壳里最糟的失败形态是**白屏**。原因在结构里：源 index.html 的 body 是空的，整个界面
+   * 都是 app.js 建出来的（第一个元素是 <div class="phone">）。所以脚本一旦不执行 ——
+   * 语法错、静态脚本没拿到、资源路径不对 —— 屏幕上就只剩主题背景色，没有任何线索。
+   * WebView 又没有控制台可看（除非插电脑），用户能提供的信息只有「白屏」两个字。
+   *
+   * 这一节把失败**画在屏幕上**。不需要开关：正常永不可见，只有真出问题才出现。
+   *
+   * 与 Java 侧（MainActivity 的诊断层）的分工，两边不重复报：
+   *   本节报「页面到了、脚本没跑起来」；
+   *   Java 侧报「页面根本没到」（那时本节的代码也没有机会执行）。
+   *   Java 侧显示前会先查 __wlDiagReported，两个红条不会打架。
+   */
+  var problems = [];
+
+  function report() {
+    if (window.__wlDiagReported) return;
+    var box;
+    try {
+      box = document.getElementById("wl-diag");
+      if (!box) {
+        box = document.createElement("div");
+        box.id = "wl-diag";
+        /* 内联样式：壳里不能假定某张样式表一定生效（要报的可能正是样式没加载），
+           也不该为了诊断去改站内 CSS。 */
+        box.setAttribute("style", "position:fixed;left:0;right:0;top:0;z-index:2147483647;"
+          + "background:#7f1d1d;color:#fff;font:12px/1.55 monospace;letter-spacing:0;"
+          + "padding:12px 14px;white-space:pre-wrap;word-break:break-all;"
+          + "-webkit-user-select:text;user-select:text");
+        (document.body || document.documentElement).appendChild(box);
+      }
+      var ua = "";
+      try { ua = navigator.userAgent; } catch (e) { }
+      box.textContent = "⚠ 词阅 · 壳自检\n" + problems.slice(0, 6).join("\n")
+        + "\n---\nURL " + location.href + "\nUA  " + ua;
+    } catch (e) { /* 连诊断都建不出来（DOM 都没了）：无计可施，别让它再抛一次 */ }
+    window.__wlDiagReported = true;
+  }
+
+  function note(s) {
+    if (problems.indexOf(s) < 0) problems.push(s);
+  }
+
+  /* ① 脚本层面。error 事件有两种形态：e.target 是元素 → 资源加载失败；
+     否则是脚本本身抛错（含语法错，那种连 window.onerror 都收得到）。 */
+  window.addEventListener("error", function (e) {
+    var t = e && e.target;
+    if (t && t !== window && t.tagName) {
+      /* ★ 只报 <script>。站内正文里有原刊图片地址，离线时它们会**全部**加载失败 ——
+         把 <img> 也计进来，「正常离线浏览」就会每次都弹红条，那就成了狼来了。 */
+      if (t.tagName === "SCRIPT") note("脚本加载失败 " + (t.src || "(内联)"));
+    } else if (e && e.message) {
+      note("脚本错误 " + e.message + " @" + (e.filename || "?") + ":" + (e.lineno || 0));
+    }
+    if (problems.length) report();
+  }, true);
+
+  window.addEventListener("unhandledrejection", function (e) {
+    var r = e && e.reason;
+    note("未处理的 Promise 拒绝 " + String((r && (r.message || r)) || ""));
+    report();
+  });
+
+  /* ② 页面到了、界面却没建出来。
+     用 .phone 当判据（app.js 渲染的第一个元素）。等多久是分寸活：等太短会在低端机上
+     误报，等太长等于让用户对着白屏干等。所以不是「等固定时长」而是「等加载结束」——
+     readyState 还没 complete 就说明还在跑，再给一轮；只有「加载已完成却仍无界面」
+     才是真的没跑起来。 */
+  var grace = 0;
+  function checkRendered() {
+    if (document.querySelector(".phone")) return;              // 正常
+    if (window.__wlDiagReported) return;                       // 上面已经报过，别重复
+    if (document.readyState !== "complete" && grace < 3) {
+      grace++;
+      window.setTimeout(checkRendered, 2000);
+      return;
+    }
+    var n = document.querySelectorAll("script[src]").length;
+    note("页面脚本没有执行（加载已结束，但界面没被建出来）");
+    note("静态脚本 " + n + " 个 · 就绪状态 " + document.readyState);
+    report();
+  }
+  window.setTimeout(checkRendered, 3500);
 })();

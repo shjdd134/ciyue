@@ -5,6 +5,9 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
@@ -13,6 +16,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 /**
  * 词阅 WordLens 的 Android 外壳。
@@ -38,6 +46,73 @@ public class MainActivity extends Activity {
     private int lastTop = -1, lastBottom = -1;
     private boolean backRegistered = false;
 
+    /* ---------- 诊断：白屏时唯一会说话的东西 ----------
+     * 为什么必须画在**原生 View** 上，而不是注入一段 JS 去显示：
+     * 要报的场景之一恰恰是「网页脚本根本没跑」—— 那时注入的代码也不会跑。
+     * WebView 里白得一片，而 Java 侧还能往屏幕上放东西。 */
+    private TextView diagView;
+    private boolean diagShown = false;
+    private boolean pageLoaded = false;
+    private final Handler ui = new Handler(Looper.getMainLooper());
+
+    private final AssetServer.Diag diag = new AssetServer.Diag() {
+        @Override
+        public void fail(String title, String detail) {
+            showDiag(title, detail);
+        }
+
+        @Override
+        public void pageDone(int intercepted) {
+            pageLoaded = true;
+            if (intercepted == 0) {
+                /* 页面「加载完成」了，却没有一次从安装包里取字节。正常路径下 serve()
+                   至少会被主文档调用一次，所以这条命中就说明加载走的不是我们以为的那条路。 */
+                showDiag("页面没有从安装包读取",
+                        "shouldInterceptRequest 一次都没命中 —— 页面的字节不是来自 assets。");
+                return;
+            }
+            /* 页面字节到了，不代表界面建出来了：整个 <body> 是 app.js 建的。
+               交给页面自己去报会更准（它知道栈），但页面脚本也可能根本没跑起来，
+               所以这里再独立问一次。 */
+            ui.postDelayed(MainActivity.this::checkRendered, 1500);
+        }
+    };
+
+    private void showDiag(String title, String detail) {
+        if (diagShown || diagView == null) return;
+        diagShown = true;
+        diagView.setText("⚠ 词阅 · 壳诊断\n" + title + "\n" + detail);
+        diagView.setVisibility(View.VISIBLE);
+        /* 同时落一份到应用私有目录：屏幕上可能显示不全（比如被系统栏挡住一行），
+           而且用户截图发过来之前先把证据留下。用追加，保留多次启动的记录。 */
+        try {
+            FileOutputStream o = new FileOutputStream(new File(getFilesDir(), "shell-diag.txt"), true);
+            o.write(("[" + new Date() + "] " + title + " | " + detail.replace('\n', ' ') + "\n")
+                    .getBytes("UTF-8"));
+            o.close();
+        } catch (Throwable ignored) { }
+    }
+
+    /** 页面加载完成后问它一句：界面到底建出来没有。判据是 .phone —— app.js 渲染的第一个元素。 */
+    private void checkRendered() {
+        if (web == null || diagShown) return;
+        try {
+            web.evaluateJavascript(
+                    "(document.querySelector('.phone') ? (window.__wlDiagReported ? 'DIAG' : 'OK')"
+                            + " : (window.WORDLENS_NATIVE ? 'NOPHONE' : 'NOGLUE'))",
+                    v -> {
+                        String s = v == null ? "" : v.replace("\"", "").trim();
+                        if ("OK".equals(s) || "DIAG".equals(s)) return;   // 正常 / 页面自己已经报过
+                        showDiag("页面脚本没有执行",
+                                ("NOGLUE".equals(s)
+                                        ? "壳胶水都没跑起来（window.WORDLENS_NATIVE 没设上）——"
+                                        + "index.html 可能不是安装包里的那一份。"
+                                        : "脚本执行了，但界面没被建出来（没有 .phone 元素）。")
+                                        + "\n页面上若有红色文字，那里是脚本自己给的原因。");
+                    });
+        } catch (Throwable ignored) { }
+    }
+
     @Override
     protected void onCreate(Bundle saved) {
         super.onCreate(saved);
@@ -55,6 +130,24 @@ public class MainActivity extends Activity {
         web = new WebView(this);
         root.addView(web, new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        /* ★ 诊断层在 WebView **之后**加入 root —— FrameLayout 按添加顺序叠放，后加的在上面。
+           它必须能盖住 WebView，因为要报的恰恰是「WebView 里什么都没有」。
+           平时 GONE，只有加载真失败才出现；点一下可收起，长按可复制。 */
+        diagView = new TextView(this);
+        diagView.setVisibility(View.GONE);
+        diagView.setTextColor(0xFFFFFFFF);
+        diagView.setTextSize(13);
+        diagView.setBackgroundColor(0xF01A1A1A);
+        int dp = Math.round(14 * getResources().getDisplayMetrics().density);
+        diagView.setPadding(dp, dp, dp, dp);
+        diagView.setTextIsSelectable(true);
+        diagView.setClickable(true);
+        diagView.setOnClickListener(v -> v.setVisibility(View.GONE));
+        root.addView(diagView, new FrameLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.TOP));
+
         setContentView(root);
 
         WebSettings s = web.getSettings();
@@ -85,7 +178,7 @@ public class MainActivity extends Activity {
 
         web.setBackgroundColor(Color.parseColor("#F7F8FC"));   // 与 CSS 的 --bg 浅色档一致，避免启动白闪
         web.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        web.setWebViewClient(new AssetServer(this));
+        web.setWebViewClient(new AssetServer(this, diag));
         web.setWebChromeClient(new WebChromeClient());
 
         if ((getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
@@ -110,6 +203,15 @@ public class MainActivity extends Activity {
            那时按返回键会出现「退了一层却落在不相干的页面」。
            而用户真正在意的续读位置由 app.js 自己从 readPos/锚点恢复，与 history 无关。 */
         web.loadUrl(AssetServer.BASE + "index.html");
+
+        /* 超时兜底。为什么不能只靠 onReceivedError：页面「成功」加载了一份空白文档时
+           它不会被触发，而屏幕上同样是白的。正常几百毫秒就该 onPageFinished。 */
+        ui.postDelayed(() -> {
+            if (!pageLoaded && !diagShown) {
+                showDiag("页面加载超时",
+                        "10 秒仍未完成，也没有收到加载错误。\n" + AssetServer.BASE + "index.html");
+            }
+        }, 10000);
     }
 
     /** API 32 及以下的返回键入口。API 33+ 走 OnBackInvokedCallback（manifest 里
