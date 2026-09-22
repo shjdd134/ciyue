@@ -21,7 +21,7 @@
 | 文章 | **19 篇 = 成长 4 + 人物 6 + 足球 4 + AI 5** |
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
-| 发布基线 | `.bak/published.json` = **`f431125`**（2026-09-22 22:00，v79「壳里会真坏的三件事」+ Android 壳工程批次） |
+| 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
 | 资源版本 | `?v=79` · SW 缓存名 `wordlens-cache-v79` |
 | Android 壳 | **1.0.2 (vc3)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.2-release-vc3.apk`）；打包坑与白屏事故复盘见 REFERENCE-mechanics §14 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
