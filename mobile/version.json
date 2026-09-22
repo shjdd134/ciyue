@@ -1,11 +1,15 @@
 {
-  "versionCode": 2,
-  "versionName": "1.0.1",
+  "versionCode": 3,
+  "versionName": "1.0.2",
   "_comment": [
-    "Android 壳的版本。tools/build-apk.mjs 会把它注入 aapt2 link 的 --version-code / --version-name。",
+    "Android 壳的版本。tools/build-apk.mjs 会把它注入**暂存副本的 AndroidManifest.xml**。",
+    "★ 不是传给 aapt2 link 的 --version-code / --version-name —— 那两个参数会被 aapt2 忽略",
+    "   （2026-09-22 实测：version.json 已 bump 到 2 / 1.0.1，产物 badging 读出来仍是 1 / 1.0.0）。",
+    "   同样地 --min-sdk-version 也不进产物清单，minSdk 靠清单里的 <uses-sdk> 兜底。",
     "★ versionCode 必须**严格递增**：Android 只允许用同一个签名、且 versionCode 更大的包覆盖安装。",
-    "   改完这个文件不需要动 AndroidManifest.xml（清单里那两个值是兜底，会被命令行覆盖）。",
-    "_** 内容版本（assets 里的 ?v=）跟这里是两个轴：内容天天变、壳几个月才变一次。",
-    "   同一个 versionCode 只允许出一个 APK —— 要重出就先把 versionCode +1。"
+    "   同一个 versionCode 只允许出一个 APK —— 要重出就先把 versionCode +1。",
+    "★ 内容版本（assets 里的 ?v=）跟这里是两个轴：内容天天变、壳几个月才变一次。",
+    "★ 1.0.2 (vc3)：修 ZIP 条目名分隔符（Windows aapt2 给子目录写反斜杠 → 整壳白屏）",
+    "   + 修 API 33+ 返回回调注销 + 自检改走 tools/lib-zip.cjs（不再依赖 python）。"
   ]
 }

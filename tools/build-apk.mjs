@@ -30,6 +30,7 @@ import { createRequire } from "node:module";
 
 const require = createRequire(import.meta.url);
 const libMobile = require("./lib-mobile.cjs");
+const libZip = require("./lib-zip.cjs");
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const ANDROID = path.join(ROOT, "mobile", "android");
@@ -298,8 +299,51 @@ log("  ✓ unsigned.apk");
 
 /* ---------- 8. 对齐 ---------- */
 step("zipalign -p 4（★ 必须在签名之前，签名会破坏对齐）");
-run(ZIPALIGN, ["-f", "-p", "4", path.join(WORK, "unsigned.apk"), path.join(WORK, "aligned.apk")]);
+const aligned = path.join(WORK, "aligned.apk");
+run(ZIPALIGN, ["-f", "-p", "4", path.join(WORK, "unsigned.apk"), aligned]);
 log("  ✓ aligned.apk");
+
+/* ---------- 8b. 条目名分隔符必须是 /（★ 2026-09-22 真机白屏的根因） ----------
+ * aapt2 在 Windows 上走 `-A <dir>` 时，会拿文件系统的相对路径去拼条目名 —— 而那个
+ * 相对路径用的是**反斜杠**。实测产物原始字节：
+ *     assets/assets\app.js
+ *     assets/assets\covers\fb-...jpg
+ * 注意只有 aapt2 自己加上去的那层 `assets/` 是正斜杠，往下一律 `\`。
+ *
+ * 后果是**整壳白屏**，而且一点线索都不给：Android 的 AssetManager 按条目名精确查找
+ * （`getAssets().open("assets/app.js")` 找的就是这个名字本身，不会替你换算分隔符），
+ * 所以 98 个资源里 96 个取不到；唯独顶层无分隔符的 `assets/index.html` 能取到
+ * —— 页面因此「加载成功」，而源 index.html 的 body 本来是空的、界面全由 app.js 建出，
+ * 于是屏幕上只剩主题背景色。没有报错、没有红字，用户能提供的只有「白屏」两个字。
+ *
+ * ★ 为什么在这里改、而且只改名字字节：
+ *   ① 位置：zipalign **之后**、签名**之前**。改名若在 zipalign 之前，对齐是按旧布局算的；
+ *      若在签名之后，v2/v3 签名覆盖中央目录，改一个字节签名就废。
+ *   ② 手段：`\` 与 `/` 都是 1 字节 → 原地等长替换 → 不动任何偏移，于是
+ *      resources.arsc 的 STORED + 4 字节对齐原样保留、中央目录里的 local header 偏移
+ *      不用重算。重写一遍 zip 容器则三条全丢（那种 APK 装得上、一启动就崩）。
+ *   ③ 只改名字区间内的字节，绝不全文替换 —— 压缩数据里完全可能合法地出现 0x5C。
+ *
+ * ★ 为什么不能指望「自检会拦住」：那条自检原来走 python 的 zipfile，而它在 Windows 上
+ *   会把条目名里的 `\` **静默换成** `/`（ZipInfo 源码原话：ensure paths always use
+ *   forward slashes）。于是期望值与实际值都被美化成正斜杠、两边相等 ——
+ *   **自卫兵把缺陷改写成正常再报平安**。现在整条自检改走 lib-zip.cjs（自己解析中央目录，
+ *   一个字节都不改写），并且「条目名含反斜杠」本身就是一条硬断言。
+ */
+step("修 ZIP 条目名分隔符（Windows aapt2 给子目录写的是反斜杠）");
+{
+  const buf = fs.readFileSync(aligned);
+  const before = fs.statSync(aligned).size;
+  const norm = libZip.normalizeEntryNames(buf);
+  fs.writeFileSync(aligned, buf);
+  /* 长度必须逐字节不变 —— 这是「等长替换」这个前提的自检。真变了说明有人把这里
+     改成了别的手段，那时候偏移已经不对了，必须当场拦下而不是继续签名。 */
+  if (fs.statSync(aligned).size !== before) {
+    throw new Error(`改名后文件长度变了（${before} → ${fs.statSync(aligned).size}）：`
+      + "等长替换的前提被破坏，中央目录偏移已经不可信，别再往下签名");
+  }
+  log(`  ✓ 改写 ${norm.fixed} 处反斜杠 / ${norm.names.length} 个条目（文件长度不变）`);
+}
 
 /* ---------- 9. 签名 ---------- */
 step(DEBUG ? "apksigner（debug 签名）" : "apksigner（生产签名）");
@@ -346,7 +390,7 @@ run(JAVA, [
      实测（开启时）：v1 false / v2 true / v3 true；关掉后应当只剩 v2/v3。
      ★ 教训：`--v1-signing-enabled true` 会**安静地产出一个无效签名**，不报错、不警告。 */
   "--v1-signing-enabled", "false", "--v2-signing-enabled", "true", "--v3-signing-enabled", "true",
-  "--out", signed, path.join(WORK, "aligned.apk"),
+  "--out", signed, aligned,
 ]);
 log(`  ✓ ${outName}`);
 
@@ -368,37 +412,38 @@ const minSdkSeen = grab(/minSdkVersion:'([^']+)'/);
 
 /* 拆包核对「白名单里的每个文件都真的在 APK 里」——
    「aapt2 -A 把内容放哪一层」这种事只有拆开看才知道，不能靠猜。
-   zipfile 是 python 标准库；没有 python 就跳过这一条，不让整个构建因此失败。 */
-let entries = null;
-/* python 解释器提到 try 外面：下面还有第二处拆包核对（核壳胶水有没有注入）要用它。
-   原来它只在 try 里，第二处顺手写了个不存在的 `PY` → ReferenceError 被 `catch {}`
-   吞掉，症状是「读不出产物里的 index.html」—— 又一次静默失败。 */
-const pyBin = process.env.WORDLENS_PYTHON || "python";
-try {
-  const out = execFileSync(pyBin, ["-c",
-    "import sys,zipfile;print('\\n'.join(zipfile.ZipFile(sys.argv[1]).namelist()))", signed],
-    { encoding: "utf8" });
-  /* ★ 必须按 /\r?\n/ 切（2026-09-22）：python 在 Windows 上按文本模式输出 \r\n，
-     只 split("\n") 的话每个条目名末尾都留一个 \r，于是和任何期望值都不相等 ——
-     表现是「白名单 98 项全部报缺」，而文件其实一个不少。 */
-  entries = out.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
-} catch { entries = null; }
+ *
+ * ★ 这一节原来走 python 的 zipfile，2026-09-22 证明它是**假守卫**，两个洞：
+ *   ① 没有 python 就 `catch { entries = null }` 整条跳过 —— 而在 Windows 上 Node 起的
+ *      `python` 未必在 PATH 上（本机就是：Git Bash 里能跑，Node 里不一定）。跳过等于
+ *      白名单守卫当场失效，而构建照样产出正式 APK、照样 11MB、照样有签名。
+ *   ② 更隐蔽：**python 在 Windows 上会把条目名里的 `\` 静默换成 `/`**
+ *      （ZipInfo 源码原话：ensure paths always use forward slashes）。于是「期望值」
+ *      （来自 planFiles()，一串正斜杠）与「实际值」（被美化过的）永远相等 ——
+ *      它把缺陷改写成正常再报平安。真机上 96 个资源取不到、整壳白屏的那一版，
+ *      这条自检是**全绿**的。
+ *   现在改走 lib-zip.cjs：自己解析中央目录，读出来是什么就报什么，不依赖任何解释器。
+ */
+const apkBuf = fs.readFileSync(signed);
 const wanted = libMobile.planFiles();
-/* ★ APK 里的路径口径是 `assets/` + 白名单相对路径（2026-09-22 修）：
-     `aapt2 link -A <stage>` 把 stage 目录的**内容**整体挂在 APK 的 `assets/` 下，
-     而 stage 里本身就带着一个 `assets/` 子目录 —— 于是 www 根的 index.html 变成
-     `assets/index.html`，www 里的 `assets/app.js` 变成 `assets/assets/app.js`。
-     这个层级对运行时是对的：AssetServer 收到 `/assets/app.js` 后调
-     `getAssets().open("assets/app.js")`，getAssets() 的根正好是 APK 的 `assets/`。
-     错的是自检原来拿**裸名**比对（还带一条只给 index.html 开的特例），于是 98 项全报缺。 */
-const apkPathOf = f => "assets/" + f;
-const has = f => entries.includes(apkPathOf(f));
-const missing = entries ? wanted.filter(f => !has(f)) : null;
-/* 反向：壳里出现白名单之外的东西 = 有文件绕过了白名单被打进去（.DS_Store、__pycache__、
-   某天新增的调试文件…）。白名单的意义就是「只允许这些」，所以这个方向必须也守着。 */
-const extra = entries
-  ? entries.filter(x => x.startsWith("assets/") && !wanted.includes(x.slice("assets/".length)))
-  : null;
+let entries = null;
+const problems = [];
+try {
+  /* ★ APK 里的路径口径是 `assets/` + 白名单相对路径：
+       `aapt2 link -A <stage>` 把 stage 目录的**内容**整体挂在 APK 的 `assets/` 下，
+       而 stage 里本身就带着一个 `assets/` 子目录 —— 于是 www 根的 index.html 变成
+       `assets/index.html`，www 里的 `assets/app.js` 变成 `assets/assets/app.js`。
+       这个层级对运行时是对的：AssetServer 收到 `/assets/app.js` 后调
+       `getAssets().open("assets/app.js")`，getAssets() 的根正好是 APK 的 `assets/`。
+       所以 auditApk 内部比的是 `"assets/" + f`（正斜杠，与 planFiles 的口径一致）。 */
+  const a = libZip.auditApk(apkBuf, { want: wanted });
+  entries = a.entries;
+  problems.push(...a.problems);
+} catch (e) {
+  /* 拆包失败**必须**让构建失败：读不出产物就没法证明白名单对了，
+     「读不出来 → 当没事」正是上面 ① 的老毛病。 */
+  problems.push(`拆包对账失败：${(e && e.message) || e}`);
+}
 
 /* ---------- 10b. 自检结论 ---------- */
 /* ★ 自检不通过就不许拷回仓库（2026-09-22 修）：
@@ -407,15 +452,8 @@ const extra = entries
    CI 或者人只要看「文件在不在」，就会把它当成好的发出去。
    现在：自检有任何一条不过 → 产物留在暂存区，outputs/ 里上一个好 APK 一个字节都不动。
    （顺带：这条也让上面那些 `?` 之类的静默失效变成了「构建根本不产出」。） */
-const problems = [];
 if (minSdkSeen === "?") problems.push("产物里没有 minSdkVersion（清单缺 <uses-sdk>）：系统按 minSdk=1 对待，低版本设备装上就崩");
 else if (minSdkSeen !== String(MIN_SDK)) problems.push(`minSdk 不一致：清单 ${minSdkSeen} vs 脚本 MIN_SDK ${MIN_SDK}`);
-if (missing && missing.length) {
-  problems.push(`白名单缺 ${missing.length} 项：${missing.slice(0, 3).join(", ")}${missing.length > 3 ? " …" : ""}`);
-}
-if (extra && extra.length) {
-  problems.push(`APK 里有白名单外 ${extra.length} 项：${extra.slice(0, 3).join(", ")}${extra.length > 3 ? " …" : ""}`);
-}
 
 /* ★ 包内版本必须与 version.json 一致。文件名取的是 version.json，包内取的是清单 ——
    两边一旦漂移，名字与内容就各说各话，而屏幕上不会有任何东西变红
@@ -432,22 +470,21 @@ if (vcSeen !== String(vc) || vnSeen !== vn) {
 /* ★ 产物级端到端：APK 里那份 index.html 到底有没有带上壳胶水。
    2026-09-22 白屏事故的教训 —— 当时的核对只到「98 个文件都在、大小对」，
    从来没有一条断言检查过「里面那层壳胶水真的注入了」。**文件在 ≠ 内容对**，
-   而白屏恰恰是后者：页面加载成功、脚本却没跑起来。 */
+   而白屏恰恰是后者：页面加载成功、脚本却没跑起来。
+   现在连读文件也走 lib-zip：不再有「本机没有 python → 读不出来 → 断言跳过」这条路。
+   （原来那版走 python 的 print()，在 Windows 上 stdout 默认 cp936、HTML 里全是中文注释
+   → UnicodeEncodeError → 断言在**正常构建时也报红**，是恒红型假守卫；换成 lib-zip 顺带解决。） */
 let glueLack = null;
 if (entries) {
   let html = "";
   let why = "";
   try {
-    html = execFileSync(pyBin, ["-c",
-      /* ★ 必须走 sys.stdout.buffer.write，不能用 print()：
-         Windows 上 python 的 stdout 默认编码是 cp936，而这份 HTML 里全是中文注释，
-         print() 会直接 UnicodeEncodeError（退出码非零）→ 读不到内容 → 断言在
-         **正常构建时也报红**。那是「恒红」型的假守卫，比恒绿更烦：它会拦住每一次构建。 */
-      "import sys,zipfile;sys.stdout.buffer.write(zipfile.ZipFile(sys.argv[1]).read('assets/index.html'))",
-      signed], { encoding: "utf8" });
+    const data = libZip.readEntryByName(apkBuf, "assets/index.html");
+    if (!data) throw new Error("产物里没有 assets/index.html");
+    html = data.toString("utf8");
   } catch (e) {
-    /* 不许静默吞：读不到就说清为什么。上面那个 ReferenceError 就是被吞掉之后
-       伪装成「读不出产物」的，白查了一轮。 */
+    /* 不许静默吞：读不到就说清为什么。历史上这里有过一次 ReferenceError 被 `catch {}`
+       吞掉、伪装成「读不出产物」的，白查了一轮。 */
     why = String((e && e.message) || e).split("\n")[0];
   }
   const need = [["window.WORDLENS_NATIVE", "壳旗标"], ["__wlInsets", "安全区入口"],
@@ -490,12 +527,13 @@ log(`  签名       ${DEBUG ? "debug" : "生产"}  ${cert}`);
    它跟产物里到底有没有没关系。现在打的是上面真拆包读出来的结果。 */
 log(`  内容       v${assetV} · 壳胶水 ${glueLack === null
   ? "✓ 产物内已核（旗标 / 安全区 / 自检 / 返回键）" : "⚠ 缺 " + glueLack.join("、")}`);
-if (entries) {
-  const nAssets = entries.filter(x => x.startsWith("assets/")).length;
-  log(`  assets     APK 内 ${entries.length} 个条目（assets/ 下 ${nAssets}）· 白名单 ${wanted.length} 项 ✓ 一个不缺一个不多`);
-} else {
-  /* 「跳过」不能装作没事：那意味着白名单守卫这一次是空的。显眼说出来。 */
-  log("  assets     ⚠ 没做拆包核对（找不到可用的 python）—— 本次构建没有白名单守卫");
+/* entries 永远不会是 null 走到这里 —— 拆包失败已经进了 problems 并 exit 2。
+   所以这一行打的是**真核过的**数字，不再有「跳过」这个档。 */
+{
+  const nAssets = entries.filter(x => x.name.startsWith("assets/")).length;
+  const nBs = entries.filter(x => x.name.includes("\\")).length;
+  log(`  assets     APK 内 ${entries.length} 个条目（assets/ 下 ${nAssets}）· 白名单 ${wanted.length} 项`
+    + ` ✓ 一个不缺一个不多 · 条目名反斜杠 ${nBs} 个`);
 }
 log("");
 log("装到手机：把 APK 拷过去点「安装」即可（首次需允许「安装未知应用」）。");

@@ -3076,5 +3076,170 @@ console.log('\n[T] 原生壳（APK）');
     offenders.length === 0);
 }
 
+/* ================= [V] APK 归档形状（2026-09-22 真机白屏） =================
+ * ★ 这一节守的是**尺子本身**，所以判据代码与断言都在这里 —— 不是重复劳动。
+ *
+ * 事故形状：aapt2 在 Windows 上打 `-A <dir>`，给子目录写的条目名用的是**反斜杠**
+ * （实测原字节 `6173736574732f6173736574735c6170702e6a73` = `assets/` + `assets\app.js`）。
+ * Android 的 AssetManager 按条目名**精确查找**，所以 98 个资源里 96 个取不到；
+ * 只有顶层无分隔符的 `assets/index.html` 能取到 —— 页面「加载成功」、body 却是空的
+ * （界面全由 app.js 建出）→ **白屏**，没有报错、没有红字。
+ *
+ * 为什么当时全部守卫都是绿的：拆包核对走 python 的 zipfile，而它在 Windows 上会把
+ * 条目名里的 `\` **静默换成** `/`（ZipInfo 源码原话：ensure paths always use forward
+ * slashes）。期望值（planFiles 的正斜杠）与被美化过的实际值永远相等 ——
+ * **自卫兵把缺陷改写成正常再报平安**。现在改走 tools/lib-zip.cjs 自己解析中央目录。
+ *
+ * 断言方式：不碰真产物（outputs/apk 在 .gitignore 里，干净克隆上没有），
+ * 而是**现场合成**最小 ZIP 喂给判据本体 libZip.auditApk —— 这样「喂进去一个含反斜杠的
+ * 归档，它到底报不报」是行为断言，不是「代码里有没有那一行」。 */
+console.log('\n[V] APK 归档形状');
+{
+  const zlib = require('zlib');
+  const libZip = require(path.join(base, 'tools', 'lib-zip.cjs'));
+
+  /* 最小 ZIP 写入器（只用 STORED）。存在的理由：判据本体必须能被喂坏样本，
+     而坏样本不能靠真 APK（它可能不存在、也不该被改坏）。 */
+  const CRC_TABLE = (() => {
+    const t = new Int32Array(256);
+    for (let i = 0; i < 256; i++) {
+      let c = i;
+      for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+      t[i] = c;
+    }
+    return t;
+  })();
+  const crc32 = buf => {
+    let c = -1;
+    for (const b of buf) c = CRC_TABLE[(c ^ b) & 0xff] ^ (c >>> 8);
+    return (c ^ -1) >>> 0;
+  };
+  /* items: [{ name, data?, lfhName?, method? }] —— lfhName 只给「两份名字不一致」的坏样本用 */
+  const makeZip = items => {
+    const parts = [];
+    let off = 0;
+    const cds = [];
+    for (const it of items) {
+      const nm = Buffer.from(it.name, 'latin1');
+      const lfhNm = Buffer.from(it.lfhName === undefined ? it.name : it.lfhName, 'latin1');
+      const raw = Buffer.from(it.data || '', 'utf8');
+      const method = it.method || 0;
+      const body = method === 8 ? zlib.deflateRawSync(raw) : raw;
+      const lfh = Buffer.alloc(30);
+      lfh.writeUInt32LE(0x04034b50, 0);
+      lfh.writeUInt16LE(20, 4); lfh.writeUInt16LE(0, 6); lfh.writeUInt16LE(method, 8);
+      lfh.writeUInt32LE(crc32(raw), 14);
+      lfh.writeUInt32LE(body.length, 18); lfh.writeUInt32LE(raw.length, 22);
+      lfh.writeUInt16LE(lfhNm.length, 26);
+      parts.push(lfh, lfhNm, body);
+      const cd = Buffer.alloc(46);
+      cd.writeUInt32LE(0x02014b50, 0);
+      cd.writeUInt16LE(20, 4); cd.writeUInt16LE(20, 6); cd.writeUInt16LE(0, 8);
+      cd.writeUInt16LE(method, 10);
+      cd.writeUInt32LE(crc32(raw), 16);
+      cd.writeUInt32LE(body.length, 20); cd.writeUInt32LE(raw.length, 24);
+      cd.writeUInt16LE(nm.length, 28);
+      cd.writeUInt32LE(off, 42);
+      cds.push(cd, nm);
+      off += 30 + lfhNm.length + body.length;
+    }
+    const cdBuf = Buffer.concat(cds);
+    const eocd = Buffer.alloc(22);
+    eocd.writeUInt32LE(0x06054b50, 0);
+    eocd.writeUInt16LE(items.length, 8); eocd.writeUInt16LE(items.length, 10);
+    eocd.writeUInt32LE(cdBuf.length, 12); eocd.writeUInt32LE(off, 16);
+    return Buffer.concat([...parts, cdBuf, eocd]);
+  };
+
+  const want = ['index.html', 'assets/app.js', 'assets/styles.css'];
+  const clean = makeZip([
+    { name: 'assets/index.html', data: '<html>hi</html>', method: 8 },
+    { name: 'assets/assets/app.js', data: 'var a=1;' },
+    { name: 'assets/assets/styles.css', data: 'body{}' },
+  ]);
+  const bs = makeZip([
+    { name: 'assets/index.html', data: 'x' },
+    { name: 'assets/assets\\app.js', data: 'y' },
+    { name: 'assets/assets\\styles.css', data: 'z' },
+  ]);
+
+  /* ① 干净归档不许报 —— 对照，防「恒红」（恒红会拦住每一次构建，比恒绿更烦）。 */
+  const a1 = libZip.auditApk(clean, { want });
+  ok('对照：分隔符全是 / 且白名单齐全 → 一声不吭',
+    a1.problems.length === 0 && a1.entries.length === 3);
+  ok('对照：干净归档的反斜杠计数为 0', a1.names.filter(n => n.includes('\\')).length === 0);
+
+  /* ② ★ 核心：含反斜杠的归档必须报。这正是 python 那把尺子做不到的事 ——
+     它会把 `\` 换成 `/` 再交出来，于是这条坏样本在旧自检里是**绿的**。 */
+  const a2 = libZip.auditApk(bs, { want });
+  ok('★ 行为：条目名含反斜杠必须报出来（Android 精确查找，一个都取不到）',
+    a2.problems.some(p => /反斜杠/.test(p)) && a2.problems.some(p => /2 个/.test(p)));
+  ok('★ 行为：反斜杠同时把白名单判成「缺 2 项」（两种症状一起露头，不是只报一种）',
+    a2.problems.some(p => /白名单缺 2 项/.test(p)));
+  ok('★ 关掉尺子的规范化：读出来的名字**原样**保留反斜杠',
+    a2.names.includes('assets/assets\\app.js'));
+
+  /* ③ 白名单两个方向都不是死的 */
+  const a3 = libZip.auditApk(makeZip([{ name: 'assets/index.html', data: 'x' },
+    { name: 'assets/assets/app.js', data: 'y' }]), { want });
+  ok('★ 行为：白名单缺项必须报（少打一个文件进包 = 壳里少一块功能）',
+    a3.problems.some(p => /白名单缺 1 项/.test(p)));
+  const a4 = libZip.auditApk(makeZip([{ name: 'assets/index.html', data: 'x' },
+    { name: 'assets/assets/app.js', data: 'y' }, { name: 'assets/assets/styles.css', data: 'z' },
+    { name: 'assets/DEBUG.tmp', data: 'oops' }]), { want });
+  ok('★ 行为：白名单外的文件必须报（这是「绕过白名单把开发素材打进包」的唯一拦截）',
+    a4.problems.some(p => /白名单外 1 项/.test(p)) && a4.problems.some(p => /DEBUG\.tmp/.test(p)));
+
+  /* ④ ★ 两份名字一致：ZIP 把名字存两遍。只改一份是个自相矛盾的归档 ——
+     后人再想批量改名字时不知道该信哪一份。这条专门守「改名只改了一半」。 */
+  const a5 = libZip.auditApk(makeZip([
+    { name: 'assets/index.html', data: 'x' },
+    { name: 'assets/assets/app.js', lfhName: 'assets\\assets\\app.js', data: 'y' },
+  ]), { want });
+  ok('★ 行为：本地头名与中央目录名不一致必须报（改名只改一半 = 归档自相矛盾）',
+    a5.problems.some(p => /不一致/.test(p)));
+
+  /* ⑤ 取内容这条路（壳胶水核对用的就是它）：STORED 与 deflate 都要能原样取回，
+     取不到必须返回 null 而不是抛/静默给空 —— 空字符串会被上面的断言当成「缺胶水」。 */
+  const html = '﻿<html><script>window.WORDLENS_NATIVE=true</script></html>';
+  const a6 = libZip.readEntryByName(makeZip([
+    { name: 'assets/index.html', data: html, method: 8 },
+    { name: 'assets/assets/app.js', data: 'var x = 1234567890;', method: 8 },
+  ]), 'assets/index.html');
+  ok('★ 行为：deflate 与 STORED 条目都能原样取回（壳胶水核对走的就是这条路）',
+    a6 !== null && a6.toString('utf8') === html);
+  ok('★ 取不到的条目返回 null（不许返回空串 —— 空串会被当成「胶水没注入」而误报）',
+    libZip.readEntryByName(clean, 'assets/nope.js') === null);
+
+  /* ⑥ 真产物若在盘上，顺手核一遍（不存在不算失败：outputs/apk 不入库，
+     干净克隆上没有它 —— 但**有就必须是对的**）。
+     只查顶层：`_BROKEN-*` 那几个是明知坏掉的坏样本（保留下来当判据的试验品），
+     而顶层留着的必须是「当前版本、可以发出去」的那一个。 */
+  const apkDir = path.join(base, 'outputs', 'apk');
+  const top = fs.existsSync(apkDir)
+    ? fs.readdirSync(apkDir, { withFileTypes: true })
+      .filter(d => d.isFile() && /\.apk$/i.test(d.name)).map(d => d.name)
+    : [];
+  if (top.length) {
+    const bad = [];
+    for (const f of top) {
+      try {
+        const a = libZip.auditApk(fs.readFileSync(path.join(apkDir, f)), {});
+        if (a.problems.length) bad.push(`${f}: ${a.problems[0]}`);
+      } catch (e) { bad.push(`${f}: 解析失败 ${e.message}`); }
+    }
+    ok(`★ 盘上顶层 ${top.length} 个 APK 的条目名全都合法`
+      + (bad.length ? `：${bad.join(' | ')}` : ''), bad.length === 0);
+    /* 顶层只该放当前版本。陈旧产物留在产出目录里最坏的结果是「发错包」——
+       2026-09-22 就是这么留下一个坏 vc2 在顶层、而好 vc3 在它旁边的。 */
+    const ver = JSON.parse(fs.readFileSync(path.join(base, 'mobile', 'version.json'), 'utf8'));
+    const stale = top.filter(f => !(f.includes(`vc${ver.versionCode}`) && f.includes(ver.versionName)));
+    ok(`★ 顶层 APK 都是当前壳版本（vc${ver.versionCode} / ${ver.versionName}）—— 陈旧产物该进 _BROKEN-* 或删掉`,
+      stale.length === 0);
+  } else {
+    console.log('  ·  盘上没有顶层 APK 产物，跳过真产物的形状核对（outputs/apk 不入库）');
+  }
+}
+
 console.log(`\n结果：${pass} 通过 / ${fail} 失败\n`);
 process.exit(fail ? 1 : 0);

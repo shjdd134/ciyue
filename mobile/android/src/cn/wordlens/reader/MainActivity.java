@@ -266,7 +266,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy() {
         if (backRegistered && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(this::onShellBack);
+            /* ★ 必须走 Api33.unregister，不能在这里自己写 `this::onShellBack`（2026-09-22 修）：
+               register / unregister 是按**对象身份**配对的，两处各写一次方法引用会得到两个不同的
+               lambda 实例，注销时配不上 —— AOSP 的 unregisterOnBackInvokedCallback 在移除失败时
+               直接抛 IllegalArgumentException，而这里没有任何人接得住它，于是「按返回键退出应用」
+               这个动作会在 onDestroy 里炸掉。静态字段 cb 里存的才是注册进去的那一个。 */
+            Api33.unregister(this);
+            backRegistered = false;
         }
         if (tts != null) tts.shutdown();
         if (web != null) {
@@ -354,7 +360,13 @@ public class MainActivity extends Activity {
 
         static void unregister(Activity act) {
             if (cb == null) return;
-            act.getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(cb);
+            /* 唯一允许吞异常的地方：这是**拆除阶段**。unregisterOnBackInvokedCallback 在
+               「这个回调没注册过」时抛 IllegalArgumentException —— 而这里能接住它的只有
+               onDestroy 自己，让它冒出去的后果是「退出应用时闪退」，比留一点状态更糟。
+               （注册那一侧不吞：注册失败意味着返回键整块失效，必须炸出来。） */
+            try {
+                act.getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(cb);
+            } catch (Throwable ignored) { }
             cb = null;
         }
     }
