@@ -22,7 +22,7 @@
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`72db9bf`**（2026-09-21 22:52，v72 朗读层重写批次） |
-| 资源版本 | `?v=72` · SW 缓存名 `wordlens-cache-v72` |
+| 资源版本 | `?v=73` · SW 缓存名 `wordlens-cache-v73` |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -690,6 +690,36 @@
   > - 改动面：`assets/app.js` · `assets/styles.css`（朗读态控制条）· `tools/audit.js` ·
   >   `sw.js` 头注释换 v72 主题 · 版本 v72。**未改任何数据** —— `publish --dry` 引用 71 张封面、
   >   孤儿 0、缺失 0。
+
+- **2026-09-22（v73）段落级退化段的渲染期切分** —— sekiro 报「一些文章没有按句子分段」，
+  截图指向 `ob-teaching-and-training-disqualified`。**查下来不是抓取坏了，是入库时的
+  「句数不等就退成段落级」这个既定设计在前端没有对应处理。**
+  > - **根因**：AI 栏目源站只给**段落级**对齐，官方译文的句数与英文常不等。实测
+  >   `The seventh year of Kaihuang. Officials need filling. Most of these names he doesn't
+  >   know; each carries the name of a recommender. The recommenders he knows. The Three
+  >   Departments' clerks, … the same handful of clans.` —— **英文 5 句 ↔ 中文 4 句**
+  >   （官方把前两句合并译了）。`tools/offbook.mjs` 的 `blockToPara()` 此时按设计**不切**
+  >   （硬切会编造错误配对，REF §12 有踩坑记录），入库成 `sentences:[{en:"5句话", cn:"4句话"}]`。
+  >   形状合法，但 `.para-flow` 只把「句级元素」转块级 —— 它眼里这是 1 句，**整段英文连排成一坨**，
+  >   与句级对齐成功的段（一句一行）混在同一篇里，看着像排版坏了。**全站实测 510 处**
+  >   （rebuilding-learning 135 / breakdown-of-firms 126 / on-cognitive-decoupling 117 /
+  >   teaching-and-training-disqualified 89 / mirage-of-form 36，另三篇人物 7 处）。
+  > - **修在渲染期，数据一个字不动**。新增 `renderSplitEn()` + `renderSentencesOf()`（只服务
+  >   渲染），`renderRead` / `speakAll` 改走它；`sentencesOf()` 保持原样 —— 它被 9 处消费
+  >   （句数统计 / needLearn / 朗读队列 / 续读锚点 / qc），动它等于把「全站 7,094 句」和
+  >   所有人的阅读进度锚点一起打翻。**译文整段挂最后一句**（不按比例拆中文 —— 那正是 REF §12
+  >   的踩坑，`Officials need filling.` 会配到半截中文，而这份材料是拿来背词的，配错等于教错）。
+  > - **假阳性守卫**：`Cui. Lu. Wang. Xie.`（4 个单字母缩写）、`Bzzzzzz……` / `Shit…`（拟声、短感叹）
+  >   都不切。判据是「切出的每段都得像句子」（含小写、≥3 词、≥12 字符），一段不像就整段不切。
+  > - **新增 `data-rs`**：多个切句共用同一个 `data-si`（数据里就 1 个元素），没有 rs 就取不回
+  >   「被点的那一句」——查词卡片的「本句含义」会显示整段。新增 `displaySentenceAt()` 走显示口径；
+  >   `applyAnchor` 优先按 `data-rs` 精确定位、找不到才回落。**老锚点没有 rs 字段 → 还原成 0，
+  >   已存的阅读进度不失效**（守卫里专门有一条「预期为真」的对照测这个）。
+  > - **守卫 299 → 320**（新增 `[R5]` 13 条 + 锚点 rs 相关 4 条）。**负向测试 5 组全部精确报红**：
+  >   ① 渲染层不切分（端到端断言抓到，且当场证明前 12 条是**假守卫** —— 函数测对了但没接线时全绿）；
+  >   ② 拆掉假阳性守卫；③ 中文跟着拆；④ 朗读退回 `textSentences`；⑤ `rs=0` 不写属性。
+  > - 改动面：`assets/app.js` · `sw.js`（头注释换 v73 主题）· `tools/audit.js` · 版本 v73。
+  >   **未改任何数据** —— 7,094 句 / 19 篇 / 71 张封面全部不变。
 
 ### 0.3 机制速查（不随批次变）
 

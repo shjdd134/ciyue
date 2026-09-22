@@ -1275,6 +1275,88 @@ ok('移动阈值落在可调区间（既不是 0、也不是大到永不生效�
 })());
 ctx('activeArticle = null;');
 
+/* ---- [R5] 段落级退化段的渲染期切分（2026-09-22）----
+ * 起因：AI 栏目（Offbook 通道）源站只给段落级对齐，官方译文的句数常与英文不等
+ * （实测 `The seventh year of Kaihuang. Officials need filling.` 5 句英文 ↔ 4 句中文）。
+ * `tools/offbook.mjs` 按设计**不切**（硬切会编造错误配对），于是入库成
+ * `sentences: [{ en:"5句话…", cn:"4句话…" }]` —— 形状合法，但 `.para-flow` 只把
+ * 「句级元素」转块级，整段英文连排成一坨，与句级对齐成功的段混在同一篇里。
+ * 全站 510 处（AI 5 篇为主）。修的是**渲染**，数据与句数口径一个字不动。
+ *
+ * 这里断言四件可观察的事：
+ *   ① 退化段在渲染时确实被切开（一句一行）；
+ *   ② 译文只挂最后一句 —— 不按比例拆中文（那样会配错译文，见 REF §12 踩坑）；
+ *   ③ 假阳性被挡住（`Cui. Lu. Wang. Xie.` 这类缩写碎片不切）；
+ *   ④ 数据口径不受影响（sentencesOf / 全站句数不变，锚点与 qc 口径不变）。 */
+console.log('\n[R5] 退化段渲染切分');
+ctx('activeArticle = null;');
+/* 桩：构造一个「1 个句级元素里塞多句」的退化段，与线上 AI 栏目同形（取真实 5 句样本，
+ * 中文是官方把前两句合并译的 4 句 —— 句数不等正是它退化的原因） */
+sandbox.__degen = { sentences: [{
+  en: 'The seventh year of Kaihuang. Officials need filling. Most of these names he doesn\u2019t know; each carries the name of a recommender. The recommenders he knows. The Three Departments\u2019 clerks, the prefectural Rectifiers \u2014 for decades they\u2019ve cycled through, the same handful of clans.',
+  cn: '开皇七年，官员要补。这些人他大半不认识，每个名字旁边都有荐主。荐主他认得。三省的省郎，各州的中正，几十年里来回，就这几个家族。',
+}] };
+sandbox.__degenOut = ctx('renderSentencesOf(__degen)');
+ok('★ 退化段被切成多句（一段连排 → 一句一行）',
+  ctx('__degenOut.length') === 5);
+ok('★ 切出的每句都有英文、且都不含整段（说明真的切了，不是原样复制）',
+  ctx('__degenOut.every(s => s.en && s.en.length < 130)'));
+/* 译文挂最后一句：前面几句的 cn 必须为空 —— 这条防的是「把中文也拆开乱配」 */
+ok('★ 译文只挂最后一句（前几句 cn 为空，不按比例拆中文）',
+  ctx('__degenOut.slice(0, -1).every(s => !s.cn) && Boolean(__degenOut[__degenOut.length-1].cn)'));
+/* 拼回守恒：切分不得丢字或增字（这里用去空白比较，squash 只存在于 lib-offbook） */
+sandbox.__sq = s => String(s || '').replace(/\s+/g, '');
+ok('★ 切出的是原文的拼回（不丢字、不增字）',
+  ctx('__sq(__degenOut.map(s => s.en).join(" "))') === ctx('__sq(__degen.sentences[0].en)'));
+/* ★ 负向：假阳性必须挡住。`Cui. Lu. Wang. Xie.` 是 4 个单字母缩写，切了就成 4 个碎片 */
+sandbox.__abbr = { sentences: [{ en: 'Cui. Lu. Wang. Xie.', cn: '崔、卢、王、谢。' }] };
+ok('★ 缩写串不切（Cui. Lu. Wang. Xie. 保持一段）',
+  ctx('renderSentencesOf(__abbr).length') === 1);
+sandbox.__frag = { sentences: [{ en: 'Shit\u2026', cn: '糟了……' }] };
+ok('★ 短感叹 / 拟声不切（Shit… 保持一段）',
+  ctx('renderSentencesOf(__frag).length') === 1);
+/* 对照（预期为真）：正常单句段不被误切。没有这条，「所有段都不切」也会全绿 */
+sandbox.__single = { sentences: [{ en: 'This is a complete single sentence about firms and their costs.', cn: '这是一句完整的话。' }] };
+ok('照常：本来就是一句的段不被切开',
+  ctx('renderSentencesOf(__single).length') === 1);
+sandbox.__multi = { sentences: [{ en: 'First one here.', cn: '第一句。' }, { en: 'Second one here.', cn: '第二句。' }] };
+ok('照常：已经句级对齐的段原样返回（每句各自带译文）',
+  ctx('renderSentencesOf(__multi).length') === 2 && ctx('renderSentencesOf(__multi).every(s => s.cn)'));
+/* ★ 数据口径不受影响：sentencesOf 还是 1（渲染切分不得回写数据层） */
+ok('★ 数据口径不受影响（sentencesOf 仍是 1 个句级元素；句数统计与锚点不移位）',
+  ctx('sentencesOf(__degen).length') === 1 && ctx('sentenceAt({paras:[__degen]}, 0, 0).cn === __degen.sentences[0].cn'));
+/* rs 必须写进 DOM，否则查词卡片 / 朗读取不回「被点的那一句」 */
+ok('★ 渲染切分的句子带 data-rs（多个切句共用 data-si，没有 rs 就取不回被点句）',
+  /data-rs="\$\{rs\}"|data-rs/.test(fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8')));
+ok('★ 全文朗读走渲染切分（否则退化段整段 5 句被当一条 utterance 念出去）',
+  /flatMap\(p => renderSentencesOf\(p\)\)/.test(appBare.replace(/\s+/g, ' '))
+  || /flatMap\(p => renderSentencesOf\(p\)\)/.test(appBare));
+ok('★ 查词卡片用显示口径取句（displaySentenceAt 带上 data-rs）',
+  /displaySentenceAt\(activeArticle,\s*\+sentEl\.dataset\.pi/.test(appBare));
+
+/* ★★ 端到端：真的渲染一篇文章，数正文里出现了几个 .sentence 节点。
+ * 为什么必须有这一条：上面那些都只测 `renderSentencesOf()` **函数本身**对不对，
+ * 测不出它**有没有被 renderRead 调用**。2026-09-22 实测过这个假守卫 ——
+ * 把渲染层那行改回 `sentencesOf(p)`（等于功能整个撤销），314 条断言**全绿**。
+ * 断言必须落在「渲染输出」这个可观察的结果上，不能只落在辅助函数上。 */
+sandbox.__degenArt = { id: "__degen", cat: "AI", title: "t", titleZh: "t", date: "2026-01-01",
+  url: "#", cover: "", gradient: "", source: "s", paras: [{
+    sentences: [{
+      en: 'The seventh year of Kaihuang. Officials need filling. Most of these names he doesn\u2019t know; each carries the name of a recommender. The recommenders he knows. The Three Departments\u2019 clerks, the prefectural Rectifiers \u2014 for decades they\u2019ve cycled through, the same handful of clans.',
+      cn: '开皇七年，官员要补。这些人他大半不认识，每个名字旁边都有荐主。荐主他认得。三省的省郎，各州的中正，几十年里来回，就这几个家族。',
+    }],
+  }] };
+ctx('activeArticle = __degenArt; view = {name:"read"}; S.cnMode = "all";');
+const degenHtml = ctx('renderRead()');
+ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap";');
+const degenSentN = (degenHtml.match(/class="sentence"/g) || []).length;
+ok(`★ 端到端：退化段渲染出 5 个句子节点（实际 ${degenSentN}）—— 防「函数写对了但没接线」`,
+  degenSentN === 5);
+ok('★ 端到端：切出的句子带 data-rs（0..4），否则取不回被点句',
+  ['data-rs="0"', 'data-rs="1"', 'data-rs="2"', 'data-rs="3"', 'data-rs="4"'].every(a => degenHtml.includes(a)));
+ok('★ 端到端：整段译文只出现一次（挂在最后一个切句后）',
+  (degenHtml.match(/class="cn"/g) || []).length === 1);
+
 
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
 ok('段间装饰点已删除', !/· · ·/.test(css));
@@ -1618,18 +1700,30 @@ ok('★ 段级「本段对照」的残骸清干净（app.js 无 paraOpen / 白�
   && !/para-cn-btn/.test(cssBare) && !/\.para\.cn-open/.test(cssBare));
 ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap";');
 
-/* 句子锚点：off = 该句顶部相对滚动容器视口的偏移；还原时把同一句放回同一偏移 */
-const mkSent = (pi, si, top, bottom) => ({
-  dataset: { pi: String(pi), si: String(si) },
+/* 句子锚点：off = 该句顶部相对滚动容器视口的偏移；还原时把同一句放回同一偏移。
+ * rs = 渲染切分序号（2026-09-22 加）：退化段（AI 栏目，一段英文里塞多句）切分后
+ * 同一 pi/si 下有多个 .sentence，没有 rs 就只能还原到段落第一句。 */
+const mkSent = (pi, si, top, bottom, rs) => ({
+  dataset: { pi: String(pi), si: String(si), ...(rs == null ? {} : { rs: String(rs) }) },
   getBoundingClientRect: () => ({ top, bottom }),
 });
 sandbox.__fakeRead = {
   clientHeight: 600, scrollTop: 500,
   getBoundingClientRect: () => ({ top: 0 }),
-  querySelectorAll: () => [mkSent(0, 0, -300, -100), mkSent(0, 1, -80, 60), mkSent(1, 0, 80, 200)],
+  querySelectorAll: () => [mkSent(0, 0, -300, -100), mkSent(0, 1, -80, 60), mkSent(1, 0, 80, 200, 2)],
 };
 ok('锚点取「第一个越过视口上部 22% 的句子」（第 3 句）',
-  ctx('JSON.stringify(readAnchor(__fakeRead))') === '{"pi":1,"si":0,"off":80}');
+  ctx('JSON.stringify(readAnchor(__fakeRead))') === '{"pi":1,"si":0,"rs":2,"off":80}');
+/* ★ 对照：老锚点没有 rs（undefined）必须还原成 0，否则升级后已存的进度会全部失效。
+   这是「预期为真」的那一条 —— 只测「有 rs 时取到 rs」，测不出「没有 rs 时炸掉」。 */
+const mkSentNoRs = mkSent(0, 1, -80, 60);
+sandbox.__fakeNoRs = {
+  clientHeight: 600, scrollTop: 500,
+  getBoundingClientRect: () => ({ top: 0 }),
+  querySelectorAll: () => [mkSentNoRs],
+};
+ok('★ 老锚点（没有 rs 字段）还原成 rs:0，不因升级失效',
+  ctx('readAnchor(__fakeNoRs).rs') === 0);
 sandbox.__fakeCont = {
   clientHeight: 600, scrollTop: 1000,
   getBoundingClientRect: () => ({ top: 100 }),
@@ -1638,6 +1732,25 @@ sandbox.__fakeCont = {
 ctx('applyAnchor(__fakeCont, {pi:3, si:1, off:-20})');
 ok('还原锚点：该句回到记录时的屏幕位置（scrollTop 1000 → 1050）', ctx('__fakeCont.scrollTop') === 1050);
 ok('锚点指向的句子不存在时安全退出', ctx('applyAnchor(__fakeCont, {pi:99, si:0, off:0})') === false);
+/* ★ applyAnchor 的 rs 精确定位：rs>0 时先按 data-rs 找，找不到才回落第一个。
+ * （负向：只测「能找到」测不出「回落」；只测「回落」测不出「优先精确」。两条都写。） */
+const mkCont = (sels) => ({
+  clientHeight: 600, scrollTop: 1000,
+  getBoundingClientRect: () => ({ top: 100 }),
+  querySelector: s => {
+    const key = String(s);
+    for (const [pattern, top] of sels) if (key.includes(pattern)) return { getBoundingClientRect: () => ({ top }) };
+    return null;
+  },
+});
+sandbox.__fakePrecise = mkCont([['data-rs="3"', 140], ['data-pi="7"', 999]]);
+ctx('applyAnchor(__fakePrecise, {pi:7, si:0, rs:3, off:-20})');
+ok('★ applyAnchor 按 data-rs 精确还原切分句（140-100-(-20)=60 → scrollTop 1060）',
+  ctx('__fakePrecise.scrollTop') === 1060);
+sandbox.__fakeFallback = mkCont([['data-pi="8"', 160]]);
+ctx('applyAnchor(__fakeFallback, {pi:8, si:0, rs:3, off:-20})');
+ok('★ 找不到 data-rs 时回落到该段第一个句子（160-100-(-20)=80 → scrollTop 1080）',
+  ctx('__fakeFallback.scrollTop') === 1080);
 
 ctx('S.readPos = {}; S.lastRead = { id: "artA", y: 500, pct: 33, at: 0 };');
 ctx('rememberReadPos(__fakeRead, "artA"); rememberReadPos(__fakeRead, "artB");');
