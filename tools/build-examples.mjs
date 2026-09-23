@@ -2,7 +2,7 @@
  *
  * 背景：老版本例句是从文章段落里"抽"出来的——句子是足球/时尚的报道长句，
  * 中文是逐句机翻的副产品，错得离谱（punch 配过"拐角进来了，管家把拳头打得很清楚"）。
- * 覆盖率也只有 32%。改成三级来源，按优先级取第一条命中的：
+ * 覆盖率也只有 32%。改成四级来源，按优先级取第一条命中的：
  *
  *   ① 分级词典词库  github.com/KyleBing/english-vocabulary（★1960）
  *      四级 → 六级 → 高中 → 考研 → 托福 → 初中，每词带音标、释义、词组、
@@ -132,6 +132,52 @@ function pickDict(key, def) {
   return best;
 }
 
+/* ---------------- ①b 有道词书例句（github.com/kajweb/dict，缓存缺失时优雅跳过） ----------------
+ * 数据：kajweb/dict 仓库 book/*.zip（有道词典词书，JSONL：headWord +
+ * content.word.content.sentence.sentences[] 的 sContent/sCn 词典例句）。
+ * 授权：sekiro 2026-09-23 明确「不用担心版权问题，我是自用」；与分级 jsonl 同规矩，
+ * 缓存在 tools/.examples-cache/youdao/（不入库，Actions runner 上优雅降级）。
+ * 定位：插在分级词典与 Tatoeba 之间 —— 有道例句是人工校编的词典典型句（带准译），
+ * 比 Tatoeba 语料句可靠；但成书年代早、句长偏短，作为 ① 的补而不是替代。
+ * 注：realExamSentence（真题句）在数据里不带 sCn，单语例句对本产品无用，不取。 */
+const YOUDAO_BOOKS = [
+  ["CET4_2", "CET4_2.json"], ["CET4_1", "CET4_1.json"], ["CET6_2", "CET6_2.json"],
+  ["CET6_1", "CET6luan_1.json"], ["KaoYanluan_1", "KaoYanluan_1.json"], ["KaoYan_2", "KaoYan_2.json"],
+  ["GaoZhong_2", "GaoZhong_2.json"], ["BEC_2", "BEC_2.json"], ["TOEFL_2", "TOEFL_2.json"], ["IELTS_2", "IELTS_2.json"],
+];
+const ydIndex = new Map();            // word -> [{en, cn, book}]
+for (const [book, file] of YOUDAO_BOOKS) {
+  const f = path.join(CACHE, "youdao", book, file);
+  if (!fs.existsSync(f)) { console.log(`  （缺 youdao/${book}/${file}，跳过该词书）`); continue; }
+  for (const line of fs.readFileSync(f, "utf8").split("\n")) {
+    if (!line.trim()) continue;
+    let o; try { o = JSON.parse(line); } catch { continue; }
+    const w = String(o.headWord || "").toLowerCase();
+    const c = o.content && o.content.word && o.content.word.content;
+    const sents = (c && c.sentence && c.sentence.sentences) || [];
+    const cur = ydIndex.get(w) || [];
+    for (const s of sents) {
+      const en = String(s.sContent || "").trim(), cn = String(s.sCn || "").trim();
+      if (en && cn) cur.push({ en, cn, book });
+    }
+    if (cur.length) ydIndex.set(w, cur);
+  }
+}
+console.log(`有道词书：${ydIndex.size} 词 · ${[...ydIndex.values()].reduce((n, a) => n + a.length, 0)} 句`);
+const YOUDAO_BONUS = Object.fromEntries(YOUDAO_BOOKS.map(([b], i) => [b, -i * 0.5]));
+function pickYoudao(word, def) {
+  const cands = ydIndex.get(String(word || "").toLowerCase());
+  if (!cands || !cands.length) return null;
+  let best = null;
+  for (const x of cands) {
+    if (!okEn(x.en) || !okCn(x.cn) || !canHighlight(x.en, word)) continue;
+    const sense = !!def && senseRelates(x.cn, def);
+    const s = score(x.en) + (sense ? 80 : 0) + YOUDAO_BONUS[x.book];
+    if (!best || s > best.s) best = { en: x.en, cn: x.cn, src: "有道词书", s, sense };
+  }
+  return best;
+}
+
 /* ---------------- ② Tatoeba 双语语料（缓存缺失时优雅跳过） ---------------- */
 const rows = [];
 const cmnPath = path.join(CACHE, "cmn.txt");
@@ -203,14 +249,14 @@ function pickTatoeba(word, def) {
 
 /* ---------------- ③ 主循环 ---------------- */
 const out = {};
-const stat = { 词典: 0, Tatoeba: 0, 原刊: 0 };
+const stat = { 词典: 0, 有道: 0, Tatoeba: 0, 原刊: 0 };
 let senseHit = 0, senseKnown = 0;
 const miss = [];
 for (const w of WORDS) {
   if (w.example) continue;                                     // 已有例句不动
   const key = String(w.word || "").toLowerCase();
   if (key.length < 3) { miss.push(w.word); continue; }
-  const hit = pickDict(key, w.def) || pickTatoeba(w.word, w.def);
+  const hit = pickDict(key, w.def) || pickYoudao(w.word, w.def) || pickTatoeba(w.word, w.def);
   let chosen = (hit && canHighlight(hit.en, w.word)) ? hit : null;   // 最后一道闸：页面上必须标得出目标词
   if (!chosen) {
     const old = LEGACY[w.word];
@@ -223,13 +269,14 @@ for (const w of WORDS) {
   if (chosen.sense) { senseHit++; if (w.def) senseKnown++; }
   out[w.word] = chosen;
   if (chosen.src === "Tatoeba 语料") stat.Tatoeba++;
+  else if (chosen.src === "有道词书") stat.有道++;
   else if (LEVELS.some(([n]) => n === chosen.src)) stat.词典++;
   else stat.原刊++;
 }
 
 const have = WORDS.filter(w => w.example).length;
 const total = have + Object.keys(out).length;
-console.log(`\n新增例句 ${Object.keys(out).length} 条 —— 词典 ${stat.词典} · Tatoeba ${stat.Tatoeba} · 原刊兜底 ${stat.原刊}`);
+console.log(`\n新增例句 ${Object.keys(out).length} 条 —— 词典 ${stat.词典} · 有道词书 ${stat.有道} · Tatoeba ${stat.Tatoeba} · 原刊兜底 ${stat.原刊}`);
 console.log(`其中义项相关（例句译文命中 def）${senseHit} 条`);
 console.log(`覆盖率 ${have}/${WORDS.length} → ${total}/${WORDS.length}（${(total / WORDS.length * 100).toFixed(1)}%）`);
 console.log(`仍无例句 ${miss.length} 词（${(miss.length / WORDS.length * 100).toFixed(1)}%）`);
@@ -243,12 +290,13 @@ if (DRY) {
 /* ---------------- 写盘 ---------------- */
 const body = `/* 词阅 WordLens —— 单词例句库（自动生成，请勿手改；node tools/build-examples.mjs 重新生成）
  *
- * 三级来源，按优先级取第一条命中的：
+ * 四级来源，按优先级取第一条命中的：
  *   ① 分级词典词库  github.com/KyleBing/english-vocabulary —— 词典级例句 + 准确中文
- *   ② Tatoeba 双语语料  tatoeba.org（CC-BY 2.0）—— 英中人工句对
- *   ③ 原刊文章抽句 —— 本项目文章库的历史兜底（真实报道原文）
+ *   ② 有道词书例句  github.com/kajweb/dict（自用授权 sekiro 2026-09-23）—— 人工校编典型句
+ *   ③ Tatoeba 双语语料  tatoeba.org（CC-BY 2.0）—— 英中人工句对
+ *   ④ 原刊文章抽句 —— 本项目文章库的历史兜底（真实报道原文）
  *
- * 本文件共 ${Object.keys(out).length} 条（词典 ${stat.词典} / Tatoeba ${stat.Tatoeba} / 原刊 ${stat.原刊}），
+ * 本文件共 ${Object.keys(out).length} 条（词典 ${stat.词典} / 有道 ${stat.有道} / Tatoeba ${stat.Tatoeba} / 原刊 ${stat.原刊}），
  * 只填补没有例句的词；词库自带 / 人工撰写的例句永远优先，不会被覆盖。
  */
 const WORD_EXAMPLES = {

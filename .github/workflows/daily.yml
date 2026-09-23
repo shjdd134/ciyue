@@ -66,10 +66,32 @@ jobs:
           fi
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
+  # 回归闸门（2026-09-23）：push 事件此前完全绕过回归 —— update 被跳过、deploy 直接
+  # 部署触发提交，一次手滑推送的坏代码当天就上线。定时/手动事件不需要这个 job：
+  # daily.mjs 内部末尾就带回归，update 失败本来就会挡住 deploy。
+  # audit.js + doc-numbers.mjs 都是零依赖纯静态检查（473 守卫 + 篇数/版本硬校验）。
+  gate:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: 静态回归闸门
+        run: |
+          node tools/audit.js
+          node tools/doc-numbers.mjs
+
   deploy:
-    needs: update
-    # push 事件：update 被跳过，直接部署当前内容；定时/手动事件：update 成功才部署
-    if: ${{ !cancelled() && (github.event_name == 'push' || needs.update.result == 'success') }}
+    needs: [update, gate]
+    # push 事件：update 跳过，gate 全绿才部署当前内容；定时/手动事件：update 成功才部署
+    #（gate 此时是 skipped，不得挡路 —— 与下面 !cancelled() 同一套显式结果判断）。
+    if: ${{ !cancelled() && ((github.event_name == 'push' && needs.gate.result == 'success') || needs.update.result == 'success') }}
     runs-on: ubuntu-latest
     environment:
       name: github-pages

@@ -41,6 +41,10 @@ public class UserStateStore {
     private final Object lock = new Object();
     private String pending;
     private boolean draining;
+    /* 正在 writeAtomic 的执行单元数（恒 0 或 1，见 flush 的单写者保证）。
+       2026-09-23 之前 flush 是主线程直写 drain，与后台 drain 线程并发时两次
+       writeAtomic 交错、rename 先后不保证 —— 可能旧状态最后落盘盖掉新状态。 */
+    private int inflight;
 
     public UserStateStore(Context ctx) {
         file = new File(ctx.getFilesDir(), FILE_NAME);
@@ -81,9 +85,25 @@ public class UserStateStore {
         }
     }
 
-    /** 写出还没落盘的最后一份（Activity.onStop 用）。同步执行，返回时保证已写完。 */
+    /** 写出还没落盘的最后一份（Activity.onPause / onStop / onResume 用）。
+     *  同步等待写完（有界 2s：磁盘真卡死也不能把主线程拖成 ANR，超时是尽力而为）。
+     *  单写者保证：writeAtomic 只由 drain 循环执行，同一时刻至多一个 drain 循环
+     *  （spawn 只在 lock 内 draining false→true）—— flush 不再主线程直写，根除
+     *  「并发 drain 交错 rename、旧状态盖新状态」的窗口。 */
     void flush() {
-        drain();
+        long deadline = System.currentTimeMillis() + 2000;
+        synchronized (lock) {
+            if (pending != null && !draining) {
+                draining = true;
+                Thread t = new Thread(this::drain, "wl-user-state-flush");
+                t.setDaemon(true);
+                t.start();
+            }
+            while ((pending != null || inflight > 0) && System.currentTimeMillis() < deadline) {
+                try { lock.wait(Math.max(1, deadline - System.currentTimeMillis())); }
+                catch (InterruptedException e) { Thread.currentThread().interrupt(); return; }
+            }
+        }
     }
 
     private void drain() {
@@ -92,9 +112,17 @@ public class UserStateStore {
             synchronized (lock) {
                 cur = pending;
                 pending = null;
-                if (cur == null) { draining = false; return; }
+                if (cur == null) { draining = false; lock.notifyAll(); return; }
+                inflight++;
             }
-            writeAtomic(cur);
+            try {
+                writeAtomic(cur);
+            } finally {
+                synchronized (lock) {
+                    inflight--;
+                    if (inflight == 0) lock.notifyAll();
+                }
+            }
         }
     }
 

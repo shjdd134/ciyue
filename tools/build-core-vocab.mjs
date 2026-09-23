@@ -256,13 +256,31 @@ function mergeSenses(keep, word) {
   return keep;
 }
 
+/* 人工义项覆盖表（2026-09-23）：mergeSenses 的闸门修不了「捆绑块」——cycle 的词典 v 块
+ * 全是「骑自行车，循环 / 骑自行车;循环 / 骑自行(摩托)车,循环」形态（高中/考研/托福级同病），
+ * 第二义项「循环」与现有 def 撞车 → 整块在 hasCommonChunk 闸门被跳过，永远进不来；
+ * 把闸门放开到逐义项追加会重开 v1 否决过的噪音洪水（crucial 追加「至关紧要的」近义改写）。
+ * 所以修表不修闸：确证的缺义在这里逐字给。幂等：append 前查 def 里是否已有该块，
+ * 有了就跳过，重跑不重复。 */
+const SENSE_OVERRIDES = new Map([
+  ["cycle", "骑自行车（摩托车）"],
+]);
+function applySenseOverride(keep, word) {
+  const extra = SENSE_OVERRIDES.get(word);
+  if (!extra) return keep;
+  if (!keep.def || (!hasCommonChunk(keep.def, extra) && !blockRelates(extra, keep.def))) {
+    keep.def = keep.def ? keep.def + "；" + extra : extra;
+  }
+  return keep;
+}
+
 const FULL = [], BULK = [];
 for (const word of FINAL) {
   const old = byWord.get(word);
   if (old) {
     /* 已有词条：保留人工精编的词根词缀 / 真题例句，释义与词性按 mergeSenses 从词典源补缺。
        bulk-a 那批的 source 是早期写错的「CET4 高频」标签，统一改成中性描述。 */
-    const keep = mergeSenses({ ...old }, word.toLowerCase());
+    const keep = applySenseOverride(mergeSenses({ ...old }, word.toLowerCase()), word.toLowerCase());
     if (/CET4 高频/.test(keep.source || "")) keep.source = keep.example ? "项目自编例句" : "";
     if (CORE_WORDS.includes(word)) continue;          // 留在 data.js 里，不重复写
     if (BULK_SET.has(word)) { keep.list = "四级核心"; BULK.push(keep); continue; }

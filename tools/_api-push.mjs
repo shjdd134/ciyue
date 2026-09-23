@@ -134,6 +134,34 @@ if (mfPlan && extraFiles) {
   };
 }
 
+/* ---------- 回落清单（无 plan 时）----------
+ * 2026-09-23 修复：回落模式此前完全不走 NEVER_PUSH_PATTERNS —— 上面的硬拦截 ① 整个
+ * 包在 if (plan) 里，而 addUpload/addDelete 只挡 NEVER_PUSH 精确名单不挡模式，
+ * *.local.* / people-preferences* / mobile\/www\/ 这类文件经 git status 回落照样能
+ * 传上 public 仓库（2026-09-17 泄漏事故的补丁只堵了清单模式）。
+ * 现在把回落清单也提到取 token 之前解析，同样过硬拦截 —— 中止而非静默跳过，
+ * 让用户改用 --files / --manifest 显式点名安全文件。 */
+let fallbackStatus = null;
+if (!plan) {
+  const sh = c => { try { return execSync(c, { cwd: ROOT }).toString().trim(); } catch { return ""; } };
+  if (["false", "no", "0"].includes(sh("git config --get status.showUntrackedFiles").toLowerCase())) {
+    console.warn("⚠ 本地 .git/config 设了 status.showUntrackedFiles=false（git status 默认隐藏全部新文件）。" +
+      "本次已用 -uall 覆盖；建议执行 git config --unset status.showUntrackedFiles 消除隐患。");
+  }
+  const raw = sh("git status --porcelain -uall");
+  fallbackStatus = (raw ? raw.split("\n") : [])
+    .map(l => { const f = l.replace(/^\s*[A-Z?!]{1,2}\s+/, "").trim(); return { x: l.trim().slice(0, 2), file: normalize(f) }; })
+    .filter(e => e.file);
+  const leakedFb = fallbackStatus.map(e => e.file).filter(isNeverPush);
+  if (leakedFb.length) {
+    console.error(`\n✗ git status 回落清单里 ${leakedFb.length} 个文件属于「绝不推送」，已拒绝：`);
+    for (const f of leakedFb.slice(0, 20)) console.error("   · " + f);
+    console.error("  回落模式不好挑文件 —— 请改用 --files / --manifest 显式点名安全文件。");
+    console.error("  **远端分支未做任何改动，token 都还没取。**");
+    process.exit(2);
+  }
+}
+
 /* ---------- 清单自检（在任何网络调用之前） ----------
  * 清单点名、本地却没有的文件 → 直接中止。原先只打一句警告然后照常提交，
  * 会出现「正文传上去了、它引用的配图没传」却报发布成功 —— 线上 404。
@@ -208,7 +236,7 @@ const missing = [];
 const DEL_BACKUP_DIR = path.join(ROOT, ".bak", "deleted-" + new Date().toISOString().slice(0, 10));
 const backedUp = [], backupFailed = [];
 const addDelete = async f => {
-  if (NEVER_PUSH.has(f)) return;
+  if (isNeverPush(f)) { console.warn("⊘ 跳过删除（绝不推送名单）:", f); return; }
   if (!remote.has(f)) return;
   const abs = path.join(ROOT, f);
   if (!fs.existsSync(abs)) {
@@ -226,7 +254,7 @@ const addDelete = async f => {
   console.log("删", f);
 };
 const addUpload = async f => {
-  if (NEVER_PUSH.has(f)) return;
+  if (isNeverPush(f)) { console.warn("⊘ 跳过上传（绝不推送名单）:", f); return; }
   const abs = path.join(ROOT, f);
   if (!fs.existsSync(abs)) { missing.push(f); return; }
   const buf = fs.readFileSync(abs);
@@ -241,26 +269,14 @@ if (plan) {
   for (const f of [...plan.delete].sort()) await addDelete(f);
   for (const f of [...plan.push].sort()) await addUpload(f);
 } else {
-  /* 回落：git status 路线（有前述两个坑，能用 manifest 就别用这条）
-   * 强制 -uall：git status 默认折叠未跟踪目录，而本地 .git/config 若把
-   * status.showUntrackedFiles 设成 false，新文件会被整批静默漏掉 ——
-   * 连下面那条「目录被折叠」警告都不会触发（因为压根没有 ?? 条目）。
-   * 加 -uall 让行为只由仓库内容决定，不受本地配置摆布。 */
-  const sh = c => { try { return execSync(c, { cwd: ROOT }).toString().trim(); } catch { return ""; } };
-  if (["false", "no", "0"].includes(sh("git config --get status.showUntrackedFiles").toLowerCase())) {
-    console.warn("⚠ 本地 .git/config 设了 status.showUntrackedFiles=false（git status 默认隐藏全部新文件）。" +
-      "本次已用 -uall 覆盖；建议执行 git config --unset status.showUntrackedFiles 消除隐患。");
-  }
-  const raw = sh("git status --porcelain -uall");
-  const status = (raw ? raw.split("\n") : [])
-    .map(l => { const f = l.replace(/^\s*[A-Z?!]{1,2}\s+/, "").trim(); return { x: l.trim().slice(0, 2), file: normalize(f) }; })
-    .filter(e => e.file);
-  const folded = status.filter(e => e.file.endsWith("/"));
+  /* 回落：git status 路线（有前述两个坑，能用 manifest 就别用这条）。
+   * 清单已在上面（取 token 之前）解析并过硬拦截，这里只消费。 */
+  const folded = fallbackStatus.filter(e => e.file.endsWith("/"));
   if (folded.length) {
     console.warn(`⚠ git status 折叠了 ${folded.length} 个未跟踪目录（${folded.map(e => e.file).join(", ")}），` +
       `其中的文件不会上传；推这类文件请改用 --files 或 --manifest。`);
   }
-  for (const e of status) {
+  for (const e of fallbackStatus) {
     if (e.file.endsWith("/")) continue;
     if (e.x.includes("D")) { await addDelete(e.file); continue; }
     await addUpload(e.file);
@@ -284,6 +300,16 @@ if (backedUp.length) {
  * 少传一个被引用的配图 = 线上 404，宁可中止。 */
 if (missing.length) {
   console.error(`\n✗ 有 ${missing.length} 个待上传文件在提交前消失，拒绝推送：${missing.slice(0, 10).join(", ")}`);
+  console.error("  **远端分支未做任何改动。**");
+  process.exit(2);
+}
+/* 终检（2026-09-23）：entries 组装完、提交前再扫一遍。前面的硬拦截管清单与回落
+ * 的「解析态」，这里管「执行态」—— 任何一层将来被改坏，entries 里混进绝不推送
+ * 的路径都在这里被挡下（是最后一道，也是唯一覆盖 entries 实际内容的一道）。 */
+const leakedFinal = entries.filter(e => isNeverPush(e.path));
+if (leakedFinal.length) {
+  console.error(`\n✗ 终检发现 ${leakedFinal.length} 个「绝不推送」文件混进了上传/删除项，中止：`);
+  for (const e of leakedFinal.slice(0, 20)) console.error("   · " + e.path);
   console.error("  **远端分支未做任何改动。**");
   process.exit(2);
 }

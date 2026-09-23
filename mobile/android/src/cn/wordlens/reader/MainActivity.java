@@ -264,6 +264,10 @@ public class MainActivity extends Activity {
            就永远没了。不赌 visibilitychange 会不会派发 —— 显式调网页侧的入口。 */
         try { web.evaluateJavascript("window.__wlNativePause&&window.__wlNativePause()", null); } catch (Throwable ignored) { }
         try { web.onPause(); } catch (Throwable ignored) { }
+        /* 同步等落盘（2026-09-23）：上面那次 saveState 走异步线程，原来要等 onStop 的
+           「第二次机会」—— 进程在两态之间被杀（LMK / 滑卡不派发 onStop）就丢进度。
+           flush 有界 2s，正常几十 KB + fsync 是毫秒级，不值得为它赌进程存活。 */
+        if (store != null) store.flush();
     }
 
     @Override

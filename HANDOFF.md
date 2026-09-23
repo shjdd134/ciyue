@@ -22,7 +22,7 @@
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
-| 资源版本 | `?v=80` · SW 缓存名 `wordlens-cache-v80` |
+| 资源版本 | `?v=82` · SW 缓存名 `wordlens-cache-v82` |
 | Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流）· ★ **2026-09-23 义项补全批次**：`build-core-vocab` 合并策略从「已有词条原样保留」（固化循环：早期精编的单义永远挡住词典源的完整释义）改为「新词性补块 + 兜底」——1,075 词补上真缺的词性义项（match 补 v. 相配、evidence 补 v. 证明、academic 补 n. 学者…），判据统一在 `tools/lib-senses.cjs`；例句选句加义项对齐（`build-examples` 跨级别汇池 + 义项相关 +80 分，2,321/3,709 条义项命中），原刊兜底加义项闸（15 条错配改留空） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
@@ -1239,6 +1239,47 @@ tap 档点切分段首句整段译文弹出（display=block）、all 档 446 个
 §0.1 词库 4,081→4,082（sometime 复活）。**未做**：例句/释义的语义级人工抽检清单、
 词卡「本句含义」标签（前端域，归并行 agent）。
 
+### 2026-09-23 傍晚（P2 清扫批次：cycle 缺义 + 有道例句池 + 推送链路守卫 + SW 首访竞态 + 壳 vc6 + daily.yml 回归闸门）
+
+「全部开始」批次，六项全落地。资源版本 v80 → **v82**（真源 data-config 曾被预写过 82 主题注释，bump 直接对齐）。
+
+- **cycle 补义（修表不修闸）**：词典 v 块全是「骑自行车，循环」形态——第二义项「循环」与
+  现有 def 撞车，整块死在 hasCommonChunk 闸门；放开到逐义项追加会重开 v1 否决过的噪音洪水
+  （crucial「至关紧要的」近义改写）。故在 `build-core-vocab` 加 **SENSE_OVERRIDES 人工义项
+  覆盖表**（幂等：append 前查块已在）。cycle def 现为「循环；周期；骑自行车（摩托车）」。
+- **有道词书例句池（`build-examples` ①b 源，插在分级词典与 Tatoeba 之间）**：
+  数据 = kajweb/dict 的有道词书 JSONL（headWord + sentence.sentences 的 sContent/sCn；
+  真题句块 realExamSentence **不带 sCn，弃用**）。**10 本词书 11,675 词 / 57,619 句**
+  （CET4_2/1 · CET6_2/1 · KaoYanluan_1/KaoYan_2 · GaoZhong_2 · BEC/TOEFL/IELTS_2），
+  缓存 `tools/.examples-cache/youdao/`（不入库，runner 上优雅降级）。
+  授权：sekiro 明确「不用担心版权问题，我是自用」。
+  效果：+37 词首次拿到例句（覆盖率 92.8%→93.8%，余 255 词是词书里压根没句子块的）、
+  53 条 Tatoeba 语料句升级为有道人工校编句、0 移除、既有词典句一字未动；
+  义项相关 2,331→2,343。**下载踩坑**：raw.githubusercontent 直连卡死（11 分钟零字节），
+  jsDelivr 可用但会截断大 zip（CET4_2 拿到 224KB/应 2.4MB，`unzip -t` 才暴露），
+  兜底 ghproxy.net——**拿到 zip 先 `unzip -t` 再信**。
+- **_api-push.mjs 回落模式守卫**：硬拦截①整个包在 `if (plan)` 里，git status 回落模式
+  完全不走 NEVER_PUSH_PATTERNS（*.local.* / people-preferences* / mobile\/www\/ 照样能传上
+  public 仓库）。修法三层：回落清单提前到取 token 之前解析并硬拦截（中止不静默）；
+  addUpload/addDelete 改 isNeverPush；entries 组装完、提交前终检。负向测试精确命中：
+  拦下的正是真实的 `tools/_mt-bakeoff.local.mjs`（未被 gitignore 的本地产物）；
+  对照（安全 --files + 假 token）走完预网络检查、只在 401 失败。
+- **daily.yml push 事件回归闸门**：push 事件 update 被跳过、deploy 直接部署触发提交，
+  坏代码免检上线。新增 `gate` job（push 专属：`audit.js` + `doc-numbers.mjs`，均零依赖
+  纯静态），deploy 改 `needs: [update, gate]` + 显式结果判断（定时事件 gate 是 skipped 不挡路）。
+- **SW 首访预热竞态（app.js warmAppCache）**：register() resolve 时新 SW 还在 installing，
+  `navigator.serviceWorker.controller` 是 null → `controller?.postMessage` 静默 no-op，
+  预热恰好在最重要的首访永远落空。改为 active 在手直发、否则等 statechange 到 activated /
+  controllerchange 再发（sent 去重双通道）。
+- **壳 1.0.5 (vc6)**：onPause 触发的 saveState 走异步线程、原来只靠 onStop「第二次机会」，
+  进程在两态之间被杀就丢阅读进度 → onPause 末尾同步 `store.flush()`（有界 2s）。
+  顺带根除 flush 主线程直写与后台 drain **并发写盘、交错 rename 旧盖新**的窗口：
+  writeAtomic 收敛为单写者（同一时刻至多一个 drain 循环），flush 改有界等待清空。
+  四把尺子全过（反斜杠 0×2 / lib-zip 108 problems=[] / zipalign ✓ / apksigner v2+v3），
+  包内 app.js/styles.css/词库与源 md5 一致，包内数据含本批最终例句。
+
+**回归**：audit 473/0 · doc-numbers ✓ · 版本五处 v82 一致 · 两次构建 diff 全零（词库与例句库）。
+
 ### 0.3 机制速查（不随批次变）
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
@@ -1785,7 +1826,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 #   同一夜第三批（备份导入/导出 + 归档残留守卫）再校准 → 463。
 #   ⚠️ 这个总数曾因**条件性断言**小幅浮动过（实测见过 458~463）；判据始终是「0 失败」。
 #   数字对不上时，先看是不是有人加了断言，而不是先怀疑代码坏了。
-node tools/audit.js         # 期望 463 通过 / 0 失败（[A]–[V] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约（含壳自检）、U 源文件行尾卫生、V APK 归档形状）
+node tools/audit.js         # 期望 473 通过 / 0 失败（[A]–[V] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约（含壳自检）、U 源文件行尾卫生、V APK 归档形状）
 node tools/nav-test.js      # 期望 39 通过 / 0 失败（2026-09-22 实测；旧口径 30/0 已不适用）
 node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size、COMMON_WORDS_size）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）

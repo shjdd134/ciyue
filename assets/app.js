@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "80");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "82");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -3816,7 +3816,7 @@ if (shouldRegisterSW({
   proto: typeof location !== "undefined" ? location.protocol : "",
   hasWin: typeof window !== "undefined" && !!window.addEventListener,
 })) {
-  const warmAppCache = async () => {
+  const warmAppCache = async reg => {
     if (!window.caches) return;
     const urls = new Set(["index.html", "assets/styles.css", "assets/app.js", "assets/data.js", "assets/data-articles-extra.js", "assets/data-covers.js"]);
     /* GitHub Pages 部署在 /ciyue/ 这类子路径时，根导航 URL 与 index.html 是两个缓存键；
@@ -3828,9 +3828,29 @@ if (shouldRegisterSW({
       if (!raw) return;
       try { urls.add(new URL(raw, location.href).href); } catch { /* 忽略无效资源地址 */ }
     });
-    try {
-      navigator.serviceWorker.controller?.postMessage({ type: "cache-urls", urls: [...urls] });
-    } catch { /* 缓存权限或私密模式限制不影响在线阅读 */ }
+    const list = [...urls];
+    /* 首访竞态（2026-09-23）：register() resolve 时新 SW 往往还在 installing/activating，
+     * navigator.serviceWorker.controller 仍是 null —— 原 controller?.postMessage 变成
+     * 静默 no-op，预热恰好在最需要它的「首访」永远落空（离线刷新首屏才第一次进缓存）。
+     * 修法：active 在手就直接发；没有就等 worker statechange 到 activated（或被顶替后
+     * 取新的 active）/ controllerchange 再发，sent 标记去重，statechange 与
+     * controllerchange 双通道同时命中也只发一次。 */
+    let sent = false;
+    const send = w => {
+      if (sent || !w) return;
+      sent = true;
+      try { w.postMessage({ type: "cache-urls", urls: list }); } catch { /* 私密模式等限制不影响在线阅读 */ }
+    };
+    send(reg.active);
+    if (!sent) {
+      const w0 = reg.waiting || reg.installing;
+      if (w0) w0.addEventListener("statechange", () => {
+        if (w0.state === "activated") send(w0);
+        else if (w0.state === "redundant") send(reg.active || reg.waiting);
+      });
+      navigator.serviceWorker.addEventListener("controllerchange",
+        () => send(navigator.serviceWorker.controller), { once: true });
+    }
   };
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("sw.js").then(warmAppCache).catch(() => { });

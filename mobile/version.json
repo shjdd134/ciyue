@@ -1,6 +1,6 @@
 {
-  "versionCode": 5,
-  "versionName": "1.0.4",
+  "versionCode": 6,
+  "versionName": "1.0.5",
   "_comment": [
     "Android 壳的版本。tools/build-apk.mjs 会把它注入**暂存副本的 AndroidManifest.xml**。",
     "★ 不是传给 aapt2 link 的 --version-code / --version-name —— 那两个参数会被 aapt2 忽略",
@@ -24,6 +24,7 @@
     "   修法：白名单加第 ⑤ 条 dynamicRefs()（剥注释后从 app.js 抽运行期资源），",
     "   并把守卫改成对**产物实际文件**断言（左侧源码抽取 / 右侧真跑一遍 build 的目录）。",
     "   注意 assets/ 内容本身没改，所以内容版本 ?v= 仍是 79 —— 只有壳版本走了。",
-    "   详见 SHELL-ASSET-MISSING-RCA-2026-09-23.md 与 REFERENCE-mechanics.md §14.13。"
+    "   详见 SHELL-ASSET-MISSING-RCA-2026-09-23.md 与 REFERENCE-mechanics.md §14.13。",
+    "★ 1.0.5 (vc6)：修阅读进度丢失窗口 + 落盘竞态。onPause 显式触发的 saveState 走异步线程，原来要等 onStop 的「第二次机会」—— 进程在两态之间被杀（LMK / 滑卡不派发 onStop）就丢进度；现 onPause 末尾同步 flush（有界 2s，几十 KB + fsync 毫秒级）。顺带根除 flush 主线程直写与后台 drain 并发时「交错 rename、旧状态盖新状态」的窗口：writeAtomic 收敛为单写者（drain 循环同一时刻至多一个），flush 改为有界等待清空。UserStateStore.java + MainActivity.java。"
   ]
 }
