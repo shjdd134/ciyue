@@ -262,11 +262,21 @@ public class MainActivity extends Activity {
         /* ★ 这一步是壳里最关键的一次落盘。用户在阅读页直接按 home / 锁屏，
            是移动端最高频的离开方式，而这一刻不结算的话，这段阅读时长与续读位置
            就永远没了。不赌 visibilitychange 会不会派发 —— 显式调网页侧的入口。 */
-        try { web.evaluateJavascript("window.__wlNativePause&&window.__wlNativePause()", null); } catch (Throwable ignored) { }
+        /* 等两拍（vc7 修）：evaluateJavascript 是**异步派发**的 —— 1.0.5 只修了
+           「原生侧收到写入后 flush 会同步等它写完」（UserStateStore.flush 有界 2s），
+           但 onPause 里 flush 跑在 JS 调用派发之后立刻执行，冲的还是「原生侧**已收到**的」；
+           __wlNativePause 里那次 saveState 走 JavaBridge 线程才到，晚一步就漏。
+           现在冲两拍：① 立即冲已收到的（callback 永不来时也不比 1.0.5 差）；
+           ② evaluateJavascript 回调里再冲 —— 那时 JS 的 saveState 必已越过
+           JavaBridge 到达 pending（或已写完），flush 的 2s 窗口才真正等得到它。
+           为什么在 UI 线程 flush 不死锁：flush 的 lock.wait 只等 drain 线程，
+           不等 UI；JavaBridge / JS 都在别的线程，saveState 不需要 UI 线程空闲。
+           回调排在 flush 之后没关系 —— flush 返回后回调立刻执行，第二拍接得住。 */
+        try {
+            web.evaluateJavascript("window.__wlNativePause&&window.__wlNativePause()",
+                    value -> { if (store != null) store.flush(); });
+        } catch (Throwable ignored) { }
         try { web.onPause(); } catch (Throwable ignored) { }
-        /* 同步等落盘（2026-09-23）：上面那次 saveState 走异步线程，原来要等 onStop 的
-           「第二次机会」—— 进程在两态之间被杀（LMK / 滑卡不派发 onStop）就丢进度。
-           flush 有界 2s，正常几十 KB + fsync 是毫秒级，不值得为它赌进程存活。 */
         if (store != null) store.flush();
     }
 

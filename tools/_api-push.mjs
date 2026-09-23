@@ -81,6 +81,16 @@ const isNeverPush = f => {
   return NEVER_PUSH.has(n) || NEVER_PUSH_PATTERNS.some(re => re.test(n));
 };
 
+/* 路径含库校验（2026-09-23）：清单里的路径解析后必须落在仓库根**内**。
+ * 原实现只做斜杠归一化，随后 addUpload/addDelete 用 path.join(ROOT, f) 直接读盘 ——
+ * 含 ../ 的路径能读到工作区外。本工具是 public 仓库的写入口：「能读到的」就能推上公网，
+ * 所以读取边界必须等于仓库边界。用 path.resolve + path.relative 而不是字符串前缀 ——
+ * "assets/../../x" 这类中间跳出再回来的也能抓住；解析到根本身（f="."）也拒。 */
+const escapesRoot = f => {
+  const rel = path.relative(ROOT, path.resolve(ROOT, normalize(f)));
+  return rel === "" || rel.startsWith("..") || path.isAbsolute(rel);
+};
+
 /* ---------- 变更清单 ---------- */
 let plan = null;            // { push:Set, delete:Set, source: string }
 const manifestArg = argOf("manifest");
@@ -160,6 +170,13 @@ if (!plan) {
     console.error("  **远端分支未做任何改动，token 都还没取。**");
     process.exit(2);
   }
+  const escapedFb = fallbackStatus.map(e => e.file).filter(escapesRoot);
+  if (escapedFb.length) {
+    console.error(`\n✗ git status 回落清单里 ${escapedFb.length} 个路径解析后落在仓库根之外，已拒绝：`);
+    for (const f of escapedFb.slice(0, 20)) console.error("   · " + f);
+    console.error("  **远端分支未做任何改动，token 都还没取。**");
+    process.exit(2);
+  }
 }
 
 /* ---------- 清单自检（在任何网络调用之前） ----------
@@ -168,7 +185,16 @@ if (!plan) {
  * 放在这里而不是上传循环里：省掉一半 blob 调用，也让「清单坏了」早暴露。 */
 if (plan) {
   /* ① 硬拦截：NEVER_PUSH / NEVER_PUSH_PATTERNS 命中的路径不许出现在任何清单里。
-   *    放在存在性检查之前 —— 这条优先级更高，且同样必须早于取 token。 */
+   *    放在存在性检查之前 —— 这条优先级更高，且同样必须早于取 token。
+   * ①b 路径含库：解析后必须落在仓库根内（push 与 delete 都查 —— addDelete 的
+   *    删除前备份同样拿它读盘）。 */
+  const escaped = [...plan.push, ...plan.delete].map(normalize).filter(escapesRoot);
+  if (escaped.length) {
+    console.error(`\n✗ 清单里 ${escaped.length} 个路径解析后落在仓库根之外，已拒绝：`);
+    for (const f of escaped.slice(0, 20)) console.error("   · " + f);
+    console.error("  **远端分支未做任何改动，token 都还没取。**");
+    process.exit(2);
+  }
   const leaked = [...plan.push].map(normalize).filter(isNeverPush);
   if (leaked.length) {
     console.error(`\n✗ 清单里 ${leaked.length} 个文件属于「绝不推送」，已拒绝：`);
@@ -306,9 +332,9 @@ if (missing.length) {
 /* 终检（2026-09-23）：entries 组装完、提交前再扫一遍。前面的硬拦截管清单与回落
  * 的「解析态」，这里管「执行态」—— 任何一层将来被改坏，entries 里混进绝不推送
  * 的路径都在这里被挡下（是最后一道，也是唯一覆盖 entries 实际内容的一道）。 */
-const leakedFinal = entries.filter(e => isNeverPush(e.path));
+const leakedFinal = entries.filter(e => isNeverPush(e.path) || escapesRoot(e.path));
 if (leakedFinal.length) {
-  console.error(`\n✗ 终检发现 ${leakedFinal.length} 个「绝不推送」文件混进了上传/删除项，中止：`);
+  console.error(`\n✗ 终检发现 ${leakedFinal.length} 个「绝不推送」或越出仓库根的文件混进了上传/删除项，中止：`);
   for (const e of leakedFinal.slice(0, 20)) console.error("   · " + e.path);
   console.error("  **远端分支未做任何改动。**");
   process.exit(2);
