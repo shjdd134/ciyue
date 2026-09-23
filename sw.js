@@ -2,7 +2,10 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（v82，本批修 SW 首访预热竞态 + cycle 缺义，见 HANDOFF §0.2）：
+ * 缓存策略（v83，公开 Demo 与私人内容分离）：
+ *   首访预热只包含产品与 Demo；激活时清掉旧版本缓存中的私人文章与封面。
+ *
+ *   上一条 v82 修 SW 首访预热竞态 + cycle 缺义（见 HANDOFF §0.2）：
  *   SW 本体逻辑一字未动 —— 改的是 app.js 的 warmAppCache：首访时 register() resolve
  *   后 controller 仍是 null，预热 postMessage 静默落空；现改为等 worker activated /
  *   controllerchange 再发（sent 去重）。缓存名随 assetVersion 走，只为让客户端拿到新资源：
@@ -81,7 +84,7 @@
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-cache-v82";
+const CACHE = "wordlens-cache-v83";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {
@@ -155,6 +158,12 @@ self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys().then(keys => {
+      /* 私人文章从公开站点撤下时，清掉旧版本缓存里的正文和封面。
+       * 本次升级的当前缓存是新建的；后续版本仍沿用下面的两代回退策略。 */
+      if (CACHE.endsWith("-v" + 83)) {
+        return Promise.all(keys.filter(k => k.startsWith("wordlens-cache-") && k !== CACHE)
+          .map(k => caches.delete(k)));
+      }
       /* 保留当前缓存 + 版本号最高的旧缓存作回退，其余清理 */
       const old = keys.filter(k => k !== CACHE).sort().pop();
       return Promise.all(keys.filter(k => k !== CACHE && k !== old).map(k => caches.delete(k)));

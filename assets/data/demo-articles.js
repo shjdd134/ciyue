@@ -1,0 +1,111 @@
+/* Original, short articles for trying the reader without importing a library. */
+(function attachCiyueDemoArticles(root) {
+  const sentences = rows => rows.map(([en, cn]) => ({ en, cn }));
+  root.CIYUE_DEMO_ARTICLES = [
+    {
+      id: "demo-window-seat",
+      title: "The Window Seat",
+      titleZh: "靠窗的座位",
+      author: "Ciyue Demo",
+      sourceName: "Ciyue Demo",
+      sourceUrl: "",
+      cat: "示例",
+      category: "示例",
+      language: "en",
+      date: "2026-09-23",
+      publishedAt: "2026-09-23",
+      addedAt: "2026-09-23",
+      coverImg: "assets/covers/demo/window-seat.svg",
+      coverUrl: "assets/covers/demo/window-seat.svg",
+      gradient: "linear-gradient(135deg,#d8e9e3 0%,#8fb6aa 100%)",
+      tags: ["demo", "story"],
+      paras: [
+        { sentences: sentences([
+          ["Mina chose the window seat on the early train, though the platform was still dark.", "美娜在清晨的列车上选了靠窗的座位，尽管站台仍笼罩在黑暗中。"],
+          ["She had planned to read, but a paper cup of coffee warmed both her hands.", "她原本打算读书，但一杯纸杯咖啡暖着她的双手。"],
+          ["Outside, the station lights slid across the glass like quiet, golden rain.", "窗外，车站的灯光掠过车窗，像一场安静的金色细雨。"],
+        ]) },
+        { sentences: sentences([
+          ["At the next stop, an old man climbed aboard carrying a small pot of basil.", "下一站，一位老人带着一小盆罗勒上了车。"],
+          ["He asked Mina to hold it while he lifted his suitcase onto the rack.", "他请美娜帮忙扶一下，好把手提箱放到行李架上。"],
+          ["The leaves smelled bright and green, like a garden after rain.", "叶子散发着清新明亮的气息，仿佛雨后的花园。"],
+        ]) },
+        { sentences: sentences([
+          ["They spoke only for a minute, yet the journey felt less empty afterward.", "他们只聊了一分钟，但之后这段旅程似乎不再那么空荡。"],
+          ["When the sun appeared, Mina opened her book and found she could finally focus.", "太阳升起时，美娜打开书，发现自己终于能专心阅读了。"],
+          ["She smiled at the little plant resting safely beside the old man's coat.", "她看着那株安稳地靠在老人外套旁的小植物，露出了微笑。"],
+        ]) },
+      ],
+    },
+    {
+      id: "demo-learning-by-making",
+      title: "Learning by Making Mistakes",
+      titleZh: "在尝试与出错中学习",
+      author: "Ciyue Demo",
+      sourceName: "Ciyue Demo",
+      sourceUrl: "",
+      cat: "示例",
+      category: "示例",
+      language: "en",
+      date: "2026-09-22",
+      publishedAt: "2026-09-22",
+      addedAt: "2026-09-22",
+      coverImg: "assets/covers/demo/learning-by-making.svg",
+      coverUrl: "assets/covers/demo/learning-by-making.svg",
+      gradient: "linear-gradient(135deg,#f1dfbe 0%,#d39659 100%)",
+      tags: ["demo", "learning"],
+      paras: [
+        { sentences: sentences([
+          ["A mistake can feel like proof that we are not good at something.", "一次失误可能会让我们觉得自己不擅长某件事。"],
+          ["In practice, it is often a clue about what to try next.", "但在实际学习中，它往往是在提示我们下一步该尝试什么。"],
+          ["A learner who speaks a new language will pause, choose a word, and sometimes choose the wrong one.", "学习新语言的人会停下来选词，有时也会选错。"],
+        ]) },
+        { sentences: sentences([
+          ["That small failure makes the gap between memory and meaning easier to see.", "这个小小的失误让记忆与含义之间的差距更容易被发现。"],
+          ["The learner can check the sentence, hear a better example, and try again.", "学习者可以查看句子、听一个更合适的例子，然后再试一次。"],
+          ["Each attempt gives the brain another chance to connect the sound with the idea.", "每一次尝试都让大脑有机会把读音和概念重新联系起来。"],
+        ]) },
+        { sentences: sentences([
+          ["This does not mean that every struggle is useful or that feedback should be harsh.", "这并不意味着每种挫折都有帮助，也不意味着反馈应该严厉。"],
+          ["Useful practice keeps the challenge small enough to face and clear enough to learn from.", "有效的练习会把挑战控制在可以面对、也足够清楚的范围内。"],
+          ["Progress often begins when we treat an error as information rather than a verdict.", "当我们把错误看作信息而不是判决时，进步往往就开始了。"],
+        ]) },
+      ],
+    },
+    {
+      id: "demo-city-before-sunrise",
+      title: "The City Before Sunrise",
+      titleZh: "日出前的城市",
+      author: "Ciyue Demo",
+      sourceName: "Ciyue Demo",
+      sourceUrl: "",
+      cat: "示例",
+      category: "示例",
+      language: "en",
+      date: "2026-09-21",
+      publishedAt: "2026-09-21",
+      addedAt: "2026-09-21",
+      coverImg: "assets/covers/demo/city-before-sunrise.svg",
+      coverUrl: "assets/covers/demo/city-before-sunrise.svg",
+      gradient: "linear-gradient(135deg,#293653 0%,#e09263 100%)",
+      tags: ["demo", "city"],
+      paras: [
+        { sentences: sentences([
+          ["Before sunrise, the city belongs to people whose work begins while most windows are dark.", "日出之前，城市属于那些在大多数窗户还一片漆黑时就开始工作的人。"],
+          ["A baker unlocks a narrow shop, and warm air carrying the smell of bread reaches the street.", "面包师打开一间狭长的小店，带着面包香味的暖空气飘到街上。"],
+          ["A bus driver checks the mirrors before the first passengers arrive.", "第一批乘客到来之前，公交车司机先检查后视镜。"],
+        ]) },
+        { sentences: sentences([
+          ["A cleaner pushes water toward the curb, where it catches the orange light of traffic signals.", "清洁工把水推向路边，水面映出交通信号灯的橙色光芒。"],
+          ["Their tasks are ordinary, but together they prepare the city for everyone else.", "他们做的事情很平常，但这些工作合在一起，为其他人迎来了新的一天。"],
+          ["The first train arrives with a soft wind and a row of tired faces.", "首班列车带着一阵轻风进站，车厢里坐着一排疲惫的面孔。"],
+        ]) },
+        { sentences: sentences([
+          ["Then the sky changes color, and the glass towers begin to reflect the morning.", "随后天空渐渐变色，玻璃大楼开始映出晨光。"],
+          ["The city grows louder, yet the quiet work from an hour ago remains beneath it.", "城市渐渐喧闹起来，但一小时前那些安静的工作仍支撑着这一切。"],
+          ["A new day does not appear all at once; many small beginnings bring it into view.", "新的一天并非突然出现，而是由许多个微小的开端慢慢展现在眼前。"],
+        ]) },
+      ],
+    },
+  ];
+})(typeof window !== "undefined" ? window : globalThis);

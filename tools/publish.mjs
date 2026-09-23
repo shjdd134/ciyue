@@ -72,6 +72,10 @@ const fail = (msg, extra, batchDir, dropBatch = false) => {
   process.exit(2);
 };
 
+if (!fs.existsSync(EXTRA)) {
+  fail("旧版公开文章发布管线已停用；用户私人文章应通过词阅 JSON 导入保存在本机");
+}
+
 /* ---------- 1. 计划 ---------- */
 const decl = readDecl(EXTRA, "ARTICLES_EXTRA");
 if (!decl) fail("extra 文件结构异常，无法解析 ARTICLES_EXTRA");

@@ -3,7 +3,7 @@
  * 内置数据：
  *   WORDS_CORE  —— 30 个精选高频词（含词根词缀/同根词/真题例句/助记），覆盖四级考纲 List 1-2
  *   WORDS_BULK  —— 220 个常见四级词（基础字段），覆盖 List 3-13（与 data-words-bulk.js 合并后共 250）
- *   ARTICLES    —— 已清空（2026-09-12 内容清理）；文章全部来自 assets/data-articles-extra.js（每日管线追加）
+ *   ARTICLES    —— 由 Demo 与用户本地文章库在 app 启动时装载
  *
  * 加载顺序（index.html）：
  *   data.js          → window.WORDS_CORE / window.ARTICLES / window.CATEGORIES
@@ -318,13 +318,11 @@ const WORDS_CORE = [
 source: "四级真题例句 · 2023 卷一" }
 ];
 
-const ARTICLES = [];   // 内置种子文章已清空（2026-09-12 内容清理，足球类旧种子文删除）；文章全部来自 data-articles-extra.js
+const ARTICLES = [];   // 仅由 ContentLoader 装载 Demo 与 IndexedDB 私人文章
 
-/* 内容来源说明：当前内置文章种子为空；抓取文章由 data-articles-extra.js 注入。
- * 抓取正文来自配置媒体的公开 RSS/文章页，英文正文不改写，中文为机器翻译学习注释。
- * 每篇 url 字段指向原文页面。 */
+/* 文章从静态 Demo 与当前设备的 IndexedDB 私人库加载；此处不内嵌文章正文。 */
 
-const CATEGORIES = ["全部","人物","足球","AI","成长","寓言"];
+let CATEGORIES = ["全部","示例"];
 
 /* 兼容：保留旧引用名 */
 if (typeof WORDS === "undefined") var WORDS = WORDS_CORE;
