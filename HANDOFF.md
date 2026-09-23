@@ -22,9 +22,9 @@
 | 句子 / 词数 | **7,094 句 / 118,281 词** |
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
-| 资源版本 | `?v=79` · SW 缓存名 `wordlens-cache-v79` |
+| 资源版本 | `?v=80` · SW 缓存名 `wordlens-cache-v80` |
 | Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
-| 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
+| 词库 | **4,081 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
 | 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
@@ -1158,6 +1158,52 @@
   正确口径是 `mobile/www/index.html`（注入了壳胶水的那一份）。**报红先分清「东西坏了」还是「尺子坏了」。**
 - 本次改 `tools/lib-mobile.cjs` / `tools/audit.js` / `mobile/version.json` + 本文件 +
   `SHELL-ASSET-MISSING-RCA-2026-09-23.md`；**网页资源未动，`?v=` 不变。**
+
+### 2026-09-23 下午（v80：词卡错义 ×2 + 切分段译文断链 + data-si 口径 + tapdict 重试）
+
+**起因**：另一 agent 两轮只读审查报告交来 11 条 finding，小d 逐条对代码核实 ——
+**9 条属实、1 条被推翻、1 条是设计取舍**（详见当日 `.workbuddy/memory/2026-09-23.md`）。
+被推翻的一条值得记住：**「MT 引擎顺序与记录冲突」不成立** —— `MT-BAKEOFF-2026-09-17.md`
+明写「qwen-mt-plus 拟升主力、DeepL 拟降替补」，现码 `lib-mt.mjs` 的 qwen-mt 优先正是
+对比测试的有意结论，报告引用的「DeepL 优先」是旧决策。「断句保守（86 段候选）」也非 bug，
+是 09-22 拍板的「宁可连排，不要碎行」取舍。本批修其余 5 项：
+
+- **① sometimes 被 sometime 遮蔽（错义）**：`resolveToken` 的「还原命中学习词」优先级
+  压过点词层直接命中（这是 `performing→perform` 的**有意设计**），但 sometimes 是独立副词，
+  TAPDICT 里「adv. 有时， 时常」的正确词条永远取不到。修法 = 例外表 `LEMMA_SELF_WINS`
+  （先收 sometimes）。判据来自**全表碰撞扫描**：TAPDICT 约 1,766 个「非学习词但可还原到
+  学习词」的 token，剥 s 且释义无交集的 33 个，逐条人工过 —— 绝大多数是规则复数
+  （basics→basic）或 -ics 学科词（economics→economic，失真可接受），语义真分叉且高频的
+  只有 sometimes。**别把 nuts / seconds 加进来**：对本文读者它们九成是复数本义，还原才对。
+- **② match 词条只有「(一根)火柴」（错义）**：足球文章里的 matches 还原后显示错义。
+  有趣的发现：源数据 `cet4.jsonl` 里 match 是「比赛，竞赛；对手」，而产物里是火柴 ——
+  因为 `build-core-vocab.mjs` 对**已有词条原样保留全部字段**（人工精编层），现存产物
+  就是真源，改词条即改真源、重建不丢。已在词条补「比赛，竞赛；对手；v. 与…相配」。
+- **③ 切分段前几句点不出译文（交互断链）**：退化段渲染切分把整段译文只挂最后一句，
+  而「点句显示」档只展开被点句的紧邻译文 → 全库 447 个切分段、1,188 个显示句点了
+  没反应。**注释（app.js 原 606 行）却许诺「点任一句都弹整段」—— 假注释，实现从没接上**。
+  修法 = 整段译文挂**每一个**显示句，非末句副本带 `.cn-dup`（CSS 收起，「逐句对照」档
+  一段只见一份；peek 规则 5 个类压过 .cn-dup 的 4 个类，点谁弹谁）。
+  **旧守卫「整段译文只出现一次」锁的正是旧设计，已随新意图改写** —— 守卫换判据时
+  必须全局 grep 旧判据，别只加新的。
+- **④ 退化段 data-si 写错口径**：渲染把**显示序号**写进 `data-si`（注释宣称「切分前序号」），
+  单句朗读的「第 n/total 句」计数可超总数（381/380）。修法 = `renderSentencesOf` 带出
+  数据口径 `si0`（退化段恒 0），渲染写 `data-si="${s.si0}"`；`applyAnchor` 加第三级回退
+  （pi+rs 精确查找）接住**已存的旧锚点**（旧 progress 里 si=显示序号，新 DOM 里查不到）。
+- **⑤ tapdict 加载失败后同页永不重试**：`onerror` 只 `resolve(false)`，promise 以 false
+  永久缓存。修法 = 失败时清 `tapLoadPromise`/`tapLoadStarted`，复试频率天然等于用户动作频率。
+
+**守卫与负向测试**：audit 468 → **473 条**（+8 新：挂法行为/端到端 5+4/dup 类/data-si 口径
+×2/si0 行为/sometimes+对照/match 义项/tapdict 重试；-1 旧「只挂最后一句」改写）。
+负向测试 7 组（私有基线 `.bak/neg-p0p1/`，坏样本注入）**全部精确变红、无连坐**，
+还原后 473/0。真页面 playwright 探针（`.bak/probe-p0p1.cjs`）三项全过：
+tap 档点切分段首句整段译文弹出（display=block）、all 档 446 个 cn-dup 全部不可见、
+所点句位移 0.0px。**探针坑一则**：`page.tap` 点句子会命中句中单词触发查词浮层
+（closest 找到 .word 的 lookup）—— 测「选句」必须程序化 `el.click()`（detail=0 应用层放行）。
+
+**本批不动**（审查属实、留待后续）：daily.yml push 事件跳过回归闸门、`_api-push.mjs`
+路径含库校验与回落模式 PATTERNS 检查、SW 首访预热时序、Android onPause 异步落盘 ——
+均为 P2，见 memory 日志。
 
 ### 0.3 机制速查（不随批次变）
 

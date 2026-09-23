@@ -101,6 +101,10 @@ const LEVELS = [
   ["六级词库", "lv-liuji.jsonl"], ["考研词库", "lv-kaoyan.jsonl"], ["托福词库", "lv-tuofu.jsonl"],
 ];
 const DICT = new Map();
+/* 跨级别并翻译（2026-09-23）：原来「首见即定」只留 cet4 的释义，cycle 的 v. 骑自行车
+ * 只在后面级别的 jsonl 里，永远进不来。现在同一词的 translations 按规范化文本并集
+ * （entry 本身仍取首见 = 最高优先级，phrases 等其他字段不混入）。 */
+const normTrans = s => String(s || "").replace(/[\s.；;，,、·（）()【】\[\]]/g, "");
 for (const [lv, file] of LEVELS) {
   const p = path.join(CACHE, file);
   if (!fs.existsSync(p)) { console.error(`缺少源数据 ${p}`); process.exit(1); }
@@ -108,7 +112,14 @@ for (const [lv, file] of LEVELS) {
     if (!line.trim()) continue;
     let o; try { o = JSON.parse(line); } catch { continue; }
     const k = String(o.word || "").toLowerCase();
-    if (k && !DICT.has(k)) DICT.set(k, { entry: o, level: lv });
+    if (!k) continue;
+    if (!DICT.has(k)) DICT.set(k, { entry: o, level: lv, translations: [...(o.translations || [])] });
+    else for (const t of (o.translations || [])) {
+      const txt = String(t.translation || "").trim();
+      if (!txt) continue;
+      const d = DICT.get(k);
+      if (!d.translations.some(x => normTrans(x.translation) === normTrans(txt))) d.translations.push(t);
+    }
   }
 }
 console.log(`分级词典库合计 ${DICT.size} 词`);
@@ -182,13 +193,56 @@ function fromDict(word) {
   return { ...blank(word), phonetic: ph ? "/" + ph.replace(/^\/+|\/+$/g, "") + "/" : "", pos, def };
 }
 
+/* 义项补并（2026-09-23）：旧策略「已有词条原样保留」让早期精编的单一义项永远固化——
+ * match 只剩「(一根)火柴」，cet4.jsonl 里的「比赛，竞赛；对手」从未进来，重建一百遍也修不了。
+ * 新策略：只把词典源里「与现有 def 无公共词块」的义项块追加在现有 def 后（块级，不整句替换，
+ * 避免同义异表述的词条被大面积改写）；pos 同样并集（bear v. → v./n.）。
+ * 干跑实测影响面 63/2013；match/bear/box/cycle 属真缺义，billion/demonstrate 属同义异表（追加无害）。 */
+const defChunks = s => String(s).split(/[；;，,、。/\s]+/).filter(Boolean);
+/* 块匹配剥括注：「循环（周期）」按原文匹配不上「循环」会被当新义追加 → 近重复噪音。
+ * 剥掉（…）后再比，两种形态任一命中即视为已有。 */
+const stripParen = c => c.replace(/[（(][^）)]*[)）]/g, "").trim();
+const hasCommonChunk = (a, b) => {
+  const A = new Set(defChunks(a));
+  const Av = new Set();
+  for (const c of A) { Av.add(c); const s = stripParen(c); if (s) Av.add(s); }
+  return defChunks(b).some(c => A.has(c) || (stripParen(c) && Av.has(stripParen(c))));
+};
+const normPos = s => String(s).replace(/\./g, "").trim();
+function mergeSenses(keep, word) {
+  const e = DICT.get(word);
+  if (!e) return keep;
+  /* DICT 的 value 是 {entry, level, translations} 包装 —— 2026-09-23 首版误写成 e.translations
+   * 但 value 只有 {entry, level}，恒 undefined，整段成了「看起来在跑实际永远 no-op」的假实现
+   * （决定性实验：恢复远端火柴版重跑，match 纹丝不动才暴露）。translations 现为跨级别并集。 */
+  const translations = e.translations || (e.entry && e.entry.translations) || [];
+  const added = [];
+  for (const t of translations) {
+    const block = String(t.translation || "").trim();
+    if (!block) continue;
+    if (!keep.def || !hasCommonChunk(keep.def, block)) added.push(t);
+  }
+  if (added.length) {
+    const blocks = added.map(t => t.translation.trim());
+    keep.def = keep.def ? keep.def + "；" + blocks.join("；") : blocks.join("；");
+  }
+  /* pos 只跟随实际追加的块：def 没扩就不添新词性，避免给未变义的词硬塞 vt/vi 之类的噪音 */
+  const oldTypes = keep.pos ? keep.pos.split("/").map(normPos).filter(Boolean) : [];
+  const addTypes = added.map(t => normPos(t.type))
+    .filter(t => t && /^[a-z]+$/.test(t) && !oldTypes.includes(t));
+  if (!keep.def) { /* def 为空时块全量追加，词性照并 */ }
+  else if (!added.length) return keep;
+  if (addTypes.length) keep.pos = keep.pos ? keep.pos + "/" + addTypes.map(t => t + ".").join("/") : addTypes.map(t => t + ".").join("/");
+  return keep;
+}
+
 const FULL = [], BULK = [];
 for (const word of FINAL) {
   const old = byWord.get(word);
   if (old) {
-    /* 已有词条：原样保留全部字段（含人工精编的词根词缀 / 真题例句）。
+    /* 已有词条：保留人工精编的词根词缀 / 真题例句，释义与词性按 mergeSenses 从词典源补缺。
        bulk-a 那批的 source 是早期写错的「CET4 高频」标签，统一改成中性描述。 */
-    const keep = { ...old };
+    const keep = mergeSenses({ ...old }, word.toLowerCase());
     if (/CET4 高频/.test(keep.source || "")) keep.source = keep.example ? "项目自编例句" : "";
     if (CORE_WORDS.includes(word)) continue;          // 留在 data.js 里，不重复写
     if (BULK_SET.has(word)) { keep.list = "四级核心"; BULK.push(keep); continue; }

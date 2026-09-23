@@ -5,7 +5,7 @@
  *   ② Tatoeba 双语语料  tatoeba.org（CC-BY 2.0）—— 英中人工句对
  *   ③ 原刊文章抽句 —— 本项目文章库的历史兜底（真实报道原文）
  *
- * 本文件共 3724 条（词典 3290 / Tatoeba 403 / 原刊 31），
+ * 本文件共 3723 条（词典 3289 / Tatoeba 403 / 原刊 31），
  * 只填补没有例句的词；词库自带 / 人工撰写的例句永远优先，不会被覆盖。
  */
 const WORD_EXAMPLES = {
@@ -1557,7 +1557,6 @@ const WORD_EXAMPLES = {
 "somehow": {"en":"Maybe we could glue it together somehow or other .","cn":"也许我们可以想什么办法把它粘起来。","src":"四级词库"},
 "someone": {"en":"What would you do if someone tried to rob you in the street?","cn":"要是有人在街上抢劫你，你会怎么办？","src":"高中词库"},
 "something": {"en":"Sarah said something about coming over later.","cn":"萨拉说她等一会儿过来什么的。","src":"高中词库"},
-"sometime": {"en":"The sales figures won't be released until sometime next month.","cn":"销售数据要到下个月的某个时候才会公布。","src":"四级词库"},
 "somewhat": {"en":"Things have changed somewhat since then.","cn":"从那时候起，情况就有些不一样了。","src":"四级词库"},
 "somewhere": {"en":"My wallet must be around here somewhere.","cn":"我的钱包肯定是在这里的什么地方。","src":"高中词库"},
 "son": {"en":"In those days, the property went to the oldest son.","cn":"那时候，财产由长子继承。","src":"高中词库"},

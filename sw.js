@@ -2,7 +2,15 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（v79，为「原生壳里会真坏」的三件事收口）：
+ * 缓存策略（v80，本批修「词卡 / 切分段」三处错义与断链，见 HANDOFF §0.2）：
+ *   本批改动全在 app.js / styles.css / data-words-full.js，SW 逻辑一字未动 ——
+ *   缓存名随 assetVersion 走，只为让客户端拿到新资源：
+ *   ① sometimes 被 sometime 遮蔽（resolveToken 例外表 LEMMA_SELF_WINS）；
+ *   ② 切分段前几句点不出译文（整段译文挂每一个显示句 + .cn-dup 收起副本）；
+ *   ③ 退化段 data-si 写错口径（显示序号 → 数据口径，朗读「381/380」随之消失）；
+ *   ④ match 词条补「比赛/竞赛」义项；tapdict 加载失败后同页可重试。
+ *
+ *   上一条 v80 是「原生壳里会真坏」的三件事收口：
  *   ① 三条生命周期监听原来被套在 `if (shouldRegisterSW(...))` 里 —— 可「切后台结算阅读时长」
  *      「离开页面落盘续读位置」与 Service Worker 一点关系都没有。**壳里不注册 SW 是对的**
  *      （壳从 assets 直接拦截出文件，不需要 SW 的取数代理），但这一关把三条监听一起关掉了：
@@ -74,7 +82,7 @@
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-cache-v79";
+const CACHE = "wordlens-cache-v80";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {

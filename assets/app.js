@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "79");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "80");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -460,7 +460,16 @@ function ensureTapdict() {
       TAPR = typeof window !== "undefined" && window.TAP_REVERSE ? window.TAP_REVERSE : null;
       resolve(Boolean(TAP && TAPR));
     };
-    s.onerror = () => { s.remove(); resolve(false); };
+    s.onerror = () => {
+      s.remove();
+      /* 失败必须把 promise 撤掉，否则它以 false 永久缓存在这里，同页面
+         再进阅读页也不会重试（2026-09-23 审查发现）。撤掉后下一次
+         ensureTapdict() 会重新插一次 script —— 复试频率天然等于用户动作频率，
+         不需要定时器。 */
+      tapLoadPromise = null;
+      tapLoadStarted = false;
+      resolve(false);
+    };
     document.head.appendChild(s);
   });
   return tapLoadPromise;
@@ -491,6 +500,16 @@ function lemmaCands(t) {
   return [...out];
 }
 
+/* 词形还原例外表：这些词在点词层有自己的独立词条，且**不是**还原目标学习词的变形 ——
+ * 「还原命中学习词」的优先级会把它们的正确释义压掉。
+ * 实测碰撞扫描（2026-09-23，全 TAPDICT 约 1766 个「非学习词但可还原到学习词」的 token，
+ * 只看剥 s 且释义与学习词无公共词的）：33 个候选里绝大多数是规则复数（basics→basic、
+ * remains→remain，还原后释义仍然对）或 -ics 学科词（economics→economic，失真可接受）；
+ * 语义真正分叉且 CET-4 文章里高频的只有 sometimes —— 它是独立副词，不是 sometime
+ * 的复数，还原后卡片显示「在某一时候；从前」而正确释义「有时」就在点词层里取不到。
+ * ⚠️ 别把 nuts / seconds 这类词加进来：对本文读者它们九成是复数本义，还原才是对的。 */
+const LEMMA_SELF_WINS = new Set(["sometimes"]);
+
 const kwOf = w => {           // 词在 KEYWORDS（学习词）里则返回词本身，否则 null
   let node = KW_TRIE;
   for (let i = 0; i < w.length; i++) { node = node[w[i]]; if (!node) return null; }
@@ -506,6 +525,9 @@ const kwOf = w => {           // 词在 KEYWORDS（学习词）里则返回词�
 function resolveToken(low) {
   const k = kwOf(low);
   if (k) return { kw: k };
+  /* 例外词：原词自身在点词层有条目就直接用，不做还原（有时 ≠ 在某一时候）。
+   * 放在 TAPR 之前 —— TAPR 里有映射时更会把原词条整个跳过。 */
+  if (TAP && TAP[low] && LEMMA_SELF_WINS.has(low)) return { w: low };
   if (TAPR && TAPR[low]) {
     const l = TAPR[low];
     return kwOf(l) ? { kw: l } : { w: l };
@@ -601,10 +623,13 @@ const sentenceAt = (a, pi, si = 0) => {
  *      但**两件事不该共用一把尺子**；
  *   ③ 数据层若切，`cn` 配不上去（1 份译文 vs 5 句英文），守恒闸与 qc 漏译判据都会动。
  *
- * ★ 译文挂法：**整段中文挂在最后一句后面**（用户 2026-09-22 拍板）。不按比例拆中文 ——
- *   那正是 REF §12 的踩坑，`Officials need filling.` 会配到半截中文，而这份材料是拿来背词的，
- *   配错的译文等于教错。切出的每句都可点，点任一句都弹**本段整段**译文（行为统一，
- *   不出现「前几句点了没反应」）。
+ * ★ 译文挂法：**整段中文挂在每一个显示句后面**（挂法 2026-09-23 修，拆译文的禁令不变）。
+ *   不按比例拆中文 —— 那正是 REF §12 的踩坑，`Officials need filling.` 会配到半截中文，
+ *   而这份材料是拿来背词的，配错的译文等于教错。旧版把整段中文只挂在最后一句后面，
+ *   而「点句显示」档只展开被点句的紧邻译文，结果切分段**前几句点了没有任何反应**
+ *   （全库 447 个切分段、1,188 个显示句无译文可弹）—— 与下面许诺的「行为统一」直接矛盾。
+ *   现在每句后面都挂整段译文，点谁弹谁；「逐句对照」档非末句的副本带 .cn-dup 收起，
+ *   视觉上仍然一段只见一份译文。
  *
  * ★ 假阳性必须挡掉（实测样本）：
  *   · `Cui. Lu. Wang. Xie.` —— 4 个单字母缩写，句子切分会切成 4 个碎片；
@@ -638,20 +663,28 @@ const renderSplitEn = en => {
 };
 
 /* 渲染用的段落句子列表：在 sentencesOf 之上做「退化段再切」。
- * 返回 [{ en, cn, rs }] —— rs 是**渲染切分序号**（0 起，非退化段恒为 0）。
- * 调用方把 rs 写进 data-rs，配合 displaySentenceAt() 取回「屏幕上被点的那一句」。 */
+ * 返回 [{ en, cn, rs, si0 }] ——
+ *   rs  渲染切分序号（0 起，非退化段恒为 0），配合 displaySentenceAt 取「屏幕上被点的那一句」；
+ *   si0 **数据口径**的句子序号：非退化段 = 它在 base 里的下标；退化段本来就只有 1 句（=0）。
+ *       渲染层把它写进 data-si，锚点 / 朗读计数用数据口径，只有「怎么显示」变了。 */
 const renderSentencesOf = p => {
   const base = sentencesOf(p);
   /* 只有「句级元素恰好 1 个」才有退化可能；已经切好的段原样返回（零额外开销） */
-  if (base.length !== 1) return base.map(s => ({ ...s, rs: 0 }));
+  if (base.length !== 1) return base.map((s, i) => ({ ...s, rs: 0, si0: i }));
   const en = base[0].en, cn = base[0].cn;
-  if (!cn) return base.map(s => ({ ...s, rs: 0 }));   // 无译文：不需要整段挂尾
+  if (!cn) return base.map(s => ({ ...s, rs: 0, si0: 0 }));   // 无译文：不需要整段挂尾
   const parts = renderSplitEn(en);
-  if (!parts) return base.map(s => ({ ...s, rs: 0 }));
+  if (!parts) return base.map(s => ({ ...s, rs: 0, si0: 0 }));
   return parts.map((s, i) => ({
     en: s,
-    cn: i === parts.length - 1 ? cn : "",     // 译文只挂最后一句
+    /* 整段译文挂**每一个**显示句（2026-09-23 修）：旧版只挂最后一句，而「点句显示」
+     * 档只展开被点句的紧邻译文 —— 切分段的前几句点了没有任何反应（全库 447 个
+     * 切分段、1,188 个显示句无译文可弹）。挂多份后「逐句对照」档只显示最后一份
+     * （非末句副本带 .cn-dup 收起），「点句显示」档点谁弹谁，行为终于和这句
+     * 注释许诺的一样。 */
+    cn,
     rs: i,
+    si0: 0,   // 数据口径：退化段本来就只有 1 句
   }));
 };
 
@@ -2249,10 +2282,12 @@ function renderRead() {
      * 旧写法每句一个块级 div，段落被拆成竖排清单（句间 10px 空隙 + 2px 间距），
      * 英文再长也只在句末换行，视觉上「一句一行」。
      * ★ 用 renderSentencesOf 而不是 sentencesOf：段落级退化段（AI 栏目，见上面那个函数的
-     *   长注释）在这里被再切成显示用的一行一句，但 data-si 仍是切分前的序号 —— 锚点、
-     *   朗读、qc 口径全部不变，只有「怎么显示」变了。 */
+     *   长注释）在这里被再切成显示用的一行一句。data-si 写的是 s.si0（**数据口径**序号，
+     *   退化段恒 0）—— 2026-09-23 之前写的是 map 的显示序号，与注释宣称的「切分前序号」
+     *   不一致，单句朗读的「第 n/total 句」提示会数出 381/380 这种超总数。 */
     const rsList = renderSentencesOf(p);
-    const parts = rsList.map((s, si) => {
+    const splitted = rsList.length > 1;      // 只有退化段才可能 > 1
+    const parts = rsList.map(s => {
       const enText = clean(s.en);
       const cnText = clean(s.cn);
       if (!enText && !cnText) return "";        // 两端都空的句子不占位置
@@ -2260,18 +2295,19 @@ function renderRead() {
       /* 译文是句子的**相邻兄弟**节点，不是子节点。旧写法把 .cn 塞进 .sentence 里，
          三个后果：① <span> 内套块级元素，HTML 内容模型违规（浏览器容错成「一句一行」，
          段落感全丢）；② 句子按钮的 aria-label 把整段中文也算进可访问名称，读屏中英混读；
-         ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。 */
-      const cn = cnText ? `<span class="cn" lang="zh-CN">${esc(cnText)}</span>` : "";
+         ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。
+         切分段的非末句副本带 .cn-dup：「逐句对照」档收起（一段只见一份译文），
+         「点句显示」档 peek 规则（5 个类）特异性压过 .cn-dup（4 个类），点谁弹谁。 */
+      const cn = cnText ? `<span class="cn${splitted && s.rs < rsList.length - 1 ? " cn-dup" : ""}" lang="zh-CN">${esc(cnText)}</span>` : "";
       /* data-rs = 渲染切分序号（0 起）。**凡是「本段被切分过」就必须写上**，
        * 包括 rs=0 那一句 —— 这不是可有可无的优化：rs=0 时不写属性，DOM 里首句就没有
        * data-rs，`applyAnchor` 的 `querySelector(sel[data-rs="0"])` 找不到它，
        * 续读会落到「第一个匹配 pi+si 的句子」上。退化段里那**恰好就是它**，
        * 看似无害；但一旦切分顺序或段内结构变化，这个隐式回落就会静默错位。
        * 所以判据是「这段切了没有」（rsList 长度 > 1），不是「序号是不是 0」。 */
-      const splitted = rsList.length > 1;
       const rs = s.rs || 0;
       const rsAttr = splitted ? ` data-rs="${rs}"` : "";
-      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${si}"${rsAttr} role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${si}"${rsAttr} role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
+      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
     /* 段落里不再挂任何按钮：段级「显示本段翻译」在 2026-09-19 被用户要求删除。
@@ -2585,8 +2621,15 @@ function applyAnchor(cont, a) {
      所以已存的 progress 不会失效、也不会跳错地方。 */
   const rs = Number.isFinite(a.rs) ? a.rs : 0;
   const sel = `.sentence[data-pi="${a.pi}"][data-si="${a.si}"]`;
+  /* 第三级回退（2026-09-23）：v81 之前退化段渲染写进 data-si 的是**显示序号**
+     （0..n-1），老锚点里存的就是它；v81 起 data-si 改为数据口径（退化段恒 0），
+     老锚点 si=2 在新 DOM 里查不到 → 退回「该段里 data-rs=rs 的那一句」。
+     rs 是退化段真正的定位键，这个回退对老锚点恰好是精确的；rs=0 的老锚点
+     落到段首（与旧行为一致）。 */
   const el = (rs > 0 ? cont.querySelector(`${sel}[data-rs="${rs}"]`) : null)
-    || cont.querySelector(sel);
+    || cont.querySelector(sel)
+    || (rs > 0 ? cont.querySelector(`.sentence[data-pi="${a.pi}"][data-rs="${rs}"]`) : null)
+    || cont.querySelector(`.sentence[data-pi="${a.pi}"]`);
   if (!el) return false;
   const delta = (el.getBoundingClientRect().top - cont.getBoundingClientRect().top) - a.off;
   if (delta) cont.scrollTop += delta;

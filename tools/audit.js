@@ -1289,7 +1289,8 @@ ctx('activeArticle = null;');
  *
  * 这里断言四件可观察的事：
  *   ① 退化段在渲染时确实被切开（一句一行）；
- *   ② 译文只挂最后一句 —— 不按比例拆中文（那样会配错译文，见 REF §12 踩坑）；
+ *   ② 整段译文挂在**每一个**显示句后面（2026-09-23 修：旧版只挂最后一句，
+ *      「点句显示」档前几句点了没有任何反应；不按比例拆中文的禁令不变）；
  *   ③ 假阳性被挡住（`Cui. Lu. Wang. Xie.` 这类缩写碎片不切）；
  *   ④ 数据口径不受影响（sentencesOf / 全站句数不变，锚点与 qc 口径不变）。 */
 console.log('\n[R5] 退化段渲染切分');
@@ -1305,9 +1306,10 @@ ok('★ 退化段被切成多句（一段连排 → 一句一行）',
   ctx('__degenOut.length') === 5);
 ok('★ 切出的每句都有英文、且都不含整段（说明真的切了，不是原样复制）',
   ctx('__degenOut.every(s => s.en && s.en.length < 130)'));
-/* 译文挂最后一句：前面几句的 cn 必须为空 —— 这条防的是「把中文也拆开乱配」 */
-ok('★ 译文只挂最后一句（前几句 cn 为空，不按比例拆中文）',
-  ctx('__degenOut.slice(0, -1).every(s => !s.cn) && Boolean(__degenOut[__degenOut.length-1].cn)'));
+/* 整段译文挂每一个显示句：每份都必须是**完整整段**（防「把中文也拆开乱配」；
+ * 点句显示档点谁弹谁的正是这份整段译文，副本的收起交给 .cn-dup / CSS） */
+ok('★ 整段译文挂在每一个显示句后面（点谁弹谁；不按比例拆中文）',
+  ctx('__degenOut.every(s => s.cn === __degen.sentences[0].cn)'));
 /* 拼回守恒：切分不得丢字或增字（这里用去空白比较，squash 只存在于 lib-offbook） */
 sandbox.__sq = s => String(s || '').replace(/\s+/g, '');
 ok('★ 切出的是原文的拼回（不丢字、不增字）',
@@ -1403,8 +1405,19 @@ ok(`★ 端到端：退化段渲染出 5 个句子节点（实际 ${degenSentN}�
   degenSentN === 5);
 ok('★ 端到端：切出的句子带 data-rs（0..4），否则取不回被点句',
   ['data-rs="0"', 'data-rs="1"', 'data-rs="2"', 'data-rs="3"', 'data-rs="4"'].every(a => degenHtml.includes(a)));
-ok('★ 端到端：整段译文只出现一次（挂在最后一个切句后）',
-  (degenHtml.match(/class="cn"/g) || []).length === 1);
+ok('★ 端到端：整段译文挂在**每一个**显示句后面（2026-09-23 修：旧版只挂最后一句，'
+  + '「点句显示」档前几句点了没有任何反应）',
+  (degenHtml.match(/<span class="cn[ "]/g) || []).length === 5);
+const degenDupN = (degenHtml.match(/class="cn cn-dup"/g) || []).length;
+ok(`★ 端到端：非末句的译文副本带 .cn-dup（4/${degenDupN}）——「逐句对照」档一段只见一份`,
+  degenDupN === 4);
+ok('★ 端到端：退化段 data-si 全为 0（数据口径；旧版写显示序号 0..4，'
+  + '单句朗读的「第 n/total 句」会数出 381/380 这种超总数）',
+  degenHtml.includes('data-si="0"')
+  && ![1, 2, 3, 4].some(k => degenHtml.includes(`data-si="${k}"`)));
+ok('★ 行为：renderSentencesOf 带出数据口径 si0（退化段恒 0；多句段 = 各自在 base 的下标）',
+  ctx('renderSentencesOf(__degen).every(s => s.si0 === 0)')
+  && ctx('renderSentencesOf(__multi).map(s => s.si0).join()') === '0,1');
 
 
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
@@ -1427,6 +1440,33 @@ ok('中文字号跟随正文档位（不再固定 13.5px）',
  * 现在反向锁死：默认必须是 display:none，且禁止 opacity:0 回归。
  * 判定前剥注释 —— 上面这段说明里就有「opacity: 0」这几个字。 */
 const cssBare = css.replace(/\/\*[\s\S]*?\*\//g, '');
+/* 切分段译文的 CSS 侧守卫（2026-09-23）：非末句副本 .cn-dup 在「逐句对照」档收起，
+ * 而「点句显示」档的 peek 规则必须仍在且能展开 —— 两条缺一条，修好的交互就断了一半。 */
+const cnDupRule = (cssBare.match(/\.read-scroll \.para \.cn\.cn-dup\s*\{([^}]*)\}/) || [, ''])[1];
+const peekRule = (cssBare.match(/\.read-scroll\.cn-tap \.sentence\.peek \+ \.cn\s*\{([^}]*)\}/) || [, ''])[1];
+ok('★ CSS：.cn-dup 默认收起 + peek 展开规则仍在（切分段点谁弹谁靠这两条配合）',
+  /display:\s*none/.test(cnDupRule) && /display:\s*block/.test(peekRule));
+
+/* ---------------- 2026-09-23 修复批次：词形还原例外 / match 义项 / tapdict 重试 ---------------- */
+/* 沙箱加载了真 data-tapdict.js（TAP/TAPR 为真表）、真词库（KW_TRIE 含 sometime / match）。
+ * 旧行为：resolveToken 先「还原命中学习词」再查点词层，sometimes（TAP 有
+ * 「adv. 有时， 时常」独立词条）被剥 s 压成 sometime（「在某一时候；从前」）—— 错义。 */
+ok('★ sometimes 不被还原成 sometime：例外词直接走点词层轻量卡（{w:...} 而不是 {kw:...}）',
+  ctx('(function(){ const r = resolveToken("sometimes"); return r && r.w === "sometimes"; })()'));
+/* 对照（预期为真）：例外表只豁免 sometimes，普通还原路径必须原样工作。
+ * 没有这条，「例外表把还原整个关掉」也会全绿。 */
+ok('对照：普通词形还原照常命中学习词（matches → match 的完整卡）',
+  ctx('(function(){ const r = resolveToken("matches"); return r && r.kw === "match"; })()'));
+/* 2026-09-23：data-words-full.js 的 match 词条只有「(一根)火柴」，足球文章里的
+ * matches 还原后显示错义。义项已人工补进词条（构建器对已有词条原样保留，改词条
+ * 即改真源）；这条守卫把「比赛义项在卡上」固化下来。 */
+ok('★ match 词条含比赛/竞赛义项（足球语境不再显示「火柴」）',
+  ctx('String((WORDS.find(w => w.word === "match") || {}).def)').includes('比赛'));
+/* app.js 的 onerror 只 resolve(false) 的话，tapLoadPromise 以 false 永久缓存，
+ * 同页面再进阅读页也不会重试。行为层测不了脚本加载，这里断言「失败回调撤掉了
+ * 缓存的 promise」这个可观察前提。 */
+ok('★ tapdict 加载失败后撤掉缓存的 promise（同页可重试，不再一次失败终身失败）',
+  /s\.onerror\s*=\s*\(\)\s*=>\s*\{[\s\S]{0,300}?tapLoadPromise\s*=\s*null/.test(appBare));
 const ttsRule = (cssBare.match(/\.para-tts\s*\{([^}]*)\}/) || [, ''])[1];
 ok('朗读喇叭默认不显示、选中句子才出现（display 切换，不靠 opacity 占位）',
   /display:\s*none/.test(ttsRule) && !/opacity:\s*0/.test(ttsRule) && /\.sentence\.sel > \.para-tts/.test(cssBare));
