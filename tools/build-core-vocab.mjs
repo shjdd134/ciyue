@@ -169,8 +169,11 @@ if (fs.existsSync(gapGeneralPath)) {
   console.log(`④ 通用高频向缺口词            ${gapGeneral.size}`);
 }
 
-const FINAL = [...new Set([...core, ...gaps.keys(), ...gapGeneral])].sort();
-console.log(`\n★ 新词库共 ${FINAL.length} 词（核心 ${core.size} + 真题补缺 ${gaps.size} + 通用高频补缺 ${gapGeneral.size}）`);
+/* FINAL 必须并入现有词库的全部词（2026-09-23 幂等修复）：否则已存在的词若不在
+ * core/真题表里，本轮被丢弃、下一轮又当缺口补回——sometime 就这样在两轮之间
+ * 荡秋千（run1 丢、run2 经 fromDict 复活，文件永远diff不齐）。 */
+const FINAL = [...new Set([...core, ...gaps.keys(), ...gapGeneral, ...byWord.keys()])].sort();
+console.log(`\n★ 新词库共 ${FINAL.length} 词（核心 ${core.size} + 真题补缺 ${gaps.size} + 通用高频补缺 ${gapGeneral.size} + 现有库保留 ${byWord.size}）`);
 if (DRY) {
   console.log("首 30 按字母序:", FINAL.slice(0, 30).join(", "));
   process.exit(0);
@@ -195,20 +198,22 @@ function fromDict(word) {
 
 /* 义项补并（2026-09-23）：旧策略「已有词条原样保留」让早期精编的单一义项永远固化——
  * match 只剩「(一根)火柴」，cet4.jsonl 里的「比赛，竞赛；对手」从未进来，重建一百遍也修不了。
- * 新策略：只把词典源里「与现有 def 无公共词块」的义项块追加在现有 def 后（块级，不整句替换，
- * 避免同义异表述的词条被大面积改写）；pos 同样并集（bear v. → v./n.）。
- * 干跑实测影响面 63/2013；match/bear/box/cycle 属真缺义，billion/demonstrate 属同义异表（追加无害）。 */
-const defChunks = s => String(s).split(/[；;，,、。/\s]+/).filter(Boolean);
-/* 块匹配剥括注：「循环（周期）」按原文匹配不上「循环」会被当新义追加 → 近重复噪音。
- * 剥掉（…）后再比，两种形态任一命中即视为已有。 */
-const stripParen = c => c.replace(/[（(][^）)]*[)）]/g, "").trim();
-const hasCommonChunk = (a, b) => {
-  const A = new Set(defChunks(a));
-  const Av = new Set();
-  for (const c of A) { Av.add(c); const s = stripParen(c); if (s) Av.add(s); }
-  return defChunks(b).some(c => A.has(c) || (stripParen(c) && Av.has(stripParen(c))));
-};
-const normPos = s => String(s).replace(/\./g, "").trim();
+ * 策略（干跑两版后定的）：**只为「现有 pos 没有的新词性」追加义项块**。
+ *   - 第一版「与现有 def 无公共词块就追加」→ 跨级别并翻译后 1207/2012 词被改写，
+ *     绝大多数是同义异表述噪音（crucial 追加「关键的／至关紧要的」、resilient 追加
+ *     「帕特森（美国一座城市）」）——不采纳。
+ *   - 现版：cycle 现有 n. → 从后面级别的 jsonl 补 v. 骑自行车 ✓；crucial 词性已齐 →
+ *     一字不动 ✓。块级追加（不整句替换），pos 只跟随实际追加的块。
+ *   - 再加三道垃圾闸：人名、地名括注、剥掉括注后不足 2 字的块一律跳过。
+ *   - 幂等：追加过的块进了 def（有公共词块）或类型进了 pos，重跑不再追加。 */
+/* 义项块匹配判据统一走 lib-senses.cjs（一个判据只许一处；audit.js / build-examples 同源） */
+import { createRequire } from "node:module";
+const _req = createRequire(import.meta.url);
+const { defChunks, stripParen, hasCommonChunk, blockRelates } = _req("./lib-senses.cjs");
+const normPos = s => { const t = String(s).replace(/\./g, "").trim(); return (t === "vt" || t === "vi") ? "v" : t; };
+/* 会写进 pos 的词性白名单（normPos 之后的形态） */
+const TYPE_WHITELIST = new Set(["n", "v", "adj", "adv", "prep", "pron", "conj", "interj", "num", "art", "aux"]);
+const JUNK_BLOCK = /人名|［人名|\(人名|[（(][^）)]*(城市|州|镇|省|国)/;
 function mergeSenses(keep, word) {
   const e = DICT.get(word);
   if (!e) return keep;
@@ -216,23 +221,38 @@ function mergeSenses(keep, word) {
    * 但 value 只有 {entry, level}，恒 undefined，整段成了「看起来在跑实际永远 no-op」的假实现
    * （决定性实验：恢复远端火柴版重跑，match 纹丝不动才暴露）。translations 现为跨级别并集。 */
   const translations = e.translations || (e.entry && e.entry.translations) || [];
+  const claimed = new Set(keep.pos ? keep.pos.split("/").map(normPos).filter(Boolean) : []);
   const added = [];
+  const usedTypes = new Set();
   for (const t of translations) {
+    const type = normPos(t.type);
+    /* 词性白名单：determiner/modal 之类不入 pos（either 曾被补出 determiner. 的 pos），
+     * 且这类冷僻类型的翻译块多为 junk（「pro n.(两者)任何一个」）。 */
+    if (!TYPE_WHITELIST.has(type) || usedTypes.has(type)) continue;
     const block = String(t.translation || "").trim();
-    if (!block) continue;
-    if (!keep.def || !hasCommonChunk(keep.def, block)) added.push(t);
+    if (!block || JUNK_BLOCK.test(block) || stripParen(block).length < 2) continue;
+    if (keep.def && hasCommonChunk(keep.def, block)) continue;
+    if (claimed.has(type)) {
+      /* 兜底（2026-09-23，影响面 16/2013）：pos 声称了该词性、def 却没有该词性的任何块
+       * （cycle pos=n./v. def 只有循环义，远端 main 即如此）。补一个代表块。
+       * 匹配用「块级精确 + 子串」双口径：match 的 def「与…相配」和词典「相配」差个
+       * 前缀，精确口径匹配不上会让兜底把 match 改掉（该词条已被并行 agent 的
+       * 负向测试钉死，一行都不能变）；子串口径放它过去。 */
+      const sameType = translations.filter(x => normPos(x.type) === type);
+      if (keep.def && sameType.some(x => blockRelates(x.translation || "", keep.def))) continue;
+    }
+    added.push(t);
+    usedTypes.add(type);
+    /* 不设块数上限：每个「新词性」只取 1 块（usedTypes 去重），块数 ≤ 新词性数，
+     * 一次重建即收敛——按「最多 2 块」截断会让多词性词（either 6 词性）跨多轮漂移，幂等破功。 */
   }
   if (added.length) {
     const blocks = added.map(t => t.translation.trim());
     keep.def = keep.def ? keep.def + "；" + blocks.join("；") : blocks.join("；");
+    /* 词性只加「之前没声称过的」：兜底追加的块词性已在 pos 里，再拼一遍会出 v./n./v. 这种重复 */
+    const addTypes = [...new Set(added.map(t => normPos(t.type)))].filter(t => !claimed.has(t));
+    if (addTypes.length) keep.pos = keep.pos ? keep.pos + "/" + addTypes.map(t => t + ".").join("/") : addTypes.map(t => t + ".").join("/");
   }
-  /* pos 只跟随实际追加的块：def 没扩就不添新词性，避免给未变义的词硬塞 vt/vi 之类的噪音 */
-  const oldTypes = keep.pos ? keep.pos.split("/").map(normPos).filter(Boolean) : [];
-  const addTypes = added.map(t => normPos(t.type))
-    .filter(t => t && /^[a-z]+$/.test(t) && !oldTypes.includes(t));
-  if (!keep.def) { /* def 为空时块全量追加，词性照并 */ }
-  else if (!added.length) return keep;
-  if (addTypes.length) keep.pos = keep.pos ? keep.pos + "/" + addTypes.map(t => t + ".").join("/") : addTypes.map(t => t + ".").join("/");
   return keep;
 }
 

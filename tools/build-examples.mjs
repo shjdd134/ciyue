@@ -28,6 +28,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
+import { createRequire } from "node:module";
+const _req = createRequire(import.meta.url);
+/* 义项相关性判据走 lib-senses.cjs（与 build-core-vocab 同源，一个判据只许一处） */
+const { senseRelates } = _req("./lib-senses.cjs");
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const CACHE = path.join(ROOT, "tools", ".examples-cache");
@@ -104,18 +108,28 @@ function score(en) {
   if (/\b(Mr|Mrs|Dr|Prof)\./.test(en)) s -= 10;
   return s;
 }
-function pickDict(key) {
+/* 义项对齐选句（2026-09-23 阶段 2）：老逻辑「第一个有句子的级别里按长度挑第一条」
+ * 会把义项配错——match 的 def 只有火柴义时配上比赛句就是错的（1a 补义后矛盾缓解，
+ * 但同词多句仍可能选中与 def 无关的那条）。新逻辑：
+ *   · 跨全部级别汇池（级别优先级只做并列tiebreak，不再一票定终身）；
+ *   · 义项相关（senseRelates：例句译文与 def 的二元组命中）+80 分，强优先；
+ *   · 没有任何相关候选时仍取长度最优（词典例句本身是典型用法，宁滥的只有这一档：
+ *     1a 后 def 已是多义，真冲突已罕见；硬闸会把「译文改写得太活」的好句误杀）。 */
+const LEVEL_BONUS = Object.fromEntries(LEVELS.map(([n], i) => [n, -i * 0.5]));
+function pickDict(key, def) {
+  let best = null;
   for (const [name] of LEVELS) {
     const o = libs[name].get(key);
     if (!o || !o.sentences) continue;
-    const c = o.sentences
-      .map(x => ({ en: String(x.sentence || "").trim(), cn: String(x.translation || "").trim() }))
-      .filter(x => okEn(x.en) && okCn(x.cn) && canHighlight(x.en, key));
-    if (!c.length) continue;
-    c.sort((a, b) => score(b.en) - score(a.en));
-    return { en: c[0].en, cn: c[0].cn, src: name };
+    for (const x of o.sentences) {
+      const en = String(x.sentence || "").trim(), cn = String(x.translation || "").trim();
+      if (!okEn(en) || !okCn(cn) || !canHighlight(en, key)) continue;
+      const sense = !!def && senseRelates(cn, def);
+      const s = score(en) + (sense ? 80 : 0) + LEVEL_BONUS[name];
+      if (!best || s > best.s) best = { en, cn, src: name, s, sense };
+    }
   }
-  return null;
+  return best;
 }
 
 /* ---------------- ② Tatoeba 双语语料（缓存缺失时优雅跳过） ---------------- */
@@ -167,7 +181,7 @@ const canHighlight = (sentence, word) => {
   if (!forms.length) return false;
   return new RegExp("\\b(?:" + forms.map(escRe).join("|") + ")\\b", "i").test(String(sentence));
 };
-function pickTatoeba(word) {
+function pickTatoeba(word, def) {
   const seen = new Set();
   const c = [];
   for (const f of wordForms(word)) {
@@ -179,25 +193,34 @@ function pickTatoeba(word) {
     }
   }
   if (!c.length) return null;
-  c.sort((a, b) => score(b.en) - score(a.en));
-  return { en: c[0].en, cn: c[0].cn, src: "Tatoeba 语料" };
+  /* 义项相关强优先：Tatoeba 是语料句，同一词形常有多义用法，按 def 挑 */
+  c.sort((a, b) =>
+    (score(b.en) + (def && senseRelates(b.cn, def) ? 80 : 0)) -
+    (score(a.en) + (def && senseRelates(a.cn, def) ? 80 : 0)));
+  const top = c[0];
+  return { en: top.en, cn: top.cn, src: "Tatoeba 语料", sense: def && senseRelates(top.cn, def) };
 }
 
 /* ---------------- ③ 主循环 ---------------- */
 const out = {};
 const stat = { 词典: 0, Tatoeba: 0, 原刊: 0 };
+let senseHit = 0, senseKnown = 0;
 const miss = [];
 for (const w of WORDS) {
   if (w.example) continue;                                     // 已有例句不动
   const key = String(w.word || "").toLowerCase();
   if (key.length < 3) { miss.push(w.word); continue; }
-  const hit = pickDict(key) || pickTatoeba(w.word);
+  const hit = pickDict(key, w.def) || pickTatoeba(w.word, w.def);
   let chosen = (hit && canHighlight(hit.en, w.word)) ? hit : null;   // 最后一道闸：页面上必须标得出目标词
   if (!chosen) {
     const old = LEGACY[w.word];
-    if (old && old.en && canHighlight(old.en, w.word)) chosen = { en: old.en, cn: old.cn, src: old.src };
+    /* 原刊兜底加义项闸（宁缺毋滥）：文章抽句的义项是文章给的，不是词条挑的，
+     * 与 def 零相关就宁可不配（legacy 例句整体就是这么来的错配重灾区） */
+    if (old && old.en && canHighlight(old.en, w.word) && w.def && senseRelates(old.cn || "", w.def))
+      chosen = { en: old.en, cn: old.cn, src: old.src, sense: true };
   }
   if (!chosen) { miss.push(w.word); continue; }
+  if (chosen.sense) { senseHit++; if (w.def) senseKnown++; }
   out[w.word] = chosen;
   if (chosen.src === "Tatoeba 语料") stat.Tatoeba++;
   else if (LEVELS.some(([n]) => n === chosen.src)) stat.词典++;
@@ -207,6 +230,7 @@ for (const w of WORDS) {
 const have = WORDS.filter(w => w.example).length;
 const total = have + Object.keys(out).length;
 console.log(`\n新增例句 ${Object.keys(out).length} 条 —— 词典 ${stat.词典} · Tatoeba ${stat.Tatoeba} · 原刊兜底 ${stat.原刊}`);
+console.log(`其中义项相关（例句译文命中 def）${senseHit} 条`);
 console.log(`覆盖率 ${have}/${WORDS.length} → ${total}/${WORDS.length}（${(total / WORDS.length * 100).toFixed(1)}%）`);
 console.log(`仍无例句 ${miss.length} 词（${(miss.length / WORDS.length * 100).toFixed(1)}%）`);
 

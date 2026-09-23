@@ -24,7 +24,7 @@
 | 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
 | 资源版本 | `?v=80` · SW 缓存名 `wordlens-cache-v80` |
 | Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
-| 词库 | **4,081 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
+| 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流）· ★ **2026-09-23 义项补全批次**：`build-core-vocab` 合并策略从「已有词条原样保留」（固化循环：早期精编的单义永远挡住词典源的完整释义）改为「新词性补块 + 兜底」——1,075 词补上真缺的词性义项（match 补 v. 相配、evidence 补 v. 证明、academic 补 n. 学者…），判据统一在 `tools/lib-senses.cjs`；例句选句加义项对齐（`build-examples` 跨级别汇池 + 义项相关 +80 分，2,321/3,709 条义项命中），原刊兜底加义项闸（15 条错配改留空） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
 | 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
@@ -1204,6 +1204,40 @@ tap 档点切分段首句整段译文弹出（display=block）、all 档 446 个
 **本批不动**（审查属实、留待后续）：daily.yml push 事件跳过回归闸门、`_api-push.mjs`
 路径含库校验与回落模式 PATTERNS 检查、SW 首访预热时序、Android onPause 异步落盘 ——
 均为 P2，见 memory 日志。
+
+### 2026-09-23 下午后（义项补全批次：词库 1a + 例句义项对齐 2）
+
+**起因**：外部优化方案（用户带来）五条问题断言，小d 逐条核实后三条属实两条不成立
+（「sometimes 误归」已修、「277 词无例句」实数 47）。执行按当日分工：前端+审计归
+并行 agent（已推 v80），词库数据链归小d。
+
+**1a 词库补义**（`tools/build-core-vocab.mjs` + 新判据库 `tools/lib-senses.cjs`）：
+- 根因是**固化循环**：旧合并策略「已有词条原样保留全部字段」让早期精编的单义
+  （match 只有火柴义）永远挡住词典源完整释义，重建一百遍也修不了。
+- 新策略经三版干跑收敛：①「无公共词块就追加」→ 1207/2012 词被同义异表述噪音改写，否决；
+  ②「只为新词性追加 + 词性归族(vt/vi→v) + 垃圾闸(人名/地名/纯括注)」→ 728 词；
+  ③ 加「pos 声称了词性但 def 无该词性块」兜底（16 词）与词性白名单（determiner 之类不入 pos）。
+- 实际影响：**1,075 词补上真缺的词性义项**（match/evidence/academic/bear/box/abandon/best/fair…），
+  随机抽 12 条目检全为真词典义项。文件 511KB→552KB。
+- **两个固有 bug 顺手修**：FINAL 不含现有词 → sometime 荡秋千（一轮丢一轮补，文件永不幂等，
+  原脚本固有问题）；mergeSenses 首版 `e.translations` 笔误成整段 no-op 的假实现
+  （读代码看不出来，靠「恢复旧版重跑纹丝不动」的决定性实验暴露）。
+- 幂等验收：连跑两次 diff 全零。
+
+**阶段 2 例句义项对齐**（`tools/build-examples.mjs`）：
+- 选句从「第一个有句子的级别按长度取第一条」改为**跨级别汇池 + 义项相关 +80 分**
+  （级别优先级降为并列 tiebreak）；原刊兜底（文章抽句）加义项闸，15 条错配改留空——
+  「宁可留空也不配错」。
+- 相关性判据 `senseRelates`（lib-senses.cjs）：def 任一义项块（剥词性前缀/「的」尾/
+  「与…」头）≥2 字出现在例句译文即相关。**踩坑**：首版「def 全体二元组命中率 ≥0.14」
+  被 1a 的多义 def 稀释到 5.6% 命中（abandon 例译「抛弃孩子」命中 1/15 却判无关），
+  逐块判定后 62.6%（旧算法基线 49%）。
+- 实际改动 824 条选择（多为 Tatoeba 长句→义项贴合的词典句），抽 6 条全部持平或更好；
+  覆盖率不变 92.8%。
+
+**回归**：audit 473/0（并行 agent 的守卫与本批数据改动共存）；`doc-numbers` 修正
+§0.1 词库 4,081→4,082（sometime 复活）。**未做**：例句/释义的语义级人工抽检清单、
+词卡「本句含义」标签（前端域，归并行 agent）。
 
 ### 0.3 机制速查（不随批次变）
 
