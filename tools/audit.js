@@ -2718,14 +2718,35 @@ console.log('\n[T] 原生壳（APK）');
   /* 打包白名单：真跑一遍 build（拷到临时目录），端到端看生成物 */
   const libMobile = require(path.join(base, 'tools', 'lib-mobile.cjs'));
   const plan = libMobile.planFiles();
-  const htmlRefs = [...fs.readFileSync(path.join(base, 'index.html'), 'utf8')
-    .matchAll(/(?:src|href)="(assets\/[^"?]+)(?:\?[^"]*)?"/g)].map(m => m[1]);
-  const missing = [...new Set(htmlRefs)].filter(f => !plan.includes(f));
-  ok('★ 白名单覆盖 index.html 引用的全部 assets（新增资源忘了带 → 这条红）', missing.length === 0);
   ok('★ 白名单不含开发素材（tools/ outputs/ .bak/ 计划稿等一律不进包）',
     !plan.some(f => libMobile.NEVER_SHIP.some(p => f.startsWith(p))) && !plan.includes('HANDOFF.md'));
   ok('白名单含字体与封面（fonts.css 与 data-covers.js 动态引用，不在 index.html 里）',
     plan.some(f => f.startsWith('assets/fonts/')) && plan.some(f => f.startsWith('assets/covers/')));
+
+  /* ★★ 运行期会请求的本地资源（2026-09-23 重写）。
+   *
+   * 原来这条写的是「index.html 引用的 assets ⊆ planFiles()」—— 而 planFiles() 的规则①
+   * **就是**扫 index.html 的 src/href，两侧共用同一个抽取器、同一条正则、同一个文件，
+   * 断言退化成 `X ⊆ X`，**结构上不可能红**。它的注释自称「新增资源忘了带 → 这条红」，
+   * 可 1.0.3(vc4) 真丢了 data-tapdict.js / data-examples.js 时它一声不吭。
+   * 完整复盘见 REFERENCE-mechanics.md §14.13（第三种假守卫：断言两侧同源）。
+   *
+   * 现在两侧的来源互相独立：
+   *   左 = 源码抽取（index.html 的静态 src/href ＋ app.js 里 JS 拼的路径，见 dynamicRefs）
+   *   右 = **真跑一遍 build 之后产物目录里的实际文件**（在下面 runBuild 之后断言）
+   * 「源码说需要 X」对「产物里到底有没有 X」—— 这才是有效断言。 */
+  const htmlRefs = [...fs.readFileSync(path.join(base, 'index.html'), 'utf8')
+    .matchAll(/(?:src|href)="(assets\/[^"?]+)(?:\?[^"]*)?"/g)].map(m => m[1]);
+  const dynRefs = libMobile.dynamicRefs();
+  const runtimeRefs = [...new Set([...htmlRefs, ...dynRefs])];
+
+  /* 对照：防「天然满足」。抽取器返空集时，下面那条「产物齐全」会无条件成立 ——
+     所以先把抽取器本身钉住。这两个文件正是 1.0.3(vc4) 真丢过的那两个。 */
+  ok('★ 对照：dynamicRefs 必须抽到运行期那两个按需加载的表（抽空了下面那条就是空的）',
+    dynRefs.includes('assets/data-tapdict.js') && dynRefs.includes('assets/data-examples.js'));
+  const dynOnDisk = dynRefs.filter(f => !fs.existsSync(path.join(base, f)));
+  ok('★ app.js 里 JS 拼出来的每个路径在盘上都存在（名字拼错 → 要等构建期 ENOENT，太晚）',
+    dynOnDisk.length === 0);
 
   /* ★ 临时目录必须**每次唯一**（2026-09-22 实测踩到）：原来固定用 mobile/.audit-www，
      于是 runBuild 开头那次「先删干净再重建」会真的去删一个**已存在**的目录 ——
@@ -2746,6 +2767,18 @@ console.log('\n[T] 原生壳（APK）');
     injected = /window\.WORDLENS_NATIVE\s*=\s*true/.test(builtHtml);
     leaked = fs.existsSync(path.join(tmp, 'tools')) || fs.existsSync(path.join(tmp, 'HANDOFF.md'))
       || fs.existsSync(path.join(tmp, 'outputs'));
+    /* ★ 产物里的实际文件清单（仓库相对路径）—— 与上面的 runtimeRefs 是**两把独立的尺子**：
+       一个来自源码（谁会被请求），一个来自产物（到底带走了什么）。
+       ★ 这一条就是 1.0.3(vc4) 缺包时本该红的那条：产物的 101 个文件里没有
+         assets/data-tapdict.js，而 app.js 一进阅读页就会去请求它 → 壳里 404 + 顶部红条。
+       ★ 必须在 finally 删掉 tmp **之前**跑。 */
+    const walk = (dir, pre) => fs.readdirSync(dir, { withFileTypes: true })
+      .flatMap(e => e.isDirectory() ? walk(path.join(dir, e.name), `${pre}${e.name}/`)
+        : [`${pre}${e.name}`]);
+    const built = walk(tmp, '');
+    const notBuilt = runtimeRefs.filter(f => !built.includes(f));
+    ok(`★ 产物里有运行期会请求的全部本地资源（共 ${runtimeRefs.length} 项；缺一项即红）`,
+      notBuilt.length === 0);
   } finally {
     try { fs.rmSync(tmp, { recursive: true, force: true }); } catch { /* best-effort */ }
   }

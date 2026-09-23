@@ -1,6 +1,6 @@
 {
-  "versionCode": 4,
-  "versionName": "1.0.3",
+  "versionCode": 5,
+  "versionName": "1.0.4",
   "_comment": [
     "Android 壳的版本。tools/build-apk.mjs 会把它注入**暂存副本的 AndroidManifest.xml**。",
     "★ 不是传给 aapt2 link 的 --version-code / --version-name —— 那两个参数会被 aapt2 忽略",
@@ -14,6 +14,16 @@
     "★ 1.0.3 (vc4)：修「点导入/导出备份没反应」—— 壳重写了 onShowFileChooser（WebView 自己",
     "   不弹文件选择器，默认实现返回 false = 静默无事发生），并把导出改走原生「另存为」",
     "   （<a download> + blob: 在 WebView 里不下载、不报错，那句「已导出」其实是假成功）。",
-    "   导入走 SAF 打开文档、导出走 SAF 另存为 —— 都不需要任何存储权限。"
+    "   导入走 SAF 打开文档、导出走 SAF 另存为 —— 都不需要任何存储权限。",
+    "★ 1.0.4 (vc5)：补回包内缺失的 data-tapdict.js（3.0MB）与 data-examples.js（560KB）。",
+    "   这两个是 app.js 运行期用 JS 拼路径**按需加载**的，而 tools/lib-mobile.cjs 的白名单",
+    "   原先只认 index.html 的静态 src/href（+ fonts/covers/icons 三个整目录），于是它们",
+    "   从没进过包 —— 1.0.3 在真机上（Android 16 / V2453A）进阅读页点词全部失效、顶部常驻",
+    "   「词阅 · 壳自检 / 脚本加载失败 … data-tapdict.js」。当时所有守卫全绿：那条守卫的",
+    "   左右两侧共用同一个抽取器（都扫 index.html），断言退化成 X ⊆ X，结构上不可能红。",
+    "   修法：白名单加第 ⑤ 条 dynamicRefs()（剥注释后从 app.js 抽运行期资源），",
+    "   并把守卫改成对**产物实际文件**断言（左侧源码抽取 / 右侧真跑一遍 build 的目录）。",
+    "   注意 assets/ 内容本身没改，所以内容版本 ?v= 仍是 79 —— 只有壳版本走了。",
+    "   详见 SHELL-ASSET-MISSING-RCA-2026-09-23.md 与 REFERENCE-mechanics.md §14.13。"
   ]
 }

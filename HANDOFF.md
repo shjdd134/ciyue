@@ -23,7 +23,7 @@
 | 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
 | 资源版本 | `?v=79` · SW 缓存名 `wordlens-cache-v79` |
-| Android 壳 | **1.0.3 (vc4)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.3-release-vc4.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14 |
+| Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
@@ -1111,6 +1111,53 @@
 - 顺手清掉 `.bak/neg.mjs` 里 `tk`/`tl` **重复定义**（后者覆盖前者，前一对永不执行）。
 - 本次改的都是 `tools/`（`lib-memory.mjs` / `memory-test.mjs` / `lib-regression.mjs` / `daily.mjs` /
   `release.mjs`）+ 文档；**网页资源未动，版本号不变（仍 v79）。**
+
+### 2026-09-23（vc5：白名单够不着运行期动态加载的资源 + 守卫同义反复）
+
+**起因**：用户拿来一份「点词表 `data-tapdict.js` 加载失败」的故障技术说明，要求先核对
+包名 / 壳自检逻辑 / 缺文件路径，再按正式技术说明重写。**核对过程本身挖出两处比说明里更重的事实。**
+
+- **现象与运行环境属实，根因写错了**：包名 `cn.wordlens.reader`、入口 `MainActivity`、
+  资产版本 79（包内 `data-config.js` 实读）、`appassets.wordlens.invalid` 是壳自己的映射域名
+  （`AssetServer.java:42-43`，刻意避开 `appassets.androidplatform.net`）、自检**只报 `<script>`
+  不报图片**（`shell-glue.js:271`，防离线时图片全失败造成狼来了）—— 逐条核实为真。
+  但写的是「发布打包时未将该构建产物写入 `assets/`」，那是**偶发疏漏**的叙事，不对。
+- ★★ **真根因：白名单机制从设计上就够不着它。** `lib-mobile.cjs` 的 `planFiles()` 原先只有
+  四条来源（`index.html` 的静态 `src/href` + fonts/covers/icons 三个整目录），而
+  `app.js:456`（`ensureTapdict`）与 `app.js:2912`（`ensureExamples`）是**运行期用 JS 拼路径**
+  插 `<script>`。静态正则永远抽不到动态拼接的字符串 → **这两个文件从没进过任何一个包**。
+  同为构建产物却没事的 fonts/covers，是因为白名单给它们单列了整目录规则 —— 按需 `.js` 没有。
+- ★ **缺的是两个文件，不是一个**：`data-tapdict.js`（3,072,532 B）与 `data-examples.js`
+  （573,132 B）。截图只显示一条，因为红条首触发即置 `__wlDiagReported` 定稿
+  （`shell-glue.js:237`），而例句库要等词卡展开「更多」才请求 —— **已经缺了，只是还没显形**。
+- ★★★ **最贵的一条：既有守卫结构上不可能红。** `audit.js:2720-2724` 那条问的是
+  「`index.html` 引用的资源 ⊆ `planFiles()`」，而 `planFiles()` 的规则①**就是**扫 `index.html` ——
+  左右两侧共用同一个抽取器、同一条正则、同一个文件，断言退化成 `X ⊆ X`，**恒真**。
+  它的注释还自称「新增资源忘了带 → 这条红」。**这是本项目记到的第三种假守卫形态：断言两侧同源**
+  （前两种：①「预期为假」没配对照；②断言只落在辅助函数、没落在调用点）。
+- **修法**：`lib-mobile.cjs` 新增 `dynamicRefs()`（剥注释后从 `app.js` 抽运行期路径，去 `?query`；
+  模板拼目录的交由整目录规则**并断言该目录真在白名单里**，否则抛错），并入白名单规则 ⑤。
+  守卫改成**两侧来源互相独立**：左＝源码抽取（index.html 静态 + `dynamicRefs()`），
+  右＝**真跑一遍 build 的产物目录里的实际文件**。另加一条对照（「`dynamicRefs` 必须抽到那两个表」）
+  —— 防抽取器返空时上面那条**天然满足**。
+- **负向测试**（私有基线 `.bak/neg-vc5/`，避开共享 `.bak/neg/`）：`wa`（不把运行期资源并进白名单）
+  → **只红产物那条**；`wb`（抽取器返空）→ **只红对照那条**。两组各 464 通过 / 1 失败，
+  还原后 465/0。★ `wb` 正好印证对照断言的必要性 —— 没有它，抽取器坏掉就是**静默没覆盖**。
+- **出包与核验**：vc5 / 1.0.4，`assets/` 内容未动（`?v=` 仍 79，只有壳版本走）。四把尺子全绿：
+  原始字节反斜杠 **0** · `aapt.exe` 口径 **0** · `lib-zip` 直读 **108 条目 / problems=[]** ·
+  `zipalign -c -p -v 4` → `Verification succesful` · **独立复跑** `apksigner verify`
+  → **v1 false（刻意关掉）/ v2 true / v3 true**。包内 5 个关键文件与 `mobile/www` **逐字节一致**。
+  `release --full` 全绿（闸门 5 项 + 回归 21 项 + 幂等断言）。
+- **坏包归档**：vc4 移进 `outputs/apk/_BROKEN-缺运行期资源/` 并附 README —— 它是新判据的天然反例：
+  `auditApk(vc4, {want: planFiles()})` 报 **「白名单缺 2 项：data-examples.js、data-tapdict.js」**，
+  vc5 报 `108 / []`。顶层 `outputs/apk/` 现在只有当前版本那一个。
+- **顺手修的**：`REFERENCE-mechanics.md` 里 **§14.10 被写了两遍**（一字不差的两段）——
+  物证正是那一节自己描述的「Bash 工具把同一条命令跑两次」的后果。已删重复段并留补记，计数 2 → 1。
+- ★ **一把写错的尺子（当场纠正，值得记）**：核产物内容时我拿**仓库根**的 `index.html`（3,503 B）
+  去比包内 `assets/index.html`（21,835 B），报 DIFF、差点以为包已过期要重出 ——
+  正确口径是 `mobile/www/index.html`（注入了壳胶水的那一份）。**报红先分清「东西坏了」还是「尺子坏了」。**
+- 本次改 `tools/lib-mobile.cjs` / `tools/audit.js` / `mobile/version.json` + 本文件 +
+  `SHELL-ASSET-MISSING-RCA-2026-09-23.md`；**网页资源未动，`?v=` 不变。**
 
 ### 0.3 机制速查（不随批次变）
 
