@@ -47,19 +47,6 @@ tools/_aesop-raw.html
 *.local.md
 *.local.json
 
-# 用户的私人文章库导入 / 导出文件，包含正文、翻译和嵌入图片。
-ciyue-library*.json
-
-# 私人文章迁移后不得由旧抓取/发布工具重新写回公开资源目录
-/assets/data-articles-extra.js
-/assets/data-articles-archive.js
-/assets/data-article-metrics.js
-/assets/data-articles-words.js
-/assets/data-covers.js
-/assets/covers/*
-!/assets/covers/demo/
-!/assets/covers/demo/**
-
 # 人工抽查材料（spot-check.mjs 生成，逐句对照 + 记录模板），属一次性产物
 tools/_spot/
 

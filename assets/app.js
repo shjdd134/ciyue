@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "83");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "82");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -62,59 +62,12 @@ function hlWord(sentence, word) {
 const STORE = "wordlens.v1";
 /* 词汇高亮的四个档位。集中定义一次，设置面板渲染、状态校验、集合取用都读它 ——
  * 「合法档位有哪几个」这件事写两遍，两边就会走散。 */
-const HL_SOURCES = ["core", "cet4", "mid", "custom"];
+const HL_MODES = ["off", "core", "cet4", "all"];
 /* 中文对照的三个档位。合法值同样只写一遍，迁移 / 校验 / 面板渲染共读。
  * off 与 tap 的差别**只在点句**：off 档点句只选中（出喇叭、可朗读）不弹译文，
  * tap 档点句弹出该句译文。这两档以前是同一个（布尔 showCn=false 时点句必弹中文），
  * 结果是「只想纯读英文」的读者每次点句都被中文打断，躲不开。 */
 const CN_MODES = ["off", "tap", "all"];
-
-/* ---------------- 我的导入词库：清洗与合并（纯函数，normalizeState 与导入面板共用） ----------------
- * 判据只写一遍 —— normalizeState 的兜底清洗和导入面板的预览统计各调一份，
- * 两处各写一套正则迟早走散（同族教训见 audit 守卫「同一概念只能有一把尺子」）。
- * 词形口径：小写英文字母，允许内部撇号（don't）与连词号（mother-in-law）；
- * 拒绝单字母（导入 "a" 会把正文里每个 a 都染色，必然不是本意）、拒绝 40 字符以上、
- * 拒绝数字 / 标点 / CJK。弯引号统一折成直引号后再判。
- * ★ 2000 词的旧手机实测（Edge, 2026-09-23）：万级以下解析 + 去重都是毫秒级，
- *   不需要流式 / 分块。 */
-function isVocabWord(w) {
-  if (typeof w !== "string") return false;
-  const s = w.replace(/[\u2018\u2019]/g, "'");
-  return s.length >= 2 && s.length <= 40 && /^[a-z]+(?:['-][a-z]+)*$/.test(s);
-}
-/* 粘贴文本 / TXT / CSV 共用这一个分词：空白、中英文逗号分号、顿号都是分隔符
- *（"apple banana" 与 "apple,banana" 与逐行一个词必须是同一结果）；
- * CSV 可能带引号字段（"apple",1），剥掉首尾引号再判；频率列之类非词 token
- * 由 isVocabWord 判为无效，不算错误 —— CSV 本来就常带数字列。 */
-function parseVocabText(raw) {
-  return String(raw || "")
-    .replace(/^\uFEFF/, "")
-    .split(/[\s,;，；、]+/)
-    .map(t => t.replace(/^["']+|["']+$/g, "").trim().toLowerCase())
-    .filter(Boolean);
-}
-/* 导入预览统计：total = 分词总数；valid = 将真正入库的词（追加时不含已有词，
- * 覆盖时含 —— 覆盖语义是「整个换成这份」）；dup = 批内重复 + 追加时与现有词库重复；
- * invalid = 不过词形判据的 token。四项满足 total = valid.length + dup + invalid，
- * audit 有守卫锁这条守恒式。 */
-function buildVocabPreview(raw, existing, append) {
-  const tokens = parseVocabText(raw);
-  const seen = new Set();
-  const cur = append ? new Set(existing || []) : null;
-  const valid = [];
-  let dup = 0, invalid = 0;
-  for (const t of tokens) {
-    if (!isVocabWord(t)) { invalid++; continue; }
-    if (seen.has(t) || (cur && cur.has(t))) { dup++; continue; }
-    seen.add(t);
-    valid.push(t);
-  }
-  return { total: tokens.length, valid, dup, invalid };
-}
-/* 入库合并：两个模式都是小写去重有序数组（存储口径恒定，diff 与检索都省心）。 */
-function mergeVocab(existing, words, overwrite) {
-  return overwrite ? [...new Set(words)].sort() : [...new Set([...(existing || []), ...words])].sort();
-}
 /* 正文「一句一行」—— 2026-09-19 在皮克一篇上看完效果，用户拍板全站铺开。
  * 中文对照档每句后面跟一个块级译文，句子自然就一行一句；纯英文档句子原来是 inline，
  * 整段连排成一坨 —— 同一个 App 里两种排版节奏不一样，用户要的是「英文时和双语时一样」。
@@ -132,14 +85,10 @@ const defaultState = {
   cnMode: "tap",
   fontSize: 0,
   readTheme: "",     // 阅读页护眼主题："" | "paper" | "night"
-  /* 词汇高亮词库开关（2026-09-23 由单选档 highlightMode 升级为**独立开关**）：
-     四个词源各一个布尔，高亮词集 = 打开的词源并集。默认只开核心词 —— 与旧默认档
-     "core" 完全等价。custom 默认关：没导入过词库时打开开关只会让人疑惑「为什么没反应」。
-     全关 = 旧「关闭高亮」，走 hlAllOff() / .no-kw。关掉任何词源只影响标色，点词查义照常。 */
-  hlSets: { core: true, cet4: false, mid: false, custom: false },
-  /* 我的导入词库：用户在阅读前就知道自己不会的词（与生词本「阅读中遇到才收藏」
-     是两个数据概念，永不互写）。小写、去重、排序；由 normalizeState 清洗兜底。 */
-  customVocab: [],
+  /* 词汇高亮范围（2026-09-19 由布尔量升级）："off" 关闭 | "core" 四级核心 |
+     "cet4" 全部四级 | "all" 四级+基础。默认 core —— 完整大纲里大量词用户早就认识，
+     默认就全染会毁掉阅读。关掉任何一档都只影响标色，点词查义照常。 */
+  highlightMode: "core",
   accent: "en-US",   // 朗读口音：en-US 美音 | en-GB 英音（en-GB 不是所有系统都装了语音）
   rate: "std",       // 朗读语速：slow 0.72 | std 0.9 | fast 1.05（原实现用浏览器默认 1.0，精读偏快）
   read: [],         // 累计读过（去重）
@@ -163,40 +112,13 @@ function normalizeState(raw) {
   if (!Array.isArray(src.readDays) && Array.isArray(src.studyDays)) next.readDays = src.studyDays.slice();
   delete next.streak; delete next.minutes; delete next.tab;
   delete next.studied; delete next.wrong; delete next.daily; delete next.fsrs; delete next.studyDays;
-  /* 高亮词库迁移（2026-09-23）：旧版是单选档 highlightMode（off/core/cet4/all），
-     语义上正好是四个词源开关的组合 —— 按档位逐一映射，保证老用户升级后看到的
-     高亮范围一个词都不变：
-       off  → 全关            core → 只开核心
-       cet4 → 核心 + 全部四级   all  → 核心 + 全部四级 + 中学基础（旧 all = CET4 ∪ MID）
-     custom 恒 false —— 旧版没有这个概念，导入词库必须由用户自己打开。
-     完全没有该字段的历史状态保留默认档（= 旧 core）。 */
-  if (src.hlSets === undefined && src.highlightMode !== undefined) {
-    const m = src.highlightMode;
-    next.hlSets = {
-      core: m === "core" || m === "cet4" || m === "all",
-      cet4: m === "cet4" || m === "all",
-      mid: m === "all",
-      custom: false,
-    };
+  /* 高亮范围迁移：旧版是布尔量 kwHighlight（显示 / 隐藏），语义上就是 core / off 两态，
+     直接映射；完全没有这个字段的历史状态保留默认档。非法值一律回落 core。 */
+  if (src.highlightMode === undefined && src.kwHighlight !== undefined) {
+    next.highlightMode = src.kwHighlight ? "core" : "off";
   }
-  delete next.highlightMode;
   delete next.kwHighlight;
-  {
-    const h = next.hlSets && typeof next.hlSets === "object" ? next.hlSets : {};
-    next.hlSets = {
-      core: h.core === true,
-      cet4: h.cet4 === true,
-      mid: h.mid === true,
-      custom: h.custom === true,
-    };
-  }
-  /* 我的导入词库：缺失初始化为空数组（老备份没有这个字段）；有值则清洗 ——
-     小写、去重、只留合法英文词形。清洗规则与导入面板共用 isVocabWord()，
-     两处各写一份迟早走散（见下方定义处注释）。 */
-  {
-    const cv = Array.isArray(next.customVocab) ? next.customVocab : [];
-    next.customVocab = [...new Set(cv.filter(w => typeof w === "string" && isVocabWord(w.trim().toLowerCase())))].sort();
-  }
+  if (!HL_MODES.includes(next.highlightMode)) next.highlightMode = "core";
   /* 中文对照迁移：旧版是布尔量 showCn。旧的「显示」档每句都挂中文，等于 all；
      旧的「隐藏」档点句会弹译文，语义上等于 tap。**不能把旧的「隐藏」映射成 off** ——
      那会让老用户点句时突然看不到中文，以为功能坏了（off 是新引入的档位，
@@ -515,9 +437,11 @@ let TAPR = typeof TAP_REVERSE === "undefined" ? null : TAP_REVERSE;
 let tapLoadStarted = Boolean(TAP && TAPR);
 let tapLoadPromise = null;
 
-/* 文章级补充词典随私人文章库保存；新设备导入文章库后在启动时装入。 */
-const BASE_ARTICLE_WORDS = typeof ARTICLE_WORDS === "undefined" ? null : ARTICLE_WORDS;
-let AW = BASE_ARTICLE_WORDS;
+/* 文章级补充词典（data-articles-words.js，构建产物）：ECDICT 里当代语料词频为 0 的
+ * 那批词（are / an / don't / you're / i'm / were…）。build-tapdict.mjs 对 frq=0 的
+ * 条目整个跳过，而这批恰恰是正文里出现次数最多的一类 —— 「最常见的词反而点不动」
+ * 就是这么来的。它随首屏加载（几十 KB），不进 TAPDICT 的懒加载队列。 */
+let AW = typeof ARTICLE_WORDS === "undefined" ? null : ARTICLE_WORDS;
 
 /* 点词大表不阻塞首页：进入阅读页后才加载。失败时仍保留四级词库查词，
  * 不能因为点词层离线而让正文或核心查词不可用。 */
@@ -634,14 +558,9 @@ function highlightEn(text) {
   return String(text).split(/(&(?:amp|lt|gt|quot);)/).map(seg =>
     /^&(?:amp|lt|gt|quot);$/.test(seg) ? seg
       : seg.replace(/[A-Za-z]+(?:['\u2018\u2019][A-Za-z]+)?/g, m => {
-        const low = normApos(m).toLowerCase();
-        /* 自定义词先于 resolveToken 判：导入的词可能任何词典都没有（这正是「我的词库」
-           的常态 —— 四级大纲外的专业词 / 名词），resolveToken 返回 null 也要包 span，
-           否则既不高亮也点不开（下面的 renderSheet 有自定义词兜底卡）。 */
-        const rawCustom = customHit(low, m);
-        const r = resolveToken(low);
-        if (!r && !rawCustom) return m;
-        const k = r ? (r.kw || r.w) : low;
+        const r = resolveToken(normApos(m).toLowerCase());
+        if (!r) return m;
+        const k = r.kw || r.w;
         /* 四态互斥，优先级：已认识 > 生词 > 高亮词 > 普通可点词。
          * 已认识的词不再有任何标色 —— 用户明确说过认识了，就不该再拦眼睛；
          * 生词（自己收藏过的）走琥珀色块，与「高亮词」的紫色字拉开层次：
@@ -659,12 +578,7 @@ function highlightEn(text) {
          * 就是错标色，这点开销不值得换那个风险。 */
         const known = S.known.includes(k);
         const wb = !known && inNotebook(k);
-        /* 高亮 = 词库开关判定。customHit 走「用户显式导入」语义：**绕过**长度 / 功能词闸
-           （isHighlightable 是给系统词库防花布用的；用户一个一个导进来的词是明确意图，
-           导入 work 就该看到 work —— 哪怕它是高频词）。已认识 > 生词 > 高亮的优先级
-           对自定义词同样成立：标了认识的导入词不再标色（需求 §6）。 */
-        const hl = !known && !wb &&
-          ((S.hlSets.custom && rawCustom) || (isHighlightable(k) && highlightSet().has(k)));
+        const hl = !known && !wb && isHighlightable(k) && highlightSet().has(k);
         const cls = "word" + (known ? " known" : "") + (wb ? " wb" : "") + (hl ? " kw" : "");
         /* data-form 存**原文词形**（如 adopted），data-word 存词元（adopt）：
          * 查词卡要把「你点的那个词」显示出来，直接显示词元会让人以为点错了。 */
@@ -724,17 +638,7 @@ const sentenceAt = (a, pi, si = 0) => {
  *   判据取「可观察的文本性质」，不钉具体词表：切出的段必须**每段都像句子**（含小写字母、
  *   至少 3 个词、长度有下限），否则整段不切、退回连排。
  */
-const ABBR_GUARD = /(?:^|[\s(“"‘])[A-Za-z]{1,3}\.(?=\s|$)/g;
-/* v83 新增：闭引号前的**单字母**缩写（`He cited "Dr. J." Smith…`）。
- * 只挡单字母、不挡 1-3 字母 —— 引号边界的歧义画像和裸边界不同：
- * `end." / day." / way."` 是再正常不过的句尾（全库引号连排的主力），
- * 若沿用 {1,3} 会把这一大批真边界全部挡死；而 1-3 字母的**真**句尾
- * （`"No." She left.`）里单字母几乎只有首字母缩写一种歧义，
- * 挡单字母的误杀面最小。判据仍是「宁可连排，不要错切」。
- * 两个守卫的前缀类都要含左引号（“"‘）：`"Dr. J." Smith` 里 `Dr.` 前面是
- * 左引号不是空白 —— 负向测试抓过（切成 `He cited "Dr.` + 碎片，首段
- * 表面像句子，逐段判据拦不住），前缀少了左引号守卫就是假守卫。 */
-const ABBR_QUOTE = /(?:^|[\s(“"‘])[A-Za-z]\.(?=["'’””])/g;
+const ABBR_GUARD = /(?:^|[\s(])[A-Za-z]{1,3}\.(?=\s|$)/g;
 const RENDER_SPLIT_MIN = 3;          // 切出少于 3 个词的不算句子
 const RENDER_SPLIT_MIN_LEN = 12;     // 少于 12 字符的不算句子
 /** 一段英文能不能安全地按句末标点切开用于**显示**。切不开就返回 null（调用方保持原样）。 */
@@ -745,13 +649,8 @@ const renderSplitEn = en => {
      把缩写点的 `.` 换成占位符再切，切完还回来。与 lib-offbook 的 ABBR_ROMAN 同思路，
      但**不共用实现**：那边服务入库（决定数据形状），这边只服务渲染（决定怎么显示），
      两边判据不同（那边保罗马编号，这边还要挡单字母缩写）。 */
-  const guarded = t.replace(ABBR_GUARD, m => m.replace(/\./g, "\u0001"))
-    .replace(ABBR_QUOTE, m => m.replace(/\./g, "\u0001"));
-  /* v83：lookbehind 允许句末标点后带闭引号。旧式 `(?<=[.!?…])\s+` 要求标点**紧贴**空白，
-   * `…"AI makes people lazy." It's that…` 这种「标点+闭引号+空白」的真边界切不开 ——
-   * 全站审计实测这是引号连排的最大单一成因（B1 档 101 处几乎全部 qbound=true）。
-   * JS 变长 lookbehind 为 ES2018；本文件此前已用定长 lookbehind，支持面不变。 */
-  const raw = guarded.split(/(?<=[.!?…]["'’””]*)\s+/).map(s => s.trim()).filter(Boolean);
+  const guarded = t.replace(ABBR_GUARD, m => m.replace(/\./g, "\u0001"));
+  const raw = guarded.split(/(?<=[.!?…])\s+/).map(s => s.trim()).filter(Boolean);
   if (raw.length < 2) return null;
   const parts = raw.map(s => s.replace(/\u0001/g, "."));
   /* 每一段都得像句子 —— 只要有一段不像，整段不切（宁可连排，不要碎行） */
@@ -763,56 +662,49 @@ const renderSplitEn = en => {
   return parts;
 };
 
-/* 渲染用的段落句子列表：在 sentencesOf 之上做「渲染期再切」。
- * 返回 [{ en, cn, rs, si0, np }] ——
- *   rs  渲染切分序号（0 起，未切分的元素恒为 0），配合 displaySentenceAt 取「屏幕上被点的那一句」；
- *   si0 **数据口径**的元素序号：= 它在 base 里的下标。渲染层把它写进 data-si，
- *       锚点 / 朗读计数用数据口径，只有「怎么显示」变了。
- *   np  源元素切出的份数（未切分 = 1）。renderRead 靠它决定「这个元素切了没有」：
- *       写不写 data-rs、非末句译文挂不挂 .cn-dup，判据都是 np > 1。
- *
- * v83 把「再切」从退化段推广到**任何**句级元素。旧版只处理 base.length===1（段落级
- * 退化段），但全站审计（SENTENCE-FLOW-AUDIT-2026-09-23.md）实测 8,282 个显示句里还有
- * 182 处连排：①101 处是退化段里含「标点+闭引号」边界，切分正则切不开；②67 处在
- * **普通段**里 —— 某个句级元素本身含 2+ 句（入库切句时没切开，多半也是引语边界），
- * 渲染层对普通段元素不碰，读者照样看到两三句挤一行。修法与退化段同一把尺子：
- * 对每个有译文的元素跑 renderSplitEn，切开的份数挂同一份元素译文（v73 定下的
- * 「整段译文挂每一句」挂法不变，只是「整段」从段缩到元素）。
- * 无译文（!cn）的元素照旧不切 —— 没有可挂的译文，切了只会改变锚点口径。 */
+/* 渲染用的段落句子列表：在 sentencesOf 之上做「退化段再切」。
+ * 返回 [{ en, cn, rs, si0 }] ——
+ *   rs  渲染切分序号（0 起，非退化段恒为 0），配合 displaySentenceAt 取「屏幕上被点的那一句」；
+ *   si0 **数据口径**的句子序号：非退化段 = 它在 base 里的下标；退化段本来就只有 1 句（=0）。
+ *       渲染层把它写进 data-si，锚点 / 朗读计数用数据口径，只有「怎么显示」变了。 */
 const renderSentencesOf = p => {
   const base = sentencesOf(p);
-  const out = [];
-  base.forEach((s, i) => {
-    const parts = s.cn ? renderSplitEn(s.en) : null;
-    if (!parts) { out.push({ ...s, rs: 0, si0: i, np: 1 }); return; }
-    /* 整段译文挂**每一个**显示句（2026-09-23 修的挂法，v83 只把「整段」的粒度从段缩到元素）：
-     * 「逐句对照」档只显示最后一份（非末句副本带 .cn-dup 收起），「点句显示」档点谁弹谁。 */
-    parts.forEach((en, k) => out.push({ en, cn: s.cn, rs: k, si0: i, np: parts.length }));
-  });
-  return out;
+  /* 只有「句级元素恰好 1 个」才有退化可能；已经切好的段原样返回（零额外开销） */
+  if (base.length !== 1) return base.map((s, i) => ({ ...s, rs: 0, si0: i }));
+  const en = base[0].en, cn = base[0].cn;
+  if (!cn) return base.map(s => ({ ...s, rs: 0, si0: 0 }));   // 无译文：不需要整段挂尾
+  const parts = renderSplitEn(en);
+  if (!parts) return base.map(s => ({ ...s, rs: 0, si0: 0 }));
+  return parts.map((s, i) => ({
+    en: s,
+    /* 整段译文挂**每一个**显示句（2026-09-23 修）：旧版只挂最后一句，而「点句显示」
+     * 档只展开被点句的紧邻译文 —— 切分段的前几句点了没有任何反应（全库 447 个
+     * 切分段、1,188 个显示句无译文可弹）。挂多份后「逐句对照」档只显示最后一份
+     * （非末句副本带 .cn-dup 收起），「点句显示」档点谁弹谁，行为终于和这句
+     * 注释许诺的一样。 */
+    cn,
+    rs: i,
+    si0: 0,   // 数据口径：退化段本来就只有 1 句
+  }));
 };
 
-/* 取「屏幕上被点的那一句」的原文与译文。与 sentenceAt() 的分工：
+/* 取「屏幕上显示的第 si 句」的原文与译文。与 sentenceAt() 的分工：
  *   sentenceAt()        —— 数据口径，按 data-si 取（统计 / 朗读 / qc 用）
  *   displaySentenceAt() —— 显示口径，按 data-si + data-rs 取（查词卡片 / 点句弹译文用）
- *
- * v83：定位键从「位置互斥」改成 (si0, rs) **精确对**。旧前提「普通段 rs 恒 0、
- * 退化段 si 恒 0」被推广切分打破 —— 普通段里被切开的元素 si 和 rs 都非零。
- * 好在 data-si / data-rs 写的都是被点元素自己的 (si0, rs)，精确对查得到：
- *   未切分元素：find(si0===si && rs===0) —— 与旧 list[si] 等价（v77 修的 4,023 句
- *     取错问题在这个分支上行为不变）；
- *   切分元素（含退化段）：find(si0===si && rs===rs) —— 与旧 list[rs] 等价。
- * 回退只服务老锚点：v81 之前退化段的 data-si 写的是显示序号，老锚点 si=2 在
- * si0 口径里不存在 → 回退按 rs 取（rs 是退化段真正的定位键）；再不行按 si0 取
- * 第一个（rs=0 的老锚点落段首，与旧行为一致）。 */
+ * 非退化段两者等价（rs 恒 0）；退化段里 displaySentenceAt 才拿得到被点的那一句，
+ * 否则卡片会显示整段英文当「本句含义」。 */
 const displaySentenceAt = (a, pi, si = 0, rs = 0) => {
   const p = a && a.paras && a.paras[pi];
   if (!p) return null;
   const list = renderSentencesOf(p);
-  return list.find(s => (s.si0 || 0) === si && (s.rs || 0) === rs)
-    || list.find(s => rs > 0 && (s.rs || 0) === rs)
-    || list.find(s => (s.si0 || 0) === si)
-    || null;
+  /* ★★ 两种段落形状互斥，索引只能取「非零的那一个」（2026-09-22 修）：
+   *   普通多句段：句级元素 ≥2，每个渲染句 rs 恒 0，只有 si 能定位；
+   *   退化段：句级元素恰好 1（si 恒 0），渲染期切成多份，只有 rs 能定位。
+   * 旧写法 `list[rs] || list[si]` 在普通段里 rs 恒 0 → list[0] 永远为真 →
+   * 回退分支永不执行：点第二句及以后一律取回**第一句**。
+   * 全库实测（.bak/probe-display-sentence.cjs）：**4,023 句取错**，1,415 个多句段受影响。
+   * 症状：查词卡「本句含义」显示成段首句、收藏进生词本的语境存错句、单句朗读念错句。 */
+  return list[rs > 0 ? rs : si] || null;
 };
 
 /* ---------------- 文章难度指标 ----------------
@@ -865,9 +757,10 @@ function isProperNoun(text, index, token) {
 }
 
 function computeArticleMetrics(a) {
-  const base = a.metrics || (typeof window !== "undefined" && window.ARTICLE_METRICS
-    ? window.ARTICLE_METRICS[a.id] : null);
-  /* 私人库迁移时将指标随文章保存；新导入文章没有预计算值时按正文即时计算。 */
+  const base = typeof window !== "undefined" && window.ARTICLE_METRICS
+    ? window.ARTICLE_METRICS[a.id] : null;
+  /* 新用户首页直接读预计算值，避免为每张卡扫描全文；已标记认识后只重算 needLearn，
+     words/低频词占比仍沿用同一份基准数据，展示口径不会因懒加载点词表而漂移。 */
   if (base && !(S.known || []).length) return { ...base };
   const knownSet = new Set(S.known || []);
   const need = new Set();
@@ -1054,41 +947,12 @@ const MID_SET = new Set(WORDS.filter(w => w.list === "中学基础").map(w => w.
 const CET4_SET = new Set([...CORE_SET, ...(typeof WORDS_CET4 === "undefined" ? [] : WORDS_CET4).map(w => String(w).toLowerCase())]);
 const ALL_SET = new Set([...CET4_SET, ...MID_SET]);
 const EMPTY_SET = new Set();
-/* ---------------- 我的导入词库（customVocab）→ 高亮集合 ----------------
- * CUSTOM_SET 与 HL_UNION 都是从 S 派生的缓存：S.customVocab / S.hlSets 任何一处
- * 变动都必须调 rebuildCustomSet()（它连带重建并集），漏调 = 高亮与设置说谎。
- * 变动入口只有四个：导入（追加/覆盖）、删单词、清空、切词源开关 —— 全部收口到
- * 对应的事件分支里调用，audit 有守卫断言这条链。
- * 为什么不用 highlightSet() 里现拼 Set：这个函数在 highlightEn 里**每个 token 调一次**，
- * 一篇长文几千次，现拼 4,544 词的 Set 是纯浪费 —— 与上面 CORE_SET 等常量同一条纪律。 */
-let CUSTOM_SET = new Set();
-let HL_UNION = CORE_SET;                       // 占位：模块加载完 rebuildAllSets() 后才是真值
-const hlAllOff = () => !S.hlSets.core && !S.hlSets.cet4 && !S.hlSets.mid && !S.hlSets.custom;
-function rebuildHlUnion() {
-  const s = new Set();
-  if (S.hlSets.core) for (const w of CORE_SET) s.add(w);
-  if (S.hlSets.cet4) for (const w of CET4_SET) s.add(w);   // ⊇ CORE_SET，重复 add 无害
-  if (S.hlSets.mid) for (const w of MID_SET) s.add(w);
-  if (S.hlSets.custom) for (const w of CUSTOM_SET) s.add(w);
-  HL_UNION = s;
-}
-function rebuildCustomSet() {
-  CUSTOM_SET = new Set(S.customVocab || []);
-  rebuildHlUnion();
-}
-rebuildCustomSet();   // S 在本节之前已初始化（第 219 行 normalizeState），这里建初始缓存
-
-/* 自定义词命中只判断成员身份，不看开关状态。关闭高亮时仍包成可点击 span，
- * 之后打开无需重渲染，也不影响查词。**词元 + 原文词形**双向判：导入 work →
- * working 经 resolveToken 还原到 work 命中；导入 working → 原文 data-form 直接命中。
- * 两个方向都是完整单词匹配，不能用 contains()，否则 work 会染上 homework。 */
-const customHit = (low, form) =>
-  !!low && (CUSTOM_SET.has(low) ||
-    (form != null && CUSTOM_SET.has(String(form).replace(/[\u2018\u2019]/g, "'").toLowerCase())));
-
 /* 取当前档位的集合。集合本身是常量（档位没变就不重建），直接返回预建的那个 ——
  * 一篇长文要对它做数千次 has()，每次现拷贝一份 Set 是纯浪费。 */
-const highlightSet = () => HL_UNION;
+const highlightSet = () => S.highlightMode === "off" ? EMPTY_SET
+  : S.highlightMode === "cet4" ? CET4_SET
+    : S.highlightMode === "all" ? ALL_SET
+      : CORE_SET;
 
 /* 高亮的第二道闸：太短的词与高频功能词不标色 —— with / that / this 全在四级大纲里，
  * 但逐处染色只会把正文变成花布。注意这道闸**只作用于高亮**，绝不作用于查词：
@@ -1099,15 +963,10 @@ const isHighlightable = w => w.length >= 4 && !STOPWORD_HIGHLIGHT.has(w);
  * 规则必须与 highlightEn 完全一致（已认识 > 生词 > 高亮词），否则会出现
  * 「卡片关了但正文颜色没跟上」的割裂感。 */
 function paintWord(k) {
-  /* 规则必须与 highlightEn 逐字对齐 —— 包括自定义词的双向判定：highlightEn 手里有
-     原文 token（low），这里没有，但每个 span 的 data-form 存着原文词形（导入 working、
-     正文 working 的场景），用同一把 customHit 判才不会出现「卡片关了颜色不变」的割裂。 */
+  const known = S.known.includes(k);
+  const wb = !known && inNotebook(k);
+  const hl = !known && !wb && isHighlightable(k) && highlightSet().has(k);
   $$(`.word[data-word="${k}"]`).forEach(n => {
-    const known = S.known.includes(k);
-    const wb = !known && inNotebook(k);
-    const hl = !known && !wb &&
-      ((S.hlSets.custom && customHit(k, n.dataset ? n.dataset.form : null)) ||
-        (isHighlightable(k) && highlightSet().has(k)));
     n.classList.toggle("known", known);
     n.classList.toggle("wb", wb);
     n.classList.toggle("kw", hl);
@@ -1129,8 +988,6 @@ ARTICLES.sort((a, b) => String(b.date || "").localeCompare(String(a.date || ""))
 let view = { name: "home" };      // home | discover | me | history | read
 let prevViewName = view.name;     // 上一次渲染的视图：判断「是否刚离开阅读页」（不依赖 DOM）
 let activeArticle = null;
-let privateArticleCount = 0;
-let articleStoreWarning = "";
 let catFilter = "全部";
 let searchTerm = "";
 let historyFilter = "all";
@@ -1604,19 +1461,105 @@ function sortArticles(list) {
 const coverOf = a => a.coverImg || ((typeof COVER_MAP !== "undefined" && COVER_MAP[a.id]) || "") || "";
 const srcName = a => String(a.source || "").split(" · ")[0];
 
-/* 首页精选从当前用户可见的文章中选择，不在程序里固定私人文章 ID。 */
+/* ---------------- 首页封面轮换池（2026-09-22 v74） ----------------
+ * 首页那块大图原来写死「第一篇人物文」（Anna Hathaway 永远霸屏），改成每次进站
+ * 从人物栏目里随机挑一张照片 + 连标题/署名/跳转一起换。
+ *
+ * 【为什么是硬编码白名单，不是运行时量宽高比】
+ * 浏览器里拿不到图片的宽高（要等加载完成、或另起 Image 去 decode），而这块图必须在
+ * 首屏渲染时就位。图片比例是**构建期事实**，所以量一次、写死在这儿。
+ * 比例由 tools/audit.js 的 [H2] 守卫反查 img-size 表核对 —— 手写错一个数字会被拦。
+ *
+ * 【为什么只挑横构图（宽/高 ≥ 1.4）】
+ * `.editorial-photo` 是宽幅位，实测（Edge 探针 `.bak/probe-home-cover.cjs`）：
+ * 窄屏 420px 时 378×248 = **1.52 : 1**，桌面 1280px 时 565×388 = **1.46 : 1**。
+ * 配 `object-fit: cover`：横图裁掉的两侧可以忽略，竖图却要裁掉 **50% 以上**，
+ * 只剩一条窄缝 —— 人物上半身以下的构图全没了。人物 56 张照片里只有 **14 张**是横构图
+ * （42 张竖构图、9 张正好卡在 1.44–1.50 的边界以下），硬上全部等于让 75% 的展示都在切主体。
+ * 所以宁少勿滥：**只上横图**。每一项的真实宽高都记在 `tools/audit.js` 的 `IMG_SIZE` 里，
+ * 手滑塞进一张竖图会被 [H2] 守卫当场拦下（这次就是这么抓到 `eva-green-0` 是 1077×1400 的）。
+ * 代价说清楚：池子只覆盖 **4 篇**（安妮·海瑟薇 / 梅根·福克斯 / 蕾雅·赛杜 / 蕾切尔·薇兹），
+ * 佐伊·多伊奇与伊娃·格林两篇全是竖图，一次都不会出现。**这是刻意的**，不是漏配。 */
+const LEAD_PHOTO_POOL = [
+  /* 篇封面（`coverImg` 字段，不在 paras[].img 里），4 篇有横封面的全收 */
+  "people-anne-hathaway-mother-mary-0",   // 720x405  = 1.78
+  "people-rachel-weisz-archive-0",        // 765x510  = 1.50
+  "people-megan-fox-interview-0",         // 1100x720 = 1.53
+  "people-lea-seydoux-bond-girl-0",       // 685x456  = 1.50
+  /* 正文横构图照片（`paras[].img`） */
+  "people-anne-hathaway-mother-mary-1",   // 720x490  = 1.47
+  "people-anne-hathaway-mother-mary-3",   // 720x486  = 1.48
+  "people-anne-hathaway-mother-mary-4",   // 720x480  = 1.50
+  "people-anne-hathaway-mother-mary-7",   // 720x500  = 1.44
+  "people-anne-hathaway-mother-mary-8",   // 720x490  = 1.47
+  "people-megan-fox-interview-3",         // 1000x655 = 1.53
+  "people-megan-fox-interview-4",         // 1000x655 = 1.53
+  "people-megan-fox-interview-5",         // 1000x655 = 1.53
+  "people-megan-fox-interview-6",         // 1000x655 = 1.53
+  "people-lea-seydoux-bond-girl-2",       // 1100x733 = 1.50
+];
+
+/* 从白名单里随机挑一张，并解析出它属于哪一篇。
+ *
+ * 【为什么改成「每次加载随机一次」，而不是 v74 的「每次 renderHome() 重挑」】
+ * v74 刻意不缓存，注释里写的理由是「真随机、每次打开就换」。实测站不住：
+ * 主渲染是 `screen.innerHTML = body + tabbar()` —— 整页 DOM 重建（见下方 render()）。
+ * 于是首页**任何**一次重绘（点返回 / 切主题 / 打卡回来 / 点 tab）都会把那一屏
+ * 413×440 的大图**删掉再新建**（一次 style/layout/paint），而且每次都挑到
+ * **不同的**一张 —— 用户看到的是「点一下，大图突然换成另一个人」。
+ * 视觉新鲜感的收益，远小于「可感知的重排 + 界面不稳定」的代价。
+ *
+ * 现在：**页面加载时随机一次 → 本次会话固定**；刷新 / 下次打开才重新随机。
+ * 池子还是 14 张、还是随机，只是随机性每次加载只消耗一次。
+ *  ⚠️ 不许改回「每次渲染重挑」，也不要在渲染路径里新加 Math.random()。
+ *     想要「每天固定一张」就按日期取种（拿 `ymdTZ(new Date())` 当种子），
+ *     别退回渲染时随机 —— 那是这一版专门废掉的设计。
+ * 与上面 homeReads 那套「渲染只读、翻页才动位置」的纪律**方向一致**了：
+ * 渲染只读，状态只在明确时机（加载 / 翻页）变。
+ *
+ * 解析规则有**两条路**（一开始只写了第二条，[H2] 守卫当场抓到 6 个封面全解析不到）：
+ *   ① 该篇 `coverImg` === `assets/covers/<key>.jpg` → 封面（`-0` 那批走这条）
+ *   ② 该篇 `paras[].img` 里有 === 该路径的段 → 正文照（能顺带取到 alt / credit）
+ * 命中不了（图被删 / 改了文件名）就返回 null，调用处回退到原来的固定第一篇。 */
+const LEAD_PHOTO_IDX = new Map();
 function leadPhotoPoolItems() {
-  return ARTICLES.filter(article => coverOf(article)).map(article => ({
-    a: article,
-    img: coverOf(article),
-    alt: article.personZh || article.person || article.cat || "文章封面",
-    credit: article.photoCredit || "",
-  }));
+  if (LEAD_PHOTO_IDX.size) return [...LEAD_PHOTO_IDX.values()];
+  if (typeof ARTICLES === "undefined" || !Array.isArray(ARTICLES)) return [];
+  for (const key of LEAD_PHOTO_POOL) {
+    const path = `assets/covers/${key}.jpg`;
+    for (const a of ARTICLES) {
+      if (a.cat !== "人物") continue;
+      /* ① 封面：alt 用人物名，credit 退回该篇统一的 photoCredit */
+      if (a.coverImg === path) {
+        LEAD_PHOTO_IDX.set(key, { a, img: path, alt: a.personZh || a.person || "", credit: a.photoCredit || "" });
+        break;
+      }
+      /* ② 正文照：段自带 alt / credit */
+      const p = (a.paras || []).find(x => x.img === path);
+      if (p) {
+        LEAD_PHOTO_IDX.set(key, { a, img: path, alt: p.alt || a.personZh || "", credit: p.credit || a.photoCredit || "" });
+        break;
+      }
+    }
+  }
+  return [...LEAD_PHOTO_IDX.values()];
 }
+
+/* 首页封面这一屏：随机取一「篇 + 一张图」。
+ * 同一篇的 `-0` 封面和正文照都可能在池子里，命中哪个就用哪个 —— 不必两两配对，
+ * 因为 `.editorial-photo` 的 img 是 cover 裁切，同一篇换一张照就是换一个视角。
+ *
+ * 「随机一次」的粒度是**每次页面加载**（理由见上面 LEAD_PHOTO_POOL 那段注释）。
+ * `leadPhotoPinned` 就是本次会话钉住的那一张。用 `let` 而不是模块内闭包变量 ——
+ * audit 的 [H2] 要把它重置回 null 才能测「重新随机后能不能换」，
+ * 见 tools/audit.js 的 `ctx('leadPhotoPinned = null;')`
+ * （vm 顶层 let 跨 runInContext 可读可写，本机实测确认过）。 */
 let leadPhotoPinned = null;
 function pickEditorialLead() {
-  if (leadPhotoPinned && ARTICLES.includes(leadPhotoPinned.a)) return leadPhotoPinned;
+  if (leadPhotoPinned) return leadPhotoPinned;
   const items = leadPhotoPoolItems();
+  /* ⚠️ 池子为空（数据层还没就绪）时**不写缓存** —— 写了就把 null 钉死，
+   * 这一整次会话都不再有封面。留空让它下次渲染重试。 */
   if (!items.length) return null;
   leadPhotoPinned = items[Math.floor(Math.random() * items.length)];
   return leadPhotoPinned;
@@ -1774,7 +1717,8 @@ function renderHome() {
   const reads = pickDailyReads();
   const done = S.finished.length;
   const mins = Object.values(S.minsByDay || {}).reduce((a, b) => a + b, 0);
-  /* 首页精选从当前文章库里选，不在产品代码中预设私人文章。 */
+  /* 首页大图 = 人物栏目随机一「篇 + 图」（见 pickEditorialLead），没有池子就退回
+     原来那篇固定人物文。`leadPhoto` 为 null 时 editorialFeature 自己回退 coverOf。 */
   const leadPhoto = pickEditorialLead();
   const lead = (leadPhoto && leadPhoto.a) || ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || reads[0];
   const categories = CATEGORIES.filter(c => c !== "全部" && ARTICLES.some(a => a.cat === c));
@@ -1807,12 +1751,6 @@ function renderHome() {
           <span class="rc-meta"><span class="chip">${ARTICLES.length} 篇可选</span><span class="rc-go">去挑一篇 ${svg("arrow", 12)}</span></span>
         </button>`}
       </section>
-
-      <button class="card row history-entry" data-act="import-library" aria-label="导入自己的英文文章" style="width:100%;text-align:left">
-        <span class="ic">${svg("upload", 20)}</span>
-        <span class="col grow" style="gap:3px"><span class="h3">导入自己的文章</span><span class="muted">把感兴趣的英文内容变成阅读材料</span></span>
-        ${svg("arrow", 16)}
-      </button>
 
       ${editorialFeature(lead, "本期精选", leadPhoto)}
 
@@ -2145,92 +2083,6 @@ function nbRowHTML(it, known) {
  * 都是行为的副产品，不构成任何可靠的掌握度证据，硬造一个榜单只会误导。
  * vocabTab 是页内状态（不落盘）：进来默认看生词，切 Tab 不该被记成偏好。 */
 let vocabTab = "new";
-/* ---------------- 我的词库管理页（页内状态，不落盘） ----------------
- * cvImportOpen 导入面板展开态；cvDraft 是 textarea 草稿（re-render 会重建 DOM，
- * 值必须活在状态里，否则追加确认后的二次渲染把用户粘的词全弄丢）；
- * cvArmedClear / cvArmedOver 是两个破坏性动作的两段式确认（第一击只进入待确认态）；
- * cvQuery 搜索过滤。 */
-let cvImportOpen = false, cvDraft = "", cvArmedClear = false, cvArmedOver = false, cvQuery = "";
-/* 列表渲染上限：几千词的 DOM 一次全画会卡；搜索 + 截断够用，
- * 真要浏览全量词表的人是极少数，导出 JSON 再看更现实。 */
-const CV_RENDER_CAP = 300;
-
-function renderCustomVocab() {
-  const words = S.customVocab || [];
-  const q = cvQuery.trim().toLowerCase();
-  const shown = (q ? words.filter(w => w.includes(q)) : words).slice(0, CV_RENDER_CAP);
-  const pv = buildVocabPreview(cvDraft, words, true);   // 面板统计按追加口径；覆盖语义写在按钮上
-  const stats = `
-    <div class="cv-stats" id="cv-stats">
-      <span>检测到 <b>${pv.total}</b></span><span>有效 <b>${pv.valid.length}</b></span>
-      <span>重复 <b>${pv.dup}</b></span><span>无效 <b>${pv.invalid}</b></span>
-      <span class="muted-2">已在词库 ${words.filter(w => new Set(parseVocabText(cvDraft)).has(w)).length} 个（追加时跳过）</span>
-    </div>`;
-  return `
-    ${statusbar()}
-    <div class="view view-flow cv-view">
-      <header class="page-intro">
-        <div><div class="eyebrow">MY OWN VOCABULARY</div><h1>我的词库<span class="title-period">。</span></h1>
-        <p>导入你自己不会的词，阅读时在「词汇高亮」里打开「我的导入词库」就会标色。</p></div>
-        <span class="icon-btn" data-act="go-back" role="button" tabindex="0" aria-label="返回">${svg("back", 16)}</span>
-      </header>
-
-      <div class="card col" style="gap:10px">
-        <div class="row between"><span class="h2">词库 <b>${words.length}</b> 词</span>
-          <span class="muted-2">与生词本 / 已认识互相独立</span></div>
-        <div class="rd-segs">
-          <button class="rd-seg${cvImportOpen ? "" : " on"}" data-act="cv-toggle-import" aria-pressed="${!cvImportOpen}">${cvImportOpen ? "收起导入" : "导入单词"}</button>
-          <button class="rd-seg${words.length ? "" : " off"}" data-act="cv-export"${words.length ? "" : " disabled"}>导出词库</button>
-          <button class="rd-seg${cvArmedClear ? " on" : ""}" data-act="cv-clear" aria-pressed="${cvArmedClear}">${cvArmedClear ? "再点一次确认清空" : "清空词库"}</button>
-        </div>
-      </div>
-
-      ${cvImportOpen ? `
-      <div class="card col cv-import" style="gap:10px">
-        <textarea id="cv-ta" rows="6" placeholder="每行一个词；也支持逗号、空格、分号分隔，或直接选 TXT / CSV 文件。&#10;apple&#10;banana, orange&#10;grape banana">${esc(cvDraft)}</textarea>
-        <div class="row between" style="gap:8px">
-          <label class="rd-seg" for="cv-file-in" style="flex:0 0 auto">选择 TXT / CSV 文件</label>
-          <span class="muted-2">支持 .txt / .csv / 导出的词库 JSON</span>
-        </div>
-        ${cvDraft ? stats : `<div class="cv-stats" id="cv-stats"><span class="muted-2">粘贴或选文件后，这里会显示导入统计。</span></div>`}
-        <div class="rd-segs">
-          <button class="rd-seg${pv.valid.length ? "" : " off"}" data-act="cv-append"${pv.valid.length ? "" : " disabled"}>追加导入${pv.valid.length ? `（+${pv.valid.length}）` : ""}</button>
-          <button class="rd-seg${cvArmedOver ? " on" : ""}" data-act="cv-overwrite">${cvArmedOver
-            ? `再点一次：清空现有 ${words.length} 词，写入 ${buildVocabPreview(cvDraft, words, false).valid.length} 词`
-            : "覆盖现有词库"}</button>
-        </div>
-      </div>` : ""}
-
-      <div class="card col" style="gap:8px">
-        <input id="cv-q" placeholder="搜索单词" value="${esc(cvQuery)}" aria-label="搜索我的词库"${words.length ? "" : " disabled"} />
-        ${words.length
-          ? `<div class="nb-list">${shown.map(w => `
-              <div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)">
-                <span class="col grow" style="gap:2px">
-                  <span class="nb-word">${esc(w)}</span>
-                </span>
-                <button class="icon-btn" data-act="cv-del-word" data-word="${esc(w)}" role="button" tabindex="0" aria-label="删除 ${esc(w)}">${svg("close", 14)}</button>
-              </div>`).join("")}</div>
-            ${shown.length < (q ? words.filter(w => w.includes(q)).length : words.length)
-              ? `<div class="muted-2">只显示前 ${CV_RENDER_CAP} 个${q ? "条匹配结果" : "词，可用搜索缩小范围"}</div>` : ""}`
-          : `<div class="nb-empty">词库是空的 · 点上面的「导入单词」开始<br><span class="muted-2">导入的词只影响高亮，不会进生词本</span></div>`}
-      </div>
-    </div>`;
-}
-
-/* 词库文件读入：TXT / CSV 直接当草稿；导出的 JSON（{words:[...]} 或纯数组）抽 words
- * 拼回逐行文本 —— 复用同一套解析与统计，不为 JSON 单开一条导入通道。 */
-function normalizeVocabDraft(text) {
-  const t = String(text || "").trim();
-  if (t.startsWith("{") || t.startsWith("[")) {
-    try {
-      const j = JSON.parse(t);
-      const words = Array.isArray(j) ? j : (j && Array.isArray(j.words) ? j.words : null);
-      if (words) return words.filter(x => typeof x === "string").join("\n");
-    } catch { /* 不是合法 JSON 就按纯文本走 */ }
-  }
-  return String(text || "");
-}
 function renderNotebook() {
   const items = [...S.notebook].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
   const knownSet = new Set(S.known || []);
@@ -2254,13 +2106,6 @@ function renderNotebook() {
         <button class="vt${vocabTab === "new" ? " on" : ""}" data-act="vocab-tab" data-tab="new">生词 <b>${learning.length}</b></button>
         <button class="vt${vocabTab === "known" ? " on" : ""}" data-act="vocab-tab" data-tab="known">已认识 <b>${known.length}</b></button>
       </div>
-      <!-- 我的导入词库入口：数据上与生词本 / 已认识完全独立（阅读前就知道不会的词 vs
-           阅读中收藏的词），但导航上放在词汇页里最顺 —— 用户找「我的词」只会来这里。 -->
-      <button class="card row cv-entry" data-act="open-customvocab" aria-label="打开我的词库">
-        <span class="ic">${svg("book", 18)}</span>
-        <span class="col grow" style="gap:2px"><span class="h3">我的导入词库</span><span class="muted">${(S.customVocab || []).length} 个词 · 导入 / 搜索 / 删除 / 导出</span></span>
-        ${svg("arrow", 16)}
-      </button>
       ${list.length ? `<div class="nb-list">${list.map(it => nbRowHTML(it, vocabTab === "known")).join("")}</div>` : empty}
     </div>`;
 }
@@ -2318,11 +2163,6 @@ function renderMe() {
           <span class="col grow" style="gap:3px"><span class="h3">我的词汇</span><span class="muted">${notebookWords.length} 个生词 · 带原句与遇词次数</span></span>
           ${svg("arrow", 16)}
         </button>
-        <button class="card row history-entry" data-act="open-customvocab" aria-label="打开我的词库">
-          <span class="ic">${svg("book", 20)}</span>
-          <span class="col grow" style="gap:3px"><span class="h3">我的词库</span><span class="muted">${(S.customVocab || []).length} 个导入词 · 用于阅读高亮</span></span>
-          ${svg("arrow", 16)}
-        </button>
         ${installEvt ? `<button class="btn-primary" data-act="pwa-install" style="width:100%">${svg("check", 16)} 添加到主屏幕</button>` : ""}
         ${(typeof navigator !== "undefined" && /iP(hone|ad|od)/.test(navigator.userAgent) && !window.navigator.standalone) ? `<div class="muted-2">iPhone/iPad：用 Safari 的分享菜单 → 「添加到主屏幕」，即可全屏离线使用</div>` : ""}
       </div>
@@ -2344,17 +2184,6 @@ function renderMe() {
       </div>`}
 
       <section class="journal-settings">
-      <div class="row between">
-        <span class="h3">我的内容</span>
-        <span class="muted-2">${privateArticleCount} 篇私人文章</span>
-      </div>
-      <div class="muted-2">Demo 文章随应用提供；导入的文章保存在本机浏览器，可导出为 JSON 迁移到其他设备。</div>
-      <div class="row" style="gap:10px;flex-wrap:wrap">
-        <button class="text-action" data-act="import-library">导入文章库</button>
-        <button class="text-action" data-act="export-library">导出文章库</button>
-        <button class="text-action danger" data-act="clear-library">清空私人文章</button>
-      </div>
-      ${articleStoreWarning ? `<div class="storage-warn" role="status">${svg("alert", 14)}<span>${esc(articleStoreWarning)}</span></div>` : ""}
       <div class="row between">
         <span class="h3">数据与备份</span>
         <span class="row" style="gap:14px">
@@ -2380,9 +2209,9 @@ function renderMe() {
       <div class="row between"><span class="h2">关于词阅</span></div>
       <div class="about-body">
         <p class="about-slogan">从感兴趣的文章开始，让英语阅读成为日常。</p>
-        <p>词阅是一个面向 CET-4 / CET-6 学习者的兴趣驱动英文阅读工具。你可以先体验 Demo，也可以导入自己有权使用的英文内容。</p>
+        <p>词阅是一个面向英语学习者的阅读工具，尤其关注四级学习阶段的阅读需求。你可以从人物、成长、足球和 AI 等主题中选择文章，在完整语境中阅读和积累词汇。</p>
         <p>遇到不认识的词，可以点词查义；需要理解句意时，可以查看中文对照。想记住的词可以收进生词本，没读完的文章也能下次接着读。</p>
-        <p>文章默认保存在当前设备的浏览器中。公开版本只提供少量示例文章；私人内容可以导出为 JSON 备份。</p>
+        <p>这是一个持续完善的个人学习项目，希望让阅读更容易开始，也更容易坚持。</p>
       </div>
       <div class="about-feats">
         <div class="row"><span class="ic">${svg("tap", 16)}</span><span><b>点词查义</b> —— 阅读中点击任意单词，即时查看释义与音标</span></div>
@@ -2398,8 +2227,8 @@ function renderMe() {
           <p>中学基础词库来自 <a href="https://github.com/KyleBing/english-vocabulary" target="_blank" rel="noopener">KyleBing/english-vocabulary</a>，其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。</p>
           <p>真题词频：<a href="https://github.com/liut969/CET" target="_blank" rel="noopener">liut969/CET</a>（近 5 年 30 套真题统计）· <a href="https://github.com/exam-data/CETVocabulary" target="_blank" rel="noopener">exam-data/CETVocabulary</a>（约 200 套试卷词频，CC BY-NC-SA 4.0）。</p>
           <p>单词例句：KyleBing/english-vocabulary · <a href="https://tatoeba.org" target="_blank" rel="noopener">Tatoeba</a>（CC-BY 2.0）· 原刊文章。</p>
-          <p>公开版本只提供少量示例内容。用户导入的文章保存在本地浏览器中；请确保自己有权使用导入的正文、翻译与图片。</p>
-          <p>词阅是阅读工具，不是文章内容发行平台；导入内容不会上传到词阅服务器。</p>
+          <p>内容与配图：AI 栏目文章与中文对照取自 <a href="https://offbook.press" target="_blank" rel="noopener">Offbook Press</a> 官方中英双语，仅抽取未改写；人物等栏目正文按公开页面抓取并过滤广告与导航，图片保留来源与摄影署名，原文变化时需重新复核。</p>
+          <p>个人学习项目，仅供学习交流，不作商业用途。</p>
         </div>
       </details>
       </section>
@@ -2452,36 +2281,32 @@ function renderRead() {
     /* 一段话 = 一个文本流：句子是内联 span，句间只有一个空格。
      * 旧写法每句一个块级 div，段落被拆成竖排清单（句间 10px 空隙 + 2px 间距），
      * 英文再长也只在句末换行，视觉上「一句一行」。
-     * ★ 用 renderSentencesOf 而不是 sentencesOf：段落级退化段（AI 栏目）与 v83 起的
-     *   普通段内多句元素，都在这里被再切成显示用的一行一句。data-si 写的是 s.si0
-     *   （**数据口径**元素序号）—— 2026-09-23 之前写的是 map 的显示序号，与注释宣称的
-     *   「切分前序号」不一致，单句朗读的「第 n/total 句」提示会数出 381/380 这种超总数。 */
+     * ★ 用 renderSentencesOf 而不是 sentencesOf：段落级退化段（AI 栏目，见上面那个函数的
+     *   长注释）在这里被再切成显示用的一行一句。data-si 写的是 s.si0（**数据口径**序号，
+     *   退化段恒 0）—— 2026-09-23 之前写的是 map 的显示序号，与注释宣称的「切分前序号」
+     *   不一致，单句朗读的「第 n/total 句」提示会数出 381/380 这种超总数。 */
     const rsList = renderSentencesOf(p);
+    const splitted = rsList.length > 1;      // 只有退化段才可能 > 1
     const parts = rsList.map(s => {
       const enText = clean(s.en);
       const cnText = clean(s.cn);
       if (!enText && !cnText) return "";        // 两端都空的句子不占位置
       const en = highlightEn(esc(enText));
-      /* v83：切分判据从「段落级」（rsList.length > 1，只有退化段可能）改为**元素级**
-       * （s.np > 1，见 renderSentencesOf）—— 普通段里被切开的元素同样要写 data-rs、
-       * 同样要给非末句挂 .cn-dup，否则「逐句对照」档一个元素弹多份译文、
-       * 「点句显示」档首句点了没反应（v73 在退化段上踩过同一坑，别再踩一遍）。 */
-      const multi = (s.np || 1) > 1;
       /* 译文是句子的**相邻兄弟**节点，不是子节点。旧写法把 .cn 塞进 .sentence 里，
          三个后果：① <span> 内套块级元素，HTML 内容模型违规（浏览器容错成「一句一行」，
          段落感全丢）；② 句子按钮的 aria-label 把整段中文也算进可访问名称，读屏中英混读；
          ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。
-         切分元素的非末句副本带 .cn-dup：「逐句对照」档收起（不重复可见），
+         切分段的非末句副本带 .cn-dup：「逐句对照」档收起（一段只见一份译文），
          「点句显示」档 peek 规则（5 个类）特异性压过 .cn-dup（4 个类），点谁弹谁。 */
-      const cn = cnText ? `<span class="cn${multi && (s.rs || 0) < s.np - 1 ? " cn-dup" : ""}" lang="zh-CN">${esc(cnText)}</span>` : "";
-      /* data-rs = 渲染切分序号（0 起）。**凡是「这个元素被切分过」就必须写上**，
+      const cn = cnText ? `<span class="cn${splitted && s.rs < rsList.length - 1 ? " cn-dup" : ""}" lang="zh-CN">${esc(cnText)}</span>` : "";
+      /* data-rs = 渲染切分序号（0 起）。**凡是「本段被切分过」就必须写上**，
        * 包括 rs=0 那一句 —— 这不是可有可无的优化：rs=0 时不写属性，DOM 里首句就没有
        * data-rs，`applyAnchor` 的 `querySelector(sel[data-rs="0"])` 找不到它，
        * 续读会落到「第一个匹配 pi+si 的句子」上。退化段里那**恰好就是它**，
        * 看似无害；但一旦切分顺序或段内结构变化，这个隐式回落就会静默错位。
-       * 所以判据是「这个元素切了没有」（s.np > 1），不是「序号是不是 0」。 */
+       * 所以判据是「这段切了没有」（rsList 长度 > 1），不是「序号是不是 0」。 */
       const rs = s.rs || 0;
-      const rsAttr = multi ? ` data-rs="${rs}"` : "";
+      const rsAttr = splitted ? ` data-rs="${rs}"` : "";
       return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
@@ -2522,7 +2347,7 @@ function renderRead() {
     </div>
     <div class="read-progress"><div class="bar" id="read-bar"></div></div>
 
-    <div class="view read-scroll ${fsCls} para-flow${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${hlAllOff() ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
+    <div class="view read-scroll ${fsCls} para-flow${S.cnMode === "all" ? "" : (S.cnMode === "off" ? " no-cn cn-off" : " no-cn cn-tap")}${S.highlightMode === "off" ? " no-kw" : ""}" id="read-scroll" data-art="${esc(a.id)}">
       <div class="read-hero">
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
@@ -2600,40 +2425,31 @@ function renderRead() {
   `;
 }
 
-/* ---------------- 词汇高亮词库：独立开关（2026-09-23 由单选档升级） ----------------
- * 为什么从单选档改成开关：词库之间不是互斥关系 —— 用户完全可能「核心词 + 自己导入的
- * 薄弱词」同时要，旧的 highlightMode 单选做不到（需求 §5 明文：不要互斥单选）。
- * 四个词源各一个勾选行，点一下切换、其余不动；全不勾 = 旧「关闭高亮」档。
- * 复用 .hl-opt 的行样式与 .hl-dot 指示点（方块变体 .hl-dot 用在勾选语义上，
- * CSS 侧只加一条 border-radius 覆盖），两处入口（阅读设置 / 「···」工具面板）照旧共用。
- * 交互边界与旧档位相同：切换只改 S.hlSets（纯显示参数），**绝不触碰 S.known**。 */
-const HL_SOURCES_INFO = {
-  core: ["四级核心词", "约 2000 个高频真题重点词（默认开）"],
-  cet4: ["四级全部词", "完整 CET-4 大纲 4500+ 词 · 适合考前扫漏词"],
-  mid: ["中学基础词", "初高中基础词 · 最激进的一档"],
-  custom: ["我的导入词库", "自己导入的薄弱词 · 在「我的词汇 → 我的词库」导入"],
+/* ---------------- 词汇高亮档位：竖排单选 ----------------
+ * 为什么不做成「点一下循环切一档」：四档要连点才能回头，而且切完看不见自己落在哪档
+ * —— 旧的字号按钮就是这么设计的，2026-09-19 废掉时已经写明过一次，别走回头路。
+ * 为什么不做成横排 seg：四档各带一句适用场景，横排塞不下会挤成火星文，倒退回「不知道
+ * 后面还有几档」。摊开直选，选之前就看到全部选项与代价。
+ *
+ * 文案分两层：粗体是档名（扫一眼就够），浅色小字是「什么时候该用它」。
+ * 默认档标在说明里，不额外加标记 —— 用户改过之后「默认」就不再是当前值，标出来反而误导。 */
+const HL_MODES_INFO = {
+  off: ["关闭高亮", "所有词正常显示，仍可点词查义 · 适合纯阅读"],
+  core: ["四级核心", "约 2000 个高频真题重点词 · 信息密度最合适（默认）"],
+  cet4: ["全部四级", "完整 CET-4 大纲 4500+ 词 · 适合考前扫漏词"],
+  all: ["四级 + 基础", "再加初高中基础词 · 最激进的一档"],
 };
-function hlSetList() {
-  return `<div class="hl-list" role="group" aria-label="高亮词库">
-    ${HL_SOURCES.map(src => {
-      const on = S.hlSets[src] === true;
-      return `<button class="hl-opt${on ? " on" : ""}${src === "custom" ? " hl-custom" : ""}" data-act="set-hls" data-src="${src}"
-        role="checkbox" aria-checked="${on}" aria-pressed="${on}">
+function hlModeList() {
+  return `<div class="hl-list" role="radiogroup" aria-label="词汇高亮范围">
+    ${HL_MODES.map(m => {
+      const on = S.highlightMode === m;
+      return `<button class="hl-opt${on ? " on" : ""}" data-act="set-hl" data-hl="${m}"
+        role="radio" aria-checked="${on}" aria-pressed="${on}">
         <span class="hl-dot" aria-hidden="true"></span>
-        <span class="hl-txt"><b>${esc(HL_SOURCES_INFO[src][0])}</b><i>${esc(HL_SOURCES_INFO[src][1])}</i></span>
+        <span class="hl-txt"><b>${esc(HL_MODES_INFO[m][0])}</b><i>${esc(HL_MODES_INFO[m][1])}</i></span>
       </button>`;
     }).join("")}
   </div>`;
-}
-/* 设置面板里高亮开关的选中态同步：与 syncReadSettingsSheet 分开 —— 开关是「每行各自
- * 反映自己的布尔」，不是「一行持有当前值」，同一个函数硬套两种语义必错一个。 */
-function syncHlToggles() {
-  $$(".phone > .sheet .hl-opt[data-src]").forEach(b => {
-    const on = S.hlSets[b.dataset.src] === true;
-    b.classList.toggle("on", on);
-    b.setAttribute("aria-checked", String(on));
-    b.setAttribute("aria-pressed", String(on));
-  });
 }
 
 /* 阅读设置浮层：字号 / 中文对照 / 底色 三组「直接点选」。
@@ -2677,11 +2493,11 @@ function renderReadSettingsSheet() {
             ${seg("set-theme", "theme", "night", "夜间", S.readTheme === "night")}
           </div>
         </div>
-        <!-- 高亮是四个词源开关而不是互斥档（2026-09-23）：核心词 + 自己导入的薄弱词
-             可以同时开。默认只开核心（= 旧默认档 core）；关掉某个词源只是不标它 ——
-             **点词查义在任何组合下都一样**。切开关只改 S.hlSets，
-             **绝不触碰 S.known**（见 renderFabSheet 的说明）。 -->
-        <div class="rd-row"><span class="rd-lab">词汇高亮</span>${hlSetList()}</div>
+        <!-- 高亮是四档范围而不是开关：完整四级大纲里一大半词用户早就认识，
+             默认「四级核心」（约 2000 个高频/真题重点词）。要看得更宽再往上调档；
+             关掉只是不标色 —— **点词查义在任何档位下都一样**。
+             切换档位只改 S.highlightMode，**绝不触碰 S.known**（见 renderFabSheet 的说明）。 -->
+        <div class="rd-row"><span class="rd-lab">词汇高亮</span>${hlModeList()}</div>
         <div class="rd-row"><span class="rd-lab">朗读口音</span>
           <div class="rd-segs">
             ${seg("set-accent", "accent", "en-US", "美音", S.accent !== "en-GB")}
@@ -2704,15 +2520,15 @@ function renderReadSettingsSheet() {
 /* 「···」更多工具面板：低频功能收进来，阅读页保持安静 */
 function renderFabSheet() {
   const a = activeArticle;
-  /* 词汇高亮开关放在这里，而不是只在「Aa 阅读设置」里 —— 阅读时想临时调范围是
+  /* 词汇高亮档位放在这里，而不是只在「Aa 阅读设置」里 —— 阅读时想临时调范围是
    * 「随手改一下」的动作，不该逼用户先想到「这是阅读设置」再点进去翻。
    *
-   * ★ 一条硬边界：切开关只改 S.hlSets（纯显示参数），**绝不触碰 S.known**。
-   *   S.known 是用户的学习记录（我认了这个词），S.hlSets 是系统的词源开关。
+   * ★ 一条硬边界：切档只改 S.highlightMode（纯显示参数），**绝不触碰 S.known**。
+   *   S.known 是用户的学习记录（我认了这个词），S.highlightMode 是系统的分类开关。
    *   「词库是系统给你的分类，已认识是用户自己的学习记录；系统分类可以变，
-   *     用户记录不能跟着丢。」—— 所以把某个词源打开、范围变大，已标认识的词
-   *   必须保持普通颜色，不能被重新点亮（自定义词同样受这条管，需求 §6）。
-   *   audit.js 有守卫锁死这一条（切开关前后 S.known 必须逐字节相同）。 */
+   *     用户记录不能跟着丢。」—— 所以从核心档切到全部四级，已标认识的词必须保持
+   *   普通颜色，不能因为范围变大就被重新点亮。
+   *   audit.js 有守卫锁死这一条（切档前后 S.known 必须逐字节相同）。 */
   return `
     <div class="sheet-mask" data-act="close-sheet"></div>
     <div class="sheet" role="dialog" aria-label="阅读工具">
@@ -2723,8 +2539,8 @@ function renderFabSheet() {
         ${a.url ? `<a class="sheet-item" href="${esc(a.url)}" target="_blank" rel="noopener">${svg("arrow", 16)} 查看原文</a>` : ""}
       </div>
       <div class="sheet-sec">词汇高亮</div>
-      ${hlSetList()}
-      <div class="hl-note">标为「已认识」的词在任何词源下都不再标色 —— 切开关不会把它重新点亮。</div>
+      ${hlModeList()}
+      <div class="hl-note">标为「已认识」的词在任何档位下都不再标色 —— 切档不会把它重新点亮。</div>
     </div>`;
 }
 
@@ -2863,10 +2679,10 @@ function applyReadClasses(cont) {
     cont.classList.toggle("no-cn", S.cnMode !== "all");
     cont.classList.toggle("cn-off", S.cnMode === "off");
     cont.classList.toggle("cn-tap", S.cnMode === "tap");
-    /* 高亮词源全关（= 旧「关闭高亮」档）：正文的目标词色全部退回普通文本（.no-kw 只改颜色，
+    /* 高亮档调到「关闭」：正文的目标词色全部退回普通文本（.no-kw 只改颜色，
        词仍然可点可查 —— 关的是「标色」，不是「查词能力」；自己收藏的生词色
        也照旧保留，那是读者自己的标记）。 */
-    cont.classList.toggle("no-kw", hlAllOff());
+    cont.classList.toggle("no-kw", S.highlightMode === "off");
     [0, 1, 2].forEach(n => cont.classList.toggle(`fs-${n}`, S.fontSize === n));
   }
   const screen = $("#screen");
@@ -3000,81 +2816,6 @@ function exportData() {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   toast("已导出进度备份");
 }
-
-async function reloadArticleContent(renderAfter = false) {
-  const loaded = await CiyueContentLoader.loadArticles();
-  ARTICLES.splice(0, ARTICLES.length, ...loaded.articles);
-  ARTICLES.sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
-  CATEGORIES = [...new Set(["全部", ...CATEGORIES.filter(category => category !== "全部"), ...loaded.categories])];
-  privateArticleCount = loaded.privateCount;
-  articleStoreWarning = loaded.storageError ? "本地文章库暂时不可用；当前仍可阅读 Demo。请检查浏览器是否允许本地存储。" : "";
-  const importedWords = loaded.dictionaries && loaded.dictionaries.articleWords;
-  AW = { ...(BASE_ARTICLE_WORDS || {}), ...(importedWords && typeof importedWords === "object" ? importedWords : {}) };
-  clearArticleCaches();
-  homeReads.pool = [];
-  leadPhotoPinned = null;
-  if (renderAfter) render();
-  return loaded;
-}
-
-function saveLibraryFile(name, text) {
-  const save = window.WLSaveFile;
-  if (window.WORDLENS_NATIVE === true && save && typeof save.save === "function") {
-    try { save.save(name, text); toast("已开始导出文章库"); return; }
-    catch { /* 原生保存失败时继续尝试浏览器下载 */ }
-  }
-  const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
-  const link = document.createElement("a");
-  link.href = url; link.download = name;
-  document.body.appendChild(link); link.click(); link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  toast("已导出文章库");
-}
-
-async function exportArticleLibrary() {
-  try {
-    const library = await CiyueArticleStore.exportLibrary();
-    const name = `ciyue-library-${todayKey()}.json`;
-    saveLibraryFile(name, JSON.stringify(library, null, 2));
-  } catch (error) {
-    toast(`导出失败：${error && error.message ? error.message : "本地文章库不可用"}`);
-  }
-}
-
-function readTextFile(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ""));
-    reader.onerror = () => reject(reader.error || new Error("无法读取所选文件"));
-    reader.readAsText(file);
-  });
-}
-
-async function importArticleLibrary(file) {
-  if (!file) return;
-  try {
-    const text = await readTextFile(file);
-    const demoIds = (window.CIYUE_DEMO_ARTICLES || []).map(article => article.id);
-    const result = await CiyueArticleStore.importLibrary(text, { duplicates: "skip", reservedIds: demoIds });
-    await reloadArticleContent();
-    render();
-    toast(`文章库已导入 · 新增 ${result.added} 篇 · 跳过 ${result.skipped + result.duplicateInFile} 篇`);
-  } catch (error) {
-    toast(`导入失败：${error && error.message ? error.message : "文章库没有更改"}`);
-  }
-}
-
-async function clearPrivateArticleLibrary() {
-  if (!window.confirm("确定清空本机的私人文章库吗？建议先导出 JSON 备份。")) return;
-  try {
-    await CiyueArticleStore.clearArticles();
-    await reloadArticleContent();
-    render();
-    toast("已清空私人文章；Demo 和学习记录仍保留");
-  } catch (error) {
-    toast(`清空失败：${error && error.message ? error.message : "私人文章仍保留"}`);
-  }
-}
 /* 导入与启动迁移分开：迁移可以补缺省值，用户选中的损坏备份不能因此变成空进度。 */
 function validateBackupState(st) {
   const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
@@ -3118,18 +2859,8 @@ function validateBackupState(st) {
     check(record(st[k]));
     Object.values(st[k]).forEach(checkEntry);
   }
-  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, accent: ["en-US", "en-GB"], rate: ["slow", "std", "fast"] };
+  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, highlightMode: HL_MODES, accent: ["en-US", "en-GB"], rate: ["slow", "std", "fast"] };
   for (const [k, values] of Object.entries(enums)) if (has(st, k)) check(values.includes(st[k]));
-  /* highlightMode 是旧版字段（2026-09-23 起由 hlSets 取代）：旧备份仍带着它，
-     按旧的四个档位值放行 —— 真正的语义转换在 normalizeState 里做。 */
-  if (has(st, "highlightMode")) check(["off", "core", "cet4", "all"].includes(st.highlightMode));
-  if (has(st, "hlSets")) {
-    check(record(st.hlSets));
-    for (const k of ["core", "cet4", "mid", "custom"]) if (has(st.hlSets, k)) check(typeof st.hlSets[k] === "boolean");
-  }
-  if (has(st, "customVocab")) {
-    check(Array.isArray(st.customVocab) && st.customVocab.every(v => typeof v === "string" && isVocabWord(v)));
-  }
   for (const k of ["showCn", "kwHighlight", "hintSeen"]) if (has(st, k)) check(typeof st[k] === "boolean");
   if (has(st, "fontSize")) check(Number.isInteger(st.fontSize) && st.fontSize >= 0 && st.fontSize <= 2);
   if (has(st, "backupHintAt")) check(finite(st.backupHintAt) && st.backupHintAt >= 0);
@@ -3295,14 +3026,7 @@ function ctxBlockHTML(word, ctx) {
  * ctx 是点中那个词所在的句子（来自 lookup 动作），词库外的点词、图注里的词没有它。 */
 function renderSheet(word, ctx, form) {
   const w = WORDS.find(x => x.word === word);
-  /* 分派优先级：① 全量词典词 → 全卡（释义最全，末尾按需补「移出词库」）；
-   * ② 非词典词：是我的自定义词 → 自定义卡（兜底卡在 2026-09-23 起会带上 TAP/AW
-   *    里查得到的释义，不再是「只有管理没释义」）；不是 → tap 轻卡，再兜底自定义卡。
-   *    旧写法恒 tap || custom —— 自定义词若在 TAP 有条目，管理入口（移出词库）
-   *    就永远弹不出来（需求 §7 的缺口）。 */
-  if (!w) return S.customVocab.includes(word)
-    ? renderCustomSheet(word, ctx, form)
-    : renderTapSheet(word, ctx, form) || renderCustomSheet(word, ctx, form);
+  if (!w) return renderTapSheet(word, ctx, form);   // 词库外单词走轻量卡
   const disp = form || word;                        // 卡片标题显示**你点的那个词**
   const ph = w.phonetic || "";
   const shortDef = String(w.def || "").split("\n")[0] || w.def;
@@ -3331,7 +3055,6 @@ function renderSheet(word, ctx, form) {
                <button class="b" data-act="sheet-more" data-word="${esc(word)}">更多</button>`
             : `<button class="a" data-act="add-note" data-word="${esc(word)}">加入生词本</button>
                <button class="b" data-act="sheet-more" data-word="${esc(word)}">更多</button>`}
-          ${S.customVocab.includes(word) ? `<button class="c" data-act="cv-del-word" data-word="${esc(word)}">移出词库</button>` : ""}
         </div>
       </div>`;
   }
@@ -3353,7 +3076,6 @@ function renderSheet(word, ctx, form) {
              <button class="c" data-act="remove-note" data-word="${word}">移出生词本</button>`
           : `<button class="a" data-act="add-note" data-word="${word}">加入生词本</button>
              <button class="c" data-act="mark-known" data-word="${word}" aria-pressed="${S.known.includes(word)}">${S.known.includes(word) ? "已认识 ✓" : "标为已认识"}</button>`}
-        ${S.customVocab.includes(word) ? `<button class="c" data-act="cv-del-word" data-word="${word}">移出词库</button>` : ""}
       </div>
     </div>`;
 }
@@ -3361,43 +3083,6 @@ function renderSheet(word, ctx, form) {
 /* 词库外单词的轻量查词卡：只有释义与发音，不加入词库学习记录。
  * 释义优先取 TAPDICT，再兜底文章级补充词典 —— 后者收的是 TAPDICT 因 frq=0
  * 丢掉的纯功能词（are / an / don't / you're…），它们恰恰在正文里最常见。 */
-/* 自定义词兜底卡：导入的词任何词典（WORDS / TAPDICT / AW）都查不到时，renderTapSheet
- * 返回空串 —— 原来这里就是「点了没反应」（空 sheet）。但这个词在「我的词库」里，
- * 用户点它 90% 是想管理它：给一张最小卡 —— 标出「在我的词库」，可加入生词本 /
- * 标已认识 / 移出词库。没有释义就老实说没有（离线包里确实没有这个词的词典数据），
- * 不伪造一句「暂无释义」下面的空架子。
- * ★ 只对自定义词渲染：词库外的普通词保持原来的「点了没反应」（专有名词太多了，
- *   全部弹卡反而是骚扰 —— 这个行为是有意保留的，别「顺手统一」）。 */
-function renderCustomSheet(word, ctx, form) {
-  if (!S.customVocab.includes(word)) return "";
-  const nb = nbItem(word);
-  const known = S.known.includes(word);
-  /* 释义尽力而为：TAPDICT / 文章级补充词典查得到就给（词形还原交给调用方传入的
-     form 已在卡头展示），查不到就明说没有 —— 与 tap 轻卡同一把 TAP/AW 尺子。 */
-  const t = (TAP && TAP[word]) || (AW && AW[word]);
-  const disp = form || word;
-  return `
-    <div class="sheet-mask soft" data-act="close-sheet"></div>
-    <div class="sheet slim" role="dialog" aria-label="我的词库 ${esc(disp)}">
-      <div class="grip"></div>
-      <div class="row between">
-        <div class="col" style="gap:3px">
-          <div class="w">${esc(disp)}</div>
-          <span class="ph">${disp === word ? "在我的词库里" : `原形 ${esc(word)} · 在我的词库里`}</span>
-        </div>
-        <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
-      </div>
-      ${t ? `<div class="df">${esc(t.p || "")}</div><div class="df pre">${esc(t.d)}</div>` : `<div class="df muted-2">离线词典里暂无这个词的释义</div>`}
-      ${ctxBlockHTML(word, ctx)}
-      <div class="sheet-btns">
-        ${nb
-          ? `<button class="a" data-act="mark-known" data-word="${esc(word)}">我已认识 ✓</button>`
-          : `<button class="a" data-act="add-note" data-word="${esc(word)}">加入生词本</button>${known ? `<button class="a" data-act="mark-known" data-word="${esc(word)}">取消已认识</button>` : ""}`}
-        <button class="b" data-act="cv-del-word" data-word="${esc(word)}">移出词库</button>
-      </div>
-    </div>`;
-}
-
 function renderTapSheet(word, ctx, form) {
   const t = (TAP && TAP[word]) || (AW && AW[word]);
   if (!t) return "";
@@ -3506,7 +3191,6 @@ function render() {
   else if (view.name === "me") body = renderMe();
   else if (view.name === "history") body = renderReadHistory();
   else if (view.name === "notebook") body = renderNotebook();
-  else if (view.name === "customvocab") body = renderCustomVocab();
   else if (view.name === "read") body = renderRead();
   screen.innerHTML = body + (view.name === "read" ? "" : tabbar());
 
@@ -3555,38 +3239,6 @@ function render() {
     if (readTimer) { clearInterval(readTimer); readTimer = null; }
   }
 
-  if (view.name === "customvocab") {
-    /* 与 discover/history 同一套「input → 状态 → 重渲染 → 还焦点」模式。
-       两个输入框只有一处差别：textarea 的统计更新**不重渲染**（直接改 #cv-stats），
-       重渲染会重建 textarea，光标与输入法组合态都会丢 —— 中文用户逐字输入时必炸。 */
-    const ta = $("#cv-ta");
-    if (ta) ta.addEventListener("input", () => {
-      cvDraft = ta.value;
-      const st = $("#cv-stats");
-      if (st) {
-        const words = S.customVocab || [];
-        const pv = buildVocabPreview(cvDraft, words, true);
-        st.innerHTML = `<span>检测到 <b>${pv.total}</b></span><span>有效 <b>${pv.valid.length}</b></span>` +
-          `<span>重复 <b>${pv.dup}</b></span><span>无效 <b>${pv.invalid}</b></span>` +
-          `<span class="muted-2">已在词库 ${words.filter(w => new Set(parseVocabText(cvDraft)).has(w)).length} 个（追加时跳过）</span>`;
-        /* 追加按钮的可用态与计数标签跟着草稿走 —— 按钮的 disabled 是渲染时按
-           当时 cvDraft 算的，只刷统计不刷按钮，用户粘完词按钮还是灰的
-           （2026-09-23 真页面探针抓到：统计活了、点追加没反应）。 */
-        const ab = $('[data-act="cv-append"]');
-        if (ab) {
-          ab.disabled = !pv.valid.length;
-          ab.textContent = pv.valid.length ? `追加导入（+${pv.valid.length}）` : "追加导入";
-        }
-      }
-    });
-    const q = $("#cv-q");
-    if (q) {
-      q.addEventListener("input", e => {
-        cvQuery = e.target.value; render();
-        const n = $("#cv-q"); if (n) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); }
-      });
-    }
-  }
   if (view.name === "discover") {
     const q = $("#q");
     if (q) {
@@ -3818,24 +3470,15 @@ document.addEventListener("click", e => {
       syncReadSettingsSheet("theme", v);
       break;
     }
-    case "set-hls": {
-      const src = t.dataset.src;
-      if (!HL_SOURCES.includes(src)) break;
+    case "set-hl": {
+      const v = t.dataset.hl;
+      if (!HL_MODES.includes(v) || S.highlightMode === v) break;
       /* 走 changeReadSetting 而不是直接改 class：它会先抓句子锚点、改完再还原，
-         切开关不会把读者甩回文章开头（与字号 / 对照同一套机制）。
-         ★ 这里只写 S.hlSets，**不动 S.known** —— 见 renderFabSheet 上的说明。
-         想「顺手清掉已认识」只能用户自己再点一次「取消已认识」，系统不替他决定。
-         rebuildHlUnion() 必须调：HL_UNION 是缓存，漏调 = 面板说开了、正文没颜色。 */
-      changeReadSetting(() => {
-        S.hlSets[src] = !S.hlSets[src];
-        rebuildHlUnion();
-        /* 词源切换不重渲染整页，但需要同步正文现有 span 的颜色类。
-           同一词形只刷一次；其余状态（已认识 / 生词）由 paintWord 保持原优先级。 */
-        const words = new Set($$("#read-scroll .word").map(n => n.dataset && n.dataset.word).filter(Boolean));
-        words.forEach(paintWord);
-      });
-      save();
-      syncHlToggles();
+         换档不会把读者甩回文章开头（与字号 / 对照同一套机制）。
+         ★ 这里只写 S.highlightMode，**不动 S.known** —— 见 renderFabSheet 上的说明。
+         想「顺手清掉已认识」只能用户自己再点一次「取消已认识」，系统不替他决定。 */
+      changeReadSetting(() => { S.highlightMode = v; });
+      syncReadSettingsSheet("hl", v);
       break;
     }
     case "set-accent": {
@@ -3863,7 +3506,7 @@ document.addEventListener("click", e => {
       /* ★ 保持所点句不动。切句 = 收起上一句译文 + 展开本句译文，而浏览器的滚动锚定
        *   锚的是视口内**第一个**元素（往往不是用户刚点的那句），于是所点句被上方
        *   收起的那块译文带着往上跳。实测（2026-09-21 Edge 390×844，hasTouch，
-       *   一篇长文中：第 20 句在 119px、第 24 句在 575px，
+       *   people-anne-hathaway-mother-mary）：第 20 句在 119px、第 24 句在 575px，
        *   点第 24 句后它自己上移 **96px** —— 正好等于第 20 句那块译文的高度。
        *   另两个场景实测位移都是 0，所以这个补偿只在「所点句真的动了」时生效：
        *     · 单句展开：译文是该句的兄弟节点、挂在它之后，不影响该句自身 → 0px
@@ -4041,69 +3684,6 @@ document.addEventListener("click", e => {
     }
     case "open-notebook":
       pushNav(); vocabTab = "new"; view = { name: "notebook" }; render(); break;
-    case "open-customvocab":
-      /* 两段式确认的状态必须进页就复位 —— 上一次进来点到「待确认」就离开，
-         回来还停在待确认态会让人误触破坏性操作。 */
-      pushNav(); cvArmedClear = false; cvArmedOver = false; cvQuery = "";
-      view = { name: "customvocab" }; render(); break;
-    case "cv-toggle-import":
-      cvImportOpen = !cvImportOpen; cvArmedOver = false; render(); break;
-    case "cv-append": {
-      const pv = buildVocabPreview(cvDraft, S.customVocab, true);
-      if (!pv.valid.length) { toast("没有可导入的新词"); break; }
-      S.customVocab = mergeVocab(S.customVocab, pv.valid, false);
-      rebuildCustomSet(); save();
-      toast(`已追加 ${pv.valid.length} 个词，词库共 ${S.customVocab.length} 词`);
-      cvDraft = ""; cvImportOpen = false; cvArmedOver = false;
-      render(); break;
-    }
-    case "cv-overwrite": {
-      /* 两段式：第一击只进入待确认态（按钮上写清后果），第二击才执行。
-         覆盖是破坏性操作且不可撤销（没有回收站），必须显式二次确认（需求 §4）。 */
-      if (!cvArmedOver) { cvArmedOver = true; render(); break; }
-      const pv = buildVocabPreview(cvDraft, S.customVocab, false);
-      if (!pv.valid.length) { toast("没有可导入的词，词库未改动"); cvArmedOver = false; render(); break; }
-      S.customVocab = mergeVocab([], pv.valid, true);
-      rebuildCustomSet(); save();
-      toast(`已覆盖：词库现为 ${S.customVocab.length} 词`);
-      cvDraft = ""; cvImportOpen = false; cvArmedOver = false;
-      render(); break;
-    }
-    case "cv-del-word": {
-      const wd = t.dataset.word;
-      S.customVocab = (S.customVocab || []).filter(x => x !== wd);
-      rebuildCustomSet(); save();
-      toast(`「${wd}」已移出词库`);
-      /* 两个现场都要收拾：管理页里删 → 重画列表；阅读页词卡里删 → 摘掉正文高亮。
-         漏掉后者会出现「词已删、颜色还在」——直到下一次整页渲染才消失。 */
-      $$(".sheet, .sheet-mask").forEach(n => n.remove());
-      if (view.name === "customvocab") render(); else paintWord(wd);
-      break;
-    }
-    case "cv-clear": {
-      if (!cvArmedClear) { cvArmedClear = true; render(); break; }
-      S.customVocab = [];
-      rebuildCustomSet(); save();
-      toast("词库已清空");
-      cvArmedClear = false; cvArmedOver = false;
-      render(); break;
-    }
-    case "cv-export": {
-      const text = JSON.stringify({ app: "wordlens-custom-vocab", version: 1, exportedAt: new Date().toISOString(), words: S.customVocab }, null, 2);
-      const name = `ciyue-我的词库-${todayKey()}.json`;
-      const saveF = window.WLSaveFile;
-      if (window.WORDLENS_NATIVE === true && saveF && typeof saveF.save === "function") {
-        try { saveF.save(name, text); toast("已开始导出词库"); break; }
-        catch { /* 原生保存失败时继续走浏览器下载 */ }
-      }
-      const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
-      const link = document.createElement("a");
-      link.href = url; link.download = name;
-      document.body.appendChild(link); link.click(); link.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-      toast("已导出词库");
-      break;
-    }
     case "vocab-tab": {
       const tb = t.dataset.tab === "known" ? "known" : "new";
       if (tb === vocabTab) break;
@@ -4138,12 +3718,6 @@ document.addEventListener("click", e => {
       exportData(); break;
     case "import-data":
       $("#file-in").click(); break;
-    case "import-library":
-      $("#library-file-in").click(); break;
-    case "export-library":
-      exportArticleLibrary(); break;
-    case "clear-library":
-      clearPrivateArticleLibrary(); break;
     case "reset": {
       resetNav();
       /* 深拷贝重置：浅拷贝会让新状态继续和 defaultState 共享阅读统计引用 */
@@ -4166,45 +3740,6 @@ document.addEventListener("click", e => {
   });
 }
 
-/* 私人文章库 JSON 与阅读进度备份分开导入，避免互相覆盖。 */
-{
-  const fi = $("#library-file-in");
-  if (fi) fi.addEventListener("change", () => {
-    const file = fi.files && fi.files[0];
-    if (file) importArticleLibrary(file);
-    fi.value = "";
-  });
-}
-
-/* 私人文章库 JSON 与阅读进度备份分开导入，避免互相覆盖。 */
-{
-  const fi = $("#library-file-in");
-  if (fi) fi.addEventListener("change", () => {
-    const file = fi.files && fi.files[0];
-    if (file) importArticleLibrary(file);
-    fi.value = "";
-  });
-}
-
-/* 我的词库：TXT / CSV / 导出的 JSON 读进导入面板当草稿 —— 不在这里直接入库，
- * 统计预览与「追加 / 覆盖」确认统一走管理页的那套流程（读进来的东西必须先过目）。
- * 从别的页面选文件（理论上到不了，label 在管理页里）也能兜住：自动跳到管理页。 */
-{
-  const cfi = $("#cv-file-in");
-  if (cfi) cfi.addEventListener("change", () => {
-    const file = cfi.files && cfi.files[0];
-    cfi.value = "";
-    if (!file) return;
-    readTextFile(file).then(text => {
-      cvDraft = normalizeVocabDraft(text);
-      cvImportOpen = true; cvArmedOver = false;
-      if (view.name !== "customvocab") { pushNav(); view = { name: "customvocab" }; }
-      render();
-      toast(`已读入「${file.name}」，请核对统计后确认导入`);
-    }).catch(() => toast("文件读不出来，请确认是文本文件"));
-  });
-}
-
 /* 无障碍：用 <span> 承载的控件加了 role="button" + tabindex，需要补上键盘触发
    （原生 <button> 自己会处理 Enter/Space，这里跳过，避免重复触发） */
 document.addEventListener("keydown", e => {
@@ -4218,7 +3753,7 @@ document.addEventListener("keydown", e => {
 
 /* URL 参数：方便预览/截图直接定位到指定页面 + 阅读主题
    ?v=discover|read&a=0&cat=足球&theme=paper|night|default&end=1（阅读页直接到底部） */
-function bootFromQuery(){
+(function bootFromQuery(){
   if (typeof location === "undefined" || typeof URLSearchParams === "undefined") return;
   try {
     const p = new URLSearchParams(location.search);
@@ -4257,15 +3792,9 @@ function bootFromQuery(){
       if (el) el.scrollTop = el.scrollHeight;
     });
   } catch (e) { /* 非浏览器环境忽略 */ }
-}
+})();
 
-async function startCiyueApp() {
-  try { await reloadArticleContent(); }
-  catch (error) { articleStoreWarning = "私人文章库暂时不可用；当前仍可阅读 Demo。"; }
-  bootFromQuery();
-  render();
-}
-void startCiyueApp();
+render();
 
 /* 离线可用 / 可安装：manifest 声明了 standalone，之前却没有 Service Worker，
    离线打开会白屏。file:// 与沙箱环境自动跳过，不影响本地直接打开。
@@ -4289,13 +3818,7 @@ if (shouldRegisterSW({
 })) {
   const warmAppCache = async reg => {
     if (!window.caches) return;
-    const urls = new Set([
-      "index.html", "assets/styles.css", "assets/app.js", "assets/data.js",
-      "assets/data/demo-articles.js", "assets/services/article-schema.js",
-      "assets/services/article-store.js", "assets/services/content-loader.js",
-      "assets/covers/demo/window-seat.svg", "assets/covers/demo/learning-by-making.svg",
-      "assets/covers/demo/city-before-sunrise.svg",
-    ]);
+    const urls = new Set(["index.html", "assets/styles.css", "assets/app.js", "assets/data.js", "assets/data-articles-extra.js", "assets/data-covers.js"]);
     /* GitHub Pages 部署在 /ciyue/ 这类子路径时，根导航 URL 与 index.html 是两个缓存键；
        同时预热当前路径，离线刷新首页才能命中。 */
     urls.add(location.pathname);

@@ -24,13 +24,6 @@ const run = (script, args = []) => {
   return r.status === 0;
 };
 
-/* The public reader build no longer ships or republishes a bundled article corpus.
- * Keep the scheduled workflow deployable without running the retired personal-content pipeline. */
-if (!fs.existsSync(path.join(ASSETS, "data-articles-extra.js"))) {
-  console.log("文章采集与公开发布管线已停用；本次不处理私人内容。");
-  process.exit(0);
-}
-
 /* ---------- 建批次：快照变更前状态（含全部封面图），回滚以它为准 ---------- */
 const batch = createBatch(ROOT, { label: "daily" });
 console.log(`批次 ${batch.id} 已建立：数据文件 ${batch.meta.files.length} 个 · 图片快照 ${batch.meta.covers} 张\n`);
