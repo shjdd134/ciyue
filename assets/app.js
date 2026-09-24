@@ -1621,17 +1621,20 @@ const srcName = a => String(a.source || "").split(" · ")[0];
  * `.editorial-photo` 是宽幅位，实测（Edge 探针 `.bak/probe-home-cover.cjs`）：
  * 窄屏 420px 时 378×248 = **1.52 : 1**，桌面 1280px 时 565×388 = **1.46 : 1**。
  * 配 `object-fit: cover`：横图裁掉的两侧可以忽略，竖图却要裁掉 **50% 以上**，
- * 只剩一条窄缝 —— 人物上半身以下的构图全没了。人物 56 张照片里只有 **14 张**是横构图
- * （42 张竖构图、9 张正好卡在 1.44–1.50 的边界以下），硬上全部等于让 75% 的展示都在切主体。
+ * 只剩一条窄缝 —— 人物上半身以下的构图全没了。人物 48 张照片里只有 **9 张**是横构图，
+ * 硬上全部等于让 80% 的展示都在切主体。
  * 所以宁少勿滥：**只上横图**。每一项的真实宽高都记在 `tools/audit.js` 的 `IMG_SIZE` 里，
  * 手滑塞进一张竖图会被 [H2] 守卫当场拦下（这次就是这么抓到 `eva-green-0` 是 1077×1400 的）。
- * 代价说清楚：池子只覆盖 **4 篇**（安妮·海瑟薇 / 梅根·福克斯 / 蕾雅·赛杜 / 蕾切尔·薇兹），
- * 佐伊·多伊奇与伊娃·格林两篇全是竖图，一次都不会出现。**这是刻意的**，不是漏配。 */
+ * 代价说清楚：池子只覆盖 **3 篇**（安妮·海瑟薇 / 蕾雅·赛杜 / 蕾切尔·薇兹），
+ * 佐伊·多伊奇与伊娃·格林两篇全是竖图，一次都不会出现。**这是刻意的**，不是漏配。
+ *
+ * ★ 2026-09-24 梅根·福克斯篇整篇下架（用户决定），池子从 14 项 / 4 篇变 **9 项 / 3 篇** ——
+ *   她那一篇原本贡献 5 张横图。**删文章必须同步删池子**：留着的话 `pickEditorialLead()`
+ *   会抽到一张已不存在的封面，首页大图直接空掉（而 [H2] 的第一条断言正好会拦住它）。 */
 const LEAD_PHOTO_POOL = [
-  /* 篇封面（`coverImg` 字段，不在 paras[].img 里），4 篇有横封面的全收 */
+  /* 篇封面（`coverImg` 字段，不在 paras[].img 里），3 篇有横封面的全收 */
   "people-anne-hathaway-mother-mary-0",   // 720x405  = 1.78
   "people-rachel-weisz-archive-0",        // 765x510  = 1.50
-  "people-megan-fox-interview-0",         // 1100x720 = 1.53
   "people-lea-seydoux-bond-girl-0",       // 685x456  = 1.50
   /* 正文横构图照片（`paras[].img`） */
   "people-anne-hathaway-mother-mary-1",   // 720x490  = 1.47
@@ -1639,10 +1642,6 @@ const LEAD_PHOTO_POOL = [
   "people-anne-hathaway-mother-mary-4",   // 720x480  = 1.50
   "people-anne-hathaway-mother-mary-7",   // 720x500  = 1.44
   "people-anne-hathaway-mother-mary-8",   // 720x490  = 1.47
-  "people-megan-fox-interview-3",         // 1000x655 = 1.53
-  "people-megan-fox-interview-4",         // 1000x655 = 1.53
-  "people-megan-fox-interview-5",         // 1000x655 = 1.53
-  "people-megan-fox-interview-6",         // 1000x655 = 1.53
   "people-lea-seydoux-bond-girl-2",       // 1100x733 = 1.50
 ];
 
@@ -2473,7 +2472,7 @@ function renderMe() {
           <p>中学基础词库来自 <a href="https://github.com/KyleBing/english-vocabulary" target="_blank" rel="noopener">KyleBing/english-vocabulary</a>，其中 ${MID_WORDS.filter(isSprint).length} 词带真题高频标记。</p>
           <p>真题词频：<a href="https://github.com/liut969/CET" target="_blank" rel="noopener">liut969/CET</a>（近 5 年 30 套真题统计）· <a href="https://github.com/exam-data/CETVocabulary" target="_blank" rel="noopener">exam-data/CETVocabulary</a>（约 200 套试卷词频，CC BY-NC-SA 4.0）。</p>
           <p>单词例句：KyleBing/english-vocabulary · <a href="https://tatoeba.org" target="_blank" rel="noopener">Tatoeba</a>（CC-BY 2.0）· 原刊文章。</p>
-          <p>内容与配图：AI 栏目文章与中文对照取自 <a href="https://offbook.press" target="_blank" rel="noopener">Offbook Press</a> 官方中英双语，仅抽取未改写；人物等栏目正文按公开页面抓取并过滤广告与导航，图片保留来源与摄影署名，原文变化时需重新复核。</p>
+          <p>内容与配图：人物等栏目正文按公开页面抓取并过滤广告与导航，图片保留来源与摄影署名，原文变化时需重新复核。</p>
           <p>个人学习项目，仅供学习交流，不作商业用途。</p>
         </div>
       </details>

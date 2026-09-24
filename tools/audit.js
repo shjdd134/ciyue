@@ -1149,9 +1149,28 @@ ctx('activeArticle = null;');
  * 所以下面既有正向（该是标题的必须是 hN）也有反向（不该是标题的绝不能变成 hN）。
  */
 console.log('\n[R2] 整期长文的节标题');
-const obArt = ctx('ARTICLES.find(a => String(a.id).startsWith("ob-"))');
-const obHeads = (obArt.paras || []).filter(p => p.head);
-const obHtml = ctx('(activeArticle = ARTICLES.find(a => String(a.id).startsWith("ob-")), renderRead())');
+/* ★ 2026-09-24：AI 栏目（ob-*）整栏下架之后，**库里已经没有一篇带 `head` 的文章** ——
+ *   这个功能在线上处于「无样本」状态（下架前它是 5 篇 AI 文贡献的 169 个标题段）。
+ *   于是样本换成沙箱里合成的桩，同时把「线上无样本」这件事实**显式断言出来**。
+ *   为什么不用 `if (!obArt) { skip }` 那种静默跳过：那正是本项目的假守卫形状 ——
+ *   功能真断了、字段真丢了，日志里一个字都没有。桩上照旧保留正向（该是标题的必须是 hN）
+ *   与反向（不该是标题的绝不能变成 hN）两侧，任一方向失效都会红。
+ *   恢复 AI 栏目时这条会自动变回真实样本（LIVE_HEAD_PARAS > 0 会红，提示改回真样本）。 */
+const LIVE_HEAD_PARAS = ctx('ARTICLES.reduce((n,a)=>n+(a.paras||[]).filter(p=>p.head).length,0)');
+ok(`库里带 head 的段落数为 ${LIVE_HEAD_PARAS}（AI 栏目下架后预期 0：功能只在合成桩上验证）`,
+  LIVE_HEAD_PARAS === 0);
+sandbox.__headArt = {
+  id: "__head", cat: "成长", title: "t", titleZh: "t", date: "2026-01-01", url: "#",
+  cover: "", gradient: "", source: "s",
+  paras: [
+    { head: 2, sentences: [{ en: "How to do great work", cn: "如何成就卓越" }] },
+    { head: 3, sentences: [{ en: "Start from curiosity", cn: "从好奇心开始" }] },
+    { sentences: [{ en: "The first thing is to notice what you actually care about.", cn: "第一件事是看清你真正在意什么。" }] },
+  ],
+};
+const obArt = sandbox.__headArt;
+const obHeads = obArt.paras.filter(p => p.head);
+const obHtml = ctx('(activeArticle = __headArt, renderRead())');
 const hTag = n => new RegExp(`<h${n} class="para para-head"`, 'g');
 const h2n = (obHtml.match(hTag(2)) || []).length;
 const h3n = (obHtml.match(hTag(3)) || []).length;
@@ -2230,22 +2249,21 @@ console.log('\n[H2] 首页封面轮换');
   const IMG_SIZE = {
     "people-anne-hathaway-mother-mary-0": [720, 405, "封面"],
     "people-rachel-weisz-archive-0": [765, 510, "封面"],
-    "people-megan-fox-interview-0": [1100, 720, "封面"],
     "people-lea-seydoux-bond-girl-0": [685, 456, "封面"],
     "people-anne-hathaway-mother-mary-1": [720, 490, ""],
     "people-anne-hathaway-mother-mary-3": [720, 486, ""],
     "people-anne-hathaway-mother-mary-4": [720, 480, ""],
     "people-anne-hathaway-mother-mary-7": [720, 500, ""],
     "people-anne-hathaway-mother-mary-8": [720, 490, ""],
-    "people-megan-fox-interview-3": [1000, 655, ""],
-    "people-megan-fox-interview-4": [1000, 655, ""],
-    "people-megan-fox-interview-5": [1000, 655, ""],
-    "people-megan-fox-interview-6": [1000, 655, ""],
     "people-lea-seydoux-bond-girl-2": [1100, 733, ""],
     /* 下面两条**故意留在表里但不在池里** —— 它们是「竖图长什么样」的活样本，
        给最后那条反向对照当坏样本用。删了它们，对照就退化成恒真。 */
     "people-rachel-weisz-archive-1": [1076, 1400, "竖（不入池）"],
     "people-eva-green-tim-burton-1": [1077, 1400, "竖（不入池）"],
+    /* 2026-09-24：梅根·福克斯篇整篇下架，池子里那 5 条 megan-fox 记录随之删除 ——
+       表是「池子的比例记录」，池子删了不删表，就留下一批谁都不引用的死数字。
+       （这两张表必须同生同死：上面那条「每一项都有已实测的比例记录」只管
+       池子→表的方向，表里多出来的行不会报错，所以只能靠人删干净。） */
   };
   const MIN_RATIO = 1.4;
   const tooNarrow = [], unknownSize = [];

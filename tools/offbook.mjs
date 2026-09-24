@@ -48,13 +48,25 @@ const FILE = path.join(ROOT, "assets", "data-articles-extra.js");
  *   有实图时它压过渐变（app.js `coverOf` 的口径：coverImg → COVER_MAP → 渐变）。
  *   图必须真实存在 —— 缺图直接 fatal，**不让渐变悄悄顶上**：那种「页面还有封面、只是
  *   换了个样子」的失败没有任何报警，等发现时已经上线了。 */
-const ESSAYS = [
+/* ★ 2026-09-24：**本通道整栏下架**（用户决定，AI 栏目 5 期全部撤下）。
+ *   生效方式 = ESSAYS 摘空 —— 这是本文件唯一的「期次事实来源」，`--plan` / `--apply`
+ *   都从它出发；摘空后重跑不会再往库里写任何 ob-* 条目。
+ *   撤下来的 5 期连同封面/兜底色保留在下面 RETIRED_ESSAYS 里，**只作记录**：
+ *   将来要恢复某一期，把那一行移回 ESSAYS 再跑 `node tools/offbook.mjs --fetch && --apply`。
+ *   同时 tools/ingest.mjs 的 DROP_LIST 里有这 5 个 id（双向兜底：名单拦存量的复现，
+ *   ESSAYS 拦新写的入库）。两处都在，别只改一处。
+ */
+const ESSAYS = [];
+
+/* 已下架期次（2026-09-24）。字段与 ESSAYS 同形，仅备恢复之用。 */
+const RETIRED_ESSAYS = [
   { issue: 1, slug: "on-cognitive-decoupling", cover: "ob-on-cognitive-decoupling.jpg", grad: "linear-gradient(135deg,#d8e8dc 0%,#1e2a1e 100%)" },
   { issue: 2, slug: "rebuilding-learning", cover: "ob-rebuilding-learning.jpg", grad: "linear-gradient(135deg,#dce6f0 0%,#243447 100%)" },
   { issue: 3, slug: "breakdown-of-firms", cover: "ob-breakdown-of-firms.jpg", grad: "linear-gradient(135deg,#efe2d4 0%,#4a3527 100%)" },
   { issue: 4, slug: "mirage-of-form", cover: "ob-mirage-of-form.jpg", grad: "linear-gradient(135deg,#e6e2f2 0%,#372f4e 100%)" },
   { issue: 5, slug: "teaching-and-training-disqualified", cover: "ob-teaching-and-training-disqualified.jpg", grad: "linear-gradient(135deg,#f0e6dc 0%,#523a2c 100%)" },
 ];
+
 const AUTHOR = "Dawei Geng";
 const AUTHOR_ZH = "耿大伟";
 const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36";

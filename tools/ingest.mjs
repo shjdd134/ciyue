@@ -200,6 +200,16 @@ const DROP_LIST = [
   { id: "ft-how-to-watch-arsenal-vs-crystal-palace-for-fre", why: "足球直播/观看指南，不是连续阅读文章" },
   { id: "gr-never-forget-what-matters-with-dr-david-urbans", why: "Ness Labs 厂商访谈落地页：首句 Tools for Thought 模板 + 末 4 段订阅推广" },
   { id: "gr-stop-explaining-yourself-to-your-ai-with-alex-", why: "Ness Labs 厂商访谈落地页：首句 Tools for Thought 模板 + 末 4 段订阅推广" },
+  /* 2026-09-24 用户决定：AI 栏目（Offbook Press 官方中英双语）整栏下架。
+   * 根因层见 tools/offbook.mjs —— ESSAYS 已摘空，重跑 --apply 不会把它们加回来。
+   * 这 6 条同时要留在名单里：`--prune` 是幂等的，名单在而库内没有 = 报「不在库内」，无害；
+   * 删掉名单条目反而给了「哪天有人从批次快照恢复数据、AI 栏目悄悄回来」的机会。 */
+  { id: "ob-on-cognitive-decoupling", why: "AI 栏目整栏下架（用户 2026-09-24 决定）" },
+  { id: "ob-rebuilding-learning", why: "AI 栏目整栏下架（用户 2026-09-24 决定）" },
+  { id: "ob-breakdown-of-firms", why: "AI 栏目整栏下架（用户 2026-09-24 决定）" },
+  { id: "ob-mirage-of-form", why: "AI 栏目整栏下架（用户 2026-09-24 决定）" },
+  { id: "ob-teaching-and-training-disqualified", why: "AI 栏目整栏下架（用户 2026-09-24 决定）" },
+  { id: "people-megan-fox-interview", why: "用户 2026-09-24 决定下架；根因层见 people-reviewed.json（已移出复核队列）" },
 ];
 
 /* ---------------- 来源健康度 ----------------

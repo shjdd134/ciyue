@@ -88,31 +88,6 @@
     }
   },
   {
-    "id": "people-megan-fox-interview",
-    "url": "https://www.interviewmagazine.com/film/megan-fox-2",
-    "titleZh": "梅根·福克斯专访",
-    "photoCredit": "Craig McDean / Interview Magazine",
-    "review": {
-      "status": "approved",
-      "visualChecked": true,
-      "guideChecked": true,
-      "articleChecked": true,
-      "at": "2026-09-18T07:32:27.278Z",
-      "scope": "full-original-text-and-photos",
-      "fingerprint": "78c25f75b57893bbfeaafabbd8d4e021f972818d12876367fd23467008b676b9",
-      "photoHashes": [
-        "e96f9a91d8e9fa07b5247e005f7826dc9756110324642b098c32700d2a13d587",
-        "4142fbcf227c916f9c47995872e50440b75580252ad7f320aef7546ec48cc7d9",
-        "2a6b5b1ab19cab83a4f5e060d14cd8e8b63378d7135a5ad7ff9280af9154c5cf",
-        "6f0a03a3948c07f3608eac2b1989caaf15a412a1dc1cbe6d7e8a60d94cdb230d",
-        "e969091a5d920fe65f1aa04e862acbf57ccca2c7e6a672e8c2aec72986fb0c76",
-        "eeaf27f2f96f13b8f1908a3fdbc002ca44bc5ffafa404169c30e3dbdd954f2df",
-        "be8a6371433c38a8ebf7571e55f610f36d54037cd252a9e91a2c3143de627522",
-        "07283f61c0dd2ac86f76a40bc831fb5c831d3646d943763a77128aa7ebdb38ce"
-      ]
-    }
-  },
-  {
     "id": "people-eva-green-tim-burton",
     "url": "https://www.wmagazine.com/story/eva-green-actress-tim-burton-film",
     "titleZh": "蒂姆·伯顿的新缪斯：伊娃·格林闪亮登场",

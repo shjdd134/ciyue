@@ -1,4 +1,4 @@
-> 2026-09-17 当前策略：**RSS 采集已全部停用**（足球于本日停采，全部足球文与封面一并撤下），每日自动采集只剩人物审核队列；成长存量保留但 RSS 暂停，AI 与旧明星采集停用。人物明确排除赞达亚。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。用户已授权本项目修改验证后直接推送 main。
+> 2026-09-17 当前策略：**RSS 采集已全部停用**（足球于本日停采，全部足球文与封面一并撤下），每日自动采集只剩人物审核队列；成长存量保留但 RSS 暂停，明星采集停用。**2026-09-24 追加：AI 栏目（Offbook Press）整栏下架，人物栏目撤下「梅根·福克斯」** —— 全库 19 → 13 篇。人物明确排除赞达亚、梅根·福克斯。见 [PEOPLE-COLUMN.md](PEOPLE-COLUMN.md)。用户已授权本项目修改验证后直接推送 main。
 
 # 词阅 WordLens — Agent 交接手册
 
@@ -9,7 +9,7 @@
 **词阅 WordLens**：在线英语精读 App（备考 CET-4），零依赖纯静态 HTML/CSS/JS + Service Worker，手机壳布局。
 - **线上**：https://shjdd134.github.io/ciyue/ （GitHub Pages，`shjdd134/ciyue` 仓库 main 分支）
 
-### 0.1 ★ 权威现状（2026-09-22 — **要看现状只读这一节**）
+### 0.1 ★ 权威现状（2026-09-24 — **要看现状只读这一节**）
 
 > 🔴 **这张表由 `node tools/doc-numbers.mjs` 校验**：篇数 / 句词数 / 版本 / 词库是硬校验（对不上 `exit 1`）；
 > 基线 commit 是**提示项** —— 每次推送都会改写它，而推送清单从不含本文件（文档要人工跟），
@@ -18,18 +18,18 @@
 
 | 项 | 值 |
 | --- | --- |
-| 文章 | **19 篇 = 成长 4 + 人物 6 + 足球 4 + AI 5** |
-| 句子 / 词数 | **7,094 句 / 118,281 词** |
-| 封面 | 71 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
+| 文章 | **13 篇 = 成长 4 + 人物 5 + 足球 4**（AI 栏目 5 篇 + 人物「梅根·福克斯」1 篇 = 6 篇于 2026-09-24 下架） |
+| 句子 / 词数 | **3,696 句 / 50,804 词** |
+| 封面 | 58 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`a8c1163`**（2026-09-22 深夜，壳 1.0.2 / vc3「修 ZIP 条目名反斜杠白屏」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
 | 资源版本 | `?v=84` · SW 缓存名 `wordlens-cache-v84` |
 | Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流）· ★ **2026-09-23 义项补全批次**：`build-core-vocab` 合并策略从「已有词条原样保留」（固化循环：早期精编的单义永远挡住词典源的完整释义）改为「新词性补块 + 兜底」——1,075 词补上真缺的词性义项（match 补 v. 相配、evidence 补 v. 证明、academic 补 n. 学者…），判据统一在 `tools/lib-senses.cjs`；例句选句加义项对齐（`build-examples` 跨级别汇池 + 义项相关 +80 分，2,321/3,709 条义项命中），原刊兜底加义项闸（15 条错配改留空） |
-| 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目不走采集** —— 由 `tools/offbook.mjs` 手动接入（官方中英双语，不翻译只抽取）；旧明星停用 |
+| 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目已于 2026-09-24 整栏下架**（`tools/offbook.mjs` 的 `ESSAYS` 摘空，链路仍在但不再产出）；旧明星停用 |
 | 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
-| 人物 6 篇 | Anne Hathaway + **Icons 5 篇**（Léa Seydoux / Zoey Deutch / Megan Fox / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`） |
+| 人物 5 篇 | Anne Hathaway + **Icons 4 篇**（Léa Seydoux / Zoey Deutch / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`）。~~Megan Fox~~ 2026-09-24 下架（用户决定），已同时移出 `people-reviewed.json` 复核队列并在 `people-config.local.json` 的 `excludedPeople` 里登记，详见下方下架条目 |
 | 足球 4 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
-| AI 5 篇 | **Offbook Press 官方中英双语长文**（Dawei Geng，`ob-*`）：**一期一整篇**（`on-cognitive-decoupling` / `rebuilding-learning` / `breakdown-of-firms` / `mirage-of-form` / `teaching-and-training-disqualified`），`translation_type:"official"`、`pin:true`。**这条通道不翻译，只抽取**（源站自带官方中文），管线见 `tools/offbook.mjs` + `tools/lib-offbook.mjs`，守恒硬闸：入库 + 显式排除（正文末「引用与出处」章）= 源站全文。**封面 2026-09-21 起用实图**（`assets/covers/ob-<slug>.jpg`，由 `tools/offbook.mjs` 的 `ESSAYS[].cover` 声明、生成时写进 `article.coverImg`），渐变降为兜底；**图缺了会 fatal 拒绝写盘**，不放任静默退回渐变。2026-09-21 之前是「按 h2 拆 43 篇」，现已回到源站原文单位 —— 节标题以 `<h2>/<h3 class="para para-head">` 回到正文（数据侧 `paras[i].head` 标 2/3），**这是修回来的内容**：拆篇时 h3 标题整批被丢掉（每期 22—47 个），守恒闸看不见（基准只取正文块，标题在 `head` 里） |
+| AI 栏目（已下架） | **2026-09-24 整栏撤下**（用户决定）。原为 Offbook Press 官方中英双语长文（Dawei Geng，`ob-*`）一期一整篇 5 期。**撤干净需要三处同时在场**（缺一个就会以某种路径回来）：① `tools/offbook.mjs` 的 `ESSAYS = []`（5 期移入 `RETIRED_ESSAYS` 仅存记录）② `tools/ingest.mjs` 的 `DROP_LIST`（5 个 id）③ `tools/content-scope-test.mjs` 的断言已**反转**（原「AI 应已由 ob-* 上线」→ 现「库里不得再出现 AI / `ob-*`」，同时 `CATEGORIES` 不得含 `AI`）。附带的连带改动：`assets/app.js` 的 `LEAD_PHOTO_POOL` 与 `tools/audit.js` 的 `IMG_SIZE` 同步删掉 megan-fox 5 项；`audit.js` 的 `[R2]`（节标题）**线上已无样本**，改为合成桩 + 显式断言「库内 head 段数 = 0」 |
 | 寓言 | 入口保留，当前为空 |
 
 **「线上现在有什么」永远以远端树为准**（`node tools/tree-diff.mjs`）。本表只是索引 ——
