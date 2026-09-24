@@ -720,10 +720,10 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
     s3: normalizeState({ notebook: [{ word: "perform", addedAt: 111, articleId: "art-x", srcTitle: "旧标题",
           firstCtx: { en: "A b.", cn: "甲。" }, seen: 5, lookups: 4, lastSeenAt: 9, articles: ["art-x", "art-y"] }] }).notebook[0],
     bad: normalizeState({ notebook: ["perform", null, { nope: 1 }, "perform"] }).notebook.length,
-    hl0: normalizeState({ kwHighlight: false }).highlightMode,
-    hl1: normalizeState({ kwHighlight: true }).highlightMode,
-    hlBad: normalizeState({ highlightMode: "nonsense" }).highlightMode,
-    hlNew: normalizeState({ highlightMode: "all" }).highlightMode,
+    hl0: normalizeState({ kwHighlight: false }).hlSets,
+    hl1: normalizeState({ kwHighlight: true }).hlSets,
+    hlBad: normalizeState({ highlightMode: "nonsense" }).hlSets,
+    hlNew: normalizeState({ highlightMode: "all" }).hlSets,
   }))()`);
   ok('迁移 v1：字符串条目升级为对象，语境为空但条目可用',
     mig.s1 && mig.s1.word === 'perform' && mig.s1.context === null && !!mig.s1.addedAt);
@@ -734,10 +734,10 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
     && mig.s3.seen === undefined && mig.s3.lookups === undefined && mig.s3.articles === undefined
     && mig.s3.articleTitle === '旧标题');
   ok('迁移：脏条目（null / 缺 word）被剔除，重复词合并为一条', mig.bad === 1);
-  ok('迁移：旧布尔量 kwHighlight 映射为 off / core 两档',
-    mig.hl0 === 'off' && mig.hl1 === 'core');
-  ok('迁移：非法档位回落 core，合法新档位原样保留',
-    mig.hlBad === 'core' && mig.hlNew === 'all');
+  ok('迁移：旧布尔量 kwHighlight 映射为全部关闭 / 只开核心',
+    !Object.values(mig.hl0).some(Boolean) && mig.hl1.core && !mig.hl1.cet4 && !mig.hl1.mid && !mig.hl1.custom);
+  ok('迁移：非法档位回落全关，旧 all 映射核心、四级和基础词',
+    !Object.values(mig.hlBad).some(Boolean) && mig.hlNew.core && mig.hlNew.cet4 && mig.hlNew.mid && !mig.hlNew.custom);
 
   /* ---- 四态标色：普通 / 高亮 / 生词 / 已认识，互斥且有优先级 ----
      测试词必须挑**核心层**里的词：core 档默认只亮核心层，
@@ -892,16 +892,20 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
     const extra = (typeof WORDS_CET4 === "undefined" ? [] : WORDS_CET4)
       .filter(w => !WORD_BY.has(w) && w.length >= 4)[0] || "";
     S.known = []; S.notebook = [];
-    const lit = (w, m) => { S.highlightMode = m; return /class="word kw"/.test(highlightEn("The " + w + " end.")); };
+    const lit = (w, m) => {
+      S.hlSets = { core: m === "core" || m === "cet4" || m === "all", cet4: m === "cet4" || m === "all", mid: m === "all", custom: false };
+      rebuildHlUnion();
+      return /class="word kw"/.test(highlightEn("The " + w + " end."));
+    };
     const r = {
       core, mid, extra,
       offCore: lit(core, "off"), coreCore: lit(core, "core"), cet4Core: lit(core, "cet4"), allCore: lit(core, "all"),
       coreExtra: extra ? lit(extra, "core") : null, cet4Extra: extra ? lit(extra, "cet4") : null,
       cet4Mid: lit(mid, "cet4"), allMid: lit(mid, "all"),
-      offRead: (S.highlightMode = "off", renderRead().includes("no-kw")),
-      allRead: (S.highlightMode = "all", renderRead().includes("no-kw")),
+      offRead: (S.hlSets = {core:false,cet4:false,mid:false,custom:false}, renderRead().includes("no-kw")),
+      allRead: (S.hlSets = {core:true,cet4:true,mid:true,custom:false}, renderRead().includes("no-kw")),
     };
-    S.highlightMode = "core";
+    S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion();
     return r;
   })()`);
   ok('档位 off：核心词也不标色', modes.offCore === false);
@@ -957,54 +961,41 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
      真实类名变成 word known kw，子串就匹配不上，守卫会在真出问题时**假绿**。
      实测：把高亮表达式里的 !known && !wb 删掉后，子串版断言照样全绿（漏报）。
      所以这里定位到本词那个 span，取出 class 属性再 split 成 token 判 'kw'。 */
-  ctx(`S.notebook = []; S.known = [${W}]; S.highlightMode = "core";
-    window.__litAt = m => {
-      S.highlightMode = m;
-      const mm = highlightEn("The " + ${W} + " end.")
-        .match(new RegExp('<span class="([^"]*)"[^>]*data-word="' + ${W} + '"'));
-      return !!mm && mm[1].split(/\\s+/).includes("kw");
-    };
-    window.__clsAt = m => {
-      S.highlightMode = m;
+  ctx(`S.notebook = []; S.known = [${W}]; S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion();
+    window.__clsAt = () => {
       const mm = highlightEn("The " + ${W} + " end.")
         .match(new RegExp('<span class="([^"]*)"[^>]*data-word="' + ${W} + '"'));
       return mm ? mm[1].split(/\\s+/) : [];
     };`);
   const knownBefore = ctx('JSON.stringify(S.known)');
-  const litCore = ctx('window.__litAt("core")');
-  const litCet4 = ctx('window.__litAt("cet4")');
-  const litAll = ctx('window.__litAt("all")');
-  ok('已认识的词切到任何档位都不再高亮（core / cet4 / all 全不亮）',
-    litCore === false && litCet4 === false && litAll === false);
-  /* 走真实切档路径（set-hl 的委托分支）而不是直接给 S.highlightMode 赋值 ——
-     赋值永远不可能改 known，那样测的只是「赋值运算符不会写数组」，
-     测不出 case 分支里有没有手贱清 known。所以这一步必须在宿主侧 click。 */
-  ctx(`S.highlightMode = "core"; S.known = [${W}];`);
-  click({ act: "set-hl", hl: "all" });
-  const afterMode = ctx('S.highlightMode');
+  ok('已认识的词不因高亮词源开关重新标色',
+    ctx('window.__clsAt().includes("known") && !window.__clsAt().includes("kw")'));
+  /* 走真实点击路径，证明切词源开关不会改动已认识记录。 */
+  click({ act: "set-hls", src: "cet4" });
+  const afterMode = ctx('S.hlSets.cet4');
   const knownAfter = ctx('JSON.stringify(S.known)');
-  const clsAfter = ctx('window.__clsAt("all").join(" ")');
-  ok('★ 切档不触碰 S.known（用户的学习记录不随词库分类变化而丢失）',
-    knownAfter === knownBefore && afterMode === "all" &&
+  const clsAfter = ctx('window.__clsAt().join(" ")');
+  ok('★ 切词源开关不触碰 S.known（学习记录保留）',
+    knownAfter === knownBefore && afterMode === true &&
     clsAfter.includes("known") && !clsAfter.includes("kw"));
-  ctx('S.known = []; S.notebook = []; S.highlightMode = "core";');
+  ctx('S.known = []; S.notebook = []; S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion();');
 
-  /* ---- 两处入口渲染同一套四档单选 ---- */
+  /* ---- 两处入口渲染同一套四词源独立开关 ---- */
   const hlPanels = ctx(`(() => {
-    S.highlightMode = "cet4";
+    S.hlSets = {core:true,cet4:true,mid:false,custom:false}; rebuildHlUnion();
     const fab = renderFabSheet(), set = renderReadSettingsSheet();
-    S.highlightMode = "core";
+    S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion();
     return { fab, set };
   })()`);
-  ok('「···」阅读工具面板列出全部四档（不再只能在「Aa 阅读设置」里改）',
-    ["off", "core", "cet4", "all"].every(m => new RegExp(`data-act="set-hl"[^>]*data-hl="${m}"`).test(hlPanels.fab)));
-  ok('两个面板各渲染 4 个档位、且当前档只标记一个 .on',
-    (hlPanels.fab.match(/data-hl="/g) || []).length === 4 &&
-    (hlPanels.set.match(/data-hl="/g) || []).length === 4 &&
-    (hlPanels.fab.match(/class="hl-opt on"/g) || []).length === 1 &&
-    /class="hl-opt on"[^>]*data-hl="cet4"/.test(hlPanels.fab));
-  ok('面板写明「切档不会把已认识的词重新点亮」（用户最需要打消的顾虑摆在明面上）',
-    hlPanels.fab.includes('切档不会把它重新点亮'));
+  ok('「···」阅读工具面板列出四个词源开关',
+    ["core", "cet4", "mid", "custom"].every(m => new RegExp(`data-act="set-hls"[^>]*data-src="${m}"`).test(hlPanels.fab)));
+  ok('两个面板各渲染四个开关，核心和四级同时选中',
+    (hlPanels.fab.match(/data-src="/g) || []).length === 4 &&
+    (hlPanels.set.match(/data-src="/g) || []).length === 4 &&
+    (hlPanels.fab.match(/class="hl-opt on"/g) || []).length === 2 &&
+    /class="hl-opt on"[^>]*data-src="cet4"/.test(hlPanels.fab));
+  ok('面板说明已认识的词不会因切换词库重新标色',
+    hlPanels.fab.includes('已认识') && hlPanels.fab.includes('重新'));
   /* 选择器必须同时认 .rd-seg 与 .hl-opt：高亮档现在有两处入口，
      只认一种的话，「···」面板里点了另一档、选中态会停在旧档（点了像没反应）。 */
   ok('样式：四档单选有 .hl-opt / .hl-dot，选中态是实心圆点',
@@ -1013,7 +1004,7 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
   ok('同步函数同时认 .rd-seg 与 .hl-opt（否则另一处入口的选中态不同步）',
     /\.rd-seg, \.hl-opt/.test(ctx('syncReadSettingsSheet.toString()')));
 
-  ctx('S.known.length = 0; S.notebook.length = 0; S.highlightMode = "core"; sheetMore = false; vocabTab = "new"; activeArticle = null; view = { name: "home" };');
+  ctx('S.known.length = 0; S.notebook.length = 0; S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion(); sheetMore = false; vocabTab = "new"; activeArticle = null; view = { name: "home" };');
 }
 
 
@@ -1359,7 +1350,7 @@ ok('★ 全库扫描：每个普通多句段的每一句都取回自己（0 错�
       const list = renderSentencesOf(p);
       for (let si = 0; si < n; si++) {
         seen++;
-        const g = displaySentenceAt(a, pi, si, 0), w = list[si];
+        const g = displaySentenceAt(a, pi, si, 0), w = list.find(s => s.si0 === si && s.rs === 0);
         if (!g || !w || g.en !== w.en) bad++;
       }
     });
@@ -2661,7 +2652,7 @@ console.log('\n[S] 落盘与续读位置');
   /* 只让「大体积」写入失败：模拟配额边界。阈值要卡在
      原始（60+60 条 ≈ 8KB）与裁后（40+40 条 ≈ 5.3KB）之间 —— 定太小会让降级档也失败，
      测出来的就不是「降级生效」而是「两个档都失败」。 */
-  sandbox.localStorage.setItem = (k, v) => { if (String(v).length > 6000) throw new Error("QuotaExceededError"); return origSet.call(sandbox.localStorage, k, v); };
+  sandbox.localStorage.setItem = (k, v) => { if (String(v).length > 7000) throw new Error("QuotaExceededError"); return origSet.call(sandbox.localStorage, k, v); };
   const saved = ctx('save()');
   const slim = JSON.parse(sandbox.localStorage._d[ctx('STORE')] || "{}");
   ok('★ 配额满时降级写成功（返回 true，不是 failed）',

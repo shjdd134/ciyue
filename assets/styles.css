@@ -1138,8 +1138,7 @@ body {
   transition: background .15s, color .15s, border-color .15s;
 }
 .rd-set .rd-seg.on { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 600; }
-/* 词汇高亮是四档（关闭 / 四级核心 / 全部四级 / 四级+基础），比常见的两三个 seg 挤得多
-   —— 压一档字号与高度，让四个标签都完整显示、不换行、不被截断 */
+/* 旧版阅读设置面板的四档高亮样式留给兼容布局；当前独立词源开关使用下方纵向列表。 */
 .rd-set .rd-segs.four { gap: 5px; }
 .rd-set .rd-segs.four .rd-seg { height: 36px; font-size: 12px; border-radius: 10px; white-space: nowrap; }
 /* 中文对照三档：「点句显示」「逐句对照」四个字放进标准分段块会折行，
@@ -1558,10 +1557,8 @@ body {
 .vt.on { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); }
 .vt.on b { color: var(--brand); }
 
-/* 词汇高亮：四档竖排单选（「Aa 阅读设置」与「··· 阅读工具」两处共用同一套 markup）
- * 为什么竖排而不是横排四段：每档要带一句「什么时候该用它」，四段横排塞不下，
- * 挤到最后只能砍成两个字 —— 用户就回到「不知道后面还有几档」的老问题。
- * 圆点用 border + ::after 画，不引图片、不引 unicode 符号（字号与基线不统一）。 */
+/* 词汇高亮词源：独立复选开关在「Aa 阅读设置」与「··· 阅读工具」共用这套纵向列表。
+ * 方形勾选标记用 border + ::after 绘制，不依赖图片或系统符号。 */
 .hl-list { display: flex; flex-direction: column; gap: 2px; margin-top: 2px; }
 .hl-opt {
   display: flex; align-items: flex-start; gap: 10px; width: 100%;
@@ -1575,9 +1572,10 @@ body {
   width: 15px; height: 15px; border-radius: 50%; flex: 0 0 auto;
   border: 1.5px solid var(--text-3); margin-top: 2px; position: relative;
 }
+.hl-opt[role="checkbox"] .hl-dot { border-radius: 4px; }
 .hl-opt.on .hl-dot { border-color: var(--brand); }
 .hl-opt.on .hl-dot::after {
-  content: ""; position: absolute; inset: 3px; border-radius: 50%; background: var(--brand);
+  content: ""; position: absolute; inset: 3px; border-radius: 2px; background: var(--brand);
 }
 .hl-txt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .hl-txt b { font-size: 13px; font-weight: 600; line-height: 19px; }
