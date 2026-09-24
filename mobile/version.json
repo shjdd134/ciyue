@@ -1,6 +1,6 @@
 {
-  "versionCode": 7,
-  "versionName": "1.0.6",
+  "versionCode": 8,
+  "versionName": "1.0.7",
   "_comment": [
     "Android 壳的版本。tools/build-apk.mjs 会把它注入**暂存副本的 AndroidManifest.xml**。",
     "★ 不是传给 aapt2 link 的 --version-code / --version-name —— 那两个参数会被 aapt2 忽略",
@@ -26,6 +26,7 @@
     "   注意 assets/ 内容本身没改，所以内容版本 ?v= 仍是 79 —— 只有壳版本走了。",
     "   详见 SHELL-ASSET-MISSING-RCA-2026-09-23.md 与 REFERENCE-mechanics.md §14.13。",
     "★ 1.0.5 (vc6)：修阅读进度丢失窗口 + 落盘竞态。onPause 显式触发的 saveState 走异步线程，原来要等 onStop 的「第二次机会」—— 进程在两态之间被杀（LMK / 滑卡不派发 onStop）就丢进度；现 onPause 末尾同步 flush（有界 2s，几十 KB + fsync 毫秒级）。顺带根除 flush 主线程直写与后台 drain 并发时「交错 rename、旧状态盖新状态」的窗口：writeAtomic 收敛为单写者（drain 循环同一时刻至多一个），flush 改为有界等待清空。UserStateStore.java + MainActivity.java。",
-    "★ 1.0.6 (vc7)：补落盘的另一半竞态 —— 1.0.5 的 flush 冲的是「原生侧**已收到**的」写入，但 onPause 里 evaluateJavascript 是异步派发的：__wlNativePause 里的 saveState 走 JavaBridge 线程才到，flush 跑在它前面就漏。现 onPause 冲两拍：① 立即冲已收到的（callback 永不来时也不比 1.0.5 差）；② evaluateJavascript 回调里再冲一次 —— 那时 JS 的 saveState 必已到达 pending（或已写完），flush 的 2s 窗口才真正等得到它。flush 幂等，两拍不冲突。MainActivity.java。"
+    "★ 1.0.6 (vc7)：补落盘的另一半竞态 —— 1.0.5 的 flush 冲的是「原生侧**已收到**的」写入，但 onPause 里 evaluateJavascript 是异步派发的：__wlNativePause 里的 saveState 走 JavaBridge 线程才到，flush 跑在它前面就漏。现 onPause 冲两拍：① 立即冲已收到的（callback 永不来时也不比 1.0.5 差）；② evaluateJavascript 回调里再冲一次 —— 那时 JS 的 saveState 必已到达 pending（或已写完），flush 的 2s 窗口才真正等得到它。flush 幂等，两拍不冲突。MainActivity.java。",
+    "★ 1.0.7 (vc8)：内置公开文章版 v84，保留 19 篇完整文章与配图，并加入我的导入词库、独立词源高亮开关及句子显示定位改进。"
   ]
 }
