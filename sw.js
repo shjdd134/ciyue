@@ -2,12 +2,16 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（v85，本批修 SW 首访预热竞态 + cycle 缺义，见 HANDOFF §0.2）：
- *   SW 本体逻辑一字未动 —— 改的是 app.js 的 warmAppCache：首访时 register() resolve
- *   后 controller 仍是 null，预热 postMessage 静默落空；现改为等 worker activated /
- *   controllerchange 再发（sent 去重）。缓存名随 assetVersion 走，只为让客户端拿到新资源：
- *   ① SW 首访预热 controller 竞态（app.js warmAppCache）；
- *   ② cycle 词条补「骑自行车（摩托车）」义项（SENSE_OVERRIDES，修表不修闸）。
+ * 缓存策略（v86，本批修朗读层错误分类与无语音拦截，见 HANDOFF §0.2）：
+ *   SW 本体逻辑一字未动 —— 改的是 app.js 朗读层（阶段 0 设备基线实测驱动）：
+ *   ① 单句朗读过滤 interrupted/canceled（连点下一句不再弹假「朗读失败」）；
+ *   ② 设备语音表非空但无英语 → 不再提交播放，明确提示；空表（iOS 未加载）照常提交；
+ *   ③ 全文队列加会话编号（旧会话迟到回调不再推进新队列）；utterance 保引用防 GC；
+ *   ④ 朗读被拦时不弹「朗读第 n 句」成功提示。
+ *
+ *   上一条 v85（预写对齐，实际内容同 v82 批次）修的是 SW 首访预热竞态 + cycle 缺义：
+ *   首访时 register() resolve 后 controller 仍是 null，预热 postMessage 静默落空；
+ *   改为等 worker activated / controllerchange 再发（sent 去重）。缓存名随 assetVersion 走。
  *
  *   上一条 v80 是「原生壳里会真坏」的三件事收口：
  *   ① 三条生命周期监听原来被套在 `if (shouldRegisterSW(...))` 里 —— 可「切后台结算阅读时长」
@@ -81,7 +85,7 @@
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-cache-v85";
+const CACHE = "wordlens-cache-v86";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {
