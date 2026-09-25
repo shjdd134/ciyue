@@ -1132,6 +1132,11 @@ if (enUtt && enUtt.onerror) enUtt.onerror({ error: 'canceled' });
 phoneEl.appendChild = __prevAppendC;
 ok('★ 单句朗读不把「主动打断」当失败（interrupted/canceled 不弹「朗读失败」）',
   emptySubmitted && cancelToasts === 0);
+if (!(emptySubmitted && cancelToasts === 0)) {
+  /* 失败分诊：emptySubmitted=false = 空语音表路径没提交（makeUtterance/speak 在该平台走了 catch）；
+   * cancelToasts>0 = 打断过滤失效。CI（Linux/Node22）与桌面差异只可能出在这两处。 */
+  console.log(`    [分诊] emptySubmitted=${emptySubmitted} cancelToasts=${cancelToasts} enUtt存在=${!!enUtt} spokenUtts=${spokenUtts.length}`);
+}
 /* 被拦时的成功提示必须同步消失（2026-09-25 阶段 1）：朗读没提交就不许弹
  * 「朗读第 n 句」—— makeUtterance/speak 已给过原因，提示与事实一致。 */
 ctx('voiceWarned = false; voiceBlockedWarned = false;');
