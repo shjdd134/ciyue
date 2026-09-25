@@ -699,3 +699,14 @@ export function writeDecl(file, name, value) {
   fs.writeFileSync(file, next);
   return true;
 }
+
+/** 把「注入篇目」并进现有数组：同 id **原位替换**（位置不动），新篇追加尾部，
+ *  其余元素按原顺序原内容保留。football.mjs 与 james-clear.mjs 的 --inject 共用这一份，
+ *  语义回归见 tools/football-test.mjs（2026-09-25 修复单篇注入挤掉旧稿的缺口时定稿）。 */
+export function mergeInject(arr, injected) {
+  const byId = new Map(injected.map(a => [String(a.id), a]));
+  const next = arr.map(a => (byId.has(String(a.id)) ? byId.get(String(a.id)) : a));
+  const existing = new Set(arr.map(a => String(a.id)));
+  for (const a of injected) if (!existing.has(String(a.id))) next.push(a);
+  return next;
+}

@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "84");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "85");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1400,8 +1400,19 @@ const makeUtterance = (text, kind) => {
   u.lang = S.accent || "en-US";
   u.rate = rateOf(kind);
   const v = pickVoice(u.lang);
-  if (v) u.voice = v;
-  else if (!voiceWarned) {
+  if (v) { u.voice = v; return u; }
+  /* 挑不到英语语音分两种情况，处置相反（2026-09-25，阶段 0 设备基线实测）：
+   * ① 语音表**非空**但无英语 —— 提交播放只会「用错误语言念」或干脆无声（手机端
+   *    「点了没反应」正是这个形状）：不再提交，给一句可执行的说明。
+   * ② 语音表**为空** —— 多半是尚未加载（iOS 首次 speak 前 getVoices() 恒空，
+   *    Chrome 要等 voiceschanged）：照常提交，speak 用默认音色反而能出声；
+   *    把「尚未加载」当「确实没有」会误杀 iOS。真缺语音时 onerror 会再提示。 */
+  const vs = (window.speechSynthesis && window.speechSynthesis.getVoices) ? (window.speechSynthesis.getVoices() || []) : [];
+  if (vs.length) {
+    if (!voiceWarned) { voiceWarned = true; toast("此设备没有英文语音包 · 无法朗读英文"); }
+    return null;
+  }
+  if (!voiceWarned) {
     voiceWarned = true;
     toast("未找到英文语音包 · 朗读可能失真");
   }
@@ -1417,6 +1428,11 @@ const makeUtterance = (text, kind) => {
 let spList = null;    // 字符串数组 = 正在朗读 / 已暂停；null = 空闲
 let spAt = 0;         // 当前该读第几句（暂停后续读就从这里重播）
 let spPaused = false;
+let spSeq = 0;        // 会话编号：speakAll 每开一个新队列 +1。旧会话迟到的 onend/onerror
+                      // 凭 seq 失配被丢弃 —— 只靠 spList === null 认不出「新队列已顶上」
+                      // （stopSpeech → speakAll 连着调用时旧回调到达，spList 已非 null）。
+let spKeepAlive = null; // 最近一条 utterance 的引用：Chromium 会回收「无人引用」的
+                        // utterance，引擎随即报错或中途停声，必须留着不让 GC 碰它。
 const spActive = () => spList !== null;
 
 /* fab-bar 在朗读时从「工具条」切成「播放器」—— 复用同一个浮层，不新增浮层，
@@ -1450,17 +1466,20 @@ function stepSpeech() {
   if (spList === null || spPaused) return;
   if (spAt >= spList.length) { stopSpeech(); return; }
   const u = makeUtterance(spList[spAt], "sent");
+  if (!u) { stopSpeech(); return; }     // 播到一半查无英语语音：停下，绝不退回错误语言
+  const seq = spSeq;                     // 本句所属会话；旧会话的迟到回调凭 seq 失配丢弃
   u.onend = () => {
-    if (spList === null) return;          // 已被主动停止，别推进
+    if (seq !== spSeq || spList === null || spPaused) return;   // 停止/换会话/已暂停都不推进
     spAt++; syncSpeechBar(); stepSpeech();
   };
   u.onerror = ev => {
-    if (spList === null) return;          // 主动 cancel 引起的，不算错
+    if (seq !== spSeq || spList === null) return;   // 主动 cancel 引起的，不算错
     const err = ev && ev.error;
     if (err === "interrupted" || err === "canceled") return;   // 同上，换个浏览器叫法不同
     stopSpeech();
     toast("朗读中断 · 系统语音出错");
   };
+  spKeepAlive = u;
   speechSynthesis.speak(u);
   syncSpeechBar();
 }
@@ -1477,6 +1496,7 @@ function speakAll(a) {
   if (!window.speechSynthesis) { toast("当前系统不支持朗读"); return; }
   try { speechSynthesis.cancel(); } catch (e) {}
   spList = list; spAt = 0; spPaused = false;
+  spSeq++;                               // 新会话：旧队列一切迟到回调就地失效
   syncSpeechBar();
   stepSpeech();
 }
@@ -1501,7 +1521,16 @@ const speak = (t, kind) => {
     if (!window.speechSynthesis) { toast("当前系统不支持朗读"); return false; }
     stopSpeech();
     const u = makeUtterance(t, kind || "sent");
-    u.onerror = () => toast("朗读失败 · 系统可能没有这个口音的语音包");
+    if (!u) return false;                // 设备有语音表但无英语：makeUtterance 已提示，这里不播
+    spKeepAlive = u;                     // 留引用防 GC（回收 utterance 会引擎报错/停声）
+    u.onerror = ev => {
+      /* interrupted/canceled = 「又点了新的」主动打断——此刻新句子正在正常出声，
+       * 旧回调弹「朗读失败」是假失败（2026-09-25 复现探针
+       * .bak/probe-tts-cancel-race.cjs：每次 cancel 都发 error=interrupted）。 */
+      const err = ev && ev.error;
+      if (err === "interrupted" || err === "canceled") return;
+      toast("朗读失败 · 系统可能没有这个口音的语音包");
+    };
     speechSynthesis.speak(u);
     return true;
   } catch (e) { toast("当前系统不支持朗读"); return false; }

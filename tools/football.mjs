@@ -11,7 +11,8 @@
  *   node tools/football.mjs --verify  --id <id>         对齐稳定性：三配置边界一致率 + 不一致块清单
  *   node tools/football.mjs --check                     校验已产出的文章（句数/空译/重复/覆盖）
  *   node tools/football.mjs --covers [--id <id>]        下载封面到 assets/covers/（走 curl，Node fetch 对图床超时）
- *   node tools/football.mjs --inject [--id <id>]        幂等写入 assets/data-articles-extra.js（同 id 替换）
+ *   node tools/football.mjs --draft   --id <id>         生成 en/cn 两列翻译底稿（zh/<id>.draft.md，人工逐句填）
+ *   node tools/football.mjs --inject [--id <id>]        幂等写入 assets/data-articles-extra.js（同 id 原位替换，新篇追加；其余文章不动）
  *   node tools/football-coverage.mjs --all              独立口径正文完整性对账（不 import 项目代码）
  *
  * 缓存目录 tools/_football/ 进 .gitignore：原刊 HTML 不随仓库走，但**产出物要**。
@@ -21,9 +22,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execFileSync } from 'node:child_process';
-import { readDecl, writeDecl } from './lib-text.mjs';
+import { readDecl, writeDecl, mergeInject } from './lib-text.mjs';
 import { fetchTribune, splitZhSentences } from './lib-tribune.mjs';
 import { alignBlocks, unitsFor, buildParagraphsFromBlocks, distributeBlock } from './lib-align.mjs';
+import { TOKEN, lemmaCands, cet4Words } from './lib-cet4.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'tools', '_football');
@@ -62,6 +64,13 @@ export const ARTICLES = [
     url: 'https://www.theplayerstribune.com/posts/martin-odegaard-arsenal-soccer-norway-premier-league',
     translationType: 'ciyue_edited', date: '2023-02-09',
   },
+  {
+    id: 'fb-marcus-rashford-the-number-9',
+    player: 'Marcus Rashford', playerZh: '马库斯·拉什福德',
+    title: 'The Number 9', titleZh: '9号',
+    url: 'https://www.theplayerstribune.com/articles/marcus-rashford-england-national-team',
+    translationType: 'ciyue_edited', date: '2017-03-19',
+  },
 ];
 
 const args = process.argv.slice(2);
@@ -70,62 +79,8 @@ const val = f => { const i = args.indexOf(f); return i > -1 ? args[i + 1] : null
 const picked = () => { const id = val('--id'); return id ? ARTICLES.filter(a => a.id === id) : ARTICLES; };
 const ensureDir = d => fs.mkdirSync(d, { recursive: true });
 
-/* ---------- 词库：算 cet4_words ---------- */
-let BANK = null;
-function bank() {
-  if (BANK) return BANK;
-  const read = (file, name) => {
-    const s = fs.readFileSync(path.join(ROOT, 'assets', file), 'utf8');
-    // 声明形式是 `window.WORDS_FULL = [ ... \n];`（不是 const），别照抄 ingest 那条正则
-    const m = s.match(new RegExp('(?:window\\.|const |var )?' + name + '\\s*=\\s*(\\[[\\s\\S]*?\\n\\]);'));
-    if (!m) throw new Error('读不到 ' + name + ' in ' + file);
-    return JSON.parse(m[1]);
-  };
-  const core = read('data-words-full.js', 'WORDS_FULL');
-  const mid = read('data-words-mid.js', 'WORDS_MID');
-  BANK = {
-    core: new Map(core.map(w => [w.word.toLowerCase(), w])),
-    mid: new Map(mid.map(w => [w.word.toLowerCase(), w])),
-  };
-  return BANK;
-}
-const TOKEN = /[A-Za-z]+(?:['’][A-Za-z]+)?/g;
-/* 不规则复数/时态归一到词库里的原形。只处理高频几类，不要写通用词形还原（会误判）。 */
-function lemmaCands(w) {
-  const out = [w];
-  if (w.endsWith('ies')) out.push(w.slice(0, -3) + 'y');
-  if (w.endsWith('es')) out.push(w.slice(0, -2));
-  if (w.endsWith('s')) out.push(w.slice(0, -1));
-  if (w.endsWith('ing')) out.push(w.slice(0, -3), w.slice(0, -3) + 'e');
-  if (w.endsWith('ed')) out.push(w.slice(0, -2), w.slice(0, -1));
-  if (w.endsWith('er')) out.push(w.slice(0, -2), w.slice(0, -1));
-  return out;
-}
-export function cet4Words(paras) {
-  const seen = new Map();
-  for (const p of paras) for (const s of p.sentences || [p]) {
-    TOKEN.lastIndex = 0;
-    let m;
-    while ((m = TOKEN.exec(String(s.en || '')))) {
-      const raw = m[0], low = raw.replace(/[’]/g, "'").toLowerCase();
-      let hit = null, layer = null;
-      for (const c of lemmaCands(low)) {
-        if (bank().core.has(c)) { hit = bank().core.get(c); layer = 'core'; break; }
-      }
-      if (!hit) for (const c of lemmaCands(low)) {
-        if (bank().mid.has(c)) { hit = bank().mid.get(c); layer = 'base'; break; }
-      }
-      if (!hit) continue;
-      const key = hit.word.toLowerCase();
-      if (seen.has(key)) { seen.get(key).n++; continue; }
-      seen.set(key, { w: hit.word, layer, pos: hit.pos || '', def: hit.def || '', n: 1 });
-    }
-  }
-  /* 只收「四级核心」层 —— 中学基础层读者基本都会，列进来是噪音。
-   * 这正是本项目的既有口径：难度看的是「低频词占比」，不是「词表覆盖」。 */
-  return [...seen.values()].filter(x => x.layer === 'core')
-    .sort((a, b) => b.n - a.n || a.w.localeCompare(b.w));
-}
+/* 词库难度统计在 lib-cet4.mjs（2026-09-25 从本文件抽出，供 james-clear.mjs 共用；
+ * 直接 import football.mjs 会执行顶层 CLI 分发，所以进的是 lib 而不是反向依赖）。 */
 
 /* ---------- 抓取 ---------- */
 async function cmdExtract() {
@@ -151,6 +106,39 @@ async function cmdExtract() {
 }
 
 const readRaw = (id, kind) => JSON.parse(fs.readFileSync(path.join(RAW, `${id}.${kind}.json`), 'utf8'));
+
+/* ---------- 翻译底稿（--draft）----------
+ * 为「词阅精翻」通道生成 en/cn 两列人工底稿。2026-09-25 起 qwen-max 精翻通道（llm-refine.mjs）
+ * 停用，译文由人逐句填写 —— 底稿把句号编好，译文交稿格式仍是 tools/_football/zh/<id>.json
+ * **纯中文串数组**（句序 = 底稿行号，见 buildOne 的句数闸）。
+ * 句子展开逻辑必须与 buildOne/articleFrom 完全一致：
+ *   `l.sentences && l.sentences.length ? l.sentences : [l.en]` —— 无句末标点的节拍行（如 "…."）
+ *   分句器返回空数组，按整行兜底。底稿若用了别的展开逻辑，填出来的数组就会错位。 */
+function cmdDraft() {
+  const a = picked()[0];
+  if (!a) { console.error('未指定 --id'); process.exit(1); }
+  if (a.translationType === 'official') { console.log(`${a.id} 是 official 通道（官方中文对齐），不需要翻译底稿。`); return; }
+  const en = readRaw(a.id, 'en');
+  const want = [];
+  const byLine = [];
+  for (const l of en.lines) {
+    const ss = (l.sentences && l.sentences.length ? l.sentences : [l.en]);
+    byLine.push(ss.map(s => { want.push(s); return want.length; }));
+  }
+  ensureDir(path.join(OUT, 'zh'));
+  const f = path.join(OUT, 'zh', a.id + '.draft.md');
+  const body = byLine.map(nums => nums.map(n =>
+    `[${String(n).padStart(3, '0')}] EN ${want[n - 1]}\n     CN `).join('\n')).join('\n----\n');
+  fs.writeFileSync(f, [
+    `# 翻译底稿：${a.title}（${a.id}）`,
+    `# 共 ${want.length} 句；虚线是原文分行（不是段落编号）。译文按行号句序填进`,
+    `# tools/_football/zh/${a.id}.json（纯中文串数组，不带英文、不带行号）。`,
+    '',
+    body,
+    '',
+  ].join('\n'));
+  console.log(`已写出 ${f}（${want.length} 句 / ${byLine.length} 行）`);
+}
 
 /* ---------- 封面 ----------
  * 站点既有口径是「本地 assets/covers/<id>.jpg + coverImg 相对路径」（见 app.js coverOf：
@@ -399,8 +387,26 @@ function cmdCheck() {
 function cmdReview() {
   const a = picked()[0];
   if (!a) { console.error('未指定 --id'); process.exit(1); }
-  const b = buildOne(a);
   const from = Number(val('--from') || 0), to = Number(val('--to') || 1e9);
+  if (a.translationType !== 'official') {
+    /* 「词阅精翻」句级 1:1，直接审成品：打印 build 产物里的英中对照（含句号）。
+       还没 build 就先跑 --build（会因缺译文报空译）或先看 --draft 底稿。 */
+    const f = path.join(OUT, a.id + '.json');
+    if (!fs.existsSync(f)) { console.log(`还没有 ${a.id} 的 build 产物；译文底稿看 --draft。`); return; }
+    const art = JSON.parse(fs.readFileSync(f, 'utf8'));
+    let k = 0;
+    art.paras.forEach((p, pi) => {
+      const nums = p.sentences.map(() => ++k);
+      if (nums[0] - 1 > to || nums[nums.length - 1] < from) return;
+      console.log(`\n=== 行 ${pi + 1} / 句 ${nums.join(',')} ===`);
+      for (const s of p.sentences) {
+        console.log('  EN ' + s.en);
+        console.log('  CN ' + (s.cn || '<<空>>'));
+      }
+    });
+    return;
+  }
+  const b = buildOne(a);
   if (!b.paras) { console.log('该篇不是 official 通道，无自动对齐可审。'); return; }
   b.paras.forEach((p, i) => {
     if (i < from || i > to) return;
@@ -481,11 +487,17 @@ function cmdVerify() {
 
 /* ---------- 接入应用数据（--inject）----------
  * 把 tools/_football/<id>.json 转成 app 阅读管线吃的形态，**幂等地**写进
- * assets/data-articles-extra.js 的 ARTICLES_EXTRA 数组（同 id 替换、其余保留）。
+ * assets/data-articles-extra.js 的 ARTICLES_EXTRA 数组：同 id **原位替换**（数组位置不动），
+ * 新篇追加到尾部，其余文章按原顺序原内容保留。改正则必须抄 ingest 的 ARTICLES_EXTRA 捕获组。
+ * 2026-09-25 修复：旧实现是 `keep = 非fb- + injected(picked())` —— 带 --id 单篇注入会把
+ * 其余全部足球稿挤掉，只留被点名的一篇（方案文档点名的缺口，football-test.mjs 回归钉住）。
+ * 可用环境变量 WORDLENS_FOOTBALL_EXTRA 把目标文件指到测试副本（同 qc.mjs 的隔离做法）。
  * 为什么不进 ingest：ingest 的归档闸会把 2026-08 前发布的文章全部扫进 archive，
- * 足球栏目是人工选定的常驻栏目，不走那条闸。改正则必须抄 ingest 的 ARTICLES_EXTRA 捕获组。
+ * 足球栏目是人工选定的常驻栏目，不走那条闸。
  * 注意：cet4_words / key_phrases 只留在 tools/_football/，**不**进应用 —— 用户明确说过
  * 外围功能（单词解释等）后做，现在塞进去只会白白增大首屏数据。 */
+export { mergeInject } from './lib-text.mjs';
+
 function appEntry(art) {
   return {
     id: art.id,
@@ -509,15 +521,16 @@ function appEntry(art) {
 }
 
 function cmdInject() {
-  const file = path.join(ROOT, 'assets', 'data-articles-extra.js');
+  const file = process.env.WORDLENS_FOOTBALL_EXTRA || path.join(ROOT, 'assets', 'data-articles-extra.js');
   const decl = readDecl(file, 'ARTICLES_EXTRA');
   if (!decl) throw new Error('data-articles-extra.js 里找不到 ARTICLES_EXTRA 声明（文件结构变了？）');
-  const arr = decl.value;
-  const keep = arr.filter(a => !String(a.id).startsWith('fb-'));
-  const injected = picked().map(a => appEntry(JSON.parse(fs.readFileSync(path.join(OUT, a.id + '.json'), 'utf8'))));
-  const next = [...keep, ...injected];
+  const targets = picked();
+  if (!targets.length) { console.error('--id 没有匹配到任何栏目清单里的文章'); process.exit(1); }
+  const injected = targets.map(a => appEntry(JSON.parse(fs.readFileSync(path.join(OUT, a.id + '.json'), 'utf8'))));
+  const next = mergeInject(decl.value, injected);
   writeDecl(file, 'ARTICLES_EXTRA', next);
-  console.log(`已写入 ${file}：保留 ${keep.length} 篇 + 足球 ${injected.length} 篇 = ${next.length} 篇`);
+  const added = next.length - decl.value.length;
+  console.log(`已写入 ${file}：原 ${decl.value.length} 篇 → ${next.length} 篇（新增 ${added}、原位替换 ${targets.length - added}）`);
   for (const a of injected) console.log(`  ${a.id}  ${a.paras.length} 段 / ${a.paras.reduce((n, p) => n + p.sentences.length, 0)} 句`);
 }
 
@@ -536,6 +549,7 @@ else if (has('--build')) {
     console.log(`${a.id} → 段 ${art.stats.paragraphs} / 句 ${art.stats.sentences} / 空译 ${art.stats.emptyCn} / CET4 ${art.cet4_words.length}`);
   }
 } else if (has('--review')) cmdReview();
+else if (has('--draft')) cmdDraft();
 else if (has('--covers')) await cmdCovers();
 else if (has('--inject')) cmdInject();
 else if (has('--verify')) cmdVerify();

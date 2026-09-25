@@ -20288,6 +20288,1731 @@ const ARTICLES_EXTRA = [
         "sourceTag": "paragraph"
       }
     ]
+  },
+  {
+    "id": "fb-marcus-rashford-the-number-9",
+    "cat": "足球",
+    "pin": true,
+    "title": "The Number 9",
+    "titleZh": "9号",
+    "source": "The Players' Tribune · 2017-03-19",
+    "date": "2017-03-19",
+    "minutes": 13,
+    "url": "https://www.theplayerstribune.com/articles/marcus-rashford-england-national-team",
+    "coverImg": "assets/covers/fb-marcus-rashford-the-number-9.jpg",
+    "player": "Marcus Rashford",
+    "playerZh": "马库斯·拉什福德",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Growing up in Manchester, my family had a little competition going on.",
+            "cn": "我在曼彻斯特长大，那时候家里一直有个小小的较劲。",
+            "cnEdited": true
+          },
+          {
+            "en": "Whenever they were buying me a gift for my birthday or for Christmas or whatever, they always knew the easy thing to get me.",
+            "cn": "每当他们要给我买生日礼物、圣诞礼物或者随便什么礼物，他们都很清楚送我什么最省事。",
+            "cnEdited": true
+          },
+          {
+            "en": "The latest football kit.",
+            "cn": "最新款的足球服。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But coming from Manchester, families can be…",
+            "cn": "但生在曼彻斯特，一家人也可能……",
+            "cnEdited": true
+          },
+          {
+            "en": "divided.",
+            "cn": "分成两派。",
+            "cnEdited": true
+          },
+          {
+            "en": "At least mine was.",
+            "cn": "至少我家就是这样。",
+            "cnEdited": true
+          },
+          {
+            "en": "Half my family were United supporters and the other half were City.",
+            "cn": "我家一半人是曼联球迷，另一半是曼城球迷。",
+            "cnEdited": true
+          },
+          {
+            "en": "So these kits were more than gifts, you know what I mean?",
+            "cn": "所以这些球服对我不只是礼物，你懂我的意思吧？",
+            "cnEdited": true
+          },
+          {
+            "en": "Especially as I got older and I kept getting better at football, my uncles would buy me the newest red or blue kits to try to bring me over to their side.",
+            "cn": "尤其是我越长越大、球越踢越好之后，叔叔们就买最新款的红色或蓝色球服给我，想把我拉到他们那边去。",
+            "cnEdited": true
+          },
+          {
+            "en": "It was a bit of a running joke in our family.",
+            "cn": "这在我们家算是个百玩不腻的老玩笑。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But there was one kit that I will never forget getting, and it wasn’t United or City.",
+            "cn": "但有一件球服我永远不会忘，它既不是曼联的，也不是曼城的。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "One night, I came home after a kickabout with my brothers out front.",
+            "cn": "一天晚上，我和兄弟们在家门口踢完球回来。",
+            "cnEdited": true
+          },
+          {
+            "en": "My uncle was over and he had something for me.",
+            "cn": "叔叔正好在我们家，他带了样东西给我。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Another football top.",
+            "cn": "又是一件足球上衣。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Another red football top – he was United all the way.",
+            "cn": "又是一件红色的足球上衣——他是彻头彻尾的曼联球迷。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I took it from him and looked at it.",
+            "cn": "我从他手里接过来，看了起来。",
+            "cnEdited": true
+          },
+          {
+            "en": "And that was when I realized that this one was different.",
+            "cn": "就在那一刻我意识到，这件和以前的不一样。",
+            "cnEdited": true
+          },
+          {
+            "en": "On the top left of the chest was a crest with three lions and one gold star.",
+            "cn": "左胸上是一枚队徽：三狮，外加一颗金星。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "My first England shirt.",
+            "cn": "我的第一件英格兰球衣。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I flipped it over to see if it had a number on the back.",
+            "cn": "我把它翻过来，看看背面有没有号码。",
+            "cnEdited": true
+          },
+          {
+            "en": "(That was always a big deal.)",
+            "cn": "（这向来是件大事。）",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And just above that….",
+            "cn": "就在号码上方……",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "ROONEY",
+            "cn": "鲁尼",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I was too young to appreciate the England teams of the’90s — guys like Alan Shearer, Teddy Sheringham — so for me, it was all about Rooney.",
+            "cn": "90年代的那支英格兰队——阿兰·希勒、泰迪·谢林汉姆他们——我太小了，还谈不上欣赏；对我而言，一切就是鲁尼。",
+            "cnEdited": true
+          },
+          {
+            "en": "My earliest memories of the England team are of him and Michael Owen up front together.",
+            "cn": "我对英格兰队最早的记忆，就是他和迈克尔·欧文一起顶在最前面。",
+            "cnEdited": true
+          },
+          {
+            "en": "Me and my brothers, Dwaine and Dane, would always sit down to watch the England games together.",
+            "cn": "我和两个哥哥德韦恩、戴恩，总会坐在一起看英格兰的比赛。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And then, when I was about eight years old my uncle gave me that Rooney kit.",
+            "cn": "后来，在我八岁左右那年，叔叔把那件鲁尼球衣给了我。",
+            "cnEdited": true
+          },
+          {
+            "en": "As every kid does, when you’re having a kickabout and you’ve got someone’s name on your back, you just try to follow in their footsteps.",
+            "cn": "每个孩子都一样：踢球的时候背上印着谁的名字，你就会想沿着谁的脚印走下去。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I was a striker, so from that day, I wanted to be just like Rooney.",
+            "cn": "我踢的是前锋，所以从那天起，我就想变得跟鲁尼一样。",
+            "cnEdited": true
+          },
+          {
+            "en": "And I wanted to play for England.",
+            "cn": "也想为英格兰队踢球。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But here’s the other thing about where we grew up in Manchester: The park where we’d all play was on the other side of this busy main road.",
+            "cn": "不过，关于我们在曼彻斯特长大的那地方，还有另一件事：我们常去踢球的公园，在一条车来车往的大马路对面。",
+            "cnEdited": true
+          },
+          {
+            "en": "And if Dane and Dwaine had already left, my mum would never let me go out alone to cross the road and join them.",
+            "cn": "要是戴恩和德韦恩已经先走了，妈妈绝不会让我一个人过马路去找他们。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“You’ll just have to wait here, Marcus,” she’d tell me.",
+            "cn": "“那你就在这儿等着吧，马库斯，”她会这么跟我说。",
+            "cnEdited": true
+          },
+          {
+            "en": "“ Wait here.”",
+            "cn": "“就在这儿等着。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "She wasn’t having it.",
+            "cn": "她绝不松口。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Park or no park, it didn’t stop me playing.",
+            "cn": "去得了公园也好，去不了也罢，都拦不住我踢球。",
+            "cnEdited": true
+          },
+          {
+            "en": "I had this one special football at home with my name in permanent marker on it.",
+            "cn": "我在家里有个专属的足球，上面用记号笔写着我的名字。",
+            "cnEdited": true
+          },
+          {
+            "en": "I’d just kick it off the walls in my room or down the hallway.",
+            "cn": "我就在自己房间里对着墙踢，要么就在走廊里一路踢过去。",
+            "cnEdited": true
+          },
+          {
+            "en": "Wherever I could, it didn’t matter.",
+            "cn": "哪里能踢就在哪踢，无所谓。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The days I could go to the park with my big brothers were the best, though.",
+            "cn": "不过，能跟哥哥们一起去公园的日子才是最棒的。",
+            "cnEdited": true
+          },
+          {
+            "en": "I loved competing against the older boys.",
+            "cn": "我最喜欢跟大孩子们较量。",
+            "cnEdited": true
+          },
+          {
+            "en": "Sometimes, we’d have games out on the green in front of our council estate.",
+            "cn": "有时，我们就在公屋前的那片草坪上开赛。",
+            "cnEdited": true
+          },
+          {
+            "en": "It was surrounded by houses, so it was cool because we knew that we could always show up at the green and know there’d always be a few kids playing.",
+            "cn": "草坪四周都是房子，这样很棒——我们知道无论什么时候去，那里总有几个孩子在踢球。",
+            "cnEdited": true
+          },
+          {
+            "en": "We’d even be outside on grey, rainy days — which in Manchester is the majority of the time.",
+            "cn": "阴沉沉的下雨天我们也照样在外面——在曼彻斯特，这种天才是常态。",
+            "cnEdited": true
+          },
+          {
+            "en": "But in our imaginations, we were Rooney, or Owen, or Rio playing at Wembley for England.",
+            "cn": "可在想象里，我们是鲁尼、欧文，或者里奥，正在温布利为英格兰出场。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "These dreams of playing football bonded us together, you know?",
+            "cn": "这些踢球的梦把我们绑在了一起，你懂吗？",
+            "cnEdited": true
+          },
+          {
+            "en": "Playing out in the garden together, that’s something that lasts a long time.",
+            "cn": "一起在院子里踢球——这种东西能留很久。",
+            "cnEdited": true
+          },
+          {
+            "en": "The boys from that neighborhood, we’re all still mates — even after some of us got scouted and left for academies, after I left for Manchester United.",
+            "cn": "那个街区一起踢球的男孩，到今天都还是哥们儿——哪怕后来有人被球探看中、离开去了青训学院，哪怕我去了曼联。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A lot of people think I came out of nowhere.",
+            "cn": "很多人觉得我是凭空冒出来的。",
+            "cnEdited": true
+          },
+          {
+            "en": "And to be honest, this past year has gone by so quickly that I still can’t believe it myself sometimes.",
+            "cn": "说实话，过去这一年快得不真实，有时连我自己都不敢相信。",
+            "cnEdited": true
+          },
+          {
+            "en": "One day during training with United last season, my teammates told me that I’d been selected for the national team to go to Euro 2016.",
+            "cn": "上赛季在曼联训练的一天，队友告诉我，我入选了国家队，要去打2016年欧洲杯。",
+            "cnEdited": true
+          },
+          {
+            "en": "I literally didn’t believe it.",
+            "cn": "我压根没信。",
+            "cnEdited": true
+          },
+          {
+            "en": "I thought they were joking.",
+            "cn": "我以为他们在开玩笑。",
+            "cnEdited": true
+          },
+          {
+            "en": "I’d only just made my debut for Manchester United a few months before.",
+            "cn": "毕竟就在几个月前，我才刚完成在曼联的首秀。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Phil Jones came up to me as we were heading into the changing rooms and said, “I’m tellin’ ya mate, you’re going to France.”",
+            "cn": "正要进更衣室的时候，菲尔·琼斯凑到我跟前说：“我跟你说啊哥们儿，你要去法国了。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As I made my way into the building, some of the staff were telling me the same thing.",
+            "cn": "往楼里走的时候，几个工作人员也在跟我说同样的话。",
+            "cnEdited": true
+          },
+          {
+            "en": "When I got my mobile phone out of my locker, there were messages from my friends, my brothers, my mum, all saying the same thing: England!!!!!!!!!!!!!",
+            "cn": "从储物柜里拿出手机，朋友、哥哥们、妈妈发来的消息全是同一句话：英格兰！！！！！！！！！！",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "At that point, I was buzzing, but still kind of confused.",
+            "cn": "那时候我已经乐疯了，但还是有点发懵。",
+            "cnEdited": true
+          },
+          {
+            "en": "And then my manager at the time, Louis van Gaal, walked up to me.",
+            "cn": "这时，时任主教练路易斯·范加尔朝我走了过来。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Quick word?”",
+            "cn": "“说两句？”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I didn’t know what to think.",
+            "cn": "我心里一片茫然。",
+            "cnEdited": true
+          },
+          {
+            "en": "I mean, I had expected to play with the under-21s, but what he told me was massive.",
+            "cn": "我是说，我本来以为是要跟U21队去，但他告诉我这件事完全不是一个量级。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“The national team phoned,” he said.",
+            "cn": "“国家队来电话了，”他说。",
+            "cnEdited": true
+          },
+          {
+            "en": "“Go and enjoy yourself.”",
+            "cn": "“去享受吧。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "That was it.",
+            "cn": "就这一句。",
+            "cnEdited": true
+          },
+          {
+            "en": "I was going to France.",
+            "cn": "我要去法国了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "All the days (and nights) leading up to your England debut, you can’t stop trying to imagine what it’s going to be like.",
+            "cn": "在英格兰首秀到来之前的那些白天（和夜晚），你会忍不住一直去想，那到底会是什么样子。",
+            "cnEdited": true
+          },
+          {
+            "en": "You play it through in your head over and over again.",
+            "cn": "你会在脑子里一遍又一遍地预演。",
+            "cnEdited": true
+          },
+          {
+            "en": "You think about the pitch.",
+            "cn": "你会想到那片球场。",
+            "cnEdited": true
+          },
+          {
+            "en": "You think about walking into the changing room.",
+            "cn": "会想到走进更衣室的样子。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But whatever you expect, it’s never going to be like that.",
+            "cn": "但无论你怎么设想，真实的那天都不会是你想的那样。",
+            "cnEdited": true
+          },
+          {
+            "en": "It’s never going to be like how you dreamed.",
+            "cn": "永远不会和你梦里的相同。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It’s so much better than that.",
+            "cn": "它比梦里好太多了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I walked into the changing room for our friendly against Australia last May and saw all the shirts hanging up at each of the lockers.",
+            "cn": "去年五月，对澳大利亚的热身赛，我走进更衣室，看到每个储物柜前都挂着球衣。",
+            "cnEdited": true
+          },
+          {
+            "en": "I remember looking around for mine…",
+            "cn": "我记得自己四下找着我的那件……",
+            "cnEdited": true
+          },
+          {
+            "en": "and then I saw it.",
+            "cn": "然后，我看见了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Red football top.",
+            "cn": "红色的足球上衣。",
+            "cnEdited": true
+          },
+          {
+            "en": "With a crest on the left chest.",
+            "cn": "左胸一枚队徽。",
+            "cnEdited": true
+          },
+          {
+            "en": "Three lions.",
+            "cn": "三狮。",
+            "cnEdited": true
+          },
+          {
+            "en": "One gold star.",
+            "cn": "一颗金星。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Man.",
+            "cn": "我的天。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I flipped it around.",
+            "cn": "我把它翻了过来。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And just above that….",
+            "cn": "就在号码上方……",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "RASHFORD",
+            "cn": "拉什福德",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I kind of laughed and said to myself like, No more dreaming now.",
+            "cn": "我差点笑出来，心里跟自己说：现在不用再做梦了。",
+            "cnEdited": true
+          },
+          {
+            "en": "You’re playing for England.",
+            "cn": "你在为英格兰队踢球了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Three minutes into the match, I scored my first England goal.",
+            "cn": "开场三分钟，我打进了我的第一个英格兰队进球。",
+            "cnEdited": true
+          },
+          {
+            "en": "How can I describe that?",
+            "cn": "那种感觉该怎么形容？",
+            "cnEdited": true
+          },
+          {
+            "en": "This is going to be impossible.",
+            "cn": "我看是形容不出来了。",
+            "cnEdited": true
+          },
+          {
+            "en": "It’s like….",
+            "cn": "就像是……",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As soon as the ball goes in the back of the net, it’s like something goes off in your head.",
+            "cn": "皮球一钻进网窝，你脑子里就像有什么东西炸开了一样。",
+            "cnEdited": true
+          },
+          {
+            "en": "It’s a moment you hold on to, but at the same time, as soon as you’ve done it once, you just want to do it again and again and again.",
+            "cn": "那一刻你会一直攥在手心，可与此同时，只要进过一次，你就会想再来一次、再一次、一次又一次。",
+            "cnEdited": true
+          },
+          {
+            "en": "You crave the feeling.",
+            "cn": "你会渴望那种感觉。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "At the start of the second half, there was another moment I’ll never forget.",
+            "cn": "下半场刚开始，又有了一个我永远忘不了的时刻。",
+            "cnEdited": true
+          },
+          {
+            "en": "Number 19 got subbed into the match, and all of a sudden I was sharing the pitch with Rooney…",
+            "cn": "19号替补登场，忽然之间，我就和鲁尼同场竞技了……",
+            "cnEdited": true
+          },
+          {
+            "en": "for England.",
+            "cn": "代表英格兰。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Massive.",
+            "cn": "意义太大了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’m even on the pitch when he scores our second goal.",
+            "cn": "我们第二球破门的时候，我甚至就在场上。",
+            "cnEdited": true
+          },
+          {
+            "en": "I’m not out on the green at the council estate, or watching England on telly.",
+            "cn": "我不是在公屋区的草坪上，也不是在电视机前看英格兰。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’m right next to him.",
+            "cn": "我就站在他旁边。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "That was special.",
+            "cn": "那真的太特别了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I know the comparisons that have been made between the two of us.",
+            "cn": "我知道人们拿我们俩作过的比较。",
+            "cnEdited": true
+          },
+          {
+            "en": "I know the expectations that people have of me.",
+            "cn": "我知道人们对我抱着怎样的期望。",
+            "cnEdited": true
+          },
+          {
+            "en": "For me, I’m just focused on improving my game however I can.",
+            "cn": "对我来说，我只专注于一件事：用一切办法提高自己的球技。",
+            "cnEdited": true
+          },
+          {
+            "en": "And being around Wayne and training with him has been massive for that.",
+            "cn": "而能待在韦恩身边、跟他一起训练，对此帮助巨大。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He speaks to me a lot about the game — the positions he’s been in, the situations he’s had to deal with.",
+            "cn": "关于比赛，他常跟我聊——聊他踢过的位置，聊他应对过的局面。",
+            "cnEdited": true
+          },
+          {
+            "en": "I first met Wayne after my debut for United.",
+            "cn": "我第一次见韦恩，是在我完成曼联首秀之后。",
+            "cnEdited": true
+          },
+          {
+            "en": "He was injured at the time, but he came into the changing room after the game, walked straight up to me and said congratulations.",
+            "cn": "他当时正伤着，可赛后还是来到更衣室，径直走到我跟前，说了声祝贺。",
+            "cnEdited": true
+          },
+          {
+            "en": "It may seem like a small thing, but it wasn’t.",
+            "cn": "这听起来像件小事，但它不是。",
+            "cnEdited": true
+          },
+          {
+            "en": "It meant a lot to me.",
+            "cn": "它对我意义重大。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And honestly, that’s how it’s been with Wayne.",
+            "cn": "说实话，跟韦恩相处一直是这样。",
+            "cnEdited": true
+          },
+          {
+            "en": "He’s just a really relaxed guy.",
+            "cn": "他就是个特别放松随意的人。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Just go out and play,” he’ll tell me.",
+            "cn": "“上场去踢就行，”他这样跟我说。",
+            "cnEdited": true
+          },
+          {
+            "en": "“Don’t feel nervous.",
+            "cn": "“别紧张。",
+            "cnEdited": true
+          },
+          {
+            "en": "Play your own game and feel free on the pitch.”",
+            "cn": "踢你自己的球，在场上自在地发挥。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And that’s Wayne.",
+            "cn": "韦恩就是这样。",
+            "cnEdited": true
+          },
+          {
+            "en": "You’re not necessarily going to get a big speech.",
+            "cn": "他不一定会给你来一段长篇讲话。",
+            "cnEdited": true
+          },
+          {
+            "en": "But he’s been through so much that he knows exactly what’s needed at the time.",
+            "cn": "但他经历过太多，所以确切知道当下需要什么。",
+            "cnEdited": true
+          },
+          {
+            "en": "When we were knocked out by Iceland at Euros, it was a massive disappointment.",
+            "cn": "欧洲杯上被冰岛淘汰那回，大家都失望透顶。",
+            "cnEdited": true
+          },
+          {
+            "en": "We were all sitting around in the dressing room after the match, not sure what to think.",
+            "cn": "赛后大家坐在更衣室里，谁也不知道该怎么想。",
+            "cnEdited": true
+          },
+          {
+            "en": "But then Wayne gets up.",
+            "cn": "可就在这时，韦恩站了起来。",
+            "cnEdited": true
+          },
+          {
+            "en": "And he says one thing.",
+            "cn": "他说了一句话。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Keep your head up.",
+            "cn": "“把头抬起来。",
+            "cnEdited": true
+          },
+          {
+            "en": "We’ve got a lot to fight for in the future.”",
+            "cn": "未来还有很多值得我们去拼的东西。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But he says it to each individual person.",
+            "cn": "而且他是把这句话说给每一个人听。",
+            "cnEdited": true
+          },
+          {
+            "en": "One by one, he goes up to us and looks us in the eye.",
+            "cn": "他一个一个走到我们面前，看着我们的眼睛。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Keep your head up.",
+            "cn": "“把头抬起来。",
+            "cnEdited": true
+          },
+          {
+            "en": "Look forward.”",
+            "cn": "向前看。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "So that’s where we are now.",
+            "cn": "所以，这就是我们现在的状态。",
+            "cnEdited": true
+          },
+          {
+            "en": "Our heads are up and we’re fighting for the future.",
+            "cn": "我们抬着头，为未来而战。",
+            "cnEdited": true
+          },
+          {
+            "en": "I know I’m young — the whole squad is quite young — but we want to make history in the time we’ve got.",
+            "cn": "我知道自己还年轻——整支队伍都很年轻——但我们要用拥有的这段时间去创造历史。",
+            "cnEdited": true
+          },
+          {
+            "en": "We know that when people look back on our team, it’s the trophies that they are going to judge us on.",
+            "cn": "我们知道，将来人们回看我们这支球队时，评判我们的将是奖杯。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "So it’s important that we bring pride back to our country.",
+            "cn": "所以，把骄傲重新带回这个国家，对我们来说很重要。",
+            "cnEdited": true
+          },
+          {
+            "en": "We know that’s what supporters have been waiting for as well.",
+            "cn": "我们也知道，球迷们等的就是这个。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’ve already gone through obstacles myself.",
+            "cn": "我自己也已经翻越过一道坎了。",
+            "cnEdited": true
+          },
+          {
+            "en": "I didn’t get the call-up for the first World Cup qualifier.",
+            "cn": "第一场世界杯预选赛，我没被征召。",
+            "cnEdited": true
+          },
+          {
+            "en": "But you expect obstacles and you have to get past them – I scored a hat-trick for the Under-21s that week.",
+            "cn": "但挫折本来就该在预料之中，你必须迈过去——那一周，我在U21队上演了帽子戏法。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "My head’s up.",
+            "cn": "我抬着头。",
+            "cnEdited": true
+          },
+          {
+            "en": "I’m looking forward.",
+            "cn": "我向前看。",
+            "cnEdited": true
+          },
+          {
+            "en": "And I can’t wait to play away in Germany and then get to Wembley for our first home match — and first World Cup qualifier — of the year.",
+            "cn": "我已经等不及要在德国打客场，然后再到温布利，打我们今年的第一个主场——也是今年的第一场世界杯预选赛。",
+            "cnEdited": true
+          },
+          {
+            "en": "As a kid, I never got to go to a match at Wembley.",
+            "cn": "小时候，我从没能去温布利看一场比赛。",
+            "cnEdited": true
+          },
+          {
+            "en": "I only saw it on the TV in my mum’s house.",
+            "cn": "我只在妈妈家的电视上看过它。",
+            "cnEdited": true
+          },
+          {
+            "en": "Just like I dreamed of the day I’d get to play for England, I dreamed of the day I’d get to play at Wembley.",
+            "cn": "就像我梦想着为英格兰出场的那个日子一样，我也梦想着站上温布利的那个日子。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And when I finally did, it wasn’t like I had dreamed.",
+            "cn": "而当我终于站上去时，那里并不像我梦见的那样。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It was so much better than that.",
+            "cn": "那里比梦里好太多了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When I got out onto the pitch, I just kept looking down at the grass and thinking, Man, it’s perfect.",
+            "cn": "走上球场的时候，我一直低头看着草皮，心想：我的天，太完美了。",
+            "cnEdited": true
+          },
+          {
+            "en": "Every single blade is the same height.",
+            "cn": "每一根草都剪得一样高。",
+            "cnEdited": true
+          },
+          {
+            "en": "This is a long way from the garden outside the council estate.",
+            "cn": "这里离公屋外那个院子，已经很远很远了。",
+            "cnEdited": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-james-clear-diderot-effect",
+    "cat": "成长",
+    "title": "The Diderot Effect: Why We Want Things We Don’t Need — And What to Do About It",
+    "titleZh": "狄德罗效应：我们为什么想要自己不需要的东西——以及怎么办",
+    "source": "James Clear · 2015-10-06",
+    "date": "2015-10-06",
+    "minutes": 11,
+    "url": "https://jamesclear.com/diderot-effect",
+    "coverImg": "assets/covers/gr-james-clear-diderot-effect.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "The famous French philosopher Denis Diderot lived nearly his entire life in poverty, but that all changed in 1765.",
+            "cn": "著名的法国哲学家丹尼斯·狄德罗几乎一辈子都活在贫困里，但这一切在1765年改变了。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Diderot was 52 years old and his daughter was about to be married, but he could not afford to provide a dowry.",
+            "cn": "那年狄德罗52岁，女儿即将出嫁，他却拿不出一份嫁妆。",
+            "cnEdited": true
+          },
+          {
+            "en": "Despite his lack of wealth, Diderot’s name was well-known because he was the co-founder and writer of Encyclopédie, one of the most comprehensive encyclopedias of the time.",
+            "cn": "尽管并不富裕，狄德罗的名字却广为人知，因为他是《百科全书》（Encyclopédie）的联合创始人兼撰稿人——那是当时最全面的百科全书之一。",
+            "cnEdited": true
+          },
+          {
+            "en": "When Catherine the Great, the Empress of Russia, heard of Diderot’s financial troubles she offered to buy his library from him for £1000 GBP, which is approximately $50,000 USD in 2015 dollars.",
+            "cn": "俄国女皇叶卡捷琳娜大帝听说了狄德罗的财务困境，提出用1000英镑买下他的藏书——大约相当于2015年的5万美元。",
+            "cnEdited": true
+          },
+          {
+            "en": "Suddenly, Diderot had money to spare.",
+            "cn": "突然间，狄德罗有了闲钱。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Shortly after this lucky sale, Diderot acquired a new scarlet robe.",
+            "cn": "这笔幸运的卖出之后不久，狄德罗添置了一件新的猩红色睡袍。",
+            "cnEdited": true
+          },
+          {
+            "en": "That’s when everything went wrong.",
+            "cn": "一切就是从那时开始走偏的。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Diderot Effect",
+            "cn": "狄德罗效应",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Diderot’s scarlet robe was beautiful.",
+            "cn": "狄德罗的猩红色睡袍漂亮极了。",
+            "cnEdited": true
+          },
+          {
+            "en": "So beautiful, in fact, that he immediately noticed how out of place it seemed when surrounded by the rest of his common possessions.",
+            "cn": "漂亮到什么程度呢——他立刻发现，周围那些寻常旧物，在它旁边全都显得格格不入。",
+            "cnEdited": true
+          },
+          {
+            "en": "In his words, there was “no more coordination, no more unity, no more beauty” between his robe and the rest of his items.",
+            "cn": "用他自己的话说，这件睡袍和他的其余物件之间“再也谈不上协调，谈不上统一，谈不上美”。",
+            "cnEdited": true
+          },
+          {
+            "en": "The philosopher soon felt the urge to buy some new things to match the beauty of his robe.",
+            "cn": "这位哲学家很快就萌生了冲动，想买些新东西来配得上这件睡袍的美。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He replaced his old rug with a new one from Damascus.",
+            "cn": "他用一条从大马士革买来的新地毯，换掉了旧地毯。",
+            "cnEdited": true
+          },
+          {
+            "en": "He decorated his home with beautiful sculptures and a better kitchen table.",
+            "cn": "他用精美的雕塑和一张更好的餐桌装点家。",
+            "cnEdited": true
+          },
+          {
+            "en": "He bought a new mirror to place above the mantle and his “straw chair was relegated to the antechamber by a leather chair.”",
+            "cn": "他买了一面新镜子挂到壁炉架上方，他那把“草椅被一把皮椅挤到了前厅”。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "These reactive purchases have become known as the Diderot Effect.",
+            "cn": "这些应激式的购买，后来被称为“狄德罗效应”。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Diderot Effect states that obtaining a new possession often creates a spiral of consumption which leads you to acquire more new things.",
+            "cn": "狄德罗效应说的是：得到一件新物品，往往会引发一场消费螺旋，让你不断购入更多新东西。",
+            "cnEdited": true
+          },
+          {
+            "en": "As a result, we end up buying things that our previous selves never needed to feel happy or fulfilled.",
+            "cn": "结果，我们会买下以前的自己从来不曾需要、也照样快乐满足的东西。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Denis Diderot as depicted by Louis-Michel van Loo in 1767.",
+            "cn": "路易-米歇尔·范·卢1767年笔下的丹尼斯·狄德罗。",
+            "cnEdited": true
+          },
+          {
+            "en": "In this painting Diderot is wearing a robe similar to the one that prompted his famous essay on the Diderot Effect.",
+            "cn": "画中的狄德罗穿着一件睡袍，与促成他写下那篇著名“狄德罗效应”文章的那件相似。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Why We Want Things We Don’t Need",
+            "cn": "我们为什么想要自己不需要的东西",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Like many others, I have fallen victim to the Diderot Effect.",
+            "cn": "和许多人一样，我也栽在过狄德罗效应手里。",
+            "cnEdited": true
+          },
+          {
+            "en": "I recently bought a new car and I ended up purchasing all sorts of additional things to go inside it.",
+            "cn": "我最近买了辆新车，结果为车里添置了一堆别的东西。",
+            "cnEdited": true
+          },
+          {
+            "en": "I bought a tire pressure gauge, a car charger for my cell phone, an extra umbrella, a first aid kit, a pocket knife, a flashlight, emergency blankets, and even a seatbelt cutting tool.",
+            "cn": "我买了胎压计、手机车载充电器、一把备用伞、一个急救包、一把折刀、一支手电筒、应急保温毯，甚至还有一个安全带切割器。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Allow me to point out that I owned my previous car for nearly 10 years and at no point did I feel that any of the previously mentioned items were worth purchasing.",
+            "cn": "必须说明：上一辆车我开了将近10年，上面提到的那些东西，我从没觉得有哪一样值得买。",
+            "cnEdited": true
+          },
+          {
+            "en": "And yet, after getting my shiny new car, I found myself falling into the same consumption spiral as Diderot.",
+            "cn": "然而，亮闪闪的新车一到手，我发现自己掉进了和狄德罗一模一样的消费螺旋。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You can spot similar behaviors in many other areas of life:",
+            "cn": "生活中的许多其他方面，你都能看到类似的行为：",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You buy a new dress and now you have to get shoes and earrings to match.",
+            "cn": "你买了一条新裙子，接着就得买相配的鞋和耳环。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You buy a CrossFit membership and soon you’re paying for foam rollers, knee sleeves, wrist wraps, and paleo meal plans.",
+            "cn": "你办了CrossFit会员卡，很快又为泡沫轴、护膝、护腕和原始饮食餐单掏钱。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You buy your kid an American Girl doll and find yourself purchasing more accessories than you ever knew existed for dolls.",
+            "cn": "你给女儿买了个美国女孩牌娃娃，然后发现自己在买那些你从不知道娃娃还会有的配件。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You buy a new couch and suddenly you’re questioning the layout of your entire living room.",
+            "cn": "你买了张新沙发，突然就开始怀疑整个客厅的布局。",
+            "cnEdited": true
+          },
+          {
+            "en": "Those chairs?",
+            "cn": "那些椅子？",
+            "cnEdited": true
+          },
+          {
+            "en": "That coffee table?",
+            "cn": "那张咖啡桌？",
+            "cnEdited": true
+          },
+          {
+            "en": "That rug?",
+            "cn": "那块地毯？",
+            "cnEdited": true
+          },
+          {
+            "en": "They all gotta go.",
+            "cn": "全都得换。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Life has a natural tendency to become filled with more.",
+            "cn": "生活天然有一种被塞得越来越满的倾向。",
+            "cnEdited": true
+          },
+          {
+            "en": "We are rarely looking to downgrade, to simplify, to eliminate, to reduce.",
+            "cn": "我们很少想着降级、简化、清除、缩减。",
+            "cnEdited": true
+          },
+          {
+            "en": "Our natural inclination is always to accumulate, to add, to upgrade, and to build upon.",
+            "cn": "我们的天然倾向总是累积、添加、升级、叠加。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the words of sociology professor Juliet Schor, “the pressure to upgrade our stock of stuff is relentlessly unidirectional, always ascending.”",
+            "cn": "用社会学教授朱丽叶·肖尔的话说：“升级我们手中物件的压力是单向的、不知疲倦的，永远向上。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Mastering the Diderot Effect",
+            "cn": "驾驭狄德罗效应",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Diderot Effect tells us that your life is only going to have more things fighting to get in it, so you need to understand how to curate, eliminate, and focus on the things that matter.",
+            "cn": "狄德罗效应告诉我们，闯进你生活的东西只会越来越多，所以你得懂得如何筛选、剔除，把注意力放在真正要紧的事物上。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Reduce exposure.",
+            "cn": "减少接触。",
+            "cnEdited": true
+          },
+          {
+            "en": "Nearly every habit is initiated by a trigger or cue.",
+            "cn": "几乎每一个习惯都是由某个触发点或提示引发的。",
+            "cnEdited": true
+          },
+          {
+            "en": "One of the quickest ways to reduce the power of the Diderot Effect is to avoid the habit triggers that cause it in the first place.",
+            "cn": "削弱狄德罗效应最快的办法之一，就是从一开始就避开引发它的那些习惯触发点。",
+            "cnEdited": true
+          },
+          {
+            "en": "Unsubscribe from commercial emails.",
+            "cn": "退订商业推广邮件。",
+            "cnEdited": true
+          },
+          {
+            "en": "Call the magazines that send you catalogs and opt out of their mailings.",
+            "cn": "给给你寄商品目录的杂志社打电话，退出他们的邮寄名单。",
+            "cnEdited": true
+          },
+          {
+            "en": "Meet friends at the park rather than the mall.",
+            "cn": "和朋友约在公园见面，而不是商场。",
+            "cnEdited": true
+          },
+          {
+            "en": "Block your favorite shopping websites using tools like Freedom .",
+            "cn": "用 Freedom 这类工具屏蔽你最喜欢的购物网站。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Buy items that fit your current system.",
+            "cn": "购买与你现有体系相配的物品。",
+            "cnEdited": true
+          },
+          {
+            "en": "You don’t have to start from scratch each time you buy something new.",
+            "cn": "每次买新东西，你不必都从头开始。",
+            "cnEdited": true
+          },
+          {
+            "en": "When you purchase new clothes, look for items that work well with your current wardrobe.",
+            "cn": "买新衣服时，找那些能和你现有衣橱搭配的款式。",
+            "cnEdited": true
+          },
+          {
+            "en": "When you upgrade to new electronics, get things that play nicely with your current pieces so you can avoid buying new chargers, adapters, or cables.",
+            "cn": "升级电子产品时，选能和你现有设备兼容的，免得再买新的充电器、转接器或数据线。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Set self-imposed limits.",
+            "cn": "给自己设限。",
+            "cnEdited": true
+          },
+          {
+            "en": "Live a carefully constrained life by creating limitations for you to operate within.",
+            "cn": "通过给自己划定活动的边界，过一种精心约束的生活。",
+            "cnEdited": true
+          },
+          {
+            "en": "Juliet Schor provides a great example with this quote…",
+            "cn": "朱丽叶·肖尔用一个例子把这一点讲得很好……",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Imagine the following.",
+            "cn": "“设想一下。",
+            "cnEdited": true
+          },
+          {
+            "en": "A community group in your town organizes parents to sign a pledge agreeing to spend no more than $50 on athletic shoes for their children.",
+            "cn": "你镇上的一个社区团体组织家长们签署承诺书，同意给孩子买运动鞋不超过50美元。",
+            "cnEdited": true
+          },
+          {
+            "en": "The staff at your child’s day-care center requests a $75 limit on spending for birthday parties.",
+            "cn": "你孩子日托中心的工作人员提议，生日派对的花费上限为75美元。",
+            "cnEdited": true
+          },
+          {
+            "en": "The local school board rallies community support behind a switch to school uniforms.",
+            "cn": "当地教育委员会发动社区支持，让孩子们改穿校服。",
+            "cnEdited": true
+          },
+          {
+            "en": "The PTA gets 8o percent of parents to agree to limit their children’s television watching to no more than one hour per day.",
+            "cn": "家长教师协会让80%的家长同意，把孩子看电视的时间限制在每天不超过一小时。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Do you wish someone in your community or at your children’s school would take the lead in these or similar efforts?",
+            "cn": "你希望你的社区里、你孩子的学校里，有人带头做这些或类似的努力吗？",
+            "cnEdited": true
+          },
+          {
+            "en": "I think millions of American parents do.",
+            "cn": "我想，数以百万计的美国家长都希望。",
+            "cnEdited": true
+          },
+          {
+            "en": "Television, shoes, clothes, birthday parties, athletic uniforms-these are areas where many parents feel pressured into allowing their children to consume at a level beyond what they think is best, want to spend, or can comfortably afford.”",
+            "cn": "电视、鞋、衣服、生日派对、运动队服——在这么多事情上，许多家长都迫于压力，允许孩子消费到超出自己认为合适的程度、超出自己想花的钱、超出自己能从容负担的水平。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "—Juliet Schor, The Overspent American",
+            "cn": "——朱丽叶·肖尔，《过度消费的美国人》",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Buy One, Give One.",
+            "cn": "买一件，送出一件。",
+            "cnEdited": true
+          },
+          {
+            "en": "Each time you make a new purchase, give something away.",
+            "cn": "每做一笔新的消费，就送出去一件旧物。",
+            "cnEdited": true
+          },
+          {
+            "en": "Get a new TV?",
+            "cn": "买了新电视？",
+            "cnEdited": true
+          },
+          {
+            "en": "Give your old one away rather than moving it to another room.",
+            "cn": "把旧的送人，别把它挪到另一个房间。",
+            "cnEdited": true
+          },
+          {
+            "en": "The idea is to prevent your number of items from growing.",
+            "cn": "关键是别让你的物品数量增长。",
+            "cnEdited": true
+          },
+          {
+            "en": "Always be curating your life to include only the things that bring you joy and happiness.",
+            "cn": "永远把生活整理成只包含那些给你带来快乐与幸福的东西。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Go one month without buying something new.",
+            "cn": "整整一个月不买新东西。",
+            "cnEdited": true
+          },
+          {
+            "en": "Don’t allow yourself to buy any new items for one month.",
+            "cn": "整整一个月，不许自己买任何新物品。",
+            "cnEdited": true
+          },
+          {
+            "en": "Instead of buying a new lawn mower, rent one from a neighbor.",
+            "cn": "不买新割草机，向邻居租一台。",
+            "cnEdited": true
+          },
+          {
+            "en": "Get your new shirt from the thrift store rather than the department store.",
+            "cn": "新衬衫去二手店买，不去百货商场。",
+            "cnEdited": true
+          },
+          {
+            "en": "The more we restrict ourselves, the more resourceful we become .",
+            "cn": "我们越是自我约束，就越有办法。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Let go of wanting things.",
+            "cn": "放下“想要”这件事。",
+            "cnEdited": true
+          },
+          {
+            "en": "There will never be a level where you will be done wanting things.",
+            "cn": "“想要”永远没有做完的一天。",
+            "cnEdited": true
+          },
+          {
+            "en": "There is always something to upgrade to.",
+            "cn": "总会有下一样可以升级的东西。",
+            "cnEdited": true
+          },
+          {
+            "en": "Get a new Honda?",
+            "cn": "买了辆新本田？",
+            "cnEdited": true
+          },
+          {
+            "en": "You can upgrade to a Mercedes.",
+            "cn": "你可以升级成奔驰。",
+            "cnEdited": true
+          },
+          {
+            "en": "Get a new Mercedes?",
+            "cn": "买了辆新奔驰？",
+            "cnEdited": true
+          },
+          {
+            "en": "You can upgrade to a Bentley.",
+            "cn": "你可以升级成宾利。",
+            "cnEdited": true
+          },
+          {
+            "en": "Get a new Bentley?",
+            "cn": "买了辆新宾利？",
+            "cnEdited": true
+          },
+          {
+            "en": "You can upgrade to a Ferrari.",
+            "cn": "你可以升级成法拉利。",
+            "cnEdited": true
+          },
+          {
+            "en": "Get a new Ferrari?",
+            "cn": "买了辆新法拉利？",
+            "cnEdited": true
+          },
+          {
+            "en": "Have you thought about buying a private plane?",
+            "cn": "想过买架私人飞机吗？",
+            "cnEdited": true
+          },
+          {
+            "en": "Realize that wanting is just an option your mind provides, not an order you have to follow.",
+            "cn": "要明白，“想要”只是你的头脑提供的一个选项，不是你必须服从的命令。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "How to Overcome the Consumption Tendency",
+            "cn": "如何克服消费倾向",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Our natural tendency is to consume more, not less.",
+            "cn": "我们的天然倾向是消费更多，而不是更少。",
+            "cnEdited": true
+          },
+          {
+            "en": "Given this tendency, I believe that taking active steps to reduce the flow of unquestioned consumption makes our lives better.",
+            "cn": "正因如此，我相信主动减少“不经思考的消费”的流量，会让我们的生活更好。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Personally, my goal is not to reduce life to the fewest amount of things, but to fill it with the optimal amount of things.",
+            "cn": "就我个人而言，我的目标不是把生活压缩到物件最少，而是用最优数量的物件把它填满。",
+            "cnEdited": true
+          },
+          {
+            "en": "I hope this article will help you consider how to do the same.",
+            "cn": "我希望这篇文章能帮你也想一想，怎样做到同样的事。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In Diderot’s words, “Let my example teach you a lesson.",
+            "cn": "用狄德罗自己的话说：“让我的例子给你上一课。",
+            "cnEdited": true
+          },
+          {
+            "en": "Poverty has its freedoms; opulence has its obstacles.”",
+            "cn": "贫困自有它的自由；富足自有它的障碍。”",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Footnotes",
+            "cn": "脚注",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In addition to her payment for the library, Catherine the Great asked Diderot to keep the books until she needed them and offered to pay him a yearly salary to act as her librarian.",
+            "cn": "除了买书的钱，叶卡捷琳娜大帝还请狄德罗把书留着、等她需要时再取，并答应每年付他一笔薪金，请他担任她的图书管理员。",
+            "cnEdited": true
+          },
+          {
+            "en": "( Source )",
+            "cn": "（来源）",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Diderot’s scarlet robe is frequently described as a gift from a friend.",
+            "cn": "狄德罗的猩红色睡袍常被说成是一位朋友送的礼物。",
+            "cnEdited": true
+          },
+          {
+            "en": "However, I could find no original source claiming it was a gift nor any mention of the friend who supplied the robe.",
+            "cn": "然而，我找不到任何原始出处说它是礼物，也找不到任何提到那位赠袍朋友的记载。",
+            "cnEdited": true
+          },
+          {
+            "en": "If you happen to know any historians specializing in robe acquisitions, feel free to point them my way so we can clarify the mystery of the source of Diderot’s famous scarlet robe.",
+            "cn": "如果你恰好认识专攻“睡袍来源考”的历史学家，欢迎把他们引荐给我，好让我们解开狄德罗那件著名猩红睡袍的来源之谜。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The quotes from Denis Diderot in this article come from his essay, “ Regrets for my Old Dressing Gown .”",
+            "cn": "本文引用的狄德罗的话，出自他的文章《旧睡袍的遗憾》（Regrets for my Old Dressing Gown）。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Some readers have pointed out that my purchases were smart, not unnecessary.",
+            "cn": "一些读者指出，我买的东西都很明智，并非多余。",
+            "cnEdited": true
+          },
+          {
+            "en": "This might be true, but it is still an example of the Diderot Effect.",
+            "cn": "这也许没错，但它仍然是狄德罗效应的一个例子。",
+            "cnEdited": true
+          },
+          {
+            "en": "Just to clarify: The Diderot Effect simply means that when we obtain a new item when tend to acquire additional ones.",
+            "cn": "澄清一下：狄德罗效应只是说，当我们得到一件新物品时，往往会接着购入更多。",
+            "cnEdited": true
+          },
+          {
+            "en": "It’s not a value judgment that only applies to unnecessary purchases.",
+            "cn": "它不是一条只适用于“不必要消费”的价值判断。",
+            "cnEdited": true
+          },
+          {
+            "en": "So, even if my purchases were smart, I still feel victim to buying more things once I made an initial purchase.",
+            "cn": "所以，就算我买的都是明智之物，在第一笔消费之后，我仍然落入了继续购买更多的窠臼。",
+            "cnEdited": true
+          },
+          {
+            "en": "Of course, the Diderot Effect often results in unnecessary purchases, which is why I focused on that angle in this article.",
+            "cn": "当然，狄德罗效应确实常常导致不必要的购买，这也是本文聚焦这个角度的原因。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“ The Overspent American: Why We Want What We Don’t Need ” by Juliet Schor.",
+            "cn": "朱丽叶·肖尔所著《过度消费的美国人：为什么我们想要我们不需要的东西》。",
+            "cnEdited": true
+          },
+          {
+            "en": "Chapter 6.",
+            "cn": "第6章。",
+            "cnEdited": true
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Thanks to my friend Joshua Becker for originally sparking my interest in the Diderot Effect by writing his own article on the topic.",
+            "cn": "感谢我的朋友约书亚·贝克尔——他写的那篇同主题文章，最早点燃了我对狄德罗效应的兴趣。",
+            "cnEdited": true
+          }
+        ]
+      }
+    ]
   }
 ];
 
