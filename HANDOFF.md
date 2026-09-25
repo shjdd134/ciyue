@@ -18,17 +18,17 @@
 
 | 项 | 值 |
 | --- | --- |
-| 文章 | **13 篇 = 成长 4 + 人物 5 + 足球 4**（AI 栏目 5 篇 + 人物「梅根·福克斯」1 篇 = 6 篇于 2026-09-24 下架） |
-| 句子 / 词数 | **3,696 句 / 50,804 词** |
-| 封面 | 58 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
-| 发布基线 | `.bak/published.json` = **`0ac40c0`**（2026-09-24 晚，「下架 AI 栏目 + 梅根·福克斯」批次）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
-| 资源版本 | `?v=84` · SW 缓存名 `wordlens-cache-v84` |
+| 文章 | **15 篇 = 成长 5 + 人物 5 + 足球 5**（AI 栏目 5 篇 + 人物「梅根·福克斯」1 篇 = 6 篇于 2026-09-24 下架；**2026-09-25 新增拉什福德 + 狄德罗效应 2 篇**） |
+| 句子 / 词数 | **3,954 句 / 53,942 词** |
+| 封面 | 60 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
+| 发布基线 | `.bak/published.json` = **`b998252`**（2026-09-25 晚，「新增拉什福德《The Number 9》+ 狄德罗效应，v85」批次 20260925-180244）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
+| 资源版本 | `?v=85` · SW 缓存名 `wordlens-cache-v85` |
 | Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流）· ★ **2026-09-23 义项补全批次**：`build-core-vocab` 合并策略从「已有词条原样保留」（固化循环：早期精编的单义永远挡住词典源的完整释义）改为「新词性补块 + 兜底」——1,075 词补上真缺的词性义项（match 补 v. 相配、evidence 补 v. 证明、academic 补 n. 学者…），判据统一在 `tools/lib-senses.cjs`；例句选句加义项对齐（`build-examples` 跨级别汇池 + 义项相关 +80 分，2,321/3,709 条义项命中），原刊兜底加义项闸（15 条错配改留空） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目已于 2026-09-24 整栏下架**（`tools/offbook.mjs` 的 `ESSAYS` 摘空，链路仍在但不再产出）；旧明星停用 |
-| 成长 4 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
+| 成长 5 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；James Clear《The Diderot Effect》（`gr-james-clear-diderot-effect`，2026-09-25 入库，`tools/james-clear.mjs` 通道）；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
 | 人物 5 篇 | Anne Hathaway + **Icons 4 篇**（Léa Seydoux / Zoey Deutch / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`）。~~Megan Fox~~ 2026-09-24 下架（用户决定），已同时移出 `people-reviewed.json` 复核队列并在 `people-config.local.json` 的 `excludedPeople` 里登记，详见下方下架条目 |
-| 足球 4 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
+| 足球 5 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever / 拉什福德《The Number 9》（`fb-marcus-rashford-the-number-9`，2026-09-25 入库）（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
 | AI 栏目（已下架） | **2026-09-24 整栏撤下**（用户决定）。原为 Offbook Press 官方中英双语长文（Dawei Geng，`ob-*`）一期一整篇 5 期。**撤干净需要三处同时在场**（缺一个就会以某种路径回来）：① `tools/offbook.mjs` 的 `ESSAYS = []`（5 期移入 `RETIRED_ESSAYS` 仅存记录）② `tools/ingest.mjs` 的 `DROP_LIST`（5 个 id）③ `tools/content-scope-test.mjs` 的断言已**反转**（原「AI 应已由 ob-* 上线」→ 现「库里不得再出现 AI / `ob-*`」，同时 `CATEGORIES` 不得含 `AI`）。附带的连带改动：`assets/app.js` 的 `LEAD_PHOTO_POOL` 与 `tools/audit.js` 的 `IMG_SIZE` 同步删掉 megan-fox 5 项；`audit.js` 的 `[R2]`（节标题）**线上已无样本**，改为合成桩 + 显式断言「库内 head 段数 = 0」 |
 | 寓言 | 入口保留，当前为空 |
 
@@ -1279,6 +1279,14 @@ tap 档点切分段首句整段译文弹出（display=block）、all 档 446 个
   包内 app.js/styles.css/词库与源 md5 一致，包内数据含本批最终例句。
 
 **回归**：audit 473/0 · doc-numbers ✓ · 版本五处 v82 一致 · 两次构建 diff 全零（词库与例句库）。
+
+- **2026-09-25（已发布，批次 20260925-180244，commit `b998252`，v85）**：两篇新文章入库，**13 → 15 篇**（成长 5 / 人物 5 / 足球 5，实测 3,954 句 / 53,942 词）。
+  ① 足球第 5 篇：拉什福德 [The Number 9](https://www.theplayerstribune.com/articles/marcus-rashford-england-national-team)（`fb-marcus-rashford-the-number-9`，原刊 2017-03-19，精翻+`pin`，封面已下）。官方中文版经检索确认不存在，走精翻通道；正文覆盖对账零缺口（2 条「句」缺口均为站内相关卡元数据，已逐条排除）。
+  ② 成长第 5 篇：James Clear [The Diderot Effect](https://jamesclear.com/diderot-effect)（`gr-james-clear-diderot-effect`，原刊 2015-10-06 来自页面 meta，封面为狄德罗画像 og:image）。**新开 `tools/james-clear.mjs` 通道**（按 URL 点名、非 RSS）：正文= h1→`div.footnotes` 的 h2/p/ul 流；`rel="footnote"` 行内角标剥离、6 条脚注**全部保留**（含凯瑟琳大帝续闻）；插图 figcaption 收入正文；订阅话术/作者简介/「Click here」排除。独立对账脚本 `tools/james-clear-coverage.mjs`（与 football-coverage 同构）。
+  ③ **方案文档点名的两个脚本缺口已修**：`football.mjs --inject --id` 旧实现会把其余足球稿全部挤掉 → 现为「同 id 原位替换、新篇追加」（`mergeInject` 进 `lib-text.mjs`，football/james-clear 共用）；注释提到却没实现的 `--draft` 已补上（en/cn 两列底稿，句子展开与 build 同口径）。回归：`node tools/football-test.mjs` 17 项。
+  ④ **qwen-max 精翻通道停用**（用户告知不可用）：两篇译文由 agent 逐句人工翻译，未调用任何 MT API；`llm-refine.mjs` 保留但当前不可用。`cet4` 词表统计从 football.mjs 抽出为 `tools/lib-cet4.mjs`（james-clear 不能 import football——它顶层有 CLI 分发，会误触同名分支）。
+  ⑤ `data-article-metrics.js` 已按 15 篇重建（Rashford 低频 10.9% / Diderot 14.3%）。**发布前记得**：`node tools/version.mjs --bump`（否则用户端 `?v=84` 吃不到新数据），发布后回填 §0.1 的篇数/句词数/封面（60 张）与足球/成长两行。
+  **本批验收已过**：qc 15/0 · spot-check 预检 0 · audit 474/0 · publish --dry（15→15、过期 0、孤儿 0）· 浏览器实测两篇阅读页（点词/逐句对照/进度恢复/读后打卡）+ 旧文回归正常。方案与逐闸记录见 [outputs/词阅-两篇入库与栏目执行方案-2026-09-25.md](outputs/词阅-两篇入库与栏目执行方案-2026-09-25.md)。
 
 ### 0.3 机制速查（不随批次变）
 

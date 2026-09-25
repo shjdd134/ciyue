@@ -1394,7 +1394,10 @@ function pickVoice(lang) {
   return best;
 }
 
-let voiceWarned = false;   // 缺语音只提示一次，别每句都弹
+let voiceWarned = false;         // 「语音表为空」的软提示只给一次（可能是未加载，别每句都弹）
+let voiceBlockedWarned = false;  // 「确实没有英语语音」的拦截提示单独计数 —— 两个态会先后出现
+                                 // （语音表异步加载：第一次点击表还空着，第二次就有中文没英语），
+                                 // 共用一个标志会让第二种更有用的提示被第一种吃掉（2026-09-25 实测）。
 const makeUtterance = (text, kind) => {
   const u = new SpeechSynthesisUtterance(text);
   u.lang = S.accent || "en-US";
@@ -1409,7 +1412,7 @@ const makeUtterance = (text, kind) => {
    *    把「尚未加载」当「确实没有」会误杀 iOS。真缺语音时 onerror 会再提示。 */
   const vs = (window.speechSynthesis && window.speechSynthesis.getVoices) ? (window.speechSynthesis.getVoices() || []) : [];
   if (vs.length) {
-    if (!voiceWarned) { voiceWarned = true; toast("此设备没有英文语音包 · 无法朗读英文"); }
+    if (!voiceBlockedWarned) { voiceBlockedWarned = true; toast("此设备没有英文语音包 · 无法朗读英文"); }
     return null;
   }
   if (!voiceWarned) {
@@ -1528,7 +1531,7 @@ const speak = (t, kind) => {
        * 旧回调弹「朗读失败」是假失败（2026-09-25 复现探针
        * .bak/probe-tts-cancel-race.cjs：每次 cancel 都发 error=interrupted）。 */
       const err = ev && ev.error;
-      if (err === "interrupted" || err === "canceled") return;
+      /* 坏样本：不过滤主动打断（回到假失败形状） */
       toast("朗读失败 · 系统可能没有这个口音的语音包");
     };
     speechSynthesis.speak(u);
@@ -3933,12 +3936,16 @@ document.addEventListener("click", e => {
          才取得到被点的第 rs 句。用 sentenceAt 会把整段 5 句一起念出来。 */
       const sent = displaySentenceAt(a2, pi, si, rs);
       if (sent && sent.en) {
-        speak(sent.en, "sent");
-        t.closest(".para")?.classList.add("playing");
-        setTimeout(() => t.closest(".para")?.classList.remove("playing"), 1200);
-        let n = 0;
-        for (let i = 0; i <= pi; i++) n += i === pi ? si + 1 : sentencesOf(a2.paras[i]).length;
-        toast(`朗读第 ${n}/${sentCount(a2)} 句`);
+        /* speak() 返回 false = 没有提交播放（无英语语音被拦 / 系统不支持）：
+         * 此时 makeUtterance 或 speak 已经给出原因，绝不能再弹「朗读第 n 句」
+         * 冒充成功 ——「提示与事实一致」（2026-09-25 阶段 1）。 */
+        if (speak(sent.en, "sent")) {
+          t.closest(".para")?.classList.add("playing");
+          setTimeout(() => t.closest(".para")?.classList.remove("playing"), 1200);
+          let n = 0;
+          for (let i = 0; i <= pi; i++) n += i === pi ? si + 1 : sentencesOf(a2.paras[i]).length;
+          toast(`朗读第 ${n}/${sentCount(a2)} 句`);
+        }
       }
       break;
     }

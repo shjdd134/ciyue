@@ -80,10 +80,18 @@ function planFiles(root = ROOT) {
   const files = new Set(["index.html", "manifest.webmanifest"]);
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
   for (const m of html.matchAll(/(?:src|href)="(assets\/[^"?]+)(?:\?[^"]*)?"/g)) files.add(m[1]);
+  const addTreeFiles = (absoluteDir, relativeDir) => {
+    for (const entry of fs.readdirSync(absoluteDir, { withFileTypes: true })) {
+      const absolute = path.join(absoluteDir, entry.name);
+      const relative = `${relativeDir}/${entry.name}`;
+      if (entry.isDirectory()) addTreeFiles(absolute, relative);
+      else if (entry.isFile()) files.add(relative);
+    }
+  };
   for (const dir of DIR_RULES) {
     const abs = path.join(root, dir);
     if (!fs.existsSync(abs)) continue;
-    for (const f of fs.readdirSync(abs)) files.add(`${dir}/${f}`);
+    addTreeFiles(abs, dir);
   }
   /* ⑤ 运行期用 JS 拼路径加载的（data-tapdict.js / data-examples.js …）。
      ★ 这一条是 1.0.3(vc4) 缺文件的根因所在 —— 别删，见 dynamicRefs() 与 REF §14.13。 */

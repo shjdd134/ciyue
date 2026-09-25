@@ -1081,12 +1081,73 @@ ok('语速不再吃浏览器默认 1.0（默认档 0.9，跟读才追得上）',
   uttStd.rate > 0.5 && uttStd.rate < 1);
 ok('单词朗读比整句再慢一档（音素要听清）',
   ctx('rateOf("word")') < ctx('rateOf("sent")'));
-/* 挑不到英语语音时必须留痕 —— 静默降级正是旧版「难听且无从解释」的原因 */
+/* 挑不到英语语音分两种处置（2026-09-25 阶段 0 设备基线实测后拆开）：
+ * 语音表非空但无英语 → 提示并**不提交播放**（提交只会错语言或无声，手机端
+ * 「点了没反应」正是这个形状）；语音表为空 → 照常提交（iOS 首次 speak 前
+ * getVoices() 恒空，把「尚未加载」当「确实没有」会误杀 iOS）。 */
 fakeVoices = [{ name: 'Microsoft Huihui', lang: 'zh-CN', localService: true }];
-ctx('voiceWarned = false;');
+ctx('voiceWarned = false; voiceBlockedWarned = false;');
 const uttNoEn = ctx('makeUtterance("Hi.", "sent")');
-ok('★ 挑不到英语语音时明确提示（不静默用中文声念英文）',
-  ctx('voiceWarned') === true && !uttNoEn.voice);
+ok('★ 设备有语音表但没有英语：明确提示，且 makeUtterance 返回 null（不再提交播放）',
+  ctx('voiceBlockedWarned') === true && ctx('voiceWarned') === false && uttNoEn === null);
+/* 两个提示态会先后出现（语音表异步加载：第一次点击表还空着、第二次有中文没英语）。
+ * 各自的「一次」互不占用 —— 共用一个标志时第二种更有用的提示会被第一种吃掉。 */
+fakeVoices = [];
+ctx('voiceWarned = false; voiceBlockedWarned = false;');
+ctx('makeUtterance("Hi.", "sent")');
+fakeVoices = [{ name: 'Microsoft Huihui', lang: 'zh-CN', localService: true }];
+const uttLater = ctx('makeUtterance("Hi.", "sent")');
+ok('★ 先空表（软提示）后非空无英语（拦截）：第二次仍给出「没有英文语音包」',
+  uttLater === null && ctx('voiceWarned') === true && ctx('voiceBlockedWarned') === true);
+spokenUtts.length = 0;
+ctx('voiceWarned = false; voiceBlockedWarned = false;');   // 提示是「一次」语义：重置后这一步才能数到 toast
+let zhOnlyToasts = 0;
+const __prevAppendZh = phoneEl.appendChild;
+phoneEl.appendChild = () => { zhOnlyToasts++; };
+const spNoEnRet = ctx('speak("Hello.", "sent")');
+phoneEl.appendChild = __prevAppendZh;
+ok('★ 无英语语音时单句朗读不送出任何 utterance，只提示一次',
+  spNoEnRet === false && spokenUtts.length === 0 && zhOnlyToasts === 1);
+/* 对照档（防空集恒真 + 钉住 iOS）：空表 ≠ 缺语音 */
+fakeVoices = [];
+ctx('voiceWarned = false;');
+const uttEmpty = ctx('makeUtterance("Hi.", "sent")');
+ok('★ 语音表为空（尚未加载/iOS）时照常返回 utterance——不能把「尚未加载」当「确实没有」',
+  !!uttEmpty && ctx('voiceWarned') === true);
+spokenUtts.length = 0;
+ctx('speak("Hello.", "sent")');
+const emptySubmitted = spokenUtts.length === 1;
+/* 单句朗读的错误回调必须过滤「主动打断」：连点下一句时旧 utterance 必收
+ * error=interrupted（.bak/probe-tts-cancel-race.cjs 复现），弹「朗读失败」
+ * 就是 2026-09-25 桌面实测的「声音正常却报失败」。 */
+fakeVoices = [{ name: 'Google US English', lang: 'en-US', localService: true }];
+spokenUtts.length = 0;
+ctx('speak("Hello.", "sent")');
+const enUtt = spokenUtts[spokenUtts.length - 1];
+let cancelToasts = 0;
+const __prevAppendC = phoneEl.appendChild;
+phoneEl.appendChild = () => { cancelToasts++; };
+if (enUtt && enUtt.onerror) enUtt.onerror({ error: 'interrupted' });
+if (enUtt && enUtt.onerror) enUtt.onerror({ error: 'canceled' });
+phoneEl.appendChild = __prevAppendC;
+ok('★ 单句朗读不把「主动打断」当失败（interrupted/canceled 不弹「朗读失败」）',
+  emptySubmitted && cancelToasts === 0);
+/* 被拦时的成功提示必须同步消失（2026-09-25 阶段 1）：朗读没提交就不许弹
+ * 「朗读第 n 句」—— makeUtterance/speak 已给过原因，提示与事实一致。 */
+ctx('voiceWarned = false; voiceBlockedWarned = false;');
+fakeVoices = [{ name: 'Microsoft Huihui', lang: 'zh-CN', localService: true }];   // 造「有语音表但无英语」的局面
+ctx('activeArticle = ARTICLES[0];');
+ctx('stopSpeech();');
+spokenUtts.length = 0;
+const blockToastTexts = [];
+const __prevAppendB = phoneEl.appendChild;
+phoneEl.appendChild = el => { blockToastTexts.push(String(el.textContent || "")); };
+click({ act: 'para-speak', pi: 0, si: 0, rs: 0 });
+phoneEl.appendChild = __prevAppendB;
+ok('★ 单句朗读被拦（无英语语音）时：有原因提示、无「朗读第 n 句」成功提示',
+  spokenUtts.length === 0
+  && blockToastTexts.some(t => t.includes("此设备没有英文语音包"))
+  && !blockToastTexts.some(t => t.includes("朗读第")));
 /* 全文朗读必须逐句推进。原实现 join(" ") 塞一条 —— 长文会被引擎掐断，也无法暂停续读。
  * 断言「实际送出几条」而不是源码里有没有 speakAll：换成别的写法但仍整篇一条，这条要能抓住。 */
 fakeVoices = [{ name: 'Google US English', lang: 'en-US', localService: true }];
@@ -1122,6 +1183,36 @@ ctx('togglePauseSpeech();');
 if (uPaused && uPaused.onend) uPaused.onend();
 ok('★ 暂停后迟到的 onend 不再送下一句（暂停要真的停住）',
   spokenUtts.length === 1 && uPlaying !== undefined && ctx('spPaused') === true);
+ctx('stopSpeech();');
+/* 暂停后的迟到 onend 不得推进句序（2026-09-25 补的半个格子）：上一条只断言
+ * 「不送下一句」，而回调里的 spAt++ 照走 —— 续读时正好跳过一句。 */
+ctx('speakAll(activeArticle);');
+const uP2 = spokenUtts[spokenUtts.length - 1];
+ctx('togglePauseSpeech();');
+const atBefore = ctx('spAt');
+if (uP2 && uP2.onend) uP2.onend();
+ok('★ 暂停后迟到的 onend 不推进句序（续读不跳句，不只是「不送下一句」）',
+  ctx('spPaused') === true && ctx('spAt') === atBefore);
+ctx('stopSpeech();');
+/* 旧会话的迟到 onend 不得推进新会话（2026-09-25，会话编号）：stopSpeech→speakAll
+ * 连着调用时 spList 已非 null，只靠「spList === null」认不出会话已经换了。 */
+ctx('stopSpeech();');
+spokenUtts.length = 0;
+ctx('speakAll(activeArticle);');
+const uOld = spokenUtts[spokenUtts.length - 1];
+if (uOld && uOld.onend) uOld.onend();
+const nAfterOld = spokenUtts.length;
+ctx('stopSpeech();');
+ctx('speakAll(activeArticle);');
+if (uOld && uOld.onend) uOld.onend();      // ★ 旧会话的迟到回调
+ok('★ 旧会话的迟到 onend 不推进新会话（会话编号，不再只靠 spList 是否为 null）',
+  spokenUtts.length === nAfterOld + 1 && ctx('spAt') === 0);
+ctx('stopSpeech();');
+/* utterance 必须保持被引用（2026-09-25）：Chromium 会回收无人引用的 utterance，
+ * 引擎随即报错或中途停声。 */
+ctx('speak("Keep alive.", "sent");');
+ok('★ 最近一条 utterance 保持被引用（防 GC 中断发声）',
+  ctx('spKeepAlive') !== null && ctx('spKeepAlive') === spokenUtts[spokenUtts.length - 1]);
 ctx('stopSpeech();');
 /* ★ lang 不是给读屏凑分的：它决定断词规则（长词在哪儿折行）、系统字体回退栈挑哪套字形、
  * 朗读引擎用哪种语言念。缺了它浏览器只能猜，Android 上猜错会换字体、连字符位置也跟着变。
