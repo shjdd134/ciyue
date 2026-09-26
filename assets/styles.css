@@ -1037,7 +1037,7 @@ body {
   border: 0; cursor: pointer;
   color: var(--text-2);
 }
-.fab-bar button.active { background: var(--brand); color: #fff; }
+.fab-bar button.active { background: var(--brand); color: var(--bg); }
 .fab-bar button:hover { background: var(--brand-soft); }
 .fab-bar button.active:hover { background: var(--brand); }
 /* 阅读设置入口用「Aa」字样：齿轮/太阳图标在这个尺寸下会读成「亮度」，
@@ -1381,6 +1381,44 @@ body {
 .screen.rt-night .kw { background: rgba(176, 164, 255, .14); color: #C8C2FF; }
 .screen.rt-night .read-body .para .cn { background: rgba(176, 164, 255, .06); border-color: #B0A4FF; }
 .screen.rt-night .read-cover::after { background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.4) 100%); }
+
+/* ---------- 阅读设置入口（Aa）三主题强化（2026-09-26） ----------
+ * 用户原话：Aa 按钮和浮动工具栏都太「通透」，浅色 / 护眼下不突出。它管的是阅读排版，
+ * 是三个按钮里的主入口，改成「接近实色的底盘 + 高对比文字 + 一圈淡边框」的稳定盘子；
+ * Aa 旁加一枚很小的调节（滑杆）图标点出「设置」语义 —— 不用齿轮，那是整个 App 的设置。
+ * 用 var(--text-1) / var(--bg) 这对互为反色的 token：三套阅读主题（默认 / 护眼 rt-paper /
+ * 夜间 rt-night）各自自动反转，不靠 hover 也一眼可辨。editorial.css 全站覆盖了这套
+ * token（--text-1 是墨绿 #1c2c25、--bg 是暖白 #f8f7f3），所以按钮天然带着阅读页自己的
+ * 纸墨配色。rt-paper / rt-night 的按钮各有通配底色（上面两条 0,3,1 规则），这里必须
+ * 带上主题选择器（0,4,1）才压得住它们。active（用户调过字号 / 底色）回到品牌色底盘，
+ * 字色用 var(--bg)，在夜间浅紫品牌底上也是高对比。 */
+.fab-bar button.read-set,
+.screen.rt-paper .fab-bar button.read-set,
+.screen.rt-night .fab-bar button.read-set {
+  background: var(--text-1);
+  color: var(--bg);
+  border: 1px solid rgba(128, 128, 140, .28);
+  gap: 4px;
+}
+.fab-bar button.read-set:hover,
+.screen.rt-paper .fab-bar button.read-set:hover,
+.screen.rt-night .fab-bar button.read-set:hover {
+  background: var(--text-1);
+  color: var(--bg);
+  filter: brightness(1.18);
+}
+.fab-bar button.read-set.active,
+.screen.rt-paper .fab-bar button.read-set.active,
+.screen.rt-night .fab-bar button.read-set.active {
+  background: var(--brand); color: var(--bg); border-color: transparent;
+  /* active 的字色用 var(--bg) 不用 #fff：夜间阅读主题的 --brand 是浅紫 #B0A4FF、
+     深 App 主题下是浅绿 #b4cfb6 —— 白字只有 2.2:1，深底色字三套主题全都 ≥7:1。 */
+}
+.fab-bar button.read-set.active:hover,
+.screen.rt-paper .fab-bar button.read-set.active:hover,
+.screen.rt-night .fab-bar button.read-set.active:hover {
+  background: var(--brand); color: var(--bg); filter: none;
+}
 
 /* ---------- 发现页：精选 + 分类分栏 ---------- */
 .discover-feat {

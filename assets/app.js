@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "92");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "93");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1364,6 +1364,8 @@ const ICON = {
   fire: '<path d="M13.5 2c.6 3.3-1.4 4.6-2.7 6C9 9.7 8 11.3 8 14a6 6 0 0 0 12 .3c0-1.6-.7-3-1.6-4.2.3 1.4-.2 2.6-1.2 3.1.6-3.6-1.4-7.6-3.7-11.2Z" fill="currentColor"/><path d="M9.6 13.6c.2 2.5 1.9 4.2 4.3 4.4-1.9-.8-2.8-2.4-2.6-4.4.1-1-.6-1.9-1.7-2 .3 1.4-.1 1.9 0 2Z" fill="currentColor"/>',
   flip: '<path d="M8 7 4 12l4 5M16 7l4 5-4 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   settings: '<circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 3v2.2M12 18.8V21M4.2 7.5l1.9 1.1M17.9 15.4l1.9 1.1M4.2 16.5l1.9-1.1M17.9 8.6l1.9-1.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
+  /* 阅读设置入口（Aa 旁的小图标）：调节/滑杆，不是齿轮 —— 它管阅读排版，不是整个 App 的设置 */
+  tune: '<path d="M3.5 8h8M16.5 8h4M3.5 16h4M12.5 16h8" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><circle cx="14" cy="8" r="2.3" stroke="currentColor" stroke-width="1.8" fill="none"/><circle cx="10" cy="16" r="2.3" stroke="currentColor" stroke-width="1.8" fill="none"/>',
   book: '<path d="M5 4h6a3 3 0 0 1 3 3v13a2.5 2.5 0 0 0-2.5-2.5H5V4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/><path d="M19 4h-5v13h5V4Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>',
   moon: '<path d="M20.2 14.8A8.6 8.6 0 0 1 9.2 3.8 8.6 8.6 0 1 0 20.2 14.8Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>',
   sun: '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
@@ -2495,8 +2497,7 @@ function renderReadHistory() {
  * 它们是行为的副产品，不构成任何可靠判断，摆在卡片上只会让人以为自己该焦虑。 */
 function nbRowHTML(it, known) {
   const w = WORD_BY.get(it.word);
-  if (!w) return "";
-  const shortDef = String(w.def || "").split("\n")[0] || w.def;
+  const shortDef = w ? String(w.def || "").split("\n")[0] || w.def : "";
   const artId = it.articleId && ARTICLES.some(a => a.id === it.articleId) ? it.articleId : "";
   const artTitle = it.articleTitle || (artId ? clean(ARTICLES.find(a => a.id === artId).title || "") : "");
   const c = it.context;
@@ -2506,18 +2507,40 @@ function nbRowHTML(it, known) {
         ${c.cn ? `<div class="nb-ctx-cn">${esc(c.cn)}</div>` : ""}
       </div>`
     : "";
-  return `<div class="nb-row" data-word="${esc(w.word)}">
-    <div class="nb-main" data-act="lookup" data-word="${esc(w.word)}">
+  /* 词典查不到的词也要留在列表里（2026-09-26 定死）：收藏 / 已认识是个人记录，
+     不随词典数据或换词库消失 —— 少一条释义，不丢一条词。 */
+  return `<div class="nb-row" data-word="${esc(it.word)}">
+    <div class="nb-main"${w ? ` data-act="lookup" data-word="${esc(it.word)}"` : ""}>
       <div class="nb-word-row">
-        <span class="nb-word">${esc(w.word)}</span>
-        <span class="nb-phonetic">${esc(w.phonetic || "")}</span>
+        <span class="nb-word">${esc(it.word)}</span>
+        <span class="nb-phonetic">${esc(w ? w.phonetic || "" : "")}</span>
         ${known ? `<span class="nb-known-tag">已认识</span>` : ""}
       </div>
-      <div class="nb-def">${esc(w.pos || "")} ${esc(shortDef)}</div>
+      ${w ? `<div class="nb-def">${esc(w.pos || "")} ${esc(shortDef)}</div>`
+          : `<div class="nb-def muted-2">离线词典里暂无这个词的释义</div>`}
       ${ctx}
       ${artTitle && artId ? `<div class="nb-from"><button class="nb-source" data-act="nb-open-art" data-id="${esc(artId)}" title="${esc(artTitle)}">${esc(artTitle)}</button></div>` : ""}
     </div>
-    <button class="nb-del" data-act="remove-note" data-word="${esc(w.word)}" aria-label="移除 ${esc(w.word)}">${svg("close", 14)}</button>
+    <button class="nb-del" data-act="remove-note" data-word="${esc(it.word)}" aria-label="移除 ${esc(it.word)}">${svg("close", 14)}</button>
+  </div>`;
+}
+
+/* 已认识但从未进过生词本的词：没有「当时那句话」可回看，给一张朴素的释义卡。
+   词典查不到的（旧导入词、词典变更）也保住词本身和已认识状态；右侧 × =
+   取消已认识（点了从「已认识」列表消失，与生词 Tab 的 × = 移出生词本对称）。 */
+function knownRowHTML(word) {
+  const w = WORD_BY.get(word);
+  return `<div class="nb-row" data-word="${esc(word)}">
+    <div class="nb-main"${w ? ` data-act="lookup" data-word="${esc(word)}"` : ""}>
+      <div class="nb-word-row">
+        <span class="nb-word">${esc(word)}</span>
+        <span class="nb-phonetic">${esc(w ? w.phonetic || "" : "")}</span>
+        <span class="nb-known-tag">已认识</span>
+      </div>
+      ${w ? `<div class="nb-def">${esc(w.pos || "")} ${esc(String(w.def || "").split("\n")[0] || w.def)}</div>`
+          : `<div class="nb-def muted-2">离线词典里暂无这个词的释义 · 已认识状态保留</div>`}
+    </div>
+    <button class="nb-del" data-act="mark-known" data-word="${esc(word)}" aria-label="取消已认识 ${esc(word)}">${svg("close", 14)}</button>
   </div>`;
 }
 
@@ -2691,27 +2714,33 @@ function normalizeVocabDraft(text) {
   return String(text || "");
 }
 function renderNotebook() {
-  const items = [...S.notebook].sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
+  /* 三个数据源各归各（2026-09-26 定死，换词库 / 词典变化都不影响）：
+     生词 Tab   = S.notebook − S.known（收藏过、还没标认识的，最新收藏在上）
+     已认识 Tab = S.known **全量** —— 在正文里直接标认识、从没进过生词本的词也算；
+                  以前进过生词本的沿用原句与出处（nbRowHTML），没有的给朴素释义卡
+                  （knownRowHTML）。生词本只是收藏历史，不决定已认识列表的成员。 */
   const knownSet = new Set(S.known || []);
-  const usable = items.filter(it => WORD_BY.has(it.word));
-  const learning = usable.filter(it => !knownSet.has(it.word));
-  const known = usable.filter(it => knownSet.has(it.word));
-  /*「已认识」只算**收藏过**的词：S.known 里还有一批在正文里直接标认识、
-     从没进过生词本的词，那是阅读行为，不属于词汇本。 */
-  const list = vocabTab === "known" ? known : learning;
+  const learning = (S.notebook || []).filter(it => !knownSet.has(it.word))
+    .sort((a, b) => (b.addedAt || 0) - (a.addedAt || 0));
+  const nbByWord = new Map((S.notebook || []).map(it => [it.word, it]));
+  const knownList = [...new Set(S.known || [])].reverse();   // 最近标认识的在上
+  const list = vocabTab === "known" ? knownList : learning;
   const empty = vocabTab === "known"
-    ? `<div class="card nb-empty">还没有标为已认识的词<br><span class="muted-2">在生词卡里点「我已认识」，它就会移到这里</span></div>`
+    ? `<div class="card nb-empty">还没有已认识的词<br><span class="muted-2">阅读时点单词，卡片里点「已认识」，它就会记在这里</span></div>`
     : `<div class="card nb-empty">还没有生词 · 阅读时点单词，卡片里就能收藏<br><span class="muted-2">收藏时会把那句话一起存下来</span></div>`;
+  const rows = vocabTab === "known"
+    ? list.map(w => (nbByWord.has(w) ? nbRowHTML(nbByWord.get(w), true) : knownRowHTML(w))).join("")
+    : list.map(it => nbRowHTML(it, false)).join("");
 
   return `${statusbar()}
     <div class="view view-flow notebook-view">
       <header class="page-intro">
-        <div><div class="eyebrow">WORDS YOU COLLECTED</div><h1>我的词汇<span class="title-period">。</span></h1><p>阅读时收藏的词，连同遇见它的那句话。</p></div>
+        <div><div class="eyebrow">WORDS YOU COLLECTED</div><h1>我的词汇<span class="title-period">。</span></h1><p>生词收藏连着遇见它的那句话；标过的认识永久保留。</p></div>
         <span class="icon-btn" data-act="go-back" role="button" tabindex="0" aria-label="返回">${svg("back", 16)}</span>
       </header>
       <div class="vocab-tabs">
         <button class="vt${vocabTab === "new" ? " on" : ""}" data-act="vocab-tab" data-tab="new">生词 <b>${learning.length}</b></button>
-        <button class="vt${vocabTab === "known" ? " on" : ""}" data-act="vocab-tab" data-tab="known">已认识 <b>${known.length}</b></button>
+        <button class="vt${vocabTab === "known" ? " on" : ""}" data-act="vocab-tab" data-tab="known">已认识 <b>${(S.known || []).length}</b></button>
       </div>
       <!-- 我的导入词库入口：数据上与生词本 / 已认识完全独立（阅读前就知道不会的词 vs
            阅读中收藏的词），但导航上放在词汇页里最顺 —— 用户找「我的词」只会来这里。 -->
@@ -2720,7 +2749,7 @@ function renderNotebook() {
         <span class="col grow" style="gap:2px"><span class="h3">我的导入词库</span><span class="muted">${(S.customVocab || []).length} 个词 · 导入 / 搜索 / 删除 / 导出</span></span>
         ${svg("arrow", 16)}
       </button>
-      ${list.length ? `<div class="nb-list">${list.map(it => nbRowHTML(it, vocabTab === "known")).join("")}</div>` : empty}
+      ${list.length ? `<div class="nb-list">${rows}</div>` : empty}
     </div>`;
 }
 
@@ -3032,7 +3061,7 @@ function renderRead() {
 
     <div class="fab-bar" id="fab-bar">
       <button data-act="toggle-cn" class="${S.cnMode === "all" ? 'active' : ''}" title="译" aria-label="${S.cnMode === "all" ? "收起中文对照" : "展开中文对照"}" aria-pressed="${S.cnMode === "all"}">${svg("globe", 18)}</button>
-      <button data-act="read-settings" class="${S.fontSize > 0 || S.readTheme ? 'active' : ''}" title="阅读设置" aria-label="阅读设置（模式 / 字号 / 对照 / 底色）"><span class="fab-aa">Aa</span></button>
+      <button data-act="read-settings" class="read-set${S.fontSize > 0 || S.readTheme ? ' active' : ''}" title="阅读设置" aria-label="阅读设置（模式 / 字号 / 对照 / 底色）"><span class="fab-aa">Aa</span>${svg("tune", 10)}</button>
       <button data-act="fab-more" title="更多工具" aria-label="更多工具"><span style="font-family:var(--font-num);font-weight:700;letter-spacing:1px">···</span></button>
       <!-- 朗读态：全文朗读时顶掉上面三个按钮，变身播放器（进度 / 暂停 / 停止）。
            刻意不做 aria-live 播报进度 —— TTS 正在念英文，读屏再念一遍「3/42」
@@ -3747,11 +3776,10 @@ function renderCustomSheet(word, ctx, form) {
       ${t ? `<div class="df">${esc(t.p || "")}</div><div class="df pre">${esc(t.d)}</div>` : `<div class="df muted-2">离线词典里暂无这个词的释义</div>`}
       ${ctxBlockHTML(word, ctx)}
       <div class="sheet-btns">
-        ${nb
-          ? `<button class="a" data-act="mark-known" data-word="${esc(word)}">我已认识 ✓</button>`
-          : `<button class="a" data-act="add-note" data-word="${esc(word)}">加入生词本</button>${known ? `<button class="a" data-act="mark-known" data-word="${esc(word)}">取消已认识</button>` : ""}`}
-        <button class="b" data-act="cv-del-word" data-word="${esc(word)}">移出词库</button>
+        <button class="a" data-act="${nb ? "remove-note" : "add-note"}" data-word="${esc(word)}">${nb ? "移出生词本" : "加入生词本"}</button>
+        <button class="c" data-act="mark-known" data-word="${esc(word)}" aria-pressed="${known}">${known ? "取消已认识" : "已认识"}</button>
       </div>
+      <div class="sheet-btns"><button class="b" data-act="cv-del-word" data-word="${esc(word)}">移出词库</button></div>
     </div>`;
 }
 
@@ -4064,10 +4092,78 @@ function tapVetoed(ev) {
   return g.veto || (g.isTouch && Date.now() - g.t > TAP_HOLD_MS);
 }
 
+/* ---------------- 点句出译文（热区：句子块 + 正文两侧留白） ----------------
+ * 点一句 = 选中它：喇叭只在选中的句子上出现，长文里不再满屏小图标。
+ * 一次只留一个选中句。译文是否跟着弹出，取决于中文对照档位：
+ *   tap 档 → 弹出（这就是「点句显示」的定义）
+ *   off 档 → 只选中、不弹中文。这是 off 与 tap 的**唯一**差别，也是这一档
+ *            存在的全部理由：纯英文阅读时不该被中文打断。
+ *   all 档 → 中文本来就在，不必 peek。
+ * el 是被点的 .sentence（真实点击）或按高度映射出来的句子（两侧留白，见
+ * blankToSentence）—— 两条入口必须走同一个函数，各写一份迟早走散。 */
+function toggleSentencePeek(el) {
+  const on = !el.classList.contains("sel");
+  /* ★ 保持所点句不动。切句 = 收起上一句译文 + 展开本句译文，而浏览器的滚动锚定
+   *   锚的是视口内**第一个**元素（往往不是用户刚点的那句），于是所点句被上方
+   *   收起的那块译文带着往上跳。实测（2026-09-21 Edge 390×844，hasTouch，
+   *   people-anne-hathaway-mother-mary）：第 20 句在 119px、第 24 句在 575px，
+   *   点第 24 句后它自己上移 **96px** —— 正好等于第 20 句那块译文的高度。
+   *   另两个场景实测位移都是 0，所以这个补偿只在「所点句真的动了」时生效：
+   *     · 单句展开：译文是该句的兄弟节点、挂在它之后，不影响该句自身 → 0px
+   *     · 展开屏外上方的句子：scrollTop 已被浏览器锚定补了 96px → 跟随句 0px
+   *   于是不会与浏览器的锚定打架、也不会双重位移（计划 §3 特意提醒过这点）。
+   *   锚点来源必须是**用户点的这一句**，不能用 readAnchor() —— 后者取的是视口上部
+   *   1/4 处「正在读的句」，那是给字号/对照切换用的，切句时它多半不是所点句。
+   *   .peek 的展开只动 opacity/transform（peekIn 关键帧），布局在加 class 那一刻
+   *   就已定，所以可以同步量、同步补，不需要等一帧。 */
+  const cont = $("#read-scroll");
+  const anc = (cont && cont.getBoundingClientRect && el.getBoundingClientRect)
+    ? (() => {
+        const r = el.getBoundingClientRect(), c = cont.getBoundingClientRect();
+        const rel = r.top - c.top;
+        /* 只对「用户看得见的那句」补偿。屏外句也能被程序化展开（探针在测），
+         * 那种情况下浏览器自己的滚动锚定已经处理好了（实测 scrollTop +96px），
+         * 应用层再插一手反而把它的补偿挤掉 —— 实测过：改前跟随句 0px，
+         * 加补偿后变成 96px。真实用户点不到看不见的句子，这条分支只为让
+         * 探针的 B 场景保持原行为，同时说明「为什么不能无脑补」。 */
+        if (rel < -8 || rel > (cont.clientHeight || 0) + 8) return null;
+        return { pi: +el.dataset.pi || 0, si: +el.dataset.si || 0, rs: +el.dataset.rs || 0, off: rel };
+      })()
+    : null;
+  $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
+  if (on) {
+    el.classList.add("sel");
+    if (S.cnMode === "tap") el.classList.add("peek");
+  }
+  if (anc) applyAnchor(cont, anc);
+}
+
+/* 正文两侧留白也是句子热区（2026-09-26）：句子块只撑到版心，页面左右 --rd-pad
+ * 的空白点下去谁也不命中。把这种点击按 Y 坐标还给「盖住这个高度的句子」，
+ * 等同直接点了那一句 —— 这就是「整条阅读行都是热区」的落点。
+ * 两条边界：
+ * · 只在阅读页、点在 #read-body 里才生效 —— 别的页面、阅读页的其他部位（封面、
+ *   读完卡）的空白没有句子语义；
+ * · 命中要求句子盒子在竖直方向盖住点击高度。句间 10px、段间 24px 的间隙里没有
+ *   句子盒子，点了保持无动作 —— 间隙是模糊区，点中间不知道会展开哪句，宁可不动
+ *   （2026-09-26 用户明确要求）。
+ * 点单词、点句末喇叭、点收藏句各自带 data-act，在 closest() 就被接走，永远到不了
+ * 这里 —— 扩热区不会造成「一次点击既查词又展译文」。 */
+function blankToSentence(e) {
+  if (view.name !== "read" || !activeArticle) return;
+  if (!e.clientX && !e.clientY) return;              // 键盘 / 程序触发的 click 没有坐标
+  if (!e.target.closest || !e.target.closest("#read-body")) return;
+  const y = e.clientY;
+  for (const el of $$("#read-body .sentence")) {
+    const r = el.getBoundingClientRect();
+    if (r.height > 0 && y >= r.top && y <= r.bottom) { toggleSentencePeek(el); return; }
+  }
+}
+
 document.addEventListener("click", e => {
   if (tapVetoed(e)) return;
   const t = e.target.closest("[data-act],[data-tab],[data-article],[data-cat]");
-  if (!t) return;
+  if (!t) { blankToSentence(e); return; }
 
   if (t.dataset.tab && !t.dataset.act) {
     if (!["home", "discover", "me"].includes(t.dataset.tab)) return;
@@ -4386,49 +4482,9 @@ document.addEventListener("click", e => {
       syncReadSettingsSheet("rate", v);
       break;
     }
-    case "para-peek": {
-      /* 点一句 = 选中它：喇叭只在选中的句子上出现，长文里不再满屏小图标。
-       * 一次只留一个选中句。译文是否跟着弹出，取决于中文对照档位：
-       *   tap 档 → 弹出（这就是「点句显示」的定义）
-       *   off 档 → 只选中、不弹中文。这是 off 与 tap 的**唯一**差别，也是这一档
-       *            存在的全部理由：纯英文阅读时不该被中文打断。
-       *   all 档 → 中文本来就在，不必 peek。 */
-      const on = !t.classList.contains("sel");
-      /* ★ 保持所点句不动。切句 = 收起上一句译文 + 展开本句译文，而浏览器的滚动锚定
-       *   锚的是视口内**第一个**元素（往往不是用户刚点的那句），于是所点句被上方
-       *   收起的那块译文带着往上跳。实测（2026-09-21 Edge 390×844，hasTouch，
-       *   people-anne-hathaway-mother-mary）：第 20 句在 119px、第 24 句在 575px，
-       *   点第 24 句后它自己上移 **96px** —— 正好等于第 20 句那块译文的高度。
-       *   另两个场景实测位移都是 0，所以这个补偿只在「所点句真的动了」时生效：
-       *     · 单句展开：译文是该句的兄弟节点、挂在它之后，不影响该句自身 → 0px
-       *     · 展开屏外上方的句子：scrollTop 已被浏览器锚定补了 96px → 跟随句 0px
-       *   于是不会与浏览器的锚定打架、也不会双重位移（计划 §3 特意提醒过这点）。
-       *   锚点来源必须是**用户点的这一句**，不能用 readAnchor() —— 后者取的是视口上部
-       *   1/4 处「正在读的句」，那是给字号/对照切换用的，切句时它多半不是所点句。
-       *   .peek 的展开只动 opacity/transform（peekIn 关键帧），布局在加 class 那一刻
-       *   就已定，所以可以同步量、同步补，不需要等一帧。 */
-      const cont = $("#read-scroll");
-      const anc = (cont && cont.getBoundingClientRect && t.getBoundingClientRect)
-        ? (() => {
-            const r = t.getBoundingClientRect(), c = cont.getBoundingClientRect();
-            const rel = r.top - c.top;
-            /* 只对「用户看得见的那句」补偿。屏外句也能被程序化展开（探针在测），
-             * 那种情况下浏览器自己的滚动锚定已经处理好了（实测 scrollTop +96px），
-             * 应用层再插一手反而把它的补偿挤掉 —— 实测过：改前跟随句 0px，
-             * 加补偿后变成 96px。真实用户点不到看不见的句子，这条分支只为让
-             * 探针的 B 场景保持原行为，同时说明「为什么不能无脑补」。 */
-            if (rel < -8 || rel > (cont.clientHeight || 0) + 8) return null;
-            return { pi: +t.dataset.pi || 0, si: +t.dataset.si || 0, rs: +t.dataset.rs || 0, off: rel };
-          })()
-        : null;
-      $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
-      if (on) {
-        t.classList.add("sel");
-        if (S.cnMode === "tap") t.classList.add("peek");
-      }
-      if (anc) applyAnchor(cont, anc);
+    case "para-peek":
+      toggleSentencePeek(t);
       break;
-    }
     /* 段级「本段对照」（case "para-cn"）2026-09-19 随按钮一起删除：
        一句一行之后，整段展开既没有入口也没有必要 —— 点句出译文是唯一交互。 */
     case "para-speak": {
@@ -4554,10 +4610,12 @@ document.addEventListener("click", e => {
           articleTitle: inRead ? clean(activeArticle.title || "") : "",
           context: sheetCtx ? { en: clipContext(sheetCtx.en, w), cn: sheetCtx.cn || "" } : null,
         });
-        /* 加入生词本 = 这个词现在是我的生词。若此前标过「已认识」必须撤掉 ——
-           known 的优先级高于生词色，不撤的话正文里它仍然是灰的，用户会以为没生效。 */
-        const ki = S.known.indexOf(w);
-        if (ki >= 0) S.known.splice(ki, 1);
+        /* ★ 词汇三态红线（2026-09-26 定死）：加入生词本**只写 S.notebook**，绝不碰
+           S.known —— 「已认识」是用户的长期记录、最高优先级，不能被收藏动作撤销。
+           一个词可以同时在生词本和已认识里（我以前不会、现在认识了）；正文标色
+           highlightEn / paintWord 按「已认识 > 生词 > 高亮」取态，known 在手时收藏
+           不会让它重新变琥珀色。三者互不删数据：生词本记录「曾经不会」，已认识
+           记录「现在认识」，词库只管高亮。 */
         toast(`「${w}」已加入生词本`);
       }
       else toast("已经在生词本里了");

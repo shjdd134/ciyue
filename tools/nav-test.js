@@ -178,7 +178,7 @@ click({ tab: 'me' });
 clickRenderedButton(screenEl.innerHTML, 'open-notebook');
 clickRenderedButton(screenEl.innerHTML, 'vocab-tab', 'known');
 eq('点击已认识标签真的切换', ctx('vocabTab'), 'known');
-ok('已认识标签初始显示空状态', screenEl.innerHTML.includes('还没有标为已认识的词'));
+ok('已认识标签初始显示空状态', screenEl.innerHTML.includes('还没有已认识的词'));
 clickRenderedButton(screenEl.innerHTML, 'vocab-tab', 'new');
 eq('点击生词标签可以切回', ctx('vocabTab'), 'new');
 clickRenderedButton(ctx(`renderSheet(${JSON.stringify(notebookWord)})`), 'mark-known');

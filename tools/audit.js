@@ -987,6 +987,60 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
   ok('词汇页：生词卡带语境原句，且不显示次数',
     nbPage.news.includes('甲。') && !/遇到 \d+ 次|查询 \d+ 次/.test(nbPage.news));
 
+  /* ---- 词汇三态红线（2026-09-26 用户定死）：已认识 > 生词本 > 词库高亮 ----
+   * 词库负责「提醒我看这个词」，生词本记录「我曾经不会」，已认识记录「我现在认识」。
+   * 三者互不删数据：收藏绝不撤认识；追加 / 覆盖 / 删除 / 清空词库只动 customVocab；
+   * 已认识 Tab = S.known 全量（不要求先收藏过）。每条断言都配反例方向：
+   * add-note 里加回 splice 会红第一、二条；cv-* 里碰 S.known / S.notebook 会红第三条；
+   * 已认识 Tab 改回「只算收藏过的」会红第四、五条。 */
+  const triW = ctx('CORE_WORDS[2].word');
+  const TW = JSON.stringify(triW);
+  ctx(`S.known = [${TW}]; S.notebook = []; S.customVocab = []; rebuildCustomSet();`);
+  click({ act: "add-note", word: triW });
+  ok('★ 加入生词本不撤「已认识」（一词可同时在生词本与已认识里）',
+    ctx(`S.known.includes(${TW}) && S.notebook.some(it => it.word === ${TW})`));
+  click({ act: "mark-known", word: triW });
+  ok('★ 收藏过的词取消认识后仍保留生词条目（生词本记录「曾经不会」不丢）',
+    ctx(`!S.known.includes(${TW}) && S.notebook.some(it => it.word === ${TW})`));
+  ctx(`S.known = [${TW}];`);
+  const bothCls = ctx(`(() => {
+    const mm = highlightEn("The " + ${TW} + " end.")
+      .match(new RegExp('<span class="([^"]*)"[^>]*data-word="' + ${TW} + '"'));
+    return mm ? mm[1].split(/\\s+/) : [];
+  })()`);
+  ok('★ 一词同时在生词本与已认识：正文按已认识显示（无 kw 也无 wb）',
+    bothCls.includes('known') && !bothCls.includes('kw') && !bothCls.includes('wb'));
+  click({ act: "cv-clear" });          // 两段式：第一击只进入待确认态
+  click({ act: "cv-clear" });          // 第二击执行清空
+  ok('★ 清空导入词库不动生词本与已认识（词库只管高亮）',
+    ctx(`S.customVocab.length === 0 && S.known.includes(${TW}) && S.notebook.some(it => it.word === ${TW})`));
+  ctx(`S.customVocab = ["zzz-guard-word"]; rebuildCustomSet();`);
+  click({ act: "cv-del-word", word: "zzz-guard-word" });
+  ok('★ 删除导入词同样不动生词本与已认识',
+    ctx(`!S.customVocab.includes("zzz-guard-word") && S.known.includes(${TW}) && S.notebook.some(it => it.word === ${TW})`));
+  const nbPage2 = ctx(`(() => {
+    const k1 = CORE_WORDS[3].word, k2 = CORE_WORDS[4].word, n1 = CORE_WORDS[5].word;
+    S.known = [k1, k2, "zzz-not-in-dict"];
+    S.notebook = [
+      { word: k1, addedAt: 3, articleId: "", articleTitle: "", context: { en: "A " + k1 + ".", cn: "甲。" } },
+      { word: n1, addedAt: 2, articleId: "", articleTitle: "", context: null },
+    ];
+    vocabTab = "known"; const kt = renderNotebook();
+    vocabTab = "new"; const nt = renderNotebook();
+    S.known = []; S.notebook = []; vocabTab = "new";
+    return { k1, k2, n1, kt, nt };
+  })()`);
+  ok('词汇页：已认识 Tab = S.known 全量（从没收藏过的已认识词也在列）',
+    nbPage2.kt.includes(nbPage2.k1) && nbPage2.kt.includes(nbPage2.k2) && nbPage2.kt.includes("zzz-not-in-dict"));
+  ok('词汇页：已认识 Tab 计数 = S.known 长度（含词典查不到的词）',
+    /data-tab="known"[^>]*>已认识 <b>3<\/b>/.test(nbPage2.kt));
+  ok('词汇页：词典查不到的已认识词保留状态卡，不整行消失',
+    /zzz-not-in-dict[\s\S]*已认识状态保留/.test(nbPage2.kt));
+  ok('词汇页：生词 Tab = 生词本 − 已认识（收藏过但已认识的不再算生词）',
+    /data-tab="new"[^>]*>生词 <b>1<\/b>/.test(nbPage2.nt)
+      && nbPage2.nt.includes(nbPage2.n1) && !new RegExp('class="nb-word">' + nbPage2.k1 + '<').test(nbPage2.nt));
+  ctx(`S.known = []; S.notebook = [];`);
+
   /* ---- 高亮档位 ↔ 学习记录的边界（2026-09-19 用户定的红线） ----
    * 原话：「词库是系统给你的分类，已认识是用户自己的学习记录；系统分类可以变，
    * 用户记录不能跟着丢。」两件事要锁死：① 切档不改 S.known；② 已认识的词在任何
@@ -1342,10 +1396,10 @@ ctx('activeArticle = null;');
 console.log('\n[R3] 点句保持位置');
 const appBare = fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8')
   .replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
-const peekBody = (appBare.match(/case "para-peek":\s*\{([\s\S]*?)\n    \}/) || [, ''])[1];
+const peekBody = (appBare.match(/function toggleSentencePeek\(el\)\s*\{([\s\S]*?)\n\}/) || [, ''])[1];
 ok('点句切换后有所点句的位置补偿（applyAnchor 调用存在）', /applyAnchor\(cont,\s*anc\)/.test(peekBody));
 ok('补偿锚点取自用户所点的那一句（不是 readAnchor 的「正在读的句」）',
-  /t\.dataset\.pi/.test(peekBody) && !/readAnchor\(/.test(peekBody));
+  /el\.dataset\.pi/.test(peekBody) && !/readAnchor\(/.test(peekBody));
 ok('屏外句不做补偿（浏览器自己的滚动锚定已在处理，插一手会把它的补偿挤掉）',
   /clientHeight/.test(peekBody) && /return null/.test(peekBody));
 
