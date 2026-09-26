@@ -1,0 +1,2767 @@
+{
+ "id": "gr-greatergood-rustout",
+ "cat": "成长",
+ "title": "You Might Be Experiencing Rustout, Not Burnout, at Work",
+ "titleZh": "你在工作中经历的也许不是倦怠，而是「生锈」",
+ "source_url": "https://greatergood.berkeley.edu/article/item/you_might_be_experiencing_rustout_not_burnout_at_work",
+ "date": "2026-09-09",
+ "coverImg": "assets/covers/gr-greatergood-rustout.jpg",
+ "inlineImages": [],
+ "translation_type": "ciyue_edited",
+ "stats": {
+  "paragraphs": 31,
+  "sentences": 86,
+  "words": 1617,
+  "chinese": 2539,
+  "emptyCn": 0
+ },
+ "sentence_pairs": [
+  {
+   "en": "Some forms of distress at work are easy to recognize because they interrupt someone’s daily performance and the work of those around them: For example, a person on your team becomes visibly exhausted, they are irritable, or they’re frequently absent.",
+   "cn": "有些职场痛苦很容易辨认，因为它们会打断当事人和他周围人的日常工作：比如，团队里有人明显疲惫不堪、烦躁易怒，或者频繁缺勤。"
+  },
+  {
+   "en": "But other forms of distress are harder to see precisely because the work continues uninterrupted.",
+   "cn": "但另一些痛苦更难看见，恰恰是因为工作还在不间断地进行。"
+  },
+  {
+   "en": "It’s common to talk about burnout at work and to recognize it in others and in ourselves.",
+   "cn": "我们常谈起职场倦怠，也能在别人和自己身上认出它。"
+  },
+  {
+   "en": "But a new paper of mine with David S. Smith examines a less visible and less understood form of disengagement at work: rustout.",
+   "cn": "但我和大卫·S·史密斯（David S. Smith）新写的一篇论文，考察了一种更难看见、也更少被理解的职场游离状态：锈钝（rustout）。"
+  },
+  {
+   "en": "Rustout, as we studied it, often involves being underutilized, intellectually stagnating, and feeling a deep-seated sense of unfulfillment.",
+   "cn": "在我们的研究中，锈钝通常表现为：大材小用、智识上停滞不前，以及一种深植于心的不满足感。"
+  },
+  {
+   "en": "It can arise when people feel their work no longer offers enough meaning or challenge to keep them intellectually and creatively engaged.",
+   "cn": "当人们觉得工作不再提供足够的意义或挑战、无法让他们的智识与创造力保持投入时，它就可能出现。"
+  },
+  {
+   "en": "But because it’s different from burnout, the solutions are also different—both for individuals and for organizations.",
+   "cn": "但因为它与倦怠不同，解决之道也不同——对个人如此，对组织亦然。"
+  },
+  {
+   "en": "Rustout vs. burnout",
+   "cn": "锈钝对比倦怠"
+  },
+  {
+   "en": "I’ve presented this research at numerous conferences, and each time I have been approached by professionals who say, “That’s what I’ve been going through, but I never had a name for it until now.”",
+   "cn": "我在许多会议上报告过这项研究，每一次都有从业者来找我，说：\"这正是我一直在经历的事，只是直到今天才知道它的名字。\""
+  },
+  {
+   "en": "These people, young and older, are committed to their work, they are hardworking, and they haven’t stopped caring.",
+   "cn": "这些人无论年轻年长，都忠于自己的工作，勤奋肯干，从未停止在乎。"
+  },
+  {
+   "en": "It is often the case that they care very much, and they meet expectations set before them.",
+   "cn": "常见的情况是：他们非常在乎，并且达成了外界对他们的期待。"
+  },
+  {
+   "en": "They are often the ones who are called upon because they are reliable and highly conscientious.",
+   "cn": "也常常是他们被点名找上门——因为他们可靠、尽责心极强。"
+  },
+  {
+   "en": "If you look around your workplace, you probably know many people who fit this bill.",
+   "cn": "看看你的工作场所，你大概能想到很多符合这个画像的人。"
+  },
+  {
+   "en": "The problem is not a loss of effort on the part of the individual; it is a breakdown in the relationship between effort and meaningful work.",
+   "cn": "问题不在于个人不再努力；而在于努力与有意义的工作之间的关系断裂了。"
+  },
+  {
+   "en": "From my study of this topic, rustout is really about the decline in professional vitality, when a person’s capacities are not used in ways that feel meaningful to them.",
+   "cn": "根据我对这一课题的研究，锈钝真正关乎职业活力的衰退——当一个人的能力无法以他自己觉得有意义的方式被使用时。"
+  },
+  {
+   "en": "In our research, participants described experiences shaped by administrative overload, reduced autonomy, and a misalignment between their professional aspirations and assigned tasks.",
+   "cn": "在我们的研究中，受访者描述的体验带着这样的烙印：行政事务超载、自主权缩水，以及职业抱负与分派任务之间的错位。"
+  },
+  {
+   "en": "Many people highlighted feeling professionally stuck: “Sadly, the elements I love about the job . . .",
+   "cn": "许多人强调自己有一种职业上的困滞感：\"遗憾的是，这份工作里我热爱的那些部分……"
+  },
+  {
+   "en": "are often overshadowed by the other administrative aspects of the role,” “I feel like I’m feeding the machine,” and “I’m a square peg in a round hole.”",
+   "cn": "常常被这个岗位行政性的一面盖过\"\"我觉得自己在给机器喂料\"\"我是圆孔里的方钉\"。"
+  },
+  {
+   "en": "They highlighted a sense that the work they were doing no longer drew sufficiently on their talents: “The better you are at it, the more of the administrative side of the job you get.",
+   "cn": "他们突出强调了一种感觉：自己做的工作，已经无法充分发挥他们的才干：\"你干得越好，分到的行政杂务就越多。"
+  },
+  {
+   "en": "It’s lacking opportunities to be creative.”",
+   "cn": "缺少的正是发挥创造力的机会。\""
+  },
+  {
+   "en": "Rustout can be quite psychologically disorienting.",
+   "cn": "锈钝在心理上可能相当令人迷失。"
+  },
+  {
+   "en": "From the outside, a person may appear successful and competent.",
+   "cn": "从外表看，这个人也许显得成功而能干。"
+  },
+  {
+   "en": "There is no question about their productivity; they meet set targets, but could do so “with [their] eyes closed.” However, they may feel increasingly detached from the work that once animated them.",
+   "cn": "他的生产力毫无问题；既定目标都能完成，甚至能\"闭着眼睛\"完成。然而，他可能感到自己与那份曾经令他生龙活虎的工作日渐疏离。"
+  },
+  {
+   "en": "Their distress isn’t dramatic; it’s a slow process of psychological erosion.",
+   "cn": "他的痛苦并不戏剧化；那是一场缓慢的心理侵蚀。"
+  },
+  {
+   "en": "In many ways, rustout overlaps with burnout, but they are not the same.",
+   "cn": "在很多方面，锈钝与倦怠重叠，但两者并不相同。"
+  },
+  {
+   "en": "Burnout involves prolonged negative stress that isn’t adequately managed.",
+   "cn": "倦怠源于长期得不到充分调适的负面压力。"
+  },
+  {
+   "en": "It’s about too much—working too much, caring too much, too much pressure, and too little time to recuperate.",
+   "cn": "它关乎\"太多\"——工作太多、在乎太多、压力太大，而恢复的时间太少。"
+  },
+  {
+   "en": "In contrast, rustout is associated with too little positive stress or challenge over time, too little stimulation, and limited opportunities for individual growth.",
+   "cn": "相比之下，锈钝与长期的正向压力或挑战太少、刺激太少、个人成长机会有限相关。"
+  },
+  {
+   "en": "However, while burnout is part of organizations’ mental health literacy, rustout rarely gets a mention.",
+   "cn": "然而，倦怠已是组织心理健康常识的一部分，锈钝却很少被提起。"
+  },
+  {
+   "en": "And this is problematic—both for the individual and the organization.",
+   "cn": "这就成了问题——对个人和对组织都是。"
+  },
+  {
+   "en": "“I often feel I have produced nothing at the end of the week, and there is no sense of development,” one person said.",
+   "cn": "\"我常常觉得一周结束之际自己什么也没产出，也毫无成长感，\"一位受访者说。"
+  },
+  {
+   "en": "Some will stay in their roles out of a sense of duty (and for other practical reasons like salary or seniority), but others will choose to leave.",
+   "cn": "有些人出于责任感留在岗位上（也因为薪水、资历这类现实原因），但另一些人会选择离开。"
+  },
+  {
+   "en": "Another said, “I am functioning at my job, but I’m not thriving, and I am looking elsewhere.”",
+   "cn": "另一位说：\"我在应付这份工作，但并没有蓬勃发展，我正在看别处的机会。\""
+  },
+  {
+   "en": "Why don’t we talk about rustout?",
+   "cn": "我们为什么不谈锈钝？"
+  },
+  {
+   "en": "Rustout often hides behind competence, and the reliable person is often given more of the same work.",
+   "cn": "锈钝常常藏在\"能干\"背后，而可靠的人往往被派给更多同样的活儿。"
+  },
+  {
+   "en": "The person who does not complain is assumed to be coping and doing OK. The person who stabilizes others and is a good team player is rarely asked whether they themselves feel developed or challenged.",
+   "cn": "不抱怨的人，被默认为应付得来、过得不错。那个安抚他人、善于团队协作的人，很少有人问一句：他自己是否感到有所成长、受到挑战。"
+  },
+  {
+   "en": "One person said, “I have no experience of ever having a conversation with anyone around it.",
+   "cn": "一位受访者说：\"我从来没有和任何人谈起过这件事。"
+  },
+  {
+   "en": "No line manager ever named it, it has never been mentioned in a communal setting or in a one-to-one setting. . . .",
+   "cn": "没有一位直属上司点破过它，它从未在集体场合或一对一的场合被提起……"
+  },
+  {
+   "en": "No one has ever asked, ‘Do you feel fulfilled or do you feel you have opportunities to use your skills and talents in a meaningful way?’”",
+   "cn": "从没有人问过：'你觉得充实吗？你觉得有机会把自己的技能与才华用得有意义吗？'\""
+  },
+  {
+   "en": "It’s easy to see how doing overtime and being dependable can become a trap.",
+   "cn": "加班加点、可靠耐用如何变成一个陷阱，不难想见。"
+  },
+  {
+   "en": "Eventually, the employee becomes valued less for what they might become and more for what they can continue to absorb—they won’t “rock the boat” by opening the can of worms that is their dissatisfaction.",
+   "cn": "到头来，这名员工的价值，越来越不在于他可能成为什么，而在于他还能继续吸收多少——他们不愿打开自己不满的这罐\"乱麻\"，去搅动现状。"
+  },
+  {
+   "en": "“You put up, and shut up,” one person said.",
+   "cn": "\"你忍着，然后闭嘴，\"一位受访者说。"
+  },
+  {
+   "en": "Meanwhile, many workplaces are organized to detect individual or team shortcomings (or failure) more readily than stagnation.",
+   "cn": "与此同时，许多职场的设计，让个体或团队的短板（或失败）比停滞更容易被察觉。"
+  },
+  {
+   "en": "If someone stops performing, the problem becomes visible.",
+   "cn": "如果有人不再出活儿，问题立刻可见。"
+  },
+  {
+   "en": "However, if someone continues to perform while becoming inwardly disengaged, the organization may see no problem at all.",
+   "cn": "然而，如果有人持续出活儿、内心却已游离，组织可能根本看不到问题。"
+  },
+  {
+   "en": "And if anyone notices their dissatisfaction, they may not openly discuss it, as another of my interviewees reported.",
+   "cn": "而且，即便有人察觉到他的不满，也未必会摆到台面上谈——我的另一位受访者这样说。"
+  },
+  {
+   "en": "“It suits everyone not to talk about it; when everyone is working and doing their jobs—then don’t disturb anything.",
+   "cn": "\"不谈对大家都好；大家都在工作、都在干自己的活儿——那就别打乱什么。"
+  },
+  {
+   "en": "Everything is cosy.”",
+   "cn": "一切都其乐融融。\""
+  },
+  {
+   "en": "How rustout arises",
+   "cn": "锈钝如何产生"
+  },
+  {
+   "en": "Participants experiencing rustout described barriers that limited their ability to use their strengths or pursue professional growth, which are particularly important for having a sense of meaning and fulfillment at work.",
+   "cn": "正在经历锈钝的受访者描述了种种壁垒：它们限制了他们发挥所长或追求职业成长，而这两者对工作中的意义感与满足感尤为重要。"
+  },
+  {
+   "en": "For many people, their working life gives them a sense of identity and purpose, but when work no longer offers that sense of meaning, their relationship with the job can become fractured or feel “off.” In some cases, they can’t put their finger on what is happening, and that might be why I often hear after presentations, “I never had a name for it.”",
+   "cn": "对许多人来说，工作生活赋予他们身份感与目的感；一旦工作不再提供那种意义感，他们与工作的关系就会开裂，或变得\"不对劲\"。有些时候，他们说不清到底哪里出了问题——这可能就是为什么我在报告之后常听到一句：\"我一直不知道它叫什么。\""
+  },
+  {
+   "en": "Naming rustout won’t solve the issue, but it can help the person to understand why they feel underutilized or dissatisfied.",
+   "cn": "给锈钝命名并不能解决问题，但它能帮助人们理解自己为什么会感到大材小用或心有不甘。"
+  },
+  {
+   "en": "Naming rustout can help people understand this isn’t a personal failure but an experience that is shaped by the design or conditions of work (much like burnout).",
+   "cn": "命名锈钝可以帮助人们明白：这不是个人的失败，而是由工作的设计或条件塑造的体验（与倦怠一样）。"
+  },
+  {
+   "en": "It is also shaped by the culture of work, particularly when there is a resistance to change or a failure to see the value in helping people to flourish.",
+   "cn": "它同样由职场文化塑造——尤其当组织抗拒改变、或看不到帮助员工蓬勃发展的价值时。"
+  },
+  {
+   "en": "From my discussions with participants and colleagues about rustout, it is clear that it isn’t a pre-retirement phenomenon.",
+   "cn": "从我与受访者和同事们关于锈钝的讨论来看，它显然不是一种\"退休前现象\"。"
+  },
+  {
+   "en": "It seems to arise for those who are experienced, perhaps mid-career, and those who have been in their role for a long time.",
+   "cn": "它似乎发生在那些经验丰富、或许正值职业生涯中期、在一个岗位干了很久的人身上。"
+  },
+  {
+   "en": "One participant explained, “I have been doing [this role] for years.",
+   "cn": "一位受访者解释说：\"这份工作我已经做了很多年。"
+  },
+  {
+   "en": "There must be better ways to organize things to ensure the expertise of experienced staff is used in more effective ways.” Others said, “It’s the seven-, eight-, nine-year mark when there isn’t an opportunity to be stimulated,” and “It’s the seven-year itch, you’ve been doing something creative and then you reach a point where you are doing the same thing on repeat.”",
+   "cn": "一定有更好的组织方式，能让资深员工的专业知识发挥更大效用。\"另一些人说：\"到了第七、第八、第九个年头，却没有任何被激发的机会\"，还有人说：\"这就是七年之痒——你一直在做有创造性的事，然后到了某个节点，你开始原地转圈，重复同样的事。\""
+  },
+  {
+   "en": "In such ways, we can’t dismiss rustout as a consequence of aging in the workplace.",
+   "cn": "由此看来，我们不能把锈钝斥为职场年龄增长的自然结果。"
+  },
+  {
+   "en": "It can happen whenever people are pigeonholed into a system that no longer offers them meaningful development.",
+   "cn": "只要一个人被困在一个不再提供有意义成长的系统里，它就可能发生。"
+  },
+  {
+   "en": "Although some repetition and routine are an expected part of every job, there should also be a sense that your abilities and talents matter in your role.",
+   "cn": "虽然一定的重复与例行公事是每份工作应有的组成部分，但也应该让人感到：在你的岗位上，你的能力和才干是重要的。"
+  },
+  {
+   "en": "That there is a future and something exciting to work toward.",
+   "cn": "应该有未来，有令人兴奋的方向可以奔赴。"
+  },
+  {
+   "en": "What to do if you are rusting out",
+   "cn": "如果你正在锈钝，该怎么办"
+  },
+  {
+   "en": "The language of burnout has helped many people name distress that had previously been normalized or dismissed.",
+   "cn": "倦怠这套语言帮助许多人道出了此前被正常化、被忽视的痛苦。"
+  },
+  {
+   "en": "It has also helped organizations take workplace well-being more seriously.",
+   "cn": "它也促使组织更认真地对待职场福祉。"
+  },
+  {
+   "en": "But any dominant mental health vocabulary can become limiting when it starts to stand in for the whole field of experience.",
+   "cn": "但任何一套占主导地位的心理健康词汇，一旦开始代表全部经验领域，就会变得狭隘。"
+  },
+  {
+   "en": "If burnout is the only category available for occupational distress, then recovery is often imagined in terms of rest and resilience.",
+   "cn": "如果倦怠是职业痛苦唯一的可选类别，那么康复往往只会被想象成休息与韧性。"
+  },
+  {
+   "en": "They may be necessary, but they are not always sufficient.",
+   "cn": "它们也许是必要的，但并不总是足够的。"
+  },
+  {
+   "en": "A person experiencing rustout may not simply need less work; they may need different work: work that restores their sense of intellectual engagement and curiosity.",
+   "cn": "经历锈钝的人，需要的可能不只是更少的工作，而是不同的工作：能唤回他的智识投入与好奇心的工作。"
+  },
+  {
+   "en": "As Maya Angelou once said, “We aren’t designed to be static”—that could apply to all aspects of life, including the workplace.",
+   "cn": "正如玛雅·安杰卢（Maya Angelou）所说：\"我们不是被设计来静止不动的\"——这句话适用于生活的方方面面，包括职场。"
+  },
+  {
+   "en": "If you are experiencing rustout, it would be good to do an inventory of what is happening for you.",
+   "cn": "如果你正在经历锈钝，不妨盘点一下自己的现状。"
+  },
+  {
+   "en": "Do you feel fulfilled in your role?",
+   "cn": "你在现在的岗位上感到充实吗？"
+  },
+  {
+   "en": "Do you have opportunities to use your talents?",
+   "cn": "你有机会发挥自己的才干吗？"
+  },
+  {
+   "en": "Do you gain some sense of meaning from your role?",
+   "cn": "你能从工作中获得某种意义感吗？"
+  },
+  {
+   "en": "Are there ways to seek renewal in your work?",
+   "cn": "有没有在工作里寻求更新的办法？"
+  },
+  {
+   "en": "What might this look like, and can you have this conversation with your line manager or boss?",
+   "cn": "那会是什么样子？你能不能和直属上司或老板谈谈这些？"
+  },
+  {
+   "en": "For organizations, the questions are also direct.",
+   "cn": "对组织来说，问题同样直截了当。"
+  },
+  {
+   "en": "Look around your team.",
+   "cn": "看看你的团队。"
+  },
+  {
+   "en": "Are you giving your most dependable employees opportunities for development?",
+   "cn": "你有没有给最可靠的员工提供发展的机会？"
+  },
+  {
+   "en": "Do you continually lean on their “safe pair of hands” because it is easier than asking someone else to learn the ropes?",
+   "cn": "你是否一直在依赖他们那双\"可靠的手\"，因为这样比为别人省事——不必让新人从头学起？"
+  },
+  {
+   "en": "Are you willing to put the conversation about professional dissatisfaction on the table?",
+   "cn": "你愿不愿意把职业不满这个话题摆上桌面？"
+  },
+  {
+   "en": "How can you help your team to flourish?",
+   "cn": "你如何帮助你的团队蓬勃发展？"
+  },
+  {
+   "en": "That is the unsettling truth at the heart of the rustout.",
+   "cn": "这就是锈钝核心处那个令人不安的真相。"
+  },
+  {
+   "en": "A person can be conscientious yet disengaged, reliable yet underused, competent but unfulfilled.",
+   "cn": "一个人可以尽责却游离，可靠却被大材小用，能干却不满足。"
+  },
+  {
+   "en": "They can be good at their job and still feel themselves receding from it.",
+   "cn": "他可以很擅长自己的工作，却同时感到自己正在从这份工作中退场。"
+  },
+  {
+   "en": "The silence around rustout allows it to thrive, which is why I often hear the same response after conference presentations: “I thought it was just me.” I think there is a particular loneliness in that sentence, the loneliness of continuing to do the work, while privately wondering why it no longer feels like yours.",
+   "cn": "环绕锈钝的沉默让它得以蔓延——这就是为什么会议报告之后我常听到同一句回应：\"我以为只有我这样。\"我觉得这句话里有一种特别的孤独：继续做着那份工作，私下却在想，为什么它不再像是自己的了。"
+  }
+ ],
+ "paras": [
+  {
+   "sentences": [
+    {
+     "en": "Some forms of distress at work are easy to recognize because they interrupt someone’s daily performance and the work of those around them: For example, a person on your team becomes visibly exhausted, they are irritable, or they’re frequently absent.",
+     "cn": "有些职场痛苦很容易辨认，因为它们会打断当事人和他周围人的日常工作：比如，团队里有人明显疲惫不堪、烦躁易怒，或者频繁缺勤。",
+     "cnEdited": true
+    },
+    {
+     "en": "But other forms of distress are harder to see precisely because the work continues uninterrupted.",
+     "cn": "但另一些痛苦更难看见，恰恰是因为工作还在不间断地进行。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "It’s common to talk about burnout at work and to recognize it in others and in ourselves.",
+     "cn": "我们常谈起职场倦怠，也能在别人和自己身上认出它。",
+     "cnEdited": true
+    },
+    {
+     "en": "But a new paper of mine with David S. Smith examines a less visible and less understood form of disengagement at work: rustout.",
+     "cn": "但我和大卫·S·史密斯（David S. Smith）新写的一篇论文，考察了一种更难看见、也更少被理解的职场游离状态：锈钝（rustout）。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Rustout, as we studied it, often involves being underutilized, intellectually stagnating, and feeling a deep-seated sense of unfulfillment.",
+     "cn": "在我们的研究中，锈钝通常表现为：大材小用、智识上停滞不前，以及一种深植于心的不满足感。",
+     "cnEdited": true
+    },
+    {
+     "en": "It can arise when people feel their work no longer offers enough meaning or challenge to keep them intellectually and creatively engaged.",
+     "cn": "当人们觉得工作不再提供足够的意义或挑战、无法让他们的智识与创造力保持投入时，它就可能出现。",
+     "cnEdited": true
+    },
+    {
+     "en": "But because it’s different from burnout, the solutions are also different—both for individuals and for organizations.",
+     "cn": "但因为它与倦怠不同，解决之道也不同——对个人如此，对组织亦然。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "head": 2,
+   "sentences": [
+    {
+     "en": "Rustout vs. burnout",
+     "cn": "锈钝对比倦怠",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "I’ve presented this research at numerous conferences, and each time I have been approached by professionals who say, “That’s what I’ve been going through, but I never had a name for it until now.”",
+     "cn": "我在许多会议上报告过这项研究，每一次都有从业者来找我，说：\"这正是我一直在经历的事，只是直到今天才知道它的名字。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "These people, young and older, are committed to their work, they are hardworking, and they haven’t stopped caring.",
+     "cn": "这些人无论年轻年长，都忠于自己的工作，勤奋肯干，从未停止在乎。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is often the case that they care very much, and they meet expectations set before them.",
+     "cn": "常见的情况是：他们非常在乎，并且达成了外界对他们的期待。",
+     "cnEdited": true
+    },
+    {
+     "en": "They are often the ones who are called upon because they are reliable and highly conscientious.",
+     "cn": "也常常是他们被点名找上门——因为他们可靠、尽责心极强。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "If you look around your workplace, you probably know many people who fit this bill.",
+     "cn": "看看你的工作场所，你大概能想到很多符合这个画像的人。",
+     "cnEdited": true
+    },
+    {
+     "en": "The problem is not a loss of effort on the part of the individual; it is a breakdown in the relationship between effort and meaningful work.",
+     "cn": "问题不在于个人不再努力；而在于努力与有意义的工作之间的关系断裂了。",
+     "cnEdited": true
+    },
+    {
+     "en": "From my study of this topic, rustout is really about the decline in professional vitality, when a person’s capacities are not used in ways that feel meaningful to them.",
+     "cn": "根据我对这一课题的研究，锈钝真正关乎职业活力的衰退——当一个人的能力无法以他自己觉得有意义的方式被使用时。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In our research, participants described experiences shaped by administrative overload, reduced autonomy, and a misalignment between their professional aspirations and assigned tasks.",
+     "cn": "在我们的研究中，受访者描述的体验带着这样的烙印：行政事务超载、自主权缩水，以及职业抱负与分派任务之间的错位。",
+     "cnEdited": true
+    },
+    {
+     "en": "Many people highlighted feeling professionally stuck: “Sadly, the elements I love about the job . . .",
+     "cn": "许多人强调自己有一种职业上的困滞感：\"遗憾的是，这份工作里我热爱的那些部分……",
+     "cnEdited": true
+    },
+    {
+     "en": "are often overshadowed by the other administrative aspects of the role,” “I feel like I’m feeding the machine,” and “I’m a square peg in a round hole.”",
+     "cn": "常常被这个岗位行政性的一面盖过\"\"我觉得自己在给机器喂料\"\"我是圆孔里的方钉\"。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "They highlighted a sense that the work they were doing no longer drew sufficiently on their talents: “The better you are at it, the more of the administrative side of the job you get.",
+     "cn": "他们突出强调了一种感觉：自己做的工作，已经无法充分发挥他们的才干：\"你干得越好，分到的行政杂务就越多。",
+     "cnEdited": true
+    },
+    {
+     "en": "It’s lacking opportunities to be creative.”",
+     "cn": "缺少的正是发挥创造力的机会。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Rustout can be quite psychologically disorienting.",
+     "cn": "锈钝在心理上可能相当令人迷失。",
+     "cnEdited": true
+    },
+    {
+     "en": "From the outside, a person may appear successful and competent.",
+     "cn": "从外表看，这个人也许显得成功而能干。",
+     "cnEdited": true
+    },
+    {
+     "en": "There is no question about their productivity; they meet set targets, but could do so “with [their] eyes closed.” However, they may feel increasingly detached from the work that once animated them.",
+     "cn": "他的生产力毫无问题；既定目标都能完成，甚至能\"闭着眼睛\"完成。然而，他可能感到自己与那份曾经令他生龙活虎的工作日渐疏离。",
+     "cnEdited": true
+    },
+    {
+     "en": "Their distress isn’t dramatic; it’s a slow process of psychological erosion.",
+     "cn": "他的痛苦并不戏剧化；那是一场缓慢的心理侵蚀。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In many ways, rustout overlaps with burnout, but they are not the same.",
+     "cn": "在很多方面，锈钝与倦怠重叠，但两者并不相同。",
+     "cnEdited": true
+    },
+    {
+     "en": "Burnout involves prolonged negative stress that isn’t adequately managed.",
+     "cn": "倦怠源于长期得不到充分调适的负面压力。",
+     "cnEdited": true
+    },
+    {
+     "en": "It’s about too much—working too much, caring too much, too much pressure, and too little time to recuperate.",
+     "cn": "它关乎\"太多\"——工作太多、在乎太多、压力太大，而恢复的时间太少。",
+     "cnEdited": true
+    },
+    {
+     "en": "In contrast, rustout is associated with too little positive stress or challenge over time, too little stimulation, and limited opportunities for individual growth.",
+     "cn": "相比之下，锈钝与长期的正向压力或挑战太少、刺激太少、个人成长机会有限相关。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "However, while burnout is part of organizations’ mental health literacy, rustout rarely gets a mention.",
+     "cn": "然而，倦怠已是组织心理健康常识的一部分，锈钝却很少被提起。",
+     "cnEdited": true
+    },
+    {
+     "en": "And this is problematic—both for the individual and the organization.",
+     "cn": "这就成了问题——对个人和对组织都是。",
+     "cnEdited": true
+    },
+    {
+     "en": "“I often feel I have produced nothing at the end of the week, and there is no sense of development,” one person said.",
+     "cn": "\"我常常觉得一周结束之际自己什么也没产出，也毫无成长感，\"一位受访者说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Some will stay in their roles out of a sense of duty (and for other practical reasons like salary or seniority), but others will choose to leave.",
+     "cn": "有些人出于责任感留在岗位上（也因为薪水、资历这类现实原因），但另一些人会选择离开。",
+     "cnEdited": true
+    },
+    {
+     "en": "Another said, “I am functioning at my job, but I’m not thriving, and I am looking elsewhere.”",
+     "cn": "另一位说：\"我在应付这份工作，但并没有蓬勃发展，我正在看别处的机会。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "head": 2,
+   "sentences": [
+    {
+     "en": "Why don’t we talk about rustout?",
+     "cn": "我们为什么不谈锈钝？",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Rustout often hides behind competence, and the reliable person is often given more of the same work.",
+     "cn": "锈钝常常藏在\"能干\"背后，而可靠的人往往被派给更多同样的活儿。",
+     "cnEdited": true
+    },
+    {
+     "en": "The person who does not complain is assumed to be coping and doing OK. The person who stabilizes others and is a good team player is rarely asked whether they themselves feel developed or challenged.",
+     "cn": "不抱怨的人，被默认为应付得来、过得不错。那个安抚他人、善于团队协作的人，很少有人问一句：他自己是否感到有所成长、受到挑战。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "One person said, “I have no experience of ever having a conversation with anyone around it.",
+     "cn": "一位受访者说：\"我从来没有和任何人谈起过这件事。",
+     "cnEdited": true
+    },
+    {
+     "en": "No line manager ever named it, it has never been mentioned in a communal setting or in a one-to-one setting. . . .",
+     "cn": "没有一位直属上司点破过它，它从未在集体场合或一对一的场合被提起……",
+     "cnEdited": true
+    },
+    {
+     "en": "No one has ever asked, ‘Do you feel fulfilled or do you feel you have opportunities to use your skills and talents in a meaningful way?’”",
+     "cn": "从没有人问过：'你觉得充实吗？你觉得有机会把自己的技能与才华用得有意义吗？'\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "It’s easy to see how doing overtime and being dependable can become a trap.",
+     "cn": "加班加点、可靠耐用如何变成一个陷阱，不难想见。",
+     "cnEdited": true
+    },
+    {
+     "en": "Eventually, the employee becomes valued less for what they might become and more for what they can continue to absorb—they won’t “rock the boat” by opening the can of worms that is their dissatisfaction.",
+     "cn": "到头来，这名员工的价值，越来越不在于他可能成为什么，而在于他还能继续吸收多少——他们不愿打开自己不满的这罐\"乱麻\"，去搅动现状。",
+     "cnEdited": true
+    },
+    {
+     "en": "“You put up, and shut up,” one person said.",
+     "cn": "\"你忍着，然后闭嘴，\"一位受访者说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Meanwhile, many workplaces are organized to detect individual or team shortcomings (or failure) more readily than stagnation.",
+     "cn": "与此同时，许多职场的设计，让个体或团队的短板（或失败）比停滞更容易被察觉。",
+     "cnEdited": true
+    },
+    {
+     "en": "If someone stops performing, the problem becomes visible.",
+     "cn": "如果有人不再出活儿，问题立刻可见。",
+     "cnEdited": true
+    },
+    {
+     "en": "However, if someone continues to perform while becoming inwardly disengaged, the organization may see no problem at all.",
+     "cn": "然而，如果有人持续出活儿、内心却已游离，组织可能根本看不到问题。",
+     "cnEdited": true
+    },
+    {
+     "en": "And if anyone notices their dissatisfaction, they may not openly discuss it, as another of my interviewees reported.",
+     "cn": "而且，即便有人察觉到他的不满，也未必会摆到台面上谈——我的另一位受访者这样说。",
+     "cnEdited": true
+    },
+    {
+     "en": "“It suits everyone not to talk about it; when everyone is working and doing their jobs—then don’t disturb anything.",
+     "cn": "\"不谈对大家都好；大家都在工作、都在干自己的活儿——那就别打乱什么。",
+     "cnEdited": true
+    },
+    {
+     "en": "Everything is cosy.”",
+     "cn": "一切都其乐融融。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "head": 2,
+   "sentences": [
+    {
+     "en": "How rustout arises",
+     "cn": "锈钝如何产生",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Participants experiencing rustout described barriers that limited their ability to use their strengths or pursue professional growth, which are particularly important for having a sense of meaning and fulfillment at work.",
+     "cn": "正在经历锈钝的受访者描述了种种壁垒：它们限制了他们发挥所长或追求职业成长，而这两者对工作中的意义感与满足感尤为重要。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "For many people, their working life gives them a sense of identity and purpose, but when work no longer offers that sense of meaning, their relationship with the job can become fractured or feel “off.” In some cases, they can’t put their finger on what is happening, and that might be why I often hear after presentations, “I never had a name for it.”",
+     "cn": "对许多人来说，工作生活赋予他们身份感与目的感；一旦工作不再提供那种意义感，他们与工作的关系就会开裂，或变得\"不对劲\"。有些时候，他们说不清到底哪里出了问题——这可能就是为什么我在报告之后常听到一句：\"我一直不知道它叫什么。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Naming rustout won’t solve the issue, but it can help the person to understand why they feel underutilized or dissatisfied.",
+     "cn": "给锈钝命名并不能解决问题，但它能帮助人们理解自己为什么会感到大材小用或心有不甘。",
+     "cnEdited": true
+    },
+    {
+     "en": "Naming rustout can help people understand this isn’t a personal failure but an experience that is shaped by the design or conditions of work (much like burnout).",
+     "cn": "命名锈钝可以帮助人们明白：这不是个人的失败，而是由工作的设计或条件塑造的体验（与倦怠一样）。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is also shaped by the culture of work, particularly when there is a resistance to change or a failure to see the value in helping people to flourish.",
+     "cn": "它同样由职场文化塑造——尤其当组织抗拒改变、或看不到帮助员工蓬勃发展的价值时。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "From my discussions with participants and colleagues about rustout, it is clear that it isn’t a pre-retirement phenomenon.",
+     "cn": "从我与受访者和同事们关于锈钝的讨论来看，它显然不是一种\"退休前现象\"。",
+     "cnEdited": true
+    },
+    {
+     "en": "It seems to arise for those who are experienced, perhaps mid-career, and those who have been in their role for a long time.",
+     "cn": "它似乎发生在那些经验丰富、或许正值职业生涯中期、在一个岗位干了很久的人身上。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "One participant explained, “I have been doing [this role] for years.",
+     "cn": "一位受访者解释说：\"这份工作我已经做了很多年。",
+     "cnEdited": true
+    },
+    {
+     "en": "There must be better ways to organize things to ensure the expertise of experienced staff is used in more effective ways.” Others said, “It’s the seven-, eight-, nine-year mark when there isn’t an opportunity to be stimulated,” and “It’s the seven-year itch, you’ve been doing something creative and then you reach a point where you are doing the same thing on repeat.”",
+     "cn": "一定有更好的组织方式，能让资深员工的专业知识发挥更大效用。\"另一些人说：\"到了第七、第八、第九个年头，却没有任何被激发的机会\"，还有人说：\"这就是七年之痒——你一直在做有创造性的事，然后到了某个节点，你开始原地转圈，重复同样的事。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In such ways, we can’t dismiss rustout as a consequence of aging in the workplace.",
+     "cn": "由此看来，我们不能把锈钝斥为职场年龄增长的自然结果。",
+     "cnEdited": true
+    },
+    {
+     "en": "It can happen whenever people are pigeonholed into a system that no longer offers them meaningful development.",
+     "cn": "只要一个人被困在一个不再提供有意义成长的系统里，它就可能发生。",
+     "cnEdited": true
+    },
+    {
+     "en": "Although some repetition and routine are an expected part of every job, there should also be a sense that your abilities and talents matter in your role.",
+     "cn": "虽然一定的重复与例行公事是每份工作应有的组成部分，但也应该让人感到：在你的岗位上，你的能力和才干是重要的。",
+     "cnEdited": true
+    },
+    {
+     "en": "That there is a future and something exciting to work toward.",
+     "cn": "应该有未来，有令人兴奋的方向可以奔赴。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "head": 2,
+   "sentences": [
+    {
+     "en": "What to do if you are rusting out",
+     "cn": "如果你正在锈钝，该怎么办",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The language of burnout has helped many people name distress that had previously been normalized or dismissed.",
+     "cn": "倦怠这套语言帮助许多人道出了此前被正常化、被忽视的痛苦。",
+     "cnEdited": true
+    },
+    {
+     "en": "It has also helped organizations take workplace well-being more seriously.",
+     "cn": "它也促使组织更认真地对待职场福祉。",
+     "cnEdited": true
+    },
+    {
+     "en": "But any dominant mental health vocabulary can become limiting when it starts to stand in for the whole field of experience.",
+     "cn": "但任何一套占主导地位的心理健康词汇，一旦开始代表全部经验领域，就会变得狭隘。",
+     "cnEdited": true
+    },
+    {
+     "en": "If burnout is the only category available for occupational distress, then recovery is often imagined in terms of rest and resilience.",
+     "cn": "如果倦怠是职业痛苦唯一的可选类别，那么康复往往只会被想象成休息与韧性。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "They may be necessary, but they are not always sufficient.",
+     "cn": "它们也许是必要的，但并不总是足够的。",
+     "cnEdited": true
+    },
+    {
+     "en": "A person experiencing rustout may not simply need less work; they may need different work: work that restores their sense of intellectual engagement and curiosity.",
+     "cn": "经历锈钝的人，需要的可能不只是更少的工作，而是不同的工作：能唤回他的智识投入与好奇心的工作。",
+     "cnEdited": true
+    },
+    {
+     "en": "As Maya Angelou once said, “We aren’t designed to be static”—that could apply to all aspects of life, including the workplace.",
+     "cn": "正如玛雅·安杰卢（Maya Angelou）所说：\"我们不是被设计来静止不动的\"——这句话适用于生活的方方面面，包括职场。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "If you are experiencing rustout, it would be good to do an inventory of what is happening for you.",
+     "cn": "如果你正在经历锈钝，不妨盘点一下自己的现状。",
+     "cnEdited": true
+    },
+    {
+     "en": "Do you feel fulfilled in your role?",
+     "cn": "你在现在的岗位上感到充实吗？",
+     "cnEdited": true
+    },
+    {
+     "en": "Do you have opportunities to use your talents?",
+     "cn": "你有机会发挥自己的才干吗？",
+     "cnEdited": true
+    },
+    {
+     "en": "Do you gain some sense of meaning from your role?",
+     "cn": "你能从工作中获得某种意义感吗？",
+     "cnEdited": true
+    },
+    {
+     "en": "Are there ways to seek renewal in your work?",
+     "cn": "有没有在工作里寻求更新的办法？",
+     "cnEdited": true
+    },
+    {
+     "en": "What might this look like, and can you have this conversation with your line manager or boss?",
+     "cn": "那会是什么样子？你能不能和直属上司或老板谈谈这些？",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "For organizations, the questions are also direct.",
+     "cn": "对组织来说，问题同样直截了当。",
+     "cnEdited": true
+    },
+    {
+     "en": "Look around your team.",
+     "cn": "看看你的团队。",
+     "cnEdited": true
+    },
+    {
+     "en": "Are you giving your most dependable employees opportunities for development?",
+     "cn": "你有没有给最可靠的员工提供发展的机会？",
+     "cnEdited": true
+    },
+    {
+     "en": "Do you continually lean on their “safe pair of hands” because it is easier than asking someone else to learn the ropes?",
+     "cn": "你是否一直在依赖他们那双\"可靠的手\"，因为这样比为别人省事——不必让新人从头学起？",
+     "cnEdited": true
+    },
+    {
+     "en": "Are you willing to put the conversation about professional dissatisfaction on the table?",
+     "cn": "你愿不愿意把职业不满这个话题摆上桌面？",
+     "cnEdited": true
+    },
+    {
+     "en": "How can you help your team to flourish?",
+     "cn": "你如何帮助你的团队蓬勃发展？",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "That is the unsettling truth at the heart of the rustout.",
+     "cn": "这就是锈钝核心处那个令人不安的真相。",
+     "cnEdited": true
+    },
+    {
+     "en": "A person can be conscientious yet disengaged, reliable yet underused, competent but unfulfilled.",
+     "cn": "一个人可以尽责却游离，可靠却被大材小用，能干却不满足。",
+     "cnEdited": true
+    },
+    {
+     "en": "They can be good at their job and still feel themselves receding from it.",
+     "cn": "他可以很擅长自己的工作，却同时感到自己正在从这份工作中退场。",
+     "cnEdited": true
+    },
+    {
+     "en": "The silence around rustout allows it to thrive, which is why I often hear the same response after conference presentations: “I thought it was just me.” I think there is a particular loneliness in that sentence, the loneliness of continuing to do the work, while privately wondering why it no longer feels like yours.",
+     "cn": "环绕锈钝的沉默让它得以蔓延——这就是为什么会议报告之后我常听到同一句回应：\"我以为只有我这样。\"我觉得这句话里有一种特别的孤独：继续做着那份工作，私下却在想，为什么它不再像是自己的了。",
+     "cnEdited": true
+    }
+   ]
+  }
+ ],
+ "cet4_words": [
+  {
+   "w": "work",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工作；职业；使工作；操作；经营；使缓慢前进",
+   "n": 24
+  },
+  {
+   "w": "feel",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "有知觉 vt.触，摸；感觉；触摸",
+   "n": 13
+  },
+  {
+   "w": "person",
+   "layer": "core",
+   "pos": "n",
+   "def": "人；人身；本人",
+   "n": 11
+  },
+  {
+   "w": "sense",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "感官；感觉；见识；感觉到；检测",
+   "n": 10
+  },
+  {
+   "w": "experience",
+   "layer": "core",
+   "pos": "n.",
+   "def": "经验，感受；经历",
+   "n": 9
+  },
+  {
+   "w": "people",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "人民，民族；人；居住于；使住满人",
+   "n": 9
+  },
+  {
+   "w": "become",
+   "layer": "core",
+   "pos": "v.",
+   "def": "变成；成为，变得",
+   "n": 8
+  },
+  {
+   "w": "one",
+   "layer": "core",
+   "pos": "num./pron./adj.",
+   "def": "一；一个人；一的；唯一的",
+   "n": 8
+  },
+  {
+   "w": "job",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "职业；工作；零活；承包；代客买卖",
+   "n": 7
+  },
+  {
+   "w": "role",
+   "layer": "core",
+   "pos": "n.",
+   "def": "角色，作用，任务",
+   "n": 7
+  },
+  {
+   "w": "way",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "路；路线；方向；大大地；远远地；途中的",
+   "n": 7
+  },
+  {
+   "w": "help",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "帮助；援助 n.帮手；帮手",
+   "n": 6
+  },
+  {
+   "w": "long",
+   "layer": "core",
+   "pos": "v./n./adj./adv.",
+   "def": "渴望，极想念；长时间；[语] 长音节；（服装的）长尺寸；长裤；长的；过长的；做多头的；长时间的；冗长的，长音；长期地；始终",
+   "n": 6
+  },
+  {
+   "w": "name",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "名字；名誉 vt.说出；说出；姓名的；据以取名的",
+   "n": 6
+  },
+  {
+   "w": "opportunity",
+   "layer": "core",
+   "pos": "n.",
+   "def": "机会，良机",
+   "n": 6
+  },
+  {
+   "w": "organization",
+   "layer": "core",
+   "pos": "n.",
+   "def": "组织；团体，机构",
+   "n": 6
+  },
+  {
+   "w": "individual",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "个别的；独特的；个人",
+   "n": 5
+  },
+  {
+   "w": "professional",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "职业的；专业人员",
+   "n": 5
+  },
+  {
+   "w": "team",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "队，组；使合作",
+   "n": 5
+  },
+  {
+   "w": "workplace",
+   "layer": "core",
+   "pos": "n",
+   "def": "工作场所；车间",
+   "n": 5
+  },
+  {
+   "w": "continue",
+   "layer": "core",
+   "pos": "v.",
+   "def": "继续，连续；延伸",
+   "n": 4
+  },
+  {
+   "w": "less",
+   "layer": "core",
+   "pos": "adj./adv./prep./n.",
+   "def": "更少的 ad.更少地；更少地；减去；较少；较小",
+   "n": 4
+  },
+  {
+   "w": "look",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "看，显得 n.看；[C]看，瞧",
+   "n": 4
+  },
+  {
+   "w": "meaning",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "意义，意思；意图；意味深长的；意味；意思是（mean的ing形式）",
+   "n": 4
+  },
+  {
+   "w": "participant",
+   "layer": "core",
+   "pos": "n/adj.",
+   "def": "参加者；有份的,参与的",
+   "n": 4
+  },
+  {
+   "w": "same",
+   "layer": "core",
+   "pos": "adj./pron./adv./n.",
+   "def": "同一的，相同的；同样的事物或人（通常与the连用）；同样地（通常与the连用）；同样的事",
+   "n": 4
+  },
+  {
+   "w": "see",
+   "layer": "core",
+   "pos": "v.",
+   "def": "看见；遇见；看出",
+   "n": 4
+  },
+  {
+   "w": "talent",
+   "layer": "core",
+   "pos": "n.",
+   "def": "天才；才能；人才",
+   "n": 4
+  },
+  {
+   "w": "time",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "时间；时机；次，回；计时；测定…的时间；安排…的速度；定时的；定期的；分期的",
+   "n": 4
+  },
+  {
+   "w": "ask",
+   "layer": "core",
+   "pos": "v.",
+   "def": "问；要求；邀请",
+   "n": 3
+  },
+  {
+   "w": "conversation",
+   "layer": "core",
+   "pos": "n.",
+   "def": "会话，非正式会谈",
+   "n": 3
+  },
+  {
+   "w": "development",
+   "layer": "core",
+   "pos": "n.",
+   "def": "发展；开发；生长",
+   "n": 3
+  },
+  {
+   "w": "different",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "差异的；各种的",
+   "n": 3
+  },
+  {
+   "w": "failure",
+   "layer": "core",
+   "pos": "n.",
+   "def": "失败；失败的人",
+   "n": 3
+  },
+  {
+   "w": "form",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "形式；形状 vt.形成；形成",
+   "n": 3
+  },
+  {
+   "w": "good",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "好的；有本事的；好处；善行；慷慨的行为",
+   "n": 3
+  },
+  {
+   "w": "happen",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发生；碰巧，恰好",
+   "n": 3
+  },
+  {
+   "w": "however",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "然而；不管怎样",
+   "n": 3
+  },
+  {
+   "w": "little",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "小的；少；幼小的；完全不；少许；没有多少；短时间",
+   "n": 3
+  },
+  {
+   "w": "offer",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "提供；提出；提议；出价；意图；录取通知书",
+   "n": 3
+  },
+  {
+   "w": "part",
+   "layer": "core",
+   "pos": "n/v./adv./adj.",
+   "def": "一部分；零件；本份；分离；分配；分开；部分地；部分的",
+   "n": 3
+  },
+  {
+   "w": "problem",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "问题；习题，问题；成问题的；难处理的",
+   "n": 3
+  },
+  {
+   "w": "put",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "放，摆；使处于；掷；笨蛋；投击；怪人；固定不动的",
+   "n": 3
+  },
+  {
+   "w": "shape",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "形状；情况；形成；塑造，使成形；使符合",
+   "n": 3
+  },
+  {
+   "w": "someone",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "某人，有人",
+   "n": 3
+  },
+  {
+   "w": "talk",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "讲话；谈话；演讲；空谈",
+   "n": 3
+  },
+  {
+   "w": "use",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用；耗费；使用；用途；发挥",
+   "n": 3
+  },
+  {
+   "w": "year",
+   "layer": "core",
+   "pos": "n.",
+   "def": "年；年年",
+   "n": 3
+  },
+  {
+   "w": "ability",
+   "layer": "core",
+   "pos": "n.",
+   "def": "能力；能耐，本领",
+   "n": 2
+  },
+  {
+   "w": "anyone",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "任何人",
+   "n": 2
+  },
+  {
+   "w": "aspect",
+   "layer": "core",
+   "pos": "n.",
+   "def": "方面；样子，外表",
+   "n": 2
+  },
+  {
+   "w": "better",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "较好的 ad.更好地；更好地；长辈；较好者；打赌的人（等于bettor）；改善；胜过",
+   "n": 2
+  },
+  {
+   "w": "car",
+   "layer": "core",
+   "pos": "n.",
+   "def": "汽车，小汽车，轿车",
+   "n": 2
+  },
+  {
+   "w": "case",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "情况；事实；病例；包围；把…装于容器中",
+   "n": 2
+  },
+  {
+   "w": "conference",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "会议，讨论会；举行或参加（系列）会议",
+   "n": 2
+  },
+  {
+   "w": "creative",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "创造性的，创作的",
+   "n": 2
+  },
+  {
+   "w": "describe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "形容；描写，描绘",
+   "n": 2
+  },
+  {
+   "w": "design",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "设计 n.设计；图样；样式",
+   "n": 2
+  },
+  {
+   "w": "easy",
+   "layer": "core",
+   "pos": "adj./adv./v.",
+   "def": "容易的；安逸的；不费力地，从容地；停止划桨",
+   "n": 2
+  },
+  {
+   "w": "effort",
+   "layer": "core",
+   "pos": "n.",
+   "def": "努力；努力的成果",
+   "n": 2
+  },
+  {
+   "w": "employee",
+   "layer": "core",
+   "pos": "n.",
+   "def": "受雇者，雇员，雇工",
+   "n": 2
+  },
+  {
+   "w": "everyone",
+   "layer": "core",
+   "pos": "n.",
+   "def": "每人，人人；每个人",
+   "n": 2
+  },
+  {
+   "w": "feeling",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "感情；感觉，知觉；有感觉的；有同情心的；富于感情的",
+   "n": 2
+  },
+  {
+   "w": "get",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "变得，成为；到达；生殖；幼兽",
+   "n": 2
+  },
+  {
+   "w": "give",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "做，作；送给；弹性；弯曲；伸展性",
+   "n": 2
+  },
+  {
+   "w": "growth",
+   "layer": "core",
+   "pos": "n.",
+   "def": "增长；增长量；生长",
+   "n": 2
+  },
+  {
+   "w": "health",
+   "layer": "core",
+   "pos": "n.",
+   "def": "健康，健康状况",
+   "n": 2
+  },
+  {
+   "w": "hear",
+   "layer": "core",
+   "pos": "v.",
+   "def": "听见；审讯；听说",
+   "n": 2
+  },
+  {
+   "w": "involve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使卷入；牵涉",
+   "n": 2
+  },
+  {
+   "w": "life",
+   "layer": "core",
+   "pos": "n.",
+   "def": "生命；一生；寿命",
+   "n": 2
+  },
+  {
+   "w": "limited",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "有限的；高级快车",
+   "n": 2
+  },
+  {
+   "w": "line",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "线；排；路线；线条；排成一行；划线于；以线条标示；使…起皱纹",
+   "n": 2
+  },
+  {
+   "w": "loneliness",
+   "layer": "core",
+   "pos": "n",
+   "def": "孤独, 寂寞",
+   "n": 2
+  },
+  {
+   "w": "manager",
+   "layer": "core",
+   "pos": "n.",
+   "def": "经理，管理人",
+   "n": 2
+  },
+  {
+   "w": "meet",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "遇见 vi.相遇；集会；合适的；适宜的",
+   "n": 2
+  },
+  {
+   "w": "mental",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "智力的；精神的；精神病患者",
+   "n": 2
+  },
+  {
+   "w": "mention",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "提及，说起",
+   "n": 2
+  },
+  {
+   "w": "need",
+   "layer": "core",
+   "pos": "v.",
+   "def": "需要 v.aux.需要",
+   "n": 2
+  },
+  {
+   "w": "organize",
+   "layer": "core",
+   "pos": "v.",
+   "def": "组织，编组",
+   "n": 2
+  },
+  {
+   "w": "question",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发问；问题；疑问；询问；怀疑；审问",
+   "n": 2
+  },
+  {
+   "w": "rarely",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "很少，难得",
+   "n": 2
+  },
+  {
+   "w": "recognize",
+   "layer": "core",
+   "pos": "v.",
+   "def": "认识，认出；承认",
+   "n": 2
+  },
+  {
+   "w": "relationship",
+   "layer": "core",
+   "pos": "n.",
+   "def": "关系，联系",
+   "n": 2
+  },
+  {
+   "w": "research",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "调查，探究",
+   "n": 2
+  },
+  {
+   "w": "set",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "放；安置；[数] 集合；一套；布景；[机] 装置；固定的；规定的；固执的",
+   "n": 2
+  },
+  {
+   "w": "setting",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "安装，调整；环境；放置；沉没；使…处于某位置（set的ing形式）",
+   "n": 2
+  },
+  {
+   "w": "seven",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "七，七个(人或物)；七的；七个的",
+   "n": 2
+  },
+  {
+   "w": "something",
+   "layer": "core",
+   "pos": "pron./n./adv./adj.",
+   "def": "某事，某物；重要的人；值得重视的事；非常；有点；大约；大约；有点象",
+   "n": 2
+  },
+  {
+   "w": "stress",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "压力；重音；着重",
+   "n": 2
+  },
+  {
+   "w": "themselves",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "他们自己",
+   "n": 2
+  },
+  {
+   "w": "thing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "物；用品；事；情况",
+   "n": 2
+  },
+  {
+   "w": "understand",
+   "layer": "core",
+   "pos": "v.",
+   "def": "懂；获悉",
+   "n": 2
+  },
+  {
+   "w": "used",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "旧的；习惯于…的；用（use的过去式）；（used to）过去常做",
+   "n": 2
+  },
+  {
+   "w": "value",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "价值；价格；重视",
+   "n": 2
+  },
+  {
+   "w": "visible",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "可见的，看得见的；可见物；进出口贸易中的有形项目",
+   "n": 2
+  },
+  {
+   "w": "age",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "年龄；时代 vt.变老；变老",
+   "n": 1
+  },
+  {
+   "w": "allow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "允许，准许；任",
+   "n": 1
+  },
+  {
+   "w": "although",
+   "layer": "core",
+   "pos": "conj.",
+   "def": "尽管，虽然",
+   "n": 1
+  },
+  {
+   "w": "anything",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "任何事物；一切",
+   "n": 1
+  },
+  {
+   "w": "appear",
+   "layer": "core",
+   "pos": "v.",
+   "def": "出现；来到；似乎",
+   "n": 1
+  },
+  {
+   "w": "apply",
+   "layer": "core",
+   "pos": "v.",
+   "def": "应用，实施，使用",
+   "n": 1
+  },
+  {
+   "w": "approach",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "向…*近 n.*近；靠近；接近，方法",
+   "n": 1
+  },
+  {
+   "w": "associate",
+   "layer": "core",
+   "pos": "v./adj./n.",
+   "def": "交往 n.伙伴，同事；副的；伙伴",
+   "n": 1
+  },
+  {
+   "w": "assume",
+   "layer": "core",
+   "pos": "v.",
+   "def": "假定；承担；呈现",
+   "n": 1
+  },
+  {
+   "w": "bill",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "账单；招贴；票据；宣布；开账单；用海报宣传",
+   "n": 1
+  },
+  {
+   "w": "boat",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "小船，艇；渔船；划船",
+   "n": 1
+  },
+  {
+   "w": "boss",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "老板，上司 vt.指挥；指挥",
+   "n": 1
+  },
+  {
+   "w": "call",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "把…叫做；叫，喊；电话；呼叫；要求；访问",
+   "n": 1
+  },
+  {
+   "w": "care",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "关心，介意 n.小心；小心",
+   "n": 1
+  },
+  {
+   "w": "career",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "生涯，职业，经历；作为毕生职业的；全速前进，猛冲",
+   "n": 1
+  },
+  {
+   "w": "change",
+   "layer": "core",
+   "pos": "n.",
+   "def": "改变，变化；零钱",
+   "n": 1
+  },
+  {
+   "w": "choose",
+   "layer": "core",
+   "pos": "v.",
+   "def": "选择，挑选；情愿",
+   "n": 1
+  },
+  {
+   "w": "clear",
+   "layer": "core",
+   "pos": "adj./v./adv./n.",
+   "def": "清晰的 vt.清除；清除；清晰地；完全地；清除；空隙",
+   "n": 1
+  },
+  {
+   "w": "close",
+   "layer": "core",
+   "pos": "v./adj./adv.",
+   "def": "关，闭；结束；紧密的；亲密的；亲近的；紧密地",
+   "n": 1
+  },
+  {
+   "w": "colleague",
+   "layer": "core",
+   "pos": "n.",
+   "def": "同事，同僚",
+   "n": 1
+  },
+  {
+   "w": "common",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "普通的；共同的；普通；平民；公有地",
+   "n": 1
+  },
+  {
+   "w": "complain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "抱怨，拆苦；控告",
+   "n": 1
+  },
+  {
+   "w": "condition",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "状况，状态；环境；决定；使适应；使健康；以…为条件",
+   "n": 1
+  },
+  {
+   "w": "contrast",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "对比，对照，悬殊；形成对比， 对比之下显出区别",
+   "n": 1
+  },
+  {
+   "w": "cope",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "对付，应付；长袍",
+   "n": 1
+  },
+  {
+   "w": "culture",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "文化，文明；教养；[细胞][微] 培养（等于cultivate）",
+   "n": 1
+  },
+  {
+   "w": "curiosity",
+   "layer": "core",
+   "pos": "n.",
+   "def": "好奇，好奇心；珍品",
+   "n": 1
+  },
+  {
+   "w": "daily",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "每日的 n.日报；日报；日常地；每日；天天",
+   "n": 1
+  },
+  {
+   "w": "deep",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "深的；纵深的；深处；深渊；深入地；深深地；迟",
+   "n": 1
+  },
+  {
+   "w": "develop",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发展；形成；开发",
+   "n": 1
+  },
+  {
+   "w": "direct",
+   "layer": "core",
+   "pos": "adj./v./adv.",
+   "def": "直接的；直率的；管理；指挥；导演；指向；直接地；正好；按直系关系",
+   "n": 1
+  },
+  {
+   "w": "discuss",
+   "layer": "core",
+   "pos": "v.",
+   "def": "讨论，谈论；论述",
+   "n": 1
+  },
+  {
+   "w": "discussion",
+   "layer": "core",
+   "pos": "n.",
+   "def": "讨论，谈论；论述",
+   "n": 1
+  },
+  {
+   "w": "dramatic",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "引人注目的，戏剧的",
+   "n": 1
+  },
+  {
+   "w": "duty",
+   "layer": "core",
+   "pos": "n.",
+   "def": "职责；责任；税",
+   "n": 1
+  },
+  {
+   "w": "effective",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "有效的；有影响的",
+   "n": 1
+  },
+  {
+   "w": "eight",
+   "layer": "core",
+   "pos": "num./adj./n.",
+   "def": "八，八个，第八；八的；八字形",
+   "n": 1
+  },
+  {
+   "w": "else",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "别的ad.其它，另外",
+   "n": 1
+  },
+  {
+   "w": "elsewhere",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "在别处，向别处",
+   "n": 1
+  },
+  {
+   "w": "end",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "末端；目标 vt.结束；结束",
+   "n": 1
+  },
+  {
+   "w": "enough",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "足够的 ad.足够地；足够地；很多；充足",
+   "n": 1
+  },
+  {
+   "w": "eventually",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "终于；最后；最终地",
+   "n": 1
+  },
+  {
+   "w": "everything",
+   "layer": "core",
+   "pos": "n./pron.",
+   "def": "每件事，事事；每件事物；最重要的东西；（有关的）一切；万事",
+   "n": 1
+  },
+  {
+   "w": "examine",
+   "layer": "core",
+   "pos": "v.",
+   "def": "检查，仔细观察",
+   "n": 1
+  },
+  {
+   "w": "example",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "例子，实例；模范；作为…的例子；为…做出榜样",
+   "n": 1
+  },
+  {
+   "w": "expect",
+   "layer": "core",
+   "pos": "v.",
+   "def": "预料，预期；等待",
+   "n": 1
+  },
+  {
+   "w": "expectation",
+   "layer": "core",
+   "pos": "n.",
+   "def": "期待，期望，预期",
+   "n": 1
+  },
+  {
+   "w": "explain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解释；为…辩解",
+   "n": 1
+  },
+  {
+   "w": "eye",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "眼睛；眼力；鉴赏力；注视，看",
+   "n": 1
+  },
+  {
+   "w": "feed",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "喂(养) vi.吃饲料；饲料；饲养；（动物或婴儿的）一餐",
+   "n": 1
+  },
+  {
+   "w": "field",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "田野；田；运动场；担任场外队员；扫描场；田赛的；野生的",
+   "n": 1
+  },
+  {
+   "w": "finger",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "手指；指状物；伸出；用手指拨弄",
+   "n": 1
+  },
+  {
+   "w": "fit",
+   "layer": "core",
+   "pos": "v./adj./n.",
+   "def": "适合；安装vi.适合；健康的；合适的；恰当的；准备好的；合身；发作；痉挛",
+   "n": 1
+  },
+  {
+   "w": "frequently",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "时常，常常",
+   "n": 1
+  },
+  {
+   "w": "function",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "功能；职务；函数；运作， 运行",
+   "n": 1
+  },
+  {
+   "w": "future",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "将来，未来；前途；将来的，未来的",
+   "n": 1
+  },
+  {
+   "w": "gain",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "获得；增加 n.增进；增进",
+   "n": 1
+  },
+  {
+   "w": "hand",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "手；人手；指针；传递，交给；支持；搀扶",
+   "n": 1
+  },
+  {
+   "w": "hard",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "硬的；困难的；努力地；困难地；辛苦地；接近地；猛烈地；牢固地",
+   "n": 1
+  },
+  {
+   "w": "heart",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "心，内心；勇气；鼓励；铭记",
+   "n": 1
+  },
+  {
+   "w": "hide",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "把…藏起来；隐瞒；躲藏；兽皮；躲藏处",
+   "n": 1
+  },
+  {
+   "w": "highly",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "高度地，很，非常",
+   "n": 1
+  },
+  {
+   "w": "hole",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "洞；孔眼，裂开处；凿洞，穿孔；（高尔夫球等）进洞",
+   "n": 1
+  },
+  {
+   "w": "imagine",
+   "layer": "core",
+   "pos": "v.",
+   "def": "想象，设想；料想",
+   "n": 1
+  },
+  {
+   "w": "important",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "重要的；有势力的",
+   "n": 1
+  },
+  {
+   "w": "include",
+   "layer": "core",
+   "pos": "v.",
+   "def": "包括，包含",
+   "n": 1
+  },
+  {
+   "w": "increasingly",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "日益，越来越多地",
+   "n": 1
+  },
+  {
+   "w": "issue",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "问题；发行 vt.发行；流出， 放出",
+   "n": 1
+  },
+  {
+   "w": "keep",
+   "layer": "core",
+   "pos": "v.",
+   "def": "保持；坚持",
+   "n": 1
+  },
+  {
+   "w": "know",
+   "layer": "core",
+   "pos": "v.",
+   "def": "知道；认识；通晓",
+   "n": 1
+  },
+  {
+   "w": "lack",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "缺乏，不足",
+   "n": 1
+  },
+  {
+   "w": "language",
+   "layer": "core",
+   "pos": "n.",
+   "def": "语言，语言课程",
+   "n": 1
+  },
+  {
+   "w": "lean",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "倾斜，屈身；*；瘦的； 贫瘠的",
+   "n": 1
+  },
+  {
+   "w": "learn",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "学，学习",
+   "n": 1
+  },
+  {
+   "w": "leave",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "离去vt.离开；许可，同意；休假",
+   "n": 1
+  },
+  {
+   "w": "limit",
+   "layer": "core",
+   "pos": "n.",
+   "def": "限度；限制；范围",
+   "n": 1
+  },
+  {
+   "w": "loss",
+   "layer": "core",
+   "pos": "n.",
+   "def": "遗失；损失；失败",
+   "n": 1
+  },
+  {
+   "w": "love",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "爱，喜欢 n.爱；恋爱；亲爱的；酷爱；喜爱的事物；爱情，爱意；疼爱；热爱；爱人，所爱之物",
+   "n": 1
+  },
+  {
+   "w": "machine",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "机器；机械；用机器制造",
+   "n": 1
+  },
+  {
+   "w": "manage",
+   "layer": "core",
+   "pos": "v.",
+   "def": "管理；设法；对付",
+   "n": 1
+  },
+  {
+   "w": "mark",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "斑点；记号 vt.标明；标明",
+   "n": 1
+  },
+  {
+   "w": "matter",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "事情；物质 vi.要紧；要紧，重要",
+   "n": 1
+  },
+  {
+   "w": "meanwhile",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "同时，当时；与此同时；其间，其时",
+   "n": 1
+  },
+  {
+   "w": "necessary",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "必要的；必然的；必需品",
+   "n": 1
+  },
+  {
+   "w": "negative",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "否定的；消极的；负片， 底片； 负数；否定；拒绝",
+   "n": 1
+  },
+  {
+   "w": "new",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "新的；新近出现的；新近",
+   "n": 1
+  },
+  {
+   "w": "nine",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "九，九个；九的，九个的",
+   "n": 1
+  },
+  {
+   "w": "notice",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "注意 n.通知；注意；通知",
+   "n": 1
+  },
+  {
+   "w": "now",
+   "layer": "core",
+   "pos": "adj./conj.",
+   "def": "现在；立刻；于是；由于；既然",
+   "n": 1
+  },
+  {
+   "w": "numerous",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "为数众多的；许多",
+   "n": 1
+  },
+  {
+   "w": "old",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "老的；…岁的；古时",
+   "n": 1
+  },
+  {
+   "w": "opening",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "开始的；开始；开放（open的ing形式）；打开；公开",
+   "n": 1
+  },
+  {
+   "w": "ourselves",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "我们自己",
+   "n": 1
+  },
+  {
+   "w": "paper",
+   "layer": "core",
+   "pos": "n/adj./v.",
+   "def": "纸；官方文件；文章；纸做的；用纸糊；用纸包装",
+   "n": 1
+  },
+  {
+   "w": "performance",
+   "layer": "core",
+   "pos": "n",
+   "def": "演出，履行，表现",
+   "n": 1
+  },
+  {
+   "w": "perhaps",
+   "layer": "core",
+   "pos": "adv/n.",
+   "def": "也许，可能，多半；假定；猜想；未定之事",
+   "n": 1
+  },
+  {
+   "w": "personal",
+   "layer": "core",
+   "pos": "adj/n.",
+   "def": "个人的；本人的；人事消息栏；人称代名词",
+   "n": 1
+  },
+  {
+   "w": "phenomenon",
+   "layer": "core",
+   "pos": "n.",
+   "def": "现象",
+   "n": 1
+  },
+  {
+   "w": "player",
+   "layer": "core",
+   "pos": "n.",
+   "def": "游戏的人；比赛者",
+   "n": 1
+  },
+  {
+   "w": "point",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "点；要点；细目；分；指向；弄尖；加标点于",
+   "n": 1
+  },
+  {
+   "w": "positive",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "确定的；积极的；正数；[摄] 正片",
+   "n": 1
+  },
+  {
+   "w": "practical",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "实践的；实用的",
+   "n": 1
+  },
+  {
+   "w": "present",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "礼物，赠送物；现在的；提出；介绍；呈现；赠送",
+   "n": 1
+  },
+  {
+   "w": "pressure",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "压力；压力；压，按；对…施加压力， 迫使",
+   "n": 1
+  },
+  {
+   "w": "previously",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "先前，预先；事先",
+   "n": 1
+  },
+  {
+   "w": "probably",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "或许，大概",
+   "n": 1
+  },
+  {
+   "w": "process",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "过程；工序；处理；经过特殊加工（或处理）的",
+   "n": 1
+  },
+  {
+   "w": "produce",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "生产；产生；展现；农产品，产品",
+   "n": 1
+  },
+  {
+   "w": "productivity",
+   "layer": "core",
+   "pos": "n",
+   "def": "生产力",
+   "n": 1
+  },
+  {
+   "w": "psychological",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "心理的，心理学的",
+   "n": 1
+  },
+  {
+   "w": "purpose",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "目的；意图；效果；决心；企图；打算",
+   "n": 1
+  },
+  {
+   "w": "pursue",
+   "layer": "core",
+   "pos": "v.",
+   "def": "追赶，追踪；进行",
+   "n": 1
+  },
+  {
+   "w": "quite",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "完全；相当；的确",
+   "n": 1
+  },
+  {
+   "w": "reach",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "抵达；伸出vi.达到；范围；延伸；河段；横风行驶",
+   "n": 1
+  },
+  {
+   "w": "really",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "真正地；实在",
+   "n": 1
+  },
+  {
+   "w": "reason",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "理由；理性；推理",
+   "n": 1
+  },
+  {
+   "w": "recovery",
+   "layer": "core",
+   "pos": "n.",
+   "def": "重获；痊愈，恢复",
+   "n": 1
+  },
+  {
+   "w": "reduce",
+   "layer": "core",
+   "pos": "v.",
+   "def": "减少，减小；简化",
+   "n": 1
+  },
+  {
+   "w": "repeat",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "重说，重做；重复",
+   "n": 1
+  },
+  {
+   "w": "report",
+   "layer": "core",
+   "pos": "v./v./n.",
+   "def": "报告；汇报；传说，议论",
+   "n": 1
+  },
+  {
+   "w": "resistance",
+   "layer": "core",
+   "pos": "n.",
+   "def": "抵抗；抵制；抵抗力",
+   "n": 1
+  },
+  {
+   "w": "response",
+   "layer": "core",
+   "pos": "n.",
+   "def": "作答，回答；响应",
+   "n": 1
+  },
+  {
+   "w": "rest",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "剩余部分；其余的人；使休息，使轻松；把…寄托于",
+   "n": 1
+  },
+  {
+   "w": "rock",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "摇，使动摇；岩石；摇滚乐；暗礁",
+   "n": 1
+  },
+  {
+   "w": "round",
+   "layer": "core",
+   "pos": "adj./n./adv./v./prep.",
+   "def": "圆的；圆；循环；一回合；圆形物；在周围；迂回地；朝反方向；挨个；完成；围捕；绕行；弄圆；附近；绕过；大约；在…周围",
+   "n": 1
+  },
+  {
+   "w": "safe",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "保险箱；安全的；可靠的；平安的",
+   "n": 1
+  },
+  {
+   "w": "salary",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "薪金，薪水；给加薪；给薪水",
+   "n": 1
+  },
+  {
+   "w": "say",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "说；说明；比如说；决定权；发言权",
+   "n": 1
+  },
+  {
+   "w": "seat",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "座；座部；使…坐下；可容纳…的；使就职",
+   "n": 1
+  },
+  {
+   "w": "seek",
+   "layer": "core",
+   "pos": "v.",
+   "def": "寻找，探索；试图",
+   "n": 1
+  },
+  {
+   "w": "seem",
+   "layer": "core",
+   "pos": "v.",
+   "def": "好像，似乎",
+   "n": 1
+  },
+  {
+   "w": "sentence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "判决；句子",
+   "n": 1
+  },
+  {
+   "w": "seriously",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "严肃地，认真地",
+   "n": 1
+  },
+  {
+   "w": "shut",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "关上，闭上，关闭；关闭的；围绕的",
+   "n": 1
+  },
+  {
+   "w": "side",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "边，旁边；一方；支持；赞助；偏袒；旁的，侧的",
+   "n": 1
+  },
+  {
+   "w": "silence",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "沉默；使沉默",
+   "n": 1
+  },
+  {
+   "w": "simply",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "简单地；朴素地",
+   "n": 1
+  },
+  {
+   "w": "skill",
+   "layer": "core",
+   "pos": "n.",
+   "def": "技能，技巧；熟练",
+   "n": 1
+  },
+  {
+   "w": "slow",
+   "layer": "core",
+   "pos": "adj./v./adv.",
+   "def": "慢的；迟钝的；变慢；变萧条；慢慢地；迟缓地",
+   "n": 1
+  },
+  {
+   "w": "solution",
+   "layer": "core",
+   "pos": "n.",
+   "def": "解决，解答；溶解",
+   "n": 1
+  },
+  {
+   "w": "solve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解答，解释，解决",
+   "n": 1
+  },
+  {
+   "w": "staff",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "工作人员；参谋；为…配备人员；职员的；行政工作的",
+   "n": 1
+  },
+  {
+   "w": "stand",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "站；坐落；站立；立场；看台；停止",
+   "n": 1
+  },
+  {
+   "w": "start",
+   "layer": "core",
+   "pos": "v.",
+   "def": "跳起；出发；开始",
+   "n": 1
+  },
+  {
+   "w": "stay",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "停留；住；逗留；停止；支柱",
+   "n": 1
+  },
+  {
+   "w": "stop",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "塞住；阻止；停止；停；  站",
+   "n": 1
+  },
+  {
+   "w": "strength",
+   "layer": "core",
+   "pos": "n.",
+   "def": "力，力量，力气",
+   "n": 1
+  },
+  {
+   "w": "study",
+   "layer": "core",
+   "pos": "n.",
+   "def": "学习，研究",
+   "n": 1
+  },
+  {
+   "w": "successful",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "成功的，结果良好的",
+   "n": 1
+  },
+  {
+   "w": "suit",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "起拆，诉讼；适合",
+   "n": 1
+  },
+  {
+   "w": "system",
+   "layer": "core",
+   "pos": "n.",
+   "def": "系统，体系；制度",
+   "n": 1
+  },
+  {
+   "w": "table",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "桌子；餐桌；项目表；制表；搁置；嵌合；桌子的",
+   "n": 1
+  },
+  {
+   "w": "take",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拿；抓；拿走；吃；捕获量；看法；利益，盈益；（入场券的）售得金额",
+   "n": 1
+  },
+  {
+   "w": "target",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "靶，标的；目标；把…作为目标； 瞄准",
+   "n": 1
+  },
+  {
+   "w": "task",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "任务，工作，作业；分派任务",
+   "n": 1
+  },
+  {
+   "w": "term",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "期；学期；条件；词；把…叫做",
+   "n": 1
+  },
+  {
+   "w": "think",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "想；想要；认为；思想的",
+   "n": 1
+  },
+  {
+   "w": "thought",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "思想；思维；想法；想，思考；认为（think的过去式和过去分词）",
+   "n": 1
+  },
+  {
+   "w": "topic",
+   "layer": "core",
+   "pos": "n.",
+   "def": "题目，论题，话题",
+   "n": 1
+  },
+  {
+   "w": "truth",
+   "layer": "core",
+   "pos": "n.",
+   "def": "真理；真实；真实性",
+   "n": 1
+  },
+  {
+   "w": "week",
+   "layer": "core",
+   "pos": "n.",
+   "def": "星期，周",
+   "n": 1
+  },
+  {
+   "w": "well",
+   "layer": "core",
+   "pos": "n./adv./adj./v.",
+   "def": "井；很好地；充分地；满意地；适当地；良好的；健康的；适宜的；涌出",
+   "n": 1
+  },
+  {
+   "w": "whenever",
+   "layer": "core",
+   "pos": "conj./adv.",
+   "def": "无论何时，每当；不论何时；随便什么时候",
+   "n": 1
+  },
+  {
+   "w": "whether",
+   "layer": "core",
+   "pos": "conj./pron.",
+   "def": "是否；两个中的哪一个",
+   "n": 1
+  },
+  {
+   "w": "whole",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "完整的；整体；全部",
+   "n": 1
+  },
+  {
+   "w": "willing",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "愿意的，心甘情愿的；决心；用意志力驱使；将（财产等）遗赠某人（will的现在分词）",
+   "n": 1
+  },
+  {
+   "w": "wonder",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "惊异，惊奇；奇迹；怀疑；想知道；惊讶；奇妙的；非凡的",
+   "n": 1
+  },
+  {
+   "w": "young",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "年轻的；年轻人；（动物的）崽，仔",
+   "n": 1
+  }
+ ]
+}

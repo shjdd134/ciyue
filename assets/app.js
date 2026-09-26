@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "91");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "92");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -1369,6 +1369,9 @@ const ICON = {
   sun: '<circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 3v2.2M12 18.8V21M3 12h2.2M18.8 12H21M5.4 5.4l1.6 1.6M17 17l1.6 1.6M18.6 5.4 17 7M7 17l-1.6 1.6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
   tap: '<path d="M10 11V5.6a1.6 1.6 0 0 1 3.2 0V10m0-1.6a1.6 1.6 0 0 1 3.2 0v3.8c0 3.8-2.6 6.4-6.4 6.4-2.9 0-4.5-1.5-6-4.6l-1.1-2.3c-.4-.9.7-1.8 1.6-1.2L10 12.6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>',
   ball: '<polygon points="12,3.6 19.6,9 16.8,18 7.2,18 4.4,9" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/><path d="M12 3.6 7.2 18M12 3.6 16.8 18M4.4 9h15.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
+  globe: '<circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M3.5 12h17M12 3.5c2.6 2.7 2.6 14.3 0 17M12 3.5c-2.6 2.7-2.6 14.3 0 17" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  chip: '<rect x="7" y="7" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M10 3.5V7M14 3.5V7M10 17v3.5M14 17v3.5M3.5 10H7M3.5 14H7M17 10h3.5M17 14h3.5" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  hourglass: '<path d="M6.5 3.5h11M6.5 20.5h11M8 3.5v2.2c0 2.9 2.8 4.2 4 6.3 1.2-2.1 4-3.4 4-6.3V3.5M8 20.5v-2.2c0-2.9 2.8-4.2 4-6.3 1.2 2.1 4 3.4 4 6.3v2.2" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>',
   doc: '<rect x="5.5" y="3" width="13" height="18" rx="2" stroke="currentColor" stroke-width="1.8" fill="none"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
   pillar: '<path d="M4 6h16M6 6v14M18 6v14M9 6v14M15 6v14M3 20h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
   sparkle: '<path d="M12 3l1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linejoin="round"/><path d="M19 16l.8 2.4L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.6z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/>',
@@ -1602,11 +1605,13 @@ const toast = msg => {
   setTimeout(() => el.remove(), 1600);
 };
 const CAT_META = {
-  "人物":   { icon: "sparkle", bg: "linear-gradient(135deg,#d4b89c,#855349)" },
-  "足球":   { icon: "ball",    bg: "linear-gradient(135deg,#10B981,#047857)" },
-  "AI":     { icon: "sparkle", bg: "linear-gradient(135deg,#A78BFA,#4F46E5)" },
-  "寓言":   { icon: "book",    bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" },
-  "成长":   { icon: "sun",     bg: "linear-gradient(135deg,#34D399,#059669)" }
+  "人物":   { icon: "sparkle",   bg: "linear-gradient(135deg,#d4b89c,#855349)" },
+  "足球":   { icon: "ball",      bg: "linear-gradient(135deg,#10B981,#047857)" },
+  "寓言":   { icon: "book",      bg: "linear-gradient(135deg,#2DD4BF,#0F766E)" },
+  "成长":   { icon: "sun",       bg: "linear-gradient(135deg,#34D399,#059669)" },
+  "社会":   { icon: "globe",     bg: "linear-gradient(135deg,#60A5FA,#1D4ED8)" },
+  "科技":   { icon: "chip",      bg: "linear-gradient(135deg,#22D3EE,#0E7490)" },
+  "历史":   { icon: "hourglass", bg: "linear-gradient(135deg,#FBBF24,#92400E)" }
 };
 /* 发现页栏目副标题。★ 独立成表的原因：原来写在模板里是一串三元表达式（`c === "人物" ? … : c === "足球" ? … : "关于思考、生活与自我成长"`），
  * 默认分支是「成长」的文案。2026-09-20 接 Offbook 的 AI 专栏（43 篇，占全库 3/4）后，
@@ -1615,8 +1620,10 @@ const CAT_META = {
 const CAT_BLURB = {
   "人物": "人物访谈与镜头里的故事",
   "足球": "走进绿茵场内外",
-  "AI": "AI 时代的工作、学习与组织",
-  "成长": "关于思考、生活与自我成长"
+  "成长": "关于思考、生活与自我成长",
+  "社会": "互联网时代的社会观察",
+  "科技": "AI 与科学的前沿故事",
+  "历史": "往昔现场的真实故事"
 };
 
 /* 文章指标按篇缓存：排序与渲染要反复取，避免每次重扫全文。

@@ -22,6 +22,8 @@ tools/.examples-cache/*
 # 本地密钥，绝不入库
 tools/.deepl-key
 tools/.dashscope-key
+tools/.azure-speech-key
+tools/.azure-speech-region
 tools/.ecdict-blob.json
 
 # 抓取残留 / 会话产物 —— 不参与构建、不该进公开仓库。
@@ -74,3 +76,8 @@ outputs/apk/
 # 正常会被脚本自己在 finally 里删掉；加这条是防「删除失败留下的残骸」被 tree-diff
 # 判成「本地有、远端没有」—— 那会诱导人把它推上去，而它其实是一份第二全文。
 mobile/.audit-www*/
+tools/.tts-sdk/
+
+# 书架通道（tools/shelf.mjs）的原刊 HTML 缓存：原文按 url 现抓/代理抓，体积大且可重抓；
+# 译文（zh/）与构建产物（*.json）随仓库走，是精翻的持久来源。
+tools/_shelf/raw/

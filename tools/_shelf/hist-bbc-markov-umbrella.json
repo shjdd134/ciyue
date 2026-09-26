@@ -1,0 +1,2248 @@
+{
+ "id": "hist-bbc-markov-umbrella",
+ "cat": "历史",
+ "title": "‘Eliminate him without trace’: The poison-tipped umbrella that pointed to a KGB murder – on British soil",
+ "titleZh": "「不留痕迹地除掉他」：那把毒伞，指向发生在英国国土上的一桩 KGB 谋杀",
+ "source_url": "https://www.bbc.com/culture/article/20260904-the-poison-tipped-umbrella-that-pointed-to-a-kgb-murder",
+ "date": "2026-09-04",
+ "coverImg": "assets/covers/hist-bbc-markov-umbrella.jpg",
+ "inlineImages": [
+  {
+   "img": "assets/covers/hist-bbc-markov-umbrella-1.webp",
+   "cap": "",
+   "capCn": "",
+   "afterPara": 30,
+   "sameAsCover": true
+  }
+ ],
+ "translation_type": "ciyue_edited",
+ "stats": {
+  "paragraphs": 30,
+  "sentences": 61,
+  "words": 1330,
+  "chinese": 2215,
+  "emptyCn": 0
+ },
+ "sentence_pairs": [
+  {
+   "en": "In London, 7 September 1978, Georgi Markov was killed with an umbrella, in what is suspected to have been a political poisoning by the KGB. He died four days later.",
+   "cn": "1978年9月7日，伦敦，格奥尔基·马尔科夫（Georgi Markov）被一把雨伞杀害——这被怀疑是克格勃（KGB）策划的一起政治投毒。四天后他身亡。"
+  },
+  {
+   "en": "The following year, Markov's widow and elder brother told the BBC's Panorama that they were warned about the murder plot just months before – by an anonymous man.",
+   "cn": "第二年，马尔科夫的遗孀和哥哥告诉 BBC《全景》节目：就在遇害前几个月，曾有一个匿名男子向他们预警过这桩谋杀阴谋。"
+  },
+  {
+   "en": "\"He'd felt a jab in his thigh.",
+   "cn": "\"他感到大腿被刺了一下。"
+  },
+  {
+   "en": "And he'd looked round, and there'd been a man behind him who'd apologised and dropped an umbrella.\" These are the words of Annabel Markov, talking about her husband Georgi Markov, a Bulgarian dissident, journalist and writer.",
+   "cn": "他回过头，身后有个男人道了歉，然后丢下一把伞走开了。\"说这话的是安娜贝尔·马尔科夫（Annabel Markov），她谈的是自己的丈夫——保加利亚持不同政见者、记者、作家格奥尔基·马尔科夫。"
+  },
+  {
+   "en": "On 7 September 1978, 49-year-old Markov was waiting at a bus stop on Waterloo Bridge in central London when he said he'd been stabbed with an umbrella.",
+   "cn": "1978年9月7日，49岁的马尔科夫正在伦敦市中心滑铁卢桥上的一个公交站候车，他说自己就是那时被雨伞刺中的。"
+  },
+  {
+   "en": "Four days later he died in hospital, with doctors initially diagnosing blood poisoning.",
+   "cn": "四天后他在医院去世，医生最初的诊断是败血症。"
+  },
+  {
+   "en": "Yet detectives soon realised it had been a political murder, one that had used a highly sophisticated technique that also targeted another Bulgarian exile.",
+   "cn": "然而侦探们很快意识到，这是一场政治谋杀——其手法高度精密，而同样的手法也瞄准了另一名保加利亚流亡者。"
+  },
+  {
+   "en": "Markov's widow and elder brother told the BBC's Panorama in 1979 how an anonymous man warned them that Markov was going to be poisoned, months before his death.",
+   "cn": "1979年，马尔科夫的遗孀和哥哥向 BBC《全景》节目讲述了：一位匿名男子如何在马尔科夫死前几个月警告他们，他将被人下毒。"
+  },
+  {
+   "en": "And interviews with the former head of a KGB assassination squad and a former colonel in the Bulgarian secret service, both then talking publicly for the first time, placed the assassination at the highest levels of the Bulgarian and Soviet governments.",
+   "cn": "而对克格勃一支暗杀小队前负责人和保加利亚秘密机关一名前上校的采访——两人当时都是首次公开开口——把这场暗杀指向了保加利亚和苏联政府的最高层。"
+  },
+  {
+   "en": "In the days following Markov's death, Britain's anti-terrorist squad found a clue that convinced them that he had been the victim of a unique murder plot.",
+   "cn": "马尔科夫死后数日，英国反恐小组发现了一条线索，使他们确信：他是一场独一无二的谋杀阴谋的受害者。"
+  },
+  {
+   "en": "\"At Scotland Yard's forensic laboratory, the chief scientific officer examined a minute metal object that had been found in Markov's thigh,\" said Panorama reporter Michael Cockerell.",
+   "cn": "\"在苏格兰场的法医实验室里，首席科学官检查了在马尔科夫大腿里发现的一个微小金属物体，\"《全景》节目记者迈克尔·科克雷尔（Michael Cockerell）说。"
+  },
+  {
+   "en": "\"Under the microscope, it was clear that the object was an extraordinarily sophisticated pellet, no bigger than a pinhead.",
+   "cn": "\"在显微镜下，显而易见，这个物体是一枚异常精密的弹丸，比针头还小。"
+  },
+  {
+   "en": "It had four tiny holes passing through that the forensic experts were convinced had contained an infinitesimally tiny amount of a lethally toxic poison.\"",
+   "cn": "上面穿有四个微孔，法医专家确信，其中曾装有剂量微乎其微、却足以致死的一种剧毒毒物。\""
+  },
+  {
+   "en": "Scientists at Porton Down, the top-secret British chemical and microbiological warfare research establishment, believed that what had killed Markov was the highly lethal toxin ricin.",
+   "cn": "波顿唐（Porton Down）——英国绝密的化学与微生物战研究机构——的科学家们相信，杀死马尔科夫的是毒性极强的毒素蓖麻毒素（ricin）。"
+  },
+  {
+   "en": "According to Panorama, it had never before been used for murder in Britain.",
+   "cn": "据《全景》节目所述，此前它从未在英国被用于谋杀。"
+  },
+  {
+   "en": "It emerged that another Bulgarian exile might have been attacked in a similar way 10 days before Markov was stabbed.",
+   "cn": "人们随后发现，在马尔科夫遇刺前10天，另一名保加利亚流亡者可能也遭到了类似袭击。"
+  },
+  {
+   "en": "Vladimir Kostov had felt a sharp pain in his back as he was leaving the Paris Metro with his wife.",
+   "cn": "弗拉迪米尔·科斯托夫（Vladimir Kostov）和妻子走出巴黎地铁时，感到背部一阵剧痛。"
+  },
+  {
+   "en": "He had a high fever for three days but recovered.",
+   "cn": "他发了三天高烧，但康复了。"
+  },
+  {
+   "en": "After hearing of Markov's death, Kostov had his back X-rayed, which revealed a tiny metal object.",
+   "cn": "听闻马尔科夫的死讯后，科斯托夫给后背拍了X光片，发现了一个微小的金属物体。"
+  },
+  {
+   "en": "At a clinic in Paris, a surgeon operated on him under the eye of a French police officer wearing a surgical mask and gown.",
+   "cn": "在巴黎的一家诊所里，一名外科医生为他做手术，一名戴口罩和手术服的法国警察在一旁盯着。"
+  },
+  {
+   "en": "\"The surgeon had to be extremely careful.",
+   "cn": "\"外科医生必须极其小心。"
+  },
+  {
+   "en": "He removed the metal pellet without touching it at all,\" Kostov told the BBC. It was then given to a Scotland Yard inspector and taken to England for analysis.",
+   "cn": "他取出那枚金属弹丸时完全没有用手碰它，\"科斯托夫告诉 BBC。弹丸随后交给一名苏格兰场督察，被带回英国分析。"
+  },
+  {
+   "en": "Using a high-powered scanning electron microscope, Scotland Yard metallurgists analysed the pellet removed from Kostov's back, finding that it was identical to the one found in Markov.",
+   "cn": "苏格兰场的冶金学家用高功率扫描电子显微镜分析了从科斯托夫背部取出的弹丸，发现它与在马尔科夫体内发现的那枚一模一样。"
+  },
+  {
+   "en": "\"Both pellets weighed exactly the same,\" said Cockerell.",
+   "cn": "\"两枚弹丸的重量分毫不差，\"科克雷尔说。"
+  },
+  {
+   "en": "\"The holes were in the same places, and both were made of a rare platinum iridium alloy that the human body does not reject.\"",
+   "cn": "\"小孔的位置相同，而且都由一种人体不排异的稀有铂铱合金制成。\""
+  },
+  {
+   "en": "Toxicologists at Porton Down found ricin antibodies in Kostov's flesh and concluded he'd survived because there hadn't been enough poison in the pellet.",
+   "cn": "波顿唐的毒理学家在科斯托夫的组织里找到了蓖麻毒素抗体，并得出结论：他能活下来，是因为弹丸里的毒不够。"
+  },
+  {
+   "en": "The sophisticated technique used – and evidence of coordinated attacks – convinced Scotland Yard that a state secret service organisation had played a role in Markov's death.",
+   "cn": "所用手法的精密程度——以及遭到协同袭击的证据——让苏格兰场确信，某国特工机构参与了马尔科夫之死。"
+  },
+  {
+   "en": "A novelist and playwright previously acclaimed in his native country, moving within the government elite there, Markov had defected from then-communist Bulgaria in 1969.",
+   "cn": "马尔科夫曾是本国备受赞誉的小说家和剧作家，出入政府精英圈层；1969年，他从当时的共产党执政的保加利亚叛逃西方。"
+  },
+  {
+   "en": "After settling in the UK, he'd become an outspoken opponent of the Bulgarian government, working for the BBC's World Service as well as Radio Free Europe (RFE), a US state-funded media organisation.",
+   "cn": "定居英国后，他成为保加利亚政府直言不讳的批评者，为 BBC 世界服务台以及自由欧洲电台（RFE）——一家美国官方资助的媒体机构——工作。"
+  },
+  {
+   "en": "Annabel Markov said that they had received warnings of a plot to kill her husband, telling the BBC that a man had contacted Georgi in May 1978.",
+   "cn": "安娜贝尔·马尔科夫说，他们曾收到过有人阴谋杀害她丈夫的警告，并告诉 BBC：1978年5月，一名男子接触了格奥尔基。"
+  },
+  {
+   "en": "\"They spoke Bulgarian all evening.",
+   "cn": "\"整个晚上他们都在用保加利亚语交谈。"
+  },
+  {
+   "en": "Every so often Georgi would turn to me and say in English, 'this is extraordinary what this man's saying'.\" According to Annabel, the anonymous man said that the decision had been taken at the highest political level in Bulgaria to kill him, because of the outspoken broadcasts Georgi was writing for RFE.",
+   "cn": "每隔一会儿，格奥尔基就会转向我，用英语说：'这个人说的话太不可思议了'。\"据安娜贝尔说，那名匿名男子告诉他：保加利亚最高政治层已经做出决定，要杀掉他——因为他为自由欧洲电台撰写了那些直言不讳的广播稿。"
+  },
+  {
+   "en": "Markov's brother Nikola backed this up, revealing that he had received a call in September 1977.",
+   "cn": "马尔科夫的哥哥尼古拉（Nikola）证实了这一点：他透露自己在1977年9月接到过一个电话。"
+  },
+  {
+   "en": "\"A man phoned me saying the decision has been taken to kill Georgi, to eliminate him without trace,\" he told the BBC.",
+   "cn": "\"一个男人打电话给我，说已经做出决定要杀掉格奥尔基，要消灭他，不留痕迹，\"他告诉 BBC。"
+  },
+  {
+   "en": "\"At first, I didn't believe it.",
+   "cn": "\"起初我不相信。"
+  },
+  {
+   "en": "It seemed absurd, impossible.",
+   "cn": "这听起来荒唐透顶，绝无可能。"
+  },
+  {
+   "en": "But the man gave me quite specific details about which there could be no doubt.",
+   "cn": "但那人给了我一些相当具体的细节，让人无从怀疑。"
+  },
+  {
+   "en": "He told me Georgi would definitely be poisoned at the first opportunity…",
+   "cn": "他告诉我，格奥尔基一有机会就一定会被下毒……"
+  },
+  {
+   "en": "that a sort of poison or some sort of bacteria, he didn't know exactly which, had already been brought out to Western Europe.\"",
+   "cn": "还说某种毒药或某种细菌——他说不清具体是哪种——已经被带到了西欧。\""
+  },
+  {
+   "en": "After moving to the UK, Markov remained a celebrity at home through his talks on RFE, broadcasting weekly programmes about what life was really like at the upper echelons of Bulgarian society.",
+   "cn": "移居英国后，马尔科夫依然借助在自由欧洲电台的讲话在祖国声名不减，每周广播节目，讲述保加利亚社会上层真实的生活图景。"
+  },
+  {
+   "en": "One of his broadcasts was called Life Behind the Curtains, referring to the little curtains on the side and back of every official black Mercedes.",
+   "cn": "他有一档节目名叫《帷幕之后的生活》（Life Behind the Curtains），说的是每辆官方黑色奔驰车侧面和后窗挂着的那些小帘子。"
+  },
+  {
+   "en": "He presented a gossipy but damning picture of the misuse of absolute power in the country, with stories about nepotism, financial abuse and corruption.",
+   "cn": "他描绘了一幅八卦性质却极具杀伤力的图景，直指这个国家绝对权力的滥用，讲裙带关系、财务舞弊与腐败的故事。"
+  },
+  {
+   "en": "While the Bulgarian government officially denied that Markov's broadcasts had any influence, the BBC found that the Bulgarian president, Todor Zhivkov, took particularly strong exception to a revealing series of Markov's talks called My Meetings with Todor Zhivkov.",
+   "cn": "虽然保加利亚政府官方否认马尔科夫的广播有任何影响，但 BBC 发现，保加利亚总统托多尔·日夫科夫（Todor Zhivkov）对马尔科夫那组尤其具有揭露性的讲话《我与托多尔·日夫科夫的会面》（My Meetings with Todor Zhivkov）反应格外强烈。"
+  },
+  {
+   "en": "\"We have heard that he was quite furious about Markov's talks concerning the meetings with him,\" said a Bulgarian broadcaster for RFE, Kyril Panov.",
+   "cn": "\"我们听说，他对马尔科夫那些讲述与他见面的谈话相当震怒，\"自由欧洲电台的保加利亚播音员基里尔·帕诺夫（Kyril Panov）说。"
+  },
+  {
+   "en": "\"[Markov] was talking about things which are, so to speak, taboo in Bulgaria, things which the regime prefers not to talk about and that the public should not know.\"",
+   "cn": "\"（马尔科夫）谈论的那些事，可以说是保加利亚的禁忌——是这个政权不愿谈、也不该让公众知道的事。\""
+  },
+  {
+   "en": "Zhivkov had ruled Bulgaria since 1956 – and had very close ties to the Soviet Union, describing the relationship between the two countries as like two lungs in the same body, fed by the same bloodstream.",
+   "cn": "日夫科夫自1956年起统治保加利亚——他与苏联关系极为密切，曾把两国关系比作同一身体里的两片肺，由同一股血液滋养。"
+  },
+  {
+   "en": "Experts believed that the Soviets must have been involved in Markov's murder.",
+   "cn": "专家们相信，苏联方面必定参与了马尔科夫的谋杀。"
+  },
+  {
+   "en": "Stefan Sverdlov, a colonel in the Bulgarian secret police until he defected in 1971, told the BBC in 1979: \"Every department of the Darzhavna Sigurnost [Bulgarian secret service] is controlled by an advisor from the Russian KGB, sometimes known as an uncle, who reports directly to Moscow…",
+   "cn": "斯特凡·斯维尔德洛夫（Stefan Sverdlov）原是保加利亚秘密警察上校，1971年叛逃；他1979年告诉 BBC：\"保加利亚国家安全局（Darzhavna Sigurnost）的每一个部门，都由一名俄国人克格勃的顾问控制，有时被称为'叔叔'，他直接向莫斯科汇报……"
+  },
+  {
+   "en": "It's inconceivable that this could have been done without the Russians knowing about it.\"",
+   "cn": "如果没有俄国人的知情，这种事根本不可想象。\""
+  },
+  {
+   "en": "And according to the former head of an assassination squad for the KGB, the method pointed to Soviet involvement.",
+   "cn": "而据克格勃一支暗杀小队的前负责人说，这种作案手法本身就指向苏联的介入。"
+  },
+  {
+   "en": "\"The technique is…",
+   "cn": "\"这套技术……"
+  },
+  {
+   "en": "almost ridiculously sophisticated,\" said Nikolai Khokhlov.",
+   "cn": "精密得近乎荒唐，\"尼古拉·霍赫洛夫（Nikolai Khokhlov）说。"
+  },
+  {
+   "en": "\"That tells me that the officers who were planning that operation tried to please someone on the highest level.\" The fatal attack on Markov was carried out on Zhivkov's birthday.",
+   "cn": "\"这告诉我，策划这次行动的特工是想讨好最高层的某个人。\"对马尔科夫的致命袭击，就发生在日夫科夫的生日当天。"
+  },
+  {
+   "en": "After the fall of the Soviet Union, it emerged that the KGB had developed an umbrella that could inject ricin pellets into a victim.",
+   "cn": "苏联解体后，人们得知：克格勃研制过一种能把蓖麻毒素弹丸注入人体的雨伞。"
+  },
+  {
+   "en": "And two former KGB officers who defected later said their organisation assisted in the murder, although it was carried out by an Italian criminal codenamed Piccadilly.",
+   "cn": "而两名后来叛逃的前克格勃官员说，他们的机构协助了这桩谋杀——尽管动手执行的是一名代号\"皮卡迪利\"（Piccadilly）的意大利罪犯。"
+  },
+  {
+   "en": "No one has ever been charged for Markov's assassination.",
+   "cn": "马尔科夫遇刺一案，从未有人被起诉。"
+  },
+  {
+   "en": "Bulgaria closed the case in 2013 , due to a lack of suspects, but it remains an open inquiry in the UK.",
+   "cn": "保加利亚方面于2013年因缺少嫌疑人结案；但在英国，此案至今仍是未决的调查。"
+  },
+  {
+   "en": "It would have benefited the Soviets in more than one way, as former KGB officer Khokhlov told the BBC in 1979 – beyond the physical death, it would have had a great psychological impact on dissenters abroad.",
+   "cn": "对苏联人来说，这桩谋杀的收益不止一重：正如前克格勃军官霍赫洛夫1979年告诉 BBC 的——超越了肉体死亡本身，它还会对海外的异见者产生巨大的心理冲击。"
+  },
+  {
+   "en": "\"The fear that they're not protected by distance, they're not protected by the security systems of the West\", he said.",
+   "cn": "\"让他们害怕：距离保护不了他们，西方的安全体系也保护不了他们\"，他说。"
+  },
+  {
+   "en": "He continued: \"The action is like coming behind someone and whispering in his ear, 'We can get you any time we want.",
+   "cn": "他接着说：\"这种行动就像绕到一个人身后，在他耳边低语：'只要我们想，随时可以抓到你。"
+  },
+  {
+   "en": "We can kill you.'\"",
+   "cn": "我们可以杀死你。'\""
+  }
+ ],
+ "paras": [
+  {
+   "sentences": [
+    {
+     "en": "In London, 7 September 1978, Georgi Markov was killed with an umbrella, in what is suspected to have been a political poisoning by the KGB. He died four days later.",
+     "cn": "1978年9月7日，伦敦，格奥尔基·马尔科夫（Georgi Markov）被一把雨伞杀害——这被怀疑是克格勃（KGB）策划的一起政治投毒。四天后他身亡。",
+     "cnEdited": true
+    },
+    {
+     "en": "The following year, Markov's widow and elder brother told the BBC's Panorama that they were warned about the murder plot just months before – by an anonymous man.",
+     "cn": "第二年，马尔科夫的遗孀和哥哥告诉 BBC《全景》节目：就在遇害前几个月，曾有一个匿名男子向他们预警过这桩谋杀阴谋。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"He'd felt a jab in his thigh.",
+     "cn": "\"他感到大腿被刺了一下。",
+     "cnEdited": true
+    },
+    {
+     "en": "And he'd looked round, and there'd been a man behind him who'd apologised and dropped an umbrella.\" These are the words of Annabel Markov, talking about her husband Georgi Markov, a Bulgarian dissident, journalist and writer.",
+     "cn": "他回过头，身后有个男人道了歉，然后丢下一把伞走开了。\"说这话的是安娜贝尔·马尔科夫（Annabel Markov），她谈的是自己的丈夫——保加利亚持不同政见者、记者、作家格奥尔基·马尔科夫。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "On 7 September 1978, 49-year-old Markov was waiting at a bus stop on Waterloo Bridge in central London when he said he'd been stabbed with an umbrella.",
+     "cn": "1978年9月7日，49岁的马尔科夫正在伦敦市中心滑铁卢桥上的一个公交站候车，他说自己就是那时被雨伞刺中的。",
+     "cnEdited": true
+    },
+    {
+     "en": "Four days later he died in hospital, with doctors initially diagnosing blood poisoning.",
+     "cn": "四天后他在医院去世，医生最初的诊断是败血症。",
+     "cnEdited": true
+    },
+    {
+     "en": "Yet detectives soon realised it had been a political murder, one that had used a highly sophisticated technique that also targeted another Bulgarian exile.",
+     "cn": "然而侦探们很快意识到，这是一场政治谋杀——其手法高度精密，而同样的手法也瞄准了另一名保加利亚流亡者。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Markov's widow and elder brother told the BBC's Panorama in 1979 how an anonymous man warned them that Markov was going to be poisoned, months before his death.",
+     "cn": "1979年，马尔科夫的遗孀和哥哥向 BBC《全景》节目讲述了：一位匿名男子如何在马尔科夫死前几个月警告他们，他将被人下毒。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "And interviews with the former head of a KGB assassination squad and a former colonel in the Bulgarian secret service, both then talking publicly for the first time, placed the assassination at the highest levels of the Bulgarian and Soviet governments.",
+     "cn": "而对克格勃一支暗杀小队前负责人和保加利亚秘密机关一名前上校的采访——两人当时都是首次公开开口——把这场暗杀指向了保加利亚和苏联政府的最高层。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In the days following Markov's death, Britain's anti-terrorist squad found a clue that convinced them that he had been the victim of a unique murder plot.",
+     "cn": "马尔科夫死后数日，英国反恐小组发现了一条线索，使他们确信：他是一场独一无二的谋杀阴谋的受害者。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"At Scotland Yard's forensic laboratory, the chief scientific officer examined a minute metal object that had been found in Markov's thigh,\" said Panorama reporter Michael Cockerell.",
+     "cn": "\"在苏格兰场的法医实验室里，首席科学官检查了在马尔科夫大腿里发现的一个微小金属物体，\"《全景》节目记者迈克尔·科克雷尔（Michael Cockerell）说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"Under the microscope, it was clear that the object was an extraordinarily sophisticated pellet, no bigger than a pinhead.",
+     "cn": "\"在显微镜下，显而易见，这个物体是一枚异常精密的弹丸，比针头还小。",
+     "cnEdited": true
+    },
+    {
+     "en": "It had four tiny holes passing through that the forensic experts were convinced had contained an infinitesimally tiny amount of a lethally toxic poison.\"",
+     "cn": "上面穿有四个微孔，法医专家确信，其中曾装有剂量微乎其微、却足以致死的一种剧毒毒物。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Scientists at Porton Down, the top-secret British chemical and microbiological warfare research establishment, believed that what had killed Markov was the highly lethal toxin ricin.",
+     "cn": "波顿唐（Porton Down）——英国绝密的化学与微生物战研究机构——的科学家们相信，杀死马尔科夫的是毒性极强的毒素蓖麻毒素（ricin）。",
+     "cnEdited": true
+    },
+    {
+     "en": "According to Panorama, it had never before been used for murder in Britain.",
+     "cn": "据《全景》节目所述，此前它从未在英国被用于谋杀。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "It emerged that another Bulgarian exile might have been attacked in a similar way 10 days before Markov was stabbed.",
+     "cn": "人们随后发现，在马尔科夫遇刺前10天，另一名保加利亚流亡者可能也遭到了类似袭击。",
+     "cnEdited": true
+    },
+    {
+     "en": "Vladimir Kostov had felt a sharp pain in his back as he was leaving the Paris Metro with his wife.",
+     "cn": "弗拉迪米尔·科斯托夫（Vladimir Kostov）和妻子走出巴黎地铁时，感到背部一阵剧痛。",
+     "cnEdited": true
+    },
+    {
+     "en": "He had a high fever for three days but recovered.",
+     "cn": "他发了三天高烧，但康复了。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "After hearing of Markov's death, Kostov had his back X-rayed, which revealed a tiny metal object.",
+     "cn": "听闻马尔科夫的死讯后，科斯托夫给后背拍了X光片，发现了一个微小的金属物体。",
+     "cnEdited": true
+    },
+    {
+     "en": "At a clinic in Paris, a surgeon operated on him under the eye of a French police officer wearing a surgical mask and gown.",
+     "cn": "在巴黎的一家诊所里，一名外科医生为他做手术，一名戴口罩和手术服的法国警察在一旁盯着。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"The surgeon had to be extremely careful.",
+     "cn": "\"外科医生必须极其小心。",
+     "cnEdited": true
+    },
+    {
+     "en": "He removed the metal pellet without touching it at all,\" Kostov told the BBC. It was then given to a Scotland Yard inspector and taken to England for analysis.",
+     "cn": "他取出那枚金属弹丸时完全没有用手碰它，\"科斯托夫告诉 BBC。弹丸随后交给一名苏格兰场督察，被带回英国分析。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Using a high-powered scanning electron microscope, Scotland Yard metallurgists analysed the pellet removed from Kostov's back, finding that it was identical to the one found in Markov.",
+     "cn": "苏格兰场的冶金学家用高功率扫描电子显微镜分析了从科斯托夫背部取出的弹丸，发现它与在马尔科夫体内发现的那枚一模一样。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"Both pellets weighed exactly the same,\" said Cockerell.",
+     "cn": "\"两枚弹丸的重量分毫不差，\"科克雷尔说。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"The holes were in the same places, and both were made of a rare platinum iridium alloy that the human body does not reject.\"",
+     "cn": "\"小孔的位置相同，而且都由一种人体不排异的稀有铂铱合金制成。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Toxicologists at Porton Down found ricin antibodies in Kostov's flesh and concluded he'd survived because there hadn't been enough poison in the pellet.",
+     "cn": "波顿唐的毒理学家在科斯托夫的组织里找到了蓖麻毒素抗体，并得出结论：他能活下来，是因为弹丸里的毒不够。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The sophisticated technique used – and evidence of coordinated attacks – convinced Scotland Yard that a state secret service organisation had played a role in Markov's death.",
+     "cn": "所用手法的精密程度——以及遭到协同袭击的证据——让苏格兰场确信，某国特工机构参与了马尔科夫之死。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "A novelist and playwright previously acclaimed in his native country, moving within the government elite there, Markov had defected from then-communist Bulgaria in 1969.",
+     "cn": "马尔科夫曾是本国备受赞誉的小说家和剧作家，出入政府精英圈层；1969年，他从当时的共产党执政的保加利亚叛逃西方。",
+     "cnEdited": true
+    },
+    {
+     "en": "After settling in the UK, he'd become an outspoken opponent of the Bulgarian government, working for the BBC's World Service as well as Radio Free Europe (RFE), a US state-funded media organisation.",
+     "cn": "定居英国后，他成为保加利亚政府直言不讳的批评者，为 BBC 世界服务台以及自由欧洲电台（RFE）——一家美国官方资助的媒体机构——工作。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Annabel Markov said that they had received warnings of a plot to kill her husband, telling the BBC that a man had contacted Georgi in May 1978.",
+     "cn": "安娜贝尔·马尔科夫说，他们曾收到过有人阴谋杀害她丈夫的警告，并告诉 BBC：1978年5月，一名男子接触了格奥尔基。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"They spoke Bulgarian all evening.",
+     "cn": "\"整个晚上他们都在用保加利亚语交谈。",
+     "cnEdited": true
+    },
+    {
+     "en": "Every so often Georgi would turn to me and say in English, 'this is extraordinary what this man's saying'.\" According to Annabel, the anonymous man said that the decision had been taken at the highest political level in Bulgaria to kill him, because of the outspoken broadcasts Georgi was writing for RFE.",
+     "cn": "每隔一会儿，格奥尔基就会转向我，用英语说：'这个人说的话太不可思议了'。\"据安娜贝尔说，那名匿名男子告诉他：保加利亚最高政治层已经做出决定，要杀掉他——因为他为自由欧洲电台撰写了那些直言不讳的广播稿。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Markov's brother Nikola backed this up, revealing that he had received a call in September 1977.",
+     "cn": "马尔科夫的哥哥尼古拉（Nikola）证实了这一点：他透露自己在1977年9月接到过一个电话。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"A man phoned me saying the decision has been taken to kill Georgi, to eliminate him without trace,\" he told the BBC.",
+     "cn": "\"一个男人打电话给我，说已经做出决定要杀掉格奥尔基，要消灭他，不留痕迹，\"他告诉 BBC。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"At first, I didn't believe it.",
+     "cn": "\"起初我不相信。",
+     "cnEdited": true
+    },
+    {
+     "en": "It seemed absurd, impossible.",
+     "cn": "这听起来荒唐透顶，绝无可能。",
+     "cnEdited": true
+    },
+    {
+     "en": "But the man gave me quite specific details about which there could be no doubt.",
+     "cn": "但那人给了我一些相当具体的细节，让人无从怀疑。",
+     "cnEdited": true
+    },
+    {
+     "en": "He told me Georgi would definitely be poisoned at the first opportunity…",
+     "cn": "他告诉我，格奥尔基一有机会就一定会被下毒……",
+     "cnEdited": true
+    },
+    {
+     "en": "that a sort of poison or some sort of bacteria, he didn't know exactly which, had already been brought out to Western Europe.\"",
+     "cn": "还说某种毒药或某种细菌——他说不清具体是哪种——已经被带到了西欧。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "After moving to the UK, Markov remained a celebrity at home through his talks on RFE, broadcasting weekly programmes about what life was really like at the upper echelons of Bulgarian society.",
+     "cn": "移居英国后，马尔科夫依然借助在自由欧洲电台的讲话在祖国声名不减，每周广播节目，讲述保加利亚社会上层真实的生活图景。",
+     "cnEdited": true
+    },
+    {
+     "en": "One of his broadcasts was called Life Behind the Curtains, referring to the little curtains on the side and back of every official black Mercedes.",
+     "cn": "他有一档节目名叫《帷幕之后的生活》（Life Behind the Curtains），说的是每辆官方黑色奔驰车侧面和后窗挂着的那些小帘子。",
+     "cnEdited": true
+    },
+    {
+     "en": "He presented a gossipy but damning picture of the misuse of absolute power in the country, with stories about nepotism, financial abuse and corruption.",
+     "cn": "他描绘了一幅八卦性质却极具杀伤力的图景，直指这个国家绝对权力的滥用，讲裙带关系、财务舞弊与腐败的故事。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "While the Bulgarian government officially denied that Markov's broadcasts had any influence, the BBC found that the Bulgarian president, Todor Zhivkov, took particularly strong exception to a revealing series of Markov's talks called My Meetings with Todor Zhivkov.",
+     "cn": "虽然保加利亚政府官方否认马尔科夫的广播有任何影响，但 BBC 发现，保加利亚总统托多尔·日夫科夫（Todor Zhivkov）对马尔科夫那组尤其具有揭露性的讲话《我与托多尔·日夫科夫的会面》（My Meetings with Todor Zhivkov）反应格外强烈。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"We have heard that he was quite furious about Markov's talks concerning the meetings with him,\" said a Bulgarian broadcaster for RFE, Kyril Panov.",
+     "cn": "\"我们听说，他对马尔科夫那些讲述与他见面的谈话相当震怒，\"自由欧洲电台的保加利亚播音员基里尔·帕诺夫（Kyril Panov）说。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"[Markov] was talking about things which are, so to speak, taboo in Bulgaria, things which the regime prefers not to talk about and that the public should not know.\"",
+     "cn": "\"（马尔科夫）谈论的那些事，可以说是保加利亚的禁忌——是这个政权不愿谈、也不该让公众知道的事。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Zhivkov had ruled Bulgaria since 1956 – and had very close ties to the Soviet Union, describing the relationship between the two countries as like two lungs in the same body, fed by the same bloodstream.",
+     "cn": "日夫科夫自1956年起统治保加利亚——他与苏联关系极为密切，曾把两国关系比作同一身体里的两片肺，由同一股血液滋养。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Experts believed that the Soviets must have been involved in Markov's murder.",
+     "cn": "专家们相信，苏联方面必定参与了马尔科夫的谋杀。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Stefan Sverdlov, a colonel in the Bulgarian secret police until he defected in 1971, told the BBC in 1979: \"Every department of the Darzhavna Sigurnost [Bulgarian secret service] is controlled by an advisor from the Russian KGB, sometimes known as an uncle, who reports directly to Moscow…",
+     "cn": "斯特凡·斯维尔德洛夫（Stefan Sverdlov）原是保加利亚秘密警察上校，1971年叛逃；他1979年告诉 BBC：\"保加利亚国家安全局（Darzhavna Sigurnost）的每一个部门，都由一名俄国人克格勃的顾问控制，有时被称为'叔叔'，他直接向莫斯科汇报……",
+     "cnEdited": true
+    },
+    {
+     "en": "It's inconceivable that this could have been done without the Russians knowing about it.\"",
+     "cn": "如果没有俄国人的知情，这种事根本不可想象。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "And according to the former head of an assassination squad for the KGB, the method pointed to Soviet involvement.",
+     "cn": "而据克格勃一支暗杀小队的前负责人说，这种作案手法本身就指向苏联的介入。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"The technique is…",
+     "cn": "\"这套技术……",
+     "cnEdited": true
+    },
+    {
+     "en": "almost ridiculously sophisticated,\" said Nikolai Khokhlov.",
+     "cn": "精密得近乎荒唐，\"尼古拉·霍赫洛夫（Nikolai Khokhlov）说。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"That tells me that the officers who were planning that operation tried to please someone on the highest level.\" The fatal attack on Markov was carried out on Zhivkov's birthday.",
+     "cn": "\"这告诉我，策划这次行动的特工是想讨好最高层的某个人。\"对马尔科夫的致命袭击，就发生在日夫科夫的生日当天。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "After the fall of the Soviet Union, it emerged that the KGB had developed an umbrella that could inject ricin pellets into a victim.",
+     "cn": "苏联解体后，人们得知：克格勃研制过一种能把蓖麻毒素弹丸注入人体的雨伞。",
+     "cnEdited": true
+    },
+    {
+     "en": "And two former KGB officers who defected later said their organisation assisted in the murder, although it was carried out by an Italian criminal codenamed Piccadilly.",
+     "cn": "而两名后来叛逃的前克格勃官员说，他们的机构协助了这桩谋杀——尽管动手执行的是一名代号\"皮卡迪利\"（Piccadilly）的意大利罪犯。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "No one has ever been charged for Markov's assassination.",
+     "cn": "马尔科夫遇刺一案，从未有人被起诉。",
+     "cnEdited": true
+    },
+    {
+     "en": "Bulgaria closed the case in 2013 , due to a lack of suspects, but it remains an open inquiry in the UK.",
+     "cn": "保加利亚方面于2013年因缺少嫌疑人结案；但在英国，此案至今仍是未决的调查。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "It would have benefited the Soviets in more than one way, as former KGB officer Khokhlov told the BBC in 1979 – beyond the physical death, it would have had a great psychological impact on dissenters abroad.",
+     "cn": "对苏联人来说，这桩谋杀的收益不止一重：正如前克格勃军官霍赫洛夫1979年告诉 BBC 的——超越了肉体死亡本身，它还会对海外的异见者产生巨大的心理冲击。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"The fear that they're not protected by distance, they're not protected by the security systems of the West\", he said.",
+     "cn": "\"让他们害怕：距离保护不了他们，西方的安全体系也保护不了他们\"，他说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "He continued: \"The action is like coming behind someone and whispering in his ear, 'We can get you any time we want.",
+     "cn": "他接着说：\"这种行动就像绕到一个人身后，在他耳边低语：'只要我们想，随时可以抓到你。",
+     "cnEdited": true
+    },
+    {
+     "en": "We can kill you.'\"",
+     "cn": "我们可以杀死你。'\"",
+     "cnEdited": true
+    }
+   ]
+  }
+ ],
+ "cet4_words": [
+  {
+   "w": "man",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "男人；人；人类；操纵；给…配置人员；使增强勇气；在…就位",
+   "n": 7
+  },
+  {
+   "w": "talk",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "讲话；谈话；演讲；空谈",
+   "n": 7
+  },
+  {
+   "w": "kill",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "杀死；扼杀；消磨；杀戮；屠杀；致命的；致死的",
+   "n": 6
+  },
+  {
+   "w": "murder",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "谋杀，凶杀",
+   "n": 6
+  },
+  {
+   "w": "soviet",
+   "layer": "core",
+   "pos": "n.",
+   "def": "苏维埃",
+   "n": 6
+  },
+  {
+   "w": "back",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "在后；回原处；回；后面；背部；靠背；足球等的后卫；书报等的末尾；支持；后退；背书；下赌注；后面的；过去的；拖欠的",
+   "n": 5
+  },
+  {
+   "w": "day",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "(一)天，白昼，白天；每天；经常在白天地；日间的；逐日的",
+   "n": 5
+  },
+  {
+   "w": "death",
+   "layer": "core",
+   "pos": "n.",
+   "def": "死，死亡；灭亡",
+   "n": 5
+  },
+  {
+   "w": "former",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "在前的 n.前者；前者",
+   "n": 5
+  },
+  {
+   "w": "officer",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "官员；干事；军官；指挥",
+   "n": 5
+  },
+  {
+   "w": "one",
+   "layer": "core",
+   "pos": "num./pron./adj.",
+   "def": "一；一个人；一的；唯一的",
+   "n": 5
+  },
+  {
+   "w": "secret",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "秘密的；隐蔽的；秘密；秘诀；机密",
+   "n": 5
+  },
+  {
+   "w": "government",
+   "layer": "core",
+   "pos": "n.",
+   "def": "政府；治理；政治",
+   "n": 4
+  },
+  {
+   "w": "same",
+   "layer": "core",
+   "pos": "adj./pron./adv./n.",
+   "def": "同一的，相同的；同样的事物或人（通常与the连用）；同样地（通常与the连用）；同样的事",
+   "n": 4
+  },
+  {
+   "w": "service",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "服务；行政部门；服务性的；耐用的；服现役的；维修，检修；保养",
+   "n": 4
+  },
+  {
+   "w": "accord",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "使一致；给予；一致，符合；谅解，协议",
+   "n": 3
+  },
+  {
+   "w": "attack",
+   "layer": "core",
+   "pos": "v./v./n.",
+   "def": "攻击，进攻",
+   "n": 3
+  },
+  {
+   "w": "believe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "相信；认为",
+   "n": 3
+  },
+  {
+   "w": "brother",
+   "layer": "core",
+   "pos": "n.",
+   "def": "兄弟；同事，同胞",
+   "n": 3
+  },
+  {
+   "w": "call",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "把…叫做；叫，喊；电话；呼叫；要求；访问",
+   "n": 3
+  },
+  {
+   "w": "country",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "国家，国土；农村；祖国的，故乡的；地方的，乡村的；国家的；粗鲁的；乡村音乐的",
+   "n": 3
+  },
+  {
+   "w": "first",
+   "layer": "core",
+   "pos": "num./adv./adj.",
+   "def": "第一 ad.最初；最初；第一的；基本的；最早的",
+   "n": 3
+  },
+  {
+   "w": "four",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "四，四个，第四；四的；四个的",
+   "n": 3
+  },
+  {
+   "w": "know",
+   "layer": "core",
+   "pos": "v.",
+   "def": "知道；认识；通晓",
+   "n": 3
+  },
+  {
+   "w": "later",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "后来；过一会儿",
+   "n": 3
+  },
+  {
+   "w": "level",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "水平面 a.水平的；水平的；瞄准；拉平；变得平坦",
+   "n": 3
+  },
+  {
+   "w": "metal",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "金属，金属制品；以金属覆盖；金属制的",
+   "n": 3
+  },
+  {
+   "w": "object",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "反对；抱反感；物，物体；目的",
+   "n": 3
+  },
+  {
+   "w": "political",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "政治的，政治上的",
+   "n": 3
+  },
+  {
+   "w": "reveal",
+   "layer": "core",
+   "pos": "v.",
+   "def": "展现；揭示，揭露",
+   "n": 3
+  },
+  {
+   "w": "say",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "说；说明；比如说；决定权；发言权",
+   "n": 3
+  },
+  {
+   "w": "technique",
+   "layer": "core",
+   "pos": "n.",
+   "def": "技术，技巧；技能",
+   "n": 3
+  },
+  {
+   "w": "tiny",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "微小的，极小的",
+   "n": 3
+  },
+  {
+   "w": "two",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "二，两个；两个的",
+   "n": 3
+  },
+  {
+   "w": "used",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "旧的；习惯于…的；用（use的过去式）；（used to）过去常做",
+   "n": 3
+  },
+  {
+   "w": "yard",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "院子，庭院；场地；把…关进或围在畜栏里",
+   "n": 3
+  },
+  {
+   "w": "body",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "身体；主体；尸体；赋以形体",
+   "n": 2
+  },
+  {
+   "w": "close",
+   "layer": "core",
+   "pos": "v./adj./adv.",
+   "def": "关，闭；结束；紧密的；亲密的；亲近的；紧密地",
+   "n": 2
+  },
+  {
+   "w": "decision",
+   "layer": "core",
+   "pos": "n.",
+   "def": "决定，决心；果断",
+   "n": 2
+  },
+  {
+   "w": "die",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "死，死亡；灭亡；冲模，钢模；骰子",
+   "n": 2
+  },
+  {
+   "w": "down",
+   "layer": "core",
+   "pos": "adj./n./prep./v.",
+   "def": "向下，在下面；软毛，绒毛；[地质] 开阔的高地；沿着，往下；打倒，击败",
+   "n": 2
+  },
+  {
+   "w": "exactly",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "确切地；恰恰正是；恰好地；正是；精确地；正确地",
+   "n": 2
+  },
+  {
+   "w": "expert",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "专家 a.熟练的；熟练的，内行的；当专家；在…中当行家",
+   "n": 2
+  },
+  {
+   "w": "following",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "接着的；下列的；一批追随者；跟随；沿行（follow的ing形式）",
+   "n": 2
+  },
+  {
+   "w": "head",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "头；上端 vt.率领；率领；头的；主要的；在顶端的",
+   "n": 2
+  },
+  {
+   "w": "high",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "高的；高级的 ad.高；高水平；天空；由麻醉品引起的快感；高压地带；高；奢侈地",
+   "n": 2
+  },
+  {
+   "w": "highly",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "高度地，很，非常",
+   "n": 2
+  },
+  {
+   "w": "hole",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "洞；孔眼，裂开处；凿洞，穿孔；（高尔夫球等）进洞",
+   "n": 2
+  },
+  {
+   "w": "husband",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "丈夫；节约地使用（或管理）",
+   "n": 2
+  },
+  {
+   "w": "life",
+   "layer": "core",
+   "pos": "n.",
+   "def": "生命；一生；寿命",
+   "n": 2
+  },
+  {
+   "w": "meeting",
+   "layer": "core",
+   "pos": "n.",
+   "def": "聚集，会合，会见",
+   "n": 2
+  },
+  {
+   "w": "month",
+   "layer": "core",
+   "pos": "n.",
+   "def": "月，月份",
+   "n": 2
+  },
+  {
+   "w": "move",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "移动；感动 n.动；行动，步骤",
+   "n": 2
+  },
+  {
+   "w": "place",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "地方，地点；住所；放置；任命；寄予",
+   "n": 2
+  },
+  {
+   "w": "police",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "警察；警察当局；监督；管辖；维持治安；为…配备警察；警察的；有关警察的",
+   "n": 2
+  },
+  {
+   "w": "power",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "能力；力；权；幂；激励；供以动力；使…有力量；借影响有权势人物以操纵权力的",
+   "n": 2
+  },
+  {
+   "w": "protect",
+   "layer": "core",
+   "pos": "v.",
+   "def": "保护，保卫，警戒",
+   "n": 2
+  },
+  {
+   "w": "quite",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "完全；相当；的确",
+   "n": 2
+  },
+  {
+   "w": "receive",
+   "layer": "core",
+   "pos": "v.",
+   "def": "收到；得到；接待",
+   "n": 2
+  },
+  {
+   "w": "remain",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "剩下，余留；保持；残余； 残骸； 遗迹",
+   "n": 2
+  },
+  {
+   "w": "remove",
+   "layer": "core",
+   "pos": "v.",
+   "def": "移动，搬开；脱掉",
+   "n": 2
+  },
+  {
+   "w": "russian",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "俄罗斯的；俄国的；俄语的；俄语；俄国人",
+   "n": 2
+  },
+  {
+   "w": "someone",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "某人，有人",
+   "n": 2
+  },
+  {
+   "w": "sort",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "种类；类别；整理",
+   "n": 2
+  },
+  {
+   "w": "state",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "状态；国家；州；规定；声明；陈述；国家的；州的；正式的",
+   "n": 2
+  },
+  {
+   "w": "suspect",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "怀疑；嫌疑犯；可疑的， 不信任的",
+   "n": 2
+  },
+  {
+   "w": "tell",
+   "layer": "core",
+   "pos": "v.",
+   "def": "讲述；吩咐；辨别",
+   "n": 2
+  },
+  {
+   "w": "thing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "物；用品；事；情况",
+   "n": 2
+  },
+  {
+   "w": "time",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "时间；时机；次，回；计时；测定…的时间；安排…的速度；定时的；定期的；分期的",
+   "n": 2
+  },
+  {
+   "w": "union",
+   "layer": "core",
+   "pos": "n.",
+   "def": "联合；团结；协会",
+   "n": 2
+  },
+  {
+   "w": "victim",
+   "layer": "core",
+   "pos": "n.",
+   "def": "牺牲者，受害者",
+   "n": 2
+  },
+  {
+   "w": "warn",
+   "layer": "core",
+   "pos": "v.",
+   "def": "警告",
+   "n": 2
+  },
+  {
+   "w": "way",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "路；路线；方向；大大地；远远地；途中的",
+   "n": 2
+  },
+  {
+   "w": "year",
+   "layer": "core",
+   "pos": "n.",
+   "def": "年；年年",
+   "n": 2
+  },
+  {
+   "w": "abuse",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "滥用；虐待 n.滥用；辱骂， 粗话",
+   "n": 1
+  },
+  {
+   "w": "action",
+   "layer": "core",
+   "pos": "n.",
+   "def": "行动；作用；功能",
+   "n": 1
+  },
+  {
+   "w": "almost",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "几乎，差不多",
+   "n": 1
+  },
+  {
+   "w": "already",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "早已，已经",
+   "n": 1
+  },
+  {
+   "w": "although",
+   "layer": "core",
+   "pos": "conj.",
+   "def": "尽管，虽然",
+   "n": 1
+  },
+  {
+   "w": "amount",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "总数；数量；和；总计，合计；相当于；共计；产生…结果",
+   "n": 1
+  },
+  {
+   "w": "analysis",
+   "layer": "core",
+   "pos": "n.",
+   "def": "分析，分解，解析",
+   "n": 1
+  },
+  {
+   "w": "assist",
+   "layer": "core",
+   "pos": "v.",
+   "def": "援助，帮助；搀扶",
+   "n": 1
+  },
+  {
+   "w": "bacteria",
+   "layer": "core",
+   "pos": "n.",
+   "def": "细菌",
+   "n": 1
+  },
+  {
+   "w": "become",
+   "layer": "core",
+   "pos": "v.",
+   "def": "变成；成为，变得",
+   "n": 1
+  },
+  {
+   "w": "birthday",
+   "layer": "core",
+   "pos": "n.",
+   "def": "生日，诞生的日期",
+   "n": 1
+  },
+  {
+   "w": "black",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "黑色的；黑暗的；黑色；黑人；黑颜料；使变黑；把鞋油等涂在…上；把（眼眶）打成青肿",
+   "n": 1
+  },
+  {
+   "w": "blood",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "血，血液；血统；从…抽血；使先取得经验",
+   "n": 1
+  },
+  {
+   "w": "bridge",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "桥，桥梁；桥牌；架桥；渡过",
+   "n": 1
+  },
+  {
+   "w": "british",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "不列颠的，英联邦的；英国人",
+   "n": 1
+  },
+  {
+   "w": "bus",
+   "layer": "core",
+   "pos": "n.",
+   "def": "公共汽车",
+   "n": 1
+  },
+  {
+   "w": "careful",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "仔细的；细致的",
+   "n": 1
+  },
+  {
+   "w": "case",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "情况；事实；病例；包围；把…装于容器中",
+   "n": 1
+  },
+  {
+   "w": "central",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "中心的；主要的；电话总机",
+   "n": 1
+  },
+  {
+   "w": "charge",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "索价；控告 n.费用；费用",
+   "n": 1
+  },
+  {
+   "w": "chief",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "主要的；首席的；首领， 长官； 酋长， 族长；主要地；首要地",
+   "n": 1
+  },
+  {
+   "w": "clear",
+   "layer": "core",
+   "pos": "adj./v./adv./n.",
+   "def": "清晰的 vt.清除；清除；清晰地；完全地；清除；空隙",
+   "n": 1
+  },
+  {
+   "w": "come",
+   "layer": "core",
+   "pos": "v.",
+   "def": "来，来到；出现",
+   "n": 1
+  },
+  {
+   "w": "concern",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "关心，挂念；关系；涉及， 有关； 使关心， 使担心",
+   "n": 1
+  },
+  {
+   "w": "contain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "包含，容纳；等于",
+   "n": 1
+  },
+  {
+   "w": "continue",
+   "layer": "core",
+   "pos": "v.",
+   "def": "继续，连续；延伸",
+   "n": 1
+  },
+  {
+   "w": "criminal",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "犯人，罪犯，刑事犯；犯罪的， 刑事的",
+   "n": 1
+  },
+  {
+   "w": "definitely",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "一定地，明确地",
+   "n": 1
+  },
+  {
+   "w": "department",
+   "layer": "core",
+   "pos": "n.",
+   "def": "部，司，局，处，系",
+   "n": 1
+  },
+  {
+   "w": "describe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "形容；描写，描绘",
+   "n": 1
+  },
+  {
+   "w": "detail",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "细节；枝节；零件；详细说明",
+   "n": 1
+  },
+  {
+   "w": "develop",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发展；形成；开发",
+   "n": 1
+  },
+  {
+   "w": "directly",
+   "layer": "core",
+   "pos": "adj./conj.",
+   "def": "直接地；立即；一…就",
+   "n": 1
+  },
+  {
+   "w": "distance",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "距离，间距；远处；疏远；把…远远甩在后面",
+   "n": 1
+  },
+  {
+   "w": "doctor",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "医生，医师；博士；修理；篡改，伪造；为…治病；授以博士学位",
+   "n": 1
+  },
+  {
+   "w": "doubt",
+   "layer": "core",
+   "pos": "n.",
+   "def": "怀疑；疑虑 vt.怀疑",
+   "n": 1
+  },
+  {
+   "w": "due",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "预期的；应给的；应付款；应得之物",
+   "n": 1
+  },
+  {
+   "w": "ear",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "耳朵；听力，听觉；（美俚）听见；抽穗",
+   "n": 1
+  },
+  {
+   "w": "eliminate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "消灭，消除，排除",
+   "n": 1
+  },
+  {
+   "w": "english",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "英语 a.英国人的；英国人的；把…译成英语",
+   "n": 1
+  },
+  {
+   "w": "enough",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "足够的 ad.足够地；足够地；很多；充足",
+   "n": 1
+  },
+  {
+   "w": "evening",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "傍晚，黄昏，晚上；在晚上的；为晚上的；晚上用的",
+   "n": 1
+  },
+  {
+   "w": "examine",
+   "layer": "core",
+   "pos": "v.",
+   "def": "检查，仔细观察",
+   "n": 1
+  },
+  {
+   "w": "exception",
+   "layer": "core",
+   "pos": "n.",
+   "def": "例外，除外",
+   "n": 1
+  },
+  {
+   "w": "extremely",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "极端，极其，非常",
+   "n": 1
+  },
+  {
+   "w": "eye",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "眼睛；眼力；鉴赏力；注视，看",
+   "n": 1
+  },
+  {
+   "w": "fall",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "落下；跌倒；陷落；下降；秋天；瀑布；秋天的",
+   "n": 1
+  },
+  {
+   "w": "fear",
+   "layer": "core",
+   "pos": "n.",
+   "def": "害怕；担心 vt.害怕",
+   "n": 1
+  },
+  {
+   "w": "financial",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "财政的，金融的",
+   "n": 1
+  },
+  {
+   "w": "finding",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发现；调查的结果；找到；感到（find的ing形式）；遇到",
+   "n": 1
+  },
+  {
+   "w": "free",
+   "layer": "core",
+   "pos": "adj./v./adv.",
+   "def": "自由的；空闲的；使自由，解放；释放；自由地；免费",
+   "n": 1
+  },
+  {
+   "w": "french",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "法国的 n.法国人；法国人",
+   "n": 1
+  },
+  {
+   "w": "fund",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "资金；基金；存款；提供资金",
+   "n": 1
+  },
+  {
+   "w": "get",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "变得，成为；到达；生殖；幼兽",
+   "n": 1
+  },
+  {
+   "w": "great",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "大的；伟大的；大师；大人物；伟人们",
+   "n": 1
+  },
+  {
+   "w": "hear",
+   "layer": "core",
+   "pos": "v.",
+   "def": "听见；审讯；听说",
+   "n": 1
+  },
+  {
+   "w": "home",
+   "layer": "core",
+   "pos": "n./adj./adv./v.",
+   "def": "家；家乡 a.家庭的；家庭的；在家，回家；深入地；归巢，回家",
+   "n": 1
+  },
+  {
+   "w": "hospital",
+   "layer": "core",
+   "pos": "n.",
+   "def": "医院",
+   "n": 1
+  },
+  {
+   "w": "human",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "人的，人类的 n.人；人；人类",
+   "n": 1
+  },
+  {
+   "w": "impact",
+   "layer": "core",
+   "pos": "n.",
+   "def": "影响，作用；冲击",
+   "n": 1
+  },
+  {
+   "w": "impossible",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "不可能的，办不到的；不可能；不可能的事",
+   "n": 1
+  },
+  {
+   "w": "influence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "影响；势力 vt.影响",
+   "n": 1
+  },
+  {
+   "w": "interview",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "接见；会见；面谈；采访",
+   "n": 1
+  },
+  {
+   "w": "involve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使卷入；牵涉",
+   "n": 1
+  },
+  {
+   "w": "journalist",
+   "layer": "core",
+   "pos": "n.",
+   "def": "记者，新闻工作者",
+   "n": 1
+  },
+  {
+   "w": "lack",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "缺乏，不足",
+   "n": 1
+  },
+  {
+   "w": "leave",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "离去vt.离开；许可，同意；休假",
+   "n": 1
+  },
+  {
+   "w": "little",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "小的；少；幼小的；完全不；少许；没有多少；短时间",
+   "n": 1
+  },
+  {
+   "w": "look",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "看，显得 n.看；[C]看，瞧",
+   "n": 1
+  },
+  {
+   "w": "media",
+   "layer": "core",
+   "pos": "n",
+   "def": "新闻媒介， 传播媒介",
+   "n": 1
+  },
+  {
+   "w": "method",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "方法，办法；教学法；使用体验派表演方法的",
+   "n": 1
+  },
+  {
+   "w": "minute",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "微细的；详细的；分，分钟；一会儿；将…记录下来",
+   "n": 1
+  },
+  {
+   "w": "native",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "本土的 n.本地人；本地人",
+   "n": 1
+  },
+  {
+   "w": "official",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "官员的；官方的；官员， 行政人员， 高级人员",
+   "n": 1
+  },
+  {
+   "w": "old",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "老的；…岁的；古时",
+   "n": 1
+  },
+  {
+   "w": "open",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "开的；开放的；开始；展现；公开；空旷；户外",
+   "n": 1
+  },
+  {
+   "w": "operate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "操作；施行手术",
+   "n": 1
+  },
+  {
+   "w": "operation",
+   "layer": "core",
+   "pos": "n.",
+   "def": "操作；手术；运算",
+   "n": 1
+  },
+  {
+   "w": "opponent",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "对手，敌手；对抗者；对立的；敌对的",
+   "n": 1
+  },
+  {
+   "w": "opportunity",
+   "layer": "core",
+   "pos": "n.",
+   "def": "机会，良机",
+   "n": 1
+  },
+  {
+   "w": "pain",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "痛，疼痛；辛苦；使…痛苦；使…烦恼",
+   "n": 1
+  },
+  {
+   "w": "pass",
+   "layer": "core",
+   "pos": "v",
+   "def": "经过；通过；度过",
+   "n": 1
+  },
+  {
+   "w": "phone",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "电话，电话机；耳机；打电话",
+   "n": 1
+  },
+  {
+   "w": "physical",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "物质的；物理的；体格检查",
+   "n": 1
+  },
+  {
+   "w": "picture",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "画，图片；描绘,构想",
+   "n": 1
+  },
+  {
+   "w": "play",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "玩，游戏；演奏；玩耍； 戏剧",
+   "n": 1
+  },
+  {
+   "w": "please",
+   "layer": "core",
+   "pos": "v./adv.",
+   "def": "使高兴，请vi.满意；请 v使高兴",
+   "n": 1
+  },
+  {
+   "w": "point",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "点；要点；细目；分；指向；弄尖；加标点于",
+   "n": 1
+  },
+  {
+   "w": "prefer",
+   "layer": "core",
+   "pos": "v.",
+   "def": "宁可，宁愿",
+   "n": 1
+  },
+  {
+   "w": "present",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "礼物，赠送物；现在的；提出；介绍；呈现；赠送",
+   "n": 1
+  },
+  {
+   "w": "president",
+   "layer": "core",
+   "pos": "n.",
+   "def": "总统；校长；会长",
+   "n": 1
+  },
+  {
+   "w": "previously",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "先前，预先；事先",
+   "n": 1
+  },
+  {
+   "w": "psychological",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "心理的，心理学的",
+   "n": 1
+  },
+  {
+   "w": "public",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "公众的；公众",
+   "n": 1
+  },
+  {
+   "w": "radio",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "无线电；收音机；用无线电进行通信",
+   "n": 1
+  },
+  {
+   "w": "rare",
+   "layer": "core",
+   "pos": "adj./adv./v.",
+   "def": "稀薄的；稀有的；非常；极其；用后腿站起；渴望",
+   "n": 1
+  },
+  {
+   "w": "really",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "真正地；实在",
+   "n": 1
+  },
+  {
+   "w": "recover",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "重新获得；挽回；还原至预备姿势",
+   "n": 1
+  },
+  {
+   "w": "reject",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拒绝；丢掉；驳回；次品",
+   "n": 1
+  },
+  {
+   "w": "relationship",
+   "layer": "core",
+   "pos": "n.",
+   "def": "关系，联系",
+   "n": 1
+  },
+  {
+   "w": "report",
+   "layer": "core",
+   "pos": "v./v./n.",
+   "def": "报告；汇报；传说，议论",
+   "n": 1
+  },
+  {
+   "w": "reporter",
+   "layer": "core",
+   "pos": "n.",
+   "def": "记者，通讯员",
+   "n": 1
+  },
+  {
+   "w": "research",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "调查，探究",
+   "n": 1
+  },
+  {
+   "w": "role",
+   "layer": "core",
+   "pos": "n.",
+   "def": "角色，作用，任务",
+   "n": 1
+  },
+  {
+   "w": "round",
+   "layer": "core",
+   "pos": "adj./n./adv./v./prep.",
+   "def": "圆的；圆；循环；一回合；圆形物；在周围；迂回地；朝反方向；挨个；完成；围捕；绕行；弄圆；附近；绕过；大约；在…周围",
+   "n": 1
+  },
+  {
+   "w": "rule",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "统治；规定；习惯；裁决，裁定",
+   "n": 1
+  },
+  {
+   "w": "scientific",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "科学(上)的",
+   "n": 1
+  },
+  {
+   "w": "scientist",
+   "layer": "core",
+   "pos": "n.",
+   "def": "(自然)科学家",
+   "n": 1
+  },
+  {
+   "w": "security",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "安全，安全感；安全的；保安的；保密的",
+   "n": 1
+  },
+  {
+   "w": "seem",
+   "layer": "core",
+   "pos": "v.",
+   "def": "好像，似乎",
+   "n": 1
+  },
+  {
+   "w": "series",
+   "layer": "core",
+   "pos": "n.",
+   "def": "连续，系列；丛书",
+   "n": 1
+  },
+  {
+   "w": "settle",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "安排；安放；调停；有背长椅",
+   "n": 1
+  },
+  {
+   "w": "sharp",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "锋利的；敏锐的；急剧地；锐利地；突然地；尖头；骗子；内行；磨快；把音调升高",
+   "n": 1
+  },
+  {
+   "w": "side",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "边，旁边；一方；支持；赞助；偏袒；旁的，侧的",
+   "n": 1
+  },
+  {
+   "w": "similar",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "相似的，类似的；类似物",
+   "n": 1
+  },
+  {
+   "w": "society",
+   "layer": "core",
+   "pos": "n.",
+   "def": "社会；团体；社交界",
+   "n": 1
+  },
+  {
+   "w": "sometime",
+   "layer": "core",
+   "pos": "adv/adj.",
+   "def": "在某一时候；从前；以前的",
+   "n": 1
+  },
+  {
+   "w": "soon",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "不久；早，快",
+   "n": 1
+  },
+  {
+   "w": "speak",
+   "layer": "core",
+   "pos": "v.",
+   "def": "说话；发言",
+   "n": 1
+  },
+  {
+   "w": "specific",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "特有的；具体的；详情， 细节",
+   "n": 1
+  },
+  {
+   "w": "stop",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "塞住；阻止；停止；停；  站",
+   "n": 1
+  },
+  {
+   "w": "story",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "故事，小说，传说；用历史故事画装饰",
+   "n": 1
+  },
+  {
+   "w": "strong",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "强壮的；擅长的；强劲地；猛烈地",
+   "n": 1
+  },
+  {
+   "w": "survive",
+   "layer": "core",
+   "pos": "v.",
+   "def": "幸免于",
+   "n": 1
+  },
+  {
+   "w": "system",
+   "layer": "core",
+   "pos": "n.",
+   "def": "系统，体系；制度",
+   "n": 1
+  },
+  {
+   "w": "target",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "靶，标的；目标；把…作为目标； 瞄准",
+   "n": 1
+  },
+  {
+   "w": "three",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "三，三个；三的，三个的",
+   "n": 1
+  },
+  {
+   "w": "tie",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "领带；联系；系；约束；打结；与…成平局",
+   "n": 1
+  },
+  {
+   "w": "top",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "顶；首位；高出，超越；结束；达到顶点；最高的，顶上的；头等的",
+   "n": 1
+  },
+  {
+   "w": "touch",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "触摸；触动；接触；触觉；格调；少许",
+   "n": 1
+  },
+  {
+   "w": "turn",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "转；翻；转弯；变化；(损害或有益于别人的)行为，举动，举止",
+   "n": 1
+  },
+  {
+   "w": "unique",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "唯一的，独一无二的；独一无二的人或物",
+   "n": 1
+  },
+  {
+   "w": "upper",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "上面的；地位较高的",
+   "n": 1
+  },
+  {
+   "w": "use",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用；耗费；使用；用途；发挥",
+   "n": 1
+  },
+  {
+   "w": "wait",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "等，等候；等待， 等待的时间",
+   "n": 1
+  },
+  {
+   "w": "want",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "要；需要；缺乏",
+   "n": 1
+  },
+  {
+   "w": "wear",
+   "layer": "core",
+   "pos": "v.",
+   "def": "穿着，戴；磨损",
+   "n": 1
+  },
+  {
+   "w": "well",
+   "layer": "core",
+   "pos": "n./adv./adj./v.",
+   "def": "井；很好地；充分地；满意地；适当地；良好的；健康的；适宜的；涌出",
+   "n": 1
+  },
+  {
+   "w": "west",
+   "layer": "core",
+   "pos": "n./adj./adv.",
+   "def": "西；西洋；西方的；朝西的；在西方；向西方；自西方",
+   "n": 1
+  },
+  {
+   "w": "western",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "西方的，西部的；西方人；西部片，西部小说",
+   "n": 1
+  },
+  {
+   "w": "whisper",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "低声地讲；低语， 耳语",
+   "n": 1
+  },
+  {
+   "w": "wife",
+   "layer": "core",
+   "pos": "n.",
+   "def": "妻子",
+   "n": 1
+  },
+  {
+   "w": "word",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "词；话；消息；语言；用言辞表达",
+   "n": 1
+  },
+  {
+   "w": "work",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工作；职业；使工作；操作；经营；使缓慢前进",
+   "n": 1
+  },
+  {
+   "w": "world",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "世界；世人；世间；世界的， 世界范围的",
+   "n": 1
+  },
+  {
+   "w": "writer",
+   "layer": "core",
+   "pos": "n.",
+   "def": "作者，作家，文学家",
+   "n": 1
+  },
+  {
+   "w": "writing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "书写，写；著作",
+   "n": 1
+  }
+ ]
+}

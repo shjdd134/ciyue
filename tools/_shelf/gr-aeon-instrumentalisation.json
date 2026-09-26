@@ -1,0 +1,5765 @@
+{
+ "id": "gr-aeon-instrumentalisation",
+ "cat": "成长",
+ "title": "Instrumentalisation is making everything a means to an end",
+ "titleZh": "工具化，正在让一切沦为达成目的的手段",
+ "source_url": "https://aeon.co/essays/instrumentalisation-is-making-everything-a-means-to-an-end",
+ "date": "2026-02-24",
+ "coverImg": "assets/covers/gr-aeon-instrumentalisation.jpg",
+ "inlineImages": [
+  {
+   "img": "assets/covers/gr-aeon-instrumentalisation-1.jpg",
+   "cap": "Walking Man II (1960) by Alberto Giacometti at the National Gallery of Art, Washington, DC. Courtesy Billy Liar/Flickr",
+   "capCn": "《行走的人 II》（Walking Man II，1960），阿尔贝托·贾科梅蒂（Alberto Giacometti），藏于美国华盛顿特区国家美术馆。图源：Billy Liar/Flickr",
+   "afterPara": 4,
+   "sameAsCover": false
+  },
+  {
+   "img": "assets/covers/gr-aeon-instrumentalisation-2.jpg",
+   "cap": "Photo by ideath/Flickr",
+   "capCn": "摄影：ideath/Flickr",
+   "afterPara": 11,
+   "sameAsCover": false
+  }
+ ],
+ "translation_type": "ciyue_edited",
+ "stats": {
+  "paragraphs": 40,
+  "sentences": 200,
+  "words": 4247,
+  "chinese": 6922,
+  "emptyCn": 0
+ },
+ "sentence_pairs": [
+  {
+   "en": "For decades, films out of the Metro-Goldwyn-Mayer Studios have opened with Leo the roaring lion, garlanded with the motto Ars gratia artis : art for art’s sake.",
+   "cn": "几十年来，米高梅出品的电影都以咆哮的雄狮里奥开场，环绕着一句箴言：Ars gratia artis——为艺术而艺术。"
+  },
+  {
+   "en": "Given that MGM is a money-making behemoth, we might doubt the sincerity of this high-minded sentiment.",
+   "cn": "考虑到米高梅是一头赚钱的巨兽，我们难免怀疑这份高尚情怀有几分真诚。"
+  },
+  {
+   "en": "Still, along with the contested goal of moral improvement, it certainly expresses one of the few legitimate reasons why people should make movies.",
+   "cn": "尽管如此，与\"道德提升\"那个颇有争议的目标一道，它确实道出了人们拍电影为数不多的正当理由之一。"
+  },
+  {
+   "en": "Art for the sake of anything else – profit, self-promotion, propaganda – isn’t really art at all, or at least not in its purest sense.",
+   "cn": "为了别的任何东西而艺术——为了利润、为了自我推销、为了宣传——都算不上真正的艺术，至少不是最纯粹意义上的艺术。"
+  },
+  {
+   "en": "It therefore came as a bit of a shock to see a recent advert for the National Art Pass, which gives holders free or discounted entry to galleries and museums around the United Kingdom.",
+   "cn": "因此，当我看到最近一则全国艺术通票（National Art Pass）的广告时，多少有些震惊——这张通票能让持票人免费或优惠参观全英国的画廊和博物馆。"
+  },
+  {
+   "en": "The tag line ‘See more.",
+   "cn": "广告语\"看更多。"
+  },
+  {
+   "en": "Live more’ sounded right: art does indeed enrich our lives.",
+   "cn": "活更多\"听起来没错：艺术确实丰富我们的生活。"
+  },
+  {
+   "en": "But it turned out that the ‘more’ here was purely quantitative, not qualitative.",
+   "cn": "但结果发现，这里的\"更多\"纯粹是数量上的，而不是质量上的。"
+  },
+  {
+   "en": "‘Grow some years onto your life with art,’ proclaimed the main slogan, followed by: ‘Spending time in galleries and museums could help you live longer.’ Art not for art’s sake, but for your heart’s sake, the fleshy not the spiritual one at that.",
+   "cn": "\"用艺术为生命添上几个年头\"——主口号如此宣告，接着是：\"在画廊和博物馆里度过时光，或有助于你活得更久。\"艺术不再为艺术本身，而是为你的心脏——还是那颗肉做的心脏，不是精神意义上的那颗。"
+  },
+  {
+   "en": "This messaging around the arts has become ubiquitous, with Arts Council England promoting the idea that ‘engaging in creative and cultural activities has proven health benefits for individuals and communities.’",
+   "cn": "围绕艺术的这类信息已无处不在，英格兰艺术委员会就在推广这样一种说法：\"参与创意和文化活动，对个人与社区的健康益处已获证实。\""
+  },
+  {
+   "en": "I may have been shocked by the poster, but I was not surprised by it.",
+   "cn": "海报让我震惊，但并不让我意外。"
+  },
+  {
+   "en": "For a long time, I have been privately lamenting the instrumentalisation of everything: how nothing seems to be of value in itself anymore but is only seen as useful in the service of some utilitarian function.",
+   "cn": "很长时间以来，我一直在私下哀叹一件事：万物的工具化——似乎再没有什么东西因其自身而有价值，一切都只在服务于某种功利功能时才被视为有用。"
+  },
+  {
+   "en": "I first got wind of this lamentable trend in 2010, when I had the misfortune to review Gretchen Rubin’s book The Happiness Project (2009), an account of a year in relentless pursuit of the happy life.",
+   "cn": "我最早注意到这股令人痛心的风潮是在2010年。当时我有幸（不如说不幸）评审格雷琴·鲁宾（Gretchen Rubin）的《幸福计划》（The Happiness Project，2009）——一部为期一年、一刻不停地追逐幸福生活的记录。"
+  },
+  {
+   "en": "One passage struck me so hard I can almost recall it word for word today.",
+   "cn": "其中一段击中了我，以致今天我几乎能一字不差地背出来。"
+  },
+  {
+   "en": "A day with her husband gets off to a sticky start but, following an apology, Rubin writes: ‘We hugged – for at least six seconds, which, I happened to know from my research, is the minimum time necessary to promote the flow of oxytocin and serotonin, mood-boosting chemicals that promote bonding.",
+   "cn": "与她丈夫的一天开局别扭，但一次道歉之后，鲁宾写道：\"我们拥抱了——至少六秒钟。碰巧从我的研究里我知道，这是催产素和血清素开始流动所需的最短时间，而它们正是促进联结、改善情绪的化学物质。"
+  },
+  {
+   "en": "The moment of tension passed.’",
+   "cn": "紧张的时刻过去了。\""
+  },
+  {
+   "en": "I was left with the chilling image of a woman holding her husband not only out of love or affection but in order to release hormones and reduce her stress.",
+   "cn": "留给我的，是一个寒意彻骨的画面：一个女人拥抱着丈夫，不只是出于爱与感情，而是为了释放激素、给自己减压。"
+  },
+  {
+   "en": "Those sentences highlighted how her happiness project had led her to do everything with the improvement of her mood in mind.",
+   "cn": "这几句话突显了她的\"幸福计划\"如何让她做每件事时都惦记着改善自己的情绪。"
+  },
+  {
+   "en": "Nothing else seemed to matter as much, even truth.",
+   "cn": "似乎再没有别的什么同样要紧——哪怕是真实。"
+  },
+  {
+   "en": "At the end of her year-long experiment in treating herself as a felicific machine, she reflected on what had or had not changed.",
+   "cn": "在把自己当作一台幸福机器进行了一年实验的结尾，她回顾了哪些东西变了、哪些没变。"
+  },
+  {
+   "en": "‘Maybe I was seeing what I wanted to see,’ she wondered, only to add: ‘Maybe, but who cares?’ Whatever makes you feel better, true or not.",
+   "cn": "\"也许我看到的是我想看到的东西，\"她自问，随即补上一句：\"也许是吧，可谁在乎呢？\"只要让你感觉更好，真假有什么关系。"
+  },
+  {
+   "en": "In the years between witnessing hugging for happiness and creativity for longevity, I have seen countless other examples of all that is good in life being promoted not for their own sake but for the material benefits they bring.",
+   "cn": "从\"为幸福而拥抱\"到\"为长寿而创意\"，这些年里，我见过数不清的例子：生活中一切美好的事物，被推广的理由都不是它们本身，而是它们带来的物质好处。"
+  },
+  {
+   "en": "This instrumentalisation has become normalised so insidiously that we don’t even notice that it is odd, let alone wrong.",
+   "cn": "这种工具化被常态化得如此隐秘，以至于我们甚至不再觉得它有什么奇怪，更不必说有什么不对。"
+  },
+  {
+   "en": "Nor do we seem to be aware of quite how pervasive it is.",
+   "cn": "我们似乎也没有意识到它蔓延得有多广。"
+  },
+  {
+   "en": "Yet its effects are profound, leading us to lose sight again and again of what is truly of value in life.",
+   "cn": "然而它的影响深远，让我们一次又一次地看不清人生中真正有价值的东西。"
+  },
+  {
+   "en": "Before offering a diagnosis for what has gone wrong and how to cure it, I need to defend the seemingly hyperbolic claim that everything is becoming instrumentalised.",
+   "cn": "在给出问题的诊断与疗法之前，我需要先为一个看似夸张的论断辩护：一切都在被工具化。"
+  },
+  {
+   "en": "Far from being a rhetorical exaggeration, I genuinely find it difficult to think of anything worthwhile that at least some people have not been advocating for its utilitarian benefits before mentioning any of its intrinsic merits.",
+   "cn": "这绝非修辞上的夸大——我由衷地发现，自己很难想出任何有价值的东西：至少某些人在提到它的内在优点之前，不曾先鼓吹它的功利好处。"
+  },
+  {
+   "en": "Take churchgoing.",
+   "cn": "以上教堂为例。"
+  },
+  {
+   "en": "Most believers hold that worship is a devotional duty rather than a pragmatic means of getting into heaven.",
+   "cn": "大多数信徒认为，敬拜是一种虔敬的义务，而不是一种挤进天堂的实用手段。"
+  },
+  {
+   "en": "Today, however, it is not uncommon to hear even Christians, such as Deborah Jenkins in Premier Christianity magazine, pointing to research that: ‘Being part of a church community can lengthen life, reduce depression and promote positive mental health.’ A book I flicked through today advocated prayer for physical health, pointing to a study that ‘found significant medical benefits on the cardiovascular system, blood, as well as muscle and bone resulting from the solat daily prayer.’ Of course, if challenged, none would say these are the best reasons to practise religion.",
+   "cn": "然而今天，就连基督徒也常常援引研究说，比如《Premier Christianity》杂志上的黛博拉·詹金斯（Deborah Jenkins）：\"参与教会共同体，可以延年益寿、减少抑郁、促进积极的心理健康。\"我今天就随手翻到一本书，鼓吹为了身体健康而祷告，引用的研究\"发现每日礼拜式的祈祷对心血管系统、血液以及肌肉和骨骼都有显著的医学益处\"。当然，若被质问，没有人会说这些是信教的最好理由。"
+  },
+  {
+   "en": "But it doesn’t stop them offering these reasons as very good ones.",
+   "cn": "但这并不妨碍他们把这些理由当作很好的理由来提供。"
+  },
+  {
+   "en": "Furthermore, they are more credible and certainly more scientific than claims that an all-loving creator god really thinks it’s important how you spend your Sunday mornings.",
+   "cn": "更何况，比起\"一位全爱的造物主真的在乎你周日早晨怎么过\"这类说法，这些理由更可信、也更科学。"
+  },
+  {
+   "en": "More profanely, we are even given instrumental reasons to orgasm.",
+   "cn": "说得更世俗些，我们甚至连高潮都被赋予了工具性的理由。"
+  },
+  {
+   "en": "A headline from The Telegraph in 2015 – ‘An Orgasm A Day Could Keep Prostate Cancer Away, Scientists Claim’ – summed up a now-widely shared belief that one of the best reasons for a man to have sex or masturbate is not pleasure, intimacy or the release of sexual tension but to protect his health.",
+   "cn": "《每日电讯报》2015年的一条标题——\"科学家声称：每天一次高潮或有助远离前列腺癌\"——概括了一种如今流传甚广的信念：男人做爱或自慰的最佳理由之一，不是愉悦、亲密或性张力的释放，而是保护健康。"
+  },
+  {
+   "en": "You could play a very long game of suggesting things people value in their own right in the hope of finding one that hasn’t been praised for its health, wealth or wellbeing advantages.",
+   "cn": "你可以玩一个很长的游戏：列举人们因其自身而珍视的东西，指望找到一样还不曾被称赞过健康、财富或幸福红利的。"
+  },
+  {
+   "en": "Your search would be in vain.",
+   "cn": "你的搜寻注定徒劳。"
+  },
+  {
+   "en": "The Opera North website lists 10 benefits of singing, and only one – it lets you express yourself – has anything to do with art and creativity.",
+   "cn": "北方歌剧院的官网列出了唱歌的10大好处，其中只有一条——让你表达自己——与艺术和创造力沾边。"
+  },
+  {
+   "en": "The others include ‘makes you feel better’, ‘enhances lung function’, ‘helps you beat stress and relax’, ‘helps improve memory’, ‘can help when life gets tough’ and ‘boosts your confidence’.",
+   "cn": "其余的包括\"让你感觉更好\"\"增强肺功能\"\"帮你减压放松\"\"有助于改善记忆\"\"生活艰难时能帮到你\"和\"提升你的自信\"。"
+  },
+  {
+   "en": "Many people who advocate for reconnecting with nature do so with reasons that are designed to appeal to the very same utilitarian, self-centred hedonism that is to blame for humanity losing touch with the Earth in the first place.",
+   "cn": "许多倡导\"重新与自然连接\"的人，用来打动人的理由，恰恰诉诸同一种功利、自我中心的享乐主义——而最初让人与地球失去联结的，正是这种享乐主义。"
+  },
+  {
+   "en": "The National Trust talks of how ‘walking in nature can help wellbeing’ while the growing popularity of ‘forest bathing’ encourages us to use woodland as though it were a kind of literal walk-in clinic.",
+   "cn": "国民信托说\"在自然中行走有助于身心健康\"，而日益流行的\"森林浴\"则鼓励我们把林地当作一种字面意义上的、走进去的诊所来使用。"
+  },
+  {
+   "en": "These would-be advocates for nature seem to miss the irony that if we go out among the trees because of what they can do for us, we’re going with the same exploitative, extractive mindset as those who log them.",
+   "cn": "这些自然的准代言人似乎没意识到其中的讽刺：如果我们走进树林是因为它们能为我们做什么，那么我们带着的，恰恰是与砍伐者相同的剥削式、攫取式心态。"
+  },
+  {
+   "en": "Even philosophy , the disinterested pursuit of wisdom, has fallen prey to the curse of instrumentalisation.",
+   "cn": "连哲学——这种不求回报的智慧追求——也沦为工具化诅咒的猎物。"
+  },
+  {
+   "en": "It is no longer enough for universities to say that their programmes allow you to explore some of the most fundamental questions of existence.",
+   "cn": "对大学来说，说自己的课程让你得以探索存在最根本的那些问题，已经不够了。"
+  },
+  {
+   "en": "Now the questions are of a decidedly more bottom-line sort: how will philosophy help you buy a house or build your pension pot?",
+   "cn": "如今的问题有着鲜明的底线色彩：哲学如何帮你买房？如何充实你的养老金？"
+  },
+  {
+   "en": "Philosophy is routinely sold as a trainer of ‘transferable thinking skills’, and it’s clear where these most transfer to: the world of work.",
+   "cn": "哲学被例行公事地包装成\"可迁移思维技能\"的训练营，而这些技能最明显迁移到哪里，一目了然：职场。"
+  },
+  {
+   "en": "The Faculty of Philosophy at the University of Cambridge has a whole webpage devoted to five resumé-friendly skills it teaches: intellectual, communication, organisational, interpersonal and research.",
+   "cn": "剑桥大学哲学系有一整个网页，专门介绍它教给你的五项适合写进简历的技能：智识、沟通、组织、人际和研究。"
+  },
+  {
+   "en": "Instrumentalisation is most pernicious when it applies to things we do with and for others.",
+   "cn": "工具化最毒害人心之处，在于它作用于我们与他人共同做、为他人做的事。"
+  },
+  {
+   "en": "Immanuel Kant saw it as a ‘categorical imperative’ – an absolute demand of morality – to ‘treat humanity, whether in your own person or in the person of any other, always at the same time as an end, never merely as a means.’ The words we use to describe the instrumentalisation of others echo how corrupting we think it is: dehumanisation, objectification, exploitation.",
+   "cn": "伊曼努尔·康德视之为一条\"绝对命令\"——道德的绝对要求——\"你要如此行动，即无论是你自己的人格中的人性，还是任何他人的人格中的人性，你在任何时候都同时当作目的，绝不能仅仅当作手段。\"我们用来描述\"把他人工具化\"的那些词，呼应着我们认为它有多败坏：非人化、物化、剥削。"
+  },
+  {
+   "en": "That is why the instrumentalisation of social connection is immoral as well as self-defeating.",
+   "cn": "正因如此，把社会连接工具化，既是不道德的，也是自拆台脚的。"
+  },
+  {
+   "en": "If we start to foreground what social relationships do for us, we treat the other people involved as mere tools for self-advancement.",
+   "cn": "如果我们开始把社会关系能为\"我\"做什么摆在第一位，我们就是在把关系中的其他人当作自我晋升的工具。"
+  },
+  {
+   "en": "I haven’t even begun to exhaust the list of activities that have become routinely instrumentalised.",
+   "cn": "我甚至还没开始列完那些被例行公事般工具化的活动。"
+  },
+  {
+   "en": "Among those we could add are gardening, playing sport, camping, swimming, campaigning, community volunteer work, baking bread, crafts, keeping a diary, laughing, saying ‘thank you’.",
+   "cn": "可以加进来的还有：园艺、运动、露营、游泳、社会运动、社区志愿服务、烤面包、手工、写日记、大笑、说\"谢谢\"。"
+  },
+  {
+   "en": "We increasingly ask not what is good about them but what good they can do for us.",
+   "cn": "我们越来越不问它们好在哪儿，而是问它们能为我们做什么。"
+  },
+  {
+   "en": "And by ‘good’ we mean health, wealth and worldly success.",
+   "cn": "而这里的\"好\"，指的是健康、财富与世俗意义上的成功。"
+  },
+  {
+   "en": "Those who love nature, art, learning, friendship and so on for their own sake may find it distasteful to spotlight their instrumental benefits, but what is the harm in doing so?",
+   "cn": "那些因其本身而热爱自然、艺术、学习与友谊的人，也许觉得突出它们的工具性好处令人生厌——但这么做究竟有什么害处？"
+  },
+  {
+   "en": "After all, someone living an instrumentalised life and someone who is not might be doing exactly the same things.",
+   "cn": "毕竟，一个把生活工具化的人和一个没有的人，可能在做着一模一样的事。"
+  },
+  {
+   "en": "This objection misses the fact that a good life does not only depend on what we do, but how we do it.",
+   "cn": "这种反驳漏掉了这样一个事实：好的生活不只取决于我们做什么，还取决于我们怎么做。"
+  },
+  {
+   "en": "Two people with the same cultural calendars may go to the same exhibitions, watch the same films and listen to the same music, but if their motivations are fundamentally different then so are the worlds they inhabit.",
+   "cn": "两个人可以有相同的文化日程表——看同样的展览、同样的电影、听同样的音乐——但如果他们的动机根本不同，他们栖居的世界也就根本不同。"
+  },
+  {
+   "en": "To understand why, we have to go back to the basic question of why anything has value.",
+   "cn": "要理解为什么会这样，我们必须回到那个最基本的问题：任何东西的价值从何而来。"
+  },
+  {
+   "en": "In the Nicomachean Ethics , Aristotle was one of the first but certainly not the last to observe that we do some things as means to ends and other things as ends in themselves.",
+   "cn": "在《尼各马可伦理学》里，亚里士多德最早指出——后来者不绝——我们做有些事是作为通向目的的手段，做另一些事则是以自身为目的。"
+  },
+  {
+   "en": "Only the latter have intrinsic value, while means to ends have mere extrinsic value.",
+   "cn": "只有后者具有内在价值，而通往目的的手段只具有外在价值。"
+  },
+  {
+   "en": "If we ask where the ultimate value in life lies, it is clearly in things with intrinsic value.",
+   "cn": "如果我们追问，人生终极的价值在哪里，答案显然在于有内在价值的事物。"
+  },
+  {
+   "en": "This piece of wisdom is so uncontroversial it could be dismissed as platitudinous.",
+   "cn": "这条智慧毫无争议，甚至可以被斥为老生常谈。"
+  },
+  {
+   "en": "But it merits repeating across the ages and across all our life stages because it is so easy to be sucked away from what has real value by purely instrumental goods.",
+   "cn": "但它值得被代代重复、在我们生命的每个阶段重复，因为我们太容易被纯粹工具性的好处吸走，离开那些真正有价值的东西。"
+  },
+  {
+   "en": "Money is of course the clearest example.",
+   "cn": "钱当然是最典型的例子。"
+  },
+  {
+   "en": "Money is important only for what it can buy and can be used to obtain many of the things we most value.",
+   "cn": "钱的重要性只在于它能买到什么；它可以用来换来我们最珍视的许多东西。"
+  },
+  {
+   "en": "Yet it seems all too human to try to accumulate more and more of it, never believing one has enough, diverting us from time with loved ones and cherished activities.",
+   "cn": "然而，想要积累得越来越多、永远觉得自己不够，这似乎是人之常情——而它让我们偏离了与所爱之人共处的时光，偏离了那些我们珍视的活动。"
+  },
+  {
+   "en": "Pursuing extrinsic rather than intrinsic goods is a common-enough mistake.",
+   "cn": "追逐外在价值而非内在价值，是一个足够常见的错误。"
+  },
+  {
+   "en": "But the instrumentalisation of everything takes it one step further.",
+   "cn": "但\"万物工具化\"把这个错误又推进了一步。"
+  },
+  {
+   "en": "It doesn’t just distract us from all the things that are good in themselves; it strips these very things of their intrinsic value and turns them into mere means to ends.",
+   "cn": "它不只是让我们分心、离开那些本身即善的事物；它剥掉这些事物自身的内在价值，把它们变成通向目的的纯粹手段。"
+  },
+  {
+   "en": "Worse, these ends are not even of value in themselves.",
+   "cn": "更糟的是，这些目的本身也并没有价值。"
+  },
+  {
+   "en": "Think about what instrumentalisation serves: health, wealth and psychological wellbeing.",
+   "cn": "想想工具化服务于什么：健康、财富、心理幸福感。"
+  },
+  {
+   "en": "These are all so obviously desirable that it’s easy to miss the fact that none have intrinsic value.",
+   "cn": "这些东西全都显而易见地令人向往，以至于我们很容易漏掉一个事实：它们没有一个具有内在价值。"
+  },
+  {
+   "en": "That is clearly true of wealth, but it is equally true of mental and physical health.",
+   "cn": "财富如此，心理与身体的健康也同样如此。"
+  },
+  {
+   "en": "Take bodily health first.",
+   "cn": "先说身体健康。"
+  },
+  {
+   "en": "We often talk about it as if it were the most important thing of all.",
+   "cn": "我们常常把健康说成好像是天底下最重要的东西。"
+  },
+  {
+   "en": "That’s why Augusten Burroughs’s quote ‘When you have your health, you have everything’ has a healthy life as an internet meme.",
+   "cn": "这就是为什么奥古斯滕·巴勒斯（Augusten Burroughs）那句\"只要你还有健康，你就拥有一切\"能成为流行一时的网络格言。"
+  },
+  {
+   "en": "But we don’t prize health for its own sake.",
+   "cn": "但我们珍视健康，并不是为了健康本身。"
+  },
+  {
+   "en": "We value it for two reasons.",
+   "cn": "我们看重它有两个理由。"
+  },
+  {
+   "en": "One is that the alternative usually involves pain and suffering, which are bad in themselves and so to be avoided.",
+   "cn": "其一，失去健康通常意味着疼痛与苦楚，而它们本身即是坏的，所以要避免。"
+  },
+  {
+   "en": "The other is that, with health, we are more able to do the things that bring meaning to our lives.",
+   "cn": "其二，有了健康，我们才更有能力去做那些为生活带来意义的事。"
+  },
+  {
+   "en": "But a healthy life devoid of love, meaningful activity or experiences would be empty.",
+   "cn": "但一种没有爱、没有有意义的活动与体验的健康生活，会是空洞的。"
+  },
+  {
+   "en": "Indeed, many people with chronic illness surprise themselves and others when they discover that, actually, their health is not the most important thing after all.",
+   "cn": "事实上，许多慢性病患者让自己和旁人吃惊的是：他们发现，健康终究不是最重要的东西。"
+  },
+  {
+   "en": "In sickness, they see more clearly what matters and find that it is better to be, say, ill and loved than in good health and loathed.",
+   "cn": "在疾病中，他们把要紧的事看得更清楚，并且发现，比如，带病而被爱着，好过健康而被厌恶着。"
+  },
+  {
+   "en": "As one wheelchair-using study participant told Elizabeth Lindsey, an associate professor of nursing: ‘I can live life to the fullest, even if I have no physical ability, I can still live life to the fullest because where I am living, life is from within.’ Physical health is important only as a foundation to make it easier for us to appreciate the things that really matter.",
+   "cn": "正如一位坐轮椅的研究参与者对护理学副教授伊丽莎白·林赛（Elizabeth Lindsey）所说：\"我可以活得无比充盈。哪怕我毫无身体能力，我仍然可以把生活过到最满，因为我所在的地方，生命由内而生。\"身体健康之所以重要，只在于它是地基，让我们更容易珍视那些真正要紧的东西。"
+  },
+  {
+   "en": "Indeed, Lindsey talks of ‘health within illness’, arguing that health in its fullest sense is not the absence of illness.",
+   "cn": "事实上，林赛谈的是\"疾病之内的健康\"，她主张，最完整意义上的健康并不是没有疾病。"
+  },
+  {
+   "en": "Even mental health is not important in itself.",
+   "cn": "连心理健康本身也不是终极重要的。"
+  },
+  {
+   "en": "Mental illness is intrinsically bad, since it is suffering without gain.",
+   "cn": "精神疾病本身是坏的，因为那是有苦无获的受难。"
+  },
+  {
+   "en": "But being in good mental health, like being in good physical health, is just an enabler of what is more fundamentally valuable.",
+   "cn": "但良好的心理状态，一如良好的身体状态，只是那些更根本价值之物的使能者。"
+  },
+  {
+   "en": "Even some mental distress is not intrinsically bad.",
+   "cn": "甚至某些心理痛苦也并非本质为坏。"
+  },
+  {
+   "en": "It is a good thing that we grieve as it shows that our emotions are functioning correctly when bad things happen to the people who matter to us.",
+   "cn": "我们会悲伤，这是一件好事——因为它说明，当坏事情降临到我们所在乎的人身上，我们的情绪运转正常。"
+  },
+  {
+   "en": "Not even happiness, perhaps the most commonly claimed benefit of instrumentalisation, is an intrinsic good.",
+   "cn": "就连幸福——工具化最常被标榜的好处——也不是内在的善。"
+  },
+  {
+   "en": "It is not good if someone feels happy to see people they prejudicially hate suffer.",
+   "cn": "如果一个人因为看到自己偏见所恨的人受苦而快乐，这并不是好。"
+  },
+  {
+   "en": "It would not be good to live life in a chemical cloud of bliss, content but disengaged from the real world.",
+   "cn": "生活在一片化学的极乐云雾里，心满意足却与真实世界脱节，这并不是好。"
+  },
+  {
+   "en": "It is not good to live happily in the illusion of a strong relationship when your partner is cheating behind your back.",
+   "cn": "当伴侣在背后不忠时，你却在一段\"牢固关系\"的幻觉中幸福度日，这并不是好。"
+  },
+  {
+   "en": "Blissful ignorance may sometimes be better than painful knowledge, but that does not make it good.",
+   "cn": "极乐的无知有时好过痛苦的知识，但这并不使它成为好。"
+  },
+  {
+   "en": "So what is good in itself, if not health, wealth and mental wellbeing?",
+   "cn": "那么，如果不是健康、财富与心理幸福感，究竟什么才是本身即善的？"
+  },
+  {
+   "en": "Philosophers have repeatedly made the mistake of trying to identify one thing as the summum bonum , the ‘ultimate good’ for humankind.",
+   "cn": "哲学家们一再犯这样一个错误：试图指认唯一的某样东西作为人类的 summum bonum——\"至善\"。"
+  },
+  {
+   "en": "For Aristotle, it was intellectual contemplation; for the Buddhists, elimination of suffering; for Kant, a good will; for utilitarians, happiness.",
+   "cn": "在亚里士多德那里，是理智的沉思；在佛教徒那里，是灭除苦难；在康德那里，是善良意志；在功利主义者那里，是幸福。"
+  },
+  {
+   "en": "But there seems no reason to try to narrow down what is intrinsically valuable to one state or activity.",
+   "cn": "但似乎没有理由非要把内在有价值的东西窄化为某一种状态或活动。"
+  },
+  {
+   "en": "Aristotle was more on point when he identified flourishing as the highest good for humanity, erring only when he became too prescriptive about what flourishing demands.",
+   "cn": "亚里士多德更切中要害的说法，是把\"繁荣/盛放\"（flourishing）指认为人类的至善——他只在过于规定\"繁荣需要什么\"的时候出了错。"
+  },
+  {
+   "en": "We flourish when our lives are ones of engagement with things that are valuable for their own sakes and not for any other.",
+   "cn": "当我们的生活与那些因其自身而有价值（而非为任何别的理由）的事物持续交会时，我们就是在盛放。"
+  },
+  {
+   "en": "Flourishing takes as many forms as human beings do.",
+   "cn": "盛放有多少种形态，人就有多少种形态。"
+  },
+  {
+   "en": "Friedrich Nietzsche thought that life without music would be a mistake, but it wouldn’t be for someone who is left cold by it.",
+   "cn": "弗里德里希·尼采认为，没有音乐的人生将是一场错误；但对一个对音乐无感的人来说，它并不是。"
+  },
+  {
+   "en": "The idea that ultimate value in life comes from things with intrinsic value is a pluralistic one.",
+   "cn": "\"人生的终极价值来自具有内在价值的事物\"——这个观念是多元的。"
+  },
+  {
+   "en": "Intrinsic human goods include all the things that make life worth living without need of any further justification.",
+   "cn": "人类的内在之善，包括所有那些无需进一步辩护就让生活值得过下去的东西。"
+  },
+  {
+   "en": "To ask of them ‘What’s the point?’ would be to miss the point.",
+   "cn": "对它们追问\"这有什么用？\"，恰恰错过了要点。"
+  },
+  {
+   "en": "They are the point.",
+   "cn": "它们就是要点。"
+  },
+  {
+   "en": "We cannot give arguments for why they are valuable; we can only describe what makes them valuable and hope others recognise their worth.",
+   "cn": "我们无法论证它们为什么有价值；我们只能描述是什么使它们有价值，并希望他人认出它们的分量。"
+  },
+  {
+   "en": "For example, we can say that a day spent in the forest should be appreciated first and foremost because it makes us recognise the wonder of being alive and marvel at the natural world .",
+   "cn": "比如，我们可以说：在森林里度过的一天，首先值得被欣赏，是因为它让我们认出\"活着\"这件事的惊奇，让我们对自然世界惊叹不已。"
+  },
+  {
+   "en": "To play or watch a sport is to participate in or witness the struggle and delight of attempting to bring mind and body together more seamlessly than in the rest of life.",
+   "cn": "参与或观看一项运动，就是参与或见证这样一种挣扎与欢喜：试图让身体与心智的接合，比生活中其余时刻更加严丝合缝。"
+  },
+  {
+   "en": "Learning a foreign language is a gateway into another culture that allows you to communicate with members of it and access its literature and media.",
+   "cn": "学一门外语，是进入另一种文化的门径，让你得以与其中的人交流，读到它的文学、看到它的媒体。"
+  },
+  {
+   "en": "All these things enrich our lives and broaden our experience, which is valuable even if it doesn’t add a second to your lifespan or delay dementia by a day.",
+   "cn": "所有这些都在丰富我们的生活、拓宽我们的经验——这本身就是有价值的，哪怕它没给你的寿命添上一秒，也没让痴呆晚来一天。"
+  },
+  {
+   "en": "If you see them as a means to boost your mental, emotional or physical strength for future times that may or may not be as meaningful, you are taking your focus away from what is valuable here and now.",
+   "cn": "如果你把它们看作提升自己心理、情绪或身体力量的手段，为了那些或许有意义、或许无意义的将来——那么，你正在把注意力从此时此地有价值的东西上移开。"
+  },
+  {
+   "en": "Life isn’t a training for the future.",
+   "cn": "生活不是为未来做的训练。"
+  },
+  {
+   "en": "It’s a game that’s already started, and time is running out.",
+   "cn": "它是一场已经开始的比赛，而时间正在耗尽。"
+  },
+  {
+   "en": "The distinction between intrinsic and extrinsic goods may be conceptually sharp, but in the real world it quickly becomes less clear-cut.",
+   "cn": "内在价值与外在价值的区分在概念上或许锋利，但在真实世界里，它很快变得不再泾渭分明。"
+  },
+  {
+   "en": "Most obviously, many things can be both intrinsically and extrinsically valuable, as is the case for all the things that I argued have been wrongly instrumentalised.",
+   "cn": "最明显的是，许多事物可以同时具有内在与外在价值——我前面论证过被错误工具化的那些事物，皆属此类。"
+  },
+  {
+   "en": "Instrumentalisation does not create extrinsic value, it merely elevates it above what is intrinsically valuable.",
+   "cn": "工具化并不创造外在价值，它只是把外在价值抬高到内在价值之上。"
+  },
+  {
+   "en": "Nor is it always the case that intrinsic trumps extrinsic value.",
+   "cn": "内在价值也并非永远胜过外在价值。"
+  },
+  {
+   "en": "Human beings have practical needs, and it can be more important to earn money, chop wood or hunt food than to read a novel or play with your grandchildren.",
+   "cn": "人有现实的生存需要，有时候，挣钱、劈柴、猎取食物，比读一本小说或陪孙辈玩耍更要紧。"
+  },
+  {
+   "en": "Many things have to be done for instrumental purposes, and to occupy yourself only with what is intrinsically worthwhile would be an exceptional privilege, an indulgence, or both.",
+   "cn": "许多事不得不为工具性的目的而做；只让自己浸在内在有价值之事里，会是一种罕见的特权、一种放纵，或兼而有之。"
+  },
+  {
+   "en": "Furthermore, not all extrinsic goods are created equal.",
+   "cn": "此外，外在价值也并非千篇一律。"
+  },
+  {
+   "en": "Some serve ultimate value more closely than others.",
+   "cn": "有些手段比别的手段更贴近终极价值。"
+  },
+  {
+   "en": "Flattering the boss to win favour to earn money to spend on things of true value takes us far from what is most important in life with no guarantee we will get back to it.",
+   "cn": "奉承老板以邀宠、为挣钱、去买那些真正有价值的东西——这条链条把我们带离生命中最重要的东西，还不保证回得来。"
+  },
+  {
+   "en": "Studying ethics, in contrast, is in a sense a means to an end of living well, but the end is so close to hand that it almost counts as good in itself.",
+   "cn": "相比之下，研究伦理学，在某种意义上也是通向\"好好生活\"这一目的的手段，但这个目的近在咫尺，以至于它几乎本身就称得上是善。"
+  },
+  {
+   "en": "This is why I think the debate over ‘art for art’s sake’ versus ‘art as a didactic tool’ is somewhat misguided.",
+   "cn": "正因如此，我认为\"为艺术而艺术\"与\"艺术作为教化工具\"之争有些找错了靶子。"
+  },
+  {
+   "en": "Some art, especially instrumental music and abstract painting, can and should be appreciated only for its own sake.",
+   "cn": "有些艺术——尤其是纯音乐与抽象绘画——可以而且应当只为它自身而被欣赏。"
+  },
+  {
+   "en": "But much literature, film and drama can give us insight into ethics, politics and the human heart.",
+   "cn": "但许多文学、电影与戏剧，能够给我们关于伦理、政治与人心的洞见。"
+  },
+  {
+   "en": "All such understanding helps us to live better and attend more to what truly matters, in our lives and those of others.",
+   "cn": "所有这样的理解，都帮助我们活得更好，把更多注意力放在真正要紧的事上——无论是自己的生活还是他人的生活。"
+  },
+  {
+   "en": "Such art can be seen as a means to the end of moral education, but in good art, means and ends are so closely tied that the distinction seems artificial.",
+   "cn": "这类艺术可以被视为通向道德教育这一目的的手段；但在好的艺术里，手段与目的联结得如此紧密，以至于这种区分显得造作。"
+  },
+  {
+   "en": "For instance, any account of why Anton Chekhov was such a great playwright could not separate his stagecraft and the humanity of what it represents.",
+   "cn": "比如，任何关于安东·契诃夫何以是伟大剧作家的论述，都无法把他的舞台技艺与他所呈现的人性拆开来谈。"
+  },
+  {
+   "en": "The problem with much didactic art is not that it contains lessons but that they are conveyed so crudely.",
+   "cn": "许多说教艺术的问题不在于它含有教诲，而在于这些教诲被传达得如此笨拙。"
+  },
+  {
+   "en": "Such works are not just bad art but poor pedagogical tools.",
+   "cn": "这样的作品不只是坏艺术，也是糟糕的教学工具。"
+  },
+  {
+   "en": "The relationship between intrinsic and extrinsic value is complex, and one of the problems of instrumentalisation is that it seeks to flatten and simplify it.",
+   "cn": "内在价值与外在价值的关系是复杂的，而工具化的问题之一，就是它试图把这层关系压平、简化。"
+  },
+  {
+   "en": "It encourages us to identify what is most useful, and then separate it from, and prioritise it above, what is of ultimate value.",
+   "cn": "它怂恿我们识别出什么最有用，然后把它分离出来，置于终极价值之上。"
+  },
+  {
+   "en": "In doing so, it often diminishes or destroys the very benefits it promises to maximise.",
+   "cn": "这样做的时候，它常常削弱甚至摧毁它许诺要最大化的那些好处本身。"
+  },
+  {
+   "en": "Take social connection.",
+   "cn": "以社会连接为例。"
+  },
+  {
+   "en": "I have just heard of a study that says that doing anything – even reading – is better for us when we do it with others than alone.",
+   "cn": "我刚听说一项研究，说做任何事情——哪怕读书——与他人一起做都好过独自做。"
+  },
+  {
+   "en": "This message is now widely broadcast and understood, so people know that conviviality is important for their mental and physical health.",
+   "cn": "这类信息如今被广泛传播、广为接受，于是人们都知道：热闹的交往对身心健康很重要。"
+  },
+  {
+   "en": "But one of the most valuable features of friendship and community is how they take us out of concern for ourselves and make us more aware of the needs of others.",
+   "cn": "但友谊与共同体最有价值的特点之一，恰恰是它们把我们从对自己的关切中带出来，让我们更清楚地看见他人的需要。"
+  },
+  {
+   "en": "To get the most out of socialising we need to do it in the right spirit, choosing to be with other people because we care for them and they for us, because we find them stimulating, because we enjoy being part of a collective experience or endeavour.",
+   "cn": "要想从社交中获得最大收获，我们必须以对的精神去社交：选择与别人相处，是因为我们在乎他们、他们也在乎我们，是因为他们让我们如沐春风，是因为我们享受成为一段共同经历或共同事业的一部分。"
+  },
+  {
+   "en": "So if we choose to mingle only for reasons of our personal wellbeing, we are probably not going to get the benefits that socialising usually brings.",
+   "cn": "所以，如果我们只是出于个人福祉的原因去与人来往，我们多半得不到社交通常带来的那些好处。"
+  },
+  {
+   "en": "Instrumentalisation has the illusion of efficiency because it promotes the direct pursuit of practical things that we all want.",
+   "cn": "工具化有一种效率的错觉，因为它怂恿我们直接追求那些人人都想要的实际东西。"
+  },
+  {
+   "en": "But often this turns out to be counterproductive.",
+   "cn": "但这常常被证明是适得其反的。"
+  },
+  {
+   "en": "More often than not, you will fail to get the claimed benefits of an activity if getting them becomes your primary motivation.",
+   "cn": "在多数情形下，如果一项活动的好处本身成了你的首要动机，你反而得不到那些好处。"
+  },
+  {
+   "en": "What look like shortcuts turn out to be short circuits, undermining what they seek to achieve.",
+   "cn": "那些看似捷径的东西，结果证明是短路：它们破坏的，正是它们想达成的。"
+  },
+  {
+   "en": "If instrumentalisation is such a profound mistake, why have we made it?",
+   "cn": "如果工具化是一个如此深刻的错误，我们为什么还会犯？"
+  },
+  {
+   "en": "After all, we do not deliberately set out to strip meaning from our most valued activities or treat friends as psychic enhancers.",
+   "cn": "毕竟，我们并不是蓄意要剥离自己最珍视的活动中的意义，也不是刻意要把朋友当作心理增强剂。"
+  },
+  {
+   "en": "Instrumentalisation has its roots in several connected features of Western modernity.",
+   "cn": "工具化的根，扎在西方现代性的几个彼此勾连的特征里。"
+  },
+  {
+   "en": "The Enlightenment brought to fruition an idea of the primacy of the sovereign, autonomous individual, one that had deep roots in classical and Christian thought.",
+   "cn": "启蒙运动让一个理念结出了果实：主权性的、自主的个体至高无上——这个理念在古典思想与基督教思想中都有很深的根。"
+  },
+  {
+   "en": "Over the centuries, this idea has become a kind of common sense.",
+   "cn": "几个世纪以来，这个理念已然成了一种常识。"
+  },
+  {
+   "en": "Each person is supposed to be the master of their own destiny, the author of their own life story.",
+   "cn": "每个人都被视为自己命运的主人、自己生命故事的作者。"
+  },
+  {
+   "en": "Self-expression and self-determination are seen as essential for being an authentic self.",
+   "cn": "自我表达与自我决定，被看作成为一个真实自我的必要条件。"
+  },
+  {
+   "en": "Enlightenment thinkers were correct to promote greater individual freedom in an age when power was wielded by the few over a subjugated majority.",
+   "cn": "在权力由少数人施加于被征服多数的时代，启蒙思想家们倡导更大的个人自由，是对的。"
+  },
+  {
+   "en": "But human beings are also social animals and can never be entirely autonomous.",
+   "cn": "但人也是社会性动物，永远不可能完全自主。"
+  },
+  {
+   "en": "Modernity’s mistake is to lose sight of this, placing all the emphasis on personal liberty and not enough on our interdependence.",
+   "cn": "现代性的错误在于丢失了这一点：把全部重心放在个人自由上，对我们彼此的相互依存却着墨太少。"
+  },
+  {
+   "en": "This has led to an exaggeration of the importance of autonomy that has pushed the prizing of individuality too far.",
+   "cn": "这导致对自主性的重要性的一种夸张，把对个体性的珍视推得过远。"
+  },
+  {
+   "en": "The result is atomisation: a world in which our separateness from others has become excessive.",
+   "cn": "其结果是原子化：在这个世界里，我们与他人的分离变得过度了。"
+  },
+  {
+   "en": "This atomised world has several features, all of which encourage instrumentalisation.",
+   "cn": "这个原子化的世界有几个特征，全都在助长工具化。"
+  },
+  {
+   "en": "First, it promotes an illusion of control.",
+   "cn": "第一，它助长一种掌控的错觉。"
+  },
+  {
+   "en": "Encouraged to feel autonomous, we lose sight of the fact that there is much over which we have no power.",
+   "cn": "被鼓励去感到自主的我们，看不见这样一个事实：有太多事情并不在我们的权力之内。"
+  },
+  {
+   "en": "The world unfolds, opening up opportunities and throwing spanners in the works in equally random measure.",
+   "cn": "世界自行展开，随机地既打开机会，也往齿轮里扔扳手。"
+  },
+  {
+   "en": "We are not even in full control of ourselves.",
+   "cn": "我们甚至不能完全掌控自己。"
+  },
+  {
+   "en": "We had no say in our fundamental constitutions: our dispositions, personalities, gifts and limitations.",
+   "cn": "对我们的根本构成——气质、性格、天赋与局限——我们从未有过发言权。"
+  },
+  {
+   "en": "We have no direct access to the hidden springs of thought and volition and cannot just choose what we like or what we believe.",
+   "cn": "我们无法直接触及思想与意志的隐秘泉眼，不能想喜欢什么就喜欢什么，想相信什么就相信什么。"
+  },
+  {
+   "en": "But primed to think of ourselves as free and autonomous, we imagine that we can manipulate the world to achieve whatever we want.",
+   "cn": "但被预设去把自己看作自由而自主的我们，想象自己可以操纵世界，以达成任何我们想要的东西。"
+  },
+  {
+   "en": "Happiness, health and success are all ours for the taking, just as long as we make the right choices.",
+   "cn": "幸福、健康、成功，统统唾手可得——只要我们做出正确的选择。"
+  },
+  {
+   "en": "And so the world becomes a series of levers to be pulled and buttons to be pushed, all to yield to our wills.",
+   "cn": "于是，世界变成了一排排等待被扳动的杠杆、一颗颗等待被按下的按钮，一切都得屈服于我们的意志。"
+  },
+  {
+   "en": "In short, everything can and must be a means to whatever ends we choose, because that is what we think self-determination requires.",
+   "cn": "简言之，一切都可以、也必须成为通向我们选定目的的手段，因为在我们看来，自我决定就要求如此。"
+  },
+  {
+   "en": "In the era of late capitalism, our autonomous agency has increasingly been expressed through our status as consumers.",
+   "cn": "在晚期资本主义时代，我们自主的行动力越来越通过消费者身份来表达。"
+  },
+  {
+   "en": "Freedom is above all the choice of how to spend our money, with the promise that everything we need can be obtained in exchange for cash.",
+   "cn": "自由首先是选择怎么花钱，并伴有一个承诺：我们需要的一切都能用现金换来。"
+  },
+  {
+   "en": "The consumer mindset has affected how we relate to everything, not just the things we buy.",
+   "cn": "这种消费者心态已经改变了我们与一切事物打交道的方式——不只是我们买的东西。"
+  },
+  {
+   "en": "The result is that the world has become essentially transactional, meaning that everything is an instrument for getting something else.",
+   "cn": "结果是，世界在本质上变得交易化了：一切都是获得别的东西的工具。"
+  },
+  {
+   "en": "It is no coincidence that dating apps give the impression that we are shopping for partners because we approach even relationships with the consumer framing.",
+   "cn": "交友软件给我们购物选伴侣般的印象，绝非偶然——因为我们正是带着消费者的框架去对待连人本身的关系。"
+  },
+  {
+   "en": "Politics has also become a trade for votes in which the electorate and politicians believe that the winner takes all, like the highest bidder in an auction, and damn those who backed the losing side.",
+   "cn": "政治也变成了一场选票的交易：选民与政客都相信赢者通吃，就像拍卖会上出价最高的人，至于支持落败一方的人，管他去死。"
+  },
+  {
+   "en": "Democracy should be a way of managing competing demands, not giving the winners everything they want.",
+   "cn": "民主应当是管理相争诉求的方式，而不是让赢家拿走他们想要的一切。"
+  },
+  {
+   "en": "Voting should be about having your say, not getting your way.",
+   "cn": "投票本应是让你有发言权，而不是让你得偿所愿。"
+  },
+  {
+   "en": "But in the new consumer mindset, votes buy power, they no longer mandate responsibility.",
+   "cn": "但在新的消费者心态里，选票购买的是权力，不再是责任的授权。"
+  },
+  {
+   "en": "Another deep cultural source of instrumentalisation is the reductionism that has surreptitiously seeped into our culture from natural science.",
+   "cn": "工具化的另一个深层文化源头，是从自然科学悄悄渗入我们文化的还原论。"
+  },
+  {
+   "en": "Reductionism is the idea that the way to understand how things work is to break them down into their constitutive parts.",
+   "cn": "还原论是这样一种观念：要理解事物如何运作，就把它拆解成构成它的部件。"
+  },
+  {
+   "en": "It’s an idea that served natural science well for centuries.",
+   "cn": "几个世纪以来，这个理念很好地服务于自然科学。"
+  },
+  {
+   "en": "But a clue as to its limitations comes in its relative failure in the social sciences.",
+   "cn": "但它在社会科学中的相对失灵，暗示了它的局限。"
+  },
+  {
+   "en": "Economies, societies and psychologies cannot be explained by simple mechanistic processes.",
+   "cn": "经济体、社会与心灵，无法用简单的机械过程来解释。"
+  },
+  {
+   "en": "We have learned that, even in the natural sciences, you can explain only so much by taking things apart, and that it is equally – sometimes more – important to see how systems work as a whole.",
+   "cn": "我们已经明白：即便在自然科学里，靠拆解所能解释的也只有这么多；同样重要的——有时更重要——是看清系统作为整体如何运作。"
+  },
+  {
+   "en": "Behind much instrumentalisation is a crude reductionism that ignores systems and focuses on elements within it.",
+   "cn": "工具化背后，常常站着一种粗糙的还原论：无视系统，只盯住系统中的元素。"
+  },
+  {
+   "en": "The richness of an experience, such as being in the outdoors, is reduced to a means to stimulate blood flow or release hormones.",
+   "cn": "一种体验的丰富性——比如置身户外——被还原为促进血液循环或释放激素的手段。"
+  },
+  {
+   "en": "Art, which stirs a large variety of often conflicting emotions, is prized purely for its capacity to evoke certain good ones.",
+   "cn": "艺术本会搅动多种多样、常常相互冲突的情绪，却被只因为它能唤起某些\"好\"情绪而受推崇。"
+  },
+  {
+   "en": "Social bonds, which cause pain and heartache as well as joy, are reduced to sources of emotional support.",
+   "cn": "社会联结既带来欢乐，也带来痛苦与心碎，却被还原为情绪支持的来源。"
+  },
+  {
+   "en": "Combine an inflated belief in personal autonomy, a transactional consumer mentality and a reductionist attitude to how things work, and it is inevitable that we treat the world as a collection of resources we can plunder to promote our own wellbeing.",
+   "cn": "把对个人自主的膨胀信念、交易化的消费者心态、以及看待事物如何运作的还原论态度合在一起，我们就不可避免地把世界当作一堆可以攫取的资源，用来增进自身的福祉。"
+  },
+  {
+   "en": "The tragedy is that when we do so, we neglect rather than serve our deepest needs.",
+   "cn": "悲剧在于：当我们这样做时，我们忽视的恰恰是——而非成全了——我们最深的需求。"
+  },
+  {
+   "en": "What would our culture look like if we were to reverse the instrumentalisation of everything?",
+   "cn": "如果我们逆转这万物的工具化，我们的文化会是什么样子？"
+  },
+  {
+   "en": "Of course, we would still do many things as means to ends.",
+   "cn": "当然，我们仍会把许多事作为通向目的的手段来做。"
+  },
+  {
+   "en": "We would also be happy to agree that many of the good things in life bring us instrumental benefits too.",
+   "cn": "我们也会乐于承认：生活中许多好东西同样带给我们工具性的好处。"
+  },
+  {
+   "en": "But we would see these as welcome side-effects, not their purposes.",
+   "cn": "但我们会把这些看作受欢迎的副作用，而不是它们的目的。"
+  },
+  {
+   "en": "A deinstrumentalised world would be one in which we would attend more to what is of value right here, right now.",
+   "cn": "一个去工具化的世界，是一个我们更关注此时此地之价值的世界。"
+  },
+  {
+   "en": "Take friendship.",
+   "cn": "以友谊为例。"
+  },
+  {
+   "en": "The personal benefits we get from others are real, but they should not be the reason for being with them.",
+   "cn": "我们从他人那里得到的个人好处是真实的，但它们不应当是我们与之相处的理由。"
+  },
+  {
+   "en": "Relationships are valuable because we value the people in them, not because spending time with them releases endorphins in our brains.",
+   "cn": "关系之所以珍贵，是因为我们珍视关系中的人，而不是因为与他们共度时光会在我们脑内释放内啡肽。"
+  },
+  {
+   "en": "David Hume corrected this error more than two centuries ago when he wrote: ‘I feel a pleasure in doing good to my friend, because I love him; but do not love him for the sake of that pleasure.’ To reject instrumentalisation is to understand that feeling good often follows from living well, but it is not what living well consists in.",
+   "cn": "大卫·休谟在两个多世纪前就纠正过这个错误，他写道：\"我为朋友做好事，从中感到快乐，是因为我爱他；但我并不是为了那份快乐才爱他。\"拒绝工具化，就是理解到：感觉良好往往伴随着好好生活而来，但它并不是好好生活的构成本身。"
+  }
+ ],
+ "paras": [
+  {
+   "sentences": [
+    {
+     "en": "For decades, films out of the Metro-Goldwyn-Mayer Studios have opened with Leo the roaring lion, garlanded with the motto Ars gratia artis : art for art’s sake.",
+     "cn": "几十年来，米高梅出品的电影都以咆哮的雄狮里奥开场，环绕着一句箴言：Ars gratia artis——为艺术而艺术。",
+     "cnEdited": true
+    },
+    {
+     "en": "Given that MGM is a money-making behemoth, we might doubt the sincerity of this high-minded sentiment.",
+     "cn": "考虑到米高梅是一头赚钱的巨兽，我们难免怀疑这份高尚情怀有几分真诚。",
+     "cnEdited": true
+    },
+    {
+     "en": "Still, along with the contested goal of moral improvement, it certainly expresses one of the few legitimate reasons why people should make movies.",
+     "cn": "尽管如此，与\"道德提升\"那个颇有争议的目标一道，它确实道出了人们拍电影为数不多的正当理由之一。",
+     "cnEdited": true
+    },
+    {
+     "en": "Art for the sake of anything else – profit, self-promotion, propaganda – isn’t really art at all, or at least not in its purest sense.",
+     "cn": "为了别的任何东西而艺术——为了利润、为了自我推销、为了宣传——都算不上真正的艺术，至少不是最纯粹意义上的艺术。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "It therefore came as a bit of a shock to see a recent advert for the National Art Pass, which gives holders free or discounted entry to galleries and museums around the United Kingdom.",
+     "cn": "因此，当我看到最近一则全国艺术通票（National Art Pass）的广告时，多少有些震惊——这张通票能让持票人免费或优惠参观全英国的画廊和博物馆。",
+     "cnEdited": true
+    },
+    {
+     "en": "The tag line ‘See more.",
+     "cn": "广告语\"看更多。",
+     "cnEdited": true
+    },
+    {
+     "en": "Live more’ sounded right: art does indeed enrich our lives.",
+     "cn": "活更多\"听起来没错：艺术确实丰富我们的生活。",
+     "cnEdited": true
+    },
+    {
+     "en": "But it turned out that the ‘more’ here was purely quantitative, not qualitative.",
+     "cn": "但结果发现，这里的\"更多\"纯粹是数量上的，而不是质量上的。",
+     "cnEdited": true
+    },
+    {
+     "en": "‘Grow some years onto your life with art,’ proclaimed the main slogan, followed by: ‘Spending time in galleries and museums could help you live longer.’ Art not for art’s sake, but for your heart’s sake, the fleshy not the spiritual one at that.",
+     "cn": "\"用艺术为生命添上几个年头\"——主口号如此宣告，接着是：\"在画廊和博物馆里度过时光，或有助于你活得更久。\"艺术不再为艺术本身，而是为你的心脏——还是那颗肉做的心脏，不是精神意义上的那颗。",
+     "cnEdited": true
+    },
+    {
+     "en": "This messaging around the arts has become ubiquitous, with Arts Council England promoting the idea that ‘engaging in creative and cultural activities has proven health benefits for individuals and communities.’",
+     "cn": "围绕艺术的这类信息已无处不在，英格兰艺术委员会就在推广这样一种说法：\"参与创意和文化活动，对个人与社区的健康益处已获证实。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "I may have been shocked by the poster, but I was not surprised by it.",
+     "cn": "海报让我震惊，但并不让我意外。",
+     "cnEdited": true
+    },
+    {
+     "en": "For a long time, I have been privately lamenting the instrumentalisation of everything: how nothing seems to be of value in itself anymore but is only seen as useful in the service of some utilitarian function.",
+     "cn": "很长时间以来，我一直在私下哀叹一件事：万物的工具化——似乎再没有什么东西因其自身而有价值，一切都只在服务于某种功利功能时才被视为有用。",
+     "cnEdited": true
+    },
+    {
+     "en": "I first got wind of this lamentable trend in 2010, when I had the misfortune to review Gretchen Rubin’s book The Happiness Project (2009), an account of a year in relentless pursuit of the happy life.",
+     "cn": "我最早注意到这股令人痛心的风潮是在2010年。当时我有幸（不如说不幸）评审格雷琴·鲁宾（Gretchen Rubin）的《幸福计划》（The Happiness Project，2009）——一部为期一年、一刻不停地追逐幸福生活的记录。",
+     "cnEdited": true
+    },
+    {
+     "en": "One passage struck me so hard I can almost recall it word for word today.",
+     "cn": "其中一段击中了我，以致今天我几乎能一字不差地背出来。",
+     "cnEdited": true
+    },
+    {
+     "en": "A day with her husband gets off to a sticky start but, following an apology, Rubin writes: ‘We hugged – for at least six seconds, which, I happened to know from my research, is the minimum time necessary to promote the flow of oxytocin and serotonin, mood-boosting chemicals that promote bonding.",
+     "cn": "与她丈夫的一天开局别扭，但一次道歉之后，鲁宾写道：\"我们拥抱了——至少六秒钟。碰巧从我的研究里我知道，这是催产素和血清素开始流动所需的最短时间，而它们正是促进联结、改善情绪的化学物质。",
+     "cnEdited": true
+    },
+    {
+     "en": "The moment of tension passed.’",
+     "cn": "紧张的时刻过去了。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "I was left with the chilling image of a woman holding her husband not only out of love or affection but in order to release hormones and reduce her stress.",
+     "cn": "留给我的，是一个寒意彻骨的画面：一个女人拥抱着丈夫，不只是出于爱与感情，而是为了释放激素、给自己减压。",
+     "cnEdited": true
+    },
+    {
+     "en": "Those sentences highlighted how her happiness project had led her to do everything with the improvement of her mood in mind.",
+     "cn": "这几句话突显了她的\"幸福计划\"如何让她做每件事时都惦记着改善自己的情绪。",
+     "cnEdited": true
+    },
+    {
+     "en": "Nothing else seemed to matter as much, even truth.",
+     "cn": "似乎再没有别的什么同样要紧——哪怕是真实。",
+     "cnEdited": true
+    },
+    {
+     "en": "At the end of her year-long experiment in treating herself as a felicific machine, she reflected on what had or had not changed.",
+     "cn": "在把自己当作一台幸福机器进行了一年实验的结尾，她回顾了哪些东西变了、哪些没变。",
+     "cnEdited": true
+    },
+    {
+     "en": "‘Maybe I was seeing what I wanted to see,’ she wondered, only to add: ‘Maybe, but who cares?’ Whatever makes you feel better, true or not.",
+     "cn": "\"也许我看到的是我想看到的东西，\"她自问，随即补上一句：\"也许是吧，可谁在乎呢？\"只要让你感觉更好，真假有什么关系。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In the years between witnessing hugging for happiness and creativity for longevity, I have seen countless other examples of all that is good in life being promoted not for their own sake but for the material benefits they bring.",
+     "cn": "从\"为幸福而拥抱\"到\"为长寿而创意\"，这些年里，我见过数不清的例子：生活中一切美好的事物，被推广的理由都不是它们本身，而是它们带来的物质好处。",
+     "cnEdited": true
+    },
+    {
+     "en": "This instrumentalisation has become normalised so insidiously that we don’t even notice that it is odd, let alone wrong.",
+     "cn": "这种工具化被常态化得如此隐秘，以至于我们甚至不再觉得它有什么奇怪，更不必说有什么不对。",
+     "cnEdited": true
+    },
+    {
+     "en": "Nor do we seem to be aware of quite how pervasive it is.",
+     "cn": "我们似乎也没有意识到它蔓延得有多广。",
+     "cnEdited": true
+    },
+    {
+     "en": "Yet its effects are profound, leading us to lose sight again and again of what is truly of value in life.",
+     "cn": "然而它的影响深远，让我们一次又一次地看不清人生中真正有价值的东西。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Before offering a diagnosis for what has gone wrong and how to cure it, I need to defend the seemingly hyperbolic claim that everything is becoming instrumentalised.",
+     "cn": "在给出问题的诊断与疗法之前，我需要先为一个看似夸张的论断辩护：一切都在被工具化。",
+     "cnEdited": true
+    },
+    {
+     "en": "Far from being a rhetorical exaggeration, I genuinely find it difficult to think of anything worthwhile that at least some people have not been advocating for its utilitarian benefits before mentioning any of its intrinsic merits.",
+     "cn": "这绝非修辞上的夸大——我由衷地发现，自己很难想出任何有价值的东西：至少某些人在提到它的内在优点之前，不曾先鼓吹它的功利好处。",
+     "cnEdited": true
+    },
+    {
+     "en": "Take churchgoing.",
+     "cn": "以上教堂为例。",
+     "cnEdited": true
+    },
+    {
+     "en": "Most believers hold that worship is a devotional duty rather than a pragmatic means of getting into heaven.",
+     "cn": "大多数信徒认为，敬拜是一种虔敬的义务，而不是一种挤进天堂的实用手段。",
+     "cnEdited": true
+    },
+    {
+     "en": "Today, however, it is not uncommon to hear even Christians, such as Deborah Jenkins in Premier Christianity magazine, pointing to research that: ‘Being part of a church community can lengthen life, reduce depression and promote positive mental health.’ A book I flicked through today advocated prayer for physical health, pointing to a study that ‘found significant medical benefits on the cardiovascular system, blood, as well as muscle and bone resulting from the solat daily prayer.’ Of course, if challenged, none would say these are the best reasons to practise religion.",
+     "cn": "然而今天，就连基督徒也常常援引研究说，比如《Premier Christianity》杂志上的黛博拉·詹金斯（Deborah Jenkins）：\"参与教会共同体，可以延年益寿、减少抑郁、促进积极的心理健康。\"我今天就随手翻到一本书，鼓吹为了身体健康而祷告，引用的研究\"发现每日礼拜式的祈祷对心血管系统、血液以及肌肉和骨骼都有显著的医学益处\"。当然，若被质问，没有人会说这些是信教的最好理由。",
+     "cnEdited": true
+    },
+    {
+     "en": "But it doesn’t stop them offering these reasons as very good ones.",
+     "cn": "但这并不妨碍他们把这些理由当作很好的理由来提供。",
+     "cnEdited": true
+    },
+    {
+     "en": "Furthermore, they are more credible and certainly more scientific than claims that an all-loving creator god really thinks it’s important how you spend your Sunday mornings.",
+     "cn": "更何况，比起\"一位全爱的造物主真的在乎你周日早晨怎么过\"这类说法，这些理由更可信、也更科学。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "More profanely, we are even given instrumental reasons to orgasm.",
+     "cn": "说得更世俗些，我们甚至连高潮都被赋予了工具性的理由。",
+     "cnEdited": true
+    },
+    {
+     "en": "A headline from The Telegraph in 2015 – ‘An Orgasm A Day Could Keep Prostate Cancer Away, Scientists Claim’ – summed up a now-widely shared belief that one of the best reasons for a man to have sex or masturbate is not pleasure, intimacy or the release of sexual tension but to protect his health.",
+     "cn": "《每日电讯报》2015年的一条标题——\"科学家声称：每天一次高潮或有助远离前列腺癌\"——概括了一种如今流传甚广的信念：男人做爱或自慰的最佳理由之一，不是愉悦、亲密或性张力的释放，而是保护健康。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "You could play a very long game of suggesting things people value in their own right in the hope of finding one that hasn’t been praised for its health, wealth or wellbeing advantages.",
+     "cn": "你可以玩一个很长的游戏：列举人们因其自身而珍视的东西，指望找到一样还不曾被称赞过健康、财富或幸福红利的。",
+     "cnEdited": true
+    },
+    {
+     "en": "Your search would be in vain.",
+     "cn": "你的搜寻注定徒劳。",
+     "cnEdited": true
+    },
+    {
+     "en": "The Opera North website lists 10 benefits of singing, and only one – it lets you express yourself – has anything to do with art and creativity.",
+     "cn": "北方歌剧院的官网列出了唱歌的10大好处，其中只有一条——让你表达自己——与艺术和创造力沾边。",
+     "cnEdited": true
+    },
+    {
+     "en": "The others include ‘makes you feel better’, ‘enhances lung function’, ‘helps you beat stress and relax’, ‘helps improve memory’, ‘can help when life gets tough’ and ‘boosts your confidence’.",
+     "cn": "其余的包括\"让你感觉更好\"\"增强肺功能\"\"帮你减压放松\"\"有助于改善记忆\"\"生活艰难时能帮到你\"和\"提升你的自信\"。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Many people who advocate for reconnecting with nature do so with reasons that are designed to appeal to the very same utilitarian, self-centred hedonism that is to blame for humanity losing touch with the Earth in the first place.",
+     "cn": "许多倡导\"重新与自然连接\"的人，用来打动人的理由，恰恰诉诸同一种功利、自我中心的享乐主义——而最初让人与地球失去联结的，正是这种享乐主义。",
+     "cnEdited": true
+    },
+    {
+     "en": "The National Trust talks of how ‘walking in nature can help wellbeing’ while the growing popularity of ‘forest bathing’ encourages us to use woodland as though it were a kind of literal walk-in clinic.",
+     "cn": "国民信托说\"在自然中行走有助于身心健康\"，而日益流行的\"森林浴\"则鼓励我们把林地当作一种字面意义上的、走进去的诊所来使用。",
+     "cnEdited": true
+    },
+    {
+     "en": "These would-be advocates for nature seem to miss the irony that if we go out among the trees because of what they can do for us, we’re going with the same exploitative, extractive mindset as those who log them.",
+     "cn": "这些自然的准代言人似乎没意识到其中的讽刺：如果我们走进树林是因为它们能为我们做什么，那么我们带着的，恰恰是与砍伐者相同的剥削式、攫取式心态。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Even philosophy , the disinterested pursuit of wisdom, has fallen prey to the curse of instrumentalisation.",
+     "cn": "连哲学——这种不求回报的智慧追求——也沦为工具化诅咒的猎物。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is no longer enough for universities to say that their programmes allow you to explore some of the most fundamental questions of existence.",
+     "cn": "对大学来说，说自己的课程让你得以探索存在最根本的那些问题，已经不够了。",
+     "cnEdited": true
+    },
+    {
+     "en": "Now the questions are of a decidedly more bottom-line sort: how will philosophy help you buy a house or build your pension pot?",
+     "cn": "如今的问题有着鲜明的底线色彩：哲学如何帮你买房？如何充实你的养老金？",
+     "cnEdited": true
+    },
+    {
+     "en": "Philosophy is routinely sold as a trainer of ‘transferable thinking skills’, and it’s clear where these most transfer to: the world of work.",
+     "cn": "哲学被例行公事地包装成\"可迁移思维技能\"的训练营，而这些技能最明显迁移到哪里，一目了然：职场。",
+     "cnEdited": true
+    },
+    {
+     "en": "The Faculty of Philosophy at the University of Cambridge has a whole webpage devoted to five resumé-friendly skills it teaches: intellectual, communication, organisational, interpersonal and research.",
+     "cn": "剑桥大学哲学系有一整个网页，专门介绍它教给你的五项适合写进简历的技能：智识、沟通、组织、人际和研究。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Instrumentalisation is most pernicious when it applies to things we do with and for others.",
+     "cn": "工具化最毒害人心之处，在于它作用于我们与他人共同做、为他人做的事。",
+     "cnEdited": true
+    },
+    {
+     "en": "Immanuel Kant saw it as a ‘categorical imperative’ – an absolute demand of morality – to ‘treat humanity, whether in your own person or in the person of any other, always at the same time as an end, never merely as a means.’ The words we use to describe the instrumentalisation of others echo how corrupting we think it is: dehumanisation, objectification, exploitation.",
+     "cn": "伊曼努尔·康德视之为一条\"绝对命令\"——道德的绝对要求——\"你要如此行动，即无论是你自己的人格中的人性，还是任何他人的人格中的人性，你在任何时候都同时当作目的，绝不能仅仅当作手段。\"我们用来描述\"把他人工具化\"的那些词，呼应着我们认为它有多败坏：非人化、物化、剥削。",
+     "cnEdited": true
+    },
+    {
+     "en": "That is why the instrumentalisation of social connection is immoral as well as self-defeating.",
+     "cn": "正因如此，把社会连接工具化，既是不道德的，也是自拆台脚的。",
+     "cnEdited": true
+    },
+    {
+     "en": "If we start to foreground what social relationships do for us, we treat the other people involved as mere tools for self-advancement.",
+     "cn": "如果我们开始把社会关系能为\"我\"做什么摆在第一位，我们就是在把关系中的其他人当作自我晋升的工具。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "I haven’t even begun to exhaust the list of activities that have become routinely instrumentalised.",
+     "cn": "我甚至还没开始列完那些被例行公事般工具化的活动。",
+     "cnEdited": true
+    },
+    {
+     "en": "Among those we could add are gardening, playing sport, camping, swimming, campaigning, community volunteer work, baking bread, crafts, keeping a diary, laughing, saying ‘thank you’.",
+     "cn": "可以加进来的还有：园艺、运动、露营、游泳、社会运动、社区志愿服务、烤面包、手工、写日记、大笑、说\"谢谢\"。",
+     "cnEdited": true
+    },
+    {
+     "en": "We increasingly ask not what is good about them but what good they can do for us.",
+     "cn": "我们越来越不问它们好在哪儿，而是问它们能为我们做什么。",
+     "cnEdited": true
+    },
+    {
+     "en": "And by ‘good’ we mean health, wealth and worldly success.",
+     "cn": "而这里的\"好\"，指的是健康、财富与世俗意义上的成功。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Those who love nature, art, learning, friendship and so on for their own sake may find it distasteful to spotlight their instrumental benefits, but what is the harm in doing so?",
+     "cn": "那些因其本身而热爱自然、艺术、学习与友谊的人，也许觉得突出它们的工具性好处令人生厌——但这么做究竟有什么害处？",
+     "cnEdited": true
+    },
+    {
+     "en": "After all, someone living an instrumentalised life and someone who is not might be doing exactly the same things.",
+     "cn": "毕竟，一个把生活工具化的人和一个没有的人，可能在做着一模一样的事。",
+     "cnEdited": true
+    },
+    {
+     "en": "This objection misses the fact that a good life does not only depend on what we do, but how we do it.",
+     "cn": "这种反驳漏掉了这样一个事实：好的生活不只取决于我们做什么，还取决于我们怎么做。",
+     "cnEdited": true
+    },
+    {
+     "en": "Two people with the same cultural calendars may go to the same exhibitions, watch the same films and listen to the same music, but if their motivations are fundamentally different then so are the worlds they inhabit.",
+     "cn": "两个人可以有相同的文化日程表——看同样的展览、同样的电影、听同样的音乐——但如果他们的动机根本不同，他们栖居的世界也就根本不同。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "To understand why, we have to go back to the basic question of why anything has value.",
+     "cn": "要理解为什么会这样，我们必须回到那个最基本的问题：任何东西的价值从何而来。",
+     "cnEdited": true
+    },
+    {
+     "en": "In the Nicomachean Ethics , Aristotle was one of the first but certainly not the last to observe that we do some things as means to ends and other things as ends in themselves.",
+     "cn": "在《尼各马可伦理学》里，亚里士多德最早指出——后来者不绝——我们做有些事是作为通向目的的手段，做另一些事则是以自身为目的。",
+     "cnEdited": true
+    },
+    {
+     "en": "Only the latter have intrinsic value, while means to ends have mere extrinsic value.",
+     "cn": "只有后者具有内在价值，而通往目的的手段只具有外在价值。",
+     "cnEdited": true
+    },
+    {
+     "en": "If we ask where the ultimate value in life lies, it is clearly in things with intrinsic value.",
+     "cn": "如果我们追问，人生终极的价值在哪里，答案显然在于有内在价值的事物。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "This piece of wisdom is so uncontroversial it could be dismissed as platitudinous.",
+     "cn": "这条智慧毫无争议，甚至可以被斥为老生常谈。",
+     "cnEdited": true
+    },
+    {
+     "en": "But it merits repeating across the ages and across all our life stages because it is so easy to be sucked away from what has real value by purely instrumental goods.",
+     "cn": "但它值得被代代重复、在我们生命的每个阶段重复，因为我们太容易被纯粹工具性的好处吸走，离开那些真正有价值的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "Money is of course the clearest example.",
+     "cn": "钱当然是最典型的例子。",
+     "cnEdited": true
+    },
+    {
+     "en": "Money is important only for what it can buy and can be used to obtain many of the things we most value.",
+     "cn": "钱的重要性只在于它能买到什么；它可以用来换来我们最珍视的许多东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "Yet it seems all too human to try to accumulate more and more of it, never believing one has enough, diverting us from time with loved ones and cherished activities.",
+     "cn": "然而，想要积累得越来越多、永远觉得自己不够，这似乎是人之常情——而它让我们偏离了与所爱之人共处的时光，偏离了那些我们珍视的活动。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Pursuing extrinsic rather than intrinsic goods is a common-enough mistake.",
+     "cn": "追逐外在价值而非内在价值，是一个足够常见的错误。",
+     "cnEdited": true
+    },
+    {
+     "en": "But the instrumentalisation of everything takes it one step further.",
+     "cn": "但\"万物工具化\"把这个错误又推进了一步。",
+     "cnEdited": true
+    },
+    {
+     "en": "It doesn’t just distract us from all the things that are good in themselves; it strips these very things of their intrinsic value and turns them into mere means to ends.",
+     "cn": "它不只是让我们分心、离开那些本身即善的事物；它剥掉这些事物自身的内在价值，把它们变成通向目的的纯粹手段。",
+     "cnEdited": true
+    },
+    {
+     "en": "Worse, these ends are not even of value in themselves.",
+     "cn": "更糟的是，这些目的本身也并没有价值。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Think about what instrumentalisation serves: health, wealth and psychological wellbeing.",
+     "cn": "想想工具化服务于什么：健康、财富、心理幸福感。",
+     "cnEdited": true
+    },
+    {
+     "en": "These are all so obviously desirable that it’s easy to miss the fact that none have intrinsic value.",
+     "cn": "这些东西全都显而易见地令人向往，以至于我们很容易漏掉一个事实：它们没有一个具有内在价值。",
+     "cnEdited": true
+    },
+    {
+     "en": "That is clearly true of wealth, but it is equally true of mental and physical health.",
+     "cn": "财富如此，心理与身体的健康也同样如此。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Take bodily health first.",
+     "cn": "先说身体健康。",
+     "cnEdited": true
+    },
+    {
+     "en": "We often talk about it as if it were the most important thing of all.",
+     "cn": "我们常常把健康说成好像是天底下最重要的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "That’s why Augusten Burroughs’s quote ‘When you have your health, you have everything’ has a healthy life as an internet meme.",
+     "cn": "这就是为什么奥古斯滕·巴勒斯（Augusten Burroughs）那句\"只要你还有健康，你就拥有一切\"能成为流行一时的网络格言。",
+     "cnEdited": true
+    },
+    {
+     "en": "But we don’t prize health for its own sake.",
+     "cn": "但我们珍视健康，并不是为了健康本身。",
+     "cnEdited": true
+    },
+    {
+     "en": "We value it for two reasons.",
+     "cn": "我们看重它有两个理由。",
+     "cnEdited": true
+    },
+    {
+     "en": "One is that the alternative usually involves pain and suffering, which are bad in themselves and so to be avoided.",
+     "cn": "其一，失去健康通常意味着疼痛与苦楚，而它们本身即是坏的，所以要避免。",
+     "cnEdited": true
+    },
+    {
+     "en": "The other is that, with health, we are more able to do the things that bring meaning to our lives.",
+     "cn": "其二，有了健康，我们才更有能力去做那些为生活带来意义的事。",
+     "cnEdited": true
+    },
+    {
+     "en": "But a healthy life devoid of love, meaningful activity or experiences would be empty.",
+     "cn": "但一种没有爱、没有有意义的活动与体验的健康生活，会是空洞的。",
+     "cnEdited": true
+    },
+    {
+     "en": "Indeed, many people with chronic illness surprise themselves and others when they discover that, actually, their health is not the most important thing after all.",
+     "cn": "事实上，许多慢性病患者让自己和旁人吃惊的是：他们发现，健康终究不是最重要的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "In sickness, they see more clearly what matters and find that it is better to be, say, ill and loved than in good health and loathed.",
+     "cn": "在疾病中，他们把要紧的事看得更清楚，并且发现，比如，带病而被爱着，好过健康而被厌恶着。",
+     "cnEdited": true
+    },
+    {
+     "en": "As one wheelchair-using study participant told Elizabeth Lindsey, an associate professor of nursing: ‘I can live life to the fullest, even if I have no physical ability, I can still live life to the fullest because where I am living, life is from within.’ Physical health is important only as a foundation to make it easier for us to appreciate the things that really matter.",
+     "cn": "正如一位坐轮椅的研究参与者对护理学副教授伊丽莎白·林赛（Elizabeth Lindsey）所说：\"我可以活得无比充盈。哪怕我毫无身体能力，我仍然可以把生活过到最满，因为我所在的地方，生命由内而生。\"身体健康之所以重要，只在于它是地基，让我们更容易珍视那些真正要紧的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "Indeed, Lindsey talks of ‘health within illness’, arguing that health in its fullest sense is not the absence of illness.",
+     "cn": "事实上，林赛谈的是\"疾病之内的健康\"，她主张，最完整意义上的健康并不是没有疾病。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Even mental health is not important in itself.",
+     "cn": "连心理健康本身也不是终极重要的。",
+     "cnEdited": true
+    },
+    {
+     "en": "Mental illness is intrinsically bad, since it is suffering without gain.",
+     "cn": "精神疾病本身是坏的，因为那是有苦无获的受难。",
+     "cnEdited": true
+    },
+    {
+     "en": "But being in good mental health, like being in good physical health, is just an enabler of what is more fundamentally valuable.",
+     "cn": "但良好的心理状态，一如良好的身体状态，只是那些更根本价值之物的使能者。",
+     "cnEdited": true
+    },
+    {
+     "en": "Even some mental distress is not intrinsically bad.",
+     "cn": "甚至某些心理痛苦也并非本质为坏。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is a good thing that we grieve as it shows that our emotions are functioning correctly when bad things happen to the people who matter to us.",
+     "cn": "我们会悲伤，这是一件好事——因为它说明，当坏事情降临到我们所在乎的人身上，我们的情绪运转正常。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Not even happiness, perhaps the most commonly claimed benefit of instrumentalisation, is an intrinsic good.",
+     "cn": "就连幸福——工具化最常被标榜的好处——也不是内在的善。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is not good if someone feels happy to see people they prejudicially hate suffer.",
+     "cn": "如果一个人因为看到自己偏见所恨的人受苦而快乐，这并不是好。",
+     "cnEdited": true
+    },
+    {
+     "en": "It would not be good to live life in a chemical cloud of bliss, content but disengaged from the real world.",
+     "cn": "生活在一片化学的极乐云雾里，心满意足却与真实世界脱节，这并不是好。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is not good to live happily in the illusion of a strong relationship when your partner is cheating behind your back.",
+     "cn": "当伴侣在背后不忠时，你却在一段\"牢固关系\"的幻觉中幸福度日，这并不是好。",
+     "cnEdited": true
+    },
+    {
+     "en": "Blissful ignorance may sometimes be better than painful knowledge, but that does not make it good.",
+     "cn": "极乐的无知有时好过痛苦的知识，但这并不使它成为好。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "So what is good in itself, if not health, wealth and mental wellbeing?",
+     "cn": "那么，如果不是健康、财富与心理幸福感，究竟什么才是本身即善的？",
+     "cnEdited": true
+    },
+    {
+     "en": "Philosophers have repeatedly made the mistake of trying to identify one thing as the summum bonum , the ‘ultimate good’ for humankind.",
+     "cn": "哲学家们一再犯这样一个错误：试图指认唯一的某样东西作为人类的 summum bonum——\"至善\"。",
+     "cnEdited": true
+    },
+    {
+     "en": "For Aristotle, it was intellectual contemplation; for the Buddhists, elimination of suffering; for Kant, a good will; for utilitarians, happiness.",
+     "cn": "在亚里士多德那里，是理智的沉思；在佛教徒那里，是灭除苦难；在康德那里，是善良意志；在功利主义者那里，是幸福。",
+     "cnEdited": true
+    },
+    {
+     "en": "But there seems no reason to try to narrow down what is intrinsically valuable to one state or activity.",
+     "cn": "但似乎没有理由非要把内在有价值的东西窄化为某一种状态或活动。",
+     "cnEdited": true
+    },
+    {
+     "en": "Aristotle was more on point when he identified flourishing as the highest good for humanity, erring only when he became too prescriptive about what flourishing demands.",
+     "cn": "亚里士多德更切中要害的说法，是把\"繁荣/盛放\"（flourishing）指认为人类的至善——他只在过于规定\"繁荣需要什么\"的时候出了错。",
+     "cnEdited": true
+    },
+    {
+     "en": "We flourish when our lives are ones of engagement with things that are valuable for their own sakes and not for any other.",
+     "cn": "当我们的生活与那些因其自身而有价值（而非为任何别的理由）的事物持续交会时，我们就是在盛放。",
+     "cnEdited": true
+    },
+    {
+     "en": "Flourishing takes as many forms as human beings do.",
+     "cn": "盛放有多少种形态，人就有多少种形态。",
+     "cnEdited": true
+    },
+    {
+     "en": "Friedrich Nietzsche thought that life without music would be a mistake, but it wouldn’t be for someone who is left cold by it.",
+     "cn": "弗里德里希·尼采认为，没有音乐的人生将是一场错误；但对一个对音乐无感的人来说，它并不是。",
+     "cnEdited": true
+    },
+    {
+     "en": "The idea that ultimate value in life comes from things with intrinsic value is a pluralistic one.",
+     "cn": "\"人生的终极价值来自具有内在价值的事物\"——这个观念是多元的。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Intrinsic human goods include all the things that make life worth living without need of any further justification.",
+     "cn": "人类的内在之善，包括所有那些无需进一步辩护就让生活值得过下去的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "To ask of them ‘What’s the point?’ would be to miss the point.",
+     "cn": "对它们追问\"这有什么用？\"，恰恰错过了要点。",
+     "cnEdited": true
+    },
+    {
+     "en": "They are the point.",
+     "cn": "它们就是要点。",
+     "cnEdited": true
+    },
+    {
+     "en": "We cannot give arguments for why they are valuable; we can only describe what makes them valuable and hope others recognise their worth.",
+     "cn": "我们无法论证它们为什么有价值；我们只能描述是什么使它们有价值，并希望他人认出它们的分量。",
+     "cnEdited": true
+    },
+    {
+     "en": "For example, we can say that a day spent in the forest should be appreciated first and foremost because it makes us recognise the wonder of being alive and marvel at the natural world .",
+     "cn": "比如，我们可以说：在森林里度过的一天，首先值得被欣赏，是因为它让我们认出\"活着\"这件事的惊奇，让我们对自然世界惊叹不已。",
+     "cnEdited": true
+    },
+    {
+     "en": "To play or watch a sport is to participate in or witness the struggle and delight of attempting to bring mind and body together more seamlessly than in the rest of life.",
+     "cn": "参与或观看一项运动，就是参与或见证这样一种挣扎与欢喜：试图让身体与心智的接合，比生活中其余时刻更加严丝合缝。",
+     "cnEdited": true
+    },
+    {
+     "en": "Learning a foreign language is a gateway into another culture that allows you to communicate with members of it and access its literature and media.",
+     "cn": "学一门外语，是进入另一种文化的门径，让你得以与其中的人交流，读到它的文学、看到它的媒体。",
+     "cnEdited": true
+    },
+    {
+     "en": "All these things enrich our lives and broaden our experience, which is valuable even if it doesn’t add a second to your lifespan or delay dementia by a day.",
+     "cn": "所有这些都在丰富我们的生活、拓宽我们的经验——这本身就是有价值的，哪怕它没给你的寿命添上一秒，也没让痴呆晚来一天。",
+     "cnEdited": true
+    },
+    {
+     "en": "If you see them as a means to boost your mental, emotional or physical strength for future times that may or may not be as meaningful, you are taking your focus away from what is valuable here and now.",
+     "cn": "如果你把它们看作提升自己心理、情绪或身体力量的手段，为了那些或许有意义、或许无意义的将来——那么，你正在把注意力从此时此地有价值的东西上移开。",
+     "cnEdited": true
+    },
+    {
+     "en": "Life isn’t a training for the future.",
+     "cn": "生活不是为未来做的训练。",
+     "cnEdited": true
+    },
+    {
+     "en": "It’s a game that’s already started, and time is running out.",
+     "cn": "它是一场已经开始的比赛，而时间正在耗尽。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The distinction between intrinsic and extrinsic goods may be conceptually sharp, but in the real world it quickly becomes less clear-cut.",
+     "cn": "内在价值与外在价值的区分在概念上或许锋利，但在真实世界里，它很快变得不再泾渭分明。",
+     "cnEdited": true
+    },
+    {
+     "en": "Most obviously, many things can be both intrinsically and extrinsically valuable, as is the case for all the things that I argued have been wrongly instrumentalised.",
+     "cn": "最明显的是，许多事物可以同时具有内在与外在价值——我前面论证过被错误工具化的那些事物，皆属此类。",
+     "cnEdited": true
+    },
+    {
+     "en": "Instrumentalisation does not create extrinsic value, it merely elevates it above what is intrinsically valuable.",
+     "cn": "工具化并不创造外在价值，它只是把外在价值抬高到内在价值之上。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Nor is it always the case that intrinsic trumps extrinsic value.",
+     "cn": "内在价值也并非永远胜过外在价值。",
+     "cnEdited": true
+    },
+    {
+     "en": "Human beings have practical needs, and it can be more important to earn money, chop wood or hunt food than to read a novel or play with your grandchildren.",
+     "cn": "人有现实的生存需要，有时候，挣钱、劈柴、猎取食物，比读一本小说或陪孙辈玩耍更要紧。",
+     "cnEdited": true
+    },
+    {
+     "en": "Many things have to be done for instrumental purposes, and to occupy yourself only with what is intrinsically worthwhile would be an exceptional privilege, an indulgence, or both.",
+     "cn": "许多事不得不为工具性的目的而做；只让自己浸在内在有价值之事里，会是一种罕见的特权、一种放纵，或兼而有之。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Furthermore, not all extrinsic goods are created equal.",
+     "cn": "此外，外在价值也并非千篇一律。",
+     "cnEdited": true
+    },
+    {
+     "en": "Some serve ultimate value more closely than others.",
+     "cn": "有些手段比别的手段更贴近终极价值。",
+     "cnEdited": true
+    },
+    {
+     "en": "Flattering the boss to win favour to earn money to spend on things of true value takes us far from what is most important in life with no guarantee we will get back to it.",
+     "cn": "奉承老板以邀宠、为挣钱、去买那些真正有价值的东西——这条链条把我们带离生命中最重要的东西，还不保证回得来。",
+     "cnEdited": true
+    },
+    {
+     "en": "Studying ethics, in contrast, is in a sense a means to an end of living well, but the end is so close to hand that it almost counts as good in itself.",
+     "cn": "相比之下，研究伦理学，在某种意义上也是通向\"好好生活\"这一目的的手段，但这个目的近在咫尺，以至于它几乎本身就称得上是善。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "This is why I think the debate over ‘art for art’s sake’ versus ‘art as a didactic tool’ is somewhat misguided.",
+     "cn": "正因如此，我认为\"为艺术而艺术\"与\"艺术作为教化工具\"之争有些找错了靶子。",
+     "cnEdited": true
+    },
+    {
+     "en": "Some art, especially instrumental music and abstract painting, can and should be appreciated only for its own sake.",
+     "cn": "有些艺术——尤其是纯音乐与抽象绘画——可以而且应当只为它自身而被欣赏。",
+     "cnEdited": true
+    },
+    {
+     "en": "But much literature, film and drama can give us insight into ethics, politics and the human heart.",
+     "cn": "但许多文学、电影与戏剧，能够给我们关于伦理、政治与人心的洞见。",
+     "cnEdited": true
+    },
+    {
+     "en": "All such understanding helps us to live better and attend more to what truly matters, in our lives and those of others.",
+     "cn": "所有这样的理解，都帮助我们活得更好，把更多注意力放在真正要紧的事上——无论是自己的生活还是他人的生活。",
+     "cnEdited": true
+    },
+    {
+     "en": "Such art can be seen as a means to the end of moral education, but in good art, means and ends are so closely tied that the distinction seems artificial.",
+     "cn": "这类艺术可以被视为通向道德教育这一目的的手段；但在好的艺术里，手段与目的联结得如此紧密，以至于这种区分显得造作。",
+     "cnEdited": true
+    },
+    {
+     "en": "For instance, any account of why Anton Chekhov was such a great playwright could not separate his stagecraft and the humanity of what it represents.",
+     "cn": "比如，任何关于安东·契诃夫何以是伟大剧作家的论述，都无法把他的舞台技艺与他所呈现的人性拆开来谈。",
+     "cnEdited": true
+    },
+    {
+     "en": "The problem with much didactic art is not that it contains lessons but that they are conveyed so crudely.",
+     "cn": "许多说教艺术的问题不在于它含有教诲，而在于这些教诲被传达得如此笨拙。",
+     "cnEdited": true
+    },
+    {
+     "en": "Such works are not just bad art but poor pedagogical tools.",
+     "cn": "这样的作品不只是坏艺术，也是糟糕的教学工具。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The relationship between intrinsic and extrinsic value is complex, and one of the problems of instrumentalisation is that it seeks to flatten and simplify it.",
+     "cn": "内在价值与外在价值的关系是复杂的，而工具化的问题之一，就是它试图把这层关系压平、简化。",
+     "cnEdited": true
+    },
+    {
+     "en": "It encourages us to identify what is most useful, and then separate it from, and prioritise it above, what is of ultimate value.",
+     "cn": "它怂恿我们识别出什么最有用，然后把它分离出来，置于终极价值之上。",
+     "cnEdited": true
+    },
+    {
+     "en": "In doing so, it often diminishes or destroys the very benefits it promises to maximise.",
+     "cn": "这样做的时候，它常常削弱甚至摧毁它许诺要最大化的那些好处本身。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Take social connection.",
+     "cn": "以社会连接为例。",
+     "cnEdited": true
+    },
+    {
+     "en": "I have just heard of a study that says that doing anything – even reading – is better for us when we do it with others than alone.",
+     "cn": "我刚听说一项研究，说做任何事情——哪怕读书——与他人一起做都好过独自做。",
+     "cnEdited": true
+    },
+    {
+     "en": "This message is now widely broadcast and understood, so people know that conviviality is important for their mental and physical health.",
+     "cn": "这类信息如今被广泛传播、广为接受，于是人们都知道：热闹的交往对身心健康很重要。",
+     "cnEdited": true
+    },
+    {
+     "en": "But one of the most valuable features of friendship and community is how they take us out of concern for ourselves and make us more aware of the needs of others.",
+     "cn": "但友谊与共同体最有价值的特点之一，恰恰是它们把我们从对自己的关切中带出来，让我们更清楚地看见他人的需要。",
+     "cnEdited": true
+    },
+    {
+     "en": "To get the most out of socialising we need to do it in the right spirit, choosing to be with other people because we care for them and they for us, because we find them stimulating, because we enjoy being part of a collective experience or endeavour.",
+     "cn": "要想从社交中获得最大收获，我们必须以对的精神去社交：选择与别人相处，是因为我们在乎他们、他们也在乎我们，是因为他们让我们如沐春风，是因为我们享受成为一段共同经历或共同事业的一部分。",
+     "cnEdited": true
+    },
+    {
+     "en": "So if we choose to mingle only for reasons of our personal wellbeing, we are probably not going to get the benefits that socialising usually brings.",
+     "cn": "所以，如果我们只是出于个人福祉的原因去与人来往，我们多半得不到社交通常带来的那些好处。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Instrumentalisation has the illusion of efficiency because it promotes the direct pursuit of practical things that we all want.",
+     "cn": "工具化有一种效率的错觉，因为它怂恿我们直接追求那些人人都想要的实际东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "But often this turns out to be counterproductive.",
+     "cn": "但这常常被证明是适得其反的。",
+     "cnEdited": true
+    },
+    {
+     "en": "More often than not, you will fail to get the claimed benefits of an activity if getting them becomes your primary motivation.",
+     "cn": "在多数情形下，如果一项活动的好处本身成了你的首要动机，你反而得不到那些好处。",
+     "cnEdited": true
+    },
+    {
+     "en": "What look like shortcuts turn out to be short circuits, undermining what they seek to achieve.",
+     "cn": "那些看似捷径的东西，结果证明是短路：它们破坏的，正是它们想达成的。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "If instrumentalisation is such a profound mistake, why have we made it?",
+     "cn": "如果工具化是一个如此深刻的错误，我们为什么还会犯？",
+     "cnEdited": true
+    },
+    {
+     "en": "After all, we do not deliberately set out to strip meaning from our most valued activities or treat friends as psychic enhancers.",
+     "cn": "毕竟，我们并不是蓄意要剥离自己最珍视的活动中的意义，也不是刻意要把朋友当作心理增强剂。",
+     "cnEdited": true
+    },
+    {
+     "en": "Instrumentalisation has its roots in several connected features of Western modernity.",
+     "cn": "工具化的根，扎在西方现代性的几个彼此勾连的特征里。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The Enlightenment brought to fruition an idea of the primacy of the sovereign, autonomous individual, one that had deep roots in classical and Christian thought.",
+     "cn": "启蒙运动让一个理念结出了果实：主权性的、自主的个体至高无上——这个理念在古典思想与基督教思想中都有很深的根。",
+     "cnEdited": true
+    },
+    {
+     "en": "Over the centuries, this idea has become a kind of common sense.",
+     "cn": "几个世纪以来，这个理念已然成了一种常识。",
+     "cnEdited": true
+    },
+    {
+     "en": "Each person is supposed to be the master of their own destiny, the author of their own life story.",
+     "cn": "每个人都被视为自己命运的主人、自己生命故事的作者。",
+     "cnEdited": true
+    },
+    {
+     "en": "Self-expression and self-determination are seen as essential for being an authentic self.",
+     "cn": "自我表达与自我决定，被看作成为一个真实自我的必要条件。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Enlightenment thinkers were correct to promote greater individual freedom in an age when power was wielded by the few over a subjugated majority.",
+     "cn": "在权力由少数人施加于被征服多数的时代，启蒙思想家们倡导更大的个人自由，是对的。",
+     "cnEdited": true
+    },
+    {
+     "en": "But human beings are also social animals and can never be entirely autonomous.",
+     "cn": "但人也是社会性动物，永远不可能完全自主。",
+     "cnEdited": true
+    },
+    {
+     "en": "Modernity’s mistake is to lose sight of this, placing all the emphasis on personal liberty and not enough on our interdependence.",
+     "cn": "现代性的错误在于丢失了这一点：把全部重心放在个人自由上，对我们彼此的相互依存却着墨太少。",
+     "cnEdited": true
+    },
+    {
+     "en": "This has led to an exaggeration of the importance of autonomy that has pushed the prizing of individuality too far.",
+     "cn": "这导致对自主性的重要性的一种夸张，把对个体性的珍视推得过远。",
+     "cnEdited": true
+    },
+    {
+     "en": "The result is atomisation: a world in which our separateness from others has become excessive.",
+     "cn": "其结果是原子化：在这个世界里，我们与他人的分离变得过度了。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "This atomised world has several features, all of which encourage instrumentalisation.",
+     "cn": "这个原子化的世界有几个特征，全都在助长工具化。",
+     "cnEdited": true
+    },
+    {
+     "en": "First, it promotes an illusion of control.",
+     "cn": "第一，它助长一种掌控的错觉。",
+     "cnEdited": true
+    },
+    {
+     "en": "Encouraged to feel autonomous, we lose sight of the fact that there is much over which we have no power.",
+     "cn": "被鼓励去感到自主的我们，看不见这样一个事实：有太多事情并不在我们的权力之内。",
+     "cnEdited": true
+    },
+    {
+     "en": "The world unfolds, opening up opportunities and throwing spanners in the works in equally random measure.",
+     "cn": "世界自行展开，随机地既打开机会，也往齿轮里扔扳手。",
+     "cnEdited": true
+    },
+    {
+     "en": "We are not even in full control of ourselves.",
+     "cn": "我们甚至不能完全掌控自己。",
+     "cnEdited": true
+    },
+    {
+     "en": "We had no say in our fundamental constitutions: our dispositions, personalities, gifts and limitations.",
+     "cn": "对我们的根本构成——气质、性格、天赋与局限——我们从未有过发言权。",
+     "cnEdited": true
+    },
+    {
+     "en": "We have no direct access to the hidden springs of thought and volition and cannot just choose what we like or what we believe.",
+     "cn": "我们无法直接触及思想与意志的隐秘泉眼，不能想喜欢什么就喜欢什么，想相信什么就相信什么。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "But primed to think of ourselves as free and autonomous, we imagine that we can manipulate the world to achieve whatever we want.",
+     "cn": "但被预设去把自己看作自由而自主的我们，想象自己可以操纵世界，以达成任何我们想要的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "Happiness, health and success are all ours for the taking, just as long as we make the right choices.",
+     "cn": "幸福、健康、成功，统统唾手可得——只要我们做出正确的选择。",
+     "cnEdited": true
+    },
+    {
+     "en": "And so the world becomes a series of levers to be pulled and buttons to be pushed, all to yield to our wills.",
+     "cn": "于是，世界变成了一排排等待被扳动的杠杆、一颗颗等待被按下的按钮，一切都得屈服于我们的意志。",
+     "cnEdited": true
+    },
+    {
+     "en": "In short, everything can and must be a means to whatever ends we choose, because that is what we think self-determination requires.",
+     "cn": "简言之，一切都可以、也必须成为通向我们选定目的的手段，因为在我们看来，自我决定就要求如此。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In the era of late capitalism, our autonomous agency has increasingly been expressed through our status as consumers.",
+     "cn": "在晚期资本主义时代，我们自主的行动力越来越通过消费者身份来表达。",
+     "cnEdited": true
+    },
+    {
+     "en": "Freedom is above all the choice of how to spend our money, with the promise that everything we need can be obtained in exchange for cash.",
+     "cn": "自由首先是选择怎么花钱，并伴有一个承诺：我们需要的一切都能用现金换来。",
+     "cnEdited": true
+    },
+    {
+     "en": "The consumer mindset has affected how we relate to everything, not just the things we buy.",
+     "cn": "这种消费者心态已经改变了我们与一切事物打交道的方式——不只是我们买的东西。",
+     "cnEdited": true
+    },
+    {
+     "en": "The result is that the world has become essentially transactional, meaning that everything is an instrument for getting something else.",
+     "cn": "结果是，世界在本质上变得交易化了：一切都是获得别的东西的工具。",
+     "cnEdited": true
+    },
+    {
+     "en": "It is no coincidence that dating apps give the impression that we are shopping for partners because we approach even relationships with the consumer framing.",
+     "cn": "交友软件给我们购物选伴侣般的印象，绝非偶然——因为我们正是带着消费者的框架去对待连人本身的关系。",
+     "cnEdited": true
+    },
+    {
+     "en": "Politics has also become a trade for votes in which the electorate and politicians believe that the winner takes all, like the highest bidder in an auction, and damn those who backed the losing side.",
+     "cn": "政治也变成了一场选票的交易：选民与政客都相信赢者通吃，就像拍卖会上出价最高的人，至于支持落败一方的人，管他去死。",
+     "cnEdited": true
+    },
+    {
+     "en": "Democracy should be a way of managing competing demands, not giving the winners everything they want.",
+     "cn": "民主应当是管理相争诉求的方式，而不是让赢家拿走他们想要的一切。",
+     "cnEdited": true
+    },
+    {
+     "en": "Voting should be about having your say, not getting your way.",
+     "cn": "投票本应是让你有发言权，而不是让你得偿所愿。",
+     "cnEdited": true
+    },
+    {
+     "en": "But in the new consumer mindset, votes buy power, they no longer mandate responsibility.",
+     "cn": "但在新的消费者心态里，选票购买的是权力，不再是责任的授权。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Another deep cultural source of instrumentalisation is the reductionism that has surreptitiously seeped into our culture from natural science.",
+     "cn": "工具化的另一个深层文化源头，是从自然科学悄悄渗入我们文化的还原论。",
+     "cnEdited": true
+    },
+    {
+     "en": "Reductionism is the idea that the way to understand how things work is to break them down into their constitutive parts.",
+     "cn": "还原论是这样一种观念：要理解事物如何运作，就把它拆解成构成它的部件。",
+     "cnEdited": true
+    },
+    {
+     "en": "It’s an idea that served natural science well for centuries.",
+     "cn": "几个世纪以来，这个理念很好地服务于自然科学。",
+     "cnEdited": true
+    },
+    {
+     "en": "But a clue as to its limitations comes in its relative failure in the social sciences.",
+     "cn": "但它在社会科学中的相对失灵，暗示了它的局限。",
+     "cnEdited": true
+    },
+    {
+     "en": "Economies, societies and psychologies cannot be explained by simple mechanistic processes.",
+     "cn": "经济体、社会与心灵，无法用简单的机械过程来解释。",
+     "cnEdited": true
+    },
+    {
+     "en": "We have learned that, even in the natural sciences, you can explain only so much by taking things apart, and that it is equally – sometimes more – important to see how systems work as a whole.",
+     "cn": "我们已经明白：即便在自然科学里，靠拆解所能解释的也只有这么多；同样重要的——有时更重要——是看清系统作为整体如何运作。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Behind much instrumentalisation is a crude reductionism that ignores systems and focuses on elements within it.",
+     "cn": "工具化背后，常常站着一种粗糙的还原论：无视系统，只盯住系统中的元素。",
+     "cnEdited": true
+    },
+    {
+     "en": "The richness of an experience, such as being in the outdoors, is reduced to a means to stimulate blood flow or release hormones.",
+     "cn": "一种体验的丰富性——比如置身户外——被还原为促进血液循环或释放激素的手段。",
+     "cnEdited": true
+    },
+    {
+     "en": "Art, which stirs a large variety of often conflicting emotions, is prized purely for its capacity to evoke certain good ones.",
+     "cn": "艺术本会搅动多种多样、常常相互冲突的情绪，却被只因为它能唤起某些\"好\"情绪而受推崇。",
+     "cnEdited": true
+    },
+    {
+     "en": "Social bonds, which cause pain and heartache as well as joy, are reduced to sources of emotional support.",
+     "cn": "社会联结既带来欢乐，也带来痛苦与心碎，却被还原为情绪支持的来源。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Combine an inflated belief in personal autonomy, a transactional consumer mentality and a reductionist attitude to how things work, and it is inevitable that we treat the world as a collection of resources we can plunder to promote our own wellbeing.",
+     "cn": "把对个人自主的膨胀信念、交易化的消费者心态、以及看待事物如何运作的还原论态度合在一起，我们就不可避免地把世界当作一堆可以攫取的资源，用来增进自身的福祉。",
+     "cnEdited": true
+    },
+    {
+     "en": "The tragedy is that when we do so, we neglect rather than serve our deepest needs.",
+     "cn": "悲剧在于：当我们这样做时，我们忽视的恰恰是——而非成全了——我们最深的需求。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "What would our culture look like if we were to reverse the instrumentalisation of everything?",
+     "cn": "如果我们逆转这万物的工具化，我们的文化会是什么样子？",
+     "cnEdited": true
+    },
+    {
+     "en": "Of course, we would still do many things as means to ends.",
+     "cn": "当然，我们仍会把许多事作为通向目的的手段来做。",
+     "cnEdited": true
+    },
+    {
+     "en": "We would also be happy to agree that many of the good things in life bring us instrumental benefits too.",
+     "cn": "我们也会乐于承认：生活中许多好东西同样带给我们工具性的好处。",
+     "cnEdited": true
+    },
+    {
+     "en": "But we would see these as welcome side-effects, not their purposes.",
+     "cn": "但我们会把这些看作受欢迎的副作用，而不是它们的目的。",
+     "cnEdited": true
+    },
+    {
+     "en": "A deinstrumentalised world would be one in which we would attend more to what is of value right here, right now.",
+     "cn": "一个去工具化的世界，是一个我们更关注此时此地之价值的世界。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Take friendship.",
+     "cn": "以友谊为例。",
+     "cnEdited": true
+    },
+    {
+     "en": "The personal benefits we get from others are real, but they should not be the reason for being with them.",
+     "cn": "我们从他人那里得到的个人好处是真实的，但它们不应当是我们与之相处的理由。",
+     "cnEdited": true
+    },
+    {
+     "en": "Relationships are valuable because we value the people in them, not because spending time with them releases endorphins in our brains.",
+     "cn": "关系之所以珍贵，是因为我们珍视关系中的人，而不是因为与他们共度时光会在我们脑内释放内啡肽。",
+     "cnEdited": true
+    },
+    {
+     "en": "David Hume corrected this error more than two centuries ago when he wrote: ‘I feel a pleasure in doing good to my friend, because I love him; but do not love him for the sake of that pleasure.’ To reject instrumentalisation is to understand that feeling good often follows from living well, but it is not what living well consists in.",
+     "cn": "大卫·休谟在两个多世纪前就纠正过这个错误，他写道：\"我为朋友做好事，从中感到快乐，是因为我爱他；但我并不是为了那份快乐才爱他。\"拒绝工具化，就是理解到：感觉良好往往伴随着好好生活而来，但它并不是好好生活的构成本身。",
+     "cnEdited": true
+    }
+   ]
+  }
+ ],
+ "cet4_words": [
+  {
+   "w": "good",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "好的；有本事的；好处；善行；慷慨的行为",
+   "n": 31
+  },
+  {
+   "w": "thing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "物；用品；事；情况",
+   "n": 31
+  },
+  {
+   "w": "value",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "价值；价格；重视",
+   "n": 25
+  },
+  {
+   "w": "life",
+   "layer": "core",
+   "pos": "n.",
+   "def": "生命；一生；寿命",
+   "n": 24
+  },
+  {
+   "w": "health",
+   "layer": "core",
+   "pos": "n.",
+   "def": "健康，健康状况",
+   "n": 23
+  },
+  {
+   "w": "one",
+   "layer": "core",
+   "pos": "num./pron./adj.",
+   "def": "一；一个人；一的；唯一的",
+   "n": 22
+  },
+  {
+   "w": "art",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "艺术，美术；技术；艺术的；艺术品的",
+   "n": 19
+  },
+  {
+   "w": "end",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "末端；目标 vt.结束；结束",
+   "n": 13
+  },
+  {
+   "w": "mean",
+   "layer": "core",
+   "pos": "v./adj./n.",
+   "def": "作…解释；意指；平均的；卑鄙的；低劣的；吝啬的；平均值",
+   "n": 13
+  },
+  {
+   "w": "world",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "世界；世人；世间；世界的， 世界范围的",
+   "n": 13
+  },
+  {
+   "w": "live",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "居住；活 a.活的；活的",
+   "n": 12
+  },
+  {
+   "w": "people",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "人民，民族；人；居住于；使住满人",
+   "n": 12
+  },
+  {
+   "w": "take",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拿；抓；拿走；吃；捕获量；看法；利益，盈益；（入场券的）售得金额",
+   "n": 12
+  },
+  {
+   "w": "become",
+   "layer": "core",
+   "pos": "v.",
+   "def": "变成；成为，变得",
+   "n": 11
+  },
+  {
+   "w": "everything",
+   "layer": "core",
+   "pos": "n./pron.",
+   "def": "每件事，事事；每件事物；最重要的东西；（有关的）一切；万事",
+   "n": 11
+  },
+  {
+   "w": "make",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使；做，制造",
+   "n": 11
+  },
+  {
+   "w": "valuable",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "值钱的；有价值的；贵重物品",
+   "n": 11
+  },
+  {
+   "w": "important",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "重要的；有势力的",
+   "n": 10
+  },
+  {
+   "w": "own",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "自己的；有，拥有",
+   "n": 10
+  },
+  {
+   "w": "reason",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "理由；理性；推理",
+   "n": 10
+  },
+  {
+   "w": "mental",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "智力的；精神的；精神病患者",
+   "n": 9
+  },
+  {
+   "w": "promote",
+   "layer": "core",
+   "pos": "v.",
+   "def": "促进，发扬；提升",
+   "n": 9
+  },
+  {
+   "w": "see",
+   "layer": "core",
+   "pos": "v.",
+   "def": "看见；遇见；看出",
+   "n": 9
+  },
+  {
+   "w": "love",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "爱，喜欢 n.爱；恋爱；亲爱的；酷爱；喜爱的事物；爱情，爱意；疼爱；热爱；爱人，所爱之物",
+   "n": 8
+  },
+  {
+   "w": "same",
+   "layer": "core",
+   "pos": "adj./pron./adv./n.",
+   "def": "同一的，相同的；同样的事物或人（通常与the连用）；同样地（通常与the连用）；同样的事",
+   "n": 8
+  },
+  {
+   "w": "say",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "说；说明；比如说；决定权；发言权",
+   "n": 8
+  },
+  {
+   "w": "self",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "自我，自己；同一的；使自花授精；使近亲繁殖",
+   "n": 8
+  },
+  {
+   "w": "think",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "想；想要；认为；思想的",
+   "n": 8
+  },
+  {
+   "w": "time",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "时间；时机；次，回；计时；测定…的时间；安排…的速度；定时的；定期的；分期的",
+   "n": 8
+  },
+  {
+   "w": "activity",
+   "layer": "core",
+   "pos": "n.",
+   "def": "活动；活力；行动",
+   "n": 7
+  },
+  {
+   "w": "get",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "变得，成为；到达；生殖；幼兽",
+   "n": 7
+  },
+  {
+   "w": "help",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "帮助；援助 n.帮手；帮手",
+   "n": 7
+  },
+  {
+   "w": "long",
+   "layer": "core",
+   "pos": "v./n./adj./adv.",
+   "def": "渴望，极想念；长时间；[语] 长音节；（服装的）长尺寸；长裤；长的；过长的；做多头的；长时间的；冗长的，长音；长期地；始终",
+   "n": 7
+  },
+  {
+   "w": "need",
+   "layer": "core",
+   "pos": "v.",
+   "def": "需要 v.aux.需要",
+   "n": 7
+  },
+  {
+   "w": "physical",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "物质的；物理的；体格检查",
+   "n": 7
+  },
+  {
+   "w": "seem",
+   "layer": "core",
+   "pos": "v.",
+   "def": "好像，似乎",
+   "n": 7
+  },
+  {
+   "w": "well",
+   "layer": "core",
+   "pos": "n./adv./adj./v.",
+   "def": "井；很好地；充分地；满意地；适当地；良好的；健康的；适宜的；涌出",
+   "n": 7
+  },
+  {
+   "w": "work",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工作；职业；使工作；操作；经营；使缓慢前进",
+   "n": 7
+  },
+  {
+   "w": "better",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "较好的 ad.更好地；更好地；长辈；较好者；打赌的人（等于bettor）；改善；胜过",
+   "n": 6
+  },
+  {
+   "w": "first",
+   "layer": "core",
+   "pos": "num./adv./adj.",
+   "def": "第一 ad.最初；最初；第一的；基本的；最早的",
+   "n": 6
+  },
+  {
+   "w": "human",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "人的，人类的 n.人；人；人类",
+   "n": 6
+  },
+  {
+   "w": "idea",
+   "layer": "core",
+   "pos": "n.",
+   "def": "想法；思想；意见",
+   "n": 6
+  },
+  {
+   "w": "living",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "活的 n.生活，生计；生活；居住（live的ing形式）；度过",
+   "n": 6
+  },
+  {
+   "w": "money",
+   "layer": "core",
+   "pos": "n.",
+   "def": "货币；金钱，财富",
+   "n": 6
+  },
+  {
+   "w": "point",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "点；要点；细目；分；指向；弄尖；加标点于",
+   "n": 6
+  },
+  {
+   "w": "right",
+   "layer": "core",
+   "pos": "adj./v./n./adv.",
+   "def": "正确的；复正；恢复平稳；正确；右边；正义；正确地；恰当地；彻底地",
+   "n": 6
+  },
+  {
+   "w": "social",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "社会的；社交的；联谊会；联欢会",
+   "n": 6
+  },
+  {
+   "w": "anything",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "任何事物；一切",
+   "n": 5
+  },
+  {
+   "w": "bad",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "坏的，恶的；严重的；坏事；坏人；很，非常；坏地；邪恶地",
+   "n": 5
+  },
+  {
+   "w": "bring",
+   "layer": "core",
+   "pos": "v.",
+   "def": "带来；引出；促使",
+   "n": 5
+  },
+  {
+   "w": "consumer",
+   "layer": "core",
+   "pos": "n",
+   "def": "消费者， 用户， 消耗者",
+   "n": 5
+  },
+  {
+   "w": "feel",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "有知觉 vt.触，摸；感觉；触摸",
+   "n": 5
+  },
+  {
+   "w": "give",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "做，作；送给；弹性；弯曲；伸展性",
+   "n": 5
+  },
+  {
+   "w": "lose",
+   "layer": "core",
+   "pos": "v.",
+   "def": "失去；迷失；输掉",
+   "n": 5
+  },
+  {
+   "w": "matter",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "事情；物质 vi.要紧；要紧，重要",
+   "n": 5
+  },
+  {
+   "w": "mistake",
+   "layer": "core",
+   "pos": "n.",
+   "def": "错误 vi.误解，弄错",
+   "n": 5
+  },
+  {
+   "w": "now",
+   "layer": "core",
+   "pos": "adj./conj.",
+   "def": "现在；立刻；于是；由于；既然",
+   "n": 5
+  },
+  {
+   "w": "relationship",
+   "layer": "core",
+   "pos": "n.",
+   "def": "关系，联系",
+   "n": 5
+  },
+  {
+   "w": "spend",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用钱，花费；度过；预算",
+   "n": 5
+  },
+  {
+   "w": "themselves",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "他们自己",
+   "n": 5
+  },
+  {
+   "w": "treat",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "对待；处理；款待",
+   "n": 5
+  },
+  {
+   "w": "back",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "在后；回原处；回；后面；背部；靠背；足球等的后卫；书报等的末尾；支持；后退；背书；下赌注；后面的；过去的；拖欠的",
+   "n": 4
+  },
+  {
+   "w": "buy",
+   "layer": "core",
+   "pos": "v.",
+   "def": "买，购买 vi.买",
+   "n": 4
+  },
+  {
+   "w": "choose",
+   "layer": "core",
+   "pos": "v.",
+   "def": "选择，挑选；情愿",
+   "n": 4
+  },
+  {
+   "w": "community",
+   "layer": "core",
+   "pos": "n.",
+   "def": "社区；社会；公社",
+   "n": 4
+  },
+  {
+   "w": "day",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "(一)天，白昼，白天；每天；经常在白天地；日间的；逐日的",
+   "n": 4
+  },
+  {
+   "w": "encourage",
+   "layer": "core",
+   "pos": "v.",
+   "def": "鼓励，支持，助长",
+   "n": 4
+  },
+  {
+   "w": "enough",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "足够的 ad.足够地；足够地；很多；充足",
+   "n": 4
+  },
+  {
+   "w": "experience",
+   "layer": "core",
+   "pos": "n.",
+   "def": "经验，感受；经历",
+   "n": 4
+  },
+  {
+   "w": "find",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "找到；发觉；找出；发现",
+   "n": 4
+  },
+  {
+   "w": "illness",
+   "layer": "core",
+   "pos": "n.",
+   "def": "病，疾病",
+   "n": 4
+  },
+  {
+   "w": "itself",
+   "layer": "core",
+   "pos": "n.",
+   "def": "它自己；自身",
+   "n": 4
+  },
+  {
+   "w": "miss",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "未看到；惦念；小姐；错过； 想念",
+   "n": 4
+  },
+  {
+   "w": "natural",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "自然界的；天然的；自然的事情；白痴；本位音",
+   "n": 4
+  },
+  {
+   "w": "nature",
+   "layer": "core",
+   "pos": "n.",
+   "def": "大自然；本性；性质",
+   "n": 4
+  },
+  {
+   "w": "personal",
+   "layer": "core",
+   "pos": "adj/n.",
+   "def": "个人的；本人的；人事消息栏；人称代名词",
+   "n": 4
+  },
+  {
+   "w": "philosophy",
+   "layer": "core",
+   "pos": "n.",
+   "def": "哲学；哲理；人生观",
+   "n": 4
+  },
+  {
+   "w": "play",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "玩，游戏；演奏；玩耍； 戏剧",
+   "n": 4
+  },
+  {
+   "w": "real",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "真的；现实的；真正地；确实地；现实；实数",
+   "n": 4
+  },
+  {
+   "w": "reduce",
+   "layer": "core",
+   "pos": "v.",
+   "def": "减少，减小；简化",
+   "n": 4
+  },
+  {
+   "w": "release",
+   "layer": "core",
+   "pos": "v.",
+   "def": "释放；放松；发表",
+   "n": 4
+  },
+  {
+   "w": "science",
+   "layer": "core",
+   "pos": "n.",
+   "def": "科学，科学研究",
+   "n": 4
+  },
+  {
+   "w": "sense",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "感官；感觉；见识；感觉到；检测",
+   "n": 4
+  },
+  {
+   "w": "serve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "为…服务；招待",
+   "n": 4
+  },
+  {
+   "w": "someone",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "某人，有人",
+   "n": 4
+  },
+  {
+   "w": "study",
+   "layer": "core",
+   "pos": "n.",
+   "def": "学习，研究",
+   "n": 4
+  },
+  {
+   "w": "suffer",
+   "layer": "core",
+   "pos": "v.",
+   "def": "遭受；忍受；容许",
+   "n": 4
+  },
+  {
+   "w": "true",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "真的；忠实的；真实地；准确地；真实；准确；装准",
+   "n": 4
+  },
+  {
+   "w": "turn",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "转；翻；转弯；变化；(损害或有益于别人的)行为，举动，举止",
+   "n": 4
+  },
+  {
+   "w": "want",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "要；需要；缺乏",
+   "n": 4
+  },
+  {
+   "w": "year",
+   "layer": "core",
+   "pos": "n.",
+   "def": "年；年年",
+   "n": 4
+  },
+  {
+   "w": "add",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "添加，附加，掺加；加法，加法运算",
+   "n": 3
+  },
+  {
+   "w": "appreciate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "欣赏；领会；感谢",
+   "n": 3
+  },
+  {
+   "w": "ask",
+   "layer": "core",
+   "pos": "v.",
+   "def": "问；要求；邀请",
+   "n": 3
+  },
+  {
+   "w": "away",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "离开，远离；…去；在远处,离去",
+   "n": 3
+  },
+  {
+   "w": "believe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "相信；认为",
+   "n": 3
+  },
+  {
+   "w": "boost",
+   "layer": "core",
+   "pos": "n/v",
+   "def": "推动,宣扬；促使，促进",
+   "n": 3
+  },
+  {
+   "w": "century",
+   "layer": "core",
+   "pos": "n.",
+   "def": "世纪，百年",
+   "n": 3
+  },
+  {
+   "w": "certainly",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "一定，必定；当然",
+   "n": 3
+  },
+  {
+   "w": "clearly",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "明白地，清晰地",
+   "n": 3
+  },
+  {
+   "w": "course",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "课程；过程；一道菜；追赶；跑过",
+   "n": 3
+  },
+  {
+   "w": "cultural",
+   "layer": "core",
+   "pos": "adj",
+   "def": "文化的,教养的",
+   "n": 3
+  },
+  {
+   "w": "culture",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "文化，文明；教养；[细胞][微] 培养（等于cultivate）",
+   "n": 3
+  },
+  {
+   "w": "demand",
+   "layer": "core",
+   "pos": "v.",
+   "def": "要求；需要；询问",
+   "n": 3
+  },
+  {
+   "w": "else",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "别的ad.其它，另外",
+   "n": 3
+  },
+  {
+   "w": "example",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "例子，实例；模范；作为…的例子；为…做出榜样",
+   "n": 3
+  },
+  {
+   "w": "express",
+   "layer": "core",
+   "pos": "v./adj./n./adv.",
+   "def": "表示 n.快车，快递；明确的；迅速的；专门的；快车；用快递方式；",
+   "n": 3
+  },
+  {
+   "w": "fact",
+   "layer": "core",
+   "pos": "n.",
+   "def": "事实；实际，实情",
+   "n": 3
+  },
+  {
+   "w": "far",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "远的 ad.远，遥远；很；遥远地；久远地；到很远的距离；到很深的程度；远方",
+   "n": 3
+  },
+  {
+   "w": "film",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "影片；胶卷；薄层；在…上覆以薄膜；把…拍成电影",
+   "n": 3
+  },
+  {
+   "w": "function",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "功能；职务；函数；运作， 运行",
+   "n": 3
+  },
+  {
+   "w": "happy",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "快乐的；幸福的",
+   "n": 3
+  },
+  {
+   "w": "indeed",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "真正地；确实",
+   "n": 3
+  },
+  {
+   "w": "individual",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "个别的；独特的；个人",
+   "n": 3
+  },
+  {
+   "w": "least",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "最少的 ad.最少；最少；最少， 最少量",
+   "n": 3
+  },
+  {
+   "w": "meaning",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "意义，意思；意图；意味深长的；意味；意思是（mean的ing形式）",
+   "n": 3
+  },
+  {
+   "w": "mind",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "头脑；理智；记忆；介意；专心于；照料",
+   "n": 3
+  },
+  {
+   "w": "music",
+   "layer": "core",
+   "pos": "n.",
+   "def": "音乐，乐曲，乐谱",
+   "n": 3
+  },
+  {
+   "w": "ourselves",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "我们自己",
+   "n": 3
+  },
+  {
+   "w": "part",
+   "layer": "core",
+   "pos": "n/v./adv./adj.",
+   "def": "一部分；零件；本份；分离；分配；分开；部分地；部分的",
+   "n": 3
+  },
+  {
+   "w": "person",
+   "layer": "core",
+   "pos": "n",
+   "def": "人；人身；本人",
+   "n": 3
+  },
+  {
+   "w": "pleasure",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "愉快，快乐；乐事；使高兴；使满意",
+   "n": 3
+  },
+  {
+   "w": "power",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "能力；力；权；幂；激励；供以动力；使…有力量；借影响有权势人物以操纵权力的",
+   "n": 3
+  },
+  {
+   "w": "question",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发问；问题；疑问；询问；怀疑；审问",
+   "n": 3
+  },
+  {
+   "w": "rather",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "宁可，宁愿；相当",
+   "n": 3
+  },
+  {
+   "w": "really",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "真正地；实在",
+   "n": 3
+  },
+  {
+   "w": "research",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "调查，探究",
+   "n": 3
+  },
+  {
+   "w": "result",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "成果；发生； 结果",
+   "n": 3
+  },
+  {
+   "w": "sight",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "视力；见；情景；看见；瞄准；见票即付的；即席的",
+   "n": 3
+  },
+  {
+   "w": "start",
+   "layer": "core",
+   "pos": "v.",
+   "def": "跳起；出发；开始",
+   "n": 3
+  },
+  {
+   "w": "system",
+   "layer": "core",
+   "pos": "n.",
+   "def": "系统，体系；制度",
+   "n": 3
+  },
+  {
+   "w": "talk",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "讲话；谈话；演讲；空谈",
+   "n": 3
+  },
+  {
+   "w": "thought",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "思想；思维；想法；想，思考；认为（think的过去式和过去分词）",
+   "n": 3
+  },
+  {
+   "w": "today",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "在今天；现在；今天；现今；今天；现今",
+   "n": 3
+  },
+  {
+   "w": "tool",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工具，器具，用具；使用工具；用机床装备工厂",
+   "n": 3
+  },
+  {
+   "w": "try",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "试；审问；尝试；努力；试验",
+   "n": 3
+  },
+  {
+   "w": "two",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "二，两个；两个的",
+   "n": 3
+  },
+  {
+   "w": "understand",
+   "layer": "core",
+   "pos": "v.",
+   "def": "懂；获悉",
+   "n": 3
+  },
+  {
+   "w": "use",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用；耗费；使用；用途；发挥",
+   "n": 3
+  },
+  {
+   "w": "vote",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "选举，投票，表决；提议，使投票；投票决定；公认",
+   "n": 3
+  },
+  {
+   "w": "way",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "路；路线；方向；大大地；远远地；途中的",
+   "n": 3
+  },
+  {
+   "w": "whatever",
+   "layer": "core",
+   "pos": "pron./adj.",
+   "def": "无论什么；不管什么样的",
+   "n": 3
+  },
+  {
+   "w": "word",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "词；话；消息；语言；用言辞表达",
+   "n": 3
+  },
+  {
+   "w": "access",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "接近；通道，入口；获取",
+   "n": 2
+  },
+  {
+   "w": "account",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "记述；解释；帐目；说明原因； 占；叙述，说明；账目，账户",
+   "n": 2
+  },
+  {
+   "w": "achieve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "完成，实现；达到",
+   "n": 2
+  },
+  {
+   "w": "across",
+   "layer": "core",
+   "pos": "prep.",
+   "def": "横过；在…对面",
+   "n": 2
+  },
+  {
+   "w": "age",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "年龄；时代 vt.变老；变老",
+   "n": 2
+  },
+  {
+   "w": "allow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "允许，准许；任",
+   "n": 2
+  },
+  {
+   "w": "almost",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "几乎，差不多",
+   "n": 2
+  },
+  {
+   "w": "alone",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "单独的 ad.单独地；单独地",
+   "n": 2
+  },
+  {
+   "w": "argue",
+   "layer": "core",
+   "pos": "v.",
+   "def": "争论，争辩，辩论",
+   "n": 2
+  },
+  {
+   "w": "attend",
+   "layer": "core",
+   "pos": "v.",
+   "def": "出席；照顾，护理",
+   "n": 2
+  },
+  {
+   "w": "belief",
+   "layer": "core",
+   "pos": "n.",
+   "def": "信任，相信；信念",
+   "n": 2
+  },
+  {
+   "w": "best",
+   "layer": "core",
+   "pos": "adj./n./adv./v.",
+   "def": "最好的；最大的；最好的人，最好的事物；最佳状态；最好地；打败，胜过",
+   "n": 2
+  },
+  {
+   "w": "blood",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "血，血液；血统；从…抽血；使先取得经验",
+   "n": 2
+  },
+  {
+   "w": "bond",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "联结，联系；公债；黏合， 结合",
+   "n": 2
+  },
+  {
+   "w": "book",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "书，书籍 vt.预定；预定",
+   "n": 2
+  },
+  {
+   "w": "case",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "情况；事实；病例；包围；把…装于容器中",
+   "n": 2
+  },
+  {
+   "w": "choice",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "选择，抉择；精选的；仔细推敲的",
+   "n": 2
+  },
+  {
+   "w": "christian",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "基督教徒；信徒；基督教的",
+   "n": 2
+  },
+  {
+   "w": "clear",
+   "layer": "core",
+   "pos": "adj./v./adv./n.",
+   "def": "清晰的 vt.清除；清除；清晰地；完全地；清除；空隙",
+   "n": 2
+  },
+  {
+   "w": "closely",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "紧密地，接近地",
+   "n": 2
+  },
+  {
+   "w": "come",
+   "layer": "core",
+   "pos": "v.",
+   "def": "来，来到；出现",
+   "n": 2
+  },
+  {
+   "w": "common",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "普通的；共同的；普通；平民；公有地",
+   "n": 2
+  },
+  {
+   "w": "connection",
+   "layer": "core",
+   "pos": "n.",
+   "def": "连接，联系；连贯性",
+   "n": 2
+  },
+  {
+   "w": "control",
+   "layer": "core",
+   "pos": "v.",
+   "def": "控制，克制 n.控制",
+   "n": 2
+  },
+  {
+   "w": "correct",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "正确的 vt.纠正；纠正",
+   "n": 2
+  },
+  {
+   "w": "create",
+   "layer": "core",
+   "pos": "v.",
+   "def": "创造；引起，产生",
+   "n": 2
+  },
+  {
+   "w": "creativity",
+   "layer": "core",
+   "pos": "n",
+   "def": "创造力",
+   "n": 2
+  },
+  {
+   "w": "deep",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "深的；纵深的；深处；深渊；深入地；深深地；迟",
+   "n": 2
+  },
+  {
+   "w": "describe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "形容；描写，描绘",
+   "n": 2
+  },
+  {
+   "w": "direct",
+   "layer": "core",
+   "pos": "adj./v./adv.",
+   "def": "直接的；直率的；管理；指挥；导演；指向；直接地；正好；按直系关系",
+   "n": 2
+  },
+  {
+   "w": "down",
+   "layer": "core",
+   "pos": "adj./n./prep./v.",
+   "def": "向下，在下面；软毛，绒毛；[地质] 开阔的高地；沿着，往下；打倒，击败",
+   "n": 2
+  },
+  {
+   "w": "easy",
+   "layer": "core",
+   "pos": "adj./adv./v.",
+   "def": "容易的；安逸的；不费力地，从容地；停止划桨",
+   "n": 2
+  },
+  {
+   "w": "effect",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "结果；效果，效力；产生；达到目的",
+   "n": 2
+  },
+  {
+   "w": "emotional",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "感情的，情绪的",
+   "n": 2
+  },
+  {
+   "w": "explain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解释；为…辩解",
+   "n": 2
+  },
+  {
+   "w": "flow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "流动；飘垂；涨潮",
+   "n": 2
+  },
+  {
+   "w": "focus",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "聚焦，注视 n.焦点；焦点",
+   "n": 2
+  },
+  {
+   "w": "follow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "跟随；结果是",
+   "n": 2
+  },
+  {
+   "w": "forest",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "森林；森林地带；植树于，使成为森林",
+   "n": 2
+  },
+  {
+   "w": "free",
+   "layer": "core",
+   "pos": "adj./v./adv.",
+   "def": "自由的；空闲的；使自由，解放；释放；自由地；免费",
+   "n": 2
+  },
+  {
+   "w": "freedom",
+   "layer": "core",
+   "pos": "n.",
+   "def": "自由；自主",
+   "n": 2
+  },
+  {
+   "w": "friend",
+   "layer": "core",
+   "pos": "n.",
+   "def": "朋友，友人",
+   "n": 2
+  },
+  {
+   "w": "fundamental",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "基础的，基本的；基本原则",
+   "n": 2
+  },
+  {
+   "w": "future",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "将来，未来；前途；将来的，未来的",
+   "n": 2
+  },
+  {
+   "w": "game",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "游戏；比赛；猎物；勇敢的；赌博",
+   "n": 2
+  },
+  {
+   "w": "great",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "大的；伟大的；大师；大人物；伟人们",
+   "n": 2
+  },
+  {
+   "w": "grow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "生长；变得；增长",
+   "n": 2
+  },
+  {
+   "w": "happen",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发生；碰巧，恰好",
+   "n": 2
+  },
+  {
+   "w": "healthy",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "健康的；有益健康的",
+   "n": 2
+  },
+  {
+   "w": "hold",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拿住；掌握；拥有；控制；保留",
+   "n": 2
+  },
+  {
+   "w": "hope",
+   "layer": "core",
+   "pos": "v.",
+   "def": "希望",
+   "n": 2
+  },
+  {
+   "w": "husband",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "丈夫；节约地使用（或管理）",
+   "n": 2
+  },
+  {
+   "w": "identify",
+   "layer": "core",
+   "pos": "v.",
+   "def": "认出，识别，鉴定",
+   "n": 2
+  },
+  {
+   "w": "improvement",
+   "layer": "core",
+   "pos": "n.",
+   "def": "改进，改善；改进处",
+   "n": 2
+  },
+  {
+   "w": "include",
+   "layer": "core",
+   "pos": "v.",
+   "def": "包括，包含",
+   "n": 2
+  },
+  {
+   "w": "increasingly",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "日益，越来越多地",
+   "n": 2
+  },
+  {
+   "w": "involve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使卷入；牵涉",
+   "n": 2
+  },
+  {
+   "w": "keep",
+   "layer": "core",
+   "pos": "v.",
+   "def": "保持；坚持",
+   "n": 2
+  },
+  {
+   "w": "kind",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "种类；和蔼的；宽容的；令人感激的",
+   "n": 2
+  },
+  {
+   "w": "know",
+   "layer": "core",
+   "pos": "v.",
+   "def": "知道；认识；通晓",
+   "n": 2
+  },
+  {
+   "w": "learning",
+   "layer": "core",
+   "pos": "n.",
+   "def": "学习；学问，知识",
+   "n": 2
+  },
+  {
+   "w": "left",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "左边的 ad.在左边；在左边；左边；左派；激进分子；离开（leave的过去式）",
+   "n": 2
+  },
+  {
+   "w": "let",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "允许，让；使；障碍；出租屋",
+   "n": 2
+  },
+  {
+   "w": "line",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "线；排；路线；线条；排成一行；划线于；以线条标示；使…起皱纹",
+   "n": 2
+  },
+  {
+   "w": "list",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "表，目录 n.列举；列于表上",
+   "n": 2
+  },
+  {
+   "w": "literature",
+   "layer": "core",
+   "pos": "n.",
+   "def": "文学；文献",
+   "n": 2
+  },
+  {
+   "w": "look",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "看，显得 n.看；[C]看，瞧",
+   "n": 2
+  },
+  {
+   "w": "maybe",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "大概，或许；也许；可能性；不确定性",
+   "n": 2
+  },
+  {
+   "w": "merely",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "仅仅，只不过",
+   "n": 2
+  },
+  {
+   "w": "message",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "信息，消息；启示；报信，报告；[通信] 报文",
+   "n": 2
+  },
+  {
+   "w": "mood",
+   "layer": "core",
+   "pos": "n.",
+   "def": "心情，情绪；语气",
+   "n": 2
+  },
+  {
+   "w": "moral",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "道德的；合乎道德的；品行； 道德规范； 寓意",
+   "n": 2
+  },
+  {
+   "w": "museum",
+   "layer": "core",
+   "pos": "n.",
+   "def": "博物馆；展览馆",
+   "n": 2
+  },
+  {
+   "w": "national",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "民族的；国家的；国民",
+   "n": 2
+  },
+  {
+   "w": "obtain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "获得，得到，买到",
+   "n": 2
+  },
+  {
+   "w": "obviously",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "明显地，显然地",
+   "n": 2
+  },
+  {
+   "w": "offer",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "提供；提出；提议；出价；意图；录取通知书",
+   "n": 2
+  },
+  {
+   "w": "pain",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "痛，疼痛；辛苦；使…痛苦；使…烦恼",
+   "n": 2
+  },
+  {
+   "w": "partner",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "伙伴；搭挡；配偶；做…的搭档",
+   "n": 2
+  },
+  {
+   "w": "pass",
+   "layer": "core",
+   "pos": "v",
+   "def": "经过；通过；度过",
+   "n": 2
+  },
+  {
+   "w": "place",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "地方，地点；住所；放置；任命；寄予",
+   "n": 2
+  },
+  {
+   "w": "politics",
+   "layer": "core",
+   "pos": "n.",
+   "def": "政治，政治学；政纲",
+   "n": 2
+  },
+  {
+   "w": "practical",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "实践的；实用的",
+   "n": 2
+  },
+  {
+   "w": "prayer",
+   "layer": "core",
+   "pos": "n.",
+   "def": "祈祷，祈求",
+   "n": 2
+  },
+  {
+   "w": "problem",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "问题；习题，问题；成问题的；难处理的",
+   "n": 2
+  },
+  {
+   "w": "project",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "方案，工程；伸出",
+   "n": 2
+  },
+  {
+   "w": "promise",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "诺言；指望；允诺",
+   "n": 2
+  },
+  {
+   "w": "purpose",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "目的；意图；效果；决心；企图；打算",
+   "n": 2
+  },
+  {
+   "w": "push",
+   "layer": "core",
+   "pos": "v.",
+   "def": "推，逼迫",
+   "n": 2
+  },
+  {
+   "w": "root",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "根，根子；生根；根除",
+   "n": 2
+  },
+  {
+   "w": "second",
+   "layer": "core",
+   "pos": "n./v./adj./num./adv.",
+   "def": "秒；支持；第二的；次要的；附加的；第二；第二；其次；居第二位",
+   "n": 2
+  },
+  {
+   "w": "seek",
+   "layer": "core",
+   "pos": "v.",
+   "def": "寻找，探索；试图",
+   "n": 2
+  },
+  {
+   "w": "separate",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "分离的；个别的；使分离；使分开；使分居；分开；抽印本",
+   "n": 2
+  },
+  {
+   "w": "several",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "几个，数个",
+   "n": 2
+  },
+  {
+   "w": "shock",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "冲击；震惊；感到震惊；浓密的；蓬乱的",
+   "n": 2
+  },
+  {
+   "w": "short",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "短的；短期的；短；缺乏；短路；短裤；不足；突然；唐突地",
+   "n": 2
+  },
+  {
+   "w": "side",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "边，旁边；一方；支持；赞助；偏袒；旁的，侧的",
+   "n": 2
+  },
+  {
+   "w": "skill",
+   "layer": "core",
+   "pos": "n.",
+   "def": "技能，技巧；熟练",
+   "n": 2
+  },
+  {
+   "w": "sometime",
+   "layer": "core",
+   "pos": "adv/adj.",
+   "def": "在某一时候；从前；以前的",
+   "n": 2
+  },
+  {
+   "w": "source",
+   "layer": "core",
+   "pos": "n.",
+   "def": "河的源头；根源",
+   "n": 2
+  },
+  {
+   "w": "sport",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "运动；运动会；游戏；运动的",
+   "n": 2
+  },
+  {
+   "w": "stress",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "压力；重音；着重",
+   "n": 2
+  },
+  {
+   "w": "success",
+   "layer": "core",
+   "pos": "n.",
+   "def": "成功，成就，胜利",
+   "n": 2
+  },
+  {
+   "w": "surprise",
+   "layer": "core",
+   "pos": "v./adj./n.",
+   "def": "使惊奇；突然袭击；令人惊讶的；惊奇， 诧异； 令人惊奇的事物",
+   "n": 2
+  },
+  {
+   "w": "truly",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "真正地；忠实地；真实地，不假；真诚地",
+   "n": 2
+  },
+  {
+   "w": "university",
+   "layer": "core",
+   "pos": "n.",
+   "def": "大学，综合性大学",
+   "n": 2
+  },
+  {
+   "w": "useful",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "有用的，有益的",
+   "n": 2
+  },
+  {
+   "w": "usually",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "通常",
+   "n": 2
+  },
+  {
+   "w": "walk",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "走，步行",
+   "n": 2
+  },
+  {
+   "w": "watch",
+   "layer": "core",
+   "pos": "v./v./n.",
+   "def": "观看；手表；监视；守护；值班人",
+   "n": 2
+  },
+  {
+   "w": "whole",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "完整的；整体；全部",
+   "n": 2
+  },
+  {
+   "w": "widely",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "广，广泛；大大地",
+   "n": 2
+  },
+  {
+   "w": "winner",
+   "layer": "core",
+   "pos": "n.",
+   "def": "获胜者，优胜者",
+   "n": 2
+  },
+  {
+   "w": "witness",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "证据；证人；目击",
+   "n": 2
+  },
+  {
+   "w": "wonder",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "惊异，惊奇；奇迹；怀疑；想知道；惊讶；奇妙的；非凡的",
+   "n": 2
+  },
+  {
+   "w": "worth",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "值…的；价值",
+   "n": 2
+  },
+  {
+   "w": "wrong",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "错误的；错误地；邪恶地，不正当地；坏事；不公正；委屈；无理地对待；诽谤",
+   "n": 2
+  },
+  {
+   "w": "yourself",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "你自己；你亲自",
+   "n": 2
+  },
+  {
+   "w": "ability",
+   "layer": "core",
+   "pos": "n.",
+   "def": "能力；能耐，本领",
+   "n": 1
+  },
+  {
+   "w": "able",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "有能力的；出色的",
+   "n": 1
+  },
+  {
+   "w": "actually",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "实际上；竟然",
+   "n": 1
+  },
+  {
+   "w": "advantage",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "优点，优势；好处；获利",
+   "n": 1
+  },
+  {
+   "w": "affect",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "影响；感动；情感；引起感情的因素",
+   "n": 1
+  },
+  {
+   "w": "agency",
+   "layer": "core",
+   "pos": "n.",
+   "def": "经办；代理；代理处",
+   "n": 1
+  },
+  {
+   "w": "ago",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "以前",
+   "n": 1
+  },
+  {
+   "w": "agree",
+   "layer": "core",
+   "pos": "v.",
+   "def": "同意；持相同意见",
+   "n": 1
+  },
+  {
+   "w": "alive",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "活着的；活跃的",
+   "n": 1
+  },
+  {
+   "w": "already",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "早已，已经",
+   "n": 1
+  },
+  {
+   "w": "alternative",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "替换物；取舍，抉择；两者选一的， 供选择的； 另类的",
+   "n": 1
+  },
+  {
+   "w": "animal",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "动物，兽 a.动物的；动物的",
+   "n": 1
+  },
+  {
+   "w": "apart",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "相隔；分开；除去；分离的， 分隔的；相距；与众不同地；分离着",
+   "n": 1
+  },
+  {
+   "w": "appeal",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "呼吁；申述",
+   "n": 1
+  },
+  {
+   "w": "apply",
+   "layer": "core",
+   "pos": "v.",
+   "def": "应用，实施，使用",
+   "n": 1
+  },
+  {
+   "w": "approach",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "向…*近 n.*近；靠近；接近，方法",
+   "n": 1
+  },
+  {
+   "w": "argument",
+   "layer": "core",
+   "pos": "n.",
+   "def": "争论，辩论；理由",
+   "n": 1
+  },
+  {
+   "w": "artificial",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "人工的；娇揉造作的",
+   "n": 1
+  },
+  {
+   "w": "associate",
+   "layer": "core",
+   "pos": "v./adj./n.",
+   "def": "交往 n.伙伴，同事；副的；伙伴",
+   "n": 1
+  },
+  {
+   "w": "attitude",
+   "layer": "core",
+   "pos": "n.",
+   "def": "态度，看法；姿势",
+   "n": 1
+  },
+  {
+   "w": "author",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "作者，作家；创作出版",
+   "n": 1
+  },
+  {
+   "w": "avoid",
+   "layer": "core",
+   "pos": "v.",
+   "def": "避免，躲开；撤消",
+   "n": 1
+  },
+  {
+   "w": "beat",
+   "layer": "core",
+   "pos": "v./v./n./adj.",
+   "def": "打，敲；打败；拍子；敲击；有规律的一连串敲打；筋疲力尽的；疲惫不堪的",
+   "n": 1
+  },
+  {
+   "w": "bit",
+   "layer": "core",
+   "pos": "n./v./adj./adv.",
+   "def": "一点，一些，小片；控制；很小的；微不足道的；有点儿；相当",
+   "n": 1
+  },
+  {
+   "w": "blame",
+   "layer": "core",
+   "pos": "v.",
+   "def": "责备，把…归咎于",
+   "n": 1
+  },
+  {
+   "w": "body",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "身体；主体；尸体；赋以形体",
+   "n": 1
+  },
+  {
+   "w": "bone",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "骨，骨骼；剔去的骨；施骨肥于",
+   "n": 1
+  },
+  {
+   "w": "boss",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "老板，上司 vt.指挥；指挥",
+   "n": 1
+  },
+  {
+   "w": "bottom",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "底，底部，根基；底部的；装底；测量深浅；查明真相",
+   "n": 1
+  },
+  {
+   "w": "brain",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "脑，脑髓；脑力；猛击…的头部",
+   "n": 1
+  },
+  {
+   "w": "bread",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "面包；食物，粮食；在…上洒面包屑",
+   "n": 1
+  },
+  {
+   "w": "break",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "打破；损坏；破坏；破裂；间断；（持续一段时间的状况的）改变；间歇",
+   "n": 1
+  },
+  {
+   "w": "build",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "建筑；建立；创立；构造；体形；体格",
+   "n": 1
+  },
+  {
+   "w": "camp",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "野营，营地，兵营；露营；扎营",
+   "n": 1
+  },
+  {
+   "w": "campaign",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "战役；运动；参加运动； 参加竞选",
+   "n": 1
+  },
+  {
+   "w": "cancer",
+   "layer": "core",
+   "pos": "n.",
+   "def": "癌，癌症，肿瘤",
+   "n": 1
+  },
+  {
+   "w": "car",
+   "layer": "core",
+   "pos": "n.",
+   "def": "汽车，小汽车，轿车",
+   "n": 1
+  },
+  {
+   "w": "care",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "关心，介意 n.小心；小心",
+   "n": 1
+  },
+  {
+   "w": "cash",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "现金，现款；把…兑现",
+   "n": 1
+  },
+  {
+   "w": "cause",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "原因，理由；事业；引起；使遭受",
+   "n": 1
+  },
+  {
+   "w": "centre",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "中心；中枢 vt.集中；集中；中央的",
+   "n": 1
+  },
+  {
+   "w": "certain",
+   "layer": "core",
+   "pos": "adj./pron.",
+   "def": "确实的；肯定的；某些；某几个",
+   "n": 1
+  },
+  {
+   "w": "change",
+   "layer": "core",
+   "pos": "n.",
+   "def": "改变，变化；零钱",
+   "n": 1
+  },
+  {
+   "w": "church",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "教堂，礼拜堂；教会；教会的；礼拜的；领…到教堂接受宗教仪式",
+   "n": 1
+  },
+  {
+   "w": "close",
+   "layer": "core",
+   "pos": "v./adj./adv.",
+   "def": "关，闭；结束；紧密的；亲密的；亲近的；紧密地",
+   "n": 1
+  },
+  {
+   "w": "cloud",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "云；云状物；阴影；使混乱；以云遮敝；使忧郁；玷污",
+   "n": 1
+  },
+  {
+   "w": "cold",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "冷的；冷淡的 n.冷；寒冷；感冒；完全地",
+   "n": 1
+  },
+  {
+   "w": "collection",
+   "layer": "core",
+   "pos": "n.",
+   "def": "搜集，收集；收藏品",
+   "n": 1
+  },
+  {
+   "w": "combine",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "使结合；兼有；联合企业； 联合收割机",
+   "n": 1
+  },
+  {
+   "w": "communication",
+   "layer": "core",
+   "pos": "n.",
+   "def": "通讯；传达；交通",
+   "n": 1
+  },
+  {
+   "w": "compete",
+   "layer": "core",
+   "pos": "v.",
+   "def": "比赛；竞争；对抗",
+   "n": 1
+  },
+  {
+   "w": "concern",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "关心，挂念；关系；涉及， 有关； 使关心， 使担心",
+   "n": 1
+  },
+  {
+   "w": "confidence",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "信任；信赖；信心；（美）诈骗的；骗得信任的",
+   "n": 1
+  },
+  {
+   "w": "conflict",
+   "layer": "core",
+   "pos": "n.",
+   "def": "争论；冲突；斗争",
+   "n": 1
+  },
+  {
+   "w": "contain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "包含，容纳；等于",
+   "n": 1
+  },
+  {
+   "w": "content",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "满意的，满足的；内容；使满足",
+   "n": 1
+  },
+  {
+   "w": "contrast",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "对比，对照，悬殊；形成对比， 对比之下显出区别",
+   "n": 1
+  },
+  {
+   "w": "count",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "计算 vi.数，计数；起拆理由，罪状",
+   "n": 1
+  },
+  {
+   "w": "creative",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "创造性的，创作的",
+   "n": 1
+  },
+  {
+   "w": "cut",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "切，割，剪；减少；伤口；切口；削减；（服装等的）式样；削球；切入；割下的；雕过的；缩减的",
+   "n": 1
+  },
+  {
+   "w": "daily",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "每日的 n.日报；日报；日常地；每日；天天",
+   "n": 1
+  },
+  {
+   "w": "date",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "日期 vt.注…日期；注…日期",
+   "n": 1
+  },
+  {
+   "w": "debate",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "争论，辩论",
+   "n": 1
+  },
+  {
+   "w": "decade",
+   "layer": "core",
+   "pos": "n.",
+   "def": "十年，十年期",
+   "n": 1
+  },
+  {
+   "w": "democracy",
+   "layer": "core",
+   "pos": "n.",
+   "def": "民主，民主制",
+   "n": 1
+  },
+  {
+   "w": "depend",
+   "layer": "core",
+   "pos": "v.",
+   "def": "依*，依赖；相信",
+   "n": 1
+  },
+  {
+   "w": "depression",
+   "layer": "core",
+   "pos": "n",
+   "def": "抑郁， 沮丧； 不景气， 萧条； 洼地， 凹陷",
+   "n": 1
+  },
+  {
+   "w": "design",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "设计 n.设计；图样；样式",
+   "n": 1
+  },
+  {
+   "w": "destroy",
+   "layer": "core",
+   "pos": "v.",
+   "def": "破坏；消灭；打破",
+   "n": 1
+  },
+  {
+   "w": "different",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "差异的；各种的",
+   "n": 1
+  },
+  {
+   "w": "difficult",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "困难的；难对付的",
+   "n": 1
+  },
+  {
+   "w": "discover",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发现；暴露，显示",
+   "n": 1
+  },
+  {
+   "w": "doubt",
+   "layer": "core",
+   "pos": "n.",
+   "def": "怀疑；疑虑 vt.怀疑",
+   "n": 1
+  },
+  {
+   "w": "duty",
+   "layer": "core",
+   "pos": "n.",
+   "def": "职责；责任；税",
+   "n": 1
+  },
+  {
+   "w": "earth",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "地球；陆地，地面；把（电线）[电] 接地；盖（土）；追赶入洞穴",
+   "n": 1
+  },
+  {
+   "w": "economy",
+   "layer": "core",
+   "pos": "n.",
+   "def": "经济；节约，节省",
+   "n": 1
+  },
+  {
+   "w": "education",
+   "layer": "core",
+   "pos": "n.",
+   "def": "教育；训导；教育学",
+   "n": 1
+  },
+  {
+   "w": "emphasis",
+   "layer": "core",
+   "pos": "n.",
+   "def": "强调，重点，重要性",
+   "n": 1
+  },
+  {
+   "w": "empty",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "空的；空洞的；使失去；使…成为空的；空车；空的东西",
+   "n": 1
+  },
+  {
+   "w": "enjoy",
+   "layer": "core",
+   "pos": "v.",
+   "def": "享受；欣赏，喜爱",
+   "n": 1
+  },
+  {
+   "w": "entry",
+   "layer": "core",
+   "pos": "n.",
+   "def": "入口处；登记；进入",
+   "n": 1
+  },
+  {
+   "w": "equal",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "相等的；平等的；等于；比得上；对手；匹敌；同辈；相等的事物",
+   "n": 1
+  },
+  {
+   "w": "era",
+   "layer": "core",
+   "pos": "n.",
+   "def": "时代，年代；纪元",
+   "n": 1
+  },
+  {
+   "w": "error",
+   "layer": "core",
+   "pos": "n.",
+   "def": "错误，谬误；差错",
+   "n": 1
+  },
+  {
+   "w": "especially",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "特别，尤其，格外",
+   "n": 1
+  },
+  {
+   "w": "exactly",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "确切地；恰恰正是；恰好地；正是；精确地；正确地",
+   "n": 1
+  },
+  {
+   "w": "exchange",
+   "layer": "core",
+   "pos": "v.",
+   "def": "交换；交流 n.交换",
+   "n": 1
+  },
+  {
+   "w": "exhibition",
+   "layer": "core",
+   "pos": "n.",
+   "def": "展览，陈列；展览会",
+   "n": 1
+  },
+  {
+   "w": "existence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "存在，实在；生存",
+   "n": 1
+  },
+  {
+   "w": "experiment",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "实验；试验；尝试；进行实验",
+   "n": 1
+  },
+  {
+   "w": "explore",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "探险，探索",
+   "n": 1
+  },
+  {
+   "w": "expression",
+   "layer": "core",
+   "pos": "n.",
+   "def": "词句；表达；表情",
+   "n": 1
+  },
+  {
+   "w": "faculty",
+   "layer": "core",
+   "pos": "n.",
+   "def": "才能，能力；系，科",
+   "n": 1
+  },
+  {
+   "w": "fail",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "失败；失灵；不能；不及格",
+   "n": 1
+  },
+  {
+   "w": "failure",
+   "layer": "core",
+   "pos": "n.",
+   "def": "失败；失败的人",
+   "n": 1
+  },
+  {
+   "w": "feeling",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "感情；感觉，知觉；有感觉的；有同情心的；富于感情的",
+   "n": 1
+  },
+  {
+   "w": "finding",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发现；调查的结果；找到；感到（find的ing形式）；遇到",
+   "n": 1
+  },
+  {
+   "w": "five",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "五，五个，第五；五的；五个的",
+   "n": 1
+  },
+  {
+   "w": "following",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "接着的；下列的；一批追随者；跟随；沿行（follow的ing形式）",
+   "n": 1
+  },
+  {
+   "w": "food",
+   "layer": "core",
+   "pos": "n.",
+   "def": "食物，食品，养料",
+   "n": 1
+  },
+  {
+   "w": "foreign",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "外国的；外来的",
+   "n": 1
+  },
+  {
+   "w": "form",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "形式；形状 vt.形成；形成",
+   "n": 1
+  },
+  {
+   "w": "foundation",
+   "layer": "core",
+   "pos": "n.",
+   "def": "基础；地基；基金",
+   "n": 1
+  },
+  {
+   "w": "frame",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "框架，框子；构架；给…镶框； 陷害， 诬告； 制定； 表达；有木架的；有构架的",
+   "n": 1
+  },
+  {
+   "w": "full",
+   "layer": "core",
+   "pos": "adj./adv./v./n.",
+   "def": "满的；完全的；十分，非常；完全地；整整；把衣服缝得宽大；全部；完整",
+   "n": 1
+  },
+  {
+   "w": "gain",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "获得；增加 n.增进；增进",
+   "n": 1
+  },
+  {
+   "w": "garden",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "花园，菜园；公园；栽培花木",
+   "n": 1
+  },
+  {
+   "w": "gift",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "礼物，赠品；天赋；赋予；向…赠送",
+   "n": 1
+  },
+  {
+   "w": "goal",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "球门；得分；目的；攻门，射门得分",
+   "n": 1
+  },
+  {
+   "w": "hand",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "手；人手；指针；传递，交给；支持；搀扶",
+   "n": 1
+  },
+  {
+   "w": "hard",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "硬的；困难的；努力地；困难地；辛苦地；接近地；猛烈地；牢固地",
+   "n": 1
+  },
+  {
+   "w": "harm",
+   "layer": "core",
+   "pos": "n.",
+   "def": "伤害，损害 vt.损害",
+   "n": 1
+  },
+  {
+   "w": "hate",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "恨，憎恨；不喜欢；怨恨",
+   "n": 1
+  },
+  {
+   "w": "hear",
+   "layer": "core",
+   "pos": "v.",
+   "def": "听见；审讯；听说",
+   "n": 1
+  },
+  {
+   "w": "heart",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "心，内心；勇气；鼓励；铭记",
+   "n": 1
+  },
+  {
+   "w": "herself",
+   "layer": "core",
+   "pos": "n.",
+   "def": "她自己；她亲自",
+   "n": 1
+  },
+  {
+   "w": "high",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "高的；高级的 ad.高；高水平；天空；由麻醉品引起的快感；高压地带；高；奢侈地",
+   "n": 1
+  },
+  {
+   "w": "house",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "房屋，住宅；商号；覆盖；给…房子住；把…储藏在房内",
+   "n": 1
+  },
+  {
+   "w": "however",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "然而；不管怎样",
+   "n": 1
+  },
+  {
+   "w": "hunt",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "打猎；搜寻 vt.追猎；追猎",
+   "n": 1
+  },
+  {
+   "w": "ignore",
+   "layer": "core",
+   "pos": "v.",
+   "def": "不顾，不理，忽视",
+   "n": 1
+  },
+  {
+   "w": "image",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "像；形象；映象；想象；反映；象征；作…的像",
+   "n": 1
+  },
+  {
+   "w": "imagine",
+   "layer": "core",
+   "pos": "v.",
+   "def": "想象，设想；料想",
+   "n": 1
+  },
+  {
+   "w": "importance",
+   "layer": "core",
+   "pos": "n.",
+   "def": "重要；重要性",
+   "n": 1
+  },
+  {
+   "w": "improve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使更好 vi.改善",
+   "n": 1
+  },
+  {
+   "w": "instance",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "例子，实例，事例；举为例",
+   "n": 1
+  },
+  {
+   "w": "instrument",
+   "layer": "core",
+   "pos": "n.",
+   "def": "仪器；工具；乐器",
+   "n": 1
+  },
+  {
+   "w": "internet",
+   "layer": "core",
+   "pos": "n",
+   "def": "因特网",
+   "n": 1
+  },
+  {
+   "w": "knowledge",
+   "layer": "core",
+   "pos": "n.",
+   "def": "知识，学识；知道",
+   "n": 1
+  },
+  {
+   "w": "language",
+   "layer": "core",
+   "pos": "n.",
+   "def": "语言，语言课程",
+   "n": 1
+  },
+  {
+   "w": "large",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "大的；巨大的；大大地；夸大地",
+   "n": 1
+  },
+  {
+   "w": "last",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "最后的 ad.最后；最后；末尾，最后；上个；鞋楦（做鞋的模型）；持续；维持，够用；持久",
+   "n": 1
+  },
+  {
+   "w": "late",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "迟的 ad.迟，晚",
+   "n": 1
+  },
+  {
+   "w": "laugh",
+   "layer": "core",
+   "pos": "v.",
+   "def": "笑，发笑n.笑",
+   "n": 1
+  },
+  {
+   "w": "leading",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "指导的；最主要的；领导；铅板；行距；领导（lead的ing形式）",
+   "n": 1
+  },
+  {
+   "w": "learn",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "学，学习",
+   "n": 1
+  },
+  {
+   "w": "less",
+   "layer": "core",
+   "pos": "adj./adv./prep./n.",
+   "def": "更少的 ad.更少地；更少地；减去；较少；较小",
+   "n": 1
+  },
+  {
+   "w": "lesson",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "功课，课；课程；教训；上课",
+   "n": 1
+  },
+  {
+   "w": "lie",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "躺，平放；位于；谎言；位置",
+   "n": 1
+  },
+  {
+   "w": "listen",
+   "layer": "core",
+   "pos": "v.",
+   "def": "听，留神听；听从",
+   "n": 1
+  },
+  {
+   "w": "machine",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "机器；机械；用机器制造",
+   "n": 1
+  },
+  {
+   "w": "magazine",
+   "layer": "core",
+   "pos": "n.",
+   "def": "杂志，期刊",
+   "n": 1
+  },
+  {
+   "w": "main",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "主要的，最重要的；主要部分，要点；体力；总管道",
+   "n": 1
+  },
+  {
+   "w": "majority",
+   "layer": "core",
+   "pos": "n.",
+   "def": "多数，大多数",
+   "n": 1
+  },
+  {
+   "w": "man",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "男人；人；人类；操纵；给…配置人员；使增强勇气；在…就位",
+   "n": 1
+  },
+  {
+   "w": "manage",
+   "layer": "core",
+   "pos": "v.",
+   "def": "管理；设法；对付",
+   "n": 1
+  },
+  {
+   "w": "master",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "主人；能手；硕士；控制；精通；征服；主人的；主要的；熟练的",
+   "n": 1
+  },
+  {
+   "w": "material",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "材料；素材a.物质的；物质的， 实体的； 肉体的； 重要的， 实质性的",
+   "n": 1
+  },
+  {
+   "w": "measure",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "量，测量 n.分量；分量",
+   "n": 1
+  },
+  {
+   "w": "media",
+   "layer": "core",
+   "pos": "n",
+   "def": "新闻媒介， 传播媒介",
+   "n": 1
+  },
+  {
+   "w": "medical",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "医学的；内科的；医生；体格检查",
+   "n": 1
+  },
+  {
+   "w": "member",
+   "layer": "core",
+   "pos": "n.",
+   "def": "成员，会员",
+   "n": 1
+  },
+  {
+   "w": "memory",
+   "layer": "core",
+   "pos": "n.",
+   "def": "记忆；回忆；存储",
+   "n": 1
+  },
+  {
+   "w": "mention",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "提及，说起",
+   "n": 1
+  },
+  {
+   "w": "moment",
+   "layer": "core",
+   "pos": "n.",
+   "def": "片刻，瞬间，时刻",
+   "n": 1
+  },
+  {
+   "w": "morning",
+   "layer": "core",
+   "pos": "n.",
+   "def": "早晨，上午",
+   "n": 1
+  },
+  {
+   "w": "movie",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "电影；电影院；电影的",
+   "n": 1
+  },
+  {
+   "w": "muscle",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "肌肉，肌；体力；加强；使劲搬动；使劲挤出",
+   "n": 1
+  },
+  {
+   "w": "narrow",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "狭的，狭窄的；限制；海峡；狭窄部分，隘路",
+   "n": 1
+  },
+  {
+   "w": "necessary",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "必要的；必然的；必需品",
+   "n": 1
+  },
+  {
+   "w": "new",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "新的；新近出现的；新近",
+   "n": 1
+  },
+  {
+   "w": "north",
+   "layer": "core",
+   "pos": "n./adj./adv.",
+   "def": "北，北方 a.北方的；北方的；在北方，向北方",
+   "n": 1
+  },
+  {
+   "w": "notice",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "注意 n.通知；注意；通知",
+   "n": 1
+  },
+  {
+   "w": "novel",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "小说 a.新的；新的",
+   "n": 1
+  },
+  {
+   "w": "nurse",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "保姆；护士 vt.看护；看护",
+   "n": 1
+  },
+  {
+   "w": "observe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "遵守；看到；说",
+   "n": 1
+  },
+  {
+   "w": "open",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "开的；开放的；开始；展现；公开；空旷；户外",
+   "n": 1
+  },
+  {
+   "w": "opening",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "开始的；开始；开放（open的ing形式）；打开；公开",
+   "n": 1
+  },
+  {
+   "w": "opportunity",
+   "layer": "core",
+   "pos": "n.",
+   "def": "机会，良机",
+   "n": 1
+  },
+  {
+   "w": "order",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "次序；整齐；命令",
+   "n": 1
+  },
+  {
+   "w": "paint",
+   "layer": "core",
+   "pos": "v",
+   "def": "画；油漆；绘画",
+   "n": 1
+  },
+  {
+   "w": "participant",
+   "layer": "core",
+   "pos": "n/adj.",
+   "def": "参加者；有份的,参与的",
+   "n": 1
+  },
+  {
+   "w": "passage",
+   "layer": "core",
+   "pos": "n",
+   "def": "通过；通路，通道",
+   "n": 1
+  },
+  {
+   "w": "perhaps",
+   "layer": "core",
+   "pos": "adv/n.",
+   "def": "也许，可能，多半；假定；猜想；未定之事",
+   "n": 1
+  },
+  {
+   "w": "piece",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "碎片，块；拼合",
+   "n": 1
+  },
+  {
+   "w": "politician",
+   "layer": "core",
+   "pos": "n.",
+   "def": "政治家；政客",
+   "n": 1
+  },
+  {
+   "w": "poor",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "贫穷的；贫乏的",
+   "n": 1
+  },
+  {
+   "w": "popularity",
+   "layer": "core",
+   "pos": "n",
+   "def": "普及， 流行； 声望",
+   "n": 1
+  },
+  {
+   "w": "positive",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "确定的；积极的；正数；[摄] 正片",
+   "n": 1
+  },
+  {
+   "w": "post",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "柱，桩，杆；贴出",
+   "n": 1
+  },
+  {
+   "w": "pot",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "锅，壶，罐，盆；把…装罐；射击；节略",
+   "n": 1
+  },
+  {
+   "w": "praise",
+   "layer": "core",
+   "pos": "n.",
+   "def": "赞扬，赞美",
+   "n": 1
+  },
+  {
+   "w": "primary",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "最初的；基本的；原色；最主要者",
+   "n": 1
+  },
+  {
+   "w": "prime",
+   "layer": "core",
+   "pos": "adj./n./v./adv.",
+   "def": "首要的；春，青春；使准备好；极好地",
+   "n": 1
+  },
+  {
+   "w": "probably",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "或许，大概",
+   "n": 1
+  },
+  {
+   "w": "process",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "过程；工序；处理；经过特殊加工（或处理）的",
+   "n": 1
+  },
+  {
+   "w": "professor",
+   "layer": "core",
+   "pos": "n.",
+   "def": "教授",
+   "n": 1
+  },
+  {
+   "w": "profit",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "益处；利润；得益",
+   "n": 1
+  },
+  {
+   "w": "protect",
+   "layer": "core",
+   "pos": "v.",
+   "def": "保护，保卫，警戒",
+   "n": 1
+  },
+  {
+   "w": "psychological",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "心理的，心理学的",
+   "n": 1
+  },
+  {
+   "w": "pull",
+   "layer": "core",
+   "pos": "v.",
+   "def": "拉，拖；拉，拉力",
+   "n": 1
+  },
+  {
+   "w": "pursue",
+   "layer": "core",
+   "pos": "v.",
+   "def": "追赶，追踪；进行",
+   "n": 1
+  },
+  {
+   "w": "quickly",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "快，迅速；快速地",
+   "n": 1
+  },
+  {
+   "w": "quite",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "完全；相当；的确",
+   "n": 1
+  },
+  {
+   "w": "quote",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "引用，引证；报价；引文",
+   "n": 1
+  },
+  {
+   "w": "read",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "读，看懂；阅读；读物；有学问的",
+   "n": 1
+  },
+  {
+   "w": "reading",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "读，阅读；读书；阅读的",
+   "n": 1
+  },
+  {
+   "w": "recall",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "回想；叫回；收回；召回；回忆；撤消",
+   "n": 1
+  },
+  {
+   "w": "recent",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "新近的，最近的",
+   "n": 1
+  },
+  {
+   "w": "reflect",
+   "layer": "core",
+   "pos": "v.",
+   "def": "反射；反映；思考",
+   "n": 1
+  },
+  {
+   "w": "reject",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拒绝；丢掉；驳回；次品",
+   "n": 1
+  },
+  {
+   "w": "relate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "叙述；使联系",
+   "n": 1
+  },
+  {
+   "w": "relative",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "有关系的；相对的；亲戚",
+   "n": 1
+  },
+  {
+   "w": "religion",
+   "layer": "core",
+   "pos": "n.",
+   "def": "宗教；宗教信仰",
+   "n": 1
+  },
+  {
+   "w": "repeat",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "重说，重做；重复",
+   "n": 1
+  },
+  {
+   "w": "represent",
+   "layer": "core",
+   "pos": "v.",
+   "def": "描绘；代表；象征",
+   "n": 1
+  },
+  {
+   "w": "require",
+   "layer": "core",
+   "pos": "v.",
+   "def": "需要；要求，命令",
+   "n": 1
+  },
+  {
+   "w": "resource",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "资源，物力；办法；向…提供资源",
+   "n": 1
+  },
+  {
+   "w": "responsibility",
+   "layer": "core",
+   "pos": "n.",
+   "def": "责任，责任心；职责",
+   "n": 1
+  },
+  {
+   "w": "rest",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "剩余部分；其余的人；使休息，使轻松；把…寄托于",
+   "n": 1
+  },
+  {
+   "w": "reverse",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "颠倒，翻转；背面；反向的， 相反的， 倒转的",
+   "n": 1
+  },
+  {
+   "w": "review",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "再检查；复习",
+   "n": 1
+  },
+  {
+   "w": "scientific",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "科学(上)的",
+   "n": 1
+  },
+  {
+   "w": "scientist",
+   "layer": "core",
+   "pos": "n.",
+   "def": "(自然)科学家",
+   "n": 1
+  },
+  {
+   "w": "search",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "在…中搜寻，搜查；搜寻；探究，查究",
+   "n": 1
+  },
+  {
+   "w": "sentence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "判决；句子",
+   "n": 1
+  },
+  {
+   "w": "series",
+   "layer": "core",
+   "pos": "n.",
+   "def": "连续，系列；丛书",
+   "n": 1
+  },
+  {
+   "w": "service",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "服务；行政部门；服务性的；耐用的；服现役的；维修，检修；保养",
+   "n": 1
+  },
+  {
+   "w": "set",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "放；安置；[数] 集合；一套；布景；[机] 装置；固定的；规定的；固执的",
+   "n": 1
+  },
+  {
+   "w": "share",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "份；份额；股份；分享，分担；分配",
+   "n": 1
+  },
+  {
+   "w": "sharp",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "锋利的；敏锐的；急剧地；锐利地；突然地；尖头；骗子；内行；磨快；把音调升高",
+   "n": 1
+  },
+  {
+   "w": "show",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "给…看；表明；显示；表演；炫耀",
+   "n": 1
+  },
+  {
+   "w": "significant",
+   "layer": "core",
+   "pos": "n.",
+   "def": "有意义的；重要的",
+   "n": 1
+  },
+  {
+   "w": "simple",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "简单的；朴素的；笨蛋；愚蠢的行为；出身低微者",
+   "n": 1
+  },
+  {
+   "w": "sing",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "唱，演唱",
+   "n": 1
+  },
+  {
+   "w": "six",
+   "layer": "core",
+   "pos": "num.",
+   "def": "六，六个",
+   "n": 1
+  },
+  {
+   "w": "society",
+   "layer": "core",
+   "pos": "n.",
+   "def": "社会；团体；社交界",
+   "n": 1
+  },
+  {
+   "w": "something",
+   "layer": "core",
+   "pos": "pron./n./adv./adj.",
+   "def": "某事，某物；重要的人；值得重视的事；非常；有点；大约；大约；有点象",
+   "n": 1
+  },
+  {
+   "w": "somewhat",
+   "layer": "core",
+   "pos": "pron./adv.",
+   "def": "一点儿；有点",
+   "n": 1
+  },
+  {
+   "w": "sort",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "种类；类别；整理",
+   "n": 1
+  },
+  {
+   "w": "sound",
+   "layer": "core",
+   "pos": "adj./v./n./adv.",
+   "def": "健康的；完好的；听（诊）；测量，测…深；使发声；试探；宣告；声音，语音；噪音；海峡；吵闹；听力范围；[医] 探条；彻底地，充分地",
+   "n": 1
+  },
+  {
+   "w": "spirit",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "精神；气魄；情绪；鼓励；鼓舞；诱拐",
+   "n": 1
+  },
+  {
+   "w": "spiritual",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "精神的，心灵的",
+   "n": 1
+  },
+  {
+   "w": "spring",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "跳，跃；跳跃；泉；春天的",
+   "n": 1
+  },
+  {
+   "w": "stage",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "舞台；戏剧；阶段；举行；上演；筹划",
+   "n": 1
+  },
+  {
+   "w": "state",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "状态；国家；州；规定；声明；陈述；国家的；州的；正式的",
+   "n": 1
+  },
+  {
+   "w": "status",
+   "layer": "core",
+   "pos": "n.",
+   "def": "地位，身分",
+   "n": 1
+  },
+  {
+   "w": "step",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "(脚)步；步骤；踏，踩；走",
+   "n": 1
+  },
+  {
+   "w": "stir",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "动；拨动；激动；搅拌；轰动",
+   "n": 1
+  },
+  {
+   "w": "stop",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "塞住；阻止；停止；停；  站",
+   "n": 1
+  },
+  {
+   "w": "story",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "故事，小说，传说；用历史故事画装饰",
+   "n": 1
+  },
+  {
+   "w": "strength",
+   "layer": "core",
+   "pos": "n.",
+   "def": "力，力量，力气",
+   "n": 1
+  },
+  {
+   "w": "strong",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "强壮的；擅长的；强劲地；猛烈地",
+   "n": 1
+  },
+  {
+   "w": "struggle",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "斗争，奋斗",
+   "n": 1
+  },
+  {
+   "w": "suggest",
+   "layer": "core",
+   "pos": "v.",
+   "def": "建议；暗示，启发",
+   "n": 1
+  },
+  {
+   "w": "support",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "支撑；支持；供养；支持者;支柱",
+   "n": 1
+  },
+  {
+   "w": "suppose",
+   "layer": "core",
+   "pos": "v./conj.",
+   "def": "猜想；假定；让；假使…结果会怎样",
+   "n": 1
+  },
+  {
+   "w": "teach",
+   "layer": "core",
+   "pos": "v.",
+   "def": "讲；教育",
+   "n": 1
+  },
+  {
+   "w": "thank",
+   "layer": "core",
+   "pos": "v.",
+   "def": "谢谢，感谢",
+   "n": 1
+  },
+  {
+   "w": "therefore",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "因此，所以",
+   "n": 1
+  },
+  {
+   "w": "though",
+   "layer": "core",
+   "pos": "conj./adv.",
+   "def": "虽然；可是， 不过， 然而",
+   "n": 1
+  },
+  {
+   "w": "throw",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "投，掷，抛，扔；投掷；冒险",
+   "n": 1
+  },
+  {
+   "w": "tie",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "领带；联系；系；约束；打结；与…成平局",
+   "n": 1
+  },
+  {
+   "w": "together",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "共同，一起；新潮的；情绪稳定的，做事有效率的",
+   "n": 1
+  },
+  {
+   "w": "touch",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "触摸；触动；接触；触觉；格调；少许",
+   "n": 1
+  },
+  {
+   "w": "tough",
+   "layer": "core",
+   "pos": "adj./n./v./adv.",
+   "def": "坚韧的；健壮的；恶棍；坚持；忍受，忍耐；强硬地，顽强地",
+   "n": 1
+  },
+  {
+   "w": "trade",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "贸易；职业；交易",
+   "n": 1
+  },
+  {
+   "w": "train",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "培养；火车；行列；长队；裙裾",
+   "n": 1
+  },
+  {
+   "w": "training",
+   "layer": "core",
+   "pos": "n.",
+   "def": "训练，锻炼，培养",
+   "n": 1
+  },
+  {
+   "w": "transfer",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "转移；调动vi.转移；转变",
+   "n": 1
+  },
+  {
+   "w": "tree",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "树；把赶上树",
+   "n": 1
+  },
+  {
+   "w": "trend",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "伸向；倾向；趋势",
+   "n": 1
+  },
+  {
+   "w": "trust",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "信任；相信；委托",
+   "n": 1
+  },
+  {
+   "w": "truth",
+   "layer": "core",
+   "pos": "n.",
+   "def": "真理；真实；真实性",
+   "n": 1
+  },
+  {
+   "w": "understanding",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "理解；理解力；协定；体谅的， 宽容的， 通情达理的",
+   "n": 1
+  },
+  {
+   "w": "unit",
+   "layer": "core",
+   "pos": "n.",
+   "def": "单位；单元；部件",
+   "n": 1
+  },
+  {
+   "w": "used",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "旧的；习惯于…的；用（use的过去式）；（used to）过去常做",
+   "n": 1
+  },
+  {
+   "w": "variety",
+   "layer": "core",
+   "pos": "n.",
+   "def": "多样化；种类；变种",
+   "n": 1
+  },
+  {
+   "w": "website",
+   "layer": "core",
+   "pos": "n",
+   "def": "网站（全球资讯网的主机站）",
+   "n": 1
+  },
+  {
+   "w": "welcome",
+   "layer": "core",
+   "pos": "int./n./v./adj.",
+   "def": "欢迎；受欢迎的",
+   "n": 1
+  },
+  {
+   "w": "western",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "西方的，西部的；西方人；西部片，西部小说",
+   "n": 1
+  },
+  {
+   "w": "whether",
+   "layer": "core",
+   "pos": "conj./pron.",
+   "def": "是否；两个中的哪一个",
+   "n": 1
+  },
+  {
+   "w": "win",
+   "layer": "core",
+   "pos": "v.",
+   "def": "获胜，赢",
+   "n": 1
+  },
+  {
+   "w": "wind",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "绕，缠绕；风；呼吸；气味；卷绕",
+   "n": 1
+  },
+  {
+   "w": "woman",
+   "layer": "core",
+   "pos": "n.",
+   "def": "妇女，女人，女性",
+   "n": 1
+  },
+  {
+   "w": "wood",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "树林，森林；木头；收集木材",
+   "n": 1
+  },
+  {
+   "w": "write",
+   "layer": "core",
+   "pos": "v.",
+   "def": "书写；写",
+   "n": 1
+  }
+ ]
+}

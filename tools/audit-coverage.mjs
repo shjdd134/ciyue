@@ -67,7 +67,7 @@ if (!ALL && !ID) {
 /* ---------------- 归一化：两边必须完全同一套 ---------------- */
 const norm = s => String(s || "")
   .replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/&quot;/gi, '"')
-  .replace(/&#8217;|&rsquo;|&#8216;|&lsquo;|&#39;|&apos;/gi, "'")
+  .replace(/&#8217;|&rsquo;|&#8216;|&lsquo;|&#39;|&apos;|&#x27;/gi, "'")
   .replace(/&#8211;|&ndash;|&#8212;|&mdash;/gi, "-")
   .replace(/&#8230;|&hellip;/gi, " ")
   .replace(/&#\d+;/g, " ").replace(/&[a-z]+;/gi, " ")
@@ -101,7 +101,7 @@ function covered(line, gramSet, corpusText) {
 const BLOCK = /<(p|li|h1|h2|h3|h4|h5|h6|blockquote|figcaption|td|dd|dt|pre)\b[^>]*>([\s\S]*?)<\/\1>/gi;
 const decode = s => String(s)
   .replace(/&nbsp;/gi, " ").replace(/&amp;/gi, "&").replace(/&quot;/gi, '"')
-  .replace(/&#8217;|&rsquo;|&#8216;|&lsquo;|&#39;|&apos;/gi, "'")
+  .replace(/&#8217;|&rsquo;|&#8216;|&lsquo;|&#39;|&apos;|&#x27;/gi, "'")
   .replace(/&#8211;|&ndash;|&#8212;|&mdash;/gi, "-")
   .replace(/&#8230;|&hellip;/gi, "\u2026")
   .replace(/&#\d+;/g, " ").replace(/&[a-z]+;/gi, " ");

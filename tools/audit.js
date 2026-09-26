@@ -1290,10 +1290,12 @@ console.log('\n[R2] 整期长文的节标题');
  *   为什么不用 `if (!obArt) { skip }` 那种静默跳过：那正是本项目的假守卫形状 ——
  *   功能真断了、字段真丢了，日志里一个字都没有。桩上照旧保留正向（该是标题的必须是 hN）
  *   与反向（不该是标题的绝不能变成 hN）两侧，任一方向失效都会红。
- *   恢复 AI 栏目时这条会自动变回真实样本（LIVE_HEAD_PARAS > 0 会红，提示改回真样本）。 */
+ * ★ 2026-09-26：书架批次（tools/shelf.mjs）把真实标题段带了回来 —— GreaterGood 篇 4 个 h2、
+ *   NPR 篇 2 个 h3，共 6 个。断言翻回「必须有真实样本」并钉死总数：以后再有带标题的新文章，
+ *   这里会红，提醒把新文章的标题段纳入本节的真实样本（同 doc-numbers 的钉数口径）。 */
 const LIVE_HEAD_PARAS = ctx('ARTICLES.reduce((n,a)=>n+(a.paras||[]).filter(p=>p.head).length,0)');
-ok(`库里带 head 的段落数为 ${LIVE_HEAD_PARAS}（AI 栏目下架后预期 0：功能只在合成桩上验证）`,
-  LIVE_HEAD_PARAS === 0);
+ok(`库里带 head 的段落数为 ${LIVE_HEAD_PARAS}（书架批次后预期 6：GG 4 个 h2 + NPR 2 个 h3）`,
+  LIVE_HEAD_PARAS === 6);
 sandbox.__headArt = {
   id: "__head", cat: "成长", title: "t", titleZh: "t", date: "2026-01-01", url: "#",
   cover: "", gradient: "", source: "s",

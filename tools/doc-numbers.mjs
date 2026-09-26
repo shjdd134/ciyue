@@ -61,7 +61,7 @@ for (const a of g.articles) {
   }
 }
 
-/* 栏目分类：文章 id 前缀就是栏目契约（gr- 成长 / people- 人物 / fb- 足球 / ob- AI）。
+/* 栏目分类：文章 id 前缀就是栏目契约（gr- 成长 / people- 人物 / fb- 足球 / ob- AI / so- 社会 / tech- 科技 / hist- 历史）。
  * 数据里没有 category 字段，所以用前缀 —— 前缀变了这里要跟着改（锚点失配会报出来）。
  * ob- = Offbook Press 双语长文（tools/offbook.mjs），id 形态是 `ob-<slug>-c<章号>`。 */
 const CATS = [
@@ -69,6 +69,9 @@ const CATS = [
   { key: "人物", re: /^people-/ },
   { key: "足球", re: /^fb-/ },
   { key: "AI", re: /^ob-/ },
+  { key: "社会", re: /^so-/ },
+  { key: "科技", re: /^tech-/ },
+  { key: "历史", re: /^hist-/ },
 ];
 const byCat = {};
 const unknownIds = [];

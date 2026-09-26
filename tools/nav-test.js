@@ -242,9 +242,12 @@ eq('旧备份自动补空书架', ctx('normalizeState({read:[]}).wantRead'), [])
 eq('清洗重复、非法及悬空置顶', ctx('(() => { const n=normalizeState({wantRead:["a","a",null,2],pinnedReads:["a","b"]}); return [n.wantRead,n.pinnedReads]; })()'), [['a'],['a']]);
 ok('收藏未上线文章时不产生假记录', (() => {const before=ctx('JSON.stringify(S)');click({act:'shelf-want',id:'missing'});return before===ctx('JSON.stringify(S)');})());
 ctx('S = normalizeState({});');
-const peer = ctx('ARTICLES.find(a => a.id !== ARTICLES[0].id && a.cat === ARTICLES[0].cat).id');
+/* 2026-09-26 书架批次新增「社会/科技/历史」各 1 篇 —— ARTICLES[0] 一旦落进这种单篇栏目
+ * （app.js 启动后会重排），同栏 peer 就不存在了。显式挑一个同栏 ≥2 篇的栏目来测。 */
+const peer = ctx('(() => { const base = ARTICLES.find(a => ARTICLES.filter(y => y.cat === a.cat).length >= 2); return ARTICLES.find(a => a.id !== base.id && a.cat === base.cat).id; })()');
+const peerBaseId = ctx('(() => { const base = ARTICLES.find(a => ARTICLES.filter(y => y.cat === a.cat).length >= 2); return base.id; })()');
 const peerScore = ctx(`clientScore(ARTICLES.find(a => a.id === ${JSON.stringify(peer)}))`);
-ctx('S.articleFeedback[ARTICLES[0].id] = {rate:"down",diff:"hard"};');
+ctx(`S.articleFeedback[${JSON.stringify(peerBaseId)}] = {rate:"down",diff:"hard"};`);
 eq('不喜欢一篇不会降低同栏目其他文章的分数', ctx(`clientScore(ARTICLES.find(a => a.id === ${JSON.stringify(peer)}))`), peerScore);
 ctx(`S = normalizeState({lastRead:{id:${JSON.stringify(shelfA)},y:120,pct:10,at:10}});`);
 ok('只有旧 lastRead 记录也能继续读', ctx('renderHome()').includes('class="rc-pct">读到 10%'));

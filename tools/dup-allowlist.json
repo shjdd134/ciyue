@@ -1,66 +1,86 @@
 {
-  "$comment": [
-    "词阅 WordLens —— 重复句白名单。",
-    "",
-    "tools/audit-dups.mjs 用**正确的展平器 + 三步归一**（引号→标点→空白，顺序不可换）查全库重复句，",
-    "与这份白名单比对：**出现未登记的新重复 → 报错**。",
-    "",
-    "4 组：",
-    "  · 4 组回原文核对确认是作者本意重复（gr-pg-* / fb-*）；",
-    "",
-    "真正常见的缺陷形态（提取副本）带**重新分词的空白痕迹**，例如 `Memoirs,` vs `Memoirs ,`、",
-    "`person.` vs `person. ”` —— 2026-09-17 已按此判据删掉 8 句，工具见 tools/_dedup-sentences.mjs。",
-    "",
-    "count 参与比对：同一句出现次数变了（例如新增第 4 篇 Dan Koe 文章）也会报错，逼人工过一遍。",
-    "",
-    "at 字段 = 该条登记在**当前数据**里的真实位置（id p段-s句），由 tools/_fix-dup-allowlist.mjs 重算。",
-    "位置写成散文会随代码一起腐烂：2026-09-21 AI 栏目由 43 篇整期合并为 5 篇，id 从 ob-<slug>-c<NN>",
-    "变成 ob-<slug>，35 条 why 里手写的章号位置一次性全部失效 —— 所以从此按字段存。",
-    "",
-    "**没有 at 的条目 = 休眠**（当前 0 / 4 条，每次跑本脚本重算）：那句话已不在",
-    "当前文章数据里，audit-dups 只在句子存在时才比对 count，休眠条目因此**永远静默**。",
-    "这是已知弱点：**要么删掉该条，要么确认对应的正文块确实被有意移除过。**",
-    "",
-    "2026-09-24：AI 栏目 5 篇 + 人物「梅根·福克斯」1 篇下架（全库 19 → 13 篇），一次性把 39 组里的",
-    "35 组打成休眠 —— 于是补上 `--prune-dormant` 并执行：白名单 39 组 → 4 组（全是 fb-* / gr-pg-*",
-    "的作者本意重复）。**以后每批下架都跟一次本脚本**，别让休眠条目重新堆积成一片静默区。"
-  ],
-  "groups": [
-    {
-      "en": "“Because of who you are.”",
-      "count": 2,
-      "why": "fb-kevin-de-bruyne-let-me-talk p27-s2 / p30-s1 —— 受访者复述外界对自己的评价，两句中文标点不同（。vs …）证明是两处独立句子，不是提取副本",
-      "at": [
-        "fb-kevin-de-bruyne-let-me-talk p27-s2",
-        "fb-kevin-de-bruyne-let-me-talk p30-s1"
-      ]
-    },
-    {
-      "en": "They don’t want you anymore.",
-      "count": 2,
-      "why": "fb-kevin-de-bruyne-let-me-talk p29-s1 / p29-s7 —— 同一段内相隔 6 句的语气复沓（受访者强调），两处位置独立、非复制粘贴",
-      "at": [
-        "fb-kevin-de-bruyne-let-me-talk p29-s1",
-        "fb-kevin-de-bruyne-let-me-talk p29-s7"
-      ]
-    },
-    {
-      "en": "No, come on, of course I’m joking!",
-      "count": 2,
-      "why": "fb-gerard-pique-a-long-story p4-s2 / p41-s2 —— 首尾呼应同一句玩笑，跨 37 段的刻意结构（作者/受访者本意）",
-      "at": [
-        "fb-gerard-pique-a-long-story p4-s2",
-        "fb-gerard-pique-a-long-story p41-s2"
-      ]
-    },
-    {
-      "en": "If you do anything well enough, you'll make it prestigious.",
-      "count": 2,
-      "why": "Paul Graham 本意重复：How to Do What You Love（2006）谈声望时与 How to Do Great Work（2023）谈优雅时各用了一次，跨篇跨年，作者原话",
-      "at": [
-        "gr-pg-how-to-do-what-you-love p16-s2",
-        "gr-pg-how-to-do-great-work p144-s5"
-      ]
-    }
-  ]
+ "$comment": [
+  "词阅 WordLens —— 重复句白名单。",
+  "",
+  "tools/audit-dups.mjs 用**正确的展平器 + 三步归一**（引号→标点→空白，顺序不可换）查全库重复句，",
+  "与这份白名单比对：**出现未登记的新重复 → 报错**。",
+  "",
+  "4 组：",
+  "  · 4 组回原文核对确认是作者本意重复（gr-pg-* / fb-*）；",
+  "",
+  "真正常见的缺陷形态（提取副本）带**重新分词的空白痕迹**，例如 `Memoirs,` vs `Memoirs ,`、",
+  "`person.` vs `person. ”` —— 2026-09-17 已按此判据删掉 8 句，工具见 tools/_dedup-sentences.mjs。",
+  "",
+  "count 参与比对：同一句出现次数变了（例如新增第 4 篇 Dan Koe 文章）也会报错，逼人工过一遍。",
+  "",
+  "at 字段 = 该条登记在**当前数据**里的真实位置（id p段-s句），由 tools/_fix-dup-allowlist.mjs 重算。",
+  "位置写成散文会随代码一起腐烂：2026-09-21 AI 栏目由 43 篇整期合并为 5 篇，id 从 ob-<slug>-c<NN>",
+  "变成 ob-<slug>，35 条 why 里手写的章号位置一次性全部失效 —— 所以从此按字段存。",
+  "",
+  "**没有 at 的条目 = 休眠**（当前 0 / 4 条，每次跑本脚本重算）：那句话已不在",
+  "当前文章数据里，audit-dups 只在句子存在时才比对 count，休眠条目因此**永远静默**。",
+  "这是已知弱点：**要么删掉该条，要么确认对应的正文块确实被有意移除过。**",
+  "",
+  "2026-09-24：AI 栏目 5 篇 + 人物「梅根·福克斯」1 篇下架（全库 19 → 13 篇），一次性把 39 组里的",
+  "35 组打成休眠 —— 于是补上 `--prune-dormant` 并执行：白名单 39 组 → 4 组（全是 fb-* / gr-pg-*",
+  "的作者本意重复）。**以后每批下架都跟一次本脚本**，别让休眠条目重新堆积成一片静默区。"
+ ],
+ "groups": [
+  {
+   "en": "“Because of who you are.”",
+   "count": 2,
+   "why": "fb-kevin-de-bruyne-let-me-talk p27-s2 / p30-s1 —— 受访者复述外界对自己的评价，两句中文标点不同（。vs …）证明是两处独立句子，不是提取副本",
+   "at": [
+    "fb-kevin-de-bruyne-let-me-talk p27-s2",
+    "fb-kevin-de-bruyne-let-me-talk p30-s1"
+   ]
+  },
+  {
+   "en": "They don’t want you anymore.",
+   "count": 2,
+   "why": "fb-kevin-de-bruyne-let-me-talk p29-s1 / p29-s7 —— 同一段内相隔 6 句的语气复沓（受访者强调），两处位置独立、非复制粘贴",
+   "at": [
+    "fb-kevin-de-bruyne-let-me-talk p29-s1",
+    "fb-kevin-de-bruyne-let-me-talk p29-s7"
+   ]
+  },
+  {
+   "en": "No, come on, of course I’m joking!",
+   "count": 2,
+   "why": "fb-gerard-pique-a-long-story p4-s2 / p41-s2 —— 首尾呼应同一句玩笑，跨 37 段的刻意结构（作者/受访者本意）",
+   "at": [
+    "fb-gerard-pique-a-long-story p4-s2",
+    "fb-gerard-pique-a-long-story p41-s2"
+   ]
+  },
+  {
+   "en": "If you do anything well enough, you'll make it prestigious.",
+   "count": 2,
+   "why": "Paul Graham 本意重复：How to Do What You Love（2006）谈声望时与 How to Do Great Work（2023）谈优雅时各用了一次，跨篇跨年，作者原话",
+   "at": [
+    "gr-pg-how-to-do-what-you-love p16-s2",
+    "gr-pg-how-to-do-great-work p144-s5"
+   ]
+  },
+  {
+   "en": "It meant a lot to me.",
+   "count": 2,
+   "why": "足球两篇各一句（C罗/拉什福德），常见口语，2026-09-26 书架批次跑守卫时发现存量未登记"
+  },
+  {
+   "en": "And just above that….",
+   "count": 2,
+   "why": "拉什福德篇作者前后呼应同一句（p10/p36）"
+  },
+  {
+   "en": "“Keep your head up.",
+   "count": 2,
+   "why": "拉什福德篇引用语在两段开头重复出现（p51/p53）"
+  },
+  {
+   "en": "Stop here if possible.",
+   "count": 2,
+   "why": "Sivers 三步清单里第 1/2 步的原文即重复（作者本意）"
+  }
+ ]
 }

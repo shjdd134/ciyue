@@ -142,12 +142,10 @@ ok(`挑到「例句库里没有」的词：${W_BARE}`, !!W_BARE);
   const s = boot();
   eq("沙箱初始没有例句数据（模拟首屏）", s.ctx("typeof window.__ADDED_EXAMPLES__"), "undefined");
 
-  s.ctx('sheetMore = false;');
-  const slim = s.ctx(`renderSheet(${JSON.stringify(W_EX)})`);
-  ok("轻卡不含例句槽（首层无需例句）", !slim.includes("example-box"));
-  s.ctx('sheetMore = true;');
-  const full = s.ctx(`renderSheet(${JSON.stringify(W_EX)})`);
-  ok("完整卡先渲染占位、不阻塞", full.includes(`data-example-word="${W_EX}"`) && full.includes("例句按需加载中"));
+  /* v89 查词卡合并成一层后，首次点击即渲染例句槽（占位）；例句数据仍按需加载。
+   * 旧的「轻卡无槽 / sheetMore 两段式」预期随 sheetMore 状态一并废止（2026-09-26）。 */
+  const card = s.ctx(`renderSheet(${JSON.stringify(W_EX)})`);
+  ok("首层卡先渲染例句槽占位、不阻塞", card.includes("example-box") && card.includes("例句按需加载中"));
   eq("仅渲染卡片不会请求例句库", s.scripts.length, 0);
 }
 

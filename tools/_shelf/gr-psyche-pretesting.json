@@ -1,0 +1,2748 @@
+{
+ "id": "gr-psyche-pretesting",
+ "cat": "成长",
+ "title": "The ‘secret strategy’ that could boost your ability to learn",
+ "titleZh": "提升学习能力的「秘密策略」",
+ "source_url": "https://psyche.co/ideas/the-secret-strategy-that-could-boost-your-ability-to-learn",
+ "date": "2024-11-12",
+ "coverImg": "assets/covers/gr-psyche-pretesting.jpg",
+ "inlineImages": [],
+ "translation_type": "ciyue_edited",
+ "stats": {
+  "paragraphs": 17,
+  "sentences": 68,
+  "words": 1613,
+  "chinese": 2534,
+  "emptyCn": 0
+ },
+ "sentence_pairs": [
+  {
+   "en": "It may sound illogical, but growing evidence shows the benefits of testing yourself before you start learning new material",
+   "cn": "听起来不合逻辑，但越来越多的证据表明，在开始学习新内容之前先考一考自己，大有好处。"
+  },
+  {
+   "en": "Imagine you are planning to learn about the solar system but, before you start, your teacher gives you a multiple-choice quiz on the topic.",
+   "cn": "想象一下：你打算学习太阳系的知识，但还没开始，老师就先给你做了一套关于这个主题的选择题测验。"
+  },
+  {
+   "en": "You haven’t learned a single fact about the solar system yet, so the questions, such as ‘Which of our dwarf planets is not a plutoid?’ or ‘Which planet is the least dense in the solar system?’, leave you staring blankly.",
+   "cn": "你对太阳系还一无所知，所以诸如\"我们的矮行星中哪一颗不是类冥天体？\"或\"太阳系中哪颗行星密度最小？\"这样的问题，只会让你一脸茫然。"
+  },
+  {
+   "en": "Naturally, you are bound to make mistakes.",
+   "cn": "当然，你注定会答错一片。"
+  },
+  {
+   "en": "You might understandably feel that this guessing in the dark is a complete waste of time.",
+   "cn": "你大概会觉得这种摸黑瞎猜完全是浪费时间——这也情有可原。"
+  },
+  {
+   "en": "In fact, it’s not – a growing body of research shows this early test can significantly enhance your later learning.",
+   "cn": "事实上并非如此——越来越多的研究表明，这次提前的测验能显著提升你之后的学习效果。"
+  },
+  {
+   "en": "The potential of tests, not just for assessment, but also for learning, dates back at least as far as the 1920s when the psychologist Sidney Pressey developed his innovative typewriter-turned-testing machine.",
+   "cn": "测验的潜力不只在于评估，还在于促进学习——这一思路至少可以追溯到20世纪20年代，当时心理学家西德尼·普雷西（Sidney Pressey）发明了一台由打字机改造而来的新颖测试机。"
+  },
+  {
+   "en": "The machine presented a question with several possible answers, requiring students to press a key to submit their response.",
+   "cn": "这台机器会呈现一道题和几个备选答案，学生需要按键提交自己的回答。"
+  },
+  {
+   "en": "Pressey’s innovation was a feature that held the question in place until the correct answer was chosen, transforming the test into a learning experience.",
+   "cn": "普雷西的创新在于一个功能：题目会一直留在机器上，直到选出正确答案为止——这让测验本身变成了一次学习体验。"
+  },
+  {
+   "en": "Although it wasn’t widely adopted, his work anticipated what is now known about the huge benefits of testing for improving learning.",
+   "cn": "尽管这台机器没有被广泛采用，但他的工作预示了如今我们已知的测验对提升学习的巨大好处。"
+  },
+  {
+   "en": "The virtues of testing for improving recall and deepening learning have been widely researched, but the vast majority of studies have focused on the benefit of tests taken after studying.",
+   "cn": "测验在改善记忆、深化学习方面的优点已被广泛研究，但绝大多数研究关注的都是学习之后的测验带来的好处。"
+  },
+  {
+   "en": "Research from the 1960s was among the earliest to highlight the benefits of testing before learning – what is now called the ‘pretesting effect’ – and in recent years there has been a surge of interest in this counterintuitive effect.",
+   "cn": "20世纪60年代的研究最早凸显了学习之前测验的好处——也就是如今所称的\"前测效应\"（pretesting effect）——而近年来，这种反直觉的效应引发了爆发式的关注。"
+  },
+  {
+   "en": "Here’s what experiments into the pretesting effect typically look like.",
+   "cn": "有关前测效应的实验通常是这样做的。"
+  },
+  {
+   "en": "All participants eventually study the same new information, but half are asked to answer anywhere from one to several dozen questions about the material before they have had a chance to study it – usually without feedback on their largely incorrect guesses.",
+   "cn": "所有参与者最终都会学习同样的新材料，但其中一半人要在学习之前先回答一道到几十道与材料相关的问题——通常也不会有人告诉他们，那些大多错误的猜测究竟对不对。"
+  },
+  {
+   "en": "After all of the participants have studied the material, everyone then takes a final test to assess how well they’ve learned.",
+   "cn": "等所有参与者都学完材料后，所有人再参加一次最终测试，以评估学习效果。"
+  },
+  {
+   "en": "Even though that pretest might seem pointless (why spend valuable learning time making wrong guesses?), over and over again, experiments suggest that it is time well spent.",
+   "cn": "尽管前测看上去毫无意义（为什么要用宝贵的学习时间去做错误的猜测？），实验却一再表明，这段时间花得值。"
+  },
+  {
+   "en": "The pretest group typically outperforms the control group.",
+   "cn": "前测组的表现通常好于对照组。"
+  },
+  {
+   "en": "Even incorrect guessing followed by studying benefits learning.",
+   "cn": "即便是猜错了再学习，也对学习有益。"
+  },
+  {
+   "en": "These benefits apply to simple materials, such as word pairs, and more complex ones, such as reading passages about physics or oceanography, watching videos on history or information theory, or attending live research-methods lectures.",
+   "cn": "这些好处既适用于单词对这样的简单材料，也适用于更复杂的材料——比如阅读物理或海洋学的文章、观看历史或信息论的视频，或者现场听研究方法课。"
+  },
+  {
+   "en": "And this holds true for children learning about space exploration and undergraduates studying psychology; in the laboratory and in the classroom; and whether answers are scribbled with a pen on paper or guessed on one’s laptop.",
+   "cn": "无论是学太空探索的孩子还是学心理学的大学生；无论在实验室还是在课堂上；无论用笔在纸上写答案还是在笔记本电脑上猜答案——效果都成立。"
+  },
+  {
+   "en": "Researchers believe pretesting is beneficial because it improves the way that we process the to-be-learned material.",
+   "cn": "研究者认为，前测之所以有益，是因为它改善了我们对将学材料的加工方式。"
+  },
+  {
+   "en": "‘We could talk for hours about the mechanism,’ says Steven Pan, a cognitive scientist at the National University of Singapore, who recently co-authored a review of the pretesting effect.",
+   "cn": "\"关于其中的机制，我们能聊上好几个小时，\"新加坡国立大学的认知科学家史蒂文·潘（Steven Pan）说，他最近与人合写了一篇关于前测效应的综述。"
+  },
+  {
+   "en": "‘Making a guess might trigger things.",
+   "cn": "\"做出猜测可能会触发一些反应。"
+  },
+  {
+   "en": "Make you more curious.’",
+   "cn": "让你更好奇。\""
+  },
+  {
+   "en": "Increased attention to the to-be-learned material could be another factor.",
+   "cn": "对将学材料投入更多注意，可能是另一个因素。"
+  },
+  {
+   "en": "Pan and his colleagues have observed reduced mind-wandering after pretesting, and other researchers have shown that participants’ eyes focus more on sentences related to the questions they received in advance.",
+   "cn": "潘和他的同事观察到，前测之后走神的情况减少了；其他研究者则发现，参与者的目光会更集中于与事先拿到的问题相关的句子。"
+  },
+  {
+   "en": "Other potential mechanisms include an improved motivation to learn and that pretesting acts as a metacognitive ‘reality check’, highlighting what you do and do not know and encouraging you to fill in knowledge gaps.",
+   "cn": "其他可能的机制还包括：学习动机的增强；以及前测扮演了元认知层面的\"现实检验\"角色——让你看清自己知道什么、不知道什么，促使你去填补知识空白。"
+  },
+  {
+   "en": "Whatever the mechanism is, when you later need that information, you’re more likely to recall it after a pretest than if you had simply read it.",
+   "cn": "无论机制为何，当你之后需要用到那条信息时，做过前测比只是单纯读过，更可能把它回忆起来。"
+  },
+  {
+   "en": "As Pan explains: ‘If you have only read [the learning material], your chance of recalling that information is not zero, but it’s typically going to be less than if you had to make a guess first.’",
+   "cn": "正如潘所解释的：\"如果你只是读过（学习材料），你回忆起那条信息的概率不是零，但通常会低于先做过一次猜测的情况。\""
+  },
+  {
+   "en": "Studies show that the benefits of pretesting can persist from one day to one week to several weeks, indicating that the advantages of a pretest extend well beyond the initial minutes following studying and that true learning is taking place.",
+   "cn": "研究显示，前测的好处可以持续一天、一周乃至数周，这说明前测的优势远不止学习结束后的最初几分钟，而是发生了真正的学习。"
+  },
+  {
+   "en": "What’s more, newer research suggests that the effect may actually grow stronger over time, meaning its potency could have been underestimated in the many studies that only measured learning shortly after the study session.",
+   "cn": "更何况，较新的研究提示，这一效应可能随时间推移而变得更强——也就是说，在那些只在学完后不久就测量学习效果的众多研究里，它的威力可能被低估了。"
+  },
+  {
+   "en": "If you want to try pretesting for yourself, keep in mind that it works best when the questions are focused on information that will be covered in what you’re about to learn.",
+   "cn": "如果你想亲自试试前测，请记住：当问题聚焦于你即将学习的内容时，它最有效。"
+  },
+  {
+   "en": "Though access to correct answers isn’t necessary for pretesting, feedback can still shape your learning experience and might be especially helpful when engaging with more complex learning materials.",
+   "cn": "虽然前测并不需要你拿到正确答案，但反馈仍然能塑造你的学习体验，在学习更复杂的材料时可能尤其有用。"
+  },
+  {
+   "en": "Faria Sana, a cognitive scientist at Athabasca University, explains that, in these cases, ‘feedback can scaffold learning and ensure that learners don’t reinforce errors.’",
+   "cn": "阿萨巴斯卡大学的认知科学家法里亚·萨纳（Faria Sana）解释说，在这些情况下，\"反馈可以为学习搭起脚手架，确保学习者不会把错误固化下来\"。"
+  },
+  {
+   "en": "Also, note that the benefits of pretesting can diminish when there is a delay between the test and the learning session.",
+   "cn": "另外要注意，如果测验与学习之间隔了一段时间，前测的好处就会打折扣。"
+  },
+  {
+   "en": "So make sure you take the pre-quiz shortly before engaging with the learning material.",
+   "cn": "所以，务必在开始学习材料之前不久完成前测小测。"
+  },
+  {
+   "en": "For example, if you’re about to watch a video, take a moment to answer a few pretest questions right before hitting that play button.",
+   "cn": "比如，如果你正要看一个视频，就在按下播放键之前，花点时间答几道前测题。"
+  },
+  {
+   "en": "For longer or more complex materials – such as an entire book chapter or a lengthier video – try guessing the answers to a few questions before each chapter section or video segment.",
+   "cn": "对于更长或更复杂的材料——比如整章书或较长的视频——试着在每一节或每一段开始前，先猜一猜几个问题的答案。"
+  },
+  {
+   "en": "This way, your guesses will be made shortly before you encounter the answers.",
+   "cn": "这样，你的猜测就会恰好赶在遇到答案之前发生。"
+  },
+  {
+   "en": "As for where to source your questions, you could consider using the questions that are often found at the end of textbook chapters or provided at the end of a lecture (be that online, or at a learning institution).",
+   "cn": "至于去哪里找题目，你可以用教材章末常见的练习题，或者课程结尾给出的题目（无论线上课程还是教育机构里的课程）。"
+  },
+  {
+   "en": "Another approach, if you’re studying from a book, is to ‘glance through and try to guess from the headings what information will be there.",
+   "cn": "另一种办法，如果你读的是书，就是\"大致翻一遍，试着从标题猜猜里面会写些什么。"
+  },
+  {
+   "en": "And then read and discover what’s actually in there,’ recommends Pan.",
+   "cn": "然后再读，看看里面实际讲了什么。\"潘如此建议。"
+  },
+  {
+   "en": "Alternatively, Sana suggests that you can ‘turn learning objectives into questions and attempt to answer them before exploring the content’ or you could generate your own questions based on what you expect to learn.",
+   "cn": "或者，萨纳建议，你可以\"把学习目标变成问题，在探索内容之前先试着回答\"，也可以根据你预期要学的东西自己出题。"
+  },
+  {
+   "en": "Pan adds: ‘You can even ask an artificial intelligence agent to help generate practice questions for you, then engage in pretesting with those questions.’",
+   "cn": "潘补充道：\"你甚至可以让人工智能帮你生成练习题，然后用这些题来做前测。\""
+  },
+  {
+   "en": "The types of questions you choose can also influence the benefits you reap.",
+   "cn": "你选择的题型也会影响你能收获多少好处。"
+  },
+  {
+   "en": "Pretesting has been shown to work with a variety of question types, including multiple-choice, short-answer and fill-in-the-blank questions.",
+   "cn": "已有证明，前测对多种题型都有效，包括选择题、简答题和填空题。"
+  },
+  {
+   "en": "However, when learning similar and therefore easily confused material, such as distinguishing between the eight wrist bones or the various moons of Saturn, question type can make a difference.",
+   "cn": "不过，当学习相似因而容易混淆的材料时——比如分辨八块腕骨，或土星那些形形色色的卫星——题型就可能带来差别。"
+  },
+  {
+   "en": "A 2016 study found that including incorrect but closely related answer options in a multiple-choice test format can help direct your attention more broadly – both to the information necessary to answer the specific pretest questions and to the information related to the incorrect alternatives.",
+   "cn": "2016年的一项研究发现，在选择题里放入错误但密切相关的备选项，能把你的注意力引向更广的范围——既指向回答具体前测题所需的信息，也指向与那些错误选项相关的信息。"
+  },
+  {
+   "en": "Then, when you begin studying the learning material, this brief exposure to related information will help you notice and remember it better.",
+   "cn": "这样，等你开始学习材料时，这些对相关信息的短暂接触会帮你更好地注意并记住它们。"
+  },
+  {
+   "en": "For example, before reading a study text about Saturn, you might first answer a multiple-choice pretest that included a question about its moons (‘What is Saturn’s largest moon?",
+   "cn": "比如，在读一篇关于土星的学习文章之前，你可以先做一道含有土星卫星问题的选择题前测，题目是：\"土星最大的卫星是哪一颗？"
+  },
+  {
+   "en": "a.",
+   "cn": "甲、"
+  },
+  {
+   "en": "Titan, b.",
+   "cn": "土卫六（Titan）；乙、"
+  },
+  {
+   "en": "Rhea, c.",
+   "cn": "土卫五（Rhea）；丙、"
+  },
+  {
+   "en": "Mimas; answer: Titan).",
+   "cn": "土卫一（Mimas）。答案：土卫六。"
+  },
+  {
+   "en": "This would prompt you to pay more attention to information about the largest moon (ie, Titan) and also to information about the other moons.",
+   "cn": "这会促使你更加关注关于最大卫星（即土卫六）的信息，同时也会更关注其他卫星的信息。"
+  },
+  {
+   "en": "‘Then, if you were asked about the second-largest moon later, you would be better equipped to answer “Rhea”,’ explains Jeri Little, a cognitive scientist at California State University, East Bay and co-author of the study.",
+   "cn": "\"之后如果问到第二大的卫星，你会更有把握答出'土卫五'，\"该研究的合著者、加州州立大学东湾分校的认知科学家杰丽·利特尔（Jeri Little）解释道。"
+  },
+  {
+   "en": "In contrast, it would be less effective to take a pretest that required only short-answer questions.",
+   "cn": "相比之下，只用简答题做前测，效果就没那么好。"
+  },
+  {
+   "en": "This would focus your attention solely on the specific question and its answer, making those questions less effective for promoting the learning of related material.",
+   "cn": "它只会把你的注意力集中在那道题及其答案上，对促进相关材料的学习就没那么有效。"
+  },
+  {
+   "en": "For example, if your pretest included the question ‘What is Saturn’s largest moon?’ in a short-answer format, the pretesting effect would be limited to the correct answer (ie, Titan) without broadening your attention to think about Mimas or Rhea.",
+   "cn": "比如，如果你的前测用简答题问\"土星最大的卫星是什么？\"，前测效应就会局限于正确答案（即土卫六），而不会把你的注意力扩展到土卫一或土卫五上。"
+  },
+  {
+   "en": "Scientists see pretesting as particularly useful for learning concrete concepts or facts, such as ‘Titan is Saturn’s largest moon.’ Although research has shown that pretesting can extend to procedural knowledge – such as the recent study in which individuals who attempted a medical procedure before watching a training video subsequently performed the procedure more quickly and with fewer errors than those who only watched the video – this area of research is in its early stages.",
+   "cn": "科学家认为，前测对学习具体概念或事实尤其有用，比如\"土卫六是土星最大的卫星\"。尽管研究显示前测也能延伸到程序性知识——比如最近有一项研究：先尝试操作某项医疗程序再看教学视频的人，之后执行该程序比只看视频的人更快、更少出错——但这一研究领域还处于早期阶段。"
+  },
+  {
+   "en": "Another guessing-based strategy that has proven effective, often in group learning, is known as ‘productive failure’.",
+   "cn": "另一种已证明有效的、基于猜测的策略常用于小组学习，名叫\"有效失败\"（productive failure）。"
+  },
+  {
+   "en": "In subjects like mathematics, it involves encouraging learners to attempt solving problems before receiving formal instruction – and again there’s evidence that this form of guessing can result in better outcomes than instruction alone.",
+   "cn": "在数学这类学科中，它鼓励学习者在接受正式讲解之前先尝试解题——同样有证据表明，这种形式的猜比起单纯听讲能带来更好的结果。"
+  },
+  {
+   "en": "Pretesting, a strategy with almost no downsides, is unlikely to detract from any traditional post-learning tests you take and will likely improve your overall learning process.",
+   "cn": "前测几乎没有坏处，不太可能拖累你之后参加的任何传统测验，反而可能改善你的整体学习过程。"
+  },
+  {
+   "en": "Given all the evidence for pretesting, you might wonder why it isn’t more commonly used.",
+   "cn": "面对前测的种种证据，你也许会问：它为什么没有被更广泛地使用？"
+  },
+  {
+   "en": "The truth is, we often fail to recognise just how helpful pretesting can be, even after experiencing its benefits firsthand.",
+   "cn": "真相是，即便亲身受益之后，我们也常常意识不到前测到底有多大帮助。"
+  },
+  {
+   "en": "That’s why Pan calls it a ‘secret strategy’.",
+   "cn": "所以潘把它称为一个\"秘密策略\"。"
+  },
+  {
+   "en": "In his teaching, he likes to open with a thoughtful question to ‘spark thinking about the lesson that is to follow’.",
+   "cn": "在教学中，他喜欢用一个引人深思的问题开场，\"为接下来的课程点燃思考\"。"
+  },
+  {
+   "en": "With growing evidence in its favour, why not join Pan and others and give this secret strategy a try?",
+   "cn": "支持它的证据越来越多，何不加入潘和其他人的行列，亲自试试这个秘密策略？"
+  }
+ ],
+ "paras": [
+  {
+   "sentences": [
+    {
+     "en": "It may sound illogical, but growing evidence shows the benefits of testing yourself before you start learning new material",
+     "cn": "听起来不合逻辑，但越来越多的证据表明，在开始学习新内容之前先考一考自己，大有好处。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Imagine you are planning to learn about the solar system but, before you start, your teacher gives you a multiple-choice quiz on the topic.",
+     "cn": "想象一下：你打算学习太阳系的知识，但还没开始，老师就先给你做了一套关于这个主题的选择题测验。",
+     "cnEdited": true
+    },
+    {
+     "en": "You haven’t learned a single fact about the solar system yet, so the questions, such as ‘Which of our dwarf planets is not a plutoid?’ or ‘Which planet is the least dense in the solar system?’, leave you staring blankly.",
+     "cn": "你对太阳系还一无所知，所以诸如\"我们的矮行星中哪一颗不是类冥天体？\"或\"太阳系中哪颗行星密度最小？\"这样的问题，只会让你一脸茫然。",
+     "cnEdited": true
+    },
+    {
+     "en": "Naturally, you are bound to make mistakes.",
+     "cn": "当然，你注定会答错一片。",
+     "cnEdited": true
+    },
+    {
+     "en": "You might understandably feel that this guessing in the dark is a complete waste of time.",
+     "cn": "你大概会觉得这种摸黑瞎猜完全是浪费时间——这也情有可原。",
+     "cnEdited": true
+    },
+    {
+     "en": "In fact, it’s not – a growing body of research shows this early test can significantly enhance your later learning.",
+     "cn": "事实上并非如此——越来越多的研究表明，这次提前的测验能显著提升你之后的学习效果。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The potential of tests, not just for assessment, but also for learning, dates back at least as far as the 1920s when the psychologist Sidney Pressey developed his innovative typewriter-turned-testing machine.",
+     "cn": "测验的潜力不只在于评估，还在于促进学习——这一思路至少可以追溯到20世纪20年代，当时心理学家西德尼·普雷西（Sidney Pressey）发明了一台由打字机改造而来的新颖测试机。",
+     "cnEdited": true
+    },
+    {
+     "en": "The machine presented a question with several possible answers, requiring students to press a key to submit their response.",
+     "cn": "这台机器会呈现一道题和几个备选答案，学生需要按键提交自己的回答。",
+     "cnEdited": true
+    },
+    {
+     "en": "Pressey’s innovation was a feature that held the question in place until the correct answer was chosen, transforming the test into a learning experience.",
+     "cn": "普雷西的创新在于一个功能：题目会一直留在机器上，直到选出正确答案为止——这让测验本身变成了一次学习体验。",
+     "cnEdited": true
+    },
+    {
+     "en": "Although it wasn’t widely adopted, his work anticipated what is now known about the huge benefits of testing for improving learning.",
+     "cn": "尽管这台机器没有被广泛采用，但他的工作预示了如今我们已知的测验对提升学习的巨大好处。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The virtues of testing for improving recall and deepening learning have been widely researched, but the vast majority of studies have focused on the benefit of tests taken after studying.",
+     "cn": "测验在改善记忆、深化学习方面的优点已被广泛研究，但绝大多数研究关注的都是学习之后的测验带来的好处。",
+     "cnEdited": true
+    },
+    {
+     "en": "Research from the 1960s was among the earliest to highlight the benefits of testing before learning – what is now called the ‘pretesting effect’ – and in recent years there has been a surge of interest in this counterintuitive effect.",
+     "cn": "20世纪60年代的研究最早凸显了学习之前测验的好处——也就是如今所称的\"前测效应\"（pretesting effect）——而近年来，这种反直觉的效应引发了爆发式的关注。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Here’s what experiments into the pretesting effect typically look like.",
+     "cn": "有关前测效应的实验通常是这样做的。",
+     "cnEdited": true
+    },
+    {
+     "en": "All participants eventually study the same new information, but half are asked to answer anywhere from one to several dozen questions about the material before they have had a chance to study it – usually without feedback on their largely incorrect guesses.",
+     "cn": "所有参与者最终都会学习同样的新材料，但其中一半人要在学习之前先回答一道到几十道与材料相关的问题——通常也不会有人告诉他们，那些大多错误的猜测究竟对不对。",
+     "cnEdited": true
+    },
+    {
+     "en": "After all of the participants have studied the material, everyone then takes a final test to assess how well they’ve learned.",
+     "cn": "等所有参与者都学完材料后，所有人再参加一次最终测试，以评估学习效果。",
+     "cnEdited": true
+    },
+    {
+     "en": "Even though that pretest might seem pointless (why spend valuable learning time making wrong guesses?), over and over again, experiments suggest that it is time well spent.",
+     "cn": "尽管前测看上去毫无意义（为什么要用宝贵的学习时间去做错误的猜测？），实验却一再表明，这段时间花得值。",
+     "cnEdited": true
+    },
+    {
+     "en": "The pretest group typically outperforms the control group.",
+     "cn": "前测组的表现通常好于对照组。",
+     "cnEdited": true
+    },
+    {
+     "en": "Even incorrect guessing followed by studying benefits learning.",
+     "cn": "即便是猜错了再学习，也对学习有益。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "These benefits apply to simple materials, such as word pairs, and more complex ones, such as reading passages about physics or oceanography, watching videos on history or information theory, or attending live research-methods lectures.",
+     "cn": "这些好处既适用于单词对这样的简单材料，也适用于更复杂的材料——比如阅读物理或海洋学的文章、观看历史或信息论的视频，或者现场听研究方法课。",
+     "cnEdited": true
+    },
+    {
+     "en": "And this holds true for children learning about space exploration and undergraduates studying psychology; in the laboratory and in the classroom; and whether answers are scribbled with a pen on paper or guessed on one’s laptop.",
+     "cn": "无论是学太空探索的孩子还是学心理学的大学生；无论在实验室还是在课堂上；无论用笔在纸上写答案还是在笔记本电脑上猜答案——效果都成立。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Researchers believe pretesting is beneficial because it improves the way that we process the to-be-learned material.",
+     "cn": "研究者认为，前测之所以有益，是因为它改善了我们对将学材料的加工方式。",
+     "cnEdited": true
+    },
+    {
+     "en": "‘We could talk for hours about the mechanism,’ says Steven Pan, a cognitive scientist at the National University of Singapore, who recently co-authored a review of the pretesting effect.",
+     "cn": "\"关于其中的机制，我们能聊上好几个小时，\"新加坡国立大学的认知科学家史蒂文·潘（Steven Pan）说，他最近与人合写了一篇关于前测效应的综述。",
+     "cnEdited": true
+    },
+    {
+     "en": "‘Making a guess might trigger things.",
+     "cn": "\"做出猜测可能会触发一些反应。",
+     "cnEdited": true
+    },
+    {
+     "en": "Make you more curious.’",
+     "cn": "让你更好奇。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Increased attention to the to-be-learned material could be another factor.",
+     "cn": "对将学材料投入更多注意，可能是另一个因素。",
+     "cnEdited": true
+    },
+    {
+     "en": "Pan and his colleagues have observed reduced mind-wandering after pretesting, and other researchers have shown that participants’ eyes focus more on sentences related to the questions they received in advance.",
+     "cn": "潘和他的同事观察到，前测之后走神的情况减少了；其他研究者则发现，参与者的目光会更集中于与事先拿到的问题相关的句子。",
+     "cnEdited": true
+    },
+    {
+     "en": "Other potential mechanisms include an improved motivation to learn and that pretesting acts as a metacognitive ‘reality check’, highlighting what you do and do not know and encouraging you to fill in knowledge gaps.",
+     "cn": "其他可能的机制还包括：学习动机的增强；以及前测扮演了元认知层面的\"现实检验\"角色——让你看清自己知道什么、不知道什么，促使你去填补知识空白。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Whatever the mechanism is, when you later need that information, you’re more likely to recall it after a pretest than if you had simply read it.",
+     "cn": "无论机制为何，当你之后需要用到那条信息时，做过前测比只是单纯读过，更可能把它回忆起来。",
+     "cnEdited": true
+    },
+    {
+     "en": "As Pan explains: ‘If you have only read [the learning material], your chance of recalling that information is not zero, but it’s typically going to be less than if you had to make a guess first.’",
+     "cn": "正如潘所解释的：\"如果你只是读过（学习材料），你回忆起那条信息的概率不是零，但通常会低于先做过一次猜测的情况。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Studies show that the benefits of pretesting can persist from one day to one week to several weeks, indicating that the advantages of a pretest extend well beyond the initial minutes following studying and that true learning is taking place.",
+     "cn": "研究显示，前测的好处可以持续一天、一周乃至数周，这说明前测的优势远不止学习结束后的最初几分钟，而是发生了真正的学习。",
+     "cnEdited": true
+    },
+    {
+     "en": "What’s more, newer research suggests that the effect may actually grow stronger over time, meaning its potency could have been underestimated in the many studies that only measured learning shortly after the study session.",
+     "cn": "更何况，较新的研究提示，这一效应可能随时间推移而变得更强——也就是说，在那些只在学完后不久就测量学习效果的众多研究里，它的威力可能被低估了。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "If you want to try pretesting for yourself, keep in mind that it works best when the questions are focused on information that will be covered in what you’re about to learn.",
+     "cn": "如果你想亲自试试前测，请记住：当问题聚焦于你即将学习的内容时，它最有效。",
+     "cnEdited": true
+    },
+    {
+     "en": "Though access to correct answers isn’t necessary for pretesting, feedback can still shape your learning experience and might be especially helpful when engaging with more complex learning materials.",
+     "cn": "虽然前测并不需要你拿到正确答案，但反馈仍然能塑造你的学习体验，在学习更复杂的材料时可能尤其有用。",
+     "cnEdited": true
+    },
+    {
+     "en": "Faria Sana, a cognitive scientist at Athabasca University, explains that, in these cases, ‘feedback can scaffold learning and ensure that learners don’t reinforce errors.’",
+     "cn": "阿萨巴斯卡大学的认知科学家法里亚·萨纳（Faria Sana）解释说，在这些情况下，\"反馈可以为学习搭起脚手架，确保学习者不会把错误固化下来\"。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Also, note that the benefits of pretesting can diminish when there is a delay between the test and the learning session.",
+     "cn": "另外要注意，如果测验与学习之间隔了一段时间，前测的好处就会打折扣。",
+     "cnEdited": true
+    },
+    {
+     "en": "So make sure you take the pre-quiz shortly before engaging with the learning material.",
+     "cn": "所以，务必在开始学习材料之前不久完成前测小测。",
+     "cnEdited": true
+    },
+    {
+     "en": "For example, if you’re about to watch a video, take a moment to answer a few pretest questions right before hitting that play button.",
+     "cn": "比如，如果你正要看一个视频，就在按下播放键之前，花点时间答几道前测题。",
+     "cnEdited": true
+    },
+    {
+     "en": "For longer or more complex materials – such as an entire book chapter or a lengthier video – try guessing the answers to a few questions before each chapter section or video segment.",
+     "cn": "对于更长或更复杂的材料——比如整章书或较长的视频——试着在每一节或每一段开始前，先猜一猜几个问题的答案。",
+     "cnEdited": true
+    },
+    {
+     "en": "This way, your guesses will be made shortly before you encounter the answers.",
+     "cn": "这样，你的猜测就会恰好赶在遇到答案之前发生。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "As for where to source your questions, you could consider using the questions that are often found at the end of textbook chapters or provided at the end of a lecture (be that online, or at a learning institution).",
+     "cn": "至于去哪里找题目，你可以用教材章末常见的练习题，或者课程结尾给出的题目（无论线上课程还是教育机构里的课程）。",
+     "cnEdited": true
+    },
+    {
+     "en": "Another approach, if you’re studying from a book, is to ‘glance through and try to guess from the headings what information will be there.",
+     "cn": "另一种办法，如果你读的是书，就是\"大致翻一遍，试着从标题猜猜里面会写些什么。",
+     "cnEdited": true
+    },
+    {
+     "en": "And then read and discover what’s actually in there,’ recommends Pan.",
+     "cn": "然后再读，看看里面实际讲了什么。\"潘如此建议。",
+     "cnEdited": true
+    },
+    {
+     "en": "Alternatively, Sana suggests that you can ‘turn learning objectives into questions and attempt to answer them before exploring the content’ or you could generate your own questions based on what you expect to learn.",
+     "cn": "或者，萨纳建议，你可以\"把学习目标变成问题，在探索内容之前先试着回答\"，也可以根据你预期要学的东西自己出题。",
+     "cnEdited": true
+    },
+    {
+     "en": "Pan adds: ‘You can even ask an artificial intelligence agent to help generate practice questions for you, then engage in pretesting with those questions.’",
+     "cn": "潘补充道：\"你甚至可以让人工智能帮你生成练习题，然后用这些题来做前测。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The types of questions you choose can also influence the benefits you reap.",
+     "cn": "你选择的题型也会影响你能收获多少好处。",
+     "cnEdited": true
+    },
+    {
+     "en": "Pretesting has been shown to work with a variety of question types, including multiple-choice, short-answer and fill-in-the-blank questions.",
+     "cn": "已有证明，前测对多种题型都有效，包括选择题、简答题和填空题。",
+     "cnEdited": true
+    },
+    {
+     "en": "However, when learning similar and therefore easily confused material, such as distinguishing between the eight wrist bones or the various moons of Saturn, question type can make a difference.",
+     "cn": "不过，当学习相似因而容易混淆的材料时——比如分辨八块腕骨，或土星那些形形色色的卫星——题型就可能带来差别。",
+     "cnEdited": true
+    },
+    {
+     "en": "A 2016 study found that including incorrect but closely related answer options in a multiple-choice test format can help direct your attention more broadly – both to the information necessary to answer the specific pretest questions and to the information related to the incorrect alternatives.",
+     "cn": "2016年的一项研究发现，在选择题里放入错误但密切相关的备选项，能把你的注意力引向更广的范围——既指向回答具体前测题所需的信息，也指向与那些错误选项相关的信息。",
+     "cnEdited": true
+    },
+    {
+     "en": "Then, when you begin studying the learning material, this brief exposure to related information will help you notice and remember it better.",
+     "cn": "这样，等你开始学习材料时，这些对相关信息的短暂接触会帮你更好地注意并记住它们。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "For example, before reading a study text about Saturn, you might first answer a multiple-choice pretest that included a question about its moons (‘What is Saturn’s largest moon?",
+     "cn": "比如，在读一篇关于土星的学习文章之前，你可以先做一道含有土星卫星问题的选择题前测，题目是：\"土星最大的卫星是哪一颗？",
+     "cnEdited": true
+    },
+    {
+     "en": "a.",
+     "cn": "甲、",
+     "cnEdited": true
+    },
+    {
+     "en": "Titan, b.",
+     "cn": "土卫六（Titan）；乙、",
+     "cnEdited": true
+    },
+    {
+     "en": "Rhea, c.",
+     "cn": "土卫五（Rhea）；丙、",
+     "cnEdited": true
+    },
+    {
+     "en": "Mimas; answer: Titan).",
+     "cn": "土卫一（Mimas）。答案：土卫六。",
+     "cnEdited": true
+    },
+    {
+     "en": "This would prompt you to pay more attention to information about the largest moon (ie, Titan) and also to information about the other moons.",
+     "cn": "这会促使你更加关注关于最大卫星（即土卫六）的信息，同时也会更关注其他卫星的信息。",
+     "cnEdited": true
+    },
+    {
+     "en": "‘Then, if you were asked about the second-largest moon later, you would be better equipped to answer “Rhea”,’ explains Jeri Little, a cognitive scientist at California State University, East Bay and co-author of the study.",
+     "cn": "\"之后如果问到第二大的卫星，你会更有把握答出'土卫五'，\"该研究的合著者、加州州立大学东湾分校的认知科学家杰丽·利特尔（Jeri Little）解释道。",
+     "cnEdited": true
+    },
+    {
+     "en": "In contrast, it would be less effective to take a pretest that required only short-answer questions.",
+     "cn": "相比之下，只用简答题做前测，效果就没那么好。",
+     "cnEdited": true
+    },
+    {
+     "en": "This would focus your attention solely on the specific question and its answer, making those questions less effective for promoting the learning of related material.",
+     "cn": "它只会把你的注意力集中在那道题及其答案上，对促进相关材料的学习就没那么有效。",
+     "cnEdited": true
+    },
+    {
+     "en": "For example, if your pretest included the question ‘What is Saturn’s largest moon?’ in a short-answer format, the pretesting effect would be limited to the correct answer (ie, Titan) without broadening your attention to think about Mimas or Rhea.",
+     "cn": "比如，如果你的前测用简答题问\"土星最大的卫星是什么？\"，前测效应就会局限于正确答案（即土卫六），而不会把你的注意力扩展到土卫一或土卫五上。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Scientists see pretesting as particularly useful for learning concrete concepts or facts, such as ‘Titan is Saturn’s largest moon.’ Although research has shown that pretesting can extend to procedural knowledge – such as the recent study in which individuals who attempted a medical procedure before watching a training video subsequently performed the procedure more quickly and with fewer errors than those who only watched the video – this area of research is in its early stages.",
+     "cn": "科学家认为，前测对学习具体概念或事实尤其有用，比如\"土卫六是土星最大的卫星\"。尽管研究显示前测也能延伸到程序性知识——比如最近有一项研究：先尝试操作某项医疗程序再看教学视频的人，之后执行该程序比只看视频的人更快、更少出错——但这一研究领域还处于早期阶段。",
+     "cnEdited": true
+    },
+    {
+     "en": "Another guessing-based strategy that has proven effective, often in group learning, is known as ‘productive failure’.",
+     "cn": "另一种已证明有效的、基于猜测的策略常用于小组学习，名叫\"有效失败\"（productive failure）。",
+     "cnEdited": true
+    },
+    {
+     "en": "In subjects like mathematics, it involves encouraging learners to attempt solving problems before receiving formal instruction – and again there’s evidence that this form of guessing can result in better outcomes than instruction alone.",
+     "cn": "在数学这类学科中，它鼓励学习者在接受正式讲解之前先尝试解题——同样有证据表明，这种形式的猜比起单纯听讲能带来更好的结果。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Pretesting, a strategy with almost no downsides, is unlikely to detract from any traditional post-learning tests you take and will likely improve your overall learning process.",
+     "cn": "前测几乎没有坏处，不太可能拖累你之后参加的任何传统测验，反而可能改善你的整体学习过程。",
+     "cnEdited": true
+    },
+    {
+     "en": "Given all the evidence for pretesting, you might wonder why it isn’t more commonly used.",
+     "cn": "面对前测的种种证据，你也许会问：它为什么没有被更广泛地使用？",
+     "cnEdited": true
+    },
+    {
+     "en": "The truth is, we often fail to recognise just how helpful pretesting can be, even after experiencing its benefits firsthand.",
+     "cn": "真相是，即便亲身受益之后，我们也常常意识不到前测到底有多大帮助。",
+     "cnEdited": true
+    },
+    {
+     "en": "That’s why Pan calls it a ‘secret strategy’.",
+     "cn": "所以潘把它称为一个\"秘密策略\"。",
+     "cnEdited": true
+    },
+    {
+     "en": "In his teaching, he likes to open with a thoughtful question to ‘spark thinking about the lesson that is to follow’.",
+     "cn": "在教学中，他喜欢用一个引人深思的问题开场，\"为接下来的课程点燃思考\"。",
+     "cnEdited": true
+    },
+    {
+     "en": "With growing evidence in its favour, why not join Pan and others and give this secret strategy a try?",
+     "cn": "支持它的证据越来越多，何不加入潘和其他人的行列，亲自试试这个秘密策略？",
+     "cnEdited": true
+    }
+   ]
+  }
+ ],
+ "cet4_words": [
+  {
+   "w": "learning",
+   "layer": "core",
+   "pos": "n.",
+   "def": "学习；学问，知识",
+   "n": 27
+  },
+  {
+   "w": "question",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发问；问题；疑问；询问；怀疑；审问",
+   "n": 25
+  },
+  {
+   "w": "answer",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "回答；响应；适应；答案",
+   "n": 19
+  },
+  {
+   "w": "study",
+   "layer": "core",
+   "pos": "n.",
+   "def": "学习，研究",
+   "n": 16
+  },
+  {
+   "w": "material",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "材料；素材a.物质的；物质的， 实体的； 肉体的； 重要的， 实质性的",
+   "n": 13
+  },
+  {
+   "w": "test",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "试验；检验",
+   "n": 13
+  },
+  {
+   "w": "guess",
+   "layer": "core",
+   "pos": "n.",
+   "def": "猜测，推测",
+   "n": 12
+  },
+  {
+   "w": "information",
+   "layer": "core",
+   "pos": "n.",
+   "def": "消息，信息；通知",
+   "n": 11
+  },
+  {
+   "w": "learn",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "学，学习",
+   "n": 8
+  },
+  {
+   "w": "make",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使；做，制造",
+   "n": 8
+  },
+  {
+   "w": "moon",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "月球，月亮；卫星；闲荡；出神",
+   "n": 8
+  },
+  {
+   "w": "research",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "调查，探究",
+   "n": 7
+  },
+  {
+   "w": "effect",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "结果；效果，效力；产生；达到目的",
+   "n": 6
+  },
+  {
+   "w": "take",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拿；抓；拿走；吃；捕获量；看法；利益，盈益；（入场券的）售得金额",
+   "n": 6
+  },
+  {
+   "w": "video",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "电视的；录像；录制",
+   "n": 6
+  },
+  {
+   "w": "attention",
+   "layer": "core",
+   "pos": "n.",
+   "def": "注意，留心；注意力",
+   "n": 5
+  },
+  {
+   "w": "improve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使更好 vi.改善",
+   "n": 5
+  },
+  {
+   "w": "include",
+   "layer": "core",
+   "pos": "v.",
+   "def": "包括，包含",
+   "n": 5
+  },
+  {
+   "w": "relate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "叙述；使联系",
+   "n": 5
+  },
+  {
+   "w": "choice",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "选择，抉择；精选的；仔细推敲的",
+   "n": 4
+  },
+  {
+   "w": "focus",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "聚焦，注视 n.焦点；焦点",
+   "n": 4
+  },
+  {
+   "w": "grow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "生长；变得；增长",
+   "n": 4
+  },
+  {
+   "w": "multiple",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "复合的；并联的；倍数",
+   "n": 4
+  },
+  {
+   "w": "one",
+   "layer": "core",
+   "pos": "num./pron./adj.",
+   "def": "一；一个人；一的；唯一的",
+   "n": 4
+  },
+  {
+   "w": "scientist",
+   "layer": "core",
+   "pos": "n.",
+   "def": "(自然)科学家",
+   "n": 4
+  },
+  {
+   "w": "strategy",
+   "layer": "core",
+   "pos": "n.",
+   "def": "战略；策略",
+   "n": 4
+  },
+  {
+   "w": "time",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "时间；时机；次，回；计时；测定…的时间；安排…的速度；定时的；定期的；分期的",
+   "n": 4
+  },
+  {
+   "w": "try",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "试；审问；尝试；努力；试验",
+   "n": 4
+  },
+  {
+   "w": "watch",
+   "layer": "core",
+   "pos": "v./v./n.",
+   "def": "观看；手表；监视；守护；值班人",
+   "n": 4
+  },
+  {
+   "w": "ask",
+   "layer": "core",
+   "pos": "v.",
+   "def": "问；要求；邀请",
+   "n": 3
+  },
+  {
+   "w": "better",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "较好的 ad.更好地；更好地；长辈；较好者；打赌的人（等于bettor）；改善；胜过",
+   "n": 3
+  },
+  {
+   "w": "cognitive",
+   "layer": "core",
+   "pos": "adj",
+   "def": "认知的",
+   "n": 3
+  },
+  {
+   "w": "correct",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "正确的 vt.纠正；纠正",
+   "n": 3
+  },
+  {
+   "w": "effective",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "有效的；有影响的",
+   "n": 3
+  },
+  {
+   "w": "example",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "例子，实例；模范；作为…的例子；为…做出榜样",
+   "n": 3
+  },
+  {
+   "w": "experience",
+   "layer": "core",
+   "pos": "n.",
+   "def": "经验，感受；经历",
+   "n": 3
+  },
+  {
+   "w": "explain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解释；为…辩解",
+   "n": 3
+  },
+  {
+   "w": "fact",
+   "layer": "core",
+   "pos": "n.",
+   "def": "事实；实际，实情",
+   "n": 3
+  },
+  {
+   "w": "group",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "小组，群 vi.聚集；聚集；群的；团体的",
+   "n": 3
+  },
+  {
+   "w": "help",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "帮助；援助 n.帮手；帮手",
+   "n": 3
+  },
+  {
+   "w": "later",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "后来；过一会儿",
+   "n": 3
+  },
+  {
+   "w": "less",
+   "layer": "core",
+   "pos": "adj./adv./prep./n.",
+   "def": "更少的 ad.更少地；更少地；减去；较少；较小",
+   "n": 3
+  },
+  {
+   "w": "new",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "新的；新近出现的；新近",
+   "n": 3
+  },
+  {
+   "w": "participant",
+   "layer": "core",
+   "pos": "n/adj.",
+   "def": "参加者；有份的,参与的",
+   "n": 3
+  },
+  {
+   "w": "read",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "读，看懂；阅读；读物；有学问的",
+   "n": 3
+  },
+  {
+   "w": "recall",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "回想；叫回；收回；召回；回忆；撤消",
+   "n": 3
+  },
+  {
+   "w": "several",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "几个，数个",
+   "n": 3
+  },
+  {
+   "w": "short",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "短的；短期的；短；缺乏；短路；短裤；不足；突然；唐突地",
+   "n": 3
+  },
+  {
+   "w": "show",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "给…看；表明；显示；表演；炫耀",
+   "n": 3
+  },
+  {
+   "w": "solar",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "太阳的，日光的；日光浴室",
+   "n": 3
+  },
+  {
+   "w": "suggest",
+   "layer": "core",
+   "pos": "v.",
+   "def": "建议；暗示，启发",
+   "n": 3
+  },
+  {
+   "w": "system",
+   "layer": "core",
+   "pos": "n.",
+   "def": "系统，体系；制度",
+   "n": 3
+  },
+  {
+   "w": "type",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "型，类型；打字",
+   "n": 3
+  },
+  {
+   "w": "university",
+   "layer": "core",
+   "pos": "n.",
+   "def": "大学，综合性大学",
+   "n": 3
+  },
+  {
+   "w": "well",
+   "layer": "core",
+   "pos": "n./adv./adj./v.",
+   "def": "井；很好地；充分地；满意地；适当地；良好的；健康的；适宜的；涌出",
+   "n": 3
+  },
+  {
+   "w": "work",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工作；职业；使工作；操作；经营；使缓慢前进",
+   "n": 3
+  },
+  {
+   "w": "actually",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "实际上；竟然",
+   "n": 2
+  },
+  {
+   "w": "although",
+   "layer": "core",
+   "pos": "conj.",
+   "def": "尽管，虽然",
+   "n": 2
+  },
+  {
+   "w": "author",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "作者，作家；创作出版",
+   "n": 2
+  },
+  {
+   "w": "base",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "基础，底层；基地；卑鄙的；低劣的；以…作基础",
+   "n": 2
+  },
+  {
+   "w": "book",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "书，书籍 vt.预定；预定",
+   "n": 2
+  },
+  {
+   "w": "call",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "把…叫做；叫，喊；电话；呼叫；要求；访问",
+   "n": 2
+  },
+  {
+   "w": "chance",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "机会，机遇；可能性；偶然发生；冒……的险",
+   "n": 2
+  },
+  {
+   "w": "early",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "早 a.早的，早期的；提早；在初期",
+   "n": 2
+  },
+  {
+   "w": "encourage",
+   "layer": "core",
+   "pos": "v.",
+   "def": "鼓励，支持，助长",
+   "n": 2
+  },
+  {
+   "w": "end",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "末端；目标 vt.结束；结束",
+   "n": 2
+  },
+  {
+   "w": "error",
+   "layer": "core",
+   "pos": "n.",
+   "def": "错误，谬误；差错",
+   "n": 2
+  },
+  {
+   "w": "experiment",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "实验；试验；尝试；进行实验",
+   "n": 2
+  },
+  {
+   "w": "fill",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "装满，盛满；占满；满足；填满的量；装填物",
+   "n": 2
+  },
+  {
+   "w": "first",
+   "layer": "core",
+   "pos": "num./adv./adj.",
+   "def": "第一 ad.最初；最初；第一的；基本的；最早的",
+   "n": 2
+  },
+  {
+   "w": "follow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "跟随；结果是",
+   "n": 2
+  },
+  {
+   "w": "give",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "做，作；送给；弹性；弯曲；伸展性",
+   "n": 2
+  },
+  {
+   "w": "instruction",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "命令；教学；教训；说明用法的",
+   "n": 2
+  },
+  {
+   "w": "knowledge",
+   "layer": "core",
+   "pos": "n.",
+   "def": "知识，学识；知道",
+   "n": 2
+  },
+  {
+   "w": "least",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "最少的 ad.最少；最少；最少， 最少量",
+   "n": 2
+  },
+  {
+   "w": "likely",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "可能的 ad.很可能；很可能",
+   "n": 2
+  },
+  {
+   "w": "machine",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "机器；机械；用机器制造",
+   "n": 2
+  },
+  {
+   "w": "mind",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "头脑；理智；记忆；介意；专心于；照料",
+   "n": 2
+  },
+  {
+   "w": "necessary",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "必要的；必然的；必需品",
+   "n": 2
+  },
+  {
+   "w": "now",
+   "layer": "core",
+   "pos": "adj./conj.",
+   "def": "现在；立刻；于是；由于；既然",
+   "n": 2
+  },
+  {
+   "w": "place",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "地方，地点；住所；放置；任命；寄予",
+   "n": 2
+  },
+  {
+   "w": "planet",
+   "layer": "core",
+   "pos": "n.",
+   "def": "行星",
+   "n": 2
+  },
+  {
+   "w": "potential",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "潜在的；潜力",
+   "n": 2
+  },
+  {
+   "w": "procedure",
+   "layer": "core",
+   "pos": "n.",
+   "def": "程序；手续；过程",
+   "n": 2
+  },
+  {
+   "w": "process",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "过程；工序；处理；经过特殊加工（或处理）的",
+   "n": 2
+  },
+  {
+   "w": "reading",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "读，阅读；读书；阅读的",
+   "n": 2
+  },
+  {
+   "w": "receive",
+   "layer": "core",
+   "pos": "v.",
+   "def": "收到；得到；接待",
+   "n": 2
+  },
+  {
+   "w": "recent",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "新近的，最近的",
+   "n": 2
+  },
+  {
+   "w": "require",
+   "layer": "core",
+   "pos": "v.",
+   "def": "需要；要求，命令",
+   "n": 2
+  },
+  {
+   "w": "researcher",
+   "layer": "core",
+   "pos": "n.",
+   "def": "调查者；探究者",
+   "n": 2
+  },
+  {
+   "w": "secret",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "秘密的；隐蔽的；秘密；秘诀；机密",
+   "n": 2
+  },
+  {
+   "w": "session",
+   "layer": "core",
+   "pos": "n.",
+   "def": "会议，一段时间",
+   "n": 2
+  },
+  {
+   "w": "specific",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "特有的；具体的；详情， 细节",
+   "n": 2
+  },
+  {
+   "w": "start",
+   "layer": "core",
+   "pos": "v.",
+   "def": "跳起；出发；开始",
+   "n": 2
+  },
+  {
+   "w": "think",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "想；想要；认为；思想的",
+   "n": 2
+  },
+  {
+   "w": "though",
+   "layer": "core",
+   "pos": "conj./adv.",
+   "def": "虽然；可是， 不过， 然而",
+   "n": 2
+  },
+  {
+   "w": "true",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "真的；忠实的；真实地；准确地；真实；准确；装准",
+   "n": 2
+  },
+  {
+   "w": "turn",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "转；翻；转弯；变化；(损害或有益于别人的)行为，举动，举止",
+   "n": 2
+  },
+  {
+   "w": "way",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "路；路线；方向；大大地；远远地；途中的",
+   "n": 2
+  },
+  {
+   "w": "week",
+   "layer": "core",
+   "pos": "n.",
+   "def": "星期，周",
+   "n": 2
+  },
+  {
+   "w": "widely",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "广，广泛；大大地",
+   "n": 2
+  },
+  {
+   "w": "yourself",
+   "layer": "core",
+   "pos": "pron.",
+   "def": "你自己；你亲自",
+   "n": 2
+  },
+  {
+   "w": "access",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "接近；通道，入口；获取",
+   "n": 1
+  },
+  {
+   "w": "act",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "行动；见效 n.行为；行为",
+   "n": 1
+  },
+  {
+   "w": "add",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "添加，附加，掺加；加法，加法运算",
+   "n": 1
+  },
+  {
+   "w": "adopt",
+   "layer": "core",
+   "pos": "v.",
+   "def": "收养；采用；采取",
+   "n": 1
+  },
+  {
+   "w": "advance",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "前进；提高 n.进展；进展；预先的；先行的",
+   "n": 1
+  },
+  {
+   "w": "advantage",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "优点，优势；好处；获利",
+   "n": 1
+  },
+  {
+   "w": "agent",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "代理人，代理商；由…作中介；由…代理；代理的",
+   "n": 1
+  },
+  {
+   "w": "almost",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "几乎，差不多",
+   "n": 1
+  },
+  {
+   "w": "alone",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "单独的 ad.单独地；单独地",
+   "n": 1
+  },
+  {
+   "w": "alternative",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "替换物；取舍，抉择；两者选一的， 供选择的； 另类的",
+   "n": 1
+  },
+  {
+   "w": "anywhere",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "在什么地方；在任何地方；无论何处；任何地方",
+   "n": 1
+  },
+  {
+   "w": "apply",
+   "layer": "core",
+   "pos": "v.",
+   "def": "应用，实施，使用",
+   "n": 1
+  },
+  {
+   "w": "approach",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "向…*近 n.*近；靠近；接近，方法",
+   "n": 1
+  },
+  {
+   "w": "area",
+   "layer": "core",
+   "pos": "n.",
+   "def": "面积；地区；领域",
+   "n": 1
+  },
+  {
+   "w": "artificial",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "人工的；娇揉造作的",
+   "n": 1
+  },
+  {
+   "w": "assess",
+   "layer": "core",
+   "pos": "v.",
+   "def": "对(财产等)估价",
+   "n": 1
+  },
+  {
+   "w": "attend",
+   "layer": "core",
+   "pos": "v.",
+   "def": "出席；照顾，护理",
+   "n": 1
+  },
+  {
+   "w": "back",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "在后；回原处；回；后面；背部；靠背；足球等的后卫；书报等的末尾；支持；后退；背书；下赌注；后面的；过去的；拖欠的",
+   "n": 1
+  },
+  {
+   "w": "begin",
+   "layer": "core",
+   "pos": "v.",
+   "def": "开始 vt.开始",
+   "n": 1
+  },
+  {
+   "w": "believe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "相信；认为",
+   "n": 1
+  },
+  {
+   "w": "best",
+   "layer": "core",
+   "pos": "adj./n./adv./v.",
+   "def": "最好的；最大的；最好的人，最好的事物；最佳状态；最好地；打败，胜过",
+   "n": 1
+  },
+  {
+   "w": "blank",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "空白的 n.空白；空白；使…无效；使…模糊；封锁",
+   "n": 1
+  },
+  {
+   "w": "body",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "身体；主体；尸体；赋以形体",
+   "n": 1
+  },
+  {
+   "w": "bone",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "骨，骨骼；剔去的骨；施骨肥于",
+   "n": 1
+  },
+  {
+   "w": "brief",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "简短的；短暂的；向…介绍基本情况，做…的提要；概要， 摘要",
+   "n": 1
+  },
+  {
+   "w": "case",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "情况；事实；病例；包围；把…装于容器中",
+   "n": 1
+  },
+  {
+   "w": "check",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "检查；制止 n.检查；支票；帐单",
+   "n": 1
+  },
+  {
+   "w": "choose",
+   "layer": "core",
+   "pos": "v.",
+   "def": "选择，挑选；情愿",
+   "n": 1
+  },
+  {
+   "w": "classroom",
+   "layer": "core",
+   "pos": "n.",
+   "def": "教室，课堂",
+   "n": 1
+  },
+  {
+   "w": "closely",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "紧密地，接近地",
+   "n": 1
+  },
+  {
+   "w": "colleague",
+   "layer": "core",
+   "pos": "n.",
+   "def": "同事，同僚",
+   "n": 1
+  },
+  {
+   "w": "complete",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "完整的；完成的；完成",
+   "n": 1
+  },
+  {
+   "w": "consider",
+   "layer": "core",
+   "pos": "v.",
+   "def": "认为；考虑；关心",
+   "n": 1
+  },
+  {
+   "w": "content",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "满意的，满足的；内容；使满足",
+   "n": 1
+  },
+  {
+   "w": "contrast",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "对比，对照，悬殊；形成对比， 对比之下显出区别",
+   "n": 1
+  },
+  {
+   "w": "control",
+   "layer": "core",
+   "pos": "v.",
+   "def": "控制，克制 n.控制",
+   "n": 1
+  },
+  {
+   "w": "cover",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "盖，包括 n.盖子；盖子",
+   "n": 1
+  },
+  {
+   "w": "dark",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "暗的；黑色的；黑暗；夜；黄昏；模糊",
+   "n": 1
+  },
+  {
+   "w": "date",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "日期 vt.注…日期；注…日期",
+   "n": 1
+  },
+  {
+   "w": "day",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "(一)天，白昼，白天；每天；经常在白天地；日间的；逐日的",
+   "n": 1
+  },
+  {
+   "w": "develop",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发展；形成；开发",
+   "n": 1
+  },
+  {
+   "w": "difference",
+   "layer": "core",
+   "pos": "n.",
+   "def": "差别；差；分歧",
+   "n": 1
+  },
+  {
+   "w": "direct",
+   "layer": "core",
+   "pos": "adj./v./adv.",
+   "def": "直接的；直率的；管理；指挥；导演；指向；直接地；正好；按直系关系",
+   "n": 1
+  },
+  {
+   "w": "discover",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发现；暴露，显示",
+   "n": 1
+  },
+  {
+   "w": "dozen",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "一打，十二个；一打的",
+   "n": 1
+  },
+  {
+   "w": "easily",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "容易地；舒适的",
+   "n": 1
+  },
+  {
+   "w": "east",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "东；东部 ad.在东方；在东方；东方的；向东的；从东方来的",
+   "n": 1
+  },
+  {
+   "w": "eight",
+   "layer": "core",
+   "pos": "num./adj./n.",
+   "def": "八，八个，第八；八的；八字形",
+   "n": 1
+  },
+  {
+   "w": "entire",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "全部的，整个的",
+   "n": 1
+  },
+  {
+   "w": "especially",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "特别，尤其，格外",
+   "n": 1
+  },
+  {
+   "w": "eventually",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "终于；最后；最终地",
+   "n": 1
+  },
+  {
+   "w": "everyone",
+   "layer": "core",
+   "pos": "n.",
+   "def": "每人，人人；每个人",
+   "n": 1
+  },
+  {
+   "w": "expect",
+   "layer": "core",
+   "pos": "v.",
+   "def": "预料，预期；等待",
+   "n": 1
+  },
+  {
+   "w": "explore",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "探险，探索",
+   "n": 1
+  },
+  {
+   "w": "exposure",
+   "layer": "core",
+   "pos": "n.",
+   "def": "暴露；揭露；曝光",
+   "n": 1
+  },
+  {
+   "w": "eye",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "眼睛；眼力；鉴赏力；注视，看",
+   "n": 1
+  },
+  {
+   "w": "fail",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "失败；失灵；不能；不及格",
+   "n": 1
+  },
+  {
+   "w": "failure",
+   "layer": "core",
+   "pos": "n.",
+   "def": "失败；失败的人",
+   "n": 1
+  },
+  {
+   "w": "far",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "远的 ad.远，遥远；很；遥远地；久远地；到很远的距离；到很深的程度；远方",
+   "n": 1
+  },
+  {
+   "w": "feel",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "有知觉 vt.触，摸；感觉；触摸",
+   "n": 1
+  },
+  {
+   "w": "final",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "最后的；决定性的；决赛；期末考试；当日报纸的末版",
+   "n": 1
+  },
+  {
+   "w": "following",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "接着的；下列的；一批追随者；跟随；沿行（follow的ing形式）",
+   "n": 1
+  },
+  {
+   "w": "form",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "形式；形状 vt.形成；形成",
+   "n": 1
+  },
+  {
+   "w": "formal",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "正式的；礼仪上的；正式的社交活动；夜礼服",
+   "n": 1
+  },
+  {
+   "w": "gap",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "缺口；间隔；差距；裂开",
+   "n": 1
+  },
+  {
+   "w": "glance",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "看一下 n.一瞥；一瞥",
+   "n": 1
+  },
+  {
+   "w": "half",
+   "layer": "core",
+   "pos": "n./adj./adv.",
+   "def": "半，一半 a.一半的；一半的；一半地；部分地",
+   "n": 1
+  },
+  {
+   "w": "history",
+   "layer": "core",
+   "pos": "n.",
+   "def": "历史；个人经历",
+   "n": 1
+  },
+  {
+   "w": "hold",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拿住；掌握；拥有；控制；保留",
+   "n": 1
+  },
+  {
+   "w": "hour",
+   "layer": "core",
+   "pos": "n.",
+   "def": "小时；时间，时刻",
+   "n": 1
+  },
+  {
+   "w": "however",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "然而；不管怎样",
+   "n": 1
+  },
+  {
+   "w": "huge",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "巨大的，庞大的",
+   "n": 1
+  },
+  {
+   "w": "imagine",
+   "layer": "core",
+   "pos": "v.",
+   "def": "想象，设想；料想",
+   "n": 1
+  },
+  {
+   "w": "increase",
+   "layer": "core",
+   "pos": "v./v./n.",
+   "def": "增加",
+   "n": 1
+  },
+  {
+   "w": "indicate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "标示，表示；表明",
+   "n": 1
+  },
+  {
+   "w": "individual",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "个别的；独特的；个人",
+   "n": 1
+  },
+  {
+   "w": "influence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "影响；势力 vt.影响",
+   "n": 1
+  },
+  {
+   "w": "initial",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "最初的；词首的；首字母；用姓名的首字母签名",
+   "n": 1
+  },
+  {
+   "w": "innovative",
+   "layer": "core",
+   "pos": "adj",
+   "def": "创新的， 革新的",
+   "n": 1
+  },
+  {
+   "w": "institution",
+   "layer": "core",
+   "pos": "n.",
+   "def": "协会；制度，习俗",
+   "n": 1
+  },
+  {
+   "w": "intelligence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "智力；理解力；情报",
+   "n": 1
+  },
+  {
+   "w": "interest",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "兴趣；利益；利息；使感兴趣",
+   "n": 1
+  },
+  {
+   "w": "involve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使卷入；牵涉",
+   "n": 1
+  },
+  {
+   "w": "join",
+   "layer": "core",
+   "pos": "v.",
+   "def": "参加；连接",
+   "n": 1
+  },
+  {
+   "w": "keep",
+   "layer": "core",
+   "pos": "v.",
+   "def": "保持；坚持",
+   "n": 1
+  },
+  {
+   "w": "key",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "钥匙；键；答案；键入；锁上；调节…的音调；提供线索；关键的",
+   "n": 1
+  },
+  {
+   "w": "know",
+   "layer": "core",
+   "pos": "v.",
+   "def": "知道；认识；通晓",
+   "n": 1
+  },
+  {
+   "w": "largely",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "大部分；大量地；主要地",
+   "n": 1
+  },
+  {
+   "w": "leave",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "离去vt.离开；许可，同意；休假",
+   "n": 1
+  },
+  {
+   "w": "lesson",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "功课，课；课程；教训；上课",
+   "n": 1
+  },
+  {
+   "w": "limited",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "有限的；高级快车",
+   "n": 1
+  },
+  {
+   "w": "little",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "小的；少；幼小的；完全不；少许；没有多少；短时间",
+   "n": 1
+  },
+  {
+   "w": "live",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "居住；活 a.活的；活的",
+   "n": 1
+  },
+  {
+   "w": "long",
+   "layer": "core",
+   "pos": "v./n./adj./adv.",
+   "def": "渴望，极想念；长时间；[语] 长音节；（服装的）长尺寸；长裤；长的；过长的；做多头的；长时间的；冗长的，长音；长期地；始终",
+   "n": 1
+  },
+  {
+   "w": "look",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "看，显得 n.看；[C]看，瞧",
+   "n": 1
+  },
+  {
+   "w": "majority",
+   "layer": "core",
+   "pos": "n.",
+   "def": "多数，大多数",
+   "n": 1
+  },
+  {
+   "w": "meaning",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "意义，意思；意图；意味深长的；意味；意思是（mean的ing形式）",
+   "n": 1
+  },
+  {
+   "w": "measure",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "量，测量 n.分量；分量",
+   "n": 1
+  },
+  {
+   "w": "medical",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "医学的；内科的；医生；体格检查",
+   "n": 1
+  },
+  {
+   "w": "method",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "方法，办法；教学法；使用体验派表演方法的",
+   "n": 1
+  },
+  {
+   "w": "minute",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "微细的；详细的；分，分钟；一会儿；将…记录下来",
+   "n": 1
+  },
+  {
+   "w": "mistake",
+   "layer": "core",
+   "pos": "n.",
+   "def": "错误 vi.误解，弄错",
+   "n": 1
+  },
+  {
+   "w": "moment",
+   "layer": "core",
+   "pos": "n.",
+   "def": "片刻，瞬间，时刻",
+   "n": 1
+  },
+  {
+   "w": "national",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "民族的；国家的；国民",
+   "n": 1
+  },
+  {
+   "w": "need",
+   "layer": "core",
+   "pos": "v.",
+   "def": "需要 v.aux.需要",
+   "n": 1
+  },
+  {
+   "w": "note",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "笔记；便条；注释；注意；记录；注解",
+   "n": 1
+  },
+  {
+   "w": "notice",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "注意 n.通知；注意；通知",
+   "n": 1
+  },
+  {
+   "w": "objective",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "客观的；无偏见的；目标，目的",
+   "n": 1
+  },
+  {
+   "w": "observe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "遵守；看到；说",
+   "n": 1
+  },
+  {
+   "w": "online",
+   "layer": "core",
+   "pos": "adj",
+   "def": "在线的； 联机的， 联网的",
+   "n": 1
+  },
+  {
+   "w": "open",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "开的；开放的；开始；展现；公开；空旷；户外",
+   "n": 1
+  },
+  {
+   "w": "option",
+   "layer": "core",
+   "pos": "n.",
+   "def": "选择，选择权",
+   "n": 1
+  },
+  {
+   "w": "outcome",
+   "layer": "core",
+   "pos": "n.",
+   "def": "结果，后果，成果",
+   "n": 1
+  },
+  {
+   "w": "overall",
+   "layer": "core",
+   "pos": "n./adj./adv.",
+   "def": "工装裤；全面的；总共",
+   "n": 1
+  },
+  {
+   "w": "own",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "自己的；有，拥有",
+   "n": 1
+  },
+  {
+   "w": "paper",
+   "layer": "core",
+   "pos": "n/adj./v.",
+   "def": "纸；官方文件；文章；纸做的；用纸糊；用纸包装",
+   "n": 1
+  },
+  {
+   "w": "passage",
+   "layer": "core",
+   "pos": "n",
+   "def": "通过；通路，通道",
+   "n": 1
+  },
+  {
+   "w": "pay",
+   "layer": "core",
+   "pos": "v/n./adj.",
+   "def": "支付；付给；给予；工资，薪水；付款；报答；收费的；需付费的",
+   "n": 1
+  },
+  {
+   "w": "play",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "玩，游戏；演奏；玩耍； 戏剧",
+   "n": 1
+  },
+  {
+   "w": "possible",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "可能的；可能存在的；可能性；合适的人；可能的事物",
+   "n": 1
+  },
+  {
+   "w": "post",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "柱，桩，杆；贴出",
+   "n": 1
+  },
+  {
+   "w": "practice",
+   "layer": "core",
+   "pos": "n.",
+   "def": "实践；练习；业务",
+   "n": 1
+  },
+  {
+   "w": "present",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "礼物，赠送物；现在的；提出；介绍；呈现；赠送",
+   "n": 1
+  },
+  {
+   "w": "press",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "压，按，揿；催促；出版社；印刷所；印刷机",
+   "n": 1
+  },
+  {
+   "w": "problem",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "问题；习题，问题；成问题的；难处理的",
+   "n": 1
+  },
+  {
+   "w": "promote",
+   "layer": "core",
+   "pos": "v.",
+   "def": "促进，发扬；提升",
+   "n": 1
+  },
+  {
+   "w": "provide",
+   "layer": "core",
+   "pos": "v.",
+   "def": "提供；装备，供给",
+   "n": 1
+  },
+  {
+   "w": "quickly",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "快，迅速；快速地",
+   "n": 1
+  },
+  {
+   "w": "reality",
+   "layer": "core",
+   "pos": "n.",
+   "def": "现实；真实",
+   "n": 1
+  },
+  {
+   "w": "recently",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "最近，新近",
+   "n": 1
+  },
+  {
+   "w": "recommend",
+   "layer": "core",
+   "pos": "v.",
+   "def": "推荐，介绍；劝告",
+   "n": 1
+  },
+  {
+   "w": "reduce",
+   "layer": "core",
+   "pos": "v.",
+   "def": "减少，减小；简化",
+   "n": 1
+  },
+  {
+   "w": "remember",
+   "layer": "core",
+   "pos": "v.",
+   "def": "记得，想起；记住",
+   "n": 1
+  },
+  {
+   "w": "response",
+   "layer": "core",
+   "pos": "n.",
+   "def": "作答，回答；响应",
+   "n": 1
+  },
+  {
+   "w": "result",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "成果；发生； 结果",
+   "n": 1
+  },
+  {
+   "w": "review",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "再检查；复习",
+   "n": 1
+  },
+  {
+   "w": "right",
+   "layer": "core",
+   "pos": "adj./v./n./adv.",
+   "def": "正确的；复正；恢复平稳；正确；右边；正义；正确地；恰当地；彻底地",
+   "n": 1
+  },
+  {
+   "w": "same",
+   "layer": "core",
+   "pos": "adj./pron./adv./n.",
+   "def": "同一的，相同的；同样的事物或人（通常与the连用）；同样地（通常与the连用）；同样的事",
+   "n": 1
+  },
+  {
+   "w": "say",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "说；说明；比如说；决定权；发言权",
+   "n": 1
+  },
+  {
+   "w": "second",
+   "layer": "core",
+   "pos": "n./v./adj./num./adv.",
+   "def": "秒；支持；第二的；次要的；附加的；第二；第二；其次；居第二位",
+   "n": 1
+  },
+  {
+   "w": "section",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "切片；一段；部门；被切割成片；被分成部分",
+   "n": 1
+  },
+  {
+   "w": "see",
+   "layer": "core",
+   "pos": "v.",
+   "def": "看见；遇见；看出",
+   "n": 1
+  },
+  {
+   "w": "seem",
+   "layer": "core",
+   "pos": "v.",
+   "def": "好像，似乎",
+   "n": 1
+  },
+  {
+   "w": "sentence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "判决；句子",
+   "n": 1
+  },
+  {
+   "w": "shape",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "形状；情况；形成；塑造，使成形；使符合",
+   "n": 1
+  },
+  {
+   "w": "similar",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "相似的，类似的；类似物",
+   "n": 1
+  },
+  {
+   "w": "simple",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "简单的；朴素的；笨蛋；愚蠢的行为；出身低微者",
+   "n": 1
+  },
+  {
+   "w": "simply",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "简单地；朴素地",
+   "n": 1
+  },
+  {
+   "w": "single",
+   "layer": "core",
+   "pos": "adj./n./v.",
+   "def": "单一的；独身的；单程票；；选出",
+   "n": 1
+  },
+  {
+   "w": "solve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解答，解释，解决",
+   "n": 1
+  },
+  {
+   "w": "sound",
+   "layer": "core",
+   "pos": "adj./v./n./adv.",
+   "def": "健康的；完好的；听（诊）；测量，测…深；使发声；试探；宣告；声音，语音；噪音；海峡；吵闹；听力范围；[医] 探条；彻底地，充分地",
+   "n": 1
+  },
+  {
+   "w": "source",
+   "layer": "core",
+   "pos": "n.",
+   "def": "河的源头；根源",
+   "n": 1
+  },
+  {
+   "w": "space",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "空间；场地；空白；留间隔",
+   "n": 1
+  },
+  {
+   "w": "spend",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用钱，花费；度过；预算",
+   "n": 1
+  },
+  {
+   "w": "stage",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "舞台；戏剧；阶段；举行；上演；筹划",
+   "n": 1
+  },
+  {
+   "w": "star",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "星；恒星；明星；以星状物装饰,变成演员",
+   "n": 1
+  },
+  {
+   "w": "state",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "状态；国家；州；规定；声明；陈述；国家的；州的；正式的",
+   "n": 1
+  },
+  {
+   "w": "strong",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "强壮的；擅长的；强劲地；猛烈地",
+   "n": 1
+  },
+  {
+   "w": "student",
+   "layer": "core",
+   "pos": "n.",
+   "def": "学生；研究生，学者",
+   "n": 1
+  },
+  {
+   "w": "subject",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "题目；学科；主语；使隶属；服从的；易患…的；受制于…的",
+   "n": 1
+  },
+  {
+   "w": "sure",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "确信的；确实的；当然；的确",
+   "n": 1
+  },
+  {
+   "w": "talk",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "讲话；谈话；演讲；空谈",
+   "n": 1
+  },
+  {
+   "w": "teacher",
+   "layer": "core",
+   "pos": "n.",
+   "def": "教师，老师，先生",
+   "n": 1
+  },
+  {
+   "w": "teaching",
+   "layer": "core",
+   "pos": "n.",
+   "def": "教学，讲授；教导",
+   "n": 1
+  },
+  {
+   "w": "text",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "原文，本文；课文；发短信",
+   "n": 1
+  },
+  {
+   "w": "textbook",
+   "layer": "core",
+   "pos": "n.",
+   "def": "课本，教科书",
+   "n": 1
+  },
+  {
+   "w": "theory",
+   "layer": "core",
+   "pos": "n.",
+   "def": "理论；学说；意见",
+   "n": 1
+  },
+  {
+   "w": "therefore",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "因此，所以",
+   "n": 1
+  },
+  {
+   "w": "thing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "物；用品；事；情况",
+   "n": 1
+  },
+  {
+   "w": "topic",
+   "layer": "core",
+   "pos": "n.",
+   "def": "题目，论题，话题",
+   "n": 1
+  },
+  {
+   "w": "traditional",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "传统的，惯例的",
+   "n": 1
+  },
+  {
+   "w": "training",
+   "layer": "core",
+   "pos": "n.",
+   "def": "训练，锻炼，培养",
+   "n": 1
+  },
+  {
+   "w": "transform",
+   "layer": "core",
+   "pos": "v.",
+   "def": "改变；改造；变换",
+   "n": 1
+  },
+  {
+   "w": "truth",
+   "layer": "core",
+   "pos": "n.",
+   "def": "真理；真实；真实性",
+   "n": 1
+  },
+  {
+   "w": "use",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用；耗费；使用；用途；发挥",
+   "n": 1
+  },
+  {
+   "w": "used",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "旧的；习惯于…的；用（use的过去式）；（used to）过去常做",
+   "n": 1
+  },
+  {
+   "w": "useful",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "有用的，有益的",
+   "n": 1
+  },
+  {
+   "w": "usually",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "通常",
+   "n": 1
+  },
+  {
+   "w": "valuable",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "值钱的；有价值的；贵重物品",
+   "n": 1
+  },
+  {
+   "w": "variety",
+   "layer": "core",
+   "pos": "n.",
+   "def": "多样化；种类；变种",
+   "n": 1
+  },
+  {
+   "w": "various",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "各种各样的，不同的",
+   "n": 1
+  },
+  {
+   "w": "vast",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "巨大的；大量的；浩瀚；广阔无垠的空间",
+   "n": 1
+  },
+  {
+   "w": "want",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "要；需要；缺乏",
+   "n": 1
+  },
+  {
+   "w": "waste",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "浪费；废物；垃圾；废弃的；多余的；荒芜的",
+   "n": 1
+  },
+  {
+   "w": "whatever",
+   "layer": "core",
+   "pos": "pron./adj.",
+   "def": "无论什么；不管什么样的",
+   "n": 1
+  },
+  {
+   "w": "whether",
+   "layer": "core",
+   "pos": "conj./pron.",
+   "def": "是否；两个中的哪一个",
+   "n": 1
+  },
+  {
+   "w": "wonder",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "惊异，惊奇；奇迹；怀疑；想知道；惊讶；奇妙的；非凡的",
+   "n": 1
+  },
+  {
+   "w": "word",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "词；话；消息；语言；用言辞表达",
+   "n": 1
+  },
+  {
+   "w": "wrong",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "错误的；错误地；邪恶地，不正当地；坏事；不公正；委屈；无理地对待；诽谤",
+   "n": 1
+  },
+  {
+   "w": "year",
+   "layer": "core",
+   "pos": "n.",
+   "def": "年；年年",
+   "n": 1
+  }
+ ]
+}

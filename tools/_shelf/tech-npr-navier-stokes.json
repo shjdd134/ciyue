@@ -1,0 +1,2213 @@
+{
+ "id": "tech-npr-navier-stokes",
+ "cat": "科技",
+ "title": "AI solved one of math's hardest problems. Humanity learned nothing (so far)",
+ "titleZh": "AI 解出了数学最难的难题之一，人类（暂时）却一无所获",
+ "source_url": "https://www.npr.org/2026/09/22/nx-s1-5968588/openai-navier-stokes-problem-mathematicians-learn-little",
+ "date": "2026-09-22",
+ "coverImg": "assets/covers/tech-npr-navier-stokes.jpg",
+ "inlineImages": [],
+ "translation_type": "ciyue_edited",
+ "stats": {
+  "paragraphs": 35,
+  "sentences": 68,
+  "words": 1233,
+  "chinese": 2028,
+  "emptyCn": 0
+ },
+ "sentence_pairs": [
+  {
+   "en": "When OpenAI announced its AI had solved one of the world's toughest math problems earlier this month, its tone was celebratory:",
+   "cn": "本月早些时候，当 OpenAI 宣布其人工智能解出了世界上最难的数学问题之一时，它的语气是庆祝式的："
+  },
+  {
+   "en": "\"A major goal of our work is to empower scientists to advance research and technology that benefits all of humanity,\" the company wrote in a statement on September 8.",
+   "cn": "\"我们工作的一个主要目标，是赋能科学家去推进造福全人类的研究与技术，\"该公司在9月8日的一份声明中写道。"
+  },
+  {
+   "en": "But mathematicians say that, so far, humanity has learned very little from the solution the company's AI model purportedly found.",
+   "cn": "但数学家们说，到目前为止，人类从该公司 AI 模型据称找到的那个解中，学到的少之又少。"
+  },
+  {
+   "en": "Although they believe the proof to be technically correct, the dense, 166-page manuscript drafted by AI is proving to be a difficult read.",
+   "cn": "尽管他们相信这份证明在技术上是正确的，但这份由 AI 起草、密密麻麻166页的手稿，读起来实在艰难。"
+  },
+  {
+   "en": "\"So far it's been very difficult to really extract any human understanding from this new AI proof,\" said James Maynard, a mathematician at the University of Oxford.",
+   "cn": "\"到目前为止，要想从这份新的 AI 证明中真正提取出任何人类可理解的东西，都非常困难，\"牛津大学数学家詹姆斯·梅纳德（James Maynard）说。"
+  },
+  {
+   "en": "\"The paper is not written for humans,\" said Javier Gómez-Serrano, a mathematician at Brown University who uses AI in his own research.",
+   "cn": "\"这篇论文不是写给人看的，\"布朗大学数学家哈维尔·戈麦斯-塞拉诺（Javier Gómez-Serrano）说，他自己在研究中使用 AI。"
+  },
+  {
+   "en": "He said he believes the proof could help advance the field after \"some serious re-writing,\" but \"as of today, the paper doesn't teach us much.\"",
+   "cn": "他说，他相信这份证明在\"经过认真重写之后\"能推动这个领域进步，但\"截至今天，这篇论文教不了我们太多东西\"。"
+  },
+  {
+   "en": "The solution came as AI appears to be rapidly gaining mathematical insights.",
+   "cn": "这个解出炉之际，AI 看上去正在快速积累数学洞见。"
+  },
+  {
+   "en": "AI has exploded onto the math scene over the past six months, academic mathematicians contacted by NPR said.",
+   "cn": "接受 NPR 采访的学院派数学家们说，过去六个月，AI 在数学界横空出世。"
+  },
+  {
+   "en": "For the first time, large language models appear capable of producing real results that could lead to new mathematical discoveries.",
+   "cn": "大型语言模型首次显得有能力产出真正可能催生新数学发现的成果。"
+  },
+  {
+   "en": "But few see OpenAI's announcement, which came as human mathematicians were closing in on a solution, as an example of how AI and mathematicians can work together.",
+   "cn": "但几乎没有人把 OpenAI 的公告——它发布时，人类数学家正接近一个解——看作 AI 与数学家如何协作的范例。"
+  },
+  {
+   "en": "\"This whole episode could have been a wonderful proof-of-concept of the power of collaboration between humans and AI,\" said Maynard, who signed a statement by 25 winners of the prestigious Fields Medal.",
+   "cn": "\"整个这件事本来可以成为人机协作力量的一个绝佳概念验证，\"梅纳德说。他签署了一份由25位菲尔兹奖得主联名的声明。"
+  },
+  {
+   "en": "The statement, which was published September 11, decried \"misaligned goals\" between the AI companies and the mathematics community.",
+   "cn": "这份于9月11日发表的声明，谴责了 AI 公司与数学共同体之间的\"目标错位\"。"
+  },
+  {
+   "en": "\"Unfortunately, because of the decisions of humans involved, it became this scrappy, messy battle,\" he said.",
+   "cn": "\"遗憾的是，由于相关人员的种种决定，它变成了一场乱糟糟的混战，\"他说。"
+  },
+  {
+   "en": "In response on Monday, OpenAI announced the establishment an \"independent mathematics advisory group\" to help with the review and dissemination of new results.",
+   "cn": "作为回应，OpenAI 周一宣布成立一个\"独立数学顾问组\"，协助新成果的评审与传播。"
+  },
+  {
+   "en": "However, the company added the group would not have a say in how quickly OpenAI pursued new findings: \"Importantly, the group will not be responsible for advising us on how to pace our internal progress on mathematics,\" it wrote.",
+   "cn": "不过，该公司补充说，这个小组无权过问 OpenAI 以多快的速度追逐新发现：\"重要的是，该小组将不负责就我们在数学上的内部推进节奏提供建议，\"它写道。"
+  },
+  {
+   "en": "Rush to discovery",
+   "cn": "争相抢答"
+  },
+  {
+   "en": "The problem OpenAI apparently solved is considered among the most important unanswered questions in mathematics.",
+   "cn": "OpenAI 声称解出的这个问题，被视为数学界最重要的未解问题之一。"
+  },
+  {
+   "en": "Known as the \"Navier-Stokes problem,\" it concerns a set of equations used to describe the flow of fluids.",
+   "cn": "它被称为\"纳维-斯托克斯问题\"（Navier-Stokes problem），关乎一组用来描述流体流动的方程。"
+  },
+  {
+   "en": "The equations are used every day across physics and engineering, said Tristan Buckmaster, a mathematician at New York University.",
+   "cn": "这些方程每天都被用在物理和工程的各个领域，纽约大学数学家特里斯坦·巴克马斯特（Tristan Buckmaster）说。"
+  },
+  {
+   "en": "And yet, at a fundamental level, researchers really don't understand why they work.",
+   "cn": "然而，在最根本的层面上，研究者其实并不真正理解它们为什么成立。"
+  },
+  {
+   "en": "Buckmaster says that getting deeper insights into Navier-Stokes would likely yield \"a new toolkit to understand complicated solutions to fluids.\" That in turn could lead to better models of things like turbulence in fluids and lift in aircraft.",
+   "cn": "巴克马斯特说，对纳维-斯托克斯方程获得更深的洞见，很可能带来\"一套理解流体复杂解的新工具箱\"。这又可能带来更好的模型——比如流体的湍流，或飞机的升力。"
+  },
+  {
+   "en": "In order to find a better version of Navier-Stokes, researchers had been looking for scenarios where the equations \"broke down,\" or stopped working.",
+   "cn": "为了找到纳维-斯托克斯方程的一个更好的版本，研究者们一直在寻找方程\"崩溃\"或失效的场景。"
+  },
+  {
+   "en": "Describing such scenarios became one of the $1 million Millenium Prize Problems, which were established in 2000 by the Clay Mathematics Institute.",
+   "cn": "描述这样的场景，成了千禧年大奖难题之一——那是克雷数学研究所2000年设立、每题奖金100万美元的七道难题。"
+  },
+  {
+   "en": "Mathematicians had been working towards an answer to the Navier-Stokes problem for years, and the community could sense they were getting close.",
+   "cn": "数学家们朝着纳维-斯托克斯问题的答案努力多年，整个共同体都能感觉到他们正在接近。"
+  },
+  {
+   "en": "\"Among the seven Millennium Problems …",
+   "cn": "\"在七道千禧年难题之中……"
+  },
+  {
+   "en": "Everyone agreed that this would be the next one that got solved,\" said Martin Hairer, a mathematician at EPFL, a top European technical university located in Lausanne, Switzerland who also signed the statement.",
+   "cn": "所有人都同意，下一个被解出来的就是它，\"洛桑联邦理工学院（EPFL）——位于瑞士洛桑的一所欧洲顶尖理工院校——的数学家马丁·海雷尔（Martin Hairer）说。他也在声明上签了名。"
+  },
+  {
+   "en": "(Hairer was also named a member of OpenAI's independent panel on Monday.)",
+   "cn": "（周一，海雷尔还被点名为 OpenAI 独立小组的成员。）"
+  },
+  {
+   "en": "Buckmaster and his collaborator, Levent Alpöge at Anthropic, were among the human mathematicians who were inching closer to finding a scenario where the equations stopped working.",
+   "cn": "巴克马斯特和他的合作者、Anthropic 的莱文特·阿尔珀格（Levent Alpöge），正是当时正逐步逼近\"找到方程失效场景\"的人类数学家。"
+  },
+  {
+   "en": "The two were using AI tools, including OpenAI's chatbot to work towards a solution.",
+   "cn": "两人当时也在使用 AI 工具——包括 OpenAI 的聊天机器人——朝着一个解推进。"
+  },
+  {
+   "en": "Then OpenAI caught wind that the problem might soon be solved.",
+   "cn": "随后，OpenAI 风闻这个问题可能很快被解决。"
+  },
+  {
+   "en": "\"On Tuesday, September 1, we heard rumors that two Millennium Prize problems had been resolved,\" the company wrote in its September 8 statement.",
+   "cn": "\"9月1日周二，我们听到传闻说，两道千禧年大奖难题已经被解决，\"该公司在9月8日的声明中写道。"
+  },
+  {
+   "en": "\"Inspired by these rumors and by the step change in performance of our internal model, we launched an effort to evaluate it on all open Millennium Prize problems and a few other high-impact problems.\"",
+   "cn": "\"受这些传闻以及我们内部模型性能跃升的鼓舞，我们发起了一项行动，在所有悬而未决的千禧年难题以及其他一些高影响问题上评估它。\""
+  },
+  {
+   "en": "The company marshalled some 10,000 AI agents to work on the Navier-Stokes problem.",
+   "cn": "该公司调集了约1万个 AI 智能体来攻克纳维-斯托克斯问题。"
+  },
+  {
+   "en": "The agents worked for 88 hours, using around 130 billion output tokens, or units of text and characters generated by the model.",
+   "cn": "这些智能体连续工作88小时，消耗约1300亿个输出 token——也就是模型生成的文本与字符单位。"
+  },
+  {
+   "en": "According to OpenAI's pricing for its most advanced publicly available model, the solution to the Navier-Stokes problem cost the company somewhere around $6-$10 million to compute.",
+   "cn": "按照 OpenAI 对其最先进的公开可用模型的定价，解出纳维-斯托克斯问题花费了该公司大约600万至1000万美元的算力成本。"
+  },
+  {
+   "en": "(Overall, the company says it used 300 billion tokens, closer to $15-20 million, looking for solutions.)",
+   "cn": "（总体而言，该公司说它为寻找各个解共使用了3000亿 token，接近1500万至2000万美元。）"
+  },
+  {
+   "en": "The announcement of OpenAI's solution sparked controversy after Buckmaster issued a public statement describing how the company had approached him.",
+   "cn": "OpenAI 的解一经宣布便引发争议——起因是巴克马斯特发表公开声明，讲述了该公司是如何接近他的。"
+  },
+  {
+   "en": "According to Buckmaster, they said they would put him on their paper if he dropped Alpöge, his collaborator at rival company Anthropic.",
+   "cn": "据巴克马斯特说，对方表示，只要他抛弃在竞争对手 Anthropic 的合作者阿尔珀格，就把他署名进他们的论文。"
+  },
+  {
+   "en": "Buckmaster told NPR he believes OpenAI was tipped off to the approach he and Alpöge were using to try and find the solution to Navier-Stokes.",
+   "cn": "巴克马斯特告诉 NPR，他相信 OpenAI 获得了内线消息，得知了他和阿尔珀格为寻找纳维-斯托克斯问题的解所采用的方法。"
+  },
+  {
+   "en": "\"There's so much circumstantial evidence that they had far more knowledge of what we were doing than they let on,\" he said.",
+   "cn": "\"旁证太多了——他们对我们正在做的事情的了解，远超他们承认的程度，\"他说。"
+  },
+  {
+   "en": "He added that the word \"they\" doesn't necessarily mean a person.",
+   "cn": "他补充说，\"他们\"这个词未必指某个人。"
+  },
+  {
+   "en": "\"It could mean the agents,\" he said.",
+   "cn": "\"也可能指那些智能体，\"他说。"
+  },
+  {
+   "en": "OpenAI has denied that they used Buckmaster and Alpöge's prompts or proofs in its search for a solution.",
+   "cn": "OpenAI 否认在寻找解的过程中使用了巴克马斯特和阿尔珀格的提示词或证明。"
+  },
+  {
+   "en": "Regardless, the hurried results seem muddled.",
+   "cn": "不管怎样，这份赶工出来的结果显得杂乱无章。"
+  },
+  {
+   "en": "Several mathematicians who looked at OpenAI's paper said it was virtually unreadable.",
+   "cn": "几位看过 OpenAI 论文的数学家说，它几乎没法读。"
+  },
+  {
+   "en": "\"It's a terribly written paper,\" Buckmaster said.",
+   "cn": "\"这是一篇写得很糟的论文，\"巴克马斯特说。"
+  },
+  {
+   "en": "\"The paper doesn't explain what parts are important.",
+   "cn": "\"论文没有解释哪些部分是重要的。"
+  },
+  {
+   "en": "What parts are routine?",
+   "cn": "哪些部分是例行公事？"
+  },
+  {
+   "en": "How does the idea feed into other places?\" added Gómez-Serrano.",
+   "cn": "这个想法又能接续到哪些别的地方？\"戈麦斯-塞拉诺补充道。"
+  },
+  {
+   "en": "Buckmaster said that OpenAI's decision to rush out an answer forced him to publish his own heavily AI-influenced preliminary results.",
+   "cn": "巴克马斯特说，OpenAI 抢时间发布答案的决定，迫使他发表了自己那份深受 AI 影响的初步结果。"
+  },
+  {
+   "en": "Those too, he said, are not very well written.",
+   "cn": "他说，那份东西写得也不算好。"
+  },
+  {
+   "en": "\"Everything was rushed out,\" he said.",
+   "cn": "\"一切都被赶工出来了，\"他说。"
+  },
+  {
+   "en": "\"It's still not at the level I'm happy with, but at least the introduction has all the key ideas.\"",
+   "cn": "\"它仍然没达到我满意的水准，但至少导言里有全部的关键想法。\""
+  },
+  {
+   "en": "Computers check computers",
+   "cn": "电脑验电脑"
+  },
+  {
+   "en": "While OpenAI's 166-page proof is taking weeks to untangle, few mathematicians believe it's wrong.",
+   "cn": "当 OpenAI 这份166页的证明还需要数周时间来厘清时，几乎没有数学家认为它是错的。"
+  },
+  {
+   "en": "That's because in addition to publishing the proof, the company also produced a piece of computer code called a Lean formalization.",
+   "cn": "这是因为，除了发布证明本身，该公司还产出了一段被称为 Lean 形式化的计算机代码。"
+  },
+  {
+   "en": "Lean is a programming language used in mathematics to check if proofs are correct.",
+   "cn": "Lean 是数学中用来检验证明是否正确的一种编程语言。"
+  },
+  {
+   "en": "If the code can be compiled, then the proof is considered complete.",
+   "cn": "如果代码能够编译通过，这份证明就被视为完整。"
+  },
+  {
+   "en": "The Lean code produced by OpenAI's tools did compile as expected, Gómez-Serrano said.",
+   "cn": "戈麦斯-塞拉诺说，OpenAI 工具产出的 Lean 代码如期编译通过了。"
+  },
+  {
+   "en": "Based on that, \"the community seems to have the consensus that it is correct.\"",
+   "cn": "基于这一点，\"共同体似乎已有共识：它是正确的。\""
+  },
+  {
+   "en": "Gómez-Serrano, Buckmaster and other mathematicians contacted by NPR all said they envisioned a future for AI in mathematics.",
+   "cn": "戈麦斯-塞拉诺、巴克马斯特以及接受 NPR 采访的其他数学家都说，他们预见 AI 在数学中有一席之地。"
+  },
+  {
+   "en": "The field is open to new tools, in part because for decades, it's ceded much of the day-to-day computations required for making advancements to computers.",
+   "cn": "这个领域对新工具是开放的，部分原因在于：几十年来，数学早已把推进研究所需的大部分日常计算让渡给了计算机。"
+  },
+  {
+   "en": "But this episode is a reminder that mathematics is about more than just finding a solution, said Maynard.",
+   "cn": "但这一幕提醒我们：数学不只是找到一个解，梅纳德说。"
+  },
+  {
+   "en": "\"It wasn't about only answering this problem, it was about the human understanding behind it,\" he said.",
+   "cn": "\"这不只是回答这个问题，而是它背后的人类理解，\"他说。"
+  },
+  {
+   "en": "OpenAI said it hopes its new mathematics advisory group will help improve the dissemination of new results from the company in the future.",
+   "cn": "OpenAI 表示，希望它新的数学顾问组将来能帮助改善该公司新成果的传播。"
+  },
+  {
+   "en": "\"Working with this group is a first step,\" it wrote.",
+   "cn": "\"与这个小组合作是第一步，\"它写道。"
+  },
+  {
+   "en": "\"We want mathematicians to be at the center of shaping the answers.\"",
+   "cn": "\"我们希望数学家们能站在塑造这些答案的中心。\""
+  }
+ ],
+ "paras": [
+  {
+   "sentences": [
+    {
+     "en": "When OpenAI announced its AI had solved one of the world's toughest math problems earlier this month, its tone was celebratory:",
+     "cn": "本月早些时候，当 OpenAI 宣布其人工智能解出了世界上最难的数学问题之一时，它的语气是庆祝式的：",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"A major goal of our work is to empower scientists to advance research and technology that benefits all of humanity,\" the company wrote in a statement on September 8.",
+     "cn": "\"我们工作的一个主要目标，是赋能科学家去推进造福全人类的研究与技术，\"该公司在9月8日的一份声明中写道。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "But mathematicians say that, so far, humanity has learned very little from the solution the company's AI model purportedly found.",
+     "cn": "但数学家们说，到目前为止，人类从该公司 AI 模型据称找到的那个解中，学到的少之又少。",
+     "cnEdited": true
+    },
+    {
+     "en": "Although they believe the proof to be technically correct, the dense, 166-page manuscript drafted by AI is proving to be a difficult read.",
+     "cn": "尽管他们相信这份证明在技术上是正确的，但这份由 AI 起草、密密麻麻166页的手稿，读起来实在艰难。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"So far it's been very difficult to really extract any human understanding from this new AI proof,\" said James Maynard, a mathematician at the University of Oxford.",
+     "cn": "\"到目前为止，要想从这份新的 AI 证明中真正提取出任何人类可理解的东西，都非常困难，\"牛津大学数学家詹姆斯·梅纳德（James Maynard）说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"The paper is not written for humans,\" said Javier Gómez-Serrano, a mathematician at Brown University who uses AI in his own research.",
+     "cn": "\"这篇论文不是写给人看的，\"布朗大学数学家哈维尔·戈麦斯-塞拉诺（Javier Gómez-Serrano）说，他自己在研究中使用 AI。",
+     "cnEdited": true
+    },
+    {
+     "en": "He said he believes the proof could help advance the field after \"some serious re-writing,\" but \"as of today, the paper doesn't teach us much.\"",
+     "cn": "他说，他相信这份证明在\"经过认真重写之后\"能推动这个领域进步，但\"截至今天，这篇论文教不了我们太多东西\"。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The solution came as AI appears to be rapidly gaining mathematical insights.",
+     "cn": "这个解出炉之际，AI 看上去正在快速积累数学洞见。",
+     "cnEdited": true
+    },
+    {
+     "en": "AI has exploded onto the math scene over the past six months, academic mathematicians contacted by NPR said.",
+     "cn": "接受 NPR 采访的学院派数学家们说，过去六个月，AI 在数学界横空出世。",
+     "cnEdited": true
+    },
+    {
+     "en": "For the first time, large language models appear capable of producing real results that could lead to new mathematical discoveries.",
+     "cn": "大型语言模型首次显得有能力产出真正可能催生新数学发现的成果。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "But few see OpenAI's announcement, which came as human mathematicians were closing in on a solution, as an example of how AI and mathematicians can work together.",
+     "cn": "但几乎没有人把 OpenAI 的公告——它发布时，人类数学家正接近一个解——看作 AI 与数学家如何协作的范例。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"This whole episode could have been a wonderful proof-of-concept of the power of collaboration between humans and AI,\" said Maynard, who signed a statement by 25 winners of the prestigious Fields Medal.",
+     "cn": "\"整个这件事本来可以成为人机协作力量的一个绝佳概念验证，\"梅纳德说。他签署了一份由25位菲尔兹奖得主联名的声明。",
+     "cnEdited": true
+    },
+    {
+     "en": "The statement, which was published September 11, decried \"misaligned goals\" between the AI companies and the mathematics community.",
+     "cn": "这份于9月11日发表的声明，谴责了 AI 公司与数学共同体之间的\"目标错位\"。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"Unfortunately, because of the decisions of humans involved, it became this scrappy, messy battle,\" he said.",
+     "cn": "\"遗憾的是，由于相关人员的种种决定，它变成了一场乱糟糟的混战，\"他说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In response on Monday, OpenAI announced the establishment an \"independent mathematics advisory group\" to help with the review and dissemination of new results.",
+     "cn": "作为回应，OpenAI 周一宣布成立一个\"独立数学顾问组\"，协助新成果的评审与传播。",
+     "cnEdited": true
+    },
+    {
+     "en": "However, the company added the group would not have a say in how quickly OpenAI pursued new findings: \"Importantly, the group will not be responsible for advising us on how to pace our internal progress on mathematics,\" it wrote.",
+     "cn": "不过，该公司补充说，这个小组无权过问 OpenAI 以多快的速度追逐新发现：\"重要的是，该小组将不负责就我们在数学上的内部推进节奏提供建议，\"它写道。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "head": 3,
+   "sentences": [
+    {
+     "en": "Rush to discovery",
+     "cn": "争相抢答",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The problem OpenAI apparently solved is considered among the most important unanswered questions in mathematics.",
+     "cn": "OpenAI 声称解出的这个问题，被视为数学界最重要的未解问题之一。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Known as the \"Navier-Stokes problem,\" it concerns a set of equations used to describe the flow of fluids.",
+     "cn": "它被称为\"纳维-斯托克斯问题\"（Navier-Stokes problem），关乎一组用来描述流体流动的方程。",
+     "cnEdited": true
+    },
+    {
+     "en": "The equations are used every day across physics and engineering, said Tristan Buckmaster, a mathematician at New York University.",
+     "cn": "这些方程每天都被用在物理和工程的各个领域，纽约大学数学家特里斯坦·巴克马斯特（Tristan Buckmaster）说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "And yet, at a fundamental level, researchers really don't understand why they work.",
+     "cn": "然而，在最根本的层面上，研究者其实并不真正理解它们为什么成立。",
+     "cnEdited": true
+    },
+    {
+     "en": "Buckmaster says that getting deeper insights into Navier-Stokes would likely yield \"a new toolkit to understand complicated solutions to fluids.\" That in turn could lead to better models of things like turbulence in fluids and lift in aircraft.",
+     "cn": "巴克马斯特说，对纳维-斯托克斯方程获得更深的洞见，很可能带来\"一套理解流体复杂解的新工具箱\"。这又可能带来更好的模型——比如流体的湍流，或飞机的升力。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "In order to find a better version of Navier-Stokes, researchers had been looking for scenarios where the equations \"broke down,\" or stopped working.",
+     "cn": "为了找到纳维-斯托克斯方程的一个更好的版本，研究者们一直在寻找方程\"崩溃\"或失效的场景。",
+     "cnEdited": true
+    },
+    {
+     "en": "Describing such scenarios became one of the $1 million Millenium Prize Problems, which were established in 2000 by the Clay Mathematics Institute.",
+     "cn": "描述这样的场景，成了千禧年大奖难题之一——那是克雷数学研究所2000年设立、每题奖金100万美元的七道难题。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Mathematicians had been working towards an answer to the Navier-Stokes problem for years, and the community could sense they were getting close.",
+     "cn": "数学家们朝着纳维-斯托克斯问题的答案努力多年，整个共同体都能感觉到他们正在接近。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"Among the seven Millennium Problems …",
+     "cn": "\"在七道千禧年难题之中……",
+     "cnEdited": true
+    },
+    {
+     "en": "Everyone agreed that this would be the next one that got solved,\" said Martin Hairer, a mathematician at EPFL, a top European technical university located in Lausanne, Switzerland who also signed the statement.",
+     "cn": "所有人都同意，下一个被解出来的就是它，\"洛桑联邦理工学院（EPFL）——位于瑞士洛桑的一所欧洲顶尖理工院校——的数学家马丁·海雷尔（Martin Hairer）说。他也在声明上签了名。",
+     "cnEdited": true
+    },
+    {
+     "en": "(Hairer was also named a member of OpenAI's independent panel on Monday.)",
+     "cn": "（周一，海雷尔还被点名为 OpenAI 独立小组的成员。）",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Buckmaster and his collaborator, Levent Alpöge at Anthropic, were among the human mathematicians who were inching closer to finding a scenario where the equations stopped working.",
+     "cn": "巴克马斯特和他的合作者、Anthropic 的莱文特·阿尔珀格（Levent Alpöge），正是当时正逐步逼近\"找到方程失效场景\"的人类数学家。",
+     "cnEdited": true
+    },
+    {
+     "en": "The two were using AI tools, including OpenAI's chatbot to work towards a solution.",
+     "cn": "两人当时也在使用 AI 工具——包括 OpenAI 的聊天机器人——朝着一个解推进。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Then OpenAI caught wind that the problem might soon be solved.",
+     "cn": "随后，OpenAI 风闻这个问题可能很快被解决。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"On Tuesday, September 1, we heard rumors that two Millennium Prize problems had been resolved,\" the company wrote in its September 8 statement.",
+     "cn": "\"9月1日周二，我们听到传闻说，两道千禧年大奖难题已经被解决，\"该公司在9月8日的声明中写道。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"Inspired by these rumors and by the step change in performance of our internal model, we launched an effort to evaluate it on all open Millennium Prize problems and a few other high-impact problems.\"",
+     "cn": "\"受这些传闻以及我们内部模型性能跃升的鼓舞，我们发起了一项行动，在所有悬而未决的千禧年难题以及其他一些高影响问题上评估它。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The company marshalled some 10,000 AI agents to work on the Navier-Stokes problem.",
+     "cn": "该公司调集了约1万个 AI 智能体来攻克纳维-斯托克斯问题。",
+     "cnEdited": true
+    },
+    {
+     "en": "The agents worked for 88 hours, using around 130 billion output tokens, or units of text and characters generated by the model.",
+     "cn": "这些智能体连续工作88小时，消耗约1300亿个输出 token——也就是模型生成的文本与字符单位。",
+     "cnEdited": true
+    },
+    {
+     "en": "According to OpenAI's pricing for its most advanced publicly available model, the solution to the Navier-Stokes problem cost the company somewhere around $6-$10 million to compute.",
+     "cn": "按照 OpenAI 对其最先进的公开可用模型的定价，解出纳维-斯托克斯问题花费了该公司大约600万至1000万美元的算力成本。",
+     "cnEdited": true
+    },
+    {
+     "en": "(Overall, the company says it used 300 billion tokens, closer to $15-20 million, looking for solutions.)",
+     "cn": "（总体而言，该公司说它为寻找各个解共使用了3000亿 token，接近1500万至2000万美元。）",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The announcement of OpenAI's solution sparked controversy after Buckmaster issued a public statement describing how the company had approached him.",
+     "cn": "OpenAI 的解一经宣布便引发争议——起因是巴克马斯特发表公开声明，讲述了该公司是如何接近他的。",
+     "cnEdited": true
+    },
+    {
+     "en": "According to Buckmaster, they said they would put him on their paper if he dropped Alpöge, his collaborator at rival company Anthropic.",
+     "cn": "据巴克马斯特说，对方表示，只要他抛弃在竞争对手 Anthropic 的合作者阿尔珀格，就把他署名进他们的论文。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Buckmaster told NPR he believes OpenAI was tipped off to the approach he and Alpöge were using to try and find the solution to Navier-Stokes.",
+     "cn": "巴克马斯特告诉 NPR，他相信 OpenAI 获得了内线消息，得知了他和阿尔珀格为寻找纳维-斯托克斯问题的解所采用的方法。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"There's so much circumstantial evidence that they had far more knowledge of what we were doing than they let on,\" he said.",
+     "cn": "\"旁证太多了——他们对我们正在做的事情的了解，远超他们承认的程度，\"他说。",
+     "cnEdited": true
+    },
+    {
+     "en": "He added that the word \"they\" doesn't necessarily mean a person.",
+     "cn": "他补充说，\"他们\"这个词未必指某个人。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"It could mean the agents,\" he said.",
+     "cn": "\"也可能指那些智能体，\"他说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "OpenAI has denied that they used Buckmaster and Alpöge's prompts or proofs in its search for a solution.",
+     "cn": "OpenAI 否认在寻找解的过程中使用了巴克马斯特和阿尔珀格的提示词或证明。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Regardless, the hurried results seem muddled.",
+     "cn": "不管怎样，这份赶工出来的结果显得杂乱无章。",
+     "cnEdited": true
+    },
+    {
+     "en": "Several mathematicians who looked at OpenAI's paper said it was virtually unreadable.",
+     "cn": "几位看过 OpenAI 论文的数学家说，它几乎没法读。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"It's a terribly written paper,\" Buckmaster said.",
+     "cn": "\"这是一篇写得很糟的论文，\"巴克马斯特说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"The paper doesn't explain what parts are important.",
+     "cn": "\"论文没有解释哪些部分是重要的。",
+     "cnEdited": true
+    },
+    {
+     "en": "What parts are routine?",
+     "cn": "哪些部分是例行公事？",
+     "cnEdited": true
+    },
+    {
+     "en": "How does the idea feed into other places?\" added Gómez-Serrano.",
+     "cn": "这个想法又能接续到哪些别的地方？\"戈麦斯-塞拉诺补充道。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Buckmaster said that OpenAI's decision to rush out an answer forced him to publish his own heavily AI-influenced preliminary results.",
+     "cn": "巴克马斯特说，OpenAI 抢时间发布答案的决定，迫使他发表了自己那份深受 AI 影响的初步结果。",
+     "cnEdited": true
+    },
+    {
+     "en": "Those too, he said, are not very well written.",
+     "cn": "他说，那份东西写得也不算好。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"Everything was rushed out,\" he said.",
+     "cn": "\"一切都被赶工出来了，\"他说。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"It's still not at the level I'm happy with, but at least the introduction has all the key ideas.\"",
+     "cn": "\"它仍然没达到我满意的水准，但至少导言里有全部的关键想法。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "head": 3,
+   "sentences": [
+    {
+     "en": "Computers check computers",
+     "cn": "电脑验电脑",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "While OpenAI's 166-page proof is taking weeks to untangle, few mathematicians believe it's wrong.",
+     "cn": "当 OpenAI 这份166页的证明还需要数周时间来厘清时，几乎没有数学家认为它是错的。",
+     "cnEdited": true
+    },
+    {
+     "en": "That's because in addition to publishing the proof, the company also produced a piece of computer code called a Lean formalization.",
+     "cn": "这是因为，除了发布证明本身，该公司还产出了一段被称为 Lean 形式化的计算机代码。",
+     "cnEdited": true
+    },
+    {
+     "en": "Lean is a programming language used in mathematics to check if proofs are correct.",
+     "cn": "Lean 是数学中用来检验证明是否正确的一种编程语言。",
+     "cnEdited": true
+    },
+    {
+     "en": "If the code can be compiled, then the proof is considered complete.",
+     "cn": "如果代码能够编译通过，这份证明就被视为完整。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "The Lean code produced by OpenAI's tools did compile as expected, Gómez-Serrano said.",
+     "cn": "戈麦斯-塞拉诺说，OpenAI 工具产出的 Lean 代码如期编译通过了。",
+     "cnEdited": true
+    },
+    {
+     "en": "Based on that, \"the community seems to have the consensus that it is correct.\"",
+     "cn": "基于这一点，\"共同体似乎已有共识：它是正确的。\"",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "Gómez-Serrano, Buckmaster and other mathematicians contacted by NPR all said they envisioned a future for AI in mathematics.",
+     "cn": "戈麦斯-塞拉诺、巴克马斯特以及接受 NPR 采访的其他数学家都说，他们预见 AI 在数学中有一席之地。",
+     "cnEdited": true
+    },
+    {
+     "en": "The field is open to new tools, in part because for decades, it's ceded much of the day-to-day computations required for making advancements to computers.",
+     "cn": "这个领域对新工具是开放的，部分原因在于：几十年来，数学早已把推进研究所需的大部分日常计算让渡给了计算机。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "But this episode is a reminder that mathematics is about more than just finding a solution, said Maynard.",
+     "cn": "但这一幕提醒我们：数学不只是找到一个解，梅纳德说。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"It wasn't about only answering this problem, it was about the human understanding behind it,\" he said.",
+     "cn": "\"这不只是回答这个问题，而是它背后的人类理解，\"他说。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "OpenAI said it hopes its new mathematics advisory group will help improve the dissemination of new results from the company in the future.",
+     "cn": "OpenAI 表示，希望它新的数学顾问组将来能帮助改善该公司新成果的传播。",
+     "cnEdited": true
+    }
+   ]
+  },
+  {
+   "sentences": [
+    {
+     "en": "\"Working with this group is a first step,\" it wrote.",
+     "cn": "\"与这个小组合作是第一步，\"它写道。",
+     "cnEdited": true
+    },
+    {
+     "en": "\"We want mathematicians to be at the center of shaping the answers.\"",
+     "cn": "\"我们希望数学家们能站在塑造这些答案的中心。\"",
+     "cnEdited": true
+    }
+   ]
+  }
+ ],
+ "cet4_words": [
+  {
+   "w": "problem",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "问题；习题，问题；成问题的；难处理的",
+   "n": 13
+  },
+  {
+   "w": "company",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "公司，商号；同伴；交往",
+   "n": 11
+  },
+  {
+   "w": "solution",
+   "layer": "core",
+   "pos": "n.",
+   "def": "解决，解答；溶解",
+   "n": 11
+  },
+  {
+   "w": "work",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工作；职业；使工作；操作；经营；使缓慢前进",
+   "n": 10
+  },
+  {
+   "w": "new",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "新的；新近出现的；新近",
+   "n": 9
+  },
+  {
+   "w": "human",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "人的，人类的 n.人；人；人类",
+   "n": 7
+  },
+  {
+   "w": "model",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "模型；模式；模特儿；模拟；塑造；模仿；模范的；作模型用的",
+   "n": 6
+  },
+  {
+   "w": "paper",
+   "layer": "core",
+   "pos": "n/adj./v.",
+   "def": "纸；官方文件；文章；纸做的；用纸糊；用纸包装",
+   "n": 6
+  },
+  {
+   "w": "statement",
+   "layer": "core",
+   "pos": "n.",
+   "def": "陈述，声明",
+   "n": 6
+  },
+  {
+   "w": "group",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "小组，群 vi.聚集；聚集；群的；团体的",
+   "n": 5
+  },
+  {
+   "w": "result",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "成果；发生； 结果",
+   "n": 5
+  },
+  {
+   "w": "used",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "旧的；习惯于…的；用（use的过去式）；（used to）过去常做",
+   "n": 5
+  },
+  {
+   "w": "answer",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "回答；响应；适应；答案",
+   "n": 4
+  },
+  {
+   "w": "believe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "相信；认为",
+   "n": 4
+  },
+  {
+   "w": "close",
+   "layer": "core",
+   "pos": "v./adj./adv.",
+   "def": "关，闭；结束；紧密的；亲密的；亲近的；紧密地",
+   "n": 4
+  },
+  {
+   "w": "computer",
+   "layer": "core",
+   "pos": "n.",
+   "def": "计算机，电脑",
+   "n": 4
+  },
+  {
+   "w": "say",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "说；说明；比如说；决定权；发言权",
+   "n": 4
+  },
+  {
+   "w": "solve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解答，解释，解决",
+   "n": 4
+  },
+  {
+   "w": "university",
+   "layer": "core",
+   "pos": "n.",
+   "def": "大学，综合性大学",
+   "n": 4
+  },
+  {
+   "w": "use",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "用；耗费；使用；用途；发挥",
+   "n": 4
+  },
+  {
+   "w": "add",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "添加，附加，掺加；加法，加法运算",
+   "n": 3
+  },
+  {
+   "w": "advance",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "前进；提高 n.进展；进展；预先的；先行的",
+   "n": 3
+  },
+  {
+   "w": "agent",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "代理人，代理商；由…作中介；由…代理；代理的",
+   "n": 3
+  },
+  {
+   "w": "code",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "准则；法典；代码；编码；制成法典",
+   "n": 3
+  },
+  {
+   "w": "community",
+   "layer": "core",
+   "pos": "n.",
+   "def": "社区；社会；公社",
+   "n": 3
+  },
+  {
+   "w": "correct",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "正确的 vt.纠正；纠正",
+   "n": 3
+  },
+  {
+   "w": "day",
+   "layer": "core",
+   "pos": "n./adv./adj.",
+   "def": "(一)天，白昼，白天；每天；经常在白天地；日间的；逐日的",
+   "n": 3
+  },
+  {
+   "w": "describe",
+   "layer": "core",
+   "pos": "v.",
+   "def": "形容；描写，描绘",
+   "n": 3
+  },
+  {
+   "w": "far",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "远的 ad.远，遥远；很；遥远地；久远地；到很远的距离；到很深的程度；远方",
+   "n": 3
+  },
+  {
+   "w": "field",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "田野；田；运动场；担任场外队员；扫描场；田赛的；野生的",
+   "n": 3
+  },
+  {
+   "w": "finding",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发现；调查的结果；找到；感到（find的ing形式）；遇到",
+   "n": 3
+  },
+  {
+   "w": "help",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "帮助；援助 n.帮手；帮手",
+   "n": 3
+  },
+  {
+   "w": "lean",
+   "layer": "core",
+   "pos": "v./adj.",
+   "def": "倾斜，屈身；*；瘦的； 贫瘠的",
+   "n": 3
+  },
+  {
+   "w": "look",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "看，显得 n.看；[C]看，瞧",
+   "n": 3
+  },
+  {
+   "w": "million",
+   "layer": "core",
+   "pos": "num./n./adj.",
+   "def": "百万 n.许多；许多；百万的；无数的",
+   "n": 3
+  },
+  {
+   "w": "one",
+   "layer": "core",
+   "pos": "num./pron./adj.",
+   "def": "一；一个人；一的；唯一的",
+   "n": 3
+  },
+  {
+   "w": "part",
+   "layer": "core",
+   "pos": "n/v./adv./adj.",
+   "def": "一部分；零件；本份；分离；分配；分开；部分地；部分的",
+   "n": 3
+  },
+  {
+   "w": "produce",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "生产；产生；展现；农产品，产品",
+   "n": 3
+  },
+  {
+   "w": "publish",
+   "layer": "core",
+   "pos": "v.",
+   "def": "公布；发表；出版",
+   "n": 3
+  },
+  {
+   "w": "rush",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "冲，奔；冲进；匆促；急流；灯心草；急需的",
+   "n": 3
+  },
+  {
+   "w": "tool",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工具，器具，用具；使用工具；用机床装备工厂",
+   "n": 3
+  },
+  {
+   "w": "accord",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "使一致；给予；一致，符合；谅解，协议",
+   "n": 2
+  },
+  {
+   "w": "announce",
+   "layer": "core",
+   "pos": "v.",
+   "def": "宣布，宣告，发表",
+   "n": 2
+  },
+  {
+   "w": "appear",
+   "layer": "core",
+   "pos": "v.",
+   "def": "出现；来到；似乎",
+   "n": 2
+  },
+  {
+   "w": "approach",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "向…*近 n.*近；靠近；接近，方法",
+   "n": 2
+  },
+  {
+   "w": "better",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "较好的 ad.更好地；更好地；长辈；较好者；打赌的人（等于bettor）；改善；胜过",
+   "n": 2
+  },
+  {
+   "w": "billion",
+   "layer": "core",
+   "pos": "num./n./adj.",
+   "def": "万亿(英)；十亿；大量；十亿的",
+   "n": 2
+  },
+  {
+   "w": "check",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "检查；制止 n.检查；支票；帐单",
+   "n": 2
+  },
+  {
+   "w": "consider",
+   "layer": "core",
+   "pos": "v.",
+   "def": "认为；考虑；关心",
+   "n": 2
+  },
+  {
+   "w": "decision",
+   "layer": "core",
+   "pos": "n.",
+   "def": "决定，决心；果断",
+   "n": 2
+  },
+  {
+   "w": "difficult",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "困难的；难对付的",
+   "n": 2
+  },
+  {
+   "w": "discovery",
+   "layer": "core",
+   "pos": "n.",
+   "def": "发现；被发现的事物",
+   "n": 2
+  },
+  {
+   "w": "find",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "找到；发觉；找出；发现",
+   "n": 2
+  },
+  {
+   "w": "first",
+   "layer": "core",
+   "pos": "num./adv./adj.",
+   "def": "第一 ad.最初；最初；第一的；基本的；最早的",
+   "n": 2
+  },
+  {
+   "w": "future",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "将来，未来；前途；将来的，未来的",
+   "n": 2
+  },
+  {
+   "w": "goal",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "球门；得分；目的；攻门，射门得分",
+   "n": 2
+  },
+  {
+   "w": "hair",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "头发，毛发；毛；除去…的毛发；毛发的；护理毛发的；用毛发制成的",
+   "n": 2
+  },
+  {
+   "w": "idea",
+   "layer": "core",
+   "pos": "n.",
+   "def": "想法；思想；意见",
+   "n": 2
+  },
+  {
+   "w": "important",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "重要的；有势力的",
+   "n": 2
+  },
+  {
+   "w": "independent",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "独立的；自主的；独立自主者；无党派者",
+   "n": 2
+  },
+  {
+   "w": "internal",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "内的；国内的",
+   "n": 2
+  },
+  {
+   "w": "language",
+   "layer": "core",
+   "pos": "n.",
+   "def": "语言，语言课程",
+   "n": 2
+  },
+  {
+   "w": "lead",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "铅，铅制品；领导；致使；引导；指挥；带头的；最重要的",
+   "n": 2
+  },
+  {
+   "w": "level",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "水平面 a.水平的；水平的；瞄准；拉平；变得平坦",
+   "n": 2
+  },
+  {
+   "w": "math",
+   "layer": "core",
+   "pos": "n",
+   "def": "数学（等于mathematics）",
+   "n": 2
+  },
+  {
+   "w": "mean",
+   "layer": "core",
+   "pos": "v./adj./n.",
+   "def": "作…解释；意指；平均的；卑鄙的；低劣的；吝啬的；平均值",
+   "n": 2
+  },
+  {
+   "w": "month",
+   "layer": "core",
+   "pos": "n.",
+   "def": "月，月份",
+   "n": 2
+  },
+  {
+   "w": "open",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "开的；开放的；开始；展现；公开；空旷；户外",
+   "n": 2
+  },
+  {
+   "w": "own",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "自己的；有，拥有",
+   "n": 2
+  },
+  {
+   "w": "really",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "真正地；实在",
+   "n": 2
+  },
+  {
+   "w": "research",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "调查，探究",
+   "n": 2
+  },
+  {
+   "w": "researcher",
+   "layer": "core",
+   "pos": "n.",
+   "def": "调查者；探究者",
+   "n": 2
+  },
+  {
+   "w": "seem",
+   "layer": "core",
+   "pos": "v.",
+   "def": "好像，似乎",
+   "n": 2
+  },
+  {
+   "w": "sign",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "符号；招牌；签署；签名",
+   "n": 2
+  },
+  {
+   "w": "step",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "(脚)步；步骤；踏，踩；走",
+   "n": 2
+  },
+  {
+   "w": "towards",
+   "layer": "core",
+   "pos": "prep.",
+   "def": "向；对于；接近",
+   "n": 2
+  },
+  {
+   "w": "two",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "二，两个；两个的",
+   "n": 2
+  },
+  {
+   "w": "understand",
+   "layer": "core",
+   "pos": "v.",
+   "def": "懂；获悉",
+   "n": 2
+  },
+  {
+   "w": "understanding",
+   "layer": "core",
+   "pos": "n./adj.",
+   "def": "理解；理解力；协定；体谅的， 宽容的， 通情达理的",
+   "n": 2
+  },
+  {
+   "w": "academic",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "学院的；学术的；大学生，大学教师；学者",
+   "n": 1
+  },
+  {
+   "w": "across",
+   "layer": "core",
+   "pos": "prep.",
+   "def": "横过；在…对面",
+   "n": 1
+  },
+  {
+   "w": "addition",
+   "layer": "core",
+   "pos": "n.",
+   "def": "加，加法；附加物",
+   "n": 1
+  },
+  {
+   "w": "agree",
+   "layer": "core",
+   "pos": "v.",
+   "def": "同意；持相同意见",
+   "n": 1
+  },
+  {
+   "w": "although",
+   "layer": "core",
+   "pos": "conj.",
+   "def": "尽管，虽然",
+   "n": 1
+  },
+  {
+   "w": "base",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "基础，底层；基地；卑鄙的；低劣的；以…作基础",
+   "n": 1
+  },
+  {
+   "w": "battle",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "战役；斗争 vi.作战；作战",
+   "n": 1
+  },
+  {
+   "w": "brown",
+   "layer": "core",
+   "pos": "n./adj./v.",
+   "def": "褐色，棕色；棕色的，褐色的；太阳晒黑的；变成褐色",
+   "n": 1
+  },
+  {
+   "w": "call",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "把…叫做；叫，喊；电话；呼叫；要求；访问",
+   "n": 1
+  },
+  {
+   "w": "center",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "圆心， 正中； 中心；集中于",
+   "n": 1
+  },
+  {
+   "w": "change",
+   "layer": "core",
+   "pos": "n.",
+   "def": "改变，变化；零钱",
+   "n": 1
+  },
+  {
+   "w": "character",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "性格；特性；角色；印，刻；使具有特征",
+   "n": 1
+  },
+  {
+   "w": "complete",
+   "layer": "core",
+   "pos": "adj./v.",
+   "def": "完整的；完成的；完成",
+   "n": 1
+  },
+  {
+   "w": "concern",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "关心，挂念；关系；涉及， 有关； 使关心， 使担心",
+   "n": 1
+  },
+  {
+   "w": "cost",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "价格，代价；成本；花费；使付出；使花许多钱",
+   "n": 1
+  },
+  {
+   "w": "decade",
+   "layer": "core",
+   "pos": "n.",
+   "def": "十年，十年期",
+   "n": 1
+  },
+  {
+   "w": "deep",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "深的；纵深的；深处；深渊；深入地；深深地；迟",
+   "n": 1
+  },
+  {
+   "w": "down",
+   "layer": "core",
+   "pos": "adj./n./prep./v.",
+   "def": "向下，在下面；软毛，绒毛；[地质] 开阔的高地；沿着，往下；打倒，击败",
+   "n": 1
+  },
+  {
+   "w": "effort",
+   "layer": "core",
+   "pos": "n.",
+   "def": "努力；努力的成果",
+   "n": 1
+  },
+  {
+   "w": "engineering",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "工程，工程学；设计；管理（engineer的ing形式）；建造",
+   "n": 1
+  },
+  {
+   "w": "european",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "欧洲的 n.欧洲人；欧洲人",
+   "n": 1
+  },
+  {
+   "w": "everyone",
+   "layer": "core",
+   "pos": "n.",
+   "def": "每人，人人；每个人",
+   "n": 1
+  },
+  {
+   "w": "everything",
+   "layer": "core",
+   "pos": "n./pron.",
+   "def": "每件事，事事；每件事物；最重要的东西；（有关的）一切；万事",
+   "n": 1
+  },
+  {
+   "w": "example",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "例子，实例；模范；作为…的例子；为…做出榜样",
+   "n": 1
+  },
+  {
+   "w": "expect",
+   "layer": "core",
+   "pos": "v.",
+   "def": "预料，预期；等待",
+   "n": 1
+  },
+  {
+   "w": "explain",
+   "layer": "core",
+   "pos": "v.",
+   "def": "解释；为…辩解",
+   "n": 1
+  },
+  {
+   "w": "feed",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "喂(养) vi.吃饲料；饲料；饲养；（动物或婴儿的）一餐",
+   "n": 1
+  },
+  {
+   "w": "flow",
+   "layer": "core",
+   "pos": "v.",
+   "def": "流动；飘垂；涨潮",
+   "n": 1
+  },
+  {
+   "w": "force",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "强迫 n.力，力量；军队， 兵力； 暴力， 武力； 力， 力气； 影响力， 效力",
+   "n": 1
+  },
+  {
+   "w": "fundamental",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "基础的，基本的；基本原则",
+   "n": 1
+  },
+  {
+   "w": "gain",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "获得；增加 n.增进；增进",
+   "n": 1
+  },
+  {
+   "w": "happy",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "快乐的；幸福的",
+   "n": 1
+  },
+  {
+   "w": "heavily",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "重重地；大量地；沉重地；猛烈地；沉闷地",
+   "n": 1
+  },
+  {
+   "w": "high",
+   "layer": "core",
+   "pos": "adj./n./adv.",
+   "def": "高的；高级的 ad.高；高水平；天空；由麻醉品引起的快感；高压地带；高；奢侈地",
+   "n": 1
+  },
+  {
+   "w": "hope",
+   "layer": "core",
+   "pos": "v.",
+   "def": "希望",
+   "n": 1
+  },
+  {
+   "w": "hour",
+   "layer": "core",
+   "pos": "n.",
+   "def": "小时；时间，时刻",
+   "n": 1
+  },
+  {
+   "w": "however",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "然而；不管怎样",
+   "n": 1
+  },
+  {
+   "w": "impact",
+   "layer": "core",
+   "pos": "n.",
+   "def": "影响，作用；冲击",
+   "n": 1
+  },
+  {
+   "w": "improve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使更好 vi.改善",
+   "n": 1
+  },
+  {
+   "w": "include",
+   "layer": "core",
+   "pos": "v.",
+   "def": "包括，包含",
+   "n": 1
+  },
+  {
+   "w": "influence",
+   "layer": "core",
+   "pos": "n.",
+   "def": "影响；势力 vt.影响",
+   "n": 1
+  },
+  {
+   "w": "inspire",
+   "layer": "core",
+   "pos": "v.",
+   "def": "鼓舞；给…以灵感",
+   "n": 1
+  },
+  {
+   "w": "involve",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使卷入；牵涉",
+   "n": 1
+  },
+  {
+   "w": "issue",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "问题；发行 vt.发行；流出， 放出",
+   "n": 1
+  },
+  {
+   "w": "key",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "钥匙；键；答案；键入；锁上；调节…的音调；提供线索；关键的",
+   "n": 1
+  },
+  {
+   "w": "knowledge",
+   "layer": "core",
+   "pos": "n.",
+   "def": "知识，学识；知道",
+   "n": 1
+  },
+  {
+   "w": "large",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "大的；巨大的；大大地；夸大地",
+   "n": 1
+  },
+  {
+   "w": "launch",
+   "layer": "core",
+   "pos": "v.",
+   "def": "发射，投射；发动",
+   "n": 1
+  },
+  {
+   "w": "learn",
+   "layer": "core",
+   "pos": "v./v.",
+   "def": "学，学习",
+   "n": 1
+  },
+  {
+   "w": "least",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "最少的 ad.最少；最少；最少， 最少量",
+   "n": 1
+  },
+  {
+   "w": "let",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "允许，让；使；障碍；出租屋",
+   "n": 1
+  },
+  {
+   "w": "lift",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "提起，提高 n.电梯；电梯",
+   "n": 1
+  },
+  {
+   "w": "likely",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "可能的 ad.很可能；很可能",
+   "n": 1
+  },
+  {
+   "w": "little",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "小的；少；幼小的；完全不；少许；没有多少；短时间",
+   "n": 1
+  },
+  {
+   "w": "locate",
+   "layer": "core",
+   "pos": "v.",
+   "def": "探明，找出，查出",
+   "n": 1
+  },
+  {
+   "w": "major",
+   "layer": "core",
+   "pos": "adj./v./n.",
+   "def": "较大的n.专业；主修；专业",
+   "n": 1
+  },
+  {
+   "w": "make",
+   "layer": "core",
+   "pos": "v.",
+   "def": "使；做，制造",
+   "n": 1
+  },
+  {
+   "w": "member",
+   "layer": "core",
+   "pos": "n.",
+   "def": "成员，会员",
+   "n": 1
+  },
+  {
+   "w": "name",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "名字；名誉 vt.说出；说出；姓名的；据以取名的",
+   "n": 1
+  },
+  {
+   "w": "necessarily",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "必然，必定",
+   "n": 1
+  },
+  {
+   "w": "next",
+   "layer": "core",
+   "pos": "adj./adv./n./prep.",
+   "def": "紧接的；贴近的；然后；下次；其次；下一个；靠近；居于…之后",
+   "n": 1
+  },
+  {
+   "w": "order",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "次序；整齐；命令",
+   "n": 1
+  },
+  {
+   "w": "overall",
+   "layer": "core",
+   "pos": "n./adj./adv.",
+   "def": "工装裤；全面的；总共",
+   "n": 1
+  },
+  {
+   "w": "panel",
+   "layer": "core",
+   "pos": "n/v.",
+   "def": "专门小组；面，板；嵌镶板",
+   "n": 1
+  },
+  {
+   "w": "performance",
+   "layer": "core",
+   "pos": "n",
+   "def": "演出，履行，表现",
+   "n": 1
+  },
+  {
+   "w": "person",
+   "layer": "core",
+   "pos": "n",
+   "def": "人；人身；本人",
+   "n": 1
+  },
+  {
+   "w": "piece",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "碎片，块；拼合",
+   "n": 1
+  },
+  {
+   "w": "place",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "地方，地点；住所；放置；任命；寄予",
+   "n": 1
+  },
+  {
+   "w": "power",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "能力；力；权；幂；激励；供以动力；使…有力量；借影响有权势人物以操纵权力的",
+   "n": 1
+  },
+  {
+   "w": "price",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "价格，价钱；代价；给……定价；问……的价格",
+   "n": 1
+  },
+  {
+   "w": "progress",
+   "layer": "core",
+   "pos": "n.",
+   "def": "前进，进展；进步",
+   "n": 1
+  },
+  {
+   "w": "prove",
+   "layer": "core",
+   "pos": "v.",
+   "def": "证明",
+   "n": 1
+  },
+  {
+   "w": "public",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "公众的；公众",
+   "n": 1
+  },
+  {
+   "w": "pursue",
+   "layer": "core",
+   "pos": "v.",
+   "def": "追赶，追踪；进行",
+   "n": 1
+  },
+  {
+   "w": "put",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "放，摆；使处于；掷；笨蛋；投击；怪人；固定不动的",
+   "n": 1
+  },
+  {
+   "w": "question",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "发问；问题；疑问；询问；怀疑；审问",
+   "n": 1
+  },
+  {
+   "w": "quickly",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "快，迅速；快速地",
+   "n": 1
+  },
+  {
+   "w": "read",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "读，看懂；阅读；读物；有学问的",
+   "n": 1
+  },
+  {
+   "w": "real",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "真的；现实的；真正地；确实地；现实；实数",
+   "n": 1
+  },
+  {
+   "w": "remind",
+   "layer": "core",
+   "pos": "v.",
+   "def": "提醒，使想起",
+   "n": 1
+  },
+  {
+   "w": "require",
+   "layer": "core",
+   "pos": "v.",
+   "def": "需要；要求，命令",
+   "n": 1
+  },
+  {
+   "w": "resolve",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "解决；决心；坚决；决定要做的事",
+   "n": 1
+  },
+  {
+   "w": "response",
+   "layer": "core",
+   "pos": "n.",
+   "def": "作答，回答；响应",
+   "n": 1
+  },
+  {
+   "w": "responsible",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "有责任的；尽责的",
+   "n": 1
+  },
+  {
+   "w": "review",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "再检查；复习",
+   "n": 1
+  },
+  {
+   "w": "scene",
+   "layer": "core",
+   "pos": "n.",
+   "def": "发生地点；道具",
+   "n": 1
+  },
+  {
+   "w": "scientist",
+   "layer": "core",
+   "pos": "n.",
+   "def": "(自然)科学家",
+   "n": 1
+  },
+  {
+   "w": "search",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "在…中搜寻，搜查；搜寻；探究，查究",
+   "n": 1
+  },
+  {
+   "w": "see",
+   "layer": "core",
+   "pos": "v.",
+   "def": "看见；遇见；看出",
+   "n": 1
+  },
+  {
+   "w": "sense",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "感官；感觉；见识；感觉到；检测",
+   "n": 1
+  },
+  {
+   "w": "serious",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "严肃的；认真的",
+   "n": 1
+  },
+  {
+   "w": "set",
+   "layer": "core",
+   "pos": "v./n./adj.",
+   "def": "放；安置；[数] 集合；一套；布景；[机] 装置；固定的；规定的；固执的",
+   "n": 1
+  },
+  {
+   "w": "seven",
+   "layer": "core",
+   "pos": "num./adj.",
+   "def": "七，七个(人或物)；七的；七个的",
+   "n": 1
+  },
+  {
+   "w": "several",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "几个，数个",
+   "n": 1
+  },
+  {
+   "w": "shape",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "形状；情况；形成；塑造，使成形；使符合",
+   "n": 1
+  },
+  {
+   "w": "six",
+   "layer": "core",
+   "pos": "num.",
+   "def": "六，六个",
+   "n": 1
+  },
+  {
+   "w": "somewhere",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "在某处；某个地方",
+   "n": 1
+  },
+  {
+   "w": "soon",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "不久；早，快",
+   "n": 1
+  },
+  {
+   "w": "take",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "拿；抓；拿走；吃；捕获量；看法；利益，盈益；（入场券的）售得金额",
+   "n": 1
+  },
+  {
+   "w": "teach",
+   "layer": "core",
+   "pos": "v.",
+   "def": "讲；教育",
+   "n": 1
+  },
+  {
+   "w": "technical",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "技术的，工艺的",
+   "n": 1
+  },
+  {
+   "w": "technology",
+   "layer": "core",
+   "pos": "n.",
+   "def": "工艺学，工艺，技术",
+   "n": 1
+  },
+  {
+   "w": "text",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "原文，本文；课文；发短信",
+   "n": 1
+  },
+  {
+   "w": "thing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "物；用品；事；情况",
+   "n": 1
+  },
+  {
+   "w": "time",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "时间；时机；次，回；计时；测定…的时间；安排…的速度；定时的；定期的；分期的",
+   "n": 1
+  },
+  {
+   "w": "today",
+   "layer": "core",
+   "pos": "adj./adv./n.",
+   "def": "在今天；现在；今天；现今；今天；现今",
+   "n": 1
+  },
+  {
+   "w": "together",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "共同，一起；新潮的；情绪稳定的，做事有效率的",
+   "n": 1
+  },
+  {
+   "w": "tone",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "音；腔调；声调；增强；用某种调子说",
+   "n": 1
+  },
+  {
+   "w": "top",
+   "layer": "core",
+   "pos": "n./v./adj.",
+   "def": "顶；首位；高出，超越；结束；达到顶点；最高的，顶上的；头等的",
+   "n": 1
+  },
+  {
+   "w": "try",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "试；审问；尝试；努力；试验",
+   "n": 1
+  },
+  {
+   "w": "turn",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "转；翻；转弯；变化；(损害或有益于别人的)行为，举动，举止",
+   "n": 1
+  },
+  {
+   "w": "unfortunately",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "不幸地",
+   "n": 1
+  },
+  {
+   "w": "unit",
+   "layer": "core",
+   "pos": "n.",
+   "def": "单位；单元；部件",
+   "n": 1
+  },
+  {
+   "w": "version",
+   "layer": "core",
+   "pos": "n.",
+   "def": "译文；说法；改写本",
+   "n": 1
+  },
+  {
+   "w": "virtually",
+   "layer": "core",
+   "pos": "adj./adv.",
+   "def": "实际上，事实上；几乎，差不多",
+   "n": 1
+  },
+  {
+   "w": "want",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "要；需要；缺乏",
+   "n": 1
+  },
+  {
+   "w": "week",
+   "layer": "core",
+   "pos": "n.",
+   "def": "星期，周",
+   "n": 1
+  },
+  {
+   "w": "well",
+   "layer": "core",
+   "pos": "n./adv./adj./v.",
+   "def": "井；很好地；充分地；满意地；适当地；良好的；健康的；适宜的；涌出",
+   "n": 1
+  },
+  {
+   "w": "whole",
+   "layer": "core",
+   "pos": "adj./n.",
+   "def": "完整的；整体；全部",
+   "n": 1
+  },
+  {
+   "w": "wind",
+   "layer": "core",
+   "pos": "v./n.",
+   "def": "绕，缠绕；风；呼吸；气味；卷绕",
+   "n": 1
+  },
+  {
+   "w": "winner",
+   "layer": "core",
+   "pos": "n.",
+   "def": "获胜者，优胜者",
+   "n": 1
+  },
+  {
+   "w": "wonderful",
+   "layer": "core",
+   "pos": "adj.",
+   "def": "惊人的；极好的",
+   "n": 1
+  },
+  {
+   "w": "word",
+   "layer": "core",
+   "pos": "n./v.",
+   "def": "词；话；消息；语言；用言辞表达",
+   "n": 1
+  },
+  {
+   "w": "writing",
+   "layer": "core",
+   "pos": "n.",
+   "def": "书写，写；著作",
+   "n": 1
+  },
+  {
+   "w": "wrong",
+   "layer": "core",
+   "pos": "adj./adv./n./v.",
+   "def": "错误的；错误地；邪恶地，不正当地；坏事；不公正；委屈；无理地对待；诽谤",
+   "n": 1
+  },
+  {
+   "w": "year",
+   "layer": "core",
+   "pos": "n.",
+   "def": "年；年年",
+   "n": 1
+  }
+ ]
+}
