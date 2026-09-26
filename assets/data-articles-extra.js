@@ -22513,6 +22513,4125 @@ const ARTICLES_EXTRA = [
         ]
       }
     ]
+  },
+  {
+    "id": "gr-aeon-instrumentalisation",
+    "cat": "成长",
+    "title": "Instrumentalisation is making everything a means to an end",
+    "titleZh": "工具化，正在让一切沦为达成目的的手段",
+    "source": "Aeon · 2026-02-24",
+    "date": "2026-02-24",
+    "minutes": 33,
+    "url": "https://aeon.co/essays/instrumentalisation-is-making-everything-a-means-to-an-end",
+    "coverImg": "assets/covers/gr-aeon-instrumentalisation.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "For decades, films out of the Metro-Goldwyn-Mayer Studios have opened with Leo the roaring lion, garlanded with the motto Ars gratia artis : art for art’s sake.",
+            "cn": "几十年来，米高梅出品的电影都以咆哮的雄狮里奥开场，环绕着一句箴言：Ars gratia artis——为艺术而艺术。"
+          },
+          {
+            "en": "Given that MGM is a money-making behemoth, we might doubt the sincerity of this high-minded sentiment.",
+            "cn": "考虑到米高梅是一头赚钱的巨兽，我们难免怀疑这份高尚情怀有几分真诚。"
+          },
+          {
+            "en": "Still, along with the contested goal of moral improvement, it certainly expresses one of the few legitimate reasons why people should make movies.",
+            "cn": "尽管如此，与\"道德提升\"那个颇有争议的目标一道，它确实道出了人们拍电影为数不多的正当理由之一。"
+          },
+          {
+            "en": "Art for the sake of anything else – profit, self-promotion, propaganda – isn’t really art at all, or at least not in its purest sense.",
+            "cn": "为了别的任何东西而艺术——为了利润、为了自我推销、为了宣传——都算不上真正的艺术，至少不是最纯粹意义上的艺术。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It therefore came as a bit of a shock to see a recent advert for the National Art Pass, which gives holders free or discounted entry to galleries and museums around the United Kingdom.",
+            "cn": "因此，当我看到最近一则全国艺术通票（National Art Pass）的广告时，多少有些震惊——这张通票能让持票人免费或优惠参观全英国的画廊和博物馆。"
+          },
+          {
+            "en": "The tag line ‘See more.",
+            "cn": "广告语\"看更多。"
+          },
+          {
+            "en": "Live more’ sounded right: art does indeed enrich our lives.",
+            "cn": "活更多\"听起来没错：艺术确实丰富我们的生活。"
+          },
+          {
+            "en": "But it turned out that the ‘more’ here was purely quantitative, not qualitative.",
+            "cn": "但结果发现，这里的\"更多\"纯粹是数量上的，而不是质量上的。"
+          },
+          {
+            "en": "‘Grow some years onto your life with art,’ proclaimed the main slogan, followed by: ‘Spending time in galleries and museums could help you live longer.’ Art not for art’s sake, but for your heart’s sake, the fleshy not the spiritual one at that.",
+            "cn": "\"用艺术为生命添上几个年头\"——主口号如此宣告，接着是：\"在画廊和博物馆里度过时光，或有助于你活得更久。\"艺术不再为艺术本身，而是为你的心脏——还是那颗肉做的心脏，不是精神意义上的那颗。"
+          },
+          {
+            "en": "This messaging around the arts has become ubiquitous, with Arts Council England promoting the idea that ‘engaging in creative and cultural activities has proven health benefits for individuals and communities.’",
+            "cn": "围绕艺术的这类信息已无处不在，英格兰艺术委员会就在推广这样一种说法：\"参与创意和文化活动，对个人与社区的健康益处已获证实。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I may have been shocked by the poster, but I was not surprised by it.",
+            "cn": "海报让我震惊，但并不让我意外。"
+          },
+          {
+            "en": "For a long time, I have been privately lamenting the instrumentalisation of everything: how nothing seems to be of value in itself anymore but is only seen as useful in the service of some utilitarian function.",
+            "cn": "很长时间以来，我一直在私下哀叹一件事：万物的工具化——似乎再没有什么东西因其自身而有价值，一切都只在服务于某种功利功能时才被视为有用。"
+          },
+          {
+            "en": "I first got wind of this lamentable trend in 2010, when I had the misfortune to review Gretchen Rubin’s book The Happiness Project (2009), an account of a year in relentless pursuit of the happy life.",
+            "cn": "我最早注意到这股令人痛心的风潮是在2010年。当时我有幸（不如说不幸）评审格雷琴·鲁宾（Gretchen Rubin）的《幸福计划》（The Happiness Project，2009）——一部为期一年、一刻不停地追逐幸福生活的记录。"
+          },
+          {
+            "en": "One passage struck me so hard I can almost recall it word for word today.",
+            "cn": "其中一段击中了我，以致今天我几乎能一字不差地背出来。"
+          },
+          {
+            "en": "A day with her husband gets off to a sticky start but, following an apology, Rubin writes: ‘We hugged – for at least six seconds, which, I happened to know from my research, is the minimum time necessary to promote the flow of oxytocin and serotonin, mood-boosting chemicals that promote bonding.",
+            "cn": "与她丈夫的一天开局别扭，但一次道歉之后，鲁宾写道：\"我们拥抱了——至少六秒钟。碰巧从我的研究里我知道，这是催产素和血清素开始流动所需的最短时间，而它们正是促进联结、改善情绪的化学物质。"
+          },
+          {
+            "en": "The moment of tension passed.’",
+            "cn": "紧张的时刻过去了。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I was left with the chilling image of a woman holding her husband not only out of love or affection but in order to release hormones and reduce her stress.",
+            "cn": "留给我的，是一个寒意彻骨的画面：一个女人拥抱着丈夫，不只是出于爱与感情，而是为了释放激素、给自己减压。"
+          },
+          {
+            "en": "Those sentences highlighted how her happiness project had led her to do everything with the improvement of her mood in mind.",
+            "cn": "这几句话突显了她的\"幸福计划\"如何让她做每件事时都惦记着改善自己的情绪。"
+          },
+          {
+            "en": "Nothing else seemed to matter as much, even truth.",
+            "cn": "似乎再没有别的什么同样要紧——哪怕是真实。"
+          },
+          {
+            "en": "At the end of her year-long experiment in treating herself as a felicific machine, she reflected on what had or had not changed.",
+            "cn": "在把自己当作一台幸福机器进行了一年实验的结尾，她回顾了哪些东西变了、哪些没变。"
+          },
+          {
+            "en": "‘Maybe I was seeing what I wanted to see,’ she wondered, only to add: ‘Maybe, but who cares?’ Whatever makes you feel better, true or not.",
+            "cn": "\"也许我看到的是我想看到的东西，\"她自问，随即补上一句：\"也许是吧，可谁在乎呢？\"只要让你感觉更好，真假有什么关系。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-aeon-instrumentalisation-1.jpg",
+        "cap": "Walking Man II (1960) by Alberto Giacometti at the National Gallery of Art, Washington, DC. Courtesy Billy Liar/Flickr",
+        "capCn": "《行走的人 II》（Walking Man II，1960），阿尔贝托·贾科梅蒂（Alberto Giacometti），藏于美国华盛顿特区国家美术馆。图源：Billy Liar/Flickr"
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the years between witnessing hugging for happiness and creativity for longevity, I have seen countless other examples of all that is good in life being promoted not for their own sake but for the material benefits they bring.",
+            "cn": "从\"为幸福而拥抱\"到\"为长寿而创意\"，这些年里，我见过数不清的例子：生活中一切美好的事物，被推广的理由都不是它们本身，而是它们带来的物质好处。"
+          },
+          {
+            "en": "This instrumentalisation has become normalised so insidiously that we don’t even notice that it is odd, let alone wrong.",
+            "cn": "这种工具化被常态化得如此隐秘，以至于我们甚至不再觉得它有什么奇怪，更不必说有什么不对。"
+          },
+          {
+            "en": "Nor do we seem to be aware of quite how pervasive it is.",
+            "cn": "我们似乎也没有意识到它蔓延得有多广。"
+          },
+          {
+            "en": "Yet its effects are profound, leading us to lose sight again and again of what is truly of value in life.",
+            "cn": "然而它的影响深远，让我们一次又一次地看不清人生中真正有价值的东西。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Before offering a diagnosis for what has gone wrong and how to cure it, I need to defend the seemingly hyperbolic claim that everything is becoming instrumentalised.",
+            "cn": "在给出问题的诊断与疗法之前，我需要先为一个看似夸张的论断辩护：一切都在被工具化。"
+          },
+          {
+            "en": "Far from being a rhetorical exaggeration, I genuinely find it difficult to think of anything worthwhile that at least some people have not been advocating for its utilitarian benefits before mentioning any of its intrinsic merits.",
+            "cn": "这绝非修辞上的夸大——我由衷地发现，自己很难想出任何有价值的东西：至少某些人在提到它的内在优点之前，不曾先鼓吹它的功利好处。"
+          },
+          {
+            "en": "Take churchgoing.",
+            "cn": "以上教堂为例。"
+          },
+          {
+            "en": "Most believers hold that worship is a devotional duty rather than a pragmatic means of getting into heaven.",
+            "cn": "大多数信徒认为，敬拜是一种虔敬的义务，而不是一种挤进天堂的实用手段。"
+          },
+          {
+            "en": "Today, however, it is not uncommon to hear even Christians, such as Deborah Jenkins in Premier Christianity magazine, pointing to research that: ‘Being part of a church community can lengthen life, reduce depression and promote positive mental health.’ A book I flicked through today advocated prayer for physical health, pointing to a study that ‘found significant medical benefits on the cardiovascular system, blood, as well as muscle and bone resulting from the solat daily prayer.’ Of course, if challenged, none would say these are the best reasons to practise religion.",
+            "cn": "然而今天，就连基督徒也常常援引研究说，比如《Premier Christianity》杂志上的黛博拉·詹金斯（Deborah Jenkins）：\"参与教会共同体，可以延年益寿、减少抑郁、促进积极的心理健康。\"我今天就随手翻到一本书，鼓吹为了身体健康而祷告，引用的研究\"发现每日礼拜式的祈祷对心血管系统、血液以及肌肉和骨骼都有显著的医学益处\"。当然，若被质问，没有人会说这些是信教的最好理由。"
+          },
+          {
+            "en": "But it doesn’t stop them offering these reasons as very good ones.",
+            "cn": "但这并不妨碍他们把这些理由当作很好的理由来提供。"
+          },
+          {
+            "en": "Furthermore, they are more credible and certainly more scientific than claims that an all-loving creator god really thinks it’s important how you spend your Sunday mornings.",
+            "cn": "更何况，比起\"一位全爱的造物主真的在乎你周日早晨怎么过\"这类说法，这些理由更可信、也更科学。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "More profanely, we are even given instrumental reasons to orgasm.",
+            "cn": "说得更世俗些，我们甚至连高潮都被赋予了工具性的理由。"
+          },
+          {
+            "en": "A headline from The Telegraph in 2015 – ‘An Orgasm A Day Could Keep Prostate Cancer Away, Scientists Claim’ – summed up a now-widely shared belief that one of the best reasons for a man to have sex or masturbate is not pleasure, intimacy or the release of sexual tension but to protect his health.",
+            "cn": "《每日电讯报》2015年的一条标题——\"科学家声称：每天一次高潮或有助远离前列腺癌\"——概括了一种如今流传甚广的信念：男人做爱或自慰的最佳理由之一，不是愉悦、亲密或性张力的释放，而是保护健康。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You could play a very long game of suggesting things people value in their own right in the hope of finding one that hasn’t been praised for its health, wealth or wellbeing advantages.",
+            "cn": "你可以玩一个很长的游戏：列举人们因其自身而珍视的东西，指望找到一样还不曾被称赞过健康、财富或幸福红利的。"
+          },
+          {
+            "en": "Your search would be in vain.",
+            "cn": "你的搜寻注定徒劳。"
+          },
+          {
+            "en": "The Opera North website lists 10 benefits of singing, and only one – it lets you express yourself – has anything to do with art and creativity.",
+            "cn": "北方歌剧院的官网列出了唱歌的10大好处，其中只有一条——让你表达自己——与艺术和创造力沾边。"
+          },
+          {
+            "en": "The others include ‘makes you feel better’, ‘enhances lung function’, ‘helps you beat stress and relax’, ‘helps improve memory’, ‘can help when life gets tough’ and ‘boosts your confidence’.",
+            "cn": "其余的包括\"让你感觉更好\"\"增强肺功能\"\"帮你减压放松\"\"有助于改善记忆\"\"生活艰难时能帮到你\"和\"提升你的自信\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Many people who advocate for reconnecting with nature do so with reasons that are designed to appeal to the very same utilitarian, self-centred hedonism that is to blame for humanity losing touch with the Earth in the first place.",
+            "cn": "许多倡导\"重新与自然连接\"的人，用来打动人的理由，恰恰诉诸同一种功利、自我中心的享乐主义——而最初让人与地球失去联结的，正是这种享乐主义。"
+          },
+          {
+            "en": "The National Trust talks of how ‘walking in nature can help wellbeing’ while the growing popularity of ‘forest bathing’ encourages us to use woodland as though it were a kind of literal walk-in clinic.",
+            "cn": "国民信托说\"在自然中行走有助于身心健康\"，而日益流行的\"森林浴\"则鼓励我们把林地当作一种字面意义上的、走进去的诊所来使用。"
+          },
+          {
+            "en": "These would-be advocates for nature seem to miss the irony that if we go out among the trees because of what they can do for us, we’re going with the same exploitative, extractive mindset as those who log them.",
+            "cn": "这些自然的准代言人似乎没意识到其中的讽刺：如果我们走进树林是因为它们能为我们做什么，那么我们带着的，恰恰是与砍伐者相同的剥削式、攫取式心态。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Even philosophy , the disinterested pursuit of wisdom, has fallen prey to the curse of instrumentalisation.",
+            "cn": "连哲学——这种不求回报的智慧追求——也沦为工具化诅咒的猎物。"
+          },
+          {
+            "en": "It is no longer enough for universities to say that their programmes allow you to explore some of the most fundamental questions of existence.",
+            "cn": "对大学来说，说自己的课程让你得以探索存在最根本的那些问题，已经不够了。"
+          },
+          {
+            "en": "Now the questions are of a decidedly more bottom-line sort: how will philosophy help you buy a house or build your pension pot?",
+            "cn": "如今的问题有着鲜明的底线色彩：哲学如何帮你买房？如何充实你的养老金？"
+          },
+          {
+            "en": "Philosophy is routinely sold as a trainer of ‘transferable thinking skills’, and it’s clear where these most transfer to: the world of work.",
+            "cn": "哲学被例行公事地包装成\"可迁移思维技能\"的训练营，而这些技能最明显迁移到哪里，一目了然：职场。"
+          },
+          {
+            "en": "The Faculty of Philosophy at the University of Cambridge has a whole webpage devoted to five resumé-friendly skills it teaches: intellectual, communication, organisational, interpersonal and research.",
+            "cn": "剑桥大学哲学系有一整个网页，专门介绍它教给你的五项适合写进简历的技能：智识、沟通、组织、人际和研究。"
+          }
+        ]
+      },
+      {
+        "img": "assets/covers/gr-aeon-instrumentalisation-2.jpg",
+        "cap": "Photo by ideath/Flickr",
+        "capCn": "摄影：ideath/Flickr"
+      },
+      {
+        "sentences": [
+          {
+            "en": "Instrumentalisation is most pernicious when it applies to things we do with and for others.",
+            "cn": "工具化最毒害人心之处，在于它作用于我们与他人共同做、为他人做的事。"
+          },
+          {
+            "en": "Immanuel Kant saw it as a ‘categorical imperative’ – an absolute demand of morality – to ‘treat humanity, whether in your own person or in the person of any other, always at the same time as an end, never merely as a means.’ The words we use to describe the instrumentalisation of others echo how corrupting we think it is: dehumanisation, objectification, exploitation.",
+            "cn": "伊曼努尔·康德视之为一条\"绝对命令\"——道德的绝对要求——\"你要如此行动，即无论是你自己的人格中的人性，还是任何他人的人格中的人性，你在任何时候都同时当作目的，绝不能仅仅当作手段。\"我们用来描述\"把他人工具化\"的那些词，呼应着我们认为它有多败坏：非人化、物化、剥削。"
+          },
+          {
+            "en": "That is why the instrumentalisation of social connection is immoral as well as self-defeating.",
+            "cn": "正因如此，把社会连接工具化，既是不道德的，也是自拆台脚的。"
+          },
+          {
+            "en": "If we start to foreground what social relationships do for us, we treat the other people involved as mere tools for self-advancement.",
+            "cn": "如果我们开始把社会关系能为\"我\"做什么摆在第一位，我们就是在把关系中的其他人当作自我晋升的工具。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I haven’t even begun to exhaust the list of activities that have become routinely instrumentalised.",
+            "cn": "我甚至还没开始列完那些被例行公事般工具化的活动。"
+          },
+          {
+            "en": "Among those we could add are gardening, playing sport, camping, swimming, campaigning, community volunteer work, baking bread, crafts, keeping a diary, laughing, saying ‘thank you’.",
+            "cn": "可以加进来的还有：园艺、运动、露营、游泳、社会运动、社区志愿服务、烤面包、手工、写日记、大笑、说\"谢谢\"。"
+          },
+          {
+            "en": "We increasingly ask not what is good about them but what good they can do for us.",
+            "cn": "我们越来越不问它们好在哪儿，而是问它们能为我们做什么。"
+          },
+          {
+            "en": "And by ‘good’ we mean health, wealth and worldly success.",
+            "cn": "而这里的\"好\"，指的是健康、财富与世俗意义上的成功。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Those who love nature, art, learning, friendship and so on for their own sake may find it distasteful to spotlight their instrumental benefits, but what is the harm in doing so?",
+            "cn": "那些因其本身而热爱自然、艺术、学习与友谊的人，也许觉得突出它们的工具性好处令人生厌——但这么做究竟有什么害处？"
+          },
+          {
+            "en": "After all, someone living an instrumentalised life and someone who is not might be doing exactly the same things.",
+            "cn": "毕竟，一个把生活工具化的人和一个没有的人，可能在做着一模一样的事。"
+          },
+          {
+            "en": "This objection misses the fact that a good life does not only depend on what we do, but how we do it.",
+            "cn": "这种反驳漏掉了这样一个事实：好的生活不只取决于我们做什么，还取决于我们怎么做。"
+          },
+          {
+            "en": "Two people with the same cultural calendars may go to the same exhibitions, watch the same films and listen to the same music, but if their motivations are fundamentally different then so are the worlds they inhabit.",
+            "cn": "两个人可以有相同的文化日程表——看同样的展览、同样的电影、听同样的音乐——但如果他们的动机根本不同，他们栖居的世界也就根本不同。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "To understand why, we have to go back to the basic question of why anything has value.",
+            "cn": "要理解为什么会这样，我们必须回到那个最基本的问题：任何东西的价值从何而来。"
+          },
+          {
+            "en": "In the Nicomachean Ethics , Aristotle was one of the first but certainly not the last to observe that we do some things as means to ends and other things as ends in themselves.",
+            "cn": "在《尼各马可伦理学》里，亚里士多德最早指出——后来者不绝——我们做有些事是作为通向目的的手段，做另一些事则是以自身为目的。"
+          },
+          {
+            "en": "Only the latter have intrinsic value, while means to ends have mere extrinsic value.",
+            "cn": "只有后者具有内在价值，而通往目的的手段只具有外在价值。"
+          },
+          {
+            "en": "If we ask where the ultimate value in life lies, it is clearly in things with intrinsic value.",
+            "cn": "如果我们追问，人生终极的价值在哪里，答案显然在于有内在价值的事物。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This piece of wisdom is so uncontroversial it could be dismissed as platitudinous.",
+            "cn": "这条智慧毫无争议，甚至可以被斥为老生常谈。"
+          },
+          {
+            "en": "But it merits repeating across the ages and across all our life stages because it is so easy to be sucked away from what has real value by purely instrumental goods.",
+            "cn": "但它值得被代代重复、在我们生命的每个阶段重复，因为我们太容易被纯粹工具性的好处吸走，离开那些真正有价值的东西。"
+          },
+          {
+            "en": "Money is of course the clearest example.",
+            "cn": "钱当然是最典型的例子。"
+          },
+          {
+            "en": "Money is important only for what it can buy and can be used to obtain many of the things we most value.",
+            "cn": "钱的重要性只在于它能买到什么；它可以用来换来我们最珍视的许多东西。"
+          },
+          {
+            "en": "Yet it seems all too human to try to accumulate more and more of it, never believing one has enough, diverting us from time with loved ones and cherished activities.",
+            "cn": "然而，想要积累得越来越多、永远觉得自己不够，这似乎是人之常情——而它让我们偏离了与所爱之人共处的时光，偏离了那些我们珍视的活动。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Pursuing extrinsic rather than intrinsic goods is a common-enough mistake.",
+            "cn": "追逐外在价值而非内在价值，是一个足够常见的错误。"
+          },
+          {
+            "en": "But the instrumentalisation of everything takes it one step further.",
+            "cn": "但\"万物工具化\"把这个错误又推进了一步。"
+          },
+          {
+            "en": "It doesn’t just distract us from all the things that are good in themselves; it strips these very things of their intrinsic value and turns them into mere means to ends.",
+            "cn": "它不只是让我们分心、离开那些本身即善的事物；它剥掉这些事物自身的内在价值，把它们变成通向目的的纯粹手段。"
+          },
+          {
+            "en": "Worse, these ends are not even of value in themselves.",
+            "cn": "更糟的是，这些目的本身也并没有价值。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Think about what instrumentalisation serves: health, wealth and psychological wellbeing.",
+            "cn": "想想工具化服务于什么：健康、财富、心理幸福感。"
+          },
+          {
+            "en": "These are all so obviously desirable that it’s easy to miss the fact that none have intrinsic value.",
+            "cn": "这些东西全都显而易见地令人向往，以至于我们很容易漏掉一个事实：它们没有一个具有内在价值。"
+          },
+          {
+            "en": "That is clearly true of wealth, but it is equally true of mental and physical health.",
+            "cn": "财富如此，心理与身体的健康也同样如此。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Take bodily health first.",
+            "cn": "先说身体健康。"
+          },
+          {
+            "en": "We often talk about it as if it were the most important thing of all.",
+            "cn": "我们常常把健康说成好像是天底下最重要的东西。"
+          },
+          {
+            "en": "That’s why Augusten Burroughs’s quote ‘When you have your health, you have everything’ has a healthy life as an internet meme.",
+            "cn": "这就是为什么奥古斯滕·巴勒斯（Augusten Burroughs）那句\"只要你还有健康，你就拥有一切\"能成为流行一时的网络格言。"
+          },
+          {
+            "en": "But we don’t prize health for its own sake.",
+            "cn": "但我们珍视健康，并不是为了健康本身。"
+          },
+          {
+            "en": "We value it for two reasons.",
+            "cn": "我们看重它有两个理由。"
+          },
+          {
+            "en": "One is that the alternative usually involves pain and suffering, which are bad in themselves and so to be avoided.",
+            "cn": "其一，失去健康通常意味着疼痛与苦楚，而它们本身即是坏的，所以要避免。"
+          },
+          {
+            "en": "The other is that, with health, we are more able to do the things that bring meaning to our lives.",
+            "cn": "其二，有了健康，我们才更有能力去做那些为生活带来意义的事。"
+          },
+          {
+            "en": "But a healthy life devoid of love, meaningful activity or experiences would be empty.",
+            "cn": "但一种没有爱、没有有意义的活动与体验的健康生活，会是空洞的。"
+          },
+          {
+            "en": "Indeed, many people with chronic illness surprise themselves and others when they discover that, actually, their health is not the most important thing after all.",
+            "cn": "事实上，许多慢性病患者让自己和旁人吃惊的是：他们发现，健康终究不是最重要的东西。"
+          },
+          {
+            "en": "In sickness, they see more clearly what matters and find that it is better to be, say, ill and loved than in good health and loathed.",
+            "cn": "在疾病中，他们把要紧的事看得更清楚，并且发现，比如，带病而被爱着，好过健康而被厌恶着。"
+          },
+          {
+            "en": "As one wheelchair-using study participant told Elizabeth Lindsey, an associate professor of nursing: ‘I can live life to the fullest, even if I have no physical ability, I can still live life to the fullest because where I am living, life is from within.’ Physical health is important only as a foundation to make it easier for us to appreciate the things that really matter.",
+            "cn": "正如一位坐轮椅的研究参与者对护理学副教授伊丽莎白·林赛（Elizabeth Lindsey）所说：\"我可以活得无比充盈。哪怕我毫无身体能力，我仍然可以把生活过到最满，因为我所在的地方，生命由内而生。\"身体健康之所以重要，只在于它是地基，让我们更容易珍视那些真正要紧的东西。"
+          },
+          {
+            "en": "Indeed, Lindsey talks of ‘health within illness’, arguing that health in its fullest sense is not the absence of illness.",
+            "cn": "事实上，林赛谈的是\"疾病之内的健康\"，她主张，最完整意义上的健康并不是没有疾病。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Even mental health is not important in itself.",
+            "cn": "连心理健康本身也不是终极重要的。"
+          },
+          {
+            "en": "Mental illness is intrinsically bad, since it is suffering without gain.",
+            "cn": "精神疾病本身是坏的，因为那是有苦无获的受难。"
+          },
+          {
+            "en": "But being in good mental health, like being in good physical health, is just an enabler of what is more fundamentally valuable.",
+            "cn": "但良好的心理状态，一如良好的身体状态，只是那些更根本价值之物的使能者。"
+          },
+          {
+            "en": "Even some mental distress is not intrinsically bad.",
+            "cn": "甚至某些心理痛苦也并非本质为坏。"
+          },
+          {
+            "en": "It is a good thing that we grieve as it shows that our emotions are functioning correctly when bad things happen to the people who matter to us.",
+            "cn": "我们会悲伤，这是一件好事——因为它说明，当坏事情降临到我们所在乎的人身上，我们的情绪运转正常。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Not even happiness, perhaps the most commonly claimed benefit of instrumentalisation, is an intrinsic good.",
+            "cn": "就连幸福——工具化最常被标榜的好处——也不是内在的善。"
+          },
+          {
+            "en": "It is not good if someone feels happy to see people they prejudicially hate suffer.",
+            "cn": "如果一个人因为看到自己偏见所恨的人受苦而快乐，这并不是好。"
+          },
+          {
+            "en": "It would not be good to live life in a chemical cloud of bliss, content but disengaged from the real world.",
+            "cn": "生活在一片化学的极乐云雾里，心满意足却与真实世界脱节，这并不是好。"
+          },
+          {
+            "en": "It is not good to live happily in the illusion of a strong relationship when your partner is cheating behind your back.",
+            "cn": "当伴侣在背后不忠时，你却在一段\"牢固关系\"的幻觉中幸福度日，这并不是好。"
+          },
+          {
+            "en": "Blissful ignorance may sometimes be better than painful knowledge, but that does not make it good.",
+            "cn": "极乐的无知有时好过痛苦的知识，但这并不使它成为好。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "So what is good in itself, if not health, wealth and mental wellbeing?",
+            "cn": "那么，如果不是健康、财富与心理幸福感，究竟什么才是本身即善的？"
+          },
+          {
+            "en": "Philosophers have repeatedly made the mistake of trying to identify one thing as the summum bonum , the ‘ultimate good’ for humankind.",
+            "cn": "哲学家们一再犯这样一个错误：试图指认唯一的某样东西作为人类的 summum bonum——\"至善\"。"
+          },
+          {
+            "en": "For Aristotle, it was intellectual contemplation; for the Buddhists, elimination of suffering; for Kant, a good will; for utilitarians, happiness.",
+            "cn": "在亚里士多德那里，是理智的沉思；在佛教徒那里，是灭除苦难；在康德那里，是善良意志；在功利主义者那里，是幸福。"
+          },
+          {
+            "en": "But there seems no reason to try to narrow down what is intrinsically valuable to one state or activity.",
+            "cn": "但似乎没有理由非要把内在有价值的东西窄化为某一种状态或活动。"
+          },
+          {
+            "en": "Aristotle was more on point when he identified flourishing as the highest good for humanity, erring only when he became too prescriptive about what flourishing demands.",
+            "cn": "亚里士多德更切中要害的说法，是把\"繁荣/盛放\"（flourishing）指认为人类的至善——他只在过于规定\"繁荣需要什么\"的时候出了错。"
+          },
+          {
+            "en": "We flourish when our lives are ones of engagement with things that are valuable for their own sakes and not for any other.",
+            "cn": "当我们的生活与那些因其自身而有价值（而非为任何别的理由）的事物持续交会时，我们就是在盛放。"
+          },
+          {
+            "en": "Flourishing takes as many forms as human beings do.",
+            "cn": "盛放有多少种形态，人就有多少种形态。"
+          },
+          {
+            "en": "Friedrich Nietzsche thought that life without music would be a mistake, but it wouldn’t be for someone who is left cold by it.",
+            "cn": "弗里德里希·尼采认为，没有音乐的人生将是一场错误；但对一个对音乐无感的人来说，它并不是。"
+          },
+          {
+            "en": "The idea that ultimate value in life comes from things with intrinsic value is a pluralistic one.",
+            "cn": "\"人生的终极价值来自具有内在价值的事物\"——这个观念是多元的。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Intrinsic human goods include all the things that make life worth living without need of any further justification.",
+            "cn": "人类的内在之善，包括所有那些无需进一步辩护就让生活值得过下去的东西。"
+          },
+          {
+            "en": "To ask of them ‘What’s the point?’ would be to miss the point.",
+            "cn": "对它们追问\"这有什么用？\"，恰恰错过了要点。"
+          },
+          {
+            "en": "They are the point.",
+            "cn": "它们就是要点。"
+          },
+          {
+            "en": "We cannot give arguments for why they are valuable; we can only describe what makes them valuable and hope others recognise their worth.",
+            "cn": "我们无法论证它们为什么有价值；我们只能描述是什么使它们有价值，并希望他人认出它们的分量。"
+          },
+          {
+            "en": "For example, we can say that a day spent in the forest should be appreciated first and foremost because it makes us recognise the wonder of being alive and marvel at the natural world .",
+            "cn": "比如，我们可以说：在森林里度过的一天，首先值得被欣赏，是因为它让我们认出\"活着\"这件事的惊奇，让我们对自然世界惊叹不已。"
+          },
+          {
+            "en": "To play or watch a sport is to participate in or witness the struggle and delight of attempting to bring mind and body together more seamlessly than in the rest of life.",
+            "cn": "参与或观看一项运动，就是参与或见证这样一种挣扎与欢喜：试图让身体与心智的接合，比生活中其余时刻更加严丝合缝。"
+          },
+          {
+            "en": "Learning a foreign language is a gateway into another culture that allows you to communicate with members of it and access its literature and media.",
+            "cn": "学一门外语，是进入另一种文化的门径，让你得以与其中的人交流，读到它的文学、看到它的媒体。"
+          },
+          {
+            "en": "All these things enrich our lives and broaden our experience, which is valuable even if it doesn’t add a second to your lifespan or delay dementia by a day.",
+            "cn": "所有这些都在丰富我们的生活、拓宽我们的经验——这本身就是有价值的，哪怕它没给你的寿命添上一秒，也没让痴呆晚来一天。"
+          },
+          {
+            "en": "If you see them as a means to boost your mental, emotional or physical strength for future times that may or may not be as meaningful, you are taking your focus away from what is valuable here and now.",
+            "cn": "如果你把它们看作提升自己心理、情绪或身体力量的手段，为了那些或许有意义、或许无意义的将来——那么，你正在把注意力从此时此地有价值的东西上移开。"
+          },
+          {
+            "en": "Life isn’t a training for the future.",
+            "cn": "生活不是为未来做的训练。"
+          },
+          {
+            "en": "It’s a game that’s already started, and time is running out.",
+            "cn": "它是一场已经开始的比赛，而时间正在耗尽。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The distinction between intrinsic and extrinsic goods may be conceptually sharp, but in the real world it quickly becomes less clear-cut.",
+            "cn": "内在价值与外在价值的区分在概念上或许锋利，但在真实世界里，它很快变得不再泾渭分明。"
+          },
+          {
+            "en": "Most obviously, many things can be both intrinsically and extrinsically valuable, as is the case for all the things that I argued have been wrongly instrumentalised.",
+            "cn": "最明显的是，许多事物可以同时具有内在与外在价值——我前面论证过被错误工具化的那些事物，皆属此类。"
+          },
+          {
+            "en": "Instrumentalisation does not create extrinsic value, it merely elevates it above what is intrinsically valuable.",
+            "cn": "工具化并不创造外在价值，它只是把外在价值抬高到内在价值之上。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Nor is it always the case that intrinsic trumps extrinsic value.",
+            "cn": "内在价值也并非永远胜过外在价值。"
+          },
+          {
+            "en": "Human beings have practical needs, and it can be more important to earn money, chop wood or hunt food than to read a novel or play with your grandchildren.",
+            "cn": "人有现实的生存需要，有时候，挣钱、劈柴、猎取食物，比读一本小说或陪孙辈玩耍更要紧。"
+          },
+          {
+            "en": "Many things have to be done for instrumental purposes, and to occupy yourself only with what is intrinsically worthwhile would be an exceptional privilege, an indulgence, or both.",
+            "cn": "许多事不得不为工具性的目的而做；只让自己浸在内在有价值之事里，会是一种罕见的特权、一种放纵，或兼而有之。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Furthermore, not all extrinsic goods are created equal.",
+            "cn": "此外，外在价值也并非千篇一律。"
+          },
+          {
+            "en": "Some serve ultimate value more closely than others.",
+            "cn": "有些手段比别的手段更贴近终极价值。"
+          },
+          {
+            "en": "Flattering the boss to win favour to earn money to spend on things of true value takes us far from what is most important in life with no guarantee we will get back to it.",
+            "cn": "奉承老板以邀宠、为挣钱、去买那些真正有价值的东西——这条链条把我们带离生命中最重要的东西，还不保证回得来。"
+          },
+          {
+            "en": "Studying ethics, in contrast, is in a sense a means to an end of living well, but the end is so close to hand that it almost counts as good in itself.",
+            "cn": "相比之下，研究伦理学，在某种意义上也是通向\"好好生活\"这一目的的手段，但这个目的近在咫尺，以至于它几乎本身就称得上是善。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This is why I think the debate over ‘art for art’s sake’ versus ‘art as a didactic tool’ is somewhat misguided.",
+            "cn": "正因如此，我认为\"为艺术而艺术\"与\"艺术作为教化工具\"之争有些找错了靶子。"
+          },
+          {
+            "en": "Some art, especially instrumental music and abstract painting, can and should be appreciated only for its own sake.",
+            "cn": "有些艺术——尤其是纯音乐与抽象绘画——可以而且应当只为它自身而被欣赏。"
+          },
+          {
+            "en": "But much literature, film and drama can give us insight into ethics, politics and the human heart.",
+            "cn": "但许多文学、电影与戏剧，能够给我们关于伦理、政治与人心的洞见。"
+          },
+          {
+            "en": "All such understanding helps us to live better and attend more to what truly matters, in our lives and those of others.",
+            "cn": "所有这样的理解，都帮助我们活得更好，把更多注意力放在真正要紧的事上——无论是自己的生活还是他人的生活。"
+          },
+          {
+            "en": "Such art can be seen as a means to the end of moral education, but in good art, means and ends are so closely tied that the distinction seems artificial.",
+            "cn": "这类艺术可以被视为通向道德教育这一目的的手段；但在好的艺术里，手段与目的联结得如此紧密，以至于这种区分显得造作。"
+          },
+          {
+            "en": "For instance, any account of why Anton Chekhov was such a great playwright could not separate his stagecraft and the humanity of what it represents.",
+            "cn": "比如，任何关于安东·契诃夫何以是伟大剧作家的论述，都无法把他的舞台技艺与他所呈现的人性拆开来谈。"
+          },
+          {
+            "en": "The problem with much didactic art is not that it contains lessons but that they are conveyed so crudely.",
+            "cn": "许多说教艺术的问题不在于它含有教诲，而在于这些教诲被传达得如此笨拙。"
+          },
+          {
+            "en": "Such works are not just bad art but poor pedagogical tools.",
+            "cn": "这样的作品不只是坏艺术，也是糟糕的教学工具。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The relationship between intrinsic and extrinsic value is complex, and one of the problems of instrumentalisation is that it seeks to flatten and simplify it.",
+            "cn": "内在价值与外在价值的关系是复杂的，而工具化的问题之一，就是它试图把这层关系压平、简化。"
+          },
+          {
+            "en": "It encourages us to identify what is most useful, and then separate it from, and prioritise it above, what is of ultimate value.",
+            "cn": "它怂恿我们识别出什么最有用，然后把它分离出来，置于终极价值之上。"
+          },
+          {
+            "en": "In doing so, it often diminishes or destroys the very benefits it promises to maximise.",
+            "cn": "这样做的时候，它常常削弱甚至摧毁它许诺要最大化的那些好处本身。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Take social connection.",
+            "cn": "以社会连接为例。"
+          },
+          {
+            "en": "I have just heard of a study that says that doing anything – even reading – is better for us when we do it with others than alone.",
+            "cn": "我刚听说一项研究，说做任何事情——哪怕读书——与他人一起做都好过独自做。"
+          },
+          {
+            "en": "This message is now widely broadcast and understood, so people know that conviviality is important for their mental and physical health.",
+            "cn": "这类信息如今被广泛传播、广为接受，于是人们都知道：热闹的交往对身心健康很重要。"
+          },
+          {
+            "en": "But one of the most valuable features of friendship and community is how they take us out of concern for ourselves and make us more aware of the needs of others.",
+            "cn": "但友谊与共同体最有价值的特点之一，恰恰是它们把我们从对自己的关切中带出来，让我们更清楚地看见他人的需要。"
+          },
+          {
+            "en": "To get the most out of socialising we need to do it in the right spirit, choosing to be with other people because we care for them and they for us, because we find them stimulating, because we enjoy being part of a collective experience or endeavour.",
+            "cn": "要想从社交中获得最大收获，我们必须以对的精神去社交：选择与别人相处，是因为我们在乎他们、他们也在乎我们，是因为他们让我们如沐春风，是因为我们享受成为一段共同经历或共同事业的一部分。"
+          },
+          {
+            "en": "So if we choose to mingle only for reasons of our personal wellbeing, we are probably not going to get the benefits that socialising usually brings.",
+            "cn": "所以，如果我们只是出于个人福祉的原因去与人来往，我们多半得不到社交通常带来的那些好处。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Instrumentalisation has the illusion of efficiency because it promotes the direct pursuit of practical things that we all want.",
+            "cn": "工具化有一种效率的错觉，因为它怂恿我们直接追求那些人人都想要的实际东西。"
+          },
+          {
+            "en": "But often this turns out to be counterproductive.",
+            "cn": "但这常常被证明是适得其反的。"
+          },
+          {
+            "en": "More often than not, you will fail to get the claimed benefits of an activity if getting them becomes your primary motivation.",
+            "cn": "在多数情形下，如果一项活动的好处本身成了你的首要动机，你反而得不到那些好处。"
+          },
+          {
+            "en": "What look like shortcuts turn out to be short circuits, undermining what they seek to achieve.",
+            "cn": "那些看似捷径的东西，结果证明是短路：它们破坏的，正是它们想达成的。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If instrumentalisation is such a profound mistake, why have we made it?",
+            "cn": "如果工具化是一个如此深刻的错误，我们为什么还会犯？"
+          },
+          {
+            "en": "After all, we do not deliberately set out to strip meaning from our most valued activities or treat friends as psychic enhancers.",
+            "cn": "毕竟，我们并不是蓄意要剥离自己最珍视的活动中的意义，也不是刻意要把朋友当作心理增强剂。"
+          },
+          {
+            "en": "Instrumentalisation has its roots in several connected features of Western modernity.",
+            "cn": "工具化的根，扎在西方现代性的几个彼此勾连的特征里。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Enlightenment brought to fruition an idea of the primacy of the sovereign, autonomous individual, one that had deep roots in classical and Christian thought.",
+            "cn": "启蒙运动让一个理念结出了果实：主权性的、自主的个体至高无上——这个理念在古典思想与基督教思想中都有很深的根。"
+          },
+          {
+            "en": "Over the centuries, this idea has become a kind of common sense.",
+            "cn": "几个世纪以来，这个理念已然成了一种常识。"
+          },
+          {
+            "en": "Each person is supposed to be the master of their own destiny, the author of their own life story.",
+            "cn": "每个人都被视为自己命运的主人、自己生命故事的作者。"
+          },
+          {
+            "en": "Self-expression and self-determination are seen as essential for being an authentic self.",
+            "cn": "自我表达与自我决定，被看作成为一个真实自我的必要条件。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Enlightenment thinkers were correct to promote greater individual freedom in an age when power was wielded by the few over a subjugated majority.",
+            "cn": "在权力由少数人施加于被征服多数的时代，启蒙思想家们倡导更大的个人自由，是对的。"
+          },
+          {
+            "en": "But human beings are also social animals and can never be entirely autonomous.",
+            "cn": "但人也是社会性动物，永远不可能完全自主。"
+          },
+          {
+            "en": "Modernity’s mistake is to lose sight of this, placing all the emphasis on personal liberty and not enough on our interdependence.",
+            "cn": "现代性的错误在于丢失了这一点：把全部重心放在个人自由上，对我们彼此的相互依存却着墨太少。"
+          },
+          {
+            "en": "This has led to an exaggeration of the importance of autonomy that has pushed the prizing of individuality too far.",
+            "cn": "这导致对自主性的重要性的一种夸张，把对个体性的珍视推得过远。"
+          },
+          {
+            "en": "The result is atomisation: a world in which our separateness from others has become excessive.",
+            "cn": "其结果是原子化：在这个世界里，我们与他人的分离变得过度了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This atomised world has several features, all of which encourage instrumentalisation.",
+            "cn": "这个原子化的世界有几个特征，全都在助长工具化。"
+          },
+          {
+            "en": "First, it promotes an illusion of control.",
+            "cn": "第一，它助长一种掌控的错觉。"
+          },
+          {
+            "en": "Encouraged to feel autonomous, we lose sight of the fact that there is much over which we have no power.",
+            "cn": "被鼓励去感到自主的我们，看不见这样一个事实：有太多事情并不在我们的权力之内。"
+          },
+          {
+            "en": "The world unfolds, opening up opportunities and throwing spanners in the works in equally random measure.",
+            "cn": "世界自行展开，随机地既打开机会，也往齿轮里扔扳手。"
+          },
+          {
+            "en": "We are not even in full control of ourselves.",
+            "cn": "我们甚至不能完全掌控自己。"
+          },
+          {
+            "en": "We had no say in our fundamental constitutions: our dispositions, personalities, gifts and limitations.",
+            "cn": "对我们的根本构成——气质、性格、天赋与局限——我们从未有过发言权。"
+          },
+          {
+            "en": "We have no direct access to the hidden springs of thought and volition and cannot just choose what we like or what we believe.",
+            "cn": "我们无法直接触及思想与意志的隐秘泉眼，不能想喜欢什么就喜欢什么，想相信什么就相信什么。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But primed to think of ourselves as free and autonomous, we imagine that we can manipulate the world to achieve whatever we want.",
+            "cn": "但被预设去把自己看作自由而自主的我们，想象自己可以操纵世界，以达成任何我们想要的东西。"
+          },
+          {
+            "en": "Happiness, health and success are all ours for the taking, just as long as we make the right choices.",
+            "cn": "幸福、健康、成功，统统唾手可得——只要我们做出正确的选择。"
+          },
+          {
+            "en": "And so the world becomes a series of levers to be pulled and buttons to be pushed, all to yield to our wills.",
+            "cn": "于是，世界变成了一排排等待被扳动的杠杆、一颗颗等待被按下的按钮，一切都得屈服于我们的意志。"
+          },
+          {
+            "en": "In short, everything can and must be a means to whatever ends we choose, because that is what we think self-determination requires.",
+            "cn": "简言之，一切都可以、也必须成为通向我们选定目的的手段，因为在我们看来，自我决定就要求如此。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the era of late capitalism, our autonomous agency has increasingly been expressed through our status as consumers.",
+            "cn": "在晚期资本主义时代，我们自主的行动力越来越通过消费者身份来表达。"
+          },
+          {
+            "en": "Freedom is above all the choice of how to spend our money, with the promise that everything we need can be obtained in exchange for cash.",
+            "cn": "自由首先是选择怎么花钱，并伴有一个承诺：我们需要的一切都能用现金换来。"
+          },
+          {
+            "en": "The consumer mindset has affected how we relate to everything, not just the things we buy.",
+            "cn": "这种消费者心态已经改变了我们与一切事物打交道的方式——不只是我们买的东西。"
+          },
+          {
+            "en": "The result is that the world has become essentially transactional, meaning that everything is an instrument for getting something else.",
+            "cn": "结果是，世界在本质上变得交易化了：一切都是获得别的东西的工具。"
+          },
+          {
+            "en": "It is no coincidence that dating apps give the impression that we are shopping for partners because we approach even relationships with the consumer framing.",
+            "cn": "交友软件给我们购物选伴侣般的印象，绝非偶然——因为我们正是带着消费者的框架去对待连人本身的关系。"
+          },
+          {
+            "en": "Politics has also become a trade for votes in which the electorate and politicians believe that the winner takes all, like the highest bidder in an auction, and damn those who backed the losing side.",
+            "cn": "政治也变成了一场选票的交易：选民与政客都相信赢者通吃，就像拍卖会上出价最高的人，至于支持落败一方的人，管他去死。"
+          },
+          {
+            "en": "Democracy should be a way of managing competing demands, not giving the winners everything they want.",
+            "cn": "民主应当是管理相争诉求的方式，而不是让赢家拿走他们想要的一切。"
+          },
+          {
+            "en": "Voting should be about having your say, not getting your way.",
+            "cn": "投票本应是让你有发言权，而不是让你得偿所愿。"
+          },
+          {
+            "en": "But in the new consumer mindset, votes buy power, they no longer mandate responsibility.",
+            "cn": "但在新的消费者心态里，选票购买的是权力，不再是责任的授权。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Another deep cultural source of instrumentalisation is the reductionism that has surreptitiously seeped into our culture from natural science.",
+            "cn": "工具化的另一个深层文化源头，是从自然科学悄悄渗入我们文化的还原论。"
+          },
+          {
+            "en": "Reductionism is the idea that the way to understand how things work is to break them down into their constitutive parts.",
+            "cn": "还原论是这样一种观念：要理解事物如何运作，就把它拆解成构成它的部件。"
+          },
+          {
+            "en": "It’s an idea that served natural science well for centuries.",
+            "cn": "几个世纪以来，这个理念很好地服务于自然科学。"
+          },
+          {
+            "en": "But a clue as to its limitations comes in its relative failure in the social sciences.",
+            "cn": "但它在社会科学中的相对失灵，暗示了它的局限。"
+          },
+          {
+            "en": "Economies, societies and psychologies cannot be explained by simple mechanistic processes.",
+            "cn": "经济体、社会与心灵，无法用简单的机械过程来解释。"
+          },
+          {
+            "en": "We have learned that, even in the natural sciences, you can explain only so much by taking things apart, and that it is equally – sometimes more – important to see how systems work as a whole.",
+            "cn": "我们已经明白：即便在自然科学里，靠拆解所能解释的也只有这么多；同样重要的——有时更重要——是看清系统作为整体如何运作。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Behind much instrumentalisation is a crude reductionism that ignores systems and focuses on elements within it.",
+            "cn": "工具化背后，常常站着一种粗糙的还原论：无视系统，只盯住系统中的元素。"
+          },
+          {
+            "en": "The richness of an experience, such as being in the outdoors, is reduced to a means to stimulate blood flow or release hormones.",
+            "cn": "一种体验的丰富性——比如置身户外——被还原为促进血液循环或释放激素的手段。"
+          },
+          {
+            "en": "Art, which stirs a large variety of often conflicting emotions, is prized purely for its capacity to evoke certain good ones.",
+            "cn": "艺术本会搅动多种多样、常常相互冲突的情绪，却被只因为它能唤起某些\"好\"情绪而受推崇。"
+          },
+          {
+            "en": "Social bonds, which cause pain and heartache as well as joy, are reduced to sources of emotional support.",
+            "cn": "社会联结既带来欢乐，也带来痛苦与心碎，却被还原为情绪支持的来源。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Combine an inflated belief in personal autonomy, a transactional consumer mentality and a reductionist attitude to how things work, and it is inevitable that we treat the world as a collection of resources we can plunder to promote our own wellbeing.",
+            "cn": "把对个人自主的膨胀信念、交易化的消费者心态、以及看待事物如何运作的还原论态度合在一起，我们就不可避免地把世界当作一堆可以攫取的资源，用来增进自身的福祉。"
+          },
+          {
+            "en": "The tragedy is that when we do so, we neglect rather than serve our deepest needs.",
+            "cn": "悲剧在于：当我们这样做时，我们忽视的恰恰是——而非成全了——我们最深的需求。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "What would our culture look like if we were to reverse the instrumentalisation of everything?",
+            "cn": "如果我们逆转这万物的工具化，我们的文化会是什么样子？"
+          },
+          {
+            "en": "Of course, we would still do many things as means to ends.",
+            "cn": "当然，我们仍会把许多事作为通向目的的手段来做。"
+          },
+          {
+            "en": "We would also be happy to agree that many of the good things in life bring us instrumental benefits too.",
+            "cn": "我们也会乐于承认：生活中许多好东西同样带给我们工具性的好处。"
+          },
+          {
+            "en": "But we would see these as welcome side-effects, not their purposes.",
+            "cn": "但我们会把这些看作受欢迎的副作用，而不是它们的目的。"
+          },
+          {
+            "en": "A deinstrumentalised world would be one in which we would attend more to what is of value right here, right now.",
+            "cn": "一个去工具化的世界，是一个我们更关注此时此地之价值的世界。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Take friendship.",
+            "cn": "以友谊为例。"
+          },
+          {
+            "en": "The personal benefits we get from others are real, but they should not be the reason for being with them.",
+            "cn": "我们从他人那里得到的个人好处是真实的，但它们不应当是我们与之相处的理由。"
+          },
+          {
+            "en": "Relationships are valuable because we value the people in them, not because spending time with them releases endorphins in our brains.",
+            "cn": "关系之所以珍贵，是因为我们珍视关系中的人，而不是因为与他们共度时光会在我们脑内释放内啡肽。"
+          },
+          {
+            "en": "David Hume corrected this error more than two centuries ago when he wrote: ‘I feel a pleasure in doing good to my friend, because I love him; but do not love him for the sake of that pleasure.’ To reject instrumentalisation is to understand that feeling good often follows from living well, but it is not what living well consists in.",
+            "cn": "大卫·休谟在两个多世纪前就纠正过这个错误，他写道：\"我为朋友做好事，从中感到快乐，是因为我爱他；但我并不是为了那份快乐才爱他。\"拒绝工具化，就是理解到：感觉良好往往伴随着好好生活而来，但它并不是好好生活的构成本身。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-psyche-pretesting",
+    "cat": "成长",
+    "title": "The ‘secret strategy’ that could boost your ability to learn",
+    "titleZh": "提升学习能力的「秘密策略」",
+    "source": "Psyche · 2024-11-12",
+    "date": "2024-11-12",
+    "minutes": 12,
+    "url": "https://psyche.co/ideas/the-secret-strategy-that-could-boost-your-ability-to-learn",
+    "coverImg": "assets/covers/gr-psyche-pretesting.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "It may sound illogical, but growing evidence shows the benefits of testing yourself before you start learning new material",
+            "cn": "听起来不合逻辑，但越来越多的证据表明，在开始学习新内容之前先考一考自己，大有好处。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Imagine you are planning to learn about the solar system but, before you start, your teacher gives you a multiple-choice quiz on the topic.",
+            "cn": "想象一下：你打算学习太阳系的知识，但还没开始，老师就先给你做了一套关于这个主题的选择题测验。"
+          },
+          {
+            "en": "You haven’t learned a single fact about the solar system yet, so the questions, such as ‘Which of our dwarf planets is not a plutoid?’ or ‘Which planet is the least dense in the solar system?’, leave you staring blankly.",
+            "cn": "你对太阳系还一无所知，所以诸如\"我们的矮行星中哪一颗不是类冥天体？\"或\"太阳系中哪颗行星密度最小？\"这样的问题，只会让你一脸茫然。"
+          },
+          {
+            "en": "Naturally, you are bound to make mistakes.",
+            "cn": "当然，你注定会答错一片。"
+          },
+          {
+            "en": "You might understandably feel that this guessing in the dark is a complete waste of time.",
+            "cn": "你大概会觉得这种摸黑瞎猜完全是浪费时间——这也情有可原。"
+          },
+          {
+            "en": "In fact, it’s not – a growing body of research shows this early test can significantly enhance your later learning.",
+            "cn": "事实上并非如此——越来越多的研究表明，这次提前的测验能显著提升你之后的学习效果。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The potential of tests, not just for assessment, but also for learning, dates back at least as far as the 1920s when the psychologist Sidney Pressey developed his innovative typewriter-turned-testing machine.",
+            "cn": "测验的潜力不只在于评估，还在于促进学习——这一思路至少可以追溯到20世纪20年代，当时心理学家西德尼·普雷西（Sidney Pressey）发明了一台由打字机改造而来的新颖测试机。"
+          },
+          {
+            "en": "The machine presented a question with several possible answers, requiring students to press a key to submit their response.",
+            "cn": "这台机器会呈现一道题和几个备选答案，学生需要按键提交自己的回答。"
+          },
+          {
+            "en": "Pressey’s innovation was a feature that held the question in place until the correct answer was chosen, transforming the test into a learning experience.",
+            "cn": "普雷西的创新在于一个功能：题目会一直留在机器上，直到选出正确答案为止——这让测验本身变成了一次学习体验。"
+          },
+          {
+            "en": "Although it wasn’t widely adopted, his work anticipated what is now known about the huge benefits of testing for improving learning.",
+            "cn": "尽管这台机器没有被广泛采用，但他的工作预示了如今我们已知的测验对提升学习的巨大好处。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The virtues of testing for improving recall and deepening learning have been widely researched, but the vast majority of studies have focused on the benefit of tests taken after studying.",
+            "cn": "测验在改善记忆、深化学习方面的优点已被广泛研究，但绝大多数研究关注的都是学习之后的测验带来的好处。"
+          },
+          {
+            "en": "Research from the 1960s was among the earliest to highlight the benefits of testing before learning – what is now called the ‘pretesting effect’ – and in recent years there has been a surge of interest in this counterintuitive effect.",
+            "cn": "20世纪60年代的研究最早凸显了学习之前测验的好处——也就是如今所称的\"前测效应\"（pretesting effect）——而近年来，这种反直觉的效应引发了爆发式的关注。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Here’s what experiments into the pretesting effect typically look like.",
+            "cn": "有关前测效应的实验通常是这样做的。"
+          },
+          {
+            "en": "All participants eventually study the same new information, but half are asked to answer anywhere from one to several dozen questions about the material before they have had a chance to study it – usually without feedback on their largely incorrect guesses.",
+            "cn": "所有参与者最终都会学习同样的新材料，但其中一半人要在学习之前先回答一道到几十道与材料相关的问题——通常也不会有人告诉他们，那些大多错误的猜测究竟对不对。"
+          },
+          {
+            "en": "After all of the participants have studied the material, everyone then takes a final test to assess how well they’ve learned.",
+            "cn": "等所有参与者都学完材料后，所有人再参加一次最终测试，以评估学习效果。"
+          },
+          {
+            "en": "Even though that pretest might seem pointless (why spend valuable learning time making wrong guesses?), over and over again, experiments suggest that it is time well spent.",
+            "cn": "尽管前测看上去毫无意义（为什么要用宝贵的学习时间去做错误的猜测？），实验却一再表明，这段时间花得值。"
+          },
+          {
+            "en": "The pretest group typically outperforms the control group.",
+            "cn": "前测组的表现通常好于对照组。"
+          },
+          {
+            "en": "Even incorrect guessing followed by studying benefits learning.",
+            "cn": "即便是猜错了再学习，也对学习有益。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "These benefits apply to simple materials, such as word pairs, and more complex ones, such as reading passages about physics or oceanography, watching videos on history or information theory, or attending live research-methods lectures.",
+            "cn": "这些好处既适用于单词对这样的简单材料，也适用于更复杂的材料——比如阅读物理或海洋学的文章、观看历史或信息论的视频，或者现场听研究方法课。"
+          },
+          {
+            "en": "And this holds true for children learning about space exploration and undergraduates studying psychology; in the laboratory and in the classroom; and whether answers are scribbled with a pen on paper or guessed on one’s laptop.",
+            "cn": "无论是学太空探索的孩子还是学心理学的大学生；无论在实验室还是在课堂上；无论用笔在纸上写答案还是在笔记本电脑上猜答案——效果都成立。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Researchers believe pretesting is beneficial because it improves the way that we process the to-be-learned material.",
+            "cn": "研究者认为，前测之所以有益，是因为它改善了我们对将学材料的加工方式。"
+          },
+          {
+            "en": "‘We could talk for hours about the mechanism,’ says Steven Pan, a cognitive scientist at the National University of Singapore, who recently co-authored a review of the pretesting effect.",
+            "cn": "\"关于其中的机制，我们能聊上好几个小时，\"新加坡国立大学的认知科学家史蒂文·潘（Steven Pan）说，他最近与人合写了一篇关于前测效应的综述。"
+          },
+          {
+            "en": "‘Making a guess might trigger things.",
+            "cn": "\"做出猜测可能会触发一些反应。"
+          },
+          {
+            "en": "Make you more curious.’",
+            "cn": "让你更好奇。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Increased attention to the to-be-learned material could be another factor.",
+            "cn": "对将学材料投入更多注意，可能是另一个因素。"
+          },
+          {
+            "en": "Pan and his colleagues have observed reduced mind-wandering after pretesting, and other researchers have shown that participants’ eyes focus more on sentences related to the questions they received in advance.",
+            "cn": "潘和他的同事观察到，前测之后走神的情况减少了；其他研究者则发现，参与者的目光会更集中于与事先拿到的问题相关的句子。"
+          },
+          {
+            "en": "Other potential mechanisms include an improved motivation to learn and that pretesting acts as a metacognitive ‘reality check’, highlighting what you do and do not know and encouraging you to fill in knowledge gaps.",
+            "cn": "其他可能的机制还包括：学习动机的增强；以及前测扮演了元认知层面的\"现实检验\"角色——让你看清自己知道什么、不知道什么，促使你去填补知识空白。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Whatever the mechanism is, when you later need that information, you’re more likely to recall it after a pretest than if you had simply read it.",
+            "cn": "无论机制为何，当你之后需要用到那条信息时，做过前测比只是单纯读过，更可能把它回忆起来。"
+          },
+          {
+            "en": "As Pan explains: ‘If you have only read [the learning material], your chance of recalling that information is not zero, but it’s typically going to be less than if you had to make a guess first.’",
+            "cn": "正如潘所解释的：\"如果你只是读过（学习材料），你回忆起那条信息的概率不是零，但通常会低于先做过一次猜测的情况。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Studies show that the benefits of pretesting can persist from one day to one week to several weeks, indicating that the advantages of a pretest extend well beyond the initial minutes following studying and that true learning is taking place.",
+            "cn": "研究显示，前测的好处可以持续一天、一周乃至数周，这说明前测的优势远不止学习结束后的最初几分钟，而是发生了真正的学习。"
+          },
+          {
+            "en": "What’s more, newer research suggests that the effect may actually grow stronger over time, meaning its potency could have been underestimated in the many studies that only measured learning shortly after the study session.",
+            "cn": "更何况，较新的研究提示，这一效应可能随时间推移而变得更强——也就是说，在那些只在学完后不久就测量学习效果的众多研究里，它的威力可能被低估了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you want to try pretesting for yourself, keep in mind that it works best when the questions are focused on information that will be covered in what you’re about to learn.",
+            "cn": "如果你想亲自试试前测，请记住：当问题聚焦于你即将学习的内容时，它最有效。"
+          },
+          {
+            "en": "Though access to correct answers isn’t necessary for pretesting, feedback can still shape your learning experience and might be especially helpful when engaging with more complex learning materials.",
+            "cn": "虽然前测并不需要你拿到正确答案，但反馈仍然能塑造你的学习体验，在学习更复杂的材料时可能尤其有用。"
+          },
+          {
+            "en": "Faria Sana, a cognitive scientist at Athabasca University, explains that, in these cases, ‘feedback can scaffold learning and ensure that learners don’t reinforce errors.’",
+            "cn": "阿萨巴斯卡大学的认知科学家法里亚·萨纳（Faria Sana）解释说，在这些情况下，\"反馈可以为学习搭起脚手架，确保学习者不会把错误固化下来\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Also, note that the benefits of pretesting can diminish when there is a delay between the test and the learning session.",
+            "cn": "另外要注意，如果测验与学习之间隔了一段时间，前测的好处就会打折扣。"
+          },
+          {
+            "en": "So make sure you take the pre-quiz shortly before engaging with the learning material.",
+            "cn": "所以，务必在开始学习材料之前不久完成前测小测。"
+          },
+          {
+            "en": "For example, if you’re about to watch a video, take a moment to answer a few pretest questions right before hitting that play button.",
+            "cn": "比如，如果你正要看一个视频，就在按下播放键之前，花点时间答几道前测题。"
+          },
+          {
+            "en": "For longer or more complex materials – such as an entire book chapter or a lengthier video – try guessing the answers to a few questions before each chapter section or video segment.",
+            "cn": "对于更长或更复杂的材料——比如整章书或较长的视频——试着在每一节或每一段开始前，先猜一猜几个问题的答案。"
+          },
+          {
+            "en": "This way, your guesses will be made shortly before you encounter the answers.",
+            "cn": "这样，你的猜测就会恰好赶在遇到答案之前发生。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As for where to source your questions, you could consider using the questions that are often found at the end of textbook chapters or provided at the end of a lecture (be that online, or at a learning institution).",
+            "cn": "至于去哪里找题目，你可以用教材章末常见的练习题，或者课程结尾给出的题目（无论线上课程还是教育机构里的课程）。"
+          },
+          {
+            "en": "Another approach, if you’re studying from a book, is to ‘glance through and try to guess from the headings what information will be there.",
+            "cn": "另一种办法，如果你读的是书，就是\"大致翻一遍，试着从标题猜猜里面会写些什么。"
+          },
+          {
+            "en": "And then read and discover what’s actually in there,’ recommends Pan.",
+            "cn": "然后再读，看看里面实际讲了什么。\"潘如此建议。"
+          },
+          {
+            "en": "Alternatively, Sana suggests that you can ‘turn learning objectives into questions and attempt to answer them before exploring the content’ or you could generate your own questions based on what you expect to learn.",
+            "cn": "或者，萨纳建议，你可以\"把学习目标变成问题，在探索内容之前先试着回答\"，也可以根据你预期要学的东西自己出题。"
+          },
+          {
+            "en": "Pan adds: ‘You can even ask an artificial intelligence agent to help generate practice questions for you, then engage in pretesting with those questions.’",
+            "cn": "潘补充道：\"你甚至可以让人工智能帮你生成练习题，然后用这些题来做前测。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The types of questions you choose can also influence the benefits you reap.",
+            "cn": "你选择的题型也会影响你能收获多少好处。"
+          },
+          {
+            "en": "Pretesting has been shown to work with a variety of question types, including multiple-choice, short-answer and fill-in-the-blank questions.",
+            "cn": "已有证明，前测对多种题型都有效，包括选择题、简答题和填空题。"
+          },
+          {
+            "en": "However, when learning similar and therefore easily confused material, such as distinguishing between the eight wrist bones or the various moons of Saturn, question type can make a difference.",
+            "cn": "不过，当学习相似因而容易混淆的材料时——比如分辨八块腕骨，或土星那些形形色色的卫星——题型就可能带来差别。"
+          },
+          {
+            "en": "A 2016 study found that including incorrect but closely related answer options in a multiple-choice test format can help direct your attention more broadly – both to the information necessary to answer the specific pretest questions and to the information related to the incorrect alternatives.",
+            "cn": "2016年的一项研究发现，在选择题里放入错误但密切相关的备选项，能把你的注意力引向更广的范围——既指向回答具体前测题所需的信息，也指向与那些错误选项相关的信息。"
+          },
+          {
+            "en": "Then, when you begin studying the learning material, this brief exposure to related information will help you notice and remember it better.",
+            "cn": "这样，等你开始学习材料时，这些对相关信息的短暂接触会帮你更好地注意并记住它们。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "For example, before reading a study text about Saturn, you might first answer a multiple-choice pretest that included a question about its moons (‘What is Saturn’s largest moon?",
+            "cn": "比如，在读一篇关于土星的学习文章之前，你可以先做一道含有土星卫星问题的选择题前测，题目是：\"土星最大的卫星是哪一颗？"
+          },
+          {
+            "en": "a.",
+            "cn": "甲、"
+          },
+          {
+            "en": "Titan, b.",
+            "cn": "土卫六（Titan）；乙、"
+          },
+          {
+            "en": "Rhea, c.",
+            "cn": "土卫五（Rhea）；丙、"
+          },
+          {
+            "en": "Mimas; answer: Titan).",
+            "cn": "土卫一（Mimas）。答案：土卫六。"
+          },
+          {
+            "en": "This would prompt you to pay more attention to information about the largest moon (ie, Titan) and also to information about the other moons.",
+            "cn": "这会促使你更加关注关于最大卫星（即土卫六）的信息，同时也会更关注其他卫星的信息。"
+          },
+          {
+            "en": "‘Then, if you were asked about the second-largest moon later, you would be better equipped to answer “Rhea”,’ explains Jeri Little, a cognitive scientist at California State University, East Bay and co-author of the study.",
+            "cn": "\"之后如果问到第二大的卫星，你会更有把握答出'土卫五'，\"该研究的合著者、加州州立大学东湾分校的认知科学家杰丽·利特尔（Jeri Little）解释道。"
+          },
+          {
+            "en": "In contrast, it would be less effective to take a pretest that required only short-answer questions.",
+            "cn": "相比之下，只用简答题做前测，效果就没那么好。"
+          },
+          {
+            "en": "This would focus your attention solely on the specific question and its answer, making those questions less effective for promoting the learning of related material.",
+            "cn": "它只会把你的注意力集中在那道题及其答案上，对促进相关材料的学习就没那么有效。"
+          },
+          {
+            "en": "For example, if your pretest included the question ‘What is Saturn’s largest moon?’ in a short-answer format, the pretesting effect would be limited to the correct answer (ie, Titan) without broadening your attention to think about Mimas or Rhea.",
+            "cn": "比如，如果你的前测用简答题问\"土星最大的卫星是什么？\"，前测效应就会局限于正确答案（即土卫六），而不会把你的注意力扩展到土卫一或土卫五上。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Scientists see pretesting as particularly useful for learning concrete concepts or facts, such as ‘Titan is Saturn’s largest moon.’ Although research has shown that pretesting can extend to procedural knowledge – such as the recent study in which individuals who attempted a medical procedure before watching a training video subsequently performed the procedure more quickly and with fewer errors than those who only watched the video – this area of research is in its early stages.",
+            "cn": "科学家认为，前测对学习具体概念或事实尤其有用，比如\"土卫六是土星最大的卫星\"。尽管研究显示前测也能延伸到程序性知识——比如最近有一项研究：先尝试操作某项医疗程序再看教学视频的人，之后执行该程序比只看视频的人更快、更少出错——但这一研究领域还处于早期阶段。"
+          },
+          {
+            "en": "Another guessing-based strategy that has proven effective, often in group learning, is known as ‘productive failure’.",
+            "cn": "另一种已证明有效的、基于猜测的策略常用于小组学习，名叫\"有效失败\"（productive failure）。"
+          },
+          {
+            "en": "In subjects like mathematics, it involves encouraging learners to attempt solving problems before receiving formal instruction – and again there’s evidence that this form of guessing can result in better outcomes than instruction alone.",
+            "cn": "在数学这类学科中，它鼓励学习者在接受正式讲解之前先尝试解题——同样有证据表明，这种形式的猜比起单纯听讲能带来更好的结果。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Pretesting, a strategy with almost no downsides, is unlikely to detract from any traditional post-learning tests you take and will likely improve your overall learning process.",
+            "cn": "前测几乎没有坏处，不太可能拖累你之后参加的任何传统测验，反而可能改善你的整体学习过程。"
+          },
+          {
+            "en": "Given all the evidence for pretesting, you might wonder why it isn’t more commonly used.",
+            "cn": "面对前测的种种证据，你也许会问：它为什么没有被更广泛地使用？"
+          },
+          {
+            "en": "The truth is, we often fail to recognise just how helpful pretesting can be, even after experiencing its benefits firsthand.",
+            "cn": "真相是，即便亲身受益之后，我们也常常意识不到前测到底有多大帮助。"
+          },
+          {
+            "en": "That’s why Pan calls it a ‘secret strategy’.",
+            "cn": "所以潘把它称为一个\"秘密策略\"。"
+          },
+          {
+            "en": "In his teaching, he likes to open with a thoughtful question to ‘spark thinking about the lesson that is to follow’.",
+            "cn": "在教学中，他喜欢用一个引人深思的问题开场，\"为接下来的课程点燃思考\"。"
+          },
+          {
+            "en": "With growing evidence in its favour, why not join Pan and others and give this secret strategy a try?",
+            "cn": "支持它的证据越来越多，何不加入潘和其他人的行列，亲自试试这个秘密策略？"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-sivers-building-without-predicting",
+    "cat": "成长",
+    "title": "Building without predicting",
+    "titleZh": "不靠预测来建造",
+    "source": "Derek Sivers · 2026-08-18",
+    "date": "2026-08-18",
+    "minutes": 9,
+    "url": "https://sive.rs/fit",
+    "coverImg": "assets/covers/gr-sivers-building-without-predicting.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "On a podcast , I briefly mentioned that I’m building my dream house without predicting - by living in a bare cabin in the woods, then adding only what I find I actually need .",
+            "cn": "在一个播客里，我顺口提到自己正在不靠预测地建造梦想中的房子——先住进林间一间空荡荡的小木屋，然后只添置我发现自己真正需要的东西。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Apparently it was intriguing, because since then, it’s been my most frequently asked question: “How’s your house going?” I didn’t think this would interest total strangers, but enough people have asked, so here’s the story.",
+            "cn": "看来这话引起了大家的兴趣，因为从那以后，被问得最多的就是它：\"你的房子建得怎么样了？\"我原以为陌生人不会对此感兴趣，但问的人实在不少，于是就有了这篇文章。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I hope you can apply it metaphorically to your own projects or life choices.",
+            "cn": "希望你能把它当作一个隐喻，用在自己的项目或人生选择上。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It starts with a maxim:",
+            "cn": "一切始于一句格言："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "All buildings are predictions.",
+            "cn": "所有的建筑都是预测。"
+          },
+          {
+            "en": "All predictions are wrong.",
+            "cn": "所有的预测都是错的。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "How do you build without predicting?",
+            "cn": "不做预测，怎么建造？"
+          },
+          {
+            "en": "Defer decisions.",
+            "cn": "推迟决定。"
+          },
+          {
+            "en": "Start using what’s there.",
+            "cn": "先用起现成的东西。"
+          },
+          {
+            "en": "Discover actual needs.",
+            "cn": "发现真实的需求。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When you catch yourself thinking “We’ll need this,” stop and say, “Let’s find out what we really need.”",
+            "cn": "当你发现自己冒出\"我们会需要这个\"的念头时，停下来，改口说：\"先弄清楚我们到底需要什么。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A fabled example: They built a new park and argued about where to put the walkways.",
+            "cn": "一个经典案例：人们新建了一座公园，为步道修在哪里争论不休。"
+          },
+          {
+            "en": "Around the edges?",
+            "cn": "沿着边缘？"
+          },
+          {
+            "en": "Through the middle?",
+            "cn": "穿过中央？"
+          },
+          {
+            "en": "The winning answer: Open the park with no walkways .",
+            "cn": "最优答案是：公园开放时一条步道都不修。"
+          },
+          {
+            "en": "After a year, look where people have been walking.",
+            "cn": "一年之后，去看看人们都从哪里走。"
+          },
+          {
+            "en": "Find paths where the grass is worn away.",
+            "cn": "找到那些草被踩秃的地方。"
+          },
+          {
+            "en": "Pave there.",
+            "cn": "就在那里铺路。"
+          },
+          {
+            "en": "Don’t predict.",
+            "cn": "不要预测。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’ve preached that idea for decades.",
+            "cn": "这个理念我已经讲了十几年。"
+          },
+          {
+            "en": "Then a few years ago, I bought a piece of land for dirt cheap here in New Zealand - just 30 minutes away - and applied that idea to building a home for me and my son.",
+            "cn": "几年前，我在新西兰以极便宜的价钱买下一块地——离这里只有30分钟路程——并把那个理念用在了为我和儿子建房子这件事上。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "How do you build a home without predicting?",
+            "cn": "不靠预测，怎么建一个家？"
+          },
+          {
+            "en": "By living in an unfurnished, unfinished place, adding only what you’ve proven you need or want.",
+            "cn": "住进一个没有家具、尚未完工的地方，只添置那些你已证明自己需要或想要的东西。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It’s a fun philosophical experiment, testing what you really need.",
+            "cn": "这是一场有趣的哲学实验：检验你到底需要什么。"
+          },
+          {
+            "en": "Especially when costs are high, it raises the bar on that word: “need”.",
+            "cn": "尤其当代价高昂时，它会抬高\"需要\"这个词的门槛。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "(Note: I will say “I” and “my”, but my teenage son was very involved in most of these decisions, and loves this place even more than I do.)",
+            "cn": "（说明：下文我会说\"我\"和\"我的\"，但其实大多数决定都有我十几岁儿子的深度参与，他比我更喜欢这个地方。）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "My land is an off-grid forest valley with a creek running through the middle.",
+            "cn": "我的地是一处离网的森林山谷，一条小溪从中间流过。"
+          },
+          {
+            "en": "No buildings, no electricity or services.",
+            "cn": "没有建筑，没有电，也没有任何市政管线。"
+          },
+          {
+            "en": "Just land.",
+            "cn": "只有土地。"
+          },
+          {
+            "en": "So I really started from scratch.",
+            "cn": "所以我是真正从零开始的。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "For two years, before building anything, we spent time there in all seasons, finding our favorite spots.",
+            "cn": "动工之前的两年里，我们四季都去那里待，寻找自己最喜欢的角落。"
+          },
+          {
+            "en": "We built a path through our forest.",
+            "cn": "我们在林子里修了一条小径。"
+          },
+          {
+            "en": "Twice, we came face-to-face with a wild boar .",
+            "cn": "有两次，我们和一头野猪打了照面。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I slept outside, so I know I need a roof, walls, and great insulation - about 4 by 8 meters.",
+            "cn": "我睡过露天，所以我知道自己需要屋顶、墙和很好的保温——大约4米乘8米。"
+          },
+          {
+            "en": "I bought a used, pre-made, well-insulated 4 by 8 cabin .",
+            "cn": "我买了一间二手的预制小木屋，4米乘8米，保温很好。"
+          },
+          {
+            "en": "Because they were on a clearance sale, I bought three more, so now we have four adjacent cabins for four purposes:",
+            "cn": "因为赶上清仓甩卖，我又买了三间——现在我们有四间相邻的小木屋，派四种用场："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "for sleeping",
+            "cn": "一间用来睡觉"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "for me (where I spend most waking hours)",
+            "cn": "一间给我（我大部分清醒的时间都在这里度过）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "for him (where my son does whatever he wants)",
+            "cn": "一间给他（我儿子想干什么就干什么的地方）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "for storage or future living.",
+            "cn": "一间储物，或留作日后的住处。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I love the isolation of purposes.",
+            "cn": "我喜欢这种用途分离。"
+          },
+          {
+            "en": "When I go into my cabin, it’s time to work.",
+            "cn": "走进我的小屋，就是工作时间。"
+          },
+          {
+            "en": "When we go into the sleeping cabin, it’s time for bed.",
+            "cn": "走进睡觉的小屋，就该上床了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I slept on the floor, so I know I need a mattress and blankets.",
+            "cn": "我睡过地板，所以我知道自己需要床垫和毯子。"
+          },
+          {
+            "en": "I bought a mattress and blankets and started living there .",
+            "cn": "我买了床垫和毯子，开始住在那里。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I tried living without electricity, then planned on going solar-only, but I decided to get fast fiber internet.",
+            "cn": "我试过不用电生活，后来计划只用太阳能，但最终还是决定接入高速光纤网络。"
+          },
+          {
+            "en": "Since I was digging a trench for the fiber optic cables to run from the road to my house, it made sense to get electric service.",
+            "cn": "反正要为光纤挖一条从公路通到房子的沟渠，顺便接通电也很合理。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "These ideas are from the book “How Buildings Learn” by Stewart Brand .",
+            "cn": "这些想法来自斯图尔特·布兰德（Stewart Brand）的《建筑如何学习》（How Buildings Learn）一书。"
+          },
+          {
+            "en": "For 20 years, it’s been a huge influence on my code, my life choices, and now on building my home.",
+            "cn": "二十年来，它深刻影响了我的代码、我的人生选择，如今又影响着我如何建造自己的家。"
+          },
+          {
+            "en": "If you find this fascinating or crazy, go read that book .",
+            "cn": "如果你觉得这一切迷人也够疯狂，去读读那本书吧。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It makes a powerful point about water:",
+            "cn": "书里关于水有一个非常有力的论点："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "“Water consumes wood, erodes masonry, corrodes metals, peels paint, and expands when it freezes.",
+            "cn": "\"水吞噬木头，侵蚀砖石，锈蚀金属，剥落油漆，冻结时还会膨胀。"
+          },
+          {
+            "en": "It warps, swells, discolors, rusts, loosens, mildews, and stinks.",
+            "cn": "它让房屋扭曲、鼓胀、变色、生锈、松动、发霉、发臭。"
+          },
+          {
+            "en": "Houses deteriorate from the bathroom out.”",
+            "cn": "房子是从浴室开始烂掉的。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Heeding his warning, I made a rule of no water inside .",
+            "cn": "我听从了他的警告，定下一条规矩：屋里不放水。"
+          },
+          {
+            "en": "Anything with water stays outside the cabins.",
+            "cn": "凡是带水的东西，都留在小屋之外。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Outdoor showers, I’ve always loved, so now it’s all I’ve got.",
+            "cn": "户外淋浴我一直很喜欢，所以现在我就只有它了。"
+          },
+          {
+            "en": "A simple hose shower that runs the water through a heater.",
+            "cn": "一根简单的软管淋浴，让水流经加热器。"
+          },
+          {
+            "en": "Uncovered, so at night I shower while looking at the stars.",
+            "cn": "没有顶棚，所以夜里我可以边淋浴边看星星。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Outdoor kitchen, holding an umbrella while cooking in the rain, proved I needed a roof.",
+            "cn": "户外厨房——在雨里打着伞做饭——证明了我需要一个屋顶。"
+          },
+          {
+            "en": "Thin walls and a floating roof so the wind can circulate but keeps away the rain.",
+            "cn": "薄墙加悬浮式屋顶，风可以流通，雨却进不来。"
+          },
+          {
+            "en": "Wonderful except in winter, but a few minutes of cold hands are worth it for no fumes or smoke in the home.",
+            "cn": "除了冬天都很好受；手上冷几分钟，换来家里没有油烟和烟气，值了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Outdoor bathroom, can I handle that?",
+            "cn": "户外厕所，我能受得了吗？"
+          },
+          {
+            "en": "I tried peeing outside for a month and it was fine.",
+            "cn": "我试着在户外小便了一个月，完全没问题。"
+          },
+          {
+            "en": "I built the same structure as the kitchen.",
+            "cn": "我建了和厨房一样的结构。"
+          },
+          {
+            "en": "It’s actually really nice in there in a rainstorm.",
+            "cn": "暴雨天人待在里面其实特别舒服。"
+          },
+          {
+            "en": "Got a composting toilet instead of flushing, which saves a lot of water.",
+            "cn": "用堆肥马桶代替冲水马桶，省下大量的水。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Remember, my land is “off-grid” so I have no water supply, and no wastewater service.",
+            "cn": "别忘了，我的地是\"离网\"的，所以没有供水，也没有污水处理服务。"
+          },
+          {
+            "en": "My only water source is collecting the rain from my roof.",
+            "cn": "我唯一的水源是收集屋顶上的雨水。"
+          },
+          {
+            "en": "Gutters and tanks, and good water filtration.",
+            "cn": "排水槽、储水罐，再加上良好的过滤。"
+          },
+          {
+            "en": "Later I added a reverse osmosis water filter for drinking.",
+            "cn": "后来又添了一台反渗透净水器，专门管饮用水。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Another nice thing about having the cabins, kitchen, and bathroom all separated, is that it keeps you going outside almost every hour .",
+            "cn": "小屋、厨房、厕所彼此分开还有个好处：几乎每个钟头你都得出门走一趟。"
+          },
+          {
+            "en": "It snaps you out of your thoughts and into the real physical world of trees, birds, wind and weather.",
+            "cn": "它把你从思绪里拽出来，拉进树木、飞鸟、风与天气这个真实的物理世界。"
+          },
+          {
+            "en": "Every night at dusk, the owls start their beautiful “hoo-hoo ...",
+            "cn": "每天黄昏，猫头鹰就开始了它们那动听的\"呜呼、呜呼……"
+          },
+          {
+            "en": "hoo-hoo”.",
+            "cn": "呜呼\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This is a cold dark valley so I wanted a sauna for sanity, pleasure, and health.",
+            "cn": "这是一个又冷又暗的山谷，所以我想要一间桑拿房——为了清醒、愉悦和健康。"
+          },
+          {
+            "en": "Glenn Auerbach from Sauna Times designed a great little two-person sauna for us.",
+            "cn": "Sauna Times 的格伦·奥尔巴赫（Glenn Auerbach）为我们设计了一间很棒的小型双人桑拿房。"
+          },
+          {
+            "en": "Now it’s my nightly ritual : Hot sauna, 82°C for 21 minutes , then shower, then bed.",
+            "cn": "现在这是我每晚的仪式：82摄氏度的热桑拿蒸21分钟，然后冲澡，然后睡觉。"
+          },
+          {
+            "en": "Coming straight from the sauna makes the outdoor shower more appealing on cold nights.",
+            "cn": "冷夜里从桑拿房出来直接去冲户外淋浴，反而更叫人期待。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I hate hanging laundry, so I got a washer and dryer.",
+            "cn": "我讨厌晾衣服，所以买了洗衣机和烘干机。"
+          },
+          {
+            "en": "But I’m happy to do dishes, so no dishwasher.",
+            "cn": "但我很乐意洗碗，所以没买洗碗机。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Do I need hot water in the sink?",
+            "cn": "水槽需要热水吗？"
+          },
+          {
+            "en": "I went without it for a year, and found I never needed hot water - only cold or boiling.",
+            "cn": "我一年没用热水，结果发现自己从来不需要温水——要么冷水，要么滚水。"
+          },
+          {
+            "en": "So instead of an expensive water heater, I keep a kettle by the sink for dishes and tea.",
+            "cn": "于是我没有买昂贵的热水器，而是在水槽边放一把水壶，洗碗泡茶都用它。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And no built-in appliances - only portable, for easy changes.",
+            "cn": "也不用任何嵌入式电器——只买可移动的，方便日后调整。"
+          },
+          {
+            "en": "I design for maintenance, not appearances, so all conduit and pipes are exposed.",
+            "cn": "我按\"易于维护\"而不是\"好看\"来设计，所以所有线管和管道都是明装的。"
+          },
+          {
+            "en": "Nothing hidden.",
+            "cn": "什么都不藏。"
+          },
+          {
+            "en": "That said, I planted privacy bushes around the perimeter, since, y’know, I like to shower naked.",
+            "cn": "话虽如此，我在四周种了一圈绿篱——毕竟，你懂的，我喜欢光着身子洗澡。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The story continues, but that’s enough.",
+            "cn": "故事还在继续，但写到这里就够了。"
+          },
+          {
+            "en": "For each choice , like where to put lights, the process is:",
+            "cn": "每一个选择——比如灯装在哪里——流程都是这样："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Try to do without it.",
+            "cn": "先试试没有它行不行。"
+          },
+          {
+            "en": "Stop here if possible.",
+            "cn": "如果可以，就到此为止。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Try a cheap portable fix , like a flashlight or lantern.",
+            "cn": "再试一个便宜的、可移动的替代方案，比如手电筒或提灯。"
+          },
+          {
+            "en": "Stop here if possible.",
+            "cn": "能到此为止，就到此为止。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Test a simple flexible solution, easy to maintain and change.",
+            "cn": "然后试一种简单灵活、易于维护和更换的方案。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "We’ve been living here full-time for a year and it’s really ideal.",
+            "cn": "我们已经在这里全职住了一年，真的非常理想。"
+          },
+          {
+            "en": "It feels like custom tailored clothing .",
+            "cn": "感觉就像量身定制的衣服。"
+          },
+          {
+            "en": "Instead of generic “one size fits all”, it’s a house that perfectly fits our unique preferences and values.",
+            "cn": "不是通用的\"均码\"，而是一栋完全贴合我们独特偏好与价值观的房子。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A neighbor came by for the first time and really hated it , getting all upset and yelling, saying I was crazy for not having his preferred comforts.",
+            "cn": "一位邻居第一次来做客，非常看不惯，气得大喊大叫，说我没有他喜欢的那些舒适设施，简直是疯了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I love that this home feels wrong for others, and just right for us .",
+            "cn": "我喜欢这栋房子在别人眼里的\"不对劲\"，和在我们眼里的\"刚刚好\"。"
+          },
+          {
+            "en": "(Kind of like my software and other life choices .) It’s a fun ongoing experiment and reminder to challenge all predictions .",
+            "cn": "（有点像我的软件和其他人生选择。）这是一场持续进行的有趣实验，也提醒我去挑战一切预测。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "(I have not taken any photos of the house, because I don’t care how it looks, and I almost never take photos of anything.)",
+            "cn": "（我没有拍过房子的照片，因为我不在乎它长什么样，而且我几乎从不给任何东西拍照。）"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "so-bbc-kindness-trolls",
+    "cat": "社会",
+    "title": "‘It feels like a calling’: The internet vigilantes who weaponise kindness",
+    "titleZh": "「这像一种使命」：把善意变成武器的网络义警",
+    "source": "BBC Future · 2026-09-22",
+    "date": "2026-09-22",
+    "minutes": 10,
+    "url": "https://www.bbc.com/future/article/20260922-kindness-trolls-the-internet-vigilantes-who-weaponise-kindness",
+    "coverImg": "assets/covers/so-bbc-kindness-trolls.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Social media is often seen as a mirror for human cruelty.",
+            "cn": "社交媒体常被看作人性之恶的一面镜子。"
+          },
+          {
+            "en": "One man built a TikTok army of 500,000 to fix it.",
+            "cn": "有一个人组建了一支50万人的 TikTok 大军来改变这一点。"
+          },
+          {
+            "en": "Their weapon: kindness.",
+            "cn": "他们的武器是：善意。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Every day, Laura Tigeleiro of Staten Island, New York, would open TikTok to a sea of hatred.",
+            "cn": "每天，纽约州斯塔滕岛的劳拉·蒂格莱罗（Laura Tigeleiro）打开 TikTok，扑面而来的都是仇恨。"
+          },
+          {
+            "en": "\"Everyone was making fun of my eye,\" she says.",
+            "cn": "\"大家都在取笑我的眼睛，\"她说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Tigeleiro has multiple sclerosis, an autoimmune disease that's made one of her piercing blue eyes droop sideways.",
+            "cn": "蒂格莱罗患有多发性硬化症，一种自身免疫疾病，让她一只澄澈的蓝眼睛向一侧下垂。"
+          },
+          {
+            "en": "\"I just wanted to share healthy recipes, and maybe make some friends,\" she says.",
+            "cn": "\"我只是想分享一些健康食谱，也许交几个朋友，\"她说。"
+          },
+          {
+            "en": "\"But they said terrible things.",
+            "cn": "\"可他们说了一些很难听的话。"
+          },
+          {
+            "en": "It really hurt.\" Then, last March, her phone exploded, and everything changed.",
+            "cn": "真的很受伤。\"然后，去年三月，她的手机爆了，一切都变了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "One of her videos had gone viral, with over 15,000 friendly comments.",
+            "cn": "她的一条视频走红了，收到一万五千多条友善的评论。"
+          },
+          {
+            "en": "\"I didn't know what was going on.",
+            "cn": "\"我不知道发生了什么。"
+          },
+          {
+            "en": "I was shocked,\" says Tigeleiro.",
+            "cn": "我惊呆了，\"蒂格莱罗说。"
+          },
+          {
+            "en": "Days later, she figured it out: she was under attack by the Kindness Mob.",
+            "cn": "几天后她才弄明白：她被\"善意暴徒\"（Kindness Mob）\"围攻\"了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Kindness Mob is a TikTok channel run by Tyler Brickley, a digital marketer from Kansas City, US, who started the project in 2023.",
+            "cn": "\"善意暴徒\"是一个 TikTok 频道，运营者是美国堪萨斯城的数字营销人泰勒·布里克利（Tyler Brickley），他在2023年发起了这个项目。"
+          },
+          {
+            "en": "\"It's a form of trolling,\" he says.",
+            "cn": "\"这是一种'黑'人的形式，\"他说。"
+          },
+          {
+            "en": "Every day, Brickley points his half-a-million followers at someone who's being bullied or overlooked, and has them flood the target with kind comments.",
+            "cn": "每天，布里克利都会把这50万粉丝的火力对准某个正在被欺凌或被忽视的人，让他们用善意的评论把对方淹没。"
+          },
+          {
+            "en": "\"We're hijacking the machinery of online harassment,\" like coordination and anonymity, and using them for benevolence.",
+            "cn": "\"我们是在劫持网络骚扰的机器\"——比如组织性和匿名性——然后把这些机器用来行善。"
+          },
+          {
+            "en": "\"And I gotta say, it works.\"",
+            "cn": "\"而且我得说，真的管用。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "There's something more interesting here than people being nice.",
+            "cn": "这里有些比\"人们对人和气\"更有意思的东西。"
+          },
+          {
+            "en": "When the mob descends, the bullying often stops, sometimes forever.",
+            "cn": "当\"暴徒\"们从天而降，欺凌常常就此停止，有时是永远停止。"
+          },
+          {
+            "en": "It's an example of what scholars call \"social contagion theory\", where positive or negative behaviour spreads from person to person like a virus.",
+            "cn": "这是学者们所说的\"社会传染理论\"的一个例子：正面或负面的行为，会像病毒一样在人与人之间传播。"
+          },
+          {
+            "en": "Leading researchers tell me Brickley's movement demonstrates how we might change the tide not just of an internet platform, but perhaps an entire culture.",
+            "cn": "多位顶尖研究者告诉我，布里克利的运动证明了：我们或许不仅能扭转一个互联网平台的风向，甚至可能扭转一整个文化。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"This type of online behaviour is wonderful, but of course, we need more,\" says Nicholas Christakis, professor of social and natural science at Yale University.",
+            "cn": "\"这类网上行为很美好，当然，我们需要更多，\"耶鲁大学社会与自然科学教授尼古拉斯·克里斯塔基斯（Nicholas Christakis）说。"
+          },
+          {
+            "en": "\"It's possible that this Kindness Mob is creating an opportunity for people to take initial steps towards the more substantial contributions we'll have to make if we're going to correct the deficiencies in our society.\"",
+            "cn": "\"这支善意暴徒有可能正在创造一个机会，让人们迈出最初的一步，走向那些更有分量的贡献——如果我们要纠正这个社会的种种缺陷，这些贡献是必须的。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"On 1 January 2023, I was thinking about momentum,\" says Brickley.",
+            "cn": "\"2023年1月1日，我在琢磨'势头'这件事，\"布里克利说。"
+          },
+          {
+            "en": "\"It just feels like a lot of people leaving negative comments don't really mean it\".",
+            "cn": "\"很多留下恶评的人，感觉并不是真的恶意\"。"
+          },
+          {
+            "en": "They're following a crowd.",
+            "cn": "他们只是在跟风。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"That was the lightbulb moment,\" Brickley says.",
+            "cn": "\"那就是灵光一现的时刻，\"布里克利说。"
+          },
+          {
+            "en": "\"I thought, what if I start a channel where I get 10 people in a little club, and we flood the comments with positivity to tip the scales?\"",
+            "cn": "\"我想，要是我开一个频道，拉10个人组成一个小俱乐部，用善意的评论去刷屏，会怎么样？\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Ten was modest.",
+            "cn": "十个人，只是个小起点。"
+          },
+          {
+            "en": "By Brickley's count, he's organised 350 mobs, and the average video gets 1,000 comments.",
+            "cn": "据布里克利统计，他已经组织了350次\"围攻\"，平均每条视频能收到1000条评论。"
+          },
+          {
+            "en": "Successful posts generate tens of thousands or more, and pull in millions of views.",
+            "cn": "成功的帖子能收到数以万计甚至更多的评论，并带来数百万的浏览量。"
+          },
+          {
+            "en": "In one recent mob, the celebrity socialite Paris Hilton joined in.",
+            "cn": "在最近的一次行动中，名媛帕丽斯·希尔顿（Paris Hilton）也加入了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Often, the mobsters discover they love the account they're attacking and stick around.",
+            "cn": "很多时候，这些\"暴徒\"会发现自己喜欢上了被\"围攻\"的账号，从此留了下来。"
+          },
+          {
+            "en": "It changes people's lives.",
+            "cn": "这会改变人的生活。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Renee Penick, a grandmother from Ohio, US, says she was at her husband's hospital bed when the Mob visited.",
+            "cn": "美国俄亥俄州一位祖母蕾妮·佩尼克（Renee Penick）说，暴徒们\"造访\"她时，她正守在丈夫的病床边。"
+          },
+          {
+            "en": "It gave her strength in a crisis and built an entire community around her videos.",
+            "cn": "那在危机中给了她力量，并为她的视频建立起一整个社群。"
+          },
+          {
+            "en": "Nocturne, a musician from upstate New York, says the mob brought her so many new fans that she's about to go on tour.",
+            "cn": "来自纽约州北部的音乐人诺克恩（Nocturne）说，那次\"围攻\"给她带来了太多新粉丝，她即将开启巡演。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "After Brickley turned his army on Tigeleiro, she gained so many new followers that TikTok started paying her.",
+            "cn": "布里克利的大军转向蒂格莱罗之后，她涨了太多粉，TikTok 都开始给她付钱了。"
+          },
+          {
+            "en": "She says she made enough money to buy her family a much-needed new car.",
+            "cn": "她说自己赚到的钱足够给家里买一辆急需的新车。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"I dreamed of a better life, and Tyler gave me that chance,\" Tigeleiro says.",
+            "cn": "\"我梦想过更好的生活，泰勒给了我这个机会，\"蒂格莱罗说。"
+          },
+          {
+            "en": "\"I owe it all to him, but he'd disagree with that.\"",
+            "cn": "\"这一切都归功于他——但他不会同意这个说法。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Brickley, meanwhile, goes out of his way to keep the work hidden from the Kindness Mob's targets.",
+            "cn": "而布里克利则刻意让这一切避开\"善意暴徒\"行动对象的视线。"
+          },
+          {
+            "en": "\"We're not the point of the story.",
+            "cn": "\"我们不是故事的重点。"
+          },
+          {
+            "en": "The point is to remove the distraction, to get all these hateful comments out of the way so the person's content can shine through.\"",
+            "cn": "重点是移走干扰，把那些恶评统统清开，让这个人的内容得以发光。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "When people talk to me about the darkness that's so familiar online, they describe the internet like a mirror – a system that simply reflects the natural cruelty of the human spirit.",
+            "cn": "当人们跟我谈起网络上那种再熟悉不过的黑暗时，他们把互联网描述成一面镜子——一个只会映照人性天然之恶的系统。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "However, Christakis says that's a misread of what's happening on social media.",
+            "cn": "然而克里斯塔基斯说，这是对社交媒体上真实情况的误读。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"Yes, we humans evolved to be mendacious and tribal, and evil and harmful,\" he says.",
+            "cn": "\"是的，我们人类在演化中确实变得虚伪而部落化，会作恶、会伤害人，\"他说。"
+          },
+          {
+            "en": "\"But equally, we evolved to be good; to manifest qualities of love and friendship, and kindness and teaching.\"",
+            "cn": "\"但同样地，我们也在演化中变得善良；我们会展现爱、友谊、善意与互助。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "As Christakis argues in his book Blueprint: The Evolutionary Origins of a Good Society, these good qualities must outweigh the bad in our natural state.",
+            "cn": "正如克里斯塔基斯在《蓝图：好社会的演化起源》（Blueprint: The Evolutionary Origins of a Good Society）一书中所论证的，在自然状态下，这些好的品质必定压过坏的。"
+          },
+          {
+            "en": "Otherwise, humans would have learned to live in isolation rather than in societies where we're constantly exposed to each other.",
+            "cn": "否则，人类早该学会离群索居，而不是生活在彼此不断互动的社会里。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"Social media hijacks these ancient, friendly, pro-social qualities\", he says, both by introducing anonymity, and through algorithms that highlight conflict and strife to drive engagement and keep us staring at our phones.",
+            "cn": "\"社交媒体劫持了这些古老的、友善的、亲社会的品质\"，他说——一方面引入匿名，另一方面用算法放大冲突与争斗来驱动用户参与，让我们盯着手机不放。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In other words, Christakis says the Kindness Mob's work is sidestepping the perverse influence of social media and encouraging a more \"natural\" kind of pleasant interaction.",
+            "cn": "换句话说，克里斯塔基斯认为，善意暴徒做的事，是在绕开社交媒体的扭曲影响，鼓励一种更\"自然\"的愉快互动。"
+          },
+          {
+            "en": "After all, most adults wouldn't waltz into a stranger's house and insult their appearance, the way so many people do in the comments of a video.",
+            "cn": "毕竟，大多数成年人不会径直闯进陌生人的家里羞辱对方的长相——可那么多人每天在网上就这么干。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It could have positive knock-on effects.",
+            "cn": "这可能带来正向的连锁效应。"
+          },
+          {
+            "en": "\" We showed experimentally that you can create these cascades of kindness,\" says Christakis of his research.",
+            "cn": "\"我们用实验证明：你可以制造出善意的级联，\"克里斯塔基斯谈到他的研究时说。"
+          },
+          {
+            "en": "\"You are kind to Susie, Susie's kind to Betty, and Betty's kind to Tommy.",
+            "cn": "\"你对苏茜好，苏茜就对贝蒂好，贝蒂就对汤米好。"
+          },
+          {
+            "en": "So, how Betty treats Tommy depends on how you treated Susie, even though neither you nor I ever interacted with Betty or Tommy.\"",
+            "cn": "于是，贝蒂怎么对待汤米，取决于你怎么对待苏茜——尽管你和我都从未跟贝蒂或汤米打过交道。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "On an internet that can seem filled with nastiness, Christakis says the Kindness Mob has stumbled onto a solution that's backed by science.",
+            "cn": "在一片看似乌烟瘴气的互联网上，克里斯塔基斯说，善意暴徒误打误撞发现了一个真正重要的东西。"
+          },
+          {
+            "en": "When people stop engaging with trolls and connect with each other instead, research shows that trolls may change their behaviour.",
+            "cn": "研究表明，当人们不再与喷子纠缠、转而彼此联结时，喷子们可能会改变自己的行为。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Someone, however, needs to carry the burden of orchestrating all the kindness.",
+            "cn": "然而，总得有人承担起调度这一切善意的重担。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In September 2025, Brickley's following grew from 30,000 to 200,000 all at once.",
+            "cn": "2025年9月，布里克利的粉丝数一夜之间从3万涨到20万。"
+          },
+          {
+            "en": "\"It was very exciting,\" he says, but it came with a toll.",
+            "cn": "\"非常振奋，\"他说，但代价也随之而来。"
+          },
+          {
+            "en": "\"One day I was staring at my phone, and I thought, I just can't do this.\"",
+            "cn": "\"有一天我盯着手机，心想：我真的做不动了。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The project isn't lucrative.",
+            "cn": "这个项目并不赚钱。"
+          },
+          {
+            "en": "TikTok pays accounts with big followings, but in August, Brickley says he made $39 (about £29).",
+            "cn": "TikTok 会给大账号付钱，但布里克利说，八月份他只赚了39美元（约29英镑）。"
+          },
+          {
+            "en": "Instead, he's driven by a sense of personal responsibility.",
+            "cn": "驱动他的，是一种个人责任感。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Every day, fans nominate anywhere from 20 to 100 people for potential mobs with a form on the Kindness Mob's website .",
+            "cn": "每天，粉丝通过\"善意暴徒\"网站上的一张表格，提名20到100个潜在的\"围攻\"对象。"
+          },
+          {
+            "en": "But the audience's attention is finite and Brickley only posts one mob a day.",
+            "cn": "但受众的注意力是有限的，布里克利每天只发一次\"围攻\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"It means there are 20 people showing up on my doorstep every day,\" Brickley says, all of them suffering from deliberate cruelty.",
+            "cn": "\"这意味着每天有20个人站在我家门口，\"布里克利说，他们都在遭受蓄意的残忍对待。"
+          },
+          {
+            "en": "\"And I have to turn 19 of them away, and the next day there's 20 more.\" Eventually, the burden was so overwhelming he had to take a few months off.",
+            "cn": "\"而我不得不把其中19个拒之门外，第二天，又来20个。\"最终，这份重担压得他不得不休息了几个月。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "To release some of the emotional weight, Brickley had to reframe the project in his mind.",
+            "cn": "为了卸下一些情绪重量，布里克利不得不在心里重新定义这个项目。"
+          },
+          {
+            "en": "He couldn't directly help each person in need, but the mob could pick one each day to use as a lesson.",
+            "cn": "他无法直接帮助每一个需要帮助的人，但暴徒们可以每天挑一个人，当作一堂课来对待。"
+          },
+          {
+            "en": "He also organised some volunteers to share logistical work.",
+            "cn": "他还组织了一些志愿者来分担事务性工作。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"I've been studying internet culture professionally for two decades, and things like this have a very limited shelf life,\" says professor Alice Marwick, director of research at the Data and Society Research Institute.",
+            "cn": "\"我研究互联网文化已经二十年了，是拿它当职业来做的，这类事情的生命周期非常有限，\"数据与社会研究所（Data and Society Research Institute）研究主任、教授爱丽丝·马威克（Alice Marwick）说。"
+          },
+          {
+            "en": "\"Usually, the person behind them gets burned out in a year or two and it goes away.\"",
+            "cn": "\"通常，这类项目背后的人会在一两年内被耗竭，然后它就消失了。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Social media platforms bear a huge responsibility for user behaviour, Marwick says, but you can't just blame algorithms.",
+            "cn": "马威克说，社交媒体平台对用户行为负有巨大责任，但你不能只怪算法。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"What we need is a larger shift in social norms around how we treat people online,\" she says.",
+            "cn": "\"我们需要的是社会规范的更大转变——关于我们该如何在网上对待他人，\"她说。"
+          },
+          {
+            "en": "\"I like the idea of amplifying pro-social behaviour online.",
+            "cn": "\"我喜欢放大网上亲社会行为的想法。"
+          },
+          {
+            "en": "Whether or not it moves the needle much remains to be seen.\"",
+            "cn": "至于它能否真正撬动局面，还有待观察。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Last autumn, Brickley had back surgery.",
+            "cn": "去年秋天，布里克利接受了背部手术。"
+          },
+          {
+            "en": "\"When I woke up, my wife was being all cagey and weird.",
+            "cn": "\"我醒来时，我妻子神神秘秘、怪怪的。"
+          },
+          {
+            "en": "Finally, she said, 'Just check your phone',\" he says.",
+            "cn": "最后她说：'你自己看手机吧'，\"他说。"
+          },
+          {
+            "en": "She'd stepped outside the hospital room to post a TikTok.",
+            "cn": "她溜出病房，发了一条 TikTok。"
+          },
+          {
+            "en": "Brickley himself was being mobbed.",
+            "cn": "布里克利自己被\"围攻\"了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"There were like 1,000 comments.",
+            "cn": "\"大概有1000条评论。"
+          },
+          {
+            "en": "I was reading through them, just sobbing.",
+            "cn": "我一条条读过去，一直在哭。"
+          },
+          {
+            "en": "Ugly crying,\" Brickley says.",
+            "cn": "哭得稀里哗啦，\"布里克利说。"
+          },
+          {
+            "en": "\"I just realised this is real.",
+            "cn": "\"我只是意识到：这一切是真的。"
+          },
+          {
+            "en": "It can really help.",
+            "cn": "它真的能帮到人。"
+          },
+          {
+            "en": "So many things crystallised for me in that moment.\" He's gone back to the comments time and again for strength.",
+            "cn": "那一刻，很多事情在我心里豁然开朗。\"此后他一次次回到那些评论里汲取力量。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"It feels like a calling,\" Brickley says.",
+            "cn": "\"这感觉像是一种使命，\"布里克利说。"
+          },
+          {
+            "en": "\"The Kindness Mob is just one step.",
+            "cn": "\"善意暴徒只是第一步。"
+          },
+          {
+            "en": "But kindness, for everyone, always, feels like a good place to start.",
+            "cn": "而善意——给每个人的、永远的善意——感觉像是一个很好的起点。\""
+          }
+        ]
+      }
+    ],
+    "pin": true
+  },
+  {
+    "id": "tech-npr-navier-stokes",
+    "cat": "科技",
+    "title": "AI solved one of math's hardest problems. Humanity learned nothing (so far)",
+    "titleZh": "AI 解出了数学最难的难题之一，人类（暂时）却一无所获",
+    "source": "NPR · 2026-09-22",
+    "date": "2026-09-22",
+    "minutes": 9,
+    "url": "https://www.npr.org/2026/09/22/nx-s1-5968588/openai-navier-stokes-problem-mathematicians-learn-little",
+    "coverImg": "assets/covers/tech-npr-navier-stokes.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "When OpenAI announced its AI had solved one of the world's toughest math problems earlier this month, its tone was celebratory:",
+            "cn": "本月早些时候，当 OpenAI 宣布其人工智能解出了世界上最难的数学问题之一时，它的语气是庆祝式的："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"A major goal of our work is to empower scientists to advance research and technology that benefits all of humanity,\" the company wrote in a statement on September 8.",
+            "cn": "\"我们工作的一个主要目标，是赋能科学家去推进造福全人类的研究与技术，\"该公司在9月8日的一份声明中写道。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But mathematicians say that, so far, humanity has learned very little from the solution the company's AI model purportedly found.",
+            "cn": "但数学家们说，到目前为止，人类从该公司 AI 模型据称找到的那个解中，学到的少之又少。"
+          },
+          {
+            "en": "Although they believe the proof to be technically correct, the dense, 166-page manuscript drafted by AI is proving to be a difficult read.",
+            "cn": "尽管他们相信这份证明在技术上是正确的，但这份由 AI 起草、密密麻麻166页的手稿，读起来实在艰难。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"So far it's been very difficult to really extract any human understanding from this new AI proof,\" said James Maynard, a mathematician at the University of Oxford.",
+            "cn": "\"到目前为止，要想从这份新的 AI 证明中真正提取出任何人类可理解的东西，都非常困难，\"牛津大学数学家詹姆斯·梅纳德（James Maynard）说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"The paper is not written for humans,\" said Javier Gómez-Serrano, a mathematician at Brown University who uses AI in his own research.",
+            "cn": "\"这篇论文不是写给人看的，\"布朗大学数学家哈维尔·戈麦斯-塞拉诺（Javier Gómez-Serrano）说，他自己在研究中使用 AI。"
+          },
+          {
+            "en": "He said he believes the proof could help advance the field after \"some serious re-writing,\" but \"as of today, the paper doesn't teach us much.\"",
+            "cn": "他说，他相信这份证明在\"经过认真重写之后\"能推动这个领域进步，但\"截至今天，这篇论文教不了我们太多东西\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The solution came as AI appears to be rapidly gaining mathematical insights.",
+            "cn": "这个解出炉之际，AI 看上去正在快速积累数学洞见。"
+          },
+          {
+            "en": "AI has exploded onto the math scene over the past six months, academic mathematicians contacted by NPR said.",
+            "cn": "接受 NPR 采访的学院派数学家们说，过去六个月，AI 在数学界横空出世。"
+          },
+          {
+            "en": "For the first time, large language models appear capable of producing real results that could lead to new mathematical discoveries.",
+            "cn": "大型语言模型首次显得有能力产出真正可能催生新数学发现的成果。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But few see OpenAI's announcement, which came as human mathematicians were closing in on a solution, as an example of how AI and mathematicians can work together.",
+            "cn": "但几乎没有人把 OpenAI 的公告——它发布时，人类数学家正接近一个解——看作 AI 与数学家如何协作的范例。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"This whole episode could have been a wonderful proof-of-concept of the power of collaboration between humans and AI,\" said Maynard, who signed a statement by 25 winners of the prestigious Fields Medal.",
+            "cn": "\"整个这件事本来可以成为人机协作力量的一个绝佳概念验证，\"梅纳德说。他签署了一份由25位菲尔兹奖得主联名的声明。"
+          },
+          {
+            "en": "The statement, which was published September 11, decried \"misaligned goals\" between the AI companies and the mathematics community.",
+            "cn": "这份于9月11日发表的声明，谴责了 AI 公司与数学共同体之间的\"目标错位\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"Unfortunately, because of the decisions of humans involved, it became this scrappy, messy battle,\" he said.",
+            "cn": "\"遗憾的是，由于相关人员的种种决定，它变成了一场乱糟糟的混战，\"他说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In response on Monday, OpenAI announced the establishment an \"independent mathematics advisory group\" to help with the review and dissemination of new results.",
+            "cn": "作为回应，OpenAI 周一宣布成立一个\"独立数学顾问组\"，协助新成果的评审与传播。"
+          },
+          {
+            "en": "However, the company added the group would not have a say in how quickly OpenAI pursued new findings: \"Importantly, the group will not be responsible for advising us on how to pace our internal progress on mathematics,\" it wrote.",
+            "cn": "不过，该公司补充说，这个小组无权过问 OpenAI 以多快的速度追逐新发现：\"重要的是，该小组将不负责就我们在数学上的内部推进节奏提供建议，\"它写道。"
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Rush to discovery",
+            "cn": "争相抢答"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The problem OpenAI apparently solved is considered among the most important unanswered questions in mathematics.",
+            "cn": "OpenAI 声称解出的这个问题，被视为数学界最重要的未解问题之一。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Known as the \"Navier-Stokes problem,\" it concerns a set of equations used to describe the flow of fluids.",
+            "cn": "它被称为\"纳维-斯托克斯问题\"（Navier-Stokes problem），关乎一组用来描述流体流动的方程。"
+          },
+          {
+            "en": "The equations are used every day across physics and engineering, said Tristan Buckmaster, a mathematician at New York University.",
+            "cn": "这些方程每天都被用在物理和工程的各个领域，纽约大学数学家特里斯坦·巴克马斯特（Tristan Buckmaster）说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And yet, at a fundamental level, researchers really don't understand why they work.",
+            "cn": "然而，在最根本的层面上，研究者其实并不真正理解它们为什么成立。"
+          },
+          {
+            "en": "Buckmaster says that getting deeper insights into Navier-Stokes would likely yield \"a new toolkit to understand complicated solutions to fluids.\" That in turn could lead to better models of things like turbulence in fluids and lift in aircraft.",
+            "cn": "巴克马斯特说，对纳维-斯托克斯方程获得更深的洞见，很可能带来\"一套理解流体复杂解的新工具箱\"。这又可能带来更好的模型——比如流体的湍流，或飞机的升力。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In order to find a better version of Navier-Stokes, researchers had been looking for scenarios where the equations \"broke down,\" or stopped working.",
+            "cn": "为了找到纳维-斯托克斯方程的一个更好的版本，研究者们一直在寻找方程\"崩溃\"或失效的场景。"
+          },
+          {
+            "en": "Describing such scenarios became one of the $1 million Millenium Prize Problems, which were established in 2000 by the Clay Mathematics Institute.",
+            "cn": "描述这样的场景，成了千禧年大奖难题之一——那是克雷数学研究所2000年设立、每题奖金100万美元的七道难题。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Mathematicians had been working towards an answer to the Navier-Stokes problem for years, and the community could sense they were getting close.",
+            "cn": "数学家们朝着纳维-斯托克斯问题的答案努力多年，整个共同体都能感觉到他们正在接近。"
+          },
+          {
+            "en": "\"Among the seven Millennium Problems …",
+            "cn": "\"在七道千禧年难题之中……"
+          },
+          {
+            "en": "Everyone agreed that this would be the next one that got solved,\" said Martin Hairer, a mathematician at EPFL, a top European technical university located in Lausanne, Switzerland who also signed the statement.",
+            "cn": "所有人都同意，下一个被解出来的就是它，\"洛桑联邦理工学院（EPFL）——位于瑞士洛桑的一所欧洲顶尖理工院校——的数学家马丁·海雷尔（Martin Hairer）说。他也在声明上签了名。"
+          },
+          {
+            "en": "(Hairer was also named a member of OpenAI's independent panel on Monday.)",
+            "cn": "（周一，海雷尔还被点名为 OpenAI 独立小组的成员。）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Buckmaster and his collaborator, Levent Alpöge at Anthropic, were among the human mathematicians who were inching closer to finding a scenario where the equations stopped working.",
+            "cn": "巴克马斯特和他的合作者、Anthropic 的莱文特·阿尔珀格（Levent Alpöge），正是当时正逐步逼近\"找到方程失效场景\"的人类数学家。"
+          },
+          {
+            "en": "The two were using AI tools, including OpenAI's chatbot to work towards a solution.",
+            "cn": "两人当时也在使用 AI 工具——包括 OpenAI 的聊天机器人——朝着一个解推进。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Then OpenAI caught wind that the problem might soon be solved.",
+            "cn": "随后，OpenAI 风闻这个问题可能很快被解决。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"On Tuesday, September 1, we heard rumors that two Millennium Prize problems had been resolved,\" the company wrote in its September 8 statement.",
+            "cn": "\"9月1日周二，我们听到传闻说，两道千禧年大奖难题已经被解决，\"该公司在9月8日的声明中写道。"
+          },
+          {
+            "en": "\"Inspired by these rumors and by the step change in performance of our internal model, we launched an effort to evaluate it on all open Millennium Prize problems and a few other high-impact problems.\"",
+            "cn": "\"受这些传闻以及我们内部模型性能跃升的鼓舞，我们发起了一项行动，在所有悬而未决的千禧年难题以及其他一些高影响问题上评估它。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The company marshalled some 10,000 AI agents to work on the Navier-Stokes problem.",
+            "cn": "该公司调集了约1万个 AI 智能体来攻克纳维-斯托克斯问题。"
+          },
+          {
+            "en": "The agents worked for 88 hours, using around 130 billion output tokens, or units of text and characters generated by the model.",
+            "cn": "这些智能体连续工作88小时，消耗约1300亿个输出 token——也就是模型生成的文本与字符单位。"
+          },
+          {
+            "en": "According to OpenAI's pricing for its most advanced publicly available model, the solution to the Navier-Stokes problem cost the company somewhere around $6-$10 million to compute.",
+            "cn": "按照 OpenAI 对其最先进的公开可用模型的定价，解出纳维-斯托克斯问题花费了该公司大约600万至1000万美元的算力成本。"
+          },
+          {
+            "en": "(Overall, the company says it used 300 billion tokens, closer to $15-20 million, looking for solutions.)",
+            "cn": "（总体而言，该公司说它为寻找各个解共使用了3000亿 token，接近1500万至2000万美元。）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The announcement of OpenAI's solution sparked controversy after Buckmaster issued a public statement describing how the company had approached him.",
+            "cn": "OpenAI 的解一经宣布便引发争议——起因是巴克马斯特发表公开声明，讲述了该公司是如何接近他的。"
+          },
+          {
+            "en": "According to Buckmaster, they said they would put him on their paper if he dropped Alpöge, his collaborator at rival company Anthropic.",
+            "cn": "据巴克马斯特说，对方表示，只要他抛弃在竞争对手 Anthropic 的合作者阿尔珀格，就把他署名进他们的论文。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Buckmaster told NPR he believes OpenAI was tipped off to the approach he and Alpöge were using to try and find the solution to Navier-Stokes.",
+            "cn": "巴克马斯特告诉 NPR，他相信 OpenAI 获得了内线消息，得知了他和阿尔珀格为寻找纳维-斯托克斯问题的解所采用的方法。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"There's so much circumstantial evidence that they had far more knowledge of what we were doing than they let on,\" he said.",
+            "cn": "\"旁证太多了——他们对我们正在做的事情的了解，远超他们承认的程度，\"他说。"
+          },
+          {
+            "en": "He added that the word \"they\" doesn't necessarily mean a person.",
+            "cn": "他补充说，\"他们\"这个词未必指某个人。"
+          },
+          {
+            "en": "\"It could mean the agents,\" he said.",
+            "cn": "\"也可能指那些智能体，\"他说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "OpenAI has denied that they used Buckmaster and Alpöge's prompts or proofs in its search for a solution.",
+            "cn": "OpenAI 否认在寻找解的过程中使用了巴克马斯特和阿尔珀格的提示词或证明。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Regardless, the hurried results seem muddled.",
+            "cn": "不管怎样，这份赶工出来的结果显得杂乱无章。"
+          },
+          {
+            "en": "Several mathematicians who looked at OpenAI's paper said it was virtually unreadable.",
+            "cn": "几位看过 OpenAI 论文的数学家说，它几乎没法读。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"It's a terribly written paper,\" Buckmaster said.",
+            "cn": "\"这是一篇写得很糟的论文，\"巴克马斯特说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"The paper doesn't explain what parts are important.",
+            "cn": "\"论文没有解释哪些部分是重要的。"
+          },
+          {
+            "en": "What parts are routine?",
+            "cn": "哪些部分是例行公事？"
+          },
+          {
+            "en": "How does the idea feed into other places?\" added Gómez-Serrano.",
+            "cn": "这个想法又能接续到哪些别的地方？\"戈麦斯-塞拉诺补充道。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Buckmaster said that OpenAI's decision to rush out an answer forced him to publish his own heavily AI-influenced preliminary results.",
+            "cn": "巴克马斯特说，OpenAI 抢时间发布答案的决定，迫使他发表了自己那份深受 AI 影响的初步结果。"
+          },
+          {
+            "en": "Those too, he said, are not very well written.",
+            "cn": "他说，那份东西写得也不算好。"
+          },
+          {
+            "en": "\"Everything was rushed out,\" he said.",
+            "cn": "\"一切都被赶工出来了，\"他说。"
+          },
+          {
+            "en": "\"It's still not at the level I'm happy with, but at least the introduction has all the key ideas.\"",
+            "cn": "\"它仍然没达到我满意的水准，但至少导言里有全部的关键想法。\""
+          }
+        ]
+      },
+      {
+        "head": 3,
+        "sentences": [
+          {
+            "en": "Computers check computers",
+            "cn": "电脑验电脑"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "While OpenAI's 166-page proof is taking weeks to untangle, few mathematicians believe it's wrong.",
+            "cn": "当 OpenAI 这份166页的证明还需要数周时间来厘清时，几乎没有数学家认为它是错的。"
+          },
+          {
+            "en": "That's because in addition to publishing the proof, the company also produced a piece of computer code called a Lean formalization.",
+            "cn": "这是因为，除了发布证明本身，该公司还产出了一段被称为 Lean 形式化的计算机代码。"
+          },
+          {
+            "en": "Lean is a programming language used in mathematics to check if proofs are correct.",
+            "cn": "Lean 是数学中用来检验证明是否正确的一种编程语言。"
+          },
+          {
+            "en": "If the code can be compiled, then the proof is considered complete.",
+            "cn": "如果代码能够编译通过，这份证明就被视为完整。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The Lean code produced by OpenAI's tools did compile as expected, Gómez-Serrano said.",
+            "cn": "戈麦斯-塞拉诺说，OpenAI 工具产出的 Lean 代码如期编译通过了。"
+          },
+          {
+            "en": "Based on that, \"the community seems to have the consensus that it is correct.\"",
+            "cn": "基于这一点，\"共同体似乎已有共识：它是正确的。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Gómez-Serrano, Buckmaster and other mathematicians contacted by NPR all said they envisioned a future for AI in mathematics.",
+            "cn": "戈麦斯-塞拉诺、巴克马斯特以及接受 NPR 采访的其他数学家都说，他们预见 AI 在数学中有一席之地。"
+          },
+          {
+            "en": "The field is open to new tools, in part because for decades, it's ceded much of the day-to-day computations required for making advancements to computers.",
+            "cn": "这个领域对新工具是开放的，部分原因在于：几十年来，数学早已把推进研究所需的大部分日常计算让渡给了计算机。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "But this episode is a reminder that mathematics is about more than just finding a solution, said Maynard.",
+            "cn": "但这一幕提醒我们：数学不只是找到一个解，梅纳德说。"
+          },
+          {
+            "en": "\"It wasn't about only answering this problem, it was about the human understanding behind it,\" he said.",
+            "cn": "\"这不只是回答这个问题，而是它背后的人类理解，\"他说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "OpenAI said it hopes its new mathematics advisory group will help improve the dissemination of new results from the company in the future.",
+            "cn": "OpenAI 表示，希望它新的数学顾问组将来能帮助改善该公司新成果的传播。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"Working with this group is a first step,\" it wrote.",
+            "cn": "\"与这个小组合作是第一步，\"它写道。"
+          },
+          {
+            "en": "\"We want mathematicians to be at the center of shaping the answers.\"",
+            "cn": "\"我们希望数学家们能站在塑造这些答案的中心。\""
+          }
+        ]
+      }
+    ],
+    "pin": true
+  },
+  {
+    "id": "hist-bbc-markov-umbrella",
+    "cat": "历史",
+    "title": "‘Eliminate him without trace’: The poison-tipped umbrella that pointed to a KGB murder – on British soil",
+    "titleZh": "「不留痕迹地除掉他」：那把毒伞，指向发生在英国国土上的一桩 KGB 谋杀",
+    "source": "BBC Culture · 2026-09-04",
+    "date": "2026-09-04",
+    "minutes": 10,
+    "url": "https://www.bbc.com/culture/article/20260904-the-poison-tipped-umbrella-that-pointed-to-a-kgb-murder",
+    "coverImg": "assets/covers/hist-bbc-markov-umbrella.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "In London, 7 September 1978, Georgi Markov was killed with an umbrella, in what is suspected to have been a political poisoning by the KGB. He died four days later.",
+            "cn": "1978年9月7日，伦敦，格奥尔基·马尔科夫（Georgi Markov）被一把雨伞杀害——这被怀疑是克格勃（KGB）策划的一起政治投毒。四天后他身亡。"
+          },
+          {
+            "en": "The following year, Markov's widow and elder brother told the BBC's Panorama that they were warned about the murder plot just months before – by an anonymous man.",
+            "cn": "第二年，马尔科夫的遗孀和哥哥告诉 BBC《全景》节目：就在遇害前几个月，曾有一个匿名男子向他们预警过这桩谋杀阴谋。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"He'd felt a jab in his thigh.",
+            "cn": "\"他感到大腿被刺了一下。"
+          },
+          {
+            "en": "And he'd looked round, and there'd been a man behind him who'd apologised and dropped an umbrella.\" These are the words of Annabel Markov, talking about her husband Georgi Markov, a Bulgarian dissident, journalist and writer.",
+            "cn": "他回过头，身后有个男人道了歉，然后丢下一把伞走开了。\"说这话的是安娜贝尔·马尔科夫（Annabel Markov），她谈的是自己的丈夫——保加利亚持不同政见者、记者、作家格奥尔基·马尔科夫。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "On 7 September 1978, 49-year-old Markov was waiting at a bus stop on Waterloo Bridge in central London when he said he'd been stabbed with an umbrella.",
+            "cn": "1978年9月7日，49岁的马尔科夫正在伦敦市中心滑铁卢桥上的一个公交站候车，他说自己就是那时被雨伞刺中的。"
+          },
+          {
+            "en": "Four days later he died in hospital, with doctors initially diagnosing blood poisoning.",
+            "cn": "四天后他在医院去世，医生最初的诊断是败血症。"
+          },
+          {
+            "en": "Yet detectives soon realised it had been a political murder, one that had used a highly sophisticated technique that also targeted another Bulgarian exile.",
+            "cn": "然而侦探们很快意识到，这是一场政治谋杀——其手法高度精密，而同样的手法也瞄准了另一名保加利亚流亡者。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Markov's widow and elder brother told the BBC's Panorama in 1979 how an anonymous man warned them that Markov was going to be poisoned, months before his death.",
+            "cn": "1979年，马尔科夫的遗孀和哥哥向 BBC《全景》节目讲述了：一位匿名男子如何在马尔科夫死前几个月警告他们，他将被人下毒。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And interviews with the former head of a KGB assassination squad and a former colonel in the Bulgarian secret service, both then talking publicly for the first time, placed the assassination at the highest levels of the Bulgarian and Soviet governments.",
+            "cn": "而对克格勃一支暗杀小队前负责人和保加利亚秘密机关一名前上校的采访——两人当时都是首次公开开口——把这场暗杀指向了保加利亚和苏联政府的最高层。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In the days following Markov's death, Britain's anti-terrorist squad found a clue that convinced them that he had been the victim of a unique murder plot.",
+            "cn": "马尔科夫死后数日，英国反恐小组发现了一条线索，使他们确信：他是一场独一无二的谋杀阴谋的受害者。"
+          },
+          {
+            "en": "\"At Scotland Yard's forensic laboratory, the chief scientific officer examined a minute metal object that had been found in Markov's thigh,\" said Panorama reporter Michael Cockerell.",
+            "cn": "\"在苏格兰场的法医实验室里，首席科学官检查了在马尔科夫大腿里发现的一个微小金属物体，\"《全景》节目记者迈克尔·科克雷尔（Michael Cockerell）说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"Under the microscope, it was clear that the object was an extraordinarily sophisticated pellet, no bigger than a pinhead.",
+            "cn": "\"在显微镜下，显而易见，这个物体是一枚异常精密的弹丸，比针头还小。"
+          },
+          {
+            "en": "It had four tiny holes passing through that the forensic experts were convinced had contained an infinitesimally tiny amount of a lethally toxic poison.\"",
+            "cn": "上面穿有四个微孔，法医专家确信，其中曾装有剂量微乎其微、却足以致死的一种剧毒毒物。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Scientists at Porton Down, the top-secret British chemical and microbiological warfare research establishment, believed that what had killed Markov was the highly lethal toxin ricin.",
+            "cn": "波顿唐（Porton Down）——英国绝密的化学与微生物战研究机构——的科学家们相信，杀死马尔科夫的是毒性极强的毒素蓖麻毒素（ricin）。"
+          },
+          {
+            "en": "According to Panorama, it had never before been used for murder in Britain.",
+            "cn": "据《全景》节目所述，此前它从未在英国被用于谋杀。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It emerged that another Bulgarian exile might have been attacked in a similar way 10 days before Markov was stabbed.",
+            "cn": "人们随后发现，在马尔科夫遇刺前10天，另一名保加利亚流亡者可能也遭到了类似袭击。"
+          },
+          {
+            "en": "Vladimir Kostov had felt a sharp pain in his back as he was leaving the Paris Metro with his wife.",
+            "cn": "弗拉迪米尔·科斯托夫（Vladimir Kostov）和妻子走出巴黎地铁时，感到背部一阵剧痛。"
+          },
+          {
+            "en": "He had a high fever for three days but recovered.",
+            "cn": "他发了三天高烧，但康复了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "After hearing of Markov's death, Kostov had his back X-rayed, which revealed a tiny metal object.",
+            "cn": "听闻马尔科夫的死讯后，科斯托夫给后背拍了X光片，发现了一个微小的金属物体。"
+          },
+          {
+            "en": "At a clinic in Paris, a surgeon operated on him under the eye of a French police officer wearing a surgical mask and gown.",
+            "cn": "在巴黎的一家诊所里，一名外科医生为他做手术，一名戴口罩和手术服的法国警察在一旁盯着。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"The surgeon had to be extremely careful.",
+            "cn": "\"外科医生必须极其小心。"
+          },
+          {
+            "en": "He removed the metal pellet without touching it at all,\" Kostov told the BBC. It was then given to a Scotland Yard inspector and taken to England for analysis.",
+            "cn": "他取出那枚金属弹丸时完全没有用手碰它，\"科斯托夫告诉 BBC。弹丸随后交给一名苏格兰场督察，被带回英国分析。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Using a high-powered scanning electron microscope, Scotland Yard metallurgists analysed the pellet removed from Kostov's back, finding that it was identical to the one found in Markov.",
+            "cn": "苏格兰场的冶金学家用高功率扫描电子显微镜分析了从科斯托夫背部取出的弹丸，发现它与在马尔科夫体内发现的那枚一模一样。"
+          },
+          {
+            "en": "\"Both pellets weighed exactly the same,\" said Cockerell.",
+            "cn": "\"两枚弹丸的重量分毫不差，\"科克雷尔说。"
+          },
+          {
+            "en": "\"The holes were in the same places, and both were made of a rare platinum iridium alloy that the human body does not reject.\"",
+            "cn": "\"小孔的位置相同，而且都由一种人体不排异的稀有铂铱合金制成。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Toxicologists at Porton Down found ricin antibodies in Kostov's flesh and concluded he'd survived because there hadn't been enough poison in the pellet.",
+            "cn": "波顿唐的毒理学家在科斯托夫的组织里找到了蓖麻毒素抗体，并得出结论：他能活下来，是因为弹丸里的毒不够。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The sophisticated technique used – and evidence of coordinated attacks – convinced Scotland Yard that a state secret service organisation had played a role in Markov's death.",
+            "cn": "所用手法的精密程度——以及遭到协同袭击的证据——让苏格兰场确信，某国特工机构参与了马尔科夫之死。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "A novelist and playwright previously acclaimed in his native country, moving within the government elite there, Markov had defected from then-communist Bulgaria in 1969.",
+            "cn": "马尔科夫曾是本国备受赞誉的小说家和剧作家，出入政府精英圈层；1969年，他从当时的共产党执政的保加利亚叛逃西方。"
+          },
+          {
+            "en": "After settling in the UK, he'd become an outspoken opponent of the Bulgarian government, working for the BBC's World Service as well as Radio Free Europe (RFE), a US state-funded media organisation.",
+            "cn": "定居英国后，他成为保加利亚政府直言不讳的批评者，为 BBC 世界服务台以及自由欧洲电台（RFE）——一家美国官方资助的媒体机构——工作。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Annabel Markov said that they had received warnings of a plot to kill her husband, telling the BBC that a man had contacted Georgi in May 1978.",
+            "cn": "安娜贝尔·马尔科夫说，他们曾收到过有人阴谋杀害她丈夫的警告，并告诉 BBC：1978年5月，一名男子接触了格奥尔基。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"They spoke Bulgarian all evening.",
+            "cn": "\"整个晚上他们都在用保加利亚语交谈。"
+          },
+          {
+            "en": "Every so often Georgi would turn to me and say in English, 'this is extraordinary what this man's saying'.\" According to Annabel, the anonymous man said that the decision had been taken at the highest political level in Bulgaria to kill him, because of the outspoken broadcasts Georgi was writing for RFE.",
+            "cn": "每隔一会儿，格奥尔基就会转向我，用英语说：'这个人说的话太不可思议了'。\"据安娜贝尔说，那名匿名男子告诉他：保加利亚最高政治层已经做出决定，要杀掉他——因为他为自由欧洲电台撰写了那些直言不讳的广播稿。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Markov's brother Nikola backed this up, revealing that he had received a call in September 1977.",
+            "cn": "马尔科夫的哥哥尼古拉（Nikola）证实了这一点：他透露自己在1977年9月接到过一个电话。"
+          },
+          {
+            "en": "\"A man phoned me saying the decision has been taken to kill Georgi, to eliminate him without trace,\" he told the BBC.",
+            "cn": "\"一个男人打电话给我，说已经做出决定要杀掉格奥尔基，要消灭他，不留痕迹，\"他告诉 BBC。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"At first, I didn't believe it.",
+            "cn": "\"起初我不相信。"
+          },
+          {
+            "en": "It seemed absurd, impossible.",
+            "cn": "这听起来荒唐透顶，绝无可能。"
+          },
+          {
+            "en": "But the man gave me quite specific details about which there could be no doubt.",
+            "cn": "但那人给了我一些相当具体的细节，让人无从怀疑。"
+          },
+          {
+            "en": "He told me Georgi would definitely be poisoned at the first opportunity…",
+            "cn": "他告诉我，格奥尔基一有机会就一定会被下毒……"
+          },
+          {
+            "en": "that a sort of poison or some sort of bacteria, he didn't know exactly which, had already been brought out to Western Europe.\"",
+            "cn": "还说某种毒药或某种细菌——他说不清具体是哪种——已经被带到了西欧。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "After moving to the UK, Markov remained a celebrity at home through his talks on RFE, broadcasting weekly programmes about what life was really like at the upper echelons of Bulgarian society.",
+            "cn": "移居英国后，马尔科夫依然借助在自由欧洲电台的讲话在祖国声名不减，每周广播节目，讲述保加利亚社会上层真实的生活图景。"
+          },
+          {
+            "en": "One of his broadcasts was called Life Behind the Curtains, referring to the little curtains on the side and back of every official black Mercedes.",
+            "cn": "他有一档节目名叫《帷幕之后的生活》（Life Behind the Curtains），说的是每辆官方黑色奔驰车侧面和后窗挂着的那些小帘子。"
+          },
+          {
+            "en": "He presented a gossipy but damning picture of the misuse of absolute power in the country, with stories about nepotism, financial abuse and corruption.",
+            "cn": "他描绘了一幅八卦性质却极具杀伤力的图景，直指这个国家绝对权力的滥用，讲裙带关系、财务舞弊与腐败的故事。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "While the Bulgarian government officially denied that Markov's broadcasts had any influence, the BBC found that the Bulgarian president, Todor Zhivkov, took particularly strong exception to a revealing series of Markov's talks called My Meetings with Todor Zhivkov.",
+            "cn": "虽然保加利亚政府官方否认马尔科夫的广播有任何影响，但 BBC 发现，保加利亚总统托多尔·日夫科夫（Todor Zhivkov）对马尔科夫那组尤其具有揭露性的讲话《我与托多尔·日夫科夫的会面》（My Meetings with Todor Zhivkov）反应格外强烈。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "\"We have heard that he was quite furious about Markov's talks concerning the meetings with him,\" said a Bulgarian broadcaster for RFE, Kyril Panov.",
+            "cn": "\"我们听说，他对马尔科夫那些讲述与他见面的谈话相当震怒，\"自由欧洲电台的保加利亚播音员基里尔·帕诺夫（Kyril Panov）说。"
+          },
+          {
+            "en": "\"[Markov] was talking about things which are, so to speak, taboo in Bulgaria, things which the regime prefers not to talk about and that the public should not know.\"",
+            "cn": "\"（马尔科夫）谈论的那些事，可以说是保加利亚的禁忌——是这个政权不愿谈、也不该让公众知道的事。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Zhivkov had ruled Bulgaria since 1956 – and had very close ties to the Soviet Union, describing the relationship between the two countries as like two lungs in the same body, fed by the same bloodstream.",
+            "cn": "日夫科夫自1956年起统治保加利亚——他与苏联关系极为密切，曾把两国关系比作同一身体里的两片肺，由同一股血液滋养。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Experts believed that the Soviets must have been involved in Markov's murder.",
+            "cn": "专家们相信，苏联方面必定参与了马尔科夫的谋杀。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Stefan Sverdlov, a colonel in the Bulgarian secret police until he defected in 1971, told the BBC in 1979: \"Every department of the Darzhavna Sigurnost [Bulgarian secret service] is controlled by an advisor from the Russian KGB, sometimes known as an uncle, who reports directly to Moscow…",
+            "cn": "斯特凡·斯维尔德洛夫（Stefan Sverdlov）原是保加利亚秘密警察上校，1971年叛逃；他1979年告诉 BBC：\"保加利亚国家安全局（Darzhavna Sigurnost）的每一个部门，都由一名俄国人克格勃的顾问控制，有时被称为'叔叔'，他直接向莫斯科汇报……"
+          },
+          {
+            "en": "It's inconceivable that this could have been done without the Russians knowing about it.\"",
+            "cn": "如果没有俄国人的知情，这种事根本不可想象。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "And according to the former head of an assassination squad for the KGB, the method pointed to Soviet involvement.",
+            "cn": "而据克格勃一支暗杀小队的前负责人说，这种作案手法本身就指向苏联的介入。"
+          },
+          {
+            "en": "\"The technique is…",
+            "cn": "\"这套技术……"
+          },
+          {
+            "en": "almost ridiculously sophisticated,\" said Nikolai Khokhlov.",
+            "cn": "精密得近乎荒唐，\"尼古拉·霍赫洛夫（Nikolai Khokhlov）说。"
+          },
+          {
+            "en": "\"That tells me that the officers who were planning that operation tried to please someone on the highest level.\" The fatal attack on Markov was carried out on Zhivkov's birthday.",
+            "cn": "\"这告诉我，策划这次行动的特工是想讨好最高层的某个人。\"对马尔科夫的致命袭击，就发生在日夫科夫的生日当天。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "After the fall of the Soviet Union, it emerged that the KGB had developed an umbrella that could inject ricin pellets into a victim.",
+            "cn": "苏联解体后，人们得知：克格勃研制过一种能把蓖麻毒素弹丸注入人体的雨伞。"
+          },
+          {
+            "en": "And two former KGB officers who defected later said their organisation assisted in the murder, although it was carried out by an Italian criminal codenamed Piccadilly.",
+            "cn": "而两名后来叛逃的前克格勃官员说，他们的机构协助了这桩谋杀——尽管动手执行的是一名代号\"皮卡迪利\"（Piccadilly）的意大利罪犯。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "No one has ever been charged for Markov's assassination.",
+            "cn": "马尔科夫遇刺一案，从未有人被起诉。"
+          },
+          {
+            "en": "Bulgaria closed the case in 2013 , due to a lack of suspects, but it remains an open inquiry in the UK.",
+            "cn": "保加利亚方面于2013年因缺少嫌疑人结案；但在英国，此案至今仍是未决的调查。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It would have benefited the Soviets in more than one way, as former KGB officer Khokhlov told the BBC in 1979 – beyond the physical death, it would have had a great psychological impact on dissenters abroad.",
+            "cn": "对苏联人来说，这桩谋杀的收益不止一重：正如前克格勃军官霍赫洛夫1979年告诉 BBC 的——超越了肉体死亡本身，它还会对海外的异见者产生巨大的心理冲击。"
+          },
+          {
+            "en": "\"The fear that they're not protected by distance, they're not protected by the security systems of the West\", he said.",
+            "cn": "\"让他们害怕：距离保护不了他们，西方的安全体系也保护不了他们\"，他说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "He continued: \"The action is like coming behind someone and whispering in his ear, 'We can get you any time we want.",
+            "cn": "他接着说：\"这种行动就像绕到一个人身后，在他耳边低语：'只要我们想，随时可以抓到你。"
+          },
+          {
+            "en": "We can kill you.'\"",
+            "cn": "我们可以杀死你。'\""
+          }
+        ]
+      }
+    ],
+    "pin": true
+  },
+  {
+    "id": "gr-greatergood-rustout",
+    "cat": "成长",
+    "title": "You Might Be Experiencing Rustout, Not Burnout, at Work",
+    "titleZh": "你在工作中经历的也许不是倦怠，而是「生锈」",
+    "source": "Greater Good · 2026-09-09",
+    "date": "2026-09-09",
+    "minutes": 12,
+    "url": "https://greatergood.berkeley.edu/article/item/you_might_be_experiencing_rustout_not_burnout_at_work",
+    "coverImg": "assets/covers/gr-greatergood-rustout.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "Some forms of distress at work are easy to recognize because they interrupt someone’s daily performance and the work of those around them: For example, a person on your team becomes visibly exhausted, they are irritable, or they’re frequently absent.",
+            "cn": "有些职场痛苦很容易辨认，因为它们会打断当事人和他周围人的日常工作：比如，团队里有人明显疲惫不堪、烦躁易怒，或者频繁缺勤。"
+          },
+          {
+            "en": "But other forms of distress are harder to see precisely because the work continues uninterrupted.",
+            "cn": "但另一些痛苦更难看见，恰恰是因为工作还在不间断地进行。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It’s common to talk about burnout at work and to recognize it in others and in ourselves.",
+            "cn": "我们常谈起职场倦怠，也能在别人和自己身上认出它。"
+          },
+          {
+            "en": "But a new paper of mine with David S. Smith examines a less visible and less understood form of disengagement at work: rustout.",
+            "cn": "但我和大卫·S·史密斯（David S. Smith）新写的一篇论文，考察了一种更难看见、也更少被理解的职场游离状态：锈钝（rustout）。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Rustout, as we studied it, often involves being underutilized, intellectually stagnating, and feeling a deep-seated sense of unfulfillment.",
+            "cn": "在我们的研究中，锈钝通常表现为：大材小用、智识上停滞不前，以及一种深植于心的不满足感。"
+          },
+          {
+            "en": "It can arise when people feel their work no longer offers enough meaning or challenge to keep them intellectually and creatively engaged.",
+            "cn": "当人们觉得工作不再提供足够的意义或挑战、无法让他们的智识与创造力保持投入时，它就可能出现。"
+          },
+          {
+            "en": "But because it’s different from burnout, the solutions are also different—both for individuals and for organizations.",
+            "cn": "但因为它与倦怠不同，解决之道也不同——对个人如此，对组织亦然。"
+          }
+        ]
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Rustout vs. burnout",
+            "cn": "锈钝对比倦怠"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "I’ve presented this research at numerous conferences, and each time I have been approached by professionals who say, “That’s what I’ve been going through, but I never had a name for it until now.”",
+            "cn": "我在许多会议上报告过这项研究，每一次都有从业者来找我，说：\"这正是我一直在经历的事，只是直到今天才知道它的名字。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "These people, young and older, are committed to their work, they are hardworking, and they haven’t stopped caring.",
+            "cn": "这些人无论年轻年长，都忠于自己的工作，勤奋肯干，从未停止在乎。"
+          },
+          {
+            "en": "It is often the case that they care very much, and they meet expectations set before them.",
+            "cn": "常见的情况是：他们非常在乎，并且达成了外界对他们的期待。"
+          },
+          {
+            "en": "They are often the ones who are called upon because they are reliable and highly conscientious.",
+            "cn": "也常常是他们被点名找上门——因为他们可靠、尽责心极强。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you look around your workplace, you probably know many people who fit this bill.",
+            "cn": "看看你的工作场所，你大概能想到很多符合这个画像的人。"
+          },
+          {
+            "en": "The problem is not a loss of effort on the part of the individual; it is a breakdown in the relationship between effort and meaningful work.",
+            "cn": "问题不在于个人不再努力；而在于努力与有意义的工作之间的关系断裂了。"
+          },
+          {
+            "en": "From my study of this topic, rustout is really about the decline in professional vitality, when a person’s capacities are not used in ways that feel meaningful to them.",
+            "cn": "根据我对这一课题的研究，锈钝真正关乎职业活力的衰退——当一个人的能力无法以他自己觉得有意义的方式被使用时。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In our research, participants described experiences shaped by administrative overload, reduced autonomy, and a misalignment between their professional aspirations and assigned tasks.",
+            "cn": "在我们的研究中，受访者描述的体验带着这样的烙印：行政事务超载、自主权缩水，以及职业抱负与分派任务之间的错位。"
+          },
+          {
+            "en": "Many people highlighted feeling professionally stuck: “Sadly, the elements I love about the job . . .",
+            "cn": "许多人强调自己有一种职业上的困滞感：\"遗憾的是，这份工作里我热爱的那些部分……"
+          },
+          {
+            "en": "are often overshadowed by the other administrative aspects of the role,” “I feel like I’m feeding the machine,” and “I’m a square peg in a round hole.”",
+            "cn": "常常被这个岗位行政性的一面盖过\"\"我觉得自己在给机器喂料\"\"我是圆孔里的方钉\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "They highlighted a sense that the work they were doing no longer drew sufficiently on their talents: “The better you are at it, the more of the administrative side of the job you get.",
+            "cn": "他们突出强调了一种感觉：自己做的工作，已经无法充分发挥他们的才干：\"你干得越好，分到的行政杂务就越多。"
+          },
+          {
+            "en": "It’s lacking opportunities to be creative.”",
+            "cn": "缺少的正是发挥创造力的机会。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Rustout can be quite psychologically disorienting.",
+            "cn": "锈钝在心理上可能相当令人迷失。"
+          },
+          {
+            "en": "From the outside, a person may appear successful and competent.",
+            "cn": "从外表看，这个人也许显得成功而能干。"
+          },
+          {
+            "en": "There is no question about their productivity; they meet set targets, but could do so “with [their] eyes closed.” However, they may feel increasingly detached from the work that once animated them.",
+            "cn": "他的生产力毫无问题；既定目标都能完成，甚至能\"闭着眼睛\"完成。然而，他可能感到自己与那份曾经令他生龙活虎的工作日渐疏离。"
+          },
+          {
+            "en": "Their distress isn’t dramatic; it’s a slow process of psychological erosion.",
+            "cn": "他的痛苦并不戏剧化；那是一场缓慢的心理侵蚀。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In many ways, rustout overlaps with burnout, but they are not the same.",
+            "cn": "在很多方面，锈钝与倦怠重叠，但两者并不相同。"
+          },
+          {
+            "en": "Burnout involves prolonged negative stress that isn’t adequately managed.",
+            "cn": "倦怠源于长期得不到充分调适的负面压力。"
+          },
+          {
+            "en": "It’s about too much—working too much, caring too much, too much pressure, and too little time to recuperate.",
+            "cn": "它关乎\"太多\"——工作太多、在乎太多、压力太大，而恢复的时间太少。"
+          },
+          {
+            "en": "In contrast, rustout is associated with too little positive stress or challenge over time, too little stimulation, and limited opportunities for individual growth.",
+            "cn": "相比之下，锈钝与长期的正向压力或挑战太少、刺激太少、个人成长机会有限相关。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "However, while burnout is part of organizations’ mental health literacy, rustout rarely gets a mention.",
+            "cn": "然而，倦怠已是组织心理健康常识的一部分，锈钝却很少被提起。"
+          },
+          {
+            "en": "And this is problematic—both for the individual and the organization.",
+            "cn": "这就成了问题——对个人和对组织都是。"
+          },
+          {
+            "en": "“I often feel I have produced nothing at the end of the week, and there is no sense of development,” one person said.",
+            "cn": "\"我常常觉得一周结束之际自己什么也没产出，也毫无成长感，\"一位受访者说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Some will stay in their roles out of a sense of duty (and for other practical reasons like salary or seniority), but others will choose to leave.",
+            "cn": "有些人出于责任感留在岗位上（也因为薪水、资历这类现实原因），但另一些人会选择离开。"
+          },
+          {
+            "en": "Another said, “I am functioning at my job, but I’m not thriving, and I am looking elsewhere.”",
+            "cn": "另一位说：\"我在应付这份工作，但并没有蓬勃发展，我正在看别处的机会。\""
+          }
+        ]
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "Why don’t we talk about rustout?",
+            "cn": "我们为什么不谈锈钝？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Rustout often hides behind competence, and the reliable person is often given more of the same work.",
+            "cn": "锈钝常常藏在\"能干\"背后，而可靠的人往往被派给更多同样的活儿。"
+          },
+          {
+            "en": "The person who does not complain is assumed to be coping and doing OK. The person who stabilizes others and is a good team player is rarely asked whether they themselves feel developed or challenged.",
+            "cn": "不抱怨的人，被默认为应付得来、过得不错。那个安抚他人、善于团队协作的人，很少有人问一句：他自己是否感到有所成长、受到挑战。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "One person said, “I have no experience of ever having a conversation with anyone around it.",
+            "cn": "一位受访者说：\"我从来没有和任何人谈起过这件事。"
+          },
+          {
+            "en": "No line manager ever named it, it has never been mentioned in a communal setting or in a one-to-one setting. . . .",
+            "cn": "没有一位直属上司点破过它，它从未在集体场合或一对一的场合被提起……"
+          },
+          {
+            "en": "No one has ever asked, ‘Do you feel fulfilled or do you feel you have opportunities to use your skills and talents in a meaningful way?’”",
+            "cn": "从没有人问过：'你觉得充实吗？你觉得有机会把自己的技能与才华用得有意义吗？'\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It’s easy to see how doing overtime and being dependable can become a trap.",
+            "cn": "加班加点、可靠耐用如何变成一个陷阱，不难想见。"
+          },
+          {
+            "en": "Eventually, the employee becomes valued less for what they might become and more for what they can continue to absorb—they won’t “rock the boat” by opening the can of worms that is their dissatisfaction.",
+            "cn": "到头来，这名员工的价值，越来越不在于他可能成为什么，而在于他还能继续吸收多少——他们不愿打开自己不满的这罐\"乱麻\"，去搅动现状。"
+          },
+          {
+            "en": "“You put up, and shut up,” one person said.",
+            "cn": "\"你忍着，然后闭嘴，\"一位受访者说。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Meanwhile, many workplaces are organized to detect individual or team shortcomings (or failure) more readily than stagnation.",
+            "cn": "与此同时，许多职场的设计，让个体或团队的短板（或失败）比停滞更容易被察觉。"
+          },
+          {
+            "en": "If someone stops performing, the problem becomes visible.",
+            "cn": "如果有人不再出活儿，问题立刻可见。"
+          },
+          {
+            "en": "However, if someone continues to perform while becoming inwardly disengaged, the organization may see no problem at all.",
+            "cn": "然而，如果有人持续出活儿、内心却已游离，组织可能根本看不到问题。"
+          },
+          {
+            "en": "And if anyone notices their dissatisfaction, they may not openly discuss it, as another of my interviewees reported.",
+            "cn": "而且，即便有人察觉到他的不满，也未必会摆到台面上谈——我的另一位受访者这样说。"
+          },
+          {
+            "en": "“It suits everyone not to talk about it; when everyone is working and doing their jobs—then don’t disturb anything.",
+            "cn": "\"不谈对大家都好；大家都在工作、都在干自己的活儿——那就别打乱什么。"
+          },
+          {
+            "en": "Everything is cosy.”",
+            "cn": "一切都其乐融融。\""
+          }
+        ]
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "How rustout arises",
+            "cn": "锈钝如何产生"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Participants experiencing rustout described barriers that limited their ability to use their strengths or pursue professional growth, which are particularly important for having a sense of meaning and fulfillment at work.",
+            "cn": "正在经历锈钝的受访者描述了种种壁垒：它们限制了他们发挥所长或追求职业成长，而这两者对工作中的意义感与满足感尤为重要。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "For many people, their working life gives them a sense of identity and purpose, but when work no longer offers that sense of meaning, their relationship with the job can become fractured or feel “off.” In some cases, they can’t put their finger on what is happening, and that might be why I often hear after presentations, “I never had a name for it.”",
+            "cn": "对许多人来说，工作生活赋予他们身份感与目的感；一旦工作不再提供那种意义感，他们与工作的关系就会开裂，或变得\"不对劲\"。有些时候，他们说不清到底哪里出了问题——这可能就是为什么我在报告之后常听到一句：\"我一直不知道它叫什么。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Naming rustout won’t solve the issue, but it can help the person to understand why they feel underutilized or dissatisfied.",
+            "cn": "给锈钝命名并不能解决问题，但它能帮助人们理解自己为什么会感到大材小用或心有不甘。"
+          },
+          {
+            "en": "Naming rustout can help people understand this isn’t a personal failure but an experience that is shaped by the design or conditions of work (much like burnout).",
+            "cn": "命名锈钝可以帮助人们明白：这不是个人的失败，而是由工作的设计或条件塑造的体验（与倦怠一样）。"
+          },
+          {
+            "en": "It is also shaped by the culture of work, particularly when there is a resistance to change or a failure to see the value in helping people to flourish.",
+            "cn": "它同样由职场文化塑造——尤其当组织抗拒改变、或看不到帮助员工蓬勃发展的价值时。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "From my discussions with participants and colleagues about rustout, it is clear that it isn’t a pre-retirement phenomenon.",
+            "cn": "从我与受访者和同事们关于锈钝的讨论来看，它显然不是一种\"退休前现象\"。"
+          },
+          {
+            "en": "It seems to arise for those who are experienced, perhaps mid-career, and those who have been in their role for a long time.",
+            "cn": "它似乎发生在那些经验丰富、或许正值职业生涯中期、在一个岗位干了很久的人身上。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "One participant explained, “I have been doing [this role] for years.",
+            "cn": "一位受访者解释说：\"这份工作我已经做了很多年。"
+          },
+          {
+            "en": "There must be better ways to organize things to ensure the expertise of experienced staff is used in more effective ways.” Others said, “It’s the seven-, eight-, nine-year mark when there isn’t an opportunity to be stimulated,” and “It’s the seven-year itch, you’ve been doing something creative and then you reach a point where you are doing the same thing on repeat.”",
+            "cn": "一定有更好的组织方式，能让资深员工的专业知识发挥更大效用。\"另一些人说：\"到了第七、第八、第九个年头，却没有任何被激发的机会\"，还有人说：\"这就是七年之痒——你一直在做有创造性的事，然后到了某个节点，你开始原地转圈，重复同样的事。\""
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "In such ways, we can’t dismiss rustout as a consequence of aging in the workplace.",
+            "cn": "由此看来，我们不能把锈钝斥为职场年龄增长的自然结果。"
+          },
+          {
+            "en": "It can happen whenever people are pigeonholed into a system that no longer offers them meaningful development.",
+            "cn": "只要一个人被困在一个不再提供有意义成长的系统里，它就可能发生。"
+          },
+          {
+            "en": "Although some repetition and routine are an expected part of every job, there should also be a sense that your abilities and talents matter in your role.",
+            "cn": "虽然一定的重复与例行公事是每份工作应有的组成部分，但也应该让人感到：在你的岗位上，你的能力和才干是重要的。"
+          },
+          {
+            "en": "That there is a future and something exciting to work toward.",
+            "cn": "应该有未来，有令人兴奋的方向可以奔赴。"
+          }
+        ]
+      },
+      {
+        "head": 2,
+        "sentences": [
+          {
+            "en": "What to do if you are rusting out",
+            "cn": "如果你正在锈钝，该怎么办"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "The language of burnout has helped many people name distress that had previously been normalized or dismissed.",
+            "cn": "倦怠这套语言帮助许多人道出了此前被正常化、被忽视的痛苦。"
+          },
+          {
+            "en": "It has also helped organizations take workplace well-being more seriously.",
+            "cn": "它也促使组织更认真地对待职场福祉。"
+          },
+          {
+            "en": "But any dominant mental health vocabulary can become limiting when it starts to stand in for the whole field of experience.",
+            "cn": "但任何一套占主导地位的心理健康词汇，一旦开始代表全部经验领域，就会变得狭隘。"
+          },
+          {
+            "en": "If burnout is the only category available for occupational distress, then recovery is often imagined in terms of rest and resilience.",
+            "cn": "如果倦怠是职业痛苦唯一的可选类别，那么康复往往只会被想象成休息与韧性。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "They may be necessary, but they are not always sufficient.",
+            "cn": "它们也许是必要的，但并不总是足够的。"
+          },
+          {
+            "en": "A person experiencing rustout may not simply need less work; they may need different work: work that restores their sense of intellectual engagement and curiosity.",
+            "cn": "经历锈钝的人，需要的可能不只是更少的工作，而是不同的工作：能唤回他的智识投入与好奇心的工作。"
+          },
+          {
+            "en": "As Maya Angelou once said, “We aren’t designed to be static”—that could apply to all aspects of life, including the workplace.",
+            "cn": "正如玛雅·安杰卢（Maya Angelou）所说：\"我们不是被设计来静止不动的\"——这句话适用于生活的方方面面，包括职场。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you are experiencing rustout, it would be good to do an inventory of what is happening for you.",
+            "cn": "如果你正在经历锈钝，不妨盘点一下自己的现状。"
+          },
+          {
+            "en": "Do you feel fulfilled in your role?",
+            "cn": "你在现在的岗位上感到充实吗？"
+          },
+          {
+            "en": "Do you have opportunities to use your talents?",
+            "cn": "你有机会发挥自己的才干吗？"
+          },
+          {
+            "en": "Do you gain some sense of meaning from your role?",
+            "cn": "你能从工作中获得某种意义感吗？"
+          },
+          {
+            "en": "Are there ways to seek renewal in your work?",
+            "cn": "有没有在工作里寻求更新的办法？"
+          },
+          {
+            "en": "What might this look like, and can you have this conversation with your line manager or boss?",
+            "cn": "那会是什么样子？你能不能和直属上司或老板谈谈这些？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "For organizations, the questions are also direct.",
+            "cn": "对组织来说，问题同样直截了当。"
+          },
+          {
+            "en": "Look around your team.",
+            "cn": "看看你的团队。"
+          },
+          {
+            "en": "Are you giving your most dependable employees opportunities for development?",
+            "cn": "你有没有给最可靠的员工提供发展的机会？"
+          },
+          {
+            "en": "Do you continually lean on their “safe pair of hands” because it is easier than asking someone else to learn the ropes?",
+            "cn": "你是否一直在依赖他们那双\"可靠的手\"，因为这样比为别人省事——不必让新人从头学起？"
+          },
+          {
+            "en": "Are you willing to put the conversation about professional dissatisfaction on the table?",
+            "cn": "你愿不愿意把职业不满这个话题摆上桌面？"
+          },
+          {
+            "en": "How can you help your team to flourish?",
+            "cn": "你如何帮助你的团队蓬勃发展？"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "That is the unsettling truth at the heart of the rustout.",
+            "cn": "这就是锈钝核心处那个令人不安的真相。"
+          },
+          {
+            "en": "A person can be conscientious yet disengaged, reliable yet underused, competent but unfulfilled.",
+            "cn": "一个人可以尽责却游离，可靠却被大材小用，能干却不满足。"
+          },
+          {
+            "en": "They can be good at their job and still feel themselves receding from it.",
+            "cn": "他可以很擅长自己的工作，却同时感到自己正在从这份工作中退场。"
+          },
+          {
+            "en": "The silence around rustout allows it to thrive, which is why I often hear the same response after conference presentations: “I thought it was just me.” I think there is a particular loneliness in that sentence, the loneliness of continuing to do the work, while privately wondering why it no longer feels like yours.",
+            "cn": "环绕锈钝的沉默让它得以蔓延——这就是为什么会议报告之后我常听到同一句回应：\"我以为只有我这样。\"我觉得这句话里有一种特别的孤独：继续做着那份工作，私下却在想，为什么它不再像是自己的了。"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "gr-psyche-relationship-ambivalence",
+    "cat": "成长",
+    "title": "What does it mean to have relationship ambivalence?",
+    "titleZh": "对一段关系既爱又厌，意味着什么？",
+    "source": "Psyche · 2026-09-22",
+    "date": "2026-09-22",
+    "minutes": 11,
+    "url": "https://psyche.co/ideas/what-does-it-mean-to-have-relationship-ambivalence",
+    "coverImg": "assets/covers/gr-psyche-relationship-ambivalence.jpg",
+    "translation_type": "ciyue_edited",
+    "paras": [
+      {
+        "sentences": [
+          {
+            "en": "When a relationship provokes both strong positive and negative feelings in you, it can take a toll – here’s what’s going on",
+            "cn": "当一段关系同时激起你强烈的好感与恶感，它是会消耗人的——这里讲讲这到底是怎么回事"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "We tend to talk about our relationships as either satisfying or unsatisfying, healthy or toxic.",
+            "cn": "我们谈论自己的关系时，总爱二选一：满意或不满意，健康或有毒。"
+          },
+          {
+            "en": "This either/or perspective shapes a lot of relationship advice, and filters through to the ways many of us chat about our relationship dilemmas with friends.",
+            "cn": "这种非此即彼的视角塑造了大量关于关系的建议，也渗透进我们许多人向朋友倾诉关系难题的方式里。"
+          },
+          {
+            "en": "But the reality is that many of our most consequential relationships in life are both positive and negative at the same time (or neither positive nor negative – which I’ll come back to later).",
+            "cn": "但现实是，我们生命中许多最重要的关系，是同时既正面又负面的（或者既不正面也不负面——这一点我后面还会谈到）。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You can love your partner tremendously and hate their lack of responsibility.",
+            "cn": "你可以深爱你的伴侣，又痛恨他缺乏责任感。"
+          },
+          {
+            "en": "You can feel deeply grateful to your in-laws for all the support they offer while at the same time feeling extremely annoyed by their intrusiveness.",
+            "cn": "你可以对岳家、婆家提供的种种支持深怀感激，同时又为他们的处处干涉恼火不已。"
+          },
+          {
+            "en": "You can admire your boss’s effectiveness and be irritated by their micromanaging.",
+            "cn": "你可以佩服上司的干练，又被他的事事插手弄得烦躁。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "My colleagues and I recently put forward a new four-quadrant framework for how people evaluate their relationships.",
+            "cn": "我和同事们最近提出了一个评估人际关系的新四象限框架。"
+          },
+          {
+            "en": "The experiences I just described would fall into the ambivalent quadrant, which is characterised by having both strong positive and negative feelings toward another person at the same time.",
+            "cn": "我刚描述的这些体验就落在\"矛盾心理\"（ambivalent）那一象限，它的特征是对同一个人同时怀有强烈的正面和负面感受。"
+          },
+          {
+            "en": "The other quadrants are feeling mostly positive, mostly negative or indifferent.",
+            "cn": "另外三个象限分别是：以正面为主、以负面为主，以及无感。"
+          },
+          {
+            "en": "We believe that ambivalence in relationships has been largely overlooked up until now, even though it’s such a common and consequential experience.",
+            "cn": "我们认为，关系中的矛盾心理尽管如此常见、影响如此之大，却在此前基本被忽视了。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "It’s important to say that being in an ambivalent relationship is not the same as finding it mildly satisfying – the distinctive nature of these relationships is that you experience strong positive feelings and strong negative feelings.",
+            "cn": "需要说明的是，身处一段矛盾的关系，并不等于对它还算满意——这类关系的独特之处在于，你会同时体验到强烈的正面感受和强烈的负面感受。"
+          },
+          {
+            "en": "It’s also important to distinguish ambivalence from indifference, which occurs when neither positive nor negative feelings are strong and the relationship instead feels emotionally neutral.",
+            "cn": "同样重要的是要把矛盾心理与冷漠（indifference）区分开：冷漠是正面与负面感受都不强烈，这段关系在情感上近乎中性。"
+          },
+          {
+            "en": "In other words, ambivalence is ‘I care a lot, but I’m torn,’ while indifference is closer to ‘I’m not especially drawn in, upset, or emotionally invested.’",
+            "cn": "换句话说，矛盾是\"我很在乎，但我被撕扯着\"，而冷漠更接近\"我既不特别投入，也不特别沮丧，没有任何情感押注\"。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "How does ambivalence arise in relationships?",
+            "cn": "矛盾心理是如何在关系中产生的？"
+          },
+          {
+            "en": "Certainly, some relationships are a mixed package from their very beginning: offering great warmth and connection alongside quirks, costs or complications that never quite disappear.",
+            "cn": "当然，有些关系从一开始就是一个混合包裹：它给出巨大的温暖与联结，同时也附带那些从未彻底消失的怪癖、代价或麻烦。"
+          },
+          {
+            "en": "Since their start, they stir both gratitude and frustration, attraction and hesitation.",
+            "cn": "从一开始，它们就同时搅动着感激与沮丧、吸引与犹豫。"
+          },
+          {
+            "en": "But ambivalence can also grow over time.",
+            "cn": "但矛盾心理也会随着时间生长。"
+          },
+          {
+            "en": "Relationships evolve and studies show that even relationships that start out mostly positive (such as romantic relationships) often accumulate negative feelings as life unfolds and significant challenges emerge.",
+            "cn": "关系会演变，而研究表明，即使一开始以正面为主的关系（比如恋爱关系），也会随着生活的展开和重大挑战的出现，累积起负面感受。"
+          },
+          {
+            "en": "Partners change, circumstances shift, responsibilities grow heavier.",
+            "cn": "伴侣会变，境遇会变，责任会越来越重。"
+          },
+          {
+            "en": "What once felt effortless now involves compromises, mismatched needs or recurring patterns we didn’t see in the early glow.",
+            "cn": "曾经毫不费力的事，如今充满了妥协、错位的需求，或是在早期光环里看不见的、反复出现的模式。"
+          },
+          {
+            "en": "When these negative feelings first emerge, the positive ones do not suddenly dissipate, thus creating ambivalence.",
+            "cn": "当这些负面感受初次浮现时，正面感受并不会骤然消散——矛盾心理由此产生。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Think about a relationship in your own life that leaves you feeling torn.",
+            "cn": "想一想你自己生活中那段让你倍感撕扯的关系。"
+          },
+          {
+            "en": "Maybe you care deeply about this person and value the bond, yet also feel hurt, frustrated or disappointed by them.",
+            "cn": "也许你深切在乎这个人、珍视这份联结，却也常被他伤害、惹恼或失望。"
+          },
+          {
+            "en": "If that feels unsettling, our findings suggest there is a reason: people are often distressed by the mixed feelings of relationship ambivalence.",
+            "cn": "如果这让你感到不安，我们的研究结果表明这是有原因的：关系矛盾心理带来的复杂感受，常常令人痛苦。"
+          },
+          {
+            "en": "We do not want to feel pulled in opposite directions about someone who matters to us.",
+            "cn": "对一个对我们重要的人，我们不愿感到自己被拉向两个相反的方向。"
+          },
+          {
+            "en": "In fact, our studies (and research by others) have shown that ambivalence in romantic relationships undermines both relationship quality and personal wellbeing.",
+            "cn": "事实上，我们的研究（以及其他人的研究）都显示，亲密关系中的矛盾心理会同时损害关系质量和个人幸福感。"
+          },
+          {
+            "en": "And the strain is not only psychological: experiencing ambivalence has been linked to higher blood pressure, greater inflammation and other early markers of cardiovascular risk.",
+            "cn": "而且这种消耗不只是心理上的：处于矛盾心理状态，已被发现与更高的血压、更严重的炎症以及其他心血管风险的早期指标相关。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "Despite this tension, we’ve found that ambivalence doesn’t tend to mean that people check out of a relationship – if anything, it often means the opposite.",
+            "cn": "尽管有这些撕扯，我们发现矛盾心理并不意味着人们会从关系中抽身离开——如果说有什么倾向，它往往意味着相反的结果。"
+          },
+          {
+            "en": "When someone feels both pulled in and pushed away, they tend to stay mentally busy trying to ‘solve’ the ambivalence: they want to either like or dislike someone; they want to figure out whether the relationship is worth investment or whether it is best to pull away.",
+            "cn": "当一个人既被吸引又被推拒时，他的头脑往往忙着去\"解决\"这种矛盾：他想么喜欢这个人，要么讨厌这个人；他想弄清楚这段关系值不值得投入，还是趁早抽身为好。"
+          },
+          {
+            "en": "In fact, in our studies we found that the more ambivalence someone experiences in a romantic relationship, the more they think and ruminate about it.",
+            "cn": "事实上，在我们的研究中我们发现：一个人在亲密关系中体验到的矛盾心理越多，他对这段关系的思考和反刍就越多。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "These ruminative thoughts tend to swing in two directions.",
+            "cn": "这些反刍式的念头往往在两个方向上摇摆。"
+          },
+          {
+            "en": "At times they are constructive and people think about ways to improve things, fix patterns, reconnect.",
+            "cn": "有时它们是建设性的：人们会想怎么改善、怎么修正模式、怎么重新联结。"
+          },
+          {
+            "en": "Other times, their thoughts are pretty destructive, focusing on all the difficulties, problems and flaws of the relationships.",
+            "cn": "另一些时候，这些念头相当具有破坏性，聚焦于这段关系的所有困难、问题和缺陷。"
+          },
+          {
+            "en": "That same push‑pull shows up in behaviour.",
+            "cn": "同样的推拉也体现在行为上。"
+          },
+          {
+            "en": "Some days people act warmly and constructively, trying to connect with the other person.",
+            "cn": "有些日子，人们表现得温暖而有建设性，努力与对方建立联结。"
+          },
+          {
+            "en": "On other days, people are destructive, by withdrawing or blaming and criticising others.",
+            "cn": "另一些日子，人们则具有破坏性——退缩，或者指责、批评对方。"
+          },
+          {
+            "en": "And in our studies that have tracked people over time, we see that ambivalence reliably produces these swings, making people fluctuate substantially between these two different types of thoughts and behaviours on a daily basis.",
+            "cn": "在那些对人们进行长期追踪的研究中，我们看到矛盾心理会稳定地制造这种摇摆，让人每天在这两类截然不同的想法和行为之间大幅波动。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "So feeling ambivalent does not seem like a walk in the woods.",
+            "cn": "所以，心怀矛盾看来并不是一次轻松的林间漫步。"
+          },
+          {
+            "en": "It is stressful and consequential for how people behave in their relationship.",
+            "cn": "它是有压力的，也实实在在地影响着人们在关系中的行为。"
+          },
+          {
+            "en": "And what about the person on the receiving end?",
+            "cn": "那么，处在接受端的那个人的感受呢？"
+          },
+          {
+            "en": "What happens when your partner has both strong positive and strong negative feelings toward you: one day they want to connect, the next they pull back or critique, and the cycle repeats?",
+            "cn": "当你的伴侣对你同时怀有强烈的好感与恶感——今天想靠近，明天就疏远或挑剔，循环往复——会发生什么？"
+          },
+          {
+            "en": "Being on the receiving end of those mixed signals can feel destabilising.",
+            "cn": "不断接收这些混杂的信号，会让人觉得天旋地转。"
+          },
+          {
+            "en": "And those shifts – from connection to distance, from support to irritation – aren’t just confusing; they can take a toll on the sense of safety and stability in the relationship.",
+            "cn": "而这些摇摆——从联结到疏远，从支持到烦躁——不只是令人困惑；它们会侵蚀这段关系里的安全感与稳定感。"
+          },
+          {
+            "en": "In fact, in our studies , we find that recipients of ambivalence often experience their partner as unpredictable and hard to read.",
+            "cn": "事实上，在我们的研究中，处于矛盾心理接受端的人，常常觉得自己的伴侣难以预测、难以读懂。"
+          },
+          {
+            "en": "That uncertainty doesn’t just chip away at relationship quality, it also affects the wellbeing of the recipient of the ambivalence.",
+            "cn": "这种不确定性不只是蚕食关系质量，它也影响被矛盾波及者的身心健康。"
+          },
+          {
+            "en": "Recipients report feeling more stressed, in a more negative mood, and less satisfied with their lives overall.",
+            "cn": "接受端的人报告说，自己压力更大、情绪更消极，对生活的整体满意度也更低。"
+          },
+          {
+            "en": "It’s clear that ambivalence isn’t a solo experience, it tends to spill over, influencing (and potentially damaging) the person on the other side of the relationship, too.",
+            "cn": "显然，矛盾心理不是一个人的独角戏——它往往会外溢，波及（甚至伤害）关系另一端的那个人的感受。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If you recognise these descriptions of relationship ambivalence including the challenges involved, you might be wondering if there’s anything you can do about it.",
+            "cn": "如果你在上述对关系矛盾心理的描述（包括其中的种种困境）里认出了自己，你也许想知道：对此能做点什么吗？"
+          },
+          {
+            "en": "There’s no quick fix, but there is some good news.",
+            "cn": "没有速效药，但有一些好消息。"
+          },
+          {
+            "en": "First, ambivalence means that the relationship matters to you.",
+            "cn": "首先，矛盾心理意味着这段关系对你很重要。"
+          },
+          {
+            "en": "Mixed feelings – strong positives and strong negatives – show up only when someone is important to us.",
+            "cn": "混合的感受——强烈的正面与强烈的负面——只会在一个人对我们很重要的时候出现。"
+          },
+          {
+            "en": "If the relationship didn’t matter to you, you wouldn’t feel torn; you would feel indifferent.",
+            "cn": "如果这段关系对你无关紧要，你不会感到撕扯；你会无感。"
+          },
+          {
+            "en": "Indifference is the state where even the negative feelings have faded – you’re no longer frustrated or hurt, you’ve simply stopped noticing.",
+            "cn": "冷漠是连负面感受都已褪去的状态——你不再沮丧，不再受伤，你只是不再注意了。"
+          },
+          {
+            "en": "So ambivalence, uncomfortable as it is, signals that this is still a meaningful relationship.",
+            "cn": "所以，矛盾心理虽然令人不适，却表明这仍是一段有意义的关系。"
+          },
+          {
+            "en": "Second, ambivalence makes you reflect on the relationship.",
+            "cn": "其次，矛盾心理促使你反思这段关系。"
+          },
+          {
+            "en": "You are involved, you want to understand what is going on, and decide what should happen next.",
+            "cn": "你是投入其中的，你想弄明白发生了什么，并决定接下来该怎么办。"
+          },
+          {
+            "en": "Ambivalence is an important signal that shows you that a rewarding and valuable relationship poses significant costs too, nudging you to ask whether to repair, recalibrate or step back.",
+            "cn": "矛盾心理是一个重要的信号：它告诉你，一段有回报、有价值的关系同时也意味着不小的代价，它推着你去追问——是修复，是重新调整，还是退后一步。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "All this means that if you are now recognising for the first time that a significant relationship in your life is ambivalent for you, this awareness is already an important first step.",
+            "cn": "这一切意味着，如果你此刻第一次意识到：自己生命中某段重要的关系让你心怀矛盾，那么这份觉察本身已经是重要的第一步。"
+          },
+          {
+            "en": "Becoming aware of your mixed feelings creates an opportunity to reflect on the relationship.",
+            "cn": "觉察到自己的复杂感受，为反思这段关系创造了机会。"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "This is a good moment to intervene and influence what happens next.",
+            "cn": "此时正是介入并影响后续走向的好时机。"
+          },
+          {
+            "en": "After all, if you are having these mixed feelings, it means two helpful conditions are present:",
+            "cn": "毕竟，你之所以有这些复杂感受，说明两个有利条件已经具备："
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "There’s still some positivity to build on.",
+            "cn": "其一，还有一些积极面可供依托。"
+          },
+          {
+            "en": "The relationship has rewards; the task is to reduce the negativity, not to build positivity from scratch; and",
+            "cn": "这段关系仍有回报；要做的功课是减少消极，而不是从零开始建立积极；并且"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "You are still engaged.",
+            "cn": "其二，你仍然是投入的。"
+          },
+          {
+            "en": "You care, you’re motivated, and you’re open to making things better – whether through conversation, reflection, counselling or other forms of support (in other words, you are not in the indifferent quadrant of our framework, which would be worse news for the relationship!)",
+            "cn": "你在乎，你有动力，你也愿意把事情变好——无论是通过交谈、反思、心理咨询还是其他形式的支持（换句话说，你还不在我们框架里的冷漠象限——那对这段关系来说是更坏的消息！）"
+          }
+        ]
+      },
+      {
+        "sentences": [
+          {
+            "en": "If negativity comes to overwhelm the positives – or if you find yourself starting to drift into indifference – then your window for change will have narrowed.",
+            "cn": "如果负面感受最终压过了正面感受——或者你发现自己开始滑向冷漠——那么你做出改变的窗口就会变窄。"
+          },
+          {
+            "en": "Ambivalence, in contrast, sits in a workable in‑between zone, where effort still has room to make a difference.",
+            "cn": "相比之下，矛盾心理恰好坐落在一个仍可着力的中间地带，努力还有空间改变现状。"
+          },
+          {
+            "en": "It can be a moment to approach the other person, communicate your needs, and see whether you can find ways together that allow the relationship to improve.",
+            "cn": "它可以成为一个契机：走近对方，说出你的需要，看看你们能否一起找到让关系变好的办法。"
+          },
+          {
+            "en": "After all, ambivalence is the emotional equivalent of a blinking yellow light: not a stop, not a go, but an invitation to pay attention.",
+            "cn": "毕竟，矛盾心理在情绪上正是一盏闪烁的黄灯：不是停，不是行，而是一个提醒你留心的邀请。"
+          },
+          {
+            "en": "And with the right attention, many relationships can still find their better path.",
+            "cn": "只要给以恰当的关注，许多关系依然能找到更好的那条路。"
+          }
+        ]
+      }
+    ]
   }
 ];
 
