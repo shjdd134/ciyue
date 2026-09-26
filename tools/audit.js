@@ -449,10 +449,11 @@ eq('标记落在目标词上', marked, 'The report offers a <mark class="w-hl">c
 const iWord = words.findIndex(w => w.word === 'comprehensive');
 ctx('view = { name: "read" }; activeArticle = ARTICLES[0]; render()');
 ok('阅读正文渲染标色', /class="w-hl"|kw/.test(screenEl.innerHTML));
-ctx('sheetMore = true');
-ok('查词浮层渲染标色（展开态）', /class="w-hl">comprehensive</.test(ctx('renderSheet("comprehensive")')));
-ctx('sheetMore = false');
-ok('查词浮层默认轻卡（短释义 + 更多按钮）', (() => { const h = ctx('renderSheet("comprehensive")'); return h.includes('更多') && !h.includes('w-hl'); })());
+ok('查词浮层首次打开就显示已标色的词库例句', /class="w-hl">comprehensive</.test(ctx('renderSheet("comprehensive")')));
+ok('查词浮层直接提供已认识，不再有更多按钮', (() => {
+  const h = ctx('renderSheet("comprehensive")');
+  return h.includes('data-act="mark-known"') && !h.includes('data-act="sheet-more"') && h.includes('example-box');
+})());
 
 /* 不误标 + 转义不被破坏 */
 eq('句中没有目标词时不产生标记', ctx('hlWord("Nothing to see here.", "zebra")'), 'Nothing to see here.');
@@ -804,10 +805,10 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
   ok('语境截取：目标词找不到时整句返回（宁可多留，不返回半句）', clip.miss.length > 120);
   ok('语境截取：空句返回空串（不抛错）', clip.empty === '');
 
-  /* ---- 查词卡：本句含义 + 原词形 + 不再有统计数字 ---- */
+  /* ---- 查词卡：本文原句 + 原词形 + 不再有统计数字 ---- */
   const sheet = ctx(`(() => {
     const k = CORE_WORDS.filter(w => w.word.length >= 4)[0].word;
-    S.known = []; S.notebook = []; sheetMore = false;
+    S.known = []; S.notebook = [];
     const plain = renderSheet(k, { en: "She was " + k + " to accept.", cn: "她不情愿接受。" });
     const noCtx = renderSheet(k);
     const infl = renderSheet(k, null, k + "s");
@@ -816,31 +817,29 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
     S.known = []; S.notebook = [];
     return { k, plain, noCtx, infl, nb };
   })()`);
-  ok('查词卡显示「本句含义」（原句 + 译文都在）',
-    sheet.plain.includes('本句含义') && sheet.plain.includes('to accept') && sheet.plain.includes('她不情愿接受'));
-  ok('没有上下文的查词（词汇页/图注）不渲染空语境块', !sheet.noCtx.includes('本句含义'));
+  ok('查词卡显示「本文原句」（原句 + 译文都在）',
+    sheet.plain.includes('本文原句') && sheet.plain.includes('to accept') && sheet.plain.includes('她不情愿接受'));
+  ok('没有上下文的查词（词汇页/图注）不渲染空语境块', !sheet.noCtx.includes('本文原句'));
   ok('变形词查词：标题显示**原词形**，原形只作副行补充（标题不换成词元）',
     sheet.infl.includes('>' + sheet.k + 's<') && sheet.infl.includes('原形 ' + sheet.k));
   ok('生词卡不再出现任何统计数字（遇到 / 查询 / 来自）',
     !/遇到 \d+ 次|查询 \d+ 次|来自 \d+ 篇/.test(sheet.nb));
-  ok('生词卡主按钮是「我已认识」，不再是「加入生词本」',
-    sheet.nb.includes('我已认识') && !sheet.nb.includes('加入生词本'));
+  ok('已收藏词可以直接移出生词本或标为已认识，不出现重复加入按钮',
+    sheet.nb.includes('data-act="remove-note"') && sheet.nb.includes('data-act="mark-known"')
+    && !sheet.nb.includes('data-act="add-note"') && !sheet.nb.includes('data-act="sheet-more"'));
 
-  /* ---- 2026-09-20 查词卡三处修复 ----
-     ⚠️ 这一组全部走**真实事件分支**（clickEl 触发 handlers.click），
-     不是直接调 renderSheet —— 出 bug 的地方正是 case "sheet-more" 少传了两个参数，
-     直接调渲染函数等于绕过被测代码，怎么改都是绿的（假绿）。 */
+  /* ---- 单层查词卡：真实点击一次就同时保留原词形、本文原句与词库例句 ----
+     走真实事件分支（clickEl 触发 handlers.click），确保 lookup 的参数传递与
+     按钮数据集都被覆盖，而不只断言 renderSheet 自身的输出。 */
   const __prevIAH = phoneEl.insertAdjacentHTML;
   let sheetHtml = '';
   phoneEl.insertAdjacentHTML = (pos, html) => {
     if (String(html).includes('sheet-mask')) sheetHtml = String(html);
   };
-  /* 词 span 桩：要同时满足两件事 ——
-     ① dataset 带 data-form（原文词形），这是「更多」丢的那一半；
-     ② closest('.sentence') 返回带真实 pi/si 的祖先桩，lookup 才能截到语境（另一半）。 */
+  /* 词 span 桩：原文词形与原句位置都从用户实际点中的节点取得。 */
   const sentStub0 = { dataset: { pi: '0', si: '0' }, classList: { add: noop, remove: noop, toggle: noop, contains: () => false } };
   const smCls = new Set();
-  const smWord = ctx('WORDS.find(w => w.word.length >= 4).word');
+  const smWord = ctx('WORDS.find(w => w.word.length >= 4 && w.example && w.exampleCn).word');
   const smForm = smWord + 's';
   const smStub = {
     dataset: { act: 'lookup', word: smWord, form: smForm },
@@ -850,23 +849,22 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
     },
   };
   smStub.closest = sel => (String(sel).includes('.sentence') ? sentStub0 : smStub);
-  const smMore = { dataset: { act: 'sheet-more', word: smWord } };
-  smMore.closest = () => smMore;
-  ctx('activeArticle = ARTICLES[0]; view = { name: "read" }; S.known = []; S.notebook = []; sheetMore = false;');
+  ctx('activeArticle = ARTICLES[0]; view = { name: "read" }; S.known = []; S.notebook = [];');
   clickEl(smStub);
-  const lightHtml = sheetHtml;
-  clickEl(smMore);
-  const fullHtml = sheetHtml;
-  phoneEl.insertAdjacentHTML = __prevIAH;
+  const firstHtml = sheetHtml;
 
-  ok(`★ 「更多」展开后仍是同一个词、同一句话（原句块 + 原文词形 ${smForm} 都在）`,
-    lightHtml.includes('本句含义') && fullHtml.includes('本句含义')
-    && fullHtml.includes('>' + smForm + '<') && fullHtml.includes('原形 ' + smWord));
-  /* 遮罩：轻卡必须用 .sheet-mask.soft（无模糊、只轻压暗）。
+  ok(`★ 首次点词即呈现原文词形 ${smForm}、本文原句与双语词库例句`,
+    firstHtml.includes('本文原句') && firstHtml.includes('example-box')
+    && firstHtml.includes('>' + smForm + '<') && firstHtml.includes('原形 ' + smWord)
+    && firstHtml.includes(ctx(`esc(WORD_BY.get(${JSON.stringify(smWord)}).exampleCn)`)));
+  ok('★ 首次点词只有加入生词本与已认识两个主要动作，无更多层',
+    firstHtml.includes('data-act="add-note"') && firstHtml.includes('data-act="mark-known"')
+    && !firstHtml.includes('data-act="sheet-more"'));
+  /* 遮罩：查词卡必须用 .sheet-mask.soft（无模糊、只轻压暗）。
      判据里连基础 .sheet-mask 的 blur 一起验 —— 如果哪天有人把基础遮罩的模糊也删了，
      `.soft` 这个变体就失去意义、这条断言会退化成「测了个必然成立的东西」。 */
-  ok('★ 查词轻卡用不模糊的遮罩（正文继续可读，靠 .tapped 标记定位到词）',
-    /class="sheet-mask soft"/.test(lightHtml)
+  ok('★ 查词卡用不模糊的遮罩（正文继续可读，靠 .tapped 标记定位到词）',
+    /class="sheet-mask soft"/.test(firstHtml)
     && /backdrop-filter:\s*none/.test((cssRules.match(/\.sheet-mask\.soft\s*\{([^}]*)\}/) || [, ''])[1])
     && /blur\(/.test((cssRules.match(/\.sheet-mask\s*\{([^}]*)\}/) || [, ''])[1]));
   ok('★ 点词后正文里那个词带 .tapped 定位标记', smCls.has('tapped'));
@@ -877,6 +875,47 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
     /background:/.test(tappedRule) && !/padding|font-|line-height|border/.test(tappedRule));
   click({ act: 'close-sheet' });
   ok('★ 关掉词卡后定位标记一并摘掉（不留一个永远亮着的词）', !smCls.has('tapped'));
+
+  const clickSheetButton = action => {
+    const tag = (sheetHtml.match(/<button\b[^>]*>/g) || []).find(x => x.includes(`data-act="${action}"`));
+    if (!tag) throw new Error(`查词卡缺少按钮 ${action}`);
+    const ds = Object.fromEntries([...tag.matchAll(/data-([a-z-]+)="([^"]*)"/g)].map(([, key, val]) => [key, val]));
+    click(ds);
+  };
+  /* 显示用完整单句，收藏仍保存目标词附近的短语境；长句才能识别两者被混用的回归。 */
+  const longLookupSentence = `After several difficult months the company finally adopted a completely different ${smWord} to attract younger customers who were increasingly moving to competing platforms.`;
+  const longLookupCn = '经历了数月困难后，公司采取了不同的方法，吸引日益流向竞争平台的年轻客户。';
+  ctx(`window.__lookupArticle = activeArticle;
+    activeArticle = { ...activeArticle, paras: [{ sentences: [{ en: ${JSON.stringify(longLookupSentence)}, cn: ${JSON.stringify(longLookupCn)} }] }] };
+    S.known = []; S.notebook = []; window.__renderCalls = 0;`);
+  clickEl(smStub);
+  ok('★ 查词展示完整本文原句，句首句尾与整句译文都保留',
+    sheetHtml.includes('After several difficult months') && sheetHtml.includes('moving to competing platforms.')
+    && sheetHtml.includes(longLookupCn));
+  clickSheetButton('add-note');
+  const savedLookupContext = ctx(`nbItem(${JSON.stringify(smWord)}).context`);
+  ok('★ 加入生词本仍只存目标词附近短语境，完整译文保留',
+    savedLookupContext.en === ctx(`clipContext(${JSON.stringify(longLookupSentence)}, ${JSON.stringify(smWord)})`)
+    && savedLookupContext.en.length < longLookupSentence.length && savedLookupContext.cn === longLookupCn);
+  ok('★ 收藏后立即清除正文点词标记', !smCls.has('tapped'));
+  clickEl(smStub);
+  clickSheetButton('mark-known');
+  ok('★ 首层已认识按钮生效，并保留生词本里的语境记录',
+    ctx(`S.known.includes(${JSON.stringify(smWord)}) && nbItem(${JSON.stringify(smWord)}).context.en === ${JSON.stringify(savedLookupContext.en)}`)
+    && !smCls.has('tapped'));
+  clickEl(smStub);
+  ok('★ 重开已认识的词，按钮呈现取消已认识状态',
+    /data-act="mark-known"[^>]*aria-pressed="true"[^>]*>取消已认识</.test(sheetHtml));
+  clickSheetButton('mark-known');
+  ok('★ 再点已认识按钮可撤销，收藏记录仍保留',
+    ctx(`!S.known.includes(${JSON.stringify(smWord)}) && !!nbItem(${JSON.stringify(smWord)})`));
+  clickEl(smStub);
+  clickSheetButton('remove-note');
+  ok('★ 首层移出生词本按钮生效并清除正文点词标记',
+    ctx(`!nbItem(${JSON.stringify(smWord)})`) && !smCls.has('tapped'));
+  ok('★ 查词、收藏、认识与移除全程不整页重渲染', ctx('window.__renderCalls') === 0);
+  ctx('activeArticle = window.__lookupArticle; delete window.__lookupArticle;');
+  phoneEl.insertAdjacentHTML = __prevIAH;
 
   /* ---- 高亮四档 ---- */
   /* renderRead 要读 activeArticle：本段排在 [R]（阅读页设置）之前，那边才设它，这里先补上 */
@@ -1004,7 +1043,7 @@ console.log('\n[Q2] 词汇（四态标色 / 高亮四档 / 查词覆盖 / 生词
   ok('同步函数同时认 .rd-seg 与 .hl-opt（否则另一处入口的选中态不同步）',
     /\.rd-seg, \.hl-opt/.test(ctx('syncReadSettingsSheet.toString()')));
 
-  ctx('S.known.length = 0; S.notebook.length = 0; S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion(); sheetMore = false; vocabTab = "new"; activeArticle = null; view = { name: "home" };');
+  ctx('S.known.length = 0; S.notebook.length = 0; S.hlSets = {core:true,cet4:false,mid:false,custom:false}; rebuildHlUnion(); vocabTab = "new"; activeArticle = null; view = { name: "home" };');
 }
 
 
@@ -2135,7 +2174,7 @@ console.log('\n[G6] 内容更新通知的处理');
 }
 
 /* ---------------- [G7] 例句库已移出首屏 ----------------
- * 例句库 560KB（gzip 225KB），只在词卡展开「更多」后才用得上。这里守住三件事：
+ * 例句库 560KB（gzip 225KB），首次查词需要例句时才加载。这里守住三件事：
  * 首页不引用它、文件本身还在（按需取得到）、加载器指的就是这个文件。 */
 {
   const html = fs.readFileSync(path.join(base, 'index.html'), 'utf8');
@@ -2654,13 +2693,15 @@ console.log('\n[H4] 首页 / 发现页重排');
 
   /* ② 续读卡两态（预期为真/为假都要有孪生，否则某一支从没被测过） */
   const __prevLast = ctx('S.lastRead');
+  const __prevReading = ctx('({ readHistory: S.readHistory, readPos: S.readPos, read: S.read, finished: S.finished })');
   ok('有记录时续读卡带进度条与「继续」动作',
     /class="rc-bar"/.test(homeHtml) && homeHtml.includes('data-article') && homeHtml.includes('继续'));
-  ctx('S.lastRead = null;');
+  ctx('S.lastRead = null; S.readHistory = {}; S.readPos = {}; S.read = []; S.finished = [];');
   const homeEmpty = ctx('renderHome()');
   ok('无记录时渲染「开始阅读」引导卡（不渲染进度条）',
     homeEmpty.includes('开始阅读') && homeEmpty.includes('去挑一篇') && !/class="rc-bar"/.test(homeEmpty));
   ctx(`S.lastRead = ${JSON.stringify(__prevLast)};`);
+  ctx(`Object.assign(S, ${JSON.stringify(__prevReading)});`);
 
   /* ③ 统计缩轻量：一行 lite 条，旧的大数字统计块（.reading-stats）不再出现 */
   ok('首页统计是轻量一行（完整统计归「我的」）',

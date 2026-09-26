@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "86");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "90");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -68,6 +68,7 @@ const HL_SOURCES = ["core", "cet4", "mid", "custom"];
  * tap 档点句弹出该句译文。这两档以前是同一个（布尔 showCn=false 时点句必弹中文），
  * 结果是「只想纯读英文」的读者每次点句都被中文打断，躲不开。 */
 const CN_MODES = ["off", "tap", "all"];
+const READING_INTENTS = ["casual", "study"];
 
 /* ---------------- 我的导入词库：清洗与合并（纯函数，normalizeState 与导入面板共用） ----------------
  * 判据只写一遍 —— normalizeState 的兜底清洗和导入面板的预览统计各调一份，
@@ -127,9 +128,11 @@ function mergeVocab(existing, words, overwrite) {
 const defaultState = {
   theme: "light",
   notebook: [],     // 生词本（阅读加入）
+  sentenceNotes: [], // 喜欢的句子：双语快照、原文位置及可选感想
   /* 中文对照：off 关闭（纯英文）| tap 点句显示 | all 逐句对照。默认 tap ——
      中文永久显示会让人条件反射直接读中文，tap 才是「先读英文、卡住再借中文」。 */
   cnMode: "tap",
+  readingIntent: "casual", // 随心阅读 / 辅助学习；仅影响显示，不改词汇与中文偏好
   fontSize: 0,
   readTheme: "",     // 阅读页护眼主题："" | "paper" | "night"
   /* 词汇高亮词库开关（2026-09-23 由单选档 highlightMode 升级为**独立开关**）：
@@ -153,6 +156,10 @@ const defaultState = {
   readPos: {},      // { [文章id]: { pi, si, off, y, pct, at } } 每篇各自的续读位置（句子锚点 + 屏内偏移）
   readHistory: {},  // { [文章id]: { firstAt, lastAt, visits, finished, title, ... } } 阅读记录索引
   articleFeedback: {},  // 完成页反馈：{ [文章id]: { diff: easy|ok|hard, rate: up|mid|down, at } }
+  wantRead: [],     // 待读队列，最近加入在前；打开文章时移出
+  pinnedReads: [],  // 待读队列中由读者置顶的文章，最近置顶在前
+  collections: [], // 自建书架：可多选，独立于想读、已读和喜欢
+  leadPhotoKey: "", // 空字符串随机；非空固定首页摄影池中的一张
   hintSeen: false,  // 阅读页操作提示只出现一次
   backupHintAt: 0,  // 上次「记得备份」提示时间（7 天节流）
 };
@@ -160,6 +167,11 @@ const defaultState = {
 function normalizeState(raw) {
   const src = raw && typeof raw === "object" ? raw : {};
   const next = Object.assign({}, defaultState, src);
+  /* 首次使用从随心阅读开始；历史状态保持原来的学习界面，避免升级后高亮突然消失。
+     两种模式共用学习记录和设置，切回辅助学习时恢复原来的词源组合。 */
+  if (!READING_INTENTS.includes(src.readingIntent)) {
+    next.readingIntent = Object.keys(src).length ? "study" : "casual";
+  }
   if (!Array.isArray(src.readDays) && Array.isArray(src.studyDays)) next.readDays = src.studyDays.slice();
   delete next.streak; delete next.minutes; delete next.tab;
   delete next.studied; delete next.wrong; delete next.daily; delete next.fsrs; delete next.studyDays;
@@ -243,6 +255,7 @@ function normalizeState(raw) {
      保留最先出现的那条：notebook 是按加入顺序堆的，先出现的收藏更早、语境更原始。 */
   const seenWord = new Set();
   next.notebook = next.notebook.filter(it => (seenWord.has(it.word) ? false : (seenWord.add(it.word), true)));
+  next.sentenceNotes = normalizeSentenceNotes(src.sentenceNotes);
   next.known = Array.isArray(next.known) ? next.known.slice() : [];
   next.read = Array.isArray(next.read) ? next.read.slice() : [];
   next.readCount = (next.readCount && typeof next.readCount === "object") ? Object.assign({}, next.readCount) : {};
@@ -259,6 +272,28 @@ function normalizeState(raw) {
     }
   }
   next.finished = Array.isArray(next.finished) ? next.finished.slice() : [];
+  for (const key of ["wantRead", "pinnedReads"]) {
+    next[key] = [...new Set((Array.isArray(next[key]) ? next[key] : [])
+      .filter(id => typeof id === "string" && id.trim()))];
+  }
+  next.pinnedReads = next.pinnedReads.filter(id => next.wantRead.includes(id));
+  {
+    const ids = new Set(), names = new Set();
+    next.collections = (Array.isArray(src.collections) ? src.collections : []).filter(c => {
+      if (!c || typeof c !== "object" || typeof c.id !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(c.id)
+          || typeof c.name !== "string" || !c.name.trim() || ids.has(c.id)) return false;
+      const name = c.name.trim().replace(/\s+/g, " ").slice(0, 30);
+      if (names.has(name.toLocaleLowerCase())) return false;
+      ids.add(c.id); names.add(name.toLocaleLowerCase()); return true;
+    }).slice(0, 30).map(c => ({
+      id: c.id, name: c.name.trim().replace(/\s+/g, " ").slice(0, 30),
+      articleIds: [...new Set((Array.isArray(c.articleIds) ? c.articleIds : []).filter(id => typeof id === "string" && id.trim()))].slice(0, 2000),
+      createdAt: Number.isFinite(c.createdAt) && c.createdAt >= 0 ? c.createdAt : 0,
+    }));
+    next.leadPhotoKey = typeof src.leadPhotoKey === "string" && /^[a-zA-Z0-9_-]{0,100}$/.test(src.leadPhotoKey) ? src.leadPhotoKey : "";
+  }
+  next.articleFeedback = next.articleFeedback && typeof next.articleFeedback === "object" && !Array.isArray(next.articleFeedback)
+    ? Object.fromEntries(Object.entries(next.articleFeedback).filter(([, rec]) => rec && typeof rec === "object" && !Array.isArray(rec)).map(([id, rec]) => [id, { ...rec }])) : {};
   /* 每篇的续读位置：老版本没有这个字段，缺了就补空表（旧数据仍靠 lastRead.y 兜底） */
   next.readPos = (next.readPos && typeof next.readPos === "object") ? Object.assign({}, next.readPos) : {};
   next.readHistory = (next.readHistory && typeof next.readHistory === "object") ? Object.assign({}, next.readHistory) : {};
@@ -820,6 +855,110 @@ const displaySentenceAt = (a, pi, si = 0, rs = 0) => {
     || null;
 };
 
+/* ---------------- 句子收藏与感想 ----------------
+ * 收藏存一份当时所见的双语快照：文章下架或译文更新后仍可阅读；坐标只用于返回原文。
+ * 正文与旧生词本互不改写。渲染时永远 esc，用户感想只作为文本保存。 */
+function sentenceNoteKey(n) {
+  return JSON.stringify([n.articleId, n.pi, n.si, n.rs, n.en]);
+}
+function validSentenceNote(n) {
+  return !!n && typeof n === "object" && !Array.isArray(n)
+    && ["id", "articleId", "articleTitle", "en", "cn", "thought"].every(k => typeof n[k] === "string")
+    && n.id.length > 0 && n.articleId.length > 0 && n.en.trim().length > 0
+    && ["pi", "si", "rs"].every(k => Number.isSafeInteger(n[k]) && n[k] >= 0)
+    && ["createdAt", "updatedAt"].every(k => Number.isFinite(n[k]) && n[k] >= 0)
+    && n.thought.length <= 5000;
+}
+function normalizeSentenceNotes(raw) {
+  const seenIds = new Set(), seenSentences = new Set();
+  return (Array.isArray(raw) ? raw : []).filter(validSentenceNote).filter(n => {
+    const key = sentenceNoteKey(n);
+    if (seenIds.has(n.id) || seenSentences.has(key)) return false;
+    seenIds.add(n.id); seenSentences.add(key); return true;
+  }).map(n => ({ id: n.id, articleId: n.articleId, articleTitle: n.articleTitle,
+    pi: n.pi, si: n.si, rs: n.rs, en: n.en, cn: n.cn, thought: n.thought,
+    createdAt: n.createdAt, updatedAt: n.updatedAt }));
+}
+function makeSentenceNote(article, pi, si, rs) {
+  if (!article || ![pi, si, rs].every(n => Number.isSafeInteger(n) && n >= 0)) return null;
+  /* 用精确显示坐标找句子，禁止 displaySentenceAt 的旧锚点回退误收藏邻句。 */
+  const sent = renderSentencesOf(article.paras[pi]).find(s => (s.si0 || 0) === si && (s.rs || 0) === rs);
+  if (!sent || !clean(sent.en).trim()) return null;
+  const now = Date.now();
+  return { id: `quote-${now.toString(36)}-${Math.random().toString(36).slice(2, 10)}`,
+    articleId: article.id, articleTitle: clean(article.title), pi, si, rs,
+    en: clean(sent.en), cn: clean(sent.cn), thought: "", createdAt: now, updatedAt: now };
+}
+/* 文章编辑可能移动段落：坐标与快照不一致时，全文找同一句；不落到一条无关的句子。 */
+function sentenceNoteAnchor(note, article) {
+  if (!article || !Array.isArray(article.paras)) return null;
+  const rows = renderSentencesOf(article.paras[note.pi]);
+  if (rows.some(s => (s.si0 || 0) === note.si && (s.rs || 0) === note.rs && clean(s.en) === note.en)) {
+    return { pi: note.pi, si: note.si, rs: note.rs, off: 80 };
+  }
+  for (let pi = 0; pi < article.paras.length; pi++) {
+    const row = renderSentencesOf(article.paras[pi]).find(s => clean(s.en) === note.en);
+    if (row) return { pi, si: row.si0 || 0, rs: row.rs || 0, off: 80 };
+  }
+  return null;
+}
+function findSentenceElement(cont, anchor) {
+  if (!cont || !cont.querySelector) return null;
+  const sel = `.sentence[data-pi="${anchor.pi}"][data-si="${anchor.si}"]`;
+  return cont.querySelector(`${sel}[data-rs="${anchor.rs || 0}"]`)
+    || (!(anchor.rs || 0) ? cont.querySelector(`${sel}:not([data-rs])`) : null);
+}
+let sentenceNoteDraft = null;
+function renderSentenceNoteEditor(note, saved) {
+  return `<div class="sheet-mask" data-act="quote-cancel"></div>
+    <section class="sheet quote-editor" role="dialog" aria-modal="true" aria-labelledby="quote-editor-title">
+      <div class="grip"></div><div class="row between"><h2 class="h2" id="quote-editor-title">${saved ? "这句话与我的想法" : "收藏这句话"}</h2>
+      <button class="icon-btn" data-act="quote-cancel" aria-label="取消">${svg("close", 16)}</button></div>
+      <div class="quote-preview"><p class="quote-en" lang="en">${esc(note.en)}</p>${note.cn ? `<p class="quote-cn" lang="zh-CN">${esc(note.cn)}</p>` : ""}</div>
+      <label for="quote-thought" class="h3">我的感想 <span class="muted-2">（可不填）</span></label>
+      <textarea id="quote-thought" class="quote-thought-input" maxlength="5000" rows="4" placeholder="这句话让我想到……">${esc(note.thought)}</textarea>
+      <div class="sheet-btns"><button class="ghost-btn" data-act="quote-cancel">取消</button><button class="btn-primary" data-act="quote-save">${saved ? "保存感想" : "收藏句子"}</button></div>
+    </section>`;
+}
+function openSentenceNoteEditor(note) {
+  const existing = S.sentenceNotes.find(n => n.id === note.id || sentenceNoteKey(n) === sentenceNoteKey(note));
+  sentenceNoteDraft = { ...(existing || note) };
+  $$(".sheet, .sheet-mask").forEach(n => n.remove());
+  $(".phone").insertAdjacentHTML("beforeend", renderSentenceNoteEditor(sentenceNoteDraft, !!existing));
+}
+function renderSentenceNotes() {
+  const notes = [...S.sentenceNotes].sort((a, b) => b.createdAt - a.createdAt);
+  return `${statusbar()}<div class="view view-flow sentence-notes-view">
+    <header class="page-intro"><div><div class="eyebrow">WORDS THAT STAY WITH YOU</div><h1>句子与感想<span class="title-period">。</span></h1><p>${notes.length} 句留下的话，和当时的自己。</p></div>
+    <button class="icon-btn" data-act="go-back" aria-label="返回">${svg("back", 16)}</button></header>
+    ${notes.length ? `<div class="quote-list">${notes.map(note => {
+      const article = ARTICLES.find(a => a.id === note.articleId);
+      const anchor = sentenceNoteAnchor(note, article);
+      return `<article class="card quote-card"><p class="quote-en" lang="en">${esc(note.en)}</p>
+        ${note.cn ? `<p class="quote-cn" lang="zh-CN">${esc(note.cn)}</p>` : ""}
+        ${note.thought ? `<p class="quote-thought">${esc(note.thought)}</p>` : ""}
+        <div class="quote-source">${esc(note.articleTitle)} · 第 ${note.pi + 1} 段</div>
+        <div class="quote-actions"><button class="ghost-btn" data-act="quote-open" data-id="${esc(note.id)}"${anchor ? "" : ' disabled'}>${anchor ? "返回原文" : (article ? "原句已更新" : "原文暂不可用")}</button>
+        <button class="ghost-btn" data-act="quote-edit" data-id="${esc(note.id)}">${note.thought ? "编辑感想" : "写感想"}</button>
+        <button class="icon-btn danger" data-act="quote-delete" data-id="${esc(note.id)}" aria-label="删除这条句子收藏">${svg("trash", 16)}</button></div></article>`;
+    }).join("")}</div>` : '<div class="card nb-empty">还没有收藏的句子<br><span class="muted-2">阅读时轻触一句英文，点句旁的书签，就能留下它。</span></div>'}
+    </div>`;
+}
+function openSavedSentenceNote(note) {
+  const article = ARTICLES.find(a => a.id === note.articleId);
+  const anchor = sentenceNoteAnchor(note, article);
+  if (!anchor) { toast(article ? "原句已更新，收藏的内容仍然保留" : "原文暂不可用，收藏的内容仍然保留"); return false; }
+  openReadingArticle(article.id, { anchor });
+  const cont = $("#read-scroll"), selected = findSentenceElement(cont, anchor);
+  if (selected) {
+    $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
+    selected.classList.add("sel");
+    if (S.cnMode === "tap") selected.classList.add("peek");
+    applyAnchor(cont, anchor); updateReadProgress();
+  }
+  return true;
+}
+
 /* ---------------- 文章难度指标 ----------------
  * 旧实现用「去重后的未认识词库词数 ÷ 正文总词数」当生词率 —— 分子分母量纲不同：
  * 同一个生词出现 20 次，分子只算 1；词库外的陌生词一个都不算。它既不能回答
@@ -1018,15 +1157,8 @@ function clipContext(sentence, word) {
 
 /* 当前查词卡对应的语境（{ en, cn } | null），由 lookup 动作写入、add-note 读取。
  * 收藏按钮在卡片里、不在句子节点内，closest('.sentence') 拿不到语境，
- * 所以必须在打开卡片那一刻把语境截下来存住。 */
+ * 所以必须在打开卡片那一刻把原句存住，收藏时再截短。 */
 let sheetCtx = null;
-
-/* 当前查词卡的「原文词形」（data-form，如正文里的 adopted 对应词元 adopt）。
- * 2026-09-20 补存：点「更多」的旧实现只调 renderSheet(w)，ctx 与 form 双双丢掉 ——
- * 展开后原句块整块消失、标题从 adopted 退回词元 adopt，
- * 用户看到的是一个自己没点过的词。展开只是把二级信息铺开，
- * 「同一个词、同一句话」这条不能变，所以词形必须和语境一起存住。 */
-let sheetForm = null;
 
 /* 正文里刚被点开的那个词 span（下一次整页渲染后即失效）。
  * 用途：轻卡取消模糊遮罩之后正文依然清晰可读，「查的到底是哪一个词」就必须
@@ -1139,6 +1271,8 @@ let catFilter = "全部";
 let searchTerm = "";
 let historyFilter = "all";
 let historyQuery = "";
+let shelfFilter = "want";
+let collectionId = "";
 /* 阅读页状态：计时器 + 本篇查询过的生词数 */
 let readSecs = 0, readTimer = null;
 let flushedSecs = 0;  // readSecs 里已经写进 secByDay 的部分（避免重复记账）
@@ -1151,7 +1285,7 @@ let resumeY = 0;  // 打开文章那一刻要恢复的位置（消费一次即�
  * resumeY 是旧的「纯 scrollTop」口径，只作兜底 —— 两篇之间来回切时，
  * 字号不同/对照开关不同都会让 scrollTop 指错句子。 */
 let resumeAnchor = null;
-let sheetMore = false;  // 查词卡是否处于「更多」展开态（关卡即复位）
+let resumeFromStart = false; // 同篇从头重读时，禁止 render 恢复旧 DOM 的位置
 /* 例句库（data-examples.js，560KB）按需加载状态：
  * idle 还没取 | loading 正在取 | ready 词已灌进 WORDS | failed 取到了但没数据 */
 let exState = "idle";
@@ -1181,6 +1315,8 @@ const snapView = extra => Object.assign({
   name: view.name,
   cat: catFilter,
   q: searchTerm,
+  shelf: shelfFilter,
+  collection: collectionId,
   y: (scroller() || { scrollTop: 0 }).scrollTop || 0
 }, extra || {});
 
@@ -1232,6 +1368,8 @@ function navBack(fromPop) {
   const snap = navStack.pop();
   catFilter = snap.cat || "全部";
   searchTerm = snap.q || "";
+  shelfFilter = snap.shelf || "want";
+  collectionId = snap.collection || "";
   view = { name: snap.name };
   render();
   const el = scroller();
@@ -1260,6 +1398,7 @@ function flashArticle(id) {
 /* 阅读顺序：跟随来路列表（分类页进来就在该分类里往下走），无来路则用全站列表 */
 function listContext() {
   const top = navStack[navStack.length - 1];
+  if (top && ["shelf", "collections"].includes(top.name)) return (top.shelfIds || []).map(id => ARTICLES.find(a => a.id === id)).filter(Boolean);
   const cat = top && top.name === "discover" && !top.q && top.cat && top.cat !== "全部" ? top.cat : "";
   return cat ? ARTICLES.filter(a => a.cat === cat) : ARTICLES;
 }
@@ -1268,6 +1407,7 @@ function nextArticle(a) {
   const i = list.indexOf(a);
   if (i < 0 || i + 1 >= list.length) return null;
   const rest = list.slice(i + 1);
+  if (["shelf", "collections"].includes((navStack[navStack.length - 1] || {}).name)) return rest[0];
   /* 没有用户反馈时保持原来的顺序；有反馈后只在「下一篇」这个局部候选里
      重排，避免把用户当前的分类/搜索来路改成全站推荐。 */
   return Object.keys(S.articleFeedback || {}).length
@@ -1612,16 +1752,7 @@ function clientScore(a) {
     score += own.rate === "up" ? 5 : own.rate === "down" ? -12 : 0;
     score += own.diff === "easy" ? 2 : own.diff === "hard" ? -3 : 0;
   }
-  const source = srcName(a);
-  for (const [id, rec] of Object.entries(S.articleFeedback || {})) {
-    if (id === a.id || !rec) continue;
-    const other = ARTICLES.find(x => x.id === id);
-    if (!other) continue;
-    const affinity = (rec.rate === "up" ? 3 : rec.rate === "down" ? -5 : 0)
-      + (rec.diff === "easy" ? 1 : rec.diff === "hard" ? -1 : 0);
-    if (other.cat === a.cat) score += affinity;
-    if (srcName(other) === source) score += affinity * 0.6;
-  }
+  /* 单篇反馈只影响这一篇，避免一次「不喜欢」压低整个栏目或来源。 */
   return score;
 }
 
@@ -1709,13 +1840,13 @@ function leadPhotoPoolItems() {
       if (a.cat !== "人物") continue;
       /* ① 封面：alt 用人物名，credit 退回该篇统一的 photoCredit */
       if (a.coverImg === path) {
-        LEAD_PHOTO_IDX.set(key, { a, img: path, alt: a.personZh || a.person || "", credit: a.photoCredit || "" });
+        LEAD_PHOTO_IDX.set(key, { key, a, img: path, alt: a.personZh || a.person || "", credit: a.photoCredit || "" });
         break;
       }
       /* ② 正文照：段自带 alt / credit */
       const p = (a.paras || []).find(x => x.img === path);
       if (p) {
-        LEAD_PHOTO_IDX.set(key, { a, img: path, alt: p.alt || a.personZh || "", credit: p.credit || a.photoCredit || "" });
+        LEAD_PHOTO_IDX.set(key, { key, a, img: path, alt: p.alt || a.personZh || "", credit: p.credit || a.photoCredit || "" });
         break;
       }
     }
@@ -1734,13 +1865,26 @@ function leadPhotoPoolItems() {
  * （vm 顶层 let 跨 runInContext 可读可写，本机实测确认过）。 */
 let leadPhotoPinned = null;
 function pickEditorialLead() {
-  if (leadPhotoPinned) return leadPhotoPinned;
   const items = leadPhotoPoolItems();
+  const fixed = S.leadPhotoKey && items.find(p => p.key === S.leadPhotoKey);
+  if (fixed) return fixed;
+  if (leadPhotoPinned) return leadPhotoPinned;
   /* ⚠️ 池子为空（数据层还没就绪）时**不写缓存** —— 写了就把 null 钉死，
    * 这一整次会话都不再有封面。留空让它下次渲染重试。 */
   if (!items.length) return null;
   leadPhotoPinned = items[Math.floor(Math.random() * items.length)];
   return leadPhotoPinned;
+}
+
+function editorialPhotoControls(photo) {
+  if (!photo) return "";
+  const fixed = S.leadPhotoKey === photo.key;
+  return `<div class="editorial-photo-controls" aria-label="首页封面设置">
+    <span>${fixed ? "已固定喜欢的封面" : "随机封面 · 每次打开换一张"}</span>
+    <div><button data-act="cover-fixed" aria-pressed="${fixed}">${fixed ? "✓ 已固定这张" : "固定这张"}</button>
+    <button data-act="cover-random" aria-pressed="${!fixed}">随机展示</button>
+    <button data-act="cover-next">换一张</button></div>
+  </div>`;
 }
 
 /* 相对时间：今天 / 昨天 / N 天前 / N 周前 */
@@ -1769,6 +1913,143 @@ const thumbHtml = (a, img) => img
        loading="lazy" decoding="async"></div>`
   : `<div class="thumb" style="background:${esc(a.gradient)}"></div>`;
 
+/* 私人书架复用已读记录与旧的「喜欢」反馈，不另建一份容易分叉的收藏表。 */
+const SHELF_FILTERS = { want: "想读", reading: "在读", finished: "读过", liked: "喜欢" };
+const likesArticle = id => (S.articleFeedback[id] || {}).rate === "up";
+function shelfArticles(filter) {
+  const live = ids => ids.map(id => ARTICLES.find(a => a.id === id)).filter(Boolean);
+  if (filter === "want") return live([...S.pinnedReads, ...S.wantRead.filter(id => !S.pinnedReads.includes(id))]);
+  if (filter === "liked") return ARTICLES.filter(a => likesArticle(a.id))
+    .sort((a, b) => (Number(S.articleFeedback[b.id].at) || 0) - (Number(S.articleFeedback[a.id].at) || 0));
+  return historyItems().filter(x => !x.archived && (filter === "finished" ? x.finished : !x.finished || x.inProgress)).map(x => x.a);
+}
+const isReadingAgain = id => !!((S.readHistory[id] || {}).inProgress && S.finished.includes(id));
+const hasReadingRecord = id => !!(S.readHistory[id] || S.readPos[id] || S.finished.includes(id) || (S.lastRead && S.lastRead.id === id));
+function articleActions(a) {
+  const want = S.wantRead.includes(a.id), liked = likesArticle(a.id), pinned = S.pinnedReads.includes(a.id);
+  return `<div class="article-actions" data-article-actions="${esc(a.id)}" aria-label="文章收藏">
+    <button data-act="shelf-want" data-id="${esc(a.id)}" aria-pressed="${want}">${svg("bookmark", 14)} ${want ? "已加入想读" : "想读"}</button>
+    <button data-act="shelf-like" data-id="${esc(a.id)}" aria-pressed="${liked}">${liked ? "♥ 已喜欢" : "♡ 喜欢"}</button>
+    <button data-act="article-collections" data-id="${esc(a.id)}">放入书架${S.collections.some(c => c.articleIds.includes(a.id)) ? ` · ${S.collections.filter(c => c.articleIds.includes(a.id)).length}` : ""}</button>
+    ${want ? `<button data-act="shelf-pin" data-id="${esc(a.id)}" aria-pressed="${pinned}">${pinned ? "取消置顶" : "置顶"}</button>` : ""}
+    ${hasReadingRecord(a.id) ? `${view.name === "read" ? "" : `<button data-act="resume-article" data-id="${esc(a.id)}">继续上次位置</button>`}<button data-act="restart-article" data-id="${esc(a.id)}">从头重读</button>` : ""}
+  </div>`;
+}
+function shelfLinks() {
+  return `<nav class="shelf-links" aria-label="我的书架">${Object.entries(SHELF_FILTERS).map(([filter, label]) =>
+    `<button data-act="open-shelf" data-filter="${filter}"><span>${label}</span><b>${shelfArticles(filter).length}</b></button>`).join("")}</nav>`;
+}
+function shelfSection(filter, title, empty) {
+  const all = shelfArticles(filter);
+  return `<section class="shelf-section" data-shelf-section="${filter}">
+    <div class="section-heading"><h2>${title}</h2><button class="text-action" data-act="open-shelf" data-filter="${filter}">查看全部 ${svg("arrow", 14)}</button></div>
+    ${all.length ? `<div class="article-grid">${all.slice(0, 2).map(articleCard).join("")}</div>` : `<p class="shelf-empty">${empty}</p>`}
+  </section>`;
+}
+function renderShelf() {
+  const list = shelfArticles(shelfFilter);
+  const empty = { want: "看到感兴趣的文章，点「想读」留到这里。", reading: "打开一篇文章，这里就会留下你的阅读进度。", finished: "读完后标记已读，随时可以回来重读。", liked: "点文章上的「喜欢」，把值得重读的文章留下。" };
+  return `${statusbar()}<div class="view shelf-view">
+    <header class="page-intro"><div><div class="eyebrow">MY ENGLISH BOOKSHELF</div><h1>我的英文书架<span class="title-period">。</span></h1><p>想读的、正在读的、喜欢的，都在这里。</p></div>
+      <button class="icon-btn" data-act="go-back" aria-label="返回">${svg("back", 16)}</button></header>
+    <div class="history-filters">${Object.entries(SHELF_FILTERS).map(([filter, label]) => `<button class="history-filter${shelfFilter === filter ? " on" : ""}" data-act="shelf-filter" data-filter="${filter}" aria-pressed="${shelfFilter === filter}">${label} · ${shelfArticles(filter).length}</button>`).join("")}</div>
+    ${list.length ? `<div class="article-grid">${list.map(articleCard).join("")}</div>` : `<div class="card history-empty">${empty[shelfFilter]}<button class="text-action" data-act="go-discover">去挑一篇 ${svg("arrow", 14)}</button></div>`}
+  </div>`;
+}
+
+/* 自建书架只保存文章引用，移出/删除书架不改动阅读记录或喜欢。 */
+const collectionById = id => S.collections.find(c => c.id === id);
+function collectionArticles(id = collectionId) {
+  const c = collectionById(id);
+  return c ? c.articleIds.map(articleId => ARTICLES.find(a => a.id === articleId)).filter(Boolean) : [];
+}
+function collectionEntry() {
+  return `<button class="card row history-entry collection-entry" data-act="open-collections">
+    <span class="ic">${svg("book", 20)}</span><span class="col grow"><span class="h3">我的主题书架</span>
+    <span class="muted">${S.collections.length ? `${S.collections.length} 个书架 · 按自己的心意收好文章` : "睡前读、人物访谈……为喜欢的文章起个名字"}</span></span>${svg("arrow", 16)}</button>`;
+}
+function renderCollections() {
+  const c = collectionById(collectionId), list = collectionArticles();
+  const missing = c ? c.articleIds.length - list.length : 0;
+  return `${statusbar()}<div class="view collections-view">
+    <header class="page-intro"><div><div class="eyebrow">A SHELF OF MY OWN</div><h1>${c ? esc(c.name) : "我的主题书架"}<span class="title-period">。</span></h1>
+      <p>${c ? `${list.length} 篇文章 · 按最近放入排序` : "用自己的理由，把喜欢的文章放在一起。"}</p></div>
+      <button class="icon-btn" data-act="go-back" aria-label="返回">${svg("back", 16)}</button></header>
+    <div class="collection-toolbar">${c ? `<button class="text-action" data-act="collection-rename" data-id="${esc(c.id)}">修改名称</button><button class="text-action" data-act="collection-delete" data-id="${esc(c.id)}">删除书架</button>` : `<button class="btn-primary" data-act="collection-create">＋ 新建书架</button>`}</div>
+    ${c ? (list.length ? `<div class="article-grid">${list.map(articleCard).join("")}</div>` : `<div class="card history-empty">这个书架还没有文章。点文章上的「放入书架」，就能收在这里。<button class="text-action" data-act="go-discover">去挑一篇 ${svg("arrow", 14)}</button></div>`) :
+      (S.collections.length ? `<div class="collection-grid">${S.collections.map(item => `<button class="card collection-card" data-act="open-collection" data-id="${esc(item.id)}"><span class="collection-spine">${svg("book", 26)}</span><span class="grow"><b>${esc(item.name)}</b><small>${collectionArticles(item.id).length} 篇文章</small></span>${svg("arrow", 16)}</button>`).join("")}</div>` : `<div class="card history-empty">这里可以是「睡前读」，也可以是「让我想做点什么」。先给第一个书架起个名字。</div>`)}
+    ${missing ? `<p class="muted">${missing} 篇文章暂时不在当前文章库，已保留它们的书架记录。</p>` : ""}
+  </div>`;
+}
+function collectionSheetFrame(title, body) {
+  return `<div class="sheet-mask" data-act="close-sheet"></div><section class="sheet collection-sheet" role="dialog" aria-modal="true" aria-labelledby="collection-sheet-title">
+    <div class="grip"></div><div class="row between"><h2 id="collection-sheet-title">${esc(title)}</h2><button class="icon-btn" data-act="close-sheet" aria-label="关闭">${svg("close", 16)}</button></div>${body}</section>`;
+}
+function showCollectionSheet(html, focusId) {
+  $$(".sheet, .sheet-mask").forEach(n => n.remove());
+  $(".phone").insertAdjacentHTML("beforeend", html);
+  const focus = focusId ? $(focusId) : $(".collection-sheet button");
+  if (focus && focus.focus) focus.focus({ preventScroll: true });
+}
+function showCollectionPicker(articleId) {
+  const a = ARTICLES.find(item => item.id === articleId);
+  if (!a) return;
+  showCollectionSheet(collectionSheetFrame("放入书架", `<p class="muted">${esc(zhTitle(a) || clean(a.title))} · 可同时放入多个书架</p>
+    <div class="collection-options">${S.collections.map(c => `<button class="collection-option" data-act="collection-toggle" data-id="${esc(c.id)}" data-item="${esc(articleId)}" aria-pressed="${c.articleIds.includes(articleId)}"><span>${esc(c.name)}</span><span>${c.articleIds.includes(articleId) ? "✓ 已放入" : "放入"}</span></button>`).join("") || `<p class="muted">还没有书架，先创建一个吧。</p>`}</div>
+    <button class="btn-primary" data-act="collection-create" data-item="${esc(articleId)}">新建书架</button>`));
+}
+function showCollectionForm(id = "", articleId = "") {
+  const c = collectionById(id);
+  if (id && !c) return;
+  if (!c && S.collections.length >= 30) { toast("最多创建 30 个书架，先整理一下现有书架吧"); return; }
+  showCollectionSheet(collectionSheetFrame(c ? "修改书架名称" : "新建书架", `<form id="collection-form" data-id="${esc(id)}" data-item="${esc(articleId)}">
+    <label for="collection-name">书架名称</label><input id="collection-name" name="collectionName" maxlength="30" required autocomplete="off" placeholder="例如：让我想做点什么" value="${esc(c ? c.name : "")}">
+    <p class="muted">最多 30 个字${articleId ? " · 创建后会放入这篇文章" : ""}</p><button class="btn-primary" type="submit">${c ? "保存名称" : "创建书架"}</button></form>`), "#collection-name");
+}
+function refreshCollectionsBase() {
+  if (view.name === "read") {
+    $$('[data-article-actions]').forEach(node => {
+      const a = ARTICLES.find(item => item.id === node.dataset.articleActions);
+      if (a) node.outerHTML = articleActions(a);
+    });
+    return;
+  }
+  const el = scroller(), y = el ? el.scrollTop : 0;
+  render();
+  const next = scroller(); if (next) next.scrollTop = y;
+}
+/* 书架编辑要有明确的保存结果；落盘失败时保留表单、恢复原来的收藏与封面。 */
+function persistBookshelfChange(mut) {
+  const before = S.collections.map(c => ({ ...c, articleIds: c.articleIds.slice() }));
+  const beforeKey = S.leadPhotoKey, beforePhoto = leadPhotoPinned;
+  mut();
+  if (save()) return true;
+  S.collections = before;
+  S.leadPhotoKey = beforeKey; leadPhotoPinned = beforePhoto;
+  /* save() 失败档仍会镜像，回滚后同步恢复壳里的副本。 */
+  mirrorNative(JSON.stringify(S));
+  toast("未能保存，原来的书架和封面已保留，请检查存储空间后重试");
+  return false;
+}
+function saveCollectionName(id, articleId, rawName) {
+  const name = String(rawName || "").trim().replace(/\s+/g, " ");
+  if (!name || name.length > 30 || /[\u0000-\u001f\u007f]/.test(name)) { toast("请输入 1—30 个字的书架名称"); return false; }
+  if (S.collections.some(c => c.id !== id && c.name.toLocaleLowerCase() === name.toLocaleLowerCase())) { toast("已经有同名书架，换个名字吧"); return false; }
+  const c = collectionById(id);
+  if (id && !c) return false;
+  if (!c && S.collections.length >= 30) { toast("最多创建 30 个书架"); return false; }
+  if (!persistBookshelfChange(() => {
+    if (c) { c.name = name; return; }
+    let freshId;
+    do { freshId = `shelf-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`; } while (collectionById(freshId));
+    S.collections.unshift({ id: freshId, name, articleIds: ARTICLES.some(a => a.id === articleId) ? [articleId] : [], createdAt: Date.now() });
+  })) return false;
+  $$(".sheet, .sheet-mask").forEach(n => n.remove());
+  refreshCollectionsBase();
+  if (articleId) showCollectionPicker(articleId);
+  toast(c ? "书架名称已更新" : "书架已创建"); return true;
+}
+
 const articleCard = a => {
   const need = hitsOf(a);
   const needLbl = need > 200 ? "200+" : need;
@@ -1782,6 +2063,7 @@ const articleCard = a => {
   /* 信息顺序（v75）：标题 → 中文辅助 → 人物名 → 栏目/来源 → 时长；「需学 N 词」降为次要位。
      旧版把栏目 tag 放在最前，扫一列卡片时先看到的全是「人物/人物」而非标题本身。 */
   return `
+  <div class="article-shell">
   <div class="article${a.cat === "人物" ? " people-card" : ""}${done ? " read" : ""}" data-article="${a.id}" role="button" tabindex="0" aria-label="阅读文章：${esc(clean(a.title))}${tzh ? `，${esc(tzh)}` : ""}${done ? "，已读" : ""}">
     ${thumbHtml(a, img)}
     <div class="col grow article-copy" style="gap:6px">
@@ -1789,9 +2071,10 @@ const articleCard = a => {
       ${tzh ? `<div class="t-zh">${esc(tzh)}</div>` : ""}
       ${a.personZh ? `<span class="people-name">${esc(a.personZh)}</span>` : ""}
       <span class="tag">${esc(clean(a.cat))}<span class="tag-separator">/</span>${esc(srcName(a))}${a.cat === "人物" ? ` · ${Number(a.photoCount) || 0} 张摄影` : ""}</span>
-      <span class="meta article-meta"><span>${mins} 分钟阅读${long ? " · 可分次读" : ""}</span><span>需学 ${needLbl} 词${when ? ` · ${esc(when)}` : ` · ${diffTier(articleStats(a).rate).label}`}</span></span>
+      <span class="meta article-meta"><span>${mins} 分钟阅读${long ? " · 可分次读" : ""}</span><span><span class="study-only">需学 ${needLbl} 词${when ? " · " : ` · ${diffTier(articleStats(a).rate).label}`}</span>${when ? esc(when) : ""}</span></span>
+      ${(S.readHistory[a.id] || S.readPos[a.id]) && (!done || isReadingAgain(a.id)) ? `<span class="article-progress">${isReadingAgain(a.id) ? "重读中" : "在读"} · ${Math.max(0, Math.min(100, Number((S.readPos[a.id] || {}).pct) || 0))}%</span>` : ""}
     </div>
-  </div>`;
+  </div>${articleActions(a)}</div>`;
 };
 
 /* 共用杂志封面：正文与摄影分栏，长标题不压在照片上。
@@ -1888,10 +2171,26 @@ function rerollDailyReads() {
   if (n) homeReads.off = (homeReads.off + HOME_PAGE) % n;
 }
 
+function readingIntentControl() {
+  return `<div class="reading-intent-control" role="group" aria-label="阅读模式">
+    <span>今天怎么读</span><div class="reading-intent-options">
+      <button data-act="set-reading-intent" data-intent="casual" aria-pressed="${S.readingIntent === "casual"}">随心阅读</button>
+      <button data-act="set-reading-intent" data-intent="study" aria-pressed="${S.readingIntent === "study"}">辅助学习</button>
+    </div></div>`;
+}
+function syncReadingIntent() {
+  const screen = $("#screen");
+  if (screen) screen.className = screen.className.replace(/\s*reading-(?:casual|study)\b/g, "") + " reading-" + S.readingIntent;
+  $$('[data-act="set-reading-intent"]').forEach(b => {
+    b.setAttribute("aria-pressed", String(b.dataset.intent === S.readingIntent));
+  });
+}
+
 function renderHome() {
   const hr = shanghaiHour();
   const greet = hr < 6 ? "夜深了" : hr < 12 ? "早上好" : hr < 18 ? "下午好" : "晚上好";
-  const last = S.lastRead && S.lastRead.id ? ARTICLES.find(a => a.id === S.lastRead.id) : null;
+  const last = shelfArticles("reading")[0] || null;
+  const lastPos = last ? ((S.readPos || {})[last.id] || (S.lastRead && S.lastRead.id === last.id ? S.lastRead : {})) : {};
   const reads = pickDailyReads();
   const done = S.finished.length;
   const mins = Object.values(S.minsByDay || {}).reduce((a, b) => a + b, 0);
@@ -1900,26 +2199,26 @@ function renderHome() {
   const leadPhoto = pickEditorialLead();
   const lead = (leadPhoto && leadPhoto.a) || ARTICLES.find(a => a.cat === "人物" && coverOf(a)) || reads[0];
   const categories = CATEGORIES.filter(c => c !== "全部" && ARTICLES.some(a => a.cat === c));
-  /* 阅读主页 v75 顺序：问候 → 继续阅读（紧凑卡）→ 本期精选 → 今日推荐 → 兴趣分类。
-     旧版续读卡藏在右侧栏（推荐之后），手机上几乎不可达；统计大数字缩成轻量一行，
-     完整统计归「我的」。 */
+  /* 继续阅读和自己挑的文章优先；摄影封面与偶遇推荐继续保留。 */
   return `
     ${statusbar()}
     <div class="view home-view">
       <header class="page-intro home-intro">
         <div><div class="eyebrow">A LITTLE READING, EVERY DAY</div><h1>读英文，也读世界<span class="title-period">。</span></h1><p>${greet}，从一篇好文章开始，让英语走进日常。</p></div>
-        <div class="reading-date"><span>YOUR DAILY PAGES</span><b>${new Date().toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "long", day: "numeric" })}</b><small>${examCountdownLabel()}</small></div>
+        <div class="reading-date"><span>YOUR DAILY PAGES</span><b>${new Date().toLocaleDateString("zh-CN", { timeZone: "Asia/Shanghai", month: "long", day: "numeric" })}</b><small class="study-only">${examCountdownLabel()}</small></div>
       </header>
+
+      ${readingIntentControl()}
 
       <section class="home-resume">${last ? `
         <button class="card resume-card" data-article="${last.id}" role="button" tabindex="0" aria-label="继续阅读：${esc(clean(last.title))}">
-          <span class="rc-chip">${svg("book", 12)} 继续阅读${S.lastRead.at ? " · " + esc(fmtWhen(new Date(S.lastRead.at).toISOString().slice(0, 10))) : ""}</span>
+          <span class="rc-chip">${svg("book", 12)} 继续阅读${lastPos.at ? " · " + esc(fmtWhen(new Date(lastPos.at).toISOString().slice(0, 10))) : ""}</span>
           <span class="rc-title">${esc(clean(last.title))}</span>
           ${zhTitle(last) ? `<span class="rc-zh">${esc(zhTitle(last))}</span>` : ""}
           <span class="rc-meta">
             <span class="chip">${esc(last.cat)}</span>
-            <span class="rc-bar"><span style="width:${Math.max(2, S.lastRead.pct || 2)}%"></span></span>
-            <span class="rc-pct">${S.lastRead.pct ? "读到 " + S.lastRead.pct + "%" : "刚开始"}</span>
+            <span class="rc-bar"><span style="width:${Math.max(2, lastPos.pct || 2)}%"></span></span>
+            <span class="rc-pct">${lastPos.pct ? "读到 " + lastPos.pct + "%" : "刚开始"}</span>
             <span class="rc-go">继续 ${svg("arrow", 12)}</span>
           </span>
         </button>` : `
@@ -1930,7 +2229,13 @@ function renderHome() {
         </button>`}
       </section>
 
-      ${editorialFeature(lead, "本期精选", leadPhoto)}
+      ${shelfLinks()}
+      ${collectionEntry()}
+      ${shelfSection("want", "我想读的", "先挑一篇喜欢的，点「想读」放进书架；置顶的文章会排在最前面。")}
+      <section class="shelf-section" data-shelf-section="recent"><div class="section-heading"><h2>最近发布</h2><button class="text-action" data-act="go-discover">全部文章 ${svg("arrow", 14)}</button></div><div class="article-grid">${ARTICLES.slice(0, 2).map(articleCard).join("")}</div></section>
+      ${shelfSection("liked", "喜欢的文章", "喜欢的文章不必只读一次。点「喜欢」，以后在这里找回来。")}
+      ${editorialFeature(lead, "随手翻翻", leadPhoto)}
+      ${editorialPhotoControls(leadPhoto)}
 
       <div class="home-reading-layout">
       <section class="home-picks">
@@ -2123,14 +2428,48 @@ function renderDiscover() {
     </div>`;
 }
 
+/* 统一打开文章：从书架、收藏原句和重读入口进入时，先结算旧页再切换状态。 */
+function openReadingArticle(id, options = {}) {
+  const article = ARTICLES.find(a => a.id === id);
+  if (!article) { toast("文章已下线，已有收藏仍保留"); return false; }
+  flushReadPos();
+  flushReadTime();
+  if (options.push !== false) {
+    const selectedList = view.name === "shelf" ? shelfArticles(shelfFilter)
+      : view.name === "collections" && typeof collectionArticles === "function" ? collectionArticles(collectionId) : null;
+    pushNav({ src: id, ...(selectedList ? { shelfIds: selectedList.map(a => a.id) } : {}) });
+  }
+  activeArticle = article;
+  touchReadHistory(id);
+  readSecs = 0; flushedSecs = 0; LOOKED[id] = 0;
+  if (options.restart) {
+    S.readPos[id] = { y: 0, pct: 0, at: Date.now() };
+    S.readHistory[id].inProgress = true;
+  }
+  const pos = S.readPos[id] || (S.lastRead && S.lastRead.id === id ? S.lastRead : {});
+  resumeFromStart = options.restart === true;
+  resumeY = Number.isFinite(Number(pos.y)) ? Number(pos.y) : 0;
+  resumeAnchor = options.anchor || (!resumeFromStart && Number.isFinite(pos.pi)
+    ? { pi: pos.pi, si: pos.si || 0, rs: pos.rs || 0, off: pos.off || 0 } : null);
+  S.lastRead = { id, y: resumeY, pct: Number(pos.pct) || 0, at: Date.now() };
+  save();
+  view = { name: "read" };
+  syncReadUrl(id);
+  render();
+  return true;
+}
+
 /* ---------------- 页面：我的 ---------------- */
 function touchReadHistory(id) {
   if (!id) return;
+  S.wantRead = S.wantRead.filter(x => x !== id);
+  S.pinnedReads = S.pinnedReads.filter(x => x !== id);
   S.readHistory = S.readHistory || {};
   const now = Date.now();
   const prev = S.readHistory[id] || {};
   const article = ARTICLES.find(a => a.id === id);
   S.readHistory[id] = {
+    inProgress: prev.inProgress === true,
     firstAt: Number(prev.firstAt) || now,
     lastAt: now,
     visits: (Number(prev.visits) || 0) + 1,
@@ -2146,6 +2485,7 @@ function touchReadHistory(id) {
 
 function historyItems() {
   const ids = new Set([
+    ...(S.lastRead && S.lastRead.id ? [S.lastRead.id] : []),
     ...Object.keys(S.readHistory || {}),
     ...Object.keys(S.readPos || {}),
     ...(S.read || []),
@@ -2173,6 +2513,7 @@ function historyItems() {
       lastAt: Number(meta.lastAt) || Number(pos.at) || Number(last.at) || 0,
       visits: Number(meta.visits) || 1,
       finished: S.finished.includes(id) || meta.finished === true,
+      inProgress: meta.inProgress === true,
       archived: !live,
     };
   }).filter(Boolean).sort((x, y) => y.lastAt - x.lastAt);
@@ -2186,7 +2527,7 @@ function renderReadHistory() {
   const q = historyQuery.trim().toLowerCase();
   const all = historyItems();
   const filtered = all.filter(x => {
-    if (historyFilter === "unfinished" && x.finished) return false;
+    if (historyFilter === "unfinished" && x.finished && !x.inProgress) return false;
     if (historyFilter === "finished" && !x.finished) return false;
     if (!q) return true;
     return [x.a.title, x.a.titleZh, x.a.cat, x.a.source].some(v => String(v || "").toLowerCase().includes(q));
@@ -2194,7 +2535,7 @@ function renderReadHistory() {
   const seg = (value, label) => `<button class="history-filter${historyFilter === value ? " on" : ""}" data-act="history-filter" data-filter="${value}" aria-pressed="${historyFilter === value}">${label}</button>`;
   const rows = filtered.map(x => {
     const pct = Math.max(0, Math.min(100, Number(x.pos.pct) || 0));
-    const status = x.archived ? "文章已下线" : (x.finished ? "已读完" : (pct ? `读到 ${pct}%` : "刚开始"));
+    const status = x.archived ? "文章已下线" : (x.finished && x.inProgress ? `重读中 · ${pct}%` : x.finished ? "已读完" : (pct ? `读到 ${pct}%` : "刚开始"));
     const action = x.archived ? "" : ` data-article="${esc(x.a.id)}"`;
     return `<button class="history-row${x.archived ? " archived" : ""}"${action} aria-label="${x.archived ? "已下线：" : "继续阅读："}${esc(clean(x.a.title))}"${x.archived ? " disabled" : ""}>
       ${thumbHtml(x.a, coverOf(x.a))}
@@ -2202,7 +2543,7 @@ function renderReadHistory() {
         <span class="history-title">${esc(clean(x.a.title))}</span>
         ${zhTitle(x.a) ? `<span class="history-zh">${esc(zhTitle(x.a))}</span>` : ""}
         <span class="history-meta">${esc(x.a.cat)} · ${esc(historyWhen(x.lastAt))} · ${x.visits} 次阅读</span>
-        <span class="history-progress"><span style="width:${x.finished ? 100 : Math.max(2, pct)}%"></span></span>
+        <span class="history-progress"><span style="width:${x.finished && !x.inProgress ? 100 : Math.max(2, pct)}%"></span></span>
         <span class="history-status">${status}${x.archived ? "" : `<b>继续阅读 ${svg("arrow", 12)}</b>`}</span>
       </span>
     </button>`;
@@ -2267,6 +2608,78 @@ let vocabTab = "new";
  * cvArmedClear / cvArmedOver 是两个破坏性动作的两段式确认（第一击只进入待确认态）；
  * cvQuery 搜索过滤。 */
 let cvImportOpen = false, cvDraft = "", cvArmedClear = false, cvArmedOver = false, cvQuery = "";
+let cvImportBusy = false, cvImportMessage = "", cvImportWarnings = [], cvUseOcr = true;
+let cvImportSequence = 0, cvImportController = null;
+const VOCAB_IMPORT_FILE = "assets/vocab-import.mjs";
+let vocabReaderPromise = null;
+function loadVocabReader() {
+  if (!vocabReaderPromise) vocabReaderPromise = import(new URL(VOCAB_IMPORT_FILE + "?v=" + ASSET_VERSION, document.baseURI).href)
+    .catch(() => { vocabReaderPromise = null; throw new Error("文档识别组件加载失败，请联网后重试或更新浏览器。"); });
+  return vocabReaderPromise;
+}
+function vocabImportProgress(info = {}) {
+  const page = Number(info.pageNumber) || 0, total = Number(info.totalPages) || 0;
+  let message = "正在读取文件…";
+  if (info.stage === "docx") message = "正在读取 Word 文字…";
+  if (info.stage === "pdf") message = total ? `正在读取 PDF · 第 ${page} / ${total} 页` : "正在打开 PDF…";
+  if (info.stage === "ocr-init") message = "正在准备扫描页识别，首次使用可能稍慢…";
+  if (info.stage === "ocr") {
+    const pct = Math.max(0, Math.min(100, Math.round((Number(info.progress) || 0) * 100)));
+    message = info.status === "recognizing text"
+      ? `正在识别扫描页${page ? ` · 第 ${page} / ${total} 页` : ""} · ${pct}%`
+      : "正在准备英文识别组件，首次使用可能稍慢…";
+  }
+  cvImportMessage = message;
+  const el = $("#cv-import-status"); if (el) el.textContent = message;
+}
+function cancelVocabImport(message = "已取消识别，原来的草稿和词库已保留。") {
+  cvImportSequence++;
+  if (cvImportController) cvImportController.abort();
+  cvImportController = null; cvImportBusy = false;
+  cvImportMessage = message;
+}
+function persistVocabImport(words) {
+  const before = S.customVocab;
+  S.customVocab = words; rebuildCustomSet();
+  if (save()) return true;
+  S.customVocab = before; rebuildCustomSet();
+  mirrorNative(JSON.stringify(S));
+  cvImportMessage = "词库未能保存，原词库和识别草稿已保留，请检查存储空间后重试。";
+  cvArmedOver = false; render();
+  return false;
+}
+async function importVocabFile(file) {
+  if (!file) return;
+  cancelVocabImport("");
+  const sequence = cvImportSequence;
+  if (typeof AbortController === "undefined") { toast("当前浏览器版本较旧，请更新后再导入文档。"); return; }
+  const controller = new AbortController(); cvImportController = controller;
+  cvImportBusy = true; cvImportOpen = true; cvArmedOver = false;
+  cvImportWarnings = []; cvImportMessage = `正在读取「${file.name || "文件"}」…`;
+  if (view.name !== "customvocab") { pushNav(); view = { name: "customvocab" }; }
+  render();
+  try {
+    const reader = await loadVocabReader();
+    if (sequence !== cvImportSequence) return;
+    const result = await reader.readVocabFile(file, { signal: controller.signal, ocr: cvUseOcr,
+      onProgress: info => { if (sequence === cvImportSequence) vocabImportProgress(info); } });
+    if (sequence !== cvImportSequence || controller.signal.aborted) return;
+    cvDraft = result.isDocument ? result.text : normalizeVocabDraft(result.text);
+    cvImportWarnings = result.warnings || [];
+    cvImportMessage = `已读取「${file.name || "文件"}」${result.pages ? ` · ${result.pages} 页` : ""}，请核对后确认导入。`;
+  } catch (error) {
+    if (sequence !== cvImportSequence) return;
+    cvImportMessage = error && error.name === "AbortError" ? "已取消识别，原来的草稿和词库已保留。"
+      : error && /[\u3400-\u9fff]/.test(error.message || "") ? error.message
+      : "文件读取失败，请检查格式、是否损坏或加密，然后重新选择。";
+  } finally {
+    if (sequence === cvImportSequence) {
+      cvImportBusy = false; cvImportController = null;
+      if (view.name === "customvocab") render();
+    }
+  }
+}
+
 /* 列表渲染上限：几千词的 DOM 一次全画会卡；搜索 + 截断够用，
  * 真要浏览全量词表的人是极少数，导出 JSON 再看更现实。 */
 const CV_RENDER_CAP = 300;
@@ -2304,15 +2717,20 @@ function renderCustomVocab() {
 
       ${cvImportOpen ? `
       <div class="card col cv-import" style="gap:10px">
-        <textarea id="cv-ta" rows="6" placeholder="每行一个词；也支持逗号、空格、分号分隔，或直接选 TXT / CSV 文件。&#10;apple&#10;banana, orange&#10;grape banana">${esc(cvDraft)}</textarea>
+        <textarea id="cv-ta" rows="6"${cvImportBusy ? " disabled" : ""} placeholder="粘贴单词，或选择 Word、PDF、TXT、CSV 文件。识别结果会先显示在这里，核对后再导入。&#10;apple&#10;banana, orange&#10;grape banana">${esc(cvDraft)}</textarea>
         <div class="row between" style="gap:8px">
-          <label class="rd-seg" for="cv-file-in" style="flex:0 0 auto">选择 TXT / CSV 文件</label>
-          <span class="muted-2">支持 .txt / .csv / 导出的词库 JSON</span>
+          <button class="rd-seg" data-act="cv-select-file" style="flex:0 0 auto">${cvImportBusy ? "重新选择文件" : "选择 Word / PDF / 文本"}</button>
+          ${cvImportBusy ? '<button class="rd-seg" data-act="cv-cancel-import">取消识别</button>' : ""}
         </div>
+        <p class="muted-2">支持 .docx、PDF、TXT、CSV 和词库 JSON · 单个文件不超过 20 MB。旧版 .doc 请先另存为 .docx。</p>
+        <label class="cv-ocr-option"><input id="cv-ocr" type="checkbox"${cvUseOcr ? " checked" : ""}${cvImportBusy ? " disabled" : ""}> 识别扫描页中的英文（较慢，可取消）</label>
+        <p class="muted-2">文件在设备上处理，不上传内容。网页首次使用文档识别需联网加载组件。</p>
+        <div id="cv-import-status" class="cv-import-status" role="status" aria-live="polite" aria-busy="${cvImportBusy}">${esc(cvImportMessage)}</div>
+        ${cvImportWarnings.length ? `<ul class="cv-import-warnings">${cvImportWarnings.map(w => `<li>${esc(w)}</li>`).join("")}</ul>` : ""}
         ${cvDraft ? stats : `<div class="cv-stats" id="cv-stats"><span class="muted-2">粘贴或选文件后，这里会显示导入统计。</span></div>`}
         <div class="rd-segs">
-          <button class="rd-seg${pv.valid.length ? "" : " off"}" data-act="cv-append"${pv.valid.length ? "" : " disabled"}>追加导入${pv.valid.length ? `（+${pv.valid.length}）` : ""}</button>
-          <button class="rd-seg${cvArmedOver ? " on" : ""}" data-act="cv-overwrite">${cvArmedOver
+          <button class="rd-seg${pv.valid.length ? "" : " off"}" data-act="cv-append"${!cvImportBusy && pv.valid.length ? "" : " disabled"}>追加导入${pv.valid.length ? `（+${pv.valid.length}）` : ""}</button>
+          <button class="rd-seg${cvArmedOver ? " on" : ""}" data-act="cv-overwrite"${cvImportBusy ? " disabled" : ""}>${cvArmedOver
             ? `再点一次：清空现有 ${words.length} 词，写入 ${buildVocabPreview(cvDraft, words, false).valid.length} 词`
             : "覆盖现有词库"}</button>
         </div>
@@ -2425,6 +2843,12 @@ function renderMe() {
       </div>
 
       <div class="me-entries">
+        <button class="card row history-entry" data-act="open-sentence-notes" aria-label="打开句子与感想">
+          <span class="ic">${svg("bookmark", 20)}</span>
+          <span class="col grow" style="gap:3px"><span class="h3">句子与感想</span><span class="muted">${S.sentenceNotes.length} 句收藏 · 留下想法，回到原文</span></span>${svg("arrow", 16)}
+        </button>
+        <div class="card"><span class="h3">我的英文书架</span>${shelfLinks()}</div>
+        ${collectionEntry()}
         <button class="card row history-entry" data-act="read-history" aria-label="打开阅读记录">
           <span class="ic">${svg("book", 20)}</span>
           <span class="col grow" style="gap:3px"><span class="h3">阅读记录</span><span class="muted">${readSet.size} 篇读过的文章 · 查看进度并继续阅读</span></span>
@@ -2469,7 +2893,7 @@ function renderMe() {
         </span>
       </div>
       <div class="muted-2">
-        阅读记录与生词保存在当前浏览器中，换设备或清理数据前，请先导出备份，之后可以导回来。
+        想读、喜欢、阅读记录、生词与句子感想保存在当前浏览器中，换设备或清理数据前，请先导出备份，之后可以导回来。
       </div>
       ${storageState === "ok" ? "" : `<div class="storage-warn" role="status">
         ${svg("alert", 14)}<span>${storageState === "failed"
@@ -2534,12 +2958,18 @@ function renderRead() {
   /* 本次会话读了多久（不是「今日累计」）；不足一分钟就如实显示，不再硬凑成 1 */
   const minsNow = Math.floor(readSecs / 60);
   const readTimes = S.readCount[a.id] || 0;
+  const rereading = isReadingAgain(a.id);
   const fb = (S.articleFeedback || {})[a.id] || {};
   const nx = nextArticle(a);   // 同一来路列表里的下一篇
   /* 返回按钮写成具体去处，心里有数：返回时尚 / 返回发现 / 返回首页 */
   const fromLabel = (() => {
     const top = navStack[navStack.length - 1];
     if (!top) return "首页";
+    if (top.name === "shelf") return "书架";
+    if (top.name === "collections") return "主题书架";
+    if (top.name === "history") return "阅读记录";
+    if (top.name === "notebook") return "我的词汇";
+    if (top.name === "notes") return "句子与感想";
     if (top.name !== "discover") return "首页";
     return top.cat && top.cat !== "全部" && !top.q ? top.cat : "发现";
   })();
@@ -2588,7 +3018,7 @@ function renderRead() {
        * 所以判据是「这个元素切了没有」（s.np > 1），不是「序号是不是 0」。 */
       const rs = s.rs || 0;
       const rsAttr = multi ? ` data-rs="${rs}"` : "";
-      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" aria-label="选择这一句（可听朗读）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span></span>${cn}`;
+      return `<span class="sentence" data-act="para-peek" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" aria-label="选择这一句（可朗读或收藏）">${en}<span class="para-tts" lang="zh-CN" data-act="para-speak" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" title="读这一句" aria-label="读这一句">${svg("speaker", 13)}</span><span class="para-note" lang="zh-CN" data-act="quote-capture" data-pi="${i}" data-si="${s.si0 || 0}"${rsAttr} role="button" tabindex="0" title="收藏这句话" aria-label="收藏这句话">${svg("bookmark", 13)}</span></span>${cn}`;
     }).filter(Boolean);
     if (!parts.length) return "";
     /* 段落里不再挂任何按钮：段级「显示本段翻译」在 2026-09-19 被用户要求删除。
@@ -2633,9 +3063,10 @@ function renderRead() {
         <div class="eyebrow read-kicker">${esc(a.cat)}<span class="eyebrow-divider">/</span>WORDLENS JOURNAL</div>
         <h1 class="title">${esc(clean(a.title))}</h1>
         ${aZh ? `<div class="title-zh">${esc(aZh)}</div>` : ""}
+        ${articleActions(a)}
         <div class="byline">
-          <span>${esc(srcName(a))}</span><span class="dot"></span><span>${dur} 分钟 · ${tier.label}</span>
-          <span class="dot"></span><span>需学 ${hitsLbl} 词 · 低频词 ${ratePct}%</span>
+          <span>${esc(srcName(a))}</span><span class="dot"></span><span>${dur} 分钟<span class="study-only"> · ${tier.label}</span></span>
+          <span class="dot study-only"></span><span class="study-only">需学 ${hitsLbl} 词 · 低频词 ${ratePct}%</span>
         </div>
         ${a.translationCredit ? `<div class="translation-credit">${esc(a.translationCredit)}</div>` : ""}
         ${a.cat === "人物" ? `<div class="people-reading-note"><b>${a.readingMode === "full" ? "原刊正文 · 广告已过滤" : "本站导读 · 原刊全文入口"}</b><p>${a.readingMode === "full" ? `正文按公开原刊页面抓取，保留原文段落与图片；广告、导航和推广块已排除。原刊：${esc(srcName(a))}。` : "以下为词阅编辑导读与摄影预览。完整人物访谈请到原刊阅读；本站进度记录的是导读与图片浏览位置。"}</p><a href="${esc(a.url)}" target="_blank" rel="noopener noreferrer">查看 ${esc(srcName(a))} 原刊页面 ↗</a></div>` : ""}
@@ -2651,13 +3082,13 @@ function renderRead() {
 
       <div class="read-finish">
         <div class="ico">${svg("check", 22)}</div>
-        ${S.read.includes(a.id)
+        ${S.read.includes(a.id) && !rereading
           ? `<h3>已读完 · 累计第 ${readTimes} 次</h3>`
-          : `<h3>${a.readingMode === "guide" ? "导读与摄影看完了？" : "读完了？打个卡"}</h3>`}
+          : `<h3>${rereading ? "又读完了一遍？" : a.readingMode === "guide" ? "导读与摄影看完了？" : "读完了？"}</h3>`}
         <div class="stat-chips">
           <span class="st-chip"><b>${dur}</b><i>分钟</i></span>
-          <span class="st-chip"><b>${hitsLbl}</b><i>个需学词</i></span>
-          <span class="st-chip"><b>${looked}</b><i>次查询</i></span>
+          <span class="st-chip study-only"><b>${hitsLbl}</b><i>个需学词</i></span>
+          <span class="st-chip study-only"><b>${looked}</b><i>次查询</i></span>
           <span class="st-chip"><b>${minsNow >= 1 ? minsNow : "<1"}</b><i>分钟读过</i></span>
         </div>
         <div class="fb-block">
@@ -2676,10 +3107,10 @@ function renderRead() {
             </div>
           </div>
         </div>
-        ${S.read.includes(a.id)
+        ${S.read.includes(a.id) && !rereading
           ? `<p>这篇加入了你的阅读历史，可以在「我的」里再次回顾。</p>`
-          : `<p>标记为已读后会加入你的阅读日历，连续打卡有积分加成。</p>
-          <button class="btn" data-act="punch-in">${svg("check", 16)} ${a.readingMode === "guide" ? "标记导读已读" : "打卡 · 今日读毕"}</button>`}
+          : `<p>记下这一次阅读，喜欢的时候再回来。</p>
+          <button class="btn" data-act="punch-in">${svg("check", 16)} ${rereading ? "这遍读完了" : a.readingMode === "guide" ? "标记导读已读" : "标记已读"}</button>`}
         <div class="finish-nav">
           <button data-act="go-back">${svg("back", 15)} 返回${fromLabel}</button>
           ${nx ? `<button data-act="next-article">下一篇 ${svg("arrow", 14)}</button>`
@@ -2692,7 +3123,7 @@ function renderRead() {
 
     <div class="fab-bar" id="fab-bar">
       <button data-act="toggle-cn" class="${S.cnMode === "all" ? 'active' : ''}" title="译" aria-label="${S.cnMode === "all" ? "收起中文对照" : "展开中文对照"}" aria-pressed="${S.cnMode === "all"}">${svg("globe", 18)}</button>
-      <button data-act="read-settings" class="${S.fontSize > 0 || S.readTheme ? 'active' : ''}" title="阅读设置" aria-label="阅读设置（字号 / 对照 / 底色）"><span class="fab-aa">Aa</span></button>
+      <button data-act="read-settings" class="${S.fontSize > 0 || S.readTheme ? 'active' : ''}" title="阅读设置" aria-label="阅读设置（模式 / 字号 / 对照 / 底色）"><span class="fab-aa">Aa</span></button>
       <button data-act="fab-more" title="更多工具" aria-label="更多工具"><span style="font-family:var(--font-num);font-weight:700;letter-spacing:1px">···</span></button>
       <!-- 朗读态：全文朗读时顶掉上面三个按钮，变身播放器（进度 / 暂停 / 停止）。
            刻意不做 aria-live 播报进度 —— TTS 正在念英文，读屏再念一遍「3/42」
@@ -2758,6 +3189,8 @@ function renderReadSettingsSheet() {
         <span class="muted-2">改动即时生效并记住</span>
       </div>
       <div class="rd-set">
+        ${readingIntentControl()}
+        <div class="rd-hint">随心阅读收起词汇标色和学习指标；点词查义、中文对照仍可随时使用。</div>
         <div class="rd-row"><span class="rd-lab">字号</span>
           <div class="rd-segs">
             ${seg("set-fs", "fs", 0, "标准", S.fontSize === 0)}
@@ -2788,6 +3221,7 @@ function renderReadSettingsSheet() {
              **点词查义在任何组合下都一样**。切开关只改 S.hlSets，
              **绝不触碰 S.known**（见 renderFabSheet 的说明）。 -->
         <div class="rd-row"><span class="rd-lab">词汇高亮</span>${hlSetList()}</div>
+        <div class="rd-hint">词源选择会保留，辅助学习时显示。已认识的词不会重新标色。</div>
         <div class="rd-row"><span class="rd-lab">朗读口音</span>
           <div class="rd-segs">
             ${seg("set-accent", "accent", "en-US", "美音", S.accent !== "en-GB")}
@@ -2830,7 +3264,7 @@ function renderFabSheet() {
       </div>
       <div class="sheet-sec">词汇高亮</div>
       ${hlSetList()}
-      <div class="hl-note">标为「已认识」的词在任何词源下都不再标色 —— 切开关不会把它重新点亮。</div>
+      <div class="hl-note">高亮在辅助学习时显示，随心阅读时暂时收起。标为「已认识」的词不会重新标色。</div>
     </div>`;
 }
 
@@ -2950,6 +3384,7 @@ function rememberReadPos(cont, artId) {
   S.readHistory = S.readHistory || {};
   const meta = S.readHistory[id] || {};
   S.readHistory[id] = {
+    ...meta,
     firstAt: Number(meta.firstAt) || rec.at,
     lastAt: rec.at,
     visits: Number(meta.visits) || 1,
@@ -2976,7 +3411,7 @@ function applyReadClasses(cont) {
     [0, 1, 2].forEach(n => cont.classList.toggle(`fs-${n}`, S.fontSize === n));
   }
   const screen = $("#screen");
-  if (screen) screen.className = "screen rt-" + (S.readTheme || "default");
+  if (screen) screen.className = "screen rt-" + (S.readTheme || "default") + " reading-" + S.readingIntent;
 }
 
 function changeReadSetting(mut) {
@@ -3113,10 +3548,10 @@ function validateBackupState(st) {
   const finite = v => typeof v === "number" && Number.isFinite(v);
   const check = valid => { if (!valid) throw new Error("备份字段格式不对"); };
   check(record(st));
-  const arrays = ["read", "finished", "known", "readDays", "studyDays"];
+  const arrays = ["read", "finished", "known", "readDays", "studyDays", "wantRead", "pinnedReads"];
   const counts = ["readCount", "secByDay", "minsByDay"];
   const maps = ["readPos", "readHistory", "articleFeedback"];
-  check(["notebook", "lastRead", ...arrays, ...counts, ...maps].some(k => has(st, k)));
+  check(["notebook", "sentenceNotes", "lastRead", ...arrays, ...counts, ...maps].some(k => has(st, k)));
   for (const k of arrays) if (has(st, k)) {
     check(Array.isArray(st[k]) && st[k].every(v => typeof v === "string" && v.trim().length > 0));
   }
@@ -3133,6 +3568,10 @@ function validateBackupState(st) {
       if (has(item, "addedAt")) check(finite(item.addedAt) && item.addedAt >= 0);
     }
   }
+  if (has(st, "sentenceNotes")) {
+    check(Array.isArray(st.sentenceNotes) && st.sentenceNotes.every(validSentenceNote));
+    check(new Set(st.sentenceNotes.map(n => n.id)).size === st.sentenceNotes.length);
+  }
   for (const k of counts) if (has(st, k)) {
     check(record(st[k]) && Object.values(st[k]).every(v => finite(v) && v >= 0));
   }
@@ -3143,13 +3582,14 @@ function validateBackupState(st) {
     }
     for (const k of ["id", "title", "titleZh", "cat", "source"]) if (has(entry, k)) check(typeof entry[k] === "string");
     if (has(entry, "finished")) check(typeof entry.finished === "boolean");
+    if (has(entry, "inProgress")) check(typeof entry.inProgress === "boolean");
   };
   if (has(st, "lastRead")) checkEntry(st.lastRead);
   for (const k of maps) if (has(st, k)) {
     check(record(st[k]));
     Object.values(st[k]).forEach(checkEntry);
   }
-  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, accent: ["en-US", "en-GB"], rate: ["slow", "std", "fast"] };
+  const enums = { theme: ["light", "dark"], readTheme: ["", "paper", "night"], cnMode: CN_MODES, readingIntent: READING_INTENTS, accent: ["en-US", "en-GB"], rate: ["slow", "std", "fast"] };
   for (const [k, values] of Object.entries(enums)) if (has(st, k)) check(values.includes(st[k]));
   /* highlightMode 是旧版字段（2026-09-23 起由 hlSets 取代）：旧备份仍带着它，
      按旧的四个档位值放行 —— 真正的语义转换在 normalizeState 里做。 */
@@ -3161,6 +3601,19 @@ function validateBackupState(st) {
   if (has(st, "customVocab")) {
     check(Array.isArray(st.customVocab) && st.customVocab.every(v => typeof v === "string" && isVocabWord(v)));
   }
+  if (has(st, "collections")) {
+    check(Array.isArray(st.collections) && st.collections.length <= 30);
+    const ids = new Set(), names = new Set();
+    for (const c of st.collections) {
+      check(record(c) && typeof c.id === "string" && /^[a-zA-Z0-9_-]{1,80}$/.test(c.id) && !ids.has(c.id));
+      check(typeof c.name === "string" && c.name.trim().length > 0 && c.name.length <= 30 && !/[\u0000-\u001f\u007f]/.test(c.name));
+      const nameKey = c.name.trim().replace(/\s+/g, " ").toLocaleLowerCase();
+      check(!names.has(nameKey)); ids.add(c.id); names.add(nameKey);
+      check(Array.isArray(c.articleIds) && c.articleIds.length <= 2000 && c.articleIds.every(id => typeof id === "string" && id.trim().length > 0));
+      if (has(c, "createdAt")) check(finite(c.createdAt) && c.createdAt >= 0);
+    }
+  }
+  if (has(st, "leadPhotoKey")) check(typeof st.leadPhotoKey === "string" && /^[a-zA-Z0-9_-]{0,100}$/.test(st.leadPhotoKey));
   for (const k of ["showCn", "kwHighlight", "hintSeen"]) if (has(st, k)) check(typeof st[k] === "boolean");
   if (has(st, "fontSize")) check(Number.isInteger(st.fontSize) && st.fontSize >= 0 && st.fontSize <= 2);
   if (has(st, "backupHintAt")) check(finite(st.backupHintAt) && st.backupHintAt >= 0);
@@ -3190,7 +3643,7 @@ function importData(file) {
     clearArticleCaches();
     homeReads.pool = [];
     render();
-    toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词`);
+    toast(`已恢复备份 · 阅读 ${S.finished.length} 篇 · 生词本 ${S.notebook.length} 词 · 句子 ${S.sentenceNotes.length} 条`);
   };
   r.readAsText(file);
 }
@@ -3211,7 +3664,7 @@ function resetSheet() {
         </div>
       </div>
       <div class="muted" style="font-size:12.5px;line-height:20px">
-        这会抹掉阅读记录与生词本，且无法撤销。主题设置会保留；内置词库不会被删除。
+        这会抹掉想读、喜欢、阅读记录、生词本与句子感想，且无法撤销。主题设置会保留；内置词库不会被删除。
       </div>
       <div class="sheet-btns">
         <button class="answer-btn no" data-act="export-data" style="flex:1">${svg("download", 15)} 先导出备份</button>
@@ -3225,8 +3678,8 @@ function resetSheet() {
 }
 
 /* ---------------- 例句按需加载 ----------------
- * 例句库 data-examples.js 有 560KB，此前是首屏 script —— 但它只在词卡「更多」
- * 展开后才可能被看到（轻卡只有词/音标/短释义）。实测它不参与任何计算：
+ * 例句库 data-examples.js 有 560KB，在首次打开需要例句的词卡时加载，
+ * 本文原句与词库例句直接显示在同一卡片里。实测它不参与任何计算：
  * example / exampleCn 无人读，被覆盖的 w.source 也只有词卡 chip 读，
  * 摘掉后 19 篇的需学词数、低频词占比、难度档、估时逐篇不变（audit 的 [G8] 钉住）。
  *
@@ -3306,87 +3759,51 @@ function attachExample(word) {
   });
 }
 
-/* 查词卡里的「本句含义」块：在词典义之外，再说明这个词**在这句话里**是什么意思。
- * 只给词典释义时，一个词挂五六个中文义项，读者仍然不知道该取哪一个 ——
- * 语境才是让释义落到实处的东西，所以两块都要给（词典义在上，语境义在下）。
- * 句中目标词用 hlWord() 标色，和例句库共用同一套语言。
- * 语境文案由 clipContext() 在点击那一刻裁好（长句只留目标词前后各 7 词）。 */
+/* 查词卡显示点中单词所在的完整句子与译文，目标词沿用例句标色。
+ * 加入生词本时才裁短语境，显示原句不会截断英文却保留整句中文。 */
 function ctxBlockHTML(word, ctx) {
   if (!ctx || !ctx.en) return "";
   return `<div class="ctx">
-      <div class="ctx-lab">本句含义</div>
+      <div class="ctx-lab">本文原句</div>
       <div class="ctx-en">${hlWord(ctx.en, word)}</div>
       ${ctx.cn ? `<div class="ctx-cn">${esc(ctx.cn)}</div>` : ""}
     </div>`;
 }
 
 /* ---------------- 查词浮层 ----------------
- * 两级结构：第一层只回答「这个词在这里是什么意思」（词/音标/短释义/本句含义/收藏），
- * 点「更多」才展开词根、例句等完整卡——3 秒理解后回到正文。
- * ctx 是点中那个词所在的句子（来自 lookup 动作），词库外的点词、图注里的词没有它。 */
+ * 单层词卡：第一次点词就显示完整释义、本文原句和词库例句。
+ * 内容区可滚动，收藏和已认识固定在下方；不重绘文章，保留阅读位置。
+ * ctx 是点中那个词所在的显示句；词汇页和图注不渲染空原句块。 */
 function renderSheet(word, ctx, form) {
   const w = WORDS.find(x => x.word === word);
-  /* 分派优先级：① 全量词典词 → 全卡（释义最全，末尾按需补「移出词库」）；
-   * ② 非词典词：是我的自定义词 → 自定义卡（兜底卡在 2026-09-23 起会带上 TAP/AW
-   *    里查得到的释义，不再是「只有管理没释义」）；不是 → tap 轻卡，再兜底自定义卡。
-   *    旧写法恒 tap || custom —— 自定义词若在 TAP 有条目，管理入口（移出词库）
-   *    就永远弹不出来（需求 §7 的缺口）。 */
   if (!w) return S.customVocab.includes(word)
     ? renderCustomSheet(word, ctx, form)
     : renderTapSheet(word, ctx, form) || renderCustomSheet(word, ctx, form);
-  const disp = form || word;                        // 卡片标题显示**你点的那个词**
-  const ph = w.phonetic || "";
-  const shortDef = String(w.def || "").split("\n")[0] || w.def;
-  const nb = nbItem(word);
-  /* 词形与词元不同（点了 adopted，词典条目是 adopt）时把原形标在音标那一行。
-     标题绝不换成原形 —— 那会让用户以为自己点的不是这个词。 */
-  const head = `
-        <div class="col" style="gap:3px">
-          <div class="w">${esc(disp)}</div>
-          <span class="ph">${disp === word ? esc(ph) : `原形 ${esc(word)}${ph ? " · " + esc(ph) : ""}`}</span>
-        </div>`;
-  if (!sheetMore) {
-    return `
-      <div class="sheet-mask soft" data-act="close-sheet"></div>
-      <div class="sheet slim" role="dialog" aria-label="查词 ${esc(disp)}">
-        <div class="grip"></div>
-        <div class="row between">
-          ${head}
-          <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
-        </div>
-        <div class="df">${esc(w.pos || "")} ${esc(shortDef)}</div>
-        ${ctxBlockHTML(word, ctx)}
-        <div class="sheet-btns">
-          ${nb
-            ? `<button class="a" data-act="mark-known" data-word="${esc(word)}">我已认识 ✓</button>
-               <button class="b" data-act="sheet-more" data-word="${esc(word)}">更多</button>`
-            : `<button class="a" data-act="add-note" data-word="${esc(word)}">加入生词本</button>
-               <button class="b" data-act="sheet-more" data-word="${esc(word)}">更多</button>`}
-          ${S.customVocab.includes(word) ? `<button class="c" data-act="cv-del-word" data-word="${esc(word)}">移出词库</button>` : ""}
-        </div>
-      </div>`;
-  }
+  const disp = form || word, ph = w.phonetic || "";
+  const nb = nbItem(word), known = S.known.includes(word);
   return `
-    <div class="sheet-mask" data-act="close-sheet"></div>
-    <div class="sheet">
+    <div class="sheet-mask soft" data-act="close-sheet"></div>
+    <section class="sheet word-sheet" role="dialog" aria-modal="true" aria-label="查词 ${esc(disp)}">
       <div class="grip"></div>
       <div class="row between">
-        ${head}
-        <span class="icon-btn solid" data-act="speak" data-word="${esc(word)}" style="width:36px;height:36px;color:#fff">${svg("speaker", 17)}</span>
+        <div class="col grow" style="gap:3px;min-width:0">
+          <div class="w">${esc(disp)}</div>
+          <span class="ph">${disp === word ? esc(ph) : `原形 ${esc(word)}${ph ? " · " + esc(ph) : ""}`}</span>
+        </div>
+        <button class="icon-btn solid" data-act="speak" data-word="${esc(word)}" aria-label="朗读 ${esc(disp)}" style="width:36px;height:36px;color:#fff;flex-shrink:0">${svg("speaker", 17)}</button>
       </div>
-      <div class="df">${esc(w.pos || "")} ${esc(w.def)}</div>
-      ${w.literal ? `<div class="rt">${esc(w.literal)}</div>` : ""}
-      ${ctxBlockHTML(word, ctx)}
-      ${exSlotHTML(w)}
+      <div class="word-sheet-body" role="region" aria-label="释义与例句" tabindex="0">
+        <div class="df pre">${esc(w.pos || "")} ${esc(w.def)}</div>
+        ${ctxBlockHTML(word, ctx)}
+        ${exSlotHTML(w)}
+        ${w.literal ? `<div class="rt">${esc(w.literal)}</div>` : ""}
+      </div>
       <div class="sheet-btns">
-        ${nb
-          ? `<button class="a" data-act="mark-known" data-word="${word}">我已认识 ✓</button>
-             <button class="c" data-act="remove-note" data-word="${word}">移出生词本</button>`
-          : `<button class="a" data-act="add-note" data-word="${word}">加入生词本</button>
-             <button class="c" data-act="mark-known" data-word="${word}" aria-pressed="${S.known.includes(word)}">${S.known.includes(word) ? "已认识 ✓" : "标为已认识"}</button>`}
-        ${S.customVocab.includes(word) ? `<button class="c" data-act="cv-del-word" data-word="${word}">移出词库</button>` : ""}
+        <button class="a" data-act="${nb ? "remove-note" : "add-note"}" data-word="${esc(word)}">${nb ? "移出生词本" : "加入生词本"}</button>
+        <button class="c" data-act="mark-known" data-word="${esc(word)}" aria-pressed="${known}">${known ? "取消已认识" : "已认识"}</button>
       </div>
-    </div>`;
+      ${S.customVocab.includes(word) ? `<div class="sheet-btns"><button class="c" data-act="cv-del-word" data-word="${esc(word)}">移出词库</button></div>` : ""}
+    </section>`;
 }
 
 /* 词库外单词的轻量查词卡：只有释义与发音，不加入词库学习记录。
@@ -3476,7 +3893,7 @@ function renderSortSheet() {
 /* ---------------- 底部导航 ---------------- */
 const TABS = [["home", "首页", "home"], ["discover", "发现", "compass"], ["me", "我的", "user"]];
 const tabbar = () => {
-  const cur = (view.name === "history" || view.name === "notebook") ? "me" : (["home", "discover", "me"].includes(view.name) ? view.name : "home");
+  const cur = (["history", "notebook", "notes", "collections"].includes(view.name)) ? "me" : (["home", "discover", "me"].includes(view.name) ? view.name : "home");
   return `<nav class="tabbar" aria-label="主导航"><div class="nav-inner">
     <button class="nav-brand" data-tab="home" aria-label="词阅 WordLens 首页"><span class="brand-icon">${svg("book", 23)}</span><span>词阅 <b>WordLens</b></span></button>
     <div class="pill">${TABS.map(([k, label, ic]) => `<button data-tab="${k}" class="${k === cur ? "on" : ""}" ${k === cur ? 'aria-current="page"' : ""}>${svg(ic, 18)}<span>${label}</span></button>`).join("")}</div>
@@ -3485,7 +3902,16 @@ const tabbar = () => {
 };
 
 /* ---------------- 主渲染 ---------------- */
+function deferContentUpdate() {
+  return view.name === "read" || cvImportBusy || !!cvDraft.trim();
+}
+function reloadContentWhenSafe() {
+  // 用户可能在通知后的延时中开始阅读、识别或编辑，执行前必须再检查。
+  if (deferContentUpdate()) { pendingUpdate = true; return; }
+  location.reload();
+}
 function render() {
+  if (cvImportBusy && view.name !== "customvocab") cancelVocabImport();
   document.documentElement.setAttribute("data-theme", S.theme);
   /* 浮层（查词卡 / 排序面板）挂在 .phone 上、不在 #screen 里，
      只重写 #screen.innerHTML 是清不掉它们的 —— 必须在每次主渲染开头统一收掉。
@@ -3506,6 +3932,8 @@ function render() {
   const prevScroll = prevRead ? prevRead.scrollTop : 0;
   /* 同篇重渲染要按「句子锚点」还原：字号/对照一变正文高度就变，纯 scrollTop 会漂到别的句子 */
   const prevAnchor = prevRead ? readAnchor(prevRead) : null;
+  const prevSelected = prevRead && prevRead.querySelector ? prevRead.querySelector(".sentence.sel") : null;
+  const selectedSentence = prevSelected ? { ...prevSelected.dataset, peek: prevSelected.classList.contains("peek") } : null;
   /* 离开阅读页：把最后位置落盘（换文场景 openArticle 已重置 lastRead，id 对不上不会覆盖）。
    * 每篇各存一份锚点：A 篇读一半跑去读 B 篇，再回 A 篇还是接着原句。 */
   if (prevRead && view.name !== "read" && S.lastRead && S.lastRead.id === prevRead.dataset.art) {
@@ -3521,14 +3949,13 @@ function render() {
   prevViewName = view.name;
   if (leftRead) {
     flushReadTime();      // 结算阅读时长：读了十分钟直接返回也要记账
-    /* 阅读期间收到过内容更新 → 这一该刻才真正刷新。
-     * 先 return 不渲染：免得先绘一屏旧内容再被 reload 掉，闪一下。 */
-    if (pendingUpdate) {
-      pendingUpdate = false;
-      toast("内容已更新，正在刷新…");
-      setTimeout(() => location.reload(), 300);
-      return;
-    }
+  }
+  /* 阅读结束或词库草稿确认后再应用更新；离开导入页也保留尚未确认的草稿。 */
+  if (pendingUpdate && !deferContentUpdate()) {
+    pendingUpdate = false;
+    toast("内容已更新，正在刷新…");
+    setTimeout(reloadContentWhenSafe, 300);
+    return;
   }
   const screen = $("#screen");
   let body = "";
@@ -3536,7 +3963,10 @@ function render() {
   else if (view.name === "discover") body = renderDiscover();
   else if (view.name === "me") body = renderMe();
   else if (view.name === "history") body = renderReadHistory();
+  else if (view.name === "shelf") body = renderShelf();
+  else if (view.name === "collections") body = renderCollections();
   else if (view.name === "notebook") body = renderNotebook();
+  else if (view.name === "notes") body = renderSentenceNotes();
   else if (view.name === "customvocab") body = renderCustomVocab();
   else if (view.name === "read") body = renderRead();
   screen.innerHTML = body + (view.name === "read" ? "" : tabbar());
@@ -3545,12 +3975,16 @@ function render() {
   const themeCls = view.name === "read"
     ? `rt-${S.readTheme || "default"}`
     : "";
-  screen.className = "screen " + themeCls;
+  screen.className = "screen " + themeCls + " reading-" + S.readingIntent;
 
   if (view.name === "read") {
     if (!TAP && !tapLoadStarted) {
       ensureTapdict().then(ok => {
-        if (ok && view.name === "read") { clearArticleCaches(); render(); }
+        if (ok && view.name === "read") {
+          clearArticleCaches();
+          /* 词表异步就绪不关闭编辑表单或查词卡；下次正常重绘会使用新词表。 */
+          if (!$("#quote-thought") && !$("#collection-name") && !$(".word-sheet")) render();
+        }
       });
     }
     if (!readTimer) readTimer = setInterval(() => {
@@ -3562,23 +3996,33 @@ function render() {
     }, 1000);
     const cont = $("#read-scroll");
     if (cont) {
+      /* 点词大表异步到达会重绘正文；保留已展开的译文，再恢复锚点，避免重绘打断阅读。 */
+      if (!resumeFromStart && prevArt === cont.dataset.art && selectedSentence) {
+        const selected = findSentenceElement(cont, selectedSentence);
+        if (selected) {
+          selected.classList.add("sel");
+          if (selectedSentence.peek && S.cnMode === "tap") selected.classList.add("peek");
+        }
+      }
       cont.addEventListener("scroll", updateReadProgress, { passive: true });
       /* 同一篇文章的重渲染：优先按句子锚点还原（排版变了也对得回原句），
          锚点拿不到才退回旧口径 scrollTop */
-      if (prevArt && cont.dataset.art === prevArt && (prevAnchor || prevScroll)) {
+      if (!resumeFromStart && prevArt && cont.dataset.art === prevArt && (prevAnchor || prevScroll)) {
         if (!(prevAnchor && applyAnchor(cont, prevAnchor))) cont.scrollTop = prevScroll;
         LAST_Y = cont.scrollTop;
         updateReadProgress();
       }
       /* 续读：打开文章那一刻消费一次。优先用本篇存的句子锚点，
          没有锚点（老数据）才用 resumeY 这个 scrollTop 兜底。 */
-      if (cont.dataset.art === activeArticle.id && resumeAnchor) {
+      if (resumeFromStart) {
+        cont.scrollTop = 0; LAST_Y = 0;
+      } else if (cont.dataset.art === activeArticle.id && resumeAnchor) {
         if (!applyAnchor(cont, resumeAnchor)) cont.scrollTop = resumeY;
         LAST_Y = cont.scrollTop;
       } else if (resumeY && cont.dataset.art === activeArticle.id) {
         cont.scrollTop = resumeY; LAST_Y = resumeY;
       }
-      resumeY = 0; resumeAnchor = null;
+      resumeY = 0; resumeAnchor = null; resumeFromStart = false;
       if (!S.hintSeen) { S.hintSeen = true; save(); }   // 操作提示只在首次使用出现
       requestAnimationFrame(updateReadProgress);
     }
@@ -3590,16 +4034,20 @@ function render() {
     /* 与 discover/history 同一套「input → 状态 → 重渲染 → 还焦点」模式。
        两个输入框只有一处差别：textarea 的统计更新**不重渲染**（直接改 #cv-stats），
        重渲染会重建 textarea，光标与输入法组合态都会丢 —— 中文用户逐字输入时必炸。 */
+    const ocrToggle = $("#cv-ocr");
+    if (ocrToggle) ocrToggle.addEventListener("change", () => { if (!cvImportBusy) cvUseOcr = ocrToggle.checked; });
     const ta = $("#cv-ta");
     if (ta) ta.addEventListener("input", () => {
+      if (cvImportBusy) return;
       cvDraft = ta.value;
       const st = $("#cv-stats");
       if (st) {
         const words = S.customVocab || [];
         const pv = buildVocabPreview(cvDraft, words, true);
+        const draftWords = new Set(parseVocabText(cvDraft));
         st.innerHTML = `<span>检测到 <b>${pv.total}</b></span><span>有效 <b>${pv.valid.length}</b></span>` +
           `<span>重复 <b>${pv.dup}</b></span><span>无效 <b>${pv.invalid}</b></span>` +
-          `<span class="muted-2">已在词库 ${words.filter(w => new Set(parseVocabText(cvDraft)).has(w)).length} 个（追加时跳过）</span>`;
+          `<span class="muted-2">已在词库 ${words.filter(w => draftWords.has(w)).length} 个（追加时跳过）</span>`;
         /* 追加按钮的可用态与计数标签跟着草稿走 —— 按钮的 disabled 是渲染时按
            当时 cvDraft 算的，只刷统计不刷按钮，用户粘完词按钮还是灰的
            （2026-09-23 真页面探针抓到：统计活了、点追加没反应）。 */
@@ -3674,6 +4122,29 @@ document.addEventListener("pointermove", e => {
 
 document.addEventListener("pointercancel", () => { if (tapGuard) tapGuard.veto = true; }, true);
 
+document.addEventListener("submit", e => {
+  if (!e.target || e.target.id !== "collection-form") return;
+  e.preventDefault();
+  const field = $("#collection-name");
+  if (field) saveCollectionName(e.target.dataset.id || "", e.target.dataset.item || "", field.value);
+});
+
+document.addEventListener("keydown", e => {
+  const sheet = $(".collection-sheet");
+  if (!sheet) return;
+  if (e.key === "Escape") {
+    e.preventDefault();
+    $$(".sheet, .sheet-mask").forEach(n => n.remove());
+    return;
+  }
+  if (e.key !== "Tab") return;
+  const nodes = $$('button:not([disabled]), input:not([disabled])', sheet);
+  const first = nodes[0], last = nodes[nodes.length - 1];
+  if (!first) return;
+  if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+});
+
 /* 这次 click 该不该丢。无论结果都清掉序列 —— 残留的守卫会误伤下一次键盘点击。 */
 function tapVetoed(ev) {
   const g = tapGuard;
@@ -3697,23 +4168,8 @@ document.addEventListener("click", e => {
   }
 
   if (t.dataset.article) {
-    pushNav({ src: t.dataset.article });   // 记住来路：返回时回到同一张列表、同一位置
-    activeArticle = ARTICLES.find(a => a.id === t.dataset.article);
-    if (!activeArticle) return;
-    touchReadHistory(activeArticle.id);
-    readSecs = 0; flushedSecs = 0;   // 进入新文章，计时清零（上一篇的秒数已由 render 结算）
-    LOOKED[activeArticle.id] = 0;  // 本篇查询清零
-    /* 「上次读到」：换文重置进度；重进同一篇则保留位置（resumeAnchor/resumeY 在渲染后恢复一次）。
-     * 锚点按文章 id 各存各的 —— 在 A、B 两篇之间来回切，都回到各自读到的那一句。 */
-    resumeY = (S.lastRead && S.lastRead.id === activeArticle.id) ? (S.lastRead.y || 0) : 0;
-    const savedPos = (S.readPos || {})[activeArticle.id];
-    resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, rs: savedPos.rs || 0, off: savedPos.off || 0 } : null;
-    const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
-    S.lastRead = { id: activeArticle.id, y: resumeY, pct: savedPct, at: Date.now() };
-    save();
-    view = { name: "read" };
-    syncReadUrl(activeArticle.id);
-    render(); return;
+    openReadingArticle(t.dataset.article);
+    return;
   }
 
   if (t.dataset.cat) {
@@ -3723,6 +4179,154 @@ document.addEventListener("click", e => {
   }
 
   switch (t.dataset.act) {
+    case "open-sentence-notes":
+      pushNav(); view = { name: "notes" }; render(); break;
+    case "quote-capture": {
+      e.stopPropagation();
+      if (view.name !== "read" || !activeArticle) break;
+      const note = makeSentenceNote(activeArticle, +t.dataset.pi, +t.dataset.si || 0, +t.dataset.rs || 0);
+      if (note) openSentenceNoteEditor(note);
+      break;
+    }
+    case "quote-edit": {
+      const note = S.sentenceNotes.find(n => n.id === t.dataset.id);
+      if (note) openSentenceNoteEditor(note);
+      break;
+    }
+    case "quote-cancel":
+      sentenceNoteDraft = null;
+      $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
+    case "quote-save": {
+      const input = $("#quote-thought");
+      if (!sentenceNoteDraft || !input) break;
+      const note = { ...sentenceNoteDraft, thought: input.value.slice(0, 5000), updatedAt: Date.now() };
+      const index = S.sentenceNotes.findIndex(n => n.id === note.id || sentenceNoteKey(n) === sentenceNoteKey(note));
+      const before = S.sentenceNotes;
+      S.sentenceNotes = index >= 0 ? before.map((n, i) => i === index ? { ...note, id: n.id, createdAt: n.createdAt } : n) : [note, ...before];
+      if (!save()) { S.sentenceNotes = before; mirrorNative(JSON.stringify(S)); toast("暂时保存失败，感想仍在输入框中，请先导出备份"); break; }
+      sentenceNoteDraft = null;
+      $$(".sheet, .sheet-mask").forEach(n => n.remove());
+      if (view.name === "notes") { const y = scroller()?.scrollTop || 0; render(); const after = scroller(); if (after) after.scrollTop = y; }
+      toast(index >= 0 ? "感想已保存" : "已收藏 · 可在「我的」查看句子与感想");
+      break;
+    }
+    case "quote-delete": {
+      const note = S.sentenceNotes.find(n => n.id === t.dataset.id);
+      if (!note) break;
+      $$(".sheet, .sheet-mask").forEach(n => n.remove());
+      $(".phone").insertAdjacentHTML("beforeend", `<div class="sheet-mask" data-act="close-sheet"></div><section class="sheet" role="dialog" aria-modal="true" aria-labelledby="quote-delete-title"><div class="grip"></div><h2 class="h2" id="quote-delete-title">删除这条收藏？</h2><p class="muted">这句话和感想将一并删除，原文仍然保留。</p><div class="sheet-btns"><button class="ghost-btn" data-act="close-sheet">取消</button><button class="answer-btn no" data-act="quote-delete-confirm" data-id="${esc(note.id)}">删除收藏</button></div></section>`);
+      break;
+    }
+    case "quote-delete-confirm": {
+      const before = S.sentenceNotes;
+      S.sentenceNotes = before.filter(n => n.id !== t.dataset.id);
+      if (!save()) { S.sentenceNotes = before; mirrorNative(JSON.stringify(S)); toast("删除未保存，请检查存储空间后重试"); break; }
+      const y = scroller()?.scrollTop || 0; render(); const after = scroller(); if (after) after.scrollTop = y;
+      toast("已删除句子收藏"); break;
+    }
+    case "quote-open": {
+      const note = S.sentenceNotes.find(n => n.id === t.dataset.id);
+      if (note) openSavedSentenceNote(note);
+      break;
+    }
+    case "cover-fixed": {
+      const photo = pickEditorialLead();
+      if (!photo) break;
+      if (!persistBookshelfChange(() => { S.leadPhotoKey = photo.key; })) break;
+      refreshCollectionsBase(); toast("已固定这张封面"); break;
+    }
+    case "cover-random":
+    case "cover-next": {
+      const current = pickEditorialLead();
+      const pool = leadPhotoPoolItems().filter(p => !current || p.key !== current.key);
+      if (!persistBookshelfChange(() => {
+        leadPhotoPinned = pool.length ? pool[Math.floor(Math.random() * pool.length)] : current;
+        S.leadPhotoKey = "";
+      })) break;
+      refreshCollectionsBase();
+      toast(t.dataset.act === "cover-next" ? "已换一张 · 喜欢可以固定" : "已恢复随机展示"); break;
+    }
+    case "open-collections":
+      pushNav(); collectionId = ""; view = { name: "collections" }; render(); break;
+    case "open-collection":
+      if (!collectionById(t.dataset.id)) break;
+      pushNav(); collectionId = t.dataset.id; view = { name: "collections" }; render(); break;
+    case "article-collections":
+      showCollectionPicker(t.dataset.id); break;
+    case "collection-create":
+      showCollectionForm("", t.dataset.item || ""); break;
+    case "collection-rename":
+      showCollectionForm(t.dataset.id); break;
+    case "collection-toggle": {
+      const c = collectionById(t.dataset.id), id = t.dataset.item;
+      if (!c || !ARTICLES.some(a => a.id === id)) break;
+      if (!c.articleIds.includes(id) && c.articleIds.length >= 2000) { toast("这个书架已放入 2000 篇文章"); break; }
+      if (!persistBookshelfChange(() => {
+        if (c.articleIds.includes(id)) c.articleIds = c.articleIds.filter(item => item !== id);
+        else c.articleIds.unshift(id);
+      })) break;
+      refreshCollectionsBase(); showCollectionPicker(id); break;
+    }
+    case "collection-delete": {
+      const c = collectionById(t.dataset.id);
+      if (!c) break;
+      showCollectionSheet(collectionSheetFrame("删除这个书架？", `<p>「${esc(c.name)}」的分组记录会移除，文章、阅读进度、生词和喜欢标记都会保留。</p><div class="row collection-confirm"><button class="btn-ghost" data-act="close-sheet">保留书架</button><button class="btn-primary" data-act="collection-delete-confirm" data-id="${esc(c.id)}">删除书架</button></div>`));
+      break;
+    }
+    case "collection-delete-confirm": {
+      const id = t.dataset.id;
+      if (!collectionById(id)) break;
+      if (!persistBookshelfChange(() => { S.collections = S.collections.filter(c => c.id !== id); })) break;
+      if (!(view.name === "collections" && collectionId === id && navBack())) {
+        if (collectionId === id) collectionId = "";
+        refreshCollectionsBase();
+      }
+      toast("书架已删除，文章和阅读记录已保留"); break;
+    }
+    case "open-shelf":
+      pushNav();
+      shelfFilter = Object.hasOwn(SHELF_FILTERS, t.dataset.filter) ? t.dataset.filter : "want";
+      view = { name: "shelf" }; render(); break;
+    case "shelf-filter":
+      shelfFilter = Object.hasOwn(SHELF_FILTERS, t.dataset.filter) ? t.dataset.filter : "want";
+      render(); break;
+    case "shelf-want":
+    case "shelf-like":
+    case "shelf-pin": {
+      const id = t.dataset.id;
+      if (!ARTICLES.some(a => a.id === id)) break;
+      const act = t.dataset.act, scroll = scroller(), y = scroll ? scroll.scrollTop : 0;
+      if (act === "shelf-want") {
+        if (S.wantRead.includes(id)) {
+          S.wantRead = S.wantRead.filter(x => x !== id);
+          S.pinnedReads = S.pinnedReads.filter(x => x !== id);
+        } else S.wantRead.unshift(id);
+      } else if (act === "shelf-pin") {
+        if (!S.wantRead.includes(id)) break;
+        if (S.pinnedReads.includes(id)) S.pinnedReads = S.pinnedReads.filter(x => x !== id);
+        else S.pinnedReads.unshift(id);
+      } else {
+        const rec = { ...(S.articleFeedback[id] || {}), at: Date.now() };
+        if (rec.rate === "up") delete rec.rate; else rec.rate = "up";
+        S.articleFeedback[id] = rec;
+        homeReads.pool = [];
+      }
+      save();
+      if (view.name === "read") {
+        const actions = $(".read-hero .article-actions");
+        if (actions) actions.outerHTML = articleActions(activeArticle);
+        $$("[data-act='fb-rate']").forEach(b => {
+          const on = b.dataset.v === (S.articleFeedback[id] || {}).rate;
+          b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+        });
+      } else {
+        render();
+        const after = scroller(); if (after) after.scrollTop = y;
+      }
+      const focusTarget = $$("[data-act][data-id]").find(b => b.dataset.act === act && b.dataset.id === id);
+      if (focusTarget && focusTarget.focus) focusTarget.focus({ preventScroll: true });
+      break;
+    }
     case "home-reroll":
       rerollDailyReads(); render(); break;
     case "fb-diff":
@@ -3745,17 +4349,6 @@ document.addEventListener("click", e => {
     case "pwa-install":
       if (installEvt) { installEvt.prompt(); installEvt = null; render(); }
       break;
-    case "sheet-more": {
-      sheetMore = true;
-      const w = t.dataset.word;
-      $$(".sheet, .sheet-mask").forEach(n => n.remove());
-      /* ctx / form 必须一起回传。旧写法 renderSheet(w) 两个参数全丢：
-         展开「更多」之后原句块消失、标题退回词元（点 adopted 显示 adopt）。
-         实证见 tools/audit.js 的「更多展开后仍是同一个词、同一句话」一条。 */
-      $(".phone").insertAdjacentHTML("beforeend", renderSheet(w, sheetCtx, sheetForm));
-      attachExample(w);   // 完整卡才可能出现例句框，到这一步才去取例句库
-      break;
-    }
     case "retry-examples": {
       /* 例句没取回来：原地重试，不动整张卡（查词本身一直可用，重试只是补例句） */
       const w = t.dataset.word;
@@ -3781,15 +4374,8 @@ document.addEventListener("click", e => {
     case "next-article": {
       const nx = activeArticle && nextArticle(activeArticle);
       if (!nx) { toast("已经是这个分类的最后一篇了"); break; }
-      /* 换文章前先把上一篇的位置和阅读秒数结算掉，否则这段时长跟着 readSecs 一起被清零 */
-      flushReadPos();
-      flushReadTime();
-      activeArticle = nx; readSecs = 0; flushedSecs = 0; LOOKED[nx.id] = 0;
-      touchReadHistory(nx.id);
-      /* 「上次读到」跟着换文：旧篇位置已在离开时落盘，这里重置到新篇开头 */
-      S.lastRead = { id: nx.id, y: 0, pct: 0, at: Date.now() }; save();
-      resumeAnchor = null;   // 新篇从开头读：不能把上一篇的句子锚点套到这篇的正文上
-      view = { name: "read" }; syncReadUrl(nx.id); render();
+      /* 下一篇从头读，已读过的文章也要进入可续读的「重读中」状态。 */
+      openReadingArticle(nx.id, { restart: true, push: false });
       toast(`下一篇 · ${nx.cat}｜${(nx.titleZh || nx.title).slice(0, 14)}…`);
       break;
     }
@@ -3829,6 +4415,14 @@ document.addEventListener("click", e => {
       $$(".sheet, .sheet-mask").forEach(n => n.remove());
       $(".phone").insertAdjacentHTML("beforeend", renderReadSettingsSheet());
       break;
+    case "set-reading-intent": {
+      const next = t.dataset.intent;
+      if (!READING_INTENTS.includes(next) || S.readingIntent === next) break;
+      /* 只切显示层，不改词源、已认识、生词或译文设置。通过原句锚点补偿指标和
+         字重变化带来的高度差；正文不重建，选中的句子与已展开译文保持原样。 */
+      changeReadSetting(() => { S.readingIntent = next; syncReadingIntent(); });
+      break;
+    }
     case "set-fs": {
       const v = Math.max(0, Math.min(2, +t.dataset.fs || 0));
       if (S.fontSize !== v) changeReadSetting(() => { S.fontSize = v; });
@@ -3915,7 +4509,7 @@ document.addEventListener("click", e => {
              * 加补偿后变成 96px。真实用户点不到看不见的句子，这条分支只为让
              * 探针的 B 场景保持原行为，同时说明「为什么不能无脑补」。 */
             if (rel < -8 || rel > (cont.clientHeight || 0) + 8) return null;
-            return { pi: +t.dataset.pi || 0, si: +t.dataset.si || 0, off: rel };
+            return { pi: +t.dataset.pi || 0, si: +t.dataset.si || 0, rs: +t.dataset.rs || 0, off: rel };
           })()
         : null;
       $$(".sentence.sel").forEach(n => { n.classList.remove("sel"); n.classList.remove("peek"); });
@@ -3966,7 +4560,7 @@ document.addEventListener("click", e => {
       stopSpeech(); break;
     case "punch-in": {
       const id = activeArticle && activeArticle.id;
-      if (id) {
+      if (id && (!S.finished.includes(id) || isReadingAgain(id))) {
         /* 打卡只负责标记「读完」。时长早就按秒持续落盘了（flushReadTime），
          * 这里只把还没结算的零头补上 —— 不再 Math.max(1,…) 硬凑一分钟，
          * 也不再把「读了十分钟没打卡」的时长丢掉。 */
@@ -3975,7 +4569,7 @@ document.addEventListener("click", e => {
         S.readCount[id] = (S.readCount[id] || 0) + 1;
         if (!S.finished.includes(id)) S.finished.push(id);
         S.readHistory = S.readHistory || {};
-        if (S.readHistory[id]) S.readHistory[id].finished = true;
+        if (S.readHistory[id]) { S.readHistory[id].finished = true; S.readHistory[id].inProgress = false; }
         homeReads.pool = [];        // 已读状态变化，未读优先池需要失效
         /* 备份提醒：读完第 2 篇起提示一次，7 天不重复——进度只存在本地浏览器 */
         if (S.finished.length >= 2 && Date.now() - (S.backupHintAt || 0) > 7 * 86400000) {
@@ -3985,7 +4579,7 @@ document.addEventListener("click", e => {
         markReadDay();
         save(); render();
         const mins = Math.floor((S.secByDay[todayKey()] || 0) / 60);
-        toast(mins >= 1 ? `打卡成功 · 今日已读 ${mins} 分钟` : "打卡成功 · 继续读一会儿吧");
+        toast(mins >= 1 ? `已记下这次阅读 · 今日已读 ${mins} 分钟` : "已记下这次阅读");
       }
       break;
     }
@@ -4001,15 +4595,14 @@ document.addEventListener("click", e => {
       clearArticleCaches();
       paintWord(w);
       toast(known ? `「${w}」已标记为认识，文中不再高亮` : `已取消「${w}」的已认识标记`);
-      save(); $$(".sheet, .sheet-mask").forEach(n => n.remove());
+      save(); clearTappedWord(); $$(".sheet, .sheet-mask").forEach(n => n.remove());
       if (view.name === "notebook") render();
       break;
     }
     case "lookup": {
       const word = t.dataset.word;
       const form = t.dataset.form || word;   // 原文词形（adopted），卡片标题显示它
-      sheetMore = false;   // 每次新查词都从轻卡开始
-      /* 取「这个词所在的这句话」交给卡片做「本句含义」，并顺手截成短语境存起来 ——
+      /* 取「这个词所在的这句话」交给卡片显示完整原句，并保留给收藏动作 ——
          用户点「加入生词本」时卡片里已经拿不到句子（收藏按钮不在 .sentence 内），
          语境必须在这一刻留下。图注里的词、浮层 / 列表里的词没有 .sentence 祖先，
          ctx 为空，卡片少渲染一块即可。 */
@@ -4017,12 +4610,11 @@ document.addEventListener("click", e => {
       const sentEl = t.closest ? t.closest(".sentence") : null;
       if (sentEl && activeArticle && sentEl.dataset.pi != null) {
         /* 用显示口径：退化段里同一 data-si 下有多个切句，只有带上 data-rs 才取得到
-           「你点的这一句」；否则卡片会把整段英文当成「本句含义」显示出来。 */
+           「你点的这一句」；否则卡片会把整段英文当成「本文原句」显示出来。 */
         const s = displaySentenceAt(activeArticle, +sentEl.dataset.pi, +sentEl.dataset.si || 0, +sentEl.dataset.rs || 0);
-        if (s && s.en) ctx = { en: clipContext(s.en, word), cn: clean(s.cn || "") };
+        if (s && s.en) ctx = { en: clean(s.en), cn: clean(s.cn || "") };
       }
       sheetCtx = ctx;
-      sheetForm = form;
       markTappedWord(t);   // 在正文里留下「查的是这个词」的定位标识
       if (activeArticle && view.name === "read") {
         LOOKED[activeArticle.id] = (LOOKED[activeArticle.id] || 0) + 1;
@@ -4030,11 +4622,12 @@ document.addEventListener("click", e => {
         const sc = $(".read-finish .stat-chips .st-chip:nth-child(3) b");
         if (sc) sc.textContent = LOOKED[activeArticle.id];
       }
+      $$(".sheet, .sheet-mask").forEach(n => n.remove());
       $(".phone").insertAdjacentHTML("beforeend", renderSheet(word, ctx, form));
+      if ($(`.example-box[data-example-word="${word}"]`)) attachExample(word);
       break;
     }
     case "close-sheet":
-      sheetMore = false;
       clearTappedWord();   // 卡片收掉，正文里的定位底色也一起摘掉
       $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     case "add-note": {
@@ -4042,7 +4635,7 @@ document.addEventListener("click", e => {
       if (!inNotebook(w)) {
         /* 收藏的那一刻就把「你是在哪句话里遇到它的」一起存下来 —— 生词本的全部
            价值就在这里：复习时回忆的是语境，而不是孤零零一个中文释义。
-           语境取自点击查词时截好的片段（sheetCtx，长句已裁到目标词前后各 7 词），
+           语境取自点击查词时的句子（sheetCtx），保存时裁到目标词前后各 7 词，
            不在阅读页收藏（词库外补收藏）时语境为空，条目照常可用，不阻断收藏。 */
         const inRead = !!(activeArticle && view.name === "read");
         S.notebook.push({
@@ -4050,7 +4643,7 @@ document.addEventListener("click", e => {
           addedAt: Date.now(),
           articleId: inRead ? activeArticle.id : "",
           articleTitle: inRead ? clean(activeArticle.title || "") : "",
-          context: sheetCtx ? { en: sheetCtx.en, cn: sheetCtx.cn || "" } : null,
+          context: sheetCtx ? { en: clipContext(sheetCtx.en, w), cn: sheetCtx.cn || "" } : null,
         });
         /* 加入生词本 = 这个词现在是我的生词。若此前标过「已认识」必须撤掉 ——
            known 的优先级高于生词色，不撤的话正文里它仍然是灰的，用户会以为没生效。 */
@@ -4061,7 +4654,7 @@ document.addEventListener("click", e => {
       else toast("已经在生词本里了");
       /* 不 render：整页重渲染会把阅读位置打回开头，词已入本，浮层关掉即可；
          但正文里那处高亮必须就地变成生词色，否则用户点完看不到任何反馈。 */
-      save(); paintWord(w);
+      save(); paintWord(w); clearTappedWord();
       $$(".sheet, .sheet-mask").forEach(n => n.remove()); break;
     }
     case "remove-note": {
@@ -4069,6 +4662,7 @@ document.addEventListener("click", e => {
       S.notebook = S.notebook.filter(item => item.word !== w);
       save(); paintWord(w);
       toast(`「${w}」已移出生词本`);
+      clearTappedWord();
       $$(".sheet, .sheet-mask").forEach(n => n.remove());
       /* 词汇页里删条目要把列表重画，阅读页里只改标色（重渲染会丢滚动位置） */
       if (view.name === "notebook") render();
@@ -4081,25 +4675,30 @@ document.addEventListener("click", e => {
          回来还停在待确认态会让人误触破坏性操作。 */
       pushNav(); cvArmedClear = false; cvArmedOver = false; cvQuery = "";
       view = { name: "customvocab" }; render(); break;
+    case "cv-select-file":
+      $("#cv-file-in").click(); break;
+    case "cv-cancel-import":
+      cancelVocabImport(); render(); break;
     case "cv-toggle-import":
+      if (cvImportBusy) cancelVocabImport();
       cvImportOpen = !cvImportOpen; cvArmedOver = false; render(); break;
     case "cv-append": {
+      if (cvImportBusy) break;
       const pv = buildVocabPreview(cvDraft, S.customVocab, true);
       if (!pv.valid.length) { toast("没有可导入的新词"); break; }
-      S.customVocab = mergeVocab(S.customVocab, pv.valid, false);
-      rebuildCustomSet(); save();
+      if (!persistVocabImport(mergeVocab(S.customVocab, pv.valid, false))) break;
       toast(`已追加 ${pv.valid.length} 个词，词库共 ${S.customVocab.length} 词`);
       cvDraft = ""; cvImportOpen = false; cvArmedOver = false;
       render(); break;
     }
     case "cv-overwrite": {
+      if (cvImportBusy) break;
       /* 两段式：第一击只进入待确认态（按钮上写清后果），第二击才执行。
          覆盖是破坏性操作且不可撤销（没有回收站），必须显式二次确认（需求 §4）。 */
       if (!cvArmedOver) { cvArmedOver = true; render(); break; }
       const pv = buildVocabPreview(cvDraft, S.customVocab, false);
       if (!pv.valid.length) { toast("没有可导入的词，词库未改动"); cvArmedOver = false; render(); break; }
-      S.customVocab = mergeVocab([], pv.valid, true);
-      rebuildCustomSet(); save();
+      if (!persistVocabImport(mergeVocab([], pv.valid, true))) break;
       toast(`已覆盖：词库现为 ${S.customVocab.length} 词`);
       cvDraft = ""; cvImportOpen = false; cvArmedOver = false;
       render(); break;
@@ -4146,26 +4745,11 @@ document.addEventListener("click", e => {
       render();
       break;
     }
-    case "nb-open-art": {
-      const id = t.dataset.id;
-      const art = ARTICLES.find(a => a.id === id);
-      if (!art) { toast("文章已下线"); break; }
-      pushNav({ src: id });
-      activeArticle = art;
-      touchReadHistory(art.id);
-      readSecs = 0; flushedSecs = 0;
-      LOOKED[art.id] = 0;
-      resumeY = (S.lastRead && S.lastRead.id === art.id) ? (S.lastRead.y || 0) : 0;
-      const savedPos = (S.readPos || {})[art.id];
-      resumeAnchor = (savedPos && Number.isFinite(savedPos.pi)) ? { pi: savedPos.pi, si: savedPos.si || 0, rs: savedPos.rs || 0, off: savedPos.off || 0 } : null;
-      const savedPct = savedPos && Number.isFinite(Number(savedPos.pct)) ? Number(savedPos.pct) : 0;
-      S.lastRead = { id: art.id, y: resumeY, pct: savedPct, at: Date.now() };
-      save();
-      view = { name: "read" };
-      syncReadUrl(art.id);
-      render();
-      break;
-    }
+    case "nb-open-art":
+    case "resume-article":
+      openReadingArticle(t.dataset.id); break;
+    case "restart-article":
+      openReadingArticle(t.dataset.id, { restart: true, push: view.name !== "read" }); break;
     case "ask-reset":
       $(".phone").insertAdjacentHTML("beforeend", resetSheet());
       break;
@@ -4204,24 +4788,13 @@ function readTextFile(file) {
   });
 }
 
-/* 自定义词库文件先读入草稿，由用户核对统计后再确认导入。 */
+/* 所有格式先读入可编辑草稿，不在文件读取回调里改用户词库。 */
 {
   const input = $("#cv-file-in");
   if (input) input.addEventListener("change", () => {
     const file = input.files && input.files[0];
     input.value = "";
-    if (!file) return;
-    readTextFile(file).then(text => {
-      cvDraft = normalizeVocabDraft(text);
-      cvImportOpen = true;
-      cvArmedOver = false;
-      if (view.name !== "customvocab") {
-        pushNav();
-        view = { name: "customvocab" };
-      }
-      render();
-      toast(`已读入「${file.name}」，请核对统计后确认导入`);
-    }).catch(() => toast("文件读不出来，请确认是文本文件"));
+    if (file) void importVocabFile(file);
   });
 }
 
@@ -4350,15 +4923,15 @@ if (shouldRegisterSW({
    * 返回首页看到的还是内存里的旧文章。 */
   navigator.serviceWorker.addEventListener("message", e => {
     if (!e.data || e.data.type !== "content-updated") return;
-    if (view.name === "read") {
+    if (deferContentUpdate()) {
       pendingUpdate = true;
-      toast("内容已更新，退出阅读后自动刷新");
+      toast(view.name === "read" ? "内容已更新，退出阅读后自动刷新" : "内容已更新，词库草稿确认后再刷新");
       return;
     }
     if (sessionStorage.getItem("wl-updated")) return;   // 每次会话只自动刷一次，防循环
     sessionStorage.setItem("wl-updated", "1");
     toast("内容已更新，正在刷新…");
-    setTimeout(() => location.reload(), 800);
+    setTimeout(reloadContentWhenSafe, 800);
   });
 }
 

@@ -1605,3 +1605,29 @@ body {
   color: var(--green); background: var(--green-bg);
   border-radius: 999px; padding: 1px 7px;
 }
+
+
+/* 收藏入口只出现在当前选中句的留白中，不进入英文行盒。 */
+.para-note { display: none; position: absolute; right: -16px;
+  bottom: calc((var(--rd-en-lh) - 22px) / 2 + 26px);
+  width: 22px; height: 22px; align-items: center; justify-content: center;
+  border-radius: 11px; color: var(--brand); cursor: pointer; }
+.sentence.sel > .para-note { display: inline-flex; }
+.para-note:hover, .para-note:focus-visible { background: var(--brand-soft); outline: 2px solid var(--brand); }
+.quote-list { display: grid; gap: 16px; }
+.quote-card { display: flex; flex-direction: column; gap: 12px; }
+.quote-en { font-family: var(--font-en); font-size: 17px; line-height: 1.65; margin: 0; overflow-wrap: anywhere; }
+.quote-cn { color: var(--text-2); font-size: 14px; line-height: 1.8; margin: 0; overflow-wrap: anywhere; }
+.quote-thought { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; line-height: 1.8;
+  margin: 0; padding: 12px; background: var(--brand-soft); border-radius: 10px; }
+.quote-source { color: var(--text-3); font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.quote-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.quote-actions .ghost-btn { min-height: 40px; }
+.quote-actions button:disabled { opacity: .6; cursor: default; }
+.quote-actions .danger { margin-left: auto; }
+.quote-preview { max-height: 25vh; overflow-y: auto; display: grid; gap: 10px; }
+.quote-thought-input { box-sizing: border-box; width: 100%; resize: vertical; min-height: 108px;
+  border: 1px solid var(--border); border-radius: 12px; padding: 12px;
+  font: inherit; line-height: 1.7; font-size: 16px; color: var(--text); background: var(--bg); }
+.quote-thought-input:focus { outline: 2px solid var(--brand); outline-offset: 2px; }
+.quote-editor .sheet-btns > button { flex: 1; }

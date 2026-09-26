@@ -39,7 +39,9 @@ const NEVER_SHIP = ["tools/", "outputs/", ".bak/", ".tmp/", ".workbuddy/", ".and
 
 /* 整目录规则（②③④）。提成常量是因为 dynamicRefs() 要拿它判断「模板拼出来的那个目录
    是不是已经被整批带走了」—— 两处各写一份名单就是下一处会漂移的重复。 */
-const DIR_RULES = ["assets/fonts", "assets/covers", "assets/icons"];
+const DIR_RULES = ["assets/fonts", "assets/covers", "assets/icons", "assets/vendor"];
+/* 文档解析入口引用的模块不在 app.js 中直接出现，必须显式带入离线壳。 */
+const DOCUMENT_IMPORT_FILES = ["assets/vocab-import.mjs", "assets/vocab-docx.mjs", "assets/vocab-pdf.mjs", "assets/vocab-ocr.mjs"];
 
 /** 运行期按需加载的本地资源（白名单规则 ⑤）。返回仓库相对路径数组，排序稳定。
  *
@@ -77,7 +79,7 @@ function dynamicRefs(root = ROOT) {
 
 /** 白名单：仓库相对路径数组（排序后稳定，便于对账） */
 function planFiles(root = ROOT) {
-  const files = new Set(["index.html", "manifest.webmanifest"]);
+  const files = new Set(["index.html", "manifest.webmanifest", ...DOCUMENT_IMPORT_FILES]);
   const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
   for (const m of html.matchAll(/(?:src|href)="(assets\/[^"?]+)(?:\?[^"]*)?"/g)) files.add(m[1]);
   const addTreeFiles = (absoluteDir, relativeDir) => {
@@ -139,3 +141,4 @@ function runBuild({ root = ROOT, out = OUT } = {}) {
 }
 
 module.exports = { ROOT, OUT, NEVER_SHIP, DIR_RULES, dynamicRefs, planFiles, injectShellGlue, runBuild };
+

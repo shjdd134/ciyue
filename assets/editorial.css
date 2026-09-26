@@ -190,7 +190,7 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 .sort-text { display: inline-flex; align-items: center; gap: 5px; flex: none; border: 1px solid var(--border); background: var(--card); color: var(--text-2); font-size: 12px; font-family: var(--font-cn); border-radius: 6px; padding: 8px 12px; cursor: pointer; }
 .sort-text:hover { color: var(--brand); border-color: var(--brand); }
 .cat-section { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
-.cat-section > :not(.article) { grid-column: 1 / -1; }
+.cat-section > :not(.article):not(.article-shell) { grid-column: 1 / -1; }
 .cat-section .cat-head { margin-bottom: 2px; }
 .cat-section .cat-head .left { font-size: 19px; }
 .lib { background: var(--brand-deep); color: var(--text); box-shadow: none; border: 1px solid var(--line); border-radius: 12px; }
@@ -390,3 +390,96 @@ button:focus-visible, [role="button"]:focus-visible, a:focus-visible, input:focu
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+/* 私人书架：阅读入口与收藏按钮为同级控件，点收藏不会打开文章。 */
+.article-shell { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--card); }
+.article-shell > .article { border: 0; border-radius: 0; flex: 1; height: auto; }
+.article-shell > .article:hover { transform: none; }
+.article-actions { display: flex; flex-wrap: wrap; gap: 4px 12px; padding: 8px 16px; border-top: 1px solid var(--line); }
+.article-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 4px 0; border: 0; background: transparent; color: var(--text-2); font: inherit; font-size: 12px; cursor: pointer; }
+.article-actions button[aria-pressed="true"] { color: var(--brand); font-weight: 600; }
+.article-actions button:focus-visible, .shelf-links button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.article-progress { font-size: 12px; color: var(--brand); }
+.shelf-links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 18px 0 28px; }
+.shelf-links button { min-height: 56px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--text-1); font: inherit; font-size: 14px; cursor: pointer; }
+.shelf-links b { font: 500 18px var(--font-num); color: var(--brand); }
+.shelf-section { margin: 0 0 32px; }
+.shelf-empty { margin: 0; padding: 20px; border: 1px dashed var(--line); border-radius: 12px; color: var(--text-2); font-size: 14px; line-height: 1.8; }
+.shelf-view { padding: 32px; }
+.shelf-view .history-filters { margin-bottom: 24px; flex-wrap: wrap; }
+.shelf-view .history-empty .text-action { display: block; margin: 16px auto 0; }
+.read-hero > .article-actions { padding: 4px 0; border: 0; margin: 12px 0; }
+.me-entries .shelf-links { margin-bottom: 0; }
+@media (max-width: 680px) {
+  .shelf-view { padding: 22px 20px; }
+  .shelf-links { gap: 6px; }
+  .shelf-links button { font-size: 13px; gap: 6px; }
+}
+
+/* 阅读意图只改变显示层，原来的词源与生词标记留在原位，切回即可恢复。 */
+.screen.reading-casual .study-only { display: none !important; }
+.screen.reading-casual .read-scroll .word.kw,
+.screen.reading-casual .read-scroll .word.wb {
+  color: inherit; background: transparent; font-weight: inherit; text-decoration: none;
+}
+.screen.reading-casual .read-scroll .word:hover,
+.screen.reading-casual .read-scroll .word:active { background: var(--brand-soft); }
+.reading-intent-control { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin: 0 0 24px; }
+.reading-intent-control > span { color: var(--text-2); font: 12px var(--font-cn); }
+.reading-intent-options { display: flex; gap: 4px; padding: 4px; border-radius: 12px; background: var(--card-2); }
+.reading-intent-options button { min-height: 44px; padding: 8px 16px; border: 0; border-radius: 9px; background: transparent; color: var(--text-2); font: 13px var(--font-cn); cursor: pointer; }
+.reading-intent-options button[aria-pressed="true"] { color: var(--brand); background: var(--card); box-shadow: 0 1px 5px rgba(0, 0, 0, .06); font-weight: 600; }
+.reading-intent-options button:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.rd-set .reading-intent-control { margin: 0; }
+
+/* 私人的命名书架与可固定摄影封面，延续现有阅读卡片的层次。 */
+.collections-view { padding: 32px; }
+.collection-entry { width: 100%; text-align: left; margin-bottom: 24px; color: var(--text-1); cursor: pointer; }
+.collection-entry .grow { gap: 5px; min-width: 0; }
+.collection-entry .muted { line-height: 1.6; }
+.collection-toolbar { display: flex; gap: 20px; flex-wrap: wrap; margin: 0 0 24px; }
+.collection-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.collection-card { display: flex; align-items: center; gap: 14px; min-height: 120px; width: 100%; text-align: left; color: var(--text-1); cursor: pointer; }
+.collection-spine { display: grid; place-items: center; width: 48px; height: 68px; flex-shrink: 0; border-radius: 3px 9px 9px 3px; background: var(--brand-soft); border-left: 4px solid var(--brand); color: var(--brand); }
+.collection-card .grow { min-width: 0; }
+.collection-card b { display: block; font: 600 17px/1.5 var(--font-cn); overflow-wrap: anywhere; }
+.collection-card small { display: block; margin-top: 6px; color: var(--text-3); }
+.collection-sheet { max-height: 85dvh; overflow-y: auto; }
+.collection-sheet h2 { margin: 0; font: 600 19px/1.5 var(--font-cn); }
+.collection-sheet p { line-height: 1.7; overflow-wrap: anywhere; }
+.collection-sheet form { display: flex; flex-direction: column; gap: 12px; }
+.collection-sheet input { width: 100%; min-height: 48px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; color: var(--text-1); background: var(--card); font: 16px var(--font-cn); }
+.collection-options { display: flex; flex-direction: column; gap: 7px; margin-bottom: 18px; }
+.collection-option { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 48px; padding: 12px; text-align: left; border: 1px solid var(--line); border-radius: 10px; background: var(--card); color: var(--text-1); font: 14px/1.5 var(--font-cn); cursor: pointer; }
+.collection-option span:first-child { overflow-wrap: anywhere; }
+.collection-option span:last-child { white-space: nowrap; font-size: 12px; }
+.collection-option[aria-pressed="true"] { border-color: var(--brand); background: var(--brand-soft); color: var(--brand); }
+.collection-confirm { justify-content: flex-end; gap: 12px; }
+.editorial-photo-controls { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin: -20px 0 30px; color: var(--text-3); font-size: 12px; }
+.editorial-photo-controls > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.editorial-photo-controls button { min-height: 40px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 9px; color: var(--text-2); background: var(--card); font: inherit; cursor: pointer; }
+.editorial-photo-controls button[aria-pressed="true"] { color: var(--brand); border-color: var(--brand); background: var(--brand-soft); }
+.collection-entry:focus-visible, .collection-card:focus-visible, .collection-option:focus-visible, .editorial-photo-controls button:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+@media (max-width: 680px) {
+  .collections-view { padding: 22px 20px; }
+  .collection-grid { grid-template-columns: 1fr; }
+}
+
+/* 单层查词卡：内容独立滚动，认识/收藏按钮一直留在卡片底部。 */
+.sheet.word-sheet { overflow: hidden; }
+.word-sheet > :not(.word-sheet-body) { flex-shrink: 0; }
+.word-sheet .w { overflow-wrap: anywhere; }
+.word-sheet-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 12px; }
+.word-sheet-body > * { flex-shrink: 0; }
+.word-sheet-body .ctx, .word-sheet-body .example-box { overflow-wrap: anywhere; }
+.word-sheet-body:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; }
+
+/* 文档导入：状态更新不重建输入框，扫描识别可随时取消。 */
+.cv-import > .row { flex-wrap: wrap; }
+.cv-import p { margin: 0; line-height: 1.65; }
+.cv-ocr-option { display: flex; gap: 8px; align-items: center; font-size: 13px; line-height: 1.6; }
+.cv-ocr-option input { width: 18px; height: 18px; accent-color: var(--brand); }
+.cv-import-status { font-size: 13px; line-height: 1.65; color: var(--brand); overflow-wrap: anywhere; }
+.cv-import-status:empty { display: none; }
+.cv-import-warnings { margin: 0; padding-left: 20px; color: var(--text-2); font-size: 12px; line-height: 1.7; }
+.cv-import [disabled] { opacity: .55; cursor: wait; }
