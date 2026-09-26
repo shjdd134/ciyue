@@ -8,7 +8,7 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;"
    （有道批量接口的 <e:1> / <s:1>）或不可见控制符，也不让它出现在正文里 */
 const NOISE = /<\/?[se]:\d+>|[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F\u00AD\u200B-\u200F\u202A-\u202E\u2060\uFEFF\uFFFD]/g;
 const clean = s => String(s == null ? "" : s).replace(NOISE, "");
-const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "90");
+const ASSET_VERSION = String(typeof window !== "undefined" && window.WORDLENS_CONFIG?.assetVersion || "91");
 
 /* 中文标题：机器翻译结果（tools/translate-titles.mjs 生成）。
    英文标题是阅读对象，中文标题是辅助理解的第二行小字，抓不到译文时整行不渲染。 */
@@ -729,108 +729,25 @@ const sentenceAt = (a, pi, si = 0) => {
   return sentencesOf(p)[si] || null;
 };
 
-/* 段落级退化段的**渲染期**再切分（2026-09-22）。
- *
- * 起因：AI 栏目（Offbook 通道）源站给的是**段落级**对齐，官方译文的句数常与英文不等
- * （实测 `The seventh year of Kaihuang. Officials need filling.` 5 句英文 ↔ 4 句中文，
- * 官方把前两句合并译了）。`tools/offbook.mjs` 的 `blockToPara()` 此时按设计**不切** ——
- * 硬切会编造错误配对（REF §12 记着「组织才」+「能作为一个整体运转。」那种词中间截断）。
- * 于是入库成 `sentences: [{ en:"5句话…", cn:"4句话…" }]` —— 数据形状合法，
- * 但 `.para-flow` 只把「句级元素」转块级，它眼里这是 1 句，**整段英文连排成一坨**，
- * 与句级对齐成功的段（一句一行）在同一篇里混着出现，看着像排版坏了。
- *
- * 全站实测 510 处（AI 5 篇为主：rebuilding-learning 135 / breakdown-of-firms 126 /
- * on-cognitive-decoupling 117 / teaching-and-training-disqualified 89 / mirage-of-form 36）。
- *
- * ★ 修的是**渲染**，不是数据。三条理由：
- *   ① `sentencesOf()` 被 9 处消费（句数统计 / needLearn / 朗读队列 / 续读锚点 / qc），
- *      改它等于把「全站 7,094 句」这个已发布数字和所有人的阅读进度锚点一起打翻；
- *   ② 切分只服务「英文一行一句」这一个视觉目标，与统计口径无关 —— 一个概念一把尺子，
- *      但**两件事不该共用一把尺子**；
- *   ③ 数据层若切，`cn` 配不上去（1 份译文 vs 5 句英文），守恒闸与 qc 漏译判据都会动。
- *
- * ★ 译文挂法：**整段中文挂在每一个显示句后面**（挂法 2026-09-23 修，拆译文的禁令不变）。
- *   不按比例拆中文 —— 那正是 REF §12 的踩坑，`Officials need filling.` 会配到半截中文，
- *   而这份材料是拿来背词的，配错的译文等于教错。旧版把整段中文只挂在最后一句后面，
- *   而「点句显示」档只展开被点句的紧邻译文，结果切分段**前几句点了没有任何反应**
- *   （全库 447 个切分段、1,188 个显示句无译文可弹）—— 与下面许诺的「行为统一」直接矛盾。
- *   现在每句后面都挂整段译文，点谁弹谁；「逐句对照」档非末句的副本带 .cn-dup 收起，
- *   视觉上仍然一段只见一份译文。
- *
- * ★ 假阳性必须挡掉（实测样本）：
- *   · `Cui. Lu. Wang. Xie.` —— 4 个单字母缩写，句子切分会切成 4 个碎片；
- *   · `Bzzzzzz……` / `Shit…` / `RW: That's right, …` —— 拟声、短感叹、访谈前缀，
- *     本就是单句，切了只会把一段拆成没意义的碎行。
- *   判据取「可观察的文本性质」，不钉具体词表：切出的段必须**每段都像句子**（含小写字母、
- *   至少 3 个词、长度有下限），否则整段不切、退回连排。
- */
-const ABBR_GUARD = /(?:^|[\s(“"‘])[A-Za-z]{1,3}\.(?=\s|$)/g;
-/* v83 新增：闭引号前的**单字母**缩写（`He cited "Dr. J." Smith…`）。
- * 只挡单字母、不挡 1-3 字母 —— 引号边界的歧义画像和裸边界不同：
- * `end." / day." / way."` 是再正常不过的句尾（全库引号连排的主力），
- * 若沿用 {1,3} 会把这一大批真边界全部挡死；而 1-3 字母的**真**句尾
- * （`"No." She left.`）里单字母几乎只有首字母缩写一种歧义，
- * 挡单字母的误杀面最小。判据仍是「宁可连排，不要错切」。
- * 两个守卫的前缀类都要含左引号（“"‘）：`"Dr. J." Smith` 里 `Dr.` 前面是
- * 左引号不是空白 —— 负向测试抓过（切成 `He cited "Dr.` + 碎片，首段
- * 表面像句子，逐段判据拦不住），前缀少了左引号守卫就是假守卫。 */
-const ABBR_QUOTE = /(?:^|[\s(“"‘])[A-Za-z]\.(?=["'’””])/g;
-const RENDER_SPLIT_MIN = 3;          // 切出少于 3 个词的不算句子
-const RENDER_SPLIT_MIN_LEN = 12;     // 少于 12 字符的不算句子
-/** 一段英文能不能安全地按句末标点切开用于**显示**。切不开就返回 null（调用方保持原样）。 */
-const renderSplitEn = en => {
-  const t = String(en || "").trim();
-  if (!t) return null;
-  /* 缩写保护：`Cui. Lu. Wang. Xie.` / `V. Vertical…` 会在这里被挡下 ——
-     把缩写点的 `.` 换成占位符再切，切完还回来。与 lib-offbook 的 ABBR_ROMAN 同思路，
-     但**不共用实现**：那边服务入库（决定数据形状），这边只服务渲染（决定怎么显示），
-     两边判据不同（那边保罗马编号，这边还要挡单字母缩写）。 */
-  const guarded = t.replace(ABBR_GUARD, m => m.replace(/\./g, "\u0001"))
-    .replace(ABBR_QUOTE, m => m.replace(/\./g, "\u0001"));
-  /* v83：lookbehind 允许句末标点后带闭引号。旧式 `(?<=[.!?…])\s+` 要求标点**紧贴**空白，
-   * `…"AI makes people lazy." It's that…` 这种「标点+闭引号+空白」的真边界切不开 ——
-   * 全站审计实测这是引号连排的最大单一成因（B1 档 101 处几乎全部 qbound=true）。
-   * JS 变长 lookbehind 为 ES2018；本文件此前已用定长 lookbehind，支持面不变。 */
-  const raw = guarded.split(/(?<=[.!?…]["'’””]*)\s+/).map(s => s.trim()).filter(Boolean);
-  if (raw.length < 2) return null;
-  const parts = raw.map(s => s.replace(/\u0001/g, "."));
-  /* 每一段都得像句子 —— 只要有一段不像，整段不切（宁可连排，不要碎行） */
-  for (const s of parts) {
-    if (s.length < RENDER_SPLIT_MIN_LEN) return null;
-    if (!/[a-z]/.test(s)) return null;
-    if ((s.match(/[A-Za-z'’\-]+/g) || []).length < RENDER_SPLIT_MIN) return null;
-  }
+/* 只有人工核对且双语拼回守恒的 alignedParts 才能拆成显示句。
+ * 不能按英文标点拆开后复用整段中文，也不能因为两边句数相等就按下标配对。
+ * 缺少可信句对时保留完整的 en/cn 配对单元；原始 si 不变，旧续读锚点仍可回退。 */
+const validAlignedParts = s => {
+  const parts = s && s.alignedParts;
+  if (!Array.isArray(parts) || parts.length < 2) return null;
+  if (!parts.every(p => p && typeof p.en === "string" && p.en.trim()
+    && typeof p.cn === "string" && p.cn.trim())) return null;
+  const squash = t => String(t || "").replace(/\s+/g, "");
+  if (squash(parts.map(p => p.en).join(" ")) !== squash(s.en)
+    || squash(parts.map(p => p.cn).join("")) !== squash(s.cn)) return null;
   return parts;
 };
-
-/* 渲染用的段落句子列表：在 sentencesOf 之上做「渲染期再切」。
- * 返回 [{ en, cn, rs, si0, np }] ——
- *   rs  渲染切分序号（0 起，未切分的元素恒为 0），配合 displaySentenceAt 取「屏幕上被点的那一句」；
- *   si0 **数据口径**的元素序号：= 它在 base 里的下标。渲染层把它写进 data-si，
- *       锚点 / 朗读计数用数据口径，只有「怎么显示」变了。
- *   np  源元素切出的份数（未切分 = 1）。renderRead 靠它决定「这个元素切了没有」：
- *       写不写 data-rs、非末句译文挂不挂 .cn-dup，判据都是 np > 1。
- *
- * v83 把「再切」从退化段推广到**任何**句级元素。旧版只处理 base.length===1（段落级
- * 退化段），但全站审计（SENTENCE-FLOW-AUDIT-2026-09-23.md）实测 8,282 个显示句里还有
- * 182 处连排：①101 处是退化段里含「标点+闭引号」边界，切分正则切不开；②67 处在
- * **普通段**里 —— 某个句级元素本身含 2+ 句（入库切句时没切开，多半也是引语边界），
- * 渲染层对普通段元素不碰，读者照样看到两三句挤一行。修法与退化段同一把尺子：
- * 对每个有译文的元素跑 renderSplitEn，切开的份数挂同一份元素译文（v73 定下的
- * 「整段译文挂每一句」挂法不变，只是「整段」从段缩到元素）。
- * 无译文（!cn）的元素照旧不切 —— 没有可挂的译文，切了只会改变锚点口径。 */
-const renderSentencesOf = p => {
-  const base = sentencesOf(p);
-  const out = [];
-  base.forEach((s, i) => {
-    const parts = s.cn ? renderSplitEn(s.en) : null;
-    if (!parts) { out.push({ ...s, rs: 0, si0: i, np: 1 }); return; }
-    /* 整段译文挂**每一个**显示句（2026-09-23 修的挂法，v83 只把「整段」的粒度从段缩到元素）：
-     * 「逐句对照」档只显示最后一份（非末句副本带 .cn-dup 收起），「点句显示」档点谁弹谁。 */
-    parts.forEach((en, k) => out.push({ en, cn: s.cn, rs: k, si0: i, np: parts.length }));
-  });
-  return out;
-};
+const renderSentencesOf = p => sentencesOf(p).flatMap((s, si0) => {
+  const parts = validAlignedParts(s);
+  return parts
+    ? parts.map((pair, rs) => ({ ...pair, rs, si0, np: parts.length }))
+    : [{ ...s, rs: 0, si0, np: 1 }];
+});
 
 /* 取「屏幕上被点的那一句」的原文与译文。与 sentenceAt() 的分工：
  *   sentenceAt()        —— 数据口径，按 data-si 取（统计 / 朗读 / qc 用）
@@ -2985,31 +2902,16 @@ function renderRead() {
         ${p.credit ? `<figcaption class="photo-credit">${esc(p.credit)}</figcaption>` : ""}
       </figure>`;
     }
-    /* 一段话 = 一个文本流：句子是内联 span，句间只有一个空格。
-     * 旧写法每句一个块级 div，段落被拆成竖排清单（句间 10px 空隙 + 2px 间距），
-     * 英文再长也只在句末换行，视觉上「一句一行」。
-     * ★ 用 renderSentencesOf 而不是 sentencesOf：段落级退化段（AI 栏目）与 v83 起的
-     *   普通段内多句元素，都在这里被再切成显示用的一行一句。data-si 写的是 s.si0
-     *   （**数据口径**元素序号）—— 2026-09-23 之前写的是 map 的显示序号，与注释宣称的
-     *   「切分前序号」不一致，单句朗读的「第 n/total 句」提示会数出 381/380 这种超总数。 */
+    /* data-si 保留原数据序号；只有已核对的子句额外使用 data-rs。 */
     const rsList = renderSentencesOf(p);
     const parts = rsList.map(s => {
       const enText = clean(s.en);
       const cnText = clean(s.cn);
       if (!enText && !cnText) return "";        // 两端都空的句子不占位置
       const en = highlightEn(esc(enText));
-      /* v83：切分判据从「段落级」（rsList.length > 1，只有退化段可能）改为**元素级**
-       * （s.np > 1，见 renderSentencesOf）—— 普通段里被切开的元素同样要写 data-rs、
-       * 同样要给非末句挂 .cn-dup，否则「逐句对照」档一个元素弹多份译文、
-       * 「点句显示」档首句点了没反应（v73 在退化段上踩过同一坑，别再踩一遍）。 */
       const multi = (s.np || 1) > 1;
-      /* 译文是句子的**相邻兄弟**节点，不是子节点。旧写法把 .cn 塞进 .sentence 里，
-         三个后果：① <span> 内套块级元素，HTML 内容模型违规（浏览器容错成「一句一行」，
-         段落感全丢）；② 句子按钮的 aria-label 把整段中文也算进可访问名称，读屏中英混读；
-         ③ 点中文块会误触发「选句」。拆开后「点句展开译文」用相邻兄弟选择器实现。
-         切分元素的非末句副本带 .cn-dup：「逐句对照」档收起（不重复可见），
-         「点句显示」档 peek 规则（5 个类）特异性压过 .cn-dup（4 个类），点谁弹谁。 */
-      const cn = cnText ? `<span class="cn${multi && (s.rs || 0) < s.np - 1 ? " cn-dup" : ""}" lang="zh-CN">${esc(cnText)}</span>` : "";
+      /* 每个显示句都有自己的译文；译文放在相邻节点，点句、查词、收藏使用同一对。 */
+      const cn = cnText ? `<span class="cn" lang="zh-CN">${esc(cnText)}</span>` : "";
       /* data-rs = 渲染切分序号（0 起）。**凡是「这个元素被切分过」就必须写上**，
        * 包括 rs=0 那一句 —— 这不是可有可无的优化：rs=0 时不写属性，DOM 里首句就没有
        * data-rs，`applyAnchor` 的 `querySelector(sel[data-rs="0"])` 找不到它，

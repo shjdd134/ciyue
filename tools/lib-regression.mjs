@@ -14,6 +14,7 @@
 /** 全量回归清单。顺序即输出顺序。**加测试只改这里一处。** */
 export const REGRESSION_TESTS = [
   "content-scope-test.mjs",
+  "sentence-alignment-test.mjs",
   "people-test.mjs",
   "recommend-test.mjs",
   "mt-test.mjs",

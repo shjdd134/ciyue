@@ -41,7 +41,7 @@ function test(name, fn) { fn(); passed++; console.log('✓ ' + name); }
 run(`
   var quoteFixture = { id: 'notes-fixture', title: 'A <personal> article', paras: [
     { en: 'This is an old format sentence.', cn: '旧格式对应的译文。' },
-    { sentences: [{ en: 'First ordinary sentence.', cn: '第一句。' }, { en: 'This sentence has several words. Another sentence has several words.', cn: '这是同一个元素的完整译文。' }] },
+    { sentences: [{ en: 'First ordinary sentence.', cn: '第一句。' }, { en: 'This sentence has several words. Another sentence has several words.', cn: '这是同一个元素的完整译文。', alignedParts: [{ en: 'This sentence has several words.', cn: '这是' }, { en: 'Another sentence has several words.', cn: '同一个元素的完整译文。' }] }] },
     { en: 'A legacy paragraph first sentence. The legacy paragraph second sentence.', cn: '退化段完整译文。' },
     { img: 'cover.jpg', cap: 'Photo caption' }
   ] };
@@ -59,11 +59,11 @@ test('旧格式保存英文、译文及文章标题', () => {
 });
 test('普通段内被拆分元素按 si 与 rs 精确收藏', () => {
   run('var splitNote = makeSentenceNote(quoteFixture, 1, 1, 1)');
-  assert.deepEqual(json('[splitNote.pi,splitNote.si,splitNote.rs,splitNote.en,splitNote.cn]'), [1, 1, 1, 'Another sentence has several words.', '这是同一个元素的完整译文。']);
+  assert.deepEqual(json('[splitNote.pi,splitNote.si,splitNote.rs,splitNote.en,splitNote.cn]'), [1, 1, 1, 'Another sentence has several words.', '同一个元素的完整译文。']);
 });
-test('旧段落渲染切句只保存选中的一句，不吞整段', () => {
-  assert.equal(run('makeSentenceNote(quoteFixture,2,0,1).en'), 'The legacy paragraph second sentence.');
-  assert.equal(run('makeSentenceNote(quoteFixture,2,0,1).cn'), '退化段完整译文。');
+test('未配对退化段不再渲染切句：rs 越界返回 null，整单元按 rs=0 收藏', () => {
+  assert.equal(run('makeSentenceNote(quoteFixture,2,0,1)'), null);
+  assert.deepEqual(json('[makeSentenceNote(quoteFixture,2,0,0).en,makeSentenceNote(quoteFixture,2,0,0).cn]'), ['A legacy paragraph first sentence. The legacy paragraph second sentence.', '退化段完整译文。']);
 });
 test('无效坐标及图片不误收藏邻句', () => {
   assert.equal(run('makeSentenceNote(quoteFixture,1,99,0)'), null);

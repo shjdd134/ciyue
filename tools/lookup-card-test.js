@@ -101,7 +101,7 @@ function boot(options = {}) {
   vm.runInContext(fs.readFileSync(path.join(base, 'assets/app.js'), 'utf8'), sandbox, { filename: 'app.js' });
   run(`activeArticle={id:'lookup-fixture',title:'Lookup fixture',paras:[
     {sentences:[{en:${JSON.stringify(longSentence)},cn:${JSON.stringify(longTranslation)}}]},
-    {sentences:[{en:'The first part has several words. The little child has several toys.',cn:'两句对应的译文。'}]}
+    {sentences:[{en:'The first part has several words. The little child has several toys.',cn:'两句对应的译文。',alignedParts:[{en:'The first part has several words.',cn:'两句对应的'},{en:'The little child has several toys.',cn:'译文。'}]}]}
   ]};view={name:'read'};`);
   const click = target => (handlers.click || []).forEach(fn => fn({ target: { closest: () => target }, detail: 0, stopPropagation: noop }));
   const action = (act, word) => click({ dataset: { act, word }, classList: classList(), closest: () => null });
@@ -228,7 +228,8 @@ const plain = html => html.replace(/<[^>]*>/g, '');
     assert.match(changed.html(), /data-example-word="little"/);
     assert.ok(plain(changed.html()).includes('The little child has several toys.'));
     assert.ok(!plain(changed.html()).includes('The first part has several words.'));
-    assert.match(changed.html(), /两句对应的译文/);
+    assert.match(changed.html(), /译文。/);
+    assert.ok(!plain(changed.html()).includes('两句对应的'));
   });
   await changed.load();
   await test('旧词迟到回调不能把例句填进新词卡片', () => {

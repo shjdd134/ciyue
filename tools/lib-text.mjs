@@ -16,6 +16,7 @@
  */
 
 import fs from "node:fs";
+import { restoreReviewedTranslations } from "./lib-sentence-translations.mjs";
 
 /* ---------------- 1. 不可见字符 ---------------- */
 
@@ -691,6 +692,7 @@ export function readDecl(file, name) {
 
 /** 写回数组（保持文件其余部分逐字节不变），无变化时返回 false */
 export function writeDecl(file, name, value) {
+  if (name === "ARTICLES_EXTRA" || name === "ARTICLES_ARCHIVE") restoreReviewedTranslations(value);
   const src = fs.readFileSync(file, "utf8");
   const parts = splitDecl(src, name);
   if (!parts) return false;

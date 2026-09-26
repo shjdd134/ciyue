@@ -26,6 +26,7 @@ import { readDecl, writeDecl, mergeInject } from './lib-text.mjs';
 import { fetchTribune, splitZhSentences } from './lib-tribune.mjs';
 import { alignBlocks, unitsFor, buildParagraphsFromBlocks, distributeBlock } from './lib-align.mjs';
 import { TOKEN, lemmaCands, cet4Words } from './lib-cet4.mjs';
+import { reviewedPairsFor } from './lib-sentence-translations.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.join(ROOT, 'tools', '_football');
@@ -276,10 +277,11 @@ function buildOne(a, alignOpts = null) {
    * 结论：它**不能进代价函数**，只能当**事后分诊指标**（见 cmdVerify）。
    * 要复现实验：`node tools/football.mjs --verify --id <id>`，或 .tmp/sweep-gloss.mjs。 */
   const opts = alignOpts === null ? {} : alignOpts;
+  const reviewedPairs = reviewedPairsFor(a.id, en.lines.flatMap(l => l.sentences));
   const blocks = alignBlocks(src, dst, opts);
   if (!blocks) return { en, zh, pairs: null, paras: null, alignFailed: true };
-  const paras = buildParagraphsFromBlocks(en.lines, zh.lines, blocks, { splitZh: splitZhSentences });
-  applyOverrides(a, paras, en);
+  const paras = buildParagraphsFromBlocks(en.lines, zh.lines, blocks, { splitZh: splitZhSentences, reviewedPairs });
+  if (!reviewedPairs) applyOverrides(a, paras, en);
   return { en, zh, pairs: null, paras, src, dst };
 }
 

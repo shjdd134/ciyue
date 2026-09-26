@@ -2,7 +2,7 @@
  *
  * manifest 里声明了 standalone（可安装到主屏幕），离线打开不白屏。
  *
- * 缓存策略（v90，本批修朗读层错误分类与无语音拦截，见 HANDOFF §0.2）：
+ * 缓存策略（v91，本批修朗读层错误分类与无语音拦截，见 HANDOFF §0.2）：
  *   SW 本体逻辑一字未动 —— 改的是 app.js 朗读层（阶段 0 设备基线实测驱动）：
  *   ① 单句朗读过滤 interrupted/canceled（连点下一句不再弹假「朗读失败」）；
  *   ② 设备语音表非空但无英语 → 不再提交播放，明确提示；空表（iOS 未加载）照常提交；
@@ -85,7 +85,7 @@
  *   - activate 保留最近两代缓存作为回退（避免更新瞬间出现缓存空窗）。
  *   - 注意：不要在这里按发布升级缓存名——那会每天清空用户缓存，重回冷加载。
  */
-const CACHE = "wordlens-cache-v90";
+const CACHE = "wordlens-cache-v91";
 const FRESH_MS = 3600 * 1000;   // 缓存响应 1 小时内视为新鲜，零网络
 
 const isFresh = res => {

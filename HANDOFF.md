@@ -51,7 +51,7 @@
 - 新增真实文档、OCR 识别、导入边界与 UI 生命周期测试；测试数量及命令见交付包 `validation.log`。PDF 渲染、OCR 内核使用真实依赖验证，UI 生命周期使用受控 DOM/worker 测试，不冒充完整浏览器测试。
 - 验证限制延续：未完成真实浏览器、手机触控和 Android APK 构建验收。后续上线前需真机检查文件选择、Word 表格词库、文字/扫描 PDF、取消与恢复、核对追加和覆盖。未写远端或部署。
 
-### 0.1 ★ 权威现状（2026-09-24 — **要看现状只读这一节**）
+### 0.1 ★ 权威现状（2026-09-26 — **要看现状只读这一节**）
 
 > 🔴 **这张表由 `node tools/doc-numbers.mjs` 校验**：篇数 / 句词数 / 版本 / 词库是硬校验（对不上 `exit 1`）；
 > 基线 commit 是**提示项** —— 每次推送都会改写它，而推送清单从不含本文件（文档要人工跟），
@@ -64,11 +64,11 @@
 | 句子 / 词数 | **3,954 句 / 53,942 词** |
 | 封面 | 60 张（本地 `assets/covers/`；远端 blob 总数请跑 `tree-diff`） |
 | 发布基线 | `.bak/published.json` = **`700a9cb`**（2026-09-26 晚，「v90 上线——Word/PDF 词库导入 + 私人书架两轮 + 单层查词卡」，代码包 239 文件整包推送）· ★ 本行自身的改动会再引出一个 commit，**以 `node tools/doc-numbers.mjs` 打出的实测值为准** |
-| 资源版本 | `?v=90` · SW 缓存名 `wordlens-cache-v90`（v90 = Word/PDF 词库识别，含单层查词卡与私人书架两轮功能，2026-09-26 已部署） |
+| 资源版本 | `?v=91` · SW 缓存名 `wordlens-cache-v91`（v91 = 2026-09-26 中英句对修复：679 条译文校对 + 47 组 `alignedParts`，废弃 cn-dup 显示机制；v90 Word/PDF 词库导入 + 单层查词卡 + 私人书架同日早些时候已部署） |
 | Android 壳 | **1.0.4 (vc5)** —— APK 与 `mobile/` 源码同版本走，产物不入库（`outputs/apk/wordlens-1.0.4-release-vc5.apk`）；打包坑、白屏事故、「备份导入/导出在壳里没反应」的复盘见 REFERENCE-mechanics §14。★ **vc5 补回包内缺失的 `data-tapdict.js`（3.0MB）与 `data-examples.js`（560KB）** —— 白名单只认 `index.html` 的静态引用，够不着 `app.js` 运行期拼路径加载的资源，这两个文件从没进过包（vc4 真机上点词全失效 + 顶部常驻红条），而当时守卫是**同义反复恒绿**。复盘见 `SHELL-ASSET-MISSING-RCA-2026-09-23.md`、REF §14.13 |
 | 词库 | **4,082 词**（基础层 2,069 + 核心层 2,013）· 另有**完整四级大纲 4,544 词**（只服务「词汇高亮范围」的档位，不进查词与学习流）· ★ **2026-09-23 义项补全批次**：`build-core-vocab` 合并策略从「已有词条原样保留」（固化循环：早期精编的单义永远挡住词典源的完整释义）改为「新词性补块 + 兜底」——1,075 词补上真缺的词性义项（match 补 v. 相配、evidence 补 v. 证明、academic 补 n. 学者…），判据统一在 `tools/lib-senses.cjs`；例句选句加义项对齐（`build-examples` 跨级别汇池 + 义项相关 +80 分，2,321/3,709 条义项命中），原刊兜底加义项闸（15 条错配改留空） |
 | 采集策略 | **RSS 采集已全部停用**；每日自动采集只剩人物审核队列（≤1 篇）。**AI 栏目已于 2026-09-24 整栏下架**（`tools/offbook.mjs` 的 `ESSAYS` 摘空，链路仍在但不再产出）；旧明星停用 |
-| 成长 5 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；James Clear《The Diderot Effect》（`gr-james-clear-diderot-effect`，2026-09-25 入库，`tools/james-clear.mjs` 通道）；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，社区成熟中译本对齐入库，`translationCredit` 署名：lzwjava / 王亮 / untymen.com） |
+| 成长 5 篇 | Dan Koe：`gr-how-to-fix-your-entire-life-in-1-day`；James Clear《The Diderot Effect》（`gr-james-clear-diderot-effect`，2026-09-25 入库，`tools/james-clear.mjs` 通道）；Paul Graham 三篇（`gr-pg-what-youll-wish-youd-known` / `gr-pg-how-to-do-what-you-love` / `gr-pg-how-to-do-great-work`，原社区译本署名：lzwjava / 王亮 / untymen.com；2026-09-26 逐句校对，《How to Do What You Love》重译，署名保留原来源并注明词阅修订，修订持久来源见 `tools/sentence-translations-reviewed.json`） |
 | 人物 5 篇 | Anne Hathaway + **Icons 4 篇**（Léa Seydoux / Zoey Deutch / Eva Green / Rachel Weisz，`readingMode:"full"` 原刊全文，均 `review.status:"approved"`，摄影师署名见 `people-reviewed.json` 的 `photoCredit`）。~~Megan Fox~~ 2026-09-24 下架（用户决定），已同时移出 `people-reviewed.json` 复核队列并在 `people-config.local.json` 的 `excludedPeople` 里登记，详见下方下架条目 |
 | 足球 5 篇 | C罗 Madrid: My Story / 德布劳内 Let Me Talk / 皮克 A Long Story / 厄德高 North London Forever / 拉什福德《The Number 9》（`fb-marcus-rashford-the-number-9`，2026-09-25 入库）（**精翻 + `pin:true`**，pin 是豁免 30 天过期闸的关键） |
 | AI 栏目（已下架） | **2026-09-24 整栏撤下**（用户决定）。原为 Offbook Press 官方中英双语长文（Dawei Geng，`ob-*`）一期一整篇 5 期。**撤干净需要三处同时在场**（缺一个就会以某种路径回来）：① `tools/offbook.mjs` 的 `ESSAYS = []`（5 期移入 `RETIRED_ESSAYS` 仅存记录）② `tools/ingest.mjs` 的 `DROP_LIST`（5 个 id）③ `tools/content-scope-test.mjs` 的断言已**反转**（原「AI 应已由 ob-* 上线」→ 现「库里不得再出现 AI / `ob-*`」，同时 `CATEGORIES` 不得含 `AI`）。附带的连带改动：`assets/app.js` 的 `LEAD_PHOTO_POOL` 与 `tools/audit.js` 的 `IMG_SIZE` 同步删掉 megan-fox 5 项；`audit.js` 的 `[R2]`（节标题）**线上已无样本**，改为合成桩 + 显式断言「库内 head 段数 = 0」 |
@@ -1363,6 +1363,16 @@ e2e（`.bak/probe-tts-fix-e2e.cjs`，真 app.js + Edge）：连点三句无假�
 **未改任何数据**。⚠️ 手机的具体根因（哪个浏览器、语音表里到底有什么）待用户回填设备信息后真机复测 ——
 v86 上线后，那台设备再点朗读**一定会有明确提示**，不会再无声无息。
 
+### 2026-09-26（v91）中英句对修复（并行会话开发，同日合并部署）
+
+修正 679 条译文，增加 47 组人工核对的 `alignedParts`；15 篇文章原有 3,954 条英文记录与段落位置不变，显示为 4,006 个中英配对单元。全文核对 Paul Graham 三篇及德布劳内《Let Me Talk》，另修人物访谈串句与其他显示拆分。
+
+前端只拆分已核对且双语拼接完整的句对；没有句对时保留原英中文单元。移除共用整段中文与 `cn-dup` 隐藏机制。导入工具禁止按长度、句数推测语义配对；`tools/sentence-translations-reviewed.json` 是本次修订的持久来源，`writeDecl` 自动恢复译文、显示句对和修订署名。全文核对文章的英文变化时拒绝写入，须同步审校该文件。
+
+**合并部署说明（同日第二会话）**：补丁基于并行会话本地基线 `37147d9`（远端无此提交），按内容合入 v90 树——数据层 262 hunks 与 audit/styles/football/pg/lib-text/lib-align/lib-regression 全部干净落地；app.js 仅版本号行冲突（句对渲染 2 个实质 hunk 与 v90 单层查词卡无重叠，`cn-dup` 机制清零）；index/sw/data-config 的版本 hunks 拒套后统一 bump v90 → v91。v90 两个测试的旧拆分契约改到新契约：`lookup-card-test` 夹具补 `alignedParts`（分片自带中文，词卡显示所点分片自己的译文）、`sentence-notes-test` 未配对退化段按整单元 rs=0 收藏。独立对账：对齐前后 3,954 条英文句逐字节零差异、段落数零变化、679 条中文修正、47 组句对。`title-map.json` 登记 7 条（3 条为本次译文新出现的《The Dreamers》/《Casino Royale》/《纽约客》，4 条为 09-25 狄德罗批次遗留）。**遗留（早于本补丁，远端 main 同样红）**：guards-test 13/14——拉什福德篇 3 组重复句待判「提取副本 vs 本意重复」后删句或登记 `dup-allowlist.json`；夜间 update job 因此回滚，与本批无关。
+
+检查（2026-09-26 合并部署实测：句对 12 组、audit 476/0、nav 68/0、sw 9/0、version 17/17、football 15/0、doc-numbers ✓、qc exit 0、vocab/docx/pdf/ocr 16+16+21+14、lookup-card 17、sentence-notes 23、collections 61、reading-intent 11、reread 25、vocab-flow 33；与 v90 私人书架/查词卡/导入全部共存）：text-scan 无乱码/漏译/结构缺陷，三篇 PG 从本地源文件构建成功。自动检查覆盖全站绑定与文本完整性；不代表其余文章已经逐句人工语义审校。本批未进行真机浏览器测试。
+
 ### 0.3 机制速查（不随批次变）
 
 - **段落结构（2026-09-14）**：19 篇共 1,770 句 / 938 个文本段（多句段 462，其中 ≥2 句的 421）+ 配图段 59。
@@ -1909,7 +1919,7 @@ node tools/audit.js && node tools/nav-test.js && node tools/smoke.js
 #   同一夜第三批（备份导入/导出 + 归档残留守卫）再校准 → 463。
 #   ⚠️ 这个总数曾因**条件性断言**小幅浮动过（实测见过 458~463）；判据始终是「0 失败」。
 #   数字对不上时，先看是不是有人加了断言，而不是先怀疑代码坏了。
-node tools/audit.js         # 期望 482 通过 / 0 失败（[A]–[V] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约（含壳自检）、U 源文件行尾卫生、V APK 归档形状）
+node tools/audit.js         # 期望 476 通过 / 0 失败（v90 查词卡 +9 守卫并入后的合并口径；带 outputs/apk 的本地完整工作树多 2 项 APK 核对 = 478）（[A]–[V] 全部节；含 G2 难度口径、G3 推荐稳定、G4 生词本按词匹配、G5 时长记账、G6 更新通知、G8 例句不参与计算、G9 术语表残留/标题书名号/localhost 链接、R 阅读排版与句子锚点、S 落盘与续读位置、T 原生壳契约（含壳自检）、U 源文件行尾卫生、V APK 归档形状）
 node tools/nav-test.js      # 期望 39 通过 / 0 失败（2026-09-22 实测；旧口径 30/0 已不适用）
 node tools/smoke.js         # 跑通不抛错；打印统计 JSON（含 TAPDICT_size、COMMON_WORDS_size）
 node tools/release-test.mjs # 期望 26/26（自带还原保护；含清单基线、LATEST 悬空回落、发布基线还原、测试批次自愈）

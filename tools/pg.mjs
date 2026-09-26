@@ -18,6 +18,7 @@ import { readDecl, writeDecl } from './lib-text.mjs';
 import { splitZhSentences } from './lib-tribune.mjs';
 import { splitOriginalSentences } from './lib-people.mjs';
 import { alignBlocks, buildParagraphsFromBlocks } from './lib-align.mjs';
+import { reviewedPairsFor } from './lib-sentence-translations.mjs';
 
 const root = path.resolve(import.meta.dirname, '..');
 const TMP = path.join(root, '.tmp', 'pg');
@@ -420,12 +421,13 @@ if (mode === 'extract') {
     const zhLines = JSON.parse(fs.readFileSync(path.join(OUT, 'zh', a.id + '.json'), 'utf8'));
     const src = enLines.map(l => ({ text: l.en, weight: (l.en.match(/[A-Za-z']+/g) || []).length, units: l.sentences.length }));
     const dst = zhLines.map(l => ({ text: l.en, len: hanzi(l.en), units: l.sentences.length }));
+    const reviewedPairs = reviewedPairsFor(a.id, enLines.flatMap(l => l.sentences));
     const blocks = alignBlocks(src, dst, {});
     if (!blocks) { console.error(`${a.id}: 对齐失败`); continue; }
-    const paras = buildParagraphsFromBlocks(enLines, zhLines, blocks, { splitZh: splitZhSentences })
+    const paras = buildParagraphsFromBlocks(enLines, zhLines, blocks, { splitZh: splitZhSentences, reviewedPairs })
       .map(p => ({ sentences: p.sentences }));
     /* 逐处改：人工校对的句级覆盖（含 ratio 误报白名单），找不到目标直接报错 */
-    applyCnFix(a.id, paras);
+    if (!reviewedPairs) applyCnFix(a.id, paras);
     const flat = paras.flatMap(p => p.sentences);
     const empty = flat.filter(s => !s.cn || !s.cn.trim()).length;
     fs.writeFileSync(path.join(OUT, 'built', a.id + '.json'), JSON.stringify(paras, null, 1));

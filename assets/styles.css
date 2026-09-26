@@ -872,11 +872,6 @@ body {
 .read-scroll.cn-tap .sentence.peek + .cn {
   display: block; animation: peekIn .28s ease;
 }
-/* 切分段（退化段再切）的整段译文挂在**每一个**显示句后面（2026-09-23 修：
-   旧版只挂最后一句，切分段前几句点了没有任何反应）。「逐句对照」档一段
-   只该见一份译文 —— 非末句的副本用 .cn-dup 收起。
-   「点句显示」档 peek 规则 5 个类压过这里 4 个类，点谁弹谁，不受影响。 */
-.read-scroll .para .cn.cn-dup { display: none; }
 @keyframes peekIn {
   from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: none; }

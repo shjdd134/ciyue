@@ -1424,146 +1424,44 @@ ok('移动阈值落在可调区间（既不是 0、也不是大到永不生效�
 })());
 ctx('activeArticle = null;');
 
-/* ---- [R5] 段落级退化段的渲染期切分（2026-09-22）----
- * 起因：AI 栏目（Offbook 通道）源站只给段落级对齐，官方译文的句数常与英文不等
- * （实测 `The seventh year of Kaihuang. Officials need filling.` 5 句英文 ↔ 4 句中文）。
- * `tools/offbook.mjs` 按设计**不切**（硬切会编造错误配对），于是入库成
- * `sentences: [{ en:"5句话…", cn:"4句话…" }]` —— 形状合法，但 `.para-flow` 只把
- * 「句级元素」转块级，整段英文连排成一坨，与句级对齐成功的段混在同一篇里。
- * 全站 510 处（AI 5 篇为主）。修的是**渲染**，数据与句数口径一个字不动。
- *
- * 这里断言四件可观察的事：
- *   ① 退化段在渲染时确实被切开（一句一行）；
- *   ② 整段译文挂在**每一个**显示句后面（2026-09-23 修：旧版只挂最后一句，
- *      「点句显示」档前几句点了没有任何反应；不按比例拆中文的禁令不变）；
- *   ③ 假阳性被挡住（`Cui. Lu. Wang. Xie.` 这类缩写碎片不切）；
- *   ④ 数据口径不受影响（sentencesOf / 全站句数不变，锚点与 qc 口径不变）。 */
-console.log('\n[R5] 退化段渲染切分');
-ctx('activeArticle = null;');
-/* 桩：构造一个「1 个句级元素里塞多句」的退化段，与线上 AI 栏目同形（取真实 5 句样本，
- * 中文是官方把前两句合并译的 4 句 —— 句数不等正是它退化的原因） */
-sandbox.__degen = { sentences: [{
-  en: 'The seventh year of Kaihuang. Officials need filling. Most of these names he doesn\u2019t know; each carries the name of a recommender. The recommenders he knows. The Three Departments\u2019 clerks, the prefectural Rectifiers \u2014 for decades they\u2019ve cycled through, the same handful of clans.',
-  cn: '开皇七年，官员要补。这些人他大半不认识，每个名字旁边都有荐主。荐主他认得。三省的省郎，各州的中正，几十年里来回，就这几个家族。',
-}] };
-sandbox.__degenOut = ctx('renderSentencesOf(__degen)');
-ok('★ 退化段被切成多句（一段连排 → 一句一行）',
-  ctx('__degenOut.length') === 5);
-ok('★ 切出的每句都有英文、且都不含整段（说明真的切了，不是原样复制）',
-  ctx('__degenOut.every(s => s.en && s.en.length < 130)'));
-/* 整段译文挂每一个显示句：每份都必须是**完整整段**（防「把中文也拆开乱配」；
- * 点句显示档点谁弹谁的正是这份整段译文，副本的收起交给 .cn-dup / CSS） */
-ok('★ 整段译文挂在每一个显示句后面（点谁弹谁；不按比例拆中文）',
-  ctx('__degenOut.every(s => s.cn === __degen.sentences[0].cn)'));
-/* 拼回守恒：切分不得丢字或增字（这里用去空白比较，squash 只存在于 lib-offbook） */
-sandbox.__sq = s => String(s || '').replace(/\s+/g, '');
-ok('★ 切出的是原文的拼回（不丢字、不增字）',
-  ctx('__sq(__degenOut.map(s => s.en).join(" "))') === ctx('__sq(__degen.sentences[0].en)'));
-/* ★ 负向：假阳性必须挡住。`Cui. Lu. Wang. Xie.` 是 4 个单字母缩写，切了就成 4 个碎片 */
-sandbox.__abbr = { sentences: [{ en: 'Cui. Lu. Wang. Xie.', cn: '崔、卢、王、谢。' }] };
-ok('★ 缩写串不切（Cui. Lu. Wang. Xie. 保持一段）',
-  ctx('renderSentencesOf(__abbr).length') === 1);
-sandbox.__frag = { sentences: [{ en: 'Shit\u2026', cn: '糟了……' }] };
-ok('★ 短感叹 / 拟声不切（Shit… 保持一段）',
-  ctx('renderSentencesOf(__frag).length') === 1);
-/* 对照（预期为真）：正常单句段不被误切。没有这条，「所有段都不切」也会全绿 */
-sandbox.__single = { sentences: [{ en: 'This is a complete single sentence about firms and their costs.', cn: '这是一句完整的话。' }] };
-ok('照常：本来就是一句的段不被切开',
-  ctx('renderSentencesOf(__single).length') === 1);
-sandbox.__multi = { sentences: [{ en: 'First one here.', cn: '第一句。' }, { en: 'Second one here.', cn: '第二句。' }] };
-ok('照常：已经句级对齐的段原样返回（每句各自带译文）',
-  ctx('renderSentencesOf(__multi).length') === 2 && ctx('renderSentencesOf(__multi).every(s => s.cn)'));
-/* ★ 数据口径不受影响：sentencesOf 还是 1（渲染切分不得回写数据层） */
-ok('★ 数据口径不受影响（sentencesOf 仍是 1 个句级元素；句数统计与锚点不移位）',
-  ctx('sentencesOf(__degen).length') === 1 && ctx('sentenceAt({paras:[__degen]}, 0, 0).cn === __degen.sentences[0].cn'));
-/* rs 必须写进 DOM，否则查词卡片 / 朗读取不回「被点的那一句」 */
-ok('★ 渲染切分的句子带 data-rs（多个切句共用 data-si，没有 rs 就取不回被点句）',
-  /data-rs="\$\{rs\}"|data-rs/.test(fs.readFileSync(path.join(base, 'assets', 'app.js'), 'utf8')));
-ok('★ 全文朗读走渲染切分（否则退化段整段 5 句被当一条 utterance 念出去）',
-  /flatMap\(p => renderSentencesOf\(p\)\)/.test(appBare.replace(/\s+/g, ' '))
-  || /flatMap\(p => renderSentencesOf\(p\)\)/.test(appBare));
-ok('★ 查词卡片用显示口径取句（displaySentenceAt 带上 data-rs）',
-  /displaySentenceAt\(activeArticle,\s*\+sentEl\.dataset\.pi/.test(appBare));
-
-/* ★★ 显示口径的**行为**守卫（2026-09-22 修 4,023 句错位后补）。
- * 上面那条只断言调用点写法 —— 「断言实现不断言意图」的典型：旧实现
- * `list[rs] || list[si]` 在普通多句段里 rs 恒 0，list[0] 永远为真，
- * 回退分支永不执行 → 点第二句及以后一律取回段首句，而那条正则照样全绿。
- * 判据必须落在「取回来的到底是不是你点的那一句」上。 */
-sandbox.__two = { sentences: [{ en: 'First one here.', cn: '第一句。' }, { en: 'Second one here.', cn: '第二句。' }] };
-ok('★ 普通多句段：按 si 取第二句必须拿到第二句（不是段首句）',
-  ctx('displaySentenceAt({paras:[__two]}, 0, 1, 0).en') === 'Second one here.');
-ok('对照：si=0 取回第一句（上一条不是靠「永远返回某一句」蒙对的）',
-  ctx('displaySentenceAt({paras:[__two]}, 0, 0, 0).en') === 'First one here.');
-ok('★ 全库扫描：每个普通多句段的每一句都取回自己（0 错位）',
-  ctx(`(function(){
-    let bad = 0, seen = 0;
-    for (const a of ARTICLES) (a.paras||[]).forEach((p, pi) => {
-      const n = (p.sentences||[]).length;
-      if (n < 2) return;              /* 退化段（n===1）走 rs 路径，见下一条 */
-      const list = renderSentencesOf(p);
-      for (let si = 0; si < n; si++) {
-        seen++;
-        const g = displaySentenceAt(a, pi, si, 0), w = list.find(s => s.si0 === si && s.rs === 0);
-        if (!g || !w || g.en !== w.en) bad++;
-      }
-    });
-    window.__seen = seen;
-    return bad;
-  })()`) === 0);
-/* 防「天然满足」：扫描面必须非空，否则 0 错位毫无意义 */
-ok('★ 扫描面非空（多句段 ≥100、句数 ≥1000，防上面那条空集恒真）',
-  ctx('(ARTICLES.reduce((n,a)=>n+(a.paras||[]).filter(p=>(p.sentences||[]).length>=2).length,0))') >= 100
-  && ctx('window.__seen') >= 1000);
-ok('★ 退化段仍走 rs 路径：同一 si=0 下按 rs 逐句取回各自的切句',
-  ctx(`(function(){
-    const d = { sentences: [{ en: __degen.sentences[0].en, cn: __degen.sentences[0].cn }] };
-    const list = renderSentencesOf(d);
-    if (list.length < 2) return false;
-    for (let rs = 0; rs < list.length; rs++) {
-      const g = displaySentenceAt({paras:[d]}, 0, 0, rs);
-      if (!g || g.en !== list[rs].en) return false;
+/* ---- [R5] 只显示已核对的双语子句，不再把整段中文重复挂给单句 ---- */
+console.log('\n[R5] 中英句对与续读锚点');
+sandbox.__unreviewed = { sentences: [{ en: 'She went home. He stayed behind.', cn: '他留下了，她回家了。' }] };
+ok('未核对的多句保留完整配对，不按句数或标点猜配', ctx('renderSentencesOf(__unreviewed).length') === 1);
+sandbox.__paired = { sentences: [{
+  en: 'First sentence here. Second sentence here.', cn: '第一句。第二句。',
+  alignedParts: [{ en: 'First sentence here.', cn: '第一句。' }, { en: 'Second sentence here.', cn: '第二句。' }],
+}, { en: 'Third sentence here.', cn: '第三句。' }] };
+ok('已核对的子句各自携带对应译文', ctx('renderSentencesOf(__paired).map(s=>s.cn).join("|")') === '第一句。|第二句。|第三句。');
+ok('显示子句不改变原数据句数', ctx('sentencesOf(__paired).length') === 2);
+ok('同一数据句内按 rs 取得对应子句', ctx('displaySentenceAt({paras:[__paired]},0,0,1).cn') === '第二句。');
+ok('后续数据句仍按 si 精确定位', ctx('displaySentenceAt({paras:[__paired]},0,1,0).cn') === '第三句。');
+ok('旧的 rs 锚点仍能回到原配对单元', ctx('displaySentenceAt({paras:[__unreviewed]},0,0,2).en') === 'She went home. He stayed behind.');
+sandbox.__badPair = JSON.parse(JSON.stringify(sandbox.__paired));
+sandbox.__badPair.sentences[0].alignedParts[0].en = 'Changed original.';
+ok('失效的英文子句不能覆盖原文', ctx('renderSentencesOf(__badPair).length') === 2);
+sandbox.__badPair = JSON.parse(JSON.stringify(sandbox.__paired));
+sandbox.__badPair.sentences[0].alignedParts[0].cn = '缺失了原译文。';
+ok('中文拼回不一致则拒绝拆分', ctx('renderSentencesOf(__badPair).length') === 2);
+ok('全库显示句的中英配对均能由锚点准确取回', ctx(`(() => {
+  let seen = 0;
+  for (const a of ARTICLES) (a.paras||[]).forEach((p, pi) => {
+    for (const s of renderSentencesOf(p)) {
+      const got = displaySentenceAt(a, pi, s.si0, s.rs);
+      if (!got || got.en !== s.en || got.cn !== s.cn) throw new Error('句对定位错位');
+      seen++;
     }
-    return true;
-  })()`));
-ok('边界：si 越界返回 null（不返回 undefined、不抛错）',
-  ctx('displaySentenceAt({paras:[__two]}, 0, 99, 0)') === null
-  && ctx('displaySentenceAt(null, 0, 0, 0)') === null);
-
-/* ★★ 端到端：真的渲染一篇文章，数正文里出现了几个 .sentence 节点。
- * 为什么必须有这一条：上面那些都只测 `renderSentencesOf()` **函数本身**对不对，
- * 测不出它**有没有被 renderRead 调用**。2026-09-22 实测过这个假守卫 ——
- * 把渲染层那行改回 `sentencesOf(p)`（等于功能整个撤销），314 条断言**全绿**。
- * 断言必须落在「渲染输出」这个可观察的结果上，不能只落在辅助函数上。 */
-sandbox.__degenArt = { id: "__degen", cat: "AI", title: "t", titleZh: "t", date: "2026-01-01",
-  url: "#", cover: "", gradient: "", source: "s", paras: [{
-    sentences: [{
-      en: 'The seventh year of Kaihuang. Officials need filling. Most of these names he doesn\u2019t know; each carries the name of a recommender. The recommenders he knows. The Three Departments\u2019 clerks, the prefectural Rectifiers \u2014 for decades they\u2019ve cycled through, the same handful of clans.',
-      cn: '开皇七年，官员要补。这些人他大半不认识，每个名字旁边都有荐主。荐主他认得。三省的省郎，各州的中正，几十年里来回，就这几个家族。',
-    }],
-  }] };
-ctx('activeArticle = __degenArt; view = {name:"read"}; S.cnMode = "all";');
-const degenHtml = ctx('renderRead()');
+  });
+  return seen > 3000;
+})()`));
+sandbox.__pairedArt = { id:'__paired', title:'Paired', cat:'成长', paras:[sandbox.__paired], source:'test', url:'#', date:'2026-09-26' };
+ctx('activeArticle = __pairedArt; view = {name:"read"}; S.cnMode = "all";');
+const pairedHtml = ctx('renderRead()');
+ok('实际渲染三组英文和各自译文', (pairedHtml.match(/class="sentence"/g)||[]).length === 3
+  && (pairedHtml.match(/class="cn"/g)||[]).length === 3 && !pairedHtml.includes('cn-dup'));
+ok('已核对子句写入 rs=0 和 rs=1，普通句保留 si=1', pairedHtml.includes('data-si="0" data-rs="0"')
+  && pairedHtml.includes('data-si="0" data-rs="1"') && pairedHtml.includes('data-si="1"'));
 ctx('activeArticle = null; view = {name:"home"}; S.cnMode = "tap";');
-const degenSentN = (degenHtml.match(/class="sentence"/g) || []).length;
-ok(`★ 端到端：退化段渲染出 5 个句子节点（实际 ${degenSentN}）—— 防「函数写对了但没接线」`,
-  degenSentN === 5);
-ok('★ 端到端：切出的句子带 data-rs（0..4），否则取不回被点句',
-  ['data-rs="0"', 'data-rs="1"', 'data-rs="2"', 'data-rs="3"', 'data-rs="4"'].every(a => degenHtml.includes(a)));
-ok('★ 端到端：整段译文挂在**每一个**显示句后面（2026-09-23 修：旧版只挂最后一句，'
-  + '「点句显示」档前几句点了没有任何反应）',
-  (degenHtml.match(/<span class="cn[ "]/g) || []).length === 5);
-const degenDupN = (degenHtml.match(/class="cn cn-dup"/g) || []).length;
-ok(`★ 端到端：非末句的译文副本带 .cn-dup（4/${degenDupN}）——「逐句对照」档一段只见一份`,
-  degenDupN === 4);
-ok('★ 端到端：退化段 data-si 全为 0（数据口径；旧版写显示序号 0..4，'
-  + '单句朗读的「第 n/total 句」会数出 381/380 这种超总数）',
-  degenHtml.includes('data-si="0"')
-  && ![1, 2, 3, 4].some(k => degenHtml.includes(`data-si="${k}"`)));
-ok('★ 行为：renderSentencesOf 带出数据口径 si0（退化段恒 0；多句段 = 各自在 base 的下标）',
-  ctx('renderSentencesOf(__degen).every(s => s.si0 === 0)')
-  && ctx('renderSentencesOf(__multi).map(s => s.si0).join()') === '0,1');
-
 
 const css = fs.readFileSync(path.join(base, 'assets/styles.css'), 'utf8');
 ok('段间装饰点已删除', !/· · ·/.test(css));
@@ -1585,12 +1483,8 @@ ok('中文字号跟随正文档位（不再固定 13.5px）',
  * 现在反向锁死：默认必须是 display:none，且禁止 opacity:0 回归。
  * 判定前剥注释 —— 上面这段说明里就有「opacity: 0」这几个字。 */
 const cssBare = css.replace(/\/\*[\s\S]*?\*\//g, '');
-/* 切分段译文的 CSS 侧守卫（2026-09-23）：非末句副本 .cn-dup 在「逐句对照」档收起，
- * 而「点句显示」档的 peek 规则必须仍在且能展开 —— 两条缺一条，修好的交互就断了一半。 */
-const cnDupRule = (cssBare.match(/\.read-scroll \.para \.cn\.cn-dup\s*\{([^}]*)\}/) || [, ''])[1];
 const peekRule = (cssBare.match(/\.read-scroll\.cn-tap \.sentence\.peek \+ \.cn\s*\{([^}]*)\}/) || [, ''])[1];
-ok('★ CSS：.cn-dup 默认收起 + peek 展开规则仍在（切分段点谁弹谁靠这两条配合）',
-  /display:\s*none/.test(cnDupRule) && /display:\s*block/.test(peekRule));
+ok('点句模式仍能展开相邻译文', /display:\s*block/.test(peekRule));
 
 /* ---------------- 2026-09-23 修复批次：词形还原例外 / match 义项 / tapdict 重试 ---------------- */
 /* 沙箱加载了真 data-tapdict.js（TAP/TAPR 为真表）、真词库（KW_TRIE 含 sometime / match）。

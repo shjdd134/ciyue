@@ -7,7 +7,7 @@
  *     又试过句级 325 vs 325 —— 数字看着巧合相等，逐索引抽查语义全错位（第 40 位已经差了 5 句）。
  *     **同理，行数相等也不能当作对齐依据。**
  *
- * 两段式：① 行级单调对齐（本文件 alignLines）② 行内句级分配（buildSentencePairs）。
+ * 行级 DP 仅用于候选分组，不能证明语义对应。句级必须传入 reviewedPairs，缺失则拒绝构建。
  * 行级用 DP，代价 = 长度比例偏差 + 句数比例偏差 - 专名/数字锚点命中。
  * 「比例」这条信号之所以有效：同一篇译文里「每英文词对应多少汉字」是稳定的（De Bruyne 篇 Rc=1.471、
  * 每英文句对应 0.81 个中文句），DP 只要让每个英文行的期望值与实际值都贴合，就能把长段落切开。
@@ -196,122 +196,24 @@ export function splitClauses(zh) {
   return out.length ? out : [String(zh)];
 }
 
-/** 把 m 个中文句摊成 n 份（n = 英文句数）。
- *  m === n → 1:1
- *  m >  n → 合并最短的相邻中文句，直到个数相等（只合并不删字）
- *  m <  n → 从最长的那句中文里拆出从句，直到个数相等；拆不动（没有逗号）时把整句给第一句，
- *           其余英文句共享它 —— **宁可轻微重复，也不留空 cn**（空 cn 在阅读页就是「点了没反应」）。 */
+/** 不能按长度、逗号或相邻句复用来制造句级译文。单个英文单元可以保留整块中文。 */
 export function unitsFor(zhSentences, n) {
-  const units = zhSentences.slice();
-  if (!units.length) return Array.from({ length: n }, () => '');
-  while (units.length > n) {
-    let best = 0, bestLen = Infinity;
-    for (let i = 0; i + 1 < units.length; i++) {
-      const L = units[i].length + units[i + 1].length;
-      if (L < bestLen) { bestLen = L; best = i; }
-    }
-    units.splice(best, 2, units[best] + units[best + 1]);
-  }
-  let guard = 0;
-  while (units.length < n && guard++ < 200) {
-    let idx = -1, maxClause = 1;
-    for (let i = 0; i < units.length; i++) {
-      const c = splitClauses(units[i]).length;
-      if (c > maxClause) { maxClause = c; idx = i; }
-    }
-    if (idx < 0) break;
-    const parts = splitClauses(units[idx]);
-    const mid = Math.ceil(parts.length / 2);
-    units.splice(idx, 1, parts.slice(0, mid).join(''), parts.slice(mid).join(''));
-  }
-  const out = units.slice(0, n);
-  const last = units[units.length - 1] || '';
-  while (out.length < n) out.push(last);   // 拆不动时共享整句，绝不留空
-  return out;
+  if (n === 0 && zhSentences.length === 0) return [];
+  if (n !== 1) throw new Error('多句译文需要已核对的句对，禁止按数量或长度分配');
+  return [zhSentences.join('')];
 }
 
-/** 块内句级分配：把一块的中文文本摊给块内每个英文句。
- *
- * 为什么不用 unitsFor 的贪心（2026-09-17 实测）：
- * 贪心在「中文句数 < 英文句数」时**挑从句最多**的那句拆，不看长度比例 —— De Bruyne 篇实测
- * 它把「这一下子…俱乐部的尖子，这下子俱乐部还会觉得我这个人有问题。」拆开摊给两句英文，
- * 而正确做法是拆后面那句「我必须要去住另外一个宿舍，…」。从那以后每句都错位一格。
- *
- * 正解是小块 DP：把中文句**原子化成从句**，让每个英文句拿走 ≥1 个连续原子，
- * 代价 = 「这块中文字数 vs 全局每英文词对应汉字数 × 该句英文词数」的偏差，
- * 另加「在句号处断开免费、在逗号处断开要罚」—— 拆句永远比拆从句更可疑。
- * 允许拿 0 个原子（官方译文整句省略时），那一句复用前一句的译文并打 cnShared 标记 ——
- * **宁可重复，不留空**（空 cn 在阅读页就是点了没反应）。
- *
- * @returns {Array<{en,cn,cnShared?}>} 与 enSents 等长
- */
-export function distributeBlock(enSents, zhText, splitZh) {
-  const zhS = splitZh(zhText);
-  const n = enSents.length;
-  if (!zhS.length) return enSents.map(en => ({ en, cn: '' }));
-  /* 原子化：句 → 从句。end = 该原子是否以句末标点收尾（在这里断开 = 把一句中文拆给两句英文） */
-  const atoms = [];
-  for (const s of zhS) {
-    const parts = splitClauses(s);
-    parts.forEach((p, i) => atoms.push({ text: p, end: i === parts.length - 1 }));
-  }
-  const M = atoms.length;
-  const cnLen = a => { const m = a.text.match(/[\u4e00-\u9fa5]/g); return m ? m.length : 1; };
-  const enLen = s => { const m = String(s).match(/[A-Za-z']+/g); return m ? m.length : 1; };
-  const totCn = atoms.reduce((a, x) => a + cnLen(x), 0);
-  const totEn = enSents.reduce((a, s) => a + enLen(s), 0) || 1;
-  const r = totCn / totEn;                 // 每英文词对应几个汉字（块内自洽，避免全局比例被段落类型带偏）
-  const BREAK = 0.1;                       // 在逗号处断开一句中文的罚分（实测 0.02~0.4 不敏感）
-  const REUSE = 6;                         // 拿 0 个原子（译文省略）的罚分。实测（.tmp/tune-distribute.mjs 扫描）：
-  // 1.2 时 DP 为了躲拆分偏差宁可整句复用（25 处重复）；≥5 之后只剩「原子数真不够」的 3 处硬复用
-  const pre = [0];
-  for (const a of atoms) pre.push(pre[pre.length - 1] + cnLen(a));
-
-  const INF = Number.POSITIVE_INFINITY;
-  const dp = Array.from({ length: n + 1 }, () => new Float64Array(M + 1).fill(INF));
-  const bk = Array.from({ length: n + 1 }, () => new Int32Array(M + 1).fill(-2));
-  dp[0][0] = 0;
-  for (let i = 1; i <= n; i++) {
-    const w = r * enLen(enSents[i - 1]);
-    /* j 全域扫描（0..M）：官方译文可能整句省略（该句拿 0 个原子），也可能一句话顶两句英文
-     * （M < n），所以「前 i 句各拿 ≥1 个」不能当硬约束 —— 第一版就是在这里把整张表写成 INF，
-     * M < n 的块全部退化成空译文。拿不拿原子交给代价函数（REUSE 罚分）去权衡。 */
-    for (let j = 0; j <= M; j++) {
-      /* 拿 0 个原子：复用前一句译文（官方译文整句省略时走这条） */
-      if (dp[i - 1][j] + REUSE < dp[i][j]) { dp[i][j] = dp[i - 1][j] + REUSE; bk[i][j] = -1; }
-      for (let k = 1; k <= j; k++) {
-        const from = j - k;
-        const prev = dp[i - 1][from];
-        if (prev >= INF) continue;
-        const got = pre[j] - pre[from];
-        let c = Math.abs(got - w) / Math.max(w, 1);
-        if (from > 0 && !atoms[from - 1].end) c += BREAK;   // 断在上一句中文的句号之前
-        if (j < M && !atoms[j - 1].end) c += BREAK;         // 断在这一句中文的句号之前
-        if (prev + c < dp[i][j]) { dp[i][j] = prev + c; bk[i][j] = k; }
-      }
+export function distributeBlock(enSents, zhText, splitZh, reviewedPairs = null) {
+  if (reviewedPairs) {
+    if (reviewedPairs.length !== enSents.length || reviewedPairs.some((p, i) =>
+      p.en !== enSents[i] || typeof p.cn !== 'string' || !p.cn.trim())) {
+      throw new Error('已核对句对与英文不一致，拒绝生成错位译文');
     }
+    return reviewedPairs.map(p => ({ ...p }));
   }
-  /* 回溯 */
-  const out = new Array(n);
-  let j = M;
-  for (let i = n; i >= 1; i--) {
-    const k = bk[i][j];
-    if (k <= 0) {   // -1 = 复用；-2 = 不可达（正常不该发生，兜底按复用处理，绝不崩、绝不留空）
-      out[i - 1] = { en: enSents[i - 1], cn: '', cnShared: true };
-      continue;
-    }
-    const from = j - k;
-    out[i - 1] = { en: enSents[i - 1], cn: atoms.slice(from, j).map(a => a.text).join('') };
-    j = from;
-  }
-  /* 复用填充：空 cn 借前一句（没有前一句就借后一句）—— 绝不留空 */
-  for (let i = 0; i < n; i++) {
-    if (out[i].cn) continue;
-    const prev = out[i - 1] && out[i - 1].cn;
-    const next = (() => { for (let k = i + 1; k < n; k++) if (out[k].cn) return out[k].cn; return ''; })();
-    out[i].cn = prev || next || out[i].cn;
-  }
-  return out;
+  if (enSents.length === 1) return [{ en: enSents[0], cn: zhText }];
+  if (!enSents.length && !zhText) return [];
+  throw new Error('多句对齐需要逐句核对；不能把中文按字数切开或借用相邻句译文');
 }
 
 /** 行内句级分配（对外主入口） */
@@ -320,11 +222,11 @@ export function distribute(enSentences, zhSentences) {
   return enSentences.map((en, i) => ({ en, cn: cn[i] }));
 }
 
-/** 按块组装段落：块内所有英文句 ↔ 块内所有中文句，走 distributeBlock 原子 DP。
- *  块（来自 alignBlocks）两边都非空，所以不会出现空 cn（空 cn 在阅读页就是点了没反应）。 */
+/** 块只决定英文段落分组；句级中文必须来自已核对的原文绑定。 */
 export function buildParagraphsFromBlocks(enLines, zhLines, blocks, opts = {}) {
   const splitZh = opts.splitZh;
   const out = [];
+  let reviewedOffset = 0;
   for (const g of blocks) {
     const enS = [];
     for (let i = g.enFrom; i <= g.enTo; i++) {
@@ -332,8 +234,11 @@ export function buildParagraphsFromBlocks(enLines, zhLines, blocks, opts = {}) {
       for (const s of (l.sentences && l.sentences.length ? l.sentences : [l.en])) enS.push(s);
     }
     const zhText = zhLines.slice(g.cnFrom, g.cnTo + 1).map(l => l.en).join('');
-    const pairs = distributeBlock(enS, zhText, splitZh);
+    const reviewed = opts.reviewedPairs ? opts.reviewedPairs.slice(reviewedOffset, reviewedOffset + enS.length) : null;
+    const pairs = distributeBlock(enS, zhText, splitZh, reviewed);
+    reviewedOffset += enS.length;
     out.push({ sentences: pairs, block: g });
   }
+  if (opts.reviewedPairs && reviewedOffset !== opts.reviewedPairs.length) throw new Error("已核对译文有未消费的句子");
   return out;
 }

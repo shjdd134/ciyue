@@ -1,6 +1,6 @@
 /* 词阅 WordLens —— 抓取文章（自动生成，请勿手改；运行 node tools/ingest.mjs 重新生成）
  *
- * 共 13 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
+ * 共 15 篇；RSS 文章保留来源英文，中文为机器翻译学习注释。
  * 人物类由 tools/people.mjs 写入公开原刊正文与图片；广告/导航块过滤，来源与署名保留。
  * 每篇保留 url 外链可溯源。来源：Dan Koe / Vogue / The Players' Tribune / Paul Graham / AnOther Magazine / Interview Magazine / W Magazine
  *
@@ -248,7 +248,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Not because I don’t think they are capable, but because there are too many times when that same person says “they can’t wait until they’re done losing weight so they can start to enjoy life again.” I hate to break it to you, but if you don’t adopt the lifestyle that led to you losing the weight, for life,",
-            "cn": "并不是因为我觉得他们做不到，而是因为有太多时候，同一个人会说：“真盼着能早点瘦下来，这样就能重新开始享受生活了。”虽然我不想让你失望，但如果你不终身坚持那种让你成功减重的生活方式，"
+            "cn": "并不是因为我觉得他们做不到，而是因为有太多时候，同一个人会说：‘真盼着能早点瘦下来，这样就能重新开始享受生活了。’虽然我不想让你失望，但如果你不终身坚持那种让你成功减重的生活方式，",
+            "alignedParts": [
+              {
+                "en": "Not because I don’t think they are capable, but because there are too many times when that same person says “they can’t wait until they’re done losing weight so they can start to enjoy life again.”",
+                "cn": "并不是因为我觉得他们做不到，而是因为有太多时候，同一个人会说：‘真盼着能早点瘦下来，这样就能重新开始享受生活了。’"
+              },
+              {
+                "en": "I hate to break it to you, but if you don’t adopt the lifestyle that led to you losing the weight, for life,",
+                "cn": "虽然我不想让你失望，但如果你不终身坚持那种让你成功减重的生活方式，"
+              }
+            ]
           },
           {
             "en": "and find a reason with a higher gravitational pull than the one tying you to your previous ways, then you will go straight back to where you started, and you can unhappily say that you wasted the resource you will never get back: time.",
@@ -1896,7 +1906,8 @@ const ARTICLES_EXTRA = [
         "en": "The more you play the game, the stronger this force becomes, and soon enough it becomes who you are, and you wouldn’t have it any other way.",
         "cn": "你玩得越多，这种力量就越发强大，很快它就成了你的一部分，而你也会乐在其中，别无他求。"
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "people-anne-hathaway-mother-mary",
@@ -2060,7 +2071,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“If I got the part, I would have to become material David could craft with.” In essence, she had to make herself into a credible global pop star, one capable of executing complex choreography in a headdress and high heels and channeling the songs that Antonoff and Charli XCX were writing on her behalf.",
-            "cn": "“如果我拿到了这个角色，我就必须成为大卫可以加以雕琢的素材。”归根结底，她必须把自己打造成一位令人信服的全球流行巨星——一位既能戴着头饰、穿着高跟鞋完成复杂的舞蹈编排，又能完美诠释安东诺夫和查莉·XCX为她量身创作的歌曲的明星。"
+            "cn": "‘如果拿到这个角色，我就得把自己变成大卫可以雕琢的素材。’也就是说，她必须成为一位令人信服的全球流行巨星：既能戴着头饰、穿着高跟鞋完成复杂的舞蹈，又能诠释安东诺夫和查莉·XCX为她创作的歌曲。",
+            "alignedParts": [
+              {
+                "en": "“If I got the part, I would have to become material David could craft with.”",
+                "cn": "‘如果拿到这个角色，我就得把自己变成大卫可以雕琢的素材。’"
+              },
+              {
+                "en": "In essence, she had to make herself into a credible global pop star, one capable of executing complex choreography in a headdress and high heels and channeling the songs that Antonoff and Charli XCX were writing on her behalf.",
+                "cn": "也就是说，她必须成为一位令人信服的全球流行巨星：既能戴着头饰、穿着高跟鞋完成复杂的舞蹈，又能诠释安东诺夫和查莉·XCX为她创作的歌曲。"
+              }
+            ]
           },
           {
             "en": "But preparing for all of this wasn’t simply a matter of dance practice or learning to sing by seething and sneering and, yes, sometimes screaming.",
@@ -2080,7 +2101,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You’re not ‘bad.’ You’re just a beginner.",
-            "cn": "你并不“差”。你只是个初学者。"
+            "cn": "你并不‘差’。你只是个初学者。",
+            "alignedParts": [
+              {
+                "en": "You’re not ‘bad.’",
+                "cn": "你并不‘差’。"
+              },
+              {
+                "en": "You’re just a beginner.",
+                "cn": "你只是个初学者。"
+              }
+            ]
           },
           {
             "en": "Getting to that mindset—I had to shed some things that were hard to shed.",
@@ -2139,7 +2170,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "That was the training, getting Annie out of her head.” And giving Hathaway permission to be messy, vulgar, temperamental, and—above all—imperfect.",
-            "cn": "“这就是训练，让‘安妮’从脑海中消失。”并允许海瑟薇展现出邋遢、粗俗、脾气暴躁的一面，最重要的是——不完美。"
+            "cn": "这就是训练的目的，让安妮不再困在自己的思绪里。’也让海瑟薇允许自己变得混乱、粗俗、情绪化，最重要的是——不完美。",
+            "alignedParts": [
+              {
+                "en": "That was the training, getting Annie out of her head.”",
+                "cn": "这就是训练的目的，让安妮不再困在自己的思绪里。’"
+              },
+              {
+                "en": "And giving Hathaway permission to be messy, vulgar, temperamental, and—above all—imperfect.",
+                "cn": "也让海瑟薇允许自己变得混乱、粗俗、情绪化，最重要的是——不完美。"
+              }
+            ]
           },
           {
             "en": "“I remember that first day, being like, Oh no.",
@@ -2175,7 +2216,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "All my breath, it was stuck….” She makes a strangling gesture.",
-            "cn": "“我所有的气息，都卡住了……”她做了一个窒息的手势。"
+            "cn": "我的气息，全都卡住了……’她做了一个喉咙被扼住的手势。",
+            "alignedParts": [
+              {
+                "en": "All my breath, it was stuck….”",
+                "cn": "我的气息，全都卡住了……’"
+              },
+              {
+                "en": "She makes a strangling gesture.",
+                "cn": "她做了一个喉咙被扼住的手势。"
+              }
+            ]
           },
           {
             "en": "A bit later, recalling her frustrations with her vocal coach, she stops mid-anecdote to strike a low note on the keyboard beside her.",
@@ -2207,7 +2258,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And I can touch those notes, but….” Hathaway plays the low note again, letting it sustain.",
-            "cn": "“我能触及那些音符，但……”海瑟薇再次奏出那个低音，让它持续回响。"
+            "cn": "那些音我能够唱到，但是……’海瑟薇又弹了一次那个低音，让声音持续回响。",
+            "alignedParts": [
+              {
+                "en": "And I can touch those notes, but….”",
+                "cn": "那些音我能够唱到，但是……’"
+              },
+              {
+                "en": "Hathaway plays the low note again, letting it sustain.",
+                "cn": "海瑟薇又弹了一次那个低音，让声音持续回响。"
+              }
+            ]
           },
           {
             "en": "“It turns out, I’m down here.",
@@ -2477,7 +2538,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But that journey began well before she found herself in a dance studio with Vitale, trying to “crack open her thoracic.” To arrive there, she had to want to find what she had locked away inside.",
-            "cn": "但这一旅程早在她与维塔莱一起在舞蹈室里尝试“打开胸腔”之前就已开始。为了达到那个境界，她必须渴望发掘自己内心深处那些被深锁的东西。"
+            "cn": "但早在她与维塔莱站在舞蹈室里、尝试‘打开胸腔’之前，这段旅程就已经开始了。要走到那一步，她必须先愿意找回被自己锁在内心的东西。",
+            "alignedParts": [
+              {
+                "en": "But that journey began well before she found herself in a dance studio with Vitale, trying to “crack open her thoracic.”",
+                "cn": "但早在她与维塔莱站在舞蹈室里、尝试‘打开胸腔’之前，这段旅程就已经开始了。"
+              },
+              {
+                "en": "To arrive there, she had to want to find what she had locked away inside.",
+                "cn": "要走到那一步，她必须先愿意找回被自己锁在内心的东西。"
+              }
+            ]
           }
         ]
       },
@@ -2560,7 +2631,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“At one point Annie broke down and said, ‘I have to apologize, because I think what’s going to come out of me will hurt you.’ And Michaela took her hands and said, ‘I love you, I trust you,’ ” Lowery recalls.",
-            "cn": "“有一次，安妮崩溃了，说：‘我必须向你道歉，因为我觉得我接下来要说的话会伤害到你。’米凯拉握住她的手说：‘我爱你，我相信你，’ ”洛维回忆道。"
+            "cn": "‘有一次，安妮崩溃了，说：我必须道歉，因为我觉得接下来从我身上释放出来的东西会伤害你。’‘米凯拉握着她的手说：我爱你，我相信你。’洛维回忆道。",
+            "alignedParts": [
+              {
+                "en": "“At one point Annie broke down and said, ‘I have to apologize, because I think what’s going to come out of me will hurt you.’",
+                "cn": "‘有一次，安妮崩溃了，说：我必须道歉，因为我觉得接下来从我身上释放出来的东西会伤害你。’"
+              },
+              {
+                "en": "And Michaela took her hands and said, ‘I love you, I trust you,’ ” Lowery recalls.",
+                "cn": "‘米凯拉握着她的手说：我爱你，我相信你。’洛维回忆道。"
+              }
+            ]
           },
           {
             "en": "“We were in various stages of that for about a week, shooting that scene.”",
@@ -2675,7 +2756,17 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "She knew what she looked like, thanks to Lowery and Daigeler’s vision and her own contribution of “blond with fried roots.” And she grasped how Mother Mary fit into the zeitgeist, blurring the line between pop idol and actual deity, and she could imagine the character’s internal conflicts, as they were adjacent to ones she herself had navigated, coming of age in the public eye.",
-            "cn": "多亏了洛维和戴格勒的构想，以及她自己贡献的“发根焦黄的金发”造型，她清楚自己该呈现出怎样的形象。 她深谙“圣母玛利亚”如何契合时代精神，模糊了流行偶像与真正神明之间的界限；她也能设身处地地体会这个角色的内心冲突，因为这些冲突与她自己曾在公众视线中成长时所经历的如出一辙。"
+            "cn": "有了洛维和戴格勒的构想，再加上她自己提出的‘发根受损的金发’造型，她知道这个角色该是什么样子。她也理解《圣母玛利亚》如何契合时代精神、模糊流行偶像与神祇的界限；她能想象角色内心的冲突，因为那与她自己在公众注视下成长时经历的冲突相近。",
+            "alignedParts": [
+              {
+                "en": "She knew what she looked like, thanks to Lowery and Daigeler’s vision and her own contribution of “blond with fried roots.”",
+                "cn": "有了洛维和戴格勒的构想，再加上她自己提出的‘发根受损的金发’造型，她知道这个角色该是什么样子。"
+              },
+              {
+                "en": "And she grasped how Mother Mary fit into the zeitgeist, blurring the line between pop idol and actual deity, and she could imagine the character’s internal conflicts, as they were adjacent to ones she herself had navigated, coming of age in the public eye.",
+                "cn": "她也理解《圣母玛利亚》如何契合时代精神、模糊流行偶像与神祇的界限；她能想象角色内心的冲突，因为那与她自己在公众注视下成长时经历的冲突相近。"
+              }
+            ]
           },
           {
             "en": "Where is the boundary between public and private?",
@@ -2861,7 +2952,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She’s very glamorous.” Once you get past the polish and the poise and the buoyancy, however, Showalter goes on to explain, “there’s a whole other side to her most people don’t get to see.",
-            "cn": "“她非常迷人。”不过，肖沃尔特接着解释道，一旦你穿透了她的光鲜、从容和活力，“她还有另一面，这是大多数人无缘得见的。”"
+            "cn": "她非常迷人。’不过肖沃尔特接着解释，一旦越过她的精致、从容和活力，‘她还有一个大多数人看不到的侧面。",
+            "alignedParts": [
+              {
+                "en": "She’s very glamorous.”",
+                "cn": "她非常迷人。’"
+              },
+              {
+                "en": "Once you get past the polish and the poise and the buoyancy, however, Showalter goes on to explain, “there’s a whole other side to her most people don’t get to see.",
+                "cn": "不过肖沃尔特接着解释，一旦越过她的精致、从容和活力，‘她还有一个大多数人看不到的侧面。"
+              }
+            ]
           },
           {
             "en": "And it’s intrinsic to who she is.",
@@ -2904,7 +3005,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“Uno games, baking when there’s time, teaching the kids to dribble a basketball in the apartment without upsetting the neighbors….” This information came to me in the form of what seems to be another of her great leisure pursuits: text messaging.",
-            "cn": "“玩UNO牌、有空时做烘焙、教孩子们在公寓里运球却不打扰邻居……”这些信息是以她另一项似乎很棒的休闲活动——发短信——的形式传到我手上的。"
+            "cn": "‘玩UNO、有空就烘焙、教孩子在公寓里运篮球而不打扰邻居……’这些信息通过另一项似乎也是她的主要休闲活动的方式传给了我：发短信。",
+            "alignedParts": [
+              {
+                "en": "“Uno games, baking when there’s time, teaching the kids to dribble a basketball in the apartment without upsetting the neighbors….”",
+                "cn": "‘玩UNO、有空就烘焙、教孩子在公寓里运篮球而不打扰邻居……’"
+              },
+              {
+                "en": "This information came to me in the form of what seems to be another of her great leisure pursuits: text messaging.",
+                "cn": "这些信息通过另一项似乎也是她的主要休闲活动的方式传给了我：发短信。"
+              }
+            ]
           },
           {
             "en": "That’s a joke, sort of.",
@@ -2916,7 +3027,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But when Hathaway is home, she’s “so, so grateful [her] husband is a great cook and an early riser.” (Among his many other wonderful qualities, she takes pains to note.) There’s no breaking news here.",
-            "cn": "但当海瑟薇在家时，她“真的、真的非常感激[她的]丈夫既是个出色的厨师，又是个早起的人。”（她特意指出，这只是他众多优秀品质中的一项。）这并不是什么新闻。"
+            "cn": "但海瑟薇在家时，她‘非常、非常感激丈夫是个好厨师，而且习惯早起。’（她特意强调，这只是他众多优点中的两项。）这些并不是什么惊人新闻。",
+            "alignedParts": [
+              {
+                "en": "But when Hathaway is home, she’s “so, so grateful [her] husband is a great cook and an early riser.”",
+                "cn": "但海瑟薇在家时，她‘非常、非常感激丈夫是个好厨师，而且习惯早起。’"
+              },
+              {
+                "en": "(Among his many other wonderful qualities, she takes pains to note.) There’s no breaking news here.",
+                "cn": "（她特意强调，这只是他众多优点中的两项。）这些并不是什么惊人新闻。"
+              }
+            ]
           },
           {
             "en": "The news is the way she’s breathing it all in.",
@@ -2932,7 +3053,21 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And growing up in New Jersey, she’d always been frustrated that she couldn’t produce the same “effortless, powerful sound.” Later, packing up for our field trip to the camera store, she told me about her childhood forays into the world of orchestral music, a serious pursuit “until acting swallowed everything.” Right from the start, she wanted to play the trumpet.",
-            "cn": "在新泽西长大的她，一直为自己无法奏出那种“行云流水般又充满力量的声音”而感到沮丧。 后来，当我们收拾东西准备去照相馆参观时，她向我讲述了她童年时涉足管弦乐世界的经历——那曾是一段认真的追求，“直到演艺事业吞噬了一切”。从一开始，她就想吹小号。"
+            "cn": "在新泽西长大的她，一直因为自己无法发出那种‘轻松而有力的声音’而感到沮丧。后来，收拾东西准备一起去相机店时，她向我讲起童年尝试管弦乐的经历；她曾认真投入，‘直到表演吞噬了一切。’从一开始，她就想吹小号。",
+            "alignedParts": [
+              {
+                "en": "And growing up in New Jersey, she’d always been frustrated that she couldn’t produce the same “effortless, powerful sound.”",
+                "cn": "在新泽西长大的她，一直因为自己无法发出那种‘轻松而有力的声音’而感到沮丧。"
+              },
+              {
+                "en": "Later, packing up for our field trip to the camera store, she told me about her childhood forays into the world of orchestral music, a serious pursuit “until acting swallowed everything.”",
+                "cn": "后来，收拾东西准备一起去相机店时，她向我讲起童年尝试管弦乐的经历；她曾认真投入，‘直到表演吞噬了一切。’"
+              },
+              {
+                "en": "Right from the start, she wanted to play the trumpet.",
+                "cn": "从一开始，她就想吹小号。"
+              }
+            ]
           },
           {
             "en": "Her mother said no.",
@@ -2972,7 +3107,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And at the end of the year I went to my teacher and explained my predicament and asked, Is it too late to switch if I can convince my mom?” She continues talking as she slips into incognito mode—sunglasses, cap.",
-            "cn": "“年底的时候，我去找老师，向他说明了我的困境，然后问：‘如果我能说服妈妈，现在转学还来得及吗？’”她一边说着，一边切换到“隐身模式”——戴上墨镜，拉上帽子。"
+            "cn": "学年结束时，我去找老师，解释了自己的处境，并问：如果我能说服妈妈，现在换乐器还来得及吗？’她继续说着，同时戴上墨镜和帽子，进入不易被认出的状态。",
+            "alignedParts": [
+              {
+                "en": "And at the end of the year I went to my teacher and explained my predicament and asked, Is it too late to switch if I can convince my mom?”",
+                "cn": "学年结束时，我去找老师，解释了自己的处境，并问：如果我能说服妈妈，现在换乐器还来得及吗？’"
+              },
+              {
+                "en": "She continues talking as she slips into incognito mode—sunglasses, cap.",
+                "cn": "她继续说着，同时戴上墨镜和帽子，进入不易被认出的状态。"
+              }
+            ]
           },
           {
             "en": "“And he said, Well, there’s summer school.",
@@ -2980,7 +3125,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And so I go home and I lay out this whole plan to my mom, and finally she realized, I really did mean it, I just wanted to play trumpet—am I shouting?” She’s not, but she apologizes anyway.",
-            "cn": "于是我回到家，把整个计划都告诉了妈妈，她终于意识到，我是认真的，我只是想吹小号——“我是不是在吼？”她其实并没有吼，但还是道了歉。"
+            "cn": "于是我回家，把整个计划讲给妈妈听，她终于明白我是认真的，我就是想吹小号——我是不是喊得太响了？’她并没有喊，但还是道了歉。",
+            "alignedParts": [
+              {
+                "en": "And so I go home and I lay out this whole plan to my mom, and finally she realized, I really did mean it, I just wanted to play trumpet—am I shouting?”",
+                "cn": "于是我回家，把整个计划讲给妈妈听，她终于明白我是认真的，我就是想吹小号——我是不是喊得太响了？’"
+              },
+              {
+                "en": "She’s not, but she apologizes anyway.",
+                "cn": "她并没有喊，但还是道了歉。"
+              }
+            ]
           }
         ]
       },
@@ -3008,7 +3163,8 @@ const ARTICLES_EXTRA = [
           }
         ]
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "fb-kevin-de-bruyne-let-me-talk",
@@ -3062,7 +3218,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I didn’t think he’d be a bad guy, really.",
-            "cn": "我到没想他会是个“坏”家伙。"
+            "cn": "说真的，我倒没觉得他会是个坏人。"
           },
           {
             "en": "But the tabloids were always claiming that he was arrogant.",
@@ -3086,11 +3242,21 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Raheem and I have this strong connection, because we arrived at City around the same time, and there was a lot of negativity about us in the press.",
-            "cn": "也许，有点“混蛋”？Raheem和我之间有着很强的联系，我们俩同时加盟曼城，媒体对我们有很多负面的报道。"
+            "cn": "拉希姆和我很有默契，因为我们差不多同时来到曼城，而且当时媒体上关于我们的负面报道很多。"
           },
           {
             "en": "They said I was “the Chelsea reject.” They said Raheem was this flashy guy who left Liverpool for money.",
-            "cn": "当时的我被称做“切尔西弃将”，Raheem被标榜为一个爱炫耀的家伙，离开利物浦就是为了钱。"
+            "cn": "他们说我是‘切尔西弃将’。他们说拉希姆是个爱炫耀、为了钱离开利物浦的家伙。",
+            "alignedParts": [
+              {
+                "en": "They said I was “the Chelsea reject.”",
+                "cn": "他们说我是‘切尔西弃将’。"
+              },
+              {
+                "en": "They said Raheem was this flashy guy who left Liverpool for money.",
+                "cn": "他们说拉希姆是个爱炫耀、为了钱离开利物浦的家伙。"
+              }
+            ]
           },
           {
             "en": "They said we were difficult characters.",
@@ -3170,19 +3336,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I thought you were going to be really distant and shy.",
-            "cn": "我以为你会个高冷害羞的人。"
+            "cn": "我以为你会很疏远、很害羞。"
           },
           {
             "en": "But you’re actually quite funny.”",
-            "cn": "但是你其实很幽默。"
+            "cn": "但其实你挺幽默的。”"
           },
           {
             "en": "I said, “I have a dry humor.”",
-            "cn": "我说：“我的都是冷幽默”“嗯，"
+            "cn": "我说：“我擅长冷幽默。”"
           },
           {
             "en": "He said, “ Well dry.”",
-            "cn": "非常冷”"
+            "cn": "他说：“确实，非常冷。”"
           }
         ]
       },
@@ -3198,7 +3364,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I said, “Honestly?",
-            "cn": "“说实话？"
+            "cn": "我说：“说实话？"
           },
           {
             "en": "I thought you were going to be really arrogant!”",
@@ -3218,7 +3384,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "And I looked at him like, “What?",
-            "cn": "我回瞪的他说：“怎么了？"
+            "cn": "我也看着他说：“怎么了？"
           },
           {
             "en": "You thought I was going to be weird!”",
@@ -3302,11 +3468,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I wouldn’t say one word to you.",
-            "cn": "没什么话。但是在场上。"
+            "cn": "我一句话都不会跟你说。"
           },
           {
             "en": "But on the pitch, I was so flammable.",
-            "cn": "我却是个“一触即发”的人。"
+            "cn": "但到了球场上，我却一点就着。"
           },
           {
             "en": "I know everyone had a laugh about that clip of me yelling at David Silva to “LET ME TALK!” and all that.",
@@ -3322,11 +3488,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "When you’re young…",
-            "cn": "当你年幼的时候。"
+            "cn": "年轻的时候……"
           },
           {
             "en": "well, you don’t understand that people can take it the wrong way.",
-            "cn": "人们会误解这种性格。"
+            "cn": "嗯，你不明白别人可能会误解你。"
           },
           {
             "en": "I learned this the hard way, for sure.",
@@ -3346,11 +3512,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The problem was that I was already shy in my hometown.",
-            "cn": "离开家这个决定完全是我自己的。"
+            "cn": "问题是，即使在家乡，我也已经很害羞了。"
           },
           {
             "en": "At Genk, I was the new kid from the other side of the country who spoke in a funny dialect.",
-            "cn": "但是问题是，我本身就已经很内向了，在Genk，我又是个从远方来的，讲着可笑口音的新来的家伙。"
+            "cn": "到了亨克，我更是一个从国家另一头来的新孩子，还说着奇怪的方言。"
           },
           {
             "en": "It was lonely, for sure.",
@@ -3358,11 +3524,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I didn’t really learn to have a social life, because the only day we had off was Sunday, and that was my opportunity to travel home to see my family.",
-            "cn": "真的。在训练学校的前两年是我这辈子最最孤独的两年。我没有像其他孩子一样的社交生活。"
+            "cn": "我没怎么学会与人交往，因为我们只有周日休息，而那是我回家探望家人的机会。"
           },
           {
             "en": "So my first two years at the academy were probably the loneliest years I’ll ever live.",
-            "cn": "因为我们只有周日休息，所以我只有那一天可以回家看我的家人。"
+            "cn": "所以，在青训营的头两年，可能是我一生中最孤独的两年。"
           }
         ]
       },
@@ -3382,19 +3548,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Any problem I had, anything I was feeling, it all disappeared.",
-            "cn": "我所有的问题和苦恼，都会消失。踢球的时候。"
+            "cn": "所有烦恼、所有情绪，都会消失。"
           },
           {
             "en": "When I’m playing football, everything is good.",
-            "cn": "所有的一切都是美好的。"
+            "cn": "只要在踢球，一切就都很好。"
           },
           {
             "en": "If you want to call it an obsession, then maybe it is my obsession.",
-            "cn": "如果你觉得这是种痴迷，那也许没错。"
+            "cn": "如果你想把这称作痴迷，那也许它就是我的痴迷。"
           },
           {
             "en": "Quite simply, it is my life.",
-            "cn": "足球就是我最痴迷的东西。"
+            "cn": "简单地说，足球就是我的生命。"
           }
         ]
       },
@@ -3402,11 +3568,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The first year, I lived in a boarding house, where I had this tiny room with a bed and a desk and a sink.",
-            "cn": "简单来说，足球就是我的一切。第一年的时候，我住在一个宿舍一样的地方，一个很小的房间，一张床，一个桌子。"
+            "cn": "第一年，我住在宿舍里，房间很小，里面只有一张床、一张桌子和一个洗手池。"
           },
           {
             "en": "The next year, I was able to live with a foster family that the club paid to take in young players.",
-            "cn": "一个洗手池。第二年的时候，我搬到了一个俱乐部安排的寄宿家庭。"
+            "cn": "第二年，我得以住进一个寄宿家庭，俱乐部付钱请他们照顾年轻球员。"
           },
           {
             "en": "Me and two other players moved in with them, and it helped me live a more normal life.",
@@ -3418,19 +3584,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The year went by, and I was doing well in school, doing well in football.",
-            "cn": "一年过去了，我在学校表现也不错。"
+            "cn": "一年过去了，我在学校表现不错，球也踢得很好。"
           },
           {
             "en": "No fights.",
-            "cn": "球踢得也很好。"
-          },
-          {
-            "en": "No problems.",
             "cn": "没有打架。"
           },
           {
+            "en": "No problems.",
+            "cn": "没有惹麻烦。"
+          },
+          {
             "en": "At the end of the year, I packed my bags and said goodbye to my foster family.",
-            "cn": "没有闯祸。"
+            "cn": "学年结束时，我收拾好行李，向寄宿家庭道别。"
           }
         ]
       },
@@ -3438,27 +3604,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "They said, “We’ll see you after the break.",
-            "cn": "学期结束后。"
+            "cn": "他们说：“假期结束后再见。"
           },
           {
             "en": "Have a good summer.”",
-            "cn": "我收拾了自己的东西，"
+            "cn": "祝你暑假愉快。”"
           },
           {
             "en": "But then as soon as I got back to my parents’ house, I walked in the door and could see that my mother was crying.",
-            "cn": "和自己的寄宿家庭道别。他们说：“暑假愉快，我们假期之后见。"
+            "cn": "但回到父母家时，我刚进门，就看见母亲在哭。"
           },
           {
             "en": "I thought maybe somebody had died or something.",
-            "cn": "但是当我刚进家门的时候。"
+            "cn": "我还以为有人去世了，或者出了类似的事。"
           },
           {
             "en": "I said, “What’s the problem?”",
-            "cn": "我就能看出来我的母亲在哭泣。"
+            "cn": "我问：“怎么了？”"
           },
           {
             "en": "And my mother said the words that probably shaped my whole life.",
-            "cn": "我以为家里有亲人去世了。“怎么了？”"
+            "cn": "然后，母亲说出了那句可能塑造了我整个人生的话。"
           }
         ]
       },
@@ -3466,7 +3632,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "She said, “They don’t want you to come back.”",
-            "cn": "然后我母亲说了改变我一生的话："
+            "cn": "她说：“他们不想让你回去了。”"
           }
         ]
       },
@@ -3474,7 +3640,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I said, “What are you talking about?”",
-            "cn": "她说：“他们不想要你了。”"
+            "cn": "我说：“你在说什么？”"
           }
         ]
       },
@@ -3482,15 +3648,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "She said, “The foster family don’t want you there anymore.”",
-            "cn": "我问“你在说什么？”她说："
+            "cn": "她说：“那个寄宿家庭不想再让你住在那里了。”"
           },
           {
             "en": "I said, “What?",
-            "cn": "“你的寄宿家庭？"
+            "cn": "我说：“什么？"
           },
           {
             "en": "Why?”",
-            "cn": "他们不想你回去了。”"
+            "cn": "为什么？”"
           }
         ]
       },
@@ -3498,7 +3664,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "She said, “Because of who you are.",
-            "cn": "“什么？为什么？”她说：“因为你这个人。"
+            "cn": "她说：“因为你的性格。"
           },
           {
             "en": "They said you’re too quiet.",
@@ -3574,11 +3740,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I remember watching my mom crying, and just grabbing the ball.",
-            "cn": "我记得我的母亲哭着，我抓起一个足球跑了出去。"
+            "cn": "我记得自己看着母亲哭，然后抓起了足球。"
           },
           {
             "en": "I went outside to this fence where I’d always played by myself as a kid.",
-            "cn": "到了我儿时经常踢球的一个栅栏边上。"
+            "cn": "我走到屋外，来到那道栅栏旁，小时候我总是一个人在那里踢球。"
           }
         ]
       },
@@ -3586,7 +3752,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "One thing really stuck with me.",
-            "cn": "这句话在我脑海中萦绕了很久很久。"
+            "cn": "有一句话让我久久无法忘记。"
           },
           {
             "en": "“Because of who you are.”",
@@ -3594,8 +3760,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The words kept repeating in my head.",
-            "cn": "这句话在我脑海中萦绕了很久很久。",
-            "cnShared": true
+            "cn": "那些话一直在我脑海里反复回响。"
           },
           {
             "en": "I kicked the ball against the fence for hours, and I remember at some point I actually said out loud, “Everything is going to be O.K.",
@@ -3627,7 +3792,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "pfffff.",
-            "cn": "真的。"
+            "cn": "呼——。"
           },
           {
             "en": "I had so much fire inside me.",
@@ -3635,8 +3800,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It was mad.",
-            "cn": "我心里面充满了斗志。",
-            "cnShared": true
+            "cn": "简直像疯了一样。"
           }
         ]
       },
@@ -3764,23 +3928,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Maybe I should’ve found it funny, but at the time it wasn’t funny to me.",
-            "cn": "也许我当时应该把那当成玩笑话就完了，但是那个时候。"
+            "cn": "也许我本该觉得好笑，但当时我一点也笑不出来。"
           },
           {
             "en": "They had really hurt me.",
-            "cn": "我真的不觉得可笑。"
+            "cn": "他们确实深深伤害了我。"
           },
           {
             "en": "So I said, “No.",
-            "cn": "他们真的伤害了我。"
+            "cn": "所以我说：“不。"
           },
           {
             "en": "You threw me in the garbage.",
-            "cn": "所以我当时也非常直白。"
+            "cn": "你们曾把我像垃圾一样扔掉。"
           },
           {
             "en": "Now I’m doing well and you want me back?”",
-            "cn": "对他们说“你们把我扔到了垃圾堆里不是么？现在我表现好了，你想要我回去？”"
+            "cn": "现在我表现好了，你们又想让我回去？”"
           }
         ]
       },
@@ -3860,11 +4024,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But then Mourinho texted me, “You are staying.",
-            "cn": "然后穆里尼奥发短信给我说："
+            "cn": "但随后穆里尼奥给我发短信：“你要留下来。"
           },
           {
             "en": "I want you to be part of this team.”",
-            "cn": "“你留下吧，我想要你成为这支队伍的一员。"
+            "cn": "我希望你成为这支球队的一员。”"
           },
           {
             "en": "So I thought, O.K., great.",
@@ -3884,11 +4048,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I started two of the first four games of the season, and I thought I played O.K.",
-            "cn": "我在前四场比赛中，有两场都是首发，我觉得自己表现还可以。虽然不能说非常出色。"
+            "cn": "赛季前四场比赛，我有两场首发，我觉得自己踢得还可以。"
           },
           {
             "en": "Not brilliant, but pretty good.",
-            "cn": "但是感觉还可以。"
+            "cn": "算不上出色，但也挺不错。"
           },
           {
             "en": "After the fourth game, that was it.",
@@ -3920,11 +4084,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "What I think most fans don’t realize is that when you’re out of favor at a club, you don’t get nearly the same attention during training.",
-            "cn": "球迷不知道的是，如果你在一个俱乐部失宠了，你在训练的时候也不会得到很多的关注。在很多俱乐部。"
+            "cn": "我想，大多数球迷不知道的是：当你在俱乐部失宠时，训练中得到的关注也会大大减少。"
           },
           {
             "en": "At some clubs, it’s like you don’t exist anymore.",
-            "cn": "甚至你会觉得自己根本不存在了一样。"
+            "cn": "在有些俱乐部，你简直像是不存在了。"
           }
         ]
       },
@@ -3980,11 +4144,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Then he started reading the stats of the other attacking forwards — Willian, Oscar, Mata, Schürrle.",
-            "cn": "然后他开始读其他几个前锋的数据 – Willian, Oscar, Mata, Schürrle.他们的数据都是“5个进球。"
+            "cn": "然后，他开始念其他进攻球员的数据——威廉、奥斯卡、马塔、许尔勒。"
           },
           {
             "en": "And it’s like — five goals, 10 assists, whatever.",
-            "cn": "10次助攻” 等等。"
+            "cn": "大概是五个进球、十次助攻之类的。"
           }
         ]
       },
@@ -4024,11 +4188,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I was completely honest.",
-            "cn": "我当时又是非常直白地说："
+            "cn": "我说得非常坦率。"
           },
           {
             "en": "I said, “I feel like the club doesn’t really want me here.",
-            "cn": "“我觉得球队并不太想要我在这。"
+            "cn": "我说：“我感觉俱乐部并不是真的想留下我。"
           },
           {
             "en": "I want to play football.",
@@ -4036,7 +4200,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I’d rather you sell me.”",
-            "cn": "所以我宁愿你把我卖了。"
+            "cn": "我宁愿你把我卖掉。”"
           },
           {
             "en": "I think José was a bit disappointed, but to be fair to him, I think he also understood that I absolutely needed to play.",
@@ -4048,7 +4212,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Chelsea got more than double the price they paid for me, and I got into a much better situation at Wolfsburg.",
-            "cn": "切尔西得到了当时引进我时两倍的价格，而我在沃尔夫斯堡得到了更多的机会。"
+            "cn": "切尔西得到的转会费，比当初买下我时花的钱的两倍还多；而我在沃尔夫斯堡的处境也好了很多。"
           }
         ]
       },
@@ -4068,7 +4232,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "She helped me grow in ways that I’ve probably never expressed out loud — even to her.",
-            "cn": "甚至是对她，我也没有表达过她对我的成长的帮助的感谢。"
+            "cn": "她在许多方面帮助我成长，而这些我大概从未说出口——甚至没有亲口对她说过。"
           },
           {
             "en": "This is such an embarrassing story that I hesitate to tell it!",
@@ -4076,19 +4240,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But since I promised you honesty, then I guess I have to.",
-            "cn": "但是既然我已经向你保证了我要完全诚实。"
+            "cn": "不过，既然答应了要坦诚，我想就得讲出来。"
           },
           {
             "en": "And it’s pretty funny, anyway.",
-            "cn": "那我就必须说一说。"
+            "cn": "反正这个故事也挺好笑的。"
           },
           {
             "en": "It started with a tweet.",
-            "cn": "这真的是个可笑的故事。"
+            "cn": "一切始于一条推文。"
           },
           {
             "en": "I only had a few thousand followers at the time, because I was still on loan at Werder Bremen.",
-            "cn": "一切都源于一个Tweet. 我当时在推特上只有几千个粉丝，因为我当时还在不来梅租借中。"
+            "cn": "当时我只有几千个粉丝，因为我还被租借在云达不来梅。"
           },
           {
             "en": "So I tweeted something about a match or whatever, and this pretty girl favorited it.",
@@ -4108,19 +4272,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And I literally said to him, “No, no, no.",
-            "cn": "我对他说。"
+            "cn": "我当时真的对他说：“不，不，不。"
           },
           {
             "en": "Come on.",
-            "cn": "“哦不不不。"
+            "cn": "别闹了。"
           },
           {
             "en": "People don’t like me.",
-            "cn": "拉倒吧。"
+            "cn": "大家都不喜欢我。"
           },
           {
             "en": "They don’t get me.",
-            "cn": "没人喜欢我。"
+            "cn": "他们不理解我。"
           },
           {
             "en": "She won’t respond.”",
@@ -4136,7 +4300,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "He showed me the phone and said, “Come on, can I hit send?”",
-            "cn": "然后我给我看了一眼说，“我可以点发送吗？”"
+            "cn": "他把手机给我看，说：“来吧，我能点发送了吗？”"
           }
         ]
       },
@@ -4144,19 +4308,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I was probably on the floor, cringing, but for some reason I said, “O.K.",
-            "cn": "我当时估计躺在地上，浑身上下都不自在，但是不知道为什么。"
+            "cn": "我大概已经尴尬得倒在地上了，可不知为什么，我还是说：“好吧。"
           },
           {
             "en": "fine, send it.”",
-            "cn": "我竟然说“好吧，"
+            "cn": "行，发吧。”"
           },
           {
             "en": "Says it all, no?",
-            "cn": "发吧。"
+            "cn": "这就说明一切了，不是吗？"
           },
           {
             "en": "I’m supposed to be this big footballer, and I didn’t even have the heart to slide into my future wife’s DMs!",
-            "cn": "你能明白我当时有多怂吗？我这么一个足球运动员，但是我连一个给我未来妻子发信息的胆量都没有！"
+            "cn": "我好歹也算个有名的球员，居然连给未来的妻子发条私信的勇气都没有！"
           },
           {
             "en": "I didn’t dare!",
@@ -4264,11 +4428,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Easy for me!",
-            "cn": "这对我来讲！"
+            "cn": "这对我来说倒很容易！"
           },
           {
             "en": "Every single day, literally for three weeks, my agent was saying, “It’s on.",
-            "cn": "小菜一碟。整整三周，每一天，我的经纪人都会说：“没问题的。"
+            "cn": "整整三个星期，每一天，我的经纪人都在说：“转会有戏。"
           },
           {
             "en": "Wait, it’s off.",
@@ -4336,11 +4500,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Thank God, in the end, everything was O.K.",
-            "cn": "好在我们的儿子并无大碍。如果没有他。"
+            "cn": "谢天谢地，最后一切都没事。"
           },
           {
             "en": "with our son.",
-            "cn": "我真的不知道该怎么办。"
+            "cn": "我们的儿子平安无事。"
           }
         ]
       },
@@ -4348,15 +4512,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I don’t know what I would’ve done without him in my life.",
-            "cn": "在足球中发生所有美妙的东西。"
+            "cn": "如果生命中没有他，我不知道自己会怎么办。"
           },
           {
             "en": "Everything good that’s ever happened to me in football, it’s nothing compared to my wife and my kids.",
-            "cn": "都没有办法和我的妻子还有孩子们比较。那是我生命中第三个重要时刻。"
+            "cn": "我在足球生涯里遇到过的所有美好事情，都无法与妻子和孩子相比。"
           },
           {
             "en": "That was the third life-changing moment for me, because it made me realize that football is not life or death.",
-            "cn": "因为它让我意识到，足球并不是关乎生死的什么东西。"
+            "cn": "那是第三个改变我人生的时刻，因为它让我意识到，足球并不是生死攸关的事。"
           },
           {
             "en": "I think I was probably too consumed by football for the first 23 years of my life.",
@@ -4368,7 +4532,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "When we started our family and I came to play for City, everything just took off.",
-            "cn": "当我们开始有了自己的家庭，当我加盟曼城的时候，这一切才刚刚开始。"
+            "cn": "当我们组建家庭、我来到曼城踢球之后，一切都开始腾飞。"
           },
           {
             "en": "Especially when Pep arrived that second season.",
@@ -4412,7 +4576,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You can be — easily — a top five player in the world.",
-            "cn": "你绝对，绝对！能够成为世界前五的球员。"
+            "cn": "你完全可以——轻轻松松地——成为世界前五的球员。"
           },
           {
             "en": "Top five.",
@@ -4420,7 +4584,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Easily.”",
-            "cn": "绝对的。”"
+            "cn": "轻轻松松。”"
           }
         ]
       },
@@ -4448,23 +4612,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Most of the time, football is about negativity and fear.",
-            "cn": "很多时候，足球充斥着悲观的事情。"
+            "cn": "很多时候，足球充满了负面情绪和恐惧。"
           },
           {
             "en": "But with Pep, it’s about extreme positivity.",
-            "cn": "或者是恐惧。但是就Pep而言。"
+            "cn": "但在佩普这里，一切都极其积极。"
           },
           {
             "en": "He sets goals that are so high that they’re almost impossible to reach.",
-            "cn": "足球是极其正能量的东西。他的目标总是非常高。"
+            "cn": "他设定的目标高得几乎不可能实现。"
           },
           {
             "en": "He is a tactical master, yes.",
-            "cn": "以至于难以实现。"
+            "cn": "没错，他是战术大师。"
           },
           {
             "en": "There’s no doubt about this.",
-            "cn": "他是个战术大师，没错。"
+            "cn": "这一点毫无疑问。"
           },
           {
             "en": "But what people on the outside don’t see is the pressure he puts on himself to try to achieve perfection.",
@@ -4508,11 +4672,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But then earlier this season, I injured my knee against Fulham, and there was some ligament damage.",
-            "cn": "但是赛季前段时间，当我在对阵富汉姆时受伤之后。"
+            "cn": "但在这个赛季早些时候，我在对富勒姆的比赛中伤了膝盖，韧带也有损伤。"
           },
           {
             "en": "The doctors told me that I was going to have to be in a brace for a bit.",
-            "cn": "医生说我的韧带受伤，医生告诉我必须要带固定器一段时间。"
+            "cn": "医生告诉我，得佩戴一段时间的支具。"
           },
           {
             "en": "This is always a nightmare, when you can’t even put on your underwear without help.",
@@ -4628,35 +4792,35 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Weddings, funerals, births?",
-            "cn": "婚礼？"
+            "cn": "婚礼、葬礼、孩子出生？"
           },
           {
             "en": "It’s nothing.",
-            "cn": "葬礼。"
+            "cn": "都没什么。"
           },
           {
             "en": "I’m a rock.",
-            "cn": "孩子出生？"
+            "cn": "我坚如磐石。"
           },
           {
             "en": "But if you take football away from me?",
-            "cn": "这些对我来说都不足以让我流泪？"
+            "cn": "但要是你不让我踢球？"
           },
           {
             "en": "Forget it.",
-            "cn": "我很坚强。"
+            "cn": "那就别提了。"
           },
           {
             "en": "I can’t cope.",
-            "cn": "但是如果你说我没法踢球？"
+            "cn": "我受不了。"
           },
           {
             "en": "In the end, this project at City is about more than winning.",
-            "cn": "我真的受不了。说起来，曼城正在经历的这股势头。"
+            "cn": "说到底，曼城的这项事业，意义不只是赢球。"
           },
           {
             "en": "It’s about a certain way of playing and an overall philosophy.",
-            "cn": "远远超过了只是对赢球的追逐。它还关乎一种特定的打法和足球哲学。"
+            "cn": "它关乎一种特定的踢球方式，以及一整套足球理念。"
           },
           {
             "en": "This is why we get up every morning, why we obsess over so much detail in our work, why we try to push ourselves to the limits.",
@@ -4684,15 +4848,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "When we play our best at City, when we’re fluid it’s like…",
-            "cn": "当我们在曼城踢出我们的最高水平的足球，当一切都行云流水。"
+            "cn": "当我们在曼城发挥出最佳水平，踢得行云流水时，就像……"
           },
           {
             "en": "what’s the word for it?",
-            "cn": "这就像…那个词是什么来着？"
+            "cn": "那个词怎么说来着？"
           },
           {
             "en": "You know, when you meditate?",
-            "cn": "当你冥想的时候？涅磐。"
+            "cn": "你知道，就是冥想时的那种感觉？"
           }
         ]
       },
@@ -4700,7 +4864,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Nirvana.",
-            "cn": "对。"
+            "cn": "涅槃。"
           },
           {
             "en": "It’s really like nirvana for me.",
@@ -4730,7 +4894,9 @@ const ARTICLES_EXTRA = [
       }
     ],
     "cover": "linear-gradient(135deg,#10B981,#047857)",
-    "gradient": "linear-gradient(135deg,#10B981,#047857)"
+    "gradient": "linear-gradient(135deg,#10B981,#047857)",
+    "translationReview": "2026-09-26：按英文原句校正中英配对；保留原文与段落位置。",
+    "translationCredit": "中文译文：The Players’ Tribune 官方中文译本；词阅已按英文原句校正错位及部分译文（2026-09-26）。"
   },
   {
     "id": "fb-cristiano-ronaldo-madrid-my-story",
@@ -7542,8 +7708,18 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "People ask me, “What’s the most incredible thing I’ve seen Leo do on the pitch?” And they expect me to tell them about him dribbling three defenders.",
-            "cn": "人们问我：“你在场上见过莱奥做的最不可思议的事是什么？”他们期待我讲他连过三名后卫的故事。",
-            "cnEdited": true
+            "cn": "人们问我：‘你见过莱奥在场上做的最不可思议的事是什么？’他们希望我讲他连过三名防守球员的故事。",
+            "cnEdited": true,
+            "alignedParts": [
+              {
+                "en": "People ask me, “What’s the most incredible thing I’ve seen Leo do on the pitch?”",
+                "cn": "人们问我：‘你见过莱奥在场上做的最不可思议的事是什么？’"
+              },
+              {
+                "en": "And they expect me to tell them about him dribbling three defenders.",
+                "cn": "他们希望我讲他连过三名防守球员的故事。"
+              }
+            ]
           },
           {
             "en": "And trust me, I have plenty of those stories.",
@@ -7813,7 +7989,8 @@ const ARTICLES_EXTRA = [
       }
     ],
     "cover": "linear-gradient(135deg,#10B981,#047857)",
-    "gradient": "linear-gradient(135deg,#10B981,#047857)"
+    "gradient": "linear-gradient(135deg,#10B981,#047857)",
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "fb-martin-odegaard-north-london-forever",
@@ -9759,7 +9936,7 @@ const ARTICLES_EXTRA = [
     "cover": "linear-gradient(135deg,#fde68a 0%,#d97706 100%)",
     "gradient": "linear-gradient(135deg,#fde68a 0%,#d97706 100%)",
     "coverImg": "assets/covers/gr-pg-what-youll-wish-youd-known.jpg",
-    "translationCredit": "中文译文：lzwjava / paul-graham-essays-cn（GitHub 社区译本，CC BY-SA 4.0）",
+    "translationCredit": "中文译文：lzwjava / paul-graham-essays-cn（GitHub 社区译本，CC BY-SA 4.0）；词阅已按英文原句校正错位及部分译文（2026-09-26）。",
     "paras": [
       {
         "sentences": [
@@ -9813,11 +9990,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "They want to know what sort of person you are, and this question is just to get you talking.",
-            "cn": "他们想知道你到底是个怎样的人，这个问题只是让你开口说话。他们问你的方式，"
+            "cn": "他们想知道你是什么样的人，这个问题只是为了让你开口。"
           },
           {
             "en": "They ask it the way you might poke a hermit crab in a tide pool, to see what it does.",
-            "cn": "就好像你用棍子戳一戳潮水里的寄生蟹（藏在贝壳里的一种螃蟹），看看它有什么反应。"
+            "cn": "他们这样问，就像你拨弄潮池里的一只寄居蟹，想看看它会有什么反应。"
           }
         ]
       },
@@ -9849,11 +10026,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Being a doctor is not the way it's portrayed on TV.",
-            "cn": "从事医生的职业，和电视里演的可不一样。幸运地是，"
+            "cn": "医生的工作，并不像电视里描绘的那样。"
           },
           {
             "en": "Fortunately you can also watch real doctors, by volunteering in hospitals. [1]",
-            "cn": "通过在医院里当义工，你可以观察到真正的医生。[1]"
+            "cn": "幸好，你可以去医院做志愿者，观察真正的医生。[1]"
           }
         ]
       },
@@ -9881,7 +10058,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "And yet every May, speakers all over the country fire up the Standard Graduation Speech, the theme of which is: don't give up on your dreams.",
-            "cn": "然而每年的五月份，全世界的演说家在各个高中发表毕业演讲，主题是：不要放弃你的梦想。"
+            "cn": "然而每年五月，全国各地的演讲者都会开始发表那套标准毕业演说，主题就是：不要放弃梦想。"
           },
           {
             "en": "I know what they mean, but this is a bad way to put it, because it implies you're supposed to be bound by some plan you made early on.",
@@ -9921,7 +10098,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And most biographies only exaggerate this illusion, partly due to the worshipful attitude biographers inevitably sink into, and partly because, knowing how the story ends, they can't help streamlining the plot till it seems like the subject's life was a matter of destiny, the mere unfolding of some innate genius.",
-            "cn": "大多数传记也夸大了这种错觉，一部分是因为传记作者不可避免地陷入对主人公的崇拜，另外一部分原因是，知道故事的结局，并不能串起所有的情节，除非主人公的人生看起来像某种命运，是某些内在的天才禀赋的简单展开而已。"
+            "cn": "大多数传记只会加深这种错觉：一方面，传记作者难免陷入崇拜；另一方面，由于已经知道结局，他们会不自觉地简化情节，直到主人公的一生看起来仿佛命中注定，不过是某种与生俱来的天才逐渐展开。"
           },
           {
             "en": "In fact I suspect if you had the sixteen year old Shakespeare or Einstein in school with you, they'd seem impressive, but not totally unlike your other friends.",
@@ -9941,15 +10118,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And that's one reason we like to believe in genius.",
-            "cn": "而这就是我们相信天才的原因：我们可以为懒惰找借口。"
+            "cn": "这也是我们喜欢相信天才存在的一个原因。"
           },
           {
             "en": "It gives us an excuse for being lazy.",
-            "cn": "如果这些人能取得他们的成就，"
+            "cn": "它给了我们偷懒的借口。"
           },
           {
             "en": "If these guys were able to do what they did only because of some magic Shakespeareness or Einsteinness, then it's not our fault if we can't do something as good.",
-            "cn": "仅仅是因为某些神奇的莎士比亚气息或者爱因斯坦气息，所以我们不能取得同样伟大的成就并不是我们的错。"
+            "cn": "如果这些人能取得成就，只是因为某种神奇的“莎士比亚特质”或“爱因斯坦特质”，那么我们做不到同样好，就不是我们的错。"
           },
           {
             "en": "I'm not saying there's no such thing as genius.",
@@ -9961,7 +10138,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "So far we've cut the Standard Graduation Speech down from \"don't give up on your dreams\" to \"what someone else can do, you can do.\" But it needs to be cut still further.",
-            "cn": "目前为止，我们可以把毕业演讲从“不要放弃你的梦想”分解成“其他人可以做到的，你也行”。但仍然可以继续分解。"
+            "cn": "到这里，我们已把标准毕业演说从‘不要放弃梦想’改成了‘别人能做的，你也能做。’但还需要进一步修正。",
+            "alignedParts": [
+              {
+                "en": "So far we've cut the Standard Graduation Speech down from \"don't give up on your dreams\" to \"what someone else can do, you can do.\"",
+                "cn": "到这里，我们已把标准毕业演说从‘不要放弃梦想’改成了‘别人能做的，你也能做。’"
+              },
+              {
+                "en": "But it needs to be cut still further.",
+                "cn": "但还需要进一步修正。"
+              }
+            ]
           },
           {
             "en": "There is some variation in natural ability.",
@@ -9973,7 +10160,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If I were talking to a guy four feet tall whose ambition was to play in the NBA, I'd feel pretty stupid saying, you can do anything if you really try. [2]",
-            "cn": "如果一个1米6的人的梦想是去 NBA 打球，我对他说，“只要你努力你就能做到”，我会感觉特别傻。[2]"
+            "cn": "如果一个身高只有四英尺的人，志向是去NBA打球，我再对他说“只要真心努力，你什么都能做到”，就会觉得自己很傻。[2]"
           }
         ]
       },
@@ -9981,7 +10168,17 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "We need to cut the Standard Graduation Speech down to, \"what someone else with your abilities can do, you can do; and don't underestimate your abilities.\" But as so often happens, the closer you get to the truth, the messier your sentence gets.",
-            "cn": "我们需要把毕业演讲分解成，“有着和你能力相同的人可以做到的，你也可以做到；同时不要低估你的能力。”这就像经常发生的一样，你越接近真理，你的句子变得越长。"
+            "cn": "我们需要把标准毕业演说改成：‘和你能力相当的人能做到的，你也能做到；而且不要低估自己的能力。’但就像常有的情况一样，越接近真相，句子就越不简洁。",
+            "alignedParts": [
+              {
+                "en": "We need to cut the Standard Graduation Speech down to, \"what someone else with your abilities can do, you can do; and don't underestimate your abilities.\"",
+                "cn": "我们需要把标准毕业演说改成：‘和你能力相当的人能做到的，你也能做到；而且不要低估自己的能力。’"
+              },
+              {
+                "en": "But as so often happens, the closer you get to the truth, the messier your sentence gets.",
+                "cn": "但就像常有的情况一样，越接近真相，句子就越不简洁。"
+              }
+            ]
           },
           {
             "en": "We've taken a nice, neat (but wrong) slogan, and churned it up like a mud puddle.",
@@ -9993,15 +10190,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But worse still, it doesn't tell you what to do anymore.",
-            "cn": "糟糕的是，依然没有告诉你该做什么。和你有同等能力的人？"
+            "cn": "更糟的是，它仍然没有告诉你该做什么。"
           },
           {
             "en": "Someone with your abilities?",
-            "cn": "你的能力是什么？"
+            "cn": "一个和你能力相当的人？"
           },
           {
             "en": "What are your abilities?",
-            "cn": "保持上风"
+            "cn": "你的能力究竟是什么？"
           }
         ]
       },
@@ -10025,7 +10222,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "In the graduation-speech approach, you decide where you want to be in twenty years, and then ask: what should I do now to get there?",
-            "cn": "临近毕业演讲时，你决定了未来的20年你将要去哪里，然后问：我怎样做才能到达那里？"
+            "cn": "按照毕业演说的思路，你先决定二十年后要到达哪里，再问：为了到那里，我现在应该做什么？"
           },
           {
             "en": "I propose instead that you don't commit to anything in the future, but just look at the options available now, and choose those that will give you the most promising range of options afterward.",
@@ -10069,7 +10266,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Because a glider doesn't have an engine, you can't fly into the wind without losing a lot of altitude.",
-            "cn": "滑翔机没有发动机，所以你要降低很多高度才能在空中滑翔。"
+            "cn": "滑翔机没有发动机，因此逆风飞行时，会损失很多高度。"
           },
           {
             "en": "If you let yourself get far downwind of good places to land, your options narrow uncomfortably.",
@@ -10213,31 +10410,41 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "In practice, \"stay upwind\" reduces to \"work on hard problems.\" And you can start today.",
-            "cn": "野心实际中，“保持上风”可以分解为“钻研困难的问题”。"
+            "cn": "实际上，‘保持上风’可以归结为‘攻克难题’。你今天就可以开始。",
+            "alignedParts": [
+              {
+                "en": "In practice, \"stay upwind\" reduces to \"work on hard problems.\"",
+                "cn": "实际上，‘保持上风’可以归结为‘攻克难题’。"
+              },
+              {
+                "en": "And you can start today.",
+                "cn": "你今天就可以开始。"
+              }
+            ]
           },
           {
             "en": "I wish I'd grasped that in high school.",
-            "cn": "你今天就可以开始。"
+            "cn": "我真希望自己高中时就明白这一点。"
           },
           {
             "en": "Most people like to be good at what they do.",
-            "cn": "我真希望我高中的时候就知道这个。"
+            "cn": "大多数人都希望擅长自己做的事。"
           },
           {
             "en": "In the so-called real world this need is a powerful force.",
-            "cn": "大多数人都希望擅长自己的工作。"
+            "cn": "在所谓的现实世界里，这种需要是一股强大的动力。"
           },
           {
             "en": "But high school students rarely benefit from it, because they're given a fake thing to do.",
-            "cn": "在所谓的真实世界，这个欲望是强大的动力。"
+            "cn": "但高中生很少能从中受益，因为安排给他们的并不是真正的事业。"
           },
           {
             "en": "When I was in high school, I let myself believe that my job was to be a high school student.",
-            "cn": "但高中生没有从中受益，因为他们被要求去做无意义的东西。当我在高中的时候，"
+            "cn": "高中时，我让自己相信，我的工作就是当一名高中生。"
           },
           {
             "en": "And so I let my need to be good at what I did be satisfied by merely doing well in school.",
-            "cn": "我让自己相信我的工作是当个好高中生。所以，我的欲望就止步于把学校的功课学好。"
+            "cn": "因此，只要在学校表现好，我就满足了自己“要把事情做好”的需要。"
           }
         ]
       },
@@ -10397,7 +10604,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "This sort of thing rarely translates into a line item on a college application.",
-            "cn": "这样的事情很少能写进大学申请里。腐败"
+            "cn": "这类事情很少能直接变成大学申请表上的一项。"
           }
         ]
       },
@@ -10409,19 +10616,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "At most colleges, it's not the professors who decide whether you get in, but admissions officers, and they are nowhere near as smart.",
-            "cn": "在大多数大学，并不是教授来决定是否录取你，而是录取办公室的老师，"
+            "cn": "在大多数大学，决定是否录取你的不是教授，而是招生人员；后者的才智远不能与教授相比。"
           },
           {
             "en": "They're the NCOs of the intellectual world.",
-            "cn": "这些人可和聪明毫不相干。"
+            "cn": "他们是知识界的士官。"
           },
           {
             "en": "They can't tell how smart you are.",
-            "cn": "他们是智力世界里较低等的人群。"
+            "cn": "他们无法判断你到底有多聪明。"
           },
           {
             "en": "The mere existence of prep schools is proof of that.",
-            "cn": "他们并不能判断你有多聪明。预科学校就是证据。"
+            "cn": "大学预备学校的存在本身，就证明了这一点。"
           }
         ]
       },
@@ -10457,11 +10664,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The malaise you feel is the same that a producer of reality TV shows or a tobacco industry executive feels.",
-            "cn": "你感觉到的无聊乏味正是电视广告编剧或者烟草产业的经理感觉到的那样。"
+            "cn": "你的那种不适，与真人秀制作人或烟草业高管感受到的不适是一样的。"
           },
           {
             "en": "And you don't even get paid a lot.",
-            "cn": "而且，你并没有薪水。"
+            "cn": "而你甚至还拿不到高薪。"
           }
         ]
       },
@@ -10485,11 +10692,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And so I just gave up.",
-            "cn": "所以我干脆放弃了。显然地，"
+            "cn": "所以我干脆放弃了。"
           },
           {
             "en": "Obviously the world sucked, so why bother?",
-            "cn": "世界糟透了，为什么要去理睬它？"
+            "cn": "这个世界显然糟透了，何必费心？"
           }
         ]
       },
@@ -10577,11 +10784,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "As day jobs go, it's pretty sweet.",
-            "cn": "当干完白天的日常工作后，会是多么美好。"
+            "cn": "作为一份日常工作，它其实相当不错。"
           },
           {
             "en": "You're done at 3 o'clock, and you can even work on your own stuff while you're there.",
-            "cn": "下午三点钟就没课了，你可以继续呆在那里干你真正的工作。好奇心"
+            "cn": "下午三点就结束了，而且在学校时，你甚至也能做自己的事情。"
           }
         ]
       },
@@ -10621,7 +10828,21 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "A distorted version of this idea has filtered into popular culture under the name \"passion.\" I recently saw an ad for waiters saying they wanted people with a \"passion for service.\" The real thing is not something one could have for waiting on tables.",
-            "cn": "这个观点变形的一种版本，名字叫“激情”，渗透到了流行文化中。我最近看到招聘服务员的一则广告，他们想要那些“对服务充满激情”的人。实际上，这里不是一个人可以在餐桌边服务的时候拥有的态度。"
+            "cn": "这个观念的一个扭曲版本，以‘激情’之名进入了流行文化。我最近看到一则服务员招聘广告，要求应聘者‘对服务充满激情’。我真正说的那种兴趣，并不是端盘子时能够拥有的。",
+            "alignedParts": [
+              {
+                "en": "A distorted version of this idea has filtered into popular culture under the name \"passion.\"",
+                "cn": "这个观念的一个扭曲版本，以‘激情’之名进入了流行文化。"
+              },
+              {
+                "en": "I recently saw an ad for waiters saying they wanted people with a \"passion for service.\"",
+                "cn": "我最近看到一则服务员招聘广告，要求应聘者‘对服务充满激情’。"
+              },
+              {
+                "en": "The real thing is not something one could have for waiting on tables.",
+                "cn": "我真正说的那种兴趣，并不是端盘子时能够拥有的。"
+              }
+            ]
           },
           {
             "en": "And passion is a bad word for it.",
@@ -10709,7 +10930,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "One still hasn't sent out his half of the thank-you notes from his wedding, four years ago.",
-            "cn": "有一位还没发出他四年前举办的婚礼的答谢卡，"
+            "cn": "其中一位，四年前婚礼上分给他负责的那一半感谢信，到现在还没寄出去。"
           },
           {
             "en": "Another has 26,000 emails in her inbox.",
@@ -10753,7 +10974,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Do you think Shakespeare was gritting his teeth and diligently trying to write Great Literature?",
-            "cn": "你是否认为莎士比亚一边咬牙切齿，一边勤奋地写着 Great Literature 吗？"
+            "cn": "你觉得莎士比亚是在咬紧牙关、勤勤恳恳地努力创作“伟大文学”吗？"
           },
           {
             "en": "Of course not.",
@@ -10777,7 +10998,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The critical moment for Einstein was when he looked at Maxwell's equations and said, what the hell is going on here?",
-            "cn": "对爱因斯坦来说，最关键的时刻是当他看着麦克斯韦的平衡方程式，心里嘀咕着，这究竟是怎么回事？"
+            "cn": "对爱因斯坦来说，关键时刻是他看着麦克斯韦方程组，心想：“这里到底是怎么回事？”"
           }
         ]
       },
@@ -10849,7 +11070,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Why can't defenders score goals too?",
-            "cn": "为什么后卫不能也去射门呢？当下"
+            "cn": "为什么后卫就不能也进球呢？"
           }
         ]
       },
@@ -10889,11 +11110,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The way to get a big idea to appear in your head is not to hunt for big ideas, but to put in a lot of time on work that interests you, and in the process keep your mind open enough that a big idea can take roost.",
-            "cn": "让伟大的点子出现在你脑海里的方法不是去寻觅，而是投入大量的时间去做你感兴趣的事情，过程中保持开放的大脑以至于伟大的点子能生根发芽。爱因斯坦，"
+            "cn": "想让一个大想法出现在脑海里，方法不是四处寻找大想法，而是在感兴趣的工作上投入大量时间，同时保持足够开放的头脑，让大想法有机会落脚。"
           },
           {
             "en": "Einstein, Ford, and Beckenbauer all used this recipe.",
-            "cn": "福特和贝肯鲍尔都是用的这个方法。"
+            "cn": "爱因斯坦、福特和贝肯鲍尔，用的都是这个办法。"
           },
           {
             "en": "They all knew their work like a piano player knows the keys.",
@@ -10917,11 +11138,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Choose a project that will take less than a month, and make it something you have the means to finish.",
-            "cn": "挑选一个项目不需要一个月的时间，然后创造点你能完成的东西。"
+            "cn": "选一个不到一个月就能完成的项目，而且要确保你有条件把它做完。"
           },
           {
             "en": "Do something hard enough to stretch you, but only just, especially at first.",
-            "cn": "做那些难到突破你极限的事情，至少初期要这样。"
+            "cn": "做一件刚好能让你有所突破的难事，不要难得太过，尤其是刚开始时。"
           },
           {
             "en": "If you're deciding between two projects, choose whichever seems most fun.",
@@ -10945,23 +11166,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It may be just as well not to do a project \"for school,\" if that will restrict you or make it seem like work.",
-            "cn": "或许最好不要去做学校的项目，如果那会限制你，或者让你感觉像在应付老师一样。如果你想，"
+            "cn": "如果“为学校而做”会限制你，或让项目变得像苦差事，那么不把它当作学校项目来做，可能反而更好。"
           },
           {
             "en": "Involve your friends if you want, but not too many, and only if they're not flakes.",
-            "cn": "可以拉上你的朋友们，但不要太多，而且仅当他们不是一时热血而已。"
+            "cn": "愿意的话，可以邀请朋友加入，但人不要太多，而且只邀请靠谱的人。"
           },
           {
             "en": "Friends offer moral support (few startups are started by one person), but secrecy also has its advantages.",
-            "cn": "朋友们更多的是精神支持（很少的创业公司是一个人创立的），"
+            "cn": "朋友能提供精神支持，鲜有创业公司完全由一个人创立；不过，保密也有它的好处。"
           },
           {
             "en": "There's something pleasing about a secret project.",
-            "cn": "但秘密进行同样有它的好处。"
+            "cn": "秘密进行一个项目，有一种特别的乐趣。"
           },
           {
             "en": "And you can take more risks, because no one will know if you fail.",
-            "cn": "秘密进行一个项目某些方面是很爽的。如果你失败了，没有人会知道。"
+            "cn": "而且，你能承担更多风险，因为就算失败，也不会有人知道。"
           }
         ]
       },
@@ -10981,7 +11202,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The most important thing is to be excited about it, because it's by doing that you learn.",
-            "cn": "最重要的是一路上，你在不断学习。"
+            "cn": "最重要的是，你要对项目感到兴奋，因为你正是通过做它来学习的。"
           },
           {
             "en": "Don't disregard unseemly motivations.",
@@ -11025,7 +11246,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "When I was in high school I used to write \"existentialist\" short stories like ones I'd seen by famous writers.",
-            "cn": "当我在高中的时候，我常常写“现实主义”的短文，像很有名气的作家写的那样。"
+            "cn": "高中时，我曾模仿读过的著名作家作品，写一些“存在主义”短篇小说。"
           },
           {
             "en": "My stories didn't have a lot of plot, but they were very deep.",
@@ -11033,7 +11254,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And they were less work to write than entertaining ones would have been.",
-            "cn": "它们比写幽默讽刺的文章花费更少的精力。"
+            "cn": "而且，比起写引人入胜的故事，写这些故事更省力。"
           },
           {
             "en": "I should have known that was a danger sign.",
@@ -11053,7 +11274,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Plenty of famous people do; in the short term, the quality of one's work is only a small component of fame.",
-            "cn": "很多著名人物也是这样；简而言之，一个人的作品质量，只是决定他的名气大小的一小部分。"
+            "cn": "很多名人都是如此；在短期内，作品质量只是决定名气的一个小因素。"
           },
           {
             "en": "I should have been less worried about doing something that seemed cool, and just done something I liked.",
@@ -11069,19 +11290,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "A key ingredient in many projects, almost a project on its own, is to find good books.",
-            "cn": "很多项目的一个关键因素，也占了一个项目的大部分的是，"
+            "cn": "许多项目的一个关键环节，是找到好书；这本身几乎就算一个项目。"
           },
           {
             "en": "Most books are bad.",
-            "cn": "去找好的书。"
+            "cn": "大多数书都不好。"
           },
           {
             "en": "Nearly all textbooks are bad.",
-            "cn": "大多数书都很糟糕。"
+            "cn": "几乎所有教科书都不好。"
           },
           {
             "en": "[9] So don't assume a subject is to be learned from whatever book on it happens to be closest.",
-            "cn": "差不多所有的教科书都是糟糕的。[9]所以不要假设一个学科可以从教科书上学到。"
+            "cn": "[9]所以，不要以为随手最近的那本相关书，就是学习某个学科应该用的书。"
           },
           {
             "en": "You have to search actively for the tiny number of good books.",
@@ -11145,11 +11366,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I'm just a minor, you may think, I have no money, I have to live at home, I have to do what adults tell me all day long.",
-            "cn": "你或许想，我仅仅是个微小的个体，我没钱，我必须要呆在家里，我必须要做大人们叫我去做的事情。"
+            "cn": "你可能会想：我只是个未成年人，没有钱，得住在家里，整天听从大人的安排。"
           },
           {
             "en": "Well, most adults labor under restrictions just as cumbersome, and they manage to get things done.",
-            "cn": "很好，大部分成年人都在某些约束下拘束地劳动，但他们想办法去做成事情。"
+            "cn": "可是，大多数成年人也承受着同样繁重的限制，他们仍然设法把事情做成。"
           },
           {
             "en": "If you think it's restrictive being a kid, imagine having kids.",
@@ -11185,7 +11406,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[1] A doctor friend warns that even this can give an inaccurate picture.",
-            "cn": "[1] 一个医生朋友提醒说去医生当志愿者都未必能知道医生到达是干什么的。"
+            "cn": "[1]一位医生朋友提醒我，即使去医院做志愿者，也可能让你形成不准确的印象。"
           },
           {
             "en": "\"Who knew how much time it would take up, how little autonomy one would have for endless years of training, and how unbelievably annoying it is to carry a beeper?\"",
@@ -11197,11 +11418,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[2] His best bet would probably be to become dictator and intimidate the NBA into letting him play.",
-            "cn": "[2] 这个1米6的男孩最好的打算或许是成为独裁者，去恐吓 NBA 让他进去打球。"
+            "cn": "[2]他最有希望的办法，大概是当上独裁者，再威胁NBA让他上场。"
           },
           {
             "en": "So far the closest anyone has come is Secretary of Labor.",
-            "cn": "因为多年来最靠近这个的就是劳动委员会。"
+            "cn": "迄今为止，最接近这种情况的人，做到的是劳工部长。"
           }
         ]
       },
@@ -11269,7 +11490,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The problem in high school is that your peers are chosen for you by accidents of age and geography, rather than by you based on respect for their judgement.",
-            "cn": "高中的问题是，你的同学都是随机选给你的，来自不同的地方，而不是根据你的判断，你自己挑选的。"
+            "cn": "高中的问题在于，你的同伴是由年龄和地理位置的偶然性决定的，而不是你因为尊重他们的判断力而自己挑选的。"
           }
         ]
       },
@@ -11289,7 +11510,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You can have a notebook to write your thoughts down in, but nothing else: no friends, TV, music, phone, IM, email, Web, games, books, newspapers, or magazines.",
-            "cn": "你可以有个笔记本来写下你的想法，但没有其它的东西：没有朋友，电视，音乐，手机，聊天工具，邮件，网页，游戏，数，报纸或杂志。"
+            "cn": "你可以带一本笔记本记录想法，但除此之外什么都不要有：朋友、电视、音乐、电话、即时通讯、邮件、网络、游戏、书籍、报纸或杂志。"
           },
           {
             "en": "Within an hour most people will feel a strong craving for distraction.",
@@ -11301,7 +11522,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[6] I don't mean to imply that the only function of prep schools is to trick admissions officers.",
-            "cn": "[6]我没有在暗示预科学校的作用就仅仅是耍弄招生办公室的老师，"
+            "cn": "[6]我并不是说，大学预备学校的唯一作用就是蒙骗招生人员。"
           },
           {
             "en": "They also generally provide a better education.",
@@ -11321,7 +11542,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It might also be argued that kids who went to prep schools, because they've learned more, are better college candidates.",
-            "cn": "或许有人会争论想去上预科学校的孩子，因为他们想学得更多，所以本来就是更好的大学候选人。"
+            "cn": "也有人可能会说，大学预备学校的学生学得更多，因此本来就是更好的大学申请者。"
           },
           {
             "en": "But this seems empirically false.",
@@ -11329,7 +11550,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "What you learn in even the best high school is rounding error compared to what you learn in college.",
-            "cn": "尽管你在最好的高中，教的东西相对于大学里教的几乎是错的。"
+            "cn": "与大学里学到的东西相比，即使在最好的高中学到的内容，也不过相当于一点舍入误差。"
           },
           {
             "en": "Public school kids arrive at college with a slight disadvantage, but they start to pull ahead in the sophomore year.",
@@ -11357,7 +11578,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Indifference, mainly.",
-            "cn": "大体上是无意的。"
+            "cn": "主要是因为漠不关心。"
           },
           {
             "en": "There are simply no outside forces pushing high school to be good.",
@@ -11397,7 +11618,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Samuel Johnson said \"no man but a blockhead ever wrote except for money.\" (Many hope he was exaggerating.)",
-            "cn": "Samuel Johnson 说过“只有傻瓜才不会为了钱而去写作。”（很多人希望他夸大了。）"
+            "cn": "塞缪尔·约翰逊说：‘除了傻瓜，没有人会不为钱而写作。’（很多人希望他只是在夸张。）",
+            "alignedParts": [
+              {
+                "en": "Samuel Johnson said \"no man but a blockhead ever wrote except for money.\"",
+                "cn": "塞缪尔·约翰逊说：‘除了傻瓜，没有人会不为钱而写作。’"
+              },
+              {
+                "en": "(Many hope he was exaggerating.)",
+                "cn": "（很多人希望他只是在夸张。）"
+              }
+            ]
           }
         ]
       },
@@ -11405,7 +11636,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[9] Even college textbooks are bad.",
-            "cn": "[9]尽管大学教科书很糟糕。"
+            "cn": "[9]就连大学教科书也不好。"
           },
           {
             "en": "When you get to college, you'll find that (with a few stellar exceptions) the textbooks are not written by the leading scholars in the field they describe.",
@@ -11453,15 +11684,16 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If a bunch of actual adults suddenly found themselves trapped in high school, the first thing they'd do is form a union and renegotiate all the rules with the administration.",
-            "cn": "如果一群成年人发现他们被困在一所高中里，第一件他们会做的事就是成立工会，"
+            "cn": "如果一群真正的成年人突然发现自己被困在高中里，他们做的第一件事，大概就是成立工会，与校方重新协商所有规则。"
           },
           {
             "en": "Thanks to Ingrid Bassett, Trevor Blackwell, Rich Draves, Dan Giffin, Sarah Harlin, Jessica Livingston, Jackie McDonough, Robert Morris, Mark Nitzberg, Lisa Randall, and Aaron Swartz for reading drafts of this, and to many others for talking to me about high school.",
-            "cn": "和学校负责人重新谈判一下管理规定。感谢 Ingrid Bassett, Trevor Blackwell, Rich Draves, Dan Giffin, Sarah Harlin, Jessica Livingston, Jackie McDonough, Robert Morris, Mark Nitzberg, Lisa Randall, 和 Aaron Swartz 读了初稿，还有其他和我聊高中的人。"
+            "cn": "感谢 Ingrid Bassett、Trevor Blackwell、Rich Draves、Dan Giffin、Sarah Harlin、Jessica Livingston、Jackie McDonough、Robert Morris、Mark Nitzberg、Lisa Randall 和 Aaron Swartz 阅读本文草稿，也感谢许多其他人与我谈论高中生活。"
           }
         ]
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：按英文原句校正中英配对；保留原文与段落位置。"
   },
   {
     "id": "gr-pg-how-to-do-what-you-love",
@@ -11475,53 +11707,63 @@ const ARTICLES_EXTRA = [
     "cover": "linear-gradient(135deg,#fecaca 0%,#dc2626 100%)",
     "gradient": "linear-gradient(135deg,#fecaca 0%,#dc2626 100%)",
     "coverImg": "assets/covers/gr-pg-how-to-do-what-you-love.jpg",
-    "translationCredit": "中文译文：王亮（2006，社区公认译本）",
+    "translationCredit": "中文学习译文：词阅逐句重译（2026-09-26）；原收录译本署名：王亮（2006）。",
     "paras": [
       {
         "sentences": [
           {
             "en": "To do something well you have to like it.",
-            "cn": "喜欢一件事才能做好它，"
+            "cn": "要把一件事做好，你必须喜欢它。"
           },
           {
             "en": "That idea is not exactly novel.",
-            "cn": "这可不是什么新想法，"
+            "cn": "这个想法并不新鲜。"
           },
           {
             "en": "We've got it down to four words: \"Do what you love.\" But it's not enough just to tell people that.",
-            "cn": "用4个字概括：\"Do what you love.\"（“做你喜欢的事”）。"
+            "cn": "我们把它概括成四个英文单词：‘Do what you love（做你热爱的事）。’但只是这样告诉人们还不够。",
+            "alignedParts": [
+              {
+                "en": "We've got it down to four words: \"Do what you love.\"",
+                "cn": "我们把它概括成四个英文单词：‘Do what you love（做你热爱的事）。’"
+              },
+              {
+                "en": "But it's not enough just to tell people that.",
+                "cn": "但只是这样告诉人们还不够。"
+              }
+            ]
           },
           {
             "en": "Doing what you love is complicated.",
-            "cn": "然而，知易行难。"
+            "cn": "做自己热爱的事并不简单。"
           },
           {
             "en": "The very idea is foreign to what most of us learn as kids.",
-            "cn": "小时候没有人告诉我们这些。"
+            "cn": "这个观念本身，就与我们大多数人从小接受的教育格格不入。"
           },
           {
             "en": "When I was a kid, it seemed as if work and fun were opposites by definition.",
-            "cn": "当我还是个孩子的时候，以为工作和娱乐截然不同。"
+            "cn": "我小时候觉得，工作和乐趣似乎天生就是对立的。"
           },
           {
             "en": "Life had two states: some of the time adults were making you do things, and that was called work; the rest of the time you could do what you wanted, and that was called playing.",
-            "cn": "生活分成两部分：有时候大人给点活干；剩下的时间就去玩，随心所欲。"
+            "cn": "生活分成两种状态：有时大人让你做事，那叫工作；其余时间你可以做自己想做的事，那叫玩耍。"
           },
           {
             "en": "Occasionally the things adults made you do were fun, just as, occasionally, playing wasn't — for example, if you fell and hurt yourself.",
-            "cn": "偶尔，大人让做的事居然挺有趣，而玩也会有不开心的时候，"
+            "cn": "偶尔，大人让你做的事也很有趣；同样，玩耍偶尔也会不开心，比如摔倒受伤的时候。"
           },
           {
             "en": "But except for these few anomalous cases, work was pretty much defined as not-fun.",
-            "cn": "比如摔倒受伤。但这种情况不多见，"
+            "cn": "但除了这些少见的例外，工作基本上就等于不好玩。"
           },
           {
             "en": "And it did not seem to be an accident.",
-            "cn": "通常，干活都没啥意思。"
+            "cn": "而且，这似乎不是偶然。"
           },
           {
             "en": "School, it was implied, was tedious because it was preparation for grownup work.",
-            "cn": "既然上学是为了工作，那它肯定也很枯燥。"
+            "cn": "大人隐含的意思是：上学之所以枯燥，是因为它在为成年后的工作做准备。"
           }
         ]
       },
@@ -11529,19 +11771,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The world then was divided into two groups, grownups and kids.",
-            "cn": "生活有工作和娱乐两种状态，相应地，"
+            "cn": "于是，世界被分成两类人：大人和孩子。"
           },
           {
             "en": "Grownups, like some kind of cursed race, had to work.",
-            "cn": "人被分成两种，大人和孩子。"
+            "cn": "大人像某种受了诅咒的族群，必须工作。"
           },
           {
             "en": "Kids didn't, but they did have to go to school, which was a dilute version of work meant to prepare us for the real thing.",
-            "cn": "大人要辛苦地工作，孩子虽然不用工作，但他们得去学校学做一些简单的事，为将来打基础。"
+            "cn": "孩子不用工作，但必须上学；上学就是简化版的工作，用来为将来的真正工作做准备。"
           },
           {
             "en": "Much as we disliked school, the grownups all agreed that grownup work was worse, and that we had it easy.",
-            "cn": "就像孩子们不喜欢学校一样，大人们也都不爱工作，这似乎显而易见。"
+            "cn": "尽管我们不喜欢上学，大人却一致认为成年人的工作更糟，而我们已经很轻松了。"
           }
         ]
       },
@@ -11549,23 +11791,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Teachers in particular all seemed to believe implicitly that work was not fun.",
-            "cn": "老师尤其相信工作没有乐趣可言，这并不奇怪，"
+            "cn": "尤其是老师，似乎都默认工作没有乐趣。"
           },
           {
             "en": "Which is not surprising: work wasn't fun for most of them.",
-            "cn": "因为绝大多数教师没体会过教书的乐趣。"
+            "cn": "这并不奇怪：对他们中的大多数人来说，工作确实没有乐趣。"
           },
           {
             "en": "Why did we have to memorize state capitals instead of playing dodgeball?",
-            "cn": "就像孩子们不能玩躲球游戏(dodgeball)，"
+            "cn": "为什么我们必须背诵各州首府，而不能去玩躲避球？"
           },
           {
             "en": "For the same reason they had to watch over a bunch of kids instead of lying on a beach.",
-            "cn": "非要背各个省的省会一样，老师也不得不看着这些孩子，不能躺在海滩。"
+            "cn": "原因就和他们必须看管一群孩子、而不能躺在海滩上一样。"
           },
           {
             "en": "You couldn't just do what you wanted.",
-            "cn": "谁都不能想干什么就干什么。"
+            "cn": "你不能想做什么就做什么。"
           }
         ]
       },
@@ -11573,15 +11815,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I'm not saying we should let little kids do whatever they want.",
-            "cn": "这么说并不代表我认为允许孩子自做主张是对的，"
+            "cn": "我不是说应该让小孩子为所欲为。"
           },
           {
             "en": "They may have to be made to work on certain things.",
-            "cn": "他们总得学会点什么。"
+            "cn": "有些事情，可能确实需要要求他们去做。"
           },
           {
             "en": "But if we make kids work on dull stuff, it might be wise to tell them that tediousness is not the defining quality of work, and indeed that the reason they have to work on dull stuff now is so they can work on more interesting stuff later. [ 1 ]",
-            "cn": "但是，如果大人告诉孩子“工作不都是这么枯燥，现在之所以要做些很闷的事，恰恰是为了以后可以选择能带来乐趣的工作”[1]是不是效果更好呢？"
+            "cn": "但如果我们让孩子做枯燥的事，最好告诉他们：枯燥并不是工作的本质；事实上，现在做这些枯燥的事，正是为了将来能做更有趣的事。[1]"
           }
         ]
       },
@@ -11589,23 +11831,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Once, when I was about 9 or 10, my father told me I could be whatever I wanted when I grew up, so long as I enjoyed it.",
-            "cn": "在我9岁或者10岁的时候，父亲曾告诉我，只要我喜欢，长大了干什么都行。这话我记得很清楚，"
+            "cn": "我大约九岁或十岁时，父亲曾告诉我，只要我喜欢，长大后想做什么都可以。"
           },
           {
             "en": "I remember that precisely because it seemed so anomalous.",
-            "cn": "因为听起来好像有人告诉我水是干的一样怪异。"
+            "cn": "我之所以记得那么清楚，正是因为这句话听起来太反常了。"
           },
           {
             "en": "It was like being told to use dry water.",
-            "cn": "虽然我不敢肯定父亲想告诉我什么，"
+            "cn": "那就像有人叫你使用干燥的水一样。"
           },
           {
             "en": "Whatever I thought he meant, I didn't think he meant work could literally be fun — fun like playing.",
-            "cn": "但肯定不是说工作能像娱乐一样带来乐趣。过了好多年，"
+            "cn": "无论我当时怎样理解他的话，都没想到他是说工作真的可以有趣——像玩耍一样有趣。"
           },
           {
             "en": "It took me years to grasp that.",
-            "cn": "我才弄明白这一点。"
+            "cn": "我花了好多年才明白这一点。"
           }
         ]
       },
@@ -11613,51 +11855,51 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "By high school, the prospect of an actual job was on the horizon.",
-            "cn": "很多人读完高中就开始工作了，所以，"
+            "cn": "到了高中，真正参加工作已经是可以预见的事了。"
           },
           {
             "en": "Adults would sometimes come to speak to us about their work, or we would go to see them at work.",
-            "cn": "大人会在孩子读高中的时候向他们讲些工作上的事，也允许孩子跑去看他们工作的样子。"
+            "cn": "大人有时会来给我们讲他们的工作，或者我们去看他们工作。"
           },
           {
             "en": "It was always understood that they enjoyed what they did.",
-            "cn": "那时我总觉得大人都很喜欢各自的工作，"
+            "cn": "大家总是默认，他们喜欢自己做的事。"
           },
           {
             "en": "In retrospect I think one may have: the private jet pilot.",
-            "cn": "现在回头想想，也许只有私人飞行员才真正喜欢，"
+            "cn": "现在回想起来，我觉得其中一个人可能确实喜欢：那位私人飞机飞行员。"
           },
           {
             "en": "But I don't think the bank manager really did.",
-            "cn": "但银行经理肯定不喜欢他的那份工作。"
+            "cn": "但我不认为那位银行经理真的喜欢自己的工作。"
           },
           {
             "en": "The main reason they all acted as if they enjoyed their work was presumably the upper-middle class convention that you're supposed to.",
-            "cn": "有一种说法，中高层人士都喜欢自己的工作。于是，人们都装模作样喜欢自己的工作，仿佛自己是中高层人士中的一员，"
+            "cn": "他们都表现得喜欢自己的工作，主要原因大概是中上层阶级的惯例：你就应该喜欢它。"
           },
           {
             "en": "It would not merely be bad for your career to say that you despised your job, but a social faux-pas.",
-            "cn": "否则不仅会影响其职业生涯，而且显得没有教养。"
+            "cn": "说自己厌恶工作，不仅不利于职业发展，也会被视为社交上的失礼。"
           },
           {
             "en": "Why is it conventional to pretend to like what you do?",
-            "cn": "为什么人们都要装作喜欢自己的工作？"
+            "cn": "为什么假装喜欢自己的工作会成为一种惯例？"
           },
           {
             "en": "The first sentence of this essay explains that.",
-            "cn": "本文第一句话可以解释这一点。"
+            "cn": "本文的第一句话就解释了这一点。"
           },
           {
             "en": "If you have to like something to do it well, then the most successful people will all like what they do.",
-            "cn": "如果一个人只能做好他喜欢的事情，那么，有些人能成功，就是因为喜欢自己的工作。"
+            "cn": "如果必须喜欢一件事才能把它做好，那么最成功的人就都会喜欢自己做的事。"
           },
           {
             "en": "That's where the upper-middle class tradition comes from.",
-            "cn": "这就是中上层阶级传统的由来。"
+            "cn": "中上层阶级的这项传统，就是这么来的。"
           },
           {
             "en": "Just as houses all over America are full of chairs that are, without the owners even knowing it, nth-degree imitations of chairs designed 250 years ago for French kings, conventional attitudes about work are, without the owners even knowing it, nth-degree imitations of the attitudes of people who've done great things.",
-            "cn": "如同在美国，家家户户都有250年前法国国王用椅的不同程度的仿制品一样（尽管主人可能并不太清楚），人们对工作的态度也是在不同程度上、有意无意地模仿成功人士。"
+            "cn": "就像美国各地的家里都有各种椅子，主人却不知道它们是两百五十年前为法国国王设计的椅子的多重仿制品一样，人们对工作的惯常态度，也是在不知不觉中对成就非凡之人的态度做出的多重模仿。"
           }
         ]
       },
@@ -11665,27 +11907,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "What a recipe for alienation.",
-            "cn": "假装喜欢自己的工作的做法必定把孩子弄得精神错乱，"
+            "cn": "这简直是在制造疏离感。"
           },
           {
             "en": "By the time they reach an age to think about what they'd like to do, most kids have been thoroughly misled about the idea of loving one's work.",
-            "cn": "等他们到了开始思考喜欢什么工作的年龄，绝大多数人已经完全被这种“干一行爱一行”的观点所误导。"
+            "cn": "到了开始思考自己想做什么的年纪，大多数孩子对“热爱工作”这个观念已经受到了彻底的误导。"
           },
           {
             "en": "School has trained them to regard work as an unpleasant duty.",
-            "cn": "一方面，学校教导他们工作是一种责任，但毫无乐趣可言，"
+            "cn": "学校训练他们把工作看成一种不愉快的义务。"
           },
           {
             "en": "Having a job is said to be even more onerous than schoolwork.",
-            "cn": "工作甚至比上学还辛苦。"
+            "cn": "据说，上班甚至比做功课还要辛苦。"
           },
           {
             "en": "And yet all the adults claim to like what they do.",
-            "cn": "另一方面，身边的大人却口口声声说他们喜欢工作。"
+            "cn": "可所有大人又都声称喜欢自己做的事。"
           },
           {
             "en": "You can't blame kids for thinking \"I am not like these people; I am not suited to this world.\"",
-            "cn": "孩子们会想：“我和他们不一样，我不属于这个世界。”这不是孩子的错。"
+            "cn": "你不能怪孩子们会想：“我和这些人不一样；我不适合这个世界。”"
           }
         ]
       },
@@ -11693,35 +11935,35 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Actually they've been told three lies: the stuff they've been taught to regard as work in school is not real work; grownup work is not (necessarily) worse than schoolwork; and many of the adults around them are lying when they say they like what they do.",
-            "cn": "学校和大人们不一致的说法使孩子们错误地认为：学校里学会做的事情并不是真正的工作；工作不比学习更糟；要么那些说喜欢工作的大人都在说谎。然而，三种说法全是错误的。"
+            "cn": "事实上，他们听到了三个谎言：学校里那些被教作“工作”的事情并不是真正的工作；成年人的工作不一定比功课更糟；身边很多大人说自己喜欢工作，其实是在撒谎。"
           },
           {
             "en": "The most dangerous liars can be the kids' own parents.",
-            "cn": "最危险的谎言来自孩子的父母。"
+            "cn": "最危险的说谎者，可能正是孩子自己的父母。"
           },
           {
             "en": "If you take a boring job to give your family a high standard of living, as so many people do, you risk infecting your kids with the idea that work is boring.",
-            "cn": "如果某人选择无聊的工作是为了让全家人生活得好一点――很多人也真的是这么做的――那么他的孩子很可能受其影响，也认为工作挺无聊的。"
+            "cn": "如果你像很多人那样，为了让家人过上优裕的生活而选择一份无聊的工作，就可能把“工作很无聊”这个观念传给孩子。"
           },
           {
             "en": "[ 2 ] Maybe it would be better for kids in this one case if parents were not so unselfish.",
-            "cn": "[2]而如果父母能为自己多考虑考虑（选择自己喜欢的工作，尽管以牺牲全家人的生活质量为代价――译者注），教出来的孩子反而会好一些。"
+            "cn": "[2]也许唯独在这件事上，父母不那么无私，反而对孩子更好。"
           },
           {
             "en": "A parent who set an example of loving their work might help their kids more than an expensive house. [ 3 ]",
-            "cn": "热爱工作的父母对子女的影响是昂贵的房子无法带来的。[3]"
+            "cn": "父母以身作则地热爱自己的工作，可能比一栋昂贵的房子更能帮助孩子。[3]"
           },
           {
             "en": "It was not till I was in college that the idea of work finally broke free from the idea of making a living.",
-            "cn": "读大学时，我才明白养家糊口不是工作的唯一目的。"
+            "cn": "直到上大学，我才终于把工作这个概念与谋生这个概念分开。"
           },
           {
             "en": "Then the important question became not how to make money, but what to work on.",
-            "cn": "选择什么工作要比赚多少钱重要。"
+            "cn": "于是，重要的问题不再是怎样赚钱，而是要做什么工作。"
           },
           {
             "en": "Ideally these coincided, but some spectacular boundary cases (like Einstein in the patent office) proved they weren't identical.",
-            "cn": "虽然人们一般认为工作就是为了生存，但也有特别值得一提的故事（比如说爱因斯坦在专利局上班）说明，事实并非总是如此。"
+            "cn": "理想情况下，两者是一致的；但一些引人注目的特殊例子，比如在专利局工作的爱因斯坦，证明它们并不是一回事。"
           }
         ]
       },
@@ -11729,19 +11971,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The definition of work was now to make some original contribution to the world, and in the process not to starve.",
-            "cn": "如今，工作的目的是为世界做出贡献，同时也要能够生存。"
+            "cn": "这时，我对工作的定义变成了：为世界做出某种原创的贡献，同时不让自己饿肚子。"
           },
           {
             "en": "But after the habit of so many years my idea of work still included a large component of pain.",
-            "cn": "可是这么多年来，我一直无法改变自己的错误想法，认为工作中令人痛苦的事情很多。"
+            "cn": "但多年来形成的习惯，让我对工作的理解仍然包含着大量痛苦。"
           },
           {
             "en": "Work still seemed to require discipline, because only hard problems yielded grand results, and hard problems couldn't literally be fun.",
-            "cn": "工作中仍然需要不断钻研，所谓“天将降大任于斯人也，必先苦其心智，劳其筋骨……”。"
+            "cn": "工作似乎仍然需要自律，因为只有难题才能带来重大的成果，而难题不可能真的有趣。"
           },
           {
             "en": "Surely one had to force oneself to work on them.",
-            "cn": "所以，人们不得不强迫自己做这些工作。"
+            "cn": "人当然得强迫自己去解决它们。"
           }
         ]
       },
@@ -11749,35 +11991,35 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "If you think something's supposed to hurt, you're less likely to notice if you're doing it wrong.",
-            "cn": "如果认为工作注定是件痛苦的事，当工作中出现错误就觉察不出来。"
+            "cn": "如果你觉得一件事理应让人痛苦，那么做错时，你反而不容易察觉。"
           },
           {
             "en": "That about sums up my experience of graduate school.",
-            "cn": "这就是我在研究生院学习期间的思考所得。"
+            "cn": "这大致概括了我的研究生经历。"
           },
           {
             "en": "How much are you supposed to like what you do?",
-            "cn": "一个人能够喜欢工作到什么程度呢？"
+            "cn": "你究竟应该有多喜欢自己做的事？"
           },
           {
             "en": "Unless you know that, you don't know when to stop searching.",
-            "cn": "如果他不知道这个问题的答案，就不知道该在什么时候停止寻找。"
+            "cn": "如果不知道答案，你就不知道什么时候该停止寻找。"
           },
           {
             "en": "And if, like most people, you underestimate it, you'll tend to stop searching too early.",
-            "cn": "另外，如果他像其他人那样，低估了对工作的热爱之情，又会过早地停止寻找。"
+            "cn": "而如果你像大多数人一样低估了这种喜欢的程度，就容易过早停止寻找。"
           },
           {
             "en": "You'll end up doing something chosen for you by your parents, or the desire to make money, or prestige — or sheer inertia.",
-            "cn": "他或者会听从父母的安排，或者去追名逐利，又或者什么也不做。"
+            "cn": "最后，你做的事可能是父母替你选的，也可能是赚钱的欲望、名望，或纯粹的惯性替你选的。"
           },
           {
             "en": "Here's an upper bound: Do what you love doesn't mean, do what you would like to do most this second .",
-            "cn": "一方面，“做你喜欢做的事”不意味着做此时此刻最想做的事，"
+            "cn": "先说上限：做自己热爱的事，并不等于做此时此刻最想做的事。"
           },
           {
             "en": "Even Einstein probably had moments when he wanted to have a cup of coffee, but told himself he ought to finish what he was working on first.",
-            "cn": "即便是爱因斯坦也会有想喝咖啡的时候，但他会告诫自己先完成手头的工作。"
+            "cn": "即使爱因斯坦，大概也有想喝杯咖啡，却告诉自己应该先完成手头工作的时刻。"
           }
         ]
       },
@@ -11785,19 +12027,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It used to perplex me when I read about people who liked what they did so much that there was nothing they'd rather do.",
-            "cn": "我总是无法理解有些人非常喜欢自己的工作以至于其它的事都不想做，"
+            "cn": "过去，读到有人如此喜欢自己的工作，以至于什么别的事都不想做时，我总是很困惑。"
           },
           {
             "en": "There didn't seem to be any sort of work I liked that much.",
-            "cn": "因为我从来没有如此喜欢过一份工作。"
+            "cn": "似乎没有哪种工作能让我喜欢到那种程度。"
           },
           {
             "en": "If I had a choice of (a) spending the next hour working on something or (b) be teleported to Rome and spend the next hour wandering about, was there any sort of work I'd prefer?",
-            "cn": "如果我可以选择(a)花一小时做点什么，或者(b)瞬间转移(teleport)到罗马，然后在那里闲逛一小时。我会更喜欢哪一个呢？"
+            "cn": "如果可以选择：（a）接下来一小时做某项工作，或者（b）瞬间来到罗马，花一小时四处闲逛，有哪种工作会让我更愿意选择吗？"
           },
           {
             "en": "Honestly, no.",
-            "cn": "说实话，都不喜欢。"
+            "cn": "老实说，没有。"
           }
         ]
       },
@@ -11805,27 +12047,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "But the fact is, almost anyone would rather, at any given moment, float about in the Caribbean, or have sex, or eat some delicious food, than work on hard problems.",
-            "cn": "然而，在某些特定的时刻，几乎每个人都会倾向去Carribbean飘流、做爱、或者享用美食，而不是去解决难题。"
+            "cn": "但事实上，在任意一个时刻，几乎所有人都宁愿在加勒比海漂游、享受性爱，或品尝美食，而不是解决难题。"
           },
           {
             "en": "The rule about doing what you love assumes a certain length of time.",
-            "cn": "做自己喜欢的事是有时间范围的。"
+            "cn": "“做你热爱的事”这条原则，预设了一个时间跨度。"
           },
           {
             "en": "It doesn't mean, do what will make you happiest this second, but what will make you happiest over some longer period, like a week or a month.",
-            "cn": "不能是只在某一刻特别想做的事，必须要持续一段较长的时间，比如一个星期或者一个月。"
+            "cn": "它并不是让你做此刻最开心的事，而是让你做在一段较长时间内——比如一周或一个月——最让你开心的事。"
           },
           {
             "en": "Unproductive pleasures pall eventually.",
-            "cn": "没有成果的快乐是无法持续的，"
+            "cn": "不产生任何成果的享乐，最终都会令人厌倦。"
           },
           {
             "en": "After a while you get tired of lying on the beach.",
-            "cn": "如果厌倦了躺在沙滩上，"
+            "cn": "躺在海滩上待久了，你也会腻。"
           },
           {
             "en": "If you want to stay happy, you have to do something.",
-            "cn": "而又想保持快乐，就得做点事情出来。"
+            "cn": "要想持续快乐，你就得做点事情。"
           }
         ]
       },
@@ -11833,27 +12075,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "As a lower bound, you have to like your work more than any unproductive pleasure.",
-            "cn": "另一方面，必须得喜欢工作多一点，喜欢享受少一点，"
+            "cn": "再说下限：你必须喜欢自己的工作，胜过任何不产生实际成果的享乐。"
           },
           {
             "en": "You have to like what you do enough that the concept of \"spare time\" seems mistaken.",
-            "cn": "要有不做点事就闲得难受的劲头。"
+            "cn": "你要喜欢自己做的事，喜欢到觉得“业余时间”这个概念本身都有点不对。"
           },
           {
             "en": "Which is not to say you have to spend all your time working.",
-            "cn": "当然也不能没日没夜地工作，"
+            "cn": "这并不是说，你必须把所有时间都用来工作。"
           },
           {
             "en": "You can only work so much before you get tired and start to screw up.",
-            "cn": "可以坚持工作直到疲劳为止，"
+            "cn": "工作一段时间后，你总会疲倦，开始出错。"
           },
           {
             "en": "Then you want to do something else — even something mindless.",
-            "cn": "然后可能想做点别的，甚至只是发呆。"
+            "cn": "这时你会想做些别的事，甚至是不需要动脑子的事。"
           },
           {
             "en": "But you don't regard this time as the prize and the time you spend working as the pain you endure to earn it.",
-            "cn": "但不要把这种时刻当成一种奖励，或者辛苦工作的补偿。"
+            "cn": "但你不会把这段时间当成奖赏，也不会把工作时间看成为了换取奖赏而忍受的痛苦。"
           }
         ]
       },
@@ -11861,47 +12103,47 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I put the lower bound there for practical reasons.",
-            "cn": "我这么说是有原因的，"
+            "cn": "我把下限定在那里，是出于实际考虑。"
           },
           {
             "en": "If your work is not your favorite thing to do, you'll have terrible problems with procrastination.",
-            "cn": "如果一个人在做着自己并不喜欢的工作，那么不会有什么成就，"
+            "cn": "如果工作不是你最喜欢做的事，你就会遭遇严重的拖延问题。"
           },
           {
             "en": "You'll have to force yourself to work, and when you resort to that the results are distinctly inferior.",
-            "cn": "因为强迫自己工作不可能比别人做得好。"
+            "cn": "你将不得不强迫自己工作，而一旦需要这样做，成果就会明显逊色。"
           },
           {
             "en": "To be happy I think you have to be doing something you not only enjoy, but admire.",
-            "cn": "要想工作得快乐，不仅要做自己喜欢的事，而且是令人佩服的事，"
+            "cn": "我认为，要想快乐，你做的事不仅要让你喜欢，也要让你欣赏。"
           },
           {
             "en": "You have to be able to say, at the end, wow, that's pretty cool.",
-            "cn": "是那种做完可以说“哇，太酷了”的工作。"
+            "cn": "做完之后，你得能够说：“哇，这可真酷。”"
           },
           {
             "en": "This doesn't mean you have to make something.",
-            "cn": "不一定非得制造点什么出来，"
+            "cn": "这并不意味着你一定要制造出什么东西。"
           },
           {
             "en": "If you learn how to hang glide, or to speak a foreign language fluently, that will be enough to make you say, for a while at least, wow, that's pretty cool.",
-            "cn": "学会开滑翔机，说一口流利的外语，都足以让人感觉很酷，至少是那一刻。"
+            "cn": "学会驾驶悬挂式滑翔机，或流利地说一门外语，就足以让你至少在一段时间内感叹：“哇，这可真酷。”"
           },
           {
             "en": "What there has to be is a test.",
-            "cn": "可以用这种方法来测试自己。"
+            "cn": "必须有某种检验成果的方式。"
           },
           {
             "en": "So one thing that falls just short of the standard, I think, is reading books.",
-            "cn": "我认为读书就不符合这一标准。"
+            "cn": "因此，我认为读书就略微达不到这个标准。"
           },
           {
             "en": "Except for some books in math and the hard sciences, there's no test of how well you've read a book, and that's why merely reading books doesn't quite feel like work.",
-            "cn": "除了某些数学书或者实用科学书籍，很难准确说读完一本书后的感受，这也是为什么读书和工作不太一样。"
+            "cn": "除了一些数学和硬科学书籍，很难检验你究竟读得有多好，所以仅仅读书不太像是在工作。"
           },
           {
             "en": "You have to do something with what you've read to feel productive.",
-            "cn": "只有在实践中运用了读到的知识，才会感觉有收获。"
+            "cn": "你得用读到的东西做些什么，才会觉得自己有所产出。"
           }
         ]
       },
@@ -11909,63 +12151,63 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I think the best test is one Gino Lee taught me: to try to do things that would make your friends say wow.",
-            "cn": "Gino Lee告诉过我一个好方法――做一件能让你的朋友说“哇”的事情。"
+            "cn": "我觉得最好的检验方法，是吉诺·李教给我的：试着做一些能让朋友惊叹“哇”的事。"
           },
           {
             "en": "But it probably wouldn't start to work properly till about age 22, because most people haven't had a big enough sample to pick friends from before then.",
-            "cn": "但这可能不适用于22岁以下的人，因为他们认识的人太少，碰不到真正的朋友。"
+            "cn": "但这大概要到二十二岁左右才真正奏效，因为在此之前，大多数人接触过的人还不够多，选择朋友的范围还不够广。"
           },
           {
             "en": "What you should not do, I think, is worry about the opinion of anyone beyond your friends.",
-            "cn": "我认为，一个人不应该在乎别人的看法，除非是他的朋友。"
+            "cn": "我认为，你不该在意朋友以外的人怎么看。"
           },
           {
             "en": "You shouldn't worry about prestige.",
-            "cn": "不要想着出名，不必太在意众人的意见。"
+            "cn": "你不该在意名望。"
           },
           {
             "en": "Prestige is the opinion of the rest of the world.",
-            "cn": "能够得到尊敬的人的意见就够了，"
+            "cn": "名望就是世上其他人对你的看法。"
           },
           {
             "en": "When you can ask the opinions of people whose judgement you respect, what does it add to consider the opinions of people you don't even know? [ 4 ]",
-            "cn": "何必在乎那些根本就不认识的人呢？[4]"
+            "cn": "既然可以征询那些你尊重其判断力的人的意见，考虑素不相识之人的看法又能增加什么价值呢？[4]"
           },
           {
             "en": "This is easy advice to give.",
-            "cn": "说起来容易做起来难，"
+            "cn": "提出这条建议很容易。"
           },
           {
             "en": "It's hard to follow, especially when you're young.",
-            "cn": "对孩子来说更是如此。[5]"
+            "cn": "照着做却很难，尤其是在你年轻的时候。"
           },
           {
             "en": "[ 5 ] Prestige is like a powerful magnet that warps even your beliefs about what you enjoy.",
-            "cn": "出名极具诱惑力，甚至可以让人放弃其所爱，"
+            "cn": "[5]名望就像一块强力磁铁，甚至会扭曲你对自己喜欢什么的判断。"
           },
           {
             "en": "It causes you to work not on what you like, but what you'd like to like.",
-            "cn": "转而去做一些他渴望喜欢的事情。"
+            "cn": "它会让你去做的，不是你真正喜欢的事，而是你希望自己能喜欢的事。"
           },
           {
             "en": "That's what leads people to try to write novels, for example.",
-            "cn": "比如，有些人之所以写小说，"
+            "cn": "比如，这就是一些人想要写小说的原因。"
           },
           {
             "en": "They like reading novels.",
-            "cn": "是因为他们喜欢读小说，"
+            "cn": "他们喜欢读小说。"
           },
           {
             "en": "They notice that people who write them win Nobel prizes.",
-            "cn": "而且发现写小说可以得诺贝尔奖，"
+            "cn": "他们发现，写小说的人会获得诺贝尔奖。"
           },
           {
             "en": "What could be more wonderful, they think, than to be a novelist?",
-            "cn": "于是乎他们会想，难道还会有什么工作比成为一名作家更好吗？"
+            "cn": "于是他们想，还有什么比当小说家更美好的呢？"
           },
           {
             "en": "But liking the idea of being a novelist is not enough; you have to like the actual work of novel-writing if you're going to be good at it; you have to like making up elaborate lies.",
-            "cn": "比如，有些人之所以写小说，是因为他们喜欢读小说，而且发现写小说可以得诺贝尔奖，于是乎他们会想，难道还会有什么工作比成为一名作家更好吗？但是，渴望成为一名作家还不够，还要喜欢写作，喜欢编故事。"
+            "cn": "但仅仅喜欢“成为小说家”这个念头是不够的；想写得好，你必须喜欢实际写小说的过程，必须喜欢编造精巧的虚构故事。"
           }
         ]
       },
@@ -11973,23 +12215,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Prestige is just fossilized inspiration.",
-            "cn": "精诚所至，金石为开。"
+            "cn": "名望不过是凝固了的灵感。"
           },
           {
             "en": "If you do anything well enough, you'll make it prestigious.",
-            "cn": "把一件事做到最好，就能赢得声望。"
+            "cn": "任何事情，只要你做得足够出色，就能让它获得声望。"
           },
           {
             "en": "Plenty of things we now consider prestigious were anything but at first.",
-            "cn": "然而，做某些工作会带来声望是后来才有的，"
+            "cn": "今天我们认为很有声望的许多事，起初完全不是那样。"
           },
           {
             "en": "Jazz comes to mind — though almost any established art form would do.",
-            "cn": "爵士乐就是一个例子，其它成熟的艺术形式也是如此。"
+            "cn": "爵士乐就是一个例子，尽管几乎任何一种已经确立地位的艺术形式都可以说明这一点。"
           },
           {
             "en": "So just do what you like, and let prestige take care of itself.",
-            "cn": "所以，尽管去做喜欢的事吧，声望自会随之而来。"
+            "cn": "所以，去做你喜欢的事，让名望顺其自然。"
           }
         ]
       },
@@ -11997,51 +12239,61 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Prestige is especially dangerous to the ambitious.",
-            "cn": "声望对于雄心勃勃的人来说是最危险的诱惑，"
+            "cn": "对有抱负的人来说，名望尤其危险。"
           },
           {
             "en": "If you want to make ambitious people waste their time on errands, the way to do it is to bait the hook with prestige.",
-            "cn": "想让这种人办事，只需向其保证一定的声望即可，"
+            "cn": "如果想让有抱负的人把时间浪费在杂务上，就用名望来当鱼饵。"
           },
           {
             "en": "That's the recipe for getting people to give talks, write forewords, serve on committees, be department heads, and so on.",
-            "cn": "比如让其做演讲、作序、服务于某个委员会、以及做个部门头头，等等。"
+            "cn": "让人们去做演讲、写序言、担任委员会成员、当系主任等等，用的就是这个办法。"
           },
           {
             "en": "It might be a good rule simply to avoid any prestigious task.",
-            "cn": "所以最好的建议就是不要做这类工作，"
+            "cn": "干脆避开所有能带来名望的差事，或许是条好规则。"
           },
           {
             "en": "If it didn't suck, they wouldn't have had to make it prestigious.",
-            "cn": "如果它有趣的话，人们就无需使其听上去很美了。"
+            "cn": "如果它们本身不糟糕，人们也就不必拿名望来包装它们了。"
           },
           {
             "en": "Similarly, if you admire two kinds of work equally, but one is more prestigious, you should probably choose the other.",
-            "cn": "同理，如果同样喜欢两种工作，其中一种会带来更大的声望，那么就选择另外一个。"
+            "cn": "同样，如果你同样欣赏两种工作，但其中一种更有声望，那么你大概应该选择另一种。"
           },
           {
             "en": "Your opinions about what's admirable are always going to be slightly influenced by prestige, so if the two seem equal to you, you probably have more genuine admiration for the less prestigious one.",
-            "cn": "声望会一点点地改变人们的爱好，所以如果自己无法区分的话，那么很可能真正喜欢的是不引人注目的那个。"
+            "cn": "你对什么值得欣赏的判断，总会稍微受到名望的影响；因此，如果两者在你看来同样好，你很可能其实更欣赏名望较低的那一种。"
           },
           {
             "en": "The other big force leading people astray is money.",
-            "cn": "金钱同样使人堕落。钱本身并不危险，"
+            "cn": "另一种让人误入歧途的强大力量，是金钱。"
           },
           {
             "en": "Money by itself is not that dangerous.",
-            "cn": "有些工作虽然可以挣很多钱，"
+            "cn": "金钱本身并没有那么危险。"
           },
           {
             "en": "When something pays well but is regarded with contempt, like telemarketing, or prostitution, or personal injury litigation, ambitious people aren't tempted by it.",
-            "cn": "却被人瞧不起，比如电话推销、卖淫、或者人身伤害诉讼。做这种工作的人最终会是那些“只求生存”的人（建议："
+            "cn": "当一份工作报酬丰厚，却被人鄙视，比如电话推销、卖淫或人身伤害诉讼时，有抱负的人不会被它吸引。"
           },
           {
             "en": "That kind of work ends up being done by people who are \"just trying to make a living.\" (Tip: avoid any field whose practitioners say this.) The danger is when money is combined with prestige, as in, say, corporate law, or medicine.",
-            "cn": "如果某个行业的从业者这么说，不要做这个行当），有追求的人才不会被其诱惑。真正的危险来自于名利双收的职业，例如从事企业法律或者医学工作。一份既有保障又有前途的工作，"
+            "cn": "最后从事这类工作的，是那些‘只是想谋生’的人。（提示：避开从业者会这么说的任何行业。）真正的危险在于金钱和名望结合，例如公司法或医学领域。",
+            "alignedParts": [
+              {
+                "en": "That kind of work ends up being done by people who are \"just trying to make a living.\"",
+                "cn": "最后从事这类工作的，是那些‘只是想谋生’的人。"
+              },
+              {
+                "en": "(Tip: avoid any field whose practitioners say this.) The danger is when money is combined with prestige, as in, say, corporate law, or medicine.",
+                "cn": "（提示：避开从业者会这么说的任何行业。）真正的危险在于金钱和名望结合，例如公司法或医学领域。"
+              }
+            ]
           },
           {
             "en": "A comparatively safe and prosperous career with some automatic baseline prestige is dangerously tempting to someone young, who hasn't thought much about what they really like.",
-            "cn": "再加上一点可以不劳而获的声望，才是对青年人最大的威胁，因为他们还没开始思考什么是他们真正喜欢的。"
+            "cn": "对尚未认真思考自己真正喜欢什么的年轻人来说，一份比较安稳、收入优厚、又自带一定声望的职业，具有危险的诱惑力。"
           }
         ]
       },
@@ -12049,11 +12301,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The test of whether people love what they do is whether they'd do it even if they weren't paid for it — even if they had to work at another job to make a living.",
-            "cn": "要想知道一个人是否喜欢他正在做的事，就看他会不会无偿地工作，即使不得不做另一份工作以求生存。"
+            "cn": "检验一个人是否热爱自己的工作，就看即使没有报酬，甚至必须另找一份工作谋生，他是否仍愿意做这件事。"
           },
           {
             "en": "How many corporate lawyers would do their current work if they had to do it for free, in their spare time, and take day jobs as waiters to support themselves?",
-            "cn": "究竟有多少企业律师愿意在非工作时间免费做他们正在做的工作，而以日常工作糊口呢？"
+            "cn": "如果必须在业余时间免费做现在的工作，白天还要当服务员养活自己，有多少公司律师仍然愿意干？"
           }
         ]
       },
@@ -12061,19 +12313,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "This test is especially helpful in deciding between different kinds of academic work, because fields vary greatly in this respect.",
-            "cn": "这种方法对于选择从事哪种学术研究工作特别有帮助，"
+            "cn": "这个检验在选择不同学术领域时特别有用，因为各领域在这方面差异很大。"
           },
           {
             "en": "Most good mathematicians would work on math even if there were no jobs as math professors, whereas in the departments at the other end of the spectrum, the availability of teaching jobs is the driver: people would rather be English professors than work in ad agencies, and publishing papers is the way you compete for such jobs.",
-            "cn": "因为不同领域之间的差别非常大。大多数优秀的数学家即使当不了数学教授也愿意从事数学研究，另一种情况恰恰相反，有人发表论文，就是想做英语教授，而不是在广告机构工作。"
+            "cn": "即使没有数学教授的职位，大多数优秀数学家仍会研究数学；而在另一端的某些院系，教职机会才是驱动力：人们宁愿当英语教授，也不愿去广告公司工作，发表论文则是竞争这类职位的手段。"
           },
           {
             "en": "Math would happen without math departments, but it is the existence of English majors, and therefore jobs teaching them, that calls into being all those thousands of dreary papers about gender and identity in the novels of Conrad.",
-            "cn": "即使没有数学系也会有人研究数学，但是如果没有英语专业，以及教学职位的存在，又怎么会有人长篇累牍地发表论文，研究Conrad小说中人物的性别和身分呢？"
+            "cn": "即使没有数学系，数学研究也会存在；但正是英语专业的存在，以及由此产生的教学职位，才催生了成千上万篇研究康拉德小说中性别与身份的乏味论文。"
           },
           {
             "en": "No one does that kind of thing for fun.",
-            "cn": "没人会觉得研究这些东西很有趣。"
+            "cn": "没有人会因为觉得好玩而做这种事。"
           }
         ]
       },
@@ -12081,67 +12333,67 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The advice of parents will tend to err on the side of money.",
-            "cn": "做父母的往往会看重金钱。可以放心地说，"
+            "cn": "父母的建议往往会过分偏向赚钱。"
           },
           {
             "en": "It seems safe to say there are more undergrads who want to be novelists and whose parents want them to be doctors than who want to be doctors and whose parents want them to be novelists.",
-            "cn": "孩子想当作家而父母想让其当医生的多，孩子想当医生而父母让其当作家的少。"
+            "cn": "可以肯定地说，想当小说家却被父母要求当医生的大学生，比想当医生却被父母要求当小说家的大学生更多。"
           },
           {
             "en": "The kids think their parents are \"materialistic.\" Not necessarily.",
-            "cn": "孩子认为父母太“实际”，其实未必。"
+            "cn": "孩子觉得父母“物质”。其实未必。"
           },
           {
             "en": "All parents tend to be more conservative for their kids than they would for themselves, simply because, as parents, they share risks more than rewards.",
-            "cn": "所有的父母对待孩子要比对待自己更慎重，因为作为父母，他们承担风险，却得不到好处。"
+            "cn": "所有父母在为孩子考虑时，往往比为自己考虑更保守，因为身为父母，他们分担的风险多于回报。"
           },
           {
             "en": "If your eight year old son decides to climb a tall tree, or your teenage daughter decides to date the local bad boy, you won't get a share in the excitement, but if your son falls, or your daughter gets pregnant, you'll have to deal with the consequences.",
-            "cn": "如果八岁的儿子打算爬树，或者10来岁的女儿要和坏男孩约会，父母无法体会孩子的兴奋，但是如果儿子从树上掉下来，或者女儿怀孕了，却要父母出面收场。"
+            "cn": "如果八岁的儿子决定爬一棵高树，或十几岁的女儿决定和当地的坏小子约会，你分享不到其中的兴奋；可如果儿子摔下来，或女儿怀孕了，你却得承担后果。"
           },
           {
             "en": "With such powerful forces leading us astray, it's not surprising we find it so hard to discover what we like to work on.",
-            "cn": "慎重面对如此危险的诱惑，很难找到喜欢的工作就不奇怪了。大多数人从小就相信工作是受罪，"
+            "cn": "有这么多强大的力量把我们引向歧途，难以发现自己真正喜欢做什么，也就不足为奇了。"
           },
           {
             "en": "Most people are doomed in childhood by accepting the axiom that work = pain.",
-            "cn": "不信邪的人也都栽在了名利的诱惑上。"
+            "cn": "大多数人在童年接受“工作等于痛苦”这条公理时，就已注定走偏。"
           },
           {
             "en": "Those who escape this are nearly all lured onto the rocks by prestige or money.",
-            "cn": "那么到底有多少人最终找到了他们所热爱的工作呢？"
+            "cn": "逃过这一关的人，几乎又都被名望或金钱引向了礁石。"
           },
           {
             "en": "How many even discover something they love to work on?",
-            "cn": "10 万，或者 10 亿。找到自己爱干的工作是很难的。"
+            "cn": "究竟有多少人，连自己热爱的工作都能发现呢？"
           },
           {
             "en": "A few hundred thousand, perhaps, out of billions.",
-            "cn": "大多数人做不到的事肯定很难，"
+            "cn": "几十亿人中，也许只有几十万人。"
           },
           {
             "en": "It's hard to find work you love; it must be, if so few do.",
-            "cn": "所以，不要低估它的难度，同时，也不要因为暂时没有找到而气馁。"
+            "cn": "找到热爱的工作很难；既然做到的人这么少，它肯定很难。"
           },
           {
             "en": "So don't underestimate this task.",
-            "cn": "其实，"
+            "cn": "所以，不要低估这项任务。"
           },
           {
             "en": "And don't feel bad if you haven't succeeded yet.",
-            "cn": "只要敢于承认自己对工作的不满，"
+            "cn": "如果还没成功，也不必难过。"
           },
           {
             "en": "In fact, if you admit to yourself that you're discontented, you're a step ahead of most people, who are still in denial.",
-            "cn": "就比很多人更可能成功了，那些人还在自欺欺人呢。如果周围的同事都说工作得很开心，"
+            "cn": "事实上，如果你能向自己承认不满意现状，就已经比仍在否认这一点的大多数人领先了一步。"
           },
           {
             "en": "If you're surrounded by colleagues who claim to enjoy work that you find contemptible, odds are they're lying to themselves.",
-            "cn": "而自己却对这份工作一点也看不上眼，那也许是同事在自己骗自己，虽然未必都是，"
+            "cn": "如果周围同事声称喜欢某份你看不起的工作，他们很可能是在自欺欺人。"
           },
           {
             "en": "Not necessarily, but probably.",
-            "cn": "但可能性很大。"
+            "cn": "不一定如此，但很有可能。"
           }
         ]
       },
@@ -12149,23 +12401,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Although doing great work takes less discipline than people think — because the way to do great work is to find something you like so much that you don't have to force yourself to do it — finding work you love does usually require discipline.",
-            "cn": "做大事不像人们想像的那样艰苦，因为只有喜欢自己工作的人才能成就大事，他们根本不需要勉强自己，但是，寻找爱好的过程却得非常认真。"
+            "cn": "做出伟大的成果，其实没有人们想象的那么需要自律，因为诀窍是找到你足够喜欢、无需强迫自己就会去做的事；但找到热爱的工作，通常确实需要自律。"
           },
           {
             "en": "Some people are lucky enough to know what they want to do when they're 12, and just glide along as if they were on railroad tracks.",
-            "cn": "有些人特别幸运，他们 12 岁就知道自己想做什么，然后沿着这条路茁壮成长。"
+            "cn": "有些人很幸运，十二岁时就知道自己想做什么，此后像沿着铁轨一样顺畅前行。"
           },
           {
             "en": "But this seems the exception.",
-            "cn": "但这样的人毕竟是少数，"
+            "cn": "但这似乎只是例外。"
           },
           {
             "en": "More often people who do great things have careers with the trajectory of a ping-pong ball.",
-            "cn": "对于更多成就大事的人来说，"
+            "cn": "更多成就非凡的人，职业轨迹倒像一颗来回弹跳的乒乓球。"
           },
           {
             "en": "They go to school to study A, drop out and get a job doing B, and then become famous for C after taking it up on the side.",
-            "cn": "其职业生涯就像乒乓球的轨迹，他们在学校里学 A，工作后做完全不相关的 B，最后成名于 C。"
+            "cn": "他们入学学习甲，中途退学去做乙，后来又因为业余开始尝试的丙而出名。"
           }
         ]
       },
@@ -12173,35 +12425,35 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Sometimes jumping from one sort of work to another is a sign of energy, and sometimes it's a sign of laziness.",
-            "cn": "有时候，更换工作是精力旺盛的表现，但也可能是因为懒惰。通常，"
+            "cn": "从一种工作跳到另一种，有时是精力充沛的表现，有时则是懒惰的表现。"
           },
           {
             "en": "Are you dropping out, or boldly carving a new path?",
-            "cn": "你无法区分自己究竟是掉队了，"
+            "cn": "你是在逃避，还是在勇敢地开辟新路？"
           },
           {
             "en": "You often can't tell yourself.",
-            "cn": "还是在另辟蹊径，"
+            "cn": "你自己也常常分不清。"
           },
           {
             "en": "Plenty of people who will later do great things seem to be disappointments early on, when they're trying to find their niche.",
-            "cn": "即使许多成就大事的人，在最初寻找人生定位时往往很失望。"
+            "cn": "许多后来取得非凡成就的人，在早期寻找适合自己的位置时，都曾让人失望。"
           },
           {
             "en": "Is there some test you can use to keep yourself honest?",
-            "cn": "有什么方法可以让自己保持诚实吗？"
+            "cn": "有没有什么方法，能让你诚实地面对自己？"
           },
           {
             "en": "One is to try to do a good job at whatever you're doing, even if you don't like it.",
-            "cn": "一种方法是无论做什么都要做好它，即使不喜欢。"
+            "cn": "一种方法是，无论正在做什么，即使不喜欢，也努力把它做好。"
           },
           {
             "en": "Then at least you'll know you're not using dissatisfaction as an excuse for being lazy.",
-            "cn": "这样至少知道自己不是在为懒惰找借口。"
+            "cn": "这样，你至少知道自己没有把不满意当作偷懒的借口。"
           },
           {
             "en": "Perhaps more importantly, you'll get into the habit of doing things well.",
-            "cn": "更重要的是，往往会养成把事做好的习惯。"
+            "cn": "也许更重要的是，你会养成把事情做好的习惯。"
           }
         ]
       },
@@ -12209,23 +12461,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Another test you can use is: always produce.",
-            "cn": "另一种方法是“坚持实践”。"
+            "cn": "另一种检验方法是：始终有所产出。"
           },
           {
             "en": "For example, if you have a day job you don't take seriously because you plan to be a novelist, are you producing?",
-            "cn": "例如，如果想成为一名作家，又不想因为日常工作而浪费精力，"
+            "cn": "比如，你因为打算当小说家，而对日常工作不上心；那么，你有在创作吗？"
           },
           {
             "en": "Are you writing pages of fiction, however bad?",
-            "cn": "那么，就要坚持练习写作。"
+            "cn": "你有没有写下一页页小说，哪怕写得很差？"
           },
           {
             "en": "As long as you're producing, you'll know you're not merely using the hazy vision of the grand novel you plan to write one day as an opiate.",
-            "cn": "尽管写得不好，但还是要坚持写。只要坚持实践，就会知道想成为作家是不是想想而已。"
+            "cn": "只要还在产出，你就能知道：自己没有仅仅把“将来要写一部伟大小说”的模糊愿景当作麻醉剂。"
           },
           {
             "en": "The view of it will be obstructed by the all too palpably flawed one you're actually writing.",
-            "cn": "如果写的东西实在糟糕，选择这份工作就不现实。"
+            "cn": "因为你眼前正在写的那部缺点无比明显的小说，会挡住那个美好幻影。"
           }
         ]
       },
@@ -12233,51 +12485,61 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "\"Always produce\" is also a heuristic for finding the work you love.",
-            "cn": "坚持实践是一种启发式的方法，"
+            "cn": "“始终有所产出”也是寻找热爱工作的一个方法。"
           },
           {
             "en": "If you subject yourself to that constraint, it will automatically push you away from things you think you're supposed to work on, toward things you actually like.",
-            "cn": "可以帮助找到喜爱的工作，甄别出那些本以为会做好的工作，最终选择真正喜欢的，"
+            "cn": "如果你给自己设下这条约束，它就会自动把你从那些自以为应该做的事，推向你真正喜欢的事。"
           },
           {
             "en": "\"Always produce\" will discover your life's work the way water, with the aid of gravity, finds the hole in your roof.",
-            "cn": "就好像水在地球引力的作用下可以找到屋顶的漏洞一样。"
+            "cn": "“始终有所产出”会帮你找到一生的事业，就像水借助重力，最终找到屋顶上的漏洞一样。"
           },
           {
             "en": "Of course, figuring out what you like to work on doesn't mean you get to work on it.",
-            "cn": "当然，明白喜欢什么工作并不意味着能够以它为工作，"
+            "cn": "当然，弄清自己喜欢做什么，并不意味着你就能去做。"
           },
           {
             "en": "That's a separate question.",
-            "cn": "这是两码事。"
+            "cn": "那是另一个问题。"
           },
           {
             "en": "And if you're ambitious you have to keep them separate: you have to make a conscious effort to keep your ideas about what you want from being contaminated by what seems possible. [ 6 ]",
-            "cn": "有追求的人更要把两者分清楚，喜欢做什么和能做成什么是不一样的。"
+            "cn": "如果你有抱负，就必须把两者分开：有意识地努力，不让“什么看起来可行”污染“自己想要什么”的判断。[6]"
           },
           {
             "en": "It's painful to keep them apart, because it's painful to observe the gap between them.",
-            "cn": "[ 6 ]这一点看得越清楚，内心就会越痛苦，"
+            "cn": "把它们分开是痛苦的，因为正视两者之间的差距令人痛苦。"
           },
           {
             "en": "So most people pre-emptively lower their expectations.",
-            "cn": "很多人因此降低标准。"
+            "cn": "所以，大多数人会预先降低自己的期望。"
           },
           {
             "en": "For example, if you asked random people on the street if they'd like to be able to draw like Leonardo, you'd find most would say something like \"Oh, I can't draw.\" This is more a statement of intention than fact; it means, I'm not going to try.",
-            "cn": "例如，如果在街上随便找人问问，他们能否和 Leonardo 画得一样好，就会发现很多人说他们根本不会画画。这更像是一种心理暗示，而不是事实。"
+            "cn": "比如，随便问路人是否想像达·芬奇那样画画，大多数人可能会说：‘哦，我不会画画。’这与其说是陈述事实，不如说是表明意图：我不打算尝试。",
+            "alignedParts": [
+              {
+                "en": "For example, if you asked random people on the street if they'd like to be able to draw like Leonardo, you'd find most would say something like \"Oh, I can't draw.\"",
+                "cn": "比如，随便问路人是否想像达·芬奇那样画画，大多数人可能会说：‘哦，我不会画画。’"
+              },
+              {
+                "en": "This is more a statement of intention than fact; it means, I'm not going to try.",
+                "cn": "这与其说是陈述事实，不如说是表明意图：我不打算尝试。"
+              }
+            ]
           },
           {
             "en": "Because the fact is, if you took a random person off the street and somehow got them to work as hard as they possibly could at drawing for the next twenty years, they'd get surprisingly far.",
-            "cn": "他实际想说，我不会去干那个。因为如果想方设法让他做画 20 年，他会为自己获得的成就而吃惊。"
+            "cn": "因为事实是，随便从街上找个人，让他在接下来的二十年里竭尽全力练习绘画，他会取得令人惊讶的进步。"
           },
           {
             "en": "But it would require a great moral effort; it would mean staring failure in the eye every day for years.",
-            "cn": "当然那需要非常刻苦，可能要在头几年每天都得面对失败。"
+            "cn": "但这需要极大的意志力，意味着多年来每天都要直面失败。"
           },
           {
             "en": "And so to protect themselves people say \"I can't.\"",
-            "cn": "所以如果有人说“我不行”，不要相信他。"
+            "cn": "因此，人们为了保护自己，会说：“我做不到。”"
           }
         ]
       },
@@ -12285,23 +12547,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Another related line you often hear is that not everyone can do work they love — that someone has to do the unpleasant jobs.",
-            "cn": "另一个经常听到的说法是，不能每个人都做自己喜欢的事，总得有人做令人讨厌的工作。"
+            "cn": "你还经常会听到一个相关说法：并不是每个人都能做热爱的工作，总得有人去做那些不愉快的工作。"
           },
           {
             "en": "Really?",
-            "cn": "真的吗？"
+            "cn": "真是这样吗？"
           },
           {
             "en": "How do you make them?",
-            "cn": "这个结论是如何得出的呢？"
+            "cn": "你要怎样强迫他们去做？"
           },
           {
             "en": "In the US the only mechanism for forcing people to do unpleasant jobs is the draft, and that hasn't been invoked for over 30 years.",
-            "cn": "在美国，唯一强迫人的方式是征兵，但我们已经 30 年没有这么做过了，"
+            "cn": "在美国，唯一能强迫人们从事不愉快工作的机制是征兵，而这项机制已经三十多年没有启用了。"
           },
           {
             "en": "All we can do is encourage people to do unpleasant work, with money and prestige.",
-            "cn": "而是一直利用名利吸引人工作。"
+            "cn": "我们能做的，只是用金钱和名望鼓励人们去做不愉快的工作。"
           }
         ]
       },
@@ -12309,15 +12571,25 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "If there's something people still won't do, it seems as if society just has to make do without.",
-            "cn": "如果仍然有些事没人愿意做，那么人们就不得不自己做，过去发生在家奴身上的事就是这样。"
+            "cn": "如果仍然有些事情没人愿意做，社会似乎也只能在没有这些事情的情况下继续运转。"
           },
           {
             "en": "That's what happened with domestic servants.",
-            "cn": "家奴的工作是经典的例子，"
+            "cn": "家佣就是这样一个例子。"
           },
           {
             "en": "For millennia that was the canonical example of a job \"someone had to do.\" And yet in the mid twentieth century servants practically disappeared in rich countries, and the rich have just had to do without.",
-            "cn": "在公元 10 世纪时，似乎那份工作总得有人来做。然而在 20 世纪中期，发达国家已经没有仆人了，有钱人得自己干活。"
+            "cn": "几千年来，家佣一直是‘总得有人来做’的典型工作。可到了二十世纪中叶，富裕国家的家佣几乎消失了，有钱人也只能适应没有家佣的生活。",
+            "alignedParts": [
+              {
+                "en": "For millennia that was the canonical example of a job \"someone had to do.\"",
+                "cn": "几千年来，家佣一直是‘总得有人来做’的典型工作。"
+              },
+              {
+                "en": "And yet in the mid twentieth century servants practically disappeared in rich countries, and the rich have just had to do without.",
+                "cn": "可到了二十世纪中叶，富裕国家的家佣几乎消失了，有钱人也只能适应没有家佣的生活。"
+              }
+            ]
           }
         ]
       },
@@ -12325,11 +12597,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "So while there may be some things someone has to do, there's a good chance anyone saying that about any particular job is mistaken.",
-            "cn": "所以，也许有些事情总得有人做，但是谈到具体的某项工作时这么说就不合适了。"
+            "cn": "所以，虽然可能有些事情确实必须有人做，但说某一份具体工作必定如此的人，很可能是错的。"
           },
           {
             "en": "Most unpleasant jobs would either get automated or go undone if no one were willing to do them.",
-            "cn": "糟糕的工作可以自动化完成，或者根本就不做，如果没人愿意做的话。"
+            "cn": "如果没有人愿意做，大多数不愉快的工作，要么会实现自动化，要么就不再有人去做。"
           }
         ]
       },
@@ -12337,39 +12609,39 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "There's another sense of \"not everyone can do work they love\" that's all too true, however.",
-            "cn": "有一种情况确实不是每个人都可以做他喜欢做的工作。"
+            "cn": "不过，“不是每个人都能做自己热爱的工作”，还有另一层含义，而且千真万确。"
           },
           {
             "en": "One has to make a living, and it's hard to get paid for doing work you love.",
-            "cn": "人首先要生存，做自己喜欢的工作会很难赚到钱。"
+            "cn": "人必须谋生，而靠自己热爱的工作获得报酬并不容易。"
           },
           {
             "en": "There are two routes to that destination: The organic route: as you become more eminent, gradually to increase the parts of your job that you like at the expense of those you don't.",
-            "cn": "这时有两条路可以走：成长渐进法：随着能力的增强、名气的增大，逐渐放弃不喜欢的工作，选择喜欢的工作。"
+            "cn": "通向这个目标有两条路：自然发展路线——随着声望和地位提高，逐渐增加工作中喜欢的部分，减少不喜欢的部分。"
           },
           {
             "en": "The two-job route: to work at things you don't like to get money to work on things you do.",
-            "cn": "齐头并进法：做不喜欢的工作赚钱，以便做自己喜欢的事情。"
+            "cn": "双工作路线——靠不喜欢的事情赚钱，来支持自己做喜欢的事情。"
           },
           {
             "en": "The organic route is more common.",
-            "cn": "成长渐进法更常用，"
+            "cn": "自然发展路线更常见。"
           },
           {
             "en": "It happens naturally to anyone who does good work.",
-            "cn": "工作做得好的人一般选这种方法。"
+            "cn": "对工作做得好的人来说，它往往自然而然地发生。"
           },
           {
             "en": "A young architect has to take whatever work he can get, but if he does well he'll gradually be in a position to pick and choose among projects.",
-            "cn": "年轻的建筑师开始时不得不什么活都干，等到他做得很好之后就可以挑选项目了。"
+            "cn": "年轻建筑师必须接受所有能接到的工作，但如果做得好，慢慢就能挑选项目了。"
           },
           {
             "en": "The disadvantage of this route is that it's slow and uncertain.",
-            "cn": "这种方法也有不好的地方，就是太慢，而且不确定，"
+            "cn": "这条路线的缺点是缓慢而且不确定。"
           },
           {
             "en": "Even tenure is not real freedom.",
-            "cn": "即使是终身聘用也无法做到真正的自由。"
+            "cn": "即使获得终身教职，也不等于真正自由。"
           }
         ]
       },
@@ -12377,15 +12649,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The two-job route has several variants depending on how long you work for money at a time.",
-            "cn": "齐头并进法有多种做法，取决于需要用多少时间赚钱。"
+            "cn": "双工作路线有几个变体，取决于你每次为赚钱而工作的时间有多长。"
           },
           {
             "en": "At one extreme is the \"day job,\" where you work regular hours at one job to make money, and work on what you love in your spare time.",
-            "cn": "一个极端是白天上班，靠一份工作时间固定的工作赚钱，而在闲暇时光做自己喜欢做的事。"
+            "cn": "一个极端是保留一份日常工作：在固定时间上班赚钱，在业余时间做自己热爱的事。"
           },
           {
             "en": "At the other extreme you work at something till you make enough not to have to work for money again.",
-            "cn": "另一个极端是先拼命赚钱，直到不再为钱发愁。"
+            "cn": "另一个极端是先做某件事，直到赚够钱，此后再也不必为钱工作。"
           }
         ]
       },
@@ -12393,27 +12665,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The two-job route is less common than the organic route, because it requires a deliberate choice.",
-            "cn": "齐头并进法用的人比较少，因为需要事先做好周全的打算，"
+            "cn": "双工作路线不如自然发展路线常见，因为它需要有意识地做出选择。"
           },
           {
             "en": "It's also more dangerous.",
-            "cn": "而且这种方法更危险。"
+            "cn": "它也更危险。"
           },
           {
             "en": "Life tends to get more expensive as you get older, so it's easy to get sucked into working longer than you expected at the money job.",
-            "cn": "随着年龄的增长，对生活的要求也越高，所以为了赚到足够的钱，可能需要比预期更长的时间工作。"
+            "cn": "随着年龄增长，生活开销往往越来越大，因此你很容易陷入为了赚钱而工作的状态，做得比原计划更久。"
           },
           {
             "en": "Worse still, anything you work on changes you.",
-            "cn": "更糟的是，人可能会被工作内容改变。"
+            "cn": "更糟的是，任何工作都会改变你。"
           },
           {
             "en": "If you work too long on tedious stuff, it will rot your brain.",
-            "cn": "如果做无聊的事情太久，脑子可能就锈掉了。"
+            "cn": "枯燥的事做得太久，会让你的头脑逐渐钝化。"
           },
           {
             "en": "And the best paying jobs are most dangerous, because they require your full attention.",
-            "cn": "钱给的越多的工作越危险，因为需要付出全部的精力。"
+            "cn": "而报酬最高的工作最危险，因为它们需要你全神贯注。"
           }
         ]
       },
@@ -12421,19 +12693,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The advantage of the two-job route is that it lets you jump over obstacles.",
-            "cn": "齐头并进法的好处是可以让人摆脱障碍 [ 7 ]。"
+            "cn": "双工作路线的优势，是让你能跨越障碍。"
           },
           {
             "en": "The landscape of possible jobs isn't flat; there are walls of varying heights between different kinds of work.",
-            "cn": "职业发展不都是一片坦徒，不同工作之间的差距变化很大。"
+            "cn": "职业世界并不是一片平地；不同类型的工作之间，隔着高低不一的墙。"
           },
           {
             "en": "[ 7 ] The trick of maximizing the parts of your job that you like can get you from architecture to product design, but not, probably, to music.",
-            "cn": "从结构设计工作转行到产品设计工作还有可能，要转向音乐方面就不太可能了。"
+            "cn": "[7]尽量增加工作中喜欢的部分，这个办法能让你从建筑转向产品设计，却大概不能让你转向音乐。"
           },
           {
             "en": "If you make money doing one thing and then work on another, you have more freedom of choice.",
-            "cn": "有两份工作的人多一分选择，尽管其中一份只为赚钱。"
+            "cn": "如果靠做一件事赚钱，再去做另一件事，你就有更多选择自由。"
           }
         ]
       },
@@ -12441,31 +12713,31 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Which route should you take?",
-            "cn": "到底该选哪条路走呢？"
+            "cn": "你该走哪条路？"
           },
           {
             "en": "That depends on how sure you are of what you want to do, how good you are at taking orders, how much risk you can stand, and the odds that anyone will pay (in your lifetime) for what you want to do.",
-            "cn": "这取决于你是否明确想做什么，是否擅长分清主次，能承担多大的风险，以及是否有人愿意为你喜欢做的事情付钱。"
+            "cn": "这取决于：你对自己想做什么有多确定，是否擅长服从安排，能承受多大的风险，以及在你有生之年，有人愿意为你想做的事付费的可能性有多大。"
           },
           {
             "en": "If you're sure of the general area you want to work in and it's something people are likely to pay you for, then you should probably take the organic route.",
-            "cn": "如果知道自己想干什么，也知道有人愿意为此付钱，那么就选择成长渐进法。如果还不了解自己想干什么，"
+            "cn": "如果你确定想从事的大致领域，而且这件事很可能有人愿意付费，那么大概应该选择自然发展路线。"
           },
           {
             "en": "But if you don't know what you want to work on, or don't like to take orders, you may want to take the two-job route, if you can stand the risk.",
-            "cn": "或者不喜欢非黑即白的二元逻辑，那么可以选择齐头并进法，只要你能承担由此带来的风险。"
+            "cn": "但如果你还不知道想做什么，或者不喜欢听命于人，并且能够承担风险，那么可以考虑双工作路线。"
           },
           {
             "en": "Don't decide too soon.",
-            "cn": "不要太早下决定。"
+            "cn": "不要太早做决定。"
           },
           {
             "en": "Kids who know early what they want to do seem impressive, as if they got the answer to some math question before the other kids.",
-            "cn": "很小就知道自己未来做什么的孩子似乎让人印象深刻，就像他们比其他孩子更善于做数学题目一样。"
+            "cn": "很早就知道自己想做什么的孩子，看起来令人钦佩，仿佛比其他孩子更早解出了数学题。"
           },
           {
             "en": "They have an answer, certainly, but odds are it's wrong.",
-            "cn": "可惜，他们得到的答案往往是错误的。"
+            "cn": "他们确实有了一个答案，但那个答案很可能是错的。"
           }
         ]
       },
@@ -12473,23 +12745,33 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "A friend of mine who is a quite successful doctor complains constantly about her job.",
-            "cn": "我有一位非常成功的医生朋友，她不停地抱怨自己的工作。"
+            "cn": "我有个朋友，是一位相当成功的医生，却经常抱怨工作。"
           },
           {
             "en": "When people applying to medical school ask her for advice, she wants to shake them and yell \"Don't do it!\" (But she never does.) How did she get into this fix?",
-            "cn": "当有人向她咨询申请医学院事宜的时候，她很想握着他们的手说“不要去”（但是她从没这么做过）。她怎么会这样呢？"
+            "cn": "申请医学院的人向她请教时，她真想抓住他们摇晃，大喊：‘千万别读！’（但她从来没有真的这样做。）她怎么会陷入这种困境？",
+            "alignedParts": [
+              {
+                "en": "When people applying to medical school ask her for advice, she wants to shake them and yell \"Don't do it!\"",
+                "cn": "申请医学院的人向她请教时，她真想抓住他们摇晃，大喊：‘千万别读！’"
+              },
+              {
+                "en": "(But she never does.) How did she get into this fix?",
+                "cn": "（但她从来没有真的这样做。）她怎么会陷入这种困境？"
+              }
+            ]
           },
           {
             "en": "In high school she already wanted to be a doctor.",
-            "cn": "她在高中的时候就想成为医生，"
+            "cn": "高中时，她就想当医生。"
           },
           {
             "en": "And she is so ambitious and determined that she overcame every obstacle along the way — including, unfortunately, not liking it.",
-            "cn": "而且她雄心勃勃信誓旦旦，克服了所有的困难，令人遗憾的是，"
+            "cn": "她抱负远大、意志坚定，克服了一路上的所有障碍——不幸的是，也包括“不喜欢这份工作”这个障碍。"
           },
           {
             "en": "Now she has a life chosen for her by a high-school kid.",
-            "cn": "她甚至克服了对这份工作的厌烦。"
+            "cn": "现在，她过着一个高中生替她选定的人生。"
           }
         ]
       },
@@ -12497,39 +12779,39 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "When you're young, you're given the impression that you'll get enough information to make each choice before you need to make it.",
-            "cn": "结果，她现在的生活实际上是一名高中生为她做出的选择。"
+            "cn": "年轻时，你得到的印象是：在必须做出每个选择之前，都会获得足够的信息。"
           },
           {
             "en": "But this is certainly not so with work.",
-            "cn": "年轻的时候，"
+            "cn": "但选择工作时，显然不是这样。"
           },
           {
             "en": "When you're deciding what to do, you have to operate on ridiculously incomplete information.",
-            "cn": "我们相信有足够的信息事先做出选择，工作却是个例外。"
+            "cn": "决定做什么时，你掌握的信息少得荒唐。"
           },
           {
             "en": "Even in college you get little idea what various types of work are like.",
-            "cn": "试图做出选择时，手上只有少得可怜的信息。"
+            "cn": "即使在大学，你对各种工作的实际样子仍然知之甚少。"
           },
           {
             "en": "At best you may have a couple internships, but not all jobs offer internships, and those that do don't teach you much more about the work than being a batboy teaches you about playing baseball.",
-            "cn": "即使上了大学，我们也很少知道工作到底是个什么样子。最好的情况也就是做过几次实习生，但不是所有的工作都提供实习机会，"
+            "cn": "最好的情况，也不过是有几次实习；但并非所有工作都有实习，即使有，你对真正工作的了解，也未必比一个球童对打棒球的了解多多少。"
           },
           {
             "en": "In the design of lives, as in the design of most other things, you get better results if you use flexible media.",
-            "cn": "而那些提供实习的工作，也不会教你太多东西，就好像做球童不可能学会打棒球一样。"
+            "cn": "设计人生和设计大多数其他东西一样，采用灵活的方式，往往能得到更好的结果。"
           },
           {
             "en": "So unless you're fairly sure what you want to do, your best bet may be to choose a type of work that could turn into either an organic or two-job career.",
-            "cn": "人生规划和其它规划一样，多尝试会有更好的结果。所以，除非十分确定，最好还是选择一份可以应用成长渐进法或齐头并进法的工作。"
+            "cn": "所以，除非你相当确定自己想做什么，否则最好的选择，可能是一份既能走自然发展路线、又能走双工作路线的工作。"
           },
           {
             "en": "That was probably part of the reason I chose computers.",
-            "cn": "这也是我选择计算机行业的部分原因。"
+            "cn": "这大概也是我选择计算机的一部分原因。"
           },
           {
             "en": "You can be a professor, or make a lot of money, or morph it into any number of other kinds of work.",
-            "cn": "在这个行当，做教授也行，想赚很多钱也行，也可以向一些相关专业转行。"
+            "cn": "你可以当教授，也可以赚很多钱，还可以转向许多其他类型的工作。"
           }
         ]
       },
@@ -12537,15 +12819,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It's also wise, early on, to seek jobs that let you do many different things, so you can learn faster what various kinds of work are like.",
-            "cn": "尽早从事涵盖面较广的工作也是很明智的，这样就可以很快知道各种工作都是做什么的。"
+            "cn": "刚开始时，寻找能让你接触多种任务的工作也很明智，这样能更快了解不同工作的实际样子。"
           },
           {
             "en": "Conversely, the extreme version of the two-job route is dangerous because it teaches you so little about what you like.",
-            "cn": "相反，极端的齐头并进法很危险，因为无法得知自己喜欢什么。"
+            "cn": "相反，双工作路线的极端版本很危险，因为它几乎不能帮助你认识自己喜欢什么。"
           },
           {
             "en": "If you work hard at being a bond trader for ten years, thinking that you'll quit and write novels when you have enough money, what happens when you quit and then discover that you don't actually like writing novels?",
-            "cn": "如果一个人做了十年的债券交易商，当他攒够了钱决定不再继续而转行写小说时，却发现自己并不是真得喜欢写小说，却已为时已晚。"
+            "cn": "如果你努力做了十年债券交易员，想着赚够钱就辞职写小说，可辞职后才发现自己其实不喜欢写小说，那怎么办？"
           }
         ]
       },
@@ -12553,31 +12835,31 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Most people would say, I'd take that problem.",
-            "cn": "多数人都会说，这好办，"
+            "cn": "大多数人会说：“这种烦恼我愿意要。”"
           },
           {
             "en": "Give me a million dollars and I'll figure out what to do.",
-            "cn": "给我一百万，我就能弄明白该做什么。"
+            "cn": "给我一百万美元，我自会想清楚做什么。"
           },
           {
             "en": "But it's harder than it looks.",
-            "cn": "但是说起来容易做起来难，"
+            "cn": "但这比看起来更难。"
           },
           {
             "en": "Constraints give your life shape.",
-            "cn": "环境塑造人，"
+            "cn": "约束给生活塑造了形状。"
           },
           {
             "en": "Remove them and most people have no idea what to do: look at what happens to those who win lotteries or inherit money.",
-            "cn": "离开了自己生活的环境，多数人都会不知所措，看看那些中了彩票或继承了大笔财产的人就知道了。"
+            "cn": "去掉约束，大多数人就不知道该做什么了；看看中彩票或继承财产的人会怎样就知道。"
           },
           {
             "en": "Much as everyone thinks they want financial security, the happiest people are not those who have it, but those who like what they do.",
-            "cn": "就像每个人都说他们在意财务安全，然而最快乐人不是那些拥有它的人，"
+            "cn": "尽管人人都觉得自己想要经济保障，最快乐的人却不是那些已经拥有经济保障的人，而是喜欢自己所做之事的人。"
           },
           {
             "en": "So a plan that promises freedom at the expense of knowing what to do with it may not be as good as it seems.",
-            "cn": "而是那些喜欢他们在做的事的人。这么看来，有一份明确的计划未必是件好事情。"
+            "cn": "因此，一个承诺带来自由、却让你无法弄清该如何使用自由的计划，可能没有看上去那么好。"
           }
         ]
       },
@@ -12585,27 +12867,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Whichever route you take, expect a struggle.",
-            "cn": "选择哪条路，是要经历一番思想斗争的。"
+            "cn": "不论选择哪条路线，都要准备好经历一番挣扎。"
           },
           {
             "en": "Finding work you love is very difficult.",
-            "cn": "找到喜欢做的工作很难，"
+            "cn": "找到自己热爱的工作非常困难。"
           },
           {
             "en": "Most people fail.",
-            "cn": "大多数人都没能做到这一点。"
+            "cn": "大多数人都失败了。"
           },
           {
             "en": "Even if you succeed, it's rare to be free to work on what you want till your thirties or forties.",
-            "cn": "即使能做到，也要等到三、四十岁。"
+            "cn": "即使成功，通常也要等到三四十岁，才能自由地做自己想做的工作。"
           },
           {
             "en": "But if you have the destination in sight you'll be more likely to arrive at it.",
-            "cn": "但是，只要有这个愿望，就很可能会实现。"
+            "cn": "但只要看得见目的地，你就更有可能到达。"
           },
           {
             "en": "If you know you can love work, you're in the home stretch, and if you know what work you love, you're practically there.",
-            "cn": "如果知道自己会喜欢工作，就胜利在望了，如果知道自己具体爱做什么工作，就已经实现了这个目标。"
+            "cn": "如果你知道自己能够热爱工作，就已经进入最后冲刺；如果知道自己热爱的是哪种工作，就几乎已经到达终点了。"
           }
         ]
       },
@@ -12613,15 +12895,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[ 1 ] Currently we do the opposite: when we make kids do boring work, like arithmetic drills, instead of admitting frankly that it's boring, we try to disguise it with superficial decorations.",
-            "cn": "感谢 Trevor Blackwell, Dan Friedman, Sarah Harlin, Jessica Livingston, Jackie McDonough, Robert Morris, Peter Norvig, David Sloo, 以及 Aaron Swartz 阅读本文初稿。[ 1 ] 现在，我们做的恰恰相反：当我们让孩子做无聊的事情，比如算术练习，我们没有坦白地说它很无趣，而是假装它很有趣。"
+            "cn": "[1]目前我们却反其道而行之：让孩子做枯燥的任务，比如算术练习时，我们不坦率承认它很无聊，而是用表面的装饰来掩盖。"
           },
           {
             "en": "[ 2 ] One father told me about a related phenomenon: he found himself concealing from his family how much he liked his work.",
-            "cn": "[ 2 ] 有位父亲告诉我一个相关的现象：他特意向家人隐瞒有多爱自己的工作，"
+            "cn": "[2]一位父亲告诉我一个相关现象：他发现自己在向家人隐瞒，他有多喜欢自己的工作。"
           },
           {
             "en": "When he wanted to go to work on a saturday, he found it easier to say that it was because he \"had to\" for some reason, rather than admitting he preferred to work than stay home with them.",
-            "cn": "当他周末想去工作时，发现说一些不得不去的借口很容易，而不原意承认自己更原意工作，而不是和家人待在一起。"
+            "cn": "周六想去工作时，他觉得找个理由说自己“不得不去”，比承认自己更愿意工作、而不是待在家里陪他们，要容易一些。"
           }
         ]
       },
@@ -12629,23 +12911,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[ 3 ] Something similar happens with suburbs.",
-            "cn": "[ 3 ] 郊区的情况也差不多。"
+            "cn": "[3]郊区也存在类似的情况。"
           },
           {
             "en": "Parents move to suburbs to raise their kids in a safe environment, but suburbs are so dull and artificial that by the time they're fifteen the kids are convinced the whole world is boring.",
-            "cn": "父母搬到郊区，为了他们的孩子生活在安全的环境，但是郊区索然无味，不够自然，十几岁的孩子会以为整个世界都是这个样子。"
+            "cn": "父母搬到郊区，是为了让孩子在安全的环境中长大；但郊区如此单调、如此人工化，以至于孩子到了十五岁，就确信整个世界都很无聊。"
           },
           {
             "en": "[ 4 ] I'm not saying friends should be the only audience for your work.",
-            "cn": "[ 4 ] 我并不是说只能跟朋友说这些事情，"
+            "cn": "[4]我不是说，朋友应该是你作品唯一的受众。"
           },
           {
             "en": "The more people you can help, the better.",
-            "cn": "帮忙的人越多越好，"
+            "cn": "你能帮助的人越多越好。"
           },
           {
             "en": "But friends should be your compass.",
-            "cn": "但是朋友的意见最重要。"
+            "cn": "但朋友应该是你的指南针。"
           }
         ]
       },
@@ -12653,51 +12935,52 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "[ 5 ] Donald Hall said young would-be poets were mistaken to be so obsessed with being published.",
-            "cn": "[ 5 ] Donald Hall 说，那些有望成为诗人的年轻人错误地执迷于发布作品。"
+            "cn": "[5]唐纳德·霍尔说，年轻的诗歌写作者如此执着于发表作品，是一种错误。"
           },
           {
             "en": "But you can imagine what it would do for a 24 year old to get a poem published in The New Yorker .",
-            "cn": "但是你可以想象，如果一个二十四岁的年轻人在“纽约客”杂志上发表一首诗，那会是什么情形，"
+            "cn": "但你可以想象，对一个二十四岁的人来说，在《纽约客》发表一首诗意味着什么。"
           },
           {
             "en": "Now to people he meets at parties he's a real poet.",
-            "cn": "他会在聚会上被当成真正的诗人，"
+            "cn": "现在，聚会上遇见的人会把他当作真正的诗人。"
           },
           {
             "en": "Actually he's no better or worse than he was before, but to a clueless audience like that, the approval of an official authority makes all the difference.",
-            "cn": "尽管他和从前没什么两样。但是，对于其他不知情的人，能不能在权威杂志上发表文章是有很大不同的。"
+            "cn": "其实，他既没有比以前更好，也没有更差；但对于那些不懂诗的受众，权威机构的认可却能改变一切。"
           },
           {
             "en": "So it's a harder problem than Hall realizes.",
-            "cn": "所以说，实际情况比 Hall 认为的要困难。"
+            "cn": "所以，这个问题比霍尔意识到的更难。"
           },
           {
             "en": "The reason the young care so much about prestige is that the people they want to impress are not very discerning.",
-            "cn": "年轻人之所以特别在乎名气，是因为他们想打动的那些大人往往搞不清楚状况。"
+            "cn": "年轻人如此在意名望，是因为他们想打动的人并没有多强的鉴赏力。"
           },
           {
             "en": "[ 6 ] This is isomorphic to the principle that you should prevent your beliefs about how things are from being contaminated by how you wish they were.",
-            "cn": "[ 6 ] 就像我们要警惕，事情不会因为我们希望它发展成什么样子就会成什么样子，"
+            "cn": "[6]这与另一条原则具有相同的结构：不要让“你希望事情是什么样”污染你对“事情实际上是什么样”的判断。"
           },
           {
             "en": "Most people let them mix pretty promiscuously.",
-            "cn": "这是同样的道理。"
+            "cn": "大多数人会任由这两者随意混在一起。"
           },
           {
             "en": "The continuing popularity of religion is the most visible index of that.",
-            "cn": "很多人分不清两者之间的区别，"
+            "cn": "宗教持续受到欢迎，就是最明显的指标。"
           },
           {
             "en": "[ 7 ] A more accurate metaphor would be to say that the graph of jobs is not very well connected.",
-            "cn": "宗教越来越受欢迎就是证据之一。"
+            "cn": "[7]更准确的比喻是：各种工作构成的图，其连接并不充分。"
           },
           {
             "en": "Thanks to Trevor Blackwell, Dan Friedman, Sarah Harlin, Jessica Livingston, Jackie McDonough, Robert Morris, Peter Norvig, David Sloo, and Aaron Swartz for reading drafts of this.",
-            "cn": "[ 7 ] 一个更形象的隐喻是，以各种工作为节点的图，并没有连通得很好。分享：喜欢0"
+            "cn": "感谢特雷弗·布莱克韦尔、丹·弗里德曼、莎拉·哈林、杰西卡·利文斯顿、杰姬·麦克多诺、罗伯特·莫里斯、彼得·诺维格、戴维·斯卢和亚伦·斯沃茨阅读本文草稿。"
           }
         ]
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：按英文原句校正中英配对；保留原文与段落位置。"
   },
   {
     "id": "gr-pg-how-to-do-great-work",
@@ -12711,7 +12994,7 @@ const ARTICLES_EXTRA = [
     "cover": "linear-gradient(135deg,#bfdbfe 0%,#2563eb 100%)",
     "gradient": "linear-gradient(135deg,#bfdbfe 0%,#2563eb 100%)",
     "coverImg": "assets/covers/gr-pg-how-to-do-great-work.jpg",
-    "translationCredit": "中文译文：untymen.com（社区译本）",
+    "translationCredit": "中文译文：untymen.com（社区译本）；词阅已按英文原句校正错位及部分译文（2026-09-26）。",
     "paras": [
       {
         "sentences": [
@@ -12793,59 +13076,59 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The way to figure out what to work on is by working.",
-            "cn": "弄清“做什么”的办法，就是动手去做。若不确定，"
+            "cn": "弄清自己该做什么的方法，就是动手去做。"
           },
           {
             "en": "If you're not sure what to work on, guess.",
-            "cn": "不妨先猜一个，然后付诸行动。猜错也无妨。"
+            "cn": "如果不确定要做什么，就先猜一个方向。"
           },
           {
             "en": "But pick something and get going.",
-            "cn": "涉猎多领域大有裨益，"
+            "cn": "但要选定一件事，然后开始行动。"
           },
           {
             "en": "You'll probably guess wrong some of the time, but that's fine.",
-            "cn": "因为伟大的发现往往诞生于不同领域的碰撞之中。"
+            "cn": "有时你可能会猜错，不过这没关系。"
           },
           {
             "en": "It's good to know about multiple things; some of the biggest discoveries come from noticing connections between different fields.",
-            "cn": "养成做“个人项目”的习惯。别把“工作”狭隘地理解为他人指派的任务。"
+            "cn": "了解多个领域是好事；有些最重大的发现，正是来自发现不同领域之间的联系。"
           },
           {
             "en": "Develop a habit of working on your own projects.",
-            "cn": "若哪天你真做出了不起的成就，"
+            "cn": "养成做自己项目的习惯。"
           },
           {
             "en": "Don't let \"work\" mean something other people tell you to do.",
-            "cn": "它很可能源自你自己的项目。"
+            "cn": "别让“工作”仅仅意味着别人叫你做的事。"
           },
           {
             "en": "If you do manage to do great work one day, it will probably be on a project of your own.",
-            "cn": "哪怕它隶属于某个大工程，你也必须是那一小块领地的绝对主宰。"
+            "cn": "如果有一天你真的做出了伟大的成果，很可能是在你自己的项目中。"
           },
           {
             "en": "It may be within some bigger project, but you'll be driving your part of it.",
-            "cn": "项目该怎么选？选那些既让你兴奋、又足以承载野心的。"
+            "cn": "这个项目也许属于某个更大的项目，但你会主导自己负责的那一部分。"
           },
           {
             "en": "What should your projects be?",
-            "cn": "随着年龄增长，"
+            "cn": "你该做什么项目？"
           },
           {
             "en": "Whatever seems to you excitingly ambitious.",
-            "cn": "你的品味会进化，"
+            "cn": "任何让你因其雄心而感到兴奋的项目。"
           },
           {
             "en": "As you grow older and your taste in projects evolves, exciting and important will converge.",
-            "cn": "“令人兴奋”和“重要”这两点终将合流。"
+            "cn": "随着年龄增长、对项目的品味不断变化，“令人兴奋”和“重要”会逐渐重合。"
           },
           {
             "en": "At 7 it may seem excitingly ambitious to build huge things out of Lego, then at 14 to teach yourself calculus, till at 21 you're starting to explore unanswered questions in physics.",
-            "cn": "7 岁时，用乐高搭建巨型城堡可能就是野心；14 岁时是自学微积分；到了 21 岁，则是探索物理学中的未解之谜。但无论何时，"
+            "cn": "七岁时，用乐高搭建巨大的东西可能令人兴奋；十四岁时是自学微积分；到了二十一岁，则可能开始探索物理学中尚未解答的问题。"
           },
           {
             "en": "But always preserve excitingness.",
-            "cn": "请务必呵护那份兴奋感。"
+            "cn": "但无论何时，都要保留那份兴奋感。"
           }
         ]
       },
@@ -12853,11 +13136,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "There's a kind of excited curiosity that's both the engine and the rudder of great work.",
-            "cn": "有一种令人兴奋的好奇心，它既是成就卓越的引擎，"
+            "cn": "有一种令人兴奋的好奇心，既是伟大工作的引擎，也是它的舵。"
           },
           {
             "en": "It will not only drive you, but if you let it have its way, will also show you what to work on.",
-            "cn": "也是舵手。只要追随它，它不仅会驱动你前行，还会指引你的去向。"
+            "cn": "它不仅会推动你；如果你让它自由发展，它还会指引你该做什么。"
           }
         ]
       },
@@ -12997,11 +13280,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And in the meantime you're not doing, and thus not learning about, most other kinds of work.",
-            "cn": "而在此时段内，你无暇旁骛，自然也就无从了解其他选项。最坏的情况莫过于，"
+            "cn": "与此同时，你没有在从事大多数其他类型的工作，因此也无从了解它们。"
           },
           {
             "en": "So in the worst case you choose late based on very incomplete information. [ 4 ]",
-            "cn": "当你终于做出选择时，赖以决策的信息依然残缺不全。[4]"
+            "cn": "所以，最坏的情况是：你很晚才做出选择，而且依据的信息还很不完整。[4]"
           }
         ]
       },
@@ -13093,27 +13376,27 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "When in doubt, optimize for interestingness.",
-            "cn": "犹豫不决时，"
+            "cn": "犹豫时，优先选择更有趣的方向。"
           },
           {
             "en": "Fields change as you learn more about them.",
-            "cn": "优先选择“有趣”的那个。"
+            "cn": "随着了解加深，一个领域在你眼中的样子会发生变化。"
           },
           {
             "en": "What mathematicians do, for example, is very different from what you do in high school math classes.",
-            "cn": "随着了解深入，领域面貌也会随之改变。数学家真正所做的工作，"
+            "cn": "比如，数学家做的事，与高中数学课上做的事截然不同。"
           },
           {
             "en": "So you need to give different types of work a chance to show you what they're like.",
-            "cn": "与高中数学课截然不同。所以，给不同类型的工作一个展露真容的机会。"
+            "cn": "因此，你需要给不同类型的工作机会，让它们展现真实的样子。"
           },
           {
             "en": "But a field should become increasingly interesting as you learn more about it.",
-            "cn": "如果你学得越多越觉有趣，那便对了；"
+            "cn": "不过，随着了解加深，一个领域应该变得越来越有趣。"
           },
           {
             "en": "If it doesn't, it's probably not for you.",
-            "cn": "反之，它可能并非良配。"
+            "cn": "如果没有，它可能就不适合你。"
           }
         ]
       },
@@ -13197,15 +13480,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And once you go down that route, you're lost. [ 6 ]",
-            "cn": "一旦踏上这条歧途，你便离迷失不远了。"
+            "cn": "一旦走上那条路，你就迷失了。[6]"
           },
           {
             "en": "There are a lot of forces that will lead you astray when you're trying to figure out what to work on.",
-            "cn": "[6]在寻路途中，有太多力量试图引你偏航：自命不凡、盲目跟风、恐惧心理、金钱诱惑、政治因素、"
+            "cn": "在弄清自己该做什么的过程中，有许多力量会把你引向歧途。"
           },
           {
             "en": "Pretentiousness, fashion, fear, money, politics, other people's wishes, eminent frauds.",
-            "cn": "他人期许，以及那些赫赫有名的欺世盗名之徒。"
+            "cn": "比如矫揉造作、时尚、恐惧、金钱、政治、他人的期望，以及声名显赫的骗子。"
           },
           {
             "en": "But if you stick to what you find genuinely interesting, you'll be proof against all of them.",
@@ -13269,7 +13552,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I call this approach \"staying upwind.\" This is how most people who've done great work seem to have done it.",
-            "cn": "我称之为“保持上风”（staying upwind）。这似乎是大多数成就卓越者不约而同走出的路径。"
+            "cn": "我把这种方法称为‘保持上风’。大多数做出伟大成果的人，似乎都是这么做的。",
+            "alignedParts": [
+              {
+                "en": "I call this approach \"staying upwind.\"",
+                "cn": "我把这种方法称为‘保持上风’。"
+              },
+              {
+                "en": "This is how most people who've done great work seem to have done it.",
+                "cn": "大多数做出伟大成果的人，似乎都是这么做的。"
+              }
+            ]
           }
         ]
       },
@@ -13281,7 +13574,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "There will be times when some new idea makes you leap out of bed in the morning and get straight to work.",
-            "cn": "有时，新想法会让你清晨一跃而起，迫不及待地开工；"
+            "cn": "有时，一个新想法会让你清晨从床上一跃而起，立刻开始工作。"
           },
           {
             "en": "But there will also be plenty of times when things aren't like that.",
@@ -13329,11 +13622,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "To the extent you can, try to arrange your life so you have big blocks of time to work in.",
-            "cn": "生活安排应尽量留出大块的整段时间。若预感到随时会被打断，"
+            "cn": "尽量安排好生活，让自己拥有大块连续的工作时间。"
           },
           {
             "en": "You'll shy away from hard tasks if you know you might be interrupted.",
-            "cn": "你就会下意识地规避那些艰难的任务。"
+            "cn": "如果知道随时可能被打断，你就会回避困难的任务。"
           }
         ]
       },
@@ -13357,15 +13650,25 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And since this threshold is fake in the sense that it's higher than the energy required to keep going, it's ok to tell yourself a lie of corresponding magnitude to get over it.",
-            "cn": "既然此门槛在某种意义上是虚构的（因为启动所需的能量高于维持运转所需的能量），那么为了跨越它，"
+            "cn": "这个门槛在某种意义上是虚高的，因为启动所需的能量大于持续工作所需的能量；因此，为了跨过它，对自己撒个相应程度的谎也无妨。"
           },
           {
             "en": "It's usually a mistake to lie to yourself if you want to do great work, but this is one of the rare cases where it isn't.",
-            "cn": "撒一个等量的谎亦无不可。若想成就伟大的工作，自欺欺人通常是大忌，但这是一个罕见的例外。"
+            "cn": "想做出伟大的成果，通常不该自欺欺人，但这正是少数例外之一。"
           },
           {
             "en": "When I'm reluctant to start work in the morning, I often trick myself by saying \"I'll just read over what I've got so far.\" Five minutes later I've found something that seems mistaken or incomplete, and I'm off.",
-            "cn": "若我清晨不愿开工，常骗自己说：“我就把现有的稿子读一遍。” 五分钟后，我不免发现些许错误或遗漏，工作也就自然而然地启动了。"
+            "cn": "早晨不想开始工作时，我常常骗自己说：‘我就把已经写好的内容读一遍。’五分钟后，我就发现了错误或不完整的地方，接着便开始干了。",
+            "alignedParts": [
+              {
+                "en": "When I'm reluctant to start work in the morning, I often trick myself by saying \"I'll just read over what I've got so far.\"",
+                "cn": "早晨不想开始工作时，我常常骗自己说：‘我就把已经写好的内容读一遍。’"
+              },
+              {
+                "en": "Five minutes later I've found something that seems mistaken or incomplete, and I'm off.",
+                "cn": "五分钟后，我就发现了错误或不完整的地方，接着便开始干了。"
+              }
+            ]
           }
         ]
       },
@@ -13457,11 +13760,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "So per-project procrastination doesn't set off the alarms that per-day procrastination does.",
-            "cn": "因此，它不会像“按日拖延”那样触发警报。你太忙了，"
+            "cn": "所以，按项目拖延不会像按天拖延那样触发警报。"
           },
           {
             "en": "You're too busy to notice it.",
-            "cn": "以至于根本没意识到自己在拖延。"
+            "cn": "你忙得根本注意不到它。"
           },
           {
             "en": "The way to beat it is to stop occasionally and ask yourself: Am I working on what I most want to work on?",
@@ -13513,19 +13816,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Writing a page a day doesn't sound like much, but if you do it every day you'll write a book a year.",
-            "cn": "日写一页书听起来微不足道，但坚持一年便是一部书稿。关键在于："
+            "cn": "每天写一页听起来不多，但如果天天坚持，一年就能写出一本书。"
           },
           {
             "en": "That's the key: consistency.",
-            "cn": "持之以恒 （Consistency）。"
+            "cn": "关键就在这里：持续不断。"
           },
           {
             "en": "People who do great things don't get a lot done every day.",
-            "cn": "成大事者并非日日操劳过度，而是日日未曾间断，"
+            "cn": "成就非凡的人，并不是每天都完成很多事情。"
           },
           {
             "en": "They get something done, rather than nothing.",
-            "cn": "而非三天打鱼两天晒网。"
+            "cn": "他们每天都会完成一些事，而不是一事无成。"
           }
         ]
       },
@@ -13533,15 +13836,15 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "If you do work that compounds, you'll get exponential growth.",
-            "cn": "若你从事的是具有复利效应的工作，"
+            "cn": "如果你的工作能不断产生复利效应，就会获得指数式增长。"
           },
           {
             "en": "Most people who do this do it unconsciously, but it's worth stopping to think about.",
-            "cn": "将收获指数级的爆发。大多数人是在无意识中做到的，"
+            "cn": "大多数这样做的人并非有意为之，但这值得停下来想一想。"
           },
           {
             "en": "Learning, for example, is an instance of this phenomenon: the more you learn about something, the easier it is to learn more.",
-            "cn": "但这值得我们驻足深思。学习便是此例：知之愈多，学之愈易。"
+            "cn": "比如，学习就是这种现象：对某件事了解得越多，继续深入学习就越容易。"
           },
           {
             "en": "Growing an audience is another: the more fans you have, the more new fans they'll bring you.",
@@ -13553,11 +13856,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The trouble with exponential growth is that the curve feels flat in the beginning.",
-            "cn": "指数增长的陷阱在于，曲线初期看似平缓。实则不然，"
+            "cn": "指数式增长的问题在于，曲线起初看起来很平。"
           },
           {
             "en": "It isn't; it's still a wonderful exponential curve.",
-            "cn": "它依然是美妙的指数曲线。"
+            "cn": "其实不是，它仍然是一条美妙的指数曲线。"
           },
           {
             "en": "But we can't grasp that intuitively, so we underrate exponential growth in its early stages.",
@@ -13593,19 +13896,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "By letting your mind wander a little, you'll often solve problems you were unable to solve by frontal attack.",
-            "cn": "让思绪片刻游离，常能解开正面强攻无解的难题。但是，若想从中受益，"
+            "cn": "稍微让思绪游走，往往能解决那些正面攻克不了的问题。"
           },
           {
             "en": "You have to be working hard in the normal way to benefit from this phenomenon, though.",
-            "cn": "先决条件是常态化的努力工作。你不能光是漫无目的地做白日梦。"
+            "cn": "不过，要从这种现象中受益，你也必须以通常的方式努力工作。"
           },
           {
             "en": "You can't just walk around daydreaming.",
-            "cn": "白日梦必须与“刻意工作”交替进行，"
+            "cn": "你不能只是一边闲逛一边做白日梦。"
           },
           {
             "en": "The daydreaming has to be interleaved with deliberate work that feeds it questions. [ 10 ]",
-            "cn": "因为后者负责为前者提供素材与问题。[10]"
+            "cn": "白日梦必须与有意识的工作交替进行，由后者为它提供问题。[10]"
           }
         ]
       },
@@ -13621,11 +13924,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "So avoid the kind of distraction that pushes your work out of the top spot, or you'll waste this valuable type of thinking on the distraction instead.",
-            "cn": "因此，切勿让琐事将“工作”挤出你大脑关注度的榜首，否则你便将这宝贵的思维模式浪费在鸡毛蒜皮上了。（唯一的例外是："
+            "cn": "所以，要避免那些把工作挤出关注首位的干扰，否则这种宝贵的思考方式，就会被浪费在干扰上。"
           },
           {
             "en": "(Exception: Don't avoid love.)",
-            "cn": "切莫回避爱情。）"
+            "cn": "（例外：不要回避爱情。）"
           }
         ]
       },
@@ -13649,11 +13952,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "This observation has been made by so many people in so many different fields that it might be worth thinking about why it's true.",
-            "cn": "这一现象在众多领域被反复验证，值得深思。或许是因为在“野心”这件事上，"
+            "cn": "不同领域的许多人都做过这种观察，因此值得想想它为什么成立。"
           },
           {
             "en": "It could be because ambition is a phenomenon where almost all the error is in one direction — where almost all the shells that miss the target miss by falling short.",
-            "cn": "几乎所有的误差都是单向的——几乎所有脱靶的子弹皆因射程不够（而非瞄得太高）。"
+            "cn": "也许是因为，关于抱负的误差几乎都朝同一个方向：几乎所有没打中目标的炮弹，都是因为射得不够远。"
           },
           {
             "en": "Or it could be because ambition to be the best is a qualitatively different thing from ambition to be good.",
@@ -13677,19 +13980,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Though it might seem like you'd be taking on a heavy burden by trying to be the best, in practice you often end up net ahead.",
-            "cn": "虽说试图成为最好像是负重前行，但实则净收益往往更高。它令人兴奋，更反而带来一种奇异的自由感。"
+            "cn": "虽然争取做到最好看起来像给自己加上重担，但实际上，最终往往是收益大于负担。"
           },
           {
             "en": "It's exciting, and also strangely liberating.",
-            "cn": "它让事情变得简单。"
+            "cn": "它既令人兴奋，又有一种奇妙的解放感。"
           },
           {
             "en": "It simplifies things.",
-            "cn": "从某种角度看，"
+            "cn": "它让事情变得简单。"
           },
           {
             "en": "In some ways it's easier to try to be the best than to try merely to be good.",
-            "cn": "试图成为最佳，反倒比试图仅仅做得不错要容易得多。"
+            "cn": "在某些方面，努力成为最好，反而比只求做得不错更容易。"
           }
         ]
       },
@@ -13749,11 +14052,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If you succeed at an ambitious project, you're not a nobody; you're the person who did it.",
-            "cn": "一旦你在这样的项目上取得成功，你就不再是无名小卒，"
+            "cn": "如果你做成了一个雄心勃勃的项目，你就不再是无名小卒；你就是那个把它做成的人。"
           },
           {
             "en": "So just do the work and your identity will take care of itself.",
-            "cn": "而是“那个做成了这件事的人”。只管去做，你的身份自然会确立。"
+            "cn": "所以，只管去做，你的身份自会随之确立。"
           }
         ]
       },
@@ -13813,15 +14116,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Once you've admitted you were mistaken about something, you're free.",
-            "cn": "一旦承认了某个错误，你就自由了；"
+            "cn": "一旦承认自己在某件事上错了，你就自由了。"
           },
           {
             "en": "Till then you have to carry it. [ 13 ]",
-            "cn": "否则，你得一直背着它。"
+            "cn": "在此之前，你都得背着那个错误。[13]"
           },
           {
             "en": "Another more subtle component of earnestness is informality.",
-            "cn": "[13]真诚的另一个更微妙的成分是 不拘形式 （Informality）。"
+            "cn": "真诚还有一个更微妙的组成部分：不拘形式。"
           },
           {
             "en": "Informality is much more important than its grammatically negative name implies.",
@@ -13829,7 +14132,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It's not merely the absence of something.",
-            "cn": "它不仅仅是指某种规矩的 缺失，"
+            "cn": "它并不只是缺少某种东西。"
           },
           {
             "en": "It means focusing on what matters instead of what doesn't.",
@@ -13861,11 +14164,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Nerds have a kind of innocent boldness that's exactly what you need in doing great work.",
-            "cn": "极客拥有一种天真的莽撞，这正是成就卓越所急需的。这种特质不是学来的，"
+            "cn": "极客有一种天真而大胆的气质，这正是做出伟大成果所需要的。"
           },
           {
             "en": "It's not learned; it's preserved from childhood.",
-            "cn": "而是从童年保留下来的。"
+            "cn": "它不是后来学会的，而是从童年保留下来的。"
           },
           {
             "en": "So hold onto it.",
@@ -13913,19 +14216,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Either kind of earnestness will suffice.",
-            "cn": "无论哪种都行。但我怀疑，"
+            "cn": "两种真诚都可以。"
           },
           {
             "en": "But I doubt it would be possible to do great work without being earnest.",
-            "cn": "如果不真诚，很难成就卓越。因为这本来就很难。"
+            "cn": "但我怀疑，不真诚的人能否做出伟大的成果。"
           },
           {
             "en": "It's so hard to do even if you are.",
-            "cn": "如果你还要背负矫揉造作、智识不诚实、"
+            "cn": "即使足够真诚，要做到这一点也已经很难了。"
           },
           {
             "en": "You don't have enough margin for error to accommodate the distortions introduced by being affected, intellectually dishonest, orthodox, fashionable, or cool. [ 14 ]",
-            "cn": "墨守成规、追逐时尚或装酷带来的扭曲，你根本没有足够的容错空间。[14]"
+            "cn": "你没有足够的容错空间，去承受矫揉造作、思想上的不诚实、墨守成规、追逐时尚或装酷所带来的扭曲。[14]"
           }
         ]
       },
@@ -13957,11 +14260,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "And that can take some effort; when there's something you need to redo, status quo bias and laziness will combine to keep you in denial about it.",
-            "cn": "这需要勇气；当你需要重做时，现状偏见（Status quo bias）和懒惰会联手让你否认这一需求。为了战胜它们，"
+            "cn": "这可能需要一些努力；当某件事需要重做时，维持现状的偏见和懒惰会联手，让你不愿承认这一点。"
           },
           {
             "en": "To beat this ask: If I'd already made the change, would I want to revert to what I have now?",
-            "cn": "问自己：如果我已经做出了改变，我还愿意改回现在的样子吗？"
+            "cn": "要克服它们，可以问自己：如果我已经做了这个改变，还会想改回现在的样子吗？"
           }
         ]
       },
@@ -14097,19 +14400,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "If you express your ideas in the most general form, they'll be truer than you intended.",
-            "cn": "如果你能以最通用的形式表达你的想法，"
+            "cn": "如果用最一般的形式表达想法，它们的正确性会超出你原本设想的范围。"
           },
           {
             "en": "True by itself is not enough, of course.",
-            "cn": "它们将比你预期的更加真实。"
+            "cn": "当然，仅仅正确还不够。"
           },
           {
             "en": "Great ideas have to be true and new.",
-            "cn": "当然，仅仅真实是不够的。"
+            "cn": "伟大的想法必须既正确，又新颖。"
           },
           {
             "en": "And it takes a certain amount of ability to see new ideas even once you've learned enough to get to one of the frontiers of knowledge.",
-            "cn": "伟大的想法必须既真实又新颖。即使你学到了知识前沿，想要看到新想法，也需要一定的能力。"
+            "cn": "即使你已经学到某个知识领域的前沿，要发现新想法，仍然需要一定的能力。"
           }
         ]
       },
@@ -14133,7 +14436,17 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "I've never liked the term \"creative process.\" It seems misleading.",
-            "cn": "我从来不喜欢“创造过程”这个词。它具有误导性。"
+            "cn": "我一直不喜欢‘创作过程’这个说法。它似乎有误导性。",
+            "alignedParts": [
+              {
+                "en": "I've never liked the term \"creative process.\"",
+                "cn": "我一直不喜欢‘创作过程’这个说法。"
+              },
+              {
+                "en": "It seems misleading.",
+                "cn": "它似乎有误导性。"
+              }
+            ]
           },
           {
             "en": "Originality isn't a process, but a habit of mind.",
@@ -14181,7 +14494,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Original ideas don't come from trying to have original ideas.",
-            "cn": "原创想法不是通过“试图有原创想法”得来的，"
+            "cn": "原创想法，并不是靠努力想着“我要有原创想法”而来的。"
           },
           {
             "en": "They come from trying to build or understand something slightly too difficult. [ 15 ]",
@@ -14221,19 +14534,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But you may not have to go far to get this benefit.",
-            "cn": "你不必跑很远，有时散个步就够了。"
+            "cn": "但要获得这种好处，未必需要走很远。"
           },
           {
             "en": "Sometimes it's enough just to go for a walk. [ 16 ]",
-            "cn": "[16]在 话题空间 （Topic space）里旅行也有用。"
+            "cn": "有时，只要出去散个步就够了。[16]"
           },
           {
             "en": "It also helps to travel in topic space.",
-            "cn": "如果你探索许多不同的话题，"
+            "cn": "在不同话题之间游历，也会有帮助。"
           },
           {
             "en": "You'll have more new ideas if you explore lots of different topics, partly because it gives the angle grinder more surface area to work on, and partly because analogies are an especially fruitful source of new ideas.",
-            "cn": "你会拥有更多新想法。部分原因是这给了“角磨机”更大的接触面积，部分原因是 类比 （Analogies）是新想法极其丰沃的来源。"
+            "cn": "探索许多不同的话题，会带来更多新想法；一方面，这给了“角磨机”更大的工作表面；另一方面，类比是新想法特别丰富的来源。"
           }
         ]
       },
@@ -14245,11 +14558,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You want to distribute it according to something more like a power law.",
-            "cn": "你应该按照类似 幂律 （Power law）的方式分配：对少数几个话题保持专业性的好奇，"
+            "cn": "你应该按照一种更接近幂律的方式分配注意力。"
           },
           {
             "en": "[ 17 ] Be professionally curious about a few topics and idly curious about many more.",
-            "cn": "对许多其他话题保持闲散的好奇。[17]"
+            "cn": "[17]对少数话题保持专业层面的好奇，对更多话题保持随意的好奇。"
           }
         ]
       },
@@ -14297,23 +14610,23 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "When an idea seems simultaneously novel and obvious, it's probably a good one.",
-            "cn": "当一个想法看起来既新颖又显而易见时，"
+            "cn": "当一个想法既新颖又显而易见时，它很可能是个好想法。"
           },
           {
             "en": "Seeing something obvious sounds easy.",
-            "cn": "它很可能是一个好想法。"
+            "cn": "看见显而易见的东西，听起来很容易。"
           },
           {
             "en": "And yet empirically having new ideas is hard.",
-            "cn": "看到显而易见的东西听起来很容易。"
+            "cn": "然而，经验表明，产生新想法并不容易。"
           },
           {
             "en": "What's the source of this apparent contradiction?",
-            "cn": "但经验告诉我们，获得新想法很难。"
+            "cn": "这种表面上的矛盾，究竟从何而来？"
           },
           {
             "en": "It's that seeing the new idea usually requires you to change the way you look at the world.",
-            "cn": "这种矛盾的根源是什么？原因在于，看到新想法通常需要你 改变看世界的方式。"
+            "cn": "原因在于，发现新想法通常要求你改变看待世界的方式。"
           },
           {
             "en": "We see the world through models that both help and constrain us.",
@@ -14385,11 +14698,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Few understand the degree of rule-breaking required, because new ideas seem much more conservative once they succeed.",
-            "cn": "很少有人理解这种“破坏”需要达到什么程度，因为新想法一旦成功，"
+            "cn": "很少有人明白，需要多大程度地打破规则，因为新想法一旦成功，看起来就会保守得多。"
           },
           {
             "en": "They seem perfectly reasonable once you're using the new model of the world they brought with them.",
-            "cn": "看起来就保守多了。一旦你使用了新模型，它们看起来就完全合理。"
+            "cn": "当你开始使用它们带来的新世界模型时，它们就显得完全合理了。"
           },
           {
             "en": "But they didn't at the time; it took the greater part of a century for the heliocentric model to be generally accepted, even among astronomers, because it felt so wrong.",
@@ -14493,11 +14806,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "An overlooked idea often doesn't lose till the semifinals.",
-            "cn": "一个被忽视的好点子，往往能撑过初赛，"
+            "cn": "一个被忽视的想法，往往直到半决赛才被淘汰。"
           },
           {
             "en": "You do see it, subconsciously, but then another part of your subconscious shoots it down because it would be too weird, too risky, too much work, too controversial.",
-            "cn": "却输在半决赛。你的潜意识其实看到了它，但随即把它枪毙了——因为它太怪异、太冒险、太费劲，或者太具争议性。"
+            "cn": "你的潜意识其实看见了它，但潜意识的另一部分又把它否决了，因为它太古怪、太冒险、太费力，或太有争议。"
           },
           {
             "en": "This suggests an exciting possibility: if you could turn off such filters, you could see more new ideas.",
@@ -14521,11 +14834,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "You could also discover overlooked ideas by working in the other direction: by starting from what's obscuring them.",
-            "cn": "你也可以反其道而行之：从那些“遮蔽物”入手。每一个被奉为圭臬但实际上错误的原则周围，"
+            "cn": "你也可以反向寻找被忽视的想法：从遮蔽它们的东西入手。"
           },
           {
             "en": "Every cherished but mistaken principle is surrounded by a dead zone of valuable ideas that are unexplored because they contradict it.",
-            "cn": "都环绕着一片“死角”——那里充满了因与原则相悖而未被探索的宝贵想法。"
+            "cn": "每一个受到珍视却错误的原则周围，都有一片有价值想法的空白地带；只因这些想法与它矛盾，就一直无人探索。"
           }
         ]
       },
@@ -14641,7 +14954,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But the most common type of overlooked problem is not explicitly unfashionable in the sense of being out of fashion.",
-            "cn": "但最常见的“被忽视问题”，并非显而易见地“不时髦”，"
+            "cn": "不过，最常见的被忽视的问题，并不是那种明显已经过时的问题。"
           },
           {
             "en": "It just doesn't seem to matter as much as it actually does.",
@@ -14729,15 +15042,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "How do new species arise?",
-            "cn": "“新物种是如何产生的？"
+            "cn": "新物种是如何产生的？"
           },
           {
             "en": "Is the force that makes objects fall to earth the same as the one that keeps planets in their orbits?",
-            "cn": "”“让苹果落地的力与维系行星运转的力是同一种力吗？” 仅仅是提出这些问题，"
+            "cn": "让物体落向地球的力，和让行星保持在轨道上的力，是同一种力吗？"
           },
           {
             "en": "By even asking such questions you were already in excitingly novel territory.",
-            "cn": "你就已经踏入了激动人心的新领域。"
+            "cn": "仅仅提出这样的问题，就已经进入了令人兴奋的全新领域。"
           }
         ]
       },
@@ -14921,19 +15234,19 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "It's particularly useful to make successive versions when you're making something for people — to get an initial version in front of them quickly, and then evolve it based on their response.",
-            "cn": "当你为用户创造产品时，迭代尤为重要——尽快把初版推到他们面前，根据反馈进化。先尝试最简单、最可能行得通的方法。"
+            "cn": "为人们创造产品时，不断做出新版本尤其有用：尽快把初版放到用户面前，再根据他们的反应改进。"
           },
           {
             "en": "Begin by trying the simplest thing that could possibly work.",
-            "cn": "令人惊讶的是，它往往真的行得通。"
+            "cn": "先尝试最简单、也有可能行得通的方案。"
           },
           {
             "en": "Surprisingly often, it does.",
-            "cn": "即使不行，"
+            "cn": "出人意料的是，它往往真的行得通。"
           },
           {
             "en": "If it doesn't, this will at least get you started.",
-            "cn": "至少你已经上路了。"
+            "cn": "即使不行，至少也能让你开始行动。"
           }
         ]
       },
@@ -14977,7 +15290,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It sounds more organized to say \"we're going to do x and then y and then z\" than \"we're going to try x and see what happens.\" And it is more organized ; it just doesn't work as well.",
-            "cn": "说“我们要先做x，再做y，最后做z”听起来比“我们要试下x，看看会发生什么”更有条理。它确实更有条理，只是效果没那么好。"
+            "cn": "说‘我们要先做甲，再做乙，最后做丙’，听起来比‘我们试试甲，看看会怎样’更有条理。它确实更有条理，只是效果没那么好。",
+            "alignedParts": [
+              {
+                "en": "It sounds more organized to say \"we're going to do x and then y and then z\" than \"we're going to try x and see what happens.\"",
+                "cn": "说‘我们要先做甲，再做乙，最后做丙’，听起来比‘我们试试甲，看看会怎样’更有条理。"
+              },
+              {
+                "en": "And it is more organized ; it just doesn't work as well.",
+                "cn": "它确实更有条理，只是效果没那么好。"
+              }
+            ]
           }
         ]
       },
@@ -15069,15 +15392,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The young often have them without realizing it.",
-            "cn": "虽然他们往往不自知。"
+            "cn": "年轻人往往拥有优势，却没有意识到。"
           },
           {
             "en": "The biggest is probably time.",
-            "cn": "年轻人最大的优势恐怕是时间，"
+            "cn": "其中最大的优势，大概是时间。"
           },
           {
             "en": "The young have no idea how rich they are in time.",
-            "cn": "只是他们往往意识不到自己拥有多少时间。"
+            "cn": "年轻人不知道，自己在时间上有多富有。"
           },
           {
             "en": "The best way to turn this time to advantage is to use it in slightly frivolous ways: to learn about something you don't need to know about, just out of curiosity, or to try building something just because it would be cool, or to become freakishly good at something.",
@@ -15173,11 +15496,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "But what you don't know is only half the problem with inexperience.",
-            "cn": "缺乏经验的另一半问题是："
+            "cn": "但不知道的东西，只是缺乏经验所带来问题的一半。"
           },
           {
             "en": "The other half is what you do know that ain't so.",
-            "cn": "你知道的很多东西并不是真的。"
+            "cn": "另一半，是那些你自以为知道、其实并不正确的东西。"
           },
           {
             "en": "You arrive at adulthood with your head full of nonsense — bad habits you've acquired and false things you've been taught — and you won't be able to do great work till you clear away at least the nonsense in the way of whatever type of work you want to do.",
@@ -15193,11 +15516,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We're so used to schools that we unconsciously treat going to school as identical with learning, but in fact schools have all sorts of strange qualities that warp our ideas about learning and thinking.",
-            "cn": "我们太习惯于学校，以至于下意识地把“上学”等同于“学习”。但实际上，学校扭曲了我们对学习和思考的认知。例如，"
+            "cn": "我们太习惯学校了，会不自觉地把上学等同于学习；但学校其实有各种奇怪的特征，扭曲着我们对学习和思考的认识。"
           },
           {
             "en": "For example, schools induce passivity.",
-            "cn": "学校诱导 被动性。"
+            "cn": "比如，学校会让人变得被动。"
           },
           {
             "en": "Since you were a small child, there was an authority at the front of the class telling all of you what you had to learn and then measuring whether you did.",
@@ -15221,19 +15544,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "That may seem a stretch, but it's not merely some weird thought experiment.",
-            "cn": "最好的老师不希望做你的老板，他们更希望你冲在前面，"
+            "cn": "这听起来可能有些牵强，但它不只是一个古怪的思想实验。"
           },
           {
             "en": "It's the truth economically, and in the best case it's the truth intellectually as well.",
-            "cn": "把他们当作顾问，而不是让他们拖着你走。这听起来可能有些牵强，"
+            "cn": "从经济关系上说，这就是事实；在最理想的情况下，从知识学习的角度说也是如此。"
           },
           {
             "en": "The best teachers don't want to be your bosses.",
-            "cn": "但这不仅仅是个古怪的思想实验。"
+            "cn": "最好的老师并不想当你的老板。"
           },
           {
             "en": "They'd prefer it if you pushed ahead, using them as a source of advice, rather than being pulled by them through the material.",
-            "cn": "从经济角度看这是事实，在最好的情况下，从智识角度看这也是事实。"
+            "cn": "他们更希望你主动前进，把他们当作建议的来源，而不是被他们拖着学完整套内容。"
           }
         ]
       },
@@ -15241,11 +15564,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Schools also give you a misleading impression of what work is like.",
-            "cn": "学校还给你一种关于工作的错误印象："
+            "cn": "学校还会让你对工作的实际样子产生误解。"
           },
           {
             "en": "In school they tell you what the problems are, and they're almost always soluble using no more than you've been taught so far.",
-            "cn": "问题是确定的，且仅靠你所学的知识就总是有解的。而在现实生活中，"
+            "cn": "在学校里，别人告诉你问题是什么，而这些问题几乎总能只用已经教过的知识解决。"
           },
           {
             "en": "In real life you have to figure out what the problems are, and you often don't know if they're soluble at all.",
@@ -15273,7 +15596,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Don't think of yourself as dependent on some gatekeeper giving you a \"big break.\" Even if this were true, the best way to get it would be to focus on doing good work rather than chasing influential people.",
-            "cn": "别指望哪个“守门人”给你一个“大机会”。即使这是真的，获得它的最好方式也是专注于做出好作品，而不是追逐权贵。"
+            "cn": "不要觉得自己必须依赖某个把关者，给你一个‘重大机会’。即使真是这样，获得机会的最好办法，也应是专心做好工作，而不是追逐有影响力的人。",
+            "alignedParts": [
+              {
+                "en": "Don't think of yourself as dependent on some gatekeeper giving you a \"big break.\"",
+                "cn": "不要觉得自己必须依赖某个把关者，给你一个‘重大机会’。"
+              },
+              {
+                "en": "Even if this were true, the best way to get it would be to focus on doing good work rather than chasing influential people.",
+                "cn": "即使真是这样，获得机会的最好办法，也应是专心做好工作，而不是追逐有影响力的人。"
+              }
+            ]
           }
         ]
       },
@@ -15297,39 +15630,49 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "People new to a field will often copy existing work.",
-            "cn": "关于模仿：新手模仿现有作品没问题。"
+            "cn": "刚进入一个领域的人，常常会模仿已有的作品。"
           },
           {
             "en": "There's nothing inherently bad about that.",
-            "cn": "这是学习的最好方式。"
+            "cn": "这本身并没有什么不好。"
           },
           {
             "en": "There's no better way to learn how something works than by trying to reproduce it.",
-            "cn": "模仿并不一定意味着缺乏原创性。"
+            "cn": "想了解某样东西如何运作，没有比尝试复现它更好的方法。"
           },
           {
             "en": "Nor does copying necessarily make your work unoriginal.",
-            "cn": "原创性是新想法的出现，"
+            "cn": "模仿也不一定意味着你的作品没有原创性。"
           },
           {
             "en": "Originality is the presence of new ideas, not the absence of old ones.",
-            "cn": "而不是旧想法的缺席。模仿有好坏之分。"
+            "cn": "原创性在于新想法的出现，而不在于旧想法的缺席。"
           },
           {
             "en": "There's a good way to copy and a bad way.",
-            "cn": "要模仿，就光明正大地模仿，"
+            "cn": "模仿有好的方式，也有坏的方式。"
           },
           {
             "en": "If you're going to copy something, do it openly instead of furtively, or worse still, unconsciously.",
-            "cn": "别偷偷摸摸，更别在无意识中模仿。"
+            "cn": "如果要模仿，就公开地模仿，不要偷偷摸摸，更不要在毫无察觉的情况下模仿。"
           },
           {
             "en": "This is what's meant by the famously misattributed phrase \"Great artists steal.\" The really dangerous kind of copying, the kind that gives copying a bad name, is the kind that's done without realizing it, because you're nothing more than a train running on tracks laid down by someone else.",
-            "cn": "这就是那句被误传的名言“伟大的艺术家偷窃”的真意。真正危险的模仿是无意识的模仿，因为那意味着你只是一列跑在别人铺好的轨道上的火车。但走向另一个极端，"
+            "cn": "那句出处经常被误传的名言‘伟大的艺术家偷窃’，说的正是这个意思。真正危险、让模仿背上坏名声的，是无意识的模仿，因为那时你不过是一列在别人铺好的轨道上行驶的火车。",
+            "alignedParts": [
+              {
+                "en": "This is what's meant by the famously misattributed phrase \"Great artists steal.\"",
+                "cn": "那句出处经常被误传的名言‘伟大的艺术家偷窃’，说的正是这个意思。"
+              },
+              {
+                "en": "The really dangerous kind of copying, the kind that gives copying a bad name, is the kind that's done without realizing it, because you're nothing more than a train running on tracks laid down by someone else.",
+                "cn": "真正危险、让模仿背上坏名声的，是无意识的模仿，因为那时你不过是一列在别人铺好的轨道上行驶的火车。"
+              }
+            ]
           },
           {
             "en": "But at the other extreme, copying can be a sign of superiority rather than subordination. [ 25 ]",
-            "cn": "模仿也可能是一种优越而非从属的标志。[25]"
+            "cn": "但在另一个极端，模仿也可能是超越的表现，而不是从属的表现。[25]"
           }
         ]
       },
@@ -15341,7 +15684,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Projects rarely arise in a vacuum.",
-            "cn": "项目很少在真空中产生，"
+            "cn": "项目很少凭空产生。"
           },
           {
             "en": "They're usually a reaction to previous work.",
@@ -15349,11 +15692,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "When you're first starting out, you don't have any previous work; if you're going to react to something, it has to be someone else's.",
-            "cn": "当你刚起步时，你没有任何以前的作品；如果你要回应什么，那只能是别人的作品。一旦你立足稳了，"
+            "cn": "刚起步时，你还没有自己的旧作品；如果要回应什么，就只能回应别人的作品。"
           },
           {
             "en": "Once you're established, you can react to your own.",
-            "cn": "你就可以回应你自己的作品了。"
+            "cn": "一旦站稳脚跟，就可以回应你自己的作品了。"
           },
           {
             "en": "But while the former gets called derivative and the latter doesn't, structurally the two cases are more similar than they seem.",
@@ -15405,11 +15748,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Some of the features of things you admire are flaws they succeeded despite.",
-            "cn": "你所钦佩的事物中，有些特征其实是瑕疵，"
+            "cn": "你所欣赏的事物，有些特征其实是缺陷；它们是克服了这些缺陷才取得成功的。"
           },
           {
             "en": "Indeed, the features that are easiest to imitate are the most likely to be the flaws.",
-            "cn": "它是 尽管 有这些瑕疵才成功的。实际上，最容易模仿的特征，往往就是那些瑕疵。"
+            "cn": "事实上，最容易模仿的那些特征，最有可能恰恰就是缺陷。"
           }
         ]
       },
@@ -15421,11 +15764,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Some talented people are jerks, and this sometimes makes it seem to the inexperienced that being a jerk is part of being talented.",
-            "cn": "有些才华横溢的人是混蛋（Jerks），这有时会让缺乏经验的人误以为“做个混蛋”是“才华横溢”的一部分。并不是；"
+            "cn": "有些有才华的人很讨厌，这有时会让缺乏经验的人误以为，讨人厌是才华的一部分。"
           },
           {
             "en": "It isn't; being talented is merely how they get away with it.",
-            "cn": "才华横溢只是他们能以此行事而不被惩罚的资本。"
+            "cn": "事实并非如此；才华只是让他们能够这样做而不受惩罚。"
           }
         ]
       },
@@ -15457,15 +15800,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If a lot of the best people in your field are collected in one place, it's usually a good idea to visit for a while.",
-            "cn": "前往人才聚集地如果你所在领域里许多最优秀的人都聚集在同一个地方，去那里待一阵子通常是个好主意。"
+            "cn": "如果你所在领域的许多顶尖人物聚集在同一个地方，去那里待一段时间通常是个好主意。"
           },
           {
             "en": "It will increase your ambition, and also, by showing you that these people are human, increase your self-confidence. [ 26 ]",
-            "cn": "这会提升你的野心，同时，通过让你看到这些人也是凡人，进而增强你的自信。"
+            "cn": "这会提升你的抱负，也会让你看到这些人同样是普通人，从而增强自信。[26]"
           },
           {
             "en": "If you're earnest you'll probably get a warmer welcome than you might expect.",
-            "cn": "[26]如果你足够真诚，你受到的欢迎可能会比你预期的更热烈。"
+            "cn": "如果你足够真诚，受到的欢迎可能会比预期更热烈。"
           },
           {
             "en": "Most people who are very good at something are happy to talk about it with anyone who's genuinely interested.",
@@ -15501,7 +15844,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "There are a lot of projects that can't be done alone, and even if you're working on one that can be, it's good to have other people to encourage you and to bounce ideas off.",
-            "cn": "很多项目无法独自完成。"
+            "cn": "很多项目无法独自完成；即使你做的项目可以独立完成，有人鼓励你、与你交流碰撞想法，也是好事。"
           }
         ]
       },
@@ -15521,7 +15864,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It's better to have one or two great ones than a building full of pretty good ones.",
-            "cn": "拥有一两个顶尖同事，胜过一楼不错的同事。"
+            "cn": "有一两个非常出色的同事，胜过整整一栋楼里都只是相当不错的同事。"
           },
           {
             "en": "In fact it's not merely better, but necessary, judging from history: the degree to which great work happens in clusters suggests that one's colleagues often make the difference between doing great work and not.",
@@ -15529,11 +15872,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "How do you know when you have sufficiently good colleagues?",
-            "cn": "你怎么知道同事是否足够优秀？依我的经验，"
+            "cn": "怎样才知道你的同事已经足够优秀？"
           },
           {
             "en": "In my experience, when you do, you know.",
-            "cn": "当你拥有这样的同事时，你自然会知道。"
+            "cn": "依我的经验，真有这样的同事时，你自己会知道。"
           },
           {
             "en": "Which means if you're unsure, you probably don't.",
@@ -15541,11 +15884,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But it may be possible to give a more concrete answer than that.",
-            "cn": "如果要给出一个更具体的答案，我会试着这样说："
+            "cn": "不过，也许可以给出一个更具体的答案。"
           },
           {
             "en": "Here's an attempt: sufficiently good colleagues offer surprising insights.",
-            "cn": "足够优秀的同事能提供令人惊讶的见解。"
+            "cn": "试着这样说：足够优秀的同事，会提出令你惊讶的见解。"
           },
           {
             "en": "They can see and do things that you can't.",
@@ -15609,11 +15952,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If you choose work that's pure, its very difficulties will serve as a refuge from the difficulties of everyday life.",
-            "cn": "如果你选择的工作是纯粹的，"
+            "cn": "如果选择的是纯粹的工作，工作本身的困难就能成为避开日常生活烦恼的庇护所。"
           },
           {
             "en": "If this is escapism, it's a very productive form of it, and one that has been used by some of the greatest minds in history.",
-            "cn": "它的困难本身就是逃避日常生活烦恼的避难所。这是一种非常高效的“逃避现实”。"
+            "cn": "如果这算逃避现实，那也是一种很有成效的逃避，历史上一些最伟大的头脑都曾采用过。"
           }
         ]
       },
@@ -15621,11 +15964,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Morale compounds via work: high morale helps you do good work, which increases your morale and helps you do even better work.",
-            "cn": "士气通过工作产生复利：高士气帮你做好工作，"
+            "cn": "士气会通过工作产生复利：高士气帮助你做好工作，好工作又提高士气，让你做得更好。"
           },
           {
             "en": "But this cycle also operates in the other direction: if you're not doing good work, that can demoralize you and make it even harder to.",
-            "cn": "好工作提升士气。但反向循环也成立。"
+            "cn": "但这个循环也会反向运转：工作做不好，会打击士气，让你更难做好工作。"
           },
           {
             "en": "Since it matters so much for this cycle to be running in the right direction, it can be a good idea to switch to easier work when you're stuck, just so you start to get something done.",
@@ -15709,31 +16052,31 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "If you're a scholar, your audience may be your peers; in the arts, it may be an audience in the traditional sense.",
-            "cn": "即使是很小的观众群也足够了。受众的价值绝非随规模线性增长。"
+            "cn": "如果你是学者，受众可能是同行；如果你从事艺术，受众则可能是通常意义上的观众。"
           },
           {
             "en": "Either way it doesn't need to be big.",
-            "cn": "这对于名流来说是坏消息，"
+            "cn": "无论哪种，受众都不必很多。"
           },
           {
             "en": "The value of an audience doesn't grow anything like linearly with its size.",
-            "cn": "但对于刚起步的你来说是好消息，"
+            "cn": "受众的价值，远不是随人数线性增长的。"
           },
           {
             "en": "Which is bad news if you're famous, but good news if you're just starting out, because it means a small but dedicated audience can be enough to sustain you.",
-            "cn": "因为这意味着如果有一小群人真心热爱你的所作所为，那就够了。"
+            "cn": "这对名人是坏消息，对刚起步的人却是好消息，因为一小群忠实的受众就可能足以支撑你。"
           },
           {
             "en": "If a handful of people genuinely love what you're doing, that's enough.",
-            "cn": "尽可能避开中间人，直接面对观众。"
+            "cn": "只要有少数人真心热爱你做的事，就够了。"
           },
           {
             "en": "To the extent you can, avoid letting intermediaries come between you and your audience.",
-            "cn": "摆脱中间人是如此自由，"
+            "cn": "尽可能避免让中间人隔在你和受众之间。"
           },
           {
             "en": "In some types of work this is inevitable, but it's so liberating to escape it that you might be better off switching to an adjacent type if that will let you go direct. [ 28 ]",
-            "cn": "以至于如果切换到某个相邻的领域能让你直接面对观众，那么这或许是更好的选择。[28]"
+            "cn": "某些工作无法避免这种中间环节，但摆脱它是如此自由，以至于如果转到相邻类型的工作能让你直接面对受众，那可能反而更好。[28]"
           }
         ]
       },
@@ -15769,11 +16112,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Ultimately morale is physical.",
-            "cn": "归根结底，"
+            "cn": "归根结底，士气也有身体层面的基础。"
           },
           {
             "en": "You think with your body, so it's important to take care of it.",
-            "cn": "士气是生理性的。你是在用身体思考。"
+            "cn": "你是在用身体思考，因此照顾好身体很重要。"
           },
           {
             "en": "That means exercising regularly, eating and sleeping well, and avoiding the more dangerous kinds of drugs.",
@@ -15781,15 +16124,15 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Running and walking are particularly good forms of exercise because they're good for thinking. [ 29 ]",
-            "cn": "跑步和散步是尤为适宜的运动，因为它们有助于思考。"
+            "cn": "跑步和散步尤其适合，因为它们有利于思考。[29]"
           },
           {
             "en": "People who do great work are not necessarily happier than everyone else, but they're happier than they'd be if they didn't.",
-            "cn": "[29]成就卓越的人不一定比其他人更快乐，"
+            "cn": "做出伟大成果的人，未必比所有其他人更快乐；但一定比他们自己没有做出成果时更快乐。"
           },
           {
             "en": "In fact, if you're smart and ambitious, it's dangerous not to be productive.",
-            "cn": "但 比“没能成就卓越的自己”更快乐。"
+            "cn": "事实上，如果你聪明而且有抱负，没有产出是危险的。"
           },
           {
             "en": "People who are smart and ambitious but don't achieve much tend to become bitter.",
@@ -15805,19 +16148,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "The opinion of people you respect is signal.",
-            "cn": "你尊敬的人的意见是 信号 （Signal），"
+            "cn": "你所尊重的人的意见，是有用的信号。"
           },
           {
             "en": "Fame, which is the opinion of a much larger group you might or might not respect, just adds noise.",
-            "cn": "名声（大众的意见）只是 噪声 （Noise）。某种工作的 声望 （Prestige）充其量只是一个滞后指标，"
+            "cn": "名声则是更大一群人的看法，你未必尊重这些人，它只会增加噪声。"
           },
           {
             "en": "The prestige of a type of work is at best a trailing indicator and sometimes completely mistaken.",
-            "cn": "有时甚至是完全错误的。如果你把任何事情做得足够好，"
+            "cn": "一类工作的声望，充其量只是滞后指标，有时甚至完全错误。"
           },
           {
             "en": "If you do anything well enough, you'll make it prestigious.",
-            "cn": "你就能让它变得有声望。"
+            "cn": "任何事情，只要做得足够好，你就能让它获得声望。"
           },
           {
             "en": "So the question to ask about a type of work is not how much prestige it has, but how well it could be done.",
@@ -15853,11 +16196,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Notice how often that word has come up.",
-            "cn": "注意到了吗？"
+            "cn": "留意一下，“好奇心”这个词已经出现了多少次。"
           },
           {
             "en": "If you asked an oracle the secret to doing great work and the oracle replied with a single word, my bet would be on \"curiosity.\"",
-            "cn": "“好奇心”这个词出现了多少次。如果问神谕（Oracle）成就卓越的秘密，我敢打赌答案只有一个词：好奇心。"
+            "cn": "如果你向神谕询问做出伟大成果的秘密，而它只回答一个词，我会押“好奇心”。"
           }
         ]
       },
@@ -15881,11 +16224,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Curiosity is the key to all four steps in doing great work: it will choose the field for you, get you to the frontier, cause you to notice the gaps in it, and drive you to explore them.",
-            "cn": "好奇心贯穿成就卓越的全部四步：它为你选择领域，带你抵达前沿，让你发现缺口，并驱使你去探索。整个过程，"
+            "cn": "好奇心是做出伟大成果的四个步骤的关键：它帮你选择领域，带你到达前沿，让你注意到缺口，并推动你探索这些缺口。"
           },
           {
             "en": "The whole process is a kind of dance with curiosity.",
-            "cn": "就是一场与好奇心的共舞。"
+            "cn": "整个过程，就像与好奇心共舞。"
           }
         ]
       },
@@ -15913,11 +16256,11 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "The factors in doing great work are factors in the literal, mathematical sense, and they are: ability, interest, effort, and luck.",
-            "cn": "成就卓越的因素在数学意义上就是这几项：能力（ability）、兴趣、努力、"
+            "cn": "做出伟大成果的因素，就是数学意义上的那些乘数：能力、兴趣、努力和运气。"
           },
           {
             "en": "Luck by definition you can't do anything about, so we can ignore that.",
-            "cn": "运气。运气无法控制，我们可以忽略。"
+            "cn": "运气按定义就是你无法控制的，所以可以先不考虑它。"
           },
           {
             "en": "And we can assume effort, if you do in fact want to do great work.",
@@ -15945,11 +16288,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Out of all those different types of work, the one you're most suited for is probably a pretty close match.",
-            "cn": "在所有这些类型中，最适合你的那个，哪怕不是完美契合，"
+            "cn": "在所有不同类型的工作中，最适合你的那一种，很可能与你非常契合。"
           },
           {
             "en": "Probably a comically close match.",
-            "cn": "也可能是 可笑地契合。"
+            "cn": "甚至契合得让人觉得不可思议。"
           },
           {
             "en": "It's just a question of finding it, and how far into it your ability and interest can take you.",
@@ -15973,19 +16316,19 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It seems presumptuous to try to be Newton or Shakespeare.",
-            "cn": "试图成为牛顿或莎士比亚似乎太狂妄了；"
+            "cn": "尝试成为牛顿或莎士比亚，似乎太自负了。"
           },
           {
             "en": "It also seems hard; surely if you tried something like that, you'd fail.",
-            "cn": "而且看起来太难了，"
+            "cn": "而且看起来太难；真去尝试，肯定会失败。"
           },
           {
             "en": "Presumably the calculation is rarely explicit.",
-            "cn": "肯定会失败。"
+            "cn": "人们大概很少把这种权衡明确地想出来。"
           },
           {
             "en": "Few people consciously decide not to try to do great work.",
-            "cn": "这种计算通常不是显性的，"
+            "cn": "很少有人会有意识地决定，不去尝试做出伟大的成果。"
           },
           {
             "en": "But that's what's going on subconsciously; they shy away from the question.",
@@ -16073,7 +16416,8 @@ const ARTICLES_EXTRA = [
           }
         ]
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：按英文原句校正中英配对；保留原文与段落位置。"
   },
   {
     "id": "people-rachel-weisz-archive",
@@ -16175,7 +16519,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Rachel Weisz’s Autumn/Winter 2011 cover story for AnOther Magazine featured a Craig McDean shoot inspired by the actor’s favourite choreographer, published alongside a conversation between Weisz and Harland Miller",
-            "cn": "瑞秋·怀兹在《AnOther》杂志2011年秋冬季的封面故事中，拍摄了一组由克雷格·麦克迪恩执导、灵感源自她最喜爱的编舞家的照片，并与艺术家兼作家哈兰德·米勒进行了一场对话。她是全球顶级电影导演和时装设计师的宠儿，但在是否迎合好莱坞模式这个问题上，这位英国女演员却打破了常规。在这组为《AnOther》拍摄的剧照中，瑞秋·怀兹受到了后现代舞蹈传奇人物皮娜·鲍什的启发。以复杂角色和多变才华著称的她，手头已有至少八部重磅影片，但这位41岁的奥斯卡奖得主始终与好莱坞保持距离，选择将生活重心放在纽约，并凭借在伦敦舞台上的出色表现屡获殊荣。"
+            "cn": "瑞秋·怀兹为《AnOther》杂志拍摄的2011年秋冬封面专题，收录了克雷格·麦克迪恩拍摄的一组照片，灵感来自她最喜爱的编舞家，同时刊载了她与哈兰德·米勒的对谈。"
           }
         ],
         "sourceTag": "heading"
@@ -16229,7 +16573,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I drove a black Jag at the time and Ella discreetly asked if Rachel could come with me; Ella drove a decommissioned London taxi and was embarrassed by how much it vibrated at anything over 50.",
-            "cn": "当时我开着一辆黑色捷豹，艾拉悄悄地问我，瑞秋能不能跟我一起坐；她自己开的是辆退役的伦敦出租车，一超过50英里时速就抖得厉害，让她很不好意思。车队开得很慢，但正如人们所说，那正是我们一段美好友谊的开端。我记得途中停了几次喝咖啡，中间还乘了一趟夜渡轮，后来清晨的阳光透过希特勒沿通往柏林的道路栽下的那些银桦树洒了下来。"
+            "cn": "当时我开着一辆黑色捷豹，艾拉悄悄问我能不能带上瑞秋；她自己开的是一辆退役的伦敦出租车，时速一超过五十英里就抖得厉害，让她很不好意思。"
           },
           {
             "en": "It was a slow convoy, but it was, as they say, the beginning of a beautiful friendship.",
@@ -16237,7 +16581,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I recall a few coffee stops, the night ferry in between and then the morning sun flickering through the silver birch trees that Hitler had planted along the road to Berlin.",
-            "cn": "我记得途中停了几次喝咖啡，中间还乘了一趟夜渡轮，然后清晨的阳光透过希特勒沿通往柏林的道路种植的银桦树斑驳洒落。现在回想起来，最让我印象深刻的是，瑞秋对那个周末迅速变得一团糟的状况表现得多么随和、多么适应自如。我借住的索菲恩大街上的公寓钥匙并没有像约定的那样放在门垫下。为了商量下一步该怎么办，我们去了家酒吧，结果喝醉了——我还把钱包弄丢了，接下来的一段时间里都没怎么吃东西。"
+            "cn": "我记得途中停下来喝过几次咖啡，中间坐了夜间渡轮，后来清晨的阳光透过通往柏林的路旁那些希特勒时期种下的银桦树，忽明忽暗地洒落。"
           }
         ],
         "sourceTag": "paragraph"
@@ -16380,7 +16724,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "“I think most people look back on their childhood and think: ‘Phew!",
-            "cn": "“我觉得大多数人都会回想起自己的童年，心想：‘呼！总算摆脱了！’不过当然，我在汉普斯特德花园郊区的一栋很不错的房子里长大，所以我又能懂什么呢？”——瑞秋·怀兹"
+            "cn": "‘我想，大多数人回顾自己的童年时都会想：呼！"
           },
           {
             "en": "I’m out of that!’ But of course, I grew up in a very nice house in Hampstead Garden Suburb, so what do I know?” – Rachel Weisz",
@@ -16584,7 +16928,17 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "HM: Well, in the loose semantics of “swing” that’s how I’d interpret “cutting out”, though I love it for that next line: “But my heart won’t buy it.” Because I’m not a fan of suicide.",
-            "cn": "HM：嗯，在“摇摆乐”的宽泛语义里，我就是这样理解“cutting out”的，不过我特别喜欢后面那句：“But my heart won’t buy it.” 因为我不赞成自杀。"
+            "cn": "HM：嗯，从‘swing’这个词的宽泛含义来看，我会这样理解‘cutting out’，不过我喜欢它是因为下一句：‘但我的心不会接受。’因为我不赞成自杀。",
+            "alignedParts": [
+              {
+                "en": "HM: Well, in the loose semantics of “swing” that’s how I’d interpret “cutting out”, though I love it for that next line: “But my heart won’t buy it.”",
+                "cn": "HM：嗯，从‘swing’这个词的宽泛含义来看，我会这样理解‘cutting out’，不过我喜欢它是因为下一句：‘但我的心不会接受。’"
+              },
+              {
+                "en": "Because I’m not a fan of suicide.",
+                "cn": "因为我不赞成自杀。"
+              }
+            ]
           }
         ],
         "sourceTag": "paragraph"
@@ -16614,7 +16968,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "HM: Well he offered me one, and I thought the first thing I say here shouldn’t be “no”.",
-            "cn": "HM：嗯，他给了我一支烟，我想我在这里说的第一句话总不该是“不”吧。然后我感觉一阵兴奋，就像第一次抽烟一样——你还记得你第一次抽烟时的感觉吗？"
+            "cn": "HM：嗯，他递给我一支烟，我觉得自己在这里说的第一句话不该是‘不’。"
           },
           {
             "en": "And I got a rush like it was my first time – do you remember yours?",
@@ -16860,7 +17214,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "[Laughs] You know, it’s funny because my Dad came over yesterday for Henry’s fifth birthday and he walked in and saw the painting and he’s Hungarian, and he started reading out loud: “It vas hell ...",
-            "cn": "[笑] 你知道吗，真有趣，我爸爸昨天来参加亨利的五岁生日聚会，一进门就看到了那幅画。他是匈牙利人，于是开始大声念起来：“It vas hell ...” 可当他刚要念第二句时，话就卡在嘴边了，我这才意识到，这句话其实也可以被理解为一种直接的责备呢［笑］。不过嘛，我只是觉得挺好笑的。我们通常会听到“前拳击手”或“前总统”，可说到“前孩子”，只要熬过了青春期，谁不是个“前孩子”呢！而且我觉得，大多数人都会在回想自己的童年时心想：“呼——！”"
+            "cn": "（笑）说来也有趣，我爸爸昨天来参加亨利的五岁生日聚会，一进门就看到了那幅画；他是匈牙利人，于是开始大声念：‘It vas hell……’"
           },
           {
             "en": "” and as he began the second line it just died on his lips and I realised it could be read as a direct reproach [laughs].",
@@ -16872,7 +17226,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "You normally hear about a “former boxer” or “president” but the thing about a “former child” is, anyone who makes it past adolescence is a former child!",
-            "cn": "你通常会听到“前拳击手”或“前总统”，但说到“前孩子”，其实只要熬过了青春期，谁不是“前孩子”呢！而且我觉得大多数人回想起自己的童年时都会想：“呼——总算摆脱了！”不过话说回来，我在汉普斯特德花园郊区的一栋很不错的房子里长大，所以我又能懂什么呢？HM：我一直对那一系列画作很感兴趣，想知道人们为什么会选择那样的标题。这些标题往往非常私人化，仿佛就是他们自己的故事。"
+            "cn": "你通常会听到‘前拳击手’或‘前总统’，但‘前儿童’有趣的地方在于，只要熬过青春期，谁不都是个前儿童呢！"
           },
           {
             "en": "And I think most people look back on their childhood and think: “Phew!",
@@ -16880,7 +17234,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I’m out of that!” But of course, I grew up in a very nice house in Hampstead Garden Suburb, so what do I know?",
-            "cn": "“我终于摆脱那段时光了！”不过话说回来，我在汉普斯特德花园郊区的一栋很不错的房子里长大，所以我又能懂什么呢？"
+            "cn": "我已经走出来了！’当然，我是在汉普斯特德花园郊区一栋很不错的房子里长大的，所以我又能懂多少呢？",
+            "alignedParts": [
+              {
+                "en": "I’m out of that!”",
+                "cn": "我已经走出来了！’"
+              },
+              {
+                "en": "But of course, I grew up in a very nice house in Hampstead Garden Suburb, so what do I know?",
+                "cn": "当然，我是在汉普斯特德花园郊区一栋很不错的房子里长大的，所以我又能懂多少呢？"
+              }
+            ]
           }
         ],
         "sourceTag": "paragraph"
@@ -17036,7 +17400,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Interestingly though, Britney did actually unhinge while singing about the everyday stuff didn’t she; guys, relationships …",
-            "cn": "不过有趣的是，布兰妮在唱那些日常话题时确实有点失控，不是吗？比如男生、感情……而鲍伊虽然谈论的是边缘话题、疯狂与艺术，却显得相当清醒且理智。"
+            "cn": "不过有意思的是，布兰妮在唱那些日常话题——男生、感情之类——时，确实变得有些失控，不是吗？"
           },
           {
             "en": "Whereas Bowie, who was talking about marginal stuff, insanity and art, emerged as being quite savvy and together.",
@@ -17212,7 +17576,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "HM: That conjures visions of a place in the country, keeping chickens.",
-            "cn": "HM：这让人联想到乡间的一处居所，养着几只鸡。离住在哥谭市中心、纹身店楼上的生活可就远了。"
+            "cn": "HM：这让人想到在乡间住着、养几只鸡的画面。"
           },
           {
             "en": "The furthest away from living in the middle of Gotham City above a tattoo parlour.",
@@ -17236,7 +17600,21 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "RW: That’s like that game where you ask: “If you were a novel what would you be?” And people say, “Oh yeah, I’d be Tolstoy.” Well, if I was a record, I’d be Beethoven [laughs].",
-            "cn": "RW：这就像那种游戏，你会问：“如果你是一本小说，你会是什么？”然后大家会说：“哦，那我肯定是托尔斯泰。”嗯，如果我是一张唱片，那我就是贝多芬（笑）。"
+            "cn": "RW：这就像那个游戏，问你：‘如果你是一本小说，你会是哪一本？’人们会说：‘哦，我肯定选托尔斯泰。’那么，如果我是一张唱片，我会是贝多芬的作品（笑）。",
+            "alignedParts": [
+              {
+                "en": "RW: That’s like that game where you ask: “If you were a novel what would you be?”",
+                "cn": "RW：这就像那个游戏，问你：‘如果你是一本小说，你会是哪一本？’"
+              },
+              {
+                "en": "And people say, “Oh yeah, I’d be Tolstoy.”",
+                "cn": "人们会说：‘哦，我肯定选托尔斯泰。’"
+              },
+              {
+                "en": "Well, if I was a record, I’d be Beethoven [laughs].",
+                "cn": "那么，如果我是一张唱片，我会是贝多芬的作品（笑）。"
+              }
+            ]
           }
         ],
         "sourceTag": "paragraph"
@@ -17402,7 +17780,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "A relationship is all about not speaking.” And I thought, wow!",
-            "cn": "“一段关系的关键就在于不说话。”我心想，哇！"
+            "cn": "一段关系的关键恰恰是不说话。’我当时就想，哇！",
+            "alignedParts": [
+              {
+                "en": "A relationship is all about not speaking.”",
+                "cn": "一段关系的关键恰恰是不说话。’"
+              },
+              {
+                "en": "And I thought, wow!",
+                "cn": "我当时就想，哇！"
+              }
+            ]
           },
           {
             "en": "That’s so great!",
@@ -17448,7 +17836,8 @@ const ARTICLES_EXTRA = [
         ],
         "sourceTag": "paragraph"
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "people-zoey-deutch-rom-com",
@@ -17581,7 +17970,21 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "POWELL: This is the first time that I’ve woken up where I was like, “I got enough energy to work out and it’s gross outside.” But instead I was like, “No, I’m going to stay in bed and chill.” I’m good though.",
-            "cn": "鲍威尔：这是我第一次醒来时心想：“我有足够的精力去锻炼了，而且外面天气糟透了。”但我转念又想：“不，我要赖在床上放松一下。”不过我挺好的。"
+            "cn": "鲍威尔：这是我第一次醒来时觉得：‘我有精神去锻炼，可外面天气真糟。’结果我又想：‘算了，我要躺在床上放松。’不过我挺好的。",
+            "alignedParts": [
+              {
+                "en": "POWELL: This is the first time that I’ve woken up where I was like, “I got enough energy to work out and it’s gross outside.”",
+                "cn": "鲍威尔：这是我第一次醒来时觉得：‘我有精神去锻炼，可外面天气真糟。’"
+              },
+              {
+                "en": "But instead I was like, “No, I’m going to stay in bed and chill.”",
+                "cn": "结果我又想：‘算了，我要躺在床上放松。’"
+              },
+              {
+                "en": "I’m good though.",
+                "cn": "不过我挺好的。"
+              }
+            ]
           }
         ],
         "sourceTag": "paragraph"
@@ -17824,7 +18227,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We finished the movie and legitimately we were both like, “Zoey is freaking fearless.” It’s crazy.",
-            "cn": "我们把那部电影看完了，说真的，我们俩都惊呼：“佐伊真是太敢演了。”太不可思议了。那个角色在方方面面都毫不掩饰、无所顾忌。你看《The Outfit》，再看《Not Okay》，然后又看《Something From Tiffany’s》，这些角色之间根本没有任何共同点。我们当时就说：“这根本不是同一个人啊。”真是让人惊讶。我们俩都特别佩服，因为很多演员往往会自我放纵，总想着讨人喜欢，总想选那些符合某种特定形象的角色，而你在那个角色里却完全不在乎别人是否喜欢你，这种表现实在太酷了。"
+            "cn": "我们看完那部电影后，真的都在说：‘佐伊也太无所畏惧了。’简直不可思议。"
           },
           {
             "en": "That character is unapologetic in every way.",
@@ -17836,7 +18239,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We were like, “That’s not the same person.” It was wild.",
-            "cn": "我们当时就说：“那根本不是同一个人。”真是太不可思议了。"
+            "cn": "我们当时说：‘那根本不像同一个人。’真是太不可思议了。",
+            "alignedParts": [
+              {
+                "en": "We were like, “That’s not the same person.”",
+                "cn": "我们当时说：‘那根本不像同一个人。’"
+              },
+              {
+                "en": "It was wild.",
+                "cn": "真是太不可思议了。"
+              }
+            ]
           },
           {
             "en": "We were both just so impressed because every actor can be so indulgent, and wanting to be likable, and wanting to choose characters that are this and this, and you were so likable because you didn’t care about being liked in that role.",
@@ -18016,7 +18429,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "DEUTCH: Imagining though myself at that age, it was nine years ago or 10.",
-            "cn": "DEUTCH：不过，回想一下我那个年纪，那是九年前还是十年前呢？我也记不太清了，但真的挺有趣的。当时我显然在过度表现，想让大家觉得我特别坚强、能独当一面，因为我是12个男生中唯一的女生。我们的导游是我以前从未合作过的人，我当时感到非常不自信。"
+            "cn": "多伊奇：不过，想象一下那个年纪的我，那已经是九年前或十年前了。"
           },
           {
             "en": "I don’t know how long ago it was really, but it’s just so funny too.",
@@ -18101,7 +18514,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I think the best thing a producer can do, is make sure that an actor, especially an actor/producer feels absolutely like, “Hey, we got this” so they can dive into that role.",
-            "cn": "我觉得制片人能做的最好的事，就是让演员，尤其是身兼演员与制片人的演员，完全有那种“嘿，我们没问题”的感觉，这样他们就能全身心投入到角色中去。我甚至还记得在拍上一部电影时，有一次特别尴尬：我们一直在改剧本、改剧本、再改剧本，还要处理制片方面的各种问题，结果他居然直接说：“嘿，你得停一停，专心当个演员吧。”"
+            "cn": "我觉得制片人能做的最好的事，就是让演员——尤其是兼任制片人的演员——充分感受到：‘放心，这里有我们。’这样他们才能全身心投入角色。"
           },
           {
             "en": "I even remember with Rick, it was an awkward point on this last movie where we’re rewriting, rewriting, rewriting, and we’re putting out fires on the producing side, and then he’s literally like, “Hey, you need to stop.",
@@ -18113,7 +18526,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "That’s your role now.” That gear shift is awkward.",
-            "cn": "“那就是你现在该做的事了。”那种角色转换确实有点尴尬。"
+            "cn": "那就是你现在的角色。’这种角色转换挺尴尬的。",
+            "alignedParts": [
+              {
+                "en": "That’s your role now.”",
+                "cn": "那就是你现在的角色。’"
+              },
+              {
+                "en": "That gear shift is awkward.",
+                "cn": "这种角色转换挺尴尬的。"
+              }
+            ]
           }
         ],
         "sourceTag": "paragraph"
@@ -18129,11 +18552,21 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "DEUTCH: My mom said one time she was like, “I always felt like when I was making movies and I had two babies, I was either a great mom one day or a great actress.",
-            "cn": "DEUTCH：我妈妈有一次跟我说：“我总觉得，当我拍电影、同时还要照顾两个孩子的时候，要么有一天我是位好妈妈，要么有一天我是位好演员。我从来没有同时做到这两点。”我知道这和生孩子不一样，但这句话多少让我感同身受。总得有所取舍，那么什么才是当务之急呢？当然是表演。可当你太过于珍视某样东西时，攥得太紧，它就会在你手中裂开；攥得太松，它又会掉在地上。"
+            "cn": "多伊奇：妈妈有次对我说：‘我一直觉得，拍电影又养着两个小宝宝时，一天下来，我要么是个好妈妈，要么是个好演员。"
           },
           {
             "en": "I was never both.” I know it’s different than having a child, but it sort of resonates.",
-            "cn": "“我从来不是两者兼得。”我知道这和生孩子不一样，但多少还是能引起共鸣。总得有所取舍，那么什么才是当务之急呢？当然是表演。可当你过于珍视某样东西时，攥得太紧，它就会在你手中裂开；攥得太松，它又会掉在地上。"
+            "cn": "我从来没有同时做好这两件事。’我知道这和养孩子不同，但还是有些共鸣。",
+            "alignedParts": [
+              {
+                "en": "I was never both.”",
+                "cn": "我从来没有同时做好这两件事。’"
+              },
+              {
+                "en": "I know it’s different than having a child, but it sort of resonates.",
+                "cn": "我知道这和养孩子不同，但还是有些共鸣。"
+              }
+            ]
           },
           {
             "en": "Something’s got to give, and what’s the priority?",
@@ -18162,7 +18595,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "POWELL: I feel like you have been amazing with the fact that you spin all these plates, and you’re a good friend to people, you’re close with your family.",
-            "cn": "POWELL：我觉得你真的很了不起，能把这么多事情都兼顾好，对朋友很贴心，和家人也很亲近。这是我人生中第一次觉得有些事情开始顾不上了。我不知道你是不是也有这种感觉，当你想同时做很多事情的时候。我一直在琢磨，你是怎么在“丢盘子”的同时还能对自己保持满意呢？"
+            "cn": "鲍威尔：我觉得你很了不起，能同时兼顾这么多事，对朋友很好，和家人也很亲近。"
           },
           {
             "en": "This is the first time in my life where I feel like plates are dropping.I don’t know if you feel like that, when you try to do a million things.",
@@ -18179,7 +18612,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "DEUTCH: That’s amazing awareness.",
-            "cn": "德utch：这真是了不起的自知之明。"
+            "cn": "多伊奇：能意识到这一点，已经很了不起了。"
           },
           {
             "en": "I totally understand that.",
@@ -18195,7 +18628,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I would come home after being gone for three months, laser focused on shooting, and I’d be like, “How are you?” She’d be like, “I’m resentful.",
-            "cn": "我会在外出拍摄三个月后回家，那时我全神贯注于工作，然后我会问：“你好吗？”她就会说：“我很不满。有些时候我需要你，而你也可能需要我。我们难道就应该立刻回到从前的状态吗？”当然，这些并不是原话。我只是从那次对话中体会到：你不能指望一回来，一切就都恢复如初。“如果你在工作时无法为我留出空间，这是你需要坦诚沟通的事情，我们也必须讨论这个问题，但别回来后还期待一切都能百分之百和以前一样。”这一点对我来说真的很难接受。"
+            "cn": "我曾离家三个月，全神贯注地拍戏，回家后问她：‘你好吗？’她会说：‘我心里有怨气。",
+            "alignedParts": [
+              {
+                "en": "I would come home after being gone for three months, laser focused on shooting, and I’d be like, “How are you?”",
+                "cn": "我曾离家三个月，全神贯注地拍戏，回家后问她：‘你好吗？’"
+              },
+              {
+                "en": "She’d be like, “I’m resentful.",
+                "cn": "她会说：‘我心里有怨气。"
+              }
+            ]
           },
           {
             "en": "I needed you at times and you could’ve needed me.",
@@ -18203,7 +18646,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "We’re supposed to just jump back in?” Obviously, these aren’t direct quotes.",
-            "cn": "“我们难道就该直接回到从前吗？”显然，这些并不是原话。"
+            "cn": "难道我们就应该立刻恢复原来的状态吗？’当然，这些并不是逐字引用。",
+            "alignedParts": [
+              {
+                "en": "We’re supposed to just jump back in?”",
+                "cn": "难道我们就应该立刻恢复原来的状态吗？’"
+              },
+              {
+                "en": "Obviously, these aren’t direct quotes.",
+                "cn": "当然，这些并不是逐字引用。"
+              }
+            ]
           },
           {
             "en": "This is an idea of what I took from the conversation was that you can’t expect to come back and everything be back to the way that it was.",
@@ -18215,7 +18668,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I’ve been trying to do a better job of spinning those plates better and being present and holding space, while also having boundaries and taking care of myself.",
-            "cn": "我一直在努力更好地平衡各项事务，同时保持专注、给予彼此空间，也设定界限、照顾好自己。这对我来说是最大的挑战，毕竟谁都想把一切都做到位。我知道你也想拥有一切：既拥有良好的人际关系、亲密的伴侣关系和真挚的友谊，又不失进取心。而且我们连孩子都没有呢，真是的。鲍威尔：这也是让我真正感到害怕的一点。"
+            "cn": "我一直在努力更好地兼顾这些事情，真正陪伴别人、给彼此留出空间，同时也设立界限、照顾自己。"
           },
           {
             "en": "Which is the ultimate challenge, as someone who wants to have it all right.",
@@ -18323,11 +18776,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "It’s one thing that I’ve seen, like Cruise on Top Gun , if you say a nice thing to Tom, if you do something for him, whatever, you’ll see a thank you note in your trailer the next day.",
-            "cn": "我见过一个例子，就像汤姆·克鲁斯在《壮志凌云》里那样：如果你对他说句好话，或者为他做点什么，不管是什么，第二天你就会在自己的化妆车里收到一封感谢信。而他不仅把所有事情都做到了，还主演了整部电影。这就是我想达到的那种体贴程度——让你不会被这些事情压得喘不过气来。你可以让一切看起来轻松自如，同时又不失体贴、保持专注，成为身边每个人的好伙伴。每个人都只是想多占用你一点时间，而你的时间却越来越有限，所以你必须慎重地决定哪些事情要放慢节奏，哪些要暂时搁置，把注意力放在真正重要的事情上。尤其是在最近这种快节奏的生活中，要做到这一点真的很难，因为根本没时间。"
+            "cn": "我见过一个例子：拍《壮志凌云》时，如果你对汤姆·克鲁斯说句好话，或为他做点什么，不管是什么，第二天就会在自己的休息拖车里看到一封感谢信。"
           },
           {
             "en": "And he’s doing all of it and starring in the movie.It’s that level of thoughtfulness that I’m trying to get to, where you don’t feel overwhelmed by any of this stuff.",
-            "cn": "而且他不仅把所有事情都做到了，还主演了这部电影。我正努力达到那种细致入微的境界：在面对这一切时，你不会感到不堪重负。你可以让一切看起来轻松自如，同时保持体贴、专注，并成为身边每个人的良伴。每个人都只是希望你能多花一点时间陪伴他们，而你的时间却越来越有限，因此你必须慎重地决定哪些事情要放慢节奏，哪些要暂时搁置，把注意力放在真正重要的事情上。尤其是在最近这种快节奏的生活中，要做到“安静”下来实在很难，因为根本没时间。"
+            "cn": "他一边做着这一切，一边还主演着电影。我想达到的，就是这种体贴周到的程度，同时又不会被这些事情压得喘不过气。"
           },
           {
             "en": "You can make it look easy, and you can be thoughtful, and you can be present, you can be a good partner to everyone around you.",
@@ -18335,7 +18788,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Everybody just wants your time a little bit more, and you just don’t have as much time, and you just have to be deliberate about what you quiet, and what you silence, and what you give your attention to, and what matters.” It’s a hard thing, especially with the pace that you’ve been going recently, to probably quiet anything because there’s just no time.",
-            "cn": "“每个人都想多占用你一点时间，而你的可用时间却越来越少，你必须有意识地决定哪些事情要放慢节奏、哪些需要暂时搁置、把注意力放在哪里、什么才是真正重要的。”尤其是在最近这种快节奏的生活中，要做到让一切慢下来真的很难，因为根本没时间。"
+            "cn": "每个人都想多占一点你的时间，可你的时间却更少了；你必须有意识地决定，哪些事先放一放、哪些声音先屏蔽，把注意力留给什么，什么才重要。’这很难，尤其按你最近的忙碌节奏，想让任何事情安静下来恐怕都很难，因为实在没有时间。",
+            "alignedParts": [
+              {
+                "en": "Everybody just wants your time a little bit more, and you just don’t have as much time, and you just have to be deliberate about what you quiet, and what you silence, and what you give your attention to, and what matters.”",
+                "cn": "每个人都想多占一点你的时间，可你的时间却更少了；你必须有意识地决定，哪些事先放一放、哪些声音先屏蔽，把注意力留给什么，什么才重要。’"
+              },
+              {
+                "en": "It’s a hard thing, especially with the pace that you’ve been going recently, to probably quiet anything because there’s just no time.",
+                "cn": "这很难，尤其按你最近的忙碌节奏，想让任何事情安静下来恐怕都很难，因为实在没有时间。"
+              }
+            ]
           }
         ],
         "sourceTag": "paragraph"
@@ -18393,7 +18856,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "POWELL: Wow, this has been a great therapy session, Zoey.",
-            "cn": "POWELL：哇，这真是一次很棒的倾诉，Zoey。我真的很需要这样一次交流。好吧，那我们来聊聊你的电影吧，因为我真的超喜欢它。"
+            "cn": "鲍威尔：哇，佐伊，这真是一次很棒的心理疏导。"
           },
           {
             "en": "I really, really needed it.",
@@ -18428,7 +18891,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "DEUTCH: Yes, it is.",
-            "cn": "德utch：是的，确实如此。"
+            "cn": "多伊奇：是的，确实如此。"
           },
           {
             "en": "And it started because of us, actually this one.",
@@ -18436,11 +18899,11 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "About four years ago, when Set It Up came out, I know you remember this, Reese Witherspoon tweeted that she saw our movie, and she loved it, and wondered why aren’t there more great feel good romantic movies?",
-            "cn": "大约四年前，《怦然心动》上映时，我记得你还记得吧，瑞茜·威瑟斯彭在推特上说她看了我们的电影，非常喜欢，并且疑惑为什么没有更多这样让人感觉美好的浪漫喜剧？还有，你要记住，这可不是在自吹自擂，《怦然心动》上映时，市场上根本没有一部浪漫喜剧。没人拍浪漫喜剧，也没人愿意拍，那是个不受欢迎的类型。结果，《怦然心动》一上映，居然成了Netflix的一次意外大热。"
+            "cn": "大约四年前，《Set It Up》上映时——我知道你还记得——瑞茜·威瑟斯彭发推说她看了我们的电影，非常喜欢，还问为什么不能多一些这样令人愉快的浪漫电影。"
           },
           {
             "en": "And again, remember, and this is not to toot our own horn, when Set It Up came out, there was not a single rom-com on the scene.",
-            "cn": "还有，大家还记得吧，这可不是在自吹自擂，当《为你打造》上映时，当时市场上根本没有一部浪漫喜剧。没人拍浪漫喜剧，也没人愿意拍，这个类型一度成了“不入流”的代名词。结果，《为你打造》一上映，居然成了Netflix的一次意外大热。"
+            "cn": "而且，记住，这不是我们自夸：《Set It Up》上映时，市面上根本没有什么浪漫喜剧。"
           },
           {
             "en": "Nobody was making rom-coms, nobody wanted to, it was a dirty word, a dirty genre.",
@@ -18448,11 +18911,25 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Set It Up came out, was an accidental huge hit for Netflix.",
-            "cn": "《租个男友来搭戏》上映后，意外成为Netflix的一部大热影片。"
+            "cn": "《Set It Up》上映后，意外成为Netflix的一部大热作品。"
           },
           {
             "en": "A couple weeks after, they were like, “Want to go to New York and do press?” We’re on talk shows and there’s billboards in Times Square and we’re like, “This doesn’t feel normal for a movie after it came out to get this huge push.” After that, it spawned this renaissance of the rom-com.",
-            "cn": "几周后，他们问：“想去纽约做宣传吗？”我们上了脱口秀节目，时代广场还出现了广告牌，我们心想：“一部电影在上映后还能得到这么大的推广，这感觉不太正常啊。”之后，这股势头催生了浪漫喜剧的复兴。总之，瑞茜发推特说她很喜欢这部电影，这促使她和我以及她的公司Hello Sunshine展开了一次对话：我们怎样才能拍出一部让人感到开心的作品呢？在我看来，《Something From Tiffany’s》与其说是浪漫喜剧，不如说更像一部浪漫的节日片。"
+            "cn": "几周后，他们问：‘想去纽约做宣传吗？’我们上了谈话节目，时代广场也挂起广告牌，我们心想：‘一部电影上映后才得到这么大力度的推广，这可不常见。’在那之后，它带起了一股浪漫喜剧复兴的潮流。",
+            "alignedParts": [
+              {
+                "en": "A couple weeks after, they were like, “Want to go to New York and do press?”",
+                "cn": "几周后，他们问：‘想去纽约做宣传吗？’"
+              },
+              {
+                "en": "We’re on talk shows and there’s billboards in Times Square and we’re like, “This doesn’t feel normal for a movie after it came out to get this huge push.”",
+                "cn": "我们上了谈话节目，时代广场也挂起广告牌，我们心想：‘一部电影上映后才得到这么大力度的推广，这可不常见。’"
+              },
+              {
+                "en": "After that, it spawned this renaissance of the rom-com.",
+                "cn": "在那之后，它带起了一股浪漫喜剧复兴的潮流。"
+              }
+            ]
           },
           {
             "en": "And anyway, Reese tweeted she loved it, and that spurred a conversation between her and I, and her company Hello Sunshine, how do we make something that makes people feel good?",
@@ -18460,7 +18937,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Something From Tiffany’s , from my perspective, is less rom-com and more romantic holiday.",
-            "cn": "在我看来，《Something From Tiffany’s》与其说是浪漫喜剧，不如说更像一部浪漫的节日电影。它就是那种让人感觉美好、温暖、积极的影片，是每年圣诞节都会去看的那类电影。"
+            "cn": "在我看来，《Something From Tiffany’s》与其说是浪漫喜剧，不如说更像一部浪漫的节日电影。"
           },
           {
             "en": "It’s just feel-good, and warm, and positive, and the movie that you go to watch year after year during Christmas.",
@@ -18606,7 +19083,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "POWELL: It was me just holding onto the TV and just crying hard tears and then getting on this interview.",
-            "cn": "POWELL：我当时就抱着电视，哭得稀里哗啦的，然后又来参加这个采访。[笑] 总之，我真是太为你骄傲了。你的电影太棒了。你今年拍的三部电影都特别出色。我也要振作起来。等你从宣传行程中喘口气后，咱们真得好好聚一聚。"
+            "cn": "鲍威尔：我当时就抱着电视，哭得稀里哗啦，然后来参加了这次采访。"
           },
           {
             "en": "[Laughs] Anyway, I’m so freaking proud of you.",
@@ -18715,7 +19192,8 @@ const ARTICLES_EXTRA = [
         ],
         "sourceTag": "paragraph"
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "people-lea-seydoux-bond-girl",
@@ -18804,7 +19282,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "At its calm centre, cradling a snow white dove, ethereally beautiful in an Alexander McQueen kimono dress so delicate her alabaster skin flickers beneath, is Hollywood’s newest asset: recently unveiled Bond-girl-in-waiting, Léa Seydoux ...",
-            "cn": "在那片喧嚣的中心，怀抱一只雪白的鸽子、身着一袭亚历山大·麦昆和服裙的她美得宛如仙子，裙子如此轻盈，以至于她那象牙色的肌肤仿佛在微微闪烁——她正是好莱坞的新宠：刚刚亮相、即将成为邦女郎的蕾雅·赛杜…… 蕾雅在韦斯·安德森、伍迪·艾伦和昆汀·塔伦蒂诺等导演的影片中塑造的那些小巧而精致的片段，以及她为普拉达最新香水“Candy”拍摄的广告大片，使她成为法国最受追捧的明星之一。她在同志爱情片《蓝色是最温暖的颜色》中凭借细腻入微的表演荣获金棕榈奖，但这部电影也因导演阿卜杜拉提夫·凯奇什极为严苛的拍摄手法——包括历时十天拍摄的露骨性爱场景——而备受争议，这也让她赢得了全球范围内的赞誉。"
+            "cn": "在喧嚣中心，她静静地怀抱一只雪白的鸽子，身穿亚历山大·麦昆的和服式连衣裙，美得空灵；裙子如此轻薄，雪白的肌肤在裙下若隐若现。她就是好莱坞的新宠——刚刚公布的下一位邦女郎，蕾雅·赛杜……"
           }
         ],
         "sourceTag": "paragraph"
@@ -19052,7 +19530,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "But it’s funny, because Rachel [Weisz, Craig’s wife], is in it, and Ben Whishaw and me, so there is a lot of connection to Bond.",
-            "cn": "不过挺有意思的，因为瑞秋·怀兹（克雷格的妻子）也在里面，还有本·威士肖和我，所以跟《007》还是有不少关联的。我当时在片场见到丹尼尔，他来探班看瑞秋。我还以为自己会出演《007》，但当时也没百分百确定。在那种荒郊野外碰到他，还挺有趣的。"
+            "cn": "不过很有趣，瑞秋——也就是克雷格的妻子——也演了那部电影，还有本·威士肖和我，所以它与《007》有不少联系。"
           },
           {
             "en": "I actually met Daniel when he came on the shoot to see Rachel.",
@@ -19089,7 +19567,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "LS: I like both, but it’s very thrilling to work on such a big international project with very talented people.",
-            "cn": "LS：我都喜欢，但能参与这样一个由众多才华横溢的人共同打造的大型国际项目，真的非常令人兴奋。这里汇聚了最顶尖的人才。身边总是有最优秀的人，这感觉很好。我确信这部电影会非常棒。剧本很棒，服装也很出色……能参与一部你已经知道会成为经典之作的电影，真的很不错。这是一个绝佳的机会。"
+            "cn": "LS：两种我都喜欢，但能和才华出众的人一起参与这样的大型国际项目，确实让人非常兴奋。"
           },
           {
             "en": "It’s the crème de la crème.",
@@ -19833,7 +20311,8 @@ const ARTICLES_EXTRA = [
         ],
         "sourceTag": "paragraph"
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "people-eva-green-tim-burton",
@@ -19927,7 +20406,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Eva Green, who has the pale complexion, black hair, and haunted eyes of a goth princess, would prefer not to be thought of as a supernatural creature with evil powers and the ability to conjure the dead.",
-            "cn": "拥有哥特公主般苍白肤色、黑色秀发和幽邃眼神的伊娃·格林，宁愿人们不要把她看作一个拥有邪恶力量、能召唤亡灵的超自然生物。“人们总把我想象成那种来自异世界的人，”这位女演员在春末一个反常的寒冷多风的日子里说道。36岁的格林刚从她出生并长大的巴黎飞抵纽约。尽管她热情开朗，穿着牛仔裤和白色衬衫显得平易近人，但很难不让人联想到她所饰演的那些角色。"
+            "cn": "伊娃·格林有着哥特公主般苍白的肤色、乌黑的头发和幽邃的眼神，但她并不希望被人当成一个拥有邪恶力量、能够召唤亡灵的超自然生物。"
           },
           {
             "en": "“People have this image of me as being otherworldly,” said the actress on an unseasonably cold and stormy day in late spring.",
@@ -19963,7 +20442,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "Miss Peregrine will kill for them.” Green smiled in a slightly wicked, knowing way.",
-            "cn": "“佩雷格林小姐会为孩子们不惜一切。”格林露出一丝狡黠而心照不宣的微笑。"
+            "cn": "佩雷格林小姐会为了他们杀人。’格林露出一个略带邪气、心照不宣的微笑。",
+            "alignedParts": [
+              {
+                "en": "Miss Peregrine will kill for them.”",
+                "cn": "佩雷格林小姐会为了他们杀人。’"
+              },
+              {
+                "en": "Green smiled in a slightly wicked, knowing way.",
+                "cn": "格林露出一个略带邪气、心照不宣的微笑。"
+              }
+            ]
           },
           {
             "en": "“And she does!",
@@ -20084,7 +20573,17 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "I was paralyzed.” Among her teenage crushes were Jack Nicholson in The Shining and Marlon Brando in Last Tango in Paris.",
-            "cn": "“我整个人都僵住了。”她青少年时期的偶像包括《闪灵》中的杰克·尼科尔森和《巴黎最后的探戈》中的马龙·白兰度。"
+            "cn": "我僵住了。’她青春期迷恋的演员，还包括《闪灵》中的杰克·尼科尔森和《巴黎最后的探戈》中的马龙·白兰度。",
+            "alignedParts": [
+              {
+                "en": "I was paralyzed.”",
+                "cn": "我僵住了。’"
+              },
+              {
+                "en": "Among her teenage crushes were Jack Nicholson in The Shining and Marlon Brando in Last Tango in Paris.",
+                "cn": "她青春期迷恋的演员，还包括《闪灵》中的杰克·尼科尔森和《巴黎最后的探戈》中的马龙·白兰度。"
+              }
+            ]
           },
           {
             "en": "“I love Nicholson when he goes crazy with the ax!” she said, laughing at the memory.",
@@ -20105,7 +20604,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "Green studied drama in high school and in 2003, having performed in several French theater productions and been nominated for a Molière Award, she made her film debut, rather fortuitously, in Bertolucci’s The Dreamers.",
-            "cn": "格林在高中时学习戏剧，2003年，她在多部法国话剧中有过演出，并曾获得莫里哀奖提名，随后颇为幸运地在贝托鲁奇的《梦之安魂曲》中完成了她的电影首秀。这部电影以1968年巴黎学生运动为背景，讲述了一对半乱伦的双胞胎兄妹（一男一女）迷恋电影的故事，他们在父母外出期间邀请一位美国男孩到他们宽敞的公寓里同住。影片的大部分时间里，格林都赤裸出镜，这似乎为她的职业生涯开启了一个新的趋势。"
+            "cn": "格林在高中学习戏剧；2003年，在出演数部法国舞台剧并获得莫里哀奖提名后，她颇为机缘巧合地在贝托鲁奇的《The Dreamers》中完成了电影首秀。"
           },
           {
             "en": "Set against a backdrop of the 1968 Paris student riots, the movie follows a pair of semi-incestuous twins (a brother and sister) who are enthralled by movies and invite an American boy to stay with them in their sprawling apartment while their parents are away.",
@@ -20153,7 +20652,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“At first, when they approached me, I thought it would be me wearing a bikini and being beautiful, so I said I wouldn’t audition.",
-            "cn": "“一开始，他们找上我时，我以为自己会穿着比基尼、美美地出场，所以我表示不会去试镜。后来他们把剧本发给我，我才发现邦德是在爱上我的角色——她既敏感又充满秘密。这一点我能理解。”格林顿了顿，接着说：“而且在《007：大战皇家赌场》里，我得死。我在很多电影里都会死。我也不知道为什么——这算是我职业生涯中比较特别的一点吧。我想，这大概是在为那不可避免的结局做一次大彩排。”"
+            "cn": "‘他们最初找到我时，我以为就是让我穿着比基尼、美美地出场，所以说自己不去试镜。"
           },
           {
             "en": "Then they sent me the script, and I saw that Bond was falling in love with my character—that she was sensitive and full of secrets.",
@@ -20165,7 +20664,7 @@ const ARTICLES_EXTRA = [
           },
           {
             "en": "“And in Casino Royale, I had to die.",
-            "cn": "“而在《皇家赌场》中，我不得不死。我在很多电影里都会死。我也不知道为什么——这算是我职业生涯中比较特别的一点。我想，这大概是在为那不可避免的结局做一次大排练吧。”"
+            "cn": "‘而在《Casino Royale》里，我得死去。"
           },
           {
             "en": "I die in a lot of movies.",
@@ -20266,7 +20765,7 @@ const ARTICLES_EXTRA = [
         "sentences": [
           {
             "en": "While Burton remained largely faithful to the plot, he did not adhere to Riggs’s rather geriatric depiction of Miss Peregrine.",
-            "cn": "虽然伯顿在很大程度上忠实于原作情节，但他并未遵循里格斯对佩雷格林小姐那略显老态的刻画。相反，他将她想象成一位奇异的美人——他把她想象成了伊娃。“你知道吗，玛丽·波平斯他妈的就很怪异，”伯顿说，“而佩雷格林小姐则是那个怪异角色中最怪异的版本。在这个角色上，我只想到一个人。”"
+            "cn": "虽然伯顿大体上忠于情节，却没有照搬里格斯把佩雷格林小姐描绘得相当年迈的设定。"
           },
           {
             "en": "Instead, he imagined her as a strange beauty—he imagined her as Eva.",
@@ -20287,7 +20786,8 @@ const ARTICLES_EXTRA = [
         ],
         "sourceTag": "paragraph"
       }
-    ]
+    ],
+    "translationReview": "2026-09-26：局部校正译文串句，并核对显示句对。"
   },
   {
     "id": "fb-marcus-rashford-the-number-9",
